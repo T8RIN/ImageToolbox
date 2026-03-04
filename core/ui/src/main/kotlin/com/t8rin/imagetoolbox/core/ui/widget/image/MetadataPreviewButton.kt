@@ -79,7 +79,7 @@ fun MetadataPreviewButton(
     dateAdded: (Uri) -> Long? = { it.dateAdded() },
     path: (Uri) -> String? = { it.path() },
     name: (Uri) -> String? = { it.filename() },
-    fileSize: (Uri) -> String? = { humanFileSize(it.fileSize() ?: 0L, 2) }
+    fileSize: (Uri) -> String? = { humanFileSize(it.fileSize() ?: 0L) }
 ) {
     AnimatedContent(
         targetState = uri

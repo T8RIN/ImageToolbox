@@ -177,7 +177,7 @@ class SettingsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun getReadableCacheSize(): String = humanFileSize(fileController.getCacheSize(), 2)
+    fun getReadableCacheSize(): String = humanFileSize(fileController.getCacheSize())
 
     fun clearCache(onComplete: (String) -> Unit = {}) = fileController.clearCache {
         onComplete(getReadableCacheSize())

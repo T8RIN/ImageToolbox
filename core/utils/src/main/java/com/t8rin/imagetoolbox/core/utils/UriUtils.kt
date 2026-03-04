@@ -30,7 +30,6 @@ import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.SortType
-import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.sortedByKey
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.logger.makeLog
@@ -255,17 +254,6 @@ fun String?.getPath(
 ) = this?.takeIf { it.isNotEmpty() }?.toUri().uiPath(
     default = context.getString(R.string.default_folder)
 )
-
-fun Uri.tryRequireOriginal(context: Context): Uri {
-    val tempUri = this
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        runCatching {
-            MediaStore.setRequireOriginal(this).also {
-                context.contentResolver.openFileDescriptor(it, FileMode.Read.mode)?.close()
-            }
-        }.getOrNull() ?: tempUri
-    } else this
-}
 
 private fun Uri.listFilesInDirectoryAsFlowImpl(): Flow<DirUri> = channelFlow {
     val rootUri = this@listFilesInDirectoryAsFlowImpl

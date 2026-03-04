@@ -425,7 +425,7 @@ fun ImagePager(
                                 ?.let { size ->
                                     Spacer(Modifier.width(8.dp))
                                     Text(
-                                        text = rememberHumanFileSize(size, 2),
+                                        text = rememberHumanFileSize(size),
                                         modifier = Modifier
                                             .animateContentSizeNoClip()
                                             .background(
@@ -440,7 +440,7 @@ fun ImagePager(
                             MetadataPreviewButton(
                                 uri = selectedUri,
                                 name = { selectedUriFilename },
-                                fileSize = { selectedUriFileSize?.let { humanFileSize(it, 2) } }
+                                fileSize = { selectedUriFileSize?.let { humanFileSize(it) } }
                             )
                         }
                         Spacer(Modifier.width(16.dp))

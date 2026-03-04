@@ -321,8 +321,7 @@ internal fun NeuralModelsColumn(
                         ) {
                             Text(
                                 rememberHumanFileSize(
-                                    byteCount = occupiedStorageSize,
-                                    precision = 2
+                                    byteCount = occupiedStorageSize
                                 )
                             )
                         }

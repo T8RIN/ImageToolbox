@@ -64,6 +64,7 @@ import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Telegram
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalEditPresetsController
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
@@ -246,7 +247,7 @@ fun PresetSelector(
                         contentPadding = PaddingValues(horizontal = 8.dp),
                         flingBehavior = enhancedFlingBehavior()
                     ) {
-                        if (includeTelegramOption) {
+                        if (includeTelegramOption && settingsState.filenameBehavior !is FilenameBehavior.Overwrite) {
                             item(key = "tg") {
                                 val selected = value.isTelegram()
                                 EnhancedChip(

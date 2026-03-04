@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,31 @@ interface Metadata {
         value: String?
     ): Metadata
 }
+
+private class TagMapMetadata(
+    initialTags: Map<MetadataTag, String>
+) : Metadata {
+    private val tags: MutableMap<MetadataTag, String> = initialTags.toMutableMap()
+
+    override fun saveAttributes(): Metadata = this
+
+    override fun getAttribute(tag: MetadataTag): String? = tags[tag]
+
+    override fun setAttribute(
+        tag: MetadataTag,
+        value: String?
+    ): Metadata = apply {
+        if (value == null) {
+            tags.remove(tag)
+        } else {
+            tags[tag] = value
+        }
+    }
+
+    override fun toString(): String = "ReadOnly(${toMap()})"
+}
+
+fun Metadata.readOnly(): Metadata = TagMapMetadata(toMap())
 
 inline operator fun Metadata.get(
     tag: MetadataTag

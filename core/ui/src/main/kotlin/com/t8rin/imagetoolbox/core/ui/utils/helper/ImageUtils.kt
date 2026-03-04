@@ -256,7 +256,7 @@ object ImageUtils {
 
         return remember(size, uri) {
             derivedStateOf {
-                humanFileSize(size, 2)
+                humanFileSize(size)
             }
         }.value
     }
@@ -283,14 +283,12 @@ object ImageUtils {
 
     @Composable
     fun rememberHumanFileSize(
-        byteCount: Long,
-        precision: Int = 1
+        byteCount: Long
     ): String {
-        return remember(byteCount, precision) {
+        return remember(byteCount) {
             derivedStateOf {
                 humanFileSize(
-                    bytes = byteCount,
-                    precision = precision
+                    bytes = byteCount
                 )
             }
         }.value

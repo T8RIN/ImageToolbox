@@ -23,8 +23,7 @@ import java.util.Locale
 
 
 fun humanFileSize(
-    bytes: Long,
-    precision: Int = 1
+    bytes: Long
 ): String {
     var tempBytes = bytes
     if (-1024 < tempBytes && tempBytes < 1024) {
@@ -37,7 +36,7 @@ fun humanFileSize(
     }
     return java.lang.String.format(
         Locale.getDefault(),
-        "%.${precision}f %cB",
+        "%.1f %cB",
         tempBytes / 1024.0,
         ci.current()
     ).replace(",0", "")

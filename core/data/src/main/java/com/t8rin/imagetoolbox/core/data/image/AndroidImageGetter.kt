@@ -32,11 +32,11 @@ import coil3.toBitmap
 import com.awxkee.jxlcoder.coil.enableJxlAnimation
 import com.github.awxkee.avifcoil.decoder.animation.enableAvifAnimation
 import com.t8rin.imagetoolbox.core.data.coil.UpscaleSvgDecoder
-import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
+import com.t8rin.imagetoolbox.core.domain.image.MetadataProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageData
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -45,8 +45,8 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.utils.filename
-import com.t8rin.imagetoolbox.core.utils.tryRequireOriginal
 import com.t8rin.logger.makeLog
+import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -57,6 +57,7 @@ internal class AndroidImageGetter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
     private val appScope: AppScope,
+    metadataProvider: Lazy<MetadataProvider>,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, ImageGetter<Bitmap> {
@@ -64,6 +65,10 @@ internal class AndroidImageGetter @Inject constructor(
     private val _settingsState = settingsProvider.settingsState
 
     private val settingsState get() = _settingsState.value
+
+    private val metadataProvider by lazy {
+        metadataProvider.get()
+    }
 
     override suspend fun getImage(
         uri: String,
@@ -76,21 +81,18 @@ internal class AndroidImageGetter @Inject constructor(
             addSizeToRequest = originalSize,
             onFailure = onFailure
         )?.let { bitmap ->
-            val newUri = uri.toUri().tryRequireOriginal(context)
-            context.openFileDescriptor(newUri).use {
-                ImageData(
-                    image = bitmap,
-                    imageInfo = ImageInfo(
-                        width = bitmap.width,
-                        height = bitmap.height,
-                        imageFormat = settingsState.defaultImageFormat
-                            ?: ImageFormat[getExtension(uri)],
-                        originalUri = uri,
-                        resizeType = settingsState.defaultResizeType
-                    ),
-                    metadata = it?.fileDescriptor?.toMetadata()
-                )
-            }
+            ImageData(
+                image = bitmap,
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = settingsState.defaultImageFormat
+                        ?: ImageFormat[getExtension(uri)],
+                    originalUri = uri,
+                    resizeType = settingsState.defaultResizeType
+                ),
+                metadata = metadataProvider.readMetadata(uri)
+            )
         }
     }
 
@@ -141,21 +143,18 @@ internal class AndroidImageGetter @Inject constructor(
             precision = Precision.INEXACT,
             onFailure = onFailure
         )?.let { bitmap ->
-            val newUri = uri.toUri().tryRequireOriginal(context)
-            context.openFileDescriptor(newUri).use {
-                ImageData(
-                    image = bitmap,
-                    imageInfo = ImageInfo(
-                        width = bitmap.width,
-                        height = bitmap.height,
-                        imageFormat = settingsState.defaultImageFormat
-                            ?: ImageFormat[getExtension(uri)],
-                        originalUri = uri,
-                        resizeType = settingsState.defaultResizeType
-                    ),
-                    metadata = it?.fileDescriptor?.toMetadata()
-                )
-            }
+            ImageData(
+                image = bitmap,
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = settingsState.defaultImageFormat
+                        ?: ImageFormat[getExtension(uri)],
+                    originalUri = uri,
+                    resizeType = settingsState.defaultResizeType
+                ),
+                metadata = metadataProvider.readMetadata(uri)
+            )
         }
     }
 
@@ -170,20 +169,17 @@ internal class AndroidImageGetter @Inject constructor(
             size = null,
             addSizeToRequest = originalSize
         )?.let { bitmap ->
-            val newUri = uri.toUri().tryRequireOriginal(context)
-            context.openFileDescriptor(newUri).use {
-                ImageData(
-                    image = bitmap,
-                    imageInfo = ImageInfo(
-                        width = bitmap.width,
-                        height = bitmap.height,
-                        imageFormat = ImageFormat[getExtension(uri)],
-                        originalUri = uri,
-                        resizeType = settingsState.defaultResizeType
-                    ),
-                    metadata = it?.fileDescriptor?.toMetadata()
-                )
-            }
+            ImageData(
+                image = bitmap,
+                imageInfo = ImageInfo(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    imageFormat = ImageFormat[getExtension(uri)],
+                    originalUri = uri,
+                    resizeType = settingsState.defaultResizeType
+                ),
+                metadata = metadataProvider.readMetadata(uri)
+            )
         }
     }
 

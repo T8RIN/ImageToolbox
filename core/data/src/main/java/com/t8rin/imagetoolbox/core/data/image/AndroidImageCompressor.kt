@@ -133,7 +133,13 @@ internal class AndroidImageCompressor @Inject constructor(
 
         val imageFormat =
             if (settingsState.filenameBehavior is FilenameBehavior.Overwrite && extension != null) {
-                ImageFormat[extension]
+                val target = ImageFormat[extension]
+
+                if (imageInfo.imageFormat.extension == target.extension) {
+                    imageInfo.imageFormat
+                } else {
+                    target
+                }
             } else imageInfo.imageFormat
 
         yield()

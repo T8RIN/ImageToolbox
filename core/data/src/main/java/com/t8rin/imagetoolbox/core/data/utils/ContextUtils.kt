@@ -22,16 +22,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.os.ParcelFileDescriptor
 import androidx.compose.ui.unit.Density
 import androidx.core.content.ContextCompat
-import com.t8rin.imagetoolbox.core.data.image.toMetadata
-import com.t8rin.imagetoolbox.core.domain.image.Metadata
-import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
-import com.t8rin.imagetoolbox.core.domain.image.copyTo
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
-import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
-import com.t8rin.imagetoolbox.core.utils.tryRequireOriginal
 import kotlinx.coroutines.coroutineScope
 import java.io.OutputStream
 
@@ -41,45 +34,6 @@ fun Context.isExternalStorageWritable(): Boolean {
         this,
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     ) == PackageManager.PERMISSION_GRANTED
-}
-
-suspend fun Context.copyMetadata(
-    initialExif: Metadata?,
-    fileUri: Uri?,
-    keepOriginalMetadata: Boolean,
-    originalUri: Uri
-) = runSuspendCatching {
-    if (initialExif != null) {
-        getFileDescriptorFor(fileUri)?.use {
-            initialExif.copyTo(it.fileDescriptor.toMetadata())
-        }
-    } else if (keepOriginalMetadata) {
-        val newUri = originalUri.tryRequireOriginal(this)
-        val exif = openFileDescriptor(newUri)
-            ?.use { it.fileDescriptor.toMetadata() }
-
-        getFileDescriptorFor(fileUri)?.use {
-            exif?.copyTo(it.fileDescriptor.toMetadata())
-        }
-    } else {
-        getFileDescriptorFor(fileUri)?.use {
-            it.fileDescriptor.toMetadata().apply {
-                clearAllAttributes()
-                saveAttributes()
-            }
-        }
-    }
-}
-
-private fun Context.getFileDescriptorFor(
-    uri: Uri?
-): ParcelFileDescriptor? = uri?.let {
-    runCatching {
-        openFileDescriptor(
-            uri = uri,
-            mode = FileMode.ReadWrite
-        )
-    }.getOrNull()
 }
 
 fun Context.openWriteableStream(
