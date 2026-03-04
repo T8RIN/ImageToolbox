@@ -32,7 +32,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
-import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
@@ -282,68 +281,37 @@ sealed class Screen(
     )
 
     @Serializable
-    data class PdfTools(
-        @SerialName("dataType") val type: Type? = null
-    ) : Screen(
+    data object PdfTools : Screen(
         id = 16,
         title = R.string.pdf_tools,
         subtitle = R.string.pdf_tools_sub
     ) {
-        @Serializable
-        sealed class Type(
-            @StringRes val title: Int,
-            @StringRes val subtitle: Int
-        ) {
-
-            val icon: ImageVector
-                get() = when (this) {
-                    is PdfToImages -> Icons.Outlined.ArtTrack
-                }
-
-            @Serializable
-            data class PdfToImages(
-                val pdfUri: Uri? = null
-            ) : Type(
-                title = R.string.pdf_to_images,
-                subtitle = R.string.pdf_to_images_sub
+        val options: List<Screen> by lazy {
+            listOf(
+                Preview(),
+                ImagesToPdf(),
+                PdfToImages(),
+                Merge(),
+                Split(),
+                RemovePages(),
+                Rotate(),
+                Rearrange(),
+                Crop(),
+                PageNumbers(),
+                Watermark(),
+                Signature(),
+                Compress(),
+                Flatten(),
+                Print(),
+                Grayscale(),
+                Repair(),
+                Protect(),
+                Unlock(),
+                Metadata(),
+                ExtractImages(),
+                OCR(),
+                ZipConvert(),
             )
-
-            companion object {
-                val entries by lazy {
-                    listOf(
-                        PdfToImages()
-                    )
-                }
-            }
-        }
-
-        companion object {
-            val options: List<Screen> by lazy {
-                listOf(
-                    Preview(),
-                    ImagesToPdf(),
-                    Merge(),
-                    Split(),
-                    RemovePages(),
-                    Rotate(),
-                    Rearrange(),
-                    Crop(),
-                    PageNumbers(),
-                    Watermark(),
-                    Signature(),
-                    Compress(),
-                    Flatten(),
-                    Print(),
-                    Grayscale(),
-                    Repair(),
-                    Protect(),
-                    Unlock(),
-                    Metadata(),
-                    ExtractImages(),
-                    OCR(),
-                    ZipConvert(),
-                )
-            }
         }
 
         @Serializable
@@ -542,6 +510,15 @@ sealed class Screen(
             id = 65,
             title = R.string.images_to_pdf,
             subtitle = R.string.images_to_pdf_sub
+        )
+
+        @Serializable
+        data class PdfToImages(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 66,
+            title = R.string.pdf_to_images,
+            subtitle = R.string.pdf_to_images_sub
         )
     }
 

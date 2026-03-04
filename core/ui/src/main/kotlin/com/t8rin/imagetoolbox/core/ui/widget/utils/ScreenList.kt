@@ -87,10 +87,8 @@ internal fun List<Uri>.screenList(
                 Screen.PdfTools.Preview(
                     uris.firstOrNull()
                 ),
-                Screen.PdfTools(
-                    Screen.PdfTools.Type.PdfToImages(
-                        uris.firstOrNull()
-                    )
+                Screen.PdfTools.PdfToImages(
+                    uris.firstOrNull()
                 ),
                 Screen.PdfTools.Merge(uris.takeIf { it.isNotEmpty() }),
                 Screen.PdfTools.Split(uris.firstOrNull()),

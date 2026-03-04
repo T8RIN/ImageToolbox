@@ -60,11 +60,7 @@ class PreviewPdfToolComponent @AssistedInject internal constructor(
     val uri by _uri
 
     fun setUri(uri: Uri?) {
-        if (uri == null) {
-            registerChangesCleared()
-        } else {
-            registerChanges()
-        }
+        registerChangesCleared()
         _uri.update { uri }
         checkPdf(
             uri = uri,
@@ -75,8 +71,7 @@ class PreviewPdfToolComponent @AssistedInject internal constructor(
     override fun saveTo(
         uri: Uri,
         onResult: (SaveResult) -> Unit
-    ) {
-    }
+    ) = Unit
 
     override fun performSharing(
         onSuccess: () -> Unit,

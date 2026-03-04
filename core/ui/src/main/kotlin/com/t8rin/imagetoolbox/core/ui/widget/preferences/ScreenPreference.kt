@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,18 +39,6 @@ internal fun ScreenPreference(
     }
     when (screen) {
         is Screen.GifTools -> {
-            if (screen.type != null) {
-                PreferenceItem(
-                    onClick = { navigate(screen) },
-                    startIcon = screen.type.icon,
-                    title = stringResource(screen.type.title),
-                    subtitle = stringResource(screen.type.subtitle),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            } else basePreference()
-        }
-
-        is Screen.PdfTools -> {
             if (screen.type != null) {
                 PreferenceItem(
                     onClick = { navigate(screen) },

@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.M
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.screenLogic.MetadataPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic.PageNumbersPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.pdf_to_images.screenLogic.PdfToImagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.screenLogic.PreviewPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.print.screenLogic.PrintPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic.ProtectPdfToolComponent
@@ -110,6 +111,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImageSplitting
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImageStacking
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImageStitching
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImagesToPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.JxlTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.LibrariesInfo
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.LibraryDetails
@@ -124,6 +126,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.OCRPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PageNumbersPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfToImagesPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PickColorFromImage
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PreviewPdfTool
@@ -238,6 +241,7 @@ internal class ChildProvider @Inject constructor(
     private val printPdfToolComponentFactory: PrintPdfToolComponent.Factory,
     private val previewPdfToolComponentFactory: PreviewPdfToolComponent.Factory,
     private val imagesToPdfToolComponentFactory: ImagesToPdfToolComponent.Factory,
+    private val pdfToImagesPdfToolComponent: PdfToImagesPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -466,7 +470,6 @@ internal class ChildProvider @Inject constructor(
         is Screen.PdfTools -> PdfTools(
             pdfToolsComponentFactory(
                 componentContext = componentContext,
-                initialType = config.type,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )
@@ -869,9 +872,18 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.PdfTools.ImagesToPdf -> NavigationChild.ImagesToPdfTool(
+        is Screen.PdfTools.ImagesToPdf -> ImagesToPdfTool(
             imagesToPdfToolComponentFactory(
                 initialUris = config.uris,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.PdfToImages -> PdfToImagesPdfTool(
+            pdfToImagesPdfToolComponent(
+                initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::replaceTo

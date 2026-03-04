@@ -55,7 +55,7 @@ abstract class BasePdfToolComponent(
 
     protected var isRtl = false
 
-    open val extraDataType: ExtraDataType = ExtraDataType.Pdf
+    open val extraDataType: ExtraDataType? = ExtraDataType.Pdf
     open val mimeType: MimeType.Single = MimeType.Pdf
 
     init {

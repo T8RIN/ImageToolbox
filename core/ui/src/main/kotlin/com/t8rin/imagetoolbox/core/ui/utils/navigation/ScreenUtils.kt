@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ApngBox
+import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Ascii
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
@@ -238,6 +239,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Print -> "PdfTools_Print"
     is PdfTools.Preview -> "PdfTools_Preview"
     is PdfTools.ImagesToPdf -> "PdfTools_ImagesToPdf"
+    is PdfTools.PdfToImages -> "PdfTools_PdfToImages"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -314,6 +316,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Print -> Icons.Outlined.Print
     is PdfTools.Preview -> Icons.Outlined.Preview
     is PdfTools.ImagesToPdf -> Icons.Outlined.Scanner
+    is PdfTools.PdfToImages -> Icons.Outlined.ArtTrack
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -390,6 +393,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Print -> Icons.TwoTone.Print
     is PdfTools.Preview -> Icons.TwoTone.Preview
     is PdfTools.ImagesToPdf -> Icons.TwoTone.Scanner
+    is PdfTools.PdfToImages -> Icons.TwoTone.ArtTrack
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
@@ -473,7 +477,7 @@ private object ScreenConstantsImpl : ScreenConstants {
             ),
             ScreenGroup(
                 entries = listOf(
-                    PdfTools(),
+                    PdfTools,
                     DocumentScanner,
                     ScanQrCode(),
                     ColorTools,
@@ -502,5 +506,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 81 + PdfTools.options.size
+    override val FEATURES_COUNT = 80 + PdfTools.options.size
 }

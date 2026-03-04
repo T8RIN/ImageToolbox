@@ -347,7 +347,10 @@ fun PresetSelector(
                     )
                 }
 
-                OOMWarning(visible = showWarning)
+                OOMWarning(
+                    visible = showWarning,
+                    modifier = Modifier.padding(4.dp)
+                )
             }
         },
         revealedContentEnd = {

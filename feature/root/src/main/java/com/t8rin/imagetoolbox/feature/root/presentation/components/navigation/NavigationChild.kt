@@ -104,6 +104,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.OCRPdfToolConte
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.PageNumbersPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic.PageNumbersPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.pdf_to_images.PdfToImagesPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.pdf_to_images.screenLogic.PdfToImagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.PreviewPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.screenLogic.PreviewPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.print.PrintPdfToolContent
@@ -531,5 +533,10 @@ internal sealed interface NavigationChild {
     class ImagesToPdfTool(private val component: ImagesToPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = ImagesToPdfToolContent(component)
+    }
+
+    class PdfToImagesPdfTool(private val component: PdfToImagesPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = PdfToImagesPdfToolContent(component)
     }
 }

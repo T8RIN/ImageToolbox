@@ -165,7 +165,7 @@ fun BottomButtonsBlock(
                             .background(
                                 MaterialTheme.colorScheme.surfaceContainerLow
                             )
-                            .consumeWindowInsets(cutout),
+                            .consumeWindowInsets(cutout.only(WindowInsetsSides.Start)),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
