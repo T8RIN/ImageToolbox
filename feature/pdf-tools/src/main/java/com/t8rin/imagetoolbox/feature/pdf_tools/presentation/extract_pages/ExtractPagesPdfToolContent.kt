@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.pdf_to_images
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_pages
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
@@ -71,11 +71,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewItem
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.pdf_to_images.screenLogic.PdfToImagesPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_pages.screenLogic.ExtractPagesPdfToolComponent
 
 @Composable
-fun PdfToImagesPdfToolContent(
-    component: PdfToImagesPdfToolComponent
+fun ExtractPagesPdfToolContent(
+    component: ExtractPagesPdfToolComponent
 ) {
     val pagesCount by rememberPdfPages(component.uri)
     val selectedPagesSize = component.pages?.size ?: 0

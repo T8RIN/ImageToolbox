@@ -46,7 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -174,9 +174,9 @@ class DocumentScannerComponent @AssistedInject internal constructor(
         _done.update { 0 }
         _left.update { 0 }
         return runSuspendCatching {
-            pdfManager.convertImagesToPdf(
+            pdfManager.createPdf(
                 imageUris = uris.map { it.toString() },
-                params = ImagesToPdfParams()
+                params = PdfCreationParams()
             )
         }.getOrNull()?.toUri()
     }

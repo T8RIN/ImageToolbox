@@ -239,7 +239,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Print -> "PdfTools_Print"
     is PdfTools.Preview -> "PdfTools_Preview"
     is PdfTools.ImagesToPdf -> "PdfTools_ImagesToPdf"
-    is PdfTools.PdfToImages -> "PdfTools_PdfToImages"
+    is PdfTools.ExtractPages -> "PdfTools_ExtractPages"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -316,7 +316,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Print -> Icons.Outlined.Print
     is PdfTools.Preview -> Icons.Outlined.Preview
     is PdfTools.ImagesToPdf -> Icons.Outlined.Scanner
-    is PdfTools.PdfToImages -> Icons.Outlined.ArtTrack
+    is PdfTools.ExtractPages -> Icons.Outlined.ArtTrack
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -393,7 +393,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Print -> Icons.TwoTone.Print
     is PdfTools.Preview -> Icons.TwoTone.Preview
     is PdfTools.ImagesToPdf -> Icons.TwoTone.Scanner
-    is PdfTools.PdfToImages -> Icons.TwoTone.ArtTrack
+    is PdfTools.ExtractPages -> Icons.TwoTone.ArtTrack
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

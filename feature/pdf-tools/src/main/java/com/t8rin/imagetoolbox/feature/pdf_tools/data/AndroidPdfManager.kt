@@ -68,11 +68,11 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setColor
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.writePage
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import com.t8rin.logger.makeLog
@@ -104,21 +104,21 @@ internal class AndroidPdfManager @Inject constructor(
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, PdfManager, PdfHelper by helper {
 
-    override fun convertPdfToImages(
+    override fun extractPages(
         uri: String,
         pages: List<Int>?,
         preset: Preset.Percentage
-    ): Flow<PdfToImagesAction> = channelFlow {
+    ): Flow<ExtractPagesAction> = channelFlow {
         val scale = preset.value / 100f
         val dpi = 72f * scale
 
         catchPdf {
             helper.useRenderer(uri) { renderer ->
-                send(PdfToImagesAction.PagesCount(pages?.size ?: renderer.pageCount))
+                send(ExtractPagesAction.PagesCount(pages?.size ?: renderer.pageCount))
 
                 pages.orAll(renderer.pDocument).forEach { pageIndex ->
                     send(
-                        PdfToImagesAction.Progress(
+                        ExtractPagesAction.Progress(
                             index = pageIndex,
                             image = renderer.safeRenderDpi(
                                 pageIndex = pageIndex,
@@ -132,9 +132,9 @@ internal class AndroidPdfManager @Inject constructor(
         close()
     }
 
-    override suspend fun convertImagesToPdf(
+    override suspend fun createPdf(
         imageUris: List<String>,
-        params: ImagesToPdfParams
+        params: PdfCreationParams
     ): String = catchPdf {
         createPdf { newDoc ->
             val scale = params.preset.value / 100f

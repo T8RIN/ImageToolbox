@@ -33,7 +33,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -71,8 +71,8 @@ class ImagesToPdfToolComponent @AssistedInject internal constructor(
     private val _scaleSmallImagesToLarge: MutableState<Boolean> = mutableStateOf(false)
     val scaleSmallImagesToLarge by _scaleSmallImagesToLarge
 
-    private val imagesToPdfParams: ImagesToPdfParams
-        get() = ImagesToPdfParams(
+    private val pdfCreationParams: PdfCreationParams
+        get() = PdfCreationParams(
             scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
             preset = _presetSelected.value,
             quality = _quality.value
@@ -121,9 +121,9 @@ class ImagesToPdfToolComponent @AssistedInject internal constructor(
     ) {
         doSaving(
             action = {
-                val processed = pdfManager.convertImagesToPdf(
+                val processed = pdfManager.createPdf(
                     imageUris = uris?.map { it.toString() } ?: emptyList(),
-                    params = imagesToPdfParams
+                    params = pdfCreationParams
                 )
 
                 fileController.transferBytes(
@@ -157,9 +157,9 @@ class ImagesToPdfToolComponent @AssistedInject internal constructor(
             action = {
                 onSuccess(
                     listOf(
-                        pdfManager.convertImagesToPdf(
+                        pdfManager.createPdf(
                             imageUris = uris?.map { it.toString() } ?: emptyList(),
-                            params = imagesToPdfParams
+                            params = pdfCreationParams
                         ).toUri()
                     )
                 )

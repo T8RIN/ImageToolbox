@@ -90,6 +90,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.CropPdfToolCon
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.ExtractImagesPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.screenLogic.ExtractImagesPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_pages.ExtractPagesPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_pages.screenLogic.ExtractPagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.FlattenPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.screenLogic.FlattenPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.GrayscalePdfToolContent
@@ -104,8 +106,6 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.OCRPdfToolConte
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.PageNumbersPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic.PageNumbersPdfToolComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.pdf_to_images.PdfToImagesPdfToolContent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.pdf_to_images.screenLogic.PdfToImagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.PreviewPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.screenLogic.PreviewPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.print.PrintPdfToolContent
@@ -535,8 +535,9 @@ internal sealed interface NavigationChild {
         override fun Content() = ImagesToPdfToolContent(component)
     }
 
-    class PdfToImagesPdfTool(private val component: PdfToImagesPdfToolComponent) : NavigationChild {
+    class ExtractPagesPdfTool(private val component: ExtractPagesPdfToolComponent) :
+        NavigationChild {
         @Composable
-        override fun Content() = PdfToImagesPdfToolContent(component)
+        override fun Content() = ExtractPagesPdfToolContent(component)
     }
 }

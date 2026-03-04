@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.pdf_to_images.screenLogic
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_pages.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -43,7 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -52,7 +52,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onCompletion
 
-class PdfToImagesPdfToolComponent @AssistedInject internal constructor(
+class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,
     @Assisted onGoBack: () -> Unit,
@@ -157,7 +157,7 @@ class PdfToImagesPdfToolComponent @AssistedInject internal constructor(
                 var left = 1
                 val results = mutableListOf<SaveResult>()
 
-                pdfManager.convertPdfToImages(
+                pdfManager.extractPages(
                     uri = uri.toString(),
                     pages = pages,
                     preset = presetSelected
@@ -167,9 +167,9 @@ class PdfToImagesPdfToolComponent @AssistedInject internal constructor(
                     onComplete(listOf(SaveResult.Error.Exception(it)))
                 }.collect { action ->
                     when (action) {
-                        is PdfToImagesAction.PagesCount -> left = action.count
+                        is ExtractPagesAction.PagesCount -> left = action.count
 
-                        is PdfToImagesAction.Progress -> {
+                        is ExtractPagesAction.Progress -> {
                             val bitmap = imageGetter.getImage(action.image) ?: return@collect
 
                             val imageInfo = imageTransformer.applyPresetBy(
@@ -238,7 +238,7 @@ class PdfToImagesPdfToolComponent @AssistedInject internal constructor(
                 var left = 1
                 val uris: MutableList<String?> = mutableListOf()
 
-                pdfManager.convertPdfToImages(
+                pdfManager.extractPages(
                     uri = uri.toString(),
                     pages = pages,
                     preset = presetSelected
@@ -249,9 +249,9 @@ class PdfToImagesPdfToolComponent @AssistedInject internal constructor(
                     onFailure(it)
                 }.collect { action ->
                     when (action) {
-                        is PdfToImagesAction.PagesCount -> left = action.count
+                        is ExtractPagesAction.PagesCount -> left = action.count
 
-                        is PdfToImagesAction.Progress -> {
+                        is ExtractPagesAction.Progress -> {
                             val bitmap = imageGetter.getImage(action.image) ?: return@collect
 
                             val imageInfo = imageTransformer.applyPresetBy(
@@ -297,6 +297,6 @@ class PdfToImagesPdfToolComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
-        ): PdfToImagesPdfToolComponent
+        ): ExtractPagesPdfToolComponent
     }
 }

@@ -19,26 +19,26 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import kotlinx.coroutines.flow.Flow
 
 interface PdfManager : PdfHelper {
 
-    fun convertPdfToImages(
+    fun extractPages(
         uri: String,
         pages: List<Int>?,
         preset: Preset.Percentage
-    ): Flow<PdfToImagesAction>
+    ): Flow<ExtractPagesAction>
 
-    suspend fun convertImagesToPdf(
+    suspend fun createPdf(
         imageUris: List<String>,
-        params: ImagesToPdfParams
+        params: PdfCreationParams
     ): String
 
     suspend fun mergePdfs(

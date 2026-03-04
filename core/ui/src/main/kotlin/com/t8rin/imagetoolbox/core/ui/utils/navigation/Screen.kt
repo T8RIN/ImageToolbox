@@ -290,7 +290,7 @@ sealed class Screen(
             listOf(
                 Preview(),
                 ImagesToPdf(),
-                PdfToImages(),
+                ExtractPages(),
                 Merge(),
                 Split(),
                 RemovePages(),
@@ -513,7 +513,7 @@ sealed class Screen(
         )
 
         @Serializable
-        data class PdfToImages(
+        data class ExtractPages(
             val uri: Uri? = null
         ) : Screen(
             id = 66,

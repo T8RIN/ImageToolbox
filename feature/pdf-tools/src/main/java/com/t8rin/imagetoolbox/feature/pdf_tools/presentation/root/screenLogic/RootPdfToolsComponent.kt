@@ -36,7 +36,7 @@ class RootPdfToolsComponent @AssistedInject internal constructor(
     fun navigate(screen: Screen, tempSelectionUri: Uri?) {
         onNavigate(
             when (screen) {
-                is Screen.PdfTools.PdfToImages -> screen.copy(uri = tempSelectionUri)
+                is Screen.PdfTools.ExtractPages -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Merge -> screen.copy(uris = tempSelectionUri?.let(::listOf))
                 is Screen.PdfTools.RemovePages -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Split -> screen.copy(uri = tempSelectionUri)
