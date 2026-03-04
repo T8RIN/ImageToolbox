@@ -46,8 +46,13 @@ import androidx.pdf.view.PdfView
 import androidx.pdf.view.ToolBoxView
 import androidx.pdf.viewer.fragment.PdfViewerFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.t8rin.logger.makeLog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlin.math.min
 
 @OptIn(ExperimentalPdfApi::class)
@@ -148,17 +153,28 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
                 pdfView.fastScrollPageIndicatorBackgroundDrawable = pageIndicatorDrawable
             }
 
-        pdfView.fastScroller?.fastScrollDrawer?.let {
-            try {
-                val field = it.javaClass.getDeclaredField("textPaint")
-                field.isAccessible = true
-                (field.get(it) as TextPaint).color = colorScheme.onSurface.toArgb()
-            } catch (t: Throwable) {
-                t.printStackTrace()
+        CoroutineScope(Dispatchers.Main.immediate).launch {
+            repeat(20) {
+                pdfView.fastScroller?.fastScrollDrawer?.let {
+                    try {
+                        it.javaClass.getDeclaredField("textPaint").apply {
+                            isAccessible = true
+                            set(
+                                it,
+                                TextPaint(get(it) as TextPaint).apply {
+                                    color = colorScheme.onSurface.toArgb()
+                                }
+                            )
+                        }
+                    } catch (t: Throwable) {
+                        t.makeLog("textPaint")
+                    }
+                }
+
+                pdfView.invalidate()
+                delay(100)
             }
         }
-
-        pdfView.invalidate()
     }
 
     private fun createFastScrollDrawable(
@@ -249,7 +265,7 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
             field.isAccessible = true
             field.get(this) as? FloatingActionButton
         } catch (t: Throwable) {
-            t.printStackTrace()
+            t.makeLog("getEditFab")
             null
         }
     }
