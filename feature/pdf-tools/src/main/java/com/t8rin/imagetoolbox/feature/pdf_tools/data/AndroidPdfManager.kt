@@ -110,17 +110,23 @@ internal class AndroidPdfManager @Inject constructor(
         preset: Preset.Percentage
     ): Flow<PdfToImagesAction> = channelFlow {
         val scale = preset.value / 100f
+        val dpi = 72f * scale
 
-        helper.useRenderer(uri) { renderer ->
-            send(PdfToImagesAction.PagesCount(pages?.size ?: renderer.pageCount))
+        catchPdf {
+            helper.useRenderer(uri) { renderer ->
+                send(PdfToImagesAction.PagesCount(pages?.size ?: renderer.pageCount))
 
-            pages.orAll(renderer.pDocument).forEach { pageIndex ->
-                send(
-                    PdfToImagesAction.Progress(
-                        index = pageIndex,
-                        image = renderer.safeRenderDpi(pageIndex, scale).whiteBg()
+                pages.orAll(renderer.pDocument).forEach { pageIndex ->
+                    send(
+                        PdfToImagesAction.Progress(
+                            index = pageIndex,
+                            image = renderer.safeRenderDpi(
+                                pageIndex = pageIndex,
+                                dpi = dpi
+                            ).whiteBg()
+                        )
                     )
-                )
+                }
             }
         }
         close()
@@ -530,7 +536,10 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
         helper.useRenderer(uri) { renderer ->
             renderer.pageIndices.mapNotNull { pageIndex ->
-                val bitmap = renderer.renderImage(pageIndex, 1f).whiteBg()
+                val bitmap = renderer.safeRenderDpi(
+                    pageIndex = pageIndex,
+                    dpi = 72f
+                ).whiteBg()
 
                 shareProvider.cacheImage(
                     image = bitmap,

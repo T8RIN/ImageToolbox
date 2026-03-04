@@ -49,7 +49,7 @@ class PdfRenderer(
         dpi: Float
     ): Bitmap = try {
         System.gc()
-        if (openPage(pageIndex).run { width * height * 4 <= 3096 * 3096 * 4 }) {
+        if (openPage(pageIndex).run { width * height * 4 <= 4096 * 4096 * 4 }) {
             renderImageWithDPI(pageIndex, dpi)
         } else {
             renderImage(pageIndex)
