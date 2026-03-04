@@ -69,7 +69,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.screenLogic.RemovePagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.screenLogic.RepairPdfToolComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.RootPdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
@@ -127,7 +127,6 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PageNumbersPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfToImagesPdfTool
-import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PickColorFromImage
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PreviewPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PrintPdfTool
@@ -137,6 +136,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RemovePagesPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RepairPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ResizeAndConvert
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RootPdfTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RotatePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScanQrCode
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Settings
@@ -191,7 +191,7 @@ internal class ChildProvider @Inject constructor(
     private val limitResizeComponentFactory: LimitsResizeComponent.Factory,
     private val loadNetImageComponentFactory: LoadNetImageComponent.Factory,
     private val noiseGenerationComponentFactory: NoiseGenerationComponent.Factory,
-    private val pdfToolsComponentFactory: PdfToolsComponent.Factory,
+    private val rootPdfToolsComponentFactory: RootPdfToolsComponent.Factory,
     private val pickColorFromImageComponentFactory: PickColorFromImageComponent.Factory,
     private val recognizeTextComponentFactory: RecognizeTextComponent.Factory,
     private val resizeAndConvertComponentFactory: ResizeAndConvertComponent.Factory,
@@ -467,8 +467,8 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.PdfTools -> PdfTools(
-            pdfToolsComponentFactory(
+        is Screen.PdfTools -> RootPdfTools(
+            rootPdfToolsComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo

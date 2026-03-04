@@ -66,11 +66,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.RootPdfToolsComponent
 
 @Composable
-fun PdfToolsContent(
-    component: PdfToolsComponent
+fun RootPdfToolsContent(
+    component: RootPdfToolsComponent
 ) {
     var tempSelectionUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     var showSelectionPdfPicker by rememberSaveable { mutableStateOf(false) }

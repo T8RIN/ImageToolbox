@@ -26,7 +26,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
-class PdfToolsComponent @AssistedInject internal constructor(
+class RootPdfToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
@@ -37,10 +37,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         onNavigate(
             when (screen) {
                 is Screen.PdfTools.PdfToImages -> screen.copy(uri = tempSelectionUri)
-                is Screen.PdfTools.Merge -> screen.copy(
-                    uris = tempSelectionUri?.let(::listOf)
-                )
-
+                is Screen.PdfTools.Merge -> screen.copy(uris = tempSelectionUri?.let(::listOf))
                 is Screen.PdfTools.RemovePages -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Split -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Rotate -> screen.copy(uri = tempSelectionUri)
@@ -72,7 +69,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit
-        ): PdfToolsComponent
+        ): RootPdfToolsComponent
     }
 
 }

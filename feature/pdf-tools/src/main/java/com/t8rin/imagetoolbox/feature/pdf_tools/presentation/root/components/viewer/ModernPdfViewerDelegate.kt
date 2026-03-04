@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.viewer
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
@@ -58,7 +58,7 @@ import kotlin.math.min
 @OptIn(ExperimentalPdfApi::class)
 @SuppressLint("RestrictedApi", "VisibleForTests", "PrivateResource")
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 13)
-internal class PdfViewerDelegate : PdfViewerFragment() {
+internal class ModernPdfViewerDelegate : PdfViewerFragment() {
     private val _loadingState = MutableStateFlow<Boolean?>(true)
     val loadingState: StateFlow<Boolean?> = _loadingState
 

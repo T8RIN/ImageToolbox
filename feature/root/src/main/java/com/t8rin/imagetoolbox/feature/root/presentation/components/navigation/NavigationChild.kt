@@ -118,8 +118,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.Remove
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.screenLogic.RemovePagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.RepairPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.screenLogic.RepairPdfToolComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.PdfToolsContent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.RootPdfToolsContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.RootPdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.RotatePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.SignaturePdfToolContent
@@ -297,9 +297,9 @@ internal sealed interface NavigationChild {
         override fun Content() = NoiseGenerationContent(component)
     }
 
-    class PdfTools(private val component: PdfToolsComponent) : NavigationChild {
+    class RootPdfTools(private val component: RootPdfToolsComponent) : NavigationChild {
         @Composable
-        override fun Content() = PdfToolsContent(component)
+        override fun Content() = RootPdfToolsContent(component)
     }
 
     class PickColorFromImage(private val component: PickColorFromImageComponent) : NavigationChild {

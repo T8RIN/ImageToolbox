@@ -80,7 +80,7 @@ class PdfRenderer(
 
 fun PdfRenderer(
     uri: String,
-    password: String?,
+    password: String? = null,
     onFailure: (Throwable) -> Unit = {},
     onPasswordRequest: (() -> Unit)? = null
 ): PdfRenderer? = runCatching {

@@ -93,8 +93,7 @@ fun PreviewPdfToolContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(bottom = if (isPortrait) 104.dp else 0.dp),
-                    uriState = component.uri,
-                    onForceClearType = component.onGoBack,
+                    uri = component.uri,
                     contentPadding = PaddingValues(),
                     isSearching = isSearching
                 )
