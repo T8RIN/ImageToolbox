@@ -89,6 +89,7 @@ import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -130,7 +131,7 @@ internal class AndroidPdfManager @Inject constructor(
             }
         }
         close()
-    }
+    }.flowOn(defaultDispatcher)
 
     override suspend fun createPdf(
         imageUris: List<String>,

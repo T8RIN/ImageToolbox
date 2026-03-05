@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
@@ -153,55 +154,30 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
     ) {
         doSharing(
             action = {
-                var done = 0
-                var left = 1
-                val results = mutableListOf<SaveResult>()
-
-                pdfManager.extractPages(
-                    uri = uri.toString(),
-                    pages = pages,
-                    preset = presetSelected
-                ).onCompletion {
-                    onComplete(results.onSuccess(::registerSave))
-                }.catch {
-                    onComplete(listOf(SaveResult.Error.Exception(it)))
-                }.collect { action ->
-                    when (action) {
-                        is ExtractPagesAction.PagesCount -> left = action.count
-
-                        is ExtractPagesAction.Progress -> {
-                            val bitmap = imageGetter.getImage(action.image) ?: return@collect
-
-                            val imageInfo = imageTransformer.applyPresetBy(
-                                image = bitmap,
-                                preset = _presetSelected.value,
-                                currentInfo = imageInfo
-                            )
-
-                            results.add(
-                                fileController.save(
-                                    saveTarget = ImageSaveTarget(
-                                        imageInfo = imageInfo,
-                                        metadata = null,
-                                        originalUri = uri?.toString().orEmpty(),
-                                        sequenceNumber = done + 1,
-                                        data = imageCompressor.compressAndTransform(
-                                            image = bitmap,
-                                            imageInfo = imageInfo
-                                        )
-                                    ),
-                                    keepOriginalMetadata = false,
-                                    oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                extractPages(
+                    onPage = { bitmap, imageInfo ->
+                        fileController.save(
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = imageInfo,
+                                metadata = null,
+                                originalUri = uri?.toString().orEmpty(),
+                                sequenceNumber = null,
+                                data = imageCompressor.compressAndTransform(
+                                    image = bitmap,
+                                    imageInfo = imageInfo
                                 )
-                            )
-                            done += 1
-                            updateProgress(
-                                done = done,
-                                total = left
-                            )
-                        }
+                            ),
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        )
+                    },
+                    onSuccess = {
+                        onComplete(it.onSuccess(::registerSave))
+                    },
+                    onFailure = {
+                        onComplete(listOf(SaveResult.Error.Exception(it)))
                     }
-                }
+                )
             },
             onFailure = {
                 onComplete(listOf(SaveResult.Error.Exception(it)))
@@ -234,60 +210,64 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
     ) {
         doSharing(
             action = {
-                var done = 0
-                var left = 1
-                val uris: MutableList<String?> = mutableListOf()
-
-                pdfManager.extractPages(
-                    uri = uri.toString(),
-                    pages = pages,
-                    preset = presetSelected
-                ).onCompletion {
-                    onSuccess(uris.mapNotNull { it?.toUri() })
-                    registerSave()
-                }.catch {
-                    onFailure(it)
-                }.collect { action ->
-                    when (action) {
-                        is ExtractPagesAction.PagesCount -> left = action.count
-
-                        is ExtractPagesAction.Progress -> {
-                            val bitmap = imageGetter.getImage(action.image) ?: return@collect
-
-                            val imageInfo = imageTransformer.applyPresetBy(
-                                image = bitmap,
-                                preset = _presetSelected.value,
-                                currentInfo = imageInfo
-                            )
-
-                            imageInfo.copy(
-                                originalUri = uri?.toString()
-                            ).let {
-                                imageTransformer.applyPresetBy(
-                                    image = bitmap,
-                                    preset = _presetSelected.value,
-                                    currentInfo = it
-                                )
-                            }.apply {
-                                uris.add(
-                                    shareProvider.cacheImage(
-                                        imageInfo = this,
-                                        image = bitmap
-                                    )
-                                )
-                            }
-
-                            done += 1
-                            updateProgress(
-                                done = done,
-                                total = left
-                            )
-                        }
-                    }
-                }
+                extractPages(
+                    onPage = { bitmap, imageInfo ->
+                        shareProvider.cacheImage(
+                            imageInfo = imageInfo,
+                            image = bitmap
+                        )?.toUri()
+                    },
+                    onSuccess = onSuccess,
+                    onFailure = onFailure
+                )
             },
             onFailure = onFailure
         )
+    }
+
+    private suspend fun <T : Any> KeepAliveService.extractPages(
+        onPage: suspend (Bitmap, ImageInfo) -> T?,
+        onSuccess: suspend (List<T>) -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        var done = 0
+        var left = 1
+
+        val results = mutableListOf<T>()
+
+        pdfManager.extractPages(
+            uri = uri.toString(),
+            pages = pages,
+            preset = presetSelected
+        ).onCompletion {
+            onSuccess(results)
+            registerSave()
+        }.catch {
+            onFailure(it)
+        }.collect { action ->
+            when (action) {
+                is ExtractPagesAction.PagesCount -> left = action.count
+
+                is ExtractPagesAction.Progress -> {
+                    val bitmap = imageGetter.getImage(action.image) ?: return@collect
+                    val imageInfo = imageTransformer.applyPresetBy(
+                        image = bitmap,
+                        preset = _presetSelected.value,
+                        currentInfo = imageInfo
+                    ).copy(
+                        originalUri = uri?.toString()
+                    )
+
+                    onPage(bitmap, imageInfo)?.let(results::add)
+
+                    done += 1
+                    updateProgress(
+                        done = done,
+                        total = left
+                    )
+                }
+            }
+        }
     }
 
     @AssistedFactory
