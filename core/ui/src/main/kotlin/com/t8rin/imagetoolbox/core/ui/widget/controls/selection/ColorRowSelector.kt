@@ -182,7 +182,6 @@ fun ColorRowSelector(
                                 state = tooltipState,
                                 content = {
                                     IconShapeContainer(
-                                        enabled = true,
                                         content = {
                                             Icon(
                                                 imageVector = icon,

@@ -58,7 +58,6 @@ fun TitleItem(
     ) {
         icon?.let { icon ->
             IconShapeContainer(
-                enabled = true,
                 content = {
                     Icon(
                         imageVector = icon,
@@ -94,7 +93,6 @@ fun TitleItem(
     ) {
         icon?.let { icon ->
             IconShapeContainer(
-                enabled = true,
                 content = {
                     Icon(
                         imageVector = icon,

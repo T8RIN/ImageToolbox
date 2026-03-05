@@ -67,7 +67,6 @@ fun DefaultImageFormatSettingItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconShapeContainer(
-                    enabled = true,
                     content = {
                         Icon(
                             imageVector = Icons.Outlined.Png,

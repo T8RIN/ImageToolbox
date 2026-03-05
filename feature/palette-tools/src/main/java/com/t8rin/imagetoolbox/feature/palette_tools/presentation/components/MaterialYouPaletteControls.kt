@@ -187,7 +187,6 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconShapeContainer(
-                enabled = true,
                 modifier = Modifier.padding(top = 16.dp, start = 16.dp)
             ) {
                 Icon(

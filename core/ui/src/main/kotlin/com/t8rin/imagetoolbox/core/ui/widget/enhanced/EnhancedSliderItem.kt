@@ -230,7 +230,6 @@ fun EnhancedSliderItem(
                                             state = tooltipState,
                                             content = {
                                                 IconShapeContainer(
-                                                    enabled = true,
                                                     content = {
                                                         Icon(
                                                             imageVector = icon,
@@ -301,7 +300,6 @@ fun EnhancedSliderItem(
                                 AnimatedContent(icon) { icon ->
                                     if (icon != null) {
                                         IconShapeContainer(
-                                            enabled = true,
                                             content = {
                                                 Icon(
                                                     imageVector = icon,

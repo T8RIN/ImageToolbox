@@ -230,7 +230,6 @@ fun EnhancedRangeSliderItem(
                                             state = tooltipState,
                                             content = {
                                                 IconShapeContainer(
-                                                    enabled = true,
                                                     content = {
                                                         Icon(
                                                             imageVector = icon,
@@ -321,7 +320,6 @@ fun EnhancedRangeSliderItem(
                                 AnimatedContent(icon) { icon ->
                                     if (icon != null) {
                                         IconShapeContainer(
-                                            enabled = true,
                                             content = {
                                                 Icon(
                                                     imageVector = icon,
