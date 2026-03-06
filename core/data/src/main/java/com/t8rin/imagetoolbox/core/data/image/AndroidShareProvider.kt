@@ -188,10 +188,12 @@ internal class AndroidShareProvider @Inject constructor(
             putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            type = MimeTypeMap.getSingleton()
+            val mimeType = MimeTypeMap.getSingleton()
                 .getMimeTypeFromExtension(
                     imageGetter.getExtension(uris.first().toString())
                 ) ?: "*/*"
+
+            type = mimeType.makeLog("shareImageUris")
         }
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

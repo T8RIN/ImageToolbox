@@ -48,30 +48,34 @@ fun Intent?.handleDeeplinks(
     val intent = this
 
     onStart()
-    if (intent.type != null && !isHasUris) onColdStart()
+    val type = intent.type
+    if (type != null && !isHasUris) onColdStart()
 
-    if (intent.action == Intent.ACTION_BUG_REPORT) {
+    val action = intent.action
+
+    if (action == Intent.ACTION_BUG_REPORT) {
         onWantGithubReview()
         return
     }
 
     if (intent.getScreenOpeningShortcut(onNavigate)) return
 
+    val data = intent.data
+    val clipData = intent.clipData
+
     runCatching {
-        val startsWithImage = intent.type?.startsWith("image/") == true
-        val hasExtraFormats = intent.clipData?.clipList()
+        val startsWithImage = type?.startsWith("image/") == true
+        val hasExtraFormats = clipData?.clipList()
             ?.any {
                 it.toString().endsWith(".jxl") || it.toString().endsWith(".qoi")
             } == true
-        val dataHasExtraFormats = intent.data.toString().let {
+        val dataHasExtraFormats = data.toString().let {
             it.endsWith(".jxl") || it.endsWith(".qoi")
         }
 
         if ((startsWithImage || hasExtraFormats || dataHasExtraFormats)) {
-            when (intent.action) {
+            when (action) {
                 Intent.ACTION_VIEW -> {
-                    val data = intent.data
-                    val clipData = intent.clipData
                     val uris =
                         clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
 
@@ -88,7 +92,7 @@ fun Intent?.handleDeeplinks(
                             is Screen.PickColorFromImage -> onNavigate(Screen.PickColorFromImage(it))
                             is Screen.PaletteTools -> onNavigate(Screen.PaletteTools(it))
                             else -> {
-                                if (intent.type?.contains("gif") == true) {
+                                if (type?.contains("gif") == true) {
                                     onHasExtraDataType(ExtraDataType.Gif)
                                 }
                                 onGetUris(listOf(it))
@@ -99,7 +103,7 @@ fun Intent?.handleDeeplinks(
 
                 Intent.ACTION_SEND_MULTIPLE -> {
                     intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
-                        if (intent.type?.contains("gif") == true) {
+                        if (type?.contains("gif") == true) {
                             onHasExtraDataType(ExtraDataType.Gif)
                             it.firstOrNull()?.let { uri ->
                                 onGetUris(listOf(uri))
@@ -109,44 +113,39 @@ fun Intent?.handleDeeplinks(
                 }
 
                 else -> {
-                    intent.data?.let {
-                        if (intent.type?.contains("gif") == true) {
+                    data?.let {
+                        if (type?.contains("gif") == true) {
                             onHasExtraDataType(ExtraDataType.Gif)
                         }
                         onGetUris(listOf(it))
                     }
                 }
             }
-        } else if (intent.type != null) {
+        } else if (type != null) {
             val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-            val multiplePdfs = intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM) != null
+            val isPdf = type.contains("pdf")
 
-            if (
-                intent.type?.contains("pdf") == true && !multiplePdfs
-            ) {
-                val uri = intent.data ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)
-                uri?.let {
-                    if (intent.action == Intent.ACTION_VIEW) {
-                        onNavigate(Screen.PdfTools.Preview(it))
-                    } else {
-                        onHasExtraDataType(ExtraDataType.Pdf)
-                        onGetUris(listOf(uri))
-                    }
-                }
-            } else if (text != null) {
+            if (text != null) {
                 onHasExtraDataType(ExtraDataType.Text(text))
                 onGetUris(listOf())
             } else {
-                val isAudio = intent.type?.startsWith("audio/") == true
+                val isAudio = type.startsWith("audio/")
 
-                when (intent.action) {
+                when (action) {
                     Intent.ACTION_SEND_MULTIPLE -> {
                         intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
-                            if (isAudio) {
-                                onHasExtraDataType(ExtraDataType.Audio)
-                                onGetUris(it)
-                            } else {
-                                onNavigate(Screen.Zip(it))
+                            when {
+                                isAudio -> {
+                                    onHasExtraDataType(ExtraDataType.Audio)
+                                    onGetUris(it)
+                                }
+
+                                isPdf -> {
+                                    onHasExtraDataType(ExtraDataType.Pdf)
+                                    onGetUris(it)
+                                }
+
+                                else -> onNavigate(Screen.Zip(it))
                             }
                         }
                     }
@@ -157,10 +156,10 @@ fun Intent?.handleDeeplinks(
                                 onHasExtraDataType(ExtraDataType.Backup(it.toString()))
                                 return
                             }
-                            if (isAudio) {
-                                onHasExtraDataType(ExtraDataType.Audio)
-                            } else {
-                                onHasExtraDataType(ExtraDataType.File)
+                            when {
+                                isAudio -> onHasExtraDataType(ExtraDataType.Audio)
+                                isPdf -> onHasExtraDataType(ExtraDataType.Pdf)
+                                else -> onHasExtraDataType(ExtraDataType.File)
                             }
 
                             onGetUris(listOf(it))
@@ -168,10 +167,9 @@ fun Intent?.handleDeeplinks(
                     }
 
                     Intent.ACTION_VIEW -> {
-                        val data = intent.data
-                        val clipData = intent.clipData
                         val uris =
-                            clipData?.clipList() ?: data?.let { listOf(it) } ?: emptyList()
+                            clipData?.clipList() ?: data?.let { listOf(it) }
+                            ?: listOfNotNull(intent.parcelable<Uri>(Intent.EXTRA_STREAM))
 
                         if (uris.size == 1) {
                             val uri = uris.first()
@@ -181,19 +179,37 @@ fun Intent?.handleDeeplinks(
                                 return
                             }
 
-                            if (isAudio) {
-                                onHasExtraDataType(ExtraDataType.Audio)
-                            } else {
-                                onHasExtraDataType(ExtraDataType.File)
+                            when {
+                                isPdf -> {
+                                    onNavigate(Screen.PdfTools.Preview(uri))
+                                    return
+                                }
+
+                                isAudio -> {
+                                    onHasExtraDataType(ExtraDataType.Audio)
+                                }
+
+                                else -> {
+                                    onHasExtraDataType(ExtraDataType.File)
+                                }
                             }
 
                             onGetUris(uris)
                         } else if (uris.isNotEmpty()) {
-                            if (isAudio) {
-                                onHasExtraDataType(ExtraDataType.Audio)
-                                onGetUris(uris)
-                            } else {
-                                onNavigate(Screen.Zip(uris))
+                            when {
+                                isPdf -> {
+                                    onHasExtraDataType(ExtraDataType.Pdf)
+                                    onGetUris(uris)
+                                }
+
+                                isAudio -> {
+                                    onHasExtraDataType(ExtraDataType.Audio)
+                                    onGetUris(uris)
+                                }
+
+                                else -> {
+                                    onNavigate(Screen.Zip(uris))
+                                }
                             }
                         } else {
                             Unit
@@ -202,7 +218,7 @@ fun Intent?.handleDeeplinks(
 
                     else -> null
                 } ?: onShowToast(
-                    appContext.getString(R.string.unsupported_type, intent.type),
+                    appContext.getString(R.string.unsupported_type, type),
                     Icons.Rounded.ErrorOutline
                 )
             }

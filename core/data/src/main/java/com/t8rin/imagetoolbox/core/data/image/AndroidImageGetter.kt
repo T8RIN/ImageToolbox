@@ -219,7 +219,7 @@ internal class AndroidImageGetter @Inject constructor(
                 )
         } else {
             MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
-        }
+        }?.replace(".", "")
     }
 
     private suspend fun getImageImpl(

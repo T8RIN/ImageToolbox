@@ -452,43 +452,48 @@ internal class AndroidPdfManager @Inject constructor(
                 quality = 1f
             )
 
-            val imageAspect =
-                pdImage.width.toFloat() / pdImage.height.toFloat()
+            val imageAspect = pdImage.width.toFloat() / pdImage.height.toFloat()
 
             params.pages.orAll(document).forEach { pageIndex ->
                 val page = document.getPageSafe(pageIndex)
 
-                val cropBox = page.cropBox
+                val crop = page.cropBox
 
-                val pageWidth = cropBox.width
-                val pageHeight = cropBox.height
-                val originX = cropBox.lowerLeftX
-                val originY = cropBox.lowerLeftY
+                val pageWidth = crop.width
+                val pageHeight = crop.height
+                val originX = crop.lowerLeftX
+                val originY = crop.lowerLeftY
 
                 val targetWidth = pageWidth * params.size
                 val targetHeight = targetWidth / imageAspect
 
                 val centerX = pageWidth * params.x
-                val centerY = pageHeight * params.y
+                val centerY = pageHeight * (1f - params.y)
 
-                var targetX = centerX - targetWidth / 2f
-                var targetY = centerY - targetHeight / 2f
+                var x = centerX - targetWidth / 2f
+                var y = centerY - targetHeight / 2f
 
-                targetX = targetX.coerceIn(0f, pageWidth - targetWidth)
-                targetY = targetY.coerceIn(0f, pageHeight - targetHeight)
+                x = x.coerceIn(0f, pageWidth - targetWidth)
+                y = y.coerceIn(0f, pageHeight - targetHeight)
 
-                targetX += originX
-                targetY += originY
+                x += originX
+                y += originY
 
                 document.writePage(page) {
                     setAlpha(params.opacity)
-                    drawImage(
-                        pdImage,
-                        targetX,
-                        targetY,
-                        targetWidth,
-                        targetHeight
+                    saveGraphicsState()
+                    transform(
+                        Matrix(
+                            targetWidth,
+                            0f,
+                            0f,
+                            -targetHeight,
+                            x,
+                            y + targetHeight
+                        )
                     )
+                    drawImage(pdImage, 0f, 0f, 1f, 1f)
+                    restoreGraphicsState()
                 }
             }
 

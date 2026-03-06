@@ -83,34 +83,42 @@ internal fun List<Uri>.screenList(
     }
     val pdfAvailableScreens by remember(uris) {
         derivedStateOf {
-            listOf(
-                Screen.PdfTools.Preview(
-                    uris.firstOrNull()
-                ),
-                Screen.PdfTools.ExtractPages(
-                    uris.firstOrNull()
-                ),
-                Screen.PdfTools.Merge(uris.takeIf { it.isNotEmpty() }),
-                Screen.PdfTools.Split(uris.firstOrNull()),
-                Screen.PdfTools.RemovePages(uris.firstOrNull()),
-                Screen.PdfTools.Rotate(uris.firstOrNull()),
-                Screen.PdfTools.Rearrange(uris.firstOrNull()),
-                Screen.PdfTools.Crop(uris.firstOrNull()),
-                Screen.PdfTools.PageNumbers(uris.firstOrNull()),
-                Screen.PdfTools.Watermark(uris.firstOrNull()),
-                Screen.PdfTools.Signature(uris.firstOrNull()),
-                Screen.PdfTools.Compress(uris.firstOrNull()),
-                Screen.PdfTools.Flatten(uris.firstOrNull()),
-                Screen.PdfTools.Print(uris.firstOrNull()),
-                Screen.PdfTools.Grayscale(uris.firstOrNull()),
-                Screen.PdfTools.Repair(uris.firstOrNull()),
-                Screen.PdfTools.Protect(uris.firstOrNull()),
-                Screen.PdfTools.Unlock(uris.firstOrNull()),
-                Screen.PdfTools.Metadata(uris.firstOrNull()),
-                Screen.PdfTools.ExtractImages(uris.firstOrNull()),
-                Screen.PdfTools.OCR(uris.firstOrNull()),
-                Screen.PdfTools.ZipConvert(uris.firstOrNull()),
-            ) + filesAvailableScreens
+            val multiplePdf = Screen.PdfTools.Merge(uris.takeIf { it.isNotEmpty() })
+
+            val pdfScreens = if (uris.size == 1) {
+                listOf(
+                    Screen.PdfTools.Preview(
+                        uris.firstOrNull()
+                    ),
+                    Screen.PdfTools.ExtractPages(
+                        uris.firstOrNull()
+                    ),
+                    multiplePdf,
+                    Screen.PdfTools.Split(uris.firstOrNull()),
+                    Screen.PdfTools.RemovePages(uris.firstOrNull()),
+                    Screen.PdfTools.Rotate(uris.firstOrNull()),
+                    Screen.PdfTools.Rearrange(uris.firstOrNull()),
+                    Screen.PdfTools.Crop(uris.firstOrNull()),
+                    Screen.PdfTools.PageNumbers(uris.firstOrNull()),
+                    Screen.PdfTools.Watermark(uris.firstOrNull()),
+                    Screen.PdfTools.Signature(uris.firstOrNull()),
+                    Screen.PdfTools.Compress(uris.firstOrNull()),
+                    Screen.PdfTools.Flatten(uris.firstOrNull()),
+                    Screen.PdfTools.Print(uris.firstOrNull()),
+                    Screen.PdfTools.Grayscale(uris.firstOrNull()),
+                    Screen.PdfTools.Repair(uris.firstOrNull()),
+                    Screen.PdfTools.Protect(uris.firstOrNull()),
+                    Screen.PdfTools.Unlock(uris.firstOrNull()),
+                    Screen.PdfTools.Metadata(uris.firstOrNull()),
+                    Screen.PdfTools.ExtractImages(uris.firstOrNull()),
+                    Screen.PdfTools.OCR(uris.firstOrNull()),
+                    Screen.PdfTools.ZipConvert(uris.firstOrNull()),
+                )
+            } else {
+                listOf(multiplePdf)
+            }
+
+            pdfScreens + filesAvailableScreens
         }
     }
     val singleImageScreens by remember(uris) {

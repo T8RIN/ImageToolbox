@@ -170,6 +170,7 @@ internal class ModernPdfViewerDelegate : PdfViewerFragment() {
                         t.makeLog("textPaint")
                     }
                 }
+                pdfView.fastScrollVisibility = PdfView.FastScrollVisibility.ALWAYS_SHOW
 
                 pdfView.invalidate()
                 delay(100)

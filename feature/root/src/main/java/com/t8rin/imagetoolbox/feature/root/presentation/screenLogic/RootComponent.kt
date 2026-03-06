@@ -31,10 +31,9 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.items
+import com.arkivanov.decompose.router.stack.navigate
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.popWhile
 import com.arkivanov.decompose.router.stack.pushNew
-import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.t8rin.imagetoolbox.core.domain.APP_RELEASES
@@ -364,6 +363,8 @@ class RootComponent @AssistedInject internal constructor(
     }
 
     fun updateExtraDataType(type: ExtraDataType?) {
+        type.makeLog("updateExtraDataType")
+
         if (type is ExtraDataType.Backup) {
             componentScope.launch {
                 settingsManager.restoreFromBackupFile(
@@ -465,8 +466,11 @@ class RootComponent @AssistedInject internal constructor(
             delay(100)
             hideSelectDialog()
             screen.simpleName.makeLog("Navigator").also(analyticsManager::registerScreenOpen)
-            navController.popWhile { it is Screen.PdfTools }
-            navController.replaceCurrent(screen)
+            navController.navigate(
+                transformer = { stack ->
+                    stack.dropLastWhile { it !is Screen.PdfTools } + screen
+                }
+            )
         }
     }
 
