@@ -56,10 +56,6 @@ fun ProtectPdfToolContent(
         canShowScreenData = component.uri != null,
         title = stringResource(R.string.protect_pdf),
         canSave = component.password.isNotEmpty(),
-        actions = {},
-        imagePreview = {},
-        placeImagePreview = false,
-        showImagePreviewAsStickyHeader = false,
         controls = {
             component.uri?.let {
                 PdfPreviewItem(

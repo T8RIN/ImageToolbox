@@ -83,9 +83,6 @@ fun PreviewPdfToolContent(
                 }
             }
         },
-        imagePreview = {},
-        placeImagePreview = false,
-        showImagePreviewAsStickyHeader = false,
         drawBottomShadow = !isSearching,
         controls = {
             if (rememberPdfPages(component.uri).value > 0) {

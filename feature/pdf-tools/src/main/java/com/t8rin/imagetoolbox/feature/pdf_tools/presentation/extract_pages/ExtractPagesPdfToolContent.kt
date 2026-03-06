@@ -164,7 +164,6 @@ fun ExtractPagesPdfToolContent(
             }
         },
         canSave = !component.pages.isNullOrEmpty(),
-        actions = {},
         imagePreview = {
             key(trigger, pagesCount, component.uri) {
                 ImagesPreviewWithSelection(
@@ -192,7 +191,6 @@ fun ExtractPagesPdfToolContent(
             }
         },
         placeImagePreview = true,
-        showImagePreviewAsStickyHeader = false,
         controls = {
             component.uri?.let {
                 PdfPreviewItem(

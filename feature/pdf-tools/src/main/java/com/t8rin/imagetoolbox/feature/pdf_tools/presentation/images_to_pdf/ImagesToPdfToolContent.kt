@@ -54,11 +54,6 @@ fun ImagesToPdfToolContent(
         isPickedAlready = component.initialUris != null,
         canShowScreenData = !component.uris.isNullOrEmpty(),
         title = stringResource(R.string.images_to_pdf),
-        topAppBarPersistentActions = {},
-        actions = {},
-        imagePreview = {},
-        placeImagePreview = false,
-        showImagePreviewAsStickyHeader = false,
         controls = {
             ImageReorderCarousel(
                 images = component.uris,

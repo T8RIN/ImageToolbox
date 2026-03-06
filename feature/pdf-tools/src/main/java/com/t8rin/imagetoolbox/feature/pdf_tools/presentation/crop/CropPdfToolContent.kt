@@ -61,7 +61,6 @@ fun CropPdfToolContent(
         canSave = !component.cropRect.isEmpty,
         canShowScreenData = component.uri != null,
         title = stringResource(R.string.crop_pdf),
-        actions = {},
         imagePreview = {
             CropPreview(
                 uri = component.uri,

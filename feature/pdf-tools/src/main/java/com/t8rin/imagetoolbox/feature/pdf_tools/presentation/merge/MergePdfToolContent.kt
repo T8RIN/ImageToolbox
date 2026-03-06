@@ -39,10 +39,6 @@ fun MergePdfToolContent(
         isPickedAlready = !component.initialUris.isNullOrEmpty(),
         canShowScreenData = component.uris.isNotEmpty(),
         title = stringResource(R.string.merge_pdf),
-        actions = {},
-        imagePreview = {},
-        placeImagePreview = false,
-        showImagePreviewAsStickyHeader = false,
         controls = {
             val addFilesPicker = rememberFilePicker(
                 mimeType = MimeType.Pdf,

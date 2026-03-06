@@ -67,10 +67,6 @@ fun RearrangePdfToolContent(
         isPickedAlready = component.initialUri != null,
         canShowScreenData = component.uri != null,
         title = stringResource(R.string.rearrange_pdf),
-        actions = {},
-        imagePreview = {},
-        placeImagePreview = false,
-        showImagePreviewAsStickyHeader = false,
         controls = {
             component.uri?.let {
                 PdfPreviewItem(

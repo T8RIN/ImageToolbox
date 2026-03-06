@@ -56,10 +56,6 @@ fun UnlockPdfToolContent(
         isPickedAlready = component.initialUri != null,
         canShowScreenData = component.uri != null,
         title = stringResource(R.string.unlock_pdf),
-        actions = {},
-        imagePreview = {},
-        placeImagePreview = false,
-        showImagePreviewAsStickyHeader = false,
         controls = {
             component.uri?.let {
                 PdfPreviewItem(
