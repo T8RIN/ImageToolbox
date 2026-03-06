@@ -39,12 +39,10 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
-import com.t8rin.imagetoolbox.core.domain.model.RectModel
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -69,9 +67,11 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.writePage
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
@@ -107,17 +107,16 @@ internal class AndroidPdfManager @Inject constructor(
 
     override fun extractPages(
         uri: String,
-        pages: List<Int>?,
-        preset: Preset.Percentage
+        params: PdfExtractPagesParams
     ): Flow<ExtractPagesAction> = channelFlow {
-        val scale = preset.value / 100f
+        val scale = params.preset.value / 100f
         val dpi = 72f * scale
 
         catchPdf {
             helper.useRenderer(uri) { renderer ->
-                send(ExtractPagesAction.PagesCount(pages?.size ?: renderer.pageCount))
-
-                pages.orAll(renderer.pDocument).forEach { pageIndex ->
+                params.pages.orAll(renderer.pDocument).also {
+                    send(ExtractPagesAction.PagesCount(it.size))
+                }.forEach { pageIndex ->
                     send(
                         ExtractPagesAction.Progress(
                             index = pageIndex,
@@ -301,7 +300,7 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun addPageNumbers(
         uri: String,
-        params: PageNumbersParams
+        params: PdfPageNumbersParams
     ): String = catchPdf {
         usePdf(uri) { document ->
             val font = document.defaultFont
@@ -392,7 +391,6 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun addWatermark(
         uri: String,
-        watermarkText: String,
         params: PdfWatermarkParams
     ): String = catchPdf {
         val color = Color(params.color)
@@ -404,7 +402,7 @@ internal class AndroidPdfManager @Inject constructor(
                 val page = document.getPageSafe(pageIndex)
 
                 val textWidth =
-                    font.getStringWidth(watermarkText) / 1000f * params.fontSize
+                    font.getStringWidth(params.text) / 1000f * params.fontSize
 
                 val radians = Math.toRadians(-params.rotation.toDouble())
                 val cropBox = page.cropBox
@@ -427,7 +425,7 @@ internal class AndroidPdfManager @Inject constructor(
                     setColor(color.copy(params.opacity))
                     setTextMatrix(matrix)
                     newLineAtOffset(-textWidth / 2f, 0f)
-                    showText(watermarkText)
+                    showText(params.text)
                     endText()
                 }
             }
@@ -443,16 +441,15 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun addSignature(
         uri: String,
-        signatureImage: Any,
         params: PdfSignatureParams
     ): String = catchPdf {
         usePdf(uri) { document ->
-            val pdImage = imageGetter.getImage(data = signatureImage)!!.asXObject(
+            val signatureImage = imageGetter.getImage(data = params.signatureImage)!!.asXObject(
                 document = document,
                 quality = 1f
             )
 
-            val imageAspect = pdImage.width.toFloat() / pdImage.height.toFloat()
+            val imageAspect = signatureImage.width.toFloat() / signatureImage.height.toFloat()
 
             params.pages.orAll(document).forEach { pageIndex ->
                 val page = document.getPageSafe(pageIndex)
@@ -492,7 +489,7 @@ internal class AndroidPdfManager @Inject constructor(
                             y + targetHeight
                         )
                     )
-                    drawImage(pdImage, 0f, 0f, 1f, 1f)
+                    drawImage(signatureImage, 0f, 0f, 1f, 1f)
                     restoreGraphicsState()
                 }
             }
@@ -658,11 +655,12 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun cropPdf(
         uri: String,
-        pages: List<Int>?,
-        rect: RectModel
+        params: PdfCropParams
     ): String = catchPdf {
         usePdf(uri) { document ->
-            pages.orAll(document).forEach { pageIndex ->
+            val rect = params.rect
+
+            params.pages.orAll(document).forEach { pageIndex ->
                 val page = document.getPageSafe(pageIndex)
 
                 val cropBox = page.cropBox
@@ -866,10 +864,9 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun printPdf(
         uri: String,
-        quality: Float,
         params: PrintPdfParams
     ): String = catchPdf {
-        val dpi = 72f + (228f * quality)
+        val dpi = 72f + (228f * params.quality)
 
         usePdf(uri) { document ->
             val renderer = PdfRenderer(document)
@@ -957,7 +954,10 @@ internal class AndroidPdfManager @Inject constructor(
                                     input = renderer.safeRenderDpi(pageIndex, dpi),
                                     color = Color.White.toArgb()
                                 )
-                                .asXObject(newDoc, quality)
+                                .asXObject(
+                                    document = newDoc,
+                                    quality = params.quality
+                                )
 
                             drawImage(pdImage, x, y, scaledWidth, scaledHeight)
                         }

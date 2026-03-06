@@ -17,10 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain.model
 
-import com.t8rin.imagetoolbox.core.domain.model.Position
+import com.t8rin.imagetoolbox.core.domain.model.RectModel
 
-data class PageNumbersParams(
-    val labelFormat: String = "Page {n} of {total}",
-    val position: Position = Position.BottomCenter,
-    val color: Int = -7829368
+data class PdfCropParams(
+    val pages: List<Int>? = null,
+    val rect: RectModel = RectModel(
+        left = 0.1f,
+        right = 0.9f,
+        top = 0.1f,
+        bottom = 0.9f
+    )
 )

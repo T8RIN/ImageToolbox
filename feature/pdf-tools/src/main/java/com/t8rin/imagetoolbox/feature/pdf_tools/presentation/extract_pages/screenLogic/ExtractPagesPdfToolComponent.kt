@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -80,12 +81,9 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _pages: MutableState<List<Int>?> = mutableStateOf(null)
-    val pages by _pages
-
-    private val _presetSelected: MutableState<Preset.Percentage> =
-        mutableStateOf(Preset.Percentage(100))
-    val presetSelected by _presetSelected
+    private val _params: MutableState<PdfExtractPagesParams> =
+        mutableStateOf(PdfExtractPagesParams())
+    val params by _params
 
     private val _imageInfo = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
@@ -95,7 +93,7 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
             snapshotFlow { uri }
                 .distinctUntilChanged()
                 .collect {
-                    _pages.update { null }
+                    _params.update { it.copy(pages = null) }
                 }
         }
     }
@@ -115,11 +113,14 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
 
     fun updatePages(pages: List<Int>) {
         registerChanges()
-        _pages.update { pages }
+        _params.update {
+            it.copy(
+                pages = pages
+            )
+        }
     }
 
     fun selectPreset(preset: Preset.Percentage) {
-        _presetSelected.update { preset }
         preset.value()?.takeIf { it <= 100f }?.let { quality ->
             _imageInfo.update {
                 it.copy(
@@ -130,6 +131,11 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
                     }
                 )
             }
+        }
+        _params.update {
+            it.copy(
+                preset = preset
+            )
         }
         registerChanges()
     }
@@ -237,8 +243,7 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
 
         pdfManager.extractPages(
             uri = uri.toString(),
-            pages = pages,
-            preset = presetSelected
+            params = params
         ).onCompletion {
             onSuccess(results)
             registerSave()
@@ -252,7 +257,7 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
                     val bitmap = imageGetter.getImage(action.image) ?: return@collect
                     val imageInfo = imageTransformer.applyPresetBy(
                         image = bitmap,
-                        preset = _presetSelected.value,
+                        preset = params.preset,
                         currentInfo = imageInfo
                     ).copy(
                         originalUri = uri?.toString()

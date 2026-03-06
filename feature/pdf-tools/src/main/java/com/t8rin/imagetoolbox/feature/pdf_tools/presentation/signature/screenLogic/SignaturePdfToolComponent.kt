@@ -61,10 +61,6 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _signatureImage: MutableState<Any> =
-        mutableStateOf("file:///android_asset/svg/emotions/aasparkles.svg".toUri())
-    val signatureImage by _signatureImage
-
     private val _params: MutableState<PdfSignatureParams> =
         mutableStateOf(PdfSignatureParams())
     val params by _params
@@ -106,7 +102,11 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
         save: Boolean = false
     ) {
         registerChanges()
-        _signatureImage.update { data }
+        _params.update {
+            it.copy(
+                signatureImage = data
+            )
+        }
         if (save) {
             updateParams(params.copy(opacity = 1f))
             componentScope.launch {
@@ -123,7 +123,6 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
             action = {
                 val processed = pdfManager.addSignature(
                     uri = _uri.value.toString(),
-                    signatureImage = signatureImage,
                     params = params
                 )
 
@@ -160,7 +159,6 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.addSignature(
                             uri = _uri.value.toString(),
-                            signatureImage = signatureImage,
                             params = params
                         ).toUri()
                     )

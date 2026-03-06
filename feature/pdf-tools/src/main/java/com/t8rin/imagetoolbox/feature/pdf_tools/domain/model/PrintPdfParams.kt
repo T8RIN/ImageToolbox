@@ -21,7 +21,8 @@ data class PrintPdfParams(
     val orientation: PageOrientation = PageOrientation.ORIGINAL,
     val pageSize: PageSize = PageSize.Auto,
     val pagesPerSheet: Int = 1,
-    val marginPercent: Float = 0f
+    val marginPercent: Float = 0f,
+    val quality: Float = 0.85f,
 ) {
     val pageSizeFinal = if (pageSize == PageSize.Auto) {
         null

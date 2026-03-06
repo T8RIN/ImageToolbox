@@ -83,8 +83,7 @@ fun WatermarkPdfToolContent(
             WatermarkPreview(
                 uri = component.uri,
                 params = params,
-                pageCount = pagesCount,
-                watermarkText = component.watermarkText
+                pageCount = pagesCount
             )
         },
         placeImagePreview = true,
@@ -96,10 +95,12 @@ fun WatermarkPdfToolContent(
                         shape = MaterialTheme.shapes.large,
                         resultPadding = 8.dp
                     ),
-                value = component.watermarkText,
+                value = params.text,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 singleLine = false,
-                onValueChange = component::updateWatermarkText,
+                onValueChange = {
+                    component.updateParams(params.copy(text = it))
+                },
                 label = {
                     Text(stringResource(R.string.text))
                 }

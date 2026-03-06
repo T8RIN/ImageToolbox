@@ -42,13 +42,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
 
 @Composable
 internal fun PageNumbersPreview(
     uri: Uri?,
-    params: PageNumbersParams,
+    params: PdfPageNumbersParams,
     pageCount: Int
 ) {
     PageSwitcher(

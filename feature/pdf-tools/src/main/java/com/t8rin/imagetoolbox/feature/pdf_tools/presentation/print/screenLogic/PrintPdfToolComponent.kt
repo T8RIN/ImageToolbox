@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
@@ -60,9 +59,6 @@ class PrintPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _quality: MutableState<Float> = mutableFloatStateOf(0.85f)
-    val quality by _quality
-
     private val _params: MutableState<PrintPdfParams> =
         mutableStateOf(PrintPdfParams())
     val params by _params
@@ -82,11 +78,6 @@ class PrintPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
-    fun updateQuality(quality: Float) {
-        registerChanges()
-        _quality.update { quality }
-    }
-
     fun updateParams(params: PrintPdfParams) {
         registerChanges()
         _params.update { params }
@@ -100,7 +91,6 @@ class PrintPdfToolComponent @AssistedInject internal constructor(
             action = {
                 val processed = pdfManager.printPdf(
                     uri = _uri.value.toString(),
-                    quality = quality,
                     params = params
                 )
 
@@ -137,7 +127,6 @@ class PrintPdfToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.printPdf(
                             uri = _uri.value.toString(),
-                            quality = quality,
                             params = params
                         ).toUri()
                     )

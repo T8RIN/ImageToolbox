@@ -23,17 +23,16 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.geometry.Rect
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -62,18 +61,8 @@ class CropPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _pages: MutableState<List<Int>?> = mutableStateOf(null)
-    val pages by _pages
-
-    private val _cropRect: MutableState<Rect> = mutableStateOf(
-        Rect(
-            left = 0.1f,
-            right = 0.9f,
-            top = 0.1f,
-            bottom = 0.9f
-        )
-    )
-    val cropRect by _cropRect
+    private val _params: MutableState<PdfCropParams> = mutableStateOf(PdfCropParams())
+    val params by _params
 
     override fun getKey(): Pair<String, Uri?> = "cropped" to uri
 
@@ -82,20 +71,22 @@ class CropPdfToolComponent @AssistedInject internal constructor(
             snapshotFlow { uri }
                 .distinctUntilChanged()
                 .collect {
-                    _pages.update { null }
+                    _params.update { it.copy(pages = null) }
                 }
         }
     }
 
-    private val adjustedCropRect: Rect
-        get() = if (isRtl) {
-            cropRect.copy(
-                left = 1f - cropRect.left,
-                right = 1f - cropRect.right
-            )
-        } else {
-            cropRect
-        }
+    private val adjustedParams: PdfCropParams
+        get() = params.copy(
+            rect = if (isRtl) {
+                params.rect.copy(
+                    left = 1f - params.rect.left,
+                    right = 1f - params.rect.right
+                )
+            } else {
+                params.rect
+            }
+        )
 
     fun setUri(uri: Uri?) {
         if (uri == null) {
@@ -110,16 +101,9 @@ class CropPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
-    fun updatePages(pages: List<Int>) {
-        registerChanges()
-        _pages.update { pages }
+    fun updateParams(params: PdfCropParams) {
+        _params.update { params }
     }
-
-    fun updateCropRect(rect: Rect) {
-        registerChanges()
-        _cropRect.update { rect }
-    }
-
 
     override fun saveTo(
         uri: Uri,
@@ -129,8 +113,7 @@ class CropPdfToolComponent @AssistedInject internal constructor(
             action = {
                 val processed = pdfManager.cropPdf(
                     uri = _uri.value.toString(),
-                    pages = pages,
-                    rect = adjustedCropRect.toModel()
+                    params = adjustedParams
                 )
 
                 fileController.transferBytes(
@@ -166,8 +149,7 @@ class CropPdfToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.cropPdf(
                             uri = _uri.value.toString(),
-                            pages = pages,
-                            rect = adjustedCropRect.toModel()
+                            params = adjustedParams
                         ).toUri()
                     )
                 )

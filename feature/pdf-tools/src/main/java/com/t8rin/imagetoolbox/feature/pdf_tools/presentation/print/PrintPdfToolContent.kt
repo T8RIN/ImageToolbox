@@ -75,9 +75,11 @@ fun PrintPdfToolContent(
             }
             QualitySelector(
                 imageFormat = ImageFormat.Jpg,
-                quality = Quality.Base((component.quality * 100).roundToInt()),
+                quality = Quality.Base((params.quality * 100).roundToInt()),
                 onQualityChange = {
-                    component.updateQuality(it.qualityValue / 100f)
+                    component.updateParams(
+                        params.copy(quality = it.qualityValue / 100f)
+                    )
                 },
                 autoCoerce = false
             )

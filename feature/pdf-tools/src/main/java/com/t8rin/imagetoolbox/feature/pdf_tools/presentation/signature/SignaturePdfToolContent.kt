@@ -76,15 +76,14 @@ fun SignaturePdfToolContent(
             SignaturePreview(
                 uri = component.uri,
                 params = component.params,
-                pageCount = pagesCount,
-                signatureImage = component.signatureImage
+                pageCount = pagesCount
             )
         },
         placeImagePreview = true,
         showImagePreviewAsStickyHeader = true,
         controls = {
             ImageSelector(
-                value = component.signatureImage,
+                value = params.signatureImage,
                 onValueChange = component::updateSignature,
                 subtitle = stringResource(R.string.will_be_for_signature)
             )

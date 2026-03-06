@@ -31,7 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -59,7 +59,7 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _params: MutableState<PageNumbersParams> = mutableStateOf(PageNumbersParams())
+    private val _params: MutableState<PdfPageNumbersParams> = mutableStateOf(PdfPageNumbersParams())
     val params by _params
 
     override fun getKey(): Pair<String, Uri?> = "numbered" to uri
@@ -77,7 +77,7 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
-    fun updateParams(params: PageNumbersParams) {
+    fun updateParams(params: PdfPageNumbersParams) {
         registerChanges()
         _params.update { params }
     }

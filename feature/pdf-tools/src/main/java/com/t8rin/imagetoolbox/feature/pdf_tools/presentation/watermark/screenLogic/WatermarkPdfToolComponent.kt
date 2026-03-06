@@ -63,10 +63,6 @@ class WatermarkPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _watermarkText: MutableState<String> =
-        mutableStateOf("Watermark")
-    val watermarkText by _watermarkText
-
     private val _params: MutableState<PdfWatermarkParams> =
         mutableStateOf(PdfWatermarkParams(color = Color.Gray.toArgb()))
     val params by _params
@@ -96,11 +92,6 @@ class WatermarkPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
-    fun updateWatermarkText(text: String) {
-        registerChanges()
-        _watermarkText.update { text }
-    }
-
     fun updateParams(params: PdfWatermarkParams) {
         registerChanges()
         _params.update { params }
@@ -114,7 +105,6 @@ class WatermarkPdfToolComponent @AssistedInject internal constructor(
             action = {
                 val processed = pdfManager.addWatermark(
                     uri = _uri.value.toString(),
-                    watermarkText = watermarkText,
                     params = params
                 )
 
@@ -151,7 +141,6 @@ class WatermarkPdfToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.addWatermark(
                             uri = _uri.value.toString(),
-                            watermarkText = watermarkText,
                             params = params
                         ).toUri()
                     )

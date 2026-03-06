@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.coil.PdfImageRequest
+import com.t8rin.imagetoolbox.core.domain.model.RectModel
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.Black
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
@@ -64,17 +65,17 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
 
 @Composable
 internal fun CropPreview(
     uri: Uri?,
-    cropRect: Rect,
-    activePages: List<Int>?,
+    params: PdfCropParams,
     pageCount: Int
 ) {
     PageSwitcher(
-        activePages = activePages,
+        activePages = params.pages,
         pageCount = pageCount
     ) { page ->
         Box(
@@ -110,10 +111,17 @@ internal fun CropPreview(
                     shape = RectangleShape
                 )
 
-                if (activePages == null || page in activePages) {
+                if (params.pages == null || page in params.pages) {
                     CropFrameBorder(
                         modifier = Modifier.matchParentSize(),
-                        cropRect = cropRect
+                        cropRect = remember(params.rect) {
+                            Rect(
+                                left = params.rect.left,
+                                top = params.rect.top,
+                                right = params.rect.right,
+                                bottom = params.rect.bottom
+                            )
+                        }
                     )
                 }
             }
@@ -215,14 +223,16 @@ private fun Preview() = ImageToolboxThemeForPreview(false) {
     LocalLayoutDirection.ProvidesValue(LayoutDirection.Ltr) {
         CropPreview(
             uri = "111".toUri(),
-            cropRect = Rect(
-                left = 0.4f,
-                top = 0.4f,
-                right = 0.9f,
-                bottom = 0.9f
-            ),
             pageCount = 100,
-            activePages = null
+            params = PdfCropParams(
+                rect = RectModel(
+                    left = 0.4f,
+                    top = 0.4f,
+                    right = 0.9f,
+                    bottom = 0.9f
+                ),
+                pages = null
+            ),
         )
     }
 }

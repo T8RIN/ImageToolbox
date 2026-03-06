@@ -78,7 +78,8 @@ fun ExtractPagesPdfToolContent(
     component: ExtractPagesPdfToolComponent
 ) {
     val pagesCount by rememberPdfPages(component.uri)
-    val selectedPagesSize = component.pages?.size ?: 0
+    val params = component.params
+    val selectedPagesSize = params.pages?.size ?: 0
     val isPortrait by isPortraitOrientationAsState()
 
     val essentials = rememberLocalEssentials()
@@ -163,7 +164,7 @@ fun ExtractPagesPdfToolContent(
                 }
             }
         },
-        canSave = !component.pages.isNullOrEmpty(),
+        canSave = !params.pages.isNullOrEmpty(),
         imagePreview = {
             key(trigger, pagesCount, component.uri) {
                 ImagesPreviewWithSelection(
@@ -175,9 +176,9 @@ fun ExtractPagesPdfToolContent(
                             )
                         }
                     },
-                    imageFrames = remember(component.pages) {
+                    imageFrames = remember(params.pages) {
                         ImageFrames.ManualSelection(
-                            component.pages.orEmpty().map { it + 1 }
+                            params.pages.orEmpty().map { it + 1 }
                         )
                     },
                     onFrameSelectionChange = { frames ->
@@ -203,7 +204,7 @@ fun ExtractPagesPdfToolContent(
             }
 
             PageSelectionItem(
-                value = component.pages,
+                value = params.pages,
                 onValueChange = {
                     component.updatePages(it)
                     trigger++
@@ -213,7 +214,7 @@ fun ExtractPagesPdfToolContent(
 
             Spacer(Modifier.height(8.dp))
             PresetSelector(
-                value = component.presetSelected,
+                value = params.preset,
                 includeTelegramOption = false,
                 onValueChange = {
                     if (it is Preset.Percentage) {

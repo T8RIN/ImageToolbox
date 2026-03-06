@@ -53,8 +53,7 @@ import kotlin.math.roundToInt
 internal fun SignaturePreview(
     uri: Uri?,
     params: PdfSignatureParams,
-    pageCount: Int,
-    signatureImage: Any
+    pageCount: Int
 ) {
     PageSwitcher(
         activePages = params.pages,
@@ -113,7 +112,7 @@ internal fun SignaturePreview(
                         offsetYPx = offsetYPx.coerceIn(0f, boxHeightPx - targetHeightPx)
 
                         AsyncImage(
-                            model = signatureImage,
+                            model = params.signatureImage,
                             contentDescription = null,
                             modifier = Modifier
                                 .offset {

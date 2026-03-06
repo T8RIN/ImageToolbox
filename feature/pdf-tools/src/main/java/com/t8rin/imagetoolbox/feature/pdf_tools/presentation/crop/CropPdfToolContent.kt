@@ -44,10 +44,15 @@ fun CropPdfToolContent(
     component: CropPdfToolComponent
 ) {
     val pageCount by rememberPdfPages(component.uri)
+    val params = component.params
 
-    LaunchedEffect(pageCount, component.pages) {
-        if (component.pages == null && pageCount > 0) {
-            component.updatePages(List(pageCount) { it })
+    LaunchedEffect(pageCount, params.pages) {
+        if (params.pages == null && pageCount > 0) {
+            component.updateParams(
+                params.copy(
+                    pages = List(pageCount) { it }
+                )
+            )
         }
     }
 
@@ -58,14 +63,13 @@ fun CropPdfToolContent(
             onSuccess = component::setUri
         ),
         isPickedAlready = component.initialUri != null,
-        canSave = !component.cropRect.isEmpty,
+        canSave = !params.rect.isEmpty,
         canShowScreenData = component.uri != null,
         title = stringResource(R.string.crop_pdf),
         imagePreview = {
             CropPreview(
                 uri = component.uri,
-                cropRect = component.cropRect,
-                activePages = component.pages,
+                params = params,
                 pageCount = pageCount
             )
         },
@@ -73,15 +77,17 @@ fun CropPdfToolContent(
         showImagePreviewAsStickyHeader = true,
         controls = {
             PageSelectionItem(
-                value = component.pages,
-                onValueChange = component::updatePages,
+                value = params.pages,
+                onValueChange = {
+                    component.updateParams(params.copy(pages = it))
+                },
                 pageCount = pageCount
             )
 
             Spacer(Modifier.height(16.dp))
 
             EnhancedRangeSliderItem(
-                value = component.cropRect.let { it.left..it.right },
+                value = params.rect.let { it.left..it.right },
                 valueRange = 0f..1f,
                 icon = Icons.Rounded.BorderVertical,
                 title = stringResource(R.string.vertical_pivot_line),
@@ -89,17 +95,19 @@ fun CropPdfToolContent(
                     it.start.roundTo(3)..it.endInclusive.roundTo(3)
                 },
                 onValueChange = {
-                    component.updateCropRect(
-                        component.cropRect.copy(
-                            left = it.start,
-                            right = it.endInclusive
+                    component.updateParams(
+                        params.copy(
+                            rect = params.rect.copy(
+                                left = it.start,
+                                right = it.endInclusive
+                            )
                         )
                     )
                 }
             )
             Spacer(Modifier.height(8.dp))
             EnhancedRangeSliderItem(
-                value = component.cropRect.let { it.top..it.bottom },
+                value = params.rect.let { it.top..it.bottom },
                 valueRange = 0f..1f,
                 icon = Icons.Rounded.BorderHorizontal,
                 title = stringResource(R.string.horizontal_pivot_line),
@@ -107,10 +115,12 @@ fun CropPdfToolContent(
                     it.start.roundTo(3)..it.endInclusive.roundTo(3)
                 },
                 onValueChange = {
-                    component.updateCropRect(
-                        component.cropRect.copy(
-                            top = it.start,
-                            bottom = it.endInclusive
+                    component.updateParams(
+                        params.copy(
+                            rect = params.rect.copy(
+                                top = it.start,
+                                bottom = it.endInclusive
+                            )
                         )
                     )
                 }

@@ -49,8 +49,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
 internal fun WatermarkPreview(
     uri: Uri?,
     params: PdfWatermarkParams,
-    pageCount: Int,
-    watermarkText: String
+    pageCount: Int
 ) {
     PageSwitcher(
         activePages = params.pages,
@@ -101,7 +100,7 @@ internal fun WatermarkPreview(
 
                         AutoSizeText(
                             key = { maxWidth },
-                            text = watermarkText,
+                            text = params.text,
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .graphicsLayer {
