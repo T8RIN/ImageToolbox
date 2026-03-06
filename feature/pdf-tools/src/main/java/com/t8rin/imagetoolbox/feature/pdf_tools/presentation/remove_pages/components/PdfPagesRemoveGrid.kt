@@ -96,7 +96,8 @@ internal fun PdfPagesRemoveGrid(
     pagesToDelete: List<Int>,
     onClickPage: (Int) -> Unit,
     title: String = stringResource(R.string.pages_selection),
-    coerceHeight: Boolean = true
+    coerceHeight: Boolean = true,
+    pagesCount: Int
 ) {
     var showPageSelector by rememberSaveable {
         mutableStateOf(false)
@@ -310,7 +311,8 @@ internal fun PdfPagesRemoveGrid(
         visible = showPageSelector,
         onDismiss = { showPageSelector = false },
         value = pagesToDelete,
-        onValueChange = onUpdatePages
+        onValueChange = onUpdatePages,
+        pagesCount = pagesCount
     )
 }
 
@@ -343,7 +345,8 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
                 },
                 onUpdatePages = {
                     rotations = it
-                }
+                },
+                pagesCount = 100
             )
         }
 

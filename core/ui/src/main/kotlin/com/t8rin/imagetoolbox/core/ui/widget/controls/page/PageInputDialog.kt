@@ -37,7 +37,8 @@ fun PageInputDialog(
     visible: Boolean,
     onDismiss: () -> Unit,
     value: List<Int>?,
-    onValueChange: (List<Int>) -> Unit
+    onValueChange: (List<Int>) -> Unit,
+    pagesCount: Int
 ) {
     var pages by rememberSaveable(visible) {
         mutableStateOf(value ?: emptyList())
@@ -71,7 +72,7 @@ fun PageInputDialog(
         confirmButton = {
             EnhancedButton(
                 onClick = {
-                    onValueChange(pages)
+                    onValueChange(pages.filter { it < pagesCount })
                     onDismiss()
                 }
             ) {

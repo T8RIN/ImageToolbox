@@ -65,7 +65,9 @@ fun CropPdfToolContent(
         imagePreview = {
             CropPreview(
                 uri = component.uri,
-                cropRect = component.cropRect
+                cropRect = component.cropRect,
+                activePages = component.pages,
+                pageCount = pageCount
             )
         },
         placeImagePreview = true,
@@ -74,7 +76,7 @@ fun CropPdfToolContent(
             PageSelectionItem(
                 value = component.pages,
                 onValueChange = component::updatePages,
-                pagesCount = pageCount
+                pageCount = pageCount
             )
 
             Spacer(Modifier.height(16.dp))

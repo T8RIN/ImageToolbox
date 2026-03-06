@@ -17,52 +17,30 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toDp
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toPx
 import com.t8rin.imagetoolbox.core.ui.widget.controls.page.PageSelectionItem
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.components.SignaturePreview
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.components.SignatureSelector
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
-import kotlin.math.roundToInt
 
 @Composable
 fun SignaturePdfToolContent(
@@ -95,77 +73,12 @@ fun SignaturePdfToolContent(
         title = stringResource(R.string.signature),
         actions = {},
         imagePreview = {
-            Box(
-                modifier = Modifier
-                    .container()
-                    .padding(4.dp)
-                    .animateContentSizeNoClip(alignment = Alignment.Center),
-                contentAlignment = Alignment.Center
-            ) {
-                var aspectRatio by rememberSaveable {
-                    mutableFloatStateOf(1f)
-                }
-
-                Box(
-                    modifier = Modifier.aspectRatio(aspectRatio)
-                ) {
-                    Picture(
-                        model = component.uri,
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier.matchParentSize(),
-                        onSuccess = {
-                            aspectRatio = it.result.image.safeAspectRatio
-                        },
-                        shape = MaterialTheme.shapes.medium,
-                        isLoadingFromDifferentPlace = component.isImageLoading
-                    )
-
-                    BoxWithConstraints(
-                        modifier = Modifier.matchParentSize()
-                    ) {
-
-                        var imageAspect by remember {
-                            mutableFloatStateOf(1f)
-                        }
-
-                        val boxWidthPx = maxWidth.toPx()
-                        val boxHeightPx = maxHeight.toPx()
-
-                        val targetWidthPx = boxWidthPx * params.size
-                        val targetHeightPx = targetWidthPx / imageAspect
-
-                        val centerXPx = boxWidthPx * params.x
-                        val centerYPx = boxHeightPx * params.y
-
-                        var offsetXPx = centerXPx - targetWidthPx / 2f
-                        var offsetYPx = centerYPx - targetHeightPx / 2f
-
-                        offsetXPx = offsetXPx.coerceIn(0f, boxWidthPx - targetWidthPx)
-                        offsetYPx = offsetYPx.coerceIn(0f, boxHeightPx - targetHeightPx)
-
-                        AsyncImage(
-                            model = component.signatureImage,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .offset {
-                                    IntOffset(
-                                        x = offsetXPx.roundToInt(),
-                                        y = (boxHeightPx - offsetYPx - targetHeightPx).roundToInt()
-                                    )
-                                }
-                                .width(targetWidthPx.toDp())
-                                .aspectRatio(imageAspect)
-                                .graphicsLayer {
-                                    alpha = params.opacity
-                                },
-                            contentScale = ContentScale.Fit,
-                            onSuccess = {
-                                imageAspect = it.result.image.safeAspectRatio
-                            }
-                        )
-                    }
-                }
-            }
+            SignaturePreview(
+                uri = component.uri,
+                params = component.params,
+                pageCount = pagesCount,
+                signatureImage = component.signatureImage
+            )
         },
         placeImagePreview = true,
         showImagePreviewAsStickyHeader = true,
@@ -181,7 +94,7 @@ fun SignaturePdfToolContent(
                 onValueChange = {
                     component.updateParams(params.copy(pages = it))
                 },
-                pagesCount = pagesCount
+                pageCount = pagesCount
             )
             Spacer(Modifier.height(8.dp))
             SignatureSelector(

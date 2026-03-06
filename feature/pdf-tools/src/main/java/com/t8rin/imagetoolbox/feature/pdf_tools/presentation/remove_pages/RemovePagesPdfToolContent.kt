@@ -84,7 +84,8 @@ fun RemovePagesPdfToolContent(
                         component.pagesToDelete.toggle(it)
                     )
                 },
-                onUpdatePages = component::updatePages
+                onUpdatePages = component::updatePages,
+                pagesCount = pagesCount
             )
         },
         onFilledPassword = {

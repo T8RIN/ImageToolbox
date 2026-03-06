@@ -54,6 +54,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.data.coil.PdfImageRequest
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.Black
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
@@ -63,44 +64,59 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
 
 @Composable
 internal fun CropPreview(
     uri: Uri?,
-    cropRect: Rect
+    cropRect: Rect,
+    activePages: List<Int>?,
+    pageCount: Int
 ) {
-    Box(
-        modifier = Modifier
-            .container()
-            .padding(4.dp)
-            .animateContentSizeNoClip(
-                alignment = Alignment.Center
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        var aspectRatio by rememberSaveable {
-            mutableFloatStateOf(1f)
-        }
-
+    PageSwitcher(
+        activePages = activePages,
+        pageCount = pageCount
+    ) { page ->
         Box(
             modifier = Modifier
-                .aspectRatio(aspectRatio)
-                .clip(MaterialTheme.shapes.small)
+                .container()
+                .padding(4.dp)
+                .animateContentSizeNoClip(
+                    alignment = Alignment.Center
+                ),
+            contentAlignment = Alignment.Center
         ) {
-            Picture(
-                model = uri,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.matchParentSize(),
-                onSuccess = {
-                    aspectRatio = it.result.image.safeAspectRatio
-                },
-                shape = RectangleShape
-            )
+            var aspectRatio by rememberSaveable {
+                mutableFloatStateOf(1f)
+            }
 
-            CropFrameBorder(
-                modifier = Modifier.matchParentSize(),
-                cropRect = cropRect
-            )
+            Box(
+                modifier = Modifier
+                    .aspectRatio(aspectRatio)
+                    .clip(MaterialTheme.shapes.small)
+            ) {
+                Picture(
+                    model = remember(uri, page) {
+                        PdfImageRequest(
+                            data = uri,
+                            pdfPage = page
+                        )
+                    },
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier.matchParentSize(),
+                    onSuccess = {
+                        aspectRatio = it.result.image.safeAspectRatio
+                    },
+                    shape = RectangleShape
+                )
+
+                if (activePages == null || page in activePages) {
+                    CropFrameBorder(
+                        modifier = Modifier.matchParentSize(),
+                        cropRect = cropRect
+                    )
+                }
+            }
         }
     }
 }
@@ -198,13 +214,15 @@ private fun CropFrameBorder(
 private fun Preview() = ImageToolboxThemeForPreview(false) {
     LocalLayoutDirection.ProvidesValue(LayoutDirection.Ltr) {
         CropPreview(
-            "111".toUri(),
-            Rect(
+            uri = "111".toUri(),
+            cropRect = Rect(
                 left = 0.4f,
                 top = 0.4f,
                 right = 0.9f,
                 bottom = 0.9f
-            )
+            ),
+            pageCount = 100,
+            activePages = null
         )
     }
 }

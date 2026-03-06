@@ -210,7 +210,7 @@ fun ExtractPagesPdfToolContent(
                     component.updatePages(it)
                     trigger++
                 },
-                pagesCount = pagesCount
+                pageCount = pagesCount
             )
 
             Spacer(Modifier.height(8.dp))

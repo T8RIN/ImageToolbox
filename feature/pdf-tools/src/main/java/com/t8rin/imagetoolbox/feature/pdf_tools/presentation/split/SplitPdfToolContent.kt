@@ -189,7 +189,7 @@ fun SplitPdfToolContent(
                     component.updatePages(it)
                     trigger++
                 },
-                pagesCount = pagesCount
+                pageCount = pagesCount
             )
         },
         onFilledPassword = {
