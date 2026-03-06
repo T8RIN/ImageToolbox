@@ -45,7 +45,7 @@ import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
-import com.t8rin.imagetoolbox.core.resources.icons.Theme
+import com.t8rin.imagetoolbox.core.resources.icons.PaletteBox
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
@@ -79,7 +79,7 @@ fun ColorSchemeSettingItem(
         enabled = enabled,
         shape = shape,
         title = stringResource(R.string.color_scheme),
-        startIcon = Icons.Outlined.Theme,
+        startIcon = Icons.Outlined.PaletteBox,
         subtitle = stringResource(R.string.pick_accent_color),
         onClick = {
             showPickColorSheet = true

@@ -73,7 +73,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.nearestFor
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
-import com.t8rin.imagetoolbox.core.resources.icons.Theme
+import com.t8rin.imagetoolbox.core.resources.icons.PaletteBox
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.settings.presentation.model.defaultColorTuple
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -128,7 +128,7 @@ fun AvailableColorTuplesSheet(
                 ) {
                     TitleItem(
                         text = stringResource(R.string.color_scheme),
-                        icon = Icons.Outlined.Theme
+                        icon = Icons.Outlined.PaletteBox
                     )
                 }
             }
