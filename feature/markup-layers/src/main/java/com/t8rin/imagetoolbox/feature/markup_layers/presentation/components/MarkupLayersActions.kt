@@ -40,7 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
-import com.t8rin.imagetoolbox.core.resources.icons.Stacks
+import com.t8rin.imagetoolbox.core.resources.icons.Layers
 import com.t8rin.imagetoolbox.core.resources.icons.StickerEmoji
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -95,7 +95,7 @@ internal fun MarkupLayersActions(
             enabled = component.layers.isNotEmpty()
         ) {
             Icon(
-                imageVector = Icons.Rounded.Stacks,
+                imageVector = Icons.Rounded.Layers,
                 contentDescription = null
             )
         }

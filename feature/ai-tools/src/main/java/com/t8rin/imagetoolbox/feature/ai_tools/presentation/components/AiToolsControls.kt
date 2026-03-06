@@ -40,7 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Exercise
-import com.t8rin.imagetoolbox.core.resources.icons.Stack
+import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.OnlyAllowedSliderItem
@@ -130,7 +130,7 @@ internal fun AiToolsControls(component: AiToolsComponent) {
             Spacer(Modifier.height(8.dp))
             OnlyAllowedSliderItem(
                 label = stringResource(R.string.overlap_size),
-                icon = Icons.Outlined.Stack,
+                icon = Icons.Outlined.Stacks,
                 value = component.params.overlap,
                 allowed = overlapPowers,
                 maxAllowed = component.params.chunkSize,

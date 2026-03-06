@@ -88,7 +88,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ScissorsSmall
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.ShieldLock
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
-import com.t8rin.imagetoolbox.core.resources.icons.Stack
+import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.Stylus
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TagText
@@ -280,7 +280,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is WebpTools -> Icons.Outlined.WebpBox
     is NoiseGeneration -> Icons.Outlined.NoiseAlt
     is CollageMaker -> Icons.Outlined.Collage
-    is MarkupLayers -> Icons.Outlined.Stack
+    is MarkupLayers -> Icons.Outlined.Stacks
     is Base64Tools -> Icons.Outlined.Base64
     is ChecksumTools -> Icons.Rounded.Tag
     is EditExif -> Icons.Outlined.ExifEdit
@@ -357,7 +357,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is WebpTools -> Icons.TwoTone.WebpBox
     is NoiseGeneration -> Icons.Outlined.NoiseAlt
     is CollageMaker -> Icons.TwoTone.Collage
-    is MarkupLayers -> Icons.TwoTone.Stack
+    is MarkupLayers -> Icons.TwoTone.Stacks
     is Base64Tools -> Icons.TwoTone.Base64
     is ChecksumTools -> Icons.TwoTone.Tag
     is EditExif -> Icons.TwoTone.ExifEdit
