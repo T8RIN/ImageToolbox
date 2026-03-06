@@ -22,7 +22,6 @@ package com.t8rin.imagetoolbox.core.ui.utils.navigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
-import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Gif
@@ -32,6 +31,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
+import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
@@ -613,7 +613,7 @@ sealed class Screen(
 
             val icon: ImageVector
                 get() = when (this) {
-                    is GifToImage -> Icons.Outlined.Collections
+                    is GifToImage -> Icons.Outlined.ArtTrack
                     is GifToJxl -> Icons.Filled.Jxl
                     is ImageToGif -> Icons.Rounded.Gif
                     is GifToWebp -> Icons.Rounded.Webp
@@ -680,7 +680,7 @@ sealed class Screen(
 
             val icon: ImageVector
                 get() = when (this) {
-                    is ApngToImage -> Icons.Outlined.Collections
+                    is ApngToImage -> Icons.Outlined.ArtTrack
                     is ApngToJxl -> Icons.Filled.Jxl
                     is ImageToApng -> Icons.Rounded.Apng
                 }
@@ -748,7 +748,7 @@ sealed class Screen(
                 get() = when (this) {
                     is ImageToJxl -> Icons.Rounded.Animation
                     is JpegToJxl -> Icons.Filled.Jxl
-                    is JxlToImage -> Icons.Outlined.Collections
+                    is JxlToImage -> Icons.Outlined.ArtTrack
                     is JxlToJpeg -> Icons.Outlined.Jpg
                 }
 
@@ -873,7 +873,7 @@ sealed class Screen(
 
             val icon: ImageVector
                 get() = when (this) {
-                    is WebpToImage -> Icons.Outlined.Collections
+                    is WebpToImage -> Icons.Outlined.ArtTrack
                     is ImageToWebp -> Icons.Rounded.Webp
                 }
 
