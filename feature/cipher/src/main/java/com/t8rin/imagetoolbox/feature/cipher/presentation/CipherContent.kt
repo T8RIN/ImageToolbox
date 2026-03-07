@@ -22,11 +22,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileOpen
+import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,8 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.ShieldKey
-import com.t8rin.imagetoolbox.core.resources.icons.ShieldOpen
+import com.t8rin.imagetoolbox.core.resources.icons.KeyVertical
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -132,7 +130,7 @@ fun CipherContent(
         onGoBack = onBack,
         shouldDisableBackHandler = canGoBack,
         topAppBarPersistentActions = {
-            if (!isPortrait || component.uri == null) TopAppBarEmoji()
+            TopAppBarEmoji()
         },
         actions = {},
         buttons = {
@@ -153,9 +151,9 @@ fun CipherContent(
                     }
                 },
                 primaryButtonIcon = if (component.isEncrypt) {
-                    Icons.Rounded.ShieldKey
+                    Icons.Rounded.Lock
                 } else {
-                    Icons.Rounded.ShieldOpen
+                    Icons.Rounded.KeyVertical
                 },
                 primaryButtonText = if (isPortrait) {
                     if (component.isEncrypt) {
@@ -165,12 +163,7 @@ fun CipherContent(
                     }
                 } else "",
                 isPrimaryButtonEnabled = key.isNotEmpty(),
-                actions = {
-                    if (isPortrait) {
-                        Spacer(Modifier.width(12.dp))
-                        TopAppBarEmoji()
-                    }
-                }
+                actions = {}
             )
         },
         canShowScreenData = component.uri != null,
