@@ -1344,7 +1344,7 @@
     <string name="links">Ссылки</string>
     <string name="links_preview_sub">Позволяет предварительно просматривать ссылки в местах, где можно получить текст (QR-код, OCR и т. д.)</string>
     <string name="ico_size_warning">Файлы Ico можно сохранять только с максимальным размером 256*256, большие значения будут принудительно уменьшены в конечном изображении</string>
-    <string name="webp_type_to_image">WEBP для изображений</string>
+    <string name="webp_type_to_image">WEBP в изображения</string>
     <string name="webp_type_to_image_sub">Конвертировать файл WEBP в пакет изображений</string>
     <string name="webp_type_to_webp_sub">Конвертировать пакет изображений в файл WEBP</string>
     <string name="webp_type_to_webp">Изображения в WEBP</string>
