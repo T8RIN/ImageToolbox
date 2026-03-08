@@ -2184,6 +2184,4 @@
     <string name="bloom">咲く</string>
     <string name="soft_knee">ソフトニー</string>
     <string name="model_realesr_animevideo_v3x4">アニメや漫画向けに最適化されています。改善された自然な色と少ないアーティファクトによる高速アップスケーリング</string>
-    <string name="one_ui">1つのUI</string>
-    <string name="one_ui_sub">Samsung One UI 7のようなスイッチスタイル</string>
 </resources>
