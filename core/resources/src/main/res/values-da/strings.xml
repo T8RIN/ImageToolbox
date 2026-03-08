@@ -2185,4 +2185,5 @@
     <string name="bloom">Bloom</string>
     <string name="soft_knee">Blødt knæ</string>
     <string name="model_realesr_animevideo_v3x4">Optimeret til anime og tegnefilm. Hurtig opskalering med forbedrede naturlige farver og færre artefakter</string>
+    <string name="one_ui_sub">Samsung One UI 7-lignende stil</string>
 </resources>
