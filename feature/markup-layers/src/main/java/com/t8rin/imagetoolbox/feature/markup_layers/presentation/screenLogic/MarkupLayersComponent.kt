@@ -445,4 +445,4 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 }
 
 @Suppress("MayBeConstant", "RedundantSuppression")
-private val useOldLayers = true//!BuildConfig.DEBUG
+private val useOldLayers = false//!BuildConfig.DEBUG

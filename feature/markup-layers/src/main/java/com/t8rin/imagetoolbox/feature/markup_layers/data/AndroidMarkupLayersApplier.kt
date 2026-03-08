@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,39 +17,27 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.data
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import androidx.core.graphics.applyCanvas
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.LayersRenderer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class AndroidMarkupLayersApplier @Inject constructor(
-    @ApplicationContext private val context: Context,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
+    private val renderer: LayersRenderer,
 ) : MarkupLayersApplier<Bitmap>, DispatchersHolder by dispatchersHolder {
 
     override suspend fun applyToImage(
         image: Bitmap,
         layers: List<MarkupLayer>
-    ): Bitmap = image.copy(Bitmap.Config.ARGB_8888, true).applyCanvas {
-        layers.forEach { layer ->
-            drawLayer(layer)
-        }
-    }
-
-    private suspend fun Canvas.drawLayer(layer: MarkupLayer) {
-//        val (type, initialPosition) = layer
-//
-//        val canvasSize = IntegerSize(
-//            width = width,
-//            height = height
-//        )
-//
-//        val position = initialPosition.adjustByCanvasSize(canvasSize)
+    ): Bitmap = withContext(defaultDispatcher) {
+        renderer.render(
+            backgroundImage = image,
+            layers = layers,
+        )
     }
 
 }
