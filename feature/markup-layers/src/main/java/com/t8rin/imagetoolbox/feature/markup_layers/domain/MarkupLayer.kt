@@ -33,7 +33,9 @@ data class LayerPosition(
     val offsetY: Float = 0f,
     val alpha: Float = 1f,
     val currentCanvasSize: IntegerSize,
-    val coerceToBounds: Boolean
+    val coerceToBounds: Boolean,
+    val isActive: Boolean = false, // Added
+    val isVisible: Boolean = true  // Added
 ) {
     companion object {
         fun LayerPosition.adjustByCanvasSize(
