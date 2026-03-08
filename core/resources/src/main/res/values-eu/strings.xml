@@ -2185,4 +2185,6 @@
     <string name="bloom">Loraldia</string>
     <string name="soft_knee">Belauna biguna</string>
     <string name="model_realesr_animevideo_v3x4">Anime eta marrazki bizidunetarako optimizatua. Azkar igotzea kolore natural hobetuekin eta artefaktu gutxiagorekin</string>
+    <string name="one_ui">UI bat</string>
+    <string name="one_ui_sub">Samsung One UI 7 etengailuaren estiloa bezalakoa da</string>
 </resources>

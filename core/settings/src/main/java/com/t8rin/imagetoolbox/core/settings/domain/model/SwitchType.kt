@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ sealed class SwitchType(val ordinal: Int) {
     data object Cupertino : SwitchType(4)
     data object LiquidGlass : SwitchType(5)
     data object HyperOS : SwitchType(6)
+    data object OneUI : SwitchType(7)
 
     companion object {
         fun fromInt(ordinal: Int) = when (ordinal) {
@@ -35,12 +36,13 @@ sealed class SwitchType(val ordinal: Int) {
             4 -> Cupertino
             5 -> LiquidGlass
             6 -> HyperOS
+            7 -> OneUI
             else -> MaterialYou
         }
 
         val entries by lazy {
             listOf(
-                MaterialYou, Compose, Pixel, Fluent, Cupertino, LiquidGlass, HyperOS
+                MaterialYou, Compose, Pixel, Fluent, Cupertino, LiquidGlass, HyperOS, OneUI
             )
         }
     }

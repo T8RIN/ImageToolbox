@@ -2186,4 +2186,6 @@
     <string name="bloom">Блоом</string>
     <string name="soft_knee">Софт Кнее</string>
     <string name="model_realesr_animevideo_v3x4">Оптимизовано за аниме и цртане филмове. Брзо повећање са побољшаним природним бојама и мање артефаката</string>
+    <string name="one_ui">Једно корисничко сучеље</string>
+    <string name="one_ui_sub">Самсунг Оне УИ 7 као стил прекидача</string>
 </resources>

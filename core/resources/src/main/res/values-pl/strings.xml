@@ -2187,4 +2187,6 @@
     <string name="bloom">Kwiat</string>
     <string name="soft_knee">Miękkie kolano</string>
     <string name="model_realesr_animevideo_v3x4">Zoptymalizowany pod kątem anime i kreskówek. Szybkie skalowanie z ulepszonymi naturalnymi kolorami i mniejszą liczbą artefaktów</string>
+    <string name="one_ui">Jeden interfejs</string>
+    <string name="one_ui_sub">Samsung One UI 7 przypomina styl przełącznika</string>
 </resources>

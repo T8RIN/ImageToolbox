@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import coil3.request.ImageRequest
 import coil3.request.transformations
 import coil3.size.Size
 import coil3.toBitmap
-import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
@@ -37,11 +36,11 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.sizeTo
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.abs
-import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 
@@ -102,16 +101,14 @@ internal class AndroidImageTransformer @Inject constructor(
     ): ImageInfo = withContext(defaultDispatcher) {
         if (image == null || preset is Preset.None) return@withContext currentInfo
 
-        val size = currentInfo.originalUri?.let { uri ->
+        val size = currentInfo.originalUri.makeLog("applyPresetBy originalUri")?.let { uri ->
             imageLoader.execute(
                 ImageRequest.Builder(context)
                     .data(uri)
                     .size(Size.ORIGINAL)
                     .build()
-            ).image?.takeIf {
-                (it.aspectRatio - image.aspectRatio).absoluteValue <= 0.001
-            }?.run { width sizeTo height }
-        } ?: IntegerSize(image.width, image.height)
+            ).image?.run { width sizeTo height }.makeLog("applyPresetBy using orig size")
+        } ?: IntegerSize(image.width, image.height).makeLog("applyPresetBy using image size")
 
         val rotated = abs(currentInfo.rotationDegrees) % 180 != 0f
         fun calcWidth() = if (rotated) size.height else size.width

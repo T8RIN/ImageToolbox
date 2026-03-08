@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterLayout
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Compare
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -127,7 +127,7 @@ fun CompareSheet(
                     ) {
                         TitleItem(
                             text = stringResource(R.string.compare),
-                            icon = Icons.Rounded.Compare
+                            icon = Icons.Outlined.Compare
                         )
                         Spacer(Modifier.weight(1f))
                         EnhancedButton(
@@ -206,7 +206,7 @@ fun CompareSheet(
                 ) {
                     TitleItem(
                         text = stringResource(R.string.compare),
-                        icon = Icons.Rounded.Compare
+                        icon = Icons.Outlined.Compare
                     )
                     Spacer(Modifier.weight(1f))
                     EnhancedButton(

@@ -2185,4 +2185,6 @@
     <string name="bloom">Bloom</string>
     <string name="soft_knee">Malambot na Tuhod</string>
     <string name="model_realesr_animevideo_v3x4">Na-optimize para sa anime at cartoons. Mabilis na pag-upscale gamit ang pinahusay na natural na mga kulay at mas kaunting artifact</string>
+    <string name="one_ui">Isang UI</string>
+    <string name="one_ui_sub">Samsung One UI 7 tulad ng switch style</string>
 </resources>
