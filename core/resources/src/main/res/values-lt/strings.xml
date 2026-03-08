@@ -2188,6 +2188,5 @@
     <string name="bloom">Bloom</string>
     <string name="soft_knee">Minkštas kelias</string>
     <string name="model_realesr_animevideo_v3x4">Optimizuotas anime ir animaciniams filmams. Greitas mastelio padidinimas su patobulintomis natūraliomis spalvomis ir mažiau artefaktų</string>
-    <string name="one_ui">Viena vartotojo sąsaja</string>
-    <string name="one_ui_sub">„Samsung One UI 7“ panašus į jungiklio stilių</string>
+    <string name="one_ui_sub">„Samsung One UI 7“ panašus stilius</string>
 </resources>

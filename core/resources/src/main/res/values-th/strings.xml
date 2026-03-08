@@ -2184,6 +2184,5 @@
     <string name="bloom">บลูม</string>
     <string name="soft_knee">เข่าอ่อน</string>
     <string name="model_realesr_animevideo_v3x4">ปรับให้เหมาะสมสำหรับอะนิเมะและการ์ตูน การลดขนาดอย่างรวดเร็วด้วยสีที่เป็นธรรมชาติที่ได้รับการปรับปรุงและส่วนแปลกปลอมน้อยลง</string>
-    <string name="one_ui">หนึ่ง UI</string>
-    <string name="one_ui_sub">Samsung One UI 7 ชอบสไตล์สวิตช์</string>
+    <string name="one_ui_sub">สไตล์เหมือน Samsung One UI 7</string>
 </resources>

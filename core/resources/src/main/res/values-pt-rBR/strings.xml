@@ -2185,6 +2185,5 @@
     <string name="bloom">Florescer</string>
     <string name="soft_knee">Joelho macio</string>
     <string name="model_realesr_animevideo_v3x4">Otimizado para anime e desenhos animados. Aprimoramento rápido com cores naturais aprimoradas e menos artefatos</string>
-    <string name="one_ui">Uma IU</string>
-    <string name="one_ui_sub">Samsung One UI 7 como estilo de switch</string>
+    <string name="one_ui_sub">Estilo semelhante ao Samsung One UI 7</string>
 </resources>

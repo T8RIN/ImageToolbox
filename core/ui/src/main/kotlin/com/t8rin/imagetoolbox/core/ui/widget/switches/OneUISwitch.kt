@@ -41,22 +41,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.switches.ActualSwitchColors.Companion.forConfig
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -113,6 +117,8 @@ fun OneUISwitch(
         label = "Switch progress",
         animationSpec = tween(animDuration)
     )
+
+    val shape = ShapeDefaults.circle
 
     Canvas(
         modifier = modifier
@@ -177,8 +183,8 @@ fun OneUISwitch(
         drawTrack(
             color = track,
             dpSize = trackSize,
-            cornerRadius = trackCornerRadius,
-            spacingStart = thumbOvershoot
+            spacingStart = thumbOvershoot,
+            shape = shape
         )
 
         val thumbPos = thumbPosition(
@@ -192,20 +198,23 @@ fun OneUISwitch(
         drawThumb(
             color = thumbColor,
             radius = thumbSize.width / 2,
-            position = thumbPos
+            position = thumbPos,
+            shape = shape
         )
 
         drawOutline(
             color = stroke,
             radius = (thumbSize.width + strokeWidth) / 2,
             position = thumbPos,
-            strokeWidth = strokeWidth
+            strokeWidth = strokeWidth,
+            shape = shape
         )
 
         drawRipple(
             color = ripple.copy(alpha = ripple.alpha * rippleAlphaFactor),
             radius = rippleRadius,
-            position = thumbPos
+            position = thumbPos,
+            shape = shape
         )
     }
 }
@@ -213,22 +222,86 @@ fun OneUISwitch(
 private fun DrawScope.drawTrack(
     color: Color,
     dpSize: DpSize,
-    cornerRadius: Dp,
-    spacingStart: Dp
+    spacingStart: Dp,
+    shape: Shape
 ) {
     val dif = size.height - dpSize.height.toPx()
-    drawRoundRect(
-        topLeft = Offset(
-            x = spacingStart.toPx(),
-            y = dif / 2
-        ),
-        color = color,
-        cornerRadius = CornerRadius(
-            x = cornerRadius.toPx(),
-            y = cornerRadius.toPx()
-        ),
-        size = dpSize.toSize()
+    val outline = shape.createOutline(
+        size = dpSize.toSize(),
+        layoutDirection = LayoutDirection.Ltr,
+        density = this
     )
+    translate(
+        left = spacingStart.toPx(),
+        top = dif / 2
+    ) {
+        drawOutline(outline = outline, color = color)
+    }
+}
+
+private fun DrawScope.drawThumb(
+    color: Color,
+    radius: Dp,
+    position: Offset,
+    shape: Shape
+) {
+    val size = Size(radius.toPx() * 2, radius.toPx() * 2)
+    val outline = shape.createOutline(
+        size = size,
+        layoutDirection = LayoutDirection.Ltr,
+        density = this
+    )
+    translate(
+        left = position.x - radius.toPx(),
+        top = position.y - radius.toPx()
+    ) {
+        drawOutline(outline = outline, color = color)
+    }
+}
+
+private fun DrawScope.drawOutline(
+    color: Color,
+    radius: Dp,
+    position: Offset,
+    strokeWidth: Dp,
+    shape: Shape
+) {
+    val size = Size(radius.toPx() * 2, radius.toPx() * 2)
+    val outline = shape.createOutline(
+        size = size,
+        layoutDirection = LayoutDirection.Ltr,
+        density = this
+    )
+    translate(
+        left = position.x - radius.toPx(),
+        top = position.y - radius.toPx()
+    ) {
+        drawOutline(
+            outline = outline,
+            color = color,
+            style = Stroke(width = strokeWidth.toPx())
+        )
+    }
+}
+
+private fun DrawScope.drawRipple(
+    color: Color,
+    radius: Dp,
+    position: Offset,
+    shape: Shape
+) {
+    val size = Size(radius.toPx() * 2, radius.toPx() * 2)
+    val outline = shape.createOutline(
+        size = size,
+        layoutDirection = LayoutDirection.Ltr,
+        density = this
+    )
+    translate(
+        left = position.x - radius.toPx(),
+        top = position.y - radius.toPx()
+    ) {
+        drawOutline(outline = outline, color = color)
+    }
 }
 
 private fun thumbPosition(
@@ -261,47 +334,6 @@ private fun mapRange(
     targetStart: Float,
     targetEnd: Float
 ): Float = (value - origStart) / (origEnd - origStart) * (targetEnd - targetStart) + targetStart
-
-private fun DrawScope.drawThumb(
-    color: Color,
-    radius: Dp,
-    position: Offset
-) {
-    drawCircle(
-        color = color,
-        radius = radius.toPx(),
-        center = position
-    )
-}
-
-private fun DrawScope.drawOutline(
-    color: Color,
-    radius: Dp,
-    position: Offset,
-    strokeWidth: Dp
-) {
-    drawCircle(
-        color = color,
-        radius = radius.toPx(),
-        center = position,
-        style = Stroke(
-            width = strokeWidth.toPx()
-        )
-    )
-}
-
-private fun DrawScope.drawRipple(
-    color: Color,
-    radius: Dp,
-    position: Offset
-) {
-    drawCircle(
-        color = color,
-        radius = radius.toPx(),
-        center = position
-    )
-}
-
 
 private data class ActualSwitchColors(
     val thumb: Color,
@@ -350,7 +382,6 @@ private val trackSize = DpSize(
     width = 35.dp,
     height = 18.5.dp
 )
-private val trackCornerRadius = 9.25.dp
 private val rippleRadius = 20.dp
 
 @Composable

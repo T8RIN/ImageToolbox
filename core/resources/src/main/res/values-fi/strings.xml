@@ -2185,6 +2185,5 @@
     <string name="bloom">Kukinta</string>
     <string name="soft_knee">Pehmeä polvi</string>
     <string name="model_realesr_animevideo_v3x4">Optimoitu animeille ja sarjakuville. Nopea skaalaus parannetuilla luonnollisilla väreillä ja vähemmillä esineillä</string>
-    <string name="one_ui">Yksi käyttöliittymä</string>
-    <string name="one_ui_sub">Samsung One UI 7:n kaltainen kytkintyyli</string>
+    <string name="one_ui_sub">Samsung One UI 7:n kaltainen tyyli</string>
 </resources>

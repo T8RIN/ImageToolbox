@@ -2185,6 +2185,5 @@
     <string name="bloom">Virágzás</string>
     <string name="soft_knee">Puha térd</string>
     <string name="model_realesr_animevideo_v3x4">Animéhez és rajzfilmekhez optimalizálva. Gyors felskálázás továbbfejlesztett természetes színekkel és kevesebb műtermékkel</string>
-    <string name="one_ui">Egy felhasználói felület</string>
-    <string name="one_ui_sub">A Samsung One UI 7-hez hasonló kapcsolóstílus</string>
+    <string name="one_ui_sub">A Samsung One UI 7 stílusa</string>
 </resources>

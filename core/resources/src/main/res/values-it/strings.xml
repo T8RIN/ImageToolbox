@@ -2185,6 +2185,5 @@
     <string name="bloom">Fioritura</string>
     <string name="soft_knee">Ginocchio morbido</string>
     <string name="model_realesr_animevideo_v3x4">Ottimizzato per anime e cartoni animati. Upscaling veloce con colori naturali migliorati e meno artefatti</string>
-    <string name="one_ui">Un\'interfaccia utente</string>
-    <string name="one_ui_sub">Samsung One UI 7 come lo stile switch</string>
+    <string name="one_ui_sub">Stile simile a Samsung One UI 7</string>
 </resources>

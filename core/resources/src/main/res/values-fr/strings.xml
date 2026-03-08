@@ -2185,6 +2185,5 @@
     <string name="bloom">Floraison</string>
     <string name="soft_knee">Genou doux</string>
     <string name="model_realesr_animevideo_v3x4">Optimisé pour les anime et les dessins animés. Mise à l\'échelle rapide avec des couleurs naturelles améliorées et moins d\'artefacts</string>
-    <string name="one_ui">Une interface utilisateur</string>
-    <string name="one_ui_sub">Samsung One UI 7 comme le style de commutateur</string>
+    <string name="one_ui_sub">Style similaire à Samsung One UI 7</string>
 </resources>

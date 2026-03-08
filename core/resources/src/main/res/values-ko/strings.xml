@@ -2184,6 +2184,5 @@
     <string name="bloom">꽃</string>
     <string name="soft_knee">소프트니</string>
     <string name="model_realesr_animevideo_v3x4">애니메이션과 만화에 최적화되어 있습니다. 자연스러운 색상이 향상되고 아티팩트가 적어 빠른 확장이 가능합니다.</string>
-    <string name="one_ui">하나의 UI</string>
-    <string name="one_ui_sub">스위치 스타일과 같은 Samsung One UI 7</string>
+    <string name="one_ui_sub">Samsung One UI 7 같은 스타일</string>
 </resources>
