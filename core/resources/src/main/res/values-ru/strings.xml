@@ -2187,4 +2187,6 @@
     <string name="bloom">Цвести</string>
     <string name="soft_knee">Мягкое колено</string>
     <string name="model_realesr_animevideo_v3x4">Оптимизирован для аниме и мультфильмов. Быстрое масштабирование с улучшенными естественными цветами и меньшим количеством артефактов.</string>
+    <string name="one_ui">Один пользовательский интерфейс</string>
+    <string name="one_ui_sub">Samsung One UI 7 похож на стиль переключения</string>
 </resources>

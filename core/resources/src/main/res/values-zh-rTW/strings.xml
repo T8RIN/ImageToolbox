@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2182,4 +2184,6 @@
     <string name="bloom">盛開</string>
     <string name="soft_knee">軟膝</string>
     <string name="model_realesr_animevideo_v3x4">針對動漫和卡通進行了最佳化。快速升級，改善自然色彩並減少偽影</string>
+    <string name="one_ui">一个用户界面</string>
+    <string name="one_ui_sub">三星 One UI 7 类似开关风格</string>
 </resources>

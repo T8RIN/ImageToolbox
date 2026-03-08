@@ -2185,4 +2185,6 @@
     <string name="bloom">Floración</string>
     <string name="soft_knee">Rodilla suave</string>
     <string name="model_realesr_animevideo_v3x4">Optimizado para anime y dibujos animados. Ampliación rápida con colores naturales mejorados y menos artefactos</string>
+    <string name="one_ui">Una interfaz de usuario</string>
+    <string name="one_ui_sub">Samsung One UI 7 como estilo de interruptor</string>
 </resources>

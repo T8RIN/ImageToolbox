@@ -2187,4 +2187,6 @@
     <string name="bloom">Bloom</string>
     <string name="soft_knee">Mäkké koleno</string>
     <string name="model_realesr_animevideo_v3x4">Optimalizované pre anime a kreslené filmy. Rýchle prevzorkovanie s vylepšenými prirodzenými farbami a menším počtom artefaktov</string>
+    <string name="one_ui">Jedno používateľské rozhranie</string>
+    <string name="one_ui_sub">Samsung One UI 7 ako štýl prepínača</string>
 </resources>

@@ -2184,4 +2184,6 @@
     <string name="bloom">Hoa</string>
     <string name="soft_knee">Đầu gối mềm</string>
     <string name="model_realesr_animevideo_v3x4">Tối ưu hóa cho anime và phim hoạt hình. Nâng cấp nhanh chóng với màu sắc tự nhiên được cải thiện và ít hiện vật hơn</string>
+    <string name="one_ui">Một giao diện người dùng</string>
+    <string name="one_ui_sub">Samsung One UI 7 giống kiểu switch</string>
 </resources>
