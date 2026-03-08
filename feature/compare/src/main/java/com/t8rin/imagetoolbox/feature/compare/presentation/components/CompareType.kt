@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ package com.t8rin.imagetoolbox.feature.compare.presentation.components
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.TouchApp
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Compare
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Transparency
 
@@ -32,7 +32,7 @@ sealed class CompareType(
     @StringRes val title: Int
 ) {
     data object Slide : CompareType(
-        icon = Icons.Rounded.Compare,
+        icon = Icons.Outlined.Compare,
         title = R.string.slide
     )
 

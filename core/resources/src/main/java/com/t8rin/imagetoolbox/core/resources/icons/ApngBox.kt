@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.ApngBox: ImageVector by lazy {
+val Icons.Outlined.ApngBox: ImageVector by lazy {
     ImageVector.Builder(
         name = "Apng Box", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
         viewportWidth = 24.0f, viewportHeight = 24.0f
