@@ -189,7 +189,6 @@ internal class LayersRenderer @Inject constructor(
                         )
                     }
                 } ?: return@setOnImageAvailableListener
-
             }, Handler(Looper.getMainLooper()))
         }
 
