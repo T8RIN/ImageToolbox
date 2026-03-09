@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -188,7 +189,7 @@ internal class LayersRenderer @Inject constructor(
             val density = Density(uiDensity, uiFontScale)
 
             // Wrap in MaterialTheme to fix text line-wrapping differences
-            androidx.compose.material3.MaterialTheme {
+            MaterialTheme {
                 CompositionLocalProvider(
                     LocalSettingsState provides uiSettingsState,
                     LocalDensity provides density
