@@ -55,7 +55,8 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
         offsetY = state.offset.y,
         alpha = state.alpha,
         currentCanvasSize = state.canvasSize,
-        coerceToBounds = state.coerceToBounds
+        coerceToBounds = state.coerceToBounds,
+        isVisible = state.isVisible
     )
 )
 

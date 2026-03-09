@@ -315,27 +315,21 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             delay(500)
         }
 
-        val backgroundGetter = suspend {
-            imageGetter.getImage(data = _uri.value)
-                ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
-                    ImageBitmap(width, height).asAndroidBitmap()
-                        .applyCanvas { drawColor(color) }
-                }
-        }
-
-        val oldGetter = suspend {
-            captureRequestChannel.send(true)
-
-            capturedImageChannel.receive().await().asAndroidBitmap().let { layers ->
-                layers.setHasAlpha(true)
-                backgroundGetter()?.overlay(layers) ?: layers
+        val background = imageGetter.getImage(data = _uri.value)
+            ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
+                ImageBitmap(width, height).asAndroidBitmap()
+                    .applyCanvas { drawColor(color) }
             }
-        }
-
-        if (useOldLayers) return@withContext oldGetter()
+            ?: _bitmap.value
+            ?: run {
+                // Final fallback: a transparent bitmap sized to the first layer's canvas
+                val w = layers.firstOrNull()?.state?.canvasSize?.width?.takeIf { it > 0 } ?: 1
+                val h = layers.firstOrNull()?.state?.canvasSize?.height?.takeIf { it > 0 } ?: 1
+                ImageBitmap(w, h).asAndroidBitmap()
+            }
 
         markupLayersApplier.applyToImage(
-            image = backgroundGetter() ?: return@withContext oldGetter(),
+            image = background,
             layers = layers.map { it.asDomain() }
         )
     }
@@ -443,6 +437,3 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
 }
-
-@Suppress("MayBeConstant", "RedundantSuppression")
-private val useOldLayers = true//!BuildConfig.DEBUG
