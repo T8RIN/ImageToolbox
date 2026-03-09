@@ -49,16 +49,18 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
+import androidx.core.content.getSystemService
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.density
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.LayerContent
 import com.t8rin.logger.makeLog
@@ -83,10 +85,10 @@ internal class LayersRenderer @Inject constructor(
     }
 
     suspend fun render(
-        image: Bitmap,
+        backgroundImage: Bitmap,
         layers: List<MarkupLayer>
     ): Bitmap = coroutineScope {
-        val resultBitmap = image.copy(Bitmap.Config.ARGB_8888, true)
+        val resultBitmap = backgroundImage.copy(Bitmap.Config.ARGB_8888, true)
 
         if (layers.isEmpty()) return@coroutineScope resultBitmap
 
@@ -104,11 +106,6 @@ internal class LayersRenderer @Inject constructor(
 
         "Starting GPU Tile Render. Target: ${targetWidth}x${targetHeight}. Tile Size: ${tileWidth}x${tileHeight}".makeLog()
 
-        val displayMetrics = context.resources.displayMetrics
-        val uiDensity = displayMetrics.density
-        val uiFontScale = context.resources.configuration.fontScale
-        val uiDensityDpi = displayMetrics.densityDpi
-
         val imageReader = ImageReader.newInstance(
             tileWidth,
             tileHeight,
@@ -116,10 +113,13 @@ internal class LayersRenderer @Inject constructor(
             2
         )
 
-        val displayManager = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        val displayManager =
+            context.getSystemService<DisplayManager>() ?: return@coroutineScope resultBitmap
         val virtualDisplay = displayManager.createVirtualDisplay(
             "MarkupRenderDisplay",
-            tileWidth, tileHeight, uiDensityDpi,
+            tileWidth,
+            tileHeight,
+            context.resources.displayMetrics.densityDpi,
             imageReader.surface,
             DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY
         )
@@ -128,26 +128,31 @@ internal class LayersRenderer @Inject constructor(
             object : Presentation(context, virtualDisplay.display) {
                 override fun onCreate(savedInstanceState: Bundle?) {
                     super.onCreate(savedInstanceState)
-                    window?.setBackgroundDrawableResource(android.R.color.transparent)
-                    (window?.decorView as? ViewGroup)?.apply {
-                        clipChildren = false
-                        clipToPadding = false
+                    window?.apply {
+                        setBackgroundDrawableResource(android.R.color.transparent)
+                        (decorView as? ViewGroup)?.apply {
+                            clipChildren = false
+                            clipToPadding = false
+                        }
                     }
                 }
             }
         }
 
         val composeView = withContext(uiDispatcher) {
-            ComposeView(presentation.context).apply {
-                setBackgroundColor(Color.TRANSPARENT)
-                val owner = NonUiSavedStateRegistryOwner()
-                setViewTreeLifecycleOwner(owner)
-                setViewTreeSavedStateRegistryOwner(owner)
-                clipChildren = false
-                clipToPadding = false
-                layoutParams = ViewGroup.LayoutParams(tileWidth, tileHeight)
-                presentation.setContentView(this)
-                presentation.show()
+            presentation.run {
+                ComposeView(context).apply {
+                    setBackgroundColor(Color.TRANSPARENT)
+                    NonUiSavedStateRegistryOwner().apply {
+                        setViewTreeLifecycleOwner(this)
+                        setViewTreeSavedStateRegistryOwner(this)
+                    }
+                    clipChildren = false
+                    clipToPadding = false
+                    layoutParams = ViewGroup.LayoutParams(tileWidth, tileHeight)
+                    setContentView(this)
+                    show()
+                }
             }
         }
 
@@ -158,106 +163,111 @@ internal class LayersRenderer @Inject constructor(
 
         withContext(uiDispatcher) {
             imageReader.setOnImageAvailableListener({ reader ->
-                val img = reader.acquireLatestImage() ?: return@setOnImageAvailableListener
-                if (readyToCapture) {
-                    readyToCapture = false
+                reader.acquireLatestImage()?.use { image ->
+                    if (readyToCapture) {
+                        readyToCapture = false
 
-                    val planes = img.planes
-                    val buffer = planes[0].buffer
-                    val pixelStride = planes[0].pixelStride
-                    val rowStride = planes[0].rowStride
-                    val rowPadding = rowStride - pixelStride * tileWidth
+                        val planes = image.planes
+                        val buffer = planes[0].buffer
+                        val pixelStride = planes[0].pixelStride
+                        val rowStride = planes[0].rowStride
+                        val rowPadding = rowStride - pixelStride * tileWidth
 
-                    val paddedBitmap =
-                        createBitmap(tileWidth + rowPadding / pixelStride, tileHeight)
-                    paddedBitmap.copyPixelsFromBuffer(buffer)
+                        frameChannel.trySend(
+                            createBitmap(
+                                width = tileWidth + rowPadding / pixelStride,
+                                height = tileHeight
+                            ).apply {
+                                copyPixelsFromBuffer(buffer)
+                            }.let { padded ->
+                                if (rowPadding > 0) {
+                                    Bitmap.createBitmap(padded, 0, 0, tileWidth, tileHeight)
+                                } else {
+                                    padded
+                                }
+                            }
+                        )
+                    }
+                } ?: return@setOnImageAvailableListener
 
-                    val finalBitmap = if (rowPadding > 0) {
-                        Bitmap.createBitmap(paddedBitmap, 0, 0, tileWidth, tileHeight)
-                    } else paddedBitmap
-
-                    img.close()
-                    frameChannel.trySend(finalBitmap)
-                } else {
-                    img.close()
-                }
             }, Handler(Looper.getMainLooper()))
         }
 
         composeView.setContent {
-            val uiSettingsState = settingsState.toUiState()
-            val density = Density(uiDensity, uiFontScale)
-
             MaterialTheme {
-                CompositionLocalProvider(
-                    LocalSettingsState provides uiSettingsState,
-                    LocalDensity provides density
-                ) {
-                    val tileWidthDp = with(density) { tileWidth.toDp() }
-                    val tileHeightDp = with(density) { tileHeight.toDp() }
-                    val authorWidthDp = with(density) { authorWidth.toDp() }
-                    val authorHeightDp = with(density) { authorHeight.toDp() }
-
-                    Box(
-                        modifier = Modifier
-                            .requiredSize(tileWidthDp, tileHeightDp)
-                            .clipToBounds()
+                with(context.density) {
+                    CompositionLocalProvider(
+                        LocalSettingsState provides settingsState.toUiState(),
+                        LocalDensity provides this
                     ) {
-                        Box(
-                            modifier = Modifier.graphicsLayer {
-                                translationX = -currentTileX.toFloat()
-                                translationY = -currentTileY.toFloat()
-                            }
-                        ) {
-                            val ratio = min(
-                                targetWidth.toFloat() / authorWidth,
-                                targetHeight.toFloat() / authorHeight
-                            )
+                        val authorWidthDp = authorWidth.toDp()
+                        val authorHeightDp = authorHeight.toDp()
 
+                        Box(
+                            modifier = Modifier
+                                .requiredSize(
+                                    width = tileWidth.toDp(),
+                                    height = tileHeight.toDp()
+                                )
+                                .clipToBounds()
+                        ) {
                             Box(
-                                modifier = Modifier
-                                    .size(authorWidthDp, authorHeightDp)
-                                    .graphicsLayer {
-                                        scaleX = ratio
-                                        scaleY = ratio
-                                        transformOrigin = TransformOrigin(0f, 0f)
-                                        translationX = (targetWidth - authorWidth * ratio) / 2f
-                                        translationY = (targetHeight - authorHeight * ratio) / 2f
-                                    }
+                                modifier = Modifier.graphicsLayer {
+                                    translationX = -currentTileX.toFloat()
+                                    translationY = -currentTileY.toFloat()
+                                }
                             ) {
-                                layers.forEach { layer ->
-                                    Box(
-                                        modifier = Modifier
-                                            .align(Alignment.Center)
-                                            .graphicsLayer {
-                                                scaleX = layer.position.scale
-                                                scaleY = layer.position.scale
-                                                rotationZ = layer.position.rotation
-                                                translationX = layer.position.offsetX
-                                                translationY = layer.position.offsetY
-                                                alpha = layer.position.alpha
-                                            },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        LayerContent(
-                                            modifier = Modifier.sizeIn(
-                                                maxWidth = authorWidthDp / 2f,
-                                                maxHeight = authorHeightDp / 2f
-                                            ),
-                                            type = layer.type,
-                                            textFullSize = minOf(authorWidth, authorHeight)
-                                        )
+                                val ratio = min(
+                                    targetWidth.toFloat() / authorWidth,
+                                    targetHeight.toFloat() / authorHeight
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .size(authorWidthDp, authorHeightDp)
+                                        .graphicsLayer {
+                                            scaleX = ratio
+                                            scaleY = ratio
+                                            transformOrigin = TransformOrigin(0f, 0f)
+                                            translationX = (targetWidth - authorWidth * ratio) / 2f
+                                            translationY =
+                                                (targetHeight - authorHeight * ratio) / 2f
+                                        }
+                                ) {
+                                    layers.forEach { layer ->
+                                        Box(
+                                            modifier = Modifier
+                                                .align(Alignment.Center)
+                                                .graphicsLayer {
+                                                    scaleX = layer.position.scale
+                                                    scaleY = layer.position.scale
+                                                    rotationZ = layer.position.rotation
+                                                    translationX = layer.position.offsetX
+                                                    translationY = layer.position.offsetY
+                                                    alpha = layer.position.alpha
+                                                },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            LayerContent(
+                                                modifier = Modifier.sizeIn(
+                                                    maxWidth = authorWidthDp / 2f,
+                                                    maxHeight = authorHeightDp / 2f
+                                                ),
+                                                type = layer.type,
+                                                textFullSize = minOf(authorWidth, authorHeight)
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    LaunchedEffect(currentTileX, currentTileY) {
-                        delay(350)
-                        "Requesting hardware capture for tile: $currentTileX, $currentTileY".makeLog()
-                        readyToCapture = true
-                        composeView.invalidate()
+                        LaunchedEffect(currentTileX, currentTileY) {
+                            delay(350)
+                            "Requesting hardware capture for tile: $currentTileX, $currentTileY".makeLog()
+                            readyToCapture = true
+                            composeView.invalidate()
+                        }
                     }
                 }
             }
@@ -269,10 +279,14 @@ internal class LayersRenderer @Inject constructor(
                     currentTileX = x
                     currentTileY = y
 
-                    val tileBitmap = frameChannel.receive()
-
-                    drawBitmap(tileBitmap, x.toFloat(), y.toFloat(), null)
-                    tileBitmap.recycle()
+                    frameChannel.receive().apply {
+                        drawBitmap(
+                            bitmap = this,
+                            left = x.toFloat(),
+                            top = y.toFloat()
+                        )
+                        recycle()
+                    }
                 }
             }
         }
@@ -313,7 +327,6 @@ internal class LayersRenderer @Inject constructor(
             )
             val surface = EGL14.eglCreatePbufferSurface(display, config, surfaceAttributes, 0)
 
-            // Create an OpenGL ES 2.0 context
             val contextAttributes = intArrayOf(
                 EGL14.EGL_CONTEXT_CLIENT_VERSION, 2,
                 EGL14.EGL_NONE

@@ -35,7 +35,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         layers: List<MarkupLayer>
     ): Bitmap = withContext(defaultDispatcher) {
         renderer.render(
-            image = image,
+            backgroundImage = image,
             layers = layers,
         )
     }
