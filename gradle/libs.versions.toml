@@ -15,7 +15,7 @@ quickie = "1.17.0"
 fadingEdges = "1.0.4"
 logger = "1.0.2"
 
-avifCoder = "2.1.4"
+avifCoder = "2.2.0"
 avifCoderCoil = "2.1.4"
 aire = "0.18.1"
 jxlCoder = "2.6.0"
