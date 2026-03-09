@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.nativePaint
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
@@ -131,7 +132,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
                     if (pathPaint.isErasing) {
                         blendMode = BlendMode.Clear
                     }
-                }.asFrameworkPaint().apply {
+                }.nativePaint.apply {
                     if (pathPaint.brushSoftness.value > 0f) {
                         maskFilter = BlurMaskFilter(
                             pathPaint.brushSoftness.toPx(canvasSize),

@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.switches.FluentSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.HyperOSSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.LiquidGlassSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.M3Switch
+import com.t8rin.imagetoolbox.core.ui.widget.switches.OneUISwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.PixelSwitch
 
 @Composable
@@ -191,6 +192,20 @@ fun EnhancedSwitch(
                         modifier = switchModifier,
                         colors = switchColors.copy(
                             uncheckedTrackColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                        ),
+                        checked = checked,
+                        enabled = enabled,
+                        onCheckedChange = switchOnCheckedChange,
+                        interactionSource = interactionSource
+                    )
+                }
+
+                is SwitchType.OneUI -> {
+                    OneUISwitch(
+                        modifier = modifier
+                            .minimumInteractiveComponentSize(),
+                        colors = switchColors.copy(
+                            uncheckedTrackColor = MaterialTheme.colorScheme.surfaceContainerLow
                         ),
                         checked = checked,
                         enabled = enabled,

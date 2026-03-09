@@ -44,7 +44,6 @@ import androidx.compose.material.icons.outlined.Rectangle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -72,8 +71,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
-import com.t8rin.imagetoolbox.core.ui.utils.capturable.capturable
-import com.t8rin.imagetoolbox.core.ui.utils.capturable.rememberCaptureController
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -106,7 +103,6 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Mark
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersUndoRedo
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
-import kotlinx.coroutines.flow.collectLatest
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
@@ -247,15 +243,6 @@ fun MarkupLayersContent(
                 contentAlignment = Alignment.Center
             ) {
                 Box {
-                    val captureController = rememberCaptureController()
-                    LaunchedEffect(captureController) {
-                        component.captureRequestFlow.collectLatest {
-                            if (it) {
-                                component.sendCapturedImage(captureController.captureAsync())
-                            }
-                        }
-                    }
-
                     Box(
                         modifier = Modifier
                             .padding(
@@ -287,9 +274,7 @@ fun MarkupLayersContent(
                                 .transparencyChecker()
                         )
                         BoxWithConstraints(
-                            modifier = Modifier
-                                .matchParentSize()
-                                .capturable(captureController),
+                            modifier = Modifier.matchParentSize(),
                             contentAlignment = Alignment.Center
                         ) {
                             component.layers.forEachIndexed { index, layer ->

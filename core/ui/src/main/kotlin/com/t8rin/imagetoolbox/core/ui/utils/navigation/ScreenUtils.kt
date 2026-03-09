@@ -25,12 +25,10 @@ import androidx.compose.material.icons.outlined.FilterBAndW
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
-import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material.icons.twotone.Album
 import androidx.compose.material.icons.twotone.AutoFixHigh
 import androidx.compose.material.icons.twotone.ColorLens
-import androidx.compose.material.icons.twotone.Compare
 import androidx.compose.material.icons.twotone.FilterBAndW
 import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
@@ -47,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
+import com.t8rin.imagetoolbox.core.resources.icons.Compare
 import com.t8rin.imagetoolbox.core.resources.icons.Counter
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
@@ -245,9 +244,9 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is LibraryDetails -> null
 
     is SingleEdit -> Icons.Outlined.ImageEdit
-    is ApngTools -> Icons.Rounded.ApngBox
+    is ApngTools -> Icons.Outlined.ApngBox
     is Cipher -> Icons.Outlined.Encrypted
-    is Compare -> Icons.Rounded.Compare
+    is Compare -> Icons.Outlined.Compare
     is Crop -> Icons.Rounded.CropSmall
     is DeleteExif -> Icons.Outlined.Exif
     is Draw -> Icons.Outlined.Draw
