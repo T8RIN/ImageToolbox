@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.LayoutDirection
@@ -214,7 +215,7 @@ internal fun ImageBitmap.clipBitmap(
             NativePath(path.asAndroidPath()).apply {
                 fillType = NativePath.FillType.INVERSE_WINDING
             },
-            paint.asFrameworkPaint()
+            paint.nativePaint
         )
     }.asImageBitmap()
 
@@ -295,7 +296,7 @@ internal fun rememberPaint(
                     Color.Transparent
                 } else drawColor
                 alpha = drawColor.alpha
-            }.asFrameworkPaint().apply {
+            }.nativePaint.apply {
                 if (drawMode is DrawMode.Neon && !isEraserOn) {
                     this.color = Color.White.toArgb()
                     setShadowLayer(
@@ -346,7 +347,7 @@ fun pathEffectPaint(
 
         color = Color.Transparent
         blendMode = BlendMode.Clear
-    }.asFrameworkPaint()
+    }.nativePaint
 }
 
 @Composable
