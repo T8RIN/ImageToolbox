@@ -2190,4 +2190,6 @@
     <string name="soft_knee">الركبة الناعمة</string>
     <string name="model_realesr_animevideo_v3x4">الأمثل للأنيمي والرسوم المتحركة. ترقية سريعة مع ألوان طبيعية محسنة وعدد أقل من القطع الأثرية</string>
     <string name="one_ui_sub">سامسونج One UI 7 مثل الاسلوب</string>
+    <string name="calculate_hint">أدخل رموز الرياضيات الأساسية هنا لحساب القيمة المطلوبة (على سبيل المثال (5+5)*10)</string>
+    <string name="math_expression">التعبير الرياضي</string>
 </resources>

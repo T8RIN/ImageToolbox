@@ -2188,4 +2188,6 @@
     <string name="soft_knee">Měkké koleno</string>
     <string name="model_realesr_animevideo_v3x4">Optimalizováno pro anime a kreslené filmy. Rychlé převzorkování s vylepšenými přirozenými barvami a menším počtem artefaktů</string>
     <string name="one_ui_sub">Styl jako Samsung One UI 7</string>
+    <string name="calculate_hint">Zde zadejte základní matematické symboly pro výpočet požadované hodnoty (např. (5+5)*10)</string>
+    <string name="math_expression">Matematický výraz</string>
 </resources>

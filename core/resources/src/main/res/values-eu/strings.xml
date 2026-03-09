@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Belauna biguna</string>
     <string name="model_realesr_animevideo_v3x4">Anime eta marrazki bizidunetarako optimizatua. Azkar igotzea kolore natural hobetuekin eta artefaktu gutxiagorekin</string>
     <string name="one_ui_sub">Samsung One UI 7 bezalako estiloa</string>
+    <string name="calculate_hint">Sartu hemen oinarrizko matematika-sinboloak nahi duzun balioa kalkulatzeko (adibidez, (5+5)*10)</string>
+    <string name="math_expression">Matematikako adierazpena</string>
 </resources>

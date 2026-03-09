@@ -2188,4 +2188,6 @@
     <string name="soft_knee">ברך רכה</string>
     <string name="model_realesr_animevideo_v3x4">מותאם לאנימה וסרטים מצוירים. שיפור קנה מידה מהיר עם צבעים טבעיים משופרים ופחות חפצים</string>
     <string name="one_ui_sub">סגנון כמו Samsung One UI 7</string>
+    <string name="calculate_hint">הזן כאן סמלים מתמטיים בסיסיים כדי לחשב את הערך הרצוי (למשל (5+5)*10)</string>
+    <string name="math_expression">ביטוי מתמטי</string>
 </resources>

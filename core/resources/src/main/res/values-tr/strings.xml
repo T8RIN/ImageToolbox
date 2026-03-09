@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Yumuşak Diz</string>
     <string name="model_realesr_animevideo_v3x4">Anime ve çizgi filmler için optimize edilmiştir. İyileştirilmiş doğal renkler ve daha az yapaylık ile hızlı ölçeklendirme</string>
     <string name="one_ui_sub">Samsung One UI 7 benzeri tarz</string>
+    <string name="calculate_hint">İstenilen değeri hesaplamak için temel matematik sembollerini buraya girin (örn. (5+5)*10)</string>
+    <string name="math_expression">Matematik ifadesi</string>
 </resources>

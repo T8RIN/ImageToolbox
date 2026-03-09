@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Pehme põlv</string>
     <string name="model_realesr_animevideo_v3x4">Optimeeritud anime ja koomiksite jaoks. Kiire skaleerimine täiustatud loomulike värvide ja vähemate esemetega</string>
     <string name="one_ui_sub">Samsung One UI 7 sarnane stiil</string>
+    <string name="calculate_hint">Soovitud väärtuse arvutamiseks sisestage siia põhilised matemaatilised sümbolid (nt (5+5)*10)</string>
+    <string name="math_expression">Matemaatiline väljend</string>
 </resources>

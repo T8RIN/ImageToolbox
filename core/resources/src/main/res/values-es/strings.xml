@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Rodilla suave</string>
     <string name="model_realesr_animevideo_v3x4">Optimizado para anime y dibujos animados. Ampliación rápida con colores naturales mejorados y menos artefactos</string>
     <string name="one_ui_sub">Estilo Samsung One UI 7</string>
+    <string name="calculate_hint">Ingrese aquí símbolos matemáticos básicos para calcular el valor deseado (por ejemplo, (5+5)*10)</string>
+    <string name="math_expression">expresión matemática</string>
 </resources>

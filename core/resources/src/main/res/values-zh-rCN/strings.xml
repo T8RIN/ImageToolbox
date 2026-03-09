@@ -2185,4 +2185,6 @@
     <string name="soft_knee">软膝</string>
     <string name="model_realesr_animevideo_v3x4">针对动漫和卡通进行了优化。快速升级，改善自然色彩并减少伪影</string>
     <string name="one_ui_sub">类似三星 One UI 7 的风格</string>
+    <string name="calculate_hint">在此输入基本数学符号以计算所需的值（例如（5+5）*10）</string>
+    <string name="math_expression">数学表达式</string>
 </resources>

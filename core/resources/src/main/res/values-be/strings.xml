@@ -2188,4 +2188,6 @@
     <string name="soft_knee">Мяккае калена</string>
     <string name="model_realesr_animevideo_v3x4">Аптымізаваны для анімэ і мультфільмаў. Хуткае павелічэнне маштабу з паляпшэннем натуральных колераў і меншай колькасцю артэфактаў</string>
     <string name="one_ui_sub">Стыль, падобны на Samsung One UI 7</string>
+    <string name="calculate_hint">Увядзіце тут асноўныя матэматычныя сімвалы, каб вылічыць патрэбнае значэнне (напрыклад, (5+5)*10)</string>
+    <string name="math_expression">Матэматычны выраз</string>
 </resources>

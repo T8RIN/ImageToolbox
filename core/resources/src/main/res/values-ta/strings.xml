@@ -2186,4 +2186,6 @@
     <string name="soft_knee">மென்மையான முழங்கால்</string>
     <string name="model_realesr_animevideo_v3x4">அனிம் மற்றும் கார்ட்டூன்களுக்கு உகந்ததாக உள்ளது. மேம்படுத்தப்பட்ட இயற்கை வண்ணங்கள் மற்றும் குறைவான கலைப்பொருட்கள் மூலம் விரைவான மேம்பாடு</string>
     <string name="one_ui_sub">Samsung One UI 7 போன்ற பாணி</string>
+    <string name="calculate_hint">விரும்பிய மதிப்பைக் கணக்கிட அடிப்படை கணிதக் குறியீடுகளை இங்கே உள்ளிடவும் (எ.கா. (5+5)*10)</string>
+    <string name="math_expression">கணித வெளிப்பாடு</string>
 </resources>

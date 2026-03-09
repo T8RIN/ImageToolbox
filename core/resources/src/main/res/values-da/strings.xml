@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Blødt knæ</string>
     <string name="model_realesr_animevideo_v3x4">Optimeret til anime og tegnefilm. Hurtig opskalering med forbedrede naturlige farver og færre artefakter</string>
     <string name="one_ui_sub">Samsung One UI 7-lignende stil</string>
+    <string name="calculate_hint">Indtast grundlæggende matematiske symboler her for at beregne den ønskede værdi (f.eks. (5+5)*10)</string>
+    <string name="math_expression">Matematisk udtryk</string>
 </resources>

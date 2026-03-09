@@ -2186,4 +2186,6 @@
     <string name="soft_knee">নরম হাঁটু</string>
     <string name="model_realesr_animevideo_v3x4">এনিমে এবং কার্টুন জন্য অপ্টিমাইজ করা. উন্নত প্রাকৃতিক রং এবং কম নিদর্শন সহ দ্রুত আপস্কেলিং</string>
     <string name="one_ui_sub">Samsung One UI 7 এর মতো স্টাইল</string>
+    <string name="calculate_hint">পছন্দসই মান গণনা করতে এখানে মৌলিক গণিত প্রতীক লিখুন (যেমন (5+5)*10)</string>
+    <string name="math_expression">গণিত অভিব্যক্তি</string>
 </resources>

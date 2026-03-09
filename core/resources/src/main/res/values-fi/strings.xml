@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Pehmeä polvi</string>
     <string name="model_realesr_animevideo_v3x4">Optimoitu animeille ja sarjakuville. Nopea skaalaus parannetuilla luonnollisilla väreillä ja vähemmillä esineillä</string>
     <string name="one_ui_sub">Samsung One UI 7:n kaltainen tyyli</string>
+    <string name="calculate_hint">Syötä tähän matemaattiset perussymbolit halutun arvon laskemiseksi (esim. (5+5)*10)</string>
+    <string name="math_expression">Matemaattinen ilmaus</string>
 </resources>

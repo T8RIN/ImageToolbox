@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Genoll suau</string>
     <string name="model_realesr_animevideo_v3x4">Optimitzat per a anime i dibuixos animats. Ampliació ràpida amb colors naturals millorats i menys artefactes</string>
     <string name="one_ui_sub">Samsung One UI 7 estil semblant</string>
+    <string name="calculate_hint">Introduïu aquí símbols matemàtics bàsics per calcular el valor desitjat (p. ex. (5+5)*10)</string>
+    <string name="math_expression">Expressió matemàtica</string>
 </resources>

@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Weiches Knie</string>
     <string name="model_realesr_animevideo_v3x4">Optimiert für Anime und Cartoons. Schnelles Hochskalieren mit verbesserten natürlichen Farben und weniger Artefakten</string>
     <string name="one_ui_sub">Samsung One UI 7-ähnlicher Stil</string>
+    <string name="calculate_hint">Geben Sie hier grundlegende mathematische Symbole ein, um den gewünschten Wert zu berechnen (z. B. (5+5)*10).</string>
+    <string name="math_expression">Mathematischer Ausdruck</string>
 </resources>

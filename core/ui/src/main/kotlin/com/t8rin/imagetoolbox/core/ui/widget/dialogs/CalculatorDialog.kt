@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
@@ -29,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -90,23 +93,33 @@ fun CalculatorDialog(
             }
         },
         text = {
-            OutlinedTextField(
-                shape = ShapeDefaults.default,
-                value = calculatorExpression,
-                textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
-                maxLines = 1,
-                placeholder = {
-                    Text(
-                        text = "(5+5)*10",
-                        style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.outline
-                    )
-                },
-                onValueChange = { expr ->
-                    calculatorExpression = expr.filter { !it.isWhitespace() }
-                }
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                OutlinedTextField(
+                    shape = ShapeDefaults.default,
+                    value = calculatorExpression,
+                    textStyle = MaterialTheme.typography.titleMedium.copy(
+                        textAlign = TextAlign.Center
+                    ),
+                    maxLines = 1,
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.math_expression),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    },
+                    onValueChange = { expr ->
+                        calculatorExpression = expr.filter { !it.isWhitespace() }
+                    },
+                    supportingText = {
+                        Text(stringResource(R.string.calculate_hint))
+                    }
+                )
+            }
         }
     )
 }

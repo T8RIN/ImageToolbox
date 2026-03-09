@@ -2186,4 +2186,6 @@
     <string name="soft_knee">زانو نرم</string>
     <string name="model_realesr_animevideo_v3x4">بهینه شده برای انیمیشن و کارتون. ارتقاء سریع با رنگ های طبیعی بهبود یافته و مصنوعات کمتر</string>
     <string name="one_ui_sub">Samsung One UI 7 دارای سبکی است</string>
+    <string name="calculate_hint">برای محاسبه مقدار مورد نظر، نمادهای ریاضی پایه را در اینجا وارد کنید (به عنوان مثال (5+5)*10)</string>
+    <string name="math_expression">بیان ریاضی</string>
 </resources>

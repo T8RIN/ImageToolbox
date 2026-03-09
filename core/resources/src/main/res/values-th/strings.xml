@@ -2185,4 +2185,6 @@
     <string name="soft_knee">เข่าอ่อน</string>
     <string name="model_realesr_animevideo_v3x4">ปรับให้เหมาะสมสำหรับอะนิเมะและการ์ตูน การลดขนาดอย่างรวดเร็วด้วยสีที่เป็นธรรมชาติที่ได้รับการปรับปรุงและส่วนแปลกปลอมน้อยลง</string>
     <string name="one_ui_sub">สไตล์เหมือน Samsung One UI 7</string>
+    <string name="calculate_hint">ป้อนสัญลักษณ์ทางคณิตศาสตร์พื้นฐานที่นี่เพื่อคำนวณค่าที่ต้องการ (เช่น (5+5)*10)</string>
+    <string name="math_expression">นิพจน์ทางคณิตศาสตร์</string>
 </resources>

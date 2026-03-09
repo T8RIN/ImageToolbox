@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Joelho macio</string>
     <string name="model_realesr_animevideo_v3x4">Otimizado para anime e desenhos animados. Aprimoramento rápido com cores naturais aprimoradas e menos artefatos</string>
     <string name="one_ui_sub">Estilo semelhante ao Samsung One UI 7</string>
+    <string name="calculate_hint">Insira símbolos matemáticos básicos aqui para calcular o valor desejado (por exemplo, (5+5)*10)</string>
+    <string name="math_expression">Expressão matemática</string>
 </resources>

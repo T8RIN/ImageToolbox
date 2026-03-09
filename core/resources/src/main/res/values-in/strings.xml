@@ -2185,4 +2185,6 @@
     <string name="soft_knee">Lutut Lembut</string>
     <string name="model_realesr_animevideo_v3x4">Dioptimalkan untuk anime dan kartun. Peningkatan cepat dengan peningkatan warna alami dan lebih sedikit artefak</string>
     <string name="one_ui_sub">Samsung One UI 7 menyukai gaya</string>
+    <string name="calculate_hint">Masukkan simbol matematika dasar di sini untuk menghitung nilai yang diinginkan (misalnya (5+5)*10)</string>
+    <string name="math_expression">Ekspresi matematika</string>
 </resources>

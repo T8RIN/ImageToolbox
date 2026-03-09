@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Ginocchio morbido</string>
     <string name="model_realesr_animevideo_v3x4">Ottimizzato per anime e cartoni animati. Upscaling veloce con colori naturali migliorati e meno artefatti</string>
     <string name="one_ui_sub">Stile simile a Samsung One UI 7</string>
+    <string name="calculate_hint">Inserisci qui i simboli matematici di base per calcolare il valore desiderato (ad esempio (5+5)*10)</string>
+    <string name="math_expression">Espressione matematica</string>
 </resources>

@@ -2186,4 +2186,6 @@
     <string name="soft_knee">Genou doux</string>
     <string name="model_realesr_animevideo_v3x4">Optimisé pour les anime et les dessins animés. Mise à l\'échelle rapide avec des couleurs naturelles améliorées et moins d\'artefacts</string>
     <string name="one_ui_sub">Style similaire à Samsung One UI 7</string>
+    <string name="calculate_hint">Entrez ici les symboles mathématiques de base pour calculer la valeur souhaitée (par exemple (5+5)*10)</string>
+    <string name="math_expression">Expression mathématique</string>
 </resources>

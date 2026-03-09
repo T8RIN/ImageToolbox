@@ -2187,4 +2187,6 @@
     <string name="soft_knee">Genunchi moale</string>
     <string name="model_realesr_animevideo_v3x4">Optimizat pentru anime și desene animate. Upscaling rapid cu culori naturale îmbunătățite și mai puține artefacte</string>
     <string name="one_ui_sub">Samsung One UI 7 ca stil</string>
+    <string name="calculate_hint">Introduceți aici simbolurile matematice de bază pentru a calcula valoarea dorită (de ex. (5+5)*10)</string>
+    <string name="math_expression">Expresia matematică</string>
 </resources>

@@ -2187,4 +2187,6 @@
     <string name="soft_knee">මෘදු දණහිස</string>
     <string name="model_realesr_animevideo_v3x4">සජීවිකරණ සහ කාටූන් සඳහා ප්‍රශස්ත කර ඇත. වැඩි දියුණු කළ ස්වභාවික වර්ණ සහ අඩු කෞතුක වස්තු සමඟ වේගවත් ඉහළ නැංවීම</string>
     <string name="one_ui_sub">Samsung One UI 7 වැනි විලාසය</string>
+    <string name="calculate_hint">අපේක්ෂිත අගය ගණනය කිරීමට මූලික ගණිත සංකේත මෙහි ඇතුළත් කරන්න (උදා. (5+5)*10)</string>
+    <string name="math_expression">ගණිත ප්රකාශනය</string>
 </resources>

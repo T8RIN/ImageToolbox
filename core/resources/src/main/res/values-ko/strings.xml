@@ -2185,4 +2185,6 @@
     <string name="soft_knee">소프트니</string>
     <string name="model_realesr_animevideo_v3x4">애니메이션과 만화에 최적화되어 있습니다. 자연스러운 색상이 향상되고 아티팩트가 적어 빠른 확장이 가능합니다.</string>
     <string name="one_ui_sub">Samsung One UI 7 같은 스타일</string>
+    <string name="calculate_hint">여기에 기본 수학 기호를 입력하여 원하는 값을 계산하세요(예: (5+5)*10)</string>
+    <string name="math_expression">수학 표현</string>
 </resources>
