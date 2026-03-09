@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.asComposePaint
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -210,7 +211,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
                                             drawColor(Color.Black.toArgb())
                                             drawPath(
                                                 path,
-                                                paint.asFrameworkPaint()
+                                                paint.nativePaint
                                             )
                                         }.toImageModel(),
                                         drawMode.mode
