@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.image_stacking.data
 
 import android.graphics.Bitmap
-import android.graphics.Paint
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
@@ -71,8 +70,6 @@ internal class AndroidImageStacker @Inject constructor(
             height = resultSize.height,
             config = getSuitableConfig()
         ).applyCanvas {
-            Paint()
-
             stackImages.forEachIndexed { index, stackImage ->
                 val bitmap = imageGetter.getImage(
                     data = stackImage.uri
