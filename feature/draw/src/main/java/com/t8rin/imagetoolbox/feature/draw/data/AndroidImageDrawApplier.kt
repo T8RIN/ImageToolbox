@@ -40,10 +40,13 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toDrawable
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.density
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
@@ -76,7 +79,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import android.graphics.Paint as AndroidPaint
-import android.graphics.Paint as NativePaint
 import android.graphics.Path as NativePath
 
 internal class AndroidImageDrawApplier @Inject constructor(
@@ -97,18 +99,10 @@ internal class AndroidImageDrawApplier @Inject constructor(
             }
 
             is DrawBehavior.Background -> {
-                createBitmap(drawBehavior.width, drawBehavior.height).applyCanvas {
-                    val paint = NativePaint().apply {
-                        color = drawBehavior.color
-                    }
-                    drawRect(
-                        0f,
-                        0f,
-                        drawBehavior.width.toFloat(),
-                        drawBehavior.height.toFloat(),
-                        paint
-                    )
-                }
+                drawBehavior.color.toDrawable().toBitmap(
+                    width = drawBehavior.width,
+                    height = drawBehavior.height
+                )
             }
 
             else -> null
@@ -196,7 +190,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                         drawColor(Color.Black.toArgb())
                                         drawPath(
                                             path.asAndroidPath(),
-                                            paint.asFrameworkPaint()
+                                            paint.nativePaint
                                         )
                                     }.toImageModel(),
                                     drawMode.mode
@@ -292,7 +286,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             }
                             color = drawColor
                             alpha = drawColor.alpha
-                        }.asFrameworkPaint().apply {
+                        }.nativePaint.apply {
                             if (drawMode is DrawMode.Neon && !isErasing) {
                                 this.color = Color.White.toArgb()
                                 setShadowLayer(
@@ -418,7 +412,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         } else {
                             blendMode = BlendMode.Clear
                         }
-                    }.asFrameworkPaint().apply {
+                    }.nativePaint.apply {
                         if (radius.value > 0f) {
                             maskFilter =
                                 BlurMaskFilter(
@@ -560,7 +554,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                 newPath.apply {
                     fillType = NativePath.FillType.INVERSE_WINDING
                 },
-                paint.asFrameworkPaint()
+                paint.nativePaint
             )
         }.asImageBitmap()
     }

@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.feature.erase_background.presentation.components
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
@@ -55,6 +56,7 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.IntSize
 import androidx.core.graphics.createBitmap
@@ -77,6 +79,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.remembe
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun BitmapEraser(
     imageBitmap: ImageBitmap,
@@ -210,7 +213,7 @@ fun BitmapEraser(
                             strokeJoin = StrokeJoin.Round
                         }
                         isAntiAlias = true
-                    }.asFrameworkPaint().apply {
+                    }.nativePaint.apply {
                         if (brushSoftness.value > 0f) maskFilter =
                             BlurMaskFilter(
                                 brushSoftness.toPx(canvasSize),
@@ -272,7 +275,7 @@ fun BitmapEraser(
                                         strokeJoin = StrokeJoin.Round
                                     }
                                     isAntiAlias = true
-                                }.asFrameworkPaint().apply {
+                                }.nativePaint.apply {
                                     if (radius.value > 0f) {
                                         maskFilter =
                                             BlurMaskFilter(
