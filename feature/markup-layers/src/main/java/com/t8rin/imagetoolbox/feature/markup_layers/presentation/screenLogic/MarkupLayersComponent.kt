@@ -27,11 +27,8 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
-import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
-import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
-import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -44,22 +41,17 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.toSoftware
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asDomain
+import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.withContext
 
 
@@ -204,7 +196,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
-            getDrawingBitmap().let { localBitmap ->
+            renderLayers()?.let { localBitmap ->
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
@@ -277,62 +269,21 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
-    private suspend fun Bitmap.overlay(overlay: Bitmap): Bitmap {
-        val image = this
-        val config = image.safeConfig.toSoftware()
-
-        return createBitmap(
-            width = image.width,
-            height = image.height,
-            config = config
-        ).applyCanvas {
-            drawBitmap(image)
-            drawBitmap(
-                imageScaler.scaleImage(
-                    image = overlay.copy(config, false),
-                    width = width,
-                    height = height
-                )
-            )
-        }
-    }
-
-    private val captureRequestChannel: Channel<Boolean> = Channel(Channel.BUFFERED)
-    val captureRequestFlow: Flow<Boolean> = captureRequestChannel.receiveAsFlow()
-
-    private val capturedImageChannel: Channel<Deferred<ImageBitmap>> = Channel(1)
-
-    fun sendCapturedImage(image: Deferred<ImageBitmap>) {
-        componentScope.launch {
-            capturedImageChannel.send(image)
-        }
-    }
-
-    private suspend fun getDrawingBitmap(): Bitmap = withContext(defaultDispatcher) {
+    private suspend fun renderLayers(): Bitmap? = withContext(defaultDispatcher) {
         deactivateAllLayers()
-        delay(500)
 
-        val backgroundGetter = suspend {
-            imageGetter.getImage(data = _uri.value)
-                ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
-                    ImageBitmap(width, height).asAndroidBitmap()
-                        .applyCanvas { drawColor(color) }
-                }
-        }
-
-        val oldGetter = suspend {
-            captureRequestChannel.send(true)
-
-            capturedImageChannel.receive().await().asAndroidBitmap().let { layers ->
-                layers.setHasAlpha(true)
-                backgroundGetter()?.overlay(layers) ?: layers
-            }
-        }
-
-        markupLayersApplier.applyToImage(
-            image = backgroundGetter() ?: return@withContext oldGetter(),
-            layers = layers.map { it.asDomain() }
-        )
+        runCatching {
+            markupLayersApplier.applyToImage(
+                image = imageGetter.getImage(data = _uri.value)
+                    ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
+                        ImageBitmap(width, height).asAndroidBitmap()
+                            .applyCanvas { drawColor(color) }
+                    } ?: return@withContext null,
+                layers = layers.map { it.asDomain() }
+            )
+        }.onFailure {
+            it.makeLog()
+        }.getOrNull()
     }
 
     override fun resetState() {
@@ -365,7 +316,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun shareBitmap(onComplete: () -> Unit) {
         savingJob = trackProgress {
             _isSaving.value = true
-            getDrawingBitmap().let {
+            renderLayers()?.let {
                 shareProvider.shareImage(
                     image = it,
                     imageInfo = ImageInfo(
@@ -389,7 +340,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         savingJob = trackProgress {
             _isSaving.value = true
-            getDrawingBitmap().let { image ->
+            renderLayers()?.let { image ->
                 shareProvider.cacheImage(
                     image = image,
                     imageInfo = ImageInfo(
