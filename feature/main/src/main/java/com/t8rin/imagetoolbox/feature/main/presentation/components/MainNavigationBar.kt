@@ -21,10 +21,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
@@ -32,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedNavigationBarItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -45,13 +40,7 @@ internal fun MainNavigationBar(
     onValueChange: (Int) -> Unit
 ) {
     NavigationBar(
-        modifier = Modifier
-            .drawHorizontalStroke(top = true)
-            .height(
-                80.dp + WindowInsets.systemBars
-                    .asPaddingValues()
-                    .calculateBottomPadding()
-            ),
+        modifier = Modifier.drawHorizontalStroke(top = true)
     ) {
         Screen.typedEntries.forEachIndexed { index, group ->
             val selected = index == selectedIndex
