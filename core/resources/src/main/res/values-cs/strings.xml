@@ -2187,4 +2187,5 @@
     <string name="bloom">Květ</string>
     <string name="soft_knee">Měkké koleno</string>
     <string name="model_realesr_animevideo_v3x4">Optimalizováno pro anime a kreslené filmy. Rychlé převzorkování s vylepšenými přirozenými barvami a menším počtem artefaktů</string>
+    <string name="one_ui_sub">Styl jako Samsung One UI 7</string>
 </resources>

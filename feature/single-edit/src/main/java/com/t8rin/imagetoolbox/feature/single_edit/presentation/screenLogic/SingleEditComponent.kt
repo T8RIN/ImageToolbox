@@ -558,7 +558,9 @@ class SingleEditComponent @AssistedInject internal constructor(
                 imageTransformer.applyPresetBy(
                     image = bitmap,
                     preset = preset,
-                    currentInfo = imageInfo
+                    currentInfo = imageInfo.copy(
+                        originalUri = uri.toString()
+                    )
                 )
             )
             _presetSelected.update { preset }

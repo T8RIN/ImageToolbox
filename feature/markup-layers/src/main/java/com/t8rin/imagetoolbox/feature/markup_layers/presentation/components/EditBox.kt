@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ fun EditBox(
         state.canvasSize = parentSize
     }
 
-    val transformState = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
+    val transformState = rememberTransformableState { _, zoomChange, offsetChange, rotationChange ->
         state.applyChanges(
             parentMaxWidth = parentMaxWidth,
             parentMaxHeight = parentMaxHeight,
@@ -219,7 +219,7 @@ fun EditBox(
     }
 
     if (state.isActive) {
-        val globalTransformState = rememberTransformableState { zoomChange, _, rotationChange ->
+        val globalTransformState = rememberTransformableState { _, zoomChange, _, rotationChange ->
             state.applyChanges(
                 parentMaxWidth = parentMaxWidth,
                 parentMaxHeight = parentMaxHeight,

@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.HyperOS
 import com.t8rin.imagetoolbox.core.resources.icons.IOS
 import com.t8rin.imagetoolbox.core.resources.icons.MaterialDesign
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.resources.icons.SamsungLetter
 import com.t8rin.imagetoolbox.core.resources.icons.Windows
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -160,6 +161,7 @@ private val SwitchType.title: String
         SwitchType.Cupertino -> stringResource(R.string.cupertino_switch)
         SwitchType.LiquidGlass -> stringResource(R.string.liquid_glass)
         SwitchType.HyperOS -> stringResource(R.string.hyper_os)
+        SwitchType.OneUI -> stringResource(R.string.one_ui)
     }
 
 private val SwitchType.subtitle: String
@@ -172,6 +174,7 @@ private val SwitchType.subtitle: String
         SwitchType.Cupertino -> stringResource(R.string.cupertino_switch_sub)
         SwitchType.LiquidGlass -> stringResource(R.string.liquid_glass_sub)
         SwitchType.HyperOS -> stringResource(R.string.hyper_os_sub)
+        SwitchType.OneUI -> stringResource(R.string.one_ui_sub)
     }
 
 
@@ -184,4 +187,5 @@ private val SwitchType.icon: ImageVector
         SwitchType.Cupertino -> Icons.Rounded.IOS
         SwitchType.LiquidGlass -> Icons.Rounded.Water
         SwitchType.HyperOS -> Icons.Outlined.HyperOS
+        SwitchType.OneUI -> Icons.Outlined.SamsungLetter
     }
