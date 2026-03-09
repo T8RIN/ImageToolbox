@@ -77,6 +77,8 @@ internal class LayersRenderer @Inject constructor(
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder {
 
+    private val handler = Handler(Looper.getMainLooper())
+
     private val settingsState: SettingsState get() = settingsProvider.settingsState.value
 
     private val maxTextureSize by lazy {
@@ -123,35 +125,31 @@ internal class LayersRenderer @Inject constructor(
             DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY
         )
 
-        val presentation = withContext(uiDispatcher) {
-            object : Presentation(context, virtualDisplay.display) {
-                override fun onCreate(savedInstanceState: Bundle?) {
-                    super.onCreate(savedInstanceState)
-                    window?.apply {
-                        setBackgroundDrawableResource(android.R.color.transparent)
-                        (decorView as? ViewGroup)?.apply {
-                            clipChildren = false
-                            clipToPadding = false
-                        }
+        val presentation = object : Presentation(context, virtualDisplay.display) {
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                window?.apply {
+                    setBackgroundDrawableResource(android.R.color.transparent)
+                    (decorView as? ViewGroup)?.apply {
+                        clipChildren = false
+                        clipToPadding = false
                     }
                 }
             }
         }
 
-        val composeView = withContext(uiDispatcher) {
-            presentation.run {
-                ComposeView(context).apply {
-                    setBackgroundColor(Color.TRANSPARENT)
-                    NonUiSavedStateRegistryOwner().apply {
-                        setViewTreeLifecycleOwner(this)
-                        setViewTreeSavedStateRegistryOwner(this)
-                    }
-                    clipChildren = false
-                    clipToPadding = false
-                    layoutParams = ViewGroup.LayoutParams(tileWidth, tileHeight)
-                    setContentView(this)
-                    show()
+        val composeView = presentation.run {
+            ComposeView(context).apply {
+                setBackgroundColor(Color.TRANSPARENT)
+                NonUiSavedStateRegistryOwner().apply {
+                    setViewTreeLifecycleOwner(this)
+                    setViewTreeSavedStateRegistryOwner(this)
                 }
+                clipChildren = false
+                clipToPadding = false
+                layoutParams = ViewGroup.LayoutParams(tileWidth, tileHeight)
+                setContentView(this)
+                show()
             }
         }
 
@@ -160,36 +158,34 @@ internal class LayersRenderer @Inject constructor(
         var readyToCapture by mutableStateOf(false)
         val frameChannel = Channel<Bitmap>(Channel.CONFLATED)
 
-        withContext(uiDispatcher) {
-            imageReader.setOnImageAvailableListener({ reader ->
-                reader.acquireLatestImage()?.use { image ->
-                    if (readyToCapture) {
-                        readyToCapture = false
+        imageReader.setOnImageAvailableListener({ reader ->
+            reader.acquireLatestImage()?.use { image ->
+                if (readyToCapture) {
+                    readyToCapture = false
 
-                        val planes = image.planes
-                        val buffer = planes[0].buffer
-                        val pixelStride = planes[0].pixelStride
-                        val rowStride = planes[0].rowStride
-                        val rowPadding = rowStride - pixelStride * tileWidth
+                    val planes = image.planes
+                    val buffer = planes[0].buffer
+                    val pixelStride = planes[0].pixelStride
+                    val rowStride = planes[0].rowStride
+                    val rowPadding = rowStride - pixelStride * tileWidth
 
-                        frameChannel.trySend(
-                            createBitmap(
-                                width = tileWidth + rowPadding / pixelStride,
-                                height = tileHeight
-                            ).apply {
-                                copyPixelsFromBuffer(buffer)
-                            }.let { padded ->
-                                if (rowPadding > 0) {
-                                    Bitmap.createBitmap(padded, 0, 0, tileWidth, tileHeight)
-                                } else {
-                                    padded
-                                }
+                    frameChannel.trySend(
+                        createBitmap(
+                            width = tileWidth + rowPadding / pixelStride,
+                            height = tileHeight
+                        ).apply {
+                            copyPixelsFromBuffer(buffer)
+                        }.let { padded ->
+                            if (rowPadding > 0) {
+                                Bitmap.createBitmap(padded, 0, 0, tileWidth, tileHeight)
+                            } else {
+                                padded
                             }
-                        )
-                    }
-                } ?: return@setOnImageAvailableListener
-            }, Handler(Looper.getMainLooper()))
-        }
+                        }
+                    )
+                }
+            } ?: return@setOnImageAvailableListener
+        }, handler)
 
         composeView.setContent {
             MaterialTheme {
