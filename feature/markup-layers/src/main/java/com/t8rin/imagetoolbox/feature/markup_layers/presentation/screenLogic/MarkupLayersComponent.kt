@@ -23,10 +23,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -276,8 +275,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             markupLayersApplier.applyToImage(
                 image = imageGetter.getImage(data = _uri.value)
                     ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
-                        ImageBitmap(width, height).asAndroidBitmap()
-                            .applyCanvas { drawColor(color) }
+                        color.toDrawable().toBitmap(width, height)
                     } ?: return@withContext null,
                 layers = layers.map { it.asDomain() }
             )
