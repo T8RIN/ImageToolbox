@@ -406,7 +406,7 @@ object EnhancedBottomSheetDefaults {
         get() = MaterialTheme.colorScheme.scrim.copy(0.32f)
 
     val animationSpec: AnimationSpec<Float> = tween(
-        durationMillis = 600,
+        durationMillis = 400,
         easing = FancyTransitionEasing
     )
 
