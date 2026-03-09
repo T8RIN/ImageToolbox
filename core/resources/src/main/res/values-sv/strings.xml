@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -58,7 +56,7 @@
     <string name="check_source_code">Källkod</string>
     <string name="check_source_code_sub">Få senaste uppdateringarna, diskutera frågor och mer</string>
     <string name="single_edit">En redigering</string>
-    <string name="single_edit_sub">Ändra, ändra storlek och redigera en bild</string>
+    <string name="single_edit_sub">Modifiera, ändra storlek och redigera en bild</string>
     <string name="pick_color">Färg-väljare</string>
     <string name="pick_color_sub">Välj färg från bild, kopiera eller dela med</string>
     <string name="image">Bild</string>
@@ -258,7 +256,7 @@
     <string name="nothing_found_by_search">Din fråga gav inga svar</string>
     <string name="search_here">Sök här</string>
     <string name="dynamic_colors_sub">Om aktiverad kommer appens färger att anpassas till bakgrundsbildens färger</string>
-    <string name="failed_to_save">Lyckades inte spara %d image(s)</string>
+    <string name="failed_to_save">Lyckades inte spara %d bild(er)</string>
     <string name="email">Email</string>
     <string name="primary">Främsta</string>
     <string name="tertiary">I tredje hand</string>
