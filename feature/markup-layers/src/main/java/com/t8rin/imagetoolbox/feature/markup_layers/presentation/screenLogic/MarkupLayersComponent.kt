@@ -57,7 +57,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -310,10 +309,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     private suspend fun getDrawingBitmap(): Bitmap = withContext(defaultDispatcher) {
-        coroutineScope {
-            deactivateAllLayers()
-            delay(500)
-        }
+        deactivateAllLayers()
+        delay(500)
 
         val backgroundGetter = suspend {
             imageGetter.getImage(data = _uri.value)
@@ -331,8 +328,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 backgroundGetter()?.overlay(layers) ?: layers
             }
         }
-
-        if (useOldLayers) return@withContext oldGetter()
 
         markupLayersApplier.applyToImage(
             image = backgroundGetter() ?: return@withContext oldGetter(),
@@ -443,6 +438,3 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
 }
-
-@Suppress("MayBeConstant", "RedundantSuppression")
-private val useOldLayers = false//!BuildConfig.DEBUG
