@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,38 +34,8 @@ data class LayerPosition(
     val alpha: Float = 1f,
     val currentCanvasSize: IntegerSize,
     val coerceToBounds: Boolean,
-    val isVisible: Boolean = true  // Added
-) {
-    companion object {
-        fun LayerPosition.adjustByCanvasSize(
-            value: IntegerSize
-        ): LayerPosition {
-            var scale = this.scale
-            var offsetX = this.offsetX
-            var offsetY = this.offsetY
-            if (currentCanvasSize != IntegerSize.Zero && currentCanvasSize != value) {
-                val sx = value.width.toFloat() / currentCanvasSize.width
-                val sy = value.height.toFloat() / currentCanvasSize.height
-                if (currentCanvasSize.aspectRatio < value.aspectRatio) {
-                    scale *= minOf(sx, sy)
-                    offsetX *= minOf(sx, sy)
-                    offsetY *= minOf(sx, sy)
-                } else {
-                    scale /= minOf(sx, sy)
-                    offsetX /= minOf(sx, sy)
-                    offsetY /= minOf(sx, sy)
-                }
-            }
-
-            return copy(
-                scale = scale,
-                offsetX = offsetX,
-                offsetY = offsetY,
-                currentCanvasSize = value
-            )
-        }
-    }
-}
+    val isVisible: Boolean
+)
 
 typealias DomainTextDecoration = LayerType.Text.Decoration
 

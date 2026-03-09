@@ -21,6 +21,7 @@ import android.app.Presentation
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.hardware.display.DisplayManager
 import android.media.ImageReader
@@ -39,6 +40,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,18 +50,25 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
+import androidx.core.content.getSystemService
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import androidx.compose.ui.unit.Density
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.density
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.LayerContent
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -71,6 +80,8 @@ internal class LayersRenderer @Inject constructor(
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder {
 
+    private val settingsState: SettingsState get() = settingsProvider.settingsState.value
+
     private val maxTextureSize by lazy {
         min(queryGlMaxTextureSize(), 8192)
     }
@@ -79,7 +90,6 @@ internal class LayersRenderer @Inject constructor(
         backgroundImage: Bitmap,
         layers: List<MarkupLayer>
     ): Bitmap = withContext(uiDispatcher) {
-        val settingsState = settingsProvider.getSettingsState()
         val resultBitmap = backgroundImage.copy(Bitmap.Config.ARGB_8888, true)
 
         if (layers.isEmpty()) return@withContext resultBitmap
@@ -93,18 +103,11 @@ internal class LayersRenderer @Inject constructor(
 
         if (authorWidth <= 0 || authorHeight <= 0) return@withContext resultBitmap
 
-        // Determine Tile Dimensions
         val tileWidth = min(targetWidth, maxTextureSize)
         val tileHeight = min(targetHeight, maxTextureSize)
 
         "Starting GPU Tile Render. Target: ${targetWidth}x${targetHeight}. Tile Size: ${tileWidth}x${tileHeight}".makeLog()
 
-        val displayMetrics = context.resources.displayMetrics
-        val uiDensity = displayMetrics.density
-        val uiFontScale = context.resources.configuration.fontScale
-        val uiDensityDpi = displayMetrics.densityDpi
-
-        // Setup ImageReader for Hardware Accelerated Capturing
         val imageReader = ImageReader.newInstance(
             tileWidth,
             tileHeight,
@@ -112,125 +115,127 @@ internal class LayersRenderer @Inject constructor(
             2
         )
 
-        // Setup VirtualDisplay bounded to the Tile Size
-        val displayManager = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        val displayManager =
+            context.getSystemService<DisplayManager>() ?: return@coroutineScope resultBitmap
         val virtualDisplay = displayManager.createVirtualDisplay(
             "MarkupRenderDisplay",
-            tileWidth, tileHeight, uiDensityDpi,
+            tileWidth,
+            tileHeight,
+            context.resources.displayMetrics.densityDpi,
             imageReader.surface,
             DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY
         )
 
-        val presentation = object : Presentation(context, virtualDisplay.display) {
-            override fun onCreate(savedInstanceState: Bundle?) {
-                super.onCreate(savedInstanceState)
-                window?.setBackgroundDrawableResource(android.R.color.transparent)
-                (window?.decorView as? ViewGroup)?.apply {
-                    clipChildren = false
-                    clipToPadding = false
+        val presentation = withContext(uiDispatcher) {
+            object : Presentation(context, virtualDisplay.display) {
+                override fun onCreate(savedInstanceState: Bundle?) {
+                    super.onCreate(savedInstanceState)
+                    window?.apply {
+                        setBackgroundDrawableResource(android.R.color.transparent)
+                        (decorView as? ViewGroup)?.apply {
+                            clipChildren = false
+                            clipToPadding = false
+                        }
+                    }
                 }
             }
         }
 
-        // Use Presentation context for accurate text bounds
-        val composeView = ComposeView(presentation.context).apply {
-            setBackgroundColor(android.graphics.Color.TRANSPARENT)
-            val owner = NonUiSavedStateRegistryOwner()
-            setViewTreeLifecycleOwner(owner)
-            setViewTreeSavedStateRegistryOwner(owner)
-            clipChildren = false
-            clipToPadding = false
-            layoutParams = ViewGroup.LayoutParams(tileWidth, tileHeight)
+        val composeView = withContext(uiDispatcher) {
+            presentation.run {
+                ComposeView(context).apply {
+                    setBackgroundColor(Color.TRANSPARENT)
+                    NonUiSavedStateRegistryOwner().apply {
+                        setViewTreeLifecycleOwner(this)
+                        setViewTreeSavedStateRegistryOwner(this)
+                    }
+                    clipChildren = false
+                    clipToPadding = false
+                    layoutParams = ViewGroup.LayoutParams(tileWidth, tileHeight)
+                    setContentView(this)
+                    show()
+                }
+            }
         }
 
-        presentation.setContentView(composeView)
-        presentation.show()
-
-        // Synchronization state for the Tiling Loop
-        var currentTileX by mutableStateOf(0)
-        var currentTileY by mutableStateOf(0)
+        var currentTileX by mutableIntStateOf(0)
+        var currentTileY by mutableIntStateOf(0)
         var readyToCapture by mutableStateOf(false)
         val frameChannel = Channel<Bitmap>(Channel.CONFLATED)
 
-        // Listen for hardware frames
-        imageReader.setOnImageAvailableListener({ reader ->
-            val img = reader.acquireLatestImage() ?: return@setOnImageAvailableListener
-            if (readyToCapture) {
-                readyToCapture = false
+        withContext(uiDispatcher) {
+            imageReader.setOnImageAvailableListener({ reader ->
+                reader.acquireLatestImage()?.use { image ->
+                    if (readyToCapture) {
+                        readyToCapture = false
 
-                // Extract GPU buffer and remove hardware stride padding
-                val planes = img.planes
-                val buffer = planes[0].buffer
-                val pixelStride = planes[0].pixelStride
-                val rowStride = planes[0].rowStride
-                val rowPadding = rowStride - pixelStride * tileWidth
+                        val planes = image.planes
+                        val buffer = planes[0].buffer
+                        val pixelStride = planes[0].pixelStride
+                        val rowStride = planes[0].rowStride
+                        val rowPadding = rowStride - pixelStride * tileWidth
 
-                val paddedBitmap = Bitmap.createBitmap(
-                    tileWidth + rowPadding / pixelStride,
-                    tileHeight,
-                    Bitmap.Config.ARGB_8888
-                )
-                paddedBitmap.copyPixelsFromBuffer(buffer)
-
-                val finalBitmap = if (rowPadding > 0) {
-                    Bitmap.createBitmap(paddedBitmap, 0, 0, tileWidth, tileHeight)
-                } else paddedBitmap
-
-                img.close()
-                frameChannel.trySend(finalBitmap)
-            } else {
-                img.close()
-            }
-        }, Handler(Looper.getMainLooper()))
-
-        // Build the Compose Tree
-        composeView.setContent {
-            val uiSettingsState = settingsState.toUiState()
-            val density = Density(uiDensity, uiFontScale)
-
-            // Wrap in MaterialTheme to fix text line-wrapping differences
-            MaterialTheme {
-                CompositionLocalProvider(
-                    LocalSettingsState provides uiSettingsState,
-                    LocalDensity provides density
-                ) {
-                    val tileWidthDp = with(density) { tileWidth.toDp() }
-                    val tileHeightDp = with(density) { tileHeight.toDp() }
-                    val authorWidthDp = with(density) { authorWidth.toDp() }
-                    val authorHeightDp = with(density) { authorHeight.toDp() }
-
-                    // The Viewport Box (Tile Size)
-                    Box(
-                        modifier = Modifier
-                            .requiredSize(tileWidthDp, tileHeightDp)
-                            .clipToBounds()
-                    ) {
-                        // The Panning Box (Shifts the content under the "scanner")
-                        Box(
-                            modifier = Modifier.graphicsLayer {
-                                translationX = -currentTileX.toFloat()
-                                translationY = -currentTileY.toFloat()
+                        frameChannel.trySend(
+                            createBitmap(
+                                width = tileWidth + rowPadding / pixelStride,
+                                height = tileHeight
+                            ).apply {
+                                copyPixelsFromBuffer(buffer)
+                            }.let { padded ->
+                                if (rowPadding > 0) {
+                                    Bitmap.createBitmap(padded, 0, 0, tileWidth, tileHeight)
+                                } else {
+                                    padded
+                                }
                             }
-                        ) {
-                            val ratio = min(
-                                targetWidth.toFloat() / authorWidth,
-                                targetHeight.toFloat() / authorHeight
-                            )
+                        )
+                    }
+                } ?: return@setOnImageAvailableListener
+            }, Handler(Looper.getMainLooper()))
+        }
 
-                            // The Scaled Author Container
+        composeView.setContent {
+            MaterialTheme {
+                with(context.density) {
+                    CompositionLocalProvider(
+                        LocalSettingsState provides settingsState.toUiState(),
+                        LocalDensity provides this
+                    ) {
+                        val authorWidthDp = authorWidth.toDp()
+                        val authorHeightDp = authorHeight.toDp()
+
+                        Box(
+                            modifier = Modifier
+                                .requiredSize(
+                                    width = tileWidth.toDp(),
+                                    height = tileHeight.toDp()
+                                )
+                                .clipToBounds()
+                        ) {
                             Box(
-                                modifier = Modifier
-                                    .size(authorWidthDp, authorHeightDp)
-                                    .graphicsLayer {
-                                        scaleX = ratio
-                                        scaleY = ratio
-                                        transformOrigin = TransformOrigin(0f, 0f)
-                                        translationX = (targetWidth - authorWidth * ratio) / 2f
-                                        translationY = (targetHeight - authorHeight * ratio) / 2f
-                                    }
+                                modifier = Modifier.graphicsLayer {
+                                    translationX = -currentTileX.toFloat()
+                                    translationY = -currentTileY.toFloat()
+                                }
                             ) {
-                                layers.forEach { layer ->
-                                    if (layer.position.isVisible) {
+                                val ratio = min(
+                                    targetWidth.toFloat() / authorWidth,
+                                    targetHeight.toFloat() / authorHeight
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .size(authorWidthDp, authorHeightDp)
+                                        .graphicsLayer {
+                                            scaleX = ratio
+                                            scaleY = ratio
+                                            transformOrigin = TransformOrigin(0f, 0f)
+                                            translationX = (targetWidth - authorWidth * ratio) / 2f
+                                            translationY =
+                                                (targetHeight - authorHeight * ratio) / 2f
+                                        }
+                                ) {
+                                    layers.forEach { layer ->
                                         Box(
                                             modifier = Modifier
                                                 .align(Alignment.Center)
@@ -257,44 +262,42 @@ internal class LayersRenderer @Inject constructor(
                                 }
                             }
                         }
-                    }
 
-                    // Trigger capture whenever the tile offset updates
-                    LaunchedEffect(currentTileX, currentTileY) {
-                        delay(350) // Wait for layout/images to settle
-                        "Requesting hardware capture for tile: $currentTileX, $currentTileY".makeLog()
-                        readyToCapture = true
-                        composeView.invalidate() // Force a frame
+                        LaunchedEffect(currentTileX, currentTileY) {
+                            delay(350)
+                            "Requesting hardware capture for tile: $currentTileX, $currentTileY".makeLog()
+                            readyToCapture = true
+                            composeView.invalidate()
+                        }
                     }
                 }
             }
         }
 
-        // Execute the Tile Loop
-        val canvas = Canvas(resultBitmap)
+        resultBitmap.applyCanvas {
+            for (y in 0 until targetHeight step tileHeight) {
+                for (x in 0 until targetWidth step tileWidth) {
+                    currentTileX = x
+                    currentTileY = y
 
-        for (y in 0 until targetHeight step tileHeight) {
-            for (x in 0 until targetWidth step tileWidth) {
-                // Shift the compose view
-                currentTileX = x
-                currentTileY = y
-
-                // Suspend and wait for the hardware frame to be processed
-                val tileBitmap = frameChannel.receive()
-
-                // Stamp the tile onto our massive result bitmap
-                canvas.drawBitmap(tileBitmap, x.toFloat(), y.toFloat(), null)
-                tileBitmap.recycle()
+                    frameChannel.receive().apply {
+                        drawBitmap(
+                            bitmap = this,
+                            left = x.toFloat(),
+                            top = y.toFloat()
+                        )
+                        recycle()
+                    }
+                }
             }
         }
 
-        // Cleanup Memory
         presentation.dismiss()
         virtualDisplay.release()
         imageReader.close()
         frameChannel.close()
 
-        return@withContext resultBitmap
+        resultBitmap
     }
 
     private fun queryGlMaxTextureSize(): Int {
