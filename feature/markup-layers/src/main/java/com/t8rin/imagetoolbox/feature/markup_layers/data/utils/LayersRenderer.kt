@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.markup_layers.data.utils
 import android.app.Presentation
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.hardware.display.DisplayManager
@@ -53,7 +52,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.core.content.getSystemService
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
-import androidx.compose.ui.unit.Density
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
@@ -68,7 +66,6 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Laye
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -116,7 +113,7 @@ internal class LayersRenderer @Inject constructor(
         )
 
         val displayManager =
-            context.getSystemService<DisplayManager>() ?: return@coroutineScope resultBitmap
+            context.getSystemService<DisplayManager>() ?: return@withContext resultBitmap
         val virtualDisplay = displayManager.createVirtualDisplay(
             "MarkupRenderDisplay",
             tileWidth,
