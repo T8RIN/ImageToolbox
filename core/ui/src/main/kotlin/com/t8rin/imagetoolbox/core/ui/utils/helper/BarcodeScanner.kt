@@ -21,12 +21,17 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.utils.toQrType
 import com.t8rin.logger.makeLog
@@ -36,6 +41,8 @@ import io.github.g00fy2.quickie.config.BarcodeFormat
 import io.github.g00fy2.quickie.config.ScannerConfig
 
 private class BarcodeScannerImpl(
+    private val tint: Color,
+    private val container: Color,
     private val scannerLauncher: ManagedActivityResultLauncher<ScannerConfig, QRResult>
 ) : BarcodeScanner {
 
@@ -48,6 +55,10 @@ private class BarcodeScannerImpl(
             setShowTorchToggle(true)
             setShowCloseButton(true)
             setKeepScreenOn(true)
+            setButtonColors(
+                tint = tint.toArgb(),
+                container = container.toArgb()
+            )
         }.makeLog("Barcode Scanner")
 
         scannerLauncher.launch(config)
@@ -86,8 +97,14 @@ fun rememberBarcodeScanner(
         }
     }
 
+    val tint = MaterialTheme.colorScheme.onPrimaryContainerFixed
+    val container = MaterialTheme.colorScheme.primaryContainerFixed.copy(0.6f)
 
-    return remember(scannerLauncher) {
-        BarcodeScannerImpl(scannerLauncher)
+    return remember(tint, container, scannerLauncher) {
+        BarcodeScannerImpl(
+            tint = tint,
+            container = container,
+            scannerLauncher = scannerLauncher,
+        )
     }
 }

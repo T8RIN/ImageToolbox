@@ -1590,7 +1590,7 @@
     <string name="pixel_by_pixel">Попиксельно</string>
     <string name="highlight_color">Цвет подсветки</string>
     <string name="pixel_comparison_type">Сравнение пикселей Тип</string>
-    <string name="scan_barcode">Сканировать штрихкод</string>
+    <string name="scan_barcode">Отсканируйте штрихкод</string>
     <string name="height_ratio">Соотношение высоты</string>
     <string name="barcode_type">Тип штрихкода</string>
     <string name="enforce_bw">Принудительно ч/б</string>
