@@ -150,8 +150,8 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeVersion" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
-avif-coder = { module = "com.github.awxkee:avif-coder", version.ref = "avifCoder" }
-avif-coder-coil = { module = "com.github.awxkee:avif-coder-coil", version.ref = "avifCoderCoil" }
+avif-coder = { module = "io.github.awxkee:avif-coder", version.ref = "avifCoder" }
+avif-coder-coil = { module = "io.github.awxkee:avif-coder-coil", version.ref = "avifCoderCoil" }
 shadowGadgets = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "shadowGadgets" }
 datastore-preferences-android = { module = "androidx.datastore:datastore-preferences-android", version.ref = "dataStore" }
 datastore-core-android = { module = "androidx.datastore:datastore-core-android", version.ref = "dataStore" }
