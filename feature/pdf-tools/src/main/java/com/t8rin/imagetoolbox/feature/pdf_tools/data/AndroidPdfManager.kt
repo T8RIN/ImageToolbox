@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPage
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdf
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.crop
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.defaultFont
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getAllImages
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getPageSafe
@@ -644,47 +645,11 @@ internal class AndroidPdfManager @Inject constructor(
         params: PdfCropParams
     ): String = catchPdf {
         usePdf(uri) { document ->
-            val rect = params.rect
-
             params.pages.orAll(document).forEach { pageIndex ->
-                val page = document.getPageSafe(pageIndex)
-
-                val cropBox = page.cropBox
-
-                val width = cropBox.width
-                val height = cropBox.height
-                val originX = cropBox.lowerLeftX
-                val originY = cropBox.lowerLeftY
-
-                val rotation = page.rotation
-
-                page.cropBox = when (rotation) {
-                    90 -> PDRectangle(
-                        originX + rect.top * width,
-                        originY + rect.left * height,
-                        (rect.bottom - rect.top) * width,
-                        (rect.right - rect.left) * height
-                    )
-
-                    180 -> PDRectangle(
-                        originX + (1f - rect.right) * width,
-                        originY + rect.top * height,
-                        (rect.right - rect.left) * width,
-                        (rect.bottom - rect.top) * height
-                    )
-
-                    270 -> PDRectangle(
-                        originX + (1f - rect.bottom) * width,
-                        originY + (1f - rect.right) * height,
-                        (rect.bottom - rect.top) * width,
-                        (rect.right - rect.left) * height
-                    )
-
-                    else -> PDRectangle(
-                        originX + rect.left * width,
-                        originY + (1f - rect.bottom) * height,
-                        (rect.right - rect.left) * width,
-                        (rect.bottom - rect.top) * height
+                document.getPageSafe(pageIndex).let { page ->
+                    page.cropBox = page.cropBox.crop(
+                        rotation = page.rotation,
+                        rect = params.rect
                     )
                 }
             }

@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
+import com.t8rin.imagetoolbox.core.domain.model.RectModel
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.applyUse
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
@@ -36,6 +37,7 @@ import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
 import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.PDResources
+import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
@@ -222,6 +224,46 @@ internal inline fun PDDocument.transformImages(
                 put(name, image)
             }
         }
+    }
+}
+
+internal fun PDRectangle.crop(
+    rotation: Int,
+    rect: RectModel
+): PDRectangle {
+    val width = width
+    val height = height
+    val originX = lowerLeftX
+    val originY = lowerLeftY
+
+    return when (rotation) {
+        90 -> PDRectangle(
+            originX + rect.top * width,
+            originY + rect.left * height,
+            (rect.bottom - rect.top) * width,
+            (rect.right - rect.left) * height
+        )
+
+        180 -> PDRectangle(
+            originX + (1f - rect.right) * width,
+            originY + rect.top * height,
+            (rect.right - rect.left) * width,
+            (rect.bottom - rect.top) * height
+        )
+
+        270 -> PDRectangle(
+            originX + (1f - rect.bottom) * width,
+            originY + (1f - rect.right) * height,
+            (rect.bottom - rect.top) * width,
+            (rect.right - rect.left) * height
+        )
+
+        else -> PDRectangle(
+            originX + rect.left * width,
+            originY + (1f - rect.bottom) * height,
+            (rect.right - rect.left) * width,
+            (rect.bottom - rect.top) * height
+        )
     }
 }
 
