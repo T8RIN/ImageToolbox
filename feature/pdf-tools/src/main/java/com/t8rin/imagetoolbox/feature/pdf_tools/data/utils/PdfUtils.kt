@@ -24,6 +24,7 @@ import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.applyUse
+import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
@@ -201,6 +202,28 @@ internal fun PDDocument.getAllImages(): List<PDImageXObject> =
 internal inline fun <T> createPdf(action: (PDDocument) -> T) = PDDocument().use(action)
 
 internal fun List<Int>?.orAll(document: PDDocument) = orEmpty().ifEmpty { document.pageIndices }
+
+internal inline fun PDDocument.transformImages(
+    quality: Float,
+    transform: (Bitmap) -> Bitmap
+) {
+    pages.forEach { page ->
+        page.resources.apply {
+            for (name in xObjectNames) {
+                val image = getXObject(name)
+                    .safeCast<PDImageXObject>()
+                    ?.image
+                    ?.let(transform)
+                    ?.asXObject(
+                        document = this@transformImages,
+                        quality = quality
+                    ) ?: continue
+
+                put(name, image)
+            }
+        }
+    }
+}
 
 private fun PDResources.getImages(): List<PDImageXObject> {
     val images: MutableList<PDImageXObject> = mutableListOf()

@@ -43,7 +43,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
-import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.createZip
@@ -63,6 +62,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.pageIndices
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.save
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setAlpha
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setColor
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.transformImages
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.writePage
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
@@ -83,7 +83,6 @@ import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
-import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -113,7 +112,7 @@ internal class AndroidPdfManager @Inject constructor(
         val dpi = 72f * scale
 
         catchPdf {
-            helper.useRenderer(uri) { renderer ->
+            useRenderer(uri) { renderer ->
                 params.pages.orAll(renderer.pDocument).also {
                     send(ExtractPagesAction.PagesCount(it.size))
                 }.forEach { pageIndex ->
@@ -537,7 +536,7 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
-        helper.useRenderer(uri) { renderer ->
+        useRenderer(uri) { renderer ->
             renderer.pageIndices.mapNotNull { pageIndex ->
                 val bitmap = renderer.safeRenderDpi(
                     pageIndex = pageIndex,
@@ -561,19 +560,10 @@ internal class AndroidPdfManager @Inject constructor(
         quality: Float
     ): String = catchPdf {
         usePdf(uri) { document ->
-            document.pages.forEach { page ->
-                page.resources.apply {
-                    for (name in xObjectNames) {
-                        val image = getXObject(name)
-                            .safeCast<PDImageXObject>()
-                            ?.image?.asXObject(document, quality)
-                            ?: continue
-
-                        put(name, image)
-                    }
-                }
-            }
-
+            document.transformImages(
+                quality = quality,
+                transform = { it }
+            )
             document.save(
                 filename = tempName(
                     key = "compressed",
@@ -585,20 +575,16 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun convertToGrayscale(uri: String): String = catchPdf {
         usePdf(uri) { document ->
-            document.pages.forEach { page ->
-                page.resources.apply {
-                    for (name in xObjectNames) {
-                        val image = Aire.saturation(
-                            bitmap = getXObject(name).safeCast<PDImageXObject>()?.image ?: continue,
-                            saturation = 0f,
-                            tonemap = false
-                        ).asXObject(document, 0.8f)
-
-                        put(name, image)
-                    }
+            document.transformImages(
+                quality = 0.8f,
+                transform = {
+                    Aire.saturation(
+                        bitmap = it,
+                        saturation = 0f,
+                        tonemap = false
+                    )
                 }
-            }
-
+            )
             document.save(
                 filename = tempName(
                     key = "grayscale",
