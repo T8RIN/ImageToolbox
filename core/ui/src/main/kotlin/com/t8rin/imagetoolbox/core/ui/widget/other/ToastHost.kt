@@ -78,6 +78,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
+import com.t8rin.imagetoolbox.core.utils.decodeEscaped
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.delay
@@ -340,7 +341,7 @@ suspend fun ToastHostState.showFailureToast(
 ) = showFailureToast(
     message = context.getString(
         R.string.smth_went_wrong,
-        throwable.localizedMessage ?: ""
+        throwable.localizedMessage?.decodeEscaped() ?: ""
     )
 )
 

@@ -63,7 +63,7 @@ fun Uri?.uiPath(
             else appContext.getString(R.string.external_storage)
 
             startPath + endPath
-        }
+        }?.decodeEscaped()
 } ?: default
 
 fun Uri.lastModified(): Long? = tryExtractOriginal().run {

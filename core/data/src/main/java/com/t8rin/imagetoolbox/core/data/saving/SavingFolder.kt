@@ -92,9 +92,7 @@ internal data class SavingFolder private constructor(
             } else {
                 val documentFile = DocumentFile.fromTreeUri(context, treeUri)
 
-                if (documentFile?.exists() == false || documentFile == null) {
-                    throw NoSuchFileException(File(treeUri.toString()))
-                }
+                if (documentFile == null || !documentFile.exists()) return@coroutineScope null
 
                 val filename = saveTarget.filename ?: return@coroutineScope null
 

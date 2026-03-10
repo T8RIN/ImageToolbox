@@ -224,7 +224,7 @@ internal class AndroidFileController @Inject constructor(
                         }
                     }.getOrNull()
 
-                    if (documentFile?.exists() == false && documentFile.isDirectory || documentFile == null) {
+                    if (documentFile == null || !documentFile.exists()) {
                         if (oneTimeSaveLocationUri == null) {
                             settingsManager.setSaveFolderUri(null)
                         } else {
