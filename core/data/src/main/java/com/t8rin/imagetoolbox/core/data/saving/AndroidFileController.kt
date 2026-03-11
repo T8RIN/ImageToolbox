@@ -28,7 +28,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.documentfile.provider.DocumentFile
+import coil3.ImageLoader
 import com.t8rin.exif.ExifInterface
+import com.t8rin.imagetoolbox.core.data.coil.remove
 import com.t8rin.imagetoolbox.core.data.image.toMetadata
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriWriteable
@@ -86,6 +88,7 @@ internal class AndroidFileController @Inject constructor(
     private val jsonParser: JsonParser,
     private val appScope: AppScope,
     private val dataStore: DataStore<Preferences>,
+    private val imageLoader: ImageLoader,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager,
 ) : DispatchersHolder by dispatchersHolder,
@@ -198,6 +201,11 @@ internal class AndroidFileController @Inject constructor(
                             keepOriginalMetadata = keepOriginalMetadata,
                             originalUri = originalUri
                         )
+                    }
+
+                    imageLoader.apply {
+                        memoryCache?.remove(originalUri.toString())
+                        diskCache?.remove(originalUri.toString())
                     }
 
                     return@withContext SaveResult.Success(

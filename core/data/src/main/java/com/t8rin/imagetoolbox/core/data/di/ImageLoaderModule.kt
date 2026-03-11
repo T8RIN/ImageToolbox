@@ -57,12 +57,14 @@ import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import oupson.apng.coil.AnimatedPngDecoder
 import java.io.File
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object ImageLoaderModule {
 
     @Provides
+    @Singleton
     fun provideImageLoader(
         @ApplicationContext context: Context,
         logger: Logger?,
@@ -92,9 +94,11 @@ internal object ImageLoaderModule {
         .also(SingletonImageLoader::setUnsafe)
 
     @Provides
+    @Singleton
     fun provideCoilLogger(): Logger = CoilLogger()
 
     @Provides
+    @Singleton
     fun provideComponentRegistry(
         client: HttpClient
     ): ComponentRegistry = ComponentRegistry.Builder()
