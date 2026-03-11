@@ -63,8 +63,9 @@ private data class FilePickerImpl(
 
 @Stable
 @Immutable
-interface FilePicker {
+interface FilePicker : ResultLauncher {
     fun pickFile()
+    override fun launch() = pickFile()
 }
 
 enum class FileType {

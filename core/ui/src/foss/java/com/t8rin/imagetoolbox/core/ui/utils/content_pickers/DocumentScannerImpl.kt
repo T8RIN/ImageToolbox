@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.ui.utils.helper
+package com.t8rin.imagetoolbox.core.ui.utils.content_pickers
 
 import android.Manifest
 import android.content.Context
@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ScanResult
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerDelegate

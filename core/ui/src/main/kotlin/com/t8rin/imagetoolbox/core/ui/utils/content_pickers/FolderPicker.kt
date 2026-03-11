@@ -55,8 +55,9 @@ private data class FolderPickerImpl(
 
 @Stable
 @Immutable
-interface FolderPicker {
+interface FolderPicker : ResultLauncher {
     fun pickFolder(initialLocation: Uri? = null)
+    override fun launch() = pickFolder()
 }
 
 @Composable

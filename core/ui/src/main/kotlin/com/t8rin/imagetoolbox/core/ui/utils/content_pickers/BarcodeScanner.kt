@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.ui.utils.helper
+package com.t8rin.imagetoolbox.core.ui.utils.content_pickers
 
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -77,9 +77,7 @@ private class BarcodeScannerImpl(
 
 @Stable
 @Immutable
-interface BarcodeScanner {
-    fun scan()
-}
+interface BarcodeScanner : Scanner
 
 @Composable
 fun rememberBarcodeScanner(

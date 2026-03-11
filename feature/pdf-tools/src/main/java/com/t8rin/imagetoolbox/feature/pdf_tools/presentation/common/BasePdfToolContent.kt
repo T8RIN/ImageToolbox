@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
-import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ResultLauncher
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -66,7 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 @Composable
 internal fun BasePdfToolContent(
     component: BasePdfToolComponent,
-    pdfPicker: FilePicker,
+    contentPicker: ResultLauncher,
     isPickedAlready: Boolean,
     canShowScreenData: Boolean,
     title: String,
@@ -114,7 +114,7 @@ internal fun BasePdfToolContent(
     }
 
     AutoFilePicker(
-        onAutoPick = pdfPicker::pickFile,
+        onAutoPick = contentPicker::launch,
         isPickedAlready = isPickedAlready
     )
 
@@ -209,7 +209,7 @@ internal fun BasePdfToolContent(
                 isPrimaryButtonVisible = canSave,
                 secondaryButtonIcon = secondaryButtonIcon,
                 secondaryButtonText = secondaryButtonText,
-                onSecondaryButtonClick = pdfPicker::pickFile,
+                onSecondaryButtonClick = contentPicker::launch,
                 onPrimaryButtonClick = onPrimaryButtonClick ?: {
                     saveLauncher.make(component.createTargetFilename())
                 },
@@ -223,7 +223,7 @@ internal fun BasePdfToolContent(
         noDataControls = {
             FileNotPickedWidget(
                 text = noDataText,
-                onPickFile = pdfPicker::pickFile
+                onPickFile = contentPicker::launch
             )
         },
         portraitTopPadding = 20.dp,

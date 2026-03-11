@@ -55,8 +55,9 @@ private data class FileMakerImpl(
 
 @Stable
 @Immutable
-interface FileMaker {
+interface FileMaker : ResultLauncher {
     fun make(name: String)
+    override fun launch() = make("")
 }
 
 @Composable

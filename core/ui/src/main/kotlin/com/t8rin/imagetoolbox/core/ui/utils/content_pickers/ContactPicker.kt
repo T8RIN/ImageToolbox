@@ -94,8 +94,9 @@ private data class ContactPickerImpl(
 
 @Stable
 @Immutable
-interface ContactPicker {
+interface ContactPicker : ResultLauncher {
     fun pickContact()
+    override fun launch() = pickContact()
 }
 
 @Composable

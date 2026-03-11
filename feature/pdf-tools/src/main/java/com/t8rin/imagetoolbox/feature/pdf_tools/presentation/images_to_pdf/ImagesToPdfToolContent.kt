@@ -45,7 +45,7 @@ fun ImagesToPdfToolContent(
 
     BasePdfToolContent(
         component = component,
-        pdfPicker = rememberImagePicker(
+        contentPicker = rememberImagePicker(
             onSuccess = component::setUris
         ),
         secondaryButtonIcon = Icons.Rounded.AddPhotoAlt,
