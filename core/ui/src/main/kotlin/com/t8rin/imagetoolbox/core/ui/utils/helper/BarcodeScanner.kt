@@ -31,8 +31,10 @@ import androidx.compose.ui.graphics.toArgb
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.onTertiaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.toQrType
 import com.t8rin.logger.makeLog
 import io.github.g00fy2.quickie.QRResult
@@ -43,6 +45,10 @@ import io.github.g00fy2.quickie.config.ScannerConfig
 private class BarcodeScannerImpl(
     private val tint: Color,
     private val container: Color,
+    private val frame: Color,
+    private val frameHighlighted: Color,
+    private val topIcon: Color,
+    private val topText: Color,
     private val scannerLauncher: ManagedActivityResultLauncher<ScannerConfig, QRResult>
 ) : BarcodeScanner {
 
@@ -55,9 +61,13 @@ private class BarcodeScannerImpl(
             setShowTorchToggle(true)
             setShowCloseButton(true)
             setKeepScreenOn(true)
-            setButtonColors(
-                tint = tint.toArgb(),
-                container = container.toArgb()
+            setColors(
+                buttonTint = tint.toArgb(),
+                buttonBackground = container.toArgb(),
+                frame = frame.toArgb(),
+                frameHighlighted = frameHighlighted.toArgb(),
+                topIcon = topIcon.toArgb(),
+                topText = topText.toArgb()
             )
         }.makeLog("Barcode Scanner")
 
@@ -82,7 +92,17 @@ fun rememberBarcodeScanner(
         result.makeLog("Barcode Scanner")
 
         when (result) {
-            is QRResult.QRError -> essentials.showFailureToast(result.exception)
+            is QRResult.QRError -> {
+                val message = result.exception.localizedMessage ?: ""
+
+                essentials.showFailureToast(
+                    if ("NotFound" in message) {
+                        getString(R.string.no_barcode_found)
+                    } else {
+                        message
+                    }
+                )
+            }
 
             QRResult.QRMissingPermission -> {
                 essentials.showToast(
@@ -98,12 +118,20 @@ fun rememberBarcodeScanner(
     }
 
     val tint = MaterialTheme.colorScheme.onPrimaryContainerFixed
-    val container = MaterialTheme.colorScheme.primaryContainerFixed.copy(0.6f)
+    val container = MaterialTheme.colorScheme.primaryContainerFixed
+    val frame = MaterialTheme.colorScheme.onPrimaryContainerFixed
+    val frameHighlighted = MaterialTheme.colorScheme.onTertiaryContainerFixed
+    val topIcon = MaterialTheme.colorScheme.secondaryFixed
+    val topText = MaterialTheme.colorScheme.secondaryFixed
 
-    return remember(tint, container, scannerLauncher) {
+    return remember(tint, container, frame, frameHighlighted, topIcon, topText, scannerLauncher) {
         BarcodeScannerImpl(
             tint = tint,
             container = container,
+            frame = frame,
+            frameHighlighted = frameHighlighted,
+            topIcon = topIcon,
+            topText = topText,
             scannerLauncher = scannerLauncher,
         )
     }
