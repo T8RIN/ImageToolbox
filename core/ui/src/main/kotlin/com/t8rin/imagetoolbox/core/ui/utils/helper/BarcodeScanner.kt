@@ -34,7 +34,6 @@ import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.onTertiaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
-import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.toQrType
 import com.t8rin.logger.makeLog
 import io.github.g00fy2.quickie.QRResult
@@ -93,15 +92,17 @@ fun rememberBarcodeScanner(
 
         when (result) {
             is QRResult.QRError -> {
-                val message = result.exception.localizedMessage ?: ""
+                essentials.apply {
+                    val message = result.exception.localizedMessage ?: ""
 
-                essentials.showFailureToast(
-                    if ("NotFound" in message) {
-                        getString(R.string.no_barcode_found)
-                    } else {
-                        message
-                    }
-                )
+                    showFailureToast(
+                        if ("NotFound" in message) {
+                            getString(R.string.no_barcode_found)
+                        } else {
+                            getString(R.string.smth_went_wrong, message)
+                        }
+                    )
+                }
             }
 
             QRResult.QRMissingPermission -> {
