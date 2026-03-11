@@ -942,10 +942,6 @@ internal class AndroidSettingsManager @Inject constructor(
                 || !currentSettings.filenameBehavior::class.isInstance(behavior)
 
         if (useToggle) {
-            if (behavior is FilenameBehavior.Overwrite) {
-                it[IMAGE_PICKER_MODE] = 2
-            }
-
             it[FILENAME_BEHAVIOR] =
                 jsonParser.toJson(behavior, FilenameBehavior::class.java).orEmpty()
         } else {
