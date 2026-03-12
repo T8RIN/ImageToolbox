@@ -27,33 +27,34 @@ import androidx.compose.ui.unit.dp
 val Icons.Outlined.SamsungLetter: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
         name = "Outlined.SamsungLetter",
-        defaultWidth = 512.dp,
-        defaultHeight = 512.dp,
-        viewportWidth = 512f,
-        viewportHeight = 512f
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color.Black)) {
-            moveTo(292.59f, 332.17f)
-            curveToRelative(3.49f, 8.61f, 2.42f, 19.71f, 0.78f, 26.4f)
-            curveToRelative(-2.99f, 11.81f, -11.03f, 23.91f, -34.65f, 23.91f)
-            curveToRelative(-22.34f, 0f, -35.86f, -12.81f, -35.86f, -32.3f)
-            lineToRelative(0f, -34.44f)
-            lineToRelative(-95.48f, 0f)
-            lineToRelative(-0.07f, 27.53f)
-            curveToRelative(0f, 79.33f, 62.47f, 103.31f, 129.42f, 103.31f)
-            curveToRelative(64.39f, 0f, 117.4f, -21.99f, 125.79f, -81.32f)
-            curveToRelative(4.34f, -30.74f, 1.07f, -50.87f, -0.36f, -58.49f)
-            curveToRelative(-15.01f, -74.49f, -150.12f, -96.76f, -160.16f, -138.38f)
-            curveToRelative(-1.71f, -7.11f, -1.21f, -14.73f, -0.36f, -18.78f)
-            curveToRelative(2.49f, -11.31f, 10.25f, -23.83f, 32.51f, -23.83f)
-            curveToRelative(20.78f, 0f, 33.08f, 12.88f, 33.08f, 32.3f)
-            curveToRelative(0f, 6.55f, 0f, 21.99f, 0f, 21.99f)
-            lineToRelative(88.72f, 0f)
-            lineToRelative(0f, -24.97f)
-            curveToRelative(0f, -77.55f, -69.58f, -89.65f, -119.96f, -89.65f)
-            curveToRelative(-63.32f, 0f, -115.05f, 20.92f, -124.51f, 78.83f)
-            curveToRelative(-2.56f, 16.01f, -2.92f, 30.24f, 0.78f, 48.1f)
-            curveToRelative(15.58f, 72.64f, 141.94f, 93.7f, 160.3f, 139.81f)
+        path(fill = SolidColor(Color(0xFF010101))) {
+            moveTo(13.706f, 15.551f)
+            curveToRelative(0.163f, 0.401f, 0.113f, 0.919f, 0.036f, 1.231f)
+            curveToRelative(-0.139f, 0.551f, -0.514f, 1.115f, -1.616f, 1.115f)
+            curveToRelative(-1.042f, 0f, -1.672f, -0.597f, -1.672f, -1.506f)
+            verticalLineToRelative(-1.606f)
+            horizontalLineToRelative(-4.452f)
+            lineToRelative(-0.003f, 1.284f)
+            curveToRelative(0f, 3.699f, 2.913f, 4.817f, 6.034f, 4.817f)
+            curveToRelative(3.002f, 0f, 5.474f, -1.025f, 5.865f, -3.791f)
+            curveToRelative(0.202f, -1.433f, 0.05f, -2.372f, -0.017f, -2.727f)
+            curveToRelative(-0.7f, -3.473f, -6.999f, -4.511f, -7.467f, -6.452f)
+            curveToRelative(-0.08f, -0.331f, -0.056f, -0.687f, -0.017f, -0.876f)
+            curveToRelative(0.116f, -0.527f, 0.478f, -1.111f, 1.516f, -1.111f)
+            curveToRelative(0.969f, 0f, 1.542f, 0.601f, 1.542f, 1.506f)
+            verticalLineToRelative(1.025f)
+            horizontalLineToRelative(4.136f)
+            verticalLineToRelative(-1.164f)
+            curveToRelative(0f, -3.616f, -3.244f, -4.18f, -5.593f, -4.18f)
+            curveToRelative(-2.952f, 0f, -5.364f, 0.975f, -5.805f, 3.675f)
+            curveToRelative(-0.119f, 0.746f, -0.136f, 1.41f, 0.036f, 2.243f)
+            curveToRelative(0.726f, 3.387f, 6.618f, 4.369f, 7.474f, 6.518f)
+            lineToRelative(0.001f, -0.001f)
             close()
         }
     }.build()
