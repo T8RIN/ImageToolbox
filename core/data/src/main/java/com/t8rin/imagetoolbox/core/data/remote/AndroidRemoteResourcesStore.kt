@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.data.remote
 
 import android.content.Context
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.domain.RES_BASE_URL
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
@@ -110,7 +111,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
     private fun getResourcesLink(
         dirName: String
-    ): String = BaseUrl.replace("*", dirName)
+    ): String = RES_BASE_URL.replace("*", dirName)
 
 
     private fun getSavingDir(
@@ -120,6 +121,3 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
     private val rootDir = File(context.filesDir, "remoteResources").apply(File::mkdirs)
 
 }
-
-private const val BaseUrl =
-    "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/*"

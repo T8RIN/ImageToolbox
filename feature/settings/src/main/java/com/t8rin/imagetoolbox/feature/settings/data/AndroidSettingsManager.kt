@@ -27,8 +27,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.t8rin.imagetoolbox.core.data.utils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
-import com.t8rin.imagetoolbox.core.domain.BackupFileExtension
-import com.t8rin.imagetoolbox.core.domain.GlobalStorageName
+import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
+import com.t8rin.imagetoolbox.core.domain.GLOBAL_STORAGE_NAME
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
@@ -327,7 +327,7 @@ internal class AndroidSettingsManager @Inject constructor(
     )
 
     override suspend fun createBackupFile(): ByteArray =
-        context.obtainDatastoreData(GlobalStorageName)
+        context.obtainDatastoreData(GLOBAL_STORAGE_NAME)
 
     override suspend fun restoreFromBackupFile(
         backupFileUri: String,
@@ -335,7 +335,7 @@ internal class AndroidSettingsManager @Inject constructor(
         onFailure: (Throwable) -> Unit,
     ) = withContext(ioDispatcher) {
         context.restoreDatastore(
-            fileName = GlobalStorageName,
+            fileName = GLOBAL_STORAGE_NAME,
             backupUri = backupFileUri.toUri(),
             onFailure = onFailure,
             onSuccess = {
@@ -348,12 +348,12 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun resetSettings() = withContext(defaultDispatcher) {
-        context.resetDatastore(GlobalStorageName)
+        context.resetDatastore(GLOBAL_STORAGE_NAME)
         registerAppOpen()
     }
 
     override fun createBackupFilename(): String =
-        "image_toolbox_${timestamp()}.$BackupFileExtension"
+        "image_toolbox_${timestamp()}.$BACKUP_FILE_EXT"
 
     override suspend fun setFont(font: DomainFontFamily) = edit {
         it[SELECTED_FONT] = font.asString()

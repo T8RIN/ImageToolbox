@@ -46,7 +46,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.APP_LINK
+import com.t8rin.imagetoolbox.core.domain.APP_GITHUB_LINK
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Github
@@ -175,7 +175,7 @@ internal fun SearchableBottomBar(
                                 linkHandler.openUri("https://play.google.com/store/apps/details?id=${context.packageName}")
                             }
                         } else {
-                            linkHandler.openUri(APP_LINK)
+                            linkHandler.openUri(APP_GITHUB_LINK)
                         }
                     },
                     modifier = Modifier.requiredSize(size = 56.dp),

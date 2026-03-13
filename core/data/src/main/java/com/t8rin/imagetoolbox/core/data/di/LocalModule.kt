@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.t8rin.imagetoolbox.core.domain.GlobalStorageName
+import com.t8rin.imagetoolbox.core.domain.GLOBAL_STORAGE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +39,7 @@ internal object LocalModule {
     fun dataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
-        produceFile = { context.preferencesDataStoreFile(GlobalStorageName) }
+        produceFile = { context.preferencesDataStoreFile(GLOBAL_STORAGE_NAME) }
     )
 
 }

@@ -22,7 +22,7 @@ import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.t8rin.imagetoolbox.core.domain.BackupFileExtension
+import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenExtra
@@ -152,7 +152,7 @@ fun Intent?.handleDeeplinks(
 
                     Intent.ACTION_SEND -> {
                         intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                            if (it.toString().contains(BackupFileExtension, true)) {
+                            if (it.toString().contains(BACKUP_FILE_EXT, true)) {
                                 onHasExtraDataType(ExtraDataType.Backup(it.toString()))
                                 return
                             }
@@ -174,7 +174,7 @@ fun Intent?.handleDeeplinks(
                         if (uris.size == 1) {
                             val uri = uris.first()
 
-                            if (uri.toString().contains(BackupFileExtension, true)) {
+                            if (uri.toString().contains(BACKUP_FILE_EXT, true)) {
                                 onHasExtraDataType(ExtraDataType.Backup(uri.toString()))
                                 return
                             }

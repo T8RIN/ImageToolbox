@@ -36,11 +36,11 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.BitcoinWallet
-import com.t8rin.imagetoolbox.core.domain.BoostyLink
-import com.t8rin.imagetoolbox.core.domain.TONSpaceWallet
-import com.t8rin.imagetoolbox.core.domain.TONWallet
-import com.t8rin.imagetoolbox.core.domain.USDTWallet
+import com.t8rin.imagetoolbox.core.domain.BOOSTY_LINK
+import com.t8rin.imagetoolbox.core.domain.BTC_WALLET
+import com.t8rin.imagetoolbox.core.domain.TON_SPACE_WALLET
+import com.t8rin.imagetoolbox.core.domain.TON_WALLET
+import com.t8rin.imagetoolbox.core.domain.USDT_WALLET
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bitcoin
 import com.t8rin.imagetoolbox.core.resources.icons.Boosty
@@ -140,11 +140,11 @@ private data class DonationOption(
                                     darkMode = true
                                 )
                             },
-                            onClick = { linkHandler.openUri(BoostyLink) },
+                            onClick = { linkHandler.openUri(BOOSTY_LINK) },
                             endIcon = Icons.Rounded.Link,
                             startIcon = Icons.Rounded.Boosty,
                             title = { stringResource(R.string.boosty) },
-                            subtitle = BoostyLink
+                            subtitle = BOOSTY_LINK
                         ),
                         DonationOption(
                             containerColor = { BitcoinColor },
@@ -155,12 +155,12 @@ private data class DonationOption(
                                 )
                             },
                             onClick = {
-                                essentials.copyToClipboard(BitcoinWallet)
+                                essentials.copyToClipboard(BTC_WALLET)
                             },
                             endIcon = Icons.Rounded.ContentCopy,
                             title = { stringResource(R.string.bitcoin) },
                             startIcon = Icons.Filled.Bitcoin,
-                            subtitle = BitcoinWallet
+                            subtitle = BTC_WALLET
                         ),
                         DonationOption(
                             containerColor = { USDTColor },
@@ -171,12 +171,12 @@ private data class DonationOption(
                                 )
                             },
                             onClick = {
-                                essentials.copyToClipboard(BitcoinWallet)
+                                essentials.copyToClipboard(BTC_WALLET)
                             },
                             endIcon = Icons.Rounded.ContentCopy,
                             title = { stringResource(R.string.usdt) },
                             startIcon = Icons.Filled.USDT,
-                            subtitle = USDTWallet
+                            subtitle = USDT_WALLET
                         ),
                         DonationOption(
                             containerColor = { TONColor },
@@ -187,12 +187,12 @@ private data class DonationOption(
                                 )
                             },
                             onClick = {
-                                essentials.copyToClipboard(TONWallet)
+                                essentials.copyToClipboard(TON_WALLET)
                             },
                             endIcon = Icons.Rounded.ContentCopy,
                             startIcon = Icons.Rounded.Ton,
                             title = { stringResource(R.string.ton) },
-                            subtitle = TONWallet
+                            subtitle = TON_WALLET
                         ),
                         DonationOption(
                             containerColor = { TONSpaceColor },
@@ -203,12 +203,12 @@ private data class DonationOption(
                                 )
                             },
                             onClick = {
-                                essentials.copyToClipboard(TONSpaceWallet)
+                                essentials.copyToClipboard(TON_SPACE_WALLET)
                             },
                             endIcon = Icons.Rounded.ContentCopy,
                             startIcon = Icons.Rounded.Ton,
                             title = { stringResource(R.string.ton_space) },
-                            subtitle = TONSpaceWallet
+                            subtitle = TON_SPACE_WALLET
                         )
                     )
                 }

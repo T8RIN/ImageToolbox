@@ -34,8 +34,8 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import com.t8rin.imagetoolbox.core.domain.AUTHOR_LINK
-import com.t8rin.imagetoolbox.core.domain.AUTHOR_TG
+import com.t8rin.imagetoolbox.core.domain.AUTHOR_GITHUB
+import com.t8rin.imagetoolbox.core.domain.AUTHOR_TELEGRAM
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Forum
 import com.t8rin.imagetoolbox.core.resources.icons.Github
@@ -98,7 +98,7 @@ fun AuthorLinksSheet(
                         PreferenceItem(
                             containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                             onClick = {
-                                linkHandler.openUri(AUTHOR_TG)
+                                linkHandler.openUri(AUTHOR_TELEGRAM)
                             },
                             endIcon = Icons.Rounded.Link,
                             shape = top,
@@ -133,7 +133,7 @@ fun AuthorLinksSheet(
                     PreferenceItem(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
                         onClick = {
-                            linkHandler.openUri(AUTHOR_LINK)
+                            linkHandler.openUri(AUTHOR_GITHUB)
                         },
                         endIcon = Icons.Rounded.Link,
                         shape = bottom,
