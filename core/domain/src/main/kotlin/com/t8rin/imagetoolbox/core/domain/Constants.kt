@@ -28,6 +28,7 @@ const val AUTHOR_GITHUB = "https://github.com/$AUTHOR_NICK"
 const val APP_GITHUB_LINK = "$AUTHOR_GITHUB/ImageToolbox"
 const val ISSUE_TRACKER = "$APP_GITHUB_LINK/issues"
 const val APP_RELEASES = "$APP_GITHUB_LINK/releases"
+const val APP_CHANGELOG = "$APP_RELEASES.atom"
 
 
 const val RES_HOST = "$AUTHOR_GITHUB/ImageToolboxRemoteResources"

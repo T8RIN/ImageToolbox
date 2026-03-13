@@ -36,7 +36,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.t8rin.imagetoolbox.core.domain.APP_RELEASES
+import com.t8rin.imagetoolbox.core.domain.APP_CHANGELOG
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
@@ -46,7 +46,6 @@ import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
-import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -56,6 +55,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState
+import com.t8rin.imagetoolbox.core.utils.isNeedUpdate
+import com.t8rin.imagetoolbox.core.utils.parseChangelog
 import com.t8rin.imagetoolbox.core.utils.toImageModel
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.ChildProvider
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild
@@ -65,6 +66,10 @@ import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsChannel
+import io.ktor.utils.io.jvm.javaio.toInputStream
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -74,17 +79,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeoutOrNull
-import org.w3c.dom.Element
-import java.net.URL
-import javax.xml.parsers.DocumentBuilderFactory
-import kotlin.time.Duration.Companion.seconds
 
 class RootComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val settingsManager: SettingsManager,
     private val childProvider: ChildProvider,
     private val analyticsManager: AnalyticsManager,
+    private val client: HttpClient,
     filterParamsInteractor: FilterParamsInteractor,
     fileController: FileController,
     dispatchersHolder: DispatchersHolder,
@@ -261,37 +262,21 @@ class RootComponent @AssistedInject internal constructor(
     ) = withContext(defaultDispatcher) {
         "start updates check".makeLog("checkForUpdates")
         runCatching {
-            withTimeoutOrNull(30.seconds) {
-                val nodes =
-                    DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
-                        URL("$APP_RELEASES.atom").openConnection().getInputStream()
-                    )?.getElementsByTagName("feed")
+            val (tag, changelog) = client
+                .get(APP_CHANGELOG).bodyAsChannel().toInputStream()
+                .use { it.parseChangelog() }
 
-                if (nodes != null) {
-                    for (i in 0 until nodes.length) {
-                        val element = nodes.item(i) as Element
-                        val title = element.getElementsByTagName("entry")
-                        val line = (title.item(0) as Element)
-                        _tag.value = (line.getElementsByTagName("title")
-                            .item(0) as Element).textContent
-                        _changelog.value = (line.getElementsByTagName("content")
-                            .item(0) as Element).textContent
-                    }
-                }
-            }
+            _tag.update { tag }
+            _changelog.update { changelog }
 
             val isNeedUpdate = isNeedUpdate(
-                currentName = BuildConfig.VERSION_NAME,
-                updateName = tag
-            )
-
-            "isNeedUpdate = $isNeedUpdate".makeLog("checkForUpdates")
+                updateName = tag,
+                allowBetas = settingsState.allowBetas
+            ).makeLog("checkForUpdates") { "isNeedUpdate = $it" }
 
             if (isNeedUpdate) {
                 _isUpdateAvailable.value = true
-                if (showDialog) {
-                    _showUpdateDialog.value = true
-                }
+                _showUpdateDialog.value = showDialog
             } else {
                 onNoUpdates()
             }
@@ -299,54 +284,6 @@ class RootComponent @AssistedInject internal constructor(
             it.makeLog("checkForUpdates")
             onNoUpdates()
         }
-    }
-
-    private fun isNeedUpdate(
-        currentName: String,
-        updateName: String,
-        allowBetas: Boolean = settingsState.allowBetas
-    ): Boolean {
-        val betaList = listOf(
-            "alpha", "beta", "rc"
-        )
-
-        fun String.toVersionCodeString(): String {
-            return replace(
-                regex = Regex("0\\d"),
-                transform = {
-                    it.value.replace("0", "")
-                }
-            ).replace("-", "")
-                .replace(".", "")
-                .replace("_", "")
-                .let { version ->
-                    if (betaList.any { it in version }) version
-                    else version + "4"
-                }
-                .replace("alpha", "1")
-                .replace("beta", "2")
-                .replace("rc", "3")
-                .replace("foss", "")
-                .replace("jxl", "")
-        }
-
-        val currentVersionCodeString = currentName.toVersionCodeString()
-        val updateVersionCodeString = updateName.toVersionCodeString()
-
-        val maxLength = maxOf(currentVersionCodeString.length, updateVersionCodeString.length)
-
-        val currentVersionCode = currentVersionCodeString.padEnd(maxLength, '0').toIntOrNull() ?: -1
-        val updateVersionCode = updateVersionCodeString.padEnd(maxLength, '0').toIntOrNull() ?: -1
-
-        return if (!updateName.startsWith(currentName)) {
-            if (betaList.all { it !in updateName }) {
-                updateVersionCode > currentVersionCode
-            } else {
-                if (allowBetas || betaList.any { it in currentName }) {
-                    updateVersionCode > currentVersionCode
-                } else false
-            }
-        } else false
     }
 
     fun hideSelectDialog() {
