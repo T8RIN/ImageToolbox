@@ -32,8 +32,8 @@ fun isNeedUpdate(
         "alpha", "beta", "rc"
     )
 
-    val currentVersionCodeString = currentName.toVersionCodeString()
-    val updateVersionCodeString = updateName.toVersionCodeString()
+    val currentVersionCodeString = currentName.toVersionCodeString(betaList)
+    val updateVersionCodeString = updateName.toVersionCodeString(betaList)
 
     val maxLength = maxOf(currentVersionCodeString.length, updateVersionCodeString.length)
 
@@ -79,7 +79,7 @@ data class Changelog(
     val changelog: String
 )
 
-private fun String.toVersionCodeString(): String {
+private fun String.toVersionCodeString(betaList: List<String>): String {
     return replace(
         regex = Regex("0\\d"),
         transform = {
