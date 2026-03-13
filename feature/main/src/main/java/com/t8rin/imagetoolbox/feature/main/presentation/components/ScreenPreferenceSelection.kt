@@ -236,8 +236,8 @@ internal fun RowScope.ScreenPreferenceSelection(
                                                     content = {
                                                         Text(stringResource(R.string.beta))
                                                     },
-                                                    containerColor = MaterialTheme.colorScheme.tertiary,
-                                                    contentColor = MaterialTheme.colorScheme.onTertiary
+                                                    containerColor = MaterialTheme.colorScheme.secondary,
+                                                    contentColor = MaterialTheme.colorScheme.onSecondary
                                                 )
                                             }
                                         },
