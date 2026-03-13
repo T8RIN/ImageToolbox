@@ -14,12 +14,10 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
-    <string name="amoled_mode_sub">إذا تم تمكين لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
+    <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
     <string name="color_scheme">نظام الألوان</string>
     <string name="color_red">أحمر</string>
     <string name="color_green">أخضر</string>
@@ -74,7 +72,7 @@
     <string name="pick_color_sub">حدد لونًا من صورة, انسخ أو شارك</string>
     <string name="image">صورة</string>
     <string name="color">اللون</string>
-    <string name="color_copied">تم نسخ اللون</string>
+    <string name="color_copied">نُسخ اللون</string>
     <string name="crop_sub">اقتصاص الصورة بأي حدود</string>
     <string name="version">النسخة</string>
     <string name="keep_exif">حافظ على البيانات الوصفية</string>
@@ -109,7 +107,7 @@
     <string name="dynamic_colors">ألوان ديناميكية</string>
     <string name="customization">التخصيص</string>
     <string name="allow_image_monet">وفقا لالوان الصورة المختارة</string>
-    <string name="allow_image_monet_sub">في حالة التمكين ، عند اختيار صورة لتحريرها ، سيتم اعتماد ألوان التطبيق على هذه الصورة</string>
+    <string name="allow_image_monet_sub">في حال التفعيل، عند اختيار صورة لتعديلها، سيتم تكييف ألوان التطبيق لتناسب هذه الصورة.</string>
     <string name="about_app">حول التطبيق</string>
     <string name="issue_tracker">متعقب المشاكل</string>
     <string name="help_translate">مساعدة في الترجمة</string>
@@ -118,13 +116,13 @@
     <string name="search_here">ابحث هنا</string>
     <string name="help_translate_sub">تصحيح أخطاء الترجمة أو ترجمة المشروع إلى لغات أخرى</string>
     <string name="nothing_found_by_search">لم يتم العثور على شيء من خلال الاستعلام الخاص بك</string>
-    <string name="dynamic_colors_sub">إذا تم تمكينه ، اعتماد ألوان التطبيق لألوان الخلفية</string>
+    <string name="dynamic_colors_sub">إذا فعّلته، فسيتم تكييف ألوان التطبيق مع ألوان خلفية الشاشة</string>
     <string name="failed_to_save">فشل حفظ %d صورة (صور)</string>
     <string name="surface">سطح</string>
-    <string name="donation_sub">هذا التطبيق مجاني تمامًا ، ولكن إذا كنت ترغب في دعم تطوير المشروع ، يمكنك النقر هنا</string>
+    <string name="donation_sub">هذا التطبيق مجاني تمامًا، ولكن إذا كنت ترغب في دعم تطوير المشروع، يمكنك النقر هنا</string>
     <string name="fab_alignment">محاذاة FAB</string>
     <string name="check_updates">تحقق من وجود تحديثات</string>
-    <string name="check_updates_sub">في حالة التمكين ، سيظهر لك مربع حوار التحديث بعد بدء تشغيل التطبيق</string>
+    <string name="check_updates_sub">في حال التفعيل، ستظهر لك نافذة التحديث عند تشغيل التطبيق</string>
     <string name="values">القيم</string>
     <string name="add">أضف</string>
     <string name="primary">أساسي</string>
@@ -132,8 +130,8 @@
     <string name="secondary">ثانوي</string>
     <string name="permission">إذن</string>
     <string name="grant">منح</string>
-    <string name="permission_sub">يحتاج التطبيق إلى الوصول إلى مساحة التخزين الخاصة بك لحفظ الصور ، فهو ضروري ، وبدون ذلك لا يمكن أن يعمل ، لذا يرجى منح الإذن في مربع الحوار التالي</string>
-    <string name="grant_permission_manual">يحتاج التطبيق إلى هذا الإذن للعمل ، يرجى منحه يدويًا</string>
+    <string name="permission_sub">يحتاج التطبيق إلى الوصول إلى وحدة التخزين الخاصة بك لحفظ الصور لكي يعمل، وهذا أمر ضروري. يُرجى منح الإذن في مربع الحوار التالي.</string>
+    <string name="grant_permission_manual">يحتاج التطبيق إلى هذا الإذن للعمل، يُرجى منحه يدويًا</string>
     <string name="border_thickness">سمك الحدود</string>
     <string name="external_storage">تخزين خارجي</string>
     <string name="monet_colors">ألوان مونيه</string>
@@ -162,7 +160,7 @@
     <string name="gallery_picker">معرض الصور</string>
     <string name="file_explorer_picker">مستكشف الملفات</string>
     <string name="photo_picker_sub">قد يعمل منتقي الصور الحديث من Android الذي يظهر في الجزء السفلي من الشاشة فقط على adnroid 12+ ولديه أيضًا مشكلات في تلقي بيانات EXIF الوصفية</string>
-    <string name="gallery_picker_sub">منتقي صور المعرض البسيط ، لن يعمل إلا إذا كان لديك هذا التطبيق</string>
+    <string name="gallery_picker_sub">منتقي صور المعرض البسيط، لن تعمل إلا إذا كان لديك تطبيق يوفر خاصية إنتقاء الوسائط</string>
     <string name="edit">تعديل</string>
     <string name="order_sub">يحدد ترتيب الأدوات على الشاشة الرئيسية</string>
     <string name="filename_not_work_with_photopicker">إضافة اسم الملف الأصلي لا تعمل إذا تم تحديد مصدر صورة منتقي الصور</string>
@@ -182,7 +180,7 @@
     <string name="replace_sequence_number">استبدل رقم التسلسل</string>
     <string name="replace_sequence_number_sub">إذا فُعّل، يستبدل الطابع الزمني القياسي برقم تسلسل الصورة عند استخدام المعالجة الدفعية</string>
     <string name="load_image_from_net">تحميل الصورة من الانترنت</string>
-    <string name="load_image_from_net_sub">قم بتحميل أي نموذج صورة على الإنترنت ، وقم بمعاينته ، وقم بالتكبير / التصغير ، وقم أيضًا بحفظه أو تحريره إذا كنت تريد ذلك</string>
+    <string name="load_image_from_net_sub">حمّل أي صورة من الإنترنت لمعاينتها وتقريبها/تبعيدها وتعديلها وحفظها إذا أردت.</string>
     <string name="no_image">لا توجد صورة</string>
     <string name="image_link">رابط الصورة</string>
     <string name="fill">يملأ</string>
@@ -263,7 +261,7 @@
     <string name="draw">الرسم</string>
     <string name="paint_color">لون الطلاء</string>
     <string name="activate_files">لقد عطلت تطبيق الملفات، فعّله لاستخدام هذه الميزة</string>
-    <string name="draw_sub">ارسم على صورة كما في كراسة الرسم ، أو ارسم على الخلفية نفسها</string>
+    <string name="draw_sub">ارسم على صورة كما في دفتر الرسم، أو ارسم على الخلفية نفسها</string>
     <string name="paint_alpha">طلاء ألفا</string>
     <string name="draw_on_image">ارسم على الصورة</string>
     <string name="draw_on_image_sub">اختر صورة وارسم شيئًا عليها</string>
@@ -271,7 +269,7 @@
     <string name="draw_on_background_sub">اختر لون الخلفية وارسم فوقه</string>
     <string name="background_color">لون الخلفية</string>
     <string name="cipher">الشفرة</string>
-    <string name="cipher_sub">تشفير وفك تشفير أي ملف (ليس فقط الصورة) بناءً على تشفير خوارزمية AES</string>
+    <string name="cipher_sub">تعمية وفك تعمية أي ملف (ليس فقط الصورة) بناءً على مختلف خوارزميات التعمية المتاحة</string>
     <string name="pick_file">اختر الملف</string>
     <string name="encrypt">تشفير</string>
     <string name="decrypt">فك تشفير</string>
@@ -288,7 +286,7 @@
     <string name="features_sub">تشفير الملفات على أساس كلمة المرور. يمكن تخزين الملفات التي تمت متابعتها في دليل Crypto أو مشاركتها. يمكن أيضًا فتح الملفات التي تم فك تشفيرها مباشرة.</string>
     <string name="implementation_sub">AES-256، وضع GCM، بدون حشو، 12 بايت من المتجهات الأولية العشوائية افتراضيًا. يمكنك اختيار الخوارزمية المطلوبة. تُستخدم المفاتيح كقيم تجزئة SHA-3 بطول 256 بت.</string>
     <string name="file_size">حجم الملف</string>
-    <string name="file_size_sub">الحد الأقصى لحجم الملف مقيد بنظام التشغيل Android والذاكرة المتاحة ، والتي تعتمد بشكل واضح على جهازك. \nيرجى ملاحظة: الذاكرة ليست تخزين.</string>
+    <string name="file_size_sub">الحد الأقصى لحجم الملف مقيد بنظام التشغيل أندرويد والذاكرة المتاحة، والتي تعتمد بشكل واضح على جهازك. \nيُرجى ملاحظة: الذاكرة ليست تخزين.</string>
     <string name="group_options_by_type_sub">خيارات المجموعات على الشاشة الرئيسية من نوعها بدلاً من ترتيب القائمة المخصص</string>
     <string name="create">انشئ</string>
     <string name="image_size_warning">محاولة حفظ الصورة بالعرض والارتفاع المحددين قد تتسبب في حدوث خطأ في الذاكرة. قم بذلك على مسؤوليتك الخاصة.</string>
@@ -305,7 +303,7 @@
     <string name="fallback_option">الخيار الاحتياطي</string>
     <string name="skip">يتخطى</string>
     <string name="copy">ينسخ</string>
-    <string name="warning_bytes">يمكن أن يكون الحفظ في وضع %1$s غير مستقر ، لأنه تنسيق غير ضياع</string>
+    <string name="warning_bytes">يمكن أن يكون الحفظ في وضع %1$s غير مستقر، لأنه تنسيق غير ضياع</string>
     <string name="invalid_password_or_not_encrypted">كلمة مرور غير صالحة أو الملف المختار غير مشفر</string>
     <string name="cache">مخبأ</string>
     <string name="reset_settings_sub">سيؤدي هذا إلى إعادة إعداداتك إلى القيم الافتراضية، لاحظ أنه لا يمكن التراجع عن هذا بدون ملف النسخ الاحتياطي من الخيار أعلاه</string>
@@ -316,7 +314,7 @@
     <string name="contact_me">اتصل بي</string>
     <string name="backup_sub">قم بعمل نسخة احتياطية لإعدادات التطبيق الخاص بك إلى الملف</string>
     <string name="corrupted_file_or_not_a_backup">ملف تالف أو ليس نسخة احتياطية</string>
-    <string name="presets_sub" formatted="false">إذا قمت باختيار الاعداد المسبق 125 ، فسيتم حفظ الصورة بحجم 125% من الصورة الأصلية ، وإذا اخترت الاعداد المسبق 50 ، فسيتم حفظ الصورة بحجم 50% .</string>
+    <string name="presets_sub" formatted="false">إذا حدّدت الإعداد المسبق 125، فسيتم حفظ الصورة بنسبة 125% من حجم الصورة الأصلية. أما إذا اخترت الإعداد المسبق 50، فسيتم حفظ الصورة بنسبة 50% من حجمها.</string>
     <string name="font_scale">مقياس الخط</string>
     <string name="restore">استعادة</string>
     <string name="tg_chat_sub">ناقش حول التطبيق واحصل على تعليقات من المستخدمين الآخرين، ويمكنك هنا أيضًا الحصول على تحديثات تجريبية</string>
@@ -324,12 +322,12 @@
     <string name="delete">احذف</string>
     <string name="aspect_ratio">نسبة الأبعاد</string>
     <string name="delete_color_scheme_warn">أنت على وشك حذف نظام الألوان المحدد، لا يمكن التراجع عن هذه العملية</string>
-    <string name="saved_to_without_filename">تم الحفظ في المجلد %1$s</string>
-    <string name="settings_restored">تمت استعادة الإعدادات بنجاح</string>
+    <string name="saved_to_without_filename">حُفظ في المجلد %1$s</string>
+    <string name="settings_restored">اُستعيدت الإعدادات بنجاح</string>
     <string name="backup_and_restore">النسخ الاحتياطي والاستعادة</string>
     <string name="backup">نسخ احتياطي</string>
     <string name="emotions">المشاعر</string>
-    <string name="saved_to">تم الحفظ في المجلد %1$s بالاسم %2$s</string>
+    <string name="saved_to">حُفظ في المجلد %1$s بالاسم %2$s</string>
     <string name="image_crop_mask_sub">استخدم هذا النوع من القناع لإنشاء قناع من صورة معينة، لاحظ أنه يجب أن يحتوي على قناة ألفا</string>
     <string name="randomize_filename">اسم عشوائي للملف</string>
     <string name="text">النص</string>
@@ -337,9 +335,9 @@
     <string name="delete_color_scheme_title">احذف المخطط</string>
     <string name="font">الخط</string>
     <string name="using_large_fonts_warn">قد يؤدي استخدام مقاييس الخطوط الكبيرة إلى حدوث خلل في واجهة المستخدم ولن يتم إصلاحه، استخدمه إذا كنت تريد ذلك فقط</string>
-    <string name="randomize_filename_sub">إذا تم تمكين اسم ملف الإخراج فسيكون عشوائيًا بشكل تام</string>
-    <string name="restore_sub">استعادة إعدادات التطبيق من الملف الذي تم إنشاؤه مسبقًا</string>
-    <string name="presets_sub_bytes">يحدد الإعداد المسبق هنا النسبة المئوية لملف الإخراج، أي إذا حددت 50 إعدادًا مسبقًا على صورة بحجم 5 ميجابايت، فستحصل على صورة بحجم 2.5 ميجابايت بعد الحفظ</string>
+    <string name="randomize_filename_sub">إذا فُعّل اسم ملف الإخراج فسيكون عشوائيًا بشكل تام</string>
+    <string name="restore_sub">استعادة إعدادات التطبيق من الملف الذي ولّد مسبقًا</string>
+    <string name="presets_sub_bytes">يحدّد الإعداد المسبق هنا النسبة المئوية لملف الإخراج، أي إذا حددت 50 إعدادًا مسبقًا على صورة بحجم 5 ميجابايت، فستحصل على صورة بحجم 2.5 ميجابايت بعد الحفظ</string>
     <string name="enhanced_pixelation">تعزيز البكسل</string>
     <string name="diamond_pixelation">بكسل الماس</string>
     <string name="draw_mode">وضع الرسم</string>
@@ -614,7 +612,7 @@
     <string name="pdf_tools">أدوات PDF</string>
     <string name="rate_app">قيم التطبيق</string>
     <string name="rate">معدل</string>
-    <string name="rate_app_sub">هذا التطبيق مجاني تمامًا، إذا كنت تريد أن يصبح أكبر، يرجى تمييز المشروع بنجمة على Github 😄</string>
+    <string name="rate_app_sub">هذا التطبيق مجاني تمامًا، إذا كنت تريد أن يصبح أكبر، يُرجى تمييز المشروع بنجمة على Github 😄</string>
     <string name="color_matrix_4x4">مصفوفة الألوان 4x4</string>
     <string name="color_matrix_3x3">مصفوفة الألوان 3x3</string>
     <string name="browni">براوني</string>
@@ -734,7 +732,7 @@
     <string name="wait">انتظر</string>
     <string name="objects">أشياء</string>
     <string name="symbols">حرف او رمز</string>
-    <string name="enable_emoji">تمكين الرموز التعبيرية</string>
+    <string name="enable_emoji">فعِّل الرموز التعبيرية</string>
     <string name="travels_and_places">الرحلات والأماكن</string>
     <string name="background_remover_sub">أزِل الخلفية من الصورة عن طريق الرسم أو استخدام الخيار التلقائي</string>
     <string name="erase_background">محو الخلفية</string>
@@ -886,7 +884,7 @@
     <string name="pixel_switch">بكسل</string>
     <string name="fluent_switch_sub">يستخدم مفتاح Windows 11 المصمم على أساس نظام التصميم \"الطلاقة\".</string>
     <string name="cupertino_switch">كوبرتينو</string>
-    <string name="cupertino_switch_sub">يستخدم ازرار التبديل المشابهة لتصميم IOS لنظام تصميم كوبرتينو</string>
+    <string name="cupertino_switch_sub">مفتاح تبديل يعتمد على نظام التصميم \"كوبرتينو\"</string>
     <string name="images_to_svg_sub">تتبع الصور المعطاة إلى صور SVG</string>
     <string name="use_sampled_palette">استخدم لوحة العينات</string>
     <string name="path_omit">إهمال المسار</string>
@@ -1081,7 +1079,7 @@
     <string name="open_edit_instead_of_preview">افتح تحرير بدلاً من المعاينة</string>
     <string name="open_edit_instead_of_preview_sub">عند تحديد صورة لفتحها (معاينة) في ImageToolbox، سيتم فتح ورقة تحديد التحرير بدلاً من المعاينة</string>
     <string name="document_scanner">ماسح ضوئي للمستندات</string>
-    <string name="document_scanner_sub">قم بمسح المستندات ضوئيًا وإنشاء ملف PDF أو فصل الصور عنها</string>
+    <string name="document_scanner_sub">امسح المستندات ضوئيًا وإنشاء ملف PDF أو فصل الصور عنها</string>
     <string name="click_to_start_scanning">انقر لبدء المسح</string>
     <string name="start_scanning">ابدأ المسح</string>
     <string name="save_as_pdf">احفظ ك PDF</string>
@@ -1110,7 +1108,7 @@
     <string name="no_template_filters">لم تتم إضافة تصفية القالب</string>
     <string name="create_new">إنشاء جديد</string>
     <string name="scanned_qr_code_isnt_filter_template">رمز QR الممسوح ضوئيًا ليس قالب تصفية صالحًا</string>
-    <string name="scan_qr_code">مسح رمز الاستجابة السريعة</string>
+    <string name="scan_qr_code">امسح رمز QR</string>
     <string name="opened_file_have_no_filter_template">الملف المحدد لا يحتوي على بيانات قالب التصفية</string>
     <string name="create_template">إنشاء قالب</string>
     <string name="template_name">اسم القالب</string>
@@ -1125,12 +1123,12 @@
     <string name="added_filter_template">أُضيف قالب تصفية بالاسم \"%1$s\" (%2$s)</string>
     <string name="filter_preview">معاينة التصفية</string>
     <string name="qr_code">QR والباركود</string>
-    <string name="qr_code_sub">امسح رمز الاستجابة السريعة ضوئيًا واحصل على محتواه أو الصق سلسلتك لإنشاء سلسلة جديدة</string>
+    <string name="qr_code_sub">امسح رمز QR ضوئيًا واحصل على محتواه أو الصق سلسلتك لإنشاء واحدة جديدة</string>
     <string name="code_content">محتوى الكود</string>
-    <string name="scan_qr_code_to_replace_content">قم بمسح أي رمز شريطي لاستبدال المحتوى الموجود في الحقل، أو اكتب شيئًا لإنشاء رمز شريطي جديد بالنوع المحدد</string>
+    <string name="scan_qr_code_to_replace_content">امسح أي رمز شريطي لاستبدال المحتوى الموجود في الحقل، أو اكتب شيئًا لإنشاء رمز شريطي جديد بالنوع المحدد</string>
     <string name="qr_description">وصف QR</string>
     <string name="min">دقيقة</string>
-    <string name="grant_camera_permission_to_scan_qr_code">امنح إذن الكاميرا في الإعدادات لمسح رمز الاستجابة السريعة</string>
+    <string name="grant_camera_permission_to_scan_qr_code">امنح إذن الكاميرا في الإعدادات لمسح رمز QR</string>
     <string name="grant_camera_permission_to_scan_document_scanner">امنح إذن الكاميرا في الإعدادات لمسح Document Scanner</string>
     <string name="cubic">مكعب</string>
     <string name="bspline">ب-الخط</string>
@@ -1511,13 +1509,13 @@
     <string name="settings_group_visibility_hidden">سيتم طي مجموعة الإعدادات \"%1$s\" بشكل افتراضي</string>
     <string name="settings_group_visibility_visible">سيتم توسيع مجموعة الإعدادات \"%1$s\" بشكل افتراضي</string>
     <string name="base_64_tools">أدوات Base64</string>
-    <string name="base_64_tools_sub">قم بفك تشفير سلسلة Base64 إلى صورة، أو قم بتشفير الصورة إلى تنسيق Base64</string>
+    <string name="base_64_tools_sub">فك ترميز سلسلة Base64 إلى صورة، أو رمّز الصورة إلى تنسيق Base64</string>
     <string name="base_64">قاعدة64</string>
     <string name="not_a_valid_base_64">القيمة المقدمة ليست سلسلة Base64 صالحة</string>
     <string name="copy_not_a_valid_base_64">لا يمكن نسخ سلسلة Base64 فارغة أو غير صالحة</string>
     <string name="paste_base_64">لصق Base64</string>
     <string name="copy_base_64">نسخ Base64</string>
-    <string name="base_64_tips">قم بتحميل الصورة لنسخ أو حفظ سلسلة Base64. إذا كان لديك السلسلة نفسها، يمكنك لصقها أعلاه للحصول على الصورة</string>
+    <string name="base_64_tips">حمّل الصورة لنسخ أو حفظ سلسلة Base64. إذا كان لديك السلسلة نفسها، يمكنك لصقها أعلاه للحصول على الصورة</string>
     <string name="save_base_64">حفظ Base64</string>
     <string name="share_base_64">حصة Base64</string>
     <string name="options">خيارات</string>
@@ -1594,12 +1592,12 @@
     <string name="pixel_by_pixel">بكسل بواسطة بكسل</string>
     <string name="highlight_color">تسليط الضوء على اللون</string>
     <string name="pixel_comparison_type">نوع مقارنة البكسل</string>
-    <string name="scan_barcode">مسح الباركود</string>
+    <string name="scan_barcode">امسح الرمز الشريطي</string>
     <string name="height_ratio">نسبة الارتفاع</string>
     <string name="barcode_type">نوع الباركود</string>
     <string name="enforce_bw">فرض B/W</string>
     <string name="enforce_bw_sub">ستكون صورة الرمز الشريطي باللونين الأبيض والأسود بالكامل ولن يتم تلوينها حسب سمة التطبيق</string>
-    <string name="barcodes_sub">قم بمسح أي رمز شريطي (QR، EAN، AZTEC، …) واحصل على محتواه أو الصق النص الخاص بك لإنشاء رمز جديد</string>
+    <string name="barcodes_sub">امسح أي رمز شريطي (QR، EAN، AZTEC، …) واحصل على محتواه أو الصق نصك لتوليد واحد جديد</string>
     <string name="no_barcode_found">لم يتم العثور على الباركود</string>
     <string name="generated_barcode_will_be_here">سيكون الرمز الشريطي الذي تم إنشاؤه هنا</string>
     <string name="audio_cover_extractor">أغلفة الصوت</string>
@@ -1821,8 +1819,8 @@
     <string name="hyper_os">فرط نظام التشغيل</string>
     <string name="hyper_os_sub">Xiaomi HyperOS مثل الأسلوب</string>
     <string name="mask_pattern">نمط القناع</string>
-    <string name="code_may_be_not_scannable">قد لا يكون هذا الرمز قابلاً للمسح الضوئي، قم بتغيير معلمات المظهر لجعله قابلاً للقراءة على جميع الأجهزة</string>
-    <string name="not_scannable">غير قابلة للمسح الضوئي</string>
+    <string name="code_may_be_not_scannable">قد لا يكون هذا الرمز قابلاً للمسح الضوئي، غيّر معلمات المظهر لجعله قابلاً للقراءة على جميع الأجهزة</string>
+    <string name="not_scannable">غير قابل للمسح الضوئي</string>
     <string name="launcher_mode_sub">ستبدو الأدوات مثل مشغل تطبيقات الشاشة الرئيسية لتكون أكثر إحكاما</string>
     <string name="launcher_mode">وضع المشغل</string>
     <string name="flood_fill_sub">يملأ المنطقة بالفرشاة والأسلوب المحددين</string>
