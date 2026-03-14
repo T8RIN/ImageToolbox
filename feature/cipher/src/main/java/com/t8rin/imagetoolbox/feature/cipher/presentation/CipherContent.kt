@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVertical
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -142,9 +143,9 @@ fun CipherContent(
                 onPrimaryButtonClick = {
                     component.startCryptography {
                         if (it is WrongKeyException) {
-                            essentials.showFailureToast(R.string.invalid_password_or_not_encrypted)
+                            AppToastHost.showFailureToast(R.string.invalid_password_or_not_encrypted)
                         } else if (it != null) {
-                            essentials.showFailureToast(
+                            AppToastHost.showFailureToast(
                                 throwable = it
                             )
                         }

@@ -17,14 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.provider
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -146,18 +144,6 @@ class LocalEssentials internal constructor(
         }
     }
 
-    fun showFailureToast(res: Int) {
-        launch {
-            toastHostState.showFailureToast(
-                message = getString(res)
-            )
-        }
-    }
-
-    fun dismissToasts() {
-        toastHostState.currentToastData?.dismiss()
-    }
-
     fun showConfetti(
         duration: ToastDuration
     ) = launch {
@@ -166,13 +152,6 @@ class LocalEssentials internal constructor(
 
     fun showConfetti() {
         showConfetti(ToastDuration(4500L))
-    }
-
-    fun handleFileSystemFailure(throwable: Throwable) {
-        when (throwable) {
-            is ActivityNotFoundException -> showActivateFilesToast()
-            else -> showFailureToast(throwable)
-        }
     }
 
     fun parseSaveResult(saveResult: SaveResult) {
@@ -297,14 +276,6 @@ class LocalEssentials internal constructor(
     }
 
     fun isInstalledFromPlayStore(): Boolean = context?.isInstalledFromPlayStore() == true
-
-    private fun showActivateFilesToast() {
-        showToast(
-            message = getString(R.string.activate_files),
-            icon = Icons.Outlined.FolderOff,
-            duration = ToastDuration.Long
-        )
-    }
 }
 
 val LocalResourceManager = compositionLocalOf<ResourceManager> { error("ResourceManager") }

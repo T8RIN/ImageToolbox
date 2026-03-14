@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
@@ -91,12 +92,12 @@ fun CompareContent(
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size != 2) {
-            essentials.showFailureToast(R.string.pick_two_images)
+            AppToastHost.showFailureToast(R.string.pick_two_images)
         } else {
             component.updateUris(
                 uris = uris[0] to uris[1],
                 onFailure = {
-                    essentials.showFailureToast(R.string.something_went_wrong)
+                    AppToastHost.showFailureToast(R.string.something_went_wrong)
                 }
             )
         }

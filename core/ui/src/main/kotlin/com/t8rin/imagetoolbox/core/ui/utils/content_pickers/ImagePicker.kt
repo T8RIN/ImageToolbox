@@ -36,6 +36,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
@@ -44,12 +45,12 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.PicturePickerMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelableArrayList
 import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
 import com.t8rin.imagetoolbox.core.ui.utils.helper.createMediaPickerIntent
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -301,13 +302,13 @@ fun rememberImagePicker(
     onFailure: () -> Unit = {},
     onSuccess: (List<Uri>) -> Unit,
 ): ImagePicker {
-    val essentials = rememberLocalEssentials()
+    val scope = rememberCoroutineScope()
     val context = LocalComponentActivity.current
 
     val photoPickerSingle = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
-            essentials.launch {
+            scope.launch {
                 delay(300)
                 uri?.takeIf {
                     it != Uri.EMPTY
@@ -320,7 +321,7 @@ fun rememberImagePicker(
     val photoPickerMultiple = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickMultipleVisualMedia(),
         onResult = { uris ->
-            essentials.launch {
+            scope.launch {
                 delay(300)
                 uris.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
             }
@@ -345,7 +346,7 @@ fun rememberImagePicker(
                     emptyList()
                 }
 
-            essentials.launch {
+            scope.launch {
                 delay(300)
                 resultList.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
             }
@@ -358,7 +359,7 @@ fun rememberImagePicker(
     val takePhoto = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
         onResult = {
-            essentials.launch {
+            scope.launch {
                 val uri = takePhotoUri
                 delay(300)
                 if (it && uri != null && uri != Uri.EMPTY) {
@@ -375,7 +376,7 @@ fun rememberImagePicker(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (!isGranted) {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = context.getString(R.string.grant_camera_permission_to_capture_image),
                 icon = Icons.Outlined.CameraAlt
             )
@@ -409,7 +410,7 @@ fun rememberImagePicker(
 
                     when (it) {
                         is CameraException -> requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-                        else -> essentials.handleFileSystemFailure(it)
+                        else -> AppToastHost.handleFileSystemFailure(it)
                     }
                 }
             )

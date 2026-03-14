@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
@@ -52,7 +53,6 @@ internal fun SettingItem(
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     ProvideContainerDefaults(
         color = containerColor,
@@ -128,9 +128,9 @@ internal fun SettingItem(
                     onAddFont = {
                         component.importCustomFont(
                             uri = it,
-                            onSuccess = showConfetti,
+                            onSuccess = AppToastHost::showConfetti,
                             onFailure = {
-                                essentials.showToast(
+                                AppToastHost.showToast(
                                     message = essentials.getString(R.string.wrong_font),
                                     icon = Icons.Rounded.TextFields
                                 )
@@ -190,10 +190,10 @@ internal fun SettingItem(
 
                     if (clicks == 0) return@LaunchedEffect
 
-                    essentials.dismissToasts()
+                    AppToastHost.dismissToasts()
                     if (clicks == 1) {
                         component.tryGetUpdate(true) {
-                            essentials.showToast(
+                            AppToastHost.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
                                 message = essentials.getString(R.string.no_updates)
                             )
@@ -304,7 +304,7 @@ internal fun SettingItem(
                             uri = uri,
                             onSuccess = {
                                 essentials.launch {
-                                    showConfetti()
+                                    AppToastHost.showConfetti()
                                     //Wait for confetti to appear, then trigger font scale adjustment
                                     delay(300L)
                                     context.recreate()

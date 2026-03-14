@@ -53,8 +53,8 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.theme.takeIf
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.CaptureController
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.capturable
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberPrevious
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -98,7 +98,6 @@ internal fun QrCodePreview(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val essentials = rememberLocalEssentials()
                     val previous = rememberPrevious(params)
 
                     AnimatedContent(
@@ -133,12 +132,10 @@ internal fun QrCodePreview(
                                 type = params.type,
                                 qrParams = params.qrParams,
                                 cornerRadius = animateIntAsState(params.cornersSize).value.dp,
-                                onSuccess = {
-                                    essentials.dismissToasts()
-                                },
+                                onSuccess = AppToastHost::dismissToasts,
                                 onFailure = {
-                                    essentials.dismissToasts()
-                                    if (previous != params) essentials.showFailureToast(it)
+                                    AppToastHost.dismissToasts()
+                                    if (previous != params) AppToastHost.showFailureToast(it)
                                 }
                             )
                         }

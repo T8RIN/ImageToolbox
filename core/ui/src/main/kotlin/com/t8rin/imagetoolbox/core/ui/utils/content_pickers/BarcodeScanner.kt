@@ -33,7 +33,9 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.onTertiaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.toQrType
 import com.t8rin.logger.makeLog
 import io.github.g00fy2.quickie.QRResult
@@ -83,17 +85,15 @@ interface BarcodeScanner : Scanner
 fun rememberBarcodeScanner(
     onSuccess: (QrType) -> Unit
 ): BarcodeScanner {
-    val essentials = rememberLocalEssentials()
-
     val scannerLauncher = rememberLauncherForActivityResult(ScanCustomCode()) { result ->
         result.makeLog("Barcode Scanner")
 
         when (result) {
             is QRResult.QRError -> {
-                essentials.apply {
+                appContext.apply {
                     val message = result.exception.localizedMessage ?: ""
 
-                    showFailureToast(
+                    AppToastHost.showFailureToast(
                         if ("NotFound" in message) {
                             getString(R.string.no_barcode_found)
                         } else {
@@ -104,8 +104,8 @@ fun rememberBarcodeScanner(
             }
 
             QRResult.QRMissingPermission -> {
-                essentials.showToast(
-                    messageSelector = { getString(R.string.grant_camera_permission_to_scan_qr_code) },
+                AppToastHost.showToast(
+                    message = getString(R.string.grant_camera_permission_to_scan_qr_code),
                     icon = Icons.Outlined.CameraAlt
                 )
             }

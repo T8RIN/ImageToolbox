@@ -26,8 +26,9 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -66,11 +67,11 @@ fun rememberFileCreator(
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
 ): FileMaker {
-    val essentials = rememberLocalEssentials()
+    val scope = rememberCoroutineScope()
     val createDocument = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(mimeType.entry),
         onResult = { uri ->
-            essentials.launch {
+            scope.launch {
                 delay(300)
                 uri?.takeIf {
                     it != Uri.EMPTY
@@ -87,7 +88,7 @@ fun rememberFileCreator(
                 createDocument = createDocument,
                 onFailure = {
                     onFailure()
-                    essentials.handleFileSystemFailure(it)
+                    AppToastHost.handleFileSystemFailure(it)
                 }
             )
         }
