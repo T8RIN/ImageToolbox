@@ -197,17 +197,14 @@ class GifToolsComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun saveGifTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveGifTo(uri: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
             gifData?.let { byteArray ->
                 fileController.writeBytes(
                     uri = uri.toString(),
                     block = { it.writeBytes(byteArray) }
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseSaveResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
             gifData = null
@@ -216,8 +213,7 @@ class GifToolsComponent @AssistedInject internal constructor(
 
     fun saveBitmaps(
         oneTimeSaveLocationUri: String?,
-        onGifSaveResult: (filename: String) -> Unit,
-        onResult: (List<SaveResult>) -> Unit
+        onGifSaveResult: (filename: String) -> Unit
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -236,7 +232,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 if (it == 0) {
                                     _isSaving.value = false
                                     savingJob?.cancel()
-                                    onResult(
+                                    parseSaveResults(
                                         listOf(SaveResult.Error.MissingPermissions)
                                     )
                                 }
@@ -247,7 +243,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 )
                             }
                         ).onCompletion {
-                            onResult(results.onSuccess(::registerSave))
+                            parseSaveResults(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -304,7 +300,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 )
                             },
                             onFailure = {
-                                onResult(listOf(SaveResult.Error.Exception(it)))
+                                parseSaveResults(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
                             onGifSaveResult("GIF_${timestamp()}.gif")
@@ -337,7 +333,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                         )
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 is Screen.GifTools.Type.GifToWebp -> {
@@ -365,7 +361,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                         )
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 null -> Unit

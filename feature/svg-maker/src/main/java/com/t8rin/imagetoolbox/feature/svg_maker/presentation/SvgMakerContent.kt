@@ -32,7 +32,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -57,8 +56,6 @@ import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMake
 fun SvgMakerContent(
     component: SvgMakerComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
@@ -130,8 +127,7 @@ fun SvgMakerContent(
         buttons = { actions ->
             val save: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.save(
-                    oneTimeSaveLocationUri = it,
-                    onResult = essentials::parseSaveResults
+                    oneTimeSaveLocationUri = it
                 )
             }
             var showFolderSelectionDialog by rememberSaveable {

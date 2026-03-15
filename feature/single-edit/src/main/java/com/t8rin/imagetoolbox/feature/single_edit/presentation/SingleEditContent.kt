@@ -40,7 +40,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
@@ -83,8 +82,6 @@ import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.Singl
 fun SingleEditContent(
     component: SingleEditComponent,
 ) {
-    val essentials = rememberLocalEssentials()
-
     AutoContentBasedColors(component.bitmap)
 
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
@@ -103,8 +100,7 @@ fun SingleEditContent(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmap(
-            oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResult
+            oneTimeSaveLocationUri = it
         )
     }
 

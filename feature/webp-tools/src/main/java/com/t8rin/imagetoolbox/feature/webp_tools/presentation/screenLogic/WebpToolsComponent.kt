@@ -174,17 +174,14 @@ class WebpToolsComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun saveWebpTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveWebpTo(uri: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
             webpData?.let { byteArray ->
                 fileController.writeBytes(
                     uri = uri.toString(),
                     block = { it.writeBytes(byteArray) }
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
             webpData = null
@@ -193,8 +190,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
 
     fun saveBitmaps(
         oneTimeSaveLocationUri: String?,
-        onWebpSaveResult: (String) -> Unit,
-        onResult: (List<SaveResult>) -> Unit
+        onWebpSaveResult: (String) -> Unit
     ) {
         _isSaving.value = false
         savingJob?.cancel()
@@ -212,7 +208,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
                             imageFormat = imageFormat,
                             quality = params.quality
                         ).onCompletion {
-                            onResult(results.onSuccess(::registerSave))
+                            parseSaveResults(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -272,7 +268,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
                                 )
                             },
                             onFailure = {
-                                onResult(listOf(SaveResult.Error.Exception(it)))
+                                parseSaveResults(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
                             onWebpSaveResult("WEBP_${timestamp()}.webp")

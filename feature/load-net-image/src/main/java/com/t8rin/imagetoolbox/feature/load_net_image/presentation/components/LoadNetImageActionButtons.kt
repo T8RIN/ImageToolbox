@@ -32,7 +32,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -44,12 +43,10 @@ internal fun LoadNetImageActionButtons(
     actions: @Composable RowScope.() -> Unit
 ) {
     val isPortrait by isPortraitOrientationAsState()
-    val essentials = rememberLocalEssentials()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 

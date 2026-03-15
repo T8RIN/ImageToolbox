@@ -40,6 +40,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -56,7 +57,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -93,7 +93,7 @@ import kotlinx.coroutines.launch
 fun CropContent(
     component: CropComponent
 ) {
-    val essentials = rememberLocalEssentials()
+    val scope = rememberCoroutineScope()
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -126,8 +126,7 @@ fun CropContent(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmap(
-            oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResult
+            oneTimeSaveLocationUri = it
         )
     }
 
@@ -184,7 +183,7 @@ fun CropContent(
                 if (isPortrait) {
                     EnhancedIconButton(
                         onClick = {
-                            essentials.launch {
+                            scope.launch {
                                 if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
                                     scaffoldState.bottomSheetState.partialExpand()
                                 } else {
@@ -319,7 +318,7 @@ fun CropContent(
                         pickImage()
                     } else {
                         job?.cancel()
-                        job = essentials.launch {
+                        job = scope.launch {
                             delay(500)
                             crop = true
                         }

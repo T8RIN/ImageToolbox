@@ -46,7 +46,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
@@ -78,8 +77,6 @@ fun RecognizeTextContent(
     val isExtraction = type is Screen.RecognizeText.Type.Extraction
 
     val isHaveText = component.editedText.orEmpty().isNotEmpty()
-
-    val essentials = rememberLocalEssentials()
 
     AutoContentBasedColors(
         model = (type as? Screen.RecognizeText.Type.Extraction)?.uri
@@ -146,12 +143,7 @@ fun RecognizeTextContent(
 
     val saveLauncher = rememberFileCreator(
         mimeType = MimeType.Txt,
-        onSuccess = { uri ->
-            component.saveContentToTxt(
-                uri = uri,
-                onResult = essentials::parseFileSaveResult
-            )
-        }
+        onSuccess = component::saveContentToTxt
     )
 
     var showCropper by rememberSaveable { mutableStateOf(false) }

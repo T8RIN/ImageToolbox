@@ -47,10 +47,10 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,7 +73,6 @@ internal fun SpotHealParamsSelector(
         exit = fadeOut() + shrinkVertically()
     ) {
         val keepAliveService = LocalKeepAliveService.current
-        val essentials = rememberLocalEssentials()
         val settingsState = LocalSettingsState.current
         val scope = retain { CoroutineScope(Dispatchers.IO) }
         val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
@@ -120,7 +119,7 @@ internal fun SpotHealParamsSelector(
                             keepAliveService.track(
                                 initial = {
                                     updateOrStart(
-                                        title = essentials.getString(R.string.downloading)
+                                        title = getString(R.string.downloading)
                                     )
                                 }
                             ) {
@@ -148,7 +147,7 @@ internal fun SpotHealParamsSelector(
                                     .throttleLatest(50)
                                     .collect {
                                         updateProgress(
-                                            title = essentials.getString(R.string.downloading),
+                                            title = getString(R.string.downloading),
                                             done = (it.currentPercent * 100).roundToInt(),
                                             total = 100
                                         )

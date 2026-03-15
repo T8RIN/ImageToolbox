@@ -42,7 +42,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
@@ -74,8 +73,6 @@ import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic
 fun FormatConversionContent(
     component: FormatConversionComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
@@ -93,8 +90,7 @@ fun FormatConversionContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 

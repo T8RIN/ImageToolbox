@@ -116,8 +116,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -155,7 +154,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
                     _done.value++
                 }
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.update { false }
         }
     }

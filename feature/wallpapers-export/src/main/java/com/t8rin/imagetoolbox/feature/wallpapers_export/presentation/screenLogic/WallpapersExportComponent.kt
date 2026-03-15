@@ -116,8 +116,7 @@ class WallpapersExportComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -160,7 +159,7 @@ class WallpapersExportComponent @AssistedInject internal constructor(
                     total = left
                 )
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.update { false }
         }
     }

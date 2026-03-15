@@ -87,8 +87,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     }
 
     fun saveNoise(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -97,7 +96,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
                 height = noiseSize.height,
                 noiseParams = noiseParams,
                 onFailure = {
-                    onComplete(SaveResult.Error.Exception(it))
+                    parseSaveResult(SaveResult.Error.Exception(it))
                 }
             )?.let { bitmap ->
                 val imageInfo = ImageInfo(
@@ -106,7 +105,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
                     quality = quality,
                     imageFormat = imageFormat
                 )
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,

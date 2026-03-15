@@ -85,8 +85,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
     }
 
     fun save(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             val results = mutableListOf<SaveResult>()
@@ -119,7 +118,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
             }
 
             _isSaving.value = false
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
         }
     }
 

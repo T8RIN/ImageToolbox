@@ -46,7 +46,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -79,8 +78,6 @@ import com.t8rin.imagetoolbox.feature.image_stacking.presentation.screenLogic.Im
 fun ImageStackingContent(
     component: ImageStackingComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     AutoContentBasedColors(component.previewBitmap)
 
     val imagePicker = rememberImagePicker(onSuccess = component::updateUris)
@@ -105,8 +102,7 @@ fun ImageStackingContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResult
+            oneTimeSaveLocationUri = it
         )
     }
 

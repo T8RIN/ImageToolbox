@@ -28,7 +28,6 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -129,10 +128,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun savePaletteTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun savePaletteTo(uri: Uri) {
         val format = paletteFormat ?: PaletteFormatHelper.entries.first()
 
         savingJob = trackProgress {
@@ -144,7 +140,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
                         format.getCoder().encode(palette.toPalette())
                     )
                 }
-            ).also(onResult).onSuccess(::registerSave)
+            ).also(::parseFileSaveResult).onSuccess(::registerSave)
             _isSaving.value = false
         }
     }

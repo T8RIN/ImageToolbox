@@ -97,7 +97,10 @@ object ContextUtils {
 
             PermissionStatus.DENIED_PERMANENTLY -> {
                 askUserToRequestPermissionExplicitly()
-                Toast.makeText(this, R.string.grant_permission_manual, Toast.LENGTH_LONG).show()
+                postToast(
+                    textRes = R.string.grant_permission_manual,
+                    isLong = true
+                )
             }
 
             PermissionStatus.ALLOWED -> Unit

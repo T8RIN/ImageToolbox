@@ -117,7 +117,7 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
                 }
             }
 
-            audioUris.map { audioUri ->
+            audioUris.forEach { audioUri ->
                 launch {
                     val result = audioCoverRetriever.loadCover(audioUri.toString())
 
@@ -165,7 +165,7 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
                 }
             }
 
-            covers.filter { it.imageCoverUri == null }.map { (audioUri) ->
+            covers.filter { it.imageCoverUri == null }.forEach { (audioUri) ->
                 launch {
                     val result = audioCoverRetriever.loadCover(audioUri.toString())
 
@@ -245,8 +245,7 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
     }
 
     fun save(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             val results = mutableListOf<SaveResult>()
@@ -285,7 +284,7 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
                 )
             }
 
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

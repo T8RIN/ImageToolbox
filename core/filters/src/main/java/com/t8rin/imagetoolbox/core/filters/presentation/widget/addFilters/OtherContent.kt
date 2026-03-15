@@ -61,7 +61,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -144,7 +143,6 @@ private fun LazyListScope.lutAdditionalSection(
     component: AddFiltersSheetComponent
 ) {
     item {
-        val essentials = rememberLocalEssentials()
         PreferenceItemOverload(
             title = stringResource(R.string.save_empty_lut),
             subtitle = stringResource(R.string.save_empty_lut_sub),
@@ -172,8 +170,7 @@ private fun LazyListScope.lutAdditionalSection(
                     }
                     val saveNeutralLut: (String?) -> Unit = {
                         component.saveNeutralLut(
-                            oneTimeSaveLocationUri = it,
-                            onComplete = essentials::parseSaveResult
+                            oneTimeSaveLocationUri = it
                         )
                     }
                     Row {

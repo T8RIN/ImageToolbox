@@ -39,7 +39,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
@@ -173,13 +172,12 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmap(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(

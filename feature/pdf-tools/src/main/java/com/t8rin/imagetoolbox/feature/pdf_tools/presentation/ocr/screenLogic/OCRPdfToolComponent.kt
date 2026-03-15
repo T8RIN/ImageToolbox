@@ -28,7 +28,6 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -102,22 +101,18 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
     }
 
     override fun saveTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
+        uri: Uri
     ) {
-        doSaving(
-            action = {
-                val processed = stripText()
+        doSaving {
+            val processed = stripText()
 
-                fileController.writeBytes(
-                    uri = uri.toString(),
-                    block = {
-                        it.writeBytes(processed)
-                    }
-                ).onSuccess(::registerSave)
-            },
-            onResult = onResult
-        )
+            fileController.writeBytes(
+                uri = uri.toString(),
+                block = {
+                    it.writeBytes(processed)
+                }
+            ).onSuccess(::registerSave)
+        }
     }
 
     override fun performSharing(

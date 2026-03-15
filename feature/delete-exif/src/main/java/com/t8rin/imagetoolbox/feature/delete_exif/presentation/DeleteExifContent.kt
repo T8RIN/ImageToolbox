@@ -42,7 +42,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.localizedName
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -66,14 +65,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 
 @Composable
 fun DeleteExifContent(
     component: DeleteExifComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
@@ -93,8 +91,7 @@ fun DeleteExifContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 
@@ -184,7 +181,7 @@ fun DeleteExifContent(
             val selectedTags = component.selectedTags
             val subtitle by remember(selectedTags) {
                 derivedStateOf {
-                    if (selectedTags.isEmpty()) essentials.getString(R.string.all)
+                    if (selectedTags.isEmpty()) getString(R.string.all)
                     else selectedTags.joinToString(", ") {
                         it.localizedName(appContext)
                     }

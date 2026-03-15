@@ -26,7 +26,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -107,17 +106,14 @@ class ZipComponent @AssistedInject internal constructor(
         _compressedArchiveUri.value = null
     }
 
-    fun saveResultTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveResultTo(uri: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
             _compressedArchiveUri.value?.let { byteArray ->
                 fileController.transferBytes(
                     fromUri = byteArray,
                     toUri = uri.toString(),
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
         }

@@ -184,9 +184,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onStandaloneGradientSaveResult: (SaveResult) -> Unit,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _left.value = -1
@@ -201,7 +199,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                         width = localBitmap.width,
                         height = localBitmap.height
                     )
-                    onStandaloneGradientSaveResult(
+                    parseSaveResult(
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo,
@@ -257,7 +255,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                         total = left
                     )
                 }
-                onResult(results.onSuccess(::registerSave))
+                parseSaveResults(results.onSuccess(::registerSave))
             }
             _isSaving.value = false
         }

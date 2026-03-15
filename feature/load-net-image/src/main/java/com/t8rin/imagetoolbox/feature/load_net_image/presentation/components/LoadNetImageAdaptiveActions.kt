@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
@@ -35,8 +34,6 @@ import com.t8rin.imagetoolbox.feature.load_net_image.presentation.screenLogic.Lo
 internal fun RowScope.LoadNetImageAdaptiveActions(
     component: LoadNetImageComponent
 ) {
-    rememberLocalEssentials()
-
     AnimatedVisibility(component.parsedImages.isNotEmpty()) {
         ShareButton(
             onShare = component::performSharing,

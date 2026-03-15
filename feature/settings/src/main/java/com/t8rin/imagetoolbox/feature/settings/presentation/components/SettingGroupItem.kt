@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -32,9 +33,9 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSet
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,14 +49,13 @@ fun SettingGroupItem(
         .padding(2.dp),
     content: @Composable ColumnScope.(Boolean) -> Unit
 ) {
-    val essentials = rememberLocalEssentials()
-
     val settingsState = LocalSettingsState.current
 
     val initialState =
         settingsState.settingGroupsInitialVisibility[groupKey] ?: initialState
 
     val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
+    val scope = rememberCoroutineScope()
 
     ExpandableItem(
         modifier = modifier,
@@ -72,14 +72,14 @@ fun SettingGroupItem(
             )
         },
         onLongClick = {
-            essentials.launch {
+            scope.launch {
                 simpleSettingsInteractor.toggleSettingsGroupVisibility(
                     key = groupKey,
                     value = !initialState
                 )
 
                 AppToastHost.showToast(
-                    message = essentials.getString(
+                    message = getString(
                         if (initialState) {
                             R.string.settings_group_visibility_hidden
                         } else {

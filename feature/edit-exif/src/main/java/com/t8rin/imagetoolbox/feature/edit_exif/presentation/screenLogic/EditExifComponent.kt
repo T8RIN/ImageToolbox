@@ -35,7 +35,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -83,8 +82,7 @@ class EditExifComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmap(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -104,7 +102,7 @@ class EditExifComponent @AssistedInject internal constructor(
                     oneTimeSaveLocationUri = oneTimeSaveLocationUri
                 )
 
-                onComplete(result.onSuccess(::registerSave))
+                parseSaveResult(result.onSuccess(::registerSave))
             }
             _isSaving.update { false }
         }

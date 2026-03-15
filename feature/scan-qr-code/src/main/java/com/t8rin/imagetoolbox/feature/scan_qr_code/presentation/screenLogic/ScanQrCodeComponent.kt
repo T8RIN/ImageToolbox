@@ -34,7 +34,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.onResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
@@ -108,12 +107,11 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
 
     fun saveBitmap(
         bitmap: Bitmap,
-        oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
-            onComplete(
+            parseSaveResult(
                 fileController.save(
                     saveTarget = ImageSaveTarget(
                         imageInfo = ImageInfo(

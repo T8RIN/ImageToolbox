@@ -62,6 +62,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -79,7 +80,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -106,7 +107,7 @@ fun ProcessImagesPreferenceSheet(
     onDismiss: () -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
-    val essentials = rememberLocalEssentials()
+    val resourceManager = LocalResourceManager.current
 
     var isSearching by rememberSaveable {
         mutableStateOf(false)
@@ -122,10 +123,16 @@ fun ProcessImagesPreferenceSheet(
             if (searchKeyword.isNotBlank()) {
                 (rawScreenList + hiddenScreenList).filter {
                     val string =
-                        essentials.getString(it.title) + " " + essentials.getString(it.subtitle)
-                    val stringEn = essentials.getStringLocalized(it.title, Locale.ENGLISH.language)
-                        .plus(" ")
-                        .plus(essentials.getStringLocalized(it.subtitle, Locale.ENGLISH.language))
+                        resourceManager.getString(it.title) + " " + resourceManager.getString(it.subtitle)
+                    val stringEn =
+                        resourceManager.getStringLocalized(it.title, Locale.ENGLISH.language)
+                            .plus(" ")
+                            .plus(
+                                resourceManager.getStringLocalized(
+                                    it.subtitle,
+                                    Locale.ENGLISH.language
+                                )
+                            )
                     stringEn.contains(other = searchKeyword, ignoreCase = true).or(
                         string.contains(other = searchKeyword, ignoreCase = true)
                     )
@@ -226,6 +233,8 @@ fun ProcessImagesPreferenceSheet(
             }
         },
         sheetContent = {
+            val scope = rememberCoroutineScope()
+
             AnimatedContent(
                 targetState = urisCorrespondingScreens.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth()
@@ -256,7 +265,7 @@ fun ProcessImagesPreferenceSheet(
                             ScreenPreference(
                                 screen = screen,
                                 navigate = {
-                                    essentials.launch {
+                                    scope.launch {
                                         onDismiss()
                                         delay(200)
                                         onNavigate(screen)
@@ -324,7 +333,7 @@ fun ProcessImagesPreferenceSheet(
                                     ScreenPreference(
                                         screen = screen,
                                         navigate = {
-                                            essentials.launch {
+                                            scope.launch {
                                                 onDismiss()
                                                 delay(200)
                                                 onNavigate(screen)

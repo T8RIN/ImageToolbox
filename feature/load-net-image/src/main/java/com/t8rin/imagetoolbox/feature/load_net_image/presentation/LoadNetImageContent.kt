@@ -31,7 +31,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeUnless
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
@@ -50,7 +49,6 @@ fun LoadNetImageContent(
     component: LoadNetImageComponent
 ) {
     val isPortrait by isPortraitOrientationAsState()
-    rememberLocalEssentials()
 
     AutoContentBasedColors(component.bitmap)
 

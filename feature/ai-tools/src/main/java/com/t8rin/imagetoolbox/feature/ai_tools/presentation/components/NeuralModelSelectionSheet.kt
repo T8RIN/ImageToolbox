@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
@@ -57,7 +56,7 @@ internal fun NeuralModelSelectionSheet(
     onDeleteModel: (NeuralModel) -> Unit,
     downloadedModels: List<NeuralModel>,
     notDownloadedModels: List<NeuralModel>,
-    onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
+    onImportModel: (Uri) -> Unit,
     downloadProgresses: Map<String, DownloadProgress>,
     occupiedStorageSize: Long
 ) {

@@ -40,7 +40,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -214,13 +213,12 @@ class CompareComponent @AssistedInject internal constructor(
 
     fun saveBitmap(
         imageFormat: ImageFormat,
-        oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isImageLoading.value = true
             getResultImage()?.let { localBitmap ->
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(

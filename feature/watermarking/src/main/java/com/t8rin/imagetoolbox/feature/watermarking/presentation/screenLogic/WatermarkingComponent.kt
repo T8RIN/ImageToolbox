@@ -145,8 +145,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _left.value = -1
@@ -192,7 +191,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
                     total = left
                 )
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

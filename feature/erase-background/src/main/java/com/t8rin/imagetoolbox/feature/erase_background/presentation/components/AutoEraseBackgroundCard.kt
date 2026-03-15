@@ -60,13 +60,13 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.bgremover.BgRemover
@@ -121,7 +121,6 @@ fun AutoEraseBackgroundCard(
     }
 
     val keepAliveService = LocalKeepAliveService.current
-    val essentials = rememberLocalEssentials()
 
     Column(
         Modifier
@@ -152,7 +151,7 @@ fun AutoEraseBackgroundCard(
                             keepAliveService.track(
                                 initial = {
                                     updateOrStart(
-                                        title = essentials.getString(R.string.downloading)
+                                        title = getString(R.string.downloading)
                                     )
                                 }
                             ) {
@@ -180,7 +179,7 @@ fun AutoEraseBackgroundCard(
                                     .throttleLatest(50)
                                     .collect {
                                         updateProgress(
-                                            title = essentials.getString(R.string.downloading),
+                                            title = getString(R.string.downloading),
                                             done = (it.currentPercent * 100).roundToInt(),
                                             total = 100
                                         )

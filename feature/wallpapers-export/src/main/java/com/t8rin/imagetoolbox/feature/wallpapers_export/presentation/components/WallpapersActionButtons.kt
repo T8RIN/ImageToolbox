@@ -31,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -45,12 +44,10 @@ internal fun WallpapersActionButtons(
 ) {
     if (component.wallpapersState is WallpapersResult.Loading) return
     val isPortrait by isPortraitOrientationAsState()
-    val essentials = rememberLocalEssentials()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 

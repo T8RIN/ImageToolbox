@@ -120,10 +120,7 @@ abstract class BasePdfToolComponent(
 
     protected open fun getKey(): Pair<String, Uri?>? = null
 
-    abstract fun saveTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    )
+    abstract fun saveTo(uri: Uri)
 
     abstract fun performSharing(
         onSuccess: () -> Unit,
@@ -136,18 +133,17 @@ abstract class BasePdfToolComponent(
     )
 
     protected fun doSaving(
-        action: suspend KeepAliveService.() -> SaveResult,
-        onResult: (SaveResult) -> Unit
+        action: suspend KeepAliveService.() -> SaveResult
     ) {
         savingJob = trackProgress {
             runSuspendCatching {
                 _isSaving.value = true
-                onResult(action())
+                parseFileSaveResult(action())
             }.onFailure {
                 if (it is SecurityException) {
                     _showPasswordRequestDialog.update { true }
                 } else {
-                    onResult(SaveResult.Error.Exception(it))
+                    parseFileSaveResult(SaveResult.Error.Exception(it))
                 }
             }
             _isSaving.value = false

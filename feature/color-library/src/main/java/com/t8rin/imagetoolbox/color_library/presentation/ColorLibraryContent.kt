@@ -73,7 +73,6 @@ import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibrar
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -94,7 +93,6 @@ fun ColorLibraryContent(
     component: ColorLibraryComponent
 ) {
     val isKeyboardVisible by isKeyboardVisibleAsState()
-    rememberLocalEssentials()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val colors = component.colors
     val searchKeyword = component.searchKeyword

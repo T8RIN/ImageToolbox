@@ -43,7 +43,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageTransformBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.LinkPreviewList
@@ -58,8 +57,6 @@ internal fun RecognizeTextControls(
     val isExtraction = type is Screen.RecognizeText.Type.Extraction
     val imagePickerMode = localImagePickerMode(Picker.Single)
 
-    val essentials = rememberLocalEssentials()
-
     val editedText = component.editedText
 
     val captureImageLauncher = rememberImagePicker(ImagePickerMode.CameraCapture) { list ->
@@ -72,12 +69,7 @@ internal fun RecognizeTextControls(
 
     val exportLanguagesPicker = rememberFileCreator(
         mimeType = MimeType.Zip,
-        onSuccess = { uri ->
-            component.exportLanguagesTo(
-                uri = uri,
-                onResult = essentials::parseFileSaveResult
-            )
-        }
+        onSuccess = component::exportLanguagesTo
     )
 
     val importLanguagesPicker = rememberFilePicker(

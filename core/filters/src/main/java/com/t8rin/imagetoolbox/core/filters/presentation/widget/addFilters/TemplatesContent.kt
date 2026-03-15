@@ -52,7 +52,6 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateInfoSheet
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.TemplateFilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -67,7 +66,6 @@ internal fun TemplatesContent(
 ) {
     val templateFilters by component.templatesFlow.collectAsUiState()
     val onRequestFilterMapping = component::filterToTransformation
-    val essentials = rememberLocalEssentials()
 
     AnimatedContent(
         targetState = templateFilters.isEmpty()
@@ -144,32 +142,22 @@ internal fun TemplatesContent(
                         templateFilter = templateFilter,
                         onRequestFilterMapping = onRequestFilterMapping,
                         onShareImage = component::shareImage,
-                        onSaveImage = {
-                            component.saveImage(
-                                bitmap = it,
-                                onComplete = essentials::parseSaveResult
-                            )
-                        },
+                        onSaveImage = component::saveImage,
                         onSaveFile = { fileUri, content ->
                             component.saveContentTo(
                                 content = content,
-                                fileUri = fileUri,
-                                onResult = essentials::parseFileSaveResult
+                                fileUri = fileUri
                             )
                         },
                         onConvertTemplateFilterToString = component::convertTemplateFilterToString,
                         onRemoveTemplateFilter = component::removeTemplateFilter,
                         onRequestTemplateFilename = {
-                            component.createTemplateFilename(
-                                templateFilter
-                            )
+                            component.createTemplateFilename(templateFilter)
                         },
                         onShareFile = { content ->
                             component.shareContent(
                                 content = content,
-                                filename = component.createTemplateFilename(
-                                    templateFilter
-                                )
+                                filename = component.createTemplateFilename(templateFilter)
                             )
                         },
                         component = filterTemplateCreationSheetComponent

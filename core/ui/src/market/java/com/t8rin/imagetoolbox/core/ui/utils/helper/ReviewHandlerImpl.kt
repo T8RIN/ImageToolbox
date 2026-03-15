@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,34 +18,25 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.app.Activity
-import android.content.Context
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.t8rin.logger.makeLog
 
-internal object ReviewHandlerImpl : ReviewHandler {
+internal object ReviewHandlerImpl : ReviewHandler() {
 
-    override val showNotShowAgainButton: Boolean = false
-
-    override fun showReview(
-        context: Context,
-        onComplete: () -> Unit
-    ) {
+    override fun showReview(activity: Activity) {
         runCatching {
-            val reviewManager = ReviewManagerFactory.create(context)
-
-            reviewManager
-                .requestReviewFlow()
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        reviewManager
-                            .launchReviewFlow(context as Activity, it.result)
-                            .addOnCompleteListener {
-                                onComplete()
-                            }
+            ReviewManagerFactory.create(activity).let { reviewManager ->
+                reviewManager
+                    .requestReviewFlow()
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            reviewManager.launchReviewFlow(activity, it.result)
+                        }
                     }
-                }
+            }
+        }.onFailure {
+            it.makeLog("showReview")
         }
     }
-
-    override fun notShowReviewAgain(context: Context) = Unit
 
 }

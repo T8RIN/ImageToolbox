@@ -105,8 +105,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -150,14 +149,13 @@ class DocumentScannerComponent @AssistedInject internal constructor(
                     total = left
                 )
             }
-            onComplete(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }
 
     fun savePdfTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
+        uri: Uri
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -165,7 +163,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
                 fileController.transferBytes(
                     fromUri = pdfUri.toString(),
                     toUri = uri.toString(),
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
                 _isSaving.value = false
             }
         }

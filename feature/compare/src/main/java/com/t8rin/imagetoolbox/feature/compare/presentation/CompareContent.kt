@@ -52,7 +52,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -74,8 +73,6 @@ fun CompareContent(
 
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
-
-    val essentials = rememberLocalEssentials()
 
     LaunchedEffect(component.bitmapData) {
         component.bitmapData?.ifNotEmpty { before, after ->
@@ -217,8 +214,7 @@ fun CompareContent(
         onSaveBitmap = { imageFormat, oneTimeSaveLocationUri ->
             component.saveBitmap(
                 imageFormat = imageFormat,
-                oneTimeSaveLocationUri = oneTimeSaveLocationUri,
-                onComplete = essentials::parseSaveResult
+                oneTimeSaveLocationUri = oneTimeSaveLocationUri
             )
             showShareSheet = false
         },

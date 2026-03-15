@@ -43,3 +43,8 @@ val appContext: AppContext
     }
 
 fun getString(@StringRes resId: Int): String = appContext.getString(resId)
+
+fun getString(
+    @StringRes resId: Int,
+    vararg formatArgs: Any?
+): String = appContext.getString(resId, *formatArgs)

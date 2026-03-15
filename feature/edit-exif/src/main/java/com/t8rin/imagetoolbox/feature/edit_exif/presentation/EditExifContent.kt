@@ -48,7 +48,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -71,14 +70,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.edit_exif.presentation.screenLogic.EditExifComponent
 
 @Composable
 fun EditExifContent(
     component: EditExifComponent,
 ) {
-    val essentials = rememberLocalEssentials()
-
     AutoContentBasedColors(component.uri)
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
@@ -93,8 +91,7 @@ fun EditExifContent(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmap(
-            oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResult
+            oneTimeSaveLocationUri = it
         )
     }
 
@@ -194,7 +191,7 @@ fun EditExifContent(
                 enabled = component.imageFormat.canWriteExif,
                 onDisabledClick = {
                     AppToastHost.showToast(
-                        essentials.getString(
+                        getString(
                             R.string.image_exif_warning,
                             component.imageFormat.title
                         )

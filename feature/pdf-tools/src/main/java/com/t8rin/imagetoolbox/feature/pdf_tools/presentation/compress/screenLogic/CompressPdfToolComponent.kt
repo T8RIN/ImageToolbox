@@ -28,7 +28,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
@@ -83,23 +82,19 @@ class CompressPdfToolComponent @AssistedInject internal constructor(
     }
 
     override fun saveTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
+        uri: Uri
     ) {
-        doSaving(
-            action = {
-                val processed = pdfManager.compressPdf(
-                    uri = _uri.value.toString(),
-                    quality = quality
-                )
+        doSaving {
+            val processed = pdfManager.compressPdf(
+                uri = _uri.value.toString(),
+                quality = quality
+            )
 
-                fileController.transferBytes(
-                    fromUri = processed,
-                    toUri = uri.toString()
-                ).onSuccess(::registerSave)
-            },
-            onResult = onResult
-        )
+            fileController.transferBytes(
+                fromUri = processed,
+                toUri = uri.toString()
+            ).onSuccess(::registerSave)
+        }
     }
 
     override fun performSharing(

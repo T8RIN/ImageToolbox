@@ -19,6 +19,9 @@ package com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -39,12 +42,14 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.update
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.utils.state.updateNotNull
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
@@ -54,15 +59,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 
 class AiToolsComponent @AssistedInject internal constructor(
@@ -120,15 +122,12 @@ class AiToolsComponent @AssistedInject internal constructor(
     )
     val params by _params
 
-    private val errorsChannel: Channel<String> = Channel(Channel.BUFFERED)
-    val errors: Flow<String> = errorsChannel.receiveAsFlow()
-
     private val _imageFormat: MutableState<ImageFormat?> = mutableStateOf(null)
     val imageFormat by _imageFormat
 
     private val aiProgressListener = object : AiProgressListener {
         override fun onError(error: String) {
-            errorsChannel.trySend(error)
+            AppToastHost.showFailureToast(error)
         }
 
         override fun onProgress(
@@ -171,13 +170,28 @@ class AiToolsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun importModel(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun importModel(uri: Uri) {
         componentScope.launch {
             _isImageLoading.update { true }
-            onResult(aiToolsRepository.importModel(uri.toString()))
+
+            when (val result = aiToolsRepository.importModel(uri.toString())) {
+                SaveResult.Skipped -> {
+                    AppToastHost.showToast(
+                        message = getString(R.string.model_already_downloaded),
+                        icon = Icons.Outlined.Info
+                    )
+                }
+
+                is SaveResult.Success -> {
+                    AppToastHost.showToast(
+                        message = getString(R.string.model_successfully_imported),
+                        icon = Icons.Outlined.CheckCircle
+                    )
+                }
+
+                else -> parseFileSaveResult(result)
+            }
+
             _isImageLoading.update { false }
         }
     }
@@ -201,8 +215,7 @@ class AiToolsComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
@@ -264,7 +277,7 @@ class AiToolsComponent @AssistedInject internal constructor(
                     )
                 }
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _saveProgress.update { null }
 
             aiToolsRepository.cleanup()

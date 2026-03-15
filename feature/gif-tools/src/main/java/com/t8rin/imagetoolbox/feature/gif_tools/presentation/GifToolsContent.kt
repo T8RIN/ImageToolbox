@@ -40,7 +40,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -49,6 +48,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.isGif
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.components.GifToolsControls
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.components.GifToolsImagePreview
@@ -60,8 +60,6 @@ import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifTool
 fun GifToolsContent(
     component: GifToolsComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleGifLauncher = rememberFilePicker(
@@ -71,7 +69,7 @@ fun GifToolsContent(
                 component.setGifUri(uri)
             } else {
                 AppToastHost.showToast(
-                    message = essentials.getString(R.string.select_gif_image_to_start),
+                    message = getString(R.string.select_gif_image_to_start),
                     icon = Icons.Rounded.Gif
                 )
             }
@@ -86,7 +84,7 @@ fun GifToolsContent(
             }.let { uris ->
                 if (uris.isEmpty()) {
                     AppToastHost.showToast(
-                        message = essentials.getString(R.string.select_gif_image_to_start),
+                        message = getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
                 } else {
@@ -106,7 +104,7 @@ fun GifToolsContent(
             }.let { uris ->
                 if (uris.isEmpty()) {
                     AppToastHost.showToast(
-                        message = essentials.getString(R.string.select_gif_image_to_start),
+                        message = getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
                 } else {
@@ -126,7 +124,7 @@ fun GifToolsContent(
             }.let { uris ->
                 if (uris.isEmpty()) {
                     AppToastHost.showToast(
-                        message = essentials.getString(R.string.select_gif_image_to_start),
+                        message = getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
                 } else {
@@ -149,7 +147,7 @@ fun GifToolsContent(
             }.let { uris ->
                 if (uris.isEmpty()) {
                     AppToastHost.showToast(
-                        message = essentials.getString(R.string.select_gif_image_to_start),
+                        message = getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
                 } else {
@@ -166,12 +164,7 @@ fun GifToolsContent(
 
     val saveGifLauncher = rememberFileCreator(
         mimeType = MimeType.Gif,
-        onSuccess = { uri ->
-            component.saveGifTo(
-                uri = uri,
-                onResult = essentials::parseSaveResult
-            )
-        }
+        onSuccess = component::saveGifTo
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
@@ -227,8 +220,7 @@ fun GifToolsContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
-                    onGifSaveResult = saveGifLauncher::make,
-                    onResult = essentials::parseSaveResults
+                    onGifSaveResult = saveGifLauncher::make
                 )
             }
             var showFolderSelectionDialog by rememberSaveable {

@@ -200,8 +200,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -253,7 +252,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
                     total = uris.orEmpty().size
                 )
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

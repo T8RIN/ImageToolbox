@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +38,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -60,20 +58,11 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsControls
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.NeuralSaveProgressDialog
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AiToolsContent(
     component: AiToolsComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
-    LaunchedEffect(component) {
-        component.errors.collectLatest { message ->
-            AppToastHost.showFailureToast(message)
-        }
-    }
-
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.updateUris(
             uris = uris
@@ -96,8 +85,7 @@ fun AiToolsContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 

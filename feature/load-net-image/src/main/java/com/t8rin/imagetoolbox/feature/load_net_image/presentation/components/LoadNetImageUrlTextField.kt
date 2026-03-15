@@ -31,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -41,8 +40,6 @@ import com.t8rin.imagetoolbox.feature.load_net_image.presentation.screenLogic.Lo
 internal fun LoadNetImageUrlTextField(
     component: LoadNetImageComponent
 ) {
-    rememberLocalEssentials()
-
     RoundedTextField(
         modifier = Modifier
             .container(

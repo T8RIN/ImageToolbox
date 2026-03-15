@@ -23,7 +23,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.UpdateSheet
-import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.AppExitDialog
 import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.EditPresetsSheet
 import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.FirstLaunchSetupDialog
@@ -81,10 +80,8 @@ internal fun RootDialogs(component: RootComponent) {
     GithubReviewDialog(
         visible = component.showGithubReviewDialog,
         onDismiss = component::hideReviewDialog,
-        onNotShowAgain = {
-            ReviewHandler.notShowReviewAgain(appContext)
-        },
-        isNotShowAgainButtonVisible = ReviewHandler.showNotShowAgainButton
+        onNotShowAgain = ReviewHandler.current::notShowReviewAgain,
+        isNotShowAgainButtonVisible = ReviewHandler.current.showNotShowAgainButton
     )
 
     TelegramGroupDialog(

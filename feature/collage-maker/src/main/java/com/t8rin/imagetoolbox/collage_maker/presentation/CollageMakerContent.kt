@@ -61,6 +61,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -92,7 +93,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -120,6 +120,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -131,8 +132,6 @@ fun CollageMakerContent(
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val essentials = rememberLocalEssentials()
-
     var isLoading by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(component.initialUris) {
@@ -141,7 +140,7 @@ fun CollageMakerContent(
                 component.updateUris(it)
             } else {
                 AppToastHost.showToast(
-                    message = essentials.getString(R.string.pick_up_to_ten_images),
+                    message = getString(R.string.pick_up_to_ten_images),
                     icon = Icons.Outlined.AutoAwesomeMosaic
                 )
             }
@@ -155,9 +154,9 @@ fun CollageMakerContent(
         } else {
             AppToastHost.showToast(
                 message = if (uris.size > 10) {
-                    essentials.getString(R.string.pick_up_to_ten_images)
+                    getString(R.string.pick_up_to_ten_images)
                 } else {
-                    essentials.getString(R.string.pick_at_least_two_images)
+                    getString(R.string.pick_at_least_two_images)
                 },
                 icon = Icons.Outlined.AutoAwesomeMosaic
             )
@@ -173,8 +172,7 @@ fun CollageMakerContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmap(
-            oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResult
+            oneTimeSaveLocationUri = it
         )
     }
 
@@ -202,6 +200,8 @@ fun CollageMakerContent(
         resettingTrigger++
     }
 
+    val scope = rememberCoroutineScope()
+
     AdaptiveBottomScaffoldLayoutScreen(
         title = {
             TopAppBarTitle(
@@ -219,7 +219,7 @@ fun CollageMakerContent(
             }
             EnhancedIconButton(
                 onClick = {
-                    essentials.launch {
+                    scope.launch {
                         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
                             scaffoldState.bottomSheetState.partialExpand()
                         } else {

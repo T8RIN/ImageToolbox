@@ -62,7 +62,6 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -79,16 +78,9 @@ internal fun ColumnScope.ZipControls(
     val isPortrait by isPortraitOrientationAsState()
     val settingsState = LocalSettingsState.current
 
-    val essentials = rememberLocalEssentials()
-
     val saveLauncher = rememberFileCreator(
         mimeType = MimeType.Zip,
-        onSuccess = { uri ->
-            component.saveResultTo(
-                uri = uri,
-                onResult = essentials::parseFileSaveResult
-            )
-        }
+        onSuccess = component::saveResultTo
     )
 
     val additionalFilePicker = rememberFilePicker(onSuccess = component::addUris)

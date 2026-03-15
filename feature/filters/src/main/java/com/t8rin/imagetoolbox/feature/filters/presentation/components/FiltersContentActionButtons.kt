@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -49,7 +48,6 @@ internal fun FiltersContentActionButtons(
     selectionFilterPicker: ImagePicker,
 ) {
     val isPortrait by isPortraitOrientationAsState()
-    val essentials = rememberLocalEssentials()
 
     val filterType = component.filterType
 
@@ -57,15 +55,13 @@ internal fun FiltersContentActionButtons(
         when (filterType) {
             is Screen.Filter.Type.Basic -> {
                 component.saveBitmaps(
-                    oneTimeSaveLocationUri = it,
-                    onResult = essentials::parseSaveResults
+                    oneTimeSaveLocationUri = it
                 )
             }
 
             is Screen.Filter.Type.Masking -> {
                 component.saveMaskedBitmap(
-                    oneTimeSaveLocationUri = it,
-                    onComplete = essentials::parseSaveResult
+                    oneTimeSaveLocationUri = it
                 )
             }
 

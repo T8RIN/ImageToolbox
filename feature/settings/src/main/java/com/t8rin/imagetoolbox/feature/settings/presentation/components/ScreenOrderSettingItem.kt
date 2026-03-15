@@ -51,7 +51,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -61,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.getString
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -88,8 +88,6 @@ fun ScreenOrderSettingItem(
     }
     var showArrangementSheet by rememberSaveable { mutableStateOf(false) }
 
-    val essentials = rememberLocalEssentials()
-
     PreferenceItem(
         shape = shape,
         modifier = modifier,
@@ -99,7 +97,7 @@ fun ScreenOrderSettingItem(
         onDisabledClick = {
             AppToastHost.showToast(
                 icon = Icons.Outlined.BatchPrediction,
-                message = essentials.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
+                message = getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
             )
         },
         enabled = !settingsState.groupOptionsByTypes,

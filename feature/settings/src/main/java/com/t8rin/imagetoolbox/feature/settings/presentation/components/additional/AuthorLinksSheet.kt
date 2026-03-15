@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components.additional
 
 import android.content.Intent
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -43,7 +44,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Telegram
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 fun AuthorLinksSheet(
@@ -82,7 +83,7 @@ fun AuthorLinksSheet(
             }
         },
         sheetContent = {
-            val essentials = rememberLocalEssentials()
+            val activity = LocalActivity.current
             val linkHandler = LocalUriHandler.current
             val settingsState = LocalSettingsState.current
 
@@ -114,9 +115,10 @@ fun AuthorLinksSheet(
                     PreferenceItem(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
-                            val mail = essentials.getString(R.string.developer_email)
+                            val mail = getString(R.string.developer_email)
+
                             runCatching {
-                                essentials.startActivity(
+                                activity!!.startActivity(
                                     Intent(Intent.ACTION_SENDTO).apply {
                                         data = "mailto:$mail".toUri()
                                     }

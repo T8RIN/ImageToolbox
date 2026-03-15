@@ -43,7 +43,6 @@ import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -52,6 +51,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.EmojiItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.EmojiSelectionSheet
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 fun EmojiSettingItem(
@@ -62,7 +62,6 @@ fun EmojiSettingItem(
     shape: Shape = ShapeDefaults.top
 ) {
     val settingsState = LocalSettingsState.current
-    val essentials = rememberLocalEssentials()
     var showSecretDescriptionDialog by rememberSaveable { mutableStateOf("") }
     var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
     var showEmojiDialog by rememberSaveable { mutableStateOf(false) }
@@ -79,7 +78,7 @@ fun EmojiSettingItem(
         enabled = !settingsState.useRandomEmojis,
         onDisabledClick = {
             AppToastHost.showToast(
-                message = essentials.getString(R.string.emoji_selection_error),
+                message = getString(R.string.emoji_selection_error),
                 icon = Icons.Rounded.Casino
             )
         },

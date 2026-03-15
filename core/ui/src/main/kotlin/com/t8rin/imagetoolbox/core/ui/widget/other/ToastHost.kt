@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.widget.other
 
 import android.content.Context
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
@@ -74,6 +75,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.harmonizeWithPrimary
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestStoragePermission
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
@@ -96,8 +98,14 @@ fun ToastHost(
 ) {
     val currentToastData = hostState.currentToastData
     val accessibilityManager = LocalAccessibilityManager.current
+    val activity = LocalActivity.current
     LaunchedEffect(currentToastData) {
         if (currentToastData != null) {
+            if (currentToastData.visuals.message == AppToastHost.PERMISSION) {
+                activity?.requestStoragePermission()
+                return@LaunchedEffect
+            }
+
             val duration = currentToastData.visuals.duration.toMillis(accessibilityManager)
             delay(duration)
             currentToastData.dismiss()

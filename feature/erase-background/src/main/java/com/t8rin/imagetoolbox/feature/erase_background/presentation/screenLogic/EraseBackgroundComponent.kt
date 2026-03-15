@@ -36,7 +36,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -165,15 +164,14 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     private var savingJob: Job? = null
 
     fun saveBitmap(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = trackProgress {
             _isSaving.value = true
             getErasedBitmap(true)?.let { localBitmap ->
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(

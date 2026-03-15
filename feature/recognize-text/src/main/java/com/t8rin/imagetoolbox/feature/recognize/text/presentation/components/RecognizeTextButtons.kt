@@ -31,7 +31,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -43,7 +42,6 @@ internal fun RecognizeTextButtons(
     multipleImagePicker: ImagePicker,
     actions: @Composable RowScope.() -> Unit
 ) {
-    val essentials = rememberLocalEssentials()
     val isPortrait by isPortraitOrientationAsState()
     val type = component.type
     val isExtraction = type is Screen.RecognizeText.Type.Extraction
@@ -62,8 +60,7 @@ internal fun RecognizeTextButtons(
     }
     val save: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.save(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
     BottomButtonsBlock(

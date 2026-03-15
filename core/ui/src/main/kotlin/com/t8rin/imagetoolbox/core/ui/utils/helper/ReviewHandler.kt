@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,30 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
-import android.content.Context
+import android.app.Activity
+import com.t8rin.logger.makeLog
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
-interface ReviewHandler {
+abstract class ReviewHandler {
 
-    val showNotShowAgainButton: Boolean
+    private val _reviewRequests: Channel<Unit> = Channel(Channel.BUFFERED)
+    val reviewRequests: Flow<Unit> = _reviewRequests.receiveAsFlow()
 
-    fun showReview(
-        context: Context,
-        onComplete: () -> Unit = {}
-    )
+    fun requestReview() {
+        makeLog("requestReview")
+        _reviewRequests.trySend(Unit)
+    }
 
-    fun notShowReviewAgain(context: Context)
+    open val showNotShowAgainButton: Boolean = false
 
-    companion object : ReviewHandler by ReviewHandlerImpl
+    open fun notShowReviewAgain() = Unit
+
+    abstract fun showReview(activity: Activity)
+
+    companion object {
+        val current: ReviewHandler = ReviewHandlerImpl
+    }
 
 }

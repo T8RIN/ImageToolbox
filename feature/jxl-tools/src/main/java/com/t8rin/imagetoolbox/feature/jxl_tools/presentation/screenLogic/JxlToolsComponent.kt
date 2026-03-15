@@ -106,8 +106,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     val convertedImageUris by _convertedImageUris
 
     fun setType(
-        type: Screen.JxlTools.Type?,
-        onFailure: (Throwable) -> Unit = {}
+        type: Screen.JxlTools.Type?
     ) {
         when (type) {
             is Screen.JxlTools.Type.JpegToJxl -> {
@@ -121,7 +120,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
             }
 
             is Screen.JxlTools.Type.JxlToImage -> {
-                type.jxlUri?.let { setJxlUri(it, onFailure) } ?: _type.update { null }
+                type.jxlUri?.let(::setJxlUri) ?: _type.update { null }
             }
 
             else -> _type.update { type }
@@ -138,10 +137,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         _isLoading.update { false }
     }
 
-    private fun setJxlUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit,
-    ) {
+    private fun setJxlUri(uri: Uri) {
         clearAll()
         _type.update {
             Screen.JxlTools.Type.JxlToImage(uri)
@@ -155,7 +151,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                 imageFormat = imageFormat,
                 quality = params.quality,
                 imageFrames = imageFrames,
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             ).onCompletion {
                 _isLoading.update { false }
                 _isLoadingJxlImages.update { false }
@@ -173,8 +169,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     }
 
     fun save(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -208,7 +203,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                         )
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 is Screen.JxlTools.Type.JxlToJpeg -> {
@@ -238,7 +233,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                         )
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 is Screen.JxlTools.Type.JxlToImage -> {
@@ -257,7 +252,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 if (it == 0) {
                                     _isSaving.value = false
                                     savingJob?.cancel()
-                                    onResult(
+                                    parseSaveResults(
                                         listOf(SaveResult.Error.MissingPermissions)
                                     )
                                 }
@@ -268,7 +263,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 )
                             }
                         ).onCompletion {
-                            onResult(results.onSuccess(::registerSave))
+                            parseSaveResults(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -326,7 +321,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 )
                             },
                             onFailure = {
-                                onResult(
+                                parseSaveResults(
                                     listOf(
                                         SaveResult.Error.Exception(it)
                                     )
@@ -338,7 +333,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 keepOriginalMetadata = false,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             ).onSuccess(::registerSave)
-                            onResult(listOf(result))
+                            parseSaveResults(listOf(result))
                         }
                     }
                 }

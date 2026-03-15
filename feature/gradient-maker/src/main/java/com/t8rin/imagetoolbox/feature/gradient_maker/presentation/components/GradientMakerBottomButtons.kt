@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -39,15 +38,12 @@ internal fun GradientMakerBottomButtons(
     actions: @Composable RowScope.() -> Unit,
     imagePicker: ImagePicker
 ) {
-    val essentials = rememberLocalEssentials()
     val isPortrait by isPortraitOrientationAsState()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         if (component.brush != null) {
             component.saveBitmaps(
-                oneTimeSaveLocationUri = it,
-                onStandaloneGradientSaveResult = essentials::parseSaveResult,
-                onResult = essentials::parseSaveResults
+                oneTimeSaveLocationUri = it
             )
         }
     }

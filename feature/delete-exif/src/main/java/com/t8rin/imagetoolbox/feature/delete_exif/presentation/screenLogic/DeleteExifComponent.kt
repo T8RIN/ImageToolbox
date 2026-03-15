@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
@@ -139,8 +140,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -178,7 +178,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
                     total = uris.orEmpty().size
                 )
             }
-            onResult(results)
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

@@ -33,7 +33,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.isBase64
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
@@ -178,8 +177,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmap(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -191,7 +189,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
                     quality = quality,
                     originalUri = uri.toString()
                 )
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
@@ -214,10 +212,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun saveContentToTxt(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveContentToTxt(uri: Uri) {
         base64String.takeIf { it.isNotEmpty() }?.let { data ->
             componentScope.launch {
                 fileController.writeBytes(
@@ -225,7 +220,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
                     block = {
                         it.writeBytes(data.encodeToByteArray())
                     }
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
         }
     }

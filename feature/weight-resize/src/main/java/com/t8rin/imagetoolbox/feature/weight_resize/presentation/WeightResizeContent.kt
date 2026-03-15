@@ -50,7 +50,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.restrict
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
@@ -84,8 +83,6 @@ import com.t8rin.imagetoolbox.feature.weight_resize.presentation.screenLogic.Wei
 fun WeightResizeContent(
     component: WeightResizeComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
@@ -111,8 +108,7 @@ fun WeightResizeContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 

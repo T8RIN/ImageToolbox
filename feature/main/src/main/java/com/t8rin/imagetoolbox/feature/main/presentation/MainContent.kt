@@ -74,10 +74,10 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.main.presentation.components.MainContentImpl
 import com.t8rin.imagetoolbox.feature.main.presentation.components.MainDrawerContent
 import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponent
@@ -148,7 +148,6 @@ fun MainContent(
 
     val content = remember {
         movableContentOf {
-            val essentials = rememberLocalEssentials()
             MainContentImpl(
                 layoutDirection = layoutDirection,
                 isSheetSlideable = isSheetSlideable,
@@ -165,7 +164,7 @@ fun MainContent(
                         onNoUpdates = {
                             AppToastHost.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
-                                message = essentials.getString(R.string.no_updates)
+                                message = getString(R.string.no_updates)
                             )
                         }
                     )

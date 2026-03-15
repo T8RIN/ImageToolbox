@@ -39,7 +39,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
@@ -78,8 +77,6 @@ import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.Wate
 fun WatermarkingContent(
     component: WatermarkingComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     AutoContentBasedColors(
         model = component.selectedUri
     )
@@ -234,8 +231,7 @@ fun WatermarkingContent(
         buttons = {
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = { oneTimeSaveLocationUri ->
                 component.saveBitmaps(
-                    oneTimeSaveLocationUri = oneTimeSaveLocationUri,
-                    onResult = essentials::parseSaveResults
+                    oneTimeSaveLocationUri = oneTimeSaveLocationUri
                 )
             }
             var showFolderSelectionDialog by rememberSaveable {

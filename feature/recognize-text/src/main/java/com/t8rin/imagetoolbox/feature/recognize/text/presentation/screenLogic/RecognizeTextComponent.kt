@@ -317,8 +317,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     fun save(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         recognitionJob = componentScope.launch {
             delay(400)
@@ -341,7 +340,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                         _done.update { it + 1 }
                     }
 
-                    onResult(
+                    parseSaveResults(
                         listOf(
                             fileController.save(
                                 saveTarget = TxtSaveTarget(
@@ -401,7 +400,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                         }
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 else -> return@launch
@@ -804,17 +803,14 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         }
     }
 
-    fun exportLanguagesTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun exportLanguagesTo(uri: Uri) {
         languagesJob = componentScope.launch {
             _isExporting.value = true
             imageTextReader.exportLanguagesToZip()?.let { zipUri ->
                 fileController.writeBytes(
                     uri = uri.toString(),
                     block = { it.writeBytes(fileController.readBytes(zipUri)) }
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isExporting.value = false
         }
@@ -846,10 +842,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         }
     }
 
-    fun saveContentToTxt(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveContentToTxt(uri: Uri) {
         recognitionData?.text?.takeIf { it.isNotEmpty() }?.let { data ->
             componentScope.launch {
                 fileController.writeBytes(
@@ -857,7 +850,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     block = {
                         it.writeBytes(data.encodeToByteArray())
                     }
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
         }
     }

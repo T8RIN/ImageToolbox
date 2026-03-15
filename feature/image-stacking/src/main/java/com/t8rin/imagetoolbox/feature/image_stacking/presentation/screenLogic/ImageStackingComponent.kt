@@ -133,8 +133,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -143,7 +142,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 stackImages = stackImages,
                 stackingParams = stackingParams,
                 onFailure = {
-                    onComplete(SaveResult.Error.Exception(it))
+                    parseSaveResult(SaveResult.Error.Exception(it))
                 },
                 onProgress = {
                     _done.value = it
@@ -159,7 +158,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                     quality = imageInfo.quality,
                     imageFormat = imageInfo.imageFormat
                 )
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,

@@ -63,7 +63,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -188,15 +187,9 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                         textRes = R.string.share_base_64
                     )
 
-                    val essentials = rememberLocalEssentials()
                     val saveLauncher = rememberFileCreator(
                         mimeType = MimeType.Txt,
-                        onSuccess = { uri ->
-                            component.saveContentToTxt(
-                                uri = uri,
-                                onResult = essentials::parseFileSaveResult
-                            )
-                        }
+                        onSuccess = component::saveContentToTxt
                     )
 
                     Tile(

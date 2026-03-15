@@ -57,7 +57,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LinkPreview
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -67,7 +66,6 @@ fun LinkPreviewCard(
     linkPreview: LinkPreview,
     shape: Shape
 ) {
-    rememberLocalEssentials()
     val linkHandler = LocalUriHandler.current
 
     Row(

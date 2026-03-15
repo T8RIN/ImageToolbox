@@ -108,6 +108,8 @@ data object AppToastHost {
         }
     }
 
+    const val PERMISSION = "REQUEST_PERMISSION"
+
     private fun showActivateFilesToast() {
         showToast(
             message = appContext.getString(R.string.activate_files),

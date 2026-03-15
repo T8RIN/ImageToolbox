@@ -39,7 +39,6 @@ import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
@@ -207,8 +206,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun saveImage(
-        bitmap: Bitmap,
-        onComplete: (result: SaveResult) -> Unit,
+        bitmap: Bitmap
     ) {
         componentScope.launch {
             val imageInfo = ImageInfo(
@@ -216,7 +214,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                 height = bitmap.height,
                 imageFormat = ImageFormat.Png.Lossless
             )
-            onComplete(
+            parseSaveResult(
                 fileController.save(
                     saveTarget = ImageSaveTarget(
                         imageInfo = imageInfo,
@@ -236,14 +234,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
 
     fun saveContentTo(
         content: String,
-        fileUri: Uri,
-        onResult: (SaveResult) -> Unit
+        fileUri: Uri
     ) {
         componentScope.launch {
             fileController.writeBytes(
                 uri = fileUri.toString(),
                 block = { it.writeBytes(content.toByteArray()) }
-            ).also(onResult).onSuccess(::registerSave)
+            ).also(::parseFileSaveResult).onSuccess(::registerSave)
         }
     }
 
@@ -354,8 +351,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun saveNeutralLut(
-        oneTimeSaveLocationUri: String? = null,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String? = null
     ) {
         componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let { bitmap ->
@@ -364,7 +360,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                     height = 512,
                     imageFormat = ImageFormat.Png.Lossless
                 )
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
