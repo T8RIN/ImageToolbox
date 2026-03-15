@@ -53,6 +53,8 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberScreenSize
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.initAppContext
 import java.util.Locale
@@ -63,6 +65,7 @@ fun ImageToolboxThemeForPreview(
     isDarkTheme: Boolean,
     keyColor: Color? = defaultColorTuple.primary,
     shapesType: ShapeType = ShapeType.Rounded(),
+    mapSettings: (SettingsState) -> SettingsState = { it },
     content: @Composable () -> Unit
 ) {
     LocalContext.current.applicationContext.initAppContext()
@@ -80,11 +83,12 @@ fun ImageToolboxThemeForPreview(
             colorAnimationSpec = snap(),
             content = {
                 CompositionLocalProvider(
-                    LocalSettingsState provides SettingsState.Default.toUiState().copy(
+                    LocalSettingsState provides mapSettings(SettingsState.Default).toUiState().copy(
                         shapesType = shapesType
                     ),
                     LocalSimpleSettingsInteractor provides FakeSettings,
-                    LocalResourceManager provides FakeRes
+                    LocalResourceManager provides FakeRes,
+                    LocalScreenSize provides rememberScreenSize()
                 ) {
                     MaterialTheme(
                         motionScheme = CustomMotionScheme,

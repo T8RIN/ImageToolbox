@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,26 +17,15 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.provider
 
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
-import com.t8rin.modalsheet.FullscreenPopup
 
 val LocalScreenSize = compositionLocalOf<ScreenSize> { error("ScreenSize not present") }
 
@@ -48,45 +37,18 @@ data class ScreenSize internal constructor(
     val heightPx: Int
 )
 
-private fun Density.ScreenSize(
-    width: Dp,
-    height: Dp,
-) = ScreenSize(
-    width = width,
-    height = height,
-    widthPx = width.roundToPx(),
-    heightPx = height.roundToPx()
-)
-
 @Composable
 fun rememberScreenSize(): ScreenSize {
     val windowInfo = LocalWindowInfo.current
 
-    var constraints by remember(windowInfo) {
-        mutableStateOf<Constraints?>(null)
-    }
-
-    if (constraints == null) {
-        FullscreenPopup {
-            BoxWithConstraints(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                SideEffect {
-                    constraints = this.constraints
-                }
-            }
-        }
-    }
-
-    val density = LocalDensity.current
-
-    return remember(constraints, windowInfo, density) {
+    return remember(windowInfo) {
         derivedStateOf {
-            with(density) {
+            windowInfo.run {
                 ScreenSize(
-                    width = constraints?.maxWidth?.toDp() ?: windowInfo.containerSize.height.toDp(),
-                    height = constraints?.maxHeight?.toDp()
-                        ?: windowInfo.containerSize.width.toDp(),
+                    width = containerDpSize.width,
+                    height = containerDpSize.height,
+                    widthPx = containerSize.width,
+                    heightPx = containerSize.height
                 )
             }
         }

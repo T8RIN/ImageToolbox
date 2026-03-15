@@ -43,11 +43,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -81,12 +82,16 @@ import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.harmonizeWithPrimary
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestStoragePermission
+import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
+import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
 import com.t8rin.imagetoolbox.core.utils.decodeEscaped
@@ -265,25 +270,57 @@ fun Toast(
         shape = shape
     ) {
         Row(
-            modifier = Modifier.padding(15.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            toastData.visuals.icon?.let {
-                Icon(
-                    imageVector = it,
-                    contentDescription = null
-                )
+            toastData.visuals.icon?.let { icon ->
+                IconShapeContainer(
+                    containerColor = containerColor
+                        .blend(MaterialTheme.colorScheme.secondary, 0.5f)
+                        .blend(MaterialTheme.colorScheme.primaryContainer, 0.05f),
+                    contentColor = contentColor
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
             }
-            Spacer(modifier = Modifier.size(8.dp))
             Text(
                 style = MaterialTheme.typography.bodySmall,
                 text = toastData.visuals.message,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(end = 5.dp)
+                textAlign = TextAlign.Center
             )
         }
     }
+}
+
+@EnPreview
+@Composable
+private fun Preview() = ImageToolboxThemeForPreview(
+    isDarkTheme = false,
+    keyColor = Color.Yellow,
+    mapSettings = {
+        it.copy(drawContainerShadows = false)
+    }
+) {
+    Toast(
+        object : ToastData {
+            override val visuals: ToastVisuals
+                get() = object : ToastVisuals {
+                    override val message: String
+                        get() = "File successfully saved to Documents/ImageToolbox"
+                    override val icon: ImageVector
+                        get() = Icons.Rounded.Folder
+                    override val duration: ToastDuration
+                        get() = ToastDuration.Long
+                }
+
+            override fun dismiss() = Unit
+        }
+    )
 }
 
 @Stable
