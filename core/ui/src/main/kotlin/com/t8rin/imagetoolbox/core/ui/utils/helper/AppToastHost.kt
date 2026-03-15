@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.other.showFailureToast
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,6 +54,20 @@ data object AppToastHost {
         scope.launch {
             state.showToast(
                 message = message,
+                icon = icon,
+                duration = duration
+            )
+        }
+    }
+
+    fun showToast(
+        message: Int,
+        icon: ImageVector? = null,
+        duration: ToastDuration = ToastDuration.Short
+    ) {
+        scope.launch {
+            state.showToast(
+                message = getString(message),
                 icon = icon,
                 duration = duration
             )

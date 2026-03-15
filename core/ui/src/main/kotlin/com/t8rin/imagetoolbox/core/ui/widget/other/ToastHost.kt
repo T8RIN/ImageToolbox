@@ -22,6 +22,7 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -33,6 +34,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -57,23 +59,31 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.AccessibilityManager
 import androidx.compose.ui.platform.LocalAccessibilityManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastCoerceIn
+import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.harmonizeWithPrimary
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestStoragePermission
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -82,11 +92,14 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
 import com.t8rin.imagetoolbox.core.utils.decodeEscaped
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.CancellableContinuation
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.resume
+import kotlin.math.abs
 
 @Composable
 fun ToastHost(
@@ -94,7 +107,8 @@ fun ToastHost(
     modifier: Modifier = Modifier.fillMaxSize(),
     alignment: Alignment = Alignment.BottomCenter,
     transitionSpec: AnimatedContentTransitionScope<ToastData?>.() -> ContentTransform = { ToastDefaults.transition },
-    toast: @Composable (ToastData) -> Unit = { Toast(it) }
+    toast: @Composable (ToastData) -> Unit = { Toast(it) },
+    enableSwipes: Boolean = true
 ) {
     val currentToastData = hostState.currentToastData
     val accessibilityManager = LocalAccessibilityManager.current
@@ -112,6 +126,10 @@ fun ToastHost(
         }
     }
 
+    val scope = rememberCoroutineScope()
+    val offsetX = remember { Animatable(0f) }
+    val alpha = remember { Animatable(1f) }
+    val threshold = 300f
 
     FullscreenPopup(
         placeAboveAll = true
@@ -120,10 +138,85 @@ fun ToastHost(
             modifier = Modifier.zIndex(100f),
             targetState = currentToastData,
             transitionSpec = transitionSpec
-        ) {
-            Box(modifier = modifier) {
-                Box(modifier = Modifier.align(alignment)) {
-                    it?.let { toast(it) }
+        ) { data ->
+            if (enableSwipes) {
+                val reset: CoroutineScope.() -> Unit = {
+                    launch {
+                        alpha.animateTo(
+                            targetValue = 1f,
+                            animationSpec = lessSpringySpec()
+                        )
+                    }
+                    launch {
+                        offsetX.animateTo(
+                            targetValue = 0f,
+                            animationSpec = lessSpringySpec()
+                        )
+                    }
+                }
+
+                LaunchedEffect(data) {
+                    reset()
+                }
+
+                Box(modifier = modifier) {
+                    data?.let { toastData ->
+                        Box(
+                            modifier = Modifier
+                                .align(alignment)
+                                .graphicsLayer {
+                                    compositingStrategy = CompositingStrategy.Offscreen
+                                    this.alpha = alpha.value
+                                    translationX = offsetX.value
+                                }
+                                .pointerInput(toastData) {
+                                    detectHorizontalDragGestures(
+                                        onHorizontalDrag = { _, drag ->
+                                            scope.launch {
+                                                val new = offsetX.value + drag
+
+                                                launch {
+                                                    offsetX.snapTo(
+                                                        targetValue = new
+                                                    )
+                                                }
+
+                                                launch {
+                                                    alpha.snapTo(
+                                                        targetValue = lerp(
+                                                            start = 1f,
+                                                            stop = 0.35f,
+                                                            fraction = (abs(new) / threshold).fastCoerceIn(
+                                                                0f,
+                                                                1f
+                                                            )
+                                                        )
+                                                    )
+                                                }
+                                            }
+                                        },
+                                        onDragEnd = {
+                                            scope.launch {
+                                                if (abs(offsetX.value) > threshold) {
+                                                    toastData.dismiss()
+                                                    reset()
+                                                } else {
+                                                    reset()
+                                                }
+                                            }
+                                        }
+                                    )
+                                }
+                        ) {
+                            toast(toastData)
+                        }
+                    }
+                }
+            } else {
+                Box(modifier = modifier) {
+                    Box(modifier = Modifier.align(alignment)) {
+                        data?.let { toast(it) }
+                    }
                 }
             }
         }
@@ -172,7 +265,7 @@ fun Toast(
         shape = shape
     ) {
         Row(
-            Modifier.padding(15.dp),
+            modifier = Modifier.padding(15.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {

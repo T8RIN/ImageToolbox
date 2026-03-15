@@ -75,7 +75,8 @@ fun ConfettiHost(
                 modifier = Modifier.fillMaxSize(),
                 parties = particles(harmonizationColor.copy(confettiHarmonizationLevel))
             )
-        }
+        },
+        enableSwipes = false
     )
 }
 

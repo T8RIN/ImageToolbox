@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.askUserTo
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.checkPermissions
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
+import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.logger.makeLog
@@ -97,9 +98,9 @@ object ContextUtils {
 
             PermissionStatus.DENIED_PERMANENTLY -> {
                 askUserToRequestPermissionExplicitly()
-                postToast(
-                    textRes = R.string.grant_permission_manual,
-                    isLong = true
+                AppToastHost.showToast(
+                    message = R.string.grant_permission_manual,
+                    duration = ToastDuration.Long
                 )
             }
 
