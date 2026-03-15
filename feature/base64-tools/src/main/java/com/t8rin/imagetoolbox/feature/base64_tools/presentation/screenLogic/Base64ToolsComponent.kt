@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.domain.utils.trimToBase64
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.base64_tools.domain.Base64Converter
@@ -129,7 +130,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         savingJob = trackProgress {
             _isSaving.update { true }
             uri?.let { imageGetter.getImage(it) }?.let { image ->
@@ -142,7 +143,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
                         quality = quality,
                         originalUri = uri.toString()
                     ),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
             _isSaving.update { false }
@@ -231,7 +232,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
 
     fun generateTextFilename(): String = "Base64_${timestamp()}.txt"
 
-    fun shareText(onSuccess: () -> Unit) {
+    fun shareText() {
         base64String.takeIf { it.isNotEmpty() }?.let { data ->
             componentScope.launch {
                 shareProvider.shareData(
@@ -240,7 +241,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
                     },
                     filename = generateTextFilename()
                 )
-                onSuccess()
+                AppToastHost.showConfetti()
             }
         }
     }

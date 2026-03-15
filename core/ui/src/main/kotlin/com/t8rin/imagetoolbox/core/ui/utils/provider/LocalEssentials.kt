@@ -40,8 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHostState
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.createScreenShortcut
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isNetworkAvailable
@@ -52,17 +51,11 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.parseSaveResult
 import com.t8rin.imagetoolbox.core.ui.utils.helper.parseSaveResults
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toClipData
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
-import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
-import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState
-import com.t8rin.imagetoolbox.core.ui.widget.other.showFailureToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun rememberLocalEssentials(): LocalEssentials {
-    val toastHostState = LocalToastHostState.current
-    val confettiHostState = LocalConfettiHostState.current
     val context = if (LocalInspectionMode.current) {
         null
     } else {
@@ -73,16 +66,12 @@ fun rememberLocalEssentials(): LocalEssentials {
     val resourceManager = LocalResourceManager.current
 
     return remember(
-        toastHostState,
         coroutineScope,
-        confettiHostState,
         context,
         clipboard,
         resourceManager
     ) {
         LocalEssentials(
-            toastHostState = toastHostState,
-            confettiHostState = confettiHostState,
             coroutineScope = coroutineScope,
             context = context,
             clipboard = clipboard,
@@ -95,8 +84,6 @@ fun rememberLocalEssentials(): LocalEssentials {
 @Immutable
 class LocalEssentials internal constructor(
     private val context: ComponentActivity?,
-    private val toastHostState: ToastHostState,
-    private val confettiHostState: ConfettiHostState,
     private val clipboard: Clipboard,
     coroutineScope: CoroutineScope,
     resourceManager: ResourceManager
@@ -105,73 +92,21 @@ class LocalEssentials internal constructor(
 
     fun isNetworkAvailable(): Boolean = context?.isNetworkAvailable() == true
 
-    fun showToast(
-        message: String,
-        icon: ImageVector? = null,
-        duration: ToastDuration = ToastDuration.Short
-    ) = launch {
-        toastHostState.showToast(
-            message = message,
-            icon = icon,
-            duration = duration
-        )
-    }
-
-    fun showToast(
-        messageSelector: LocalEssentials.() -> String,
-        icon: ImageVector? = null,
-        duration: ToastDuration = ToastDuration.Short
-    ) = showToast(
-        message = messageSelector(),
-        icon = icon,
-        duration = duration
-    )
-
-    fun showFailureToast(throwable: Throwable) {
-        launch {
-            toastHostState.showFailureToast(
-                context = context ?: return@launch,
-                throwable = throwable
-            )
-        }
-    }
-
-    fun showFailureToast(message: String) {
-        launch {
-            toastHostState.showFailureToast(
-                message = message
-            )
-        }
-    }
-
-    fun showConfetti(
-        duration: ToastDuration
-    ) = launch {
-        confettiHostState.showConfetti(duration)
-    }
-
-    fun showConfetti() {
-        showConfetti(ToastDuration(4500L))
-    }
-
     fun parseSaveResult(saveResult: SaveResult) {
         context?.parseSaveResult(
-            saveResult = saveResult,
-            essentials = this
+            saveResult = saveResult
         )
     }
 
     fun parseSaveResults(saveResults: List<SaveResult>) {
         context?.parseSaveResults(
-            results = saveResults,
-            essentials = this
+            results = saveResults
         )
     }
 
     fun parseFileSaveResult(saveResult: SaveResult) {
         context?.parseFileSaveResult(
-            saveResult = saveResult,
-            essentials = this
+            saveResult = saveResult
         )
     }
 
@@ -183,7 +118,7 @@ class LocalEssentials internal constructor(
             context?.createScreenShortcut(
                 screen = screen,
                 tint = tint,
-                onFailure = ::showFailureToast
+                onFailure = AppToastHost::showFailureToast
             )
         }
     }
@@ -198,7 +133,7 @@ class LocalEssentials internal constructor(
             }.onSuccess {
                 onSuccess()
             }.onFailure {
-                showFailureToast(getString(R.string.data_is_too_large_to_copy))
+                AppToastHost.showFailureToast(getString(R.string.data_is_too_large_to_copy))
             }
         }
     }
@@ -211,9 +146,9 @@ class LocalEssentials internal constructor(
         copyToClipboard(
             clipEntry = uri.asClip(context ?: return),
             onSuccess = {
-                showConfetti()
+                AppToastHost.showConfetti()
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                    showToast(
+                    AppToastHost.showToast(
                         message = getString(message),
                         icon = icon
                     )
@@ -231,7 +166,7 @@ class LocalEssentials internal constructor(
             clipEntry = ClipEntry(text.toClipData()),
             onSuccess = {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                    showToast(
+                    AppToastHost.showToast(
                         message = getString(message),
                         icon = icon
                     )
@@ -254,7 +189,7 @@ class LocalEssentials internal constructor(
                         }
                     }?.takeIf { it.isNotEmpty() }?.let(onSuccess)
             }.onFailure {
-                showFailureToast(getString(R.string.clipboard_data_is_too_large))
+                AppToastHost.showFailureToast(getString(R.string.clipboard_data_is_too_large))
             }
         }
     }
@@ -272,7 +207,7 @@ class LocalEssentials internal constructor(
     fun startActivity(intent: Intent) {
         runCatching {
             context?.startActivity(intent)
-        }.onFailure(::showFailureToast)
+        }.onFailure(AppToastHost::showFailureToast)
     }
 
     fun isInstalledFromPlayStore(): Boolean = context?.isInstalledFromPlayStore() == true

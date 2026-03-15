@@ -60,6 +60,7 @@ import coil3.request.ImageRequest
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -90,11 +91,11 @@ internal fun LegacyPdfViewer(
     contentPadding: PaddingValues = PaddingValues(start = 20.dp, end = 20.dp),
     modifier: Modifier = Modifier
 ) {
-    val essentials = rememberLocalEssentials()
+    rememberLocalEssentials()
 
     val showError: (Throwable) -> Unit = {
         it.makeLog("PdfViewer")
-        essentials.showFailureToast(it)
+        AppToastHost.showFailureToast(it)
     }
 
     val listState = rememberLazyListState()

@@ -114,7 +114,6 @@ fun EraseBackgroundContent(
     val settingsState = LocalSettingsState.current
 
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.bitmap)
 
@@ -122,10 +121,7 @@ fun EraseBackgroundContent(
 
 
     val imagePicker = rememberImagePicker { uri: Uri ->
-        component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
-        )
+        component.setUri(uri)
     }
 
     val pickImage = imagePicker::pickImage
@@ -250,9 +246,7 @@ fun EraseBackgroundContent(
                 }
                 ShareButton(
                     enabled = component.bitmap != null,
-                    onShare = {
-                        component.shareBitmap(showConfetti)
-                    },
+                    onShare = component::shareBitmap,
                     onCopy = {
                         component.cacheCurrentImage(essentials::copyToClipboard)
                     },
@@ -353,9 +347,7 @@ fun EraseBackgroundContent(
                         essentials.launch {
                             scaffoldState.bottomSheetState.partialExpand()
                             component.autoEraseBackground(
-                                modelType = modelType,
-                                onSuccess = showConfetti,
-                                onFailure = essentials::showFailureToast
+                                modelType = modelType
                             )
                         }
                     },

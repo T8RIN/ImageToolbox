@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterReorderShee
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.addEditMaskSheet.AddEditMaskSheet
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
@@ -34,7 +33,6 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersCo
 internal fun FiltersContentSheets(
     component: FiltersComponent
 ) {
-    val essentials = rememberLocalEssentials()
     val isPortrait by isPortraitOrientationAsState()
 
     if (component.filterType is Screen.Filter.Type.Basic) {
@@ -48,15 +46,8 @@ internal fun FiltersContentSheets(
             onDismiss = component::hidePickImageFromUrisSheet,
             uris = component.basicFilterState.uris,
             selectedUri = component.basicFilterState.selectedUri,
-            onUriPicked = { uri ->
-                component.updateSelectedUri(
-                    uri = uri,
-                    onFailure = essentials::showFailureToast
-                )
-            },
-            onUriRemoved = { uri ->
-                component.updateUrisSilently(removedUri = uri)
-            },
+            onUriPicked = component::updateSelectedUri,
+            onUriRemoved = component::updateUrisSilently,
             columns = if (isPortrait) 2 else 4,
         )
 

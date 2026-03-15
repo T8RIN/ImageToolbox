@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MusicAdd
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -75,12 +76,11 @@ fun AudioCoverExtractorContent(
     component: AudioCoverExtractorComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     LaunchedEffect(component.initialUris, component.covers, essentials) {
         delay(500)
         if (component.initialUris != null && component.covers.isEmpty()) {
-            essentials.showFailureToast(essentials.getString(R.string.no_covers_found))
+            AppToastHost.showFailureToast(essentials.getString(R.string.no_covers_found))
         }
     }
 
@@ -133,7 +133,7 @@ fun AudioCoverExtractorContent(
             ShareButton(
                 onShare = {
                     component.performSharing(
-                        onComplete = showConfetti
+                        onComplete = AppToastHost::showConfetti
                     )
                 },
                 onEdit = {

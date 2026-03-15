@@ -78,7 +78,6 @@ fun WatermarkingContent(
     component: WatermarkingComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(
         model = component.selectedUri
@@ -86,8 +85,7 @@ fun WatermarkingContent(
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.setUris(
-            uris = uris,
-            onFailure = essentials::showFailureToast
+            uris = uris
         )
     }
 
@@ -138,9 +136,7 @@ fun WatermarkingContent(
             }
             ShareButton(
                 enabled = component.previewBitmap != null,
-                onShare = {
-                    component.shareBitmaps(showConfetti)
-                },
+                onShare = component::shareBitmaps,
                 onCopy = {
                     component.cacheCurrentImage(essentials::copyToClipboard)
                 },
@@ -298,15 +294,8 @@ fun WatermarkingContent(
         },
         uris = component.uris,
         selectedUri = component.selectedUri,
-        onUriPicked = { uri ->
-            component.updateSelectedUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
-        onUriRemoved = { uri ->
-            component.updateUrisSilently(removedUri = uri)
-        },
+        onUriPicked = component::updateSelectedUri,
+        onUriRemoved = component::updateUrisSilently,
         columns = if (isPortrait) 2 else 4,
     )
 

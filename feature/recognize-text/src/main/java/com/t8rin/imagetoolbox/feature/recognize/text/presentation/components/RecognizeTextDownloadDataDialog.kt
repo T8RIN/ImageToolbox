@@ -27,6 +27,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionType
@@ -35,14 +36,6 @@ import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.Re
 @Composable
 internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) {
     val essentials = rememberLocalEssentials()
-
-    val showConfetti: () -> Unit = essentials::showConfetti
-
-    val startRecognition = {
-        component.startRecognition(
-            onFailure = essentials::showFailureToast
-        )
-    }
 
     val downloadDialogData = component.downloadDialogData
 
@@ -66,8 +59,8 @@ internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) 
                     },
                     onComplete = {
                         component.clearDownloadDialogData()
-                        showConfetti()
-                        startRecognition()
+                        AppToastHost.showConfetti()
+                        component.startRecognition()
                     }
                 )
             },
@@ -75,7 +68,7 @@ internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) 
             dataRemaining = dataRemaining,
             onNoConnection = {
                 component.clearDownloadDialogData()
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(R.string.no_connection),
                     icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
                     duration = ToastDuration.Long

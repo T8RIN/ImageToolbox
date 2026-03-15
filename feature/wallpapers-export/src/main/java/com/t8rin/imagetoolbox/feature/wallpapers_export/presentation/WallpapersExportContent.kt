@@ -83,9 +83,7 @@ fun WallpapersExportContent(
         actions = {
             ShareButton(
                 enabled = component.selectedImages.isNotEmpty(),
-                onShare = {
-                    component.performSharing(essentials::showConfetti)
-                },
+                onShare = component::performSharing,
                 onCopy = if (component.wallpapers.size == 1) {
                     { component.cacheImages { it.firstOrNull()?.let(essentials::copyToClipboard) } }
                 } else null

@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.jxl_tools.domain.AnimatedJxlParams
@@ -397,10 +398,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         _isSaving.value = false
     }
 
-    fun performSharing(
-        onFailure: (Throwable) -> Unit,
-        onComplete: () -> Unit
-    ) {
+    fun performSharing() {
         savingJob = trackProgress {
             _isSaving.value = true
             _left.value = 1
@@ -415,7 +413,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     _left.value = jpegUris.size
                     jxlConverter.jpegToJxl(
                         jpegUris = jpegUris,
-                        onFailure = onFailure
+                        onFailure = AppToastHost::showFailureToast
                     ) { uri, jxlBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
@@ -431,7 +429,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     }
 
                     shareProvider.shareUris(results.filterNotNull())
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
 
                 is Screen.JxlTools.Type.JxlToJpeg -> {
@@ -443,7 +441,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     _left.value = jxlUris.size
                     jxlConverter.jxlToJpeg(
                         jxlUris = jxlUris,
-                        onFailure = onFailure
+                        onFailure = AppToastHost::showFailureToast
                     ) { uri, jpegBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
@@ -459,7 +457,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     }
 
                     shareProvider.shareUris(results.filterNotNull())
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
 
                 is Screen.JxlTools.Type.JxlToImage -> {
@@ -470,7 +468,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                         index in positions
                     }
                     shareProvider.shareUris(uris)
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
 
                 is Screen.JxlTools.Type.ImageToJxl -> {
@@ -489,13 +487,13 @@ class JxlToolsComponent @AssistedInject internal constructor(
                             onFailure = {
                                 _isSaving.value = false
                                 savingJob?.cancel()
-                                onFailure(it)
+                                AppToastHost.showFailureToast(it)
                             }
                         )?.also { byteArray ->
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,
                                 filename = "JXL_${timestamp()}.jxl",
-                                onComplete = onComplete
+                                onComplete = AppToastHost::showConfetti
                             )
                         }
                     }
@@ -522,9 +520,18 @@ class JxlToolsComponent @AssistedInject internal constructor(
     fun removeUri(uri: Uri) {
         setType(
             when (val type = _type.value) {
-                is Screen.JxlTools.Type.JpegToJxl -> type.copy(type.jpegImageUris?.minus(uri))
-                is Screen.JxlTools.Type.JxlToJpeg -> type.copy(type.jxlImageUris?.minus(uri))
-                is Screen.JxlTools.Type.ImageToJxl -> type.copy(type.imageUris?.minus(uri))
+                is Screen.JxlTools.Type.JpegToJxl -> type.copy(
+                    jpegImageUris = type.jpegImageUris?.minus(uri)
+                )
+
+                is Screen.JxlTools.Type.JxlToJpeg -> type.copy(
+                    jxlImageUris = type.jxlImageUris?.minus(uri)
+                )
+
+                is Screen.JxlTools.Type.ImageToJxl -> type.copy(
+                    imageUris = type.imageUris?.minus(uri)
+                )
+
                 is Screen.JxlTools.Type.JxlToImage -> type
                 null -> null
             }

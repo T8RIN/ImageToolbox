@@ -44,7 +44,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.KeyVertical
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -66,9 +65,6 @@ fun CipherContent(
     component: CipherComponent
 ) {
     val showTip = component.showTip
-
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -123,7 +119,7 @@ fun CipherContent(
                         .padding(horizontal = 2.dp)
                         .padding(bottom = 12.dp)
                         .scaleOnTap {
-                            showConfetti()
+                            AppToastHost.showConfetti()
                         }
                 )
             }

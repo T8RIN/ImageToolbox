@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -60,7 +61,6 @@ fun GifToolsContent(
     component: GifToolsComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
@@ -70,7 +70,7 @@ fun GifToolsContent(
             if (uri.isGif()) {
                 component.setGifUri(uri)
             } else {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(R.string.select_gif_image_to_start),
                     icon = Icons.Rounded.Gif
                 )
@@ -85,7 +85,7 @@ fun GifToolsContent(
                 it.isGif()
             }.let { uris ->
                 if (uris.isEmpty()) {
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
@@ -105,7 +105,7 @@ fun GifToolsContent(
                 it.isGif()
             }.let { uris ->
                 if (uris.isEmpty()) {
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
@@ -125,7 +125,7 @@ fun GifToolsContent(
                 it.isGif()
             }.let { uris ->
                 if (uris.isEmpty()) {
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
@@ -148,7 +148,7 @@ fun GifToolsContent(
                 it.isGif()
             }.let { uris ->
                 if (uris.isEmpty()) {
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
@@ -203,9 +203,7 @@ fun GifToolsContent(
         actions = {
             ShareButton(
                 enabled = !component.isLoading && component.type != null,
-                onShare = {
-                    component.performSharing(showConfetti)
-                }
+                onShare = component::performSharing
             )
         },
         imagePreview = {

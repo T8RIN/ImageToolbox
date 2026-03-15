@@ -58,6 +58,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
@@ -95,9 +96,9 @@ fun ImageFormatSelector(
     val essentials = rememberLocalEssentials()
 
     val cannotChangeFormat: () -> Unit = {
-        essentials.showToast(
-            essentials.getString(R.string.cannot_change_image_format),
-            Icons.Rounded.Architecture
+        AppToastHost.showToast(
+            message = essentials.getString(R.string.cannot_change_image_format),
+            icon = Icons.Rounded.Architecture
         )
     }
 

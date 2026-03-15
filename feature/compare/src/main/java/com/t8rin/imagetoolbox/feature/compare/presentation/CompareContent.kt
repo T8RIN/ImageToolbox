@@ -76,7 +76,6 @@ fun CompareContent(
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     LaunchedEffect(component.bitmapData) {
         component.bitmapData?.ifNotEmpty { before, after ->
@@ -225,8 +224,7 @@ fun CompareContent(
         },
         onShare = { imageFormat ->
             component.shareBitmap(
-                imageFormat = imageFormat,
-                onComplete = showConfetti
+                imageFormat = imageFormat
             )
             showShareSheet = false
         },

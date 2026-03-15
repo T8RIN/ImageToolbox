@@ -74,7 +74,7 @@ import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppVersion
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -88,7 +88,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.easter_egg.presentation.screenLogic.EasterEggComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -96,7 +95,6 @@ import kotlin.random.Random
 fun EasterEggContent(
     component: EasterEggComponent
 ) {
-    val confettiHostState = LocalConfettiHostState.current
     val themeState = LocalDynamicThemeState.current
     val allEmojis = Emoji.allIcons()
     val emojiData = remember {
@@ -263,7 +261,7 @@ fun EasterEggContent(
                     },
                 contentAlignment = Alignment.Center
             ) {
-                val scope = rememberCoroutineScope()
+                rememberCoroutineScope()
                 Column(
                     modifier = Modifier
                         .container(
@@ -274,9 +272,7 @@ fun EasterEggContent(
                             speed = if (speed == 0.2f) {
                                 Random.nextFloat()
                             } else 0.2f
-                            scope.launch {
-                                confettiHostState.showConfetti()
-                            }
+                            AppToastHost.showConfetti()
                         }
                         .size(ballSize)
                         .graphicsLayer {

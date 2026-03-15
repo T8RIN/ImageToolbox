@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -119,11 +120,11 @@ class EditExifComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         cacheCurrentImage {
             componentScope.launch {
                 shareProvider.shareUris(listOf(it.toString()))
-                onComplete()
+                AppToastHost.showConfetti()
             }
         }
     }

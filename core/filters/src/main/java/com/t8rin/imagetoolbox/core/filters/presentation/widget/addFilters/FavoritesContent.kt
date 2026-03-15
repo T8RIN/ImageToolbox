@@ -54,7 +54,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.utils.collectAsUiState
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
@@ -72,7 +72,6 @@ internal fun FavoritesContent(
 ) {
     val onRequestFilterMapping = component::filterToTransformation
     val favoriteFilters by component.favoritesFlow.collectAsUiState()
-    val essentials = rememberLocalEssentials()
 
     AnimatedContent(
         targetState = favoriteFilters.isEmpty()
@@ -195,7 +194,7 @@ internal fun FavoritesContent(
                                 component.updateCubeLuts(
                                     startDownloadIfNeeded = true,
                                     forceUpdate = forceUpdate,
-                                    onFailure = essentials::showFailureToast,
+                                    onFailure = AppToastHost::showFailureToast,
                                     downloadOnlyNewData = downloadOnlyNewData
                                 )
                             }

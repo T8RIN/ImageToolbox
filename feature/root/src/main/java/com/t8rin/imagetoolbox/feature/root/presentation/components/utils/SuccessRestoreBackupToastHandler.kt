@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,8 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -32,21 +31,19 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun SuccessRestoreBackupToastHandler(component: RootComponent) {
-    val confettiHostState = LocalConfettiHostState.current
     val context = LocalComponentActivity.current
-    val toastHostState = LocalToastHostState.current
     LaunchedEffect(component) {
         component.backupRestoredEvents.collectLatest { restored ->
             if (restored) {
                 launch {
-                    confettiHostState.showConfetti()
+                    AppToastHost.showConfetti()
                     //Wait for confetti to appear, then trigger font scale adjustment
                     delay(300L)
                     context.recreate()
                 }
-                toastHostState.showToast(
-                    context.getString(R.string.settings_restored),
-                    Icons.Rounded.Save
+                AppToastHost.showToast(
+                    message = context.getString(R.string.settings_restored),
+                    icon = Icons.Rounded.Save
                 )
             }
         }

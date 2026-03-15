@@ -85,7 +85,6 @@ internal fun CipherControls(component: CipherComponent) {
     val settingsState = LocalSettingsState.current
     val isPortrait by isPortraitOrientationAsState()
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val saveLauncher = rememberFileCreator(
         onSuccess = { uri ->
@@ -302,8 +301,7 @@ internal fun CipherControls(component: CipherComponent) {
                             component.byteArray?.let {
                                 component.shareFile(
                                     it = it,
-                                    filename = name,
-                                    onComplete = showConfetti
+                                    filename = name
                                 )
                             }
                         },

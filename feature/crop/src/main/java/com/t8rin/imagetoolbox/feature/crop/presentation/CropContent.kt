@@ -93,7 +93,6 @@ fun CropContent(
     component: CropComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -114,10 +113,7 @@ fun CropContent(
 
     val imagePicker = rememberImagePicker { uri: Uri ->
         rotationState.floatValue = 0f
-        component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
-        )
+        component.setUri(uri)
     }
 
     val pickImage = imagePicker::pickImage
@@ -146,9 +142,7 @@ fun CropContent(
         }
         ShareButton(
             enabled = component.bitmap != null,
-            onShare = {
-                component.shareBitmap(showConfetti)
-            },
+            onShare = component::shareBitmap,
             onEdit = {
                 component.cacheCurrentImage { uri ->
                     editSheetData = listOf(uri)

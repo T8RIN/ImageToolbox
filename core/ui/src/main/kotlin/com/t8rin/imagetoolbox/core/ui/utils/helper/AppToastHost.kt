@@ -59,18 +59,6 @@ object AppToastHost {
         }
     }
 
-    fun showToast(
-        messageSelector: () -> String,
-        icon: ImageVector? = null,
-        duration: ToastDuration = ToastDuration.Short
-    ) {
-        showToast(
-            message = messageSelector(),
-            icon = icon,
-            duration = duration
-        )
-    }
-
     fun showFailureToast(throwable: Throwable) {
         scope.launch {
             state.showFailureToast(
@@ -98,6 +86,7 @@ object AppToastHost {
 
     fun dismissToasts() {
         state.currentToastData?.dismiss()
+        confettiState.currentToastData?.dismiss()
     }
 
     fun showConfetti(

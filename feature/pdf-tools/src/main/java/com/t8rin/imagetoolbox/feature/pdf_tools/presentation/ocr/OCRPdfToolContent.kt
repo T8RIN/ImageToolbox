@@ -39,7 +39,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCR
 fun OCRPdfToolContent(
     component: OCRPdfToolComponent
 ) {
-    val essentials = rememberLocalEssentials()
+    rememberLocalEssentials()
 
     BasePdfToolContent(
         component = component,
@@ -66,9 +66,7 @@ fun OCRPdfToolContent(
                 subtitle = stringResource(R.string.deep_ocr_sub),
                 startIcon = Icons.Outlined.FilePresent,
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    component.navigateToOcr(essentials::showFailureToast)
-                }
+                onClick = component::navigateToOcr
             )
         },
         onFilledPassword = {

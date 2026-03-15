@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -70,12 +71,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUri?.let {
-                setUri(
-                    uri = it,
-                    onFailure = {}
-                )
-            }
+            initialUri?.let(::setUri)
         }
 
         doOnDestroy {
@@ -137,8 +133,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     }
 
     fun setUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit,
+        uri: Uri
     ) {
         _uri.value = uri
         autoEraseCount = 0
@@ -157,7 +152,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                         data.imageInfo.imageFormat
                     }
                 },
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             )
         }
     }
@@ -226,7 +221,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         componentScope.launch {
             getErasedBitmap(true)?.let {
                 _isSaving.value = true
@@ -238,9 +233,9 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                         height = it.height
                     ),
                     image = it,
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
-            } ?: onComplete()
+            } ?: AppToastHost.showConfetti()
             _isSaving.value = false
         }.also {
             _isSaving.value = false
@@ -302,8 +297,6 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
 
     fun autoEraseBackground(
         modelType: BgModelType,
-        onSuccess: () -> Unit,
-        onFailure: (Throwable) -> Unit,
     ) {
         componentScope.launch {
             getErasedBitmap(false)?.let { image ->
@@ -317,13 +310,13 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                         _lastPaths.value = listOf()
                         _undonePaths.value = listOf()
                         _isErasingBG.value = false
-                        onSuccess()
+                        AppToastHost.showConfetti()
                         autoEraseCount++
                         registerChanges()
                     },
                     onFailure = {
                         _isErasingBG.value = false
-                        onFailure(it)
+                        AppToastHost.showFailureToast(it)
                     }
                 )
             }

@@ -72,6 +72,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -106,7 +107,6 @@ fun ApngToolsContent(
     component: ApngToolsComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
@@ -116,7 +116,7 @@ fun ApngToolsContent(
             if (uri.isApng()) {
                 component.setApngUri(uri)
             } else {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(R.string.select_apng_image_to_start),
                     icon = Icons.Rounded.Apng
                 )
@@ -131,7 +131,7 @@ fun ApngToolsContent(
                 it.isApng()
             }.let { uris ->
                 if (uris.isEmpty()) {
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         message = essentials.getString(R.string.select_apng_image_to_start),
                         icon = Icons.Rounded.Apng
                     )
@@ -151,7 +151,7 @@ fun ApngToolsContent(
                 it.isApng()
             }.let { uris ->
                 if (uris.isEmpty()) {
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
@@ -263,9 +263,7 @@ fun ApngToolsContent(
             }
             ShareButton(
                 enabled = !component.isLoading && component.type != null,
-                onShare = {
-                    component.performSharing(showConfetti)
-                },
+                onShare = component::performSharing,
                 onEdit = {
                     component.cacheImages {
                         editSheetData = it

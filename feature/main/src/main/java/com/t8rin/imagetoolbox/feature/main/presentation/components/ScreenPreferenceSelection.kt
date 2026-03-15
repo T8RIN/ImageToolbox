@@ -80,6 +80,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberClipboardData
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -344,7 +345,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 if (!allowAutoPaste) {
                                     val list = clipboardManager.clipList()
                                     if (list.isEmpty()) {
-                                        essentials.showToast(
+                                        AppToastHost.showToast(
                                             message = essentials.getString(R.string.clipboard_paste_invalid_empty),
                                             icon = Icons.Outlined.ContentPasteOff
                                         )

@@ -48,7 +48,6 @@ internal fun MarkupLayersTopAppBarActions(
     val isPortrait by isPortraitOrientationAsState()
 
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     if (component.backgroundBehavior == BackgroundBehavior.None) TopAppBarEmoji()
     else {
@@ -75,9 +74,7 @@ internal fun MarkupLayersTopAppBarActions(
         }
         ShareButton(
             enabled = component.backgroundBehavior !is BackgroundBehavior.None,
-            onShare = {
-                component.shareBitmap(showConfetti)
-            },
+            onShare = component::shareBitmap,
             onCopy = {
                 component.cacheCurrentImage(essentials::copyToClipboard)
             },

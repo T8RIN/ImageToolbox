@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,14 +84,12 @@ fun WeightResizeContent(
     component: WeightResizeComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
-        component.updateUris(
-            uris = uris,
-            onFailure = essentials::showFailureToast
+        component.setUris(
+            uris = uris
         )
     }
 
@@ -157,9 +155,7 @@ fun WeightResizeContent(
                 }
                 ShareButton(
                     enabled = component.canSave,
-                    onShare = {
-                        component.shareBitmaps { showConfetti() }
-                    },
+                    onShare = component::shareBitmaps,
                     onCopy = {
                         component.cacheCurrentImage(essentials::copyToClipboard)
                     },
@@ -343,15 +339,8 @@ fun WeightResizeContent(
         },
         uris = component.uris,
         selectedUri = component.selectedUri,
-        onUriPicked = { uri ->
-            component.updateSelectedUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
-        onUriRemoved = { uri ->
-            component.updateUrisSilently(removedUri = uri)
-        },
+        onUriPicked = component::updateSelectedUri,
+        onUriRemoved = component::updateUrisSilently,
         columns = if (isPortrait) 2 else 4,
     )
 

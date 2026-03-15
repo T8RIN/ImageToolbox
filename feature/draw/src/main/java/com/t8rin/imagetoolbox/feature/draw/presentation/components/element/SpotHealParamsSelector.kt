@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.utils.LamaLoader
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
@@ -136,7 +137,7 @@ internal fun SpotHealParamsSelector(
                                     }
                                     .catch {
                                         simpleSettingsInteractor.setSpotHealMode(0)
-                                        essentials.showFailureToast(it)
+                                        AppToastHost.showFailureToast(it)
                                         useLama = false
                                         downloadProgress = null
                                         downloadJob = null

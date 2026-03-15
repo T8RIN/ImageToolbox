@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.image_stacking.domain.ImageStacker
@@ -179,7 +180,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
@@ -193,7 +194,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                         total = stackImages.size
                     )
                 },
-                onFailure = {}
+                onFailure = AppToastHost::showFailureToast
             )?.let { image ->
                 val imageInfo = ImageInfo(
                     height = image.height,
@@ -204,7 +205,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 shareProvider.shareImage(
                     image = image,
                     imageInfo = imageInfo,
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
             _isSaving.value = false
@@ -283,14 +284,13 @@ class ImageStackingComponent @AssistedInject internal constructor(
 
     fun updateStackImage(
         value: StackImage,
-        index: Int,
-        onFailure: (Throwable) -> Unit
+        index: Int
     ) {
         val list = stackImages.toMutableList()
         runCatching {
             list[index] = value
             _stackImages.update { list }
-        }.onFailure(onFailure)
+        }.onFailure(AppToastHost::showFailureToast)
 
         calculatePreview()
     }

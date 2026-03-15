@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
@@ -167,15 +168,14 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
 
     fun <T : Any> updateFilter(
         value: T,
-        index: Int,
-        showError: (Throwable) -> Unit,
+        index: Int
     ) {
         val list = _filterList.value.toMutableList()
         runCatching {
             list[index] = list[index].copy(value)
             _filterList.update { list }
         }.exceptionOrNull()?.let { throwable ->
-            showError(throwable)
+            AppToastHost.showFailureToast(throwable)
             list[index] = list[index].newInstance()
             _filterList.update { list }
         }

@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -73,7 +74,7 @@ fun ResetDialog(
                 onClick = {
                     onReset()
                     onDismiss()
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         message = essentials.getString(R.string.values_reset),
                         icon = Icons.Rounded.DoneOutline
                     )

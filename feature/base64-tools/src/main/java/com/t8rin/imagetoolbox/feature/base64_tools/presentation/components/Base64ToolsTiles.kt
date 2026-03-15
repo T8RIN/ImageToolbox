@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.trimToBase64
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -82,7 +83,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                     if (text.isBase64()) {
                         component.setBase64(text)
                     } else {
-                        essentials.showToast(
+                        AppToastHost.showToast(
                             message = essentials.getString(R.string.not_a_valid_base_64),
                             icon = Icons.Rounded.Base64
                         )
@@ -104,7 +105,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                 component.setBase64FromUri(
                     uri = uri,
                     onFailure = {
-                        essentials.showToast(
+                        AppToastHost.showToast(
                             message = essentials.getString(R.string.not_a_valid_base_64),
                             icon = Icons.Rounded.Base64
                         )
@@ -171,7 +172,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                             if (component.base64String.isBase64()) {
                                 essentials.copyToClipboard(text)
                             } else {
-                                essentials.showToast(
+                                AppToastHost.showToast(
                                     message = essentials.getString(R.string.copy_not_a_valid_base_64),
                                     icon = Icons.Rounded.Base64
                                 )
@@ -181,12 +182,8 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                         textRes = R.string.copy_base_64
                     )
 
-                    val shareText = {
-                        component.shareText(essentials::showConfetti)
-                    }
-
                     Tile(
-                        onClick = shareText,
+                        onClick = component::shareText,
                         icon = Icons.Outlined.Share,
                         textRes = R.string.share_base_64
                     )

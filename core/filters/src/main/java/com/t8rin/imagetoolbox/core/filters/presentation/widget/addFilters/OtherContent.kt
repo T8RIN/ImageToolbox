@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.utils.collectAsUiState
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -84,7 +85,6 @@ internal fun OtherContent(
     onFilterPicked: (UiFilter<*>) -> Unit,
     previewBitmap: Bitmap?,
 ) {
-    val essentials = rememberLocalEssentials()
     val favoriteFilters by component.favoritesFlow.collectAsUiState()
     val onRequestFilterMapping = component::filterToTransformation
 
@@ -131,7 +131,7 @@ internal fun OtherContent(
                     component.updateCubeLuts(
                         startDownloadIfNeeded = true,
                         forceUpdate = forceUpdate,
-                        onFailure = essentials::showFailureToast,
+                        onFailure = AppToastHost::showFailureToast,
                         downloadOnlyNewData = downloadOnlyNewData
                     )
                 }
@@ -179,7 +179,7 @@ private fun LazyListScope.lutAdditionalSection(
                     Row {
                         ShareButton(
                             onShare = {
-                                component.shareNeutralLut(essentials::showConfetti)
+                                component.shareNeutralLut(AppToastHost::showConfetti)
                             },
                             onCopy = {
                                 component.cacheNeutralLut(essentials::copyToClipboard)

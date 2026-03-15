@@ -27,6 +27,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 
@@ -47,7 +48,7 @@ fun AutoFilePicker(
                 onAutoPick()
                 picked = true
             }.onFailure {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(R.string.activate_files),
                     icon = Icons.Outlined.FolderOff,
                     duration = ToastDuration.Long

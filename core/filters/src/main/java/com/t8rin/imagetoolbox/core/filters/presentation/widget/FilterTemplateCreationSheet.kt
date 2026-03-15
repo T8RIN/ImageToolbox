@@ -76,9 +76,9 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFil
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -117,8 +117,6 @@ fun FilterTemplateCreationSheet(
     val isPortrait by isPortraitOrientationAsState()
 
     var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
-
-    val essentials = rememberLocalEssentials()
 
     var showExitDialog by remember { mutableStateOf(false) }
 
@@ -299,7 +297,7 @@ fun FilterTemplateCreationSheet(
                                                     component.updateFilter(
                                                         value = it,
                                                         index = index,
-                                                        showError = essentials::showFailureToast
+                                                        showError = AppToastHost::showFailureToast
                                                     )
                                                 },
                                                 onLongPress = {

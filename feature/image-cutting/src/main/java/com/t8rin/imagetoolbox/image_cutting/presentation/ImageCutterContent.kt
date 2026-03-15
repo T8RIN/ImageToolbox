@@ -76,7 +76,6 @@ fun ImageCutterContent(
     component: ImageCutterComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(onSuccess = component::updateUris)
 
@@ -122,9 +121,7 @@ fun ImageCutterContent(
             }
             ShareButton(
                 enabled = component.uris != null,
-                onShare = {
-                    component.shareBitmaps(showConfetti)
-                },
+                onShare = component::shareBitmaps,
                 onEdit = {
                     component.cacheImages {
                         editSheetData = it

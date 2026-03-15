@@ -79,7 +79,6 @@ fun ImageStackingContent(
     component: ImageStackingComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.previewBitmap)
 
@@ -140,9 +139,7 @@ fun ImageStackingContent(
             }
             ShareButton(
                 enabled = component.previewBitmap != null,
-                onShare = {
-                    component.shareBitmap(showConfetti)
-                },
+                onShare = component::shareBitmap,
                 onCopy = {
                     component.cacheCurrentImage(essentials::copyToClipboard)
                 },
@@ -220,8 +217,7 @@ fun ImageStackingContent(
                                 onStackImageChange = { image: StackImage ->
                                     component.updateStackImage(
                                         value = image,
-                                        index = index,
-                                        onFailure = essentials::showFailureToast
+                                        index = index
                                     )
                                 },
                                 isRemoveVisible = component.stackImages.size > 2,

@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.zip.domain.ZipManager
 import dagger.assisted.Assisted
@@ -78,9 +79,7 @@ class ZipComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun startCompression(
-        onFailure: (Throwable) -> Unit
-    ) {
+    fun startCompression() {
         savingJob = trackProgress {
             _isSaving.value = true
             if (uris.isEmpty()) {
@@ -99,7 +98,7 @@ class ZipComponent @AssistedInject internal constructor(
                         )
                     }
                 )
-            }.onFailure(onFailure)
+            }.onFailure(AppToastHost::showFailureToast)
             _isSaving.value = false
         }
     }
@@ -124,9 +123,7 @@ class ZipComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareFile(
-        onComplete: () -> Unit
-    ) {
+    fun shareFile() {
         compressedArchiveUri?.let { uri ->
             savingJob = trackProgress {
                 _done.update { 0 }
@@ -137,7 +134,7 @@ class ZipComponent @AssistedInject internal constructor(
                     uri = uri,
                     onComplete = {
                         _isSaving.value = false
-                        onComplete()
+                        AppToastHost.showConfetti()
                     }
                 )
             }

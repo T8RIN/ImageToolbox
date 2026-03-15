@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,8 +40,6 @@ internal fun UpdateSheetImpl(
     onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
 
     if (context.isInstalledFromPlayStore()) {
         LaunchedEffect(visible) {
@@ -62,21 +59,17 @@ internal fun UpdateSheetImpl(
                                 AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE)
                             )
                         } else {
-                            scope.launch {
-                                toastHostState.showToast(
-                                    icon = Icons.Rounded.FileDownloadOff,
-                                    message = context.getString(R.string.no_updates)
-                                )
-                            }
+                            AppToastHost.showToast(
+                                icon = Icons.Rounded.FileDownloadOff,
+                                message = context.getString(R.string.no_updates)
+                            )
                         }
                     }
                 }.onFailure {
-                    scope.launch {
-                        toastHostState.showToast(
-                            icon = Icons.Rounded.FileDownloadOff,
-                            message = context.getString(R.string.no_updates)
-                        )
-                    }
+                    AppToastHost.showToast(
+                        icon = Icons.Rounded.FileDownloadOff,
+                        message = context.getString(R.string.no_updates)
+                    )
                 }
             }
         }

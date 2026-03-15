@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgManager
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgParams
@@ -122,10 +123,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
         }
     }
 
-    fun performSharing(
-        onFailure: (Throwable) -> Unit,
-        onComplete: () -> Unit
-    ) {
+    fun performSharing() {
         savingJob = trackProgress {
             _done.update { 0 }
             _left.update { uris.size }
@@ -136,7 +134,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
             svgManager.convertToSvg(
                 imageUris = uris.map { it.toString() },
                 params = params,
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             ) { uri, jxlBytes ->
                 results.add(
                     shareProvider.cacheByteArray(
@@ -154,7 +152,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
             shareProvider.shareUris(results.filterNotNull())
 
             _isSaving.value = false
-            onComplete()
+            AppToastHost.showConfetti()
         }
     }
 

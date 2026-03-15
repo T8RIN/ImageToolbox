@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -217,9 +218,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         }
     }
 
-    fun performSharing(
-        onComplete: () -> Unit,
-    ) {
+    fun performSharing() {
         _isSaving.update { true }
         _collageCreationTrigger.update { true }
         requestedOperation = {
@@ -237,7 +236,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
                     )?.let { uri ->
                         shareProvider.shareUri(
                             uri = uri,
-                            onComplete = onComplete
+                            onComplete = AppToastHost::showConfetti
                         )
                     }
                     _isSaving.update { false }

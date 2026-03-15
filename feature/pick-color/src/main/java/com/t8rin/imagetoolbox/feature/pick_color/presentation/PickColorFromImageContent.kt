@@ -35,6 +35,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -49,7 +50,6 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -69,7 +69,7 @@ fun PickColorFromImageContent(
 ) {
     val settingsState = LocalSettingsState.current
 
-    val essentials = rememberLocalEssentials()
+    val scope = rememberCoroutineScope()
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
@@ -78,8 +78,7 @@ fun PickColorFromImageContent(
 
     val imagePicker = rememberImagePicker { uri: Uri ->
         component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
+            uri = uri
         )
     }
 
@@ -116,7 +115,7 @@ fun PickColorFromImageContent(
             },
             enableAutoShadowAndBorder = false,
             onClick = {
-                essentials.launch {
+                scope.launch {
                     settingsInteractor.toggleMagnifierEnabled()
                 }
             },

@@ -68,7 +68,6 @@ internal fun TemplatesContent(
     val templateFilters by component.templatesFlow.collectAsUiState()
     val onRequestFilterMapping = component::filterToTransformation
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AnimatedContent(
         targetState = templateFilters.isEmpty()
@@ -144,9 +143,7 @@ internal fun TemplatesContent(
                         },
                         templateFilter = templateFilter,
                         onRequestFilterMapping = onRequestFilterMapping,
-                        onShareImage = {
-                            component.shareImage(it, showConfetti)
-                        },
+                        onShareImage = component::shareImage,
                         onSaveImage = {
                             component.saveImage(
                                 bitmap = it,
@@ -172,8 +169,7 @@ internal fun TemplatesContent(
                                 content = content,
                                 filename = component.createTemplateFilename(
                                     templateFilter
-                                ),
-                                onComplete = showConfetti
+                                )
                             )
                         },
                         component = filterTemplateCreationSheetComponent

@@ -309,12 +309,12 @@ internal fun SettingItem(
                                     delay(300L)
                                     context.recreate()
                                 }
-                                essentials.showToast(
+                                AppToastHost.showToast(
                                     message = essentials.getString(R.string.settings_restored),
                                     icon = Icons.Rounded.Save
                                 )
                             },
-                            onFailure = essentials::showFailureToast
+                            onFailure = AppToastHost::showFailureToast
                         )
                     }
                 )
@@ -352,7 +352,7 @@ internal fun SettingItem(
                 CheckUpdatesButtonSettingItem(
                     onClick = {
                         component.tryGetUpdate(true) {
-                            essentials.showToast(
+                            AppToastHost.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
                                 message = essentials.getString(R.string.no_updates)
                             )

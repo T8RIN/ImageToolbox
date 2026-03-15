@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -51,7 +52,7 @@ fun UseRandomEmojisSettingItem(
             onClick()
         },
         onDisabledClick = {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = essentials.getString(R.string.random_emojis_error),
                 icon = Icons.Outlined.Casino
             )

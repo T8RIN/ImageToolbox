@@ -65,7 +65,6 @@ fun NoiseGenerationContent(
     component: NoiseGenerationComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveNoise(
@@ -79,9 +78,7 @@ fun NoiseGenerationContent(
             mutableStateOf(listOf<Uri>())
         }
         ShareButton(
-            onShare = {
-                component.shareNoise(showConfetti)
-            },
+            onShare = component::shareNoise,
             onCopy = {
                 component.cacheCurrentNoise(essentials::copyToClipboard)
             },

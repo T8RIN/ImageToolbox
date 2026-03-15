@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ScanResult
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
@@ -186,9 +187,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
         return "PDF_$timeStamp.pdf"
     }
 
-    fun sharePdf(
-        onComplete: () -> Unit
-    ) {
+    fun sharePdf() {
         savingJob = trackProgress {
             _isSaving.value = true
             getPdfUri()?.let { pdfUri ->
@@ -198,14 +197,14 @@ class DocumentScannerComponent @AssistedInject internal constructor(
                 runSuspendCatching {
                     shareProvider.shareUri(
                         uri = pdfUri.toString(),
-                        onComplete = onComplete
+                        onComplete = AppToastHost::showConfetti
                     )
                 }.onFailure {
                     val bytes = fileController.readBytes(pdfUri.toString())
                     shareProvider.shareByteArray(
                         byteArray = bytes,
                         filename = generatePdfFilename(),
-                        onComplete = onComplete
+                        onComplete = AppToastHost::showConfetti
                     )
                 }
             }
@@ -229,7 +228,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
         _pdfUris.update { (it + scanResult.pdfUri).distinct().filterNotNull() }
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun shareBitmaps() {
         savingJob = trackProgress {
             _isSaving.value = true
             shareProvider.shareImages(
@@ -247,7 +246,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
                 },
                 onProgressChange = {
                     if (it == -1) {
-                        onComplete()
+                        AppToastHost.showConfetti()
                         _isSaving.value = false
                         _done.value = 0
                     } else {

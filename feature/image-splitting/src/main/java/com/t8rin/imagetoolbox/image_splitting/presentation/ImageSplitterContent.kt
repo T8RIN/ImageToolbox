@@ -71,7 +71,6 @@ fun ImageSplitterContent(
     component: ImageSplitterComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(onSuccess = component::updateUri)
 
@@ -160,9 +159,7 @@ fun ImageSplitterContent(
             }
             ShareButton(
                 enabled = component.uri != null,
-                onShare = {
-                    component.shareBitmaps(showConfetti)
-                },
+                onShare = component::shareBitmaps,
                 onEdit = {
                     component.cacheImages {
                         editSheetData = it

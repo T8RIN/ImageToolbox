@@ -90,14 +90,12 @@ fun ResizeAndConvertContent(
     component: ResizeAndConvertComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
-        component.updateUris(
-            uris = uris,
-            onFailure = essentials::showFailureToast
+        component.setUris(
+            uris = uris
         )
     }
 
@@ -168,9 +166,7 @@ fun ResizeAndConvertContent(
             }
             ShareButton(
                 enabled = component.bitmap != null,
-                onShare = {
-                    component.performSharing(showConfetti)
-                },
+                onShare = component::performSharing,
                 onCopy = {
                     component.cacheCurrentImage(essentials::copyToClipboard)
                 },
@@ -397,15 +393,8 @@ fun ResizeAndConvertContent(
         },
         uris = component.uris,
         selectedUri = component.selectedUri,
-        onUriPicked = { uri ->
-            component.updateSelectedUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
-        onUriRemoved = { uri ->
-            component.updateUrisSilently(removedUri = uri)
-        },
+        onUriPicked = component::updateSelectedUri,
+        onUriRemoved = component::updateUrisSilently,
         columns = if (isPortrait) 2 else 4,
     )
 

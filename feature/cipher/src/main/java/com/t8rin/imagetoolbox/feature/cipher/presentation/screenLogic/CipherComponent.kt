@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.cipher.domain.CryptographyManager
@@ -169,7 +170,6 @@ class CipherComponent @AssistedInject internal constructor(
     fun shareFile(
         it: ByteArray,
         filename: String,
-        onComplete: () -> Unit
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -178,7 +178,7 @@ class CipherComponent @AssistedInject internal constructor(
                 filename = filename,
                 onComplete = {
                     _isSaving.value = false
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
             )
         }

@@ -51,7 +51,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.localImagePickerMode
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -64,34 +63,23 @@ import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.Re
 internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
     val isPortrait by isPortraitOrientationAsState()
 
-    val essentials = rememberLocalEssentials()
-
-    val startRecognition = {
-        component.startRecognition(
-            onFailure = essentials::showFailureToast
-        )
-    }
-
     val imagePickerMode = localImagePickerMode(Picker.Single)
 
     val imagePicker = rememberImagePicker(imagePickerMode) { list ->
         component.updateType(
-            type = Screen.RecognizeText.Type.Extraction(list.firstOrNull()),
-            onImageSet = startRecognition
+            type = Screen.RecognizeText.Type.Extraction(list.firstOrNull())
         )
     }
 
     val writeToFilePicker = rememberImagePicker { uris: List<Uri> ->
         component.updateType(
-            type = Screen.RecognizeText.Type.WriteToFile(uris),
-            onImageSet = startRecognition
+            type = Screen.RecognizeText.Type.WriteToFile(uris)
         )
     }
 
     val writeToMetadataPicker = rememberImagePicker { uris: List<Uri> ->
         component.updateType(
-            type = Screen.RecognizeText.Type.WriteToMetadata(uris),
-            onImageSet = startRecognition
+            type = Screen.RecognizeText.Type.WriteToMetadata(uris)
         )
     }
 
@@ -116,8 +104,7 @@ internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
             onClick = {
                 if (component.selectionSheetData.isNotEmpty()) {
                     component.updateType(
-                        type = Screen.RecognizeText.Type.WriteToFile(component.selectionSheetData),
-                        onImageSet = startRecognition
+                        type = Screen.RecognizeText.Type.WriteToFile(component.selectionSheetData)
                     )
                     component.hideSelectionTypeSheet()
                 } else {
@@ -135,8 +122,7 @@ internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
             onClick = {
                 if (component.selectionSheetData.isNotEmpty()) {
                     component.updateType(
-                        type = Screen.RecognizeText.Type.WriteToMetadata(component.selectionSheetData),
-                        onImageSet = startRecognition
+                        type = Screen.RecognizeText.Type.WriteToMetadata(component.selectionSheetData)
                     )
                     component.hideSelectionTypeSheet()
                 } else {

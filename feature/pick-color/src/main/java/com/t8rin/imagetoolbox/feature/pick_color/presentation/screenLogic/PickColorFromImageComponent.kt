@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -42,12 +43,7 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUri?.let {
-                setUri(
-                    uri = it,
-                    onFailure = {}
-                )
-            }
+            initialUri?.let(::setUri)
         }
     }
 
@@ -60,8 +56,7 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
     private val _uri = mutableStateOf<Uri?>(null)
 
     fun setUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit
+        uri: Uri
     ) {
         _uri.value = uri
         componentScope.launch {
@@ -70,7 +65,7 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
                     data = uri,
                     size = 4000
                 )
-            }.onFailure(onFailure)
+            }.onFailure(AppToastHost::showFailureToast)
         }
     }
 

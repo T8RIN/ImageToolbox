@@ -21,7 +21,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
@@ -35,7 +34,6 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 fun Intent?.handleDeeplinks(
     onStart: () -> Unit,
     onColdStart: () -> Unit,
-    onShowToast: (message: String, icon: ImageVector) -> Unit,
     onNavigate: (Screen) -> Unit,
     onGetUris: (List<Uri>) -> Unit,
     onHasExtraDataType: (ExtraDataType) -> Unit,
@@ -217,13 +215,13 @@ fun Intent?.handleDeeplinks(
                     }
 
                     else -> null
-                } ?: onShowToast(
+                } ?: AppToastHost.showToast(
                     appContext.getString(R.string.unsupported_type, type),
                     Icons.Rounded.ErrorOutline
                 )
             }
         } else Unit
-    }.getOrNull() ?: onShowToast(
+    }.getOrNull() ?: AppToastHost.showToast(
         appContext.getString(R.string.something_went_wrong),
         Icons.Rounded.ErrorOutline
     )

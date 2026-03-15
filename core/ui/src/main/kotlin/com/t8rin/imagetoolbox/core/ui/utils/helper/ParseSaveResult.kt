@@ -15,8 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:SuppressLint("StringFormatMatches")
+
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
@@ -26,24 +29,22 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.firstOfType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestStoragePermission
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler.Companion.showReview
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.logger.makeLog
 
 internal fun Activity.parseSaveResult(
-    saveResult: SaveResult,
-    essentials: LocalEssentials
+    saveResult: SaveResult
 ) {
     when (saveResult) {
         is SaveResult.Error.Exception -> {
             saveResult.throwable.makeLog("parseSaveResult")
-            essentials.showFailureToast(
+            AppToastHost.showFailureToast(
                 throwable = saveResult.throwable
             )
         }
 
         is SaveResult.Skipped -> {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = getString(R.string.skipped_saving),
                 icon = Icons.Outlined.Info,
                 duration = ToastDuration.Short
@@ -52,13 +53,13 @@ internal fun Activity.parseSaveResult(
 
         is SaveResult.Success -> {
             saveResult.message?.let {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = it,
                     icon = Icons.Rounded.Save,
                     duration = ToastDuration.Long
                 )
             }
-            essentials.showConfetti()
+            AppToastHost.showConfetti()
             showReview(this@parseSaveResult)
         }
 
@@ -67,29 +68,28 @@ internal fun Activity.parseSaveResult(
 }
 
 internal fun Activity.parseFileSaveResult(
-    saveResult: SaveResult,
-    essentials: LocalEssentials
+    saveResult: SaveResult
 ) {
     when (saveResult) {
         is SaveResult.Error.Exception -> {
-            essentials.showFailureToast(
+            AppToastHost.showFailureToast(
                 throwable = saveResult.throwable
             )
         }
 
         is SaveResult.Skipped -> {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = getString(R.string.skipped_saving),
                 icon = Icons.Outlined.Info
             )
         }
 
         is SaveResult.Success -> {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = getString(R.string.saved_to_without_filename, ""),
                 icon = Icons.Rounded.Save
             )
-            essentials.showConfetti()
+            AppToastHost.showConfetti()
             showReview(this@parseFileSaveResult)
         }
 
@@ -98,13 +98,11 @@ internal fun Activity.parseFileSaveResult(
 }
 
 internal fun Activity.parseSaveResults(
-    results: List<SaveResult>,
-    essentials: LocalEssentials
+    results: List<SaveResult>
 ) {
     if (results.size == 1) {
         return parseSaveResult(
-            saveResult = results.first(),
-            essentials = essentials
+            saveResult = results.first()
         )
     }
 
@@ -121,7 +119,7 @@ internal fun Activity.parseSaveResults(
         if (done == 1) {
             val saveResult = results.firstOfType<SaveResult.Success>()
             val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = saveResult?.message ?: getString(
                     R.string.saved_to_without_filename,
                     savingPath
@@ -133,7 +131,7 @@ internal fun Activity.parseSaveResults(
             val saveResult = results.firstOfType<SaveResult.Success>()
 
             if (saveResult?.isOverwritten == true) {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = getString(R.string.images_overwritten),
                     icon = Icons.Rounded.Save,
                     duration = ToastDuration.Long
@@ -141,7 +139,7 @@ internal fun Activity.parseSaveResults(
             } else {
                 val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
 
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = getString(
                         R.string.saved_to_without_filename,
                         savingPath
@@ -153,14 +151,14 @@ internal fun Activity.parseSaveResults(
         }
 
         if (skipped > 0) {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = getString(R.string.skipped_saving_multiple, skipped),
                 icon = Icons.Outlined.Info,
                 duration = ToastDuration.Short
             )
         }
 
-        essentials.showConfetti()
+        AppToastHost.showConfetti()
         showReview(this)
         return
     }
@@ -170,7 +168,7 @@ internal fun Activity.parseSaveResults(
         val errorSaveResult = results.firstOfType<SaveResult.Error>()
 
         if (done > 0) {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = saveResult?.message
                     ?: getString(
                         R.string.saved_to_without_filename,
@@ -180,8 +178,8 @@ internal fun Activity.parseSaveResults(
                 duration = ToastDuration.Long
             )
         }
-        essentials.showFailureToast(getString(R.string.failed_to_save, failed))
-        essentials.showToast(
+        AppToastHost.showFailureToast(getString(R.string.failed_to_save, failed))
+        AppToastHost.showToast(
             message = getString(
                 R.string.smth_went_wrong,
                 errorSaveResult?.throwable?.localizedMessage ?: ""
@@ -189,7 +187,7 @@ internal fun Activity.parseSaveResults(
         )
 
         if (skipped > 0) {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = getString(R.string.skipped_saving_multiple, skipped),
                 icon = Icons.Outlined.Info,
                 duration = ToastDuration.Short
@@ -199,7 +197,7 @@ internal fun Activity.parseSaveResults(
     }
 
     if (skipped > 0 && done == 0 && failed == 0) {
-        essentials.showToast(
+        AppToastHost.showToast(
             message = getString(R.string.skipped_saving_multiple, skipped),
             icon = Icons.Outlined.Info,
             duration = ToastDuration.Short

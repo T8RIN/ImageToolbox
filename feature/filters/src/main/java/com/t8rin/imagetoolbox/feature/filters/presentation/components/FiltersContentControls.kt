@@ -140,8 +140,7 @@ internal fun FiltersContentControls(
                                         onFilterChange = { newValue ->
                                             component.updateFilter(
                                                 value = newValue,
-                                                index = index,
-                                                onFailure = essentials::showFailureToast
+                                                index = index
                                             )
                                         },
                                         onLongPress = component::showReorderSheet,
@@ -245,8 +244,7 @@ internal fun FiltersContentControls(
                                         onMaskChange = { filterMask ->
                                             component.updateMask(
                                                 value = filterMask,
-                                                index = index,
-                                                showError = essentials::showFailureToast
+                                                index = index
                                             )
                                         },
                                         onLongPress = component::showReorderSheet,

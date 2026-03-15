@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -53,9 +54,6 @@ fun JxlToolsContent(
     component: JxlToolsComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
-    val onFailure: (Throwable) -> Unit = essentials::showFailureToast
 
     val pickJpegsLauncher = rememberFilePicker(
         mimeType = MimeType.JpgAll,
@@ -63,7 +61,7 @@ fun JxlToolsContent(
             list.let { uris ->
                 component.setType(
                     type = Screen.JxlTools.Type.JpegToJxl(uris),
-                    onFailure = onFailure
+                    onFailure = AppToastHost::showFailureToast
                 )
             }
         }
@@ -74,14 +72,14 @@ fun JxlToolsContent(
             it.isJxl()
         }.let { uris ->
             if (uris.isEmpty()) {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(R.string.select_jxl_image_to_start),
                     icon = Icons.Filled.Jxl
                 )
             } else {
                 component.setType(
                     type = Screen.JxlTools.Type.JxlToJpeg(uris),
-                    onFailure = onFailure
+                    onFailure = AppToastHost::showFailureToast
                 )
             }
         }
@@ -91,10 +89,10 @@ fun JxlToolsContent(
         if (uri.isJxl()) {
             component.setType(
                 type = Screen.JxlTools.Type.JxlToImage(uri),
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             )
         } else {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = essentials.getString(R.string.select_jxl_image_to_start),
                 icon = Icons.Filled.Jxl
             )
@@ -104,7 +102,7 @@ fun JxlToolsContent(
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.setType(
             type = Screen.JxlTools.Type.ImageToJxl(uris),
-            onFailure = onFailure
+            onFailure = AppToastHost::showFailureToast
         )
     }
 
@@ -114,7 +112,7 @@ fun JxlToolsContent(
                 (component.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(uris)
                     ?.distinct()
             ),
-            onFailure = onFailure
+            onFailure = AppToastHost::showFailureToast
         )
     }
 
@@ -123,9 +121,9 @@ fun JxlToolsContent(
         onSuccess = { list: List<Uri> ->
             component.setType(
                 type = (component.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
-                    it.copy(it.jpegImageUris?.plus(list)?.distinct())
+                    it.copy(jpegImageUris = it.jpegImageUris?.plus(list)?.distinct())
                 },
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             )
         }
     )
@@ -135,7 +133,7 @@ fun JxlToolsContent(
             it.isJxl()
         }.let { uris ->
             if (uris.isEmpty()) {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(R.string.select_jxl_image_to_start),
                     icon = Icons.Filled.Jxl
                 )
@@ -144,7 +142,7 @@ fun JxlToolsContent(
                     type = (component.type as? Screen.JxlTools.Type.JxlToJpeg)?.let {
                         it.copy(jxlImageUris = it.jxlImageUris?.plus(uris)?.distinct())
                     },
-                    onFailure = onFailure
+                    onFailure = AppToastHost::showFailureToast
                 )
             }
         }
@@ -195,12 +193,7 @@ fun JxlToolsContent(
             if (component.type is Screen.JxlTools.Type.JxlToImage) {
                 ShareButton(
                     enabled = !component.isLoading && component.type != null,
-                    onShare = {
-                        component.performSharing(
-                            onFailure = onFailure,
-                            onComplete = showConfetti
-                        )
-                    }
+                    onShare = component::performSharing
                 )
             }
         },

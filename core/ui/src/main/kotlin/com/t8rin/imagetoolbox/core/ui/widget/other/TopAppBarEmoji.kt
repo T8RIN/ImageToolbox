@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,31 +28,23 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
-import kotlinx.coroutines.launch
 
 @Composable
 fun TopAppBarEmoji() {
     val settingsState = LocalSettingsState.current
-    val confettiHostState = LocalConfettiHostState.current
-    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
             .padding(end = 12.dp)
-            .scaleOnTap(
-                onRelease = {
-                    scope.launch {
-                        confettiHostState.showConfetti()
-                    }
-                }
-            )
+            .scaleOnTap {
+                AppToastHost.showConfetti()
+            }
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             repeat(5) {

@@ -70,6 +70,7 @@ import com.idapgroup.snowfall.types.FlakeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
@@ -162,7 +163,7 @@ fun MainContent(
                     component.tryGetUpdate(
                         isNewRequest = true,
                         onNoUpdates = {
-                            essentials.showToast(
+                            AppToastHost.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
                                 message = essentials.getString(R.string.no_updates)
                             )

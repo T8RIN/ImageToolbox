@@ -67,6 +67,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -250,7 +251,7 @@ internal fun FilterSelectionItem(
                 )
                 showDownloadDialog = false
             } else {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(R.string.no_connection),
                     icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
                     duration = ToastDuration.Long

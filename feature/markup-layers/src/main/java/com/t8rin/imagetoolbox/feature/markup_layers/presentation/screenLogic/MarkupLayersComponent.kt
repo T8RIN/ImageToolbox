@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
@@ -72,12 +73,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUri?.let {
-                setUri(
-                    uri = it,
-                    onFailure = {}
-                )
-            }
+            initialUri?.let(::setUri)
         }
     }
 
@@ -244,10 +240,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
-    fun setUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit,
-    ) {
+    fun setUri(uri: Uri) {
         componentScope.launch {
             _layers.update { emptyList() }
             _isImageLoading.value = true
@@ -265,7 +258,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     updateBitmap(data.image)
                     _imageFormat.update { data.imageInfo.imageFormat }
                 },
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             )
         }
     }
@@ -279,8 +272,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
                         color.toDrawable().toBitmap(width, height)
                     } ?: run {
-                        val w = layers.firstOrNull()?.state?.canvasSize?.width?.takeIf { it > 0 } ?: 1
-                        val h = layers.firstOrNull()?.state?.canvasSize?.height?.takeIf { it > 0 } ?: 1
+                        val w =
+                            layers.firstOrNull()?.state?.canvasSize?.width?.takeIf { it > 0 } ?: 1
+                        val h =
+                            layers.firstOrNull()?.state?.canvasSize?.height?.takeIf { it > 0 } ?: 1
                         ImageBitmap(w, h).asAndroidBitmap()
                     },
                 layers = layers.map { it.asDomain() }
@@ -317,7 +312,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         savingJob = trackProgress {
             _isSaving.value = true
             renderLayers()?.let {
@@ -328,7 +323,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                         width = it.width,
                         height = it.height
                     ),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
             _isSaving.value = false

@@ -52,10 +52,12 @@ import androidx.core.content.ContextCompat
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -127,8 +129,8 @@ fun rememberContactPicker(
         if (isGranted) {
             pickContact.launch()
         } else {
-            essentials.showToast(
-                messageSelector = { getString(R.string.grant_contact_permission) },
+            AppToastHost.showToast(
+                message = getString(R.string.grant_contact_permission),
                 icon = Icons.Outlined.PersonOutline
             )
         }
@@ -142,7 +144,7 @@ fun rememberContactPicker(
                 requestPermissionLauncher = requestPermissionLauncher,
                 onFailure = {
                     onFailure()
-                    essentials.showFailureToast(it)
+                    AppToastHost.showFailureToast(it)
                 }
             )
         }

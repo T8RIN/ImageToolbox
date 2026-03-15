@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -191,8 +192,7 @@ class CompareComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(
-        imageFormat: ImageFormat,
-        onComplete: () -> Unit
+        imageFormat: ImageFormat
     ) {
         savingJob = trackProgress {
             _isImageLoading.value = true
@@ -204,9 +204,9 @@ class CompareComponent @AssistedInject internal constructor(
                         width = it.width,
                         height = it.height
                     ),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
-            } ?: onComplete()
+            } ?: AppToastHost.showConfetti()
             _isImageLoading.value = false
         }
     }

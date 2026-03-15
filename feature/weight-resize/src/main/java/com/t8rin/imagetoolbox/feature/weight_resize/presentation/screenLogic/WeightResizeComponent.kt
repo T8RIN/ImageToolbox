@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.weight_resize.domain.WeightImageScaler
@@ -71,12 +72,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUris?.let {
-                updateUris(
-                    uris = it,
-                    onFailure = {}
-                )
-            }
+            initialUris?.let(::setUris)
         }
     }
 
@@ -140,9 +136,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateUris(
-        uris: List<Uri>?,
-        onFailure: (Throwable) -> Unit
+    fun setUris(
+        uris: List<Uri>?
     ) {
         _uris.value = null
         _uris.value = uris
@@ -155,7 +150,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
                 onGetImage = ::setImageData,
                 onFailure = {
                     _isImageLoading.value = false
-                    onFailure(it)
+                    AppToastHost.showFailureToast(it)
                 }
             )
         }
@@ -264,8 +259,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     }
 
     fun updateSelectedUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit = {}
+        uri: Uri
     ) {
         runCatching {
             componentScope.launch {
@@ -277,7 +271,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
                 )
                 _selectedUri.value = uri
             }
-        }.onFailure(onFailure)
+        }.onFailure(AppToastHost::showFailureToast)
     }
 
     private fun updateCanSave() {
@@ -303,7 +297,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
         updateCanSave()
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun shareBitmaps() {
         savingJob = trackProgress {
             _isSaving.value = true
             shareProvider.shareImages(
@@ -333,7 +327,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
                 },
                 onProgressChange = {
                     if (it == -1) {
-                        onComplete()
+                        AppToastHost.showConfetti()
                         _isSaving.value = false
                         _done.value = 0
                     } else {

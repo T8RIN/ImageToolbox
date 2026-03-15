@@ -84,7 +84,6 @@ fun ImageStitchingContent(
     component: ImageStitchingComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.previewBitmap)
 
@@ -147,9 +146,7 @@ fun ImageStitchingContent(
             }
             ShareButton(
                 enabled = component.previewBitmap != null,
-                onShare = {
-                    component.shareBitmap(showConfetti)
-                },
+                onShare = component::shareBitmap,
                 onCopy = {
                     component.cacheCurrentImage(essentials::copyToClipboard)
                 },

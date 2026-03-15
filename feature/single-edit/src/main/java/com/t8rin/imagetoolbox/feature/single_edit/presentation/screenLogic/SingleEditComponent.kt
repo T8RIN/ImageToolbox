@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
@@ -518,14 +519,14 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         savingJob = trackProgress {
             _isSaving.update { true }
             bitmap?.let { image ->
                 shareProvider.shareImage(
                     image = image,
                     imageInfo = imageInfo.copy(originalUri = uri.toString()),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
             _isSaving.update { false }
@@ -616,15 +617,14 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     fun <T : Any> updateFilter(
         value: T,
-        index: Int,
-        showError: (Throwable) -> Unit,
+        index: Int
     ) {
         val list = _filterList.value.toMutableList()
         runCatching {
             list[index] = list[index].copy(value)
             _filterList.update { list }
         }.onFailure {
-            showError(it)
+            AppToastHost.showFailureToast(it)
             list[index] = list[index].newInstance()
             _filterList.update { list }
         }

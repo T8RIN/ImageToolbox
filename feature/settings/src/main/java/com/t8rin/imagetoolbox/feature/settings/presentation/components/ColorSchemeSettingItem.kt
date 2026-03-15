@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.AvailableColorTuplesSheet
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorTuplePicker
@@ -85,7 +86,7 @@ fun ColorSchemeSettingItem(
             showPickColorSheet = true
         },
         onDisabledClick = {
-            essentials.showToast(
+            AppToastHost.showToast(
                 icon = Icons.Rounded.Palette,
                 message = essentials.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
             )

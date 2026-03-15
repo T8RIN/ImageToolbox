@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BatchPrediction
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -96,7 +97,7 @@ fun ScreenOrderSettingItem(
             showArrangementSheet = true
         },
         onDisabledClick = {
-            essentials.showToast(
+            AppToastHost.showToast(
                 icon = Icons.Outlined.BatchPrediction,
                 message = essentials.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
             )

@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifConverter
@@ -480,7 +481,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun performSharing(onComplete: () -> Unit) {
+    fun performSharing() {
         savingJob = trackProgress {
             _isSaving.value = true
             _left.value = 1
@@ -494,7 +495,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                         index in positions
                     }
                     shareProvider.shareUris(uris)
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
 
                 is Screen.GifTools.Type.ImageToGif -> {
@@ -515,7 +516,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,
                                 filename = "GIF_${timestamp()}.gif",
-                                onComplete = onComplete
+                                onComplete = AppToastHost::showConfetti
                             )
                         }
                     }

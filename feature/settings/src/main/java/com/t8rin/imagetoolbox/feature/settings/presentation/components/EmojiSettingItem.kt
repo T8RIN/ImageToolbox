@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Cool
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -77,7 +78,7 @@ fun EmojiSettingItem(
         startIcon = Icons.Outlined.Cool,
         enabled = !settingsState.useRandomEmojis,
         onDisabledClick = {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = essentials.getString(R.string.emoji_selection_error),
                 icon = Icons.Rounded.Casino
             )

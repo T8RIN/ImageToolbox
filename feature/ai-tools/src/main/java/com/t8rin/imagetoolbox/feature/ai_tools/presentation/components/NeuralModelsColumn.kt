@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.FileImport
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
@@ -122,14 +123,14 @@ internal fun NeuralModelsColumn(
             onImportModel(uri) {
                 when (it) {
                     SaveResult.Skipped -> {
-                        essentials.showToast(
+                        AppToastHost.showToast(
                             message = essentials.getString(R.string.model_already_downloaded),
                             icon = Icons.Outlined.Info
                         )
                     }
 
                     is SaveResult.Success -> {
-                        essentials.showToast(
+                        AppToastHost.showToast(
                             message = essentials.getString(R.string.model_successfully_imported),
                             icon = Icons.Outlined.CheckCircle
                         )
@@ -139,7 +140,7 @@ internal fun NeuralModelsColumn(
                 }
             }
         } else {
-            essentials.showFailureToast(
+            AppToastHost.showFailureToast(
                 essentials.getString(R.string.only_onnx_models)
             )
         }

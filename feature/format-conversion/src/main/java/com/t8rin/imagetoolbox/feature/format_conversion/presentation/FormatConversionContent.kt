@@ -74,14 +74,12 @@ fun FormatConversionContent(
     component: FormatConversionComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
-        component.updateUris(
-            uris = uris,
-            onFailure = essentials::showFailureToast
+        component.setUris(
+            uris = uris
         )
     }
 
@@ -148,9 +146,7 @@ fun FormatConversionContent(
             }
             ShareButton(
                 enabled = component.bitmap != null,
-                onShare = {
-                    component.shareBitmaps(showConfetti)
-                },
+                onShare = component::shareBitmaps,
                 onCopy = {
                     component.cacheCurrentImage(essentials::copyToClipboard)
                 },
@@ -292,18 +288,8 @@ fun FormatConversionContent(
         },
         uris = component.uris,
         selectedUri = component.selectedUri,
-        onUriPicked = { uri ->
-            component.updateSelectedUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
-        onUriRemoved = { uri ->
-            component.updateUrisSilently(
-                removedUri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
+        onUriPicked = component::updateSelectedUri,
+        onUriRemoved = component::updateUrisSilently,
         columns = if (isPortrait) 2 else 4,
     )
 

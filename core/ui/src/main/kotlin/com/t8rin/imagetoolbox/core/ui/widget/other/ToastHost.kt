@@ -54,10 +54,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,6 +73,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.harmonizeWithPrimary
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
@@ -89,7 +88,7 @@ import kotlin.coroutines.resume
 
 @Composable
 fun ToastHost(
-    hostState: ToastHostState = LocalToastHostState.current,
+    hostState: ToastHostState = AppToastHost.state,
     modifier: Modifier = Modifier.fillMaxSize(),
     alignment: Alignment = Alignment.BottomCenter,
     transitionSpec: AnimatedContentTransitionScope<ToastData?>.() -> ContentTransform = { ToastDefaults.transition },
@@ -329,11 +328,6 @@ private fun ToastDuration.toMillis(
         containsText = true
     ) ?: original
 }
-
-@Composable
-fun rememberToastHostState() = remember { ToastHostState() }
-
-val LocalToastHostState = compositionLocalOf { ToastHostState() }
 
 suspend fun ToastHostState.showFailureToast(
     context: Context,

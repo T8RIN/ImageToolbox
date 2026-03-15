@@ -83,7 +83,6 @@ fun SingleEditContent(
     component: SingleEditComponent,
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.bitmap)
 
@@ -176,9 +175,7 @@ fun SingleEditContent(
             }
             ShareButton(
                 enabled = component.bitmap != null,
-                onShare = {
-                    component.shareBitmap(showConfetti)
-                },
+                onShare = component::shareBitmap,
                 onCopy = {
                     component.cacheCurrentImage(essentials::copyToClipboard)
                 },

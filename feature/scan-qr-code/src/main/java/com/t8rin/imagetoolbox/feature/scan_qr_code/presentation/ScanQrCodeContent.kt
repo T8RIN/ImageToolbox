@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.capturable.rememberCaptureController
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberBarcodeScanner
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -74,7 +75,6 @@ fun ScanQrCodeContent(
     component: ScanQrCodeComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val params = component.params
 
@@ -93,7 +93,7 @@ fun ScanQrCodeContent(
         component.readBarcodeFromImage(
             image = uri,
             onFailure = {
-                essentials.showFailureToast(
+                AppToastHost.showFailureToast(
                     Throwable(essentials.getString(R.string.no_barcode_found), it)
                 )
             }
@@ -116,7 +116,7 @@ fun ScanQrCodeContent(
     LaunchedEffect(params.content) {
         component.processFilterTemplateFromQrContent(
             onSuccess = { filterName, filtersCount ->
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(
                         R.string.added_filter_template,
                         filterName,
@@ -161,7 +161,7 @@ fun ScanQrCodeContent(
                         .padding(horizontal = 2.dp)
                         .padding(bottom = 12.dp)
                         .scaleOnTap {
-                            showConfetti()
+                            AppToastHost.showConfetti()
                         }
                 )
             }
@@ -173,8 +173,7 @@ fun ScanQrCodeContent(
                 onShare = {
                     essentials.launch {
                         component.shareImage(
-                            bitmap = captureController.bitmap(),
-                            onComplete = showConfetti
+                            bitmap = captureController.bitmap()
                         )
                     }
                 },

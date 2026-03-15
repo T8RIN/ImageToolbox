@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -189,8 +190,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun shareImage(
-        bitmap: Bitmap,
-        onComplete: () -> Unit
+        bitmap: Bitmap
     ) {
         componentScope.launch {
             shareProvider.shareImage(
@@ -200,7 +200,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                     imageFormat = ImageFormat.Png.Lossless
                 ),
                 image = bitmap,
-                onComplete = onComplete
+                onComplete = AppToastHost::showConfetti
             )
         }
     }
@@ -248,14 +248,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
 
     fun shareContent(
         content: String,
-        filename: String,
-        onComplete: () -> Unit
+        filename: String
     ) {
         componentScope.launch {
             shareProvider.shareData(
                 writeData = { it.writeBytes(content.toByteArray()) },
                 filename = filename,
-                onComplete = onComplete
+                onComplete = AppToastHost::showConfetti
             )
         }
     }

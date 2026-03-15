@@ -137,8 +137,7 @@ fun MarkupLayersContent(
 
     val imagePicker = rememberImagePicker { uri: Uri ->
         component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
+            uri = uri
         )
     }
 

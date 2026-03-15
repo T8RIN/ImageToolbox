@@ -106,7 +106,7 @@ fun FilterEditOption(
     onGetBitmap: (Bitmap) -> Unit,
     onRequestMappingFilters: (List<UiFilter<*>>) -> List<Transformation<Bitmap>>,
     filterList: List<UiFilter<*>>,
-    updateFilter: (Any, Int, (Throwable) -> Unit) -> Unit,
+    updateFilter: (Any, Int) -> Unit,
     removeAt: (Int) -> Unit,
     addFilter: (UiFilter<*>) -> Unit,
     updateOrder: (List<UiFilter<*>>) -> Unit
@@ -174,8 +174,7 @@ fun FilterEditOption(
                                     onFilterChange = { filterChange ->
                                         updateFilter(
                                             filterChange,
-                                            index,
-                                            essentials::showFailureToast
+                                            index
                                         )
                                     },
                                     onLongPress = {

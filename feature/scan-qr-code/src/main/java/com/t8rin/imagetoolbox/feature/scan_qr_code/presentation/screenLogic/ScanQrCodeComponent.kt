@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.scan_qr_code.domain.ImageBarcodeReader
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.QrPreviewParams
@@ -136,8 +137,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     }
 
     fun shareImage(
-        bitmap: Bitmap,
-        onComplete: () -> Unit
+        bitmap: Bitmap
     ) {
         _isSaving.value = false
         savingJob?.cancel()
@@ -153,7 +153,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
                     image = image,
                     onComplete = {
                         _isSaving.value = false
-                        onComplete()
+                        AppToastHost.showConfetti()
                     }
                 )
             }

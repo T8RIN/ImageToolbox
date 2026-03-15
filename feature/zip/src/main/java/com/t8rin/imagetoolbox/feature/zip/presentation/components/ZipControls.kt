@@ -80,7 +80,6 @@ internal fun ColumnScope.ZipControls(
     val settingsState = LocalSettingsState.current
 
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val saveLauncher = rememberFileCreator(
         mimeType = MimeType.Zip,
@@ -197,11 +196,7 @@ internal fun ColumnScope.ZipControls(
                     }
                 }
                 EnhancedButton(
-                    onClick = {
-                        component.shareFile(
-                            onComplete = showConfetti
-                        )
-                    },
+                    onClick = component::shareFile,
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .fillMaxWidth()

@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.noise_generation.domain.NoiseGenerator
@@ -152,12 +153,12 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareNoise(onComplete: () -> Unit) {
+    fun shareNoise() {
         cacheCurrentNoise { uri ->
             componentScope.launch {
                 shareProvider.shareUri(
                     uri = uri.toString(),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
         }

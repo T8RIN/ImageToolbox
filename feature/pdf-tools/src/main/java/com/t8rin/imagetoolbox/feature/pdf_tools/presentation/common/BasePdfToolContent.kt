@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ResultLauncher
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -92,7 +93,6 @@ internal fun BasePdfToolContent(
     shareDialogIcon: ImageVector = Icons.Outlined.Pdf
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val saveLauncher = rememberFileCreator(
         mimeType = component.mimeType,
@@ -151,8 +151,8 @@ internal fun BasePdfToolContent(
                 enabled = canShare,
                 onShare = {
                     component.performSharing(
-                        onSuccess = showConfetti,
-                        onFailure = essentials::showFailureToast
+                        onSuccess = AppToastHost::showConfetti,
+                        onFailure = AppToastHost::showFailureToast
                     )
                 },
                 onEdit = {
@@ -160,7 +160,7 @@ internal fun BasePdfToolContent(
                         onSuccess = {
                             editSheetData = it
                         },
-                        onFailure = essentials::showFailureToast
+                        onFailure = AppToastHost::showFailureToast
                     )
                 },
                 dialogTitle = shareDialogTitle,

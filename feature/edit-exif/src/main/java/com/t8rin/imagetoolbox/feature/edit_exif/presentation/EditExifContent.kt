@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -141,9 +142,7 @@ fun EditExifContent(
             }
             ShareButton(
                 enabled = component.uri != Uri.EMPTY,
-                onShare = {
-                    component.shareBitmap(essentials::showConfetti)
-                },
+                onShare = component::shareBitmap,
                 onCopy = {
                     component.cacheCurrentImage(essentials::copyToClipboard)
                 },
@@ -193,7 +192,7 @@ fun EditExifContent(
                 shape = ShapeDefaults.extraLarge,
                 enabled = component.imageFormat.canWriteExif,
                 onDisabledClick = {
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         essentials.getString(
                             R.string.image_exif_warning,
                             component.imageFormat.title

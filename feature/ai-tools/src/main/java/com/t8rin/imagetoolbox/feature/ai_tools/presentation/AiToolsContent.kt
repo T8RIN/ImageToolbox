@@ -37,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -66,11 +67,10 @@ fun AiToolsContent(
     component: AiToolsComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     LaunchedEffect(component) {
         component.errors.collectLatest { message ->
-            essentials.showFailureToast(message)
+            AppToastHost.showFailureToast(message)
         }
     }
 
@@ -133,7 +133,7 @@ fun AiToolsContent(
                         .padding(horizontal = 2.dp)
                         .padding(bottom = 12.dp)
                         .scaleOnTap {
-                            showConfetti()
+                            AppToastHost.showConfetti()
                         }
                 )
             }
@@ -144,9 +144,7 @@ fun AiToolsContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                onShare = {
-                    component.shareBitmaps(showConfetti)
-                },
+                onShare = component::shareBitmaps,
                 onEdit = {
                     component.cacheImages {
                         editSheetData = it

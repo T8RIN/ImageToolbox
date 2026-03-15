@@ -285,11 +285,7 @@ fun PaletteToolsContent(
             }
             if (paletteType == PaletteType.Edit) {
                 ShareButton(
-                    onShare = {
-                        component.sharePalette(
-                            onComplete = essentials::showConfetti
-                        )
-                    },
+                    onShare = component::sharePalette,
                     enabled = component.palette.isNotEmpty()
                 )
             }

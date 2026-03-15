@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -77,7 +78,7 @@ fun SettingGroupItem(
                     value = !initialState
                 )
 
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(
                         if (initialState) {
                             R.string.settings_group_visibility_hidden

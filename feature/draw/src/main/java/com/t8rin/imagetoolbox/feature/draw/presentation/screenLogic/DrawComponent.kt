@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -86,12 +87,7 @@ class DrawComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUri?.let {
-                setUri(
-                    uri = it,
-                    onFailure = {}
-                )
-            }
+            initialUri?.let(::setUri)
         }
     }
 
@@ -242,8 +238,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun setUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit,
+        uri: Uri
     ) {
         componentScope.launch {
             _paths.value = listOf()
@@ -260,7 +255,7 @@ class DrawComponent @AssistedInject internal constructor(
             imageGetter.getImageData(
                 uri = uri.toString(),
                 size = 2500,
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             )?.let { data ->
                 updateBitmap(data.image)
                 _imageFormat.update { data.imageInfo.imageFormat }
@@ -332,7 +327,7 @@ class DrawComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         savingJob = trackProgress {
             _isSaving.value = true
             getDrawingBitmap()?.let {
@@ -344,7 +339,7 @@ class DrawComponent @AssistedInject internal constructor(
                         width = it.width,
                         height = it.height
                     ),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
             _isSaving.value = false

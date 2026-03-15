@@ -72,14 +72,12 @@ fun DeleteExifContent(
     component: DeleteExifComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.updateUris(
-            uris = uris,
-            onFailure = essentials::showFailureToast
+            uris = uris
         )
     }
 
@@ -137,9 +135,7 @@ fun DeleteExifContent(
                     mutableStateOf(listOf<Uri>())
                 }
                 ShareButton(
-                    onShare = {
-                        component.shareBitmaps(showConfetti)
-                    },
+                    onShare = component::shareBitmaps,
                     onCopy = {
                         component.cacheCurrentImage(essentials::copyToClipboard)
                     },
@@ -275,12 +271,7 @@ fun DeleteExifContent(
         },
         uris = component.uris,
         selectedUri = component.selectedUri,
-        onUriPicked = { uri ->
-            component.updateSelectedUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
+        onUriPicked = component::updateSelectedUri,
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)
         },

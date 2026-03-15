@@ -89,6 +89,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
@@ -130,7 +131,6 @@ fun CollageMakerContent(
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
 
@@ -139,7 +139,7 @@ fun CollageMakerContent(
             if (it.size in 1..10) {
                 component.updateUris(it)
             } else {
-                essentials.showToast(
+                AppToastHost.showToast(
                     message = essentials.getString(R.string.pick_up_to_ten_images),
                     icon = Icons.Outlined.AutoAwesomeMosaic
                 )
@@ -152,7 +152,7 @@ fun CollageMakerContent(
             isLoading = true
             component.updateUris(uris)
         } else {
-            essentials.showToast(
+            AppToastHost.showToast(
                 message = if (uris.size > 10) {
                     essentials.getString(R.string.pick_up_to_ten_images)
                 } else {
@@ -233,9 +233,7 @@ fun CollageMakerContent(
                 )
             }
             ShareButton(
-                onShare = {
-                    component.performSharing(showConfetti)
-                },
+                onShare = component::performSharing,
                 onCopy = {
                     component.cacheImage(essentials::copyToClipboard)
                 },

@@ -76,7 +76,6 @@ fun DocumentScannerContent(
     component: DocumentScannerComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -185,9 +184,7 @@ fun DocumentScannerContent(
                     .padding(8.dp),
             ) {
                 EnhancedButton(
-                    onClick = {
-                        component.sharePdf(showConfetti)
-                    },
+                    onClick = component::sharePdf,
                     containerColor = MaterialTheme.colorScheme.secondary,
                     contentPadding = PaddingValues(
                         top = 8.dp,
@@ -271,9 +268,7 @@ fun DocumentScannerContent(
                 actions = {
                     ShareButton(
                         enabled = component.uris.isNotEmpty(),
-                        onShare = {
-                            component.shareBitmaps(showConfetti)
-                        }
+                        onShare = component::shareBitmaps
                     )
                 }
             )

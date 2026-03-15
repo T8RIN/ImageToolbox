@@ -97,7 +97,6 @@ fun DrawContent(
     val appColorTuple = rememberAppColorTuple()
 
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -117,10 +116,7 @@ fun DrawContent(
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uri: Uri ->
-        component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
-        )
+        component.setUri(uri)
     }
 
     val pickImage = imagePicker::pickImage
@@ -234,9 +230,7 @@ fun DrawContent(
                 }
                 ShareButton(
                     enabled = component.drawBehavior !is DrawBehavior.None,
-                    onShare = {
-                        component.shareBitmap(showConfetti)
-                    },
+                    onShare = component::shareBitmap,
                     onCopy = {
                         component.cacheCurrentImage(essentials::copyToClipboard)
                     },

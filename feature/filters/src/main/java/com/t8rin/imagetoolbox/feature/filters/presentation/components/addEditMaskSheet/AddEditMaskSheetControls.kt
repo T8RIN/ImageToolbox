@@ -320,8 +320,7 @@ internal fun AddEditMaskSheetControls(
                             onFilterChange = { value ->
                                 component.updateFilter(
                                     value = value,
-                                    index = index,
-                                    showError = essentials::showFailureToast
+                                    index = index
                                 )
                             },
                             onLongPress = {

@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -54,9 +53,6 @@ import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.Me
 fun MeshGradientsContent(
     component: MeshGradientsComponent
 ) {
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
     val childScrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -101,7 +97,6 @@ fun MeshGradientsContent(
                     onShareImage = {
                         component.shareImages(
                             uriList = listOf(element = it),
-                            onComplete = showConfetti
                         )
                     },
                     onRemove = null,

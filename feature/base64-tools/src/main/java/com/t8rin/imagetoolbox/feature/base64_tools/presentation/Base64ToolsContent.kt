@@ -80,7 +80,6 @@ fun Base64ToolsContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(onSuccess = component::setUri)
     val pickImage = imagePicker::pickImage
@@ -126,9 +125,7 @@ fun Base64ToolsContent(
             }
             ShareButton(
                 enabled = component.uri != null,
-                onShare = {
-                    component.shareBitmap(showConfetti)
-                },
+                onShare = component::shareBitmap,
                 onCopy = {
                     component.cacheCurrentImage(essentials::copyToClipboard)
                 },

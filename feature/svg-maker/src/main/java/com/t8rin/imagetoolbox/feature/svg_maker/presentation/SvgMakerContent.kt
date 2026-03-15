@@ -58,9 +58,6 @@ fun SvgMakerContent(
     component: SvgMakerComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
-    val onFailure: (Throwable) -> Unit = essentials::showFailureToast
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -98,12 +95,7 @@ fun SvgMakerContent(
         onGoBack = onBack,
         actions = {
             ShareButton(
-                onShare = {
-                    component.performSharing(
-                        onFailure = onFailure,
-                        onComplete = showConfetti
-                    )
-                },
+                onShare = component::performSharing,
                 enabled = !component.isSaving && component.uris.isNotEmpty()
             )
             EnhancedIconButton(
@@ -135,7 +127,7 @@ fun SvgMakerContent(
                 onValueChange = component::updateParams
             )
         },
-        buttons = {
+        buttons = { actions ->
             val save: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.save(
                     oneTimeSaveLocationUri = it,
@@ -159,7 +151,7 @@ fun SvgMakerContent(
                     showFolderSelectionDialog = true
                 },
                 actions = {
-                    if (isPortrait) it()
+                    if (isPortrait) actions()
                 },
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true

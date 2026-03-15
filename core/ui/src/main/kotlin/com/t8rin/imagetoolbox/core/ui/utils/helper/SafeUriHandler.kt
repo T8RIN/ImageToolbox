@@ -60,7 +60,7 @@ private class SafeUriHandler(
                 rawOpenUri(modifiedUrl)
             },
             onFailure = {
-                essentials.showFailureToast(
+                AppToastHost.showFailureToast(
                     essentials.getString(
                         R.string.cannot_open_uri, uri
                     )
