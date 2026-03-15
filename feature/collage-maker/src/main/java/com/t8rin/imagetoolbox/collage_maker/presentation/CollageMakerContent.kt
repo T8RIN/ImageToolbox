@@ -90,6 +90,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
@@ -235,7 +236,7 @@ fun CollageMakerContent(
             ShareButton(
                 onShare = component::performSharing,
                 onCopy = {
-                    component.cacheImage(essentials::copyToClipboard)
+                    component.cacheImage(Clipboard::copy)
                 },
                 onEdit = {
                     component.cacheImage {

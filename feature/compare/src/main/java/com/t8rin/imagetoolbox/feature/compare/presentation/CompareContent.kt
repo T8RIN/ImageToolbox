@@ -228,12 +228,7 @@ fun CompareContent(
             )
             showShareSheet = false
         },
-        onCopy = { imageFormat ->
-            component.cacheCurrentImage(
-                imageFormat = imageFormat,
-                onComplete = essentials::copyToClipboard
-            )
-        },
+        onCopy = component::cacheCurrentImage,
         previewData = previewBitmap,
         transformations = transformations
     )

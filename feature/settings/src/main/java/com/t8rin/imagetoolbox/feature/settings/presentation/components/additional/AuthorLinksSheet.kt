@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Github
 import com.t8rin.imagetoolbox.core.resources.icons.Telegram
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -54,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.top
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 fun AuthorLinksSheet(
@@ -120,7 +122,7 @@ fun AuthorLinksSheet(
                                     }
                                 )
                             }.onFailure {
-                                essentials.shareText(mail)
+                                appContext.shareText(mail)
                             }
                         },
                         shape = center,

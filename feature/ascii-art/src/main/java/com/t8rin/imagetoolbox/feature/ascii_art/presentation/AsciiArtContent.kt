@@ -40,8 +40,9 @@ import com.t8rin.imagetoolbox.core.data.utils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -56,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.components.AsciiArtControls
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 
@@ -63,8 +65,6 @@ import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiAr
 fun AsciiArtContent(
     component: AsciiArtComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     AutoContentBasedColors(component.uri)
 
     val imagePicker = rememberImagePicker(onSuccess = component::setUri)
@@ -123,7 +123,9 @@ fun AsciiArtContent(
             ShareButton(
                 enabled = component.uri != Uri.EMPTY,
                 onShare = {
-                    component.convertToAsciiString(essentials::shareText)
+                    component.convertToAsciiString {
+                        appContext.shareText(it)
+                    }
                 },
             )
         },
@@ -166,7 +168,7 @@ fun AsciiArtContent(
                 },
                 primaryButtonIcon = Icons.Rounded.ContentCopy,
                 onPrimaryButtonClick = {
-                    component.convertToAsciiString(essentials::copyToClipboard)
+                    component.convertToAsciiString(Clipboard::copy)
                 },
                 actions = {
                     if (isPortrait) it()

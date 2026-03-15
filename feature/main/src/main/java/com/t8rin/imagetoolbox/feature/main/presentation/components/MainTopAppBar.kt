@@ -75,11 +75,12 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppVersionPreReleaseFlavored
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.canPinShortcuts
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.createScreenShortcut
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelection
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -146,7 +147,7 @@ private fun PinShortcutButton() {
     if (context.canPinShortcuts()) {
         val settingsState = LocalSettingsState.current
 
-        val essentials = rememberLocalEssentials()
+        val scope = rememberCoroutineScope()
 
         var showShortcutAddingSheet by rememberSaveable {
             mutableStateOf(false)
@@ -216,10 +217,13 @@ private fun PinShortcutButton() {
                     EnhancedButton(
                         onClick = {
                             selectedScreen?.let { screen ->
-                                essentials.createScreenShortcut(
-                                    screen = screen,
-                                    tint = shortcutColor
-                                )
+                                scope.launch {
+                                    context.createScreenShortcut(
+                                        screen = screen,
+                                        tint = shortcutColor,
+                                        onFailure = AppToastHost::showFailureToast
+                                    )
+                                }
                             }
                         }
                     ) {

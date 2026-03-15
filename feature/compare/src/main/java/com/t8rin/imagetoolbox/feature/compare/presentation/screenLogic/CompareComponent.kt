@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -311,7 +312,6 @@ class CompareComponent @AssistedInject internal constructor(
 
     fun cacheCurrentImage(
         imageFormat: ImageFormat,
-        onComplete: (Uri) -> Unit
     ) {
         savingJob = trackProgress {
             _isImageLoading.value = true
@@ -325,7 +325,7 @@ class CompareComponent @AssistedInject internal constructor(
                     )
                 )
             }?.let { uri ->
-                onComplete(uri.toUri())
+                Clipboard.copy(uri.toUri())
             }
             _isImageLoading.value = false
         }

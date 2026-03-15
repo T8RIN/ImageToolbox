@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,8 +55,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
@@ -75,7 +75,6 @@ fun PickColorFromImageSheet(
     color: Color
 ) {
     val settingsState = LocalSettingsState.current
-    val essentials = rememberLocalEssentials()
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
     EnhancedModalBottomSheet(
@@ -151,7 +150,7 @@ fun PickColorFromImageSheet(
                                     )
                                     .clip(ShapeDefaults.small)
                                     .hapticsClickable {
-                                        essentials.copyToClipboard(
+                                        Clipboard.copy(
                                             text = color.toHex(),
                                             message = R.string.color_copied
                                         )
@@ -178,7 +177,7 @@ fun PickColorFromImageSheet(
                                 modifier = Modifier
                                     .clip(ShapeDefaults.mini)
                                     .hapticsClickable {
-                                        essentials.copyToClipboard(
+                                        Clipboard.copy(
                                             text = color.toHex(),
                                             message = R.string.color_copied
                                         )

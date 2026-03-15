@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -319,7 +320,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         }
     }
 
-    fun cacheNeutralLut(onComplete: (Uri) -> Unit) {
+    fun cacheNeutralLut() {
         componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let {
                 shareProvider.cacheImage(
@@ -330,13 +331,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                         imageFormat = ImageFormat.Png.Lossless
                     )
                 )?.let { uri ->
-                    onComplete(uri.toUri())
+                    Clipboard.copy(uri.toUri())
                 }
             }
         }
     }
 
-    fun shareNeutralLut(onComplete: () -> Unit) {
+    fun shareNeutralLut() {
         componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let {
                 shareProvider.shareImage(
@@ -346,7 +347,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                         height = 512,
                         imageFormat = ImageFormat.Png.Lossless
                     ),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
         }

@@ -68,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -245,7 +246,7 @@ internal fun FilterSelectionItem(
         visible = showDownloadDialog,
         onDismiss = { showDownloadDialog = false },
         onDownload = {
-            if (essentials.isNetworkAvailable()) {
+            if (appContext.isNetworkAvailable()) {
                 onCubeLutDownloadRequest(
                     forceUpdate, downloadOnlyNewData
                 )

@@ -46,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -150,7 +151,7 @@ private fun QrInfoItem(
                         )
                         .hapticsClickable(
                             enabled = canCopy,
-                            onClick = { essentials.copyToClipboard(text) },
+                            onClick = { Clipboard.copy(text) },
                             interactionSource = interactionSource,
                             indication = LocalIndication.current
                         )

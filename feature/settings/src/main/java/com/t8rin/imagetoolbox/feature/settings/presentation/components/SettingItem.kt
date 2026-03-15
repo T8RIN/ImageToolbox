@@ -33,11 +33,13 @@ import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -68,7 +70,7 @@ internal fun SettingItem(
             }
 
             Setting.AllowBetas -> {
-                if (!essentials.isInstalledFromPlayStore()) {
+                if (!appContext.isInstalledFromPlayStore()) {
                     AllowBetasSettingItem(
                         onClick = {
                             component.toggleAllowBetas()

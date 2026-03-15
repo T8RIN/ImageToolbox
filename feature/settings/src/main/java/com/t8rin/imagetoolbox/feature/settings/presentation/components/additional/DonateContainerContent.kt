@@ -54,7 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.TONSpaceColor
 import com.t8rin.imagetoolbox.core.ui.theme.USDTColor
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
@@ -126,11 +126,10 @@ private data class DonationOption(
         val entries: List<DonationOption>
             @Composable
             get() {
-                val essentials = rememberLocalEssentials()
                 val linkHandler = LocalUriHandler.current
                 val darkMode = !LocalSettingsState.current.isNightMode
 
-                return remember(essentials, linkHandler, darkMode) {
+                return remember(linkHandler, darkMode) {
                     listOf(
                         DonationOption(
                             containerColor = { BoostyColor },
@@ -155,7 +154,7 @@ private data class DonationOption(
                                 )
                             },
                             onClick = {
-                                essentials.copyToClipboard(BTC_WALLET)
+                                Clipboard.copy(BTC_WALLET)
                             },
                             endIcon = Icons.Rounded.ContentCopy,
                             title = { stringResource(R.string.bitcoin) },
@@ -171,7 +170,7 @@ private data class DonationOption(
                                 )
                             },
                             onClick = {
-                                essentials.copyToClipboard(BTC_WALLET)
+                                Clipboard.copy(BTC_WALLET)
                             },
                             endIcon = Icons.Rounded.ContentCopy,
                             title = { stringResource(R.string.usdt) },
@@ -187,7 +186,7 @@ private data class DonationOption(
                                 )
                             },
                             onClick = {
-                                essentials.copyToClipboard(TON_WALLET)
+                                Clipboard.copy(TON_WALLET)
                             },
                             endIcon = Icons.Rounded.ContentCopy,
                             startIcon = Icons.Rounded.Ton,
@@ -203,7 +202,7 @@ private data class DonationOption(
                                 )
                             },
                             onClick = {
-                                essentials.copyToClipboard(TON_SPACE_WALLET)
+                                Clipboard.copy(TON_SPACE_WALLET)
                             },
                             endIcon = Icons.Rounded.ContentCopy,
                             startIcon = Icons.Rounded.Ton,

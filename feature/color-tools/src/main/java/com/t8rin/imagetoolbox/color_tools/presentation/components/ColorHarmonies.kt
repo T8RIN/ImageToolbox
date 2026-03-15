@@ -46,7 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.ColorWithNameItem
@@ -57,8 +57,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 internal fun ColorHarmonies(
     selectedColor: Color,
 ) {
-    val essentials = rememberLocalEssentials()
-
     var selectedHarmony by rememberSaveable {
         mutableStateOf(HarmonyType.COMPLEMENTARY)
     }
@@ -132,7 +130,7 @@ internal fun ColorHarmonies(
                                 color = color,
                                 containerShape = shape,
                                 onCopy = {
-                                    essentials.copyToClipboard(
+                                    Clipboard.copy(
                                         text = getFormattedColor(color),
                                         message = R.string.color_copied
                                     )

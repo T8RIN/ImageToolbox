@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +39,8 @@ import com.t8rin.dynamic.theme.getColorScheme
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import kotlinx.coroutines.delay
 
@@ -62,7 +62,6 @@ internal fun MaterialYouPalette(
         isInvertColors = isInvertColors
     )
     val context = LocalContext.current
-    val essentials = rememberLocalEssentials()
 
     val themeState = LocalDynamicThemeState.current
     LaunchedEffect(colorScheme.primary) {
@@ -80,7 +79,7 @@ internal fun MaterialYouPalette(
     MaterialYouPaletteGroup(
         colorScheme = colorScheme,
         onCopy = { color ->
-            essentials.copyToClipboard(
+            Clipboard.copy(
                 text = color.toHex(),
                 message = R.string.color_copied
             )
@@ -111,7 +110,7 @@ internal fun MaterialYouPalette(
                 isInvertColors = isInvertColors
             ).asCodeString(true)
 
-            essentials.copyToClipboard(light + "\n\n" + dark)
+            Clipboard.copy(light + "\n\n" + dark)
         },
         containerColor = MaterialTheme.colorScheme.tertiary
     ) {

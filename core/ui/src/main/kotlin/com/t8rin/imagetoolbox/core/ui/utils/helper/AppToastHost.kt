@@ -32,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-object AppToastHost {
+data object AppToastHost {
 
     private var context: CoroutineContext = Dispatchers.Unconfined
     private val scope by lazy { CoroutineScope(context) }

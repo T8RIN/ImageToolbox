@@ -41,7 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Swatch
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.ColorWithNameItem
@@ -53,8 +53,6 @@ import kotlin.math.roundToInt
 internal fun ColorShading(
     selectedColor: Color
 ) {
-    val essentials = rememberLocalEssentials()
-
     var shadingVariation by rememberSaveable {
         mutableIntStateOf(5)
     }
@@ -135,7 +133,7 @@ internal fun ColorShading(
                                         size = data.size
                                     ),
                                     onCopy = {
-                                        essentials.copyToClipboard(
+                                        Clipboard.copy(
                                             text = getFormattedColor(color),
                                             message = R.string.color_copied
                                         )

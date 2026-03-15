@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -53,7 +54,7 @@ import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.Gr
 fun GradientMakerContent(
     component: GradientMakerComponent
 ) {
-    val essentials = rememberLocalEssentials()
+    rememberLocalEssentials()
 
     val screenType = component.screenType
 
@@ -112,7 +113,7 @@ fun GradientMakerContent(
                 enabled = component.brush != null,
                 onShare = component::shareBitmaps,
                 onCopy = {
-                    component.cacheCurrentImage(essentials::copyToClipboard)
+                    component.cacheCurrentImage(Clipboard::copy)
                 },
                 onEdit = {
                     component.cacheImages {

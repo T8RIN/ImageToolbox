@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animate
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.utils.state.derivedValueOf
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -80,7 +81,7 @@ fun NoiseGenerationContent(
         ShareButton(
             onShare = component::shareNoise,
             onCopy = {
-                component.cacheCurrentNoise(essentials::copyToClipboard)
+                component.cacheCurrentNoise(Clipboard::copy)
             },
             onEdit = {
                 component.cacheCurrentNoise {

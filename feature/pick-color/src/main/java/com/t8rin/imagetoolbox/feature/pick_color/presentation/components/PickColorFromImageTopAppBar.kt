@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,8 +63,8 @@ import com.smarttoolfactory.colordetector.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
@@ -85,8 +85,6 @@ internal fun PickColorFromImageTopAppBar(
     color: Color,
 ) {
     val settingsState = LocalSettingsState.current
-
-    val essentials = rememberLocalEssentials()
 
     AnimatedContent(
         modifier = Modifier.drawHorizontalStroke(),
@@ -175,7 +173,7 @@ internal fun PickColorFromImageTopAppBar(
                                                 .padding(horizontal = 8.dp)
                                                 .clip(ShapeDefaults.mini)
                                                 .hapticsClickable {
-                                                    essentials.copyToClipboard(
+                                                    Clipboard.copy(
                                                         text = color.toHex(),
                                                         message = R.string.color_copied
                                                     )
@@ -228,7 +226,7 @@ internal fun PickColorFromImageTopAppBar(
                                                 )
                                                 .clip(ShapeDefaults.small)
                                                 .hapticsClickable {
-                                                    essentials.copyToClipboard(
+                                                    Clipboard.copy(
                                                         text = color.toHex(),
                                                         message = R.string.color_copied
                                                     )
@@ -262,7 +260,7 @@ internal fun PickColorFromImageTopAppBar(
                                             .padding(horizontal = 8.dp)
                                             .clip(ShapeDefaults.mini)
                                             .hapticsClickable {
-                                                essentials.copyToClipboard(
+                                                Clipboard.copy(
                                                     text = color.toHex(),
                                                     message = R.string.color_copied
                                                 )
@@ -307,7 +305,7 @@ internal fun PickColorFromImageTopAppBar(
                                             )
                                             .clip(ShapeDefaults.small)
                                             .hapticsClickable {
-                                                essentials.copyToClipboard(
+                                                Clipboard.copy(
                                                     text = color.toHex(),
                                                     message = R.string.color_copied
                                                 )

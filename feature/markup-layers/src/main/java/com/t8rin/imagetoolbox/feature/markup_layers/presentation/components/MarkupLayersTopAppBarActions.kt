@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -76,7 +77,7 @@ internal fun MarkupLayersTopAppBarActions(
             enabled = component.backgroundBehavior !is BackgroundBehavior.None,
             onShare = component::shareBitmap,
             onCopy = {
-                component.cacheCurrentImage(essentials::copyToClipboard)
+                component.cacheCurrentImage(Clipboard::copy)
             },
             onEdit = {
                 component.cacheCurrentImage { uri ->

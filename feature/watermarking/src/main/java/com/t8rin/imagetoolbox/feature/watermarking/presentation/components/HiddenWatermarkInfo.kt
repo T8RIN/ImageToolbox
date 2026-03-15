@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
@@ -48,8 +48,6 @@ import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
 internal fun HiddenWatermarkInfo(
     hiddenWatermark: HiddenWatermark?
 ) {
-    val essentials = rememberLocalEssentials()
-
     AnimatedContent(
         targetState = hiddenWatermark,
         modifier = Modifier.fillMaxWidth()
@@ -67,7 +65,7 @@ internal fun HiddenWatermarkInfo(
                     is HiddenWatermark.Image -> stringResource(R.string.this_image_was_hidden)
                 },
                 onClick = if (hidden is HiddenWatermark.Text) {
-                    { essentials.copyToClipboard(hidden.text) }
+                    { Clipboard.copy(hidden.text) }
                 } else null,
                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f),

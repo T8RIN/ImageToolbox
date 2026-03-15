@@ -19,8 +19,8 @@ package com.t8rin.imagetoolbox.feature.root.presentation.components
 
 import androidx.compose.runtime.Composable
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalEditPresetsController
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.UpdateSheet
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -47,7 +47,6 @@ internal fun RootDialogs(component: RootComponent) {
         onUpdatePresets = component::setPresets
     )
 
-    val essentials = rememberLocalEssentials()
     ProcessImagesPreferenceSheet(
         uris = component.uris ?: emptyList(),
         extraDataType = component.extraDataType,
@@ -55,7 +54,7 @@ internal fun RootDialogs(component: RootComponent) {
         onDismiss = component::hideSelectDialog,
         onNavigate = { screen ->
             component.navigateTo(screen)
-            essentials.clearClipboard()
+            Clipboard.clear()
         }
     )
 

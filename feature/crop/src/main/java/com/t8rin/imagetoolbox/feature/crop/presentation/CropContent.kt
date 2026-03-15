@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
@@ -149,7 +150,7 @@ fun CropContent(
                 }
             },
             onCopy = {
-                component.cacheCurrentImage(essentials::copyToClipboard)
+                component.cacheCurrentImage(Clipboard::copy)
             }
         )
         ProcessImagesPreferenceSheet(

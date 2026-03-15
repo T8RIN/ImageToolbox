@@ -178,12 +178,8 @@ private fun LazyListScope.lutAdditionalSection(
                     }
                     Row {
                         ShareButton(
-                            onShare = {
-                                component.shareNeutralLut(AppToastHost::showConfetti)
-                            },
-                            onCopy = {
-                                component.cacheNeutralLut(essentials::copyToClipboard)
-                            }
+                            onShare = component::shareNeutralLut,
+                            onCopy = component::cacheNeutralLut
                         )
                         EnhancedIconButton(
                             onClick = {

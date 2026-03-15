@@ -68,8 +68,8 @@ import com.smarttoolfactory.colorpicker.util.hexRegexSingleChar
 import com.smarttoolfactory.colorpicker.util.hexWithAlphaRegex
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -96,9 +96,8 @@ fun ColorInfo(
 ) {
     val context = LocalContext.current
     val colorPasteError = rememberSaveable { mutableStateOf<String?>(null) }
-    val essentials = rememberLocalEssentials()
     val onCopyCustomColor = {
-        essentials.copyToClipboard(
+        Clipboard.copy(
             text = getFormattedColor(color),
             message = R.string.color_copied
         )
