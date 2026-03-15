@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -339,7 +337,7 @@
     <string name="trim_image">חתוך תמונה</string>
     <string name="side_fade">Side Fade</string>
     <string name="top">חלק עליון</string>
-    <string name="bottom">תַחתִית</string>
+    <string name="bottom">תחתית</string>
     <string name="strength">כוח</string>
     <string name="brush_softness">רכות מברשת</string>
     <string name="activities">פעילויות</string>
@@ -351,11 +349,11 @@
     <string name="segmentation_mode_sparse_text_osd">כיוון טקסט דליל &amp; זיהוי סקריפט</string>
     <string name="glitch">תקלה</string>
     <string name="amount">כמות</string>
-    <string name="seed">זֶרַע</string>
+    <string name="seed">זרע</string>
     <string name="anaglyph">אנגליף</string>
-    <string name="noise">רַעַשׁ</string>
+    <string name="noise">רגע</string>
     <string name="pixel_sort">מיון פיקסל</string>
-    <string name="shuffle">לְעַרְבֵּב</string>
+    <string name="shuffle">עירבוב</string>
     <string name="delete_mask_warn">אתה עומד למחוק את מסכת המסנן שנבחרה. לא ניתן לבטל פעולה זו</string>
     <string name="delete_mask">מחק מסכה</string>
     <string name="drago">דראגו</string>
@@ -468,7 +466,7 @@
     <string name="channel_shift_x">ערוץ Shift X</string>
     <string name="channel_shift_y">משמרת ערוץ Y</string>
     <string name="corruption_size">גודל שחיתות</string>
-    <string name="side">צַד</string>
+    <string name="side">צד</string>
     <string name="corruption_shift_x">משמרת שחיתות X</string>
     <string name="corruption_shift_y">משמרת שחיתות Y</string>
     <string name="tent_blur">טשטוש אוהל</string>
@@ -482,7 +480,7 @@
     <string name="cool">מגניב</string>
     <string name="protanopia">פרוטנופיה</string>
     <string name="achromatomaly">אכרומטומיה</string>
-    <string name="pastel">פַּסטֵל</string>
+    <string name="pastel">פסטל</string>
     <string name="orange_haze">אובך כתום</string>
     <string name="pink_dream">חלום ורוד</string>
     <string name="golden_hour">שעת הזהב</string>
@@ -498,7 +496,7 @@
     <string name="rainbow_world">עולם הקשת</string>
     <string name="uchimura">אוצ\'ימורה</string>
     <string name="mobius">מוביוס</string>
-    <string name="transition">מַעֲבָר</string>
+    <string name="transition">מעבר</string>
     <string name="peak">שִׂיא</string>
     <string name="color_anomaly">אנומליה בצבע</string>
     <string name="emoji_as_color_scheme_sub">משתמש בצבע עיקרי של אמוג\'י כסכמת צבעי אפליקציה במקום אחד שהוגדר ידנית</string>
@@ -512,17 +510,17 @@
     <string name="erode">לשחוק</string>
     <string name="anisotropic_diffusion">דיפוזיה אניזוטרופית</string>
     <string name="diffusion">ריכוך</string>
-    <string name="conduction">הוֹלָכָה חַשְׁמַלִית</string>
+    <string name="conduction">הולכה חשמלית</string>
     <string name="horizontal_wind_stagger">מתנודד רוח אופקי</string>
     <string name="fast_bilaterial_blur">טשטוש דו צדדי מהיר</string>
     <string name="poisson_blur">טשטוש פויסון</string>
     <string name="logarithmic_tone_mapping">מיפוי טון לוגריתמי</string>
-    <string name="crystallize">לְהִתְגַבֵּשׁ</string>
+    <string name="crystallize">לגבש</string>
     <string name="stroke_color">צבע שבץ</string>
     <string name="fractal_glass">זכוכית פרקטל</string>
     <string name="amplitude">אמפליטודה</string>
-    <string name="marble">שַׁיִשׁ</string>
-    <string name="turbulence">מְעַרבּוֹלֶת</string>
+    <string name="marble">שיש</string>
+    <string name="turbulence">מערבולת</string>
     <string name="oil">שמן</string>
     <string name="water_effect">אפקט המים</string>
     <string name="frequency_x">תדר X</string>
@@ -568,15 +566,15 @@
     <string name="deutaronotopia">דאוטרנופיה</string>
     <string name="achromatopsia">אכרומטופיה</string>
     <string name="gradient_type_linear">ליניארי</string>
-    <string name="gradient_type_radial">רַדִיאָלִי</string>
-    <string name="gradient_type_sweep">לְטַאטֵא</string>
+    <string name="gradient_type_radial">רדיאלי</string>
+    <string name="gradient_type_sweep">לטאטא</string>
     <string name="gradient_type">סוג שיפוע</string>
     <string name="center_x">מרכז X</string>
     <string name="center_y">מרכז Y</string>
     <string name="tile_mode">מצב אריחים</string>
     <string name="tile_mode_repeated">חוזר על עצמו</string>
-    <string name="tile_mode_mirror">מַרְאָה</string>
-    <string name="tile_mode_clamp">מַהְדֵק</string>
+    <string name="tile_mode_mirror">מראה</string>
+    <string name="tile_mode_clamp">מהדק</string>
     <string name="tile_mode_decal">מדבקות</string>
     <string name="color_stops">עצירות צבע</string>
     <string name="add_color">הוסף צבע</string>
@@ -645,7 +643,7 @@
     <string name="gradient_maker_type_image">שכבת שיפוע</string>
     <string name="gradient_maker_type_image_sub">חבר כל גרדיאנט של החלק העליון של תמונות נתונות</string>
     <string name="transformations">טרנספורמציות</string>
-    <string name="camera">מַצלֵמָה</string>
+    <string name="camera">מצלמה</string>
     <string name="camera_sub">צלם תמונה בעזרת המצלמה, שימו לב שאפשר לקבל רק תמונה אחת ממקור תמונה זה</string>
     <string name="output_image_scale">סולם תמונה פלט</string>
     <string name="image_orientation">כיוון תמונה</string>
@@ -729,7 +727,7 @@
     <string name="use_pixel_switch">השתמש ב-Pixel Switch</string>
     <string name="use_pixel_switch_sub">משתמש במתג דמוי פיקסל של Google</string>
     <string name="slide">שקופית</string>
-    <string name="side_by_side">זֶה בְּצַד זֶה</string>
+    <string name="side_by_side">זה לצד זה</string>
     <string name="toggle_tap">החלף הקש</string>
     <string name="transparency">שְׁקִיפוּת</string>
     <string name="saved_to_original">קובץ שהוחלף עם השם %1$s ביעד המקורי</string>
@@ -847,7 +845,7 @@
     <string name="jxl_type_to_images_sub">המר אנימציית JXL לקבוצת תמונות</string>
     <string name="jxl_type_to_jxl">תמונות ל-JXL</string>
     <string name="jxl_type_to_jxl_sub">המר אצווה של תמונות לאנימציית JXL</string>
-    <string name="behavior">הִתְנַהֲגוּת</string>
+    <string name="behavior">התנהגות</string>
     <string name="skip_file_picking">דלג על בחירת קבצים</string>
     <string name="skip_file_picking_sub">בוחר הקבצים יוצג מיד אם זה אפשרי במסך שנבחר</string>
     <string name="generate_previews">צור תצוגות מקדימות</string>
@@ -907,8 +905,8 @@
     <string name="engine_mode">מצב מנוע</string>
     <string name="legacy">מוֹרֶשֶׁת</string>
     <string name="lstm_network">רשת LSTM</string>
-    <string name="legacy_and_lstm">Legacy &amp;amp; LSTM</string>
-    <string name="convert">לְהַמִיר</string>
+    <string name="legacy_and_lstm">דור קודם ו-LSTM</string>
+    <string name="convert">המרה</string>
     <string name="convert_sub">המרת קבוצות תמונות לפורמט נתון</string>
     <string name="add_new_folder">הוסף תיקיה חדשה</string>
     <string name="tag_bits_per_sample">ביטים לדגימה</string>
@@ -1124,7 +1122,7 @@
     <string name="delete_template_warn">אתה עומד למחוק את מסנן התבניות שנבחר. לא ניתן לבטל פעולה זו</string>
     <string name="added_filter_template">נוספה תבנית סינון בשם \"%1$s\" (%2$s)</string>
     <string name="filter_preview">תצוגה מקדימה של מסנן</string>
-    <string name="qr_code">QR &amp;amp; ברקוד</string>
+    <string name="qr_code">QR וברקוד</string>
     <string name="qr_code_sub">סרוק קוד QR וקבל את התוכן שלו או הדבק את המחרוזת שלך כדי ליצור מחרוזת חדשה</string>
     <string name="code_content">תוכן קוד</string>
     <string name="scan_qr_code_to_replace_content">סרוק כל ברקוד כדי להחליף תוכן בשדה, או הקלד משהו כדי ליצור ברקוד חדש עם סוג נבחר</string>
@@ -1529,12 +1527,12 @@
     <string name="outline_color">צבע מתאר</string>
     <string name="outline_size">גודל מתאר</string>
     <string name="rotation">רוֹטַציָה</string>
-    <string name="checksum_as_filename">Checksum כשם קובץ</string>
+    <string name="checksum_as_filename">בדיקת סכום כשם קובץ</string>
     <string name="checksum_as_filename_sub">לתמונות הפלט יהיה שם המתאים לסכום הבדיקה שלהן</string>
     <string name="free_software_partner">תוכנה חופשית (שותף)</string>
     <string name="free_software_partner_sub">תוכנה שימושית יותר בערוץ השותפים של אפליקציות אנדרואיד</string>
     <string name="algorithms">אַלגוֹרִיתְם</string>
-    <string name="checksum_tools">Checksum Tools</string>
+    <string name="checksum_tools">כלי סכום ביקורת</string>
     <string name="checksum_tools_sub">השווה סכומי בדיקה, חישוב גיבוב או צור מחרוזות hex מקבצים באמצעות אלגוריתמי גיבוב שונים</string>
     <string name="calculate">לְחַשֵׁב</string>
     <string name="text_hash">טקסט Hash</string>
