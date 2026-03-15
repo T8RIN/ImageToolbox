@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.noise_generation.domain.NoiseGenerator
@@ -86,8 +87,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     }
 
     fun saveNoise(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -96,7 +96,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
                 height = noiseSize.height,
                 noiseParams = noiseParams,
                 onFailure = {
-                    onComplete(SaveResult.Error.Exception(it))
+                    parseSaveResult(SaveResult.Error.Exception(it))
                 }
             )?.let { bitmap ->
                 val imageInfo = ImageInfo(
@@ -105,7 +105,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
                     quality = quality,
                     imageFormat = imageFormat
                 )
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
@@ -152,12 +152,12 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareNoise(onComplete: () -> Unit) {
+    fun shareNoise() {
         cacheCurrentNoise { uri ->
             componentScope.launch {
                 shareProvider.shareUri(
                     uri = uri.toString(),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
         }

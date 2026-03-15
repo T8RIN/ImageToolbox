@@ -29,6 +29,8 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.ui.utils.helper.SaveResultHandler
+import com.t8rin.imagetoolbox.core.ui.utils.helper.SaveResultHandlerImpl
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.logger.makeLog
@@ -47,7 +49,9 @@ import kotlinx.coroutines.launch as internalLaunch
 abstract class BaseComponent(
     private val dispatchersHolder: DispatchersHolder,
     private val componentContext: ComponentContext
-) : ComponentContext by componentContext, DispatchersHolder by dispatchersHolder {
+) : ComponentContext by componentContext,
+    DispatchersHolder by dispatchersHolder,
+    SaveResultHandler by SaveResultHandlerImpl {
 
     val componentScope = coroutineScope
 

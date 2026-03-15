@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
@@ -258,8 +259,7 @@ class FiltersComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -306,7 +306,7 @@ class FiltersComponent @AssistedInject internal constructor(
                     total = left
                 )
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }
@@ -350,8 +350,7 @@ class FiltersComponent @AssistedInject internal constructor(
 
     fun <T : Any> updateFilter(
         value: T,
-        index: Int,
-        onFailure: (Throwable) -> Unit
+        index: Int
     ) {
         val list = _basicFilterState.value.filters.toMutableList()
         runCatching {
@@ -360,7 +359,7 @@ class FiltersComponent @AssistedInject internal constructor(
                 it.copy(filters = list)
             }
         }.onFailure { throwable ->
-            onFailure(throwable)
+            AppToastHost.showFailureToast(throwable)
             list[index] = list[index].newInstance()
             _basicFilterState.update {
                 it.copy(filters = list)
@@ -407,7 +406,7 @@ class FiltersComponent @AssistedInject internal constructor(
 
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
-    fun performSharing(onComplete: () -> Unit) {
+    fun performSharing() {
         savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
@@ -428,7 +427,7 @@ class FiltersComponent @AssistedInject internal constructor(
                         },
                         onProgressChange = {
                             if (it == -1) {
-                                onComplete()
+                                AppToastHost.showConfetti()
                                 _isSaving.value = false
                                 _done.value = 0
                             } else {
@@ -472,7 +471,7 @@ class FiltersComponent @AssistedInject internal constructor(
                                 ),
                                 onComplete = {
                                     _isSaving.value = false
-                                    onComplete()
+                                    AppToastHost.showConfetti()
                                 }
                             )
                         }
@@ -566,8 +565,7 @@ class FiltersComponent @AssistedInject internal constructor(
     }
 
     fun saveMaskedBitmap(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -592,7 +590,7 @@ class FiltersComponent @AssistedInject internal constructor(
                         }
                     }
                 )?.let { localBitmap ->
-                    onComplete(
+                    parseSaveResult(
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo.copy(
@@ -629,8 +627,7 @@ class FiltersComponent @AssistedInject internal constructor(
 
     fun updateMask(
         value: UiFilterMask,
-        index: Int,
-        showError: (Throwable) -> Unit
+        index: Int
     ) {
         runCatching {
             _maskingFilterState.update {
@@ -642,7 +639,7 @@ class FiltersComponent @AssistedInject internal constructor(
             }
             updatePreview()
             updateCanSave()
-        }.onFailure(showError)
+        }.onFailure(AppToastHost::showFailureToast)
     }
 
     fun removeMaskAtIndex(index: Int) {

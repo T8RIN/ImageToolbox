@@ -33,9 +33,10 @@ import androidx.compose.runtime.remember
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ScanResult
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerDelegate
 
 private class DocumentScannerImpl(
@@ -63,7 +64,6 @@ private class DocumentScannerImpl(
 internal fun rememberDocumentScannerImpl(
     onSuccess: (ScanResult) -> Unit
 ): DocumentScanner {
-    val essentials = rememberLocalEssentials()
     val context = LocalComponentActivity.current
 
     val scanner = remember(context) {
@@ -76,12 +76,12 @@ internal fun rememberDocumentScannerImpl(
             },
             errorHandler = {
                 if (it.contains(MediaStore.ACTION_IMAGE_CAPTURE)) {
-                    essentials.showToast(
+                    AppToastHost.showToast(
                         message = context.getString(R.string.camera_failed_to_open),
                         icon = Icons.Outlined.CameraAlt
                     )
                 } else {
-                    essentials.showFailureToast(it)
+                    AppToastHost.showFailureToast(it)
                 }
             }
         )
@@ -99,8 +99,8 @@ internal fun rememberDocumentScannerImpl(
         if (isGranted) {
             scannerLauncher.launch(scanner.createDocumentScanIntent())
         } else {
-            essentials.showToast(
-                messageSelector = { getString(R.string.grant_camera_permission_to_scan_document_scanner) },
+            AppToastHost.showToast(
+                message = appContext.getString(R.string.grant_camera_permission_to_scan_document_scanner),
                 icon = Icons.Outlined.CameraAlt
             )
         }

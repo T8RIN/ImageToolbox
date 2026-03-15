@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.image_stacking.domain.ImageStacker
@@ -132,8 +133,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -142,7 +142,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 stackImages = stackImages,
                 stackingParams = stackingParams,
                 onFailure = {
-                    onComplete(SaveResult.Error.Exception(it))
+                    parseSaveResult(SaveResult.Error.Exception(it))
                 },
                 onProgress = {
                     _done.value = it
@@ -158,7 +158,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                     quality = imageInfo.quality,
                     imageFormat = imageInfo.imageFormat
                 )
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
@@ -179,7 +179,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
@@ -193,7 +193,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                         total = stackImages.size
                     )
                 },
-                onFailure = {}
+                onFailure = AppToastHost::showFailureToast
             )?.let { image ->
                 val imageInfo = ImageInfo(
                     height = image.height,
@@ -204,7 +204,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 shareProvider.shareImage(
                     image = image,
                     imageInfo = imageInfo,
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
             _isSaving.value = false
@@ -283,14 +283,13 @@ class ImageStackingComponent @AssistedInject internal constructor(
 
     fun updateStackImage(
         value: StackImage,
-        index: Int,
-        onFailure: (Throwable) -> Unit
+        index: Int
     ) {
         val list = stackImages.toMutableList()
         runCatching {
             list[index] = value
             _stackImages.update { list }
-        }.onFailure(onFailure)
+        }.onFailure(AppToastHost::showFailureToast)
 
         calculatePreview()
     }

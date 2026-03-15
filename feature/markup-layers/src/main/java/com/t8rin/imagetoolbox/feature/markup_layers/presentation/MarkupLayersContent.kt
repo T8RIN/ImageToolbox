@@ -75,7 +75,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
@@ -116,8 +115,6 @@ fun MarkupLayersContent(
 
     val appColorTuple = rememberAppColorTuple()
 
-    val essentials = rememberLocalEssentials()
-
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
@@ -137,8 +134,7 @@ fun MarkupLayersContent(
 
     val imagePicker = rememberImagePicker { uri: Uri ->
         component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
+            uri = uri
         )
     }
 
@@ -146,8 +142,7 @@ fun MarkupLayersContent(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmap(
-            oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResult
+            oneTimeSaveLocationUri = it
         )
     }
 

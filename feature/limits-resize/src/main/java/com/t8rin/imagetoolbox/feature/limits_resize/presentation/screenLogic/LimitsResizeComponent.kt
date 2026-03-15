@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.limits_resize.domain.LimitsImageScaler
@@ -69,12 +70,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUris?.let {
-                updateUris(
-                    uris = it,
-                    onFailure = {}
-                )
-            }
+            initialUris?.let(::setUris)
         }
     }
 
@@ -116,9 +112,8 @@ class LimitsResizeComponent @AssistedInject internal constructor(
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
     }
 
-    fun updateUris(
-        uris: List<Uri>?,
-        onFailure: (Throwable) -> Unit
+    fun setUris(
+        uris: List<Uri>?
     ) {
         _uris.value = null
         _uris.value = uris
@@ -132,7 +127,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
                         updateBitmap(it.image)
                         setImageFormat(it.imageInfo.imageFormat)
                     },
-                    onFailure = onFailure
+                    onFailure = AppToastHost::showFailureToast
                 )
             }
         }
@@ -186,8 +181,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -236,14 +230,13 @@ class LimitsResizeComponent @AssistedInject internal constructor(
                     total = uris.orEmpty().size
                 )
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }
 
     fun updateSelectedUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit = {} //TODO: Remove unnecessary callbacks
+        uri: Uri
     ) {
         runCatching {
             componentScope.launch {
@@ -252,7 +245,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
                 _selectedUri.value = uri
                 _isImageLoading.value = false
             }
-        }.onFailure(onFailure)
+        }.onFailure(AppToastHost::showFailureToast)
     }
 
 
@@ -274,7 +267,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
         updateCanSave()
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun shareBitmaps() {
         _isSaving.value = false
         savingJob = trackProgress {
             _isSaving.value = true
@@ -298,7 +291,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
                 },
                 onProgressChange = {
                     if (it == -1) {
-                        onComplete()
+                        AppToastHost.showConfetti()
                         _done.value = 0
                         _isSaving.value = false
                     } else {

@@ -41,7 +41,6 @@ import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -242,23 +241,19 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleRandomizeFilename() = settingsScope { toggleRandomizeFilename() }
 
     fun createBackup(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit,
+        uri: Uri
     ) = settingsScope {
         fileController.writeBytes(
             uri = uri.toString(),
             block = { it.writeBytes(createBackupFile()) }
-        ).also(onResult)
+        ).also(::parseFileSaveResult)
     }
 
-    fun exportFonts(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit,
-    ) = settingsScope {
+    fun exportFonts(uri: Uri) = settingsScope {
         fileController.transferBytes(
             fromUri = createCustomFontsExport().toString(),
             toUri = uri.toString()
-        ).also(onResult)
+        ).also(::parseFileSaveResult)
     }
 
     fun restoreBackupFrom(

@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -68,16 +68,10 @@ import com.t8rin.imagetoolbox.feature.limits_resize.presentation.screenLogic.Lim
 fun LimitsResizeContent(
     component: LimitsResizeComponent
 ) {
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
-        component.updateUris(
-            uris = uris,
-            onFailure = essentials::showFailureToast
-        )
+        component.setUris(uris)
     }
 
     val pickImage = imagePicker::pickImage
@@ -96,8 +90,7 @@ fun LimitsResizeContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 
@@ -134,11 +127,9 @@ fun LimitsResizeContent(
                 }
                 ShareButton(
                     enabled = component.canSave,
-                    onShare = {
-                        component.shareBitmaps(showConfetti)
-                    },
+                    onShare = component::shareBitmaps,
                     onCopy = {
-                        component.cacheCurrentImage(essentials::copyToClipboard)
+                        component.cacheCurrentImage(Clipboard::copy)
                     },
                     onEdit = {
                         component.cacheImages {
@@ -289,15 +280,8 @@ fun LimitsResizeContent(
         },
         uris = component.uris,
         selectedUri = component.selectedUri,
-        onUriPicked = { uri ->
-            component.updateSelectedUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
-        onUriRemoved = { uri ->
-            component.updateUrisSilently(removedUri = uri)
-        },
+        onUriPicked = component::updateSelectedUri,
+        onUriRemoved = component::updateUrisSilently,
         columns = if (isPortrait) 2 else 4,
     )
 

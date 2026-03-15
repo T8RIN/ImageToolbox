@@ -83,23 +83,19 @@ class ExtractImagesPdfToolComponent @AssistedInject internal constructor(
         "${uri?.filename()?.substringBeforeLast('.') ?: timestamp()}_extracted.zip"
 
     override fun saveTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
+        uri: Uri
     ) {
-        doSaving(
-            action = {
-                val processed = pdfManager.extractImagesFromPdf(
-                    uri = _uri.value.toString()
-                )
-                    ?: return@doSaving SaveResult.Error.Exception(Throwable(getString(R.string.pdf_no_embedded)))
+        doSaving {
+            val processed = pdfManager.extractImagesFromPdf(
+                uri = _uri.value.toString()
+            )
+                ?: return@doSaving SaveResult.Error.Exception(Throwable(getString(R.string.pdf_no_embedded)))
 
-                fileController.transferBytes(
-                    fromUri = processed,
-                    toUri = uri.toString()
-                ).onSuccess(::registerSave)
-            },
-            onResult = onResult
-        )
+            fileController.transferBytes(
+                fromUri = processed,
+                toUri = uri.toString()
+            ).onSuccess(::registerSave)
+        }
     }
 
     override fun performSharing(

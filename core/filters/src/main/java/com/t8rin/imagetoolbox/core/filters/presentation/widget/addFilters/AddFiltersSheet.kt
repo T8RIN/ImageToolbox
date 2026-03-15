@@ -62,6 +62,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -80,7 +81,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterPreviewShee
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -96,6 +97,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberRetainedLazyListState
+import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -135,8 +137,6 @@ fun AddFiltersSheet(
 
     val onRequestFilterMapping = component::filterToTransformation
 
-    val essentials = rememberLocalEssentials()
-
     var isSearching by rememberSaveable {
         mutableStateOf(false)
     }
@@ -145,12 +145,13 @@ fun AddFiltersSheet(
     }
     val allFilters = remember {
         tabs.flatMap { group ->
-            group.filters(canAddTemplates).sortedBy { essentials.getString(it.title) }
+            group.filters(canAddTemplates).sortedBy { getString(it.title) }
         }
     }
     var filtersForSearch by remember(allFilters) {
         mutableStateOf(allFilters)
     }
+    val resourceManager = LocalResourceManager.current
     LaunchedEffect(searchKeyword) {
         withContext(Dispatchers.Default) {
             delay(400L) // Debounce calculations
@@ -160,17 +161,17 @@ fun AddFiltersSheet(
             }
 
             filtersForSearch = allFilters.filter {
-                essentials.getString(it.title).contains(
+                resourceManager.getString(it.title).contains(
                     other = searchKeyword,
                     ignoreCase = true
-                ) || essentials.getStringLocalized(
+                ) || resourceManager.getStringLocalized(
                     resId = it.title,
                     language = Locale.ENGLISH.language
                 ).contains(
                     other = searchKeyword,
                     ignoreCase = true
                 )
-            }.sortedBy { essentials.getString(it.title) }
+            }.sortedBy { getString(it.title) }
         }
     }
 
@@ -202,6 +203,8 @@ fun AddFiltersSheet(
                                 )
                             }
                         ) {
+                            val scope = rememberCoroutineScope()
+
                             tabs.forEachIndexed { index, (icon, title) ->
                                 val selected = pagerState.currentPage == index
                                 val color by animateColorAsState(
@@ -225,7 +228,7 @@ fun AddFiltersSheet(
                                     selected = selected,
                                     onClick = {
                                         haptics.longPress()
-                                        essentials.launch {
+                                        scope.launch {
                                             pagerState.animateScrollToPage(index)
                                         }
                                     },

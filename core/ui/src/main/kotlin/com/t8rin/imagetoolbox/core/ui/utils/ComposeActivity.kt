@@ -53,11 +53,13 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.asColorTuple
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication.Companion.wrap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.adjustFontSize
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.utils.provider.setContentWithWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -134,6 +136,8 @@ abstract class ComposeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         wrap(application)?.runSetup()
+
+        observeReview()
 
         settingsManager
             .settingsState
@@ -252,6 +256,17 @@ abstract class ComposeActivity : AppCompatActivity() {
             window?.clearFlags(
                 WindowManager.LayoutParams.FLAG_SECURE
             )
+        }
+    }
+
+    private fun observeReview() {
+        lifecycleScope.launch {
+            ReviewHandler.current.apply {
+                reviewRequests.collect {
+                    makeLog("collect reviewRequests")
+                    showReview(this@ComposeActivity)
+                }
+            }
         }
     }
 

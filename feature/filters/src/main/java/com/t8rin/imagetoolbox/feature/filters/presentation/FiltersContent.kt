@@ -45,9 +45,10 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvideFilterPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -76,9 +77,6 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersCo
 fun FiltersContent(
     component: FiltersComponent
 ) {
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
     AutoContentBasedColors(component.previewBitmap)
 
     val imagePicker = rememberImagePicker(onSuccess = component::setBasicFilter)
@@ -106,11 +104,9 @@ fun FiltersContent(
             }
             ShareButton(
                 enabled = component.canSave,
-                onShare = {
-                    component.performSharing(showConfetti)
-                },
+                onShare = component::performSharing,
                 onCopy = {
-                    component.cacheCurrentImage(essentials::copyToClipboard)
+                    component.cacheCurrentImage(Clipboard::copy)
                 },
                 onEdit = {
                     component.cacheImages {
@@ -211,7 +207,7 @@ fun FiltersContent(
                                 .padding(horizontal = 2.dp)
                                 .padding(bottom = 12.dp)
                                 .scaleOnTap {
-                                    showConfetti()
+                                    AppToastHost.showConfetti()
                                 }
                         )
                     }

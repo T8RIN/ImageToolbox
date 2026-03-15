@@ -59,8 +59,8 @@ import com.t8rin.imagetoolbox.core.filters.presentation.utils.collectAsUiState
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -84,7 +84,6 @@ internal fun OtherContent(
     onFilterPicked: (UiFilter<*>) -> Unit,
     previewBitmap: Bitmap?,
 ) {
-    val essentials = rememberLocalEssentials()
     val favoriteFilters by component.favoritesFlow.collectAsUiState()
     val onRequestFilterMapping = component::filterToTransformation
 
@@ -131,7 +130,7 @@ internal fun OtherContent(
                     component.updateCubeLuts(
                         startDownloadIfNeeded = true,
                         forceUpdate = forceUpdate,
-                        onFailure = essentials::showFailureToast,
+                        onFailure = AppToastHost::showFailureToast,
                         downloadOnlyNewData = downloadOnlyNewData
                     )
                 }
@@ -144,7 +143,6 @@ private fun LazyListScope.lutAdditionalSection(
     component: AddFiltersSheetComponent
 ) {
     item {
-        val essentials = rememberLocalEssentials()
         PreferenceItemOverload(
             title = stringResource(R.string.save_empty_lut),
             subtitle = stringResource(R.string.save_empty_lut_sub),
@@ -172,18 +170,13 @@ private fun LazyListScope.lutAdditionalSection(
                     }
                     val saveNeutralLut: (String?) -> Unit = {
                         component.saveNeutralLut(
-                            oneTimeSaveLocationUri = it,
-                            onComplete = essentials::parseSaveResult
+                            oneTimeSaveLocationUri = it
                         )
                     }
                     Row {
                         ShareButton(
-                            onShare = {
-                                component.shareNeutralLut(essentials::showConfetti)
-                            },
-                            onCopy = {
-                                component.cacheNeutralLut(essentials::copyToClipboard)
-                            }
+                            onShare = component::shareNeutralLut,
+                            onCopy = component::cacheNeutralLut
                         )
                         EnhancedIconButton(
                             onClick = {

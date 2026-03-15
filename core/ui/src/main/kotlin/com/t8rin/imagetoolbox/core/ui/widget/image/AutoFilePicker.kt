@@ -17,25 +17,20 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.image
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
-import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 
 @Composable
 fun AutoFilePicker(
     onAutoPick: () -> Unit,
     isPickedAlready: Boolean
 ) {
-    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
 
     var picked by rememberSaveable(isPickedAlready) {
@@ -46,13 +41,7 @@ fun AutoFilePicker(
             runCatching {
                 onAutoPick()
                 picked = true
-            }.onFailure {
-                essentials.showToast(
-                    message = essentials.getString(R.string.activate_files),
-                    icon = Icons.Outlined.FolderOff,
-                    duration = ToastDuration.Long
-                )
-            }
+            }.onFailure(AppToastHost::handleFileSystemFailure)
         }
     }
 }

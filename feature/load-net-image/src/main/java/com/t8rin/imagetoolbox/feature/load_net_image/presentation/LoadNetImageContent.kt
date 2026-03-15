@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeUnless
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
@@ -49,7 +49,6 @@ fun LoadNetImageContent(
     component: LoadNetImageComponent
 ) {
     val isPortrait by isPortraitOrientationAsState()
-    val essentials = rememberLocalEssentials()
 
     AutoContentBasedColors(component.bitmap)
 
@@ -75,9 +74,7 @@ fun LoadNetImageContent(
                 if (isEmpty) {
                     ImageNotPickedWidget(
                         onPickImage = {
-                            essentials.getTextFromClipboard {
-                                component.updateTargetUrl(newUrl = it.toString())
-                            }
+                            Clipboard.getText(component::updateTargetUrl)
                         },
                         modifier = Modifier.padding(20.dp),
                         text = stringResource(R.string.type_image_link),

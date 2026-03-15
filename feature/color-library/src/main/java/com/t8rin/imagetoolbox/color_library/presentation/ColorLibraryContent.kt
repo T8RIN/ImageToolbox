@@ -72,7 +72,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibraryComponent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -93,7 +93,6 @@ fun ColorLibraryContent(
     component: ColorLibraryComponent
 ) {
     val isKeyboardVisible by isKeyboardVisibleAsState()
-    val essentials = rememberLocalEssentials()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val colors = component.colors
     val searchKeyword = component.searchKeyword
@@ -101,7 +100,7 @@ fun ColorLibraryContent(
     val settingsState = LocalSettingsState.current
 
     val copyColor: (Color) -> Unit = { color ->
-        essentials.copyToClipboard(
+        Clipboard.copy(
             text = if (color.alpha == 1f) {
                 ColorUtil.colorToHex(color)
             } else {

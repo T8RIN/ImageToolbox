@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.apng_tools.domain.ApngConverter
@@ -186,17 +187,14 @@ class ApngToolsComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun saveApngTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveApngTo(uri: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
             _outputApngUri?.let { apngUri ->
                 fileController.transferBytes(
                     fromUri = apngUri,
                     toUri = uri.toString(),
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
             _outputApngUri = null
@@ -205,8 +203,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
 
     fun saveBitmaps(
         oneTimeSaveLocationUri: String?,
-        onApngSaveResult: (String) -> Unit,
-        onResult: (List<SaveResult>) -> Unit
+        onApngSaveResult: (String) -> Unit
     ) {
         _isSaving.value = false
         savingJob = trackProgress {
@@ -223,7 +220,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
                             imageFormat = imageFormat,
                             quality = params.quality
                         ).onCompletion {
-                            onResult(results.onSuccess(::registerSave))
+                            parseSaveResults(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -275,7 +272,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
                                 _done.update { it + 1 }
                             },
                             onFailure = {
-                                onResult(listOf(SaveResult.Error.Exception(it)))
+                                parseSaveResults(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
                             onApngSaveResult("APNG_${timestamp()}.png")
@@ -305,7 +302,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
                         _done.update { it + 1 }
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 null -> Unit
@@ -395,11 +392,11 @@ class ApngToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun performSharing(onComplete: () -> Unit) {
+    fun performSharing() {
         cacheImages { uris ->
             componentScope.launch {
                 shareProvider.shareUris(uris.map { it.toString() })
-                onComplete()
+                AppToastHost.showConfetti()
             }
         }
     }

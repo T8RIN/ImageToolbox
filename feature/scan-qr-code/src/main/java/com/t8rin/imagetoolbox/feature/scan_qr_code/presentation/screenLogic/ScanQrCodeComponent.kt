@@ -34,7 +34,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.onResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
@@ -42,6 +41,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.scan_qr_code.domain.ImageBarcodeReader
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.QrPreviewParams
@@ -107,12 +107,11 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
 
     fun saveBitmap(
         bitmap: Bitmap,
-        oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
-            onComplete(
+            parseSaveResult(
                 fileController.save(
                     saveTarget = ImageSaveTarget(
                         imageInfo = ImageInfo(
@@ -136,8 +135,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     }
 
     fun shareImage(
-        bitmap: Bitmap,
-        onComplete: () -> Unit
+        bitmap: Bitmap
     ) {
         _isSaving.value = false
         savingJob?.cancel()
@@ -153,7 +151,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
                     image = image,
                     onComplete = {
                         _isSaving.value = false
-                        onComplete()
+                        AppToastHost.showConfetti()
                     }
                 )
             }

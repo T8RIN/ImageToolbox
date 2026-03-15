@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
@@ -34,15 +34,11 @@ import com.t8rin.imagetoolbox.feature.load_net_image.presentation.screenLogic.Lo
 internal fun RowScope.LoadNetImageAdaptiveActions(
     component: LoadNetImageComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     AnimatedVisibility(component.parsedImages.isNotEmpty()) {
         ShareButton(
-            onShare = {
-                component.performSharing(essentials::showConfetti)
-            },
+            onShare = component::performSharing,
             onCopy = {
-                component.cacheCurrentImage(essentials::copyToClipboard)
+                component.cacheCurrentImage(Clipboard::copy)
             }
         )
     }

@@ -70,9 +70,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -93,6 +93,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.isWebp
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.components.WebpParamsSelector
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
@@ -101,9 +102,6 @@ import com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic.WebpTo
 fun WebpToolsContent(
     component: WebpToolsComponent
 ) {
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleWebpLauncher = rememberFilePicker(
@@ -112,8 +110,8 @@ fun WebpToolsContent(
             if (uri.isWebp()) {
                 component.setWebpUri(uri)
             } else {
-                essentials.showToast(
-                    message = essentials.getString(R.string.select_webp_image_to_start),
+                AppToastHost.showToast(
+                    message = getString(R.string.select_webp_image_to_start),
                     icon = Icons.Rounded.Webp
                 )
             }
@@ -122,12 +120,7 @@ fun WebpToolsContent(
 
     val saveWebpLauncher = rememberFileCreator(
         mimeType = MimeType.Webp,
-        onSuccess = { uri ->
-            component.saveWebpTo(
-                uri = uri,
-                onResult = essentials::parseFileSaveResult
-            )
-        }
+        onSuccess = component::saveWebpTo
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
@@ -215,9 +208,7 @@ fun WebpToolsContent(
             }
             ShareButton(
                 enabled = !component.isLoading && component.type != null,
-                onShare = {
-                    component.performSharing(showConfetti)
-                },
+                onShare = component::performSharing,
                 onEdit = {
                     component.cacheImages {
                         editSheetData = it
@@ -315,8 +306,7 @@ fun WebpToolsContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
-                    onWebpSaveResult = saveWebpLauncher::make,
-                    onResult = essentials::parseSaveResults
+                    onWebpSaveResult = saveWebpLauncher::make
                 )
             }
             var showFolderSelectionDialog by rememberSaveable {

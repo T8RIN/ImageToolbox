@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,8 +41,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.localImagePickerMode
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageTransformBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.LinkPreviewList
@@ -58,21 +57,11 @@ internal fun RecognizeTextControls(
     val isExtraction = type is Screen.RecognizeText.Type.Extraction
     val imagePickerMode = localImagePickerMode(Picker.Single)
 
-    val essentials = rememberLocalEssentials()
-    val showConfetti = { essentials.showConfetti() }
-
-    val startRecognition = {
-        component.startRecognition(
-            onFailure = essentials::showFailureToast
-        )
-    }
-
     val editedText = component.editedText
 
     val captureImageLauncher = rememberImagePicker(ImagePickerMode.CameraCapture) { list ->
         component.updateType(
-            type = Screen.RecognizeText.Type.Extraction(list.firstOrNull()),
-            onImageSet = startRecognition
+            type = Screen.RecognizeText.Type.Extraction(list.firstOrNull())
         )
     }
 
@@ -80,12 +69,7 @@ internal fun RecognizeTextControls(
 
     val exportLanguagesPicker = rememberFileCreator(
         mimeType = MimeType.Zip,
-        onSuccess = { uri ->
-            component.exportLanguagesTo(
-                uri = uri,
-                onResult = essentials::parseFileSaveResult
-            )
-        }
+        onSuccess = component::exportLanguagesTo
     )
 
     val importLanguagesPicker = rememberFilePicker(
@@ -93,15 +77,7 @@ internal fun RecognizeTextControls(
         onSuccess = { uri: Uri ->
             component.importLanguagesFrom(
                 uri = uri,
-                onSuccess = {
-                    showConfetti()
-                    essentials.showToast(
-                        message = essentials.getString(R.string.languages_imported),
-                        icon = Icons.Outlined.Language
-                    )
-                    startRecognition()
-                },
-                onFailure = essentials::showFailureToast
+                onFailure = AppToastHost::showFailureToast
             )
         }
     )
@@ -158,13 +134,12 @@ internal fun RecognizeTextControls(
         onValueChange = { codeList, recognitionType ->
             component.onLanguagesSelected(codeList)
             component.setRecognitionType(recognitionType)
-            startRecognition()
+            component.startRecognition()
         },
         onDeleteLanguage = { language, types ->
             component.deleteLanguage(
                 language = language,
-                types = types,
-                onSuccess = startRecognition
+                types = types
             )
         },
         onImportLanguages = onImportLanguages,
@@ -193,34 +168,22 @@ internal fun RecognizeTextControls(
     Spacer(modifier = Modifier.height(8.dp))
     RecognitionTypeSelector(
         value = component.recognitionType,
-        onValueChange = { recognitionType ->
-            component.setRecognitionType(recognitionType)
-            startRecognition()
-        }
+        onValueChange = component::setRecognitionType
     )
     Spacer(modifier = Modifier.height(8.dp))
     ModelTypeSelector(
         value = component.segmentationMode,
-        onValueChange = {
-            component.setSegmentationMode(it)
-            startRecognition()
-        }
+        onValueChange = component::setSegmentationMode
     )
     Spacer(modifier = Modifier.height(8.dp))
     OcrEngineModeSelector(
         value = component.ocrEngineMode,
-        onValueChange = {
-            component.setOcrEngineMode(it)
-            startRecognition()
-        }
+        onValueChange = component::setOcrEngineMode
     )
     Spacer(modifier = Modifier.height(8.dp))
     TessParamsSelector(
         value = component.params,
-        onValueChange = {
-            component.updateParams(it)
-            startRecognition()
-        },
+        onValueChange = component::updateParams,
         modifier = Modifier.fillMaxWidth()
     )
 }

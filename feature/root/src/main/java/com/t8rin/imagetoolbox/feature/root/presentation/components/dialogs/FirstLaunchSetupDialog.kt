@@ -46,8 +46,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Beta
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.performanceClass
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
@@ -90,7 +90,6 @@ internal fun FirstLaunchSetupDialog(
             Text(stringResource(R.string.updates))
         },
         text = {
-            val essentials = rememberLocalEssentials()
             val state = rememberScrollState()
             ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Left)) {
                 Column(
@@ -114,7 +113,7 @@ internal fun FirstLaunchSetupDialog(
                         )
                     }
                     PreferenceRowSwitch(
-                        shape = if (!essentials.isInstalledFromPlayStore()) {
+                        shape = if (!appContext.isInstalledFromPlayStore()) {
                             ShapeDefaults.top
                         } else ShapeDefaults.default,
                         modifier = Modifier,
@@ -126,7 +125,7 @@ internal fun FirstLaunchSetupDialog(
                         },
                         startIcon = Icons.Rounded.NewReleases
                     )
-                    if (!essentials.isInstalledFromPlayStore()) {
+                    if (!appContext.isInstalledFromPlayStore()) {
                         Spacer(Modifier.height(4.dp))
                         PreferenceRowSwitch(
                             modifier = Modifier,

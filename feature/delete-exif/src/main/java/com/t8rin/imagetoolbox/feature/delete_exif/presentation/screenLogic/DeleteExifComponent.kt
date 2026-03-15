@@ -35,12 +35,14 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -64,12 +66,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUris?.let {
-                updateUris(
-                    uris = it,
-                    onFailure = {}
-                )
-            }
+            initialUris?.let(::updateUris)
         }
     }
 
@@ -95,14 +92,11 @@ class DeleteExifComponent @AssistedInject internal constructor(
     val selectedTags by _selectedTags
 
     fun updateUris(
-        uris: List<Uri>?,
-        onFailure: (Throwable) -> Unit
+        uris: List<Uri>?
     ) {
         _uris.value = null
         _uris.value = uris
-        uris?.firstOrNull()?.let {
-            updateSelectedUri(it, onFailure)
-        }
+        uris?.firstOrNull()?.let(::updateSelectedUri)
     }
 
     fun updateUrisSilently(removedUri: Uri) {
@@ -146,8 +140,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -185,14 +178,13 @@ class DeleteExifComponent @AssistedInject internal constructor(
                     total = uris.orEmpty().size
                 )
             }
-            onResult(results)
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }
 
     fun updateSelectedUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit = {}
+        uri: Uri
     ) = componentScope.launch {
         _isImageLoading.value = true
         _selectedUri.value = uri
@@ -204,17 +196,17 @@ class DeleteExifComponent @AssistedInject internal constructor(
             },
             onFailure = {
                 _isImageLoading.value = false
-                onFailure(it)
+                AppToastHost.showFailureToast(it)
             }
         )
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun shareBitmaps() {
         _isSaving.update { true }
         cacheImages { uris ->
             savingJob = trackProgress {
                 shareProvider.shareUris(uris.map(Uri::toString))
-                onComplete()
+                AppToastHost.showConfetti()
                 _isSaving.update { false }
             }
         }

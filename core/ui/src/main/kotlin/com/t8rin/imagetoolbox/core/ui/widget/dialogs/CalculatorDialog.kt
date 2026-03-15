@@ -37,7 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.github.keelar.exprk.Expressions
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -53,7 +53,6 @@ fun CalculatorDialog(
     var calculatorExpression by rememberSaveable(initialValue, visible) {
         mutableStateOf(initialValue?.toString() ?: "")
     }
-    val essentials = rememberLocalEssentials()
     EnhancedAlertDialog(
         visible = visible,
         onDismissRequest = onDismiss,
@@ -63,7 +62,7 @@ fun CalculatorDialog(
                     runCatching {
                         Expressions().eval(calculatorExpression)
                     }.onFailure {
-                        essentials.showFailureToast(it)
+                        AppToastHost.showFailureToast(it)
                     }.onSuccess {
                         onValueChange(it)
                         onDismiss()

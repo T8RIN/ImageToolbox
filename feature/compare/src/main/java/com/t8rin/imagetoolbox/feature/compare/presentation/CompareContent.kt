@@ -50,8 +50,8 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -74,9 +74,6 @@ fun CompareContent(
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
     LaunchedEffect(component.bitmapData) {
         component.bitmapData?.ifNotEmpty { before, after ->
             if (allowChangeColor) {
@@ -91,12 +88,12 @@ fun CompareContent(
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size != 2) {
-            essentials.showFailureToast(R.string.pick_two_images)
+            AppToastHost.showFailureToast(R.string.pick_two_images)
         } else {
             component.updateUris(
                 uris = uris[0] to uris[1],
                 onFailure = {
-                    essentials.showFailureToast(R.string.something_went_wrong)
+                    AppToastHost.showFailureToast(R.string.something_went_wrong)
                 }
             )
         }
@@ -217,24 +214,17 @@ fun CompareContent(
         onSaveBitmap = { imageFormat, oneTimeSaveLocationUri ->
             component.saveBitmap(
                 imageFormat = imageFormat,
-                oneTimeSaveLocationUri = oneTimeSaveLocationUri,
-                onComplete = essentials::parseSaveResult
+                oneTimeSaveLocationUri = oneTimeSaveLocationUri
             )
             showShareSheet = false
         },
         onShare = { imageFormat ->
             component.shareBitmap(
-                imageFormat = imageFormat,
-                onComplete = showConfetti
+                imageFormat = imageFormat
             )
             showShareSheet = false
         },
-        onCopy = { imageFormat ->
-            component.cacheCurrentImage(
-                imageFormat = imageFormat,
-                onComplete = essentials::copyToClipboard
-            )
-        },
+        onCopy = component::cacheCurrentImage,
         previewData = previewBitmap,
         transformations = transformations
     )

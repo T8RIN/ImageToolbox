@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -74,12 +75,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUris?.let {
-                updateUris(
-                    uris = it,
-                    onFailure = {}
-                )
-            }
+            initialUris?.let(::setUris)
         }
     }
 
@@ -116,9 +112,8 @@ class FormatConversionComponent @AssistedInject internal constructor(
         _isImageLoading.update { false }
     }
 
-    fun updateUris(
-        uris: List<Uri>?,
-        onFailure: (Throwable) -> Unit
+    fun setUris(
+        uris: List<Uri>?
     ) {
         _uris.value = null
         _uris.value = uris
@@ -131,14 +126,13 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 uri = uri.toString(),
                 originalSize = false,
                 onGetImage = ::setImageData,
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             )
         }
     }
 
     fun updateUrisSilently(
-        removedUri: Uri,
-        onFailure: (Throwable) -> Unit
+        removedUri: Uri
     ) {
         componentScope.launch {
             _uris.value = uris
@@ -146,11 +140,11 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 val index = uris?.indexOf(removedUri) ?: -1
                 if (index == 0) {
                     uris?.getOrNull(1)?.let {
-                        updateSelectedUri(it, onFailure)
+                        updateSelectedUri(it)
                     }
                 } else {
                     uris?.getOrNull(index - 1)?.let {
-                        updateSelectedUri(it, onFailure)
+                        updateSelectedUri(it)
                     }
                 }
             }
@@ -247,8 +241,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -295,14 +288,13 @@ class FormatConversionComponent @AssistedInject internal constructor(
                     total = uris.orEmpty().size
                 )
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }
 
     fun updateSelectedUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit = {}
+        uri: Uri
     ) {
         _selectedUri.value = uri
         componentScope.launch {
@@ -329,12 +321,12 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 _isImageLoading.update { false }
             }.onFailure {
                 _isImageLoading.update { false }
-                onFailure(it)
+                AppToastHost.showFailureToast(it)
             }
         }
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun shareBitmaps() {
         savingJob = trackProgress {
             _isSaving.value = true
             shareProvider.shareImages(
@@ -354,7 +346,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 },
                 onProgressChange = {
                     if (it == -1) {
-                        onComplete()
+                        AppToastHost.showConfetti()
                         _isSaving.value = false
                         _done.value = 0
                     } else {

@@ -41,6 +41,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,13 +59,14 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.Disableable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.launch
 
 
@@ -92,12 +94,11 @@ fun ImageFormatSelector(
     onAutoClick: (() -> Unit)? = null
 ) {
     val settingsState = LocalSettingsState.current
-    val essentials = rememberLocalEssentials()
 
     val cannotChangeFormat: () -> Unit = {
-        essentials.showToast(
-            essentials.getString(R.string.cannot_change_image_format),
-            Icons.Rounded.Architecture
+        AppToastHost.showToast(
+            message = getString(R.string.cannot_change_image_format),
+            icon = Icons.Rounded.Architecture
         )
     }
 
@@ -300,6 +301,7 @@ fun ImageFormatSelector(
             }
         }
 
+        val scope = rememberCoroutineScope()
         val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
         AnimatedVisibility(
             visible = showBackgroundSelector,
@@ -324,7 +326,7 @@ fun ImageFormatSelector(
                 value = settingsState.backgroundForNoAlphaImageFormats,
                 icon = Icons.Outlined.FormatPaint,
                 onValueChange = {
-                    essentials.launch {
+                    scope.launch {
                         simpleSettingsInteractor.setBackgroundColorForNoAlphaFormats(
                             color = it.toModel()
                         )

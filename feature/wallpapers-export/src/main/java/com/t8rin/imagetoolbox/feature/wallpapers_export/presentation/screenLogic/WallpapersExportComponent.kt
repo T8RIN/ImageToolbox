@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.wallpapers_export.domain.WallpapersProvider
@@ -115,8 +116,7 @@ class WallpapersExportComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -159,16 +159,16 @@ class WallpapersExportComponent @AssistedInject internal constructor(
                     total = left
                 )
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.update { false }
         }
     }
 
-    fun performSharing(onComplete: () -> Unit) {
+    fun performSharing() {
         cacheImages { uris ->
             componentScope.launch {
                 shareProvider.shareUris(uris.map { it.toString() })
-                onComplete()
+                AppToastHost.showConfetti()
             }
         }
     }

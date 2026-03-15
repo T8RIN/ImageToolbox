@@ -50,7 +50,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -69,7 +68,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
@@ -86,7 +85,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import kotlinx.coroutines.launch
 
 @Composable
 fun ScaleModeSelector(
@@ -100,13 +98,6 @@ fun ScaleModeSelector(
     titleArrangement: Arrangement.Horizontal = Arrangement.Center,
     entries: List<ImageScaleMode> = ImageScaleMode.defaultEntries(),
     title: @Composable RowScope.() -> Unit = {
-        val scope = rememberCoroutineScope()
-        val confettiHostState = LocalConfettiHostState.current
-        val showConfetti: () -> Unit = {
-            scope.launch {
-                confettiHostState.showConfetti()
-            }
-        }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = stringResource(R.string.scale_mode),
@@ -124,7 +115,7 @@ fun ScaleModeSelector(
                     .padding(horizontal = 2.dp)
                     .padding(bottom = 12.dp)
                     .scaleOnTap {
-                        showConfetti()
+                        AppToastHost.showConfetti()
                     }
             )
         }

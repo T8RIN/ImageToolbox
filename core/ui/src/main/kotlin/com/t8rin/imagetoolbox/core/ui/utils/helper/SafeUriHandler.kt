@@ -17,7 +17,9 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import android.app.Activity
 import android.content.Intent
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -25,16 +27,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.UriHandler
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalEssentials
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 fun rememberSafeUriHandler(): UriHandler {
-    val essentials = rememberLocalEssentials()
+    val activity = LocalActivity.current
 
-    return remember(essentials) {
+    return remember(activity) {
         SafeUriHandler(
-            essentials = essentials
+            activity = activity
         )
     }
 }
@@ -42,7 +43,7 @@ fun rememberSafeUriHandler(): UriHandler {
 @Stable
 @Immutable
 private class SafeUriHandler(
-    private val essentials: LocalEssentials
+    private val activity: Activity?
 ) : UriHandler {
 
     override fun openUri(uri: String) {
@@ -60,17 +61,13 @@ private class SafeUriHandler(
                 rawOpenUri(modifiedUrl)
             },
             onFailure = {
-                essentials.showFailureToast(
-                    essentials.getString(
-                        R.string.cannot_open_uri, uri
-                    )
-                )
+                AppToastHost.showFailureToast(getString(R.string.cannot_open_uri, uri))
             }
         )
     }
 
     private fun rawOpenUri(uri: String) {
-        essentials.startActivity(
+        activity?.startActivity(
             Intent(Intent.ACTION_VIEW, uri.toUri()).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
     }

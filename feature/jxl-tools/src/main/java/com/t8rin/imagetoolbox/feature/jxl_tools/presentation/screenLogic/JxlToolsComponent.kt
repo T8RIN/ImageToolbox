@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.jxl_tools.domain.AnimatedJxlParams
@@ -105,8 +106,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     val convertedImageUris by _convertedImageUris
 
     fun setType(
-        type: Screen.JxlTools.Type?,
-        onFailure: (Throwable) -> Unit = {}
+        type: Screen.JxlTools.Type?
     ) {
         when (type) {
             is Screen.JxlTools.Type.JpegToJxl -> {
@@ -120,7 +120,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
             }
 
             is Screen.JxlTools.Type.JxlToImage -> {
-                type.jxlUri?.let { setJxlUri(it, onFailure) } ?: _type.update { null }
+                type.jxlUri?.let(::setJxlUri) ?: _type.update { null }
             }
 
             else -> _type.update { type }
@@ -137,10 +137,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         _isLoading.update { false }
     }
 
-    private fun setJxlUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit,
-    ) {
+    private fun setJxlUri(uri: Uri) {
         clearAll()
         _type.update {
             Screen.JxlTools.Type.JxlToImage(uri)
@@ -154,7 +151,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                 imageFormat = imageFormat,
                 quality = params.quality,
                 imageFrames = imageFrames,
-                onFailure = onFailure
+                onFailure = AppToastHost::showFailureToast
             ).onCompletion {
                 _isLoading.update { false }
                 _isLoadingJxlImages.update { false }
@@ -172,8 +169,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     }
 
     fun save(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -207,7 +203,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                         )
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 is Screen.JxlTools.Type.JxlToJpeg -> {
@@ -237,7 +233,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                         )
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 is Screen.JxlTools.Type.JxlToImage -> {
@@ -256,7 +252,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 if (it == 0) {
                                     _isSaving.value = false
                                     savingJob?.cancel()
-                                    onResult(
+                                    parseSaveResults(
                                         listOf(SaveResult.Error.MissingPermissions)
                                     )
                                 }
@@ -267,7 +263,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 )
                             }
                         ).onCompletion {
-                            onResult(results.onSuccess(::registerSave))
+                            parseSaveResults(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -325,7 +321,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 )
                             },
                             onFailure = {
-                                onResult(
+                                parseSaveResults(
                                     listOf(
                                         SaveResult.Error.Exception(it)
                                     )
@@ -337,7 +333,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 keepOriginalMetadata = false,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             ).onSuccess(::registerSave)
-                            onResult(listOf(result))
+                            parseSaveResults(listOf(result))
                         }
                     }
                 }
@@ -397,10 +393,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         _isSaving.value = false
     }
 
-    fun performSharing(
-        onFailure: (Throwable) -> Unit,
-        onComplete: () -> Unit
-    ) {
+    fun performSharing() {
         savingJob = trackProgress {
             _isSaving.value = true
             _left.value = 1
@@ -415,7 +408,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     _left.value = jpegUris.size
                     jxlConverter.jpegToJxl(
                         jpegUris = jpegUris,
-                        onFailure = onFailure
+                        onFailure = AppToastHost::showFailureToast
                     ) { uri, jxlBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
@@ -431,7 +424,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     }
 
                     shareProvider.shareUris(results.filterNotNull())
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
 
                 is Screen.JxlTools.Type.JxlToJpeg -> {
@@ -443,7 +436,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     _left.value = jxlUris.size
                     jxlConverter.jxlToJpeg(
                         jxlUris = jxlUris,
-                        onFailure = onFailure
+                        onFailure = AppToastHost::showFailureToast
                     ) { uri, jpegBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
@@ -459,7 +452,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     }
 
                     shareProvider.shareUris(results.filterNotNull())
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
 
                 is Screen.JxlTools.Type.JxlToImage -> {
@@ -470,7 +463,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
                         index in positions
                     }
                     shareProvider.shareUris(uris)
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
 
                 is Screen.JxlTools.Type.ImageToJxl -> {
@@ -489,13 +482,13 @@ class JxlToolsComponent @AssistedInject internal constructor(
                             onFailure = {
                                 _isSaving.value = false
                                 savingJob?.cancel()
-                                onFailure(it)
+                                AppToastHost.showFailureToast(it)
                             }
                         )?.also { byteArray ->
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,
                                 filename = "JXL_${timestamp()}.jxl",
-                                onComplete = onComplete
+                                onComplete = AppToastHost::showConfetti
                             )
                         }
                     }
@@ -522,9 +515,18 @@ class JxlToolsComponent @AssistedInject internal constructor(
     fun removeUri(uri: Uri) {
         setType(
             when (val type = _type.value) {
-                is Screen.JxlTools.Type.JpegToJxl -> type.copy(type.jpegImageUris?.minus(uri))
-                is Screen.JxlTools.Type.JxlToJpeg -> type.copy(type.jxlImageUris?.minus(uri))
-                is Screen.JxlTools.Type.ImageToJxl -> type.copy(type.imageUris?.minus(uri))
+                is Screen.JxlTools.Type.JpegToJxl -> type.copy(
+                    jpegImageUris = type.jpegImageUris?.minus(uri)
+                )
+
+                is Screen.JxlTools.Type.JxlToJpeg -> type.copy(
+                    jxlImageUris = type.jxlImageUris?.minus(uri)
+                )
+
+                is Screen.JxlTools.Type.ImageToJxl -> type.copy(
+                    imageUris = type.imageUris?.minus(uri)
+                )
+
                 is Screen.JxlTools.Type.JxlToImage -> type
                 null -> null
             }

@@ -53,8 +53,8 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
@@ -86,8 +86,6 @@ fun RootPdfToolsContent(
         }
     )
 
-    val essentials = rememberLocalEssentials()
-
     AdaptiveLayoutScreen(
         title = {
             Row(
@@ -110,7 +108,7 @@ fun RootPdfToolsContent(
                         .padding(horizontal = 2.dp)
                         .padding(bottom = 12.dp)
                         .scaleOnTap {
-                            essentials.showConfetti()
+                            AppToastHost.showConfetti()
                         }
                 )
             }

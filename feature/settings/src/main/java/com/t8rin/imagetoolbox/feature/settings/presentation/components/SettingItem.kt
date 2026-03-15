@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Save
@@ -27,16 +28,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -51,9 +56,6 @@ internal fun SettingItem(
     isUpdateAvailable: Boolean,
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
     ProvideContainerDefaults(
         color = containerColor,
         shape = LocalContainerShape.current
@@ -68,7 +70,7 @@ internal fun SettingItem(
             }
 
             Setting.AllowBetas -> {
-                if (!essentials.isInstalledFromPlayStore()) {
+                if (!appContext.isInstalledFromPlayStore()) {
                     AllowBetasSettingItem(
                         onClick = {
                             component.toggleAllowBetas()
@@ -105,12 +107,7 @@ internal fun SettingItem(
             Setting.Backup -> {
                 BackupSettingItem(
                     onCreateBackupFilename = component::createBackupFilename,
-                    onCreateBackup = { uri ->
-                        component.createBackup(
-                            uri = uri,
-                            onResult = essentials::parseFileSaveResult
-                        )
-                    }
+                    onCreateBackup = component::createBackup
                 )
             }
 
@@ -128,22 +125,17 @@ internal fun SettingItem(
                     onAddFont = {
                         component.importCustomFont(
                             uri = it,
-                            onSuccess = showConfetti,
+                            onSuccess = AppToastHost::showConfetti,
                             onFailure = {
-                                essentials.showToast(
-                                    message = essentials.getString(R.string.wrong_font),
+                                AppToastHost.showToast(
+                                    message = getString(R.string.wrong_font),
                                     icon = Icons.Rounded.TextFields
                                 )
                             }
                         )
                     },
                     onRemoveFont = component::removeCustomFont,
-                    onExportFonts = { uri ->
-                        component.exportFonts(
-                            uri = uri,
-                            onResult = essentials::parseFileSaveResult
-                        )
-                    }
+                    onExportFonts = component::exportFonts
                 )
             }
 
@@ -190,12 +182,12 @@ internal fun SettingItem(
 
                     if (clicks == 0) return@LaunchedEffect
 
-                    essentials.dismissToasts()
+                    AppToastHost.dismissToasts()
                     if (clicks == 1) {
                         component.tryGetUpdate(true) {
-                            essentials.showToast(
+                            AppToastHost.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
-                                message = essentials.getString(R.string.no_updates)
+                                message = getString(R.string.no_updates)
                             )
                         }
                     }
@@ -297,24 +289,26 @@ internal fun SettingItem(
             }
 
             Setting.Restore -> {
-                val context = LocalComponentActivity.current
+                val scope = rememberCoroutineScope()
+                val context = LocalActivity.current
+
                 RestoreSettingItem(
                     onObtainBackupFile = { uri ->
                         component.restoreBackupFrom(
                             uri = uri,
                             onSuccess = {
-                                essentials.launch {
-                                    showConfetti()
+                                scope.launch {
+                                    AppToastHost.showConfetti()
                                     //Wait for confetti to appear, then trigger font scale adjustment
                                     delay(300L)
-                                    context.recreate()
+                                    context?.recreate()
                                 }
-                                essentials.showToast(
-                                    message = essentials.getString(R.string.settings_restored),
+                                AppToastHost.showToast(
+                                    message = getString(R.string.settings_restored),
                                     icon = Icons.Rounded.Save
                                 )
                             },
-                            onFailure = essentials::showFailureToast
+                            onFailure = AppToastHost::showFailureToast
                         )
                     }
                 )
@@ -352,9 +346,9 @@ internal fun SettingItem(
                 CheckUpdatesButtonSettingItem(
                     onClick = {
                         component.tryGetUpdate(true) {
-                            essentials.showToast(
+                            AppToastHost.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
-                                message = essentials.getString(R.string.no_updates)
+                                message = getString(R.string.no_updates)
                             )
                         }
                     }

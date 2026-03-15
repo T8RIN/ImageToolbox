@@ -155,8 +155,7 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
     }
 
     fun save(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         doSharing(
             action = {
@@ -178,22 +177,21 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
                         )
                     },
                     onSuccess = {
-                        onComplete(it.onSuccess(::registerSave))
+                        parseSaveResults(it.onSuccess(::registerSave))
                     },
                     onFailure = {
-                        onComplete(listOf(SaveResult.Error.Exception(it)))
+                        parseSaveResults(listOf(SaveResult.Error.Exception(it)))
                     }
                 )
             },
             onFailure = {
-                onComplete(listOf(SaveResult.Error.Exception(it)))
+                parseSaveResults(listOf(SaveResult.Error.Exception(it)))
             }
         )
     }
 
     override fun saveTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
+        uri: Uri
     ) = Unit
 
     override fun performSharing(

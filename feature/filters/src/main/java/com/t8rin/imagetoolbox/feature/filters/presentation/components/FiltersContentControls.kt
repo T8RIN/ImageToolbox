@@ -55,7 +55,6 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
@@ -67,14 +66,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
 
 @Composable
 internal fun FiltersContentControls(
     component: FiltersComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     val filterType = component.filterType
 
     var showTemplateCreationSheet by rememberSaveable(filterType) {
@@ -140,8 +138,7 @@ internal fun FiltersContentControls(
                                         onFilterChange = { newValue ->
                                             component.updateFilter(
                                                 value = newValue,
-                                                index = index,
-                                                onFailure = essentials::showFailureToast
+                                                index = index
                                             )
                                         },
                                         onLongPress = component::showReorderSheet,
@@ -153,7 +150,7 @@ internal fun FiltersContentControls(
                                             showTemplateCreationSheet = true
                                             component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
                                                 TemplateFilter(
-                                                    name = essentials.getString(filter.title),
+                                                    name = getString(filter.title),
                                                     filters = listOf(filter)
                                                 )
                                             )
@@ -167,7 +164,7 @@ internal fun FiltersContentControls(
                                         showTemplateCreationSheet = true
                                         component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
                                             TemplateFilter(
-                                                name = essentials.getString(
+                                                name = getString(
                                                     filterList.firstOrNull()?.title
                                                         ?: R.string.template_filter
                                                 ),
@@ -245,8 +242,7 @@ internal fun FiltersContentControls(
                                         onMaskChange = { filterMask ->
                                             component.updateMask(
                                                 value = filterMask,
-                                                index = index,
-                                                showError = essentials::showFailureToast
+                                                index = index
                                             )
                                         },
                                         onLongPress = component::showReorderSheet,
@@ -259,7 +255,7 @@ internal fun FiltersContentControls(
                                             showTemplateCreationSheet = true
                                             component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
                                                 TemplateFilter(
-                                                    name = essentials.getString(
+                                                    name = getString(
                                                         mask.filters.firstOrNull()
                                                             ?.toUiFilter()?.title
                                                             ?: R.string.template_filter

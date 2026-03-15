@@ -67,7 +67,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
@@ -84,16 +83,9 @@ import kotlin.random.Random
 internal fun CipherControls(component: CipherComponent) {
     val settingsState = LocalSettingsState.current
     val isPortrait by isPortraitOrientationAsState()
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val saveLauncher = rememberFileCreator(
-        onSuccess = { uri ->
-            component.saveCryptographyTo(
-                uri = uri,
-                onResult = essentials::parseFileSaveResult
-            )
-        }
+        onSuccess = component::saveCryptographyTo
     )
 
     val filename = component.uri?.let {
@@ -302,8 +294,7 @@ internal fun CipherControls(component: CipherComponent) {
                             component.byteArray?.let {
                                 component.shareFile(
                                     it = it,
-                                    filename = name,
-                                    onComplete = showConfetti
+                                    filename = name
                                 )
                             }
                         },

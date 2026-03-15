@@ -21,6 +21,8 @@ package com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -64,6 +66,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiThresholdFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -103,6 +106,12 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
+
+    init {
+        debounce {
+            initialType?.let(::updateType)
+        }
+    }
 
     private val _segmentationMode: MutableState<SegmentationMode> =
         mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
@@ -285,8 +294,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     fun updateType(
-        type: Screen.RecognizeText.Type?,
-        onImageSet: () -> Unit
+        type: Screen.RecognizeText.Type?
     ) {
         type?.let {
             componentScope.launch {
@@ -297,7 +305,10 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                         data = type.uri ?: "",
                         originalSize = false
                     )?.let {
-                        updateBitmap(it, onImageSet)
+                        updateBitmap(
+                            bitmap = it,
+                            onComplete = ::startRecognition
+                        )
                     }
                 }
                 _isImageLoading.value = false
@@ -306,8 +317,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     fun save(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         recognitionJob = componentScope.launch {
             delay(400)
@@ -330,7 +340,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                         _done.update { it + 1 }
                     }
 
-                    onResult(
+                    parseSaveResults(
                         listOf(
                             fileController.save(
                                 saveTarget = TxtSaveTarget(
@@ -390,7 +400,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                         }
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 else -> return@launch
@@ -427,15 +437,13 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         when (type) {
             is Screen.RecognizeText.Type.WriteToFile -> {
                 updateType(
-                    type = Screen.RecognizeText.Type.WriteToFile(uris - uri),
-                    onImageSet = {}
+                    type = Screen.RecognizeText.Type.WriteToFile(uris - uri)
                 )
             }
 
             is Screen.RecognizeText.Type.WriteToMetadata -> {
                 updateType(
                     type = Screen.RecognizeText.Type.WriteToMetadata(uris - uri),
-                    onImageSet = {}
                 )
             }
 
@@ -461,9 +469,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun startRecognition(
-        onFailure: (Throwable) -> Unit
-    ) {
+    fun startRecognition() {
         recognitionJob = componentScope.launch {
             val type = _type.value
             if (type !is Screen.RecognizeText.Type.Extraction) return@launch
@@ -472,7 +478,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             (previewBitmap ?: type.uri)?.readText()?.also { result ->
                 when (result) {
                     is TextRecognitionResult.Error -> {
-                        onFailure(result.throwable)
+                        AppToastHost.showFailureToast(result.throwable)
                     }
 
                     is TextRecognitionResult.NoData -> {
@@ -495,6 +501,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             settingsManager.setInitialOcrMode(recognitionType.ordinal)
         }
         loadLanguages()
+        startRecognition()
     }
 
     private val downloadMutex = Mutex()
@@ -548,19 +555,19 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     fun setSegmentationMode(segmentationMode: SegmentationMode) {
         _segmentationMode.update { segmentationMode }
+        startRecognition()
     }
 
     fun deleteLanguage(
         language: OCRLanguage,
-        types: List<RecognitionType>,
-        onSuccess: () -> Unit
+        types: List<RecognitionType>
     ) {
         componentScope.launch {
             imageTextReader.deleteLanguage(language, types)
             onLanguagesSelected(selectedLanguages - language)
             val availableTypes = language.downloaded - types.toSet()
             availableTypes.firstOrNull()?.let(::setRecognitionType) ?: loadLanguages()
-            onSuccess()
+            startRecognition()
         }
     }
 
@@ -640,15 +647,14 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     fun setOcrEngineMode(mode: OcrEngineMode) {
         _ocrEngineMode.update { mode }
+        startRecognition()
     }
 
-    fun shareEditedText(
-        onComplete: () -> Unit
-    ) {
+    fun shareEditedText() {
         editedText?.let {
             shareProvider.shareText(
                 value = it,
-                onComplete = onComplete
+                onComplete = AppToastHost::showConfetti
             )
         }
     }
@@ -657,9 +663,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         _editedText.update { text }
     }
 
-    fun shareData(
-        onComplete: () -> Unit
-    ) {
+    fun shareData() {
         recognitionJob = componentScope.launch {
             delay(400)
             _isSaving.update { true }
@@ -690,7 +694,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     shareProvider.shareByteArray(
                         byteArray = saveTarget.data,
                         filename = saveTarget.filename ?: "",
-                        onComplete = onComplete
+                        onComplete = AppToastHost::showConfetti
                     )
                 }
 
@@ -799,17 +803,14 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         }
     }
 
-    fun exportLanguagesTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun exportLanguagesTo(uri: Uri) {
         languagesJob = componentScope.launch {
             _isExporting.value = true
             imageTextReader.exportLanguagesToZip()?.let { zipUri ->
                 fileController.writeBytes(
                     uri = uri.toString(),
                     block = { it.writeBytes(fileController.readBytes(zipUri)) }
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isExporting.value = false
         }
@@ -821,7 +822,6 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     fun importLanguagesFrom(
         uri: Uri,
-        onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
         languagesJob = componentScope.launch {
@@ -829,7 +829,12 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             imageTextReader.importLanguagesFromUri(uri.toString())
                 .onSuccess {
                     loadLanguages {
-                        onSuccess()
+                        AppToastHost.showConfetti()
+                        AppToastHost.showToast(
+                            message = getString(R.string.languages_imported),
+                            icon = Icons.Outlined.Language
+                        )
+                        startRecognition()
                     }
                 }
                 .onFailure(onFailure)
@@ -837,10 +842,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         }
     }
 
-    fun saveContentToTxt(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveContentToTxt(uri: Uri) {
         recognitionData?.text?.takeIf { it.isNotEmpty() }?.let { data ->
             componentScope.launch {
                 fileController.writeBytes(
@@ -848,13 +850,14 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     block = {
                         it.writeBytes(data.encodeToByteArray())
                     }
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
         }
     }
 
     fun updateParams(newParams: TessParams) {
         _params.update { newParams }
+        startRecognition()
     }
 
     fun cancelSaving() {

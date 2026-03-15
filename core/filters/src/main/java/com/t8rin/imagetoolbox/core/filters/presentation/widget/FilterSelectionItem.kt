@@ -44,6 +44,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -67,8 +68,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
@@ -78,6 +80,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.launch
 
 @Composable
@@ -97,7 +100,6 @@ internal fun FilterSelectionItem(
     cubeLutDownloadProgress: DownloadProgress? = null,
     onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> }
 ) {
-    val essentials = rememberLocalEssentials()
     val previewModel = LocalFilterPreviewModelProvider.current.preview
 
     var isBitmapDark by remember {
@@ -122,6 +124,7 @@ internal fun FilterSelectionItem(
     PreferenceItemOverload(
         title = stringResource(filter.title),
         startIcon = {
+            val scope = rememberCoroutineScope()
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(contentAlignment = Alignment.Center) {
                     Picture(
@@ -142,7 +145,7 @@ internal fun FilterSelectionItem(
                         },
                         onSuccess = {
                             loading = false
-                            essentials.launch {
+                            scope.launch {
                                 isBitmapDark =
                                     calculateBrightnessEstimate(it.result.image.toBitmap()) < 110
                             }
@@ -244,14 +247,14 @@ internal fun FilterSelectionItem(
         visible = showDownloadDialog,
         onDismiss = { showDownloadDialog = false },
         onDownload = {
-            if (essentials.isNetworkAvailable()) {
+            if (appContext.isNetworkAvailable()) {
                 onCubeLutDownloadRequest(
                     forceUpdate, downloadOnlyNewData
                 )
                 showDownloadDialog = false
             } else {
-                essentials.showToast(
-                    message = essentials.getString(R.string.no_connection),
+                AppToastHost.showToast(
+                    message = getString(R.string.no_connection),
                     icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
                     duration = ToastDuration.Long
                 )

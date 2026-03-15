@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -73,8 +74,7 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     }
 
     fun shareImages(
-        uriList: List<Uri>?,
-        onComplete: () -> Unit
+        uriList: List<Uri>?
     ) = componentScope.launch {
         uris?.let {
             shareProvider.shareUris(
@@ -84,7 +84,7 @@ class ImagePreviewComponent @AssistedInject internal constructor(
                     uriList
                 }.map { it.toString() }
             )
-            onComplete()
+            AppToastHost.showConfetti()
         }
     }
 

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -46,7 +47,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -92,7 +94,7 @@ private fun QrInfoItem(
 ) {
     if (qrInfo.data.isEmpty()) return
 
-    val essentials = rememberLocalEssentials()
+    val activity = LocalActivity.current
 
     Column(
         modifier = Modifier
@@ -112,7 +114,9 @@ private fun QrInfoItem(
                     EnhancedIconButton(
                         modifier = Modifier.size(32.dp),
                         onClick = {
-                            essentials.startActivity(qrInfo.intent)
+                            runCatching {
+                                activity?.startActivity(qrInfo.intent)
+                            }.onFailure(AppToastHost::showFailureToast)
                         }
                     ) {
                         Icon(
@@ -150,7 +154,7 @@ private fun QrInfoItem(
                         )
                         .hapticsClickable(
                             enabled = canCopy,
-                            onClick = { essentials.copyToClipboard(text) },
+                            onClick = { Clipboard.copy(text) },
                             interactionSource = interactionSource,
                             indication = LocalIndication.current
                         )

@@ -28,10 +28,10 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PaletteType
@@ -128,10 +128,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun savePaletteTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun savePaletteTo(uri: Uri) {
         val format = paletteFormat ?: PaletteFormatHelper.entries.first()
 
         savingJob = trackProgress {
@@ -143,14 +140,12 @@ class PaletteToolsComponent @AssistedInject internal constructor(
                         format.getCoder().encode(palette.toPalette())
                     )
                 }
-            ).also(onResult).onSuccess(::registerSave)
+            ).also(::parseFileSaveResult).onSuccess(::registerSave)
             _isSaving.value = false
         }
     }
 
-    fun sharePalette(
-        onComplete: () -> Unit
-    ) {
+    fun sharePalette() {
         val format = paletteFormat ?: PaletteFormatHelper.entries.first()
 
         savingJob = trackProgress {
@@ -171,7 +166,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
                 filename = createPaletteFilename(),
                 onComplete = {
                     _isSaving.value = false
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
             )
         }

@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.crash.presentation.screenLogic.CrashComponent
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppActivityClass
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ImageToolboxCompositionLocals
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 
 @Composable
@@ -47,9 +47,8 @@ internal fun CrashRootContent(component: CrashComponent) {
     ImageToolboxCompositionLocals(
         settingsState = component.settingsState.toUiState()
     ) {
-        val essentials = rememberLocalEssentials()
         val copyCrashInfo: () -> Unit = {
-            essentials.copyToClipboard(crashInfo.textToSend)
+            Clipboard.copy(crashInfo.textToSend)
         }
 
         Column(

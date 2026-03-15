@@ -40,10 +40,11 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -191,8 +192,7 @@ class CompareComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(
-        imageFormat: ImageFormat,
-        onComplete: () -> Unit
+        imageFormat: ImageFormat
     ) {
         savingJob = trackProgress {
             _isImageLoading.value = true
@@ -204,22 +204,21 @@ class CompareComponent @AssistedInject internal constructor(
                         width = it.width,
                         height = it.height
                     ),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
-            } ?: onComplete()
+            } ?: AppToastHost.showConfetti()
             _isImageLoading.value = false
         }
     }
 
     fun saveBitmap(
         imageFormat: ImageFormat,
-        oneTimeSaveLocationUri: String?,
-        onComplete: (saveResult: SaveResult) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isImageLoading.value = true
             getResultImage()?.let { localBitmap ->
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(
@@ -311,7 +310,6 @@ class CompareComponent @AssistedInject internal constructor(
 
     fun cacheCurrentImage(
         imageFormat: ImageFormat,
-        onComplete: (Uri) -> Unit
     ) {
         savingJob = trackProgress {
             _isImageLoading.value = true
@@ -325,7 +323,7 @@ class CompareComponent @AssistedInject internal constructor(
                     )
                 )
             }?.let { uri ->
-                onComplete(uri.toUri())
+                Clipboard.copy(uri.toUri())
             }
             _isImageLoading.value = false
         }

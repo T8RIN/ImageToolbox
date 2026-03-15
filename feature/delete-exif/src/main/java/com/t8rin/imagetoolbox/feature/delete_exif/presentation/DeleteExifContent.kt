@@ -38,10 +38,10 @@ import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.localizedName
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -65,21 +65,18 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 
 @Composable
 fun DeleteExifContent(
     component: DeleteExifComponent
 ) {
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
     AutoContentBasedColors(component.bitmap)
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.updateUris(
-            uris = uris,
-            onFailure = essentials::showFailureToast
+            uris = uris
         )
     }
 
@@ -94,8 +91,7 @@ fun DeleteExifContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onResult = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 
@@ -137,11 +133,9 @@ fun DeleteExifContent(
                     mutableStateOf(listOf<Uri>())
                 }
                 ShareButton(
-                    onShare = {
-                        component.shareBitmaps(showConfetti)
-                    },
+                    onShare = component::shareBitmaps,
                     onCopy = {
-                        component.cacheCurrentImage(essentials::copyToClipboard)
+                        component.cacheCurrentImage(Clipboard::copy)
                     },
                     onEdit = {
                         component.cacheImages {
@@ -187,7 +181,7 @@ fun DeleteExifContent(
             val selectedTags = component.selectedTags
             val subtitle by remember(selectedTags) {
                 derivedStateOf {
-                    if (selectedTags.isEmpty()) essentials.getString(R.string.all)
+                    if (selectedTags.isEmpty()) getString(R.string.all)
                     else selectedTags.joinToString(", ") {
                         it.localizedName(appContext)
                     }
@@ -275,12 +269,7 @@ fun DeleteExifContent(
         },
         uris = component.uris,
         selectedUri = component.selectedUri,
-        onUriPicked = { uri ->
-            component.updateSelectedUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
+        onUriPicked = component::updateSelectedUri,
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)
         },

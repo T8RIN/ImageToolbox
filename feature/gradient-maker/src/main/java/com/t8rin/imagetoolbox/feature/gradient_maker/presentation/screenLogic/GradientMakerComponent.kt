@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -183,9 +184,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onStandaloneGradientSaveResult: (SaveResult) -> Unit,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _left.value = -1
@@ -200,7 +199,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                         width = localBitmap.width,
                         height = localBitmap.height
                     )
-                    onStandaloneGradientSaveResult(
+                    parseSaveResult(
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo,
@@ -256,13 +255,13 @@ class GradientMakerComponent @AssistedInject internal constructor(
                         total = left
                     )
                 }
-                onResult(results.onSuccess(::registerSave))
+                parseSaveResults(results.onSuccess(::registerSave))
             }
             _isSaving.value = false
         }
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun shareBitmaps() {
         savingJob = trackProgress {
             _left.value = -1
             _isSaving.value = true
@@ -278,7 +277,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                             width = it.width,
                             height = it.height
                         ),
-                        onComplete = onComplete
+                        onComplete = AppToastHost::showConfetti
                     )
                 }
             } else {
@@ -300,7 +299,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                     },
                     onProgressChange = {
                         if (it == -1) {
-                            onComplete()
+                            AppToastHost.showConfetti()
                             _isSaving.value = false
                             _done.value = 0
                         } else {

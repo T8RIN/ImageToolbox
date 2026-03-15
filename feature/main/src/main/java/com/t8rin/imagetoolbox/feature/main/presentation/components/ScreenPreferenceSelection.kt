@@ -80,10 +80,10 @@ import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberClipboardData
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -93,6 +93,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 internal fun RowScope.ScreenPreferenceSelection(
@@ -108,7 +109,6 @@ internal fun RowScope.ScreenPreferenceSelection(
     onToggleFavorite: (Screen) -> Unit,
     showNavRail: Boolean,
 ) {
-    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val canSearchScreens = settingsState.screensSearchEnabled
@@ -344,8 +344,8 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 if (!allowAutoPaste) {
                                     val list = clipboardManager.clipList()
                                     if (list.isEmpty()) {
-                                        essentials.showToast(
-                                            message = essentials.getString(R.string.clipboard_paste_invalid_empty),
+                                        AppToastHost.showToast(
+                                            message = getString(R.string.clipboard_paste_invalid_empty),
                                             icon = Icons.Outlined.ContentPasteOff
                                         )
                                     } else onGetClipList(list)

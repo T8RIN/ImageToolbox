@@ -54,7 +54,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelection
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.RecentAndFavoriteColorsCard
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -81,7 +81,6 @@ fun ConfettiHarmonizationColorSettingItem(
 
     val enabled = settingsState.isConfettiEnabled
 
-    val confettiHostState = LocalConfettiHostState.current
     val scope = rememberCoroutineScope()
 
     var showColorPicker by remember {
@@ -143,11 +142,11 @@ fun ConfettiHarmonizationColorSettingItem(
                     EnhancedChip(
                         onClick = {
                             if (harmonizer !is ColorHarmonizer.Custom) {
-                                confettiHostState.currentToastData?.dismiss()
+                                AppToastHost.dismissToasts()
                                 onValueChange(harmonizer)
                                 scope.launch {
                                     delay(200L)
-                                    confettiHostState.showConfetti()
+                                    AppToastHost.showConfetti()
                                 }
                             } else {
                                 showColorPicker = true
@@ -224,11 +223,11 @@ fun ConfettiHarmonizationColorSettingItem(
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
-                    confettiHostState.currentToastData?.dismiss()
+                    AppToastHost.dismissToasts()
                     onValueChange(ColorHarmonizer.Custom(tempColor.toArgb()))
                     scope.launch {
                         delay(200L)
-                        confettiHostState.showConfetti()
+                        AppToastHost.showConfetti()
                     }
                     showColorPicker = false
                 }

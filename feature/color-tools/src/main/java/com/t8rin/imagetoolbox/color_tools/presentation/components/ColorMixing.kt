@@ -41,7 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -57,8 +57,6 @@ internal fun ColorMixing(
     selectedColor: Color,
     appColorTuple: ColorTuple,
 ) {
-    val essentials = rememberLocalEssentials()
-
     var mixingVariation by rememberSaveable {
         mutableIntStateOf(3)
     }
@@ -130,7 +128,7 @@ internal fun ColorMixing(
                                 size = mixedColors.size
                             ),
                             onCopy = {
-                                essentials.copyToClipboard(
+                                Clipboard.copy(
                                     text = getFormattedColor(color),
                                     message = R.string.color_copied
                                 )

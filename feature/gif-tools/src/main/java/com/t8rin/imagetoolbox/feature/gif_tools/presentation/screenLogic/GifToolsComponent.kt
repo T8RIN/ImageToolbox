@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifConverter
@@ -196,17 +197,14 @@ class GifToolsComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun saveGifTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveGifTo(uri: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
             gifData?.let { byteArray ->
                 fileController.writeBytes(
                     uri = uri.toString(),
                     block = { it.writeBytes(byteArray) }
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseSaveResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
             gifData = null
@@ -215,8 +213,7 @@ class GifToolsComponent @AssistedInject internal constructor(
 
     fun saveBitmaps(
         oneTimeSaveLocationUri: String?,
-        onGifSaveResult: (filename: String) -> Unit,
-        onResult: (List<SaveResult>) -> Unit
+        onGifSaveResult: (filename: String) -> Unit
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -235,7 +232,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 if (it == 0) {
                                     _isSaving.value = false
                                     savingJob?.cancel()
-                                    onResult(
+                                    parseSaveResults(
                                         listOf(SaveResult.Error.MissingPermissions)
                                     )
                                 }
@@ -246,7 +243,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 )
                             }
                         ).onCompletion {
-                            onResult(results.onSuccess(::registerSave))
+                            parseSaveResults(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -303,7 +300,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 )
                             },
                             onFailure = {
-                                onResult(listOf(SaveResult.Error.Exception(it)))
+                                parseSaveResults(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
                             onGifSaveResult("GIF_${timestamp()}.gif")
@@ -336,7 +333,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                         )
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 is Screen.GifTools.Type.GifToWebp -> {
@@ -364,7 +361,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                         )
                     }
 
-                    onResult(results.onSuccess(::registerSave))
+                    parseSaveResults(results.onSuccess(::registerSave))
                 }
 
                 null -> Unit
@@ -480,7 +477,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun performSharing(onComplete: () -> Unit) {
+    fun performSharing() {
         savingJob = trackProgress {
             _isSaving.value = true
             _left.value = 1
@@ -494,7 +491,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                         index in positions
                     }
                     shareProvider.shareUris(uris)
-                    onComplete()
+                    AppToastHost.showConfetti()
                 }
 
                 is Screen.GifTools.Type.ImageToGif -> {
@@ -515,7 +512,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,
                                 filename = "GIF_${timestamp()}.gif",
-                                onComplete = onComplete
+                                onComplete = AppToastHost::showConfetti
                             )
                         }
                     }

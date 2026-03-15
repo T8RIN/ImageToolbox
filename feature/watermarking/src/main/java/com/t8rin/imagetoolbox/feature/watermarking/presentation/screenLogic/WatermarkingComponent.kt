@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
@@ -73,12 +74,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUris?.let {
-                setUris(
-                    uris = it,
-                    onFailure = {}
-                )
-            }
+            initialUris?.let(::setUris)
         }
     }
 
@@ -149,8 +145,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onResult: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _left.value = -1
@@ -196,7 +191,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
                     total = left
                 )
             }
-            onResult(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }
@@ -214,7 +209,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun shareBitmaps() {
         _left.value = -1
         savingJob = trackProgress {
             _isSaving.value = true
@@ -237,7 +232,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
                 },
                 onProgressChange = {
                     if (it == -1) {
-                        onComplete()
+                        AppToastHost.showConfetti()
                         _isSaving.value = false
                         _done.value = 0
                     } else {
@@ -278,8 +273,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     }
 
     fun updateSelectedUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit = {}
+        uri: Uri
     ) {
         componentScope.launch {
             _selectedUri.value = uri
@@ -294,7 +288,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
                 },
                 onFailure = {
                     _isImageLoading.value = false
-                    onFailure(it)
+                    AppToastHost.showFailureToast(it)
                 }
             )
         }
@@ -320,10 +314,9 @@ class WatermarkingComponent @AssistedInject internal constructor(
 
     fun setUris(
         uris: List<Uri>,
-        onFailure: (Throwable) -> Unit = {}
     ) {
         _uris.update { uris }
-        uris.firstOrNull()?.let { updateSelectedUri(it, onFailure) }
+        uris.firstOrNull()?.let(::updateSelectedUri)
     }
 
     fun toggleKeepExif(value: Boolean) {

@@ -46,7 +46,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
@@ -79,52 +78,31 @@ fun RecognizeTextContent(
 
     val isHaveText = component.editedText.orEmpty().isNotEmpty()
 
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
-    val startRecognition = {
-        component.startRecognition(
-            onFailure = essentials::showFailureToast
-        )
-    }
-
-    LaunchedEffect(component.initialType) {
-        component.initialType?.let {
-            component.updateType(
-                type = it,
-                onImageSet = startRecognition
-            )
-        }
-    }
-
     AutoContentBasedColors(
         model = (type as? Screen.RecognizeText.Type.Extraction)?.uri
     )
 
     LaunchedEffect(component.previewBitmap, component.filtersAdded) {
-        if (component.previewBitmap != null) startRecognition()
+        if (component.previewBitmap != null) component.startRecognition()
     }
 
     val multipleImagePicker = rememberImagePicker { uris: List<Uri> ->
         when {
             isExtraction || (uris.size == 1) -> {
                 component.updateType(
-                    type = Screen.RecognizeText.Type.Extraction(uris.firstOrNull()),
-                    onImageSet = startRecognition
+                    type = Screen.RecognizeText.Type.Extraction(uris.firstOrNull())
                 )
             }
 
             type is Screen.RecognizeText.Type.WriteToFile -> {
                 component.updateType(
-                    type = Screen.RecognizeText.Type.WriteToFile(uris),
-                    onImageSet = startRecognition
+                    type = Screen.RecognizeText.Type.WriteToFile(uris)
                 )
             }
 
             type is Screen.RecognizeText.Type.WriteToMetadata -> {
                 component.updateType(
-                    type = Screen.RecognizeText.Type.WriteToMetadata(uris),
-                    onImageSet = startRecognition
+                    type = Screen.RecognizeText.Type.WriteToMetadata(uris)
                 )
             }
 
@@ -140,8 +118,7 @@ fun RecognizeTextContent(
                 component.updateType(
                     type = Screen.RecognizeText.Type.WriteToFile(
                         type.uris?.plus(uris)?.distinct()
-                    ),
-                    onImageSet = startRecognition
+                    )
                 )
             }
 
@@ -149,8 +126,7 @@ fun RecognizeTextContent(
                 component.updateType(
                     type = Screen.RecognizeText.Type.WriteToMetadata(
                         type.uris?.plus(uris)?.distinct()
-                    ),
-                    onImageSet = startRecognition
+                    )
                 )
             }
 
@@ -167,12 +143,7 @@ fun RecognizeTextContent(
 
     val saveLauncher = rememberFileCreator(
         mimeType = MimeType.Txt,
-        onSuccess = { uri ->
-            component.saveContentToTxt(
-                uri = uri,
-                onResult = essentials::parseFileSaveResult
-            )
-        }
+        onSuccess = component::saveContentToTxt
     )
 
     var showCropper by rememberSaveable { mutableStateOf(false) }
@@ -226,13 +197,9 @@ fun RecognizeTextContent(
             ShareButton(
                 onShare = {
                     if (isExtraction) {
-                        component.shareEditedText(
-                            onComplete = showConfetti
-                        )
+                        component.shareEditedText()
                     } else {
-                        component.shareData(
-                            onComplete = showConfetti
-                        )
+                        component.shareData()
                     }
                 },
                 enabled = isHaveText || !isExtraction

@@ -26,11 +26,11 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.zip.domain.ZipManager
 import dagger.assisted.Assisted
@@ -78,9 +78,7 @@ class ZipComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun startCompression(
-        onFailure: (Throwable) -> Unit
-    ) {
+    fun startCompression() {
         savingJob = trackProgress {
             _isSaving.value = true
             if (uris.isEmpty()) {
@@ -99,7 +97,7 @@ class ZipComponent @AssistedInject internal constructor(
                         )
                     }
                 )
-            }.onFailure(onFailure)
+            }.onFailure(AppToastHost::showFailureToast)
             _isSaving.value = false
         }
     }
@@ -108,25 +106,20 @@ class ZipComponent @AssistedInject internal constructor(
         _compressedArchiveUri.value = null
     }
 
-    fun saveResultTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
+    fun saveResultTo(uri: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
             _compressedArchiveUri.value?.let { byteArray ->
                 fileController.transferBytes(
                     fromUri = byteArray,
                     toUri = uri.toString(),
-                ).also(onResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
         }
     }
 
-    fun shareFile(
-        onComplete: () -> Unit
-    ) {
+    fun shareFile() {
         compressedArchiveUri?.let { uri ->
             savingJob = trackProgress {
                 _done.update { 0 }
@@ -137,7 +130,7 @@ class ZipComponent @AssistedInject internal constructor(
                     uri = uri,
                     onComplete = {
                         _isSaving.value = false
-                        onComplete()
+                        AppToastHost.showConfetti()
                     }
                 )
             }

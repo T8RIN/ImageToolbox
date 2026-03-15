@@ -59,7 +59,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -89,7 +88,6 @@ fun PaletteToolsContent(
     component: PaletteToolsComponent
 ) {
     val paletteType = component.paletteType
-    val essentials = rememberLocalEssentials()
 
     var showPreferencePicker by rememberSaveable(component.initialUri) {
         mutableStateOf(component.initialUri != null && paletteType == PaletteType.Default || paletteType == PaletteType.MaterialYou)
@@ -132,12 +130,7 @@ fun PaletteToolsContent(
         null -> imagePicker::pickImage
     }
 
-    val paletteSaver = rememberFileCreator { uri ->
-        component.savePaletteTo(
-            uri = uri,
-            onResult = essentials::parseFileSaveResult
-        )
-    }
+    val paletteSaver = rememberFileCreator(onSuccess = component::savePaletteTo)
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -285,11 +278,7 @@ fun PaletteToolsContent(
             }
             if (paletteType == PaletteType.Edit) {
                 ShareButton(
-                    onShare = {
-                        component.sharePalette(
-                            onComplete = essentials::showConfetti
-                        )
-                    },
+                    onShare = component::sharePalette,
                     enabled = component.palette.isNotEmpty()
                 )
             }

@@ -29,10 +29,11 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiMultiple
 import com.t8rin.imagetoolbox.core.resources.icons.Robot
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 fun EmojisCountSettingItem(
@@ -41,7 +42,6 @@ fun EmojisCountSettingItem(
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp)
 ) {
-    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
 
     EnhancedSliderItem(
@@ -50,8 +50,8 @@ fun EmojisCountSettingItem(
                 Modifier
                     .clip(ShapeDefaults.extraSmall)
                     .hapticsClickable {
-                        essentials.showToast(
-                            message = essentials.getString(R.string.random_emojis_error),
+                        AppToastHost.showToast(
+                            message = getString(R.string.random_emojis_error),
                             icon = Icons.Rounded.Robot
                         )
                     }

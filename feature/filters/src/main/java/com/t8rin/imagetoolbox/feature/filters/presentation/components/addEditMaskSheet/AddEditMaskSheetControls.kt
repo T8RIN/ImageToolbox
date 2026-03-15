@@ -64,7 +64,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.EraseModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -77,6 +76,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BrushSoftnessSelector
@@ -99,8 +99,6 @@ internal fun AddEditMaskSheetControls(
     onToggleIsEraserOn: () -> Unit
 ) {
     var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
-
-    val essentials = rememberLocalEssentials()
 
     var showReorderSheet by rememberSaveable { mutableStateOf(false) }
 
@@ -320,8 +318,7 @@ internal fun AddEditMaskSheetControls(
                             onFilterChange = { value ->
                                 component.updateFilter(
                                     value = value,
-                                    index = index,
-                                    showError = essentials::showFailureToast
+                                    index = index
                                 )
                             },
                             onLongPress = {
@@ -335,7 +332,7 @@ internal fun AddEditMaskSheetControls(
                                 showTemplateCreationSheet = true
                                 component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
                                     TemplateFilter(
-                                        name = essentials.getString(filter.title),
+                                        name = getString(filter.title),
                                         filters = listOf(filter)
                                     )
                                 )
@@ -351,7 +348,7 @@ internal fun AddEditMaskSheetControls(
                             showTemplateCreationSheet = true
                             component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
                                 TemplateFilter(
-                                    name = essentials.getString(
+                                    name = getString(
                                         component.filterList.firstOrNull()?.title
                                             ?: R.string.template_filter
                                     ),

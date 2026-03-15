@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -57,8 +56,6 @@ fun ZipContent(
             showExitDialog = true
         } else component.onGoBack()
     }
-
-    val essentials = rememberLocalEssentials()
 
     val filePicker = rememberFilePicker(onSuccess = component::setUris)
 
@@ -100,9 +97,7 @@ fun ZipContent(
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
                 isPrimaryButtonVisible = component.uris.isNotEmpty(),
-                onPrimaryButtonClick = {
-                    component.startCompression(essentials::showFailureToast)
-                },
+                onPrimaryButtonClick = component::startCompression,
                 actions = {
                     EnhancedChip(
                         selected = true,

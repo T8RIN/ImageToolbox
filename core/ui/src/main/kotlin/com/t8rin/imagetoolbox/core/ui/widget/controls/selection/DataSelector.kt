@@ -46,7 +46,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -57,7 +56,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -68,7 +67,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun <T : Any> DataSelector(
@@ -140,13 +138,6 @@ fun <T : Any> DataSelector(
                             )
                         }
                         badgeContent?.let {
-                            val scope = rememberCoroutineScope()
-                            val confettiHostState = LocalConfettiHostState.current
-                            val showConfetti: () -> Unit = {
-                                scope.launch {
-                                    confettiHostState.showConfetti()
-                                }
-                            }
                             EnhancedBadge(
                                 content = badgeContent,
                                 containerColor = MaterialTheme.colorScheme.tertiary,
@@ -155,7 +146,7 @@ fun <T : Any> DataSelector(
                                     .padding(horizontal = 2.dp)
                                     .padding(bottom = titlePadding.calculateBottomPadding() + 4.dp)
                                     .scaleOnTap {
-                                        showConfetti()
+                                        AppToastHost.showConfetti()
                                     }
                             )
                         }

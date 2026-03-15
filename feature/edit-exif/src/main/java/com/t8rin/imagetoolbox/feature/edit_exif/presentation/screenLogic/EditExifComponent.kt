@@ -35,10 +35,10 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -82,8 +82,7 @@ class EditExifComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmap(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -103,7 +102,7 @@ class EditExifComponent @AssistedInject internal constructor(
                     oneTimeSaveLocationUri = oneTimeSaveLocationUri
                 )
 
-                onComplete(result.onSuccess(::registerSave))
+                parseSaveResult(result.onSuccess(::registerSave))
             }
             _isSaving.update { false }
         }
@@ -119,11 +118,11 @@ class EditExifComponent @AssistedInject internal constructor(
         }
     }
 
-    fun shareBitmap(onComplete: () -> Unit) {
+    fun shareBitmap() {
         cacheCurrentImage {
             componentScope.launch {
                 shareProvider.shareUris(listOf(it.toString()))
-                onComplete()
+                AppToastHost.showConfetti()
             }
         }
     }

@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -83,12 +84,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUris?.let {
-                updateUris(
-                    uris = it,
-                    onFailure = {}
-                )
-            }
+            initialUris?.let(::setUris)
         }
     }
 
@@ -144,9 +140,8 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         _isImageLoading.update { false }
     }
 
-    fun updateUris(
-        uris: List<Uri>?,
-        onFailure: (Throwable) -> Unit
+    fun setUris(
+        uris: List<Uri>?
     ) {
         _uris.update { null }
         _uris.update { uris }
@@ -161,7 +156,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                     uri = uri.toString(),
                     originalSize = true,
                     onGetImage = ::setImageData,
-                    onFailure = onFailure
+                    onFailure = AppToastHost::showFailureToast
                 )
             }
         }
@@ -384,8 +379,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onComplete: (List<SaveResult>) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
@@ -433,15 +427,12 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                     total = uris.orEmpty().size
                 )
             }
-            onComplete(results.onSuccess(::registerSave))
+            parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.update { false }
         }
     }
 
-    fun updateSelectedUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit = {}
-    ) {
+    fun updateSelectedUri(uri: Uri) {
         runCatching {
             _selectedUri.update { uri }
             componentScope.launch {
@@ -477,7 +468,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                 checkBitmapAndUpdate()
                 _isImageLoading.update { false }
             }
-        }.onFailure(onFailure)
+        }.onFailure(AppToastHost::showFailureToast)
     }
 
     fun updatePreset(preset: Preset) {
@@ -518,11 +509,11 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             ?.let(::updateSelectedUri)
     }
 
-    fun performSharing(onComplete: () -> Unit) {
+    fun performSharing() {
         cacheImages { uris ->
             componentScope.launch {
                 shareProvider.shareUris(uris.map { it.toString() })
-                onComplete()
+                AppToastHost.showConfetti()
             }
         }
     }

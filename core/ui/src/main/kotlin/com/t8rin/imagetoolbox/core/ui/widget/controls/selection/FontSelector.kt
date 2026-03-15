@@ -40,7 +40,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -53,7 +52,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.theme.ProvideTypography
-import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -64,7 +63,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import kotlinx.coroutines.launch
 
 @Composable
 fun FontSelector(
@@ -90,13 +88,6 @@ fun FontSelector(
 
         var expanded by rememberSaveable { mutableStateOf(false) }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            val scope = rememberCoroutineScope()
-            val confettiHostState = LocalConfettiHostState.current
-            val showConfetti: () -> Unit = {
-                scope.launch {
-                    confettiHostState.showConfetti()
-                }
-            }
             val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
                 text = title,
@@ -113,7 +104,7 @@ fun FontSelector(
                     .padding(horizontal = 2.dp)
                     .padding(bottom = 12.dp)
                     .scaleOnTap {
-                        showConfetti()
+                        AppToastHost.showConfetti()
                     }
             )
             Spacer(modifier = Modifier.weight(1f))

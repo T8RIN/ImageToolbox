@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -79,8 +80,7 @@ class MeshGradientsComponent @AssistedInject constructor(
     }
 
     fun shareImages(
-        uriList: List<Uri>,
-        onComplete: () -> Unit
+        uriList: List<Uri>
     ) = componentScope.launch {
         shareProvider.shareImages(
             uris = uriList.map { it.toString() },
@@ -89,7 +89,7 @@ class MeshGradientsComponent @AssistedInject constructor(
             },
             onProgressChange = {}
         )
-        onComplete()
+        AppToastHost.showConfetti()
     }
 
     @AssistedFactory

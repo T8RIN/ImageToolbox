@@ -24,9 +24,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
@@ -35,6 +36,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.wallpapers_export.domain.model.WallpapersResult
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.components.WallpapersActionButtons
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.components.WallpapersControls
@@ -45,9 +47,7 @@ import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic
 fun WallpapersExportContent(
     component: WallpapersExportComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
-    if (essentials.isInstalledFromPlayStore()) {
+    if (appContext.isInstalledFromPlayStore()) {
         FeatureNotAvailableContent(
             title = {
                 Text(
@@ -83,11 +83,9 @@ fun WallpapersExportContent(
         actions = {
             ShareButton(
                 enabled = component.selectedImages.isNotEmpty(),
-                onShare = {
-                    component.performSharing(essentials::showConfetti)
-                },
+                onShare = component::performSharing,
                 onCopy = if (component.wallpapers.size == 1) {
-                    { component.cacheImages { it.firstOrNull()?.let(essentials::copyToClipboard) } }
+                    { component.cacheImages { it.firstOrNull()?.let(Clipboard::copy) } }
                 } else null
             )
         },

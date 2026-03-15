@@ -39,7 +39,6 @@ import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
@@ -49,6 +48,8 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
@@ -189,8 +190,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun shareImage(
-        bitmap: Bitmap,
-        onComplete: () -> Unit
+        bitmap: Bitmap
     ) {
         componentScope.launch {
             shareProvider.shareImage(
@@ -200,14 +200,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                     imageFormat = ImageFormat.Png.Lossless
                 ),
                 image = bitmap,
-                onComplete = onComplete
+                onComplete = AppToastHost::showConfetti
             )
         }
     }
 
     fun saveImage(
-        bitmap: Bitmap,
-        onComplete: (result: SaveResult) -> Unit,
+        bitmap: Bitmap
     ) {
         componentScope.launch {
             val imageInfo = ImageInfo(
@@ -215,7 +214,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                 height = bitmap.height,
                 imageFormat = ImageFormat.Png.Lossless
             )
-            onComplete(
+            parseSaveResult(
                 fileController.save(
                     saveTarget = ImageSaveTarget(
                         imageInfo = imageInfo,
@@ -235,27 +234,25 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
 
     fun saveContentTo(
         content: String,
-        fileUri: Uri,
-        onResult: (SaveResult) -> Unit
+        fileUri: Uri
     ) {
         componentScope.launch {
             fileController.writeBytes(
                 uri = fileUri.toString(),
                 block = { it.writeBytes(content.toByteArray()) }
-            ).also(onResult).onSuccess(::registerSave)
+            ).also(::parseFileSaveResult).onSuccess(::registerSave)
         }
     }
 
     fun shareContent(
         content: String,
-        filename: String,
-        onComplete: () -> Unit
+        filename: String
     ) {
         componentScope.launch {
             shareProvider.shareData(
                 writeData = { it.writeBytes(content.toByteArray()) },
                 filename = filename,
-                onComplete = onComplete
+                onComplete = AppToastHost::showConfetti
             )
         }
     }
@@ -320,7 +317,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         }
     }
 
-    fun cacheNeutralLut(onComplete: (Uri) -> Unit) {
+    fun cacheNeutralLut() {
         componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let {
                 shareProvider.cacheImage(
@@ -331,13 +328,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                         imageFormat = ImageFormat.Png.Lossless
                     )
                 )?.let { uri ->
-                    onComplete(uri.toUri())
+                    Clipboard.copy(uri.toUri())
                 }
             }
         }
     }
 
-    fun shareNeutralLut(onComplete: () -> Unit) {
+    fun shareNeutralLut() {
         componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let {
                 shareProvider.shareImage(
@@ -347,15 +344,14 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                         height = 512,
                         imageFormat = ImageFormat.Png.Lossless
                     ),
-                    onComplete = onComplete
+                    onComplete = AppToastHost::showConfetti
                 )
             }
         }
     }
 
     fun saveNeutralLut(
-        oneTimeSaveLocationUri: String? = null,
-        onComplete: (result: SaveResult) -> Unit,
+        oneTimeSaveLocationUri: String? = null
     ) {
         componentScope.launch {
             imageGetter.getImage(R.drawable.lookup)?.let { bitmap ->
@@ -364,7 +360,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                     height = 512,
                     imageFormat = ImageFormat.Png.Lossless
                 )
-                onComplete(
+                parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,

@@ -59,7 +59,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.controls.page.PageSelectionItem
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PresetSelector
@@ -82,15 +81,13 @@ fun ExtractPagesPdfToolContent(
     val selectedPagesSize = params.pages?.size ?: 0
     val isPortrait by isPortraitOrientationAsState()
 
-    val essentials = rememberLocalEssentials()
     var trigger by remember {
         mutableIntStateOf(0)
     }
 
     val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.save(
-            oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
     var showFolderSelectionDialog by rememberSaveable {

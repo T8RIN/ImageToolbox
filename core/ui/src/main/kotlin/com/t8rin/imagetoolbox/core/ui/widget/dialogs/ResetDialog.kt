@@ -29,9 +29,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 fun ResetDialog(
@@ -42,8 +43,6 @@ fun ResetDialog(
     text: String = stringResource(R.string.reset_image_sub),
     icon: ImageVector = Icons.Rounded.ImageReset
 ) {
-    val essentials = rememberLocalEssentials()
-
     EnhancedAlertDialog(
         visible = visible,
         icon = {
@@ -73,8 +72,8 @@ fun ResetDialog(
                 onClick = {
                     onReset()
                     onDismiss()
-                    essentials.showToast(
-                        message = essentials.getString(R.string.values_reset),
+                    AppToastHost.showToast(
+                        message = getString(R.string.values_reset),
                         icon = Icons.Rounded.DoneOutline
                     )
                 }

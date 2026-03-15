@@ -82,7 +82,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SortButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -121,9 +121,6 @@ fun ImagePreviewContent(
     val initialShowImagePreviewDialog = !component.initialUris.isNullOrEmpty()
 
     val settingsState = LocalSettingsState.current
-
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     val imagePicker = rememberImagePicker(onSuccess = component::updateUris)
 
@@ -199,7 +196,7 @@ fun ImagePreviewContent(
                                             .padding(horizontal = 2.dp)
                                             .padding(bottom = 12.dp)
                                             .scaleOnTap {
-                                                showConfetti()
+                                                AppToastHost.showConfetti()
                                             }
                                     )
                                 }
@@ -320,8 +317,7 @@ fun ImagePreviewContent(
                                     onAddImages = component::updateUris,
                                     onShareImage = {
                                         component.shareImages(
-                                            uriList = listOf(element = it),
-                                            onComplete = showConfetti
+                                            uriList = listOf(element = it)
                                         )
                                     },
                                     onRemove = component::removeUri,
@@ -406,8 +402,7 @@ fun ImagePreviewContent(
                         EnhancedFloatingActionButton(
                             onClick = {
                                 component.shareImages(
-                                    uriList = null,
-                                    onComplete = showConfetti
+                                    uriList = null
                                 )
                             },
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,

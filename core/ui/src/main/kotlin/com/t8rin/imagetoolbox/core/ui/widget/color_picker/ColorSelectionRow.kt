@@ -47,7 +47,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,6 +56,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
@@ -69,9 +69,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun ColorSelectionRow(
@@ -84,8 +82,6 @@ fun ColorSelectionRow(
     contentPadding: PaddingValues = PaddingValues(),
     onNullClick: (() -> Unit)? = null
 ) {
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     var customColor by remember { mutableStateOf<Color?>(null) }
     var showColorPicker by remember { mutableStateOf(false) }
@@ -206,12 +202,10 @@ fun ColorSelectionRow(
                                         customColor = color
                                     },
                                     onPastedColorFailure = { message ->
-                                        scope.launch {
-                                            toastHostState.showToast(
-                                                message = message,
-                                                icon = Icons.Outlined.Error
-                                            )
-                                        }
+                                        AppToastHost.showToast(
+                                            message = message,
+                                            icon = Icons.Outlined.Error
+                                        )
                                     }
                                 )
                             },

@@ -35,7 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
@@ -52,7 +51,7 @@ internal fun NeuralModelSelector(
     onDeleteModel: (NeuralModel) -> Unit,
     downloadedModels: List<NeuralModel>,
     notDownloadedModels: List<NeuralModel>,
-    onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
+    onImportModel: (Uri) -> Unit,
     downloadProgresses: Map<String, DownloadProgress>,
     occupiedStorageSize: Long
 ) {
@@ -126,7 +125,7 @@ private fun Preview() = ImageToolboxThemeForPreview(
         onDeleteModel = {},
         downloadedModels = emptyList(),
         notDownloadedModels = emptyList(),
-        onImportModel = { _, _ -> },
+        onImportModel = { _ -> },
         downloadProgresses = emptyMap(),
         occupiedStorageSize = 0
     )

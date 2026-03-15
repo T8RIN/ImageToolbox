@@ -44,10 +44,10 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberBarcodeScanner
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 
 @SuppressLint("StringFormatInvalid")
 @Composable
@@ -64,7 +64,6 @@ internal fun FilterTemplateAddingGroup(
         onFailure: suspend () -> Unit
     ) -> Unit
 ) {
-    val toastHostState = LocalToastHostState.current
     val context = LocalResourceManager.current
 
     fun addTemplateFilterFromString(
@@ -83,7 +82,7 @@ internal fun FilterTemplateAddingGroup(
         addTemplateFilterFromString(
             string = it.raw,
             onSuccess = { filterName, filtersCount ->
-                toastHostState.showToast(
+                AppToastHost.showToast(
                     message = context.getString(
                         R.string.added_filter_template,
                         filterName,
@@ -93,7 +92,7 @@ internal fun FilterTemplateAddingGroup(
                 )
             },
             onFailure = {
-                toastHostState.showToast(
+                AppToastHost.showToast(
                     message = context.getString(R.string.scanned_qr_code_isnt_filter_template),
                     icon = Icons.Rounded.QrCodeScanner
                 )
@@ -105,7 +104,7 @@ internal fun FilterTemplateAddingGroup(
         addTemplateFilterFromUri(
             uri = uri.toString(),
             onSuccess = { filterName, filtersCount ->
-                toastHostState.showToast(
+                AppToastHost.showToast(
                     message = context.getString(
                         R.string.added_filter_template,
                         filterName,
@@ -115,7 +114,7 @@ internal fun FilterTemplateAddingGroup(
                 )
             },
             onFailure = {
-                toastHostState.showToast(
+                AppToastHost.showToast(
                     message = context.getString(R.string.opened_file_have_no_filter_template),
                     icon = Icons.Outlined.AutoFixHigh
                 )

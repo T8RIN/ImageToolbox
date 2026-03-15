@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewItem
@@ -39,8 +38,6 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCR
 fun OCRPdfToolContent(
     component: OCRPdfToolComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
     BasePdfToolContent(
         component = component,
         contentPicker = rememberFilePicker(
@@ -66,9 +63,7 @@ fun OCRPdfToolContent(
                 subtitle = stringResource(R.string.deep_ocr_sub),
                 startIcon = Icons.Outlined.FilePresent,
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    component.navigateToOcr(essentials::showFailureToast)
-                }
+                onClick = component::navigateToOcr
             )
         },
         onFilledPassword = {

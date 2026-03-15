@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FileSelector
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.components.ChecksumEnterField
@@ -38,9 +38,6 @@ import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.screenLogic.Ch
 internal fun ColumnScope.CompareWithUriPage(
     component: ChecksumToolsComponent,
 ) {
-    val essentials = rememberLocalEssentials()
-    val onCopyText: (String) -> Unit = essentials::copyToClipboard
-
     val page = component.compareWithUriPage
 
     FileSelector(
@@ -52,7 +49,7 @@ internal fun ColumnScope.CompareWithUriPage(
         if (checksum.isNotEmpty()) {
             ChecksumPreviewField(
                 value = checksum,
-                onCopyText = onCopyText
+                onCopyText = Clipboard::copy
             )
         } else {
             InfoContainer(

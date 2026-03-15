@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.getValue
@@ -25,27 +26,26 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.findActivity
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-internal object ReviewHandlerImpl : ReviewHandler {
+internal object ReviewHandlerImpl : ReviewHandler() {
+
+    private val scope = CoroutineScope(Dispatchers.IO)
+
     private val Context.dataStore by preferencesDataStore("saves_count")
+
     private val SAVES_COUNT = intPreferencesKey("SAVES_COUNT")
     private val NOT_SHOW_AGAIN = booleanPreferencesKey("NOT_SHOW_AGAIN")
 
     private val _showNotShowAgainButton = mutableStateOf(false)
     override val showNotShowAgainButton: Boolean by _showNotShowAgainButton
 
-    override fun showReview(
-        context: Context,
-        onComplete: () -> Unit
-    ) {
-        val activity = context.findActivity() ?: return
-
-        CoroutineScope(Dispatchers.IO).launch {
-            context.dataStore.edit {
+    override fun showReview(activity: Activity) {
+        scope.launch {
+            activity.dataStore.edit {
                 if (it[NOT_SHOW_AGAIN] != true) {
                     val saves = it[SAVES_COUNT] ?: 0
                     it[SAVES_COUNT] = saves + 1
@@ -64,13 +64,12 @@ internal object ReviewHandlerImpl : ReviewHandler {
                     _showNotShowAgainButton.value = false
                 }
             }
-            onComplete()
         }
     }
 
-    override fun notShowReviewAgain(context: Context) {
-        CoroutineScope(Dispatchers.IO).launch {
-            context.dataStore.edit {
+    override fun notShowReviewAgain() {
+        scope.launch {
+            appContext.dataStore.edit {
                 it[NOT_SHOW_AGAIN] = true
             }
         }

@@ -49,8 +49,8 @@ import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MusicAdd
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -74,13 +74,10 @@ import kotlinx.coroutines.delay
 fun AudioCoverExtractorContent(
     component: AudioCoverExtractorComponent
 ) {
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
-    LaunchedEffect(component.initialUris, component.covers, essentials) {
+    LaunchedEffect(component.initialUris, component.covers) {
         delay(500)
         if (component.initialUris != null && component.covers.isEmpty()) {
-            essentials.showFailureToast(essentials.getString(R.string.no_covers_found))
+            AppToastHost.showFailureToast(R.string.no_covers_found)
         }
     }
 
@@ -133,7 +130,7 @@ fun AudioCoverExtractorContent(
             ShareButton(
                 onShare = {
                     component.performSharing(
-                        onComplete = showConfetti
+                        onComplete = AppToastHost::showConfetti
                     )
                 },
                 onEdit = {
@@ -229,8 +226,7 @@ fun AudioCoverExtractorContent(
         buttons = {
             val save: (oneTimeSaveLocationUri: String?) -> Unit = { uri ->
                 component.save(
-                    oneTimeSaveLocationUri = uri,
-                    onResult = essentials::parseSaveResults
+                    oneTimeSaveLocationUri = uri
                 )
             }
             var showFolderSelectionDialog by rememberSaveable {

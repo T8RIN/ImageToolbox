@@ -24,7 +24,6 @@ import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -50,11 +49,11 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.handleDeeplinks
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
-import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState
 import com.t8rin.imagetoolbox.core.utils.isNeedUpdate
 import com.t8rin.imagetoolbox.core.utils.parseChangelog
 import com.t8rin.imagetoolbox.core.utils.toImageModel
@@ -173,8 +172,6 @@ class RootComponent @AssistedInject internal constructor(
     private val _canSetDynamicFilterPreview: MutableState<Boolean> =
         mutableStateOf(false)
     val canSetDynamicFilterPreview by _canSetDynamicFilterPreview
-
-    val toastHostState = ToastHostState()
 
     init {
         runBlocking {
@@ -310,7 +307,7 @@ class RootComponent @AssistedInject internal constructor(
                         _backupRestoredEvents.trySend(true)
                     },
                     onFailure = { throwable ->
-                        showToast(
+                        AppToastHost.showToast(
                             message = getString(
                                 R.string.smth_went_wrong,
                                 throwable.localizedMessage ?: ""
@@ -327,20 +324,6 @@ class RootComponent @AssistedInject internal constructor(
 
         _extraDataType.update { null }
         _extraDataType.update { type }
-    }
-
-    fun showToast(
-        message: String,
-        icon: ImageVector? = null,
-        duration: ToastDuration = ToastDuration.Short
-    ) {
-        componentScope.launch {
-            toastHostState.showToast(
-                message = message,
-                icon = icon,
-                duration = duration
-            )
-        }
     }
 
     fun cancelShowingExitDialog() {
@@ -449,7 +432,6 @@ class RootComponent @AssistedInject internal constructor(
             onHasExtraDataType = ::updateExtraDataType,
             onColdStart = ::cancelShowingExitDialog,
             onGetUris = ::updateUris,
-            onShowToast = ::showToast,
             onNavigate = ::navigateTo,
             isHasUris = !uris.isNullOrEmpty(),
             onWantGithubReview = ::onWantGithubReview,

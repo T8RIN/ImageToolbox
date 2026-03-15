@@ -27,9 +27,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 fun AllowImageMonetSettingItem(
@@ -37,7 +38,6 @@ fun AllowImageMonetSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
 
     PreferenceRowSwitch(
@@ -45,9 +45,9 @@ fun AllowImageMonetSettingItem(
         shape = shape,
         enabled = !settingsState.isDynamicColors,
         onDisabledClick = {
-            essentials.showToast(
+            AppToastHost.showToast(
                 icon = Icons.Outlined.WaterDrop,
-                message = essentials.getString(R.string.cannot_use_monet_while_dynamic_colors_applied)
+                message = getString(R.string.cannot_use_monet_while_dynamic_colors_applied)
             )
         },
         title = stringResource(R.string.allow_image_monet),

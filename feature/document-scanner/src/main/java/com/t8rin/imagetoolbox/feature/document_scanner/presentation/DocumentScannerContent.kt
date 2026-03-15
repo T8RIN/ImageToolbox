@@ -48,7 +48,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberDocumentScanner
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -75,9 +74,6 @@ import com.t8rin.imagetoolbox.feature.document_scanner.presentation.screenLogic.
 fun DocumentScannerContent(
     component: DocumentScannerComponent
 ) {
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
-
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
@@ -87,12 +83,7 @@ fun DocumentScannerContent(
 
     val savePdfLauncher = rememberFileCreator(
         mimeType = MimeType.Pdf,
-        onSuccess = { uri ->
-            component.savePdfTo(
-                uri = uri,
-                onResult = essentials::parseFileSaveResult
-            )
-        }
+        onSuccess = component::savePdfTo
     )
 
     val documentScanner = rememberDocumentScanner {
@@ -112,8 +103,7 @@ fun DocumentScannerContent(
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
-            oneTimeSaveLocationUri = it,
-            onComplete = essentials::parseSaveResults
+            oneTimeSaveLocationUri = it
         )
     }
 
@@ -185,9 +175,7 @@ fun DocumentScannerContent(
                     .padding(8.dp),
             ) {
                 EnhancedButton(
-                    onClick = {
-                        component.sharePdf(showConfetti)
-                    },
+                    onClick = component::sharePdf,
                     containerColor = MaterialTheme.colorScheme.secondary,
                     contentPadding = PaddingValues(
                         top = 8.dp,
@@ -271,9 +259,7 @@ fun DocumentScannerContent(
                 actions = {
                     ShareButton(
                         enabled = component.uris.isNotEmpty(),
-                        onShare = {
-                            component.shareBitmaps(showConfetti)
-                        }
+                        onShare = component::shareBitmaps
                     )
                 }
             )

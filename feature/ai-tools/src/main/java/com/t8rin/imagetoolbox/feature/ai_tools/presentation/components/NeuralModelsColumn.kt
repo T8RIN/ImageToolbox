@@ -42,8 +42,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
@@ -71,14 +69,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.FileImport
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -107,11 +104,10 @@ internal fun NeuralModelsColumn(
     onSelectModel: (NeuralModel) -> Unit,
     onDownloadModel: (NeuralModel) -> Unit,
     onDeleteModel: (NeuralModel) -> Unit,
-    onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
+    onImportModel: (Uri) -> Unit,
     downloadProgresses: Map<String, DownloadProgress>,
     occupiedStorageSize: Long
 ) {
-    val essentials = rememberLocalEssentials()
     val scope = rememberCoroutineScope()
 
     val listState = rememberLazyListState()
@@ -119,29 +115,9 @@ internal fun NeuralModelsColumn(
     val filePicker = rememberFilePicker { uri: Uri ->
         val name = uri.filename().orEmpty()
         if (name.endsWith(".onnx") || name.endsWith(".ort")) {
-            onImportModel(uri) {
-                when (it) {
-                    SaveResult.Skipped -> {
-                        essentials.showToast(
-                            message = essentials.getString(R.string.model_already_downloaded),
-                            icon = Icons.Outlined.Info
-                        )
-                    }
-
-                    is SaveResult.Success -> {
-                        essentials.showToast(
-                            message = essentials.getString(R.string.model_successfully_imported),
-                            icon = Icons.Outlined.CheckCircle
-                        )
-                    }
-
-                    else -> essentials.parseFileSaveResult(it)
-                }
-            }
+            onImportModel(uri)
         } else {
-            essentials.showFailureToast(
-                essentials.getString(R.string.only_onnx_models)
-            )
+            AppToastHost.showFailureToast(R.string.only_onnx_models)
         }
     }
 

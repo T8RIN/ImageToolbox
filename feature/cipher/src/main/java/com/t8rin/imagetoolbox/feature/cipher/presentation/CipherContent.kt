@@ -42,8 +42,8 @@ import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVertical
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -65,9 +65,6 @@ fun CipherContent(
     component: CipherComponent
 ) {
     val showTip = component.showTip
-
-    val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -122,7 +119,7 @@ fun CipherContent(
                         .padding(horizontal = 2.dp)
                         .padding(bottom = 12.dp)
                         .scaleOnTap {
-                            showConfetti()
+                            AppToastHost.showConfetti()
                         }
                 )
             }
@@ -142,9 +139,9 @@ fun CipherContent(
                 onPrimaryButtonClick = {
                     component.startCryptography {
                         if (it is WrongKeyException) {
-                            essentials.showFailureToast(R.string.invalid_password_or_not_encrypted)
+                            AppToastHost.showFailureToast(R.string.invalid_password_or_not_encrypted)
                         } else if (it != null) {
-                            essentials.showFailureToast(
+                            AppToastHost.showFailureToast(
                                 throwable = it
                             )
                         }
