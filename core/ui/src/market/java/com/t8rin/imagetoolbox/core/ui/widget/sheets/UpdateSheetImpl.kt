@@ -17,20 +17,19 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.sheets
 
-import android.app.Activity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
-import kotlinx.coroutines.launch
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 internal fun UpdateSheetImpl(
@@ -39,7 +38,7 @@ internal fun UpdateSheetImpl(
     visible: Boolean,
     onDismiss: () -> Unit
 ) {
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
 
     if (context.isInstalledFromPlayStore()) {
         LaunchedEffect(visible) {
@@ -55,20 +54,20 @@ internal fun UpdateSheetImpl(
                         ) {
                             appUpdateManager.startUpdateFlow(
                                 appUpdateInfo,
-                                context as Activity,
+                                context,
                                 AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE)
                             )
                         } else {
                             AppToastHost.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
-                                message = context.getString(R.string.no_updates)
+                                message = getString(R.string.no_updates)
                             )
                         }
                     }
                 }.onFailure {
                     AppToastHost.showToast(
                         icon = Icons.Rounded.FileDownloadOff,
-                        message = context.getString(R.string.no_updates)
+                        message = getString(R.string.no_updates)
                     )
                 }
             }

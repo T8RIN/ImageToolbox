@@ -29,9 +29,9 @@ import androidx.compose.runtime.remember
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ScanResult
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 
 private class DocumentScannerImpl(
     private val context: ComponentActivity,
@@ -64,7 +64,6 @@ private class DocumentScannerImpl(
 internal fun rememberDocumentScannerImpl(
     onSuccess: (ScanResult) -> Unit
 ): DocumentScanner {
-    val essentials = rememberLocalEssentials()
     val context = LocalComponentActivity.current
 
     val scannerLauncher = rememberLauncherForActivityResult(
@@ -82,7 +81,7 @@ internal fun rememberDocumentScannerImpl(
                         )
                     )
                 }
-            }.onFailure(essentials::showFailureToast)
+            }.onFailure(AppToastHost::showFailureToast)
         }
     }
 
@@ -90,7 +89,7 @@ internal fun rememberDocumentScannerImpl(
         DocumentScannerImpl(
             context = context,
             scannerLauncher = scannerLauncher,
-            onFailure = essentials::showFailureToast
+            onFailure = AppToastHost::showFailureToast
         )
     }
 }
