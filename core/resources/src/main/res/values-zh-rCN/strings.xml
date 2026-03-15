@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -2041,14 +2039,14 @@
     <string name="smooth_shapes">光滑的形状</string>
     <string name="smooth_shapes_sub">使用超椭圆代替标准圆角矩形以获得更平滑、更自然的形状</string>
     <string name="shape_type">形状类型</string>
-    <string name="cut">八角形角</string>
-    <string name="rounded">圆润</string>
+    <string name="cut">切角</string>
+    <string name="rounded">圆角</string>
     <string name="smooth">光滑</string>
     <string name="cut_shapes_sub">边缘锐利，无圆角</string>
     <string name="rounded_shapes_sub">经典圆角</string>
     <string name="shapes_type">形状类型</string>
     <string name="corners_size">边角大小</string>
-    <string name="squircle">圆角矩形</string>
+    <string name="squircle">方圆形</string>
     <string name="squircle_shapes_sub">雅致的圆角UI元素</string>
     <string name="filename_format">文件名格式</string>
     <string name="prefix_pattern_description">自定义文本放置在文件名的开头，非常适合项目名称、品牌或个人标签。</string>
