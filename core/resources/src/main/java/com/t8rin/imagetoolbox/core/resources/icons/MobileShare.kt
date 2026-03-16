@@ -1,3 +1,20 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
 package com.t8rin.imagetoolbox.core.resources.icons
 
 import androidx.compose.material.icons.Icons
@@ -80,6 +97,54 @@ val Icons.Outlined.MobileShare: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineTo(280f, 840f)
             quadTo(280f, 840f, 280f, 840f)
             quadTo(280f, 840f, 280f, 840f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.Rounded.MobileShare: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Rounded.MobileShare",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(320f, 640f)
+            horizontalLineToRelative(80f)
+            verticalLineToRelative(-120f)
+            horizontalLineToRelative(86f)
+            lineToRelative(-42f, 44f)
+            lineToRelative(56f, 56f)
+            lineToRelative(140f, -140f)
+            lineToRelative(-140f, -140f)
+            lineToRelative(-56f, 56f)
+            lineToRelative(42f, 44f)
+            horizontalLineToRelative(-86f)
+            quadToRelative(-33f, 0f, -56.5f, 23.5f)
+            reflectiveQuadTo(320f, 520f)
+            verticalLineToRelative(120f)
+            close()
+            moveTo(280f, 920f)
+            quadToRelative(-33f, 0f, -56.5f, -23.5f)
+            reflectiveQuadTo(200f, 840f)
+            verticalLineToRelative(-720f)
+            quadToRelative(0f, -33f, 23.5f, -56.5f)
+            reflectiveQuadTo(280f, 40f)
+            horizontalLineToRelative(400f)
+            quadToRelative(33f, 0f, 56.5f, 23.5f)
+            reflectiveQuadTo(760f, 120f)
+            verticalLineToRelative(124f)
+            quadToRelative(18f, 7f, 29f, 22f)
+            reflectiveQuadToRelative(11f, 34f)
+            verticalLineToRelative(80f)
+            quadToRelative(0f, 19f, -11f, 34f)
+            reflectiveQuadToRelative(-29f, 22f)
+            verticalLineToRelative(404f)
+            quadToRelative(0f, 33f, -23.5f, 56.5f)
+            reflectiveQuadTo(680f, 920f)
+            lineTo(280f, 920f)
             close()
         }
     }.build()
