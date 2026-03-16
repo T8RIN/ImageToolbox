@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.library_details.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -94,7 +95,7 @@ fun LibraryDetailsContent(
         SelectionContainer {
             HtmlText(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .enhancedVerticalScroll(rememberScrollState())
                     .padding(contentPadding)
                     .padding(12.dp)
