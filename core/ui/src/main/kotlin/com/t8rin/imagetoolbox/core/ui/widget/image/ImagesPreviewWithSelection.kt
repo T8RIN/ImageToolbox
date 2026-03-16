@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.image
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDp
@@ -338,6 +339,9 @@ private fun ImageItem(
     aboveImageContent: @Composable BoxScope.(index: Int) -> Unit,
     contentScale: ContentScale
 ) {
+    val extracted = remember(uri) {
+        uri.extractUri()
+    }
     val transition = updateTransition(selected)
     val padding by transition.animateDp { s ->
         if (s) 10.dp else 0.dp
@@ -360,11 +364,9 @@ private fun ImageItem(
                 .padding(padding)
                 .clip(shape)
                 .background(MaterialTheme.colorScheme.surface),
-            onError = if (uri is String) {
-                {
-                    onError(uri)
-                }
-            } else null,
+            onError = extracted?.let {
+                { onError(extracted.toString()) }
+            },
             error = {
                 Box(
                     contentAlignment = Alignment.Center,
@@ -404,9 +406,9 @@ private fun ImageItem(
             content = {
                 aboveImageContent(index)
 
-                if (showExtension && uri is String) {
-                    val extension = rememberFileExtension(uri.toUri())?.uppercase()
-                    val humanFileSize = rememberHumanFileSize(uri.toUri())
+                if (showExtension && extracted != null) {
+                    val extension = rememberFileExtension(extracted)?.uppercase()
+                    val humanFileSize = rememberHumanFileSize(extracted)
 
                     extension?.let {
                         Row(
@@ -486,3 +488,5 @@ private fun ImageItem(
         }
     }
 }
+
+private fun Any.extractUri() = (this as? String)?.toUri() ?: this as? Uri

@@ -156,6 +156,10 @@ fun Uri.fileSize(): Long? = tryExtractOriginal().run {
 }
 
 fun Uri.tryExtractOriginal(): Uri = try {
+    if ("com.android.externalstorage.documents" in this.toString()) {
+        return this.makeLog("tryExtractOriginal") { "already ok - $it" }
+    }
+
     val mimeType = getStringColumn(MediaStore.MediaColumns.MIME_TYPE).orEmpty()
 
     val contentUri = when {
@@ -171,7 +175,7 @@ fun Uri.tryExtractOriginal(): Uri = try {
     )
 } catch (e: Throwable) {
     e.makeLog("tryExtractOriginal")
-    this
+    this.makeLog("tryExtractOriginal") { "failed - $it" }
 }
 
 suspend fun List<Uri>.sortedByType(

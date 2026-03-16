@@ -72,6 +72,7 @@ import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -499,7 +500,9 @@ internal class AndroidFileController @Inject constructor(
 
     override fun listFilesInDirectoryAsFlow(
         treeUri: String
-    ): Flow<String> = treeUri.toUri().listFilesInDirectoryProgressive().map(Uri::toString)
+    ): Flow<String> = treeUri.toUri().listFilesInDirectoryProgressive().map {
+        it.toString()
+    }.flowOn(ioDispatcher)
 
     private suspend fun copyMetadata(
         initialExif: Metadata?,

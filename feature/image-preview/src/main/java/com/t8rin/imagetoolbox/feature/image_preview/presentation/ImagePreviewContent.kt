@@ -56,7 +56,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -149,10 +148,6 @@ fun ImagePreviewContent(
 
     var gridInvalidations by remember {
         mutableIntStateOf(0)
-    }
-
-    LaunchedEffect(component.uris) {
-        gridInvalidations++
     }
 
     Surface(

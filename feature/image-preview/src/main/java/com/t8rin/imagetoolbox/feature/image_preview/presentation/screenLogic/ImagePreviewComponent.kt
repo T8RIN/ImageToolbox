@@ -17,15 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.image_preview.presentation.screenLogic
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
-import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
@@ -33,12 +32,11 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.appContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.withContext
 
 class ImagePreviewComponent @AssistedInject internal constructor(
@@ -47,7 +45,6 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val shareProvider: ShareProvider,
-    private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -108,36 +105,27 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisFromTree(uri: Uri) {
-        asyncUpdateUris {
-            _uris.update { emptyList() }
-
+        asyncUpdateUris { _ ->
             withContext(ioDispatcher) {
-                fileController.listFilesInDirectoryAsFlow(uri.toString())
-                    .mapNotNull { uri ->
-                        val excluded = listOf(
-                            "xml",
-                            "mov",
-                            "zip",
-                            "apk",
-                            "mp4",
-                            "mp3",
-                            "pdf",
-                            "ldb",
-                            "ttf",
-                            "gz",
-                            "rar"
-                        )
-                        if (excluded.any { uri.endsWith(".$it", true) }) return@mapNotNull null
+                val buffer = SnapshotStateList<Uri>()
+                _uris.update { buffer }
 
-                        imageGetter.getImage(
-                            data = uri,
-                            size = 10
-                        )?.let { uri.toUri() }
-                    }
-                    .onEach { uri ->
-                        _uris.update { it.orEmpty() + uri }
-                    }
-                    .toList()
+                buildList {
+                    fileController.listFilesInDirectoryAsFlow(uri.toString())
+                        .mapNotNull { uri ->
+                            if (EXCLUDED.any { uri.endsWith(".$it", true) }) return@mapNotNull null
+
+                            uri.toUri().also {
+                                val mime = appContext.contentResolver.getType(it).orEmpty()
+
+                                if ("audio" in mime || "video" in mime) return@mapNotNull null
+                            }
+                        }
+                        .collect { uri ->
+                            add(uri)
+                            buffer.add(uri)
+                        }
+                }
             }
         }
     }
@@ -162,3 +150,17 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     }
 
 }
+
+private val EXCLUDED = listOf(
+    "xml",
+    "mov",
+    "zip",
+    "apk",
+    "mp4",
+    "mp3",
+    "pdf",
+    "ldb",
+    "ttf",
+    "gz",
+    "rar"
+)
