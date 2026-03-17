@@ -28,7 +28,7 @@ dependencies {
     "marketImplementation"(libs.mlkit.subject.segmentation)
     "marketImplementation"(libs.mlkit.segmentation.selfie)
 
-    implementation(libs.toolbox.neuralTools)
+    implementation(projects.lib.neuralTools)
     implementation(libs.trickle)
     
     implementation(projects.feature.draw)

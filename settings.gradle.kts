@@ -128,4 +128,6 @@ include(":core:crash")
 include(":core:ksp")
 include(":core:utils")
 
+include(":lib:neural-tools")
+
 include(":benchmark")

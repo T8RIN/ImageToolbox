@@ -25,5 +25,5 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.feature.ai_tools"
 
 dependencies {
-    implementation(libs.toolbox.neuralTools)
+    implementation(projects.lib.neuralTools)
 }

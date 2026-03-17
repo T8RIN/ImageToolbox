@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ dependencies {
     implementation(libs.trickle)
     implementation(libs.toolbox.gpuimage)
     implementation(libs.toolbox.opencvTools)
-    implementation(libs.toolbox.neuralTools)
+    implementation(projects.lib.neuralTools)
     implementation(libs.toolbox.curves)
     implementation(libs.toolbox.jhlabs)
     implementation(libs.toolbox.ascii)

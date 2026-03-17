@@ -84,7 +84,10 @@ flinger = "2.0.2"
 zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 
+onnx = "1.24.3"
+
 [libraries]
+onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
 flinger = { module = "com.github.iamjosephmj.flinger:flinger", version.ref = "flinger" }
@@ -142,7 +145,6 @@ toolbox-ascii = { module = "com.github.T8RIN.ImageToolboxLibs:ascii", version.re
 toolbox-documentscanner = { module = "com.github.T8RIN.ImageToolboxLibs:documentscanner", version.ref = "imageToolboxLibs" }
 toolbox-qrose = { module = "com.github.T8RIN.ImageToolboxLibs:qrose", version.ref = "imageToolboxLibs" }
 toolbox-palette = { module = "com.github.T8RIN.ImageToolboxLibs:palette", version.ref = "imageToolboxLibs" }
-toolbox-neuralTools = { module = "com.github.T8RIN.ImageToolboxLibs:neural-tools", version.ref = "imageToolboxLibs" }
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }

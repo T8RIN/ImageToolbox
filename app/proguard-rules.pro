@@ -71,3 +71,5 @@
 -keepclassmembers class * extends java.lang.Enum {
     public java.lang.String name();
 }
+
+-keep class ai.onnxruntime.** { *; }

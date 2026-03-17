@@ -142,7 +142,7 @@ dependencies {
     implementation(projects.feature.quickTiles)
 
     implementation(libs.toolbox.opencvTools)
-    implementation(libs.toolbox.neuralTools)
+    implementation(projects.lib.neuralTools)
 
     implementation(libs.bouncycastle.pkix)
     implementation(libs.bouncycastle.provider)
