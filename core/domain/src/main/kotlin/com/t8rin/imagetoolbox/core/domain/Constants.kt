@@ -34,7 +34,7 @@ const val APP_CHANGELOG = "$APP_RELEASES.atom"
 const val RES_HOST = "$AUTHOR_GITHUB/ImageToolboxRemoteResources"
 const val LENS_PROFILES_LINK = "$RES_HOST/tree/main/lens_profile"
 const val RES_BASE_URL = "$RES_HOST/raw/refs/heads/main/*"
-const val HF_BASE_URL = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/*"
+const val HF_BASE_URL = "https://huggingface.co/T8RIN/imagetoolbox-models/resolve/main/*"
 
 
 const val GLOBAL_STORAGE_NAME = "image_resizer"
