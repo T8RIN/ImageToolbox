@@ -65,8 +65,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.idapgroup.snowfall.snowfall
-import com.idapgroup.snowfall.types.FlakeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -82,6 +80,8 @@ import com.t8rin.imagetoolbox.feature.main.presentation.components.MainContentIm
 import com.t8rin.imagetoolbox.feature.main.presentation.components.MainDrawerContent
 import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.SettingsContent
+import com.t8rin.snowfall.snowfall
+import com.t8rin.snowfall.types.FlakeType
 import kotlinx.coroutines.delay
 
 @Composable
