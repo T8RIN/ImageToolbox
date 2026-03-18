@@ -52,6 +52,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.core.content.getSystemService
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
@@ -61,6 +62,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.density
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.flexibleScale
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.LayerContent
 import com.t8rin.logger.makeLog
@@ -89,7 +91,12 @@ internal class LayersRenderer @Inject constructor(
         backgroundImage: Bitmap,
         layers: List<MarkupLayer>
     ): Bitmap = withContext(uiDispatcher) {
-        val resultBitmap = backgroundImage.copy(Bitmap.Config.ARGB_8888, true)
+        val resultBitmap = backgroundImage.run {
+            flexibleScale(
+                max = maxOf(width, height, 2048),
+                filter = false
+            )
+        }.copy(Bitmap.Config.ARGB_8888, true)
 
         if (layers.isEmpty()) return@withContext resultBitmap
 
@@ -290,7 +297,11 @@ internal class LayersRenderer @Inject constructor(
         imageReader.close()
         frameChannel.close()
 
-        resultBitmap
+        resultBitmap.scale(
+            width = backgroundImage.width,
+            height = backgroundImage.height,
+            filter = false
+        )
     }
 
     private fun queryGlMaxTextureSize(): Int {
