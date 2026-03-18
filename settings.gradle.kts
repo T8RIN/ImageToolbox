@@ -131,5 +131,7 @@ include(":core:utils")
 include(":lib:neural-tools")
 include(":lib:collages")
 include(":lib:ascii")
+include(":lib:opencv-tools")
+include(":lib:documentscanner")
 
 include(":benchmark")

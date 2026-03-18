@@ -141,7 +141,7 @@ dependencies {
     implementation(projects.feature.mediaPicker)
     implementation(projects.feature.quickTiles)
 
-    implementation(libs.toolbox.opencvTools)
+    implementation(projects.lib.opencvTools)
     implementation(projects.lib.neuralTools)
 
     implementation(libs.bouncycastle.pkix)

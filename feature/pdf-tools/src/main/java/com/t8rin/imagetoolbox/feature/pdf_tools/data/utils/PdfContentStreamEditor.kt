@@ -195,6 +195,7 @@ internal fun PDDocument.removeText(linesToRemove: Set<String>) {
             val recentChars = StringBuilder()
             val TEXT_SHOWING_OPERATORS = listOf("Tj", "'", "\"", "TJ")
 
+            @Suppress("DEPRECATION")
             @Deprecated("Deprecated in Java")
             override fun showGlyph(
                 textRenderingMatrix: Matrix,

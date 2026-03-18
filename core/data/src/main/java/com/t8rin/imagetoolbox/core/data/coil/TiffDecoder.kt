@@ -39,6 +39,7 @@ internal class TiffDecoder private constructor(
     private val options: Options
 ) : Decoder {
 
+    @Suppress("DEPRECATION")
     override suspend fun decode(): DecodeResult? {
         val config = options.bitmapConfig.takeIf {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

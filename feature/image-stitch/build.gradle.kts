@@ -26,6 +26,6 @@ android.namespace = "com.t8rin.imagetoolbox.feature.image_stitch"
 
 dependencies {
     implementation(projects.core.filters)
-    implementation(libs.toolbox.opencvTools)
+    implementation(projects.lib.opencvTools)
     implementation(libs.trickle)
 }

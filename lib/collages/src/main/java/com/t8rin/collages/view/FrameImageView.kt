@@ -30,13 +30,14 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
-import android.net.Uri
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.graphics.withClip
+import androidx.core.graphics.withSave
+import androidx.core.net.toUri
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ImageUtils
@@ -45,6 +46,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 import kotlin.math.min
 
 @SuppressLint("ViewConstructor")
@@ -165,7 +167,7 @@ internal class FrameImageView(
 
     fun saveInstanceState(outState: Bundle) {
         val index = photoItem.index
-        var values = FloatArray(9)
+        val values = FloatArray(9)
         mImageMatrix.getValues(values)
         outState.putFloatArray("mImageMatrix_$index", values)
         outState.putFloat("mViewWidth_$index", viewWidth)
@@ -225,8 +227,8 @@ internal class FrameImageView(
                 token?.let { t ->
                     runCatching {
                         ImageDecoder.decodeFileToBitmap(
-                            context,
-                            Uri.parse(t)
+                            context = context,
+                            pathName = t.toUri()
                         )
                     }.getOrNull()
                 }
@@ -314,10 +316,10 @@ internal class FrameImageView(
         // Preserve center point
         mImageMatrix.postTranslate((viewWidth - oldW) * 0.5f, (viewHeight - oldH) * 0.5f)
 
-        if (oldW > 0 && oldH > 0 && Math.abs(viewWidth / oldW.toFloat() - viewHeight / oldH.toFloat()) < 0.00001f) {
+        if (oldW > 0 && oldH > 0 && abs(viewWidth / oldW - viewHeight / oldH) < 0.00001f) {
             // Simple center rescale
 
-            val scale = (viewWidth / oldW.toFloat() + viewHeight / oldH.toFloat()) / 2
+            val scale = (viewWidth / oldW + viewHeight / oldH) / 2
             mImageMatrix.postScale(scale, scale, viewWidth / 2, viewHeight / 2)
         } else {
             if (image != null) {
@@ -554,7 +556,7 @@ internal class FrameImageView(
                 }
             }
 
-            if (photoItem.clearAreaPoints != null && photoItem.clearAreaPoints!!.size > 0) {
+            if (photoItem.clearAreaPoints != null && photoItem.clearAreaPoints!!.isNotEmpty()) {
                 clearPath.reset()
                 if (convertedClearPoints.isEmpty())
                     for (p in photoItem.clearAreaPoints!!) {
@@ -571,32 +573,40 @@ internal class FrameImageView(
                 polygon.clear()
             } else {
                 val shrunkPoints: List<PointF>
-                if (photoItem.shrinkMethod == PhotoItem.SHRINK_METHOD_3_3) {
-                    val centerPointIdx = findCenterPointIndex(photoItem)
-                    shrunkPoints = GeometryUtils.shrinkPathCollage_3_3(
-                        convertedPoints,
-                        centerPointIdx,
-                        space,
-                        photoItem.bound
-                    )
-                } else if (photoItem.shrinkMethod == PhotoItem.SHRINK_METHOD_USING_MAP && photoItem.shrinkMap != null) {
-                    shrunkPoints = GeometryUtils.shrinkPathCollageUsingMap(
-                        convertedPoints,
-                        space,
-                        photoItem.shrinkMap!!
-                    )
-                } else if (photoItem.shrinkMethod == PhotoItem.SHRINK_METHOD_COMMON && photoItem.shrinkMap != null) {
-                    shrunkPoints =
-                        GeometryUtils.commonShrinkPath(
+                when (photoItem.shrinkMethod) {
+                    PhotoItem.SHRINK_METHOD_3_3 -> {
+                        val centerPointIdx = findCenterPointIndex(photoItem)
+                        shrunkPoints = GeometryUtils.shrinkPathCollage_3_3(
+                            convertedPoints,
+                            centerPointIdx,
+                            space,
+                            photoItem.bound
+                        )
+                    }
+
+                    PhotoItem.SHRINK_METHOD_USING_MAP if photoItem.shrinkMap != null -> {
+                        shrunkPoints = GeometryUtils.shrinkPathCollageUsingMap(
                             convertedPoints,
                             space,
                             photoItem.shrinkMap!!
                         )
-                } else {
-                    shrunkPoints = if (photoItem.disableShrink) {
-                        GeometryUtils.shrinkPath(convertedPoints, 0f, photoItem.bound)
-                    } else {
-                        GeometryUtils.shrinkPath(convertedPoints, space, photoItem.bound)
+                    }
+
+                    PhotoItem.SHRINK_METHOD_COMMON if photoItem.shrinkMap != null -> {
+                        shrunkPoints =
+                            GeometryUtils.commonShrinkPath(
+                                convertedPoints,
+                                space,
+                                photoItem.shrinkMap!!
+                            )
+                    }
+
+                    else -> {
+                        shrunkPoints = if (photoItem.disableShrink) {
+                            GeometryUtils.shrinkPath(convertedPoints, 0f, photoItem.bound)
+                        } else {
+                            GeometryUtils.shrinkPath(convertedPoints, space, photoItem.bound)
+                        }
                     }
                 }
                 polygon.clear()
@@ -849,10 +859,9 @@ internal class FrameImageView(
             }
             //clip outside
             if (pathRect.left == pathRect.right) {
-                canvas.save()
-                canvas.clipPath(path)
-                pathRect.set(canvas.clipBounds)
-                canvas.restore()
+                canvas.withClip(path) {
+                    pathRect.set(clipBounds)
+                }
             }
 
             canvas.save()
@@ -880,25 +889,25 @@ internal class FrameImageView(
             path.fillType = currentFillType
             //clear area
             if (clearPath != null) {
-                canvas.save()
-                paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-                canvas.drawARGB(0x00, 0x00, 0x00, 0x00)
-                paint.color = Color.BLACK
-                paint.style = Paint.Style.FILL
-                canvas.drawPath(clearPath, paint)
-                paint.xfermode = null
-                canvas.restore()
+                canvas.withSave {
+                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                    drawARGB(0x00, 0x00, 0x00, 0x00)
+                    paint.color = Color.BLACK
+                    paint.style = Paint.Style.FILL
+                    drawPath(clearPath, paint)
+                    paint.xfermode = null
+                }
             }
             //draw out side
             if (backgroundPath != null) {
-                canvas.save()
-                paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OVER)
-                canvas.drawARGB(0x00, 0x00, 0x00, 0x00)
-                paint.color = color
-                paint.style = Paint.Style.FILL
-                canvas.drawPath(backgroundPath, paint)
-                paint.xfermode = null
-                canvas.restore()
+                canvas.withSave {
+                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OVER)
+                    drawARGB(0x00, 0x00, 0x00, 0x00)
+                    paint.color = color
+                    paint.style = Paint.Style.FILL
+                    drawPath(backgroundPath, paint)
+                    paint.xfermode = null
+                }
             }
             //touch polygon
             if (touchPolygon != null && touchPolygon.isEmpty()) {

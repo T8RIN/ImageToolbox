@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.aire)
     implementation(libs.trickle)
     implementation(libs.toolbox.gpuimage)
-    implementation(libs.toolbox.opencvTools)
+    implementation(projects.lib.opencvTools)
     implementation(projects.lib.neuralTools)
     implementation(libs.toolbox.curves)
     implementation(libs.toolbox.jhlabs)

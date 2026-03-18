@@ -91,7 +91,7 @@ dependencies {
     "marketImplementation"(libs.app.update.ktx)
 
     "marketImplementation"(libs.mlkit.document.scanner)
-    "fossImplementation"(libs.toolbox.documentscanner)
+    "fossImplementation"(projects.lib.documentscanner)
 
     "marketImplementation"(libs.quickie.bundled)
     "fossImplementation"(libs.quickie.foss)

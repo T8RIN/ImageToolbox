@@ -85,8 +85,11 @@ zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 
 onnx = "1.24.3"
+opencv = "4.13.0"
+tiffdecoder = "1.0.5"
 
 [libraries]
+opencv = { module = "org.opencv:opencv", version.ref = "opencv" }
 onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
@@ -128,7 +131,6 @@ toolbox-apng = { module = "com.github.T8RIN.ImageToolboxLibs:apng", version.ref 
 toolbox-snowfall = { module = "com.github.T8RIN.ImageToolboxLibs:snowfall", version.ref = "imageToolboxLibs" }
 toolbox-svg = { module = "com.github.T8RIN.ImageToolboxLibs:svg", version.ref = "imageToolboxLibs" }
 toolbox-jp2decoder = { module = "com.github.T8RIN.ImageToolboxLibs:jp2decoder", version.ref = "imageToolboxLibs" }
-toolbox-tiffDecoder = { module = "com.github.T8RIN.ImageToolboxLibs:tiffdecoder", version.ref = "imageToolboxLibs" }
 toolbox-qoiCoder = { module = "com.github.T8RIN.ImageToolboxLibs:qoi-coder", version.ref = "imageToolboxLibs" }
 toolbox-awebp = { module = "com.github.T8RIN.ImageToolboxLibs:awebp", version.ref = "imageToolboxLibs" }
 toolbox-psd = { module = "com.github.T8RIN.ImageToolboxLibs:psd", version.ref = "imageToolboxLibs" }
@@ -136,14 +138,13 @@ toolbox-djvuCoder = { module = "com.github.T8RIN.ImageToolboxLibs:djvu-coder", v
 toolbox-fastNoise = { module = "com.github.T8RIN.ImageToolboxLibs:fast-noise", version.ref = "imageToolboxLibs" }
 toolbox-histogram = { module = "com.github.T8RIN.ImageToolboxLibs:histogram", version.ref = "imageToolboxLibs" }
 toolbox-uCrop = { module = "com.github.T8RIN.ImageToolboxLibs:ucrop", version.ref = "imageToolboxLibs" }
-toolbox-opencvTools = { module = "com.github.T8RIN.ImageToolboxLibs:opencv-tools", version.ref = "imageToolboxLibs" }
 toolbox-curves = { module = "com.github.T8RIN.ImageToolboxLibs:curves", version.ref = "imageToolboxLibs" }
 toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref = "imageToolboxLibs" }
 toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.ref = "imageToolboxLibs" }
-toolbox-documentscanner = { module = "com.github.T8RIN.ImageToolboxLibs:documentscanner", version.ref = "imageToolboxLibs" }
 toolbox-qrose = { module = "com.github.T8RIN.ImageToolboxLibs:qrose", version.ref = "imageToolboxLibs" }
 toolbox-palette = { module = "com.github.T8RIN.ImageToolboxLibs:palette", version.ref = "imageToolboxLibs" }
 
+tiffdecoder = { module = "com.github.T8RIN:TiffDecoder", version.ref = "tiffdecoder" }
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }

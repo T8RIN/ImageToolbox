@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:paddingVertical="@dimen/image_crop_view_vertical_padding"
+    tools:context=".DocumentScannerActivity">
+
+    <com.websitebeaver.documentscanner.ui.ImageCropView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/image_crop_view_initial_height"
+        android:contentDescription="@string/image_with_cropper" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view"
+        android:layout_alignParentBottom="true"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/buttons_container_horizontal_padding"
+        android:paddingBottom="@dimen/buttons_container_bottom_padding">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <com.websitebeaver.documentscanner.ui.CircleButton
+                android:id="@+id/retake_photo_button"
+                android:layout_width="@dimen/small_button_diameter"
+                android:layout_height="@dimen/small_button_diameter"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:stateListAnimator="@animator/button_grow_animation" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <com.websitebeaver.documentscanner.ui.DoneButton
+                android:id="@+id/complete_document_scan_button"
+                android:layout_width="@dimen/large_button_diameter"
+                android:layout_height="@dimen/large_button_diameter"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_check_24"
+                android:stateListAnimator="@animator/button_grow_animation" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <com.websitebeaver.documentscanner.ui.CircleButton
+                android:id="@+id/new_photo_button"
+                android:layout_width="@dimen/small_button_diameter"
+                android:layout_height="@dimen/small_button_diameter"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_add_24"
+                android:stateListAnimator="@animator/button_grow_animation" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
