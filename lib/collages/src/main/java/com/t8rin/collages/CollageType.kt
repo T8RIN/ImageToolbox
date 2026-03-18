@@ -15,15 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.collages
 
-android.namespace = "com.t8rin.imagetoolbox.feature.collage_maker"
+import com.t8rin.collages.model.TemplateItem
 
-dependencies {
-    implementation(projects.lib.collages)
+@ConsistentCopyVisibility
+data class CollageType internal constructor(
+    internal val templateItem: TemplateItem?,
+    internal val index: Int?
+) {
+    companion object {
+        val Empty by lazy {
+            CollageType(
+                templateItem = null,
+                index = null
+            )
+        }
+    }
 }

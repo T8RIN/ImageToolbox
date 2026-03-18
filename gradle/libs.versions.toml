@@ -134,7 +134,6 @@ toolbox-awebp = { module = "com.github.T8RIN.ImageToolboxLibs:awebp", version.re
 toolbox-psd = { module = "com.github.T8RIN.ImageToolboxLibs:psd", version.ref = "imageToolboxLibs" }
 toolbox-djvuCoder = { module = "com.github.T8RIN.ImageToolboxLibs:djvu-coder", version.ref = "imageToolboxLibs" }
 toolbox-fastNoise = { module = "com.github.T8RIN.ImageToolboxLibs:fast-noise", version.ref = "imageToolboxLibs" }
-toolbox-collages = { module = "com.github.T8RIN.ImageToolboxLibs:collages", version.ref = "imageToolboxLibs" }
 toolbox-histogram = { module = "com.github.T8RIN.ImageToolboxLibs:histogram", version.ref = "imageToolboxLibs" }
 toolbox-uCrop = { module = "com.github.T8RIN.ImageToolboxLibs:ucrop", version.ref = "imageToolboxLibs" }
 toolbox-opencvTools = { module = "com.github.T8RIN.ImageToolboxLibs:opencv-tools", version.ref = "imageToolboxLibs" }

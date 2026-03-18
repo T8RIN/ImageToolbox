@@ -129,5 +129,6 @@ include(":core:ksp")
 include(":core:utils")
 
 include(":lib:neural-tools")
+include(":lib:collages")
 
 include(":benchmark")
