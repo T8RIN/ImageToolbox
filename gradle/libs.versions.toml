@@ -140,7 +140,6 @@ toolbox-opencvTools = { module = "com.github.T8RIN.ImageToolboxLibs:opencv-tools
 toolbox-curves = { module = "com.github.T8RIN.ImageToolboxLibs:curves", version.ref = "imageToolboxLibs" }
 toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref = "imageToolboxLibs" }
 toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.ref = "imageToolboxLibs" }
-toolbox-ascii = { module = "com.github.T8RIN.ImageToolboxLibs:ascii", version.ref = "imageToolboxLibs" }
 toolbox-documentscanner = { module = "com.github.T8RIN.ImageToolboxLibs:documentscanner", version.ref = "imageToolboxLibs" }
 toolbox-qrose = { module = "com.github.T8RIN.ImageToolboxLibs:qrose", version.ref = "imageToolboxLibs" }
 toolbox-palette = { module = "com.github.T8RIN.ImageToolboxLibs:palette", version.ref = "imageToolboxLibs" }

@@ -39,5 +39,5 @@ dependencies {
     implementation(projects.lib.neuralTools)
     implementation(libs.toolbox.curves)
     implementation(libs.toolbox.jhlabs)
-    implementation(libs.toolbox.ascii)
+    implementation(projects.lib.ascii)
 }

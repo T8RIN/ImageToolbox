@@ -130,5 +130,6 @@ include(":core:utils")
 
 include(":lib:neural-tools")
 include(":lib:collages")
+include(":lib:ascii")
 
 include(":benchmark")
