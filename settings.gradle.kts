@@ -134,5 +134,6 @@ include(":lib:ascii")
 include(":lib:opencv-tools")
 include(":lib:documentscanner")
 include(":lib:snowfall")
+include(":lib:curves")
 
 include(":benchmark")

@@ -15,21 +15,27 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.curves.view
 
-android.namespace = "com.t8rin.imagetoolbox.feature.single_edit"
+internal class Rect {
+    @JvmField
+    var x: Float = 0f
 
-dependencies {
-    implementation(projects.feature.crop)
-    implementation(projects.feature.eraseBackground)
-    implementation(projects.feature.draw)
-    implementation(projects.feature.filters)
-    implementation(projects.feature.pickColor)
-    implementation(projects.feature.compare)
-    implementation(projects.lib.curves)
+    @JvmField
+    var y: Float = 0f
+
+    @JvmField
+    var width: Float = 0f
+
+    @JvmField
+    var height: Float = 0f
+
+    constructor()
+
+    constructor(x: Float, y: Float, width: Float, height: Float) {
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+    }
 }

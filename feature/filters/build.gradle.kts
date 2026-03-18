@@ -37,7 +37,7 @@ dependencies {
     implementation(libs.toolbox.gpuimage)
     implementation(projects.lib.opencvTools)
     implementation(projects.lib.neuralTools)
-    implementation(libs.toolbox.curves)
+    implementation(projects.lib.curves)
     implementation(libs.toolbox.jhlabs)
     implementation(projects.lib.ascii)
 }

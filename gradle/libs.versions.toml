@@ -136,7 +136,6 @@ toolbox-djvuCoder = { module = "com.github.T8RIN.ImageToolboxLibs:djvu-coder", v
 toolbox-fastNoise = { module = "com.github.T8RIN.ImageToolboxLibs:fast-noise", version.ref = "imageToolboxLibs" }
 toolbox-histogram = { module = "com.github.T8RIN.ImageToolboxLibs:histogram", version.ref = "imageToolboxLibs" }
 toolbox-uCrop = { module = "com.github.T8RIN.ImageToolboxLibs:ucrop", version.ref = "imageToolboxLibs" }
-toolbox-curves = { module = "com.github.T8RIN.ImageToolboxLibs:curves", version.ref = "imageToolboxLibs" }
 toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref = "imageToolboxLibs" }
 toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.ref = "imageToolboxLibs" }
 toolbox-qrose = { module = "com.github.T8RIN.ImageToolboxLibs:qrose", version.ref = "imageToolboxLibs" }

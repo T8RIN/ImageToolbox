@@ -15,21 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.curves.utils
 
-android.namespace = "com.t8rin.imagetoolbox.feature.single_edit"
+import android.graphics.Bitmap
 
-dependencies {
-    implementation(projects.feature.crop)
-    implementation(projects.feature.eraseBackground)
-    implementation(projects.feature.draw)
-    implementation(projects.feature.filters)
-    implementation(projects.feature.pickColor)
-    implementation(projects.feature.compare)
-    implementation(projects.lib.curves)
-}
+internal val Bitmap.aspectRatio: Float get() = width / height.toFloat()
+
+internal val Bitmap.safeAspectRatio: Float
+    get() = aspectRatio
+        .coerceAtLeast(0.005f)
+        .coerceAtMost(1000f)

@@ -31,7 +31,7 @@ dependencies {
     implementation(projects.core.utils)
 
     implementation(libs.kotlin.reflect)
-    implementation(libs.toolbox.curves)
+    implementation(projects.lib.curves)
     implementation(projects.lib.ascii)
     implementation(projects.lib.neuralTools)
     implementation(libs.trickle)
