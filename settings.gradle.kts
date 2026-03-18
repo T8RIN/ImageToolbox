@@ -135,5 +135,7 @@ include(":lib:opencv-tools")
 include(":lib:documentscanner")
 include(":lib:snowfall")
 include(":lib:curves")
+include(":lib:dynamic-theme")
+include(":lib:palette")
 
 include(":benchmark")

@@ -15,16 +15,20 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
+package com.t8rin.palette.utils
+
+internal fun String.xmlDecoded(): String {
+    return this.replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", "\"")
+        .replace("&apos;", "'")
 }
 
-android.namespace = "com.t8rin.imagetoolbox.feature.palette_tools"
-
-dependencies {
-    implementation(projects.feature.pickColor)
-    implementation(projects.lib.palette)
+internal fun String.xmlEscaped(): String {
+    return this.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("\"", "&quot;")
+        .replace("'", "&apos;")
 }

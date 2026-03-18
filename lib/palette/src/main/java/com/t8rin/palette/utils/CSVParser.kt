@@ -15,16 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
+package com.t8rin.palette.utils
+
+/**
+ * Simple CSV parser
+ */
+internal object CSVParser {
+    /**
+     * Parse CSV text into records
+     */
+    fun parse(text: String): List<List<String>> {
+        val records = mutableListOf<List<String>>()
+        val lines = text.lines()
+
+        for (line in lines) {
+            if (line.isBlank()) continue
+            val fields = line.split(',').map { it.trim() }
+            if (fields.isNotEmpty()) {
+                records.add(fields)
+            }
+        }
+
+        return records
+    }
 }
 
-android.namespace = "com.t8rin.imagetoolbox.feature.palette_tools"
 
-dependencies {
-    implementation(projects.feature.pickColor)
-    implementation(projects.lib.palette)
-}

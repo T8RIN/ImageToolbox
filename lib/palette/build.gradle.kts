@@ -17,14 +17,13 @@
 
 plugins {
     alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
     alias(libs.plugins.image.toolbox.compose)
+    kotlin("plugin.serialization")
 }
 
-android.namespace = "com.t8rin.imagetoolbox.feature.palette_tools"
+android.namespace = "com.t8rin.palette"
 
 dependencies {
-    implementation(projects.feature.pickColor)
-    implementation(projects.lib.palette)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.kotlinx.serialization.json)
 }

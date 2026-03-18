@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.palette
 
-android.namespace = "com.t8rin.imagetoolbox.feature.palette_tools"
+import kotlinx.serialization.Serializable
 
-dependencies {
-    implementation(projects.feature.pickColor)
-    implementation(projects.lib.palette)
+/**
+ * The type of the color (normal, spot, global)
+ */
+@Serializable
+enum class ColorType {
+    Global,
+    Spot,
+    Normal
 }

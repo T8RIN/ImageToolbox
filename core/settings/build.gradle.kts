@@ -29,7 +29,7 @@ dependencies {
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.coil)
 
-    implementation(libs.toolbox.dynamicTheme)
+    implementation(projects.lib.dynamicTheme)
     implementation(projects.core.domain)
     implementation(projects.core.resources)
     implementation(projects.core.di)

@@ -15,16 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.palette
 
-android.namespace = "com.t8rin.imagetoolbox.feature.palette_tools"
+import kotlinx.serialization.Serializable
+import java.util.UUID
 
-dependencies {
-    implementation(projects.feature.pickColor)
-    implementation(projects.lib.palette)
-}
+/**
+ * A grouping of colors
+ */
+@Serializable
+data class ColorGroup(
+    val id: String = UUID.randomUUID().toString(),
+    val name: String = "",
+    val colors: List<PaletteColor> = mutableListOf()
+)

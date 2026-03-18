@@ -86,9 +86,17 @@ pdfbox = "2.0.27.0"
 
 onnx = "1.24.3"
 opencv = "4.13.0"
+
 tiffdecoder = "1.0.5"
+materialKolor = "5.0.0-alpha07"
+paletteKtx = "1.0.0"
+kotlinxSerializationJson = "1.10.0"
 
 [libraries]
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
+androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
+androidx-ui-text = { module = "androidx.compose.ui:ui-text", version.ref = "composeVersion" }
 opencv = { module = "org.opencv:opencv", version.ref = "opencv" }
 onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
@@ -111,7 +119,6 @@ quickie-bundled = { module = "com.github.T8RIN.QuickieExtended:quickie-bundled",
 quickie-foss = { module = "com.github.T8RIN.QuickieExtended:quickie-foss", version.ref = "quickie" }
 
 toolbox-cropper = { module = "com.github.T8RIN.ImageToolboxLibs:cropper", version.ref = "imageToolboxLibs" }
-toolbox-dynamicTheme = { module = "com.github.T8RIN.ImageToolboxLibs:dynamic-theme", version.ref = "imageToolboxLibs" }
 toolbox-colordetector = { module = "com.github.T8RIN.ImageToolboxLibs:colordetector", version.ref = "imageToolboxLibs" }
 toolbox-gesture = { module = "com.github.T8RIN.ImageToolboxLibs:gesture", version.ref = "imageToolboxLibs" }
 toolbox-beforeafter = { module = "com.github.T8RIN.ImageToolboxLibs:beforeafter", version.ref = "imageToolboxLibs" }
@@ -119,8 +126,6 @@ toolbox-image = { module = "com.github.T8RIN.ImageToolboxLibs:image", version.re
 toolbox-modalsheet = { module = "com.github.T8RIN.ImageToolboxLibs:modalsheet", version.ref = "imageToolboxLibs" }
 toolbox-gpuimage = { module = "com.github.T8RIN.ImageToolboxLibs:gpuimage", version.ref = "imageToolboxLibs" }
 toolbox-colorpicker = { module = "com.github.T8RIN.ImageToolboxLibs:colorpicker", version.ref = "imageToolboxLibs" }
-toolbox-systemuicontroller = { module = "com.github.T8RIN.ImageToolboxLibs:systemuicontroller", version.ref = "imageToolboxLibs" }
-toolbox-placeholder = { module = "com.github.T8RIN.ImageToolboxLibs:placeholder", version.ref = "imageToolboxLibs" }
 toolbox-logger = { module = "com.github.T8RIN:Logger", version.ref = "logger" }
 toolbox-zoomable = { module = "com.github.T8RIN.ImageToolboxLibs:zoomable", version.ref = "imageToolboxLibs" }
 toolbox-extendedcolors = { module = "com.github.T8RIN.ImageToolboxLibs:extendedcolors", version.ref = "imageToolboxLibs" }
@@ -139,7 +144,6 @@ toolbox-uCrop = { module = "com.github.T8RIN.ImageToolboxLibs:ucrop", version.re
 toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref = "imageToolboxLibs" }
 toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.ref = "imageToolboxLibs" }
 toolbox-qrose = { module = "com.github.T8RIN.ImageToolboxLibs:qrose", version.ref = "imageToolboxLibs" }
-toolbox-palette = { module = "com.github.T8RIN.ImageToolboxLibs:palette", version.ref = "imageToolboxLibs" }
 
 tiffdecoder = { module = "com.github.T8RIN:TiffDecoder", version.ref = "tiffdecoder" }
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
