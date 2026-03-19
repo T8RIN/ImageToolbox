@@ -30,7 +30,7 @@ import com.t8rin.collages.view.PhotoItem
  */
 internal object FiveFrameImage {
     internal fun collage_5_31(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_31.png")
+        val item = FrameImageUtils.collage("collage_5_31")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -109,7 +109,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_30(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_30.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_30") {
             val wallTopY = param(0.3333f)
             val wallBottomY = param(0.6666f)
             val wallLeftX = param(0.3333f)
@@ -149,7 +149,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_29(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_29.png")
+        val item = FrameImageUtils.collage("collage_5_29")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -227,7 +227,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_28(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_28.png")
+        val item = FrameImageUtils.collage("collage_5_28")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -312,7 +312,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_27(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_27.png")
+        val item = FrameImageUtils.collage("collage_5_27")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -397,7 +397,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_26(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_26.png")
+        val item = FrameImageUtils.collage("collage_5_26")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -481,7 +481,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_25(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_25.png")
+        val item = FrameImageUtils.collage("collage_5_25")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -565,7 +565,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_24(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_24.png")
+        val item = FrameImageUtils.collage("collage_5_24")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -649,7 +649,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_23(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_23.png")
+        val item = FrameImageUtils.collage("collage_5_23")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -728,7 +728,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_22(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_22.png")
+        val item = FrameImageUtils.collage("collage_5_22")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -822,7 +822,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_21(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_21.png")
+        val item = FrameImageUtils.collage("collage_5_21")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -901,7 +901,7 @@ internal object FiveFrameImage {
 
     internal fun collage_5_20(): TemplateItem {
         return collage_5_19(
-            name = "collage_5_20.png",
+            name = "collage_5_20",
             x1 = 0.5f,
             x2 = 0.5f,
             y1 = 0.3333f,
@@ -910,7 +910,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_19(
-        name: String = "collage_5_19.png",
+        name: String = "collage_5_19",
         x1: Float = 0.6f,
         x2: Float = 0.4f,
         y1: Float = 0.3333f,
@@ -950,7 +950,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_18(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_18.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_18") {
             val wallTopSplitX = param(0.6f)
             val wallMidSplitX = param(0.4f)
             val wallTopY = param(0.3333f)
@@ -984,7 +984,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_17(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_17.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_17") {
             val wallMidX = param(0.5f)
             val wallTopY = param(0.3333f)
             val wallBottomY = param(0.6666f)
@@ -1017,7 +1017,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_16(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_16.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_16") {
             val wallTopY = param(0.3333f)
             val wallBottomY = param(0.6666f)
             val wallMidX = param(0.5f)
@@ -1050,7 +1050,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_15(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_15.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_15") {
             val wallLeftX = param(0.6f)
             val wallY1 = param(0.25f)
             val wallY2 = param(0.5f)
@@ -1084,7 +1084,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_14(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_14.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_14") {
             val wallX1 = param(0.3333f)
             val wallX2 = param(0.6666f)
             val wallY = param(0.4f)
@@ -1118,7 +1118,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_13(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_13.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_13") {
             val wallX1 = param(0.3333f)
             val wallX2 = param(0.6666f)
             val wallY = param(0.5f)
@@ -1151,7 +1151,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_12(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_12.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_12") {
             val wallTopSplitX = param(0.4f)
             val wallMidSplitX = param(0.6f)
             val wallTopY = param(0.3333f)
@@ -1186,11 +1186,11 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_11(): TemplateItem {
-        return collage_5_10(name = "collage_5_11.png", y1 = 0.3333f)
+        return collage_5_10(name = "collage_5_11", y1 = 0.3333f)
     }
 
     internal fun collage_5_10(
-        name: String = "collage_5_10.png",
+        name: String = "collage_5_10",
         x1: Float = 0.3333f,
         x2: Float = 0.6667f,
         y1: Float = 0.5f,
@@ -1231,11 +1231,11 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_9(): TemplateItem {
-        return collage_5_8(name = "collage_5_9.png", x1 = 0.3333f, x2 = 0.6667f)
+        return collage_5_8(name = "collage_5_9", x1 = 0.3333f, x2 = 0.6667f)
     }
 
     internal fun collage_5_8(
-        name: String = "collage_5_8.png",
+        name: String = "collage_5_8",
         x1: Float = 0.6667f,
         x2: Float = 0.3333f,
         y1: Float = 0.3333f,
@@ -1275,7 +1275,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_6(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_6.png")
+        val item = FrameImageUtils.collage("collage_5_6")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1361,7 +1361,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_7(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_7.png")
+        val item = FrameImageUtils.collage("collage_5_7")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1429,7 +1429,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_5(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_5.png")
+        val item = FrameImageUtils.collage("collage_5_5")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1492,7 +1492,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_4.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_4") {
             val wallX1 = param(0.3333f)
             val wallX2 = param(0.6666f)
             val wallX3 = param(0.5f)
@@ -1527,7 +1527,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_3(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_3.png")
+        val item = FrameImageUtils.collage("collage_5_3")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1622,7 +1622,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_2.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_2") {
             val wallMidX = param(0.5f)
             val wallLeftY = param(0.5f)
             val wallRightY1 = param(0.3333f)
@@ -1657,7 +1657,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_1(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_5_1.png")
+        val item = FrameImageUtils.collage("collage_5_1")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1749,7 +1749,7 @@ internal object FiveFrameImage {
     }
 
     internal fun collage_5_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_0.png") {
+        return FrameImageUtils.buildParamsCollage("collage_5_0") {
             val wall1X = param(0.25f)
             val wall2X = param(0.75f)
             val wall3Y = param(0.25f)
@@ -1790,5 +1790,21 @@ internal object FiveFrameImage {
                 }
             )
         }
+    }
+
+    internal fun collage_5_1_1(): TemplateItem {
+        return FrameImageUtils.collageLinear(
+            name = "collage_5_1_1",
+            count = 5,
+            isHorizontal = true
+        )
+    }
+
+    internal fun collage_5_1_2(): TemplateItem {
+        return FrameImageUtils.collageLinear(
+            name = "collage_5_1_2",
+            count = 5,
+            isHorizontal = false
+        )
     }
 }

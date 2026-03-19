@@ -29,7 +29,7 @@ import com.t8rin.collages.view.PhotoItem
  */
 internal object SevenFrameImage {
     internal fun collage_7_10(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_7_10.png")
+        val item = FrameImageUtils.collage("collage_7_10")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -145,10 +145,10 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_9(): TemplateItem {
-        return collage_7_8(name = "collage_7_9.png", y = 0.25f)
+        return collage_7_8(name = "collage_7_9", y = 0.25f)
     }
 
-    internal fun collage_7_8(name: String = "collage_7_8.png", y: Float = 0.75f): TemplateItem {
+    internal fun collage_7_8(name: String = "collage_7_8", y: Float = 0.75f): TemplateItem {
         return FrameImageUtils.buildParamsCollage(name) {
             val x1 = param(0.3f)
             val x2 = param(0.6f)
@@ -195,7 +195,7 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_7(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_7.png") {
+        return FrameImageUtils.buildParamsCollage("collage_7_7") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -240,7 +240,7 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_6(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_6.png") {
+        return FrameImageUtils.buildParamsCollage("collage_7_6") {
             val x = param(0.6666f)
             val y0 = param(0.3333f)
             val y1 = param(0.6666f)
@@ -287,7 +287,7 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_5.png") {
+        return FrameImageUtils.buildParamsCollage("collage_7_5") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val x3 = param(0.5f)
@@ -333,7 +333,7 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_4.png") {
+        return FrameImageUtils.buildParamsCollage("collage_7_4") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -378,7 +378,7 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_3.png") {
+        return FrameImageUtils.buildParamsCollage("collage_7_3") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -422,7 +422,7 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_2.png") {
+        return FrameImageUtils.buildParamsCollage("collage_7_2") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -466,7 +466,7 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_1.png") {
+        return FrameImageUtils.buildParamsCollage("collage_7_1") {
             val x0 = param(0.25f)
             val x1 = param(0.5f)
             val x2 = param(0.75f)
@@ -510,7 +510,7 @@ internal object SevenFrameImage {
     }
 
     internal fun collage_7_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_0.png") {
+        return FrameImageUtils.buildParamsCollage("collage_7_0") {
             val xL = param(0.3333f)
             val xTopSplit = param(0.5555f)
             val xRightSplit = param(0.7777f)
@@ -553,5 +553,21 @@ internal object SevenFrameImage {
                 boxParams = { vs -> RectF(vs[xRightSplit], vs[y1], 1f, 1f) }
             )
         }
+    }
+
+    internal fun collage_7_1_1(): TemplateItem {
+        return FrameImageUtils.collageLinear(
+            name = "collage_7_1_1",
+            count = 7,
+            isHorizontal = true
+        )
+    }
+
+    internal fun collage_7_1_2(): TemplateItem {
+        return FrameImageUtils.collageLinear(
+            name = "collage_7_1_2",
+            count = 7,
+            isHorizontal = false
+        )
     }
 }

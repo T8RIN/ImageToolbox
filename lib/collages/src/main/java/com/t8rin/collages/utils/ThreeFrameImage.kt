@@ -30,7 +30,7 @@ import com.t8rin.collages.view.PhotoItem
  */
 internal object ThreeFrameImage {
     internal fun collage_3_47(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_47.png")
+        val item = FrameImageUtils.collage("collage_3_47")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -86,7 +86,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_46(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_46.png")
+        val item = FrameImageUtils.collage("collage_3_46")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -141,7 +141,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_45(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_45.png")
+        val item = FrameImageUtils.collage("collage_3_45")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -195,7 +195,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_44(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_44.png")
+        val item = FrameImageUtils.collage("collage_3_44")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -249,7 +249,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_43(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_43.png")
+        val item = FrameImageUtils.collage("collage_3_43")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -303,7 +303,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_42(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_42.png")
+        val item = FrameImageUtils.collage("collage_3_42")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -359,7 +359,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_41(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_41.png")
+        val item = FrameImageUtils.collage("collage_3_41")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -413,7 +413,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_40(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_40.png")
+        val item = FrameImageUtils.collage("collage_3_40")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -467,7 +467,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_39(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_39.png")
+        val item = FrameImageUtils.collage("collage_3_39")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -515,7 +515,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_38(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_38.png")
+        val item = FrameImageUtils.collage("collage_3_38")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -563,7 +563,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_37(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_37.png")
+        val item = FrameImageUtils.collage("collage_3_37")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -613,7 +613,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_36(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_36.png")
+        val item = FrameImageUtils.collage("collage_3_36")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -663,7 +663,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_35(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_35.png")
+        val item = FrameImageUtils.collage("collage_3_35")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -713,7 +713,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_34(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_34.png")
+        val item = FrameImageUtils.collage("collage_3_34")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -763,7 +763,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_33(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_33.png")
+        val item = FrameImageUtils.collage("collage_3_33")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -810,7 +810,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_32(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_32.png")
+        val item = FrameImageUtils.collage("collage_3_32")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -857,7 +857,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_31(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_31.png")
+        val item = FrameImageUtils.collage("collage_3_31")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -904,7 +904,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_30(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_30.png")
+        val item = FrameImageUtils.collage("collage_3_30")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -951,7 +951,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_29(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_29.png")
+        val item = FrameImageUtils.collage("collage_3_29")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -999,7 +999,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_28(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_28.png")
+        val item = FrameImageUtils.collage("collage_3_28")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1047,7 +1047,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_27(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_27.png")
+        val item = FrameImageUtils.collage("collage_3_27")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1095,7 +1095,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_26(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_26.png")
+        val item = FrameImageUtils.collage("collage_3_26")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1143,7 +1143,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_25(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_25.png")
+        val item = FrameImageUtils.collage("collage_3_25")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1195,7 +1195,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_24(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_24.png")
+        val item = FrameImageUtils.collage("collage_3_24")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1247,7 +1247,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_23(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_23.png")
+        val item = FrameImageUtils.collage("collage_3_23")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1299,7 +1299,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_22(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_22.png")
+        val item = FrameImageUtils.collage("collage_3_22")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1351,19 +1351,19 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_21(): TemplateItem {
-        return collage_3_18("collage_3_21.png", 0.5f, 0.3333f)
+        return collage_3_18("collage_3_21", 0.5f, 0.3333f)
     }
 
     internal fun collage_3_20(): TemplateItem {
-        return collage_3_18("collage_3_20.png", 0.5f, 0.6666f)
+        return collage_3_18("collage_3_20", 0.5f, 0.6666f)
     }
 
     internal fun collage_3_19(): TemplateItem {
-        return collage_3_16("collage_3_19.png", 0.25f, 0.75f)
+        return collage_3_16("collage_3_19", 0.25f, 0.75f)
     }
 
     internal fun collage_3_18(
-        name: String = "collage_3_18.png",
+        name: String = "collage_3_18",
         initialX: Float = 0.5f,
         initialY: Float = 0.5f
     ): TemplateItem {
@@ -1394,7 +1394,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_17(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_3_17.png") {
+        return FrameImageUtils.buildParamsCollage("collage_3_17") {
             val wall1X = param(0.5f)
             val wall2Y = param(0.3333f)
             addBoxedItem(
@@ -1421,7 +1421,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_16(
-        name: String = "collage_3_16.png",
+        name: String = "collage_3_16",
         initialY1: Float = 0.3333f,
         initialY2: Float = 0.6666f
     ): TemplateItem {
@@ -1450,15 +1450,15 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_15(): TemplateItem {
-        return collage_3_12("collage_3_15.png", 0.6667f, 0.5f)
+        return collage_3_12("collage_3_15", 0.6667f, 0.5f)
     }
 
     internal fun collage_3_14(): TemplateItem {
-        return collage_3_12("collage_3_14.png", 0.3333f, 0.5f)
+        return collage_3_12("collage_3_14", 0.3333f, 0.5f)
     }
 
     internal fun collage_3_13(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_13.png")
+        val item = FrameImageUtils.collage("collage_3_13")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1506,7 +1506,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_12(
-        name: String = "collage_3_12.png",
+        name: String = "collage_3_12",
         initialX: Float = 0.5f,
         initialY: Float = 0.5f
     ): TemplateItem {
@@ -1537,11 +1537,11 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_11(): TemplateItem {
-        return collage_3_5("collage_3_11.png", 0.6667f, 0.5f)
+        return collage_3_5("collage_3_11", 0.6667f, 0.5f)
     }
 
     internal fun collage_3_10(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_10.png")
+        val item = FrameImageUtils.collage("collage_3_10")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1604,11 +1604,11 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_9(): TemplateItem {
-        return collage_3_5("collage_3_9.png", 0.5f, 0.6667f)
+        return collage_3_5("collage_3_9", 0.5f, 0.6667f)
     }
 
     internal fun collage_3_8(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_8.png")
+        val item = FrameImageUtils.collage("collage_3_8")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1650,11 +1650,11 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_7(): TemplateItem {
-        return collage_3_5("collage_3_7.png", 0.3333f, 0.5f)
+        return collage_3_5("collage_3_7", 0.3333f, 0.5f)
     }
 
     internal fun collage_3_6(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_6.png")
+        val item = FrameImageUtils.collage("collage_3_6")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1701,7 +1701,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_5(
-        name: String = "collage_3_5.png",
+        name: String = "collage_3_5",
         initialX: Float = 0.5f,
         initialY: Float = 0.5f
     ): TemplateItem {
@@ -1732,7 +1732,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_4(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_4.png")
+        val item = FrameImageUtils.collage("collage_3_4")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1771,7 +1771,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_3(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_3.png")
+        val item = FrameImageUtils.collage("collage_3_3")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1812,7 +1812,7 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_1(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_3_1.png")
+        val item = FrameImageUtils.collage("collage_3_1")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1854,27 +1854,10 @@ internal object ThreeFrameImage {
     }
 
     internal fun collage_3_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_3_0.png") {
-            val wall1X = param(0.3333f)
-            val wall2X = param(0.6666f)
-            addBoxedItem(
-                xParams = listOf(wall1X),
-                boxParams = { vs ->
-                    RectF(0f, 0f, vs[wall1X], 1f)
-                }
-            )
-            addBoxedItem(
-                xParams = listOf(wall1X, wall2X),
-                boxParams = { vs ->
-                    RectF(vs[wall1X], 0f, vs[wall2X], 1f)
-                }
-            )
-            addBoxedItem(
-                xParams = listOf(wall2X),
-                boxParams = { vs ->
-                    RectF(vs[wall2X], 0f, 1f, 1f)
-                }
-            )
-        }
+        return FrameImageUtils.collageLinear(
+            name = "collage_3_0",
+            count = 3,
+            isHorizontal = true
+        )
     }
 }

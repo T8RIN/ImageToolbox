@@ -27,7 +27,7 @@ import com.t8rin.collages.model.TemplateItem
  */
 internal object TenFrameImage {
     internal fun collage_10_8(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_8.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_8") {
             val x1 = param(0.2f)
             val x2 = param(0.5f)
             val x3 = param(0.8f)
@@ -89,7 +89,7 @@ internal object TenFrameImage {
     }
 
     internal fun collage_10_7(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_7.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_7") {
             val x1 = param(0.2f)
             val x2 = param(0.6f)
             val y1 = param(0.2f)
@@ -150,7 +150,7 @@ internal object TenFrameImage {
     }
 
     internal fun collage_10_6(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_6.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_6") {
             val x1 = param(0.25f)
             val x2 = param(0.5f)
             val x3 = param(0.75f)
@@ -212,7 +212,7 @@ internal object TenFrameImage {
     }
 
     internal fun collage_10_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_5.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_5") {
             val xL = param(0.2f)
             val xM = param(0.5f)
             val xR = param(0.8f)
@@ -274,7 +274,7 @@ internal object TenFrameImage {
     }
 
     internal fun collage_10_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_4.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_4") {
             val xM = param(0.5f)
             val xR = param(0.8f)
             val y1 = param(0.2f)
@@ -335,7 +335,7 @@ internal object TenFrameImage {
     }
 
     internal fun collage_10_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_3.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_3") {
             val xL = param(0.7f)
             val xR = param(0.9f)
             val xS = param(0.3f)
@@ -397,7 +397,7 @@ internal object TenFrameImage {
     }
 
     internal fun collage_10_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_2.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_2") {
             val xM = param(0.5f)
             val xL = param(0.2f)
             val xR = param(0.8f)
@@ -458,7 +458,7 @@ internal object TenFrameImage {
     }
 
     internal fun collage_10_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_1.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_1") {
             val x1 = param(0.25f)
             val x2 = param(0.5f)
             val x3 = param(0.75f)
@@ -519,7 +519,7 @@ internal object TenFrameImage {
     }
 
     internal fun collage_10_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_0.png") {
+        return FrameImageUtils.buildParamsCollage("collage_10_0") {
             val x1 = param(0.2f)
             val x2 = param(0.8f)
             val y1 = param(0.2f)

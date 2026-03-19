@@ -19,7 +19,6 @@ package com.t8rin.collages.utils
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -33,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
@@ -43,7 +43,7 @@ import androidx.core.net.toUri
 import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageType
 import com.t8rin.collages.model.TemplateItem
-import com.t8rin.collages.utils.FrameImageUtils.loadFrameImages
+import com.t8rin.collages.utils.FrameImageUtils.COLLAGE_MAP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -51,10 +51,8 @@ import java.io.File
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-@PreviewDebugApi
-@RequiresApi(100)
 @Composable
-internal fun PreviewCollageGeneration() {
+fun PreviewCollageGeneration() {
     fun Bitmap.replaceColor(
         fromColor: Color,
         targetColor: Color,
@@ -88,7 +86,7 @@ internal fun PreviewCollageGeneration() {
     val context = LocalContext.current
 
     LaunchedEffect(context) {
-        allFrames = loadFrameImages(context)
+        allFrames = COLLAGE_MAP.values.map { it.invoke() }
     }
 
     var previewImageUri by rememberSaveable {
@@ -114,7 +112,7 @@ internal fun PreviewCollageGeneration() {
     }
 
     if (previewImageUri != null) {
-        Box {
+        Box(modifier = Modifier.keepScreenOn()) {
             allFrames.forEachIndexed { index, template ->
                 val (_, title, _, photoItemList) = template
                 val density = LocalDensity.current
@@ -166,7 +164,3 @@ internal fun PreviewCollageGeneration() {
         }
     }
 }
-
-@Retention(AnnotationRetention.BINARY)
-@RequiresOptIn("This api is not for public use, do no call explicitly")
-annotation class PreviewDebugApi

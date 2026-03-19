@@ -29,7 +29,7 @@ import com.t8rin.collages.view.PhotoItem
  */
 internal object EightFrameImage {
     internal fun collage_8_16(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_8_16.png")
+        val item = FrameImageUtils.collage("collage_8_16")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -145,7 +145,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_15(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_15.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_15") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -195,7 +195,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_14(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_14.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_14") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -245,7 +245,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_13(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_13.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_13") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.25f)
@@ -294,7 +294,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_12(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_12.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_12") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.25f)
@@ -345,7 +345,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_11(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_11.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_11") {
             val xTop = param(0.5f)
             val xMid2 = param(0.6666f)
             val xBot = param(0.3333f)
@@ -397,7 +397,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_10(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_10.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_10") {
             val x = param(0.5f)
             val y1 = param(0.25f)
             val y2 = param(0.5f)
@@ -447,7 +447,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_9(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_9.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_9") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.25f)
@@ -497,7 +497,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_8(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_8.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_8") {
             val xR = param(0.6666f)
             val xM = param(0.3333f)
             val y1 = param(0.25f)
@@ -549,7 +549,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_7(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_7.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_7") {
             val x1 = param(0.3f)
             val x2 = param(0.6f)
             val y1 = param(0.2f)
@@ -601,7 +601,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_6(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_6.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_6") {
             val xMain = param(0.6f)
             val xSmall = param(0.3f)
             val yTop = param(0.5f)
@@ -653,7 +653,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_5.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_5") {
             val x0 = param(0.25f)
             val x1 = param(0.5f)
             val x2 = param(0.75f)
@@ -703,7 +703,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_4.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_4") {
             val x1 = param(0.25f)
             val x2 = param(0.5f)
             val x3 = param(0.75f)
@@ -754,7 +754,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_3.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_3") {
             val x1 = param(0.25f)
             val x2 = param(0.5f)
             val x3 = param(0.75f)
@@ -803,7 +803,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_2.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_2") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -854,7 +854,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_1.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_1") {
             val x1 = param(0.3333f)
             val x2 = param(0.5f)
             val x3 = param(0.6666f)
@@ -905,7 +905,7 @@ internal object EightFrameImage {
     }
 
     internal fun collage_8_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_0.png") {
+        return FrameImageUtils.buildParamsCollage("collage_8_0") {
             val x1 = param(0.25f)
             val x2 = param(0.5f)
             val x3 = param(0.75f)

@@ -29,7 +29,7 @@ import com.t8rin.collages.view.PhotoItem
  */
 internal object FourFrameImage {
     internal fun collage_4_25(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_25.png")
+        val item = FrameImageUtils.collage("collage_4_25")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -99,7 +99,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_24(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_24.png")
+        val item = FrameImageUtils.collage("collage_4_24")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -169,7 +169,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_23(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_23.png")
+        val item = FrameImageUtils.collage("collage_4_23")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -239,7 +239,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_22(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_22.png")
+        val item = FrameImageUtils.collage("collage_4_22")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -309,7 +309,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_21(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_21.png")
+        val item = FrameImageUtils.collage("collage_4_21")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -375,7 +375,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_20(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_20.png")
+        val item = FrameImageUtils.collage("collage_4_20")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -449,7 +449,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_19(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_19.png")
+        val item = FrameImageUtils.collage("collage_4_19")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -515,7 +515,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_18(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_18.png")
+        val item = FrameImageUtils.collage("collage_4_18")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -577,7 +577,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_17(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_17.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_17") {
             val wall1X = param(0.5f)
             val wall2Y = param(0.25f)
             val wall3Y = param(0.75f)
@@ -611,7 +611,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_16(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_16.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_16") {
             val wall1X = param(0.3333f)
             val wall2Y = param(0.3333f)
             val wall3Y = param(0.6666f)
@@ -646,7 +646,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_15(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_15.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_15") {
             val wall1X = param(0.6667f)
             val wall2Y = param(0.3333f)
             val wall3Y = param(0.6666f)
@@ -681,15 +681,15 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_14(): TemplateItem {
-        return collage_4_0("collage_4_14.png", 0.3333f, 0.6667f)
+        return collage_4_0("collage_4_14", 0.3333f, 0.6667f)
     }
 
     internal fun collage_4_13(): TemplateItem {
-        return collage_4_0("collage_4_13.png", 0.6667f, 0.3333f)
+        return collage_4_0("collage_4_13", 0.6667f, 0.3333f)
     }
 
     internal fun collage_4_12(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_12.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_12") {
             val wall1X = param(0.5f)
             val wall2Y = param(0.3333f)
             val wall3Y = param(0.6666f)
@@ -724,7 +724,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_11(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_11.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_11") {
             val wall1X = param(0.5f)
             val wall2Y = param(0.3333f)
             val wall3Y = param(0.6666f)
@@ -759,7 +759,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_10(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_10.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_10") {
             val wall1X = param(0.3333f)
             val wall2X = param(0.6666f)
             val wall3Y = param(0.5f)
@@ -794,42 +794,46 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_9(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_9.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_9") {
             val wall1X = param(0.3333f)
             val wall2X = param(0.6666f)
-            val wall3Y = param(0.5f)
+            val wallY = param(0.5f)
+
             addBoxedItem(
-                yParams = listOf(wall3Y),
+                yParams = listOf(wallY),
                 boxParams = { vs ->
-                    RectF(0f, 0f, 1f, vs[wall3Y])
+                    RectF(0f, 0f, 1f, vs[wallY])
                 }
             )
+
             addBoxedItem(
                 xParams = listOf(wall1X),
-                yParams = listOf(wall3Y),
+                yParams = listOf(wallY),
                 boxParams = { vs ->
-                    RectF(0f, vs[wall3Y], vs[wall1X], 1f)
+                    RectF(0f, vs[wallY], vs[wall1X], 1f)
                 }
             )
+
             addBoxedItem(
                 xParams = listOf(wall1X, wall2X),
-                yParams = listOf(wall3Y),
+                yParams = listOf(wallY),
                 boxParams = { vs ->
-                    RectF(vs[wall1X], 0f, vs[wall2X], vs[wall3Y])
+                    RectF(vs[wall1X], vs[wallY], vs[wall2X], 1f)
                 }
             )
+
             addBoxedItem(
                 xParams = listOf(wall2X),
-                yParams = listOf(wall3Y),
+                yParams = listOf(wallY),
                 boxParams = { vs ->
-                    RectF(vs[wall2X], vs[wall3Y], 1f, 1f)
+                    RectF(vs[wall2X], vs[wallY], 1f, 1f)
                 }
             )
         }
     }
 
     internal fun collage_4_8(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_8.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_8") {
             val wall1X = param(0.4f)
             val wall2X = param(0.6f)
             val wall3Y = param(0.4f)
@@ -865,7 +869,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_7(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_7.png") {
+        return FrameImageUtils.buildParamsCollage("collage_4_7") {
             val wall1X = param(0.5f)
             val wall2Y = param(0.3333f)
             val wall3Y = param(0.6667f)
@@ -901,7 +905,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_6(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_6.png")
+        val item = FrameImageUtils.collage("collage_4_6")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -961,7 +965,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_5(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_5.png")
+        val item = FrameImageUtils.collage("collage_4_5")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1021,7 +1025,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_4(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_4.png")
+        val item = FrameImageUtils.collage("collage_4_4")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1091,7 +1095,7 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_2(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_4_2.png")
+        val item = FrameImageUtils.collage("collage_4_2")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -1161,39 +1165,23 @@ internal object FourFrameImage {
     }
 
     internal fun collage_4_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_1.png") {
-            val wall1X = param(0.25f)
-            val wall2X = param(0.5f)
-            val wall3X = param(0.75f)
-            addBoxedItem(
-                xParams = listOf(wall1X),
-                boxParams = { vs ->
-                    RectF(0f, 0f, vs[wall1X], 1f)
-                }
-            )
-            addBoxedItem(
-                xParams = listOf(wall1X, wall2X),
-                boxParams = { vs ->
-                    RectF(vs[wall1X], 0f, vs[wall2X], 1f)
-                }
-            )
-            addBoxedItem(
-                xParams = listOf(wall2X, wall3X),
-                boxParams = { vs ->
-                    RectF(vs[wall2X], 0f, vs[wall3X], 1f)
-                }
-            )
-            addBoxedItem(
-                xParams = listOf(wall3X),
-                boxParams = { vs ->
-                    RectF(vs[wall3X], 0f, 1f, 1f)
-                }
-            )
-        }
+        return FrameImageUtils.collageLinear(
+            name = "collage_4_1",
+            count = 4,
+            isHorizontal = true
+        )
+    }
+
+    internal fun collage_4_1_1(): TemplateItem {
+        return FrameImageUtils.collageLinear(
+            name = "collage_4_1_1",
+            count = 4,
+            isHorizontal = false
+        )
     }
 
     internal fun collage_4_0(
-        name: String = "collage_4_0.png",
+        name: String = "collage_4_0",
         initialX: Float = 0.5f,
         initialY: Float = 0.5f
     ): TemplateItem {

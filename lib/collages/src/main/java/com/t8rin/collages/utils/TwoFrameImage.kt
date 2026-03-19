@@ -28,7 +28,7 @@ import com.t8rin.collages.view.PhotoItem
  * Created by admin on 5/8/2016.
  */
 internal object TwoFrameImage {
-    fun collage_2_0(name: String = "collage_2_0.png", initialPosition: Float = 0.5f): TemplateItem {
+    fun collage_2_0(name: String = "collage_2_0", initialPosition: Float = 0.5f): TemplateItem {
         return FrameImageUtils.buildParamsCollage(name) {
             val wall1X = param(initialPosition)
             addBoxedItem(
@@ -46,7 +46,7 @@ internal object TwoFrameImage {
         }
     }
 
-    fun collage_2_1(name: String = "collage_2_1.png", initialPosition: Float = 0.5f): TemplateItem {
+    fun collage_2_1(name: String = "collage_2_1", initialPosition: Float = 0.5f): TemplateItem {
         return FrameImageUtils.buildParamsCollage(name) {
             val wall1Y = param(initialPosition)
             addBoxedItem(
@@ -65,11 +65,11 @@ internal object TwoFrameImage {
     }
 
     fun collage_2_2(): TemplateItem {
-        return collage_2_1("collage_2_2.png", 0.3333f)
+        return collage_2_1("collage_2_2", 0.3333f)
     }
 
     fun collage_2_3(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_2_3.png")
+        val item = FrameImageUtils.collage("collage_2_3")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         val photoItem1 = PhotoItem()
@@ -93,7 +93,7 @@ internal object TwoFrameImage {
     }
 
     fun collage_2_4(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_2_4.png")
+        val item = FrameImageUtils.collage("collage_2_4")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         //first frame
@@ -128,11 +128,11 @@ internal object TwoFrameImage {
     }
 
     fun collage_2_5(): TemplateItem {
-        return collage_2_1("collage_2_5.png", 0.6667f)
+        return collage_2_1("collage_2_5", 0.6667f)
     }
 
     fun collage_2_6(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_2_6.png")
+        val item = FrameImageUtils.collage("collage_2_6")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         val photoItem1 = PhotoItem()
@@ -156,7 +156,7 @@ internal object TwoFrameImage {
     }
 
     fun collage_2_7(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_2_7.png")
+        val item = FrameImageUtils.collage("collage_2_7")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         val photoItem1 = PhotoItem()
@@ -187,11 +187,11 @@ internal object TwoFrameImage {
     }
 
     fun collage_2_8(): TemplateItem {
-        return collage_2_0("collage_2_8.png", 0.3333f)
+        return collage_2_0("collage_2_8", 0.3333f)
     }
 
     fun collage_2_9(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_2_9.png")
+        val item = FrameImageUtils.collage("collage_2_9")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         val photoItem1 = PhotoItem()
@@ -215,11 +215,11 @@ internal object TwoFrameImage {
     }
 
     fun collage_2_10(): TemplateItem {
-        return collage_2_0("collage_2_10.png", 0.6667f)
+        return collage_2_0("collage_2_10", 0.6667f)
     }
 
     fun collage_2_11(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_2_11.png")
+        val item = FrameImageUtils.collage("collage_2_11")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         val photoItem1 = PhotoItem()

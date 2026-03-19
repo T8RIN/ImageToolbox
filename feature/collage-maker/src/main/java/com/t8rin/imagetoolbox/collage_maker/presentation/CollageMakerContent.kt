@@ -80,6 +80,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageTypeSelection
+import com.t8rin.collages.public.CollageConstants
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
@@ -104,6 +105,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
@@ -112,6 +114,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
@@ -120,6 +123,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -204,12 +208,42 @@ fun CollageMakerContent(
 
     AdaptiveBottomScaffoldLayoutScreen(
         title = {
-            TopAppBarTitle(
-                title = stringResource(R.string.collage_maker),
-                input = component.uris,
-                isLoading = component.isImageLoading,
-                size = null
-            )
+            AnimatedContent(
+                targetState = component.uris.isNullOrEmpty()
+            ) { noData ->
+                if (noData) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.marquee()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.collage_maker)
+                        )
+                        EnhancedBadge(
+                            content = {
+                                Text(
+                                    text = CollageConstants.layoutCount.toString()
+                                )
+                            },
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                            contentColor = MaterialTheme.colorScheme.onTertiary,
+                            modifier = Modifier
+                                .padding(horizontal = 2.dp)
+                                .padding(bottom = 12.dp)
+                                .scaleOnTap {
+                                    AppToastHost.showConfetti()
+                                }
+                        )
+                    }
+                } else {
+                    TopAppBarTitle(
+                        title = stringResource(R.string.collage_maker),
+                        input = component.uris,
+                        isLoading = component.isImageLoading,
+                        size = null
+                    )
+                }
+            }
         },
         onGoBack = onBack,
         shouldDisableBackHandler = !component.haveChanges,
