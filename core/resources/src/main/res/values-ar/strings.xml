@@ -25,7 +25,7 @@
     <string name="clipboard_paste_invalid_color_code">ألصِق كود aRGB صالح</string>
     <string name="clipboard_paste_invalid_empty">لا شيئ للصقه</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">لا يمكن تغيير مخطط ألوان التطبيق أثناء تشغيل الألوان الديناميكية</string>
-    <string name="pick_accent_color">سيعتمد مظهر التطبيق على اللون الذي ستختاره</string>
+    <string name="pick_accent_color">سيعتمد سمة التطبيق على اللون الذي ستختاره</string>
     <string name="smth_went_wrong">حدث خطأ ما: %1$s</string>
     <string name="size">الحجم %1$s</string>
     <string name="loading">تحميل…</string>
@@ -69,7 +69,7 @@
     <string name="single_edit">تحرير واحد</string>
     <string name="single_edit_sub">تعديل وتحجيم وتحرير صورة واحدة</string>
     <string name="pick_color">منتقي الألوان</string>
-    <string name="pick_color_sub">حدد لونًا من صورة, انسخ أو شارك</string>
+    <string name="pick_color_sub">حدد لونًا من صورة، انسخ أو شارك</string>
     <string name="image">صورة</string>
     <string name="color">اللون</string>
     <string name="color_copied">نُسخ اللون</string>
@@ -295,7 +295,7 @@
     <string name="screenshot">لقطة شاشة</string>
     <string name="group_options_by_type">خيارات المجموعة حسب النوع</string>
     <string name="cache_size">حجم ذاكرة التخزين المؤقت</string>
-    <string name="found_s">تم العثور على %1$s</string>
+    <string name="found_s">عُثر %1$s</string>
     <string name="auto_cache_clearing">مسح ذاكرة التخزين المؤقت التلقائي</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">لا يمكن تغيير الترتيب أثناء تمكين تجميع الخيارات</string>
     <string name="edit_screenshot">حرِّر لقطة الشاشة</string>
@@ -370,7 +370,7 @@
     <string name="empty">فارغ</string>
     <string name="search_option">يبحث</string>
     <string name="free">حر</string>
-    <string name="images_overwritten">تمت الكتابة فوق الصور في الوجهة الأصلية</string>
+    <string name="images_overwritten">كُتب فوق الصور في الوجهة الأصلية</string>
     <string name="activities">أنشطة</string>
     <string name="draw_arrows_sub">إذا فُعِّل مسار الرسم فسيتم تمثيله كسهم يشير</string>
     <string name="crop_description">سيتم اقتصاص الصور من المنتصف حسب الحجم الذي تم إدخاله. سيتم توسيع اللوحة القماشية بلون الخلفية المحدد إذا كانت الصورة أصغر من الأبعاد المدخلة.</string>
@@ -399,15 +399,15 @@
     <string name="neutral_sub">نمط لوني أكثر قليلاً من اللون الأحادي</string>
     <string name="vibrant_sub">سمة عالية، والألوان هي الحد الأقصى للوحة الأساسية، وزيادة للآخرين</string>
     <string name="playful_scheme">سمة مرحة - لا يظهر تدرج اللون المصدر في السمة</string>
-    <string name="monochrome_sub">موضوع أحادي اللون، الألوان هي أسود / أبيض / رمادي بحت</string>
+    <string name="monochrome_sub">سمة أحادية اللون، الألوان هي أسود / أبيض / رمادي بحت</string>
     <string name="content_sub">مخطط يضع اللون المصدر في Scheme.primaryContainer</string>
     <string name="fidelity_sub">مخطط مشابه جدًا لنظام المحتوى</string>
     <string name="disabled">عاجز</string>
     <string name="both">كلاهما</string>
-    <string name="invert_colors_sub">يستبدل ألوان السمة بالألوان السلبية إذا تم تمكينها</string>
+    <string name="invert_colors_sub">يستبدل ألوان السمة بالألوان السلبية إذا فُعّلت</string>
     <string name="search_option_sub">تمكن القدرة على البحث خلال جميع الأدوات المتاحة على الشاشة الرئيسية</string>
     <string name="mask_preview_sub">سيتم عرض قناع التصفية المرسوم ليظهر لك النتيجة التقريبية</string>
-    <string name="inverse_fill_type_sub">إذا تم فُعّل، فسيتم تصفية كافة المناطق غير المقنعة بدلاً من السلوك الافتراضي</string>
+    <string name="inverse_fill_type_sub">إذا فُعّل، فسيتم تصفية كافة المناطق غير المقنعة بدلاً من السلوك الافتراضي</string>
     <string name="simple_variants">المتغيرات البسيطة</string>
     <string name="highlighter">قلم تمييز</string>
     <string name="pen">قلم</string>
@@ -744,7 +744,7 @@
     <string name="max_colors_count">الحد الأقصى لعدد الألوان</string>
     <string name="image_exif_warning">حاليًا، يسمح تنسيق %1$s بقراءة بيانات EXIF التعريفية فقط على نظام Android. لن تحتوي الصورة الناتجة على بيانات وصفية على الإطلاق عند حفظها.</string>
     <string name="saving_almost_complete">اكتمل الحفظ تقريبًا. سيتطلب الإلغاء الآن الحفظ مرة أخرى.</string>
-    <string name="allow_betas_sub">سيتضمن التحقق من التحديث إصدارات التطبيق التجريبية إذا تم تمكينها</string>
+    <string name="allow_betas_sub">سيتضمن التحقق من التحديث إصدارات التطبيق التجريبية إذا فُعّلت</string>
     <string name="old_tv">تلفزيون قديم</string>
     <string name="shuffle_blur">خلط ورق اللعب طمس</string>
     <string name="recognize_text">التعرف الضوئي على الحروف (التعرف على النص)</string>
@@ -755,10 +755,10 @@
     <string name="fast">سريع</string>
     <string name="standard">معيار</string>
     <string name="best">أفضل</string>
-    <string name="download_description">للحصول على أداء سليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك. \nهل تريد تنزيل بيانات %2$s؟</string>
-    <string name="download">تحميل</string>
+    <string name="download_description">للحصول على أداء سليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك. \nأتريد تنزيل %2$s بيانات؟</string>
+    <string name="download">نزّل</string>
     <string name="no_connection">لا يوجد اتصال، تحقق منه وحاول مرة أخرى لتنزيل نماذج القطارات</string>
-    <string name="downloaded_languages">اللغات التي تم تنزيلها</string>
+    <string name="downloaded_languages">اللغات المُنزلة</string>
     <string name="available_languages">اللغات المتوفرة</string>
     <string name="segmentation_mode">وضع التجزئة</string>
     <string name="restore_background_sub">ستقوم الفرشاة باستعادة الخلفية بدلاً من مسحها</string>
@@ -873,11 +873,11 @@
     <string name="try_again">حاول مرة أخرى</string>
     <string name="show_settings_in_landscape_sub">إذا تم تعطيل هذا الخيار، فسيتم فتح إعدادات الوضع الأفقي على الزر الموجود في شريط التطبيقات العلوي كما هو الحال دائمًا، بدلاً من الخيار المرئي الدائم</string>
     <string name="fullscreen_settings">إعدادات ملء الشاشة</string>
-    <string name="fullscreen_settings_sub">قم بتمكينه وسيتم فتح صفحة الإعدادات دائمًا بملء الشاشة بدلاً من ورقة الدرج القابلة للانزلاق</string>
+    <string name="fullscreen_settings_sub">فعّله وسيتم فتح صفحة الإعدادات دائمًا بملء الشاشة بدلاً من ورقة الدرج القابلة للانزلاق</string>
     <string name="switch_type">تبديل النوع</string>
     <string name="compose">تركيب</string>
-    <string name="compose_switch_sub">يستخدم مادة Jetpack Compose التي تقوم بتبديلها، فهي ليست جميلة بقدر ما تعتمد على طريقة العرض</string>
-    <string name="material_you_switch_sub">الاستخدامات تعتمد على عرض المواد التي تقوم بتبديلها، وهذه المادة تبدو أفضل من غيرها وتحتوي على رسوم متحركة رائعة</string>
+    <string name="compose_switch_sub">مفتاح Jetpack Compose Material You</string>
+    <string name="material_you_switch_sub">مفتاح Material You</string>
     <string name="resize_anchor">تغيير حجم الارتساء</string>
     <string name="fluent_switch">طلِق</string>
     <string name="max">الأعلى</string>
@@ -888,8 +888,8 @@
     <string name="images_to_svg_sub">تتبع الصور المعطاة إلى صور SVG</string>
     <string name="use_sampled_palette">استخدم لوحة العينات</string>
     <string name="path_omit">إهمال المسار</string>
-    <string name="downscale_image">تصير حجم الصور</string>
-    <string name="downscale_image_sub">سيتم تصغير حجم الصورة إلى أبعاد أقل قبل معالجتها، مما يساعد الأداة على العمل بشكل أسرع وأكثر أمانًا</string>
+    <string name="downscale_image">قلّص الصورة</string>
+    <string name="downscale_image_sub">سيتم تقليص الصورة إلى أبعاد أقل قبل معالجتها، مما يساعد الأداة على العمل بشكل أسرع وأكثر أمانًا</string>
     <string name="min_color_ratio">الحد الأدنى لنسبة اللون</string>
     <string name="lines_threshold">عتبة الخطوط</string>
     <string name="quadratic_threshold">العتبة التربيعية</string>
@@ -897,8 +897,8 @@
     <string name="path_scale">مقياس المسار</string>
     <string name="reset_properties">صفّر الخصائص</string>
     <string name="images_to_svg">الصور إلى Svg</string>
-    <string name="use_sampled_palette_sub">سيتم أخذ عينات من لوحة القياس إذا تم تمكين هذا الخيار</string>
-    <string name="svg_warning">لا يُنصح باستخدام هذه الأداة لتتبع الصور الكبيرة دون تصغير حجمها، حيث يمكن أن تتسبب في حدوث اخطاء وزيادة وقت المعالجة</string>
+    <string name="use_sampled_palette_sub">سيتم أخذ عينات من لوحة القياس إذا فُعّل هذا الخيار</string>
+    <string name="svg_warning">لا يُنصح باستخدام هذه الأداة لتتبع الصور الكبيرة دون تقليصها، حيث يمكن أن تتسبب في حدوث إنهيار وزيادة وقت المعالجة</string>
     <string name="reset_properties_sub">سيصفّر كافة الخصائص إلى القيم الافتراضية، لاحظ أنه لا يمكن التراجع عن هذا الإجراء</string>
     <string name="detailed">‬مفصلة</string>
     <string name="default_line_width">عرض الخط الافتراضي</string>
@@ -1075,7 +1075,7 @@
     <string name="draw_regular_star">ارسم نجمة عادية</string>
     <string name="draw_regular_star_sub">ارسم النجمة التي ستكون منتظمة بدلاً من الشكل الحر</string>
     <string name="antialias">الحواف</string>
-    <string name="antialias_sub">تمكين الحواف لمنع الحواف الحادة</string>
+    <string name="antialias_sub">يفعّل الحواف لمنع الحواف الحادة</string>
     <string name="open_edit_instead_of_preview">افتح تحرير بدلاً من المعاينة</string>
     <string name="open_edit_instead_of_preview_sub">عند تحديد صورة لفتحها (معاينة) في ImageToolbox، سيتم فتح ورقة تحديد التحرير بدلاً من المعاينة</string>
     <string name="document_scanner">ماسح ضوئي للمستندات</string>
@@ -1089,7 +1089,7 @@
     <string name="equalize_histogram">معادلة الرسم البياني</string>
     <string name="enter_percentage">أدخل النسبة المئوية</string>
     <string name="allow_enter_by_text_field">السماح بالدخول عن طريق حقل النص</string>
-    <string name="allow_enter_by_text_field_sub">تمكين حقل النص خلف تحديد الإعدادات المسبقة، لإدخالها بسرعة</string>
+    <string name="allow_enter_by_text_field_sub">يفعّل حقل النص خلف تحديد الإعدادات المسبقة، لإدخالها بسرعة</string>
     <string name="scale_color_space">مقياس مساحة اللون</string>
     <string name="linear">خطي</string>
     <string name="equalize_histogram_pixelation">معادلة بكسل الرسم البياني</string>
@@ -1105,7 +1105,7 @@
     <string name="frame_color">لون الإطار</string>
     <string name="color_to_ignore">اللون الذي يجب تجاهله</string>
     <string name="template">نموذج</string>
-    <string name="no_template_filters">لم تتم إضافة تصفية القالب</string>
+    <string name="no_template_filters">لم تتم إضافة تصفيات القالب</string>
     <string name="create_new">أنشئ جديد</string>
     <string name="scanned_qr_code_isnt_filter_template">رمز QR الممسوح ضوئيًا ليس قالب تصفية صالحًا</string>
     <string name="scan_qr_code">امسح رمز QR</string>
@@ -1219,17 +1219,17 @@
     <string name="clip">مقطع</string>
     <string name="wrap">طَوّق</string>
     <string name="color_blind_scheme">عمى الألوان</string>
-    <string name="color_blind_scheme_sub">حدد الوضع لتكييف ألوان السمة لمتغير عمى الألوان المحدد</string>
-    <string name="protanomaly_sub">- صعوبة التمييز بين اللونين الأحمر والأخضر</string>
-    <string name="deuteranomaly_sub">- صعوبة التمييز بين اللونين الأخضر والأحمر</string>
-    <string name="tritanomaly_sub">- صعوبة التمييز بين اللونين الأزرق والأصفر</string>
+    <string name="color_blind_scheme_sub">حدّد السمة لتكييف ألوان السمة لمتغير عمى الألوان المحدّد</string>
+    <string name="protanomaly_sub">صعوبة التمييز بين اللونين الأحمر والأخضر</string>
+    <string name="deuteranomaly_sub">صعوبة التمييز بين اللونين الأخضر والأحمر</string>
+    <string name="tritanomaly_sub">صعوبة التمييز بين اللونين الأزرق والأصفر</string>
     <string name="protanopia_sub">- عدم القدرة على إدراك الألوان الحمراء</string>
     <string name="deuteranopia_sub">- عدم القدرة على إدراك الألوان الخضراء</string>
     <string name="tritanopia_sub">- عدم القدرة على إدراك الألوان الزرقاء</string>
     <string name="achromatomaly_sub">انخفاض الحساسية لجميع الألوان</string>
     <string name="achromatopsia_sub">عمى الألوان الكامل، حيث لا يرى سوى درجات اللون الرمادي</string>
     <string name="not_use_color_blind_scheme">لا تستخدم نظام Color Blind</string>
-    <string name="not_use_color_blind_scheme_sub">ستكون الألوان تمامًا كما هي محددة في الموضوع</string>
+    <string name="not_use_color_blind_scheme_sub">ستكون الألوان تمامًا كما هي محدّدة في السمة</string>
     <string name="sigmoidal">السيني</string>
     <string name="lagrange_2">لاغرانج 2</string>
     <string name="lagrange_2_sub">مرشح استيفاء لاغرانج من الرتبة 2، مناسب لقياس الصور عالي الجودة مع انتقالات سلسة</string>
@@ -1359,7 +1359,7 @@
     <string name="add_timestamp_sub">يفعّل إضافة الطابع الزمني إلى اسم ملف الإخراج</string>
     <string name="formatted_timestamp">الطابع الزمني المنسق</string>
     <string name="formatted_timestamp_sub">فعِّل تنسيق الطابع الزمني في اسم ملف الإخراج بدلاً من الميلي الأساسي</string>
-    <string name="enable_timestamps_to_format_them">تمكين الطوابع الزمنية لتحديد تنسيقها</string>
+    <string name="enable_timestamps_to_format_them">فعّل الطوابع الزمنية لتحديد تنسيقها</string>
     <string name="one_time_save_location">حفظ الموقع مرة واحدة</string>
     <string name="one_time_save_location_sub">اعرض وحرِّر مواقع الحفظ مرة واحدة والتي يمكنك استخدامها بالضغط لفترة طويلة على زر الحفظ في جميع الخيارات في الغالب</string>
     <string name="recently_used">المستخدمة مؤخرا</string>
@@ -1375,7 +1375,7 @@
     <string name="default_values">القيم الافتراضية</string>
     <string name="system_bars_visibility">رؤية أشرطة النظام</string>
     <string name="show_system_bars_by_swipe">إظهار أشرطة النظام عن طريق السحب</string>
-    <string name="show_system_bars_by_swipe_sub">لتمكين الضرب لإظهار أشرطة النظام إذا كانت مخفية</string>
+    <string name="show_system_bars_by_swipe_sub">يفعّل الضرب لإظهار أشرطة النظام إذا كانت مخفية</string>
     <string name="auto">آلي</string>
     <string name="hide_all">إخفاء الكل</string>
     <string name="show_all">إظهار الكل</string>
@@ -1407,7 +1407,7 @@
     <string name="collages_info">امسك الصورة للتبديل والتحريك والتكبير لضبط الموضع</string>
     <string name="disable_rotation">تعطيل التدوير</string>
     <string name="disable_rotation_sub">يمنع تدوير الصور بإيماءات بإصبعين</string>
-    <string name="enable_snapping_to_borders">تمكين الانطباق على الحدود</string>
+    <string name="enable_snapping_to_borders">فعّل الانطباق على الحدود</string>
     <string name="enable_snapping_to_borders_sub">بعد النقل أو التكبير/التصغير، سيتم التقاط الصور لملء حواف الإطار</string>
     <string name="histogram">الرسم البياني</string>
     <string name="histogram_sub">الرسم البياني للصورة RGB أو السطوع لمساعدتك في إجراء التضبيطات</string>
@@ -1475,7 +1475,7 @@
     <string name="lut_library">مكتبة لوط</string>
     <string name="lut_library_sub">نزّل مجموعة LUTs، والتي يمكنك تطبيقها بعد التنزيل</string>
     <string name="lut_library_update_sub">حدِّث مجموعة جداول البحث (سيتم وضع العناصر الجديدة فقط في قائمة الانتظار)، والتي يمكنك تطبيقها بعد التنزيل</string>
-    <string name="filter_preview_image_sub">غيّر معاينة الصورة الافتراضية للمرشحات</string>
+    <string name="filter_preview_image_sub">غيّر معاينة الصورة الافتراضية للتصفيات</string>
     <string name="filter_preview_image">معاينة الصورة</string>
     <string name="hide">يخفي</string>
     <string name="show">يعرض</string>
@@ -1492,7 +1492,7 @@
     <string name="open_source_licenses_sub">عرض تراخيص المكتبات مفتوحة المصدر المستخدمة في هذا التطبيق</string>
     <string name="area">منطقة</string>
     <string name="area_sub">إعادة التشكيل باستخدام علاقة منطقة البكسل. قد تكون هذه هي الطريقة المفضلة لتدمير الصورة، لأنها تعطي نتائج خالية من التموج في النسيج. ولكن عندما يتم تكبير الصورة، فهي تشبه طريقة \"الأقرب\".</string>
-    <string name="enable_tonemapping">تمكين تعيين النغمات</string>
+    <string name="enable_tonemapping">فعّل تعيين النغمات</string>
     <string name="enter_percent">يدخل ٪</string>
     <string name="unknown_host">لا يمكن الوصول إلى الموقع، حاول استخدام VPN أو تحقق مما إذا كان عنوان URL صحيحًا</string>
     <string name="markup_layers">طبقات العلامات</string>
@@ -1502,7 +1502,7 @@
     <string name="layers_on_image_sub">استخدم صورة كخلفية وأضف طبقات مختلفة فوقها</string>
     <string name="layers_on_background">طبقات على الخلفية</string>
     <string name="layers_on_background_sub">نفس الخيار الأول ولكن مع اللون بدلاً من الصورة</string>
-    <string name="beta">بيتا</string>
+    <string name="beta">تجريبي</string>
     <string name="fast_settings_side">جانب الإعدادات السريعة</string>
     <string name="fast_settings_side_sub">أضف شريط عائم على الجانب المحدد أثناء تحرير الصور، مما سيؤدي إلى فتح الإعدادات السريعة عند النقر عليها</string>
     <string name="clear_selection">امحُ التحديد</string>
@@ -1844,7 +1844,7 @@
     <string name="overwrite_files_sub_short">سيتم استبدال الملف الأصلي بملف جديد بدلاً من حفظه في المجلد المحدد</string>
     <string name="hidden_watermark_text_detected">تم اكتشاف نص العلامة المائية المخفية</string>
     <string name="hidden_watermark_image_detected">تم الكشف عن صورة العلامة المائية المخفية</string>
-    <string name="this_image_was_hidden">تم إخفاء هذه الصورة</string>
+    <string name="this_image_was_hidden">أُخفت هذه الصورة</string>
     <string name="generative_inpaint">الرسم التوليدي</string>
     <string name="generative_inpaint_sub">يسمح لك بإزالة الكائنات في الصورة باستخدام نموذج الذكاء الاصطناعي، دون الاعتماد على OpenCV. لاستخدام هذه الميزة، سيقوم التطبيق بتنزيل النموذج المطلوب (حوالي 200 ميجابايت) من GitHub</string>
     <string name="generative_inpaint_ready_sub">يسمح لك بإزالة الكائنات في الصورة باستخدام نموذج الذكاء الاصطناعي، دون الاعتماد على OpenCV. قد تكون هذه عملية طويلة الأمد</string>
@@ -1933,7 +1933,7 @@
     <string name="delete_model_sub">هل تريد حذف نموذج %1$s؟ سوف تحتاج إلى تنزيله مرة أخرى</string>
     <string name="confirm">يتأكد</string>
     <string name="models">نماذج</string>
-    <string name="downloaded_models">النماذج التي تم تنزيلها</string>
+    <string name="downloaded_models">النماذج المُنزلة</string>
     <string name="available_models">النماذج المتاحة</string>
     <string name="preparing">تحضير</string>
     <string name="active_model">نموذج نشط</string>
@@ -2007,7 +2007,7 @@
         <item quantity="other">%1$s لون</item>
     </plurals>
     <string name="current_model_not_chunkable">النموذج الحالي لا يدعم التقطيع، ستتم معالجة الصورة بالأبعاد الأصلية، وقد يتسبب ذلك في استهلاك كبير للذاكرة ومشكلات مع الأجهزة المنخفضة الجودة</string>
-    <string name="chunking_disabled">تم تعطيل التقطيع، ستتم معالجة الصورة بالأبعاد الأصلية، وقد يتسبب ذلك في استهلاك كبير للذاكرة ومشكلات مع الأجهزة المنخفضة الجودة ولكنه قد يعطي نتائج أفضل عند الاستدلال</string>
+    <string name="chunking_disabled">عُطّل التقطيع، ستتم معالجة الصورة بالأبعاد الأصلية، وقد يتسبب ذلك في استهلاك كبير للذاكرة ومشكلات مع الأجهزة المنخفضة الجودة ولكنه قد يعطي نتائج أفضل عند الاستدلال</string>
     <string name="chunking">التقطيع</string>
     <string name="model_u2net">نموذج تجزئة الصور عالي الدقة لإزالة الخلفية</string>
     <string name="model_u2netp">إصدار خفيف الوزن من U2Net لإزالة الخلفية بشكل أسرع مع استخدام ذاكرة أصغر.</string>
@@ -2016,7 +2016,7 @@
     <string name="model_birefnet">نموذج BiRefNet خفيف الوزن يعتمد على Swin Transformer لإزالة الخلفية بدقة.</string>
     <string name="model_inspyrenet">إزالة خلفية عالية الجودة بحواف حادة والحفاظ على التفاصيل بشكل ممتاز، خاصة على الكائنات المعقدة والخلفيات الصعبة.</string>
     <string name="model_isnet">نموذج إزالة الخلفية الذي ينتج أقنعة دقيقة ذات حواف ناعمة، مناسبة للأشياء العامة والحفاظ على التفاصيل بشكل معتدل.</string>
-    <string name="model_already_downloaded">تم تنزيل النموذج بالفعل</string>
+    <string name="model_already_downloaded">النموذج مُنزّل بالفعل</string>
     <string name="model_successfully_imported">استوردت النموذج بنجاح</string>
     <string name="type">يكتب</string>
     <string name="keyword">الكلمة الرئيسية</string>
