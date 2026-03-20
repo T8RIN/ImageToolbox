@@ -34,7 +34,6 @@ internal fun Application.attachLogWriter() {
             message = "--${DeviceInfo.get()}--",
             level = Logger.Level.Info
         ),
-        isSyncCreate = false,
-        maxFileSize = null
+        isSyncCreate = false
     )
 }

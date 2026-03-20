@@ -18,8 +18,8 @@
 package com.t8rin.imagetoolbox.app.presentation.components
 
 import com.t8rin.imagetoolbox.app.presentation.components.functions.attachLogWriter
-import com.t8rin.imagetoolbox.app.presentation.components.functions.initAI
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initColorNames
+import com.t8rin.imagetoolbox.app.presentation.components.functions.initNeuralTool
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initOpenCV
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initPdfBox
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initQrScanner
@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.app.presentation.components.functions.registerSecu
 import com.t8rin.imagetoolbox.app.presentation.components.functions.setupFlags
 import com.t8rin.imagetoolbox.app.presentation.components.utils.isMain
 import com.t8rin.imagetoolbox.core.crash.presentation.components.applyGlobalExceptionHandler
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication
 import com.t8rin.imagetoolbox.core.utils.initAppContext
@@ -41,6 +42,9 @@ class ImageToolboxApplication : ComposeApplication() {
 
     @Inject
     lateinit var keepAliveService: KeepAliveService
+
+    @Inject
+    lateinit var appScope: AppScope
 
     @Inject
     lateinit var httpClient: HttpClient
@@ -59,7 +63,7 @@ class ImageToolboxApplication : ComposeApplication() {
             setupFlags()
             initAppContext()
             initOpenCV()
-            initAI()
+            initNeuralTool()
             initColorNames()
             initQrScanner()
             attachLogWriter()

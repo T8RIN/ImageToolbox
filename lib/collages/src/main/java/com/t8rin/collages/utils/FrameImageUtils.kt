@@ -38,40 +38,40 @@ internal object FrameImageUtils {
     )
 
     private fun collage_1_0(): TemplateItem {
-        val item = collage("collage_1_0")
-        val photoItem = PhotoItem()
-        photoItem.bound.set(0f, 0f, 1f, 1f)
-        photoItem.index = 0
-        photoItem.pointList.add(PointF(0f, 0f))
-        photoItem.pointList.add(PointF(1f, 0f))
-        photoItem.pointList.add(PointF(1f, 1f))
-        photoItem.pointList.add(PointF(0f, 1f))
-        return item.copy(photoItemList = listOf(photoItem))
+        return collage("collage_1_0").copy(
+            photoItemList = listOf(
+                PhotoItem().apply {
+                    bound.set(0f, 0f, 1f, 1f)
+                    index = 0
+                    pointList.add(PointF(0f, 0f))
+                    pointList.add(PointF(1f, 0f))
+                    pointList.add(PointF(1f, 1f))
+                    pointList.add(PointF(0f, 1f))
+                }
+            )
+        )
     }
 
     fun buildParamsCollage(
         imageName: String,
         setup: ParamsManagerBuilder.() -> Unit
     ): TemplateItem {
-        val item = collage(imageName)
-        val builder = ParamsManagerBuilder()
-        builder.setup()
-        val (paramsManager, photoItemList) = builder.build()
-        return item.copy(paramsManager = paramsManager, photoItemList = photoItemList)
+        val (paramsManager, photoItemList) = ParamsManagerBuilder().apply(setup).build()
+        return collage(imageName).copy(paramsManager = paramsManager, photoItemList = photoItemList)
     }
 
     fun createHeartItem(top: Float, size: Float): Path {
-        val path = Path()
-        path.moveTo(top, top + size / 4)
-        path.quadTo(top, top, top + size / 4, top)
-        path.quadTo(top + size / 2, top, top + size / 2, top + size / 4)
-        path.quadTo(top + size / 2, top, top + size * 3 / 4, top)
-        path.quadTo(top + size, top, top + size, top + size / 4)
-        path.quadTo(top + size, top + size / 2, top + size * 3 / 4, top + size * 3 / 4)
-        path.lineTo(top + size / 2, top + size)
-        path.lineTo(top + size / 4, top + size * 3 / 4)
-        path.quadTo(top, top + size / 2, top, top + size / 4)
-        return path
+        return Path().apply {
+            moveTo(top, top + size / 4)
+            quadTo(top, top, top + size / 4, top)
+            quadTo(top + size / 2, top, top + size / 2, top + size / 4)
+            quadTo(top + size / 2, top, top + size * 3 / 4, top)
+            quadTo(top + size, top, top + size, top + size / 4)
+            quadTo(top + size, top + size / 2, top + size * 3 / 4, top + size * 3 / 4)
+            lineTo(top + size / 2, top + size)
+            lineTo(top + size / 4, top + size * 3 / 4)
+            quadTo(top, top + size / 2, top, top + size / 4)
+        }
     }
 
     fun loadFrameImages(context: Context): List<TemplateItem> {

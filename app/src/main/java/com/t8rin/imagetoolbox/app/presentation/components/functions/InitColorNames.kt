@@ -17,12 +17,9 @@
 
 package com.t8rin.imagetoolbox.app.presentation.components.functions
 
-import android.app.Application
 import com.smarttoolfactory.colordetector.parser.ColorNameParser
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.t8rin.imagetoolbox.app.presentation.components.ImageToolboxApplication
 import kotlinx.coroutines.launch
 
-internal fun Application.initColorNames() = CoroutineScope(Dispatchers.IO).launch {
-    ColorNameParser.init(this@initColorNames)
-}
+internal fun ImageToolboxApplication.initColorNames() =
+    appScope.launch { ColorNameParser.init(this@initColorNames) }

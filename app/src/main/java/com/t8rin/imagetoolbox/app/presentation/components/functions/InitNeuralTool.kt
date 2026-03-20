@@ -21,7 +21,7 @@ import com.t8rin.imagetoolbox.app.presentation.components.ImageToolboxApplicatio
 import com.t8rin.imagetoolbox.core.domain.HF_BASE_URL
 import com.t8rin.neural_tools.NeuralTool
 
-internal fun ImageToolboxApplication.initAI() = NeuralTool.init(
+internal fun ImageToolboxApplication.initNeuralTool() = NeuralTool.init(
     context = this,
     httpClient = httpClient,
     baseUrl = HF_BASE_URL
