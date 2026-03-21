@@ -48,9 +48,11 @@ import java.util.LinkedList
 fun Uri?.uiPath(
     default: String
 ): String = this?.let { uri ->
-    DocumentFile
-        .fromTreeUri(appContext, uri)
-        ?.uri?.path?.split(":")
+    if (DocumentFile.isDocumentUri(appContext, uri)) {
+        DocumentFile.fromSingleUri(appContext, uri)
+    } else {
+        DocumentFile.fromTreeUri(appContext, uri)
+    }?.uri?.path?.split(":")
         ?.lastOrNull()?.let { p ->
             val endPath = p.takeIf {
                 it.isNotEmpty()
