@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -173,7 +173,7 @@ internal class AndroidGifConverter @Inject constructor(
                 runSuspendCatching {
                     JxlCoder.Convenience.gif2JXL(
                         gifData = gifData,
-                        quality = quality.qualityValue,
+                        quality = quality.qualityValue.coerceIn(0, 99),
                         effort = JxlEffort.entries.first { it.ordinal == quality.effort },
                         decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == quality.speed }
                     ).let {
