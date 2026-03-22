@@ -92,7 +92,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestStoragePe
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
 import com.t8rin.imagetoolbox.core.utils.decodeEscaped
 import com.t8rin.modalsheet.FullscreenPopup
@@ -115,6 +115,9 @@ fun ToastHost(
     toast: @Composable (ToastData) -> Unit = { Toast(it) },
     enableSwipes: Boolean = true
 ) {
+    val screenSize = LocalScreenSize.current
+    val sizeMin = screenSize.width.coerceAtMost(screenSize.height)
+
     val currentToastData = hostState.currentToastData
     val accessibilityManager = LocalAccessibilityManager.current
     val activity = LocalActivity.current
@@ -169,6 +172,14 @@ fun ToastHost(
                         Box(
                             modifier = Modifier
                                 .align(alignment)
+                                .padding(
+                                    bottom = sizeMin * 0.2f,
+                                    top = 24.dp,
+                                    start = 12.dp,
+                                    end = 12.dp
+                                )
+                                .imePadding()
+                                .systemBarsPadding()
                                 .graphicsLayer {
                                     compositingStrategy = CompositingStrategy.Offscreen
                                     this.alpha = alpha.value
@@ -244,29 +255,20 @@ fun Toast(
             containerColor = containerColor,
             contentColor = contentColor
         ),
-        modifier = if (modifier != Modifier) modifier else
-            Modifier
-                .heightIn(min = 48.dp)
-                .widthIn(min = 0.dp, max = (sizeMin * 0.7f))
-                .padding(
-                    bottom = sizeMin * 0.2f,
-                    top = 24.dp,
-                    start = 12.dp,
-                    end = 12.dp
-                )
-                .imePadding()
-                .systemBarsPadding()
-                .autoElevatedBorder(
-                    color = MaterialTheme.colorScheme
-                        .outlineVariant(0.3f, contentColor)
-                        .copy(alpha = 0.92f),
-                    shape = shape,
-                    autoElevation = animateDpAsState(
-                        if (LocalSettingsState.current.drawContainerShadows) 6.dp
-                        else 0.dp
-                    ).value
-                )
-                .alpha(0.95f),
+        modifier = modifier
+            .heightIn(min = 48.dp)
+            .widthIn(min = 0.dp, max = (sizeMin * 0.7f))
+            .autoElevatedBorder(
+                color = MaterialTheme.colorScheme
+                    .outlineVariant(0.3f, contentColor)
+                    .copy(alpha = 0.92f),
+                shape = shape,
+                autoElevation = animateDpAsState(
+                    if (LocalSettingsState.current.drawContainerShadows) 6.dp
+                    else 0.dp
+                ).value
+            )
+            .alpha(0.95f),
         shape = shape
     ) {
         Row(
@@ -453,7 +455,7 @@ object ToastDefaults {
         @Composable
         get() = MaterialTheme.colorScheme.inverseSurface.harmonizeWithPrimary()
 
-    val shape: Shape @Composable get() = ShapeDefaults.extremeLarge
+    val shape: Shape @Composable get() = AutoCornersShape(32.dp)
 }
 
 private fun ToastDuration.toMillis(
