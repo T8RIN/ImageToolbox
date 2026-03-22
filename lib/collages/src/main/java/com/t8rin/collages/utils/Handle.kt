@@ -18,23 +18,38 @@
 package com.t8rin.collages.utils
 
 import android.graphics.PointF
+import kotlin.math.atan2
 
-internal abstract class Handle {
-    open fun getAngle(): Float? {
-        return 0f
+internal interface Handle {
+    fun getAngle(): Float
+    fun draggablePoint(manager: ParamsManager): PointF
+    fun tryDrag(point: PointF, manager: ParamsManager): PointF?
+
+    companion object {
+        fun horizontal(
+            yProvider: (values: FloatArray) -> Float,
+            managedParam: ParamT
+        ): Handle = XHandle(
+            yProvider = yProvider,
+            managedParam = managedParam
+        )
+
+        fun vertical(
+            xProvider: (values: FloatArray) -> Float,
+            managedParam: ParamT
+        ): Handle = YHandle(
+            xProvider = xProvider,
+            managedParam = managedParam
+        )
     }
-
-    abstract fun draggablePoint(manager: ParamsManager): PointF
-    abstract fun tryDrag(point: PointF, manager: ParamsManager): PointF?
 }
 
-internal abstract class LinearHandle(
+private abstract class LinearHandle(
     private val managedParam: ParamT,
     private val direction: PointF
-) : Handle() {
-    override fun getAngle(): Float? {
-        return Math.toDegrees(kotlin.math.atan2(direction.y, direction.x).toDouble()).toFloat()
-    }
+) : Handle {
+    override fun getAngle(): Float =
+        Math.toDegrees(atan2(direction.y, direction.x).toDouble()).toFloat()
 
     protected abstract fun computeDraggablePoint(values: FloatArray): PointF
     protected abstract fun pointToValue(point: PointF): Float
@@ -61,14 +76,15 @@ internal abstract class LinearHandle(
             manager.updateParams(listOf(managedParam), floatArrayOf(newValue))
             clippedPoint
         } catch (e: ParamsManager.InvalidValues) {
+            e.printStackTrace()
             null
         }
     }
 }
 
-internal class XHandle(
-    private val managedParam: ParamT,
-    private val yProvider: (values: FloatArray) -> Float
+private class XHandle(
+    private val yProvider: (values: FloatArray) -> Float,
+    private val managedParam: ParamT
 ) : LinearHandle(managedParam, PointF(1f, 0f)) {
     override fun computeDraggablePoint(values: FloatArray): PointF =
         PointF(values[managedParam], yProvider(values))
@@ -76,7 +92,7 @@ internal class XHandle(
     override fun pointToValue(point: PointF): Float = point.x
 }
 
-internal class YHandle(
+private class YHandle(
     private val xProvider: (values: FloatArray) -> Float,
     private val managedParam: ParamT
 ) : LinearHandle(managedParam, PointF(0f, 1f)) {

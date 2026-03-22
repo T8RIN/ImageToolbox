@@ -56,17 +56,23 @@ internal class ParamsManagerBuilder {
 
         for (xParam in xParams) {
             handles.add(
-                XHandle(managedParam = xParam) { vs ->
-                    val box = boxParams(vs)
-                    (box.bottom + box.top) / 2f
-                }
+                Handle.horizontal(
+                    yProvider = {
+                        boxParams(it).run { (bottom + top) / 2f }
+                    },
+                    managedParam = xParam
+                )
             )
         }
         for (yParam in yParams) {
-            handles.add(YHandle({ vs ->
-                val box = boxParams(vs)
-                (box.right + box.left) / 2f
-            }, yParam))
+            handles.add(
+                Handle.vertical(
+                    xProvider = {
+                        boxParams(it).run { (right + left) / 2f }
+                    },
+                    managedParam = yParam
+                )
+            )
         }
 
         return add(

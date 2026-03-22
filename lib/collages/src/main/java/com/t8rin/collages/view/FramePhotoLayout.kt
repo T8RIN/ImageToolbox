@@ -417,7 +417,7 @@ internal class FramePhotoLayout(
             val dp = handle.draggablePoint(paramsManager!!)
             val cx = mViewWidth * dp.x
             val cy = mViewHeight * dp.y
-            val angle = (handle.getAngle() ?: 0f) + 90f
+            val angle = handle.getAngle() + 90f
             val diameter = max(
                 drawable.intrinsicWidth,
                 drawable.intrinsicHeight
@@ -474,10 +474,7 @@ internal class FramePhotoLayout(
                 val handle = activeHandle ?: return super.onTouchEvent(event)
                 val nx = (globalX / mViewWidth).coerceIn(0f, 1f)
                 val ny = (globalY / mViewHeight).coerceIn(0f, 1f)
-                val adjustedPoint = handle.tryDrag(PointF(nx, ny), manager)
-                if (adjustedPoint == null) {
-                    return true  // Drag failed
-                }
+                handle.tryDrag(PointF(nx, ny), manager) ?: return true  // Drag failed
                 invalidate()
                 return true
             }

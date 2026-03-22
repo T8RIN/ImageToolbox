@@ -24,9 +24,6 @@ import android.graphics.RectF
 import com.t8rin.collages.model.TemplateItem
 import com.t8rin.collages.view.PhotoItem
 
-/**
- * Created by admin on 7/2/2016.
- */
 internal object EightFrameImage {
     internal fun collage_8_16(): TemplateItem {
         val item = FrameImageUtils.collage("collage_8_16")
