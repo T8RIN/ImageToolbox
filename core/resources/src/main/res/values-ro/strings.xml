@@ -886,7 +886,7 @@
     <string name="images_to_svg">Imagini în Svg</string>
     <string name="links_preview">Previzualizare linkuri</string>
     <string name="collage_maker">Creare colaj</string>
-    <string name="collage_maker_sub">Creați diverse colaje din 2..10 imagini</string>
+    <string name="collage_maker_sub">Creați diverse colaje din 20 imagini</string>
     <string name="collages_info">Țineți apăsată imaginea pentru a o schimba, mutați și măriți pentru a ajusta poziția</string>
     <string name="collage_type">Tipul colajului</string>
     <string name="lossy_compression_sub">Folosește compresia cu pierderi pentru a reduce dimensiunea fișierului în loc de compresie fără pierderi</string>

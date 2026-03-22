@@ -1498,7 +1498,7 @@
     <string name="rotation_type">சுழற்சி வகை</string>
     <string name="fractal_type">பின்னல் வகை</string>
     <string name="collage_maker">படத்தொகுப்பு தயாரிப்பாளர்</string>
-    <string name="collage_maker_sub">10 படங்கள் வரை படத்தொகுப்புகளை உருவாக்குங்கள்</string>
+    <string name="collage_maker_sub">20 படங்கள் வரை படத்தொகுப்புகளை உருவாக்குங்கள்</string>
     <string name="collages_info">நிலையை சரிசெய்ய இடமாற்றம், நகர்த்த மற்றும் பெரிதாக்க படத்தை வைத்திருங்கள்</string>
     <string name="histogram">செவ்வகப்படம்</string>
     <string name="tesseract_options">டெசராக்ட் விருப்பங்கள்</string>

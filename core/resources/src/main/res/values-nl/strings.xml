@@ -1403,7 +1403,7 @@
     <string name="jitter">Jitter</string>
     <string name="custom_filename_sub">Selecteer de locatie en bestandsnaam die worden gebruikt om de huidige afbeelding op te slaan</string>
     <string name="collage_maker">Collagemaker</string>
-    <string name="collage_maker_sub">Maak verschillende collages van 2–10 afbeeldingen</string>
+    <string name="collage_maker_sub">Maak verschillende collages van 20 afbeeldingen</string>
     <string name="collage_type">Collagetype</string>
     <string name="collages_info">Houd de afbeelding ingedrukt om de positie te wisselen, verplaatsen en zoomen</string>
     <string name="histogram">Histogram</string>

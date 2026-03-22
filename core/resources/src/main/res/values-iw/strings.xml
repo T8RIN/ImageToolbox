@@ -1401,7 +1401,7 @@
     <string name="custom_filename_sub">בחר מיקום ושם קובץ אשר ישמשו לשמירת התמונה הנוכחית</string>
     <string name="saved_to_custom">נשמר בתיקייה עם שם מותאם אישית</string>
     <string name="collage_maker">קולאז\' יוצר</string>
-    <string name="collage_maker_sub">צור קולאז\'ים מ-10 תמונות לכל היותר</string>
+    <string name="collage_maker_sub">צור קולאז\'ים מ-20 תמונות לכל היותר</string>
     <string name="collage_type">סוג קולאז\'</string>
     <string name="collages_info">החזק את התמונה כדי להחליף, להזיז ולהתקרב כדי להתאים את המיקום</string>
     <string name="disable_rotation">השבת סיבוב</string>

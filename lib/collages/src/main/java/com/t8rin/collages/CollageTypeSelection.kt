@@ -46,8 +46,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.t8rin.collages.model.TemplateItem
-import com.t8rin.collages.utils.FrameImageUtils.loadFrameImages
+import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.CollageLayoutFactory.loadFrameImages
 
 @Composable
 fun CollageTypeSelection(
@@ -61,7 +61,7 @@ fun CollageTypeSelection(
     previewColor: Color = MaterialTheme.colorScheme.secondary,
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
-    var allFrames: List<TemplateItem> by remember {
+    var allFrames: List<CollageLayout> by remember {
         mutableStateOf(emptyList())
     }
     val context = LocalContext.current
@@ -80,12 +80,12 @@ fun CollageTypeSelection(
 
     LaunchedEffect(availableFrames) {
         if (
-            availableFrames.isNotEmpty() && (value == CollageType.Empty || (value.templateItem?.photoItemList?.size
+            availableFrames.isNotEmpty() && (value == CollageType.Empty || (value.layout?.photoItemList?.size
                 ?: 0) != imagesCount)
         ) {
             onValueChange(
                 CollageType(
-                    templateItem = availableFrames.first(),
+                    layout = availableFrames.first(),
                     index = 0
                 )
             )
@@ -102,9 +102,9 @@ fun CollageTypeSelection(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = contentPadding
         ) {
-            itemsIndexed(availableFrames) { index, templateItem ->
+            itemsIndexed(availableFrames) { index, layout ->
                 AsyncImage(
-                    model = templateItem.preview,
+                    model = layout.preview,
                     contentDescription = null,
                     contentScale = ContentScale.FillBounds,
                     colorFilter = ColorFilter.tint(previewColor),
@@ -115,7 +115,7 @@ fun CollageTypeSelection(
                         .clickable {
                             onValueChange(
                                 CollageType(
-                                    templateItem = templateItem,
+                                    layout = layout,
                                     index = index
                                 )
                             )

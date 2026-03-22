@@ -40,7 +40,6 @@ import androidx.core.graphics.withSave
 import androidx.core.net.toUri
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
-import com.t8rin.collages.utils.ImageUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -185,7 +184,7 @@ internal class FrameImageView(
     fun restoreInstanceState(savedInstanceState: Bundle) {
         viewState = savedInstanceState
         val index = photoItem.index
-        var values = savedInstanceState.getFloatArray("mImageMatrix_$index")
+        val values = savedInstanceState.getFloatArray("mImageMatrix_$index")
         if (values != null) {
             mImageMatrix.setValues(values)
         }
@@ -281,11 +280,11 @@ internal class FrameImageView(
 
         if (image != null) {
             mImageMatrix.set(
-                ImageUtils.createMatrixToDrawImageInCenterView(
-                    viewWidth,
-                    viewHeight,
-                    image!!.width.toFloat(),
-                    image!!.height.toFloat()
+                createMatrixToDrawImageInCenterView(
+                    viewWidth = viewWidth,
+                    viewHeight = viewHeight,
+                    imageWidth = image!!.width.toFloat(),
+                    imageHeight = image!!.height.toFloat()
                 )
             )
         }
@@ -357,11 +356,11 @@ internal class FrameImageView(
     private fun resetImageMatrix() {
         if (image != null) {
             mImageMatrix.set(
-                ImageUtils.createMatrixToDrawImageInCenterView(
-                    viewWidth,
-                    viewHeight,
-                    image!!.width.toFloat(),
-                    image!!.height.toFloat()
+                createMatrixToDrawImageInCenterView(
+                    viewWidth = viewWidth,
+                    viewHeight = viewHeight,
+                    imageWidth = image!!.width.toFloat(),
+                    imageHeight = image!!.height.toFloat()
                 )
             )
         }
@@ -917,5 +916,22 @@ internal class FrameImageView(
                 touchPolygon.add(PointF(pathRect.left.toFloat(), pathRect.bottom.toFloat()))
             }
         }
+    }
+
+    private fun createMatrixToDrawImageInCenterView(
+        viewWidth: Float,
+        viewHeight: Float,
+        imageWidth: Float,
+        imageHeight: Float
+    ): Matrix {
+        val ratioWidth = viewWidth / imageWidth
+        val ratioHeight = viewHeight / imageHeight
+        val ratio = ratioWidth.coerceAtLeast(ratioHeight)
+        val dx = (viewWidth - imageWidth) / 2.0f
+        val dy = (viewHeight - imageHeight) / 2.0f
+        val result = Matrix()
+        result.postTranslate(dx, dy)
+        result.postScale(ratio, ratio, viewWidth / 2, viewHeight / 2)
+        return result
     }
 }

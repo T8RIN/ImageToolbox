@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Valige asukoht ja failinimi, mida kasutatakse praeguse pildi salvestamiseks</string>
     <string name="saved_to_custom">Salvestatud kohandatud nimega kausta</string>
     <string name="collage_maker">Kollaažide tegija</string>
-    <string name="collage_maker_sub">Tehke kollaaže kuni 10 pildist</string>
+    <string name="collage_maker_sub">Tehke kollaaže kuni 20 pildist</string>
     <string name="collage_type">Kollaaži tüüp</string>
     <string name="collages_info">Hoidke pilti, et vahetada, liigutada ja asendi reguleerimiseks suumida</string>
     <string name="disable_rotation">Keela pööramine</string>

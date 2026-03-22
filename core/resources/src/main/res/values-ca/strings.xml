@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Seleccioneu la ubicació i el nom del fitxer que s\'utilitzaran per desar la imatge actual</string>
     <string name="saved_to_custom">Desat a la carpeta amb un nom personalitzat</string>
     <string name="collage_maker">Creador de collages</string>
-    <string name="collage_maker_sub">Feu collages de fins a 10 imatges</string>
+    <string name="collage_maker_sub">Feu collages de fins a 20 imatges</string>
     <string name="collage_type">Tipus de collage</string>
     <string name="collages_info">Mantingueu premut la imatge per intercanviar, moure i fer zoom per ajustar la posició</string>
     <string name="disable_rotation">Desactiva la rotació</string>

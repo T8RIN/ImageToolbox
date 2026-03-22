@@ -1432,7 +1432,7 @@
     <string name="custom_filename_sub">مکان و نام فایل را انتخاب کنید که برای ذخیره تصویر فعلی استفاده می شود</string>
     <string name="saved_to_custom">در پوشه ای با نام سفارشی ذخیره شد</string>
     <string name="collage_maker">کلاژ ساز</string>
-    <string name="collage_maker_sub">از حداکثر 10 تصویر کلاژ بسازید</string>
+    <string name="collage_maker_sub">از حداکثر 20 تصویر کلاژ بسازید</string>
     <string name="collage_type">نوع کلاژ</string>
     <string name="collages_info">تصویر را برای جابجایی، حرکت و بزرگنمایی برای تنظیم موقعیت نگه دارید</string>
     <string name="disable_rotation">چرخش را غیرفعال کنید</string>

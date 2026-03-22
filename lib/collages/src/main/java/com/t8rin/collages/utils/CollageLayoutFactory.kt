@@ -33,24 +33,24 @@ import com.t8rin.collages.frames.SixFrameImage
 import com.t8rin.collages.frames.TenFrameImage
 import com.t8rin.collages.frames.ThreeFrameImage
 import com.t8rin.collages.frames.TwoFrameImage
-import com.t8rin.collages.model.TemplateItem
+import com.t8rin.collages.model.CollageLayout
 
-internal object FrameImageUtils {
+internal object CollageLayoutFactory {
     private const val FRAME_FOLDER = "frame"
 
-    internal fun collage(
+    fun collage(
         frameName: String
-    ): TemplateItem = TemplateItem(
+    ): CollageLayout = CollageLayout(
         preview = ("file:///android_asset/$FRAME_FOLDER/$frameName.webp").toUri(),
         title = frameName
     )
 
-    fun buildParamsCollage(
-        imageName: String,
+    fun collage(
+        frameName: String,
         setup: ParamsManagerBuilder.() -> Unit
-    ): TemplateItem {
+    ): CollageLayout {
         val (paramsManager, photoItemList) = ParamsManagerBuilder().apply(setup).build()
-        return collage(imageName).copy(paramsManager = paramsManager, photoItemList = photoItemList)
+        return collage(frameName).copy(paramsManager = paramsManager, photoItemList = photoItemList)
     }
 
     fun createHeartItem(top: Float, size: Float): Path {
@@ -67,10 +67,10 @@ internal object FrameImageUtils {
         }
     }
 
-    fun loadFrameImages(context: Context): List<TemplateItem> {
+    fun loadFrameImages(context: Context): List<CollageLayout> {
         return runCatching {
             context.assets.list(FRAME_FOLDER).orEmpty().mapNotNull {
-                createTemplateItems(it.substringBeforeLast('.'))
+                createCollageLayouts(it.substringBeforeLast('.'))
             }.sortedWith { lhs, rhs -> lhs.photoItemList.size - rhs.photoItemList.size }
         }.onFailure {
             it.printStackTrace()
@@ -81,9 +81,9 @@ internal object FrameImageUtils {
         name: String,
         count: Int,
         isHorizontal: Boolean,
-    ): TemplateItem {
-        return buildParamsCollage(name) {
-            if (count <= 0) return@buildParamsCollage
+    ): CollageLayout {
+        return collage(name) {
+            if (count <= 0) return@collage
 
             val params = (1 until count).map { i ->
                 param(i.toFloat() / count)
@@ -113,9 +113,9 @@ internal object FrameImageUtils {
         name: String,
         rows: Int,
         cols: Int,
-    ): TemplateItem {
-        return buildParamsCollage(name) {
-            if (rows <= 0 || cols <= 0) return@buildParamsCollage
+    ): CollageLayout {
+        return collage(name) {
+            if (rows <= 0 || cols <= 0) return@collage
             val xColParams = (1 until cols).map { c -> param(c.toFloat() / cols) }
             val yRowParams = (1 until rows).map { r -> param(r.toFloat() / rows) }
             for (r in 0 until rows) {
@@ -145,11 +145,11 @@ internal object FrameImageUtils {
         }
     }
 
-    internal fun createTemplateItems(frameName: String): TemplateItem? {
+    internal fun createCollageLayouts(frameName: String): CollageLayout? {
         return COLLAGE_MAP[frameName]?.invoke()
     }
 
-    internal val COLLAGE_MAP: Map<String, () -> TemplateItem> = mapOf(
+    internal val COLLAGE_MAP: Map<String, () -> CollageLayout> = mapOf(
         "collage_1_0" to { ExtendedFrameImage.collage_1_0() },
         "collage_2_0" to { TwoFrameImage.collage_2_0() },
         "collage_2_1" to { TwoFrameImage.collage_2_1() },

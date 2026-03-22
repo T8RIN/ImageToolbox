@@ -1595,7 +1595,7 @@
     <string name="image_stacking_sub">選択したブレンドモードで画像を重ね合わせる</string>
     <string name="save_empty_lut_sub">まず、ここで取得できるニュートラルLUTにお気に入りの写真編集アプリケーションでフィルターを適用します。これが正しく機能するためには、各ピクセルの色が変更されていないことが必要です</string>
     <string name="add_timestamp_sub">出力ファイル名へのタイムスタンプ追加を有効にします</string>
-    <string name="collage_maker_sub">2～10枚の画像からさまざまなコラージュを作成します</string>
+    <string name="collage_maker_sub">20枚の画像からさまざまなコラージュを作成します</string>
     <string name="free_software_partner_sub">Androidアプリケーションのパートナーチャンネルで、より多くの役立つソフトウェア</string>
     <string name="coerce_points_to_image_bounds_sub">点は画像境界に制限されません。これはより正確なパースペクティブ修正に役立ちます</string>
     <string name="spot_heal_sub">描画されたパスの下でコンテンツアウェアフィル</string>

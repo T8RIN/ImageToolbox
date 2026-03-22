@@ -1402,7 +1402,7 @@
     <string name="saved_to_custom">保存到以自定义名称的文件夹中</string>
     <string name="collage_maker">拼贴画制作器</string>
     <string name="collage_type">拼贴画类型</string>
-    <string name="collage_maker_sub">用最多10张图片制作拼贴画</string>
+    <string name="collage_maker_sub">用最多20张图片制作拼贴画</string>
     <string name="collages_info">按住图片进行交换、移动和缩放以调整位置</string>
     <string name="image_for_histogram">该图片将用于生成 RGB 和亮度直方图</string>
     <string name="histogram">直方图</string>

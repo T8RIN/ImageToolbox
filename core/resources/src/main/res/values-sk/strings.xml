@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Vyberte umiestnenie a názov súboru, ktorý sa použije na uloženie aktuálneho obrázka</string>
     <string name="saved_to_custom">Uložené do priečinka s vlastným názvom</string>
     <string name="collage_maker">Collage Maker</string>
-    <string name="collage_maker_sub">Vytvorte koláže až z 10 obrázkov</string>
+    <string name="collage_maker_sub">Vytvorte koláže až z 20 obrázkov</string>
     <string name="collage_type">Typ koláže</string>
     <string name="collages_info">Podržaním obrázka ho môžete vymeniť, posunúť a priblížiť, aby ste upravili polohu</string>
     <string name="disable_rotation">Zakázať otáčanie</string>

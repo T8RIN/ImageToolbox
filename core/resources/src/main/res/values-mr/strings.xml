@@ -1406,7 +1406,7 @@
     <string name="custom_filename_sub">स्थान आणि फाइल नाव निवडा जे वर्तमान प्रतिमा जतन करण्यासाठी वापरले जाईल</string>
     <string name="saved_to_custom">सानुकूल नावासह फोल्डरमध्ये जतन केले</string>
     <string name="collage_maker">कोलाज मेकर</string>
-    <string name="collage_maker_sub">10 प्रतिमांपासून कोलाज बनवा</string>
+    <string name="collage_maker_sub">20 प्रतिमांपासून कोलाज बनवा</string>
     <string name="collage_type">कोलाज प्रकार</string>
     <string name="collages_info">बदलण्यासाठी प्रतिमा धरून ठेवा, हलवा आणि स्थिती समायोजित करण्यासाठी झूम करा</string>
     <string name="disable_rotation">रोटेशन अक्षम करा</string>

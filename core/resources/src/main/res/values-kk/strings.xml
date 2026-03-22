@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Ағымдағы кескінді сақтау үшін пайдаланылатын орын мен файл атауын таңдаңыз</string>
     <string name="saved_to_custom">Пайдаланушы аты бар қалтаға сақталды</string>
     <string name="collage_maker">Коллаж жасаушы</string>
-    <string name="collage_maker_sub">10 суретке дейін коллаждар жасаңыз</string>
+    <string name="collage_maker_sub">20 суретке дейін коллаждар жасаңыз</string>
     <string name="collage_type">Коллаж түрі</string>
     <string name="collages_info">Орынды реттеу үшін ауыстыру, жылжыту және масштабтау үшін кескінді басып тұрыңыз</string>
     <string name="disable_rotation">Айналуды өшіру</string>

@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">অবস্থান এবং ফাইলের নাম নির্বাচন করুন যা বর্তমান চিত্র সংরক্ষণ করতে ব্যবহার করা হবে</string>
     <string name="saved_to_custom">কাস্টম নামের সাথে ফোল্ডারে সংরক্ষিত</string>
     <string name="collage_maker">কোলাজ মেকার</string>
-    <string name="collage_maker_sub">10টি পর্যন্ত ছবি থেকে কোলাজ তৈরি করুন৷</string>
+    <string name="collage_maker_sub">20টি পর্যন্ত ছবি থেকে কোলাজ তৈরি করুন৷</string>
     <string name="collage_type">কোলাজ প্রকার</string>
     <string name="collages_info">অবস্থান সামঞ্জস্য করতে ছবি অদলবদল করতে, সরাতে এবং জুম করতে ধরে রাখুন</string>
     <string name="disable_rotation">ঘূর্ণন অক্ষম করুন</string>

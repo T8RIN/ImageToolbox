@@ -1000,7 +1000,7 @@
     <string name="image_stacking_sub">Układaj obrazy jeden na drugim w wybranym trybie nakładania</string>
     <string name="collage_type">Typ kolażu</string>
     <string name="collage_maker">Utwórz kolaż</string>
-    <string name="collage_maker_sub">Twórz kolaże z maksymalnie 10 obrazami</string>
+    <string name="collage_maker_sub">Twórz kolaże z maksymalnie 20 obrazami</string>
     <string name="gif_type_to_webp_sub">Konwertuj pliki GIF do animowanych obrazów WEBP</string>
     <string name="webp_tools">Narzędzia WEBP</string>
     <string name="webp_tools_sub">Konwertuj obrazy do animowanych plików WEBP albo lub wyodrębnij pojedyncze klatki z animacji WEBP</string>

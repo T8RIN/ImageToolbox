@@ -18,6 +18,8 @@
 package com.t8rin.collages.view
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.app.ActivityManager.MemoryInfo
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
@@ -35,11 +37,11 @@ import android.view.DragEvent
 import android.view.MotionEvent
 import android.widget.RelativeLayout
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.content.getSystemService
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.withTranslation
 import com.t8rin.collages.utils.Handle
 import com.t8rin.collages.utils.ImageDecoder
-import com.t8rin.collages.utils.ImageUtils
 import com.t8rin.collages.utils.ParamsManager
 import kotlin.math.max
 import androidx.compose.ui.graphics.Color as ComposeColor
@@ -114,9 +116,8 @@ internal class FramePhotoLayout(
     private var enableSnapToBorders: Boolean = false
 
     private val isNotLargeThan1Gb: Boolean
-        get() {
-            val memoryInfo = ImageUtils.getMemoryInfo(context)
-            return memoryInfo.totalMem > 0 && memoryInfo.totalMem / 1048576.0 <= 1024
+        get() = getMemoryInfo().run {
+            totalMem > 0 && totalMem / 1048576.0 <= 1024
         }
 
     init {
@@ -485,6 +486,10 @@ internal class FramePhotoLayout(
             }
         }
         return super.onTouchEvent(event)
+    }
+
+    private fun getMemoryInfo(): MemoryInfo = MemoryInfo().apply {
+        context.getSystemService<ActivityManager>()?.getMemoryInfo(this)
     }
 
 }

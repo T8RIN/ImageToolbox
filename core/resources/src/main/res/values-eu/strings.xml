@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Hautatu uneko irudia gordetzeko erabiliko diren kokapena eta fitxategi-izena</string>
     <string name="saved_to_custom">Izen pertsonalizatuarekin karpetan gorde da</string>
     <string name="collage_maker">Collage Maker</string>
-    <string name="collage_maker_sub">Egin collageak gehienez 10 iruditatik</string>
+    <string name="collage_maker_sub">Egin collageak gehienez 20 iruditatik</string>
     <string name="collage_type">Collage mota</string>
     <string name="collages_info">Eduki sakatuta irudia trukatzeko, mugitzeko eta zooma posizioa doitzeko</string>
     <string name="disable_rotation">Desgaitu biraketa</string>

@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">نۆۋەتتىكى رەسىمنى ساقلاشقا ئىشلىتىلىدىغان ئورۇن ۋە ھۆججەت نامىنى تاللاڭ</string>
     <string name="saved_to_custom">خاس ئىسىم بىلەن ھۆججەت قىسقۇچقا ساقلاندى</string>
     <string name="collage_maker">Collage Maker</string>
-    <string name="collage_maker_sub">10 پارچە رەسىمگە قەدەر كوللاگېن ياساڭ</string>
+    <string name="collage_maker_sub">20 پارچە رەسىمگە قەدەر كوللاگېن ياساڭ</string>
     <string name="collage_type">Collage Type</string>
     <string name="collages_info">ئورۇننى تەڭشەش ئۈچۈن رەسىمنى ئالماشتۇرۇش ، يۆتكەش ۋە چوڭايتىش</string>
     <string name="disable_rotation">ئايلىنىشنى چەكلەڭ</string>

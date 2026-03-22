@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Выберыце месцазнаходжанне і імя файла, якія будуць выкарыстоўвацца для захавання бягучага малюнка</string>
     <string name="saved_to_custom">Захавана ў тэчку з карыстальніцкай назвай</string>
     <string name="collage_maker">Стваральнік калажаў</string>
-    <string name="collage_maker_sub">Стварайце калажы з максімум 10 малюнкаў</string>
+    <string name="collage_maker_sub">Стварайце калажы з максімум 20 малюнкаў</string>
     <string name="collage_type">Тып калажа</string>
     <string name="collages_info">Утрымлівайце малюнак, каб памяняць месцамі, перамяшчаць і маштабаваць, каб адрэгуляваць становішча</string>
     <string name="disable_rotation">Адключыць паварот</string>

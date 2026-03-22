@@ -1422,7 +1422,7 @@
     <string name="custom_filename_sub">Select location and filename which are will be used to save current image</string>
     <string name="saved_to_custom">Saved to folder with custom name</string>
     <string name="collage_maker">Collage Maker</string>
-    <string name="collage_maker_sub">Make collages from up to 10 images</string>
+    <string name="collage_maker_sub">Make collages from up to 20 images</string>
     <string name="collage_type">Collage Type</string>
     <string name="collages_info">Hold image to swap, move and zoom to adjust position</string>
     <string name="disable_rotation">Disable rotation</string>

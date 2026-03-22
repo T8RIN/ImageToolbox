@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Geçerli resmi kaydetmek için kullanılacak konumu ve dosya adını seçin</string>
     <string name="saved_to_custom">Özel adla klasöre kaydedildi</string>
     <string name="collage_maker">Kolaj Oluşturucu</string>
-    <string name="collage_maker_sub">10 resme kadar kolaj yapın</string>
+    <string name="collage_maker_sub">20 resme kadar kolaj yapın</string>
     <string name="collage_type">Kolaj Türü</string>
     <string name="collages_info">Değiştirmek için resmi basılı tutun, konumu ayarlamak için taşıyın ve yakınlaştırın</string>
     <string name="histogram">Histogram</string>

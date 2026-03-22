@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Chọn vị trí và tên tệp sẽ được sử dụng để lưu hình ảnh hiện tại</string>
     <string name="saved_to_custom">Đã lưu vào thư mục có tên tùy chỉnh</string>
     <string name="collage_maker">Trình tạo ảnh ghép</string>
-    <string name="collage_maker_sub">Tạo ảnh ghép từ tối đa 10 hình ảnh</string>
+    <string name="collage_maker_sub">Tạo ảnh ghép từ tối đa 20 hình ảnh</string>
     <string name="collage_type">Loại ảnh ghép</string>
     <string name="collages_info">Giữ hình ảnh để hoán đổi, di chuyển và thu phóng để điều chỉnh vị trí</string>
     <string name="disable_rotation">Vô hiệu hóa xoay</string>

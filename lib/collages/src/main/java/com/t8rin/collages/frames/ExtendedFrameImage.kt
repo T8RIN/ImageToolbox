@@ -21,9 +21,9 @@ package com.t8rin.collages.frames
 
 import android.graphics.PointF
 import android.graphics.RectF
-import com.t8rin.collages.model.TemplateItem
-import com.t8rin.collages.utils.FrameImageUtils
-import com.t8rin.collages.utils.FrameImageUtils.collage
+import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.CollageLayoutFactory
+import com.t8rin.collages.utils.CollageLayoutFactory.collage
 import com.t8rin.collages.utils.ParamsManagerBuilder
 import com.t8rin.collages.view.PhotoItem
 
@@ -118,7 +118,7 @@ internal object ExtendedFrameImage {
         }
     }
 
-    internal fun collage_1_0(): TemplateItem {
+    internal fun collage_1_0(): CollageLayout {
         return collage("collage_1_0").copy(
             photoItemList = listOf(
                 PhotoItem().apply {
@@ -133,16 +133,16 @@ internal object ExtendedFrameImage {
         )
     }
 
-    internal fun collage_2_12(): TemplateItem {
+    internal fun collage_2_12(): CollageLayout {
         return TwoFrameImage.collage_2_0("collage_2_12", 0.38f)
     }
 
-    internal fun collage_2_13(): TemplateItem {
+    internal fun collage_2_13(): CollageLayout {
         return TwoFrameImage.collage_2_1("collage_2_13", 0.42f)
     }
 
-    internal fun collage_3_48(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_3_48") {
+    internal fun collage_3_48(): CollageLayout {
+        return collage("collage_3_48") {
             val x1 = param(0.34f)
             val y1 = param(0.5f)
             addBoxedItem(
@@ -162,8 +162,8 @@ internal object ExtendedFrameImage {
         }
     }
 
-    internal fun collage_4_26(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_26") {
+    internal fun collage_4_26(): CollageLayout {
+        return collage("collage_4_26") {
             val y1 = param(0.55f)
             addBoxedItem(
                 yParams = listOf(y1),
@@ -189,8 +189,8 @@ internal object ExtendedFrameImage {
         }
     }
 
-    internal fun collage_4_27(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_4_27") {
+    internal fun collage_4_27(): CollageLayout {
+        return collage("collage_4_27") {
             fixedRect(0f, 0f, 0.55f, 1f)
             fixedRect(0.55f, 0f, 1f, 1f / 3f)
             fixedRect(0.55f, 1f / 3f, 1f, 2f / 3f)
@@ -198,8 +198,8 @@ internal object ExtendedFrameImage {
         }
     }
 
-    internal fun collage_5_32(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_32") {
+    internal fun collage_5_32(): CollageLayout {
+        return collage("collage_5_32") {
             val x1 = param(0.28f)
             val x2 = param(0.72f)
             val y1 = param(0.28f)
@@ -232,63 +232,63 @@ internal object ExtendedFrameImage {
         }
     }
 
-    internal fun collage_5_33(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_5_33") {
+    internal fun collage_5_33(): CollageLayout {
+        return collage("collage_5_33") {
             rowStrip(0f, 0.5f, 2)
             rowStrip(0.5f, 1f, 3)
         }
     }
 
-    internal fun collage_6_15(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_15") {
+    internal fun collage_6_15(): CollageLayout {
+        return collage("collage_6_15") {
             rowStrip(0f, 1f / 3f, 1)
             rowStrip(1f / 3f, 2f / 3f, 2)
             rowStrip(2f / 3f, 1f, 3)
         }
     }
 
-    internal fun collage_6_16(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_16") {
+    internal fun collage_6_16(): CollageLayout {
+        return collage("collage_6_16") {
             rowStrip(0f, 1f / 3f, 2)
             rowStrip(1f / 3f, 2f / 3f, 2)
             rowStrip(2f / 3f, 1f, 2)
         }
     }
 
-    internal fun collage_6_17(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_17") {
+    internal fun collage_6_17(): CollageLayout {
+        return collage("collage_6_17") {
             rowStrip(0f, 1f / 3f, 3)
             rowStrip(1f / 3f, 2f / 3f, 2)
             rowStrip(2f / 3f, 1f, 1)
         }
     }
 
-    internal fun collage_7_11(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_11") {
+    internal fun collage_7_11(): CollageLayout {
+        return collage("collage_7_11") {
             rowStrip(0f, 1f / 3f, 3)
             rowStrip(1f / 3f, 2f / 3f, 2)
             rowStrip(2f / 3f, 1f, 2)
         }
     }
 
-    internal fun collage_7_12(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_7_12") {
+    internal fun collage_7_12(): CollageLayout {
+        return collage("collage_7_12") {
             rowStrip(0f, 0.32f, 3)
             rowStrip(0.32f, 0.55f, 1)
             rowStrip(0.55f, 1f, 3)
         }
     }
 
-    internal fun collage_8_17(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_17") {
+    internal fun collage_8_17(): CollageLayout {
+        return collage("collage_8_17") {
             rowStrip(0f, 0.35f, 3)
             rowStrip(0.35f, 0.7f, 3)
             rowStrip(0.7f, 1f, 2)
         }
     }
 
-    internal fun collage_8_18(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_8_18") {
+    internal fun collage_8_18(): CollageLayout {
+        return collage("collage_8_18") {
             rowStrip(0f, 0.25f, 2)
             rowStrip(0.25f, 0.5f, 2)
             rowStrip(0.5f, 0.75f, 2)
@@ -296,371 +296,371 @@ internal object ExtendedFrameImage {
         }
     }
 
-    internal fun collage_9_12(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_12") {
+    internal fun collage_9_12(): CollageLayout {
+        return collage("collage_9_12") {
             rowStrip(0f, 1f / 3f, 2)
             rowStrip(1f / 3f, 2f / 3f, 3)
             rowStrip(2f / 3f, 1f, 4)
         }
     }
 
-    internal fun collage_9_13(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_13") {
+    internal fun collage_9_13(): CollageLayout {
+        return collage("collage_9_13") {
             rowStrip(0f, 1f / 3f, 3)
             rowStrip(1f / 3f, 2f / 3f, 3)
             rowStrip(2f / 3f, 1f, 3)
         }
     }
 
-    internal fun collage_10_9(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_9") {
+    internal fun collage_10_9(): CollageLayout {
+        return collage("collage_10_9") {
             uniformGridInRegion(3, 3, 0f, 0f, 1f, 0.75f)
             fixedRect(0f, 0.75f, 1f, 1f)
         }
     }
 
-    internal fun collage_10_10(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_10_10") {
+    internal fun collage_10_10(): CollageLayout {
+        return collage("collage_10_10") {
             uniformGridInRegion(2, 5, 0f, 0f, 1f, 1f)
         }
     }
 
-    internal fun collage_11_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_11_0") {
+    internal fun collage_11_0(): CollageLayout {
+        return collage("collage_11_0") {
             parametricStackedRowStrips(listOf(3, 4, 4))
         }
     }
 
-    internal fun collage_11_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_11_1") {
+    internal fun collage_11_1(): CollageLayout {
+        return collage("collage_11_1") {
             parametricStackedRowStrips(listOf(5, 6))
         }
     }
 
-    internal fun collage_11_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_11_2") {
+    internal fun collage_11_2(): CollageLayout {
+        return collage("collage_11_2") {
             parametricStackedRowStrips(listOf(4, 4, 3))
         }
     }
 
-    internal fun collage_11_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_11_3") {
+    internal fun collage_11_3(): CollageLayout {
+        return collage("collage_11_3") {
             parametricStackedRowStrips(listOf(3, 3, 5))
         }
     }
 
-    internal fun collage_11_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_11_4") {
+    internal fun collage_11_4(): CollageLayout {
+        return collage("collage_11_4") {
             parametricStackedRowStrips(listOf(4, 3, 4))
         }
     }
 
-    internal fun collage_11_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_11_5") {
+    internal fun collage_11_5(): CollageLayout {
+        return collage("collage_11_5") {
             parametricStackedRowStrips(listOf(5, 3, 3))
         }
     }
 
-    internal fun collage_12_0(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_12_0", rows = 3, cols = 4)
+    internal fun collage_12_0(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_12_0", rows = 3, cols = 4)
     }
 
-    internal fun collage_12_1(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_12_1", rows = 4, cols = 3)
+    internal fun collage_12_1(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_12_1", rows = 4, cols = 3)
     }
 
-    internal fun collage_12_2(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_12_2", rows = 2, cols = 6)
+    internal fun collage_12_2(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_12_2", rows = 2, cols = 6)
     }
 
-    internal fun collage_12_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_12_3") {
+    internal fun collage_12_3(): CollageLayout {
+        return collage("collage_12_3") {
             parametricStackedRowStrips(listOf(2, 3, 3, 4))
         }
     }
 
-    internal fun collage_12_4(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_12_4", rows = 6, cols = 2)
+    internal fun collage_12_4(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_12_4", rows = 6, cols = 2)
     }
 
-    internal fun collage_12_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_12_5") {
+    internal fun collage_12_5(): CollageLayout {
+        return collage("collage_12_5") {
             parametricStackedRowStrips(listOf(4, 3, 3, 2))
         }
     }
 
-    internal fun collage_13_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_13_0") {
+    internal fun collage_13_0(): CollageLayout {
+        return collage("collage_13_0") {
             parametricStackedRowStrips(listOf(4, 4, 5))
         }
     }
 
-    internal fun collage_13_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_13_1") {
+    internal fun collage_13_1(): CollageLayout {
+        return collage("collage_13_1") {
             parametricStackedRowStrips(listOf(3, 3, 3, 4))
         }
     }
 
-    internal fun collage_13_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_13_2") {
+    internal fun collage_13_2(): CollageLayout {
+        return collage("collage_13_2") {
             parametricStackedRowStrips(listOf(5, 4, 4))
         }
     }
 
-    internal fun collage_13_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_13_3") {
+    internal fun collage_13_3(): CollageLayout {
+        return collage("collage_13_3") {
             parametricStackedRowStrips(listOf(3, 4, 6))
         }
     }
 
-    internal fun collage_13_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_13_4") {
+    internal fun collage_13_4(): CollageLayout {
+        return collage("collage_13_4") {
             parametricStackedRowStrips(listOf(2, 5, 6))
         }
     }
 
-    internal fun collage_13_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_13_5") {
+    internal fun collage_13_5(): CollageLayout {
+        return collage("collage_13_5") {
             parametricStackedRowStrips(listOf(4, 5, 4))
         }
     }
 
-    internal fun collage_14_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_14_0") {
+    internal fun collage_14_0(): CollageLayout {
+        return collage("collage_14_0") {
             parametricStackedRowStrips(listOf(7, 7))
         }
     }
 
-    internal fun collage_14_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_14_1") {
+    internal fun collage_14_1(): CollageLayout {
+        return collage("collage_14_1") {
             parametricStackedRowStrips(listOf(4, 5, 5))
         }
     }
 
-    internal fun collage_14_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_14_2") {
+    internal fun collage_14_2(): CollageLayout {
+        return collage("collage_14_2") {
             parametricStackedRowStrips(listOf(3, 4, 4, 3))
         }
     }
 
-    internal fun collage_14_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_14_3") {
+    internal fun collage_14_3(): CollageLayout {
+        return collage("collage_14_3") {
             parametricStackedRowStrips(listOf(5, 5, 4))
         }
     }
 
-    internal fun collage_14_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_14_4") {
+    internal fun collage_14_4(): CollageLayout {
+        return collage("collage_14_4") {
             parametricStackedRowStrips(listOf(6, 4, 4))
         }
     }
 
-    internal fun collage_14_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_14_5") {
+    internal fun collage_14_5(): CollageLayout {
+        return collage("collage_14_5") {
             parametricStackedRowStrips(listOf(4, 4, 3, 3))
         }
     }
 
-    internal fun collage_15_0(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_15_0", rows = 3, cols = 5)
+    internal fun collage_15_0(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_15_0", rows = 3, cols = 5)
     }
 
-    internal fun collage_15_1(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_15_1", rows = 5, cols = 3)
+    internal fun collage_15_1(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_15_1", rows = 5, cols = 3)
     }
 
-    internal fun collage_15_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_15_2") {
+    internal fun collage_15_2(): CollageLayout {
+        return collage("collage_15_2") {
             parametricStackedRowStrips(listOf(2, 3, 3, 4, 5))
         }
     }
 
-    internal fun collage_15_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_15_3") {
+    internal fun collage_15_3(): CollageLayout {
+        return collage("collage_15_3") {
             parametricStackedRowStrips(listOf(4, 5, 6))
         }
     }
 
-    internal fun collage_15_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_15_4") {
+    internal fun collage_15_4(): CollageLayout {
+        return collage("collage_15_4") {
             parametricStackedRowStrips(listOf(3, 5, 7))
         }
     }
 
-    internal fun collage_15_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_15_5") {
+    internal fun collage_15_5(): CollageLayout {
+        return collage("collage_15_5") {
             parametricStackedRowStrips(listOf(4, 4, 4, 3))
         }
     }
 
-    internal fun collage_16_0(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_16_0", rows = 4, cols = 4)
+    internal fun collage_16_0(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_16_0", rows = 4, cols = 4)
     }
 
-    internal fun collage_16_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_16_1") {
+    internal fun collage_16_1(): CollageLayout {
+        return collage("collage_16_1") {
             parametricStackedRowStrips(listOf(5, 5, 6))
         }
     }
 
-    internal fun collage_16_2(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_16_2", rows = 8, cols = 2)
+    internal fun collage_16_2(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_16_2", rows = 8, cols = 2)
     }
 
-    internal fun collage_16_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_16_3") {
+    internal fun collage_16_3(): CollageLayout {
+        return collage("collage_16_3") {
             parametricStackedRowStrips(listOf(3, 4, 5, 4))
         }
     }
 
-    internal fun collage_16_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_16_4") {
+    internal fun collage_16_4(): CollageLayout {
+        return collage("collage_16_4") {
             parametricStackedRowStrips(listOf(2, 4, 4, 6))
         }
     }
 
-    internal fun collage_16_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_16_5") {
+    internal fun collage_16_5(): CollageLayout {
+        return collage("collage_16_5") {
             parametricStackedRowStrips(listOf(6, 5, 5))
         }
     }
 
-    internal fun collage_17_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_17_0") {
+    internal fun collage_17_0(): CollageLayout {
+        return collage("collage_17_0") {
             parametricStackedRowStrips(listOf(4, 4, 4, 5))
         }
     }
 
-    internal fun collage_17_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_17_1") {
+    internal fun collage_17_1(): CollageLayout {
+        return collage("collage_17_1") {
             parametricStackedRowStrips(listOf(6, 6, 5))
         }
     }
 
-    internal fun collage_17_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_17_2") {
+    internal fun collage_17_2(): CollageLayout {
+        return collage("collage_17_2") {
             parametricStackedRowStrips(listOf(5, 6, 6))
         }
     }
 
-    internal fun collage_17_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_17_3") {
+    internal fun collage_17_3(): CollageLayout {
+        return collage("collage_17_3") {
             parametricStackedRowStrips(listOf(4, 4, 5, 4))
         }
     }
 
-    internal fun collage_17_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_17_4") {
+    internal fun collage_17_4(): CollageLayout {
+        return collage("collage_17_4") {
             parametricStackedRowStrips(listOf(7, 5, 5))
         }
     }
 
-    internal fun collage_17_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_17_5") {
+    internal fun collage_17_5(): CollageLayout {
+        return collage("collage_17_5") {
             parametricStackedRowStrips(listOf(3, 4, 4, 6))
         }
     }
 
-    internal fun collage_18_0(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_18_0", rows = 3, cols = 6)
+    internal fun collage_18_0(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_18_0", rows = 3, cols = 6)
     }
 
-    internal fun collage_18_1(): TemplateItem {
-        return FrameImageUtils.collageParametricGrid("collage_18_1", rows = 6, cols = 3)
+    internal fun collage_18_1(): CollageLayout {
+        return CollageLayoutFactory.collageParametricGrid("collage_18_1", rows = 6, cols = 3)
     }
 
-    internal fun collage_18_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_18_2") {
+    internal fun collage_18_2(): CollageLayout {
+        return collage("collage_18_2") {
             parametricStackedRowStrips(listOf(6, 6, 6))
         }
     }
 
-    internal fun collage_18_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_18_3") {
+    internal fun collage_18_3(): CollageLayout {
+        return collage("collage_18_3") {
             parametricStackedRowStrips(listOf(4, 5, 5, 4))
         }
     }
 
-    internal fun collage_18_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_18_4") {
+    internal fun collage_18_4(): CollageLayout {
+        return collage("collage_18_4") {
             parametricStackedRowStrips(listOf(3, 5, 4, 6))
         }
     }
 
-    internal fun collage_18_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_18_5") {
+    internal fun collage_18_5(): CollageLayout {
+        return collage("collage_18_5") {
             parametricStackedRowStrips(listOf(4, 4, 4, 3, 3))
         }
     }
 
-    internal fun collage_19_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_19_0") {
+    internal fun collage_19_0(): CollageLayout {
+        return collage("collage_19_0") {
             parametricStackedRowStrips(listOf(5, 5, 5, 4))
         }
     }
 
-    internal fun collage_19_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_19_1") {
+    internal fun collage_19_1(): CollageLayout {
+        return collage("collage_19_1") {
             parametricStackedRowStrips(listOf(4, 5, 5, 5))
         }
     }
 
-    internal fun collage_19_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_19_2") {
+    internal fun collage_19_2(): CollageLayout {
+        return collage("collage_19_2") {
             parametricStackedRowStrips(listOf(6, 6, 7))
         }
     }
 
-    internal fun collage_19_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_19_3") {
+    internal fun collage_19_3(): CollageLayout {
+        return collage("collage_19_3") {
             parametricStackedRowStrips(listOf(3, 4, 5, 7))
         }
     }
 
-    internal fun collage_19_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_19_4") {
+    internal fun collage_19_4(): CollageLayout {
+        return collage("collage_19_4") {
             parametricStackedRowStrips(listOf(2, 6, 6, 5))
         }
     }
 
-    internal fun collage_19_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_19_5") {
+    internal fun collage_19_5(): CollageLayout {
+        return collage("collage_19_5") {
             parametricStackedRowStrips(listOf(4, 4, 4, 4, 3))
         }
     }
 
-    internal fun collage_20_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_20_0") {
+    internal fun collage_20_0(): CollageLayout {
+        return collage("collage_20_0") {
             parametricStackedRowStrips(listOf(7, 6, 7))
         }
     }
 
-    internal fun collage_20_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_20_1") {
+    internal fun collage_20_1(): CollageLayout {
+        return collage("collage_20_1") {
             parametricStackedRowStrips(listOf(6, 5, 4, 3, 2))
         }
     }
 
-    internal fun collage_20_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_20_2") {
+    internal fun collage_20_2(): CollageLayout {
+        return collage("collage_20_2") {
             parametricStackedRowStrips(listOf(4, 4, 4, 4, 4))
         }
     }
 
-    internal fun collage_20_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_20_3") {
+    internal fun collage_20_3(): CollageLayout {
+        return collage("collage_20_3") {
             parametricStackedRowStrips(listOf(5, 5, 5, 5))
         }
     }
 
-    internal fun collage_20_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_20_4") {
+    internal fun collage_20_4(): CollageLayout {
+        return collage("collage_20_4") {
             parametricStackedRowStrips(listOf(3, 7, 7, 3))
         }
     }
 
-    internal fun collage_20_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_20_5") {
+    internal fun collage_20_5(): CollageLayout {
+        return collage("collage_20_5") {
             parametricStackedRowStrips(listOf(7, 6, 4, 3))
         }
     }

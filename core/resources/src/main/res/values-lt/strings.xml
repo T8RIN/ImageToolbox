@@ -1413,7 +1413,7 @@
     <string name="custom_filename_sub">Pasirinkite vietą ir failo pavadinimą, kurie bus naudojami dabartiniam vaizdui išsaugoti</string>
     <string name="saved_to_custom">Išsaugota aplanke pasirinktu pavadinimu</string>
     <string name="collage_maker">Koliažų kūrėjas</string>
-    <string name="collage_maker_sub">Kurkite koliažus iš iki 10 vaizdų</string>
+    <string name="collage_maker_sub">Kurkite koliažus iš iki 20 vaizdų</string>
     <string name="collage_type">Koliažo tipas</string>
     <string name="collages_info">Laikykite vaizdą, kad pakeistumėte, perkeltumėte ir priartintumėte, kad sureguliuotumėte padėtį</string>
     <string name="disable_rotation">Išjungti sukimąsi</string>

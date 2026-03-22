@@ -1401,7 +1401,7 @@
     <string name="custom_filename_sub">حدد الموقع واسم الملف الذي سيتم استخدامه لحفظ الصورة الحالية</string>
     <string name="saved_to_custom">حُفظ في المجلد باسم مخصّص</string>
     <string name="collage_maker">صانع الكولاج</string>
-    <string name="collage_maker_sub">اصنع صور مجمّعة من ما يصل إلى 10 صور</string>
+    <string name="collage_maker_sub">اصنع صور مجمّعة من ما يصل إلى 20 صور</string>
     <string name="collage_type">نوع الكولاج</string>
     <string name="collages_info">امسك الصورة للتبديل والتحريك والتكبير لضبط الموضع</string>
     <string name="disable_rotation">تعطيل التدوير</string>

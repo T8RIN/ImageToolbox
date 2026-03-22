@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">स्थान और फ़ाइल नाम का चयन करें जिसका उपयोग वर्तमान छवि को सहेजने के लिए किया जाएगा</string>
     <string name="saved_to_custom">कस्टम नाम वाले फ़ोल्डर में सहेजा गया</string>
     <string name="collage_maker">समुच्चित चित्रकला का निर्माता</string>
-    <string name="collage_maker_sub">अधिकतम 10 छवियों से कोलाज बनाएं</string>
+    <string name="collage_maker_sub">अधिकतम 20 छवियों से कोलाज बनाएं</string>
     <string name="collage_type">कोलाज प्रकार</string>
     <string name="collages_info">स्थिति को समायोजित करने के लिए छवि को स्वैप करने, स्थानांतरित करने और ज़ूम करने के लिए दबाए रखें</string>
     <string name="disable_rotation">रोटेशन अक्षम करें</string>

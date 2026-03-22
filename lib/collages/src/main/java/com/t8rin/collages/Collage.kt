@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
-import com.t8rin.collages.utils.FrameImageUtils.createTemplateItems
+import com.t8rin.collages.utils.CollageLayoutFactory.createCollageLayouts
 import com.t8rin.collages.view.FramePhotoLayout
 import kotlin.math.min
 
@@ -79,20 +79,20 @@ fun Collage(
     var needToInvalidate by remember {
         mutableStateOf(false)
     }
-    val ownedTemplateItem by remember(collageType.templateItem?.title) {
+    val ownedCollageLayout by remember(collageType.layout?.title) {
         mutableStateOf(
-            collageType.templateItem?.let { template ->
-                createTemplateItems(template.title)
+            collageType.layout?.let { template ->
+                createCollageLayouts(template.title)
             }
         )
     }
 
-    LaunchedEffect(collageType.templateItem?.title) {
+    LaunchedEffect(collageType.layout?.title) {
         needToInvalidate = true
     }
 
     AnimatedVisibility(
-        visible = ownedTemplateItem != null,
+        visible = ownedCollageLayout != null,
         modifier = modifier,
         enter = fadeIn(),
         exit = fadeOut()
@@ -126,11 +126,11 @@ fun Collage(
                     factory = {
                         FramePhotoLayout(
                             context = it,
-                            mPhotoItems = ownedTemplateItem?.photoItemList ?: emptyList()
+                            mPhotoItems = ownedCollageLayout?.photoItemList ?: emptyList()
                         ).apply {
                             updateImages(images)
                             previousImages = images
-                            setParamsManager(ownedTemplateItem?.paramsManager)
+                            setParamsManager(ownedCollageLayout?.paramsManager)
 
                             val (width, height) = calculateDimensions(
                                 size,
@@ -158,10 +158,10 @@ fun Collage(
                             //Full rebuild
                             needToInvalidate = false
 
-                            it.mPhotoItems = ownedTemplateItem?.photoItemList ?: emptyList()
+                            it.mPhotoItems = ownedCollageLayout?.photoItemList ?: emptyList()
                             it.updateImages(images)
                             previousImages = images
-                            it.setParamsManager(ownedTemplateItem?.paramsManager)
+                            it.setParamsManager(ownedCollageLayout?.paramsManager)
 
                             it.setOnItemTapListener(onImageTap)
                             it.setHandleDrawable(handleDrawable)

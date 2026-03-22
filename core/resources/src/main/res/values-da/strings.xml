@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Vælg placering og filnavn, som skal bruges til at gemme det aktuelle billede</string>
     <string name="saved_to_custom">Gemt i mappe med brugerdefineret navn</string>
     <string name="collage_maker">Collage maker</string>
-    <string name="collage_maker_sub">Lav collager af op til 10 billeder</string>
+    <string name="collage_maker_sub">Lav collager af op til 20 billeder</string>
     <string name="collage_type">Collage type</string>
     <string name="collages_info">Hold billedet for at bytte, flytte og zoome for at justere positionen</string>
     <string name="disable_rotation">Deaktiver rotation</string>

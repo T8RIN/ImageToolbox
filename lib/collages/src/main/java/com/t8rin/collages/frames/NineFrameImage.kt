@@ -21,8 +21,8 @@ package com.t8rin.collages.frames
 
 import android.graphics.PointF
 import android.graphics.RectF
-import com.t8rin.collages.model.TemplateItem
-import com.t8rin.collages.utils.FrameImageUtils
+import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.CollageLayoutFactory
 import com.t8rin.collages.view.PhotoItem
 
 /**
@@ -30,8 +30,8 @@ import com.t8rin.collages.view.PhotoItem
  * Created by admin on 7/3/2016.
  */
 internal object NineFrameImage {
-    internal fun collage_9_11(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_9_11")
+    internal fun collage_9_11(): CollageLayout {
+        val item = CollageLayoutFactory.collage("collage_9_11")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -181,8 +181,8 @@ internal object NineFrameImage {
         return item.copy(photoItemList = photoItemList)
     }
 
-    internal fun collage_9_10(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_9_10")
+    internal fun collage_9_10(): CollageLayout {
+        val item = CollageLayoutFactory.collage("collage_9_10")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -348,8 +348,8 @@ internal object NineFrameImage {
         return item.copy(photoItemList = photoItemList)
     }
 
-    internal fun collage_9_9(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_9_9")
+    internal fun collage_9_9(): CollageLayout {
+        val item = CollageLayoutFactory.collage("collage_9_9")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -492,8 +492,8 @@ internal object NineFrameImage {
         return item.copy(photoItemList = photoItemList)
     }
 
-    internal fun collage_9_8(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_8") {
+    internal fun collage_9_8(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_8") {
             val x1 = param(0.25f)
             val x2 = param(0.5f)
             val x3 = param(0.75f)
@@ -552,8 +552,8 @@ internal object NineFrameImage {
         }
     }
 
-    internal fun collage_9_7(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_7") {
+    internal fun collage_9_7(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_7") {
             val x1 = param(0.25f)
             val x2 = param(0.5f)
             val x3 = param(0.75f)
@@ -612,8 +612,8 @@ internal object NineFrameImage {
         }
     }
 
-    internal fun collage_9_6(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_6") {
+    internal fun collage_9_6(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_6") {
             val x1 = param(0.2f)
             val x2 = param(0.4f)
             val x3 = param(0.6f)
@@ -667,8 +667,8 @@ internal object NineFrameImage {
         }
     }
 
-    internal fun collage_9_5(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_5") {
+    internal fun collage_9_5(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_5") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.25f)
@@ -725,8 +725,8 @@ internal object NineFrameImage {
         }
     }
 
-    internal fun collage_9_4(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_4") {
+    internal fun collage_9_4(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_4") {
             val xL = param(0.3333f)
             val xQ1 = param(0.25f)
             val xQ2 = param(0.5f)
@@ -784,8 +784,8 @@ internal object NineFrameImage {
         }
     }
 
-    internal fun collage_9_3(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_3") {
+    internal fun collage_9_3(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_3") {
             val x1 = param(0.2f)
             val x2 = param(0.4f)
             val x3 = param(0.6f)
@@ -843,8 +843,8 @@ internal object NineFrameImage {
         }
     }
 
-    internal fun collage_9_2(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_2") {
+    internal fun collage_9_2(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_2") {
             val xM = param(0.5f)
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
@@ -900,8 +900,8 @@ internal object NineFrameImage {
         }
     }
 
-    internal fun collage_9_1(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_1") {
+    internal fun collage_9_1(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_1") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -955,8 +955,8 @@ internal object NineFrameImage {
         }
     }
 
-    internal fun collage_9_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_9_0") {
+    internal fun collage_9_0(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_9_0") {
             val x1 = param(0.25f)
             val x2 = param(0.75f)
             val y1 = param(0.25f)

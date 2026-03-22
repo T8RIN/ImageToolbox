@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Виберіть місцезнаходження та ім\'я файлу, які будуть використані для збереження поточного зображення</string>
     <string name="saved_to_custom">Збережено в папку з власною назвою</string>
     <string name="collage_maker">Конструктор колажів</string>
-    <string name="collage_maker_sub">Створюйте колажі з максимум 10 зображень</string>
+    <string name="collage_maker_sub">Створюйте колажі з максимум 20 зображень</string>
     <string name="collage_type">Тип колажу</string>
     <string name="collages_info">Утримуйте зображення для переміщення, переміщення та масштабування для налаштування положення</string>
     <string name="histogram">Гістограма</string>

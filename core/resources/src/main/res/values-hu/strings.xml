@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Válassza ki azt a helyet és fájlnevet, amelyet az aktuális kép mentéséhez használni fog</string>
     <string name="saved_to_custom">Mentve egy mappába egyéni névvel</string>
     <string name="collage_maker">Kollázskészítő</string>
-    <string name="collage_maker_sub">Kollázsokat készíthet akár 10 képből</string>
+    <string name="collage_maker_sub">Kollázsokat készíthet akár 20 képből</string>
     <string name="collage_type">Kollázs típusa</string>
     <string name="collages_info">Tartsa lenyomva a képet a cseréhez, mozgatáshoz és nagyításhoz a pozíció beállításához</string>
     <string name="disable_rotation">Forgatás letiltása</string>

@@ -21,8 +21,7 @@ import android.net.Uri
 import com.t8rin.collages.utils.ParamsManager
 import com.t8rin.collages.view.PhotoItem
 
-
-internal data class TemplateItem(
+internal data class CollageLayout(
     val preview: Uri,
     val title: String,
     val paramsManager: ParamsManager? = null,

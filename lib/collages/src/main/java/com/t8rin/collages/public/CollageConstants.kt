@@ -17,10 +17,10 @@
 
 package com.t8rin.collages.public
 
-import com.t8rin.collages.utils.FrameImageUtils
+import com.t8rin.collages.utils.CollageLayoutFactory
 
 object CollageConstants {
     const val MAX_IMAGE_COUNT: Int = 20
 
-    val layoutCount: Int = FrameImageUtils.COLLAGE_MAP.keys.size
+    val layoutCount: Int = CollageLayoutFactory.COLLAGE_MAP.keys.size
 }

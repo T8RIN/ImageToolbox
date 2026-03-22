@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">현재 이미지를 저장하는 데 사용될 위치와 파일 이름을 선택하십시오.</string>
     <string name="saved_to_custom">맞춤 이름으로 폴더에 저장됨</string>
     <string name="collage_maker">콜라주 메이커</string>
-    <string name="collage_maker_sub">최대 10개의 이미지로 콜라주 만들기</string>
+    <string name="collage_maker_sub">최대 20개의 이미지로 콜라주 만들기</string>
     <string name="collage_type">콜라주 유형</string>
     <string name="collages_info">이미지를 잡고 위치를 조정하고 이동하고 확대/축소하세요.</string>
     <string name="disable_rotation">회전 비활성화</string>

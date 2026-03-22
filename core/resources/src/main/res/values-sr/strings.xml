@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Изаберите локацију и назив датотеке који ће се користити за чување тренутне слике</string>
     <string name="saved_to_custom">Сачувано у фасциклу са прилагођеним именом</string>
     <string name="collage_maker">Цоллаге Макер</string>
-    <string name="collage_maker_sub">Направите колаже од до 10 слика</string>
+    <string name="collage_maker_sub">Направите колаже од до 20 слика</string>
     <string name="collage_type">Цоллаге Типе</string>
     <string name="collages_info">Држите слику за замену, померање и зумирање да бисте подесили положај</string>
     <string name="disable_rotation">Онемогући ротацију</string>

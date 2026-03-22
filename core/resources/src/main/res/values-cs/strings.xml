@@ -926,7 +926,7 @@
     <string name="recently_used">Posledně použité</string>
     <string name="group">Skupina</string>
     <string name="histogram">Histogram</string>
-    <string name="collage_maker_sub">Vytvořte různé koláže ze 2 až 10 obrázků</string>
+    <string name="collage_maker_sub">Vytvořte různé koláže ze 20 obrázků</string>
     <string name="collages_info">Podržením obrázku jej můžete vyměnit, posunem a zvětšením upravit polohu</string>
     <string name="as_file">Jako soubor</string>
     <string name="save_as_file">Uložit jako soubor</string>

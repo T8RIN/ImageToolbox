@@ -21,16 +21,16 @@ package com.t8rin.collages.frames
 
 import android.graphics.PointF
 import android.graphics.RectF
-import com.t8rin.collages.model.TemplateItem
-import com.t8rin.collages.utils.FrameImageUtils
+import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.CollageLayoutFactory
 import com.t8rin.collages.view.PhotoItem
 
 /**
  * Created by admin on 6/26/2016.
  */
 internal object SixFrameImage {
-    internal fun collage_6_14(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_6_14")
+    internal fun collage_6_14(): CollageLayout {
+        val item = CollageLayoutFactory.collage("collage_6_14")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -138,8 +138,8 @@ internal object SixFrameImage {
         return item.copy(photoItemList = photoItemList)
     }
 
-    internal fun collage_6_13(): TemplateItem {
-        val item = FrameImageUtils.collage("collage_6_13")
+    internal fun collage_6_13(): CollageLayout {
+        val item = CollageLayoutFactory.collage("collage_6_13")
         val photoItemList = mutableListOf<PhotoItem>()
         //first frame
         var photoItem = PhotoItem()
@@ -235,8 +235,8 @@ internal object SixFrameImage {
         return item.copy(photoItemList = photoItemList)
     }
 
-    internal fun collage_6_12(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_12") {
+    internal fun collage_6_12(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_6_12") {
             val topY = param(0.2f)
             val midY = param(0.7f)
             val x1 = param(0.3333f)
@@ -275,8 +275,8 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_11(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_11") {
+    internal fun collage_6_11(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_6_11") {
             val y1 = param(0.25f)
             val y2 = param(0.5f)
             val y3 = param(0.75f)
@@ -313,8 +313,8 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_10(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_10") {
+    internal fun collage_6_10(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_6_10") {
             val rightX = param(0.6666f)
             val y1 = param(0.25f)
             val y2 = param(0.5f)
@@ -353,8 +353,8 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_9(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_9") {
+    internal fun collage_6_9(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_6_9") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val yTop = param(0.3333f)
@@ -393,8 +393,8 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_8(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_8") {
+    internal fun collage_6_8(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_6_8") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val midY = param(0.5f)
@@ -432,8 +432,8 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_7(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_7") {
+    internal fun collage_6_7(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_6_7") {
             val x1 = param(0.3333f)
             val x2 = param(0.6666f)
             val y1 = param(0.3333f)
@@ -473,8 +473,8 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_6(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_6") {
+    internal fun collage_6_6(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_6_6") {
             val x1 = param(0.25f)
             val x2 = param(0.5f)
             val x3 = param(0.75f)
@@ -514,11 +514,11 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_5(): TemplateItem {
+    internal fun collage_6_5(): CollageLayout {
         return collage_6_1(name = "collage_6_5", x1 = 0.6667f, x2 = 0.3333f, x3 = 0.6667f)
     }
 
-    internal fun collage_6_4(): TemplateItem {
+    internal fun collage_6_4(): CollageLayout {
         return collage_6_3(name = "collage_6_4", initial_x1 = 0.5f)
     }
 
@@ -527,8 +527,8 @@ internal object SixFrameImage {
         initial_x1: Float = 0.3333f,
         initial_y1: Float = 0.3333f,
         initial_y2: Float = 0.6666f
-    ): TemplateItem {
-        return FrameImageUtils.buildParamsCollage(name) {
+    ): CollageLayout {
+        return CollageLayoutFactory.collage(name) {
             val x1 = param(initial_x1)
             val y1 = param(initial_y1)
             val y2 = param(initial_y2)
@@ -566,7 +566,7 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_2(): TemplateItem {
+    internal fun collage_6_2(): CollageLayout {
         return collage_6_1(name = "collage_6_2", x3 = 0.3333f)
     }
 
@@ -577,8 +577,8 @@ internal object SixFrameImage {
         x3: Float = 0.6666f,
         y1: Float = 0.3333f,
         y2: Float = 0.6666f
-    ): TemplateItem {
-        return FrameImageUtils.buildParamsCollage(name) {
+    ): CollageLayout {
+        return CollageLayoutFactory.collage(name) {
             val xTopSplit = param(x1)
             val y1 = param(y1)
             val midX = param(x2)
@@ -618,8 +618,8 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_0(): TemplateItem {
-        return FrameImageUtils.buildParamsCollage("collage_6_0") {
+    internal fun collage_6_0(): CollageLayout {
+        return CollageLayoutFactory.collage("collage_6_0") {
             val leftX = param(0.3333f)
             val y1 = param(0.3333f)
             val y2 = param(0.6667f)
@@ -658,16 +658,16 @@ internal object SixFrameImage {
         }
     }
 
-    internal fun collage_6_1_1(): TemplateItem {
-        return FrameImageUtils.collageLinear(
+    internal fun collage_6_1_1(): CollageLayout {
+        return CollageLayoutFactory.collageLinear(
             name = "collage_6_1_1",
             count = 6,
             isHorizontal = true
         )
     }
 
-    internal fun collage_6_1_2(): TemplateItem {
-        return FrameImageUtils.collageLinear(
+    internal fun collage_6_1_2(): CollageLayout {
+        return CollageLayoutFactory.collageLinear(
             name = "collage_6_1_2",
             count = 6,
             isHorizontal = false

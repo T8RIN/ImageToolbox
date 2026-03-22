@@ -1448,7 +1448,7 @@
     <string name="custom_filename_sub">Выберите местоположение и имя файла, которые будут использоваться для сохранения текущего изображения</string>
     <string name="distance_function">Функция дистанции</string>
     <string name="custom_filename">Пользовательское имя файла</string>
-    <string name="collage_maker_sub">Создавайте различные коллажи из 2..10 изображений</string>
+    <string name="collage_maker_sub">Создавайте различные коллажи до 20 изображений</string>
     <string name="tesseract_options">Параметры Tesseract</string>
     <string name="tesseract_options_sub">Применить некоторые входные переменные для Tesseract</string>
     <string name="free_corners_sub">Обрезайте изображение по полигону, это также исправляет перспективу</string>

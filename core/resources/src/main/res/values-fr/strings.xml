@@ -1423,7 +1423,7 @@
     <string name="custom_filename_sub">Sélectionnez l\'emplacement et le nom de fichier qui seront utilisés pour enregistrer l\'image actuelle</string>
     <string name="saved_to_custom">Enregistré dans un dossier avec un nom personnalisé</string>
     <string name="collage_maker">Créateur de collages</string>
-    <string name="collage_maker_sub">Créez des collages à partir de 10 images maximum</string>
+    <string name="collage_maker_sub">Créez des collages à partir de 20 images maximum</string>
     <string name="collage_type">Type de collage</string>
     <string name="collages_info">Maintenez l\'image pour échanger, déplacer et zoomer pour ajuster la position</string>
     <string name="disable_rotation">Désactiver la rotation</string>

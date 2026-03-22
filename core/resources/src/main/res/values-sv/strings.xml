@@ -1459,7 +1459,7 @@
     <string name="custom_filename_sub">Välj plats och filnamn som ska användas för att spara aktuell bild</string>
     <string name="saved_to_custom">Sparad i mapp med anpassat namn</string>
     <string name="collage_maker">Collage Maker</string>
-    <string name="collage_maker_sub">Gör collage av upp till 10 bilder</string>
+    <string name="collage_maker_sub">Gör collage av upp till 20 bilder</string>
     <string name="collage_type">Collage typ</string>
     <string name="collages_info">Håll bilden för att byta, flytta och zooma för att justera position</string>
     <string name="disable_rotation">Inaktivera rotation</string>

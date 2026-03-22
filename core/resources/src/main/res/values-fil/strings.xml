@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Piliin ang lokasyon at filename na gagamitin para i-save ang kasalukuyang larawan</string>
     <string name="saved_to_custom">Na-save sa folder na may custom na pangalan</string>
     <string name="collage_maker">Collage Maker</string>
-    <string name="collage_maker_sub">Gumawa ng mga collage mula sa hanggang 10 larawan</string>
+    <string name="collage_maker_sub">Gumawa ng mga collage mula sa hanggang 20 larawan</string>
     <string name="collage_type">Uri ng Collage</string>
     <string name="collages_info">I-hold ang imahe upang magpalit, ilipat at mag-zoom upang ayusin ang posisyon</string>
     <string name="disable_rotation">Huwag paganahin ang pag-ikot</string>

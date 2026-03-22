@@ -1149,7 +1149,7 @@
     <string name="weighted_strength">Fuerza medida</string>
     <string name="distance_function">Función de distancia</string>
     <string name="return_type">Tipo de retorno</string>
-    <string name="collage_maker_sub">Crea collages de hasta 10 imágenes</string>
+    <string name="collage_maker_sub">Crea collages de hasta 20 imágenes</string>
     <string name="collage_type">Tipo de collage</string>
     <string name="collages_info">Mantiene presionada la imagen para intercambiar, mover y hacer zoom para ajustar posición</string>
     <string name="histogram_sub">Histograma de RGB o brillo de imagen para ayudarte a hacer ajustes</string>

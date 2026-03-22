@@ -1445,7 +1445,7 @@
     <string name="create_shortcut">Verknüpfung erstellen</string>
     <string name="create_shortcut_title">Tool zum Anheften auswählen</string>
     <string name="create_shortcut_subtitle">Das Tool wird dem Startbildschirm deines Starters als Verknüpfung hinzugefügt, verwende es in Kombination mit der Einstellung „Dateiauswahl überspringen“, um das gewünschte Verhalten zu erreichen</string>
-    <string name="collage_maker_sub">Erstelle Collagen aus bis zu 10 Bildern</string>
+    <string name="collage_maker_sub">Erstelle Collagen aus bis zu 20 Bildern</string>
     <string name="mirror_101">Spiegel 101</string>
     <string name="enhanced_zoom_blur">Verbesserte Zoom Unschärfe</string>
     <string name="grid_color">Rasterfarbe</string>

@@ -48,8 +48,8 @@ import androidx.core.graphics.scale
 import androidx.core.net.toUri
 import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageType
-import com.t8rin.collages.model.TemplateItem
-import com.t8rin.collages.utils.FrameImageUtils.COLLAGE_MAP
+import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.CollageLayoutFactory.COLLAGE_MAP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -86,7 +86,7 @@ fun PreviewCollageGeneration() {
         return result
     }
 
-    var allFrames: List<TemplateItem> by remember {
+    var allFrames: List<CollageLayout> by remember {
         mutableStateOf(emptyList())
     }
     val context = LocalContext.current
@@ -176,7 +176,7 @@ fun PreviewCollageGeneration() {
                         outputScaleRatio = 10f,
                         collageCreationTrigger = trigger,
                         collageType = CollageType(
-                            templateItem = template,
+                            layout = template,
                             index = null
                         ),
                         userInteractionEnabled = false

@@ -1387,7 +1387,7 @@
     <string name="default_draw_path_mode">Modo de Desenho de Caminho Padrão</string>
     <string name="ci_channel_sub">Receba notificações sobre novas versões do aplicativo e leia os anúncios</string>
     <string name="default_draw_color">Cor de Desenho Padrão</string>
-    <string name="collage_maker_sub">Faça colagens com até 10 imagens</string>
+    <string name="collage_maker_sub">Faça colagens com até 20 imagens</string>
     <string name="formatted_timestamp">Data e Hora Formatados</string>
     <string name="histogram">Histograma</string>
     <string name="image_toolbox_in_telegram_sub">Participe do nosso bate-papo, onde você pode discutir o que quiser, e também dê uma olhada no Canal CI, onde eu público betas e anúncios</string>

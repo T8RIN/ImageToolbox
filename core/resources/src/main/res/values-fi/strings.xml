@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">Valitse sijainti ja tiedostonimi, joita käytetään nykyisen kuvan tallentamiseen</string>
     <string name="saved_to_custom">Tallennettu kansioon mukautetulla nimellä</string>
     <string name="collage_maker">Collage Maker</string>
-    <string name="collage_maker_sub">Tee kollaaseja jopa 10 kuvasta</string>
+    <string name="collage_maker_sub">Tee kollaaseja jopa 20 kuvasta</string>
     <string name="collage_type">Kollaasin tyyppi</string>
     <string name="collages_info">Pidä kuvaa painettuna vaihtaaksesi, siirrä ja zoomaa säätääksesi sijaintia</string>
     <string name="disable_rotation">Poista kierto käytöstä</string>

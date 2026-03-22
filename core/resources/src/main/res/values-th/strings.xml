@@ -1403,7 +1403,7 @@
     <string name="custom_filename_sub">เลือกตำแหน่งและชื่อไฟล์ที่จะใช้ในการบันทึกภาพปัจจุบัน</string>
     <string name="saved_to_custom">บันทึกลงในโฟลเดอร์ด้วยชื่อที่กำหนดเอง</string>
     <string name="collage_maker">เครื่องสร้างคอลลาจ</string>
-    <string name="collage_maker_sub">สร้างภาพต่อกันจากภาพสูงสุด 10 ภาพ</string>
+    <string name="collage_maker_sub">สร้างภาพต่อกันจากภาพสูงสุด 20 ภาพ</string>
     <string name="collage_type">ประเภทคอลลาจ</string>
     <string name="collages_info">กดภาพค้างไว้เพื่อสลับ ย้าย และซูมเพื่อปรับตำแหน่ง</string>
     <string name="disable_rotation">ปิดการใช้งานการหมุน</string>
