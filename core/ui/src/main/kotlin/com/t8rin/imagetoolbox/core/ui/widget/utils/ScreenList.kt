@@ -208,7 +208,7 @@ internal fun List<Uri>.screenList(
                 add(Screen.ImageStitching(uris))
                 add(Screen.PdfTools.ImagesToPdf(uris))
                 if (uris.size == 2) add(Screen.Compare(uris))
-                if (uris.size in 1..10) {
+                if (uris.size in 1..20) {
                     add(Screen.CollageMaker(uris))
                 }
                 add(Screen.AiTools(uris))

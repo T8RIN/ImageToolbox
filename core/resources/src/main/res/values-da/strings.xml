@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Collage maker</string>
     <string name="collage_maker_sub">Lav collager af op til 10 billeder</string>
     <string name="collage_type">Collage type</string>
-    <string name="pick_up_to_ten_images">Vælg op til 10 billeder</string>
     <string name="collages_info">Hold billedet for at bytte, flytte og zoome for at justere positionen</string>
     <string name="disable_rotation">Deaktiver rotation</string>
     <string name="disable_rotation_sub">Forhindrer roterende billeder med to-fingerbevægelser</string>

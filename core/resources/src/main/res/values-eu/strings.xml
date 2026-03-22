@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Collage Maker</string>
     <string name="collage_maker_sub">Egin collageak gehienez 10 iruditatik</string>
     <string name="collage_type">Collage mota</string>
-    <string name="pick_up_to_ten_images">Hartu 10 irudi gehienez</string>
     <string name="collages_info">Eduki sakatuta irudia trukatzeko, mugitzeko eta zooma posizioa doitzeko</string>
     <string name="disable_rotation">Desgaitu biraketa</string>
     <string name="disable_rotation_sub">Bi hatzekin egindako keinuekin irudiak biratzea eragozten du</string>

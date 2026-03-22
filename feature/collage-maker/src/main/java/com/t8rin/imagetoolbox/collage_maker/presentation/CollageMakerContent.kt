@@ -140,11 +140,14 @@ fun CollageMakerContent(
 
     LaunchedEffect(component.initialUris) {
         component.initialUris?.takeIf { it.isNotEmpty() }?.let {
-            if (it.size in 1..10) {
+            if (it.size in 1..CollageConstants.MAX_IMAGE_COUNT) {
                 component.updateUris(it)
             } else {
                 AppToastHost.showToast(
-                    message = getString(R.string.pick_up_to_ten_images),
+                    message = getString(
+                        R.string.pick_up_to_n_collage_images,
+                        CollageConstants.MAX_IMAGE_COUNT,
+                    ),
                     icon = Icons.Outlined.AutoAwesomeMosaic
                 )
             }
@@ -152,13 +155,16 @@ fun CollageMakerContent(
     }
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
-        if (uris.size in 1..10) {
+        if (uris.size in 1..CollageConstants.MAX_IMAGE_COUNT) {
             isLoading = true
             component.updateUris(uris)
         } else {
             AppToastHost.showToast(
-                message = if (uris.size > 10) {
-                    getString(R.string.pick_up_to_ten_images)
+                message = if (uris.size > CollageConstants.MAX_IMAGE_COUNT) {
+                    getString(
+                        R.string.pick_up_to_n_collage_images,
+                        CollageConstants.MAX_IMAGE_COUNT,
+                    )
                 } else {
                     getString(R.string.pick_at_least_two_images)
                 },

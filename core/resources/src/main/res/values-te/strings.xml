@@ -1405,7 +1405,6 @@
     <string name="collage_maker">కోల్లెజ్ మేకర్</string>
     <string name="collage_maker_sub">గరిష్టంగా 10 చిత్రాల నుండి దృశ్య రూపకల్పనలను రూపొందించండి</string>
     <string name="collage_type">కోల్లెజ్ రకం</string>
-    <string name="pick_up_to_ten_images">10 చిత్రాల వరకు ఎంచుకోండి</string>
     <string name="collages_info">స్థానాన్ని సర్దుబాటు చేయడానికి స్వాప్ చేయడానికి, తరలించడానికి మరియు జూమ్ చేయడానికి చిత్రాన్ని పట్టుకోండి</string>
     <string name="disable_rotation">భ్రమణాన్ని నిలిపివేయండి</string>
     <string name="disable_rotation_sub">రెండు వేళ్ల సంజ్ఞలతో చిత్రాలను తిప్పడాన్ని నిరోధిస్తుంది</string>

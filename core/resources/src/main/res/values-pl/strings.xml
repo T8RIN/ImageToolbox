@@ -998,7 +998,6 @@
     <string name="frequency">Częstotliwość</string>
     <string name="noise_type">Typ szumu</string>
     <string name="image_stacking_sub">Układaj obrazy jeden na drugim w wybranym trybie nakładania</string>
-    <string name="pick_up_to_ten_images">Wybierz maksymalnie 10 obrazów</string>
     <string name="collage_type">Typ kolażu</string>
     <string name="collage_maker">Utwórz kolaż</string>
     <string name="collage_maker_sub">Twórz kolaże z maksymalnie 10 obrazami</string>

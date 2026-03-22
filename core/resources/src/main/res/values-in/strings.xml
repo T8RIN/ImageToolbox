@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Pembuat Kolase</string>
     <string name="collage_maker_sub">Buat kolase hingga 10 gambar</string>
     <string name="collage_type">Jenis Kolase</string>
-    <string name="pick_up_to_ten_images">Ambil hingga 10 gambar</string>
     <string name="collages_info">Tahan gambar untuk menukar, memindahkan dan memperbesar untuk menyesuaikan posisi</string>
     <string name="disable_rotation">Nonaktifkan rotasi</string>
     <string name="disable_rotation_sub">Mencegah memutar gambar dengan gerakan dua jari</string>

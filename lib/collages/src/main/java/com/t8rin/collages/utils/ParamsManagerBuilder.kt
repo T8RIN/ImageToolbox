@@ -22,6 +22,10 @@ import android.graphics.RectF
 import com.t8rin.collages.view.PhotoItem
 
 internal class ParamsManagerBuilder {
+    private companion object {
+        const val MIN_DIMENSION_TOLERANCE: Float = 1e-4f
+    }
+
     private val paramValues: MutableList<Float> = mutableListOf()
     private val items: MutableList<PhotoItem> = mutableListOf()
     private val itemUpdates: MutableMap<Int, ItemUpdate> = mutableMapOf()
@@ -51,10 +55,12 @@ internal class ParamsManagerBuilder {
         val handles = mutableListOf<Handle>()
 
         for (xParam in xParams) {
-            handles.add(XHandle(xParam, { vs ->
-                val box = boxParams(vs)
-                (box.bottom + box.top) / 2f
-            }))
+            handles.add(
+                XHandle(managedParam = xParam) { vs ->
+                    val box = boxParams(vs)
+                    (box.bottom + box.top) / 2f
+                }
+            )
         }
         for (yParam in yParams) {
             handles.add(YHandle({ vs ->
@@ -72,8 +78,12 @@ internal class ParamsManagerBuilder {
                 if (box.top < 0) throw ParamsManager.InvalidValues()
                 if (box.right > 1f) throw ParamsManager.InvalidValues()
                 if (box.bottom > 1f) throw ParamsManager.InvalidValues()
-                if (box.right - box.left < ParamsManager.minSize) throw ParamsManager.InvalidValues()
-                if (box.bottom - box.top < ParamsManager.minSize) throw ParamsManager.InvalidValues()
+                if (box.right - box.left + MIN_DIMENSION_TOLERANCE < ParamsManager.minSize) {
+                    throw ParamsManager.InvalidValues()
+                }
+                if (box.bottom - box.top + MIN_DIMENSION_TOLERANCE < ParamsManager.minSize) {
+                    throw ParamsManager.InvalidValues()
+                }
                 p.bound.set(box)
                 action(p, vs, box)
             },

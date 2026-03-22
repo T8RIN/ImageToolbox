@@ -19,8 +19,14 @@ package com.t8rin.collages.utils
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -112,54 +118,70 @@ fun PreviewCollageGeneration() {
     }
 
     if (previewImageUri != null) {
-        Box(modifier = Modifier.keepScreenOn()) {
-            allFrames.forEachIndexed { index, template ->
-                val (_, title, _, photoItemList) = template
-                val density = LocalDensity.current
-                val spacing = with(density) {
-                    1.5.dp.toPx()
-                }
-
-                var trigger by remember {
-                    mutableStateOf(false)
-                }
-
-                LaunchedEffect(Unit) {
-                    delay(500 + 10L * index)
-                    trigger = true
-                }
-
-                Collage(
-                    images = photoItemList.mapNotNull { previewImageUri },
-                    modifier = Modifier.size(64.dp),
-                    spacing = spacing,
-                    cornerRadius = 0f,
-                    onCollageCreated = { image ->
-                        scope.launch {
-                            val dir = File(context.cacheDir, "frames")
-                            dir.mkdirs()
-                            val file = File(dir, title)
-
-                            file.createNewFile()
-
-                            file.outputStream().use {
-                                image.scale(525, 525, false).replaceColor(
-                                    fromColor = Color.Black,
-                                    targetColor = Color.Transparent,
-                                    tolerance = 0.1f
-                                ).compress(Bitmap.CompressFormat.PNG, 100, it)
-                            }
-                            println("DONE: $title")
-                        }
-                    },
-                    outputScaleRatio = 10f,
-                    collageCreationTrigger = trigger,
-                    collageType = CollageType(
-                        templateItem = template,
-                        index = null
-                    ),
-                    userInteractionEnabled = false
+        Row(
+            modifier = Modifier
+                .keepScreenOn()
+                .horizontalScroll(rememberScrollState())
+                .padding(vertical = 16.dp)
+                .systemBarsPadding()
+        ) {
+            val data = remember(allFrames) {
+                allFrames.groupBy { it.photoItemList.size }.toList().sortedBy { it.first }
+            }
+            data.forEachIndexed { index, (count, templates) ->
+                Text(
+                    count.toString(),
+                    color = Color.White,
+                    modifier = Modifier.background(Color.Black)
                 )
+                templates.forEach { template ->
+                    val (_, title, _, photoItemList) = template
+                    val density = LocalDensity.current
+                    val spacing = with(density) {
+                        1.5.dp.toPx()
+                    }
+
+                    var trigger by remember {
+                        mutableStateOf(false)
+                    }
+
+                    LaunchedEffect(Unit) {
+                        delay(500 + 10L * index)
+                        trigger = true
+                    }
+
+                    Collage(
+                        images = photoItemList.mapNotNull { previewImageUri },
+                        modifier = Modifier.size(64.dp),
+                        spacing = spacing,
+                        cornerRadius = 0f,
+                        onCollageCreated = { image ->
+                            scope.launch {
+                                val dir = File(context.cacheDir, "frames")
+                                dir.mkdirs()
+                                val file = File(dir, "$title.png")
+
+                                file.createNewFile()
+
+                                file.outputStream().use {
+                                    image.scale(525, 525, false).replaceColor(
+                                        fromColor = Color.Black,
+                                        targetColor = Color.Transparent,
+                                        tolerance = 0.1f
+                                    ).compress(Bitmap.CompressFormat.PNG, 100, it)
+                                }
+                                println("DONE: $title")
+                            }
+                        },
+                        outputScaleRatio = 10f,
+                        collageCreationTrigger = trigger,
+                        collageType = CollageType(
+                            templateItem = template,
+                            index = null
+                        ),
+                        userInteractionEnabled = false
+                    )
+                }
             }
         }
     }

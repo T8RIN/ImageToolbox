@@ -961,7 +961,6 @@
     <string name="custom_filename_sub">Elige la ubicación y nombre de archivo que se usarán para guardar la imagen actual</string>
     <string name="saved_to_custom">Guardar en una carpeta con un nombre personalizado</string>
     <string name="add_image">Añadir imagen</string>
-    <string name="pick_up_to_ten_images">Elige hasta 10 imágenes</string>
     <string name="convert">Convertir</string>
     <string name="cube_lut">3D LUT</string>
     <string name="gif_type_to_jxl">GIF a JXL</string>

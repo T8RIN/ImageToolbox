@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Стваральнік калажаў</string>
     <string name="collage_maker_sub">Стварайце калажы з максімум 10 малюнкаў</string>
     <string name="collage_type">Тып калажа</string>
-    <string name="pick_up_to_ten_images">Выберыце да 10 малюнкаў</string>
     <string name="collages_info">Утрымлівайце малюнак, каб памяняць месцамі, перамяшчаць і маштабаваць, каб адрэгуляваць становішча</string>
     <string name="disable_rotation">Адключыць паварот</string>
     <string name="disable_rotation_sub">Прадухіляе паварот малюнкаў з дапамогай жэстаў двума пальцамі</string>

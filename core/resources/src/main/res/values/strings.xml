@@ -1424,7 +1424,6 @@
     <string name="collage_maker">Collage Maker</string>
     <string name="collage_maker_sub">Make collages from up to 10 images</string>
     <string name="collage_type">Collage Type</string>
-    <string name="pick_up_to_ten_images">Pick up to 10 images</string>
     <string name="collages_info">Hold image to swap, move and zoom to adjust position</string>
     <string name="disable_rotation">Disable rotation</string>
     <string name="disable_rotation_sub">Prevents rotating images with two-finger gestures</string>
@@ -2210,4 +2209,5 @@
     <string name="one_ui_sub">Samsung One UI 7 like style</string>
     <string name="calculate_hint">Enter basic math symbols here to calculate the desired value (e.g. (5+5)*10)</string>
     <string name="math_expression">Math expression</string>
+    <string name="pick_up_to_n_collage_images">Pick up to %1$s images</string>
 </resources>

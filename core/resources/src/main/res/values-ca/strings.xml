@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Creador de collages</string>
     <string name="collage_maker_sub">Feu collages de fins a 10 imatges</string>
     <string name="collage_type">Tipus de collage</string>
-    <string name="pick_up_to_ten_images">Trieu fins a 10 imatges</string>
     <string name="collages_info">Mantingueu premut la imatge per intercanviar, moure i fer zoom per ajustar la posició</string>
     <string name="disable_rotation">Desactiva la rotació</string>
     <string name="disable_rotation_sub">Impedeix la rotació de les imatges amb gestos amb dos dits</string>

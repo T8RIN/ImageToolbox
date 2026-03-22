@@ -1416,7 +1416,6 @@
     <string name="saved_to_custom">In Ordner mit eigenem Namen gespeichert</string>
     <string name="collage_maker">Collagen erstellen</string>
     <string name="collage_type">Collagen-Art</string>
-    <string name="pick_up_to_ten_images">Wähle bis zu 10 Bilder aus</string>
     <string name="collages_info">Bild halten zum Wechseln, bewegen und zoomen um Position anzupassen</string>
     <string name="histogram">Histogramm</string>
     <string name="image_for_histogram">Dieses Bild wird verwendet, um RGB und Helligkeits-Histogramme zu erzeugen</string>

@@ -1403,7 +1403,6 @@
     <string name="collage_maker">صانع الكولاج</string>
     <string name="collage_maker_sub">اصنع صور مجمّعة من ما يصل إلى 10 صور</string>
     <string name="collage_type">نوع الكولاج</string>
-    <string name="pick_up_to_ten_images">التقط ما يصل إلى 10 صور</string>
     <string name="collages_info">امسك الصورة للتبديل والتحريك والتكبير لضبط الموضع</string>
     <string name="disable_rotation">تعطيل التدوير</string>
     <string name="disable_rotation_sub">يمنع تدوير الصور بإيماءات بإصبعين</string>

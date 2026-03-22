@@ -1415,7 +1415,6 @@
     <string name="collage_maker">Koliažų kūrėjas</string>
     <string name="collage_maker_sub">Kurkite koliažus iš iki 10 vaizdų</string>
     <string name="collage_type">Koliažo tipas</string>
-    <string name="pick_up_to_ten_images">Pasirinkite iki 10 vaizdų</string>
     <string name="collages_info">Laikykite vaizdą, kad pakeistumėte, perkeltumėte ir priartintumėte, kad sureguliuotumėte padėtį</string>
     <string name="disable_rotation">Išjungti sukimąsi</string>
     <string name="disable_rotation_sub">Neleidžia pasukti vaizdų dviem pirštų gestais</string>

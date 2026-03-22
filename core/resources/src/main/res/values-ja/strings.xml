@@ -1511,7 +1511,6 @@
     <string name="custom_filename">カスタムファイル名</string>
     <string name="saved_to_custom">カスタム名でフォルダに保存されました</string>
     <string name="collage_type">コラージュタイプ</string>
-    <string name="pick_up_to_ten_images">最大10枚の画像を選択</string>
     <string name="collages_info">画像を長押しして入れ替え、移動とズームで位置を調整</string>
     <string name="histogram">ヒストグラム</string>
     <string name="image_for_histogram">この画像はRGBと明るさのヒストグラム生成に使用されます</string>

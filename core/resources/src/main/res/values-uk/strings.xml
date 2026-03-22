@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Конструктор колажів</string>
     <string name="collage_maker_sub">Створюйте колажі з максимум 10 зображень</string>
     <string name="collage_type">Тип колажу</string>
-    <string name="pick_up_to_ten_images">Виберіть до 10 зображень</string>
     <string name="collages_info">Утримуйте зображення для переміщення, переміщення та масштабування для налаштування положення</string>
     <string name="histogram">Гістограма</string>
     <string name="histogram_sub">Гістограма зображення RGB або яскравості, яка допоможе вам внести корективи</string>

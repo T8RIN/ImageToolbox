@@ -1461,7 +1461,6 @@
     <string name="collage_maker">Collage Maker</string>
     <string name="collage_maker_sub">Gör collage av upp till 10 bilder</string>
     <string name="collage_type">Collage typ</string>
-    <string name="pick_up_to_ten_images">Plocka upp till 10 bilder</string>
     <string name="collages_info">Håll bilden för att byta, flytta och zooma för att justera position</string>
     <string name="disable_rotation">Inaktivera rotation</string>
     <string name="disable_rotation_sub">Förhindrar roterande bilder med tvåfingergester</string>

@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Collage Maker</string>
     <string name="collage_maker_sub">Gumawa ng mga collage mula sa hanggang 10 larawan</string>
     <string name="collage_type">Uri ng Collage</string>
-    <string name="pick_up_to_ten_images">Pumili ng hanggang 10 larawan</string>
     <string name="collages_info">I-hold ang imahe upang magpalit, ilipat at mag-zoom upang ayusin ang posisyon</string>
     <string name="disable_rotation">Huwag paganahin ang pag-ikot</string>
     <string name="disable_rotation_sub">Pinipigilan ang pag-ikot ng mga larawan gamit ang dalawang daliri na mga galaw</string>

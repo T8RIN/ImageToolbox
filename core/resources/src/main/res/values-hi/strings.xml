@@ -1405,7 +1405,6 @@
     <string name="collage_maker">समुच्चित चित्रकला का निर्माता</string>
     <string name="collage_maker_sub">अधिकतम 10 छवियों से कोलाज बनाएं</string>
     <string name="collage_type">कोलाज प्रकार</string>
-    <string name="pick_up_to_ten_images">अधिकतम 10 छवियाँ चुनें</string>
     <string name="collages_info">स्थिति को समायोजित करने के लिए छवि को स्वैप करने, स्थानांतरित करने और ज़ूम करने के लिए दबाए रखें</string>
     <string name="disable_rotation">रोटेशन अक्षम करें</string>
     <string name="disable_rotation_sub">दो-उंगली के इशारों से छवियों को घूमने से रोकता है</string>

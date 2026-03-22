@@ -116,6 +116,42 @@ internal object FrameImageUtils {
         }
     }
 
+    internal fun collageParametricGrid(
+        name: String,
+        rows: Int,
+        cols: Int,
+    ): TemplateItem {
+        return buildParamsCollage(name) {
+            if (rows <= 0 || cols <= 0) return@buildParamsCollage
+            val xColParams = (1 until cols).map { c -> param(c.toFloat() / cols) }
+            val yRowParams = (1 until rows).map { r -> param(r.toFloat() / rows) }
+            for (r in 0 until rows) {
+                for (c in 0 until cols) {
+                    val xp = buildList {
+                        if (c > 0) add(xColParams[c - 1])
+                        if (c < cols - 1) add(xColParams[c])
+                    }.distinct()
+                    val yp = buildList {
+                        if (r > 0) add(yRowParams[r - 1])
+                        if (r < rows - 1) add(yRowParams[r])
+                    }.distinct()
+                    addBoxedItem(
+                        xParams = xp,
+                        yParams = yp,
+                        boxParams = { vs ->
+                            RectF(
+                                if (c == 0) 0f else vs[xColParams[c - 1]],
+                                if (r == 0) 0f else vs[yRowParams[r - 1]],
+                                if (c == cols - 1) 1f else vs[xColParams[c]],
+                                if (r == rows - 1) 1f else vs[yRowParams[r]],
+                            )
+                        },
+                    )
+                }
+            }
+        }
+    }
+
     internal fun createTemplateItems(frameName: String): TemplateItem? {
         return COLLAGE_MAP[frameName]?.invoke()
     }
@@ -309,6 +345,84 @@ internal object FrameImageUtils {
         "collage_10_6" to { TenFrameImage.collage_10_6() },
         "collage_10_7" to { TenFrameImage.collage_10_7() },
         "collage_10_8" to { TenFrameImage.collage_10_8() },
+        "collage_10_9" to { ExtendedFrameImage.collage_10_9() },
+        "collage_10_10" to { ExtendedFrameImage.collage_10_10() },
+        "collage_2_12" to { ExtendedFrameImage.collage_2_12() },
+        "collage_2_13" to { ExtendedFrameImage.collage_2_13() },
+        "collage_3_48" to { ExtendedFrameImage.collage_3_48() },
+        "collage_4_26" to { ExtendedFrameImage.collage_4_26() },
+        "collage_4_27" to { ExtendedFrameImage.collage_4_27() },
+        "collage_5_32" to { ExtendedFrameImage.collage_5_32() },
+        "collage_5_33" to { ExtendedFrameImage.collage_5_33() },
+        "collage_6_15" to { ExtendedFrameImage.collage_6_15() },
+        "collage_6_16" to { ExtendedFrameImage.collage_6_16() },
+        "collage_6_17" to { ExtendedFrameImage.collage_6_17() },
+        "collage_7_11" to { ExtendedFrameImage.collage_7_11() },
+        "collage_7_12" to { ExtendedFrameImage.collage_7_12() },
+        "collage_8_17" to { ExtendedFrameImage.collage_8_17() },
+        "collage_8_18" to { ExtendedFrameImage.collage_8_18() },
+        "collage_9_12" to { ExtendedFrameImage.collage_9_12() },
+        "collage_9_13" to { ExtendedFrameImage.collage_9_13() },
+        "collage_11_0" to { ExtendedFrameImage.collage_11_0() },
+        "collage_11_1" to { ExtendedFrameImage.collage_11_1() },
+        "collage_11_2" to { ExtendedFrameImage.collage_11_2() },
+        "collage_11_3" to { ExtendedFrameImage.collage_11_3() },
+        "collage_11_4" to { ExtendedFrameImage.collage_11_4() },
+        "collage_11_5" to { ExtendedFrameImage.collage_11_5() },
+        "collage_12_0" to { ExtendedFrameImage.collage_12_0() },
+        "collage_12_1" to { ExtendedFrameImage.collage_12_1() },
+        "collage_12_2" to { ExtendedFrameImage.collage_12_2() },
+        "collage_12_3" to { ExtendedFrameImage.collage_12_3() },
+        "collage_12_4" to { ExtendedFrameImage.collage_12_4() },
+        "collage_12_5" to { ExtendedFrameImage.collage_12_5() },
+        "collage_13_0" to { ExtendedFrameImage.collage_13_0() },
+        "collage_13_1" to { ExtendedFrameImage.collage_13_1() },
+        "collage_13_2" to { ExtendedFrameImage.collage_13_2() },
+        "collage_13_3" to { ExtendedFrameImage.collage_13_3() },
+        "collage_13_4" to { ExtendedFrameImage.collage_13_4() },
+        "collage_13_5" to { ExtendedFrameImage.collage_13_5() },
+        "collage_14_0" to { ExtendedFrameImage.collage_14_0() },
+        "collage_14_1" to { ExtendedFrameImage.collage_14_1() },
+        "collage_14_2" to { ExtendedFrameImage.collage_14_2() },
+        "collage_14_3" to { ExtendedFrameImage.collage_14_3() },
+        "collage_14_4" to { ExtendedFrameImage.collage_14_4() },
+        "collage_14_5" to { ExtendedFrameImage.collage_14_5() },
+        "collage_15_0" to { ExtendedFrameImage.collage_15_0() },
+        "collage_15_1" to { ExtendedFrameImage.collage_15_1() },
+        "collage_15_2" to { ExtendedFrameImage.collage_15_2() },
+        "collage_15_3" to { ExtendedFrameImage.collage_15_3() },
+        "collage_15_4" to { ExtendedFrameImage.collage_15_4() },
+        "collage_15_5" to { ExtendedFrameImage.collage_15_5() },
+        "collage_16_0" to { ExtendedFrameImage.collage_16_0() },
+        "collage_16_1" to { ExtendedFrameImage.collage_16_1() },
+        "collage_16_2" to { ExtendedFrameImage.collage_16_2() },
+        "collage_16_3" to { ExtendedFrameImage.collage_16_3() },
+        "collage_16_4" to { ExtendedFrameImage.collage_16_4() },
+        "collage_16_5" to { ExtendedFrameImage.collage_16_5() },
+        "collage_17_0" to { ExtendedFrameImage.collage_17_0() },
+        "collage_17_1" to { ExtendedFrameImage.collage_17_1() },
+        "collage_17_2" to { ExtendedFrameImage.collage_17_2() },
+        "collage_17_3" to { ExtendedFrameImage.collage_17_3() },
+        "collage_17_4" to { ExtendedFrameImage.collage_17_4() },
+        "collage_17_5" to { ExtendedFrameImage.collage_17_5() },
+        "collage_18_0" to { ExtendedFrameImage.collage_18_0() },
+        "collage_18_1" to { ExtendedFrameImage.collage_18_1() },
+        "collage_18_2" to { ExtendedFrameImage.collage_18_2() },
+        "collage_18_3" to { ExtendedFrameImage.collage_18_3() },
+        "collage_18_4" to { ExtendedFrameImage.collage_18_4() },
+        "collage_18_5" to { ExtendedFrameImage.collage_18_5() },
+        "collage_19_0" to { ExtendedFrameImage.collage_19_0() },
+        "collage_19_1" to { ExtendedFrameImage.collage_19_1() },
+        "collage_19_2" to { ExtendedFrameImage.collage_19_2() },
+        "collage_19_3" to { ExtendedFrameImage.collage_19_3() },
+        "collage_19_4" to { ExtendedFrameImage.collage_19_4() },
+        "collage_19_5" to { ExtendedFrameImage.collage_19_5() },
+        "collage_20_0" to { ExtendedFrameImage.collage_20_0() },
+        "collage_20_1" to { ExtendedFrameImage.collage_20_1() },
+        "collage_20_2" to { ExtendedFrameImage.collage_20_2() },
+        "collage_20_3" to { ExtendedFrameImage.collage_20_3() },
+        "collage_20_4" to { ExtendedFrameImage.collage_20_4() },
+        "collage_20_5" to { ExtendedFrameImage.collage_20_5() },
     )
 
 }

@@ -1432,7 +1432,6 @@
     <string name="crossfade_count">Количество кадров перехода</string>
     <string name="collage_maker">Создание коллажей</string>
     <string name="collage_type">Тип коллажа</string>
-    <string name="pick_up_to_ten_images">Выберите до 10 изображений</string>
     <string name="threshold_one">Первый порог</string>
     <string name="threshold_two">Второй порог</string>
     <string name="canny">Кэнни</string>

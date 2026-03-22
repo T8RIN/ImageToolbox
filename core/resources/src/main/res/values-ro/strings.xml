@@ -844,7 +844,6 @@
     <string name="layers_on_background_sub">La fel ca prima opțiune, dar cu culoare în loc de imagine</string>
     <string name="embedded_picker">Selector încorporat</string>
     <string name="embedded_picker_sub">Folosește propriul selector de imagini Image Toolbox în locul celor predefinite de sistem</string>
-    <string name="pick_up_to_ten_images">Alegeți până la 10 imagini</string>
     <string name="skip_file_picking">Săriți peste selectarea fișierelor</string>
     <string name="skip_file_picking_sub">Selectorul de fișiere va fi afișat imediat dacă acest lucru este posibil pe ecranul ales</string>
     <string name="select_webp_image_to_start">Alegeți imaginea WEBP pentru a începe</string>

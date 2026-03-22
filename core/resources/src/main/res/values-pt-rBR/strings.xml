@@ -1391,7 +1391,6 @@
     <string name="formatted_timestamp">Data e Hora Formatados</string>
     <string name="histogram">Histograma</string>
     <string name="image_toolbox_in_telegram_sub">Participe do nosso bate-papo, onde você pode discutir o que quiser, e também dê uma olhada no Canal CI, onde eu público betas e anúncios</string>
-    <string name="pick_up_to_ten_images">Selecione até 10 imagens</string>
     <string name="tesseract_options">Opções do Tesseract</string>
     <string name="image_toolbox_in_telegram">Image Toolbox no Telegram 🎉</string>
     <string name="save_empty_lut_sub">Primeiro, use seu aplicativo de edição de fotos favorito para aplicar um filtro à LUT neutra que pode ser obtida aqui. Para que isso funcione corretamente, cada cor de pixel não deve depender de outros pixels (por exemplo, o desfoque não funcionará). Quando estiver pronta, use sua nova imagem LUT como entrada para o filtro LUT de 512*512</string>

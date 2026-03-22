@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Collage Maker</string>
     <string name="collage_maker_sub">Tee kollaaseja jopa 10 kuvasta</string>
     <string name="collage_type">Kollaasin tyyppi</string>
-    <string name="pick_up_to_ten_images">Valitse enintään 10 kuvaa</string>
     <string name="collages_info">Pidä kuvaa painettuna vaihtaaksesi, siirrä ja zoomaa säätääksesi sijaintia</string>
     <string name="disable_rotation">Poista kierto käytöstä</string>
     <string name="disable_rotation_sub">Estää kuvien kiertämisen kahden sormen eleillä</string>

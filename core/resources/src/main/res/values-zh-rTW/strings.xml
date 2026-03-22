@@ -1248,7 +1248,6 @@
     <string name="saved_to_custom">儲存至自訂名稱的資料夾中</string>
     <string name="collage_maker">拼貼畫製作器</string>
     <string name="collage_type">拼貼類型</string>
-    <string name="pick_up_to_ten_images">最多可選 10 個圖片</string>
     <string name="collages_info">按住圖片進行交換、移動與縮放以調整位置</string>
     <string name="collage_maker_sub">使用圖片製作拼貼畫</string>
     <string name="alignment">對齊</string>

@@ -1405,7 +1405,6 @@
     <string name="collage_maker">콜라주 메이커</string>
     <string name="collage_maker_sub">최대 10개의 이미지로 콜라주 만들기</string>
     <string name="collage_type">콜라주 유형</string>
-    <string name="pick_up_to_ten_images">최대 10개의 이미지 선택</string>
     <string name="collages_info">이미지를 잡고 위치를 조정하고 이동하고 확대/축소하세요.</string>
     <string name="disable_rotation">회전 비활성화</string>
     <string name="disable_rotation_sub">두 손가락 동작으로 이미지 회전 방지</string>

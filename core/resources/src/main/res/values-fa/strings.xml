@@ -1434,7 +1434,6 @@
     <string name="collage_maker">کلاژ ساز</string>
     <string name="collage_maker_sub">از حداکثر 10 تصویر کلاژ بسازید</string>
     <string name="collage_type">نوع کلاژ</string>
-    <string name="pick_up_to_ten_images">حداکثر 10 تصویر را انتخاب کنید</string>
     <string name="collages_info">تصویر را برای جابجایی، حرکت و بزرگنمایی برای تنظیم موقعیت نگه دارید</string>
     <string name="disable_rotation">چرخش را غیرفعال کنید</string>
     <string name="disable_rotation_sub">با حرکات دو انگشتی از چرخش تصاویر جلوگیری می کند</string>

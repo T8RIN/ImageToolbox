@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Kollaažide tegija</string>
     <string name="collage_maker_sub">Tehke kollaaže kuni 10 pildist</string>
     <string name="collage_type">Kollaaži tüüp</string>
-    <string name="pick_up_to_ten_images">Valige kuni 10 pilti</string>
     <string name="collages_info">Hoidke pilti, et vahetada, liigutada ja asendi reguleerimiseks suumida</string>
     <string name="disable_rotation">Keela pööramine</string>
     <string name="disable_rotation_sub">Takistab piltide pööramist kahe sõrme liigutustega</string>

@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Trình tạo ảnh ghép</string>
     <string name="collage_maker_sub">Tạo ảnh ghép từ tối đa 10 hình ảnh</string>
     <string name="collage_type">Loại ảnh ghép</string>
-    <string name="pick_up_to_ten_images">Chọn tối đa 10 hình ảnh</string>
     <string name="collages_info">Giữ hình ảnh để hoán đổi, di chuyển và thu phóng để điều chỉnh vị trí</string>
     <string name="disable_rotation">Vô hiệu hóa xoay</string>
     <string name="disable_rotation_sub">Ngăn chặn xoay hình ảnh bằng cử chỉ hai ngón tay</string>

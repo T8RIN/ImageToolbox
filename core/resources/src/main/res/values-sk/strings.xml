@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Collage Maker</string>
     <string name="collage_maker_sub">Vytvorte koláže až z 10 obrázkov</string>
     <string name="collage_type">Typ koláže</string>
-    <string name="pick_up_to_ten_images">Vyberte si až 10 obrázkov</string>
     <string name="collages_info">Podržaním obrázka ho môžete vymeniť, posunúť a priblížiť, aby ste upravili polohu</string>
     <string name="disable_rotation">Zakázať otáčanie</string>
     <string name="disable_rotation_sub">Zabraňuje otáčaniu obrázkov pomocou gest dvoch prstov</string>

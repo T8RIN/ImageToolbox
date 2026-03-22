@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.collages.CollageType
+import com.t8rin.collages.public.CollageConstants
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageParams
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -134,7 +135,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
     fun addImage(uri: Uri) {
         _uris.update { current ->
             val list = current ?: emptyList()
-            if (list.size >= 10) list else list + uri
+            if (list.size >= CollageConstants.MAX_IMAGE_COUNT) list else list + uri
         }
         registerChanges()
     }

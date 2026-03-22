@@ -1405,7 +1405,6 @@
     <string name="collage_maker">Kollázskészítő</string>
     <string name="collage_maker_sub">Kollázsokat készíthet akár 10 képből</string>
     <string name="collage_type">Kollázs típusa</string>
-    <string name="pick_up_to_ten_images">Válasszon legfeljebb 10 képet</string>
     <string name="collages_info">Tartsa lenyomva a képet a cseréhez, mozgatáshoz és nagyításhoz a pozíció beállításához</string>
     <string name="disable_rotation">Forgatás letiltása</string>
     <string name="disable_rotation_sub">Megakadályozza a képek elforgatását kétujjas kézmozdulatokkal</string>
