@@ -154,10 +154,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import android.net.Uri as AndroidUri
 
-internal fun Screen.isBetaFeature(): Boolean = when (this) {
-    is MarkupLayers -> true
-    else -> false
-}
+@Suppress("UnusedReceiverParameter")
+internal fun Screen.isBetaFeature(): Boolean = false
 
 internal fun Screen.simpleName(): String = when (this) {
     is ApngTools -> "APNG_Tools"

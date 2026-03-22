@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.request.ImageRequest
+import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
@@ -59,6 +60,7 @@ internal fun LayerContent(
                 model = remember(type.imageData) {
                     ImageRequest.Builder(appContext)
                         .data(type.imageData)
+                        .static()
                         .size(1600)
                         .build()
                 },

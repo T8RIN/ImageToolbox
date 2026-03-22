@@ -23,15 +23,12 @@ import android.graphics.Bitmap
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import coil3.ImageLoader
-import coil3.gif.repeatCount
 import coil3.request.ImageRequest
 import coil3.request.transformations
 import coil3.size.Precision
 import coil3.size.Size
 import coil3.toBitmap
-import com.awxkee.jxlcoder.coil.enableJxlAnimation
-import com.github.awxkee.avifcoil.decoder.animation.enableAvifAnimation
-import com.t8rin.imagetoolbox.core.data.coil.UpscaleSvgDecoder
+import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -235,10 +232,8 @@ internal class AndroidImageGetter @Inject constructor(
         val request = ImageRequest
             .Builder(context)
             .data(data)
-            .repeatCount(0)
+            .static()
             .precision(precision)
-            .enableAvifAnimation(false)
-            .enableJxlAnimation(false)
             .transformations(
                 transformations.map(Transformation<Bitmap>::toCoil)
             )
@@ -251,7 +246,6 @@ internal class AndroidImageGetter @Inject constructor(
                     )
                 }
             }
-            .decoderFactory(UpscaleSvgDecoder.Factory())
             .build()
 
         runSuspendCatching {
