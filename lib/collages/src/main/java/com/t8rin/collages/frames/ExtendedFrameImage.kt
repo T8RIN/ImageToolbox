@@ -17,10 +17,15 @@
 
 @file:Suppress("FunctionName")
 
-package com.t8rin.collages.utils
+package com.t8rin.collages.frames
 
+import android.graphics.PointF
 import android.graphics.RectF
 import com.t8rin.collages.model.TemplateItem
+import com.t8rin.collages.utils.FrameImageUtils
+import com.t8rin.collages.utils.FrameImageUtils.collage
+import com.t8rin.collages.utils.ParamsManagerBuilder
+import com.t8rin.collages.view.PhotoItem
 
 internal object ExtendedFrameImage {
 
@@ -111,6 +116,21 @@ internal object ExtendedFrameImage {
                 )
             }
         }
+    }
+
+    internal fun collage_1_0(): TemplateItem {
+        return collage("collage_1_0").copy(
+            photoItemList = listOf(
+                PhotoItem().apply {
+                    bound.set(0f, 0f, 1f, 1f)
+                    index = 0
+                    pointList.add(PointF(0f, 0f))
+                    pointList.add(PointF(1f, 0f))
+                    pointList.add(PointF(1f, 1f))
+                    pointList.add(PointF(0f, 1f))
+                }
+            )
+        )
     }
 
     internal fun collage_2_12(): TemplateItem {

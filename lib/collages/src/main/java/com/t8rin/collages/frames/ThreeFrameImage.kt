@@ -17,12 +17,14 @@
 
 @file:Suppress("FunctionName")
 
-package com.t8rin.collages.utils
+package com.t8rin.collages.frames
 
 import android.graphics.Path
 import android.graphics.PointF
 import android.graphics.RectF
 import com.t8rin.collages.model.TemplateItem
+import com.t8rin.collages.utils.FrameImageUtils
+import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.view.PhotoItem
 
 /**

@@ -21,11 +21,19 @@ package com.t8rin.collages.utils
 
 import android.content.Context
 import android.graphics.Path
-import android.graphics.PointF
 import android.graphics.RectF
 import androidx.core.net.toUri
+import com.t8rin.collages.frames.EightFrameImage
+import com.t8rin.collages.frames.ExtendedFrameImage
+import com.t8rin.collages.frames.FiveFrameImage
+import com.t8rin.collages.frames.FourFrameImage
+import com.t8rin.collages.frames.NineFrameImage
+import com.t8rin.collages.frames.SevenFrameImage
+import com.t8rin.collages.frames.SixFrameImage
+import com.t8rin.collages.frames.TenFrameImage
+import com.t8rin.collages.frames.ThreeFrameImage
+import com.t8rin.collages.frames.TwoFrameImage
 import com.t8rin.collages.model.TemplateItem
-import com.t8rin.collages.view.PhotoItem
 
 internal object FrameImageUtils {
     private const val FRAME_FOLDER = "frame"
@@ -36,21 +44,6 @@ internal object FrameImageUtils {
         preview = ("file:///android_asset/$FRAME_FOLDER/$frameName.webp").toUri(),
         title = frameName
     )
-
-    private fun collage_1_0(): TemplateItem {
-        return collage("collage_1_0").copy(
-            photoItemList = listOf(
-                PhotoItem().apply {
-                    bound.set(0f, 0f, 1f, 1f)
-                    index = 0
-                    pointList.add(PointF(0f, 0f))
-                    pointList.add(PointF(1f, 0f))
-                    pointList.add(PointF(1f, 1f))
-                    pointList.add(PointF(0f, 1f))
-                }
-            )
-        )
-    }
 
     fun buildParamsCollage(
         imageName: String,
@@ -157,7 +150,7 @@ internal object FrameImageUtils {
     }
 
     internal val COLLAGE_MAP: Map<String, () -> TemplateItem> = mapOf(
-        "collage_1_0" to { collage_1_0() },
+        "collage_1_0" to { ExtendedFrameImage.collage_1_0() },
         "collage_2_0" to { TwoFrameImage.collage_2_0() },
         "collage_2_1" to { TwoFrameImage.collage_2_1() },
         "collage_2_2" to { TwoFrameImage.collage_2_2() },

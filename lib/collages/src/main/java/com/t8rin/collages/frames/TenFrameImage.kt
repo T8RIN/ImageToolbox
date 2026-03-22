@@ -17,10 +17,11 @@
 
 @file:Suppress("FunctionName")
 
-package com.t8rin.collages.utils
+package com.t8rin.collages.frames
 
 import android.graphics.RectF
 import com.t8rin.collages.model.TemplateItem
+import com.t8rin.collages.utils.FrameImageUtils
 
 /**
  * Created by admin on 7/4/2016.
