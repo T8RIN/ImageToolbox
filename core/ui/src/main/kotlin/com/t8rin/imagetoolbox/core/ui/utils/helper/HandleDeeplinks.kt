@@ -41,9 +41,7 @@ fun Intent?.handleDeeplinks(
     onWantGithubReview: () -> Unit,
     isOpenEditInsteadOfPreview: Boolean,
 ) {
-    if (this == null) return
-
-    val intent = this
+    val intent = this ?: return
 
     onStart()
     val type = intent.type
@@ -121,12 +119,12 @@ fun Intent?.handleDeeplinks(
             }
         } else if (type != null) {
             val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-            val isPdf = type.contains("pdf")
 
             if (text != null) {
                 onHasExtraDataType(ExtraDataType.Text(text))
                 onGetUris(listOf())
             } else {
+                val isPdf = type.contains("pdf")
                 val isAudio = type.startsWith("audio/")
 
                 when (action) {
@@ -216,13 +214,13 @@ fun Intent?.handleDeeplinks(
 
                     else -> null
                 } ?: AppToastHost.showToast(
-                    appContext.getString(R.string.unsupported_type, type),
-                    Icons.Rounded.ErrorOutline
+                    message = appContext.getString(R.string.unsupported_type, type),
+                    icon = Icons.Rounded.ErrorOutline
                 )
             }
         } else Unit
     }.getOrNull() ?: AppToastHost.showToast(
-        appContext.getString(R.string.something_went_wrong),
-        Icons.Rounded.ErrorOutline
+        message = appContext.getString(R.string.something_went_wrong),
+        icon = Icons.Rounded.ErrorOutline
     )
 }
