@@ -204,7 +204,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                 fileController.writeBytes(
                     uri = uri.toString(),
                     block = { it.writeBytes(byteArray) }
-                ).also(::parseSaveResult).onSuccess(::registerSave)
+                ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
             gifData = null
