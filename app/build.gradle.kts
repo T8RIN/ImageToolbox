@@ -143,6 +143,7 @@ dependencies {
 
     implementation(projects.lib.opencvTools)
     implementation(projects.lib.neuralTools)
+    implementation(projects.lib.collages)
 
     implementation(libs.bouncycastle.pkix)
     implementation(libs.bouncycastle.provider)

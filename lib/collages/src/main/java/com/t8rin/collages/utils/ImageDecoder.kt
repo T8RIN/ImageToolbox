@@ -25,11 +25,12 @@ import coil3.memory.MemoryCache
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
+import com.t8rin.collages.public.CollageConstants.requestMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal object ImageDecoder {
-    var SAMPLER_SIZE = 1024
+    var SAMPLER_SIZE = 1536
 
     suspend fun decodeFileToBitmap(
         context: Context,
@@ -45,6 +46,7 @@ internal object ImageDecoder {
                 .memoryCacheKey(key)
                 .data(pathName)
                 .size(SAMPLER_SIZE)
+                .run(requestMapper)
                 .build()
         ).image?.toBitmap()?.apply {
             if (config != Bitmap.Config.ARGB_8888) {

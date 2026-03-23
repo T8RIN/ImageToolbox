@@ -15,19 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.collages.public
+package com.t8rin.imagetoolbox.app.presentation.components.functions
 
-import coil3.request.ImageRequest
-import com.t8rin.collages.utils.CollageLayoutFactory
+import com.t8rin.collages.public.CollageConstants
+import com.t8rin.imagetoolbox.core.data.image.utils.static
 
-object CollageConstants {
-    const val MAX_IMAGE_COUNT: Int = 20
-
-    val layoutCount: Int = CollageLayoutFactory.COLLAGE_MAP.keys.size
-
-    internal var requestMapper: ImageRequest.Builder.() -> ImageRequest.Builder = { this }
-
-    fun requestMapper(mapper: ImageRequest.Builder.() -> ImageRequest.Builder) {
-        this.requestMapper = mapper
-    }
-}
+fun initCollages() =
+    CollageConstants.requestMapper { static() }
