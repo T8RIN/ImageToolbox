@@ -2192,4 +2192,6 @@
     <string name="calculate_hint">أدخل رموز الرياضيات الأساسية هنا لحساب القيمة المطلوبة (على سبيل المثال (5+5)*10)</string>
     <string name="math_expression">التعبير الرياضي</string>
     <string name="pick_up_to_n_collage_images">التقط ما يصل إلى %1$s من الصور</string>
+    <string name="keep_date_time">احتفظ بالتاريخ والوقت</string>
+    <string name="keep_date_time_sub">احتفظ دائمًا بعلامات exif المتعلقة بالتاريخ والوقت، ويعمل بشكل مستقل عن خيار keep exif</string>
 </resources>

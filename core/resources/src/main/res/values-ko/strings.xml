@@ -2187,4 +2187,6 @@
     <string name="calculate_hint">여기에 기본 수학 기호를 입력하여 원하는 값을 계산하세요(예: (5+5)*10)</string>
     <string name="math_expression">수학 표현</string>
     <string name="pick_up_to_n_collage_images">최대 %1$s 이미지 선택</string>
+    <string name="keep_date_time" />
+    <string name="keep_date_time_sub" />
 </resources>

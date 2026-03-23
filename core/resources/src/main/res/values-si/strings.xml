@@ -2189,4 +2189,6 @@
     <string name="calculate_hint">අපේක්ෂිත අගය ගණනය කිරීමට මූලික ගණිත සංකේත මෙහි ඇතුළත් කරන්න (උදා. (5+5)*10)</string>
     <string name="math_expression">ගණිත ප්රකාශනය</string>
     <string name="pick_up_to_n_collage_images">පින්තූර %1$s දක්වා ගන්න</string>
+    <string name="keep_date_time" />
+    <string name="keep_date_time_sub" />
 </resources>

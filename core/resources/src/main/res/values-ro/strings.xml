@@ -2189,4 +2189,6 @@
     <string name="calculate_hint">Introduceți aici simbolurile matematice de bază pentru a calcula valoarea dorită (de ex. (5+5)*10)</string>
     <string name="math_expression">Expresia matematică</string>
     <string name="pick_up_to_n_collage_images">Preluați până la %1$s imagini</string>
+    <string name="keep_date_time">Păstrați data și ora</string>
+    <string name="keep_date_time_sub">Păstrați întotdeauna etichetele exif legate de dată și oră, funcționează independent de opțiunea de păstrare exif</string>
 </resources>

@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">Syötä tähän matemaattiset perussymbolit halutun arvon laskemiseksi (esim. (5+5)*10)</string>
     <string name="math_expression">Matemaattinen ilmaus</string>
     <string name="pick_up_to_n_collage_images">Poimi jopa %1$s kuvaa</string>
+    <string name="keep_date_time">Pidä päivämäärä ja aika</string>
+    <string name="keep_date_time_sub">Säilytä aina päivämäärään ja kellonaikaan liittyvät exif-tunnisteet, toimii riippumatta Keep exif -vaihtoehdosta</string>
 </resources>

@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">Maglagay ng mga pangunahing simbolo ng matematika dito upang kalkulahin ang nais na halaga (hal. (5+5)*10)</string>
     <string name="math_expression">Math expression</string>
     <string name="pick_up_to_n_collage_images">Pumili ng hanggang %1$s na mga larawan</string>
+    <string name="keep_date_time">Panatilihin ang Oras ng Petsa</string>
+    <string name="keep_date_time_sub">Palaging panatilihin ang mga exif tag na nauugnay sa petsa at oras, gumagana nang hiwalay sa opsyon na panatilihin ang exif</string>
 </resources>

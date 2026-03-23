@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">वांछित मान की गणना करने के लिए यहां बुनियादी गणित प्रतीक दर्ज करें (उदाहरण के लिए (5+5)*10)</string>
     <string name="math_expression">गणित अभिव्यक्ति</string>
     <string name="pick_up_to_n_collage_images">%1$s तक छवियाँ उठाएँ</string>
+    <string name="keep_date_time">दिनांक समय रखें</string>
+    <string name="keep_date_time_sub">दिनांक और समय से संबंधित एक्सिफ़ टैग को हमेशा सुरक्षित रखें, एक्सिफ़ विकल्प को बनाए रखने से स्वतंत्र रूप से काम करता है</string>
 </resources>

@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">Sartu hemen oinarrizko matematika-sinboloak nahi duzun balioa kalkulatzeko (adibidez, (5+5)*10)</string>
     <string name="math_expression">Matematikako adierazpena</string>
     <string name="pick_up_to_n_collage_images">Jaso %1$s irudi</string>
+    <string name="keep_date_time" />
+    <string name="keep_date_time_sub" />
 </resources>

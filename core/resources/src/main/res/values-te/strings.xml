@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">కావలసిన విలువను లెక్కించడానికి ఇక్కడ ప్రాథమిక గణిత చిహ్నాలను నమోదు చేయండి (ఉదా. (5+5)*10)</string>
     <string name="math_expression">గణిత వ్యక్తీకరణ</string>
     <string name="pick_up_to_n_collage_images">%1$s చిత్రాల వరకు ఎంచుకోండి</string>
+    <string name="keep_date_time">తేదీ సమయాన్ని ఉంచండి</string>
+    <string name="keep_date_time_sub">తేదీ మరియు సమయానికి సంబంధించిన ఎక్సిఫ్ ట్యాగ్‌లను ఎల్లప్పుడూ భద్రపరచండి, కీప్ ఎక్సిఫ్ ఎంపికతో సంబంధం లేకుండా స్వతంత్రంగా పనిచేస్తుంది</string>
 </resources>
