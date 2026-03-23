@@ -58,7 +58,9 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 @Composable
-fun PreviewCollageGeneration() {
+fun PreviewCollageGeneration(
+    startFrom: Int = 0
+) {
     fun Bitmap.replaceColor(
         fromColor: Color,
         targetColor: Color,
@@ -92,7 +94,8 @@ fun PreviewCollageGeneration() {
     val context = LocalContext.current
 
     LaunchedEffect(context) {
-        allFrames = COLLAGE_MAP.values.map { it.invoke() }
+        allFrames =
+            COLLAGE_MAP.values.map { it.invoke() }.filter { it.photoItemList.size >= startFrom }
     }
 
     var previewImageUri by rememberSaveable {
@@ -101,7 +104,7 @@ fun PreviewCollageGeneration() {
 
     LaunchedEffect(previewImageUri) {
         if (previewImageUri == null) {
-            val file = File(context.cacheDir, "tmp")
+            val file = File(context.cacheDir, "tmp.png")
 
             file.outputStream().use {
                 createBitmap(200, 200).applyCanvas {
@@ -115,6 +118,13 @@ fun PreviewCollageGeneration() {
 
     val scope = rememberCoroutineScope {
         Dispatchers.IO
+    }
+
+    val dir = remember {
+        File(context.cacheDir, "frames").apply {
+            deleteRecursively()
+            mkdirs()
+        }
     }
 
     if (previewImageUri != null) {
@@ -157,8 +167,6 @@ fun PreviewCollageGeneration() {
                         cornerRadius = 0f,
                         onCollageCreated = { image ->
                             scope.launch {
-                                val dir = File(context.cacheDir, "frames")
-                                dir.mkdirs()
                                 val file = File(dir, "$title.png")
 
                                 file.createNewFile()

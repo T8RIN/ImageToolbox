@@ -361,6 +361,48 @@ internal object ExtendedFrameImage {
         }
     }
 
+    internal fun collage_11_6(): CollageLayout {
+        return collage("collage_11_6") {
+            rowStrip(0f, 0.24f, 3)
+            fixedRect(0f, 0.24f, 0.2f, 0.76f)
+            fixedRect(0.2f, 0.24f, 0.34f, 0.76f)
+            fixedRect(0.34f, 0.24f, 0.66f, 0.76f)
+            fixedRect(0.66f, 0.24f, 0.8f, 0.76f)
+            fixedRect(0.8f, 0.24f, 1f, 0.76f)
+            rowStrip(0.76f, 1f, 3)
+        }
+    }
+
+    internal fun collage_11_7(): CollageLayout {
+        return collage("collage_11_7") {
+            parametricStackedRowStrips(listOf(2, 4, 5))
+        }
+    }
+
+    internal fun collage_11_8(): CollageLayout {
+        return collage("collage_11_8") {
+            parametricStackedRowStrips(listOf(6, 3, 2))
+        }
+    }
+
+    internal fun collage_11_9(): CollageLayout {
+        return collage("collage_11_9") {
+            rowStrip(0f, 0.26f, 3)
+            uniformGridInRegion(1, 5, 0f, 0.26f, 1f, 0.72f)
+            rowStrip(0.72f, 1f, 3)
+        }
+    }
+
+    internal fun collage_11_10(): CollageLayout {
+        return collage("collage_11_10") {
+            rowStrip(0f, 0.24f, 4)
+            fixedRect(0f, 0.24f, 0.3f, 0.78f)
+            uniformGridInRegion(1, 3, 0.3f, 0.24f, 1f, 0.51f)
+            uniformGridInRegion(1, 2, 0.3f, 0.51f, 1f, 0.78f)
+            rowStrip(0.78f, 1f, 1)
+        }
+    }
+
     internal fun collage_12_0(): CollageLayout {
         return CollageLayoutFactory.collageParametricGrid("collage_12_0", rows = 3, cols = 4)
     }
@@ -386,6 +428,44 @@ internal object ExtendedFrameImage {
     internal fun collage_12_5(): CollageLayout {
         return collage("collage_12_5") {
             parametricStackedRowStrips(listOf(4, 3, 3, 2))
+        }
+    }
+
+    internal fun collage_12_6(): CollageLayout {
+        return collage("collage_12_6") {
+            rowStrip(0f, 0.2f, 4)
+            fixedRect(0f, 0.2f, 0.2f, 0.8f)
+            fixedRect(0.8f, 0.2f, 1f, 0.8f)
+            uniformGridInRegion(2, 2, 0.2f, 0.2f, 0.8f, 0.8f)
+            rowStrip(0.8f, 1f, 2)
+        }
+    }
+
+    internal fun collage_12_7(): CollageLayout {
+        return collage("collage_12_7") {
+            parametricStackedRowStrips(listOf(3, 5, 4))
+        }
+    }
+
+    internal fun collage_12_8(): CollageLayout {
+        return collage("collage_12_8") {
+            parametricStackedRowStrips(listOf(2, 5, 5))
+        }
+    }
+
+    internal fun collage_12_9(): CollageLayout {
+        return collage("collage_12_9") {
+            parametricStackedRowStrips(listOf(4, 2, 4, 2))
+        }
+    }
+
+    internal fun collage_12_10(): CollageLayout {
+        return collage("collage_12_10") {
+            rowStrip(0f, 0.22f, 4)
+            fixedRect(0f, 0.22f, 0.18f, 0.8f)
+            fixedRect(0.82f, 0.22f, 1f, 0.8f)
+            uniformGridInRegion(2, 2, 0.18f, 0.22f, 0.82f, 0.8f)
+            rowStrip(0.8f, 1f, 2)
         }
     }
 
@@ -425,6 +505,47 @@ internal object ExtendedFrameImage {
         }
     }
 
+    internal fun collage_13_6(): CollageLayout {
+        return collage("collage_13_6") {
+            rowStrip(0f, 0.22f, 5)
+            fixedRect(0f, 0.22f, 0.22f, 0.78f)
+            fixedRect(0.78f, 0.22f, 1f, 0.78f)
+            uniformGridInRegion(2, 2, 0.22f, 0.22f, 0.78f, 0.78f)
+            rowStrip(0.78f, 1f, 2)
+        }
+    }
+
+    internal fun collage_13_7(): CollageLayout {
+        return collage("collage_13_7") {
+            parametricStackedRowStrips(listOf(3, 5, 5))
+        }
+    }
+
+    internal fun collage_13_8(): CollageLayout {
+        return collage("collage_13_8") {
+            parametricStackedRowStrips(listOf(6, 4, 3))
+        }
+    }
+
+    internal fun collage_13_9(): CollageLayout {
+        return collage("collage_13_9") {
+            parametricStackedRowStrips(listOf(4, 3, 4, 2))
+        }
+    }
+
+    internal fun collage_13_10(): CollageLayout {
+        return collage("collage_13_10") {
+            rowStrip(0f, 0.2f, 4)
+            fixedRect(0f, 0.2f, 0.22f, 0.82f)
+            fixedRect(0.22f, 0.2f, 0.5f, 0.5f)
+            fixedRect(0.5f, 0.2f, 0.78f, 0.5f)
+            fixedRect(0.78f, 0.2f, 1f, 0.82f)
+            fixedRect(0.22f, 0.5f, 0.5f, 0.82f)
+            fixedRect(0.5f, 0.5f, 0.78f, 0.82f)
+            rowStrip(0.82f, 1f, 3)
+        }
+    }
+
     internal fun collage_14_0(): CollageLayout {
         return collage("collage_14_0") {
             parametricStackedRowStrips(listOf(7, 7))
@@ -461,6 +582,54 @@ internal object ExtendedFrameImage {
         }
     }
 
+    internal fun collage_14_6(): CollageLayout {
+        return collage("collage_14_6") {
+            rowStrip(0f, 0.18f, 4)
+            fixedRect(0f, 0.18f, 0.18f, 0.82f)
+            fixedRect(0.82f, 0.18f, 1f, 0.82f)
+            fixedRect(0.18f, 0.18f, 0.41f, 0.41f)
+            fixedRect(0.41f, 0.18f, 0.59f, 0.41f)
+            fixedRect(0.59f, 0.18f, 0.82f, 0.41f)
+            fixedRect(0.18f, 0.41f, 0.41f, 0.82f)
+            fixedRect(0.41f, 0.41f, 0.59f, 0.82f)
+            fixedRect(0.59f, 0.41f, 0.82f, 0.82f)
+            rowStrip(0.82f, 1f, 2)
+        }
+    }
+
+    internal fun collage_14_7(): CollageLayout {
+        return collage("collage_14_7") {
+            parametricStackedRowStrips(listOf(3, 6, 5))
+        }
+    }
+
+    internal fun collage_14_8(): CollageLayout {
+        return collage("collage_14_8") {
+            parametricStackedRowStrips(listOf(5, 4, 3, 2))
+        }
+    }
+
+    internal fun collage_14_9(): CollageLayout {
+        return collage("collage_14_9") {
+            parametricStackedRowStrips(listOf(2, 4, 4, 4))
+        }
+    }
+
+    internal fun collage_14_10(): CollageLayout {
+        return collage("collage_14_10") {
+            rowStrip(0f, 0.2f, 4)
+            fixedRect(0f, 0.2f, 0.2f, 0.82f)
+            fixedRect(0.2f, 0.2f, 0.4f, 0.51f)
+            fixedRect(0.4f, 0.2f, 0.6f, 0.51f)
+            fixedRect(0.6f, 0.2f, 0.8f, 0.51f)
+            fixedRect(0.8f, 0.2f, 1f, 0.82f)
+            fixedRect(0.2f, 0.51f, 0.4f, 0.82f)
+            fixedRect(0.4f, 0.51f, 0.6f, 0.82f)
+            fixedRect(0.6f, 0.51f, 0.8f, 0.82f)
+            rowStrip(0.82f, 1f, 2)
+        }
+    }
+
     internal fun collage_15_0(): CollageLayout {
         return CollageLayoutFactory.collageParametricGrid("collage_15_0", rows = 3, cols = 5)
     }
@@ -493,6 +662,52 @@ internal object ExtendedFrameImage {
         }
     }
 
+    internal fun collage_15_6(): CollageLayout {
+        return collage("collage_15_6") {
+            rowStrip(0f, 0.2f, 5)
+            fixedRect(0f, 0.2f, 0.22f, 0.8f)
+            fixedRect(0.22f, 0.2f, 0.39f, 0.8f)
+            fixedRect(0.39f, 0.2f, 0.61f, 0.5f)
+            fixedRect(0.61f, 0.2f, 0.78f, 0.8f)
+            fixedRect(0.78f, 0.2f, 1f, 0.8f)
+            fixedRect(0.39f, 0.5f, 0.61f, 0.8f)
+            rowStrip(0.8f, 1f, 4)
+        }
+    }
+
+    internal fun collage_15_7(): CollageLayout {
+        return collage("collage_15_7") {
+            parametricStackedRowStrips(listOf(3, 4, 5, 3))
+        }
+    }
+
+    internal fun collage_15_8(): CollageLayout {
+        return collage("collage_15_8") {
+            parametricStackedRowStrips(listOf(2, 5, 5, 3))
+        }
+    }
+
+    internal fun collage_15_9(): CollageLayout {
+        return collage("collage_15_9") {
+            parametricStackedRowStrips(listOf(6, 4, 3, 2))
+        }
+    }
+
+    internal fun collage_15_10(): CollageLayout {
+        return collage("collage_15_10") {
+            rowStrip(0f, 0.18f, 5)
+            fixedRect(0f, 0.18f, 0.2f, 0.82f)
+            fixedRect(0.2f, 0.18f, 0.4f, 0.5f)
+            fixedRect(0.4f, 0.18f, 0.6f, 0.5f)
+            fixedRect(0.6f, 0.18f, 0.8f, 0.5f)
+            fixedRect(0.8f, 0.18f, 1f, 0.82f)
+            fixedRect(0.2f, 0.5f, 0.4f, 0.82f)
+            fixedRect(0.4f, 0.5f, 0.6f, 0.82f)
+            fixedRect(0.6f, 0.5f, 0.8f, 0.82f)
+            rowStrip(0.82f, 1f, 2)
+        }
+    }
+
     internal fun collage_16_0(): CollageLayout {
         return CollageLayoutFactory.collageParametricGrid("collage_16_0", rows = 4, cols = 4)
     }
@@ -522,6 +737,49 @@ internal object ExtendedFrameImage {
     internal fun collage_16_5(): CollageLayout {
         return collage("collage_16_5") {
             parametricStackedRowStrips(listOf(6, 5, 5))
+        }
+    }
+
+    internal fun collage_16_6(): CollageLayout {
+        return collage("collage_16_6") {
+            parametricStackedRowStrips(listOf(3, 5, 5, 3))
+        }
+    }
+
+    internal fun collage_16_7(): CollageLayout {
+        return collage("collage_16_7") {
+            parametricStackedRowStrips(listOf(3, 5, 4, 4))
+        }
+    }
+
+    internal fun collage_16_8(): CollageLayout {
+        return collage("collage_16_8") {
+            parametricStackedRowStrips(listOf(2, 4, 6, 4))
+        }
+    }
+
+    internal fun collage_16_9(): CollageLayout {
+        return collage("collage_16_9") {
+            rowStrip(0f, 0.18f, 4)
+            fixedRect(0f, 0.18f, 0.2f, 0.82f)
+            uniformGridInRegion(2, 3, 0.2f, 0.18f, 0.8f, 0.82f)
+            fixedRect(0.8f, 0.18f, 1f, 0.82f)
+            rowStrip(0.82f, 1f, 4)
+        }
+    }
+
+    internal fun collage_16_10(): CollageLayout {
+        return collage("collage_16_10") {
+            rowStrip(0f, 0.22f, 5)
+            fixedRect(0f, 0.22f, 0.22f, 0.8f)
+            fixedRect(0.22f, 0.22f, 0.39f, 0.5f)
+            fixedRect(0.39f, 0.22f, 0.61f, 0.5f)
+            fixedRect(0.61f, 0.22f, 0.78f, 0.5f)
+            fixedRect(0.78f, 0.22f, 1f, 0.8f)
+            fixedRect(0.22f, 0.5f, 0.39f, 0.8f)
+            fixedRect(0.39f, 0.5f, 0.61f, 0.8f)
+            fixedRect(0.61f, 0.5f, 0.78f, 0.8f)
+            rowStrip(0.8f, 1f, 3)
         }
     }
 
@@ -561,6 +819,47 @@ internal object ExtendedFrameImage {
         }
     }
 
+    internal fun collage_17_6(): CollageLayout {
+        return collage("collage_17_6") {
+            parametricStackedRowStrips(listOf(3, 5, 5, 4))
+        }
+    }
+
+    internal fun collage_17_7(): CollageLayout {
+        return collage("collage_17_7") {
+            parametricStackedRowStrips(listOf(2, 5, 6, 4))
+        }
+    }
+
+    internal fun collage_17_8(): CollageLayout {
+        return collage("collage_17_8") {
+            parametricStackedRowStrips(listOf(4, 4, 4, 3, 2))
+        }
+    }
+
+    internal fun collage_17_9(): CollageLayout {
+        return collage("collage_17_9") {
+            rowStrip(0f, 0.24f, 5)
+            rowStrip(0.24f, 0.76f, 7)
+            rowStrip(0.76f, 1f, 5)
+        }
+    }
+
+    internal fun collage_17_10(): CollageLayout {
+        return collage("collage_17_10") {
+            rowStrip(0f, 0.2f, 4)
+            fixedRect(0f, 0.2f, 0.2f, 0.8f)
+            fixedRect(0.2f, 0.2f, 0.4f, 0.5f)
+            fixedRect(0.4f, 0.2f, 0.6f, 0.5f)
+            fixedRect(0.6f, 0.2f, 0.8f, 0.5f)
+            fixedRect(0.8f, 0.2f, 1f, 0.8f)
+            fixedRect(0.2f, 0.5f, 0.4f, 0.8f)
+            fixedRect(0.4f, 0.5f, 0.6f, 0.8f)
+            fixedRect(0.6f, 0.5f, 0.8f, 0.8f)
+            rowStrip(0.8f, 1f, 5)
+        }
+    }
+
     internal fun collage_18_0(): CollageLayout {
         return CollageLayoutFactory.collageParametricGrid("collage_18_0", rows = 3, cols = 6)
     }
@@ -590,6 +889,47 @@ internal object ExtendedFrameImage {
     internal fun collage_18_5(): CollageLayout {
         return collage("collage_18_5") {
             parametricStackedRowStrips(listOf(4, 4, 4, 3, 3))
+        }
+    }
+
+    internal fun collage_18_6(): CollageLayout {
+        return collage("collage_18_6") {
+            parametricStackedRowStrips(listOf(3, 5, 6, 4))
+        }
+    }
+
+    internal fun collage_18_7(): CollageLayout {
+        return collage("collage_18_7") {
+            parametricStackedRowStrips(listOf(2, 4, 6, 6))
+        }
+    }
+
+    internal fun collage_18_8(): CollageLayout {
+        return collage("collage_18_8") {
+            parametricStackedRowStrips(listOf(5, 5, 4, 4))
+        }
+    }
+
+    internal fun collage_18_9(): CollageLayout {
+        return collage("collage_18_9") {
+            rowStrip(0f, 0.18f, 4)
+            fixedRect(0f, 0.18f, 0.18f, 0.82f)
+            uniformGridInRegion(2, 4, 0.18f, 0.18f, 0.82f, 0.82f)
+            fixedRect(0.82f, 0.18f, 1f, 0.82f)
+            rowStrip(0.82f, 1f, 4)
+        }
+    }
+
+    internal fun collage_18_10(): CollageLayout {
+        return collage("collage_18_10") {
+            rowStrip(0f, 0.2f, 5)
+            fixedRect(0f, 0.2f, 0.2f, 0.8f)
+            fixedRect(0.2f, 0.2f, 0.35f, 0.8f)
+            fixedRect(0.35f, 0.2f, 0.65f, 0.5f)
+            fixedRect(0.65f, 0.2f, 0.8f, 0.8f)
+            fixedRect(0.8f, 0.2f, 1f, 0.8f)
+            fixedRect(0.35f, 0.5f, 0.65f, 0.8f)
+            rowStrip(0.8f, 1f, 7)
         }
     }
 
@@ -629,6 +969,49 @@ internal object ExtendedFrameImage {
         }
     }
 
+    internal fun collage_19_6(): CollageLayout {
+        return collage("collage_19_6") {
+            parametricStackedRowStrips(listOf(3, 5, 6, 5))
+        }
+    }
+
+    internal fun collage_19_7(): CollageLayout {
+        return collage("collage_19_7") {
+            parametricStackedRowStrips(listOf(4, 5, 5, 3, 2))
+        }
+    }
+
+    internal fun collage_19_8(): CollageLayout {
+        return collage("collage_19_8") {
+            parametricStackedRowStrips(listOf(2, 4, 6, 4, 3))
+        }
+    }
+
+    internal fun collage_19_9(): CollageLayout {
+        return collage("collage_19_9") {
+            rowStrip(0f, 0.16f, 5)
+            fixedRect(0f, 0.16f, 0.16f, 0.84f)
+            uniformGridInRegion(2, 4, 0.16f, 0.16f, 0.84f, 0.84f)
+            fixedRect(0.84f, 0.16f, 1f, 0.84f)
+            rowStrip(0.84f, 1f, 4)
+        }
+    }
+
+    internal fun collage_19_10(): CollageLayout {
+        return collage("collage_19_10") {
+            rowStrip(0f, 0.2f, 5)
+            fixedRect(0f, 0.2f, 0.2f, 0.8f)
+            fixedRect(0.2f, 0.2f, 0.36f, 0.8f)
+            fixedRect(0.36f, 0.2f, 0.5f, 0.5f)
+            fixedRect(0.5f, 0.2f, 0.64f, 0.5f)
+            fixedRect(0.64f, 0.2f, 0.8f, 0.8f)
+            fixedRect(0.8f, 0.2f, 1f, 0.8f)
+            fixedRect(0.36f, 0.5f, 0.5f, 0.8f)
+            fixedRect(0.5f, 0.5f, 0.64f, 0.8f)
+            rowStrip(0.8f, 1f, 6)
+        }
+    }
+
     internal fun collage_20_0(): CollageLayout {
         return collage("collage_20_0") {
             parametricStackedRowStrips(listOf(7, 6, 7))
@@ -662,6 +1045,49 @@ internal object ExtendedFrameImage {
     internal fun collage_20_5(): CollageLayout {
         return collage("collage_20_5") {
             parametricStackedRowStrips(listOf(7, 6, 4, 3))
+        }
+    }
+
+    internal fun collage_20_6(): CollageLayout {
+        return collage("collage_20_6") {
+            parametricStackedRowStrips(listOf(4, 6, 6, 4))
+        }
+    }
+
+    internal fun collage_20_7(): CollageLayout {
+        return collage("collage_20_7") {
+            parametricStackedRowStrips(listOf(3, 5, 6, 4, 2))
+        }
+    }
+
+    internal fun collage_20_8(): CollageLayout {
+        return collage("collage_20_8") {
+            parametricStackedRowStrips(listOf(5, 5, 4, 3, 3))
+        }
+    }
+
+    internal fun collage_20_9(): CollageLayout {
+        return collage("collage_20_9") {
+            rowStrip(0f, 0.16f, 5)
+            fixedRect(0f, 0.16f, 0.16f, 0.84f)
+            uniformGridInRegion(2, 4, 0.16f, 0.16f, 0.84f, 0.84f)
+            fixedRect(0.84f, 0.16f, 1f, 0.84f)
+            rowStrip(0.84f, 1f, 5)
+        }
+    }
+
+    internal fun collage_20_10(): CollageLayout {
+        return collage("collage_20_10") {
+            rowStrip(0f, 0.18f, 6)
+            fixedRect(0f, 0.18f, 0.18f, 0.82f)
+            fixedRect(0.18f, 0.18f, 0.34f, 0.82f)
+            fixedRect(0.34f, 0.18f, 0.5f, 0.5f)
+            fixedRect(0.5f, 0.18f, 0.66f, 0.5f)
+            fixedRect(0.66f, 0.18f, 0.82f, 0.82f)
+            fixedRect(0.82f, 0.18f, 1f, 0.82f)
+            fixedRect(0.34f, 0.5f, 0.5f, 0.82f)
+            fixedRect(0.5f, 0.5f, 0.66f, 0.82f)
+            rowStrip(0.82f, 1f, 6)
         }
     }
 
