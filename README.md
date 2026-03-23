@@ -725,8 +725,8 @@ or click one of the badges below.
       - UPC A
       - UPC E
 - Collage Creation
-    - From 2 to 10 images
-    - More than 180 various collage layouts
+    - From 1 to 20 images
+    - More than 310 various collage layouts
 - Image Shrinking
     - Quality compressing
     - Preset shrinking
