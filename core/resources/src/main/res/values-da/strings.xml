@@ -2187,4 +2187,5 @@
     <string name="one_ui_sub">Samsung One UI 7-lignende stil</string>
     <string name="calculate_hint">Indtast grundlæggende matematiske symboler her for at beregne den ønskede værdi (f.eks. (5+5)*10)</string>
     <string name="math_expression">Matematisk udtryk</string>
+    <string name="pick_up_to_n_collage_images">Saml op til %1$s billeder</string>
 </resources>

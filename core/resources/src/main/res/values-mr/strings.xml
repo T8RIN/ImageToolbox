@@ -2188,4 +2188,5 @@
     <string name="one_ui_sub">Samsung One UI 7 सारखी शैली</string>
     <string name="calculate_hint">इच्छित मूल्याची गणना करण्यासाठी येथे मूलभूत गणित चिन्हे प्रविष्ट करा (उदा. (5+5)*10)</string>
     <string name="math_expression">गणित अभिव्यक्ती</string>
+    <string name="pick_up_to_n_collage_images">%1$s पर्यंत प्रतिमा घ्या</string>
 </resources>

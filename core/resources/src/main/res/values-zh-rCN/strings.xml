@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -2184,4 +2186,5 @@
     <string name="one_ui_sub">类似三星 One UI 7 的风格</string>
     <string name="calculate_hint">在此输入基本数学符号以计算所需的值（例如（5+5）*10）</string>
     <string name="math_expression">数学表达式</string>
+    <string name="pick_up_to_n_collage_images">选取最多 %1$s 张图片</string>
 </resources>

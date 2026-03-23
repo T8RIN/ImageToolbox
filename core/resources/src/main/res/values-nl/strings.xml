@@ -2187,4 +2187,5 @@
     <string name="one_ui_sub">Samsung One UI 7-achtige stijl</string>
     <string name="calculate_hint">Voer hier elementaire wiskundige symbolen in om de gewenste waarde te berekenen (bijvoorbeeld (5+5)*10)</string>
     <string name="math_expression">Wiskundige uitdrukking</string>
+    <string name="pick_up_to_n_collage_images">Neem maximaal %1$s afbeeldingen op</string>
 </resources>

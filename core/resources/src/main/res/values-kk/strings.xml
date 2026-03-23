@@ -2187,4 +2187,5 @@
     <string name="one_ui_sub">Samsung One UI 7 стиліне ұқсас</string>
     <string name="calculate_hint">Қажетті мәнді есептеу үшін осы жерге негізгі математикалық белгілерді енгізіңіз (мысалы, (5+5)*10)</string>
     <string name="math_expression">Математикалық өрнек</string>
+    <string name="pick_up_to_n_collage_images">%1$s суретке дейін таңдаңыз</string>
 </resources>

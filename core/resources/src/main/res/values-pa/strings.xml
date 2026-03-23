@@ -2187,4 +2187,5 @@
     <string name="one_ui_sub">Samsung One UI 7 ਵਰਗਾ ਸਟਾਈਲ</string>
     <string name="calculate_hint">ਲੋੜੀਂਦੇ ਮੁੱਲ ਦੀ ਗਣਨਾ ਕਰਨ ਲਈ ਇੱਥੇ ਮੂਲ ਗਣਿਤ ਚਿੰਨ੍ਹ ਦਾਖਲ ਕਰੋ (ਉਦਾਹਰਨ ਲਈ (5+5)*10)</string>
     <string name="math_expression">ਗਣਿਤ ਸਮੀਕਰਨ</string>
+    <string name="pick_up_to_n_collage_images">%1$s ਤੱਕ ਚਿੱਤਰ ਚੁੱਕੋ</string>
 </resources>

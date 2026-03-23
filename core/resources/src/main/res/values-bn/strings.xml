@@ -2187,4 +2187,5 @@
     <string name="one_ui_sub">Samsung One UI 7 এর মতো স্টাইল</string>
     <string name="calculate_hint">পছন্দসই মান গণনা করতে এখানে মৌলিক গণিত প্রতীক লিখুন (যেমন (5+5)*10)</string>
     <string name="math_expression">গণিত অভিব্যক্তি</string>
+    <string name="pick_up_to_n_collage_images">%1$s পর্যন্ত ছবি তুলে নিন</string>
 </resources>

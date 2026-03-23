@@ -2189,4 +2189,5 @@
     <string name="one_ui_sub">Samsung One UI 7 ako štýl</string>
     <string name="calculate_hint">Tu zadajte základné matematické symboly na výpočet požadovanej hodnoty (napr. (5+5)*10)</string>
     <string name="math_expression">Matematický výraz</string>
+    <string name="pick_up_to_n_collage_images">Vyzdvihnite až %1$s obrázkov</string>
 </resources>

@@ -2187,4 +2187,5 @@
     <string name="one_ui_sub">सैमसंग वन यूआई 7 जैसा स्टाइल</string>
     <string name="calculate_hint">वांछित मान की गणना करने के लिए यहां बुनियादी गणित प्रतीक दर्ज करें (उदाहरण के लिए (5+5)*10)</string>
     <string name="math_expression">गणित अभिव्यक्ति</string>
+    <string name="pick_up_to_n_collage_images">%1$s तक छवियाँ उठाएँ</string>
 </resources>

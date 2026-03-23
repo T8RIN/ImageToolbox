@@ -2190,4 +2190,5 @@
     <string name="one_ui_sub">„Samsung One UI 7“ panašus stilius</string>
     <string name="calculate_hint">Norėdami apskaičiuoti norimą reikšmę, įveskite čia pagrindinius matematinius simbolius (pvz., (5+5)*10)</string>
     <string name="math_expression">Matematinė išraiška</string>
+    <string name="pick_up_to_n_collage_images">Paimkite iki %1$s vaizdų</string>
 </resources>

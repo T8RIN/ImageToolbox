@@ -2187,4 +2187,5 @@
     <string name="one_ui_sub">سامسۇڭ One UI 7 ئۇسلۇبىنى ياقتۇرىدۇ</string>
     <string name="calculate_hint">لازىملىق قىممەتنى ھېسابلاش ئۈچۈن بۇ يەرگە ئاساسىي ماتېماتىكا بەلگىسىنى كىرگۈزۈڭ (مەسىلەن (5 + 5) * 10)</string>
     <string name="math_expression">ماتېماتىكا ئىپادىلەش</string>
+    <string name="pick_up_to_n_collage_images">%1$s رەسىملەرنى تاللاڭ</string>
 </resources>

@@ -2186,4 +2186,5 @@
     <string name="one_ui_sub">Samsung One UI 7 のようなスタイル</string>
     <string name="calculate_hint">ここに基本的な数学記号を入力して、目的の値を計算します (例: (5+5)*10)</string>
     <string name="math_expression">数学式</string>
+    <string name="pick_up_to_n_collage_images">最大 %1$s 枚の画像を選択します</string>
 </resources>

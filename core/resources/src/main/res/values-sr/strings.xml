@@ -2188,4 +2188,5 @@
     <string name="one_ui_sub">Стил попут Самсунг Оне УИ 7</string>
     <string name="calculate_hint">Унесите основне математичке симболе овде да бисте израчунали жељену вредност (нпр. (5+5)*10)</string>
     <string name="math_expression">Математички израз</string>
+    <string name="pick_up_to_n_collage_images">Покупите до __ПХ_0__ слика</string>
 </resources>

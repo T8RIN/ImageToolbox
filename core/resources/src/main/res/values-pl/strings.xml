@@ -2189,4 +2189,5 @@
     <string name="one_ui_sub">Styl Samsung One UI 7</string>
     <string name="calculate_hint">Wprowadź tutaj podstawowe symbole matematyczne, aby obliczyć żądaną wartość (np. (5+5)*10)</string>
     <string name="math_expression">Wyrażenie matematyczne</string>
+    <string name="pick_up_to_n_collage_images">Odbierz maksymalnie %1$s obrazów</string>
 </resources>

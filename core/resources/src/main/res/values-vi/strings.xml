@@ -2186,4 +2186,5 @@
     <string name="one_ui_sub">Phong cách giống Samsung One UI 7</string>
     <string name="calculate_hint">Nhập các ký hiệu toán học cơ bản vào đây để tính giá trị mong muốn (ví dụ: (5+5)*10)</string>
     <string name="math_expression">biểu thức toán học</string>
+    <string name="pick_up_to_n_collage_images">Chọn tối đa %1$s hình ảnh</string>
 </resources>
