@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.copyTo
+import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.readOnly
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
@@ -529,7 +530,16 @@ internal class AndroidFileController @Inject constructor(
             openFileDescriptor(fileUri)?.use {
                 it.fileDescriptor.toMetadata().apply {
                     clearAllAttributes()
-                    saveAttributes()
+
+                    if (settingsState.keepDateTime) {
+                        readMetadata(originalUri.toString()).makeLog("srcMetadata")
+                            ?.copyTo(
+                                metadata = this,
+                                tags = MetadataTag.dateEntries
+                            )
+                    } else {
+                        saveAttributes()
+                    }
                 }
             }.makeLog("metadataCleared")
         }

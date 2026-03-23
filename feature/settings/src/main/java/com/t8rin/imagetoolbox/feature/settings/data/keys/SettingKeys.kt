@@ -132,3 +132,5 @@ internal val FILENAME_BEHAVIOR = stringPreferencesKey("FILENAME_BEHAVIOR")
 internal val FLING_TYPE = intPreferencesKey("FLING_TYPE")
 internal val HIDDEN_FOR_SHARE_SCREENS =
     stringPreferencesKey("HIDDEN_FOR_SHARE_SCREENS")
+internal val KEEP_DATE_TIME =
+    booleanPreferencesKey("KEEP_DATE_TIME")

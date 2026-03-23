@@ -2210,4 +2210,6 @@
     <string name="calculate_hint">Enter basic math symbols here to calculate the desired value (e.g. (5+5)*10)</string>
     <string name="math_expression">Math expression</string>
     <string name="pick_up_to_n_collage_images">Pick up to %1$s images</string>
+    <string name="keep_date_time">Keep Date Time</string>
+    <string name="keep_date_time_sub">Always preserve exif tags related to date and time, works independently of keep exif option</string>
 </resources>

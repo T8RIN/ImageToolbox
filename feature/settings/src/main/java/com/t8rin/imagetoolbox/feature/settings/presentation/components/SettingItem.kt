@@ -611,6 +611,10 @@ internal fun SettingItem(
             Setting.ToolsHiddenForShare -> {
                 ToolsHiddenForShareSettingItem(onValueChange = component::setHiddenForShareScreens)
             }
+
+            Setting.KeepDateTime -> {
+                KeepDateTimeSettingItem(onClick = component::toggleKeepDateTime)
+            }
         }
     }
 }
