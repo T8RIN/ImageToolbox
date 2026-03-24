@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import com.google.firebase.analytics.logEvent
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
+import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo.Companion.get
 
 internal object AnalyticsManagerImpl : AnalyticsManager {
 
@@ -33,6 +34,10 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
     override fun updateAnalyticsCollectionEnabled(value: Boolean) {
         Firebase.analytics.setAnalyticsCollectionEnabled(value)
         allowCollectAnalytics = value
+
+        if (value) {
+            Firebase.crashlytics.sendUnsentReports()
+        }
     }
 
     override fun updateAllowCollectCrashlytics(value: Boolean) {
@@ -52,7 +57,19 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
             Firebase.analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
                 param(FirebaseAnalytics.Param.CONTENT_TYPE, screenName)
             }
+            Firebase.analytics.logEvent(screenName) {
+                param(FirebaseAnalytics.Param.CONTENT, deviceInfo())
+            }
         }
+    }
+
+    private fun deviceInfo(): String {
+        val info = get()
+
+        return listOf(
+            "Device: ${info.device}",
+            "App Version: ${info.appVersion}"
+        ).joinToString(",")
     }
 
 }
