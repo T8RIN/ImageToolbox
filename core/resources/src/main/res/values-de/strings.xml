@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -2187,5 +2185,5 @@
     <string name="one_ui_sub">Samsung One UI 7-ähnlicher Stil</string>
     <string name="calculate_hint">Geben Sie hier grundlegende mathematische Symbole ein, um den gewünschten Wert zu berechnen (z. B. (5+5)*10).</string>
     <string name="math_expression">Mathematischer Ausdruck</string>
-    <string name="pick_up_to_n_collage_images">Holen Sie sich bis zu %1$s Bilder</string>
+    <string name="pick_up_to_n_collage_images">Bis zu %1$s Bilder aufnehmen</string>
 </resources>
