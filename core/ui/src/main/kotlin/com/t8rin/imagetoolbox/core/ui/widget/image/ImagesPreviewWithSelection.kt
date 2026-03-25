@@ -177,7 +177,7 @@ fun ImagesPreviewWithSelection(
                 modifier = Modifier
                     .fillMaxSize()
                     .dragHandler(
-                        key = null,
+                        key = enableSelection to imageUris,
                         lazyGridState = state,
                         isVertical = false,
                         selectedItems = privateSelectedItems,
@@ -250,7 +250,7 @@ fun ImagesPreviewWithSelection(
                 modifier = Modifier
                     .fillMaxSize()
                     .dragHandler(
-                        key = enableSelection,
+                        key = enableSelection to imageUris,
                         lazyGridState = state,
                         isVertical = true,
                         selectedItems = if (enableSelection) {

@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">விரும்பிய மதிப்பைக் கணக்கிட அடிப்படை கணிதக் குறியீடுகளை இங்கே உள்ளிடவும் (எ.கா. (5+5)*10)</string>
     <string name="math_expression">கணித வெளிப்பாடு</string>
     <string name="pick_up_to_n_collage_images">%1$s படங்கள் வரை எடுக்கவும்</string>
+    <string name="keep_date_time" />
+    <string name="keep_date_time_sub" />
 </resources>

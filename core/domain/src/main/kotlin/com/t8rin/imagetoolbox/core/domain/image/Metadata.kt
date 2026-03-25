@@ -90,8 +90,11 @@ inline fun Metadata.toMap(): Map<MetadataTag, String> = mutableMapOf<MetadataTag
     }
 }
 
-inline fun Metadata.copyTo(metadata: Metadata): Metadata {
-    MetadataTag.entries.forEach { attr ->
+inline fun Metadata.copyTo(
+    metadata: Metadata,
+    tags: List<MetadataTag> = MetadataTag.entries
+): Metadata {
+    tags.forEach { attr ->
         getAttribute(attr).let { metadata.setAttribute(attr, it) }
     }
     metadata.saveAttributes()

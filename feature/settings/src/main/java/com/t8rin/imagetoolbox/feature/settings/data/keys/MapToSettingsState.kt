@@ -244,6 +244,7 @@ internal fun Preferences.toSettingsState(
     )?.mapNotNull {
         it.toIntOrNull()
     } ?: default.hiddenForShareScreens,
+    keepDateTime = this[KEEP_DATE_TIME] ?: default.keepDateTime
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

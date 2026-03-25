@@ -558,4 +558,9 @@ sealed class Setting(
         subtitle = null
     )
 
+    data object KeepDateTime : Setting(
+        title = R.string.keep_date_time,
+        subtitle = R.string.keep_date_time_sub
+    )
+
 }

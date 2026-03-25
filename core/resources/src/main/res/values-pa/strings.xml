@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">ਲੋੜੀਂਦੇ ਮੁੱਲ ਦੀ ਗਣਨਾ ਕਰਨ ਲਈ ਇੱਥੇ ਮੂਲ ਗਣਿਤ ਚਿੰਨ੍ਹ ਦਾਖਲ ਕਰੋ (ਉਦਾਹਰਨ ਲਈ (5+5)*10)</string>
     <string name="math_expression">ਗਣਿਤ ਸਮੀਕਰਨ</string>
     <string name="pick_up_to_n_collage_images">%1$s ਤੱਕ ਚਿੱਤਰ ਚੁੱਕੋ</string>
+    <string name="keep_date_time" />
+    <string name="keep_date_time_sub" />
 </resources>

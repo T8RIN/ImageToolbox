@@ -2190,4 +2190,6 @@
     <string name="calculate_hint">הזן כאן סמלים מתמטיים בסיסיים כדי לחשב את הערך הרצוי (למשל (5+5)*10)</string>
     <string name="math_expression">ביטוי מתמטי</string>
     <string name="pick_up_to_n_collage_images">אסוף עד %1$s תמונות</string>
+    <string name="keep_date_time">שמור על תאריך שעון</string>
+    <string name="keep_date_time_sub">שמור תמיד תגיות exif הקשורות לתאריך ושעה, עובד ללא תלות באפשרות Keep exif</string>
 </resources>

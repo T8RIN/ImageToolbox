@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">Írja be ide az alapvető matematikai szimbólumokat a kívánt érték kiszámításához (pl. (5+5)*10)</string>
     <string name="math_expression">Matematikai kifejezés</string>
     <string name="pick_up_to_n_collage_images">Válasszon legfeljebb %1$s képet</string>
+    <string name="keep_date_time">Tartsa a dátumot és az időt</string>
+    <string name="keep_date_time_sub">Mindig őrizze meg a dátumhoz és az időhöz kapcsolódó exif címkéket, az exif megtartása opciótól függetlenül működik</string>
 </resources>

@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">Қажетті мәнді есептеу үшін осы жерге негізгі математикалық белгілерді енгізіңіз (мысалы, (5+5)*10)</string>
     <string name="math_expression">Математикалық өрнек</string>
     <string name="pick_up_to_n_collage_images">%1$s суретке дейін таңдаңыз</string>
+    <string name="keep_date_time">Күн уақытын сақтаңыз</string>
+    <string name="keep_date_time_sub">Әрқашан күн мен уақытқа қатысты exif тегтерін сақтаңыз, exif сақтау опциясынан тәуелсіз жұмыс істейді</string>
 </resources>

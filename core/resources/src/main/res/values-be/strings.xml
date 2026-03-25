@@ -2190,4 +2190,6 @@
     <string name="calculate_hint">Увядзіце тут асноўныя матэматычныя сімвалы, каб вылічыць патрэбнае значэнне (напрыклад, (5+5)*10)</string>
     <string name="math_expression">Матэматычны выраз</string>
     <string name="pick_up_to_n_collage_images">Выберыце да %1$s малюнкаў</string>
+    <string name="keep_date_time">Захоўвайце дату і час</string>
+    <string name="keep_date_time_sub">Заўсёды захоўваць тэгі exif, звязаныя з датай і часам, працуе незалежна ад параметра keep exif</string>
 </resources>

@@ -507,6 +507,9 @@ class SettingsComponent @AssistedInject internal constructor(
         setHiddenForShareScreens(screens)
     }
 
+    fun toggleKeepDateTime() =
+        settingsScope { toggleKeepDateTime() }
+
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

@@ -131,6 +131,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_LAUNCHER_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_LINK_PREVIEW_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_SYSTEM_BARS_VISIBLE_BY_SWIPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_TELEGRAM_GROUP_OPENED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.KEEP_DATE_TIME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAIN_SCREEN_TITLE
@@ -934,6 +935,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setHiddenForShareScreens(data: List<Int>) = edit { preferences ->
         preferences[HIDDEN_FOR_SHARE_SCREENS] = data.joinToString("/") { it.toString() }
     }
+
+    override suspend fun toggleKeepDateTime() = toggle(
+        key = KEEP_DATE_TIME,
+        defaultValue = default.keepDateTime
+    )
 
     private suspend fun toggleFilenameBehavior(
         behavior: FilenameBehavior

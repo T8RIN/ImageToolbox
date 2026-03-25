@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,13 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import com.t8rin.imagetoolbox.core.domain.USER_AGENT
-import kotlinx.coroutines.CoroutineScope
+import com.t8rin.imagetoolbox.core.domain.remote.Cache
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import org.jsoup.Jsoup
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 object LinkUtils {
@@ -40,19 +42,29 @@ data class LinkPreview internal constructor(
     val image: String?,
     val url: String?,
     val link: String?
-)
+) {
+    companion object {
+        fun empty(link: String) = LinkPreview(
+            link = link,
+            image = null,
+            title = null,
+            description = null,
+            url = null
+        )
+    }
+}
 
-fun LinkPreview(
-    link: String,
-    onLoaded: (LinkPreview) -> Unit
-): LinkPreview {
-    var image: String? = null
-    var title: String? = null
-    var description: String? = null
-    var url: String? = null
+suspend fun fetchLinkPreview(
+    link: String
+): LinkPreview = linksCache.call(link) {
+    withContext(Dispatchers.IO) {
+        var image: String? = null
+        var title: String? = null
+        var description: String? = null
+        var url: String? = null
 
-    CoroutineScope(Dispatchers.Default).launch {
-        runCatching {
+
+        runSuspendCatching {
             withTimeoutOrNull(30.seconds) {
                 Jsoup
                     .connect(link)
@@ -71,22 +83,15 @@ fun LinkPreview(
             }
         }
 
-        onLoaded(
-            LinkPreview(
-                link = link,
-                image = image,
-                title = title,
-                description = description,
-                url = url
-            )
+
+        LinkPreview(
+            link = link,
+            image = image,
+            title = title,
+            description = description,
+            url = url
         )
     }
-
-    return LinkPreview(
-        link = link,
-        image = image,
-        title = title,
-        description = description,
-        url = url
-    )
 }
+
+private val linksCache = Cache<String, LinkPreview>(1.minutes)

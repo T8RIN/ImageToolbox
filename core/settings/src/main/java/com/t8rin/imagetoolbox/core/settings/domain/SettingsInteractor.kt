@@ -252,6 +252,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setHiddenForShareScreens(data: List<Int>)
 
+    suspend fun toggleKeepDateTime()
+
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

@@ -2189,4 +2189,6 @@
     <string name="calculate_hint">Унесите основне математичке симболе овде да бисте израчунали жељену вредност (нпр. (5+5)*10)</string>
     <string name="math_expression">Математички израз</string>
     <string name="pick_up_to_n_collage_images">Покупите до __ПХ_0__ слика</string>
+    <string name="keep_date_time">Задржите датум и време</string>
+    <string name="keep_date_time_sub">Увек сачувајте екиф ознаке повезане са датумом и временом, ради независно од опције Кееп екиф</string>
 </resources>

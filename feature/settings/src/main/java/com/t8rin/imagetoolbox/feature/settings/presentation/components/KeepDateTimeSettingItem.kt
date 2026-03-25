@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DataSaverOff
+import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -31,21 +31,21 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun ExifWidgetInitialStateSettingItem(
+fun KeepDateTimeSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.top,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.force_exif_widget_initial_value),
-        subtitle = stringResource(R.string.force_exif_widget_initial_value_sub),
-        checked = settingsState.exifWidgetInitialState,
+        title = stringResource(R.string.keep_date_time),
+        subtitle = stringResource(R.string.keep_date_time_sub),
+        checked = settingsState.keepDateTime,
         onClick = {
             onClick()
         },
-        startIcon = Icons.Outlined.DataSaverOff
+        startIcon = Icons.Outlined.AccessTime
     )
 }

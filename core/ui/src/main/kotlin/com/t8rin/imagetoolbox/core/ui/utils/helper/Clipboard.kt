@@ -105,14 +105,16 @@ object Clipboard {
     }
 
     fun clear() {
-        clipboard.setClip(null)
+        runCatching {
+            clipboard.setClip(null)
+        }
     }
 
 }
 
-private class AndroidClipboardManager(
-    private val clipboardManager: ClipboardManager = appContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-) {
+private class AndroidClipboardManager {
+    private val clipboardManager: ClipboardManager get() = appContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
     fun getClip(): ClipEntry? = clipboardManager.primaryClip?.let(::ClipEntry)
 
     fun setClip(clipEntry: ClipEntry?) {

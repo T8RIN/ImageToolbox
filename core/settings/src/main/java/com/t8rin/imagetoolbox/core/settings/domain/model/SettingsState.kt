@@ -132,7 +132,8 @@ data class SettingsState(
     val filenamePattern: String?,
     val filenameBehavior: FilenameBehavior,
     val flingType: FlingType,
-    val hiddenForShareScreens: List<Int>
+    val hiddenForShareScreens: List<Int>,
+    val keepDateTime: Boolean,
 ) {
 
     companion object {
@@ -242,6 +243,7 @@ data class SettingsState(
                 filenameBehavior = FilenameBehavior.None(),
                 flingType = FlingType.DEFAULT,
                 hiddenForShareScreens = emptyList(),
+                keepDateTime = false,
             )
         }
     }

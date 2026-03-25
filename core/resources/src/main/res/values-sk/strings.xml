@@ -2190,4 +2190,6 @@
     <string name="calculate_hint">Tu zadajte základné matematické symboly na výpočet požadovanej hodnoty (napr. (5+5)*10)</string>
     <string name="math_expression">Matematický výraz</string>
     <string name="pick_up_to_n_collage_images">Vyzdvihnite až %1$s obrázkov</string>
+    <string name="keep_date_time">Ponechajte dátum a čas</string>
+    <string name="keep_date_time_sub">Vždy zachovávajte značky exif súvisiace s dátumom a časom, funguje nezávisle od možnosti zachovať exif</string>
 </resources>

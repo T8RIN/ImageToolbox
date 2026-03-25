@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">برای محاسبه مقدار مورد نظر، نمادهای ریاضی پایه را در اینجا وارد کنید (به عنوان مثال (5+5)*10)</string>
     <string name="math_expression">بیان ریاضی</string>
     <string name="pick_up_to_n_collage_images">حداکثر %1$s عکس را انتخاب کنید</string>
+    <string name="keep_date_time">زمان تاریخ را حفظ کنید</string>
+    <string name="keep_date_time_sub">همیشه برچسب های exif مربوط به تاریخ و زمان را حفظ کنید، مستقل از گزینه keep exif کار می کند</string>
 </resources>

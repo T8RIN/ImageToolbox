@@ -206,7 +206,8 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.Exif,
         titleId = R.string.exif,
         settingsList = listOf(
-            Setting.ExifWidgetInitialState
+            Setting.ExifWidgetInitialState,
+            Setting.KeepDateTime
         ),
         initialState = false
     )

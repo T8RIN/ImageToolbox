@@ -2189,4 +2189,6 @@
     <string name="calculate_hint">Ange grundläggande matematiska symboler här för att beräkna önskat värde (t.ex. (5+5)*10)</string>
     <string name="math_expression">Matematiskt uttryck</string>
     <string name="pick_up_to_n_collage_images">Plocka upp till %1$s bilder</string>
+    <string name="keep_date_time">Håll datum tid</string>
+    <string name="keep_date_time_sub">Bevara alltid exif-taggar relaterade till datum och tid, fungerar oberoende av keep exif-alternativet</string>
 </resources>

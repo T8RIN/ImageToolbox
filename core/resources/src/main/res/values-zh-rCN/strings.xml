@@ -2187,4 +2187,6 @@
     <string name="calculate_hint">在此输入基本数学符号以计算所需的值（例如（5+5）*10）</string>
     <string name="math_expression">数学表达式</string>
     <string name="pick_up_to_n_collage_images">选取最多 %1$s 张图片</string>
+    <string name="keep_date_time">保留日期时间</string>
+    <string name="keep_date_time_sub">始终保留与日期和时间相关的 exif 标签，独立于 keep exif 选项</string>
 </resources>

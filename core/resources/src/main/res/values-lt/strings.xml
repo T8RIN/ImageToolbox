@@ -2191,4 +2191,6 @@
     <string name="calculate_hint">Norėdami apskaičiuoti norimą reikšmę, įveskite čia pagrindinius matematinius simbolius (pvz., (5+5)*10)</string>
     <string name="math_expression">Matematinė išraiška</string>
     <string name="pick_up_to_n_collage_images">Paimkite iki %1$s vaizdų</string>
+    <string name="keep_date_time">Išsaugokite datos laiką</string>
+    <string name="keep_date_time_sub">Visada išsaugokite exif žymas, susijusias su data ir laiku, veikia nepriklausomai nuo parinkties išlaikyti exif</string>
 </resources>

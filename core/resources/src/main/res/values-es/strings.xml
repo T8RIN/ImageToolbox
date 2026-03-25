@@ -2188,4 +2188,6 @@
     <string name="calculate_hint">Ingrese aquí símbolos matemáticos básicos para calcular el valor deseado (por ejemplo, (5+5)*10)</string>
     <string name="math_expression">expresión matemática</string>
     <string name="pick_up_to_n_collage_images">Recoge hasta %1$s imágenes</string>
+    <string name="keep_date_time">Mantener fecha y hora</string>
+    <string name="keep_date_time_sub">Conserve siempre las etiquetas exif relacionadas con la fecha y la hora, funciona independientemente de la opción mantener exif</string>
 </resources>
