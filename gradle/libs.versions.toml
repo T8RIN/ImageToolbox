@@ -23,7 +23,7 @@ jxlCoderCoil = "2.6.0"
 jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
-material3 = "1.5.0-alpha15"
+material3 = "1.5.0-alpha16"
 composeVersion = "1.11.0-alpha06"
 materialIconsExtended = "1.7.8"
 dataStore = "1.3.0-alpha07"
