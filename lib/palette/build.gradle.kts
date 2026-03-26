@@ -24,6 +24,5 @@ plugins {
 android.namespace = "com.t8rin.palette"
 
 dependencies {
-    implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.kotlinx.serialization.json)
 }

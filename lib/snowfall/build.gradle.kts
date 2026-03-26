@@ -21,8 +21,3 @@ plugins {
 }
 
 android.namespace = "com.t8rin.snowfall"
-
-dependencies {
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-}
