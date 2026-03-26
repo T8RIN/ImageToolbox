@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -2191,4 +2193,5 @@
     <string name="keep_date_time">Захоўвайце дату і час</string>
     <string name="keep_date_time_sub">Заўсёды захоўваць тэгі exif, звязаныя з датай і часам, працуе незалежна ад параметра keep exif</string>
     <string name="background_color_for_alpha_formats">Колер фону для альфа-фарматаў</string>
+    <string name="background_color_for_alpha_formats_sub">Дадае магчымасць усталёўваць колер фону для кожнага фармату выявы з падтрымкай альфа-версіі, калі адключана, гэта даступна толькі для неальфа-фармату</string>
 </resources>

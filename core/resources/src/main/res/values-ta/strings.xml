@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -2188,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">%1$s படங்கள் வரை எடுக்கவும்</string>
     <string name="background_color_for_alpha_formats">ஆல்பா வடிவங்களுக்கான பின்னணி நிறம்</string>
     <string name="background_color_for_alpha_formats_sub">ஆல்பா ஆதரவுடன் ஒவ்வொரு பட வடிவமைப்பிற்கும் பின்னணி வண்ணத்தை அமைக்கும் திறனைச் சேர்க்கிறது, இது முடக்கப்பட்டால் ஆல்பா அல்லாதவர்களுக்கு மட்டுமே கிடைக்கும்</string>
+    <string name="keep_date_time">தேதி நேரத்தை வைத்திருங்கள்</string>
+    <string name="keep_date_time_sub">எப்பொழுதும் தேதி மற்றும் நேரம் தொடர்பான exif குறிச்சொற்களை பாதுகாக்கவும், எக்ஸிஃப் விருப்பத்தை வைத்து சுயாதீனமாக செயல்படும்</string>
 </resources>

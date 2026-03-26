@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
     <string name="loading">මොහොතක් සිටින්න…</string>
@@ -2189,4 +2191,6 @@
     <string name="pick_up_to_n_collage_images">පින්තූර %1$s දක්වා ගන්න</string>
     <string name="background_color_for_alpha_formats">ඇල්ෆා ආකෘති සඳහා පසුබිම් වර්ණය</string>
     <string name="background_color_for_alpha_formats_sub">ඇල්ෆා සහාය ඇතිව සෑම රූප ආකෘතියක් සඳහාම පසුබිම් වර්ණය සැකසීමේ හැකියාව එක් කරයි, අක්‍රිය කළ විට මෙය ඇල්ෆා නොවන ඒවා සඳහා පමණි</string>
+    <string name="keep_date_time">දිනය වේලාව තබා ගන්න</string>
+    <string name="keep_date_time_sub">සෑම විටම දිනය සහ වේලාවට අදාළ exif ටැග් සුරකින්න, Keep exif විකල්පයෙන් ස්වාධීනව ක්‍රියා කරයි</string>
 </resources>

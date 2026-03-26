@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
     <string name="size">Suurus %1$s</string>
     <string name="loading">Laadin…</string>
@@ -2189,4 +2191,5 @@
     <string name="keep_date_time">Hoidke kuupäev ja kellaaeg</string>
     <string name="keep_date_time_sub">Säilitage alati kuupäeva ja kellaajaga seotud exif-sildid, töötab sõltumatult exif-i säilitamise võimalusest</string>
     <string name="background_color_for_alpha_formats">Taustavärv Alfa-vormingute jaoks</string>
+    <string name="background_color_for_alpha_formats_sub">Lisab võimaluse määrata taustavärvi igale alfatoega pildivormingule, kui see on keelatud, on see saadaval ainult mittealfavormingute jaoks</string>
 </resources>

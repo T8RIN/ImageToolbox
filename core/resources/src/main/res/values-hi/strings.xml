@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -2189,4 +2191,5 @@
     <string name="keep_date_time">दिनांक समय रखें</string>
     <string name="keep_date_time_sub">दिनांक और समय से संबंधित एक्सिफ़ टैग को हमेशा सुरक्षित रखें, एक्सिफ़ विकल्प को बनाए रखने से स्वतंत्र रूप से काम करता है</string>
     <string name="background_color_for_alpha_formats">अल्फ़ा प्रारूपों के लिए पृष्ठभूमि रंग</string>
+    <string name="background_color_for_alpha_formats_sub">अल्फ़ा समर्थन के साथ प्रत्येक छवि प्रारूप के लिए पृष्ठभूमि रंग सेट करने की क्षमता जोड़ता है, अक्षम होने पर यह केवल गैर अल्फ़ा वाले के लिए उपलब्ध होता है</string>
 </resources>

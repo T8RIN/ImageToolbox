@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -2189,4 +2191,5 @@
     <string name="keep_date_time">Tartsa a dátumot és az időt</string>
     <string name="keep_date_time_sub">Mindig őrizze meg a dátumhoz és az időhöz kapcsolódó exif címkéket, az exif megtartása opciótól függetlenül működik</string>
     <string name="background_color_for_alpha_formats">Háttérszín Alfa formátumokhoz</string>
+    <string name="background_color_for_alpha_formats_sub">Lehetővé teszi a háttérszín beállítását minden alfa-támogatással rendelkező képformátumhoz, ha le van tiltva, ez csak a nem alfa-formátumok esetén érhető el</string>
 </resources>

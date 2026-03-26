@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -2189,4 +2191,5 @@
     <string name="keep_date_time">Datum en tijd behouden</string>
     <string name="keep_date_time_sub">Bewaar altijd exif-tags gerelateerd aan datum en tijd, werkt onafhankelijk van de optie exif behouden</string>
     <string name="background_color_for_alpha_formats">Achtergrondkleur voor alfaformaten</string>
+    <string name="background_color_for_alpha_formats_sub">Voegt de mogelijkheid toe om de achtergrondkleur in te stellen voor elk afbeeldingsformaat met alfa-ondersteuning, indien uitgeschakeld is dit alleen beschikbaar voor niet-alfa-formaten</string>
 </resources>
