@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -2188,8 +2186,6 @@
     <string name="calculate_hint">விரும்பிய மதிப்பைக் கணக்கிட அடிப்படை கணிதக் குறியீடுகளை இங்கே உள்ளிடவும் (எ.கா. (5+5)*10)</string>
     <string name="math_expression">கணித வெளிப்பாடு</string>
     <string name="pick_up_to_n_collage_images">%1$s படங்கள் வரை எடுக்கவும்</string>
-    <string name="keep_date_time" />
-    <string name="keep_date_time_sub" />
     <string name="background_color_for_alpha_formats">ஆல்பா வடிவங்களுக்கான பின்னணி நிறம்</string>
     <string name="background_color_for_alpha_formats_sub">ஆல்பா ஆதரவுடன் ஒவ்வொரு பட வடிவமைப்பிற்கும் பின்னணி வண்ணத்தை அமைக்கும் திறனைச் சேர்க்கிறது, இது முடக்கப்பட்டால் ஆல்பா அல்லாதவர்களுக்கு மட்டுமே கிடைக்கும்</string>
 </resources>
