@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -2013,7 +2011,7 @@
     <string name="model_ddcolor">Модель Full DDColor обеспечивает высококачественную раскраску обычных изображений с минимальными артефактами. Лучший выбор из всех моделей раскрашивания.</string>
     <string name="model_ddcolor_artistic">DDColor Обученные и частные художественные наборы данных; дает разнообразные и художественные результаты раскрашивания с меньшим количеством нереалистичных цветовых артефактов.</string>
     <string name="model_birefnet">Легкая модель BiRefNet на основе Swin Transformer для точного удаления фона.</string>
-    <string name="model_inspyrenet">Качественное удаление фона с острыми краями и отличным сохранением деталей, особенно на сложных объектах и ​​сложном фоне.</string>
+    <string name="model_inspyrenet">Качественное удаление фона с острыми краями и отличным сохранением деталей, особенно на сложных объектах и сложном фоне.</string>
     <string name="model_isnet">Модель удаления фона, которая создает точные маски с гладкими краями, подходящую для обычных объектов и умеренного сохранения деталей.</string>
     <string name="model_already_downloaded">Модель уже скачана</string>
     <string name="model_successfully_imported">Модель успешно импортирована</string>
