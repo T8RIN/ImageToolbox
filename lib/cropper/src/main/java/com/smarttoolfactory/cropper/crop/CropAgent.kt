@@ -25,7 +25,7 @@ import com.smarttoolfactory.cropper.model.CropShape
 /**
  * Crops imageBitmap based on path that is passed in [crop] function
  */
-class CropAgent {
+internal class CropAgent {
 
     private val imagePaint = Paint().apply {
         blendMode = BlendMode.SrcIn

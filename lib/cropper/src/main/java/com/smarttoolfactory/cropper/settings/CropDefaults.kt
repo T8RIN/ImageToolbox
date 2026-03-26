@@ -14,9 +14,6 @@ import com.smarttoolfactory.cropper.model.CropOutline
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.aspectRatios
 import com.smarttoolfactory.cropper.state.CropState
-import com.smarttoolfactory.cropper.ui.theme.DefaultBackgroundColor
-import com.smarttoolfactory.cropper.ui.theme.DefaultHandleColor
-import com.smarttoolfactory.cropper.ui.theme.DefaultOverlayColor
 
 /**
  * Contains the default values used by [ImageCropper]
@@ -138,3 +135,7 @@ enum class CropTheme {
     Dark,
     System
 }
+
+private val DefaultBackgroundColor = Color(0x99000000)
+private val DefaultOverlayColor = Color.Gray
+private val DefaultHandleColor = Color.White
