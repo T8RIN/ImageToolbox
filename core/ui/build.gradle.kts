@@ -57,7 +57,7 @@ dependencies {
     api(projects.lib.dynamicTheme)
     api(libs.toolbox.colordetector)
     api(libs.toolbox.gesture)
-    api(libs.toolbox.beforeafter)
+    api(projects.lib.beforeafter)
     api(libs.toolbox.image)
     api(projects.lib.modalsheet)
     api(libs.toolbox.colorpicker)
@@ -94,7 +94,7 @@ dependencies {
     "fossImplementation"(libs.quickie.foss)
     implementation(libs.zxing.core)
 
-    implementation(libs.toolbox.qrose)
+    implementation(projects.lib.qrose)
 
     implementation(libs.jsoup)
 

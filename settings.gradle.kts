@@ -138,5 +138,7 @@ include(":lib:curves")
 include(":lib:dynamic-theme")
 include(":lib:palette")
 include(":lib:modalsheet")
+include(":lib:qrose")
+include(":lib:beforeafter")
 
 include(":benchmark")

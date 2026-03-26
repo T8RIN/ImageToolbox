@@ -124,7 +124,6 @@ quickie-foss = { module = "com.github.T8RIN.QuickieExtended:quickie-foss", versi
 toolbox-cropper = { module = "com.github.T8RIN.ImageToolboxLibs:cropper", version.ref = "imageToolboxLibs" }
 toolbox-colordetector = { module = "com.github.T8RIN.ImageToolboxLibs:colordetector", version.ref = "imageToolboxLibs" }
 toolbox-gesture = { module = "com.github.T8RIN.ImageToolboxLibs:gesture", version.ref = "imageToolboxLibs" }
-toolbox-beforeafter = { module = "com.github.T8RIN.ImageToolboxLibs:beforeafter", version.ref = "imageToolboxLibs" }
 toolbox-image = { module = "com.github.T8RIN.ImageToolboxLibs:image", version.ref = "imageToolboxLibs" }
 toolbox-gpuimage = { module = "com.github.T8RIN.ImageToolboxLibs:gpuimage", version.ref = "imageToolboxLibs" }
 toolbox-colorpicker = { module = "com.github.T8RIN.ImageToolboxLibs:colorpicker", version.ref = "imageToolboxLibs" }
@@ -145,7 +144,6 @@ toolbox-histogram = { module = "com.github.T8RIN.ImageToolboxLibs:histogram", ve
 toolbox-uCrop = { module = "com.github.T8RIN.ImageToolboxLibs:ucrop", version.ref = "imageToolboxLibs" }
 toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref = "imageToolboxLibs" }
 toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.ref = "imageToolboxLibs" }
-toolbox-qrose = { module = "com.github.T8RIN.ImageToolboxLibs:qrose", version.ref = "imageToolboxLibs" }
 
 tiffdecoder = { module = "com.github.T8RIN:TiffDecoder", version.ref = "tiffdecoder" }
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
