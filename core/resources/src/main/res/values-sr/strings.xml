@@ -2191,4 +2191,6 @@
     <string name="pick_up_to_n_collage_images">Покупите до __ПХ_0__ слика</string>
     <string name="keep_date_time">Задржите датум и време</string>
     <string name="keep_date_time_sub">Увек сачувајте екиф ознаке повезане са датумом и временом, ради независно од опције Кееп екиф</string>
+    <string name="background_color_for_alpha_formats">Боја позадине за алфа формате</string>
+    <string name="background_color_for_alpha_formats_sub">Додаје могућност постављања боје позадине за сваки формат слике са алфа подршком, када је онемогућена ово је доступно само за оне које нису алфа</string>
 </resources>

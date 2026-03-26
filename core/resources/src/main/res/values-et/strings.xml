@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Valige kuni %1$s pilti</string>
     <string name="keep_date_time">Hoidke kuupäev ja kellaaeg</string>
     <string name="keep_date_time_sub">Säilitage alati kuupäeva ja kellaajaga seotud exif-sildid, töötab sõltumatult exif-i säilitamise võimalusest</string>
+    <string name="background_color_for_alpha_formats">Taustavärv Alfa-vormingute jaoks</string>
+    <string name="background_color_for_alpha_formats_sub" />
 </resources>

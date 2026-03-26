@@ -66,9 +66,12 @@ internal class AndroidImageCompressor @Inject constructor(
         quality: Quality
     ): ByteArray = withContext(encodingDispatcher) {
         val transformedImage = image.toSoftware().let { software ->
-            if (imageFormat !in ImageFormat.alphaContainedEntries || quality.isNonAlpha()) {
+            val enableForAlpha = settingsState.enableBackgroundColorForAlphaFormats
+            val isNonAlpha = imageFormat !in ImageFormat.alphaContainedEntries
+
+            if (isNonAlpha || quality.isNonAlpha() || enableForAlpha) {
                 withContext(defaultDispatcher) {
-                    if (settingsState.backgroundForNoAlphaImageFormats.colorInt == Color.Black.toArgb()) {
+                    if (isNonAlpha && settingsState.backgroundForNoAlphaImageFormats.colorInt == Color.Black.toArgb()) {
                         software
                     } else {
                         Trickle.drawColorBehind(

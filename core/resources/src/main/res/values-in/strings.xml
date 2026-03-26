@@ -2189,4 +2189,6 @@
     <string name="pick_up_to_n_collage_images">Ambil hingga %1$s gambar</string>
     <string name="keep_date_time">Pertahankan Tanggal Waktu</string>
     <string name="keep_date_time_sub">Selalu pertahankan tag Exif yang terkait dengan tanggal dan waktu, bekerja secara independen dari opsi Keep Exic</string>
+    <string name="background_color_for_alpha_formats">Warna Latar Belakang Untuk Format Alfa</string>
+    <string name="background_color_for_alpha_formats_sub">Menambahkan kemampuan untuk mengatur warna latar belakang untuk setiap format gambar dengan dukungan alfa, jika dinonaktifkan, ini hanya tersedia untuk format non alfa</string>
 </resources>

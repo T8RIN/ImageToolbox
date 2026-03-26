@@ -2189,4 +2189,6 @@
     <string name="pick_up_to_n_collage_images">最大 %1$s 枚の画像を選択します</string>
     <string name="keep_date_time">日付時刻を保持する</string>
     <string name="keep_date_time_sub">日付と時刻に関連する exif タグを常に保持し、exif を保持するオプションとは独立して機能します。</string>
+    <string name="background_color_for_alpha_formats">アルファ形式の背景色</string>
+    <string name="background_color_for_alpha_formats_sub">アルファサポートを使用してすべての画像フォーマットの背景色を設定する機能を追加します。無効にすると、アルファ以外のフォーマットでのみ使用できます。</string>
 </resources>

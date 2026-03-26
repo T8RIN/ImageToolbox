@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">%1$s adede kadar resim alın</string>
     <string name="keep_date_time">Tarih Saati Tut</string>
     <string name="keep_date_time_sub">Tarih ve saate ilişkin exif etiketlerini her zaman koruyun, exif\'i sakla seçeneğinden bağımsız olarak çalışır</string>
+    <string name="background_color_for_alpha_formats">Alfa Formatları İçin Arka Plan Rengi</string>
+    <string name="background_color_for_alpha_formats_sub">Alfa desteğiyle her görüntü formatı için arka plan rengini ayarlama olanağı ekler; devre dışı bırakıldığında bu yalnızca alfa olmayanlar için geçerlidir</string>
 </resources>

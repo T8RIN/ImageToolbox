@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Scegli fino a %1$s immagini</string>
     <string name="keep_date_time">Mantieni data e ora</string>
     <string name="keep_date_time_sub">Conserva sempre i tag EXIF ​​relativi a data e ora, funziona indipendentemente dall\'opzione Mantieni EXIF</string>
+    <string name="background_color_for_alpha_formats">Colore di sfondo per i formati Alpha</string>
+    <string name="background_color_for_alpha_formats_sub">Aggiunge la possibilità di impostare il colore di sfondo per ogni formato immagine con supporto alpha, quando disabilitato è disponibile solo per quelli non alpha</string>
 </resources>

@@ -2192,4 +2192,6 @@
     <string name="pick_up_to_n_collage_images">אסוף עד %1$s תמונות</string>
     <string name="keep_date_time">שמור על תאריך שעון</string>
     <string name="keep_date_time_sub">שמור תמיד תגיות exif הקשורות לתאריך ושעה, עובד ללא תלות באפשרות Keep exif</string>
+    <string name="background_color_for_alpha_formats">צבע רקע עבור פורמטי אלפא</string>
+    <string name="background_color_for_alpha_formats_sub">מוסיף יכולת להגדיר צבע רקע עבור כל פורמט תמונה עם תמיכה באלפא, כאשר מושבת זה זמין עבור לא אלפא בלבד</string>
 </resources>

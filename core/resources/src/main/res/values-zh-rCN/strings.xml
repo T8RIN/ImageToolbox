@@ -2189,4 +2189,6 @@
     <string name="pick_up_to_n_collage_images">选取最多 %1$s 张图片</string>
     <string name="keep_date_time">保留日期时间</string>
     <string name="keep_date_time_sub">始终保留与日期和时间相关的 exif 标签，独立于 keep exif 选项</string>
+    <string name="background_color_for_alpha_formats">Alpha 格式的背景颜色</string>
+    <string name="background_color_for_alpha_formats_sub">增加了为每种具有 Alpha 支持的图像格式设置背景颜色的功能，禁用后，此功能仅适用于非 Alpha 格式</string>
 </resources>

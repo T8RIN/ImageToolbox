@@ -40,8 +40,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -143,8 +146,12 @@ fun ImageFormatSelector(
             allFormats.filteredFormats()
         }
 
+        val enableBackgroundColorForAlphaFormats =
+            settingsState.enableBackgroundColorForAlphaFormats
+        val isNonAlpha =
+            value !in ImageFormat.alphaContainedEntries || quality?.isNonAlpha() == true
         val showBackgroundSelector =
-            value != null && (value !in ImageFormat.alphaContainedEntries || quality?.isNonAlpha() == true)
+            value != null && (isNonAlpha || enableBackgroundColorForAlphaFormats)
 
         val entriesSize = (if (filteredFormats.size > 1) 1 else 0)
             .plus(if (showBackgroundSelector) 1 else 0)
@@ -303,6 +310,26 @@ fun ImageFormatSelector(
 
         val scope = rememberCoroutineScope()
         val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
+
+        var previousEnabled by rememberSaveable {
+            mutableStateOf(showBackgroundSelector)
+        }
+        LaunchedEffect(showBackgroundSelector, value) {
+            if (previousEnabled != showBackgroundSelector) {
+                val previous = value
+
+                previous?.let {
+                    onValueChange(
+                        ImageFormat.entries.run {
+                            rightFrom(indexOf(value))
+                        }
+                    )
+                    onValueChange(previous)
+                }
+                previousEnabled = showBackgroundSelector
+            }
+        }
+
         AnimatedVisibility(
             visible = showBackgroundSelector,
             modifier = Modifier.fillMaxWidth()
@@ -342,7 +369,7 @@ fun ImageFormatSelector(
                         }
                     }
                 },
-                allowAlpha = false
+                allowAlpha = !isNonAlpha && enableBackgroundColorForAlphaFormats
             )
         }
 

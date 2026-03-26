@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Jaso %1$s irudi</string>
     <string name="keep_date_time" />
     <string name="keep_date_time_sub" />
+    <string name="background_color_for_alpha_formats">Atzeko planoko kolorea Alfa formatuetarako</string>
+    <string name="background_color_for_alpha_formats_sub">Alfa laguntzarekin atzeko planoko kolorea ezartzeko gaitasuna gehitzen du, desgaituta dagoenean, alfa ez direnentzat bakarrik eskuragarri.</string>
 </resources>

@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">حداکثر %1$s عکس را انتخاب کنید</string>
     <string name="keep_date_time">زمان تاریخ را حفظ کنید</string>
     <string name="keep_date_time_sub">همیشه برچسب های exif مربوط به تاریخ و زمان را حفظ کنید، مستقل از گزینه keep exif کار می کند</string>
+    <string name="background_color_for_alpha_formats">رنگ پس زمینه برای فرمت های آلفا</string>
+    <string name="background_color_for_alpha_formats_sub">قابلیت تنظیم رنگ پس‌زمینه برای هر فرمت تصویر با پشتیبانی آلفا را اضافه می‌کند، در صورت غیرفعال بودن این امکان فقط برای قالب‌های غیر آلفا در دسترس است.</string>
 </resources>

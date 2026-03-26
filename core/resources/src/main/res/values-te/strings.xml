@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">%1$s చిత్రాల వరకు ఎంచుకోండి</string>
     <string name="keep_date_time">తేదీ సమయాన్ని ఉంచండి</string>
     <string name="keep_date_time_sub">తేదీ మరియు సమయానికి సంబంధించిన ఎక్సిఫ్ ట్యాగ్‌లను ఎల్లప్పుడూ భద్రపరచండి, కీప్ ఎక్సిఫ్ ఎంపికతో సంబంధం లేకుండా స్వతంత్రంగా పనిచేస్తుంది</string>
+    <string name="background_color_for_alpha_formats">ఆల్ఫా ఫార్మాట్‌ల కోసం నేపథ్య రంగు</string>
+    <string name="background_color_for_alpha_formats_sub">ఆల్ఫా సపోర్ట్‌తో ప్రతి ఇమేజ్ ఫార్మాట్‌కి బ్యాక్‌గ్రౌండ్ కలర్ సెట్ చేసే సామర్థ్యాన్ని జోడిస్తుంది, డిసేబుల్ చేసినప్పుడు ఆల్ఫా కాని వాటికి మాత్రమే ఇది అందుబాటులో ఉంటుంది</string>
 </resources>

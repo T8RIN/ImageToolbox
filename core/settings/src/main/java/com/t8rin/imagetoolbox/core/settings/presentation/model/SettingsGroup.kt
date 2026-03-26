@@ -387,6 +387,7 @@ sealed class SettingsGroup(
             Setting.AllowSkipIfLarger,
             Setting.ToolsHiddenForShare,
             Setting.EnableToolExitConfirmation,
+            Setting.EnableBackgroundColorForAlphaFormats,
             Setting.ShowSettingsInLandscape,
             Setting.UseFullscreenSettings,
             Setting.FastSettingsSide,

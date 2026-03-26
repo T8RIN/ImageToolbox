@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">%1$s суретке дейін таңдаңыз</string>
     <string name="keep_date_time">Күн уақытын сақтаңыз</string>
     <string name="keep_date_time_sub">Әрқашан күн мен уақытқа қатысты exif тегтерін сақтаңыз, exif сақтау опциясынан тәуелсіз жұмыс істейді</string>
+    <string name="background_color_for_alpha_formats">Альфа пішімдері үшін фон түсі</string>
+    <string name="background_color_for_alpha_formats_sub">Альфа қолдауы бар әрбір кескін пішімі үшін фон түсін орнату мүмкіндігін қосады, өшірілген кезде бұл тек альфа еместер үшін қолжетімді.</string>
 </resources>

@@ -2191,4 +2191,6 @@
     <string name="pick_up_to_n_collage_images">පින්තූර %1$s දක්වා ගන්න</string>
     <string name="keep_date_time" />
     <string name="keep_date_time_sub" />
+    <string name="background_color_for_alpha_formats">ඇල්ෆා ආකෘති සඳහා පසුබිම් වර්ණය</string>
+    <string name="background_color_for_alpha_formats_sub">ඇල්ෆා සහාය ඇතිව සෑම රූප ආකෘතියක් සඳහාම පසුබිම් වර්ණය සැකසීමේ හැකියාව එක් කරයි, අක්‍රිය කළ විට මෙය ඇල්ෆා නොවන ඒවා සඳහා පමණි</string>
 </resources>

@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">%1$s படங்கள் வரை எடுக்கவும்</string>
     <string name="keep_date_time" />
     <string name="keep_date_time_sub" />
+    <string name="background_color_for_alpha_formats">ஆல்பா வடிவங்களுக்கான பின்னணி நிறம்</string>
+    <string name="background_color_for_alpha_formats_sub">ஆல்பா ஆதரவுடன் ஒவ்வொரு பட வடிவமைப்பிற்கும் பின்னணி வண்ணத்தை அமைக்கும் திறனைச் சேர்க்கிறது, இது முடக்கப்பட்டால் ஆல்பா அல்லாதவர்களுக்கு மட்டுமே கிடைக்கும்</string>
 </resources>

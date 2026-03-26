@@ -2189,4 +2189,6 @@
     <string name="pick_up_to_n_collage_images">เลือกได้สูงสุด %1$s ภาพ</string>
     <string name="keep_date_time">เก็บวันที่และเวลา</string>
     <string name="keep_date_time_sub">เก็บแท็ก exif ที่เกี่ยวข้องกับวันที่และเวลาไว้เสมอ โดยทำงานโดยไม่ขึ้นอยู่กับตัวเลือก Keep exif</string>
+    <string name="background_color_for_alpha_formats">สีพื้นหลังสำหรับรูปแบบอัลฟ่า</string>
+    <string name="background_color_for_alpha_formats_sub">เพิ่มความสามารถในการตั้งค่าสีพื้นหลังสำหรับรูปแบบภาพทุกรูปแบบด้วยการรองรับอัลฟ่า เมื่อปิดใช้งานแล้วจะใช้ได้กับรูปแบบที่ไม่ใช่อัลฟ่าเท่านั้น</string>
 </resources>

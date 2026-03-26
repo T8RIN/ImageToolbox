@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Pumili ng hanggang %1$s na mga larawan</string>
     <string name="keep_date_time">Panatilihin ang Oras ng Petsa</string>
     <string name="keep_date_time_sub">Palaging panatilihin ang mga exif tag na nauugnay sa petsa at oras, gumagana nang hiwalay sa opsyon na panatilihin ang exif</string>
+    <string name="background_color_for_alpha_formats">Kulay ng Background Para sa Mga Alpha Format</string>
+    <string name="background_color_for_alpha_formats_sub">Nagdaragdag ng kakayahang magtakda ng kulay ng background para sa bawat format ng larawan na may suporta sa alpha, kapag hindi pinagana ito ay magagamit lamang para sa mga hindi alpha</string>
 </resources>

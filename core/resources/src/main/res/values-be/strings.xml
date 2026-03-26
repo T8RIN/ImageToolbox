@@ -2192,4 +2192,6 @@
     <string name="pick_up_to_n_collage_images">Выберыце да %1$s малюнкаў</string>
     <string name="keep_date_time">Захоўвайце дату і час</string>
     <string name="keep_date_time_sub">Заўсёды захоўваць тэгі exif, звязаныя з датай і часам, працуе незалежна ад параметра keep exif</string>
+    <string name="background_color_for_alpha_formats">Колер фону для альфа-фарматаў</string>
+    <string name="background_color_for_alpha_formats_sub" />
 </resources>

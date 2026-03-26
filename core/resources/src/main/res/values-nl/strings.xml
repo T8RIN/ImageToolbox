@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Neem maximaal %1$s afbeeldingen op</string>
     <string name="keep_date_time">Datum en tijd behouden</string>
     <string name="keep_date_time_sub">Bewaar altijd exif-tags gerelateerd aan datum en tijd, werkt onafhankelijk van de optie exif behouden</string>
+    <string name="background_color_for_alpha_formats">Achtergrondkleur voor alfaformaten</string>
+    <string name="background_color_for_alpha_formats_sub" />
 </resources>

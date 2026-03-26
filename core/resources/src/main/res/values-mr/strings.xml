@@ -2191,4 +2191,6 @@
     <string name="pick_up_to_n_collage_images">%1$s पर्यंत प्रतिमा घ्या</string>
     <string name="keep_date_time">तारीख वेळ ठेवा</string>
     <string name="keep_date_time_sub">तारीख आणि वेळेशी संबंधित exif टॅग नेहमी जतन करा, Keep exif पर्यायापेक्षा स्वतंत्रपणे कार्य करते</string>
+    <string name="background_color_for_alpha_formats">अल्फा स्वरूपांसाठी पार्श्वभूमी रंग</string>
+    <string name="background_color_for_alpha_formats_sub">अल्फा सपोर्टसह प्रत्येक इमेज फॉरमॅटसाठी पार्श्वभूमी रंग सेट करण्याची क्षमता जोडते, जेव्हा हे अक्षम केले जाते तेव्हा हे केवळ अल्फा नसलेल्यांसाठी उपलब्ध असते</string>
 </resources>

@@ -134,3 +134,5 @@ internal val HIDDEN_FOR_SHARE_SCREENS =
     stringPreferencesKey("HIDDEN_FOR_SHARE_SCREENS")
 internal val KEEP_DATE_TIME =
     booleanPreferencesKey("KEEP_DATE_TIME")
+internal val ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS =
+    booleanPreferencesKey("ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS")

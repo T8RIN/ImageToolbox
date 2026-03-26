@@ -2193,4 +2193,6 @@
     <string name="pick_up_to_n_collage_images">Paimkite iki %1$s vaizdų</string>
     <string name="keep_date_time">Išsaugokite datos laiką</string>
     <string name="keep_date_time_sub">Visada išsaugokite exif žymas, susijusias su data ir laiku, veikia nepriklausomai nuo parinkties išlaikyti exif</string>
+    <string name="background_color_for_alpha_formats">Fono spalva Alfa formatams</string>
+    <string name="background_color_for_alpha_formats_sub" />
 </resources>

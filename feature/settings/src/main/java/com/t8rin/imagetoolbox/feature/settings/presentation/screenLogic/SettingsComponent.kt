@@ -510,6 +510,9 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleKeepDateTime() =
         settingsScope { toggleKeepDateTime() }
 
+    fun toggleEnableBackgroundColorForAlphaFormats() =
+        settingsScope { toggleEnableBackgroundColorForAlphaFormats() }
+
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

@@ -244,7 +244,9 @@ internal fun Preferences.toSettingsState(
     )?.mapNotNull {
         it.toIntOrNull()
     } ?: default.hiddenForShareScreens,
-    keepDateTime = this[KEEP_DATE_TIME] ?: default.keepDateTime
+    keepDateTime = this[KEEP_DATE_TIME] ?: default.keepDateTime,
+    enableBackgroundColorForAlphaFormats = this[ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS]
+        ?: default.enableBackgroundColorForAlphaFormats
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

@@ -254,6 +254,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleKeepDateTime()
 
+    suspend fun toggleEnableBackgroundColorForAlphaFormats()
+
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

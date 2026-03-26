@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Saml op til %1$s billeder</string>
     <string name="keep_date_time">Hold Dato Tid</string>
     <string name="keep_date_time_sub">Bevar altid exif-tags relateret til dato og klokkeslæt, fungerer uafhængigt af keep exif-indstillingen</string>
+    <string name="background_color_for_alpha_formats">Baggrundsfarve til alfaformater</string>
+    <string name="background_color_for_alpha_formats_sub">Tilføjer mulighed for at indstille baggrundsfarve for hvert billedformat med alfa-understøttelse, når den er deaktiveret, er dette kun tilgængeligt for ikke-alfa-one</string>
 </resources>

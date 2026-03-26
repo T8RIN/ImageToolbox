@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">%1$s পর্যন্ত ছবি তুলে নিন</string>
     <string name="keep_date_time">তারিখ সময় রাখুন</string>
     <string name="keep_date_time_sub" />
+    <string name="background_color_for_alpha_formats">আলফা ফরম্যাটের জন্য পটভূমির রঙ</string>
+    <string name="background_color_for_alpha_formats_sub">আলফা সমর্থন সহ প্রতিটি ইমেজ ফরম্যাটের জন্য পটভূমির রঙ সেট করার ক্ষমতা যোগ করে, যখন এটি নিষ্ক্রিয় করা হয় শুধুমাত্র অ-আলফাগুলির জন্য উপলব্ধ</string>
 </resources>

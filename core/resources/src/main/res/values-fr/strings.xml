@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Ramassez jusqu\'à %1$s images</string>
     <string name="keep_date_time">Conserver la date et l\'heure</string>
     <string name="keep_date_time_sub">Conservez toujours les balises exif liées à la date et à l\'heure, fonctionne indépendamment de l\'option conserver exif</string>
+    <string name="background_color_for_alpha_formats">Couleur d\'arrière-plan pour les formats alpha</string>
+    <string name="background_color_for_alpha_formats_sub">Ajoute la possibilité de définir la couleur d\'arrière-plan pour chaque format d\'image avec prise en charge alpha. Lorsqu\'elle est désactivée, cette option est disponible uniquement pour les formats non alpha.</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -2188,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Bis zu %1$s Bilder aufnehmen</string>
     <string name="keep_date_time">Datum und Uhrzeit beibehalten</string>
     <string name="keep_date_time_sub">Behalten Sie immer Exif-Tags in Bezug auf Datum und Uhrzeit bei, funktioniert unabhängig von der Option „Exif behalten“.</string>
+    <string name="background_color_for_alpha_formats">Hintergrundfarbe für Alpha-Formate</string>
+    <string name="background_color_for_alpha_formats_sub">Fügt die Möglichkeit hinzu, die Hintergrundfarbe für jedes Bildformat mit Alpha-Unterstützung festzulegen. Wenn diese Option deaktiviert ist, ist sie nur für Nicht-Alpha-Formate verfügbar</string>
 </resources>

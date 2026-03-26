@@ -2192,4 +2192,6 @@
     <string name="pick_up_to_n_collage_images">Виберіть до %1$s зображень</string>
     <string name="keep_date_time">Зберегти дату та час</string>
     <string name="keep_date_time_sub">Завжди зберігати теги exif, пов’язані з датою та часом, працює незалежно від параметра keep exif</string>
+    <string name="background_color_for_alpha_formats">Колір фону для альфа-форматів</string>
+    <string name="background_color_for_alpha_formats_sub">Додає можливість установлювати фоновий колір для кожного формату зображення з підтримкою альфа-версії, якщо вимкнено, це доступно лише для неальфа-версії</string>
 </resources>

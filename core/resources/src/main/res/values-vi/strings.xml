@@ -2189,4 +2189,6 @@
     <string name="pick_up_to_n_collage_images">Chọn tối đa %1$s hình ảnh</string>
     <string name="keep_date_time">Giữ ngày giờ</string>
     <string name="keep_date_time_sub">Luôn lưu giữ các thẻ Exif liên quan đến ngày và giờ, hoạt động độc lập với tùy chọn giữ nguyên</string>
+    <string name="background_color_for_alpha_formats">Màu nền cho định dạng Alpha</string>
+    <string name="background_color_for_alpha_formats_sub">Thêm khả năng đặt màu nền cho mọi định dạng hình ảnh có hỗ trợ alpha, khi bị tắt, tính năng này chỉ khả dụng cho những định dạng không phải alpha</string>
 </resources>

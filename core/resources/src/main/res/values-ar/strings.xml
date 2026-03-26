@@ -2194,4 +2194,6 @@
     <string name="pick_up_to_n_collage_images">التقط ما يصل إلى %1$s من الصور</string>
     <string name="keep_date_time">احتفظ بالتاريخ والوقت</string>
     <string name="keep_date_time_sub">احتفظ دائمًا بعلامات exif المتعلقة بالتاريخ والوقت، ويعمل بشكل مستقل عن خيار keep exif</string>
+    <string name="background_color_for_alpha_formats">لون الخلفية لتنسيقات ألفا</string>
+    <string name="background_color_for_alpha_formats_sub">يضيف القدرة على تعيين لون الخلفية لكل تنسيق صورة مع دعم ألفا، عند تعطيله يكون هذا متاحًا للتنسيقات غير ألفا فقط</string>
 </resources>

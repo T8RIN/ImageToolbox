@@ -2192,4 +2192,6 @@
     <string name="pick_up_to_n_collage_images">Odbierz maksymalnie %1$s obrazów</string>
     <string name="keep_date_time">Zachowaj datę i godzinę</string>
     <string name="keep_date_time_sub">Zawsze zachowuj tagi exif powiązane z datą i godziną, działa niezależnie od opcji zachowywania exif</string>
+    <string name="background_color_for_alpha_formats">Kolor tła dla formatów Alpha</string>
+    <string name="background_color_for_alpha_formats_sub">Dodaje możliwość ustawienia koloru tła dla każdego formatu obrazu z obsługą alfa, gdy jest wyłączona, dostępna tylko dla formatów innych niż alfa</string>
 </resources>

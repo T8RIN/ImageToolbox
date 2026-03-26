@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Poimi jopa %1$s kuvaa</string>
     <string name="keep_date_time">Pidä päivämäärä ja aika</string>
     <string name="keep_date_time_sub">Säilytä aina päivämäärään ja kellonaikaan liittyvät exif-tunnisteet, toimii riippumatta Keep exif -vaihtoehdosta</string>
+    <string name="background_color_for_alpha_formats">Taustaväri Alfa-formaateille</string>
+    <string name="background_color_for_alpha_formats_sub" />
 </resources>

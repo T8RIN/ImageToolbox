@@ -2190,4 +2190,6 @@
     <string name="pick_up_to_n_collage_images">Válasszon legfeljebb %1$s képet</string>
     <string name="keep_date_time">Tartsa a dátumot és az időt</string>
     <string name="keep_date_time_sub">Mindig őrizze meg a dátumhoz és az időhöz kapcsolódó exif címkéket, az exif megtartása opciótól függetlenül működik</string>
+    <string name="background_color_for_alpha_formats">Háttérszín Alfa formátumokhoz</string>
+    <string name="background_color_for_alpha_formats_sub" />
 </resources>

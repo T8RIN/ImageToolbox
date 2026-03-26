@@ -615,6 +615,10 @@ internal fun SettingItem(
             Setting.KeepDateTime -> {
                 KeepDateTimeSettingItem(onClick = component::toggleKeepDateTime)
             }
+
+            Setting.EnableBackgroundColorForAlphaFormats -> {
+                EnableBackgroundColorForAlphaFormatsSettingItem(onClick = component::toggleEnableBackgroundColorForAlphaFormats)
+            }
         }
     }
 }

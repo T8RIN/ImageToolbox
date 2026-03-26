@@ -171,6 +171,7 @@ data class UiSettingsState(
     val flingType: FlingType,
     val hiddenForShareScreens: List<Int>,
     val keepDateTime: Boolean,
+    val enableBackgroundColorForAlphaFormats: Boolean,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -421,6 +422,7 @@ fun SettingsState.toUiState(
                 flingType = flingType,
                 hiddenForShareScreens = hiddenForShareScreens,
                 keepDateTime = keepDateTime,
+                enableBackgroundColorForAlphaFormats = enableBackgroundColorForAlphaFormats,
             )
         }
     }.value

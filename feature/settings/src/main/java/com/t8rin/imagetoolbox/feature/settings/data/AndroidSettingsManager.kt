@@ -105,6 +105,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_SLIDER_SHADOWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_SWITCH_SHADOWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DYNAMIC_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.EMOJI_COUNT
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ENABLE_TOOL_EXIT_CONFIRMATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.EXIF_WIDGET_INITIAL_STATE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAB_ALIGNMENT
@@ -939,6 +940,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleKeepDateTime() = toggle(
         key = KEEP_DATE_TIME,
         defaultValue = default.keepDateTime
+    )
+
+    override suspend fun toggleEnableBackgroundColorForAlphaFormats() = toggle(
+        key = ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS,
+        defaultValue = default.enableBackgroundColorForAlphaFormats
     )
 
     private suspend fun toggleFilenameBehavior(

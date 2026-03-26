@@ -134,6 +134,7 @@ data class SettingsState(
     val flingType: FlingType,
     val hiddenForShareScreens: List<Int>,
     val keepDateTime: Boolean,
+    val enableBackgroundColorForAlphaFormats: Boolean,
 ) {
 
     companion object {
@@ -244,6 +245,7 @@ data class SettingsState(
                 flingType = FlingType.DEFAULT,
                 hiddenForShareScreens = emptyList(),
                 keepDateTime = false,
+                enableBackgroundColorForAlphaFormats = false,
             )
         }
     }

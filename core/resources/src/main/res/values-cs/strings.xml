@@ -2192,4 +2192,6 @@
     <string name="pick_up_to_n_collage_images">Vyzvedněte až %1$s obrázků</string>
     <string name="keep_date_time">Udržujte datum a čas</string>
     <string name="keep_date_time_sub">Vždy zachovejte exif značky související s datem a časem, funguje nezávisle na možnosti zachovat exif</string>
+    <string name="background_color_for_alpha_formats">Barva Pozadí Pro Formáty Alfa</string>
+    <string name="background_color_for_alpha_formats_sub">Přidává možnost nastavit barvu pozadí pro každý formát obrázku s podporou alfa, pokud je tato možnost zakázána, je k dispozici pouze pro ty, které nejsou alfa</string>
 </resources>
