@@ -15,11 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.app.presentation.components.functions
+package com.t8rin.colors.model
 
-import com.t8rin.colors.parser.ColorNameParser
-import com.t8rin.imagetoolbox.app.presentation.components.ImageToolboxApplication
-import kotlinx.coroutines.launch
+import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.Color
+import com.t8rin.colors.util.ColorUtil
 
-internal fun ImageToolboxApplication.initColorNames() =
-    appScope.launch { ColorNameParser.init(this@initColorNames) }
+@Immutable
+data class ColorData(val color: Color, val name: String) {
+    val hexText: String = ColorUtil.colorToHex(color = color)
+}

@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.colordetector.rememberImageColorPaletteState
+import com.t8rin.colors.rememberImageColorPaletteState
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileExport
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.smarttoolfactory.colordetector
+package com.t8rin.colors
 
 import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState

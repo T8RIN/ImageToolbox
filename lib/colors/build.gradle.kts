@@ -15,13 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.smarttoolfactory.colordetector.model
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.compose)
+}
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
-import com.smarttoolfactory.colordetector.util.ColorUtil
+android.namespace = "com.t8rin.colors"
 
-@Immutable
-data class ColorData(val color: Color, val name: String) {
-    val hexText: String = ColorUtil.colorToHex(color = color)
+dependencies {
+    implementation(libs.androidx.palette.ktx)
+
+    implementation(projects.lib.gesture)
+    implementation(projects.lib.image)
+    implementation(projects.lib.zoomable)
 }

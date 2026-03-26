@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.smarttoolfactory.colordetector
+package com.t8rin.colors
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -25,9 +25,9 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.luminance
 import androidx.palette.graphics.Palette
-import com.smarttoolfactory.colordetector.model.ColorData
-import com.smarttoolfactory.colordetector.parser.ColorNameParser
-import com.smarttoolfactory.colordetector.util.ColorUtil
+import com.t8rin.colors.model.ColorData
+import com.t8rin.colors.parser.ColorNameParser
+import com.t8rin.colors.util.ColorUtil
 
 data class PaletteData(
     val colorData: ColorData,

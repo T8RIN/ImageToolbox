@@ -55,7 +55,7 @@ dependencies {
     api(libs.toolbox.uCrop)
     api(projects.lib.cropper)
     api(projects.lib.dynamicTheme)
-    api(projects.lib.colordetector)
+    api(projects.lib.colors)
     api(projects.lib.gesture)
     api(projects.lib.image)
     api(projects.lib.modalsheet)

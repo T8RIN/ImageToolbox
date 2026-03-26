@@ -77,10 +77,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.DrawableCompat
-import com.smarttoolfactory.colordetector.util.roundToTwoDigits
 import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageTypeSelection
 import com.t8rin.collages.public.CollageConstants
+import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio

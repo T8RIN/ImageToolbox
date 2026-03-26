@@ -22,8 +22,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
 import com.arkivanov.decompose.ComponentContext
-import com.smarttoolfactory.colordetector.parser.ColorNameParser
-import com.smarttoolfactory.colordetector.parser.ColorWithName
+import com.t8rin.colors.parser.ColorNameParser
+import com.t8rin.colors.parser.ColorWithName
 import com.t8rin.imagetoolbox.color_library.presentation.components.FavoriteColors
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.FileController

@@ -40,11 +40,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
-import com.smarttoolfactory.colordetector.parser.ColorNameParser
-import com.smarttoolfactory.colordetector.util.ColorUtil
-import com.smarttoolfactory.colordetector.util.HexUtil
-import com.smarttoolfactory.colordetector.util.HexVisualTransformation
-import com.smarttoolfactory.colordetector.util.hexRegexSingleChar
+import com.t8rin.colors.parser.ColorNameParser
+import com.t8rin.colors.util.ColorUtil
+import com.t8rin.colors.util.HexUtil
+import com.t8rin.colors.util.HexVisualTransformation
+import com.t8rin.colors.util.hexRegexSingleChar
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
