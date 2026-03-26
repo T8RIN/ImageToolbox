@@ -24,10 +24,10 @@ import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
 internal fun Project.configureCompose(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
+    commonExtension: CommonExtension
 ) {
     commonExtension.apply {
-        buildFeatures {
+        buildFeatures.apply {
             compose = true
         }
 

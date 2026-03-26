@@ -9,7 +9,7 @@ versionCode = "220"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "6.0.0"
+imageToolboxLibs = "6.1.0"
 trickle = "1.5.1"
 evaluator = "1.0.0"
 quickie = "1.18.1"
@@ -42,8 +42,8 @@ detektCompose = "0.5.6"
 decompose = "3.5.0"
 
 kotlin = "2.3.20"
-agp = "8.13.2"
-hilt = "2.58"
+agp = "9.0.1"
+hilt = "2.59.2"
 gms = "4.4.4"
 
 ktor = "3.4.1"
@@ -79,7 +79,7 @@ pdfviewer = "1.0.0-alpha16"
 fragmentCompose = "1.8.9"
 
 firebaseCrashlyticsGradle = "3.0.6"
-aboutlibraries = "13.2.1"
+aboutlibraries = "14.0.0-b03"
 moduleGraphGradle = "0.13.0"
 flinger = "2.0.2"
 zxingCore = "3.5.4"

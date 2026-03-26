@@ -43,8 +43,6 @@ android {
             //noinspection ChromeOsAbiSupport
             abiFilters += supportedAbi.toSet()
         }
-
-        setProperty("archivesBaseName", "image-toolbox-$versionName${if (isFoss) "-foss" else ""}")
     }
 
     androidResources {
@@ -127,13 +125,19 @@ android {
         }
     }
 
-    aboutLibraries {
-        export.excludeFields.addAll("generated")
-    }
-
     buildFeatures {
         resValues = true
     }
+}
+
+base {
+    val suffix = if (isFoss) "-foss" else ""
+
+    archivesName = "image-toolbox-${android.defaultConfig.versionName}$suffix"
+}
+
+aboutLibraries {
+    export.excludeFields.addAll("generated")
 }
 
 dependencies {

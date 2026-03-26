@@ -32,21 +32,21 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
+    commonExtension: CommonExtension,
     createFlavors: Boolean = true
 ) {
     commonExtension.apply {
         compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
         compileSdkExtension = libs.versions.androidCompileSdkExtension.get().toIntOrNull()
 
-        defaultConfig {
+        defaultConfig.apply {
             minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
         }
 
         if (createFlavors) {
             flavorDimensions += "app"
 
-            productFlavors {
+            productFlavors.apply {
                 create("foss") {
                     dimension = "app"
                 }
@@ -56,28 +56,27 @@ internal fun Project.configureKotlinAndroid(
             }
         }
 
-        compileOptions {
+        compileOptions.apply {
             sourceCompatibility = javaVersion
             targetCompatibility = javaVersion
             isCoreLibraryDesugaringEnabled = true
         }
 
-        buildFeatures {
+        buildFeatures.apply {
             compose = false
             aidl = false
-            renderScript = false
             shaders = false
             buildConfig = false
             resValues = false
         }
 
-        packaging {
+        packaging.apply {
             resources {
                 excludes.add("/META-INF/{AL2.0,LGPL2.1}")
             }
         }
 
-        lint {
+        lint.apply {
             disable += "UsingMaterialAndMaterial3Libraries"
             disable += "ModifierParameter"
         }

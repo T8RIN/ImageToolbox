@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,6 @@ class ImageToolboxApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "com.android.application")
-            apply(plugin = "org.jetbrains.kotlin.android")
             apply(plugin = "kotlin-parcelize")
             apply(plugin = "com.google.gms.google-services")
             apply(plugin = "com.google.firebase.crashlytics")

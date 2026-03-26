@@ -73,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 
 
 @Composable
@@ -151,7 +152,9 @@ internal fun LibrariesContainer(
     divider: (@Composable LazyItemScope.() -> Unit)? = null,
     footer: (LazyListScope.() -> Unit)? = null,
 ) {
-    val libs = libraries?.libraries ?: persistentListOf()
+    val libs = remember(libraries) {
+        libraries?.libraries?.toPersistentList() ?: persistentListOf()
+    }
 
     LibrariesScaffold(
         libraries = libs,

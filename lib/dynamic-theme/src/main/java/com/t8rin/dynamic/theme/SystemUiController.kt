@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("PrivatePropertyName")
+@file:Suppress("PrivatePropertyName", "DEPRECATION", "unused")
 
 package com.t8rin.dynamic.theme
 
