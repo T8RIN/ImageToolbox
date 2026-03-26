@@ -22,10 +22,6 @@ plugins {
 
 android {
     namespace = "com.t8rin.neural_tools"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
 }
 
 dependencies {
