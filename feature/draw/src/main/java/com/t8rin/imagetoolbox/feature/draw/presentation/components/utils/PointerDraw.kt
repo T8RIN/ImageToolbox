@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.gesture.pointerMotionEvents
+import com.t8rin.gesture.pointerMotionEvents
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.observePointersCountWithOffset
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import net.engawapg.lib.zoomable.ZoomState

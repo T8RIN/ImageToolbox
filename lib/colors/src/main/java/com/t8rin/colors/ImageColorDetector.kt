@@ -49,9 +49,9 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.get
-import com.smarttoolfactory.gesture.observePointersCountWithOffset
-import com.smarttoolfactory.gesture.pointerMotionEvents
-import com.smarttoolfactory.image.ImageWithConstraints
+import com.t8rin.gesture.observePointersCountWithOffset
+import com.t8rin.gesture.pointerMotionEvents
+import com.t8rin.image.ImageWithConstraints
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable

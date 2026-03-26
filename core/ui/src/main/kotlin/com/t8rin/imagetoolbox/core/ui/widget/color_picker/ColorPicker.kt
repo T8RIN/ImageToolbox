@@ -53,8 +53,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.smarttoolfactory.gesture.detectMotionEvents
 import com.t8rin.colors.util.ColorUtil
+import com.t8rin.gesture.detectMotionEvents
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker

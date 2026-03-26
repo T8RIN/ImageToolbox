@@ -63,8 +63,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.FadingEdgesGravity
-import com.smarttoolfactory.gesture.PointerRequisite
-import com.smarttoolfactory.gesture.detectPointerTransformGestures
+import com.t8rin.gesture.PointerRequisite
+import com.t8rin.gesture.detectPointerTransformGestures
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant

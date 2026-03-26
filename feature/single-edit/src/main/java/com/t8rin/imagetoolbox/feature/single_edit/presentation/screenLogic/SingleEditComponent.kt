@@ -26,11 +26,11 @@ import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
-import com.smarttoolfactory.cropper.model.AspectRatio
-import com.smarttoolfactory.cropper.model.OutlineType
-import com.smarttoolfactory.cropper.model.RectCropShape
-import com.smarttoolfactory.cropper.settings.CropDefaults
-import com.smarttoolfactory.cropper.settings.CropOutlineProperty
+import com.t8rin.cropper.model.AspectRatio
+import com.t8rin.cropper.model.OutlineType
+import com.t8rin.cropper.model.RectCropShape
+import com.t8rin.cropper.settings.CropDefaults
+import com.t8rin.cropper.settings.CropOutlineProperty
 import com.t8rin.curves.ImageCurvesEditorState
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor

@@ -59,10 +59,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smarttoolfactory.cropper.model.AspectRatio
-import com.smarttoolfactory.cropper.model.CropAspectRatio
-import com.smarttoolfactory.cropper.util.createRectShape
-import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
+import com.t8rin.cropper.model.AspectRatio
+import com.t8rin.cropper.model.CropAspectRatio
+import com.t8rin.cropper.util.createRectShape
+import com.t8rin.cropper.widget.AspectRatioSelectionCard
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.utils.ifCasts
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero

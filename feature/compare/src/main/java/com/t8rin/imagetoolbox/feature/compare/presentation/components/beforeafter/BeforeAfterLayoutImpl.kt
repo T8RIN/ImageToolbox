@@ -38,7 +38,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
-import com.smarttoolfactory.gesture.detectMotionEvents
+import com.t8rin.gesture.detectMotionEvents
 
 
 @Composable
