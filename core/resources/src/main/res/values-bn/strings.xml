@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -2189,7 +2187,6 @@
     <string name="math_expression">গণিত অভিব্যক্তি</string>
     <string name="pick_up_to_n_collage_images">%1$s পর্যন্ত ছবি তুলে নিন</string>
     <string name="keep_date_time">তারিখ সময় রাখুন</string>
-    <string name="keep_date_time_sub" />
     <string name="background_color_for_alpha_formats">আলফা ফরম্যাটের জন্য পটভূমির রঙ</string>
     <string name="background_color_for_alpha_formats_sub">আলফা সমর্থন সহ প্রতিটি ইমেজ ফরম্যাটের জন্য পটভূমির রঙ সেট করার ক্ষমতা যোগ করে, যখন এটি নিষ্ক্রিয় করা হয় শুধুমাত্র অ-আলফাগুলির জন্য উপলব্ধ</string>
 </resources>
