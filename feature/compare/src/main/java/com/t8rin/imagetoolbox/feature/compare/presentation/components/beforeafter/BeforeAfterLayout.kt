@@ -1,10 +1,27 @@
-package com.smarttoolfactory.beforeafter
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.feature.compare.presentation.components.beforeafter
 
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -16,7 +33,6 @@ import androidx.compose.ui.unit.DpSize
  * based on [contentOrder]. This overload uses [DefaultOverlay] to draw vertical slider and thumb.
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
- * @param  when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
  * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
  * elevation and other properties
@@ -27,7 +43,7 @@ import androidx.compose.ui.unit.DpSize
  *
  */
 @Composable
-fun BeforeAfterLayout(
+internal fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
@@ -37,7 +53,7 @@ fun BeforeAfterLayout(
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
 ) {
-    var progress by remember { mutableStateOf(50f) }
+    var progress by remember { mutableFloatStateOf(50f) }
 
     Layout(
         modifier = modifier,
@@ -69,7 +85,6 @@ fun BeforeAfterLayout(
  * [progress] value.
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
- * @param  when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
  * @param progress current position or progress of before/after
  * @param onProgressChange current position or progress of before/after
@@ -81,7 +96,7 @@ fun BeforeAfterLayout(
  * @param afterLabel label for [afterContent]. It's [AfterLabel] by default
  */
 @Composable
-fun BeforeAfterLayout(
+internal fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
@@ -120,7 +135,6 @@ fun BeforeAfterLayout(
  * based on [contentOrder].
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
- * @param  when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
 
  * It's between [0f-100f] to set thumb's vertical position in layout
@@ -132,7 +146,7 @@ fun BeforeAfterLayout(
  * of ancestor and touch position
  */
 @Composable
-fun BeforeAfterLayout(
+internal fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
@@ -142,7 +156,7 @@ fun BeforeAfterLayout(
     afterLabel: @Composable BoxScope.() -> Unit = { AfterLabel(contentOrder = contentOrder) },
     overlay: @Composable ((DpSize, Offset) -> Unit)?
 ) {
-    var progress by remember { mutableStateOf(50f) }
+    var progress by remember { mutableFloatStateOf(50f) }
 
     Layout(
         modifier = modifier,
@@ -165,7 +179,6 @@ fun BeforeAfterLayout(
  * based on [contentOrder].
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
- * @param  when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
  * @param progress current position or progress of before/after
  * @param onProgressChange current position or progress of before/after
@@ -178,7 +191,7 @@ fun BeforeAfterLayout(
  * of ancestor and touch position
  */
 @Composable
-fun BeforeAfterLayout(
+internal fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((Float) -> Unit)? = null,

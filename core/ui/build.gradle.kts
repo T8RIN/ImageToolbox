@@ -57,7 +57,6 @@ dependencies {
     api(projects.lib.dynamicTheme)
     api(projects.lib.colordetector)
     api(projects.lib.gesture)
-    api(projects.lib.beforeafter)
     api(projects.lib.image)
     api(projects.lib.modalsheet)
     api(projects.lib.colorpicker)
