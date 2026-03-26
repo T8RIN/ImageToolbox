@@ -4,8 +4,8 @@ androidTargetSdk = "36"
 androidCompileSdk = "36"
 androidCompileSdkExtension = "19"
 
-versionName = "3.7.2-rc01"
-versionCode = "220"
+versionName = "3.8.0-rc01"
+versionCode = "221"
 
 jvmTarget = "21"
 
