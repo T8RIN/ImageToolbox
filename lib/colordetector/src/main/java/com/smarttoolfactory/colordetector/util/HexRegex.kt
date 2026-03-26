@@ -15,13 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.smarttoolfactory.colordetector.model
+package com.smarttoolfactory.colordetector.util
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
-import com.smarttoolfactory.colordetector.util.ColorUtil
+// Regex for checking if this string is a 6 char hex or 8 char hex
+val hexWithAlphaRegex = "^#?([0-9a-fA-F]{6}|[0-9a-fA-F]{8})\$".toRegex()
+val hexRegex = "^#?([0-9a-fA-F]{6})\$".toRegex()
 
-@Immutable
-data class ColorData(val color: Color, val name: String) {
-    val hexText: String = ColorUtil.colorToHex(color = color)
-}
+// Check only on char if it's in range of 0-9, a-f, A-F
+val hexRegexSingleChar = "[a-fA-F0-9]".toRegex()

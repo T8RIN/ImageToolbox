@@ -1,8 +1,24 @@
-package com.smarttoolfactory.extendedcolors.util
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
 
+package com.smarttoolfactory.colordetector.util
+
+import android.graphics.Color
 import androidx.core.graphics.ColorUtils
-import com.smarttoolfactory.extendedcolors.util.ColorUtil.colorIntToHSL
-import com.smarttoolfactory.extendedcolors.util.ColorUtil.colorIntToHSV
 import java.util.Locale
 
 object RGBUtil {
@@ -24,7 +40,7 @@ object RGBUtil {
         blue: Int
     ): FloatArray {
         val hsvOut = floatArrayOf(0f, 0f, 0f)
-        android.graphics.Color.RGBToHSV(red, green, blue, hsvOut)
+        Color.RGBToHSV(red, green, blue, hsvOut)
         return hsvOut
     }
 
@@ -46,7 +62,7 @@ object RGBUtil {
         blue: Int,
         hsvIn: FloatArray
     ) {
-        android.graphics.Color.RGBToHSV(red, green, blue, hsvIn)
+        Color.RGBToHSV(red, green, blue, hsvIn)
     }
 
 
@@ -108,7 +124,7 @@ object RGBUtil {
     ): FloatArray {
         val colorInt = rgbToColorInt(red = red, green = green, blue = blue)
         val outHsl = floatArrayOf(0f, 0f, 0f)
-        colorIntToHSV(colorInt, outHsl)
+        ColorUtil.colorIntToHSV(colorInt, outHsl)
         return outHsl
     }
 
@@ -128,7 +144,7 @@ object RGBUtil {
         hsvIn: FloatArray
     ) {
         val colorInt = rgbToColorInt(red = red, green = green, blue = blue)
-        colorIntToHSV(colorInt, hsvIn)
+        ColorUtil.colorIntToHSV(colorInt, hsvIn)
     }
 
 
@@ -150,7 +166,7 @@ object RGBUtil {
     ): FloatArray {
         val colorInt = rgbToColorInt(red = red, green = green, blue = blue)
         val outHsl = floatArrayOf(0f, 0f, 0f)
-        colorIntToHSL(colorInt, outHsl)
+        ColorUtil.colorIntToHSL(colorInt, outHsl)
         return outHsl
     }
 
@@ -173,7 +189,7 @@ object RGBUtil {
         hslIn: FloatArray
     ) {
         val colorInt = rgbToColorInt(red = red, green = green, blue = blue)
-        colorIntToHSL(colorInt, hslIn)
+        ColorUtil.colorIntToHSL(colorInt, hslIn)
     }
 
 
@@ -191,7 +207,7 @@ object RGBUtil {
         green: Int,
         blue: Int
     ): Int {
-        return android.graphics.Color.rgb(red, green, blue)
+        return Color.rgb(red, green, blue)
     }
 
     /**
@@ -212,7 +228,7 @@ object RGBUtil {
         val redInt = red.fractionToRGBRange()
         val greenInt = green.fractionToRGBRange()
         val blueInt = blue.fractionToRGBRange()
-        return android.graphics.Color.rgb(redInt, greenInt, blueInt)
+        return Color.rgb(redInt, greenInt, blueInt)
     }
 
 
@@ -276,7 +292,7 @@ object RGBUtil {
         green: Int,
         blue: Int
     ): Int {
-        return android.graphics.Color.argb(alpha, red, green, blue)
+        return Color.argb(alpha, red, green, blue)
     }
 
     /**
@@ -299,7 +315,7 @@ object RGBUtil {
         val redInt = red.fractionToRGBRange()
         val greenInt = green.fractionToRGBRange()
         val blueInt = blue.fractionToRGBRange()
-        return android.graphics.Color.argb(alphaInt, redInt, greenInt, blueInt)
+        return Color.argb(alphaInt, redInt, greenInt, blueInt)
     }
 
 

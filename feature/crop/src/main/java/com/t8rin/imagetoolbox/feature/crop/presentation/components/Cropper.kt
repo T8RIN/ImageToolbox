@@ -55,7 +55,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toFile
-import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
+import com.smarttoolfactory.colordetector.util.roundToTwoDigits
 import com.smarttoolfactory.cropper.ImageCropper
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.settings.CropDefaults

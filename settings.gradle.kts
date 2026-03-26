@@ -143,8 +143,6 @@ include(":lib:cropper")
 include(":lib:colordetector")
 include(":lib:gesture")
 include(":lib:image")
-include(":lib:colorpicker")
 include(":lib:zoomable")
-include(":lib:extendedcolors")
 
 include(":benchmark")

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,12 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.colordetector.util.ColorUtil.round
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 @Composable
 fun BorderThicknessSettingItem(
@@ -60,10 +60,10 @@ fun BorderThicknessSettingItem(
         title = stringResource(R.string.border_thickness),
         icon = Icons.Outlined.BorderStyle,
         onValueChange = {
-            value = (it * 10).round() / 10f
+            value = (it * 10).roundToInt() / 10f
         },
         internalStateTransformation = {
-            (it * 10).round() / 10f
+            (it * 10).roundToInt() / 10f
         },
         valueRange = 0f..1.5f,
         steps = 14
