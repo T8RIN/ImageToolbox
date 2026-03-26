@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.DpSize
  * based on [contentOrder]. This overload uses [DefaultOverlay] to draw vertical slider and thumb.
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
- * @param enableZoom when enabled images are zoomable and pannable
+ * @param  when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
  * @param overlayStyle styling values for [DefaultOverlay] to set divier color, thumb shape, size,
  * elevation and other properties
@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.DpSize
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
-    enableZoom: Boolean = false,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     overlayStyle: OverlayStyle = OverlayStyle(),
     beforeContent: @Composable () -> Unit,
@@ -52,7 +51,6 @@ fun BeforeAfterLayout(
         },
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
-        enableZoom = enableZoom,
         overlay = { dpSize: DpSize, offset: Offset ->
             DefaultOverlay(
                 width = dpSize.width,
@@ -71,7 +69,7 @@ fun BeforeAfterLayout(
  * [progress] value.
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
- * @param enableZoom when enabled images are zoomable and pannable
+ * @param  when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
  * @param progress current position or progress of before/after
  * @param onProgressChange current position or progress of before/after
@@ -86,7 +84,6 @@ fun BeforeAfterLayout(
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
-    enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((Float) -> Unit)? = null,
@@ -107,7 +104,6 @@ fun BeforeAfterLayout(
         onProgressChange = onProgressChange,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
-        enableZoom = enableZoom,
         overlay = { dpSize: DpSize, offset: Offset ->
             DefaultOverlay(
                 width = dpSize.width,
@@ -124,7 +120,7 @@ fun BeforeAfterLayout(
  * based on [contentOrder].
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
- * @param enableZoom when enabled images are zoomable and pannable
+ * @param  when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
 
  * It's between [0f-100f] to set thumb's vertical position in layout
@@ -139,7 +135,6 @@ fun BeforeAfterLayout(
 fun BeforeAfterLayout(
     modifier: Modifier = Modifier,
     enableProgressWithTouch: Boolean = true,
-    enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
@@ -161,7 +156,6 @@ fun BeforeAfterLayout(
         },
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
-        enableZoom = enableZoom,
         overlay = overlay
     )
 }
@@ -171,7 +165,7 @@ fun BeforeAfterLayout(
  * based on [contentOrder].
  *
  * @param enableProgressWithTouch flag to enable drag and change progress with touch
- * @param enableZoom when enabled images are zoomable and pannable
+ * @param  when enabled images are zoomable and pannable
  * @param contentOrder order of composables to be drawn
  * @param progress current position or progress of before/after
  * @param onProgressChange current position or progress of before/after
@@ -189,7 +183,6 @@ fun BeforeAfterLayout(
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((Float) -> Unit)? = null,
     enableProgressWithTouch: Boolean = true,
-    enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
@@ -208,7 +201,6 @@ fun BeforeAfterLayout(
         onProgressChange = onProgressChange,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
-        enableZoom = enableZoom,
         overlay = overlay
     )
 }

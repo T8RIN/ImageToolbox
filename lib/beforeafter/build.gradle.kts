@@ -6,5 +6,5 @@ plugins {
 android.namespace = "com.smarttoolfactory.beforeafter"
 
 dependencies {
-    implementation(libs.toolbox.gesture)
+    implementation(projects.lib.gesture)
 }

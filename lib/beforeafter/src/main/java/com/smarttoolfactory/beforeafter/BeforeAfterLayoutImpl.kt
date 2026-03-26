@@ -1,7 +1,6 @@
 package com.smarttoolfactory.beforeafter
 
 import androidx.annotation.FloatRange
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -24,10 +22,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import com.smarttoolfactory.beforeafter.util.scale
-import com.smarttoolfactory.beforeafter.util.update
 import com.smarttoolfactory.gesture.detectMotionEvents
-import com.smarttoolfactory.gesture.detectTransformGestures
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -36,7 +31,6 @@ internal fun Layout(
     @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
     onProgressChange: ((Float) -> Unit)? = null,
     enableProgressWithTouch: Boolean = true,
-    enableZoom: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
@@ -84,24 +78,6 @@ internal fun Layout(
 
             var isHandleTouched by remember { mutableStateOf(false) }
 
-            val zoomState = rememberZoomState(limitPan = true)
-            val coroutineScope = rememberCoroutineScope()
-
-            val transformModifier = Modifier.pointerInput(Unit) {
-                detectTransformGestures(
-                    onGesture = { _: Offset, panChange: Offset, zoomChange: Float, _, _, _ ->
-
-                        coroutineScope.launch {
-                            zoomState.updateZoomState(
-                                size,
-                                gesturePan = panChange,
-                                gestureZoom = zoomChange
-                            )
-                        }
-                    }
-                )
-            }
-
             val touchModifier = Modifier.pointerInput(Unit) {
                 detectMotionEvents(
                     onDown = {
@@ -126,29 +102,9 @@ internal fun Layout(
                 )
             }
 
-            val tapModifier = Modifier.pointerInput(Unit) {
-                detectTapGestures(
-                    onDoubleTap = {
-                        coroutineScope.launch {
-                            zoomState.animatePanTo(Offset.Zero)
-                        }
-
-                        coroutineScope.launch {
-                            zoomState.animateZoomTo(1f)
-                        }
-                    }
-                )
-            }
-
-            val graphicsModifier = Modifier.graphicsLayer {
-                this.update(zoomState)
-            }
-
-            val zoom = zoomState.zoom
-            val pan = zoomState.pan
             val handlePosition = rawOffset.x
 
-            val shapeBefore by remember(handlePosition, zoom, pan) {
+            val shapeBefore by remember(handlePosition) {
                 mutableStateOf(
                     GenericShape { size: Size, layoutDirection: LayoutDirection ->
                         moveTo(0f, 0f)
@@ -160,7 +116,7 @@ internal fun Layout(
                 )
             }
 
-            val shapeAfter by remember(handlePosition, zoom, pan) {
+            val shapeAfter by remember(handlePosition) {
                 mutableStateOf(
                     GenericShape { size: Size, layoutDirection: LayoutDirection ->
                         moveTo(handlePosition, 0f)
@@ -175,7 +131,6 @@ internal fun Layout(
             val parentModifier = Modifier
                 .size(boxWidthInDp, boxHeightInDp)
                 .clipToBounds()
-                .then(if (enableZoom) transformModifier.then(tapModifier) else Modifier)
                 .then(if (enableProgressWithTouch) touchModifier else Modifier)
 
 
@@ -198,7 +153,7 @@ internal fun Layout(
                 modifier = parentModifier,
                 beforeModifier = beforeModifier,
                 afterModifier = afterModifier,
-                graphicsModifier = graphicsModifier,
+                graphicsModifier = Modifier,
                 beforeContent = beforeContent,
                 afterContent = afterContent,
                 beforeLabel = beforeLabel,

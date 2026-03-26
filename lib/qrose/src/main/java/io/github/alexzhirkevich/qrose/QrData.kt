@@ -1,3 +1,5 @@
+@file:Suppress("UnusedReceiverParameter", "unused")
+
 package io.github.alexzhirkevich.qrose
 
 object QrData
@@ -17,18 +19,18 @@ fun QrData.email(
     if (listOf(copyTo, subject, body).any { it.isNullOrEmpty().not() }) {
         append("?")
     }
-    val querries = buildList<String> {
+    val queries = buildList {
         if (copyTo.isNullOrEmpty().not()) {
             add("cc=$copyTo")
         }
         if (subject.isNullOrEmpty().not()) {
-            add("subject=${escape(subject!!)}")
+            add("subject=${escape(subject)}")
         }
         if (body.isNullOrEmpty().not()) {
-            add("body=${escape(body!!)}")
+            add("body=${escape(body)}")
         }
     }
-    append(querries.joinToString(separator = "&"))
+    append(queries.joinToString(separator = "&"))
 }
 
 fun QrData.sms(

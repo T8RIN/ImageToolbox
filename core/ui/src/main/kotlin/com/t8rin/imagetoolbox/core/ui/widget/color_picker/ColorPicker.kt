@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.smarttoolfactory.colordetector.util.ColorUtil
-import com.smarttoolfactory.colorpicker.selector.SelectorRectSaturationValueHSV
+import com.smarttoolfactory.colorpicker.util.SelectorRectSaturationValueHSV
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker

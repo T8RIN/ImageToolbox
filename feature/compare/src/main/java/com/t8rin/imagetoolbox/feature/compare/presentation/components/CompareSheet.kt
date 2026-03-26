@@ -99,7 +99,6 @@ fun CompareSheet(
                                 BeforeAfterLayout(
                                     modifier = Modifier.clip(ShapeDefaults.extraSmall),
                                     progress = animateFloatAsState(targetValue = progress).value,
-                                    enableZoom = false,
                                     onProgressChange = {
                                         progress = it
                                     },
@@ -193,7 +192,6 @@ fun CompareSheet(
                         onProgressChange = {
                             progress = it
                         },
-                        enableZoom = false,
                         beforeContent = beforeContent,
                         afterContent = afterContent,
                         beforeLabel = { },

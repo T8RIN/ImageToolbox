@@ -33,12 +33,12 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 
 /**
- * Default overlay for [BeforeAfterImage] and [BeforeAfterLayout] that draws line and
+ * Default overlay for and [BeforeAfterLayout] that draws line and
  * thumb with properties provided.
  *
- * @param width of the [BeforeAfterImage] or [BeforeAfterLayout]. You should get width from
+ * @param width of the or [BeforeAfterLayout]. You should get width from
  * scope of these Composables and pass to calculate bounds correctly
- * @param height of the [BeforeAfterImage] or [BeforeAfterLayout]. You should get height from
+ * @param height of the or [BeforeAfterLayout]. You should get height from
  * scope of these Composables and pass to calculate bounds correctly
  * @param position current position or progress of before/after
  */

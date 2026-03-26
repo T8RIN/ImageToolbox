@@ -53,7 +53,7 @@ dependencies {
 
     api(libs.androidx.documentfile)
 
-    api(libs.toolbox.logger)
+    api(libs.logger)
 
     implementation(libs.toolbox.gifConverter)
     implementation(libs.toolbox.exif)

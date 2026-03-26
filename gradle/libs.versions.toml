@@ -80,7 +80,6 @@ fragmentCompose = "1.8.9"
 
 firebaseCrashlyticsGradle = "3.0.6"
 aboutlibraries = "14.0.0-b03"
-moduleGraphGradle = "0.13.0"
 flinger = "2.0.2"
 zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
@@ -120,16 +119,9 @@ jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-document-scanner", version.ref = "mlkitDocumentScanner" }
 quickie-bundled = { module = "com.github.T8RIN.QuickieExtended:quickie-bundled", version.ref = "quickie" }
 quickie-foss = { module = "com.github.T8RIN.QuickieExtended:quickie-foss", version.ref = "quickie" }
+logger = { module = "com.github.T8RIN:Logger", version.ref = "logger" }
 
-toolbox-cropper = { module = "com.github.T8RIN.ImageToolboxLibs:cropper", version.ref = "imageToolboxLibs" }
-toolbox-colordetector = { module = "com.github.T8RIN.ImageToolboxLibs:colordetector", version.ref = "imageToolboxLibs" }
-toolbox-gesture = { module = "com.github.T8RIN.ImageToolboxLibs:gesture", version.ref = "imageToolboxLibs" }
-toolbox-image = { module = "com.github.T8RIN.ImageToolboxLibs:image", version.ref = "imageToolboxLibs" }
 toolbox-gpuimage = { module = "com.github.T8RIN.ImageToolboxLibs:gpuimage", version.ref = "imageToolboxLibs" }
-toolbox-colorpicker = { module = "com.github.T8RIN.ImageToolboxLibs:colorpicker", version.ref = "imageToolboxLibs" }
-toolbox-logger = { module = "com.github.T8RIN:Logger", version.ref = "logger" }
-toolbox-zoomable = { module = "com.github.T8RIN.ImageToolboxLibs:zoomable", version.ref = "imageToolboxLibs" }
-toolbox-extendedcolors = { module = "com.github.T8RIN.ImageToolboxLibs:extendedcolors", version.ref = "imageToolboxLibs" }
 toolbox-androidwm = { module = "com.github.T8RIN.ImageToolboxLibs:androidwm", version.ref = "imageToolboxLibs" }
 toolbox-gifConverter = { module = "com.github.T8RIN.ImageToolboxLibs:gif-converter", version.ref = "imageToolboxLibs" }
 toolbox-apng = { module = "com.github.T8RIN.ImageToolboxLibs:apng", version.ref = "imageToolboxLibs" }
@@ -230,4 +222,3 @@ image-toolbox-hilt = { id = "image.toolbox.hilt", version = "unspecified" }
 image-toolbox-feature = { id = "image.toolbox.feature", version = "unspecified" }
 image-toolbox-compose = { id = "image.toolbox.compose", version = "unspecified" }
 image-toolbox-application = { id = "image.toolbox.application", version = "unspecified" }
-dev-iurysouza-modulegraph = { id = "dev.iurysouza.modulegraph", version.ref = "moduleGraphGradle" }

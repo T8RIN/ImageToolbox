@@ -9,8 +9,12 @@ internal object Code128Encoder : BarcodeEncoder {
         FNC_1
     }
 
-    override fun encode(data: String): BooleanArray {
-        return encode(contents = data)
+    override fun encode(contents: String): BooleanArray {
+        return encode(
+            contents = contents,
+            compact = true,
+            codeSet = null
+        )
     }
 
     fun encode(

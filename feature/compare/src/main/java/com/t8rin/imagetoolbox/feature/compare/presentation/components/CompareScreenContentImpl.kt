@@ -94,7 +94,6 @@ internal fun CompareScreenContentImpl(
                             modifier = modifier,
                             progress = animateFloatAsState(targetValue = compareProgress).value,
                             onProgressChange = onCompareProgressChange,
-                            enableZoom = false,
                             beforeContent = {
                                 Picture(
                                     model = before,
