@@ -17,8 +17,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-var isFoss = false
-
 plugins {
     alias(libs.plugins.image.toolbox.application)
     alias(libs.plugins.image.toolbox.hilt)
@@ -54,7 +52,7 @@ android {
     productFlavors {
         create("foss") {
             dimension = "app"
-            isFoss = true
+            versionNameSuffix = "-foss"
             extra.set("gmsEnabled", false)
         }
         create("market") {
@@ -131,9 +129,7 @@ android {
 }
 
 base {
-    val suffix = if (isFoss) "-foss" else ""
-
-    archivesName = "image-toolbox-${android.defaultConfig.versionName}$suffix"
+    archivesName = "image-toolbox-${android.defaultConfig.versionName}"
 }
 
 aboutLibraries {
