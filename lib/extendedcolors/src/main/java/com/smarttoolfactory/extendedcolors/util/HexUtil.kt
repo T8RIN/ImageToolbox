@@ -1,6 +1,7 @@
 package com.smarttoolfactory.extendedcolors.util
 
 import androidx.compose.ui.graphics.Color
+import androidx.core.graphics.toColorInt
 import com.smarttoolfactory.extendedcolors.util.ColorUtil.colorIntToARGBArray
 import com.smarttoolfactory.extendedcolors.util.ColorUtil.colorIntToRGBArray
 
@@ -10,7 +11,7 @@ object HexUtil {
  */
     fun hexToColorInt(colorString: String): Int {
         val completeColorString = if (colorString.first() == '#') colorString else "#$colorString"
-        return android.graphics.Color.parseColor(completeColorString)
+        return completeColorString.toColorInt()
     }
 
     /*

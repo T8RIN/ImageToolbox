@@ -3,7 +3,6 @@ package com.smarttoolfactory.colordetector.parser
 import android.content.Context
 import android.util.JsonReader
 import androidx.compose.ui.graphics.Color
-import com.smarttoolfactory.colordetector.model.ColorItem
 import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.smarttoolfactory.colordetector.util.HexUtil
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +48,7 @@ private object ColorNameParserImpl : ColorNameParser {
                             (color.green - green) * (color.green - green) +
                             (color.blue - blue) * (color.blue - blue)
                 )
-            }?.name ?: ColorItem.Unspecified
+            }?.name ?: "?????"
         }
     }
 

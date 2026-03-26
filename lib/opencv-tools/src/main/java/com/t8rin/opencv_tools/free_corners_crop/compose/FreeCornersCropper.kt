@@ -69,7 +69,6 @@ import coil3.request.allowHardware
 import coil3.toBitmap
 import com.smarttoolfactory.gesture.observePointersCountWithOffset
 import com.smarttoolfactory.image.ImageWithConstraints
-import com.smarttoolfactory.image.util.coerceIn
 import com.t8rin.opencv_tools.free_corners_crop.FreeCrop
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
@@ -432,3 +431,8 @@ private val OffsetListSaver: Saver<List<Offset>, String> = Saver(
         }
     }
 )
+
+private fun Offset.coerceIn(
+    horizontalRange: ClosedRange<Float>,
+    verticalRange: ClosedRange<Float>
+) = Offset(this.x.coerceIn(horizontalRange), this.y.coerceIn(verticalRange))

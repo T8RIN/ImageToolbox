@@ -41,10 +41,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.smarttoolfactory.colordetector.parser.ColorNameParser
-import com.smarttoolfactory.colordetector.util.ColorUtil
-import com.smarttoolfactory.colordetector.util.HexUtil
 import com.smarttoolfactory.colorpicker.util.HexVisualTransformation
 import com.smarttoolfactory.colorpicker.util.hexRegexSingleChar
+import com.smarttoolfactory.extendedcolors.util.ColorUtil
+import com.smarttoolfactory.extendedcolors.util.HexUtil
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
