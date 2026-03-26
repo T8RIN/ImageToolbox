@@ -137,5 +137,6 @@ include(":lib:snowfall")
 include(":lib:curves")
 include(":lib:dynamic-theme")
 include(":lib:palette")
+include(":lib:modalsheet")
 
 include(":benchmark")

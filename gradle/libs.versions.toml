@@ -92,8 +92,10 @@ tiffdecoder = "1.0.5"
 materialKolor = "5.0.0-alpha07"
 paletteKtx = "1.0.0"
 kotlinxSerializationJson = "1.10.0"
+lifecycle = "2.10.0"
 
 [libraries]
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
@@ -124,7 +126,6 @@ toolbox-colordetector = { module = "com.github.T8RIN.ImageToolboxLibs:colordetec
 toolbox-gesture = { module = "com.github.T8RIN.ImageToolboxLibs:gesture", version.ref = "imageToolboxLibs" }
 toolbox-beforeafter = { module = "com.github.T8RIN.ImageToolboxLibs:beforeafter", version.ref = "imageToolboxLibs" }
 toolbox-image = { module = "com.github.T8RIN.ImageToolboxLibs:image", version.ref = "imageToolboxLibs" }
-toolbox-modalsheet = { module = "com.github.T8RIN.ImageToolboxLibs:modalsheet", version.ref = "imageToolboxLibs" }
 toolbox-gpuimage = { module = "com.github.T8RIN.ImageToolboxLibs:gpuimage", version.ref = "imageToolboxLibs" }
 toolbox-colorpicker = { module = "com.github.T8RIN.ImageToolboxLibs:colorpicker", version.ref = "imageToolboxLibs" }
 toolbox-logger = { module = "com.github.T8RIN:Logger", version.ref = "logger" }

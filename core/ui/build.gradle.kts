@@ -59,7 +59,7 @@ dependencies {
     api(libs.toolbox.gesture)
     api(libs.toolbox.beforeafter)
     api(libs.toolbox.image)
-    api(libs.toolbox.modalsheet)
+    api(projects.lib.modalsheet)
     api(libs.toolbox.colorpicker)
     api(libs.toolbox.logger)
     api(libs.toolbox.zoomable)
