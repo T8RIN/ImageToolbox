@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +50,14 @@ sealed class ImageFormat(
             title = "PNG Lossy",
             compressionTypes = listOf(
                 CompressionType.Effort(0..9)
+            ),
+            canChangeCompressionValue = true
+        )
+
+        data object OxiPNG : Png(
+            title = "OxiPNG",
+            compressionTypes = listOf(
+                CompressionType.Effort(0..6)
             ),
             canChangeCompressionValue = true
         )

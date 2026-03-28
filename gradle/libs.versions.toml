@@ -4,13 +4,13 @@ androidTargetSdk = "36"
 androidCompileSdk = "36"
 androidCompileSdkExtension = "19"
 
-versionName = "3.8.0-rc01"
-versionCode = "221"
+versionName = "3.8.0-rc02"
+versionCode = "222"
 
 jvmTarget = "21"
 
 imageToolboxLibs = "6.2.0"
-trickle = "1.5.1"
+trickle = "1.6.1"
 evaluator = "1.0.0"
 quickie = "1.18.1"
 fadingEdges = "1.0.4"

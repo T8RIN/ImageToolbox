@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.compressor.JpegliBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.JpgBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.JxlBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.MozJpegBackend
+import com.t8rin.imagetoolbox.core.data.image.utils.compressor.OxiPngBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.PngLosslessBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.PngLossyBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.QoiBackend
@@ -81,6 +82,8 @@ internal interface ImageCompressorBackend {
             ImageFormat.Avif.Lossless -> AvifBackend(isLossless = true)
             ImageFormat.Avif.Lossy -> AvifBackend(isLossless = false)
             ImageFormat.Gif -> StaticGifBackend
+
+            ImageFormat.Png.OxiPNG -> OxiPngBackend
         }
     }
 
