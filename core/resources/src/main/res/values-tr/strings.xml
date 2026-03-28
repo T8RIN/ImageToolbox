@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -1085,7 +1083,7 @@
     <string name="click_to_start_scanning">Taramayı başlatmak için tıklayın</string>
     <string name="start_scanning">Taramayı Başlat</string>
     <string name="save_as_pdf">PDF Olarak Kaydet</string>
-    <string name="share_as_pdf">PDF Olarak Paylaş</string>
+    <string name="share_as_pdf">PDF olarak paylaş</string>
     <string name="options_below_is_for_images">Aşağıdaki seçenekler PDF için değil, resimleri kaydetmek içindir</string>
     <string name="equalize_histogram_hsv">Histogram Eşitleme HSV</string>
     <string name="equalize_histogram">Histogram Eşitleme</string>
@@ -1746,8 +1744,8 @@
     <string name="add_preset_to_filename_sub">Seçilen ön ayar ile son eki görüntü dosya adına ekler</string>
     <string name="add_image_scale_mode_to_filename">Dosya Adına Görüntü Ölçek Modunu Ekle</string>
     <string name="add_image_scale_mode_to_filename_sub">Seçilen görüntü ölçekleme modunu görüntü dosya adına son ek olarak ekler</string>
-    <string name="ascii_art">Ascii Sanatı</string>
-    <string name="ascii_art_sub">Resmi, görüntü gibi görünecek ascii metnine dönüştür</string>
+    <string name="ascii_art">ASCII Sanatı</string>
+    <string name="ascii_art_sub">Resmi, görüntü gibi görünecek ASCII metnine dönüştür</string>
     <string name="params">Parametreler</string>
     <string name="invert_colors_ascii_sub">Bazı durumlarda daha iyi sonuç elde etmek için görüntüye negatif filtre uygular.</string>
     <string name="processing_screenshot">Ekran görüntüsü işleniyor</string>

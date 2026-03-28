@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,8 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox</string>
     <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
@@ -1104,7 +1104,7 @@
     <string name="click_to_start_scanning">Click to start scanning</string>
     <string name="start_scanning">Start Scanning</string>
     <string name="save_as_pdf">Save As Pdf</string>
-    <string name="share_as_pdf">Share As Pdf</string>
+    <string name="share_as_pdf">Share as PDF</string>
     <string name="options_below_is_for_images">Options below is for saving images, not PDF</string>
     <string name="equalize_histogram_hsv">Equalize Histogram HSV</string>
     <string name="equalize_histogram">Equalize Histogram</string>
@@ -1761,8 +1761,8 @@
     <string name="add_preset_to_filename_sub">Appends suffix with selected preset to image filename</string>
     <string name="add_image_scale_mode_to_filename">Add Image Scale Mode To Filename</string>
     <string name="add_image_scale_mode_to_filename_sub">Appends suffix with selected image scale mode to image filename</string>
-    <string name="ascii_art">Ascii Art</string>
-    <string name="ascii_art_sub">Convert picture to ascii text which will look like image</string>
+    <string name="ascii_art">ASCII Art</string>
+    <string name="ascii_art_sub">Convert picture to ASCII text which will look like image</string>
     <string name="params">Params</string>
     <string name="invert_colors_ascii_sub">Applies negative filter to image for better result in some cases</string>
     <string name="processing_screenshot">Processing screenshot</string>
