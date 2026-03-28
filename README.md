@@ -788,6 +788,7 @@ or click one of the badges below.
     - JPG
     - PNG Lossless
     - PNG Lossy
+    - OxiPNG
     - MozJpeg
     - Jpegli
     - JXL
