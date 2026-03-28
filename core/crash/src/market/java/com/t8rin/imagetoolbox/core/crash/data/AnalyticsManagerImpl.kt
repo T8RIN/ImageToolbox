@@ -17,11 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.crash.data
 
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics.Event
+import com.google.firebase.analytics.FirebaseAnalytics.Param
+import com.google.firebase.analytics.analytics
 import com.google.firebase.analytics.logEvent
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo.Companion.get
 
@@ -32,33 +33,33 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
     override var allowCollectAnalytics: Boolean = false
 
     override fun updateAnalyticsCollectionEnabled(value: Boolean) {
-        Firebase.analytics.setAnalyticsCollectionEnabled(value)
+        analytics.setAnalyticsCollectionEnabled(value)
         allowCollectAnalytics = value
-
-        if (value) {
-            Firebase.crashlytics.sendUnsentReports()
-        }
     }
 
     override fun updateAllowCollectCrashlytics(value: Boolean) {
-        Firebase.crashlytics.isCrashlyticsCollectionEnabled = value
+        crashlytics.isCrashlyticsCollectionEnabled = value
         allowCollectCrashlytics = value
+
+        if (value) {
+            crashlytics.sendUnsentReports()
+        }
     }
 
     override fun sendReport(throwable: Throwable) {
         if (allowCollectCrashlytics) {
-            Firebase.crashlytics.recordException(throwable)
-            Firebase.crashlytics.sendUnsentReports()
+            crashlytics.apply {
+                recordException(throwable)
+                sendUnsentReports()
+            }
         }
     }
 
     override fun registerScreenOpen(screenName: String) {
         if (allowCollectAnalytics) {
-            Firebase.analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
-                param(FirebaseAnalytics.Param.CONTENT_TYPE, screenName)
-            }
-            Firebase.analytics.logEvent(screenName) {
-                param(FirebaseAnalytics.Param.CONTENT, deviceInfo())
+            analytics.apply {
+                logEvent(Event.SELECT_CONTENT) { param(Param.CONTENT_TYPE, screenName) }
+                logEvent(screenName) { param(Param.CONTENT, deviceInfo()) }
             }
         }
     }
@@ -72,4 +73,6 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
         ).joinToString(",")
     }
 
+    private val analytics get() = Firebase.analytics
+    private val crashlytics get() = Firebase.crashlytics
 }
