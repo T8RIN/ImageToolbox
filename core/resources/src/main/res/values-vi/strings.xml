@@ -14,10 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="smth_went_wrong">Đã xảy ra lỗi: %1$s</string>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
     <string name="image_too_large_preview">Hình ảnh quá lớn để xem trước nhưng vẫn sẽ cố lưu lại</string>
@@ -272,7 +270,7 @@
     <string name="draw_on_background_sub">Chọn màu nền và vẽ lên trên nó</string>
     <string name="background_color">Màu nền</string>
     <string name="cipher">Mật mã</string>
-    <string name="cipher_sub">Mã hóa và giải mã bất kỳ tệp nào (không chỉ hình ảnh) dựa trên thuật toán mã hóa AES</string>
+    <string name="cipher_sub">Mã hóa và Giải mã bất kỳ tập tệp nào (không chỉ hình ảnh) dựa trên nhiều thuật toán mã hóa khả dụng</string>
     <string name="pick_file">Chọn tập tin</string>
     <string name="encrypt">Mã hóa</string>
     <string name="decrypt">Giải mã</string>
@@ -291,7 +289,7 @@
     <string name="file_size_sub">Kích thước tệp tối đa bị giới hạn bởi hệ điều hành Android và bộ nhớ khả dụng, tùy thuộc vào thiết bị. \nXin lưu ý: bộ nhớ không phải là nơi lưu trữ.</string>
     <string name="compatibility_sub">Xin lưu ý rằng khả năng tương thích với các phần mềm hoặc dịch vụ mã hóa tệp khác không được đảm bảo. Cách xử lý khóa hoặc cấu hình mật mã hơi khác một chút có thể gây ra sự không tương thích.</string>
     <string name="invalid_password_or_not_encrypted">Mật khẩu không hợp lệ hoặc tập tin đã chọn không được mã hóa</string>
-    <string name="image_size_warning">Cố gắng lưu hình ảnh với chiều rộng và chiều cao nhất định có thể gây ra lỗi OOM. Bạn phải tự chịu rủi ro khi làm điều này và đừng nói rằng tôi chưa từng</string>
+    <string name="image_size_warning">Cố gắng lưu hình ảnh với chiều rộng và chiều cao đã cho có thể gây ra một lỗi hết bộ nhớ. Thực hiện điều này với rủi ro của riêng bạn</string>
     <string name="cache">Bộ đệm</string>
     <string name="cache_size">Kích thước bộ đệm</string>
     <string name="found_s">Đã tìm thấy %1$s</string>
@@ -445,7 +443,7 @@
     <string name="pdf_to_images_sub">Chuyển đổi PDF thành hình ảnh ở định dạng đầu ra nhất định</string>
     <string name="images_to_pdf_sub">Đóng gói các hình ảnh đã cho vào tệp PDF đầu ra</string>
     <string name="mask_filter">Bộ lọc mặt nạ</string>
-    <string name="mask_filter_sub">Áp dụng chuỗi bộ lọc trên các vùng bị che nhất định, mỗi vùng mặt nạ có thể xác định bộ bộ lọc riêng của nó</string>
+    <string name="mask_filter_sub">Áp dụng chuỗi bộ lọc lên các vùng được che phủ đã cho; mỗi vùng che phủ có thể tự xác định bộ lọc riêng của mình</string>
     <string name="masks">Mặt nạ</string>
     <string name="add_mask">Thêm mặt nạ</string>
     <string name="mask_indexed">Mặt nạ %d</string>
@@ -886,7 +884,7 @@
     <string name="fluent_switch">Thông thạo</string>
     <string name="fluent_switch_sub">Sử dụng công tắc kiểu Windows 11 dựa trên hệ thống thiết kế \"Fluent\"</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">Sử dụng công tắc giống iOS dựa trên hệ thống thiết kế cupertino</string>
+    <string name="cupertino_switch_sub">Một công tắc dựa trên hệ thống thiết kế \"Cupertino\"</string>
     <string name="images_to_svg">Hình ảnh thành Svg</string>
     <string name="images_to_svg_sub">Theo dõi hình ảnh đã cho thành hình ảnh SVG</string>
     <string name="use_sampled_palette">Sử dụng Bảng màu được lấy mẫu</string>
@@ -1085,7 +1083,7 @@
     <string name="click_to_start_scanning">Nhấp để bắt đầu quét</string>
     <string name="start_scanning">Bắt đầu quét</string>
     <string name="save_as_pdf">Lưu dưới dạng PDF</string>
-    <string name="share_as_pdf">Chia sẻ dưới dạng PDF</string>
+    <string name="share_as_pdf">Chia sẻ như PDF</string>
     <string name="options_below_is_for_images">Các tùy chọn bên dưới là để lưu hình ảnh chứ không phải PDF</string>
     <string name="equalize_histogram_hsv">Cân bằng biểu đồ HSV</string>
     <string name="equalize_histogram">Cân bằng biểu đồ</string>
@@ -1127,7 +1125,7 @@
     <string name="qr_code">Mã QR</string>
     <string name="qr_code_sub">Quét mã QR và lấy nội dung hoặc dán chuỗi của bạn để tạo mã mới</string>
     <string name="code_content">Nội dung mã</string>
-    <string name="scan_qr_code_to_replace_content">Quét Mã QR để thay thế nội dung trong trường hoặc nhập nội dung nào đó để tạo Mã QR mới</string>
+    <string name="scan_qr_code_to_replace_content">Quét bất kỳ mã vạch nào để thay thế nội dung trong trường, hoặc nhập nội dung để tạo mã vạch mới với loại đã chọn</string>
     <string name="qr_description">Mô tả QR</string>
     <string name="min">Tối thiểu</string>
     <string name="grant_camera_permission_to_scan_qr_code">Cấp quyền cho máy ảnh trong cài đặt để quét mã QR</string>
@@ -1558,7 +1556,7 @@
     <string name="custom_pages">Trang tùy chỉnh</string>
     <string name="pages_selection">Lựa chọn trang</string>
     <string name="tool_exit_confirmation">Xác nhận thoát công cụ</string>
-    <string name="tool_exit_confirmation_sub">Nếu bạn có những thay đổi chưa được lưu trong khi sử dụng các công cụ cụ thể và cố gắng đóng nó lại thì hộp thoại xác nhận sẽ được hiển thị</string>
+    <string name="tool_exit_confirmation_sub">Nếu bạn có những thay đổi chưa được lưu trong khi sử dụng các công cụ cụ thể và cố gắng đóng nó, thì hộp thoại xác nhận sẽ hiện</string>
     <string name="edit_exif_screen">Chỉnh sửa EXIF</string>
     <string name="edit_exif_screen_sub">Thay đổi siêu dữ liệu của một hình ảnh mà không cần nén lại</string>
     <string name="edit_exif_tag">Nhấn để chỉnh sửa các thẻ có sẵn</string>
@@ -1566,7 +1564,7 @@
     <string name="fit_width">Vừa chiều rộng</string>
     <string name="fit_height">Chiều cao phù hợp</string>
     <string name="batch_compare">So sánh hàng loạt</string>
-    <string name="pick_files_to_checksum">Chọn tệp/tệp để tính tổng kiểm tra dựa trên thuật toán đã chọn</string>
+    <string name="pick_files_to_checksum">Chọn tệp/các tệp để tính tổng kiểm tra dựa trên thuật toán đã chọn</string>
     <string name="pick_files">Chọn tập tin</string>
     <string name="pick_directory">Chọn thư mục</string>
     <string name="head_length_scale">Thang đo chiều dài đầu</string>
@@ -1613,7 +1611,7 @@
     <string name="ocr_write_to_file">Viết vào tập tin</string>
     <string name="ocr_write_to_file_sub">Trích xuất văn bản từ hàng loạt hình ảnh và lưu trữ nó trong một tệp văn bản</string>
     <string name="ocr_write_to_metadata">Ghi vào siêu dữ liệu</string>
-    <string name="ocr_write_to_metadata_sub">Trích xuất văn bản từ mỗi hình ảnh và đặt nó vào thông tin EXIF ​​​​của các bức ảnh tương đối</string>
+    <string name="ocr_write_to_metadata_sub">Trích xuất văn bản từ mỗi hình ảnh và đặt nó vào thông tin EXIF của các bức ảnh tương ứng</string>
     <string name="invisible_mode">Chế độ ẩn</string>
     <string name="invisible_mode_sub">Sử dụng kỹ thuật steganography để tạo hình mờ vô hình trong mắt bên trong byte hình ảnh của bạn</string>
     <string name="use_lsb">Sử dụng LSB</string>
@@ -1646,7 +1644,7 @@
     <string name="secondary_angle">Góc phụ</string>
     <string name="sides">bên</string>
     <string name="channel_mix">Trộn kênh</string>
-    <string name="blue_green">Màu xanh xanh</string>
+    <string name="blue_green">Lục lam</string>
     <string name="red_blue">Đỏ xanh</string>
     <string name="green_red">Xanh đỏ</string>
     <string name="into_red">Vào màu đỏ</string>
@@ -1742,8 +1740,8 @@
     <string name="add_preset_to_filename_sub">Nối hậu tố với giá trị đặt trước đã chọn vào tên tệp hình ảnh</string>
     <string name="add_image_scale_mode_to_filename">Thêm chế độ tỷ lệ hình ảnh vào tên tệp</string>
     <string name="add_image_scale_mode_to_filename_sub">Nối hậu tố với chế độ tỷ lệ hình ảnh đã chọn vào tên tệp hình ảnh</string>
-    <string name="ascii_art">nghệ thuật ascii</string>
-    <string name="ascii_art_sub">Chuyển đổi hình ảnh thành văn bản ascii trông giống như hình ảnh</string>
+    <string name="ascii_art">Nghệ thuật ASCII</string>
+    <string name="ascii_art_sub">Chuyển đổi hình ảnh thành văn bản ASCII trông giống như hình ảnh</string>
     <string name="params">Thông số</string>
     <string name="invert_colors_ascii_sub">Áp dụng bộ lọc âm cho hình ảnh để có kết quả tốt hơn trong một số trường hợp</string>
     <string name="processing_screenshot">Đang xử lý ảnh chụp màn hình</string>
@@ -2060,7 +2058,7 @@
     <string name="scale_mode_pattern_description">Hiển thị chế độ chia tỷ lệ hình ảnh được sử dụng trong quá trình xử lý, giúp phân biệt hình ảnh đã thay đổi kích thước, cắt xén hoặc vừa vặn.</string>
     <string name="suffix_pattern_description">Văn bản tùy chỉnh được đặt ở cuối tên tệp, hữu ích cho việc lập phiên bản như _v2, _edited hoặc _final.</string>
     <string name="extension_pattern_description">Phần mở rộng tệp (png, jpg, webp, v.v.), tự động khớp với định dạng đã lưu thực tế.</string>
-    <string name="formatted_timestamp_pattern_description">Dấu thời gian có thể tùy chỉnh cho phép bạn xác định định dạng của riêng mình theo đặc tả java để sắp xếp hoàn hảo.</string>
+    <string name="formatted_timestamp_pattern_description">Một dấu thời gian có thể tùy chỉnh cho phép bạn xác định định dạng riêng theo đặc tả Java để sắp xếp hoàn hảo.</string>
     <string name="fling_type">Loại ném</string>
     <string name="android_native">Android gốc</string>
     <string name="ios_style">Phong cách iOS</string>
@@ -2076,7 +2074,7 @@
     <string name="android_native_sub">Vật lý cuộn Android gốc</string>
     <string name="smooth_sub">Cuộn cân bằng, mượt mà để sử dụng chung</string>
     <string name="ios_style_sub">Hành vi cuộn giống iOS có độ ma sát cao hơn</string>
-    <string name="smooth_curve_sub">Đường cong spline độc ​​đáo cho cảm giác cuộn khác biệt</string>
+    <string name="smooth_curve_sub">Đường cong spline độc đáo cho cảm giác cuộn khác biệt</string>
     <string name="quick_stop_sub">Cuộn chính xác với tính năng dừng nhanh</string>
     <string name="bouncy_sub">Cuộn nảy vui tươi, nhạy bén</string>
     <string name="floaty_sub">Cuộn dài, lướt để duyệt nội dung</string>
@@ -2101,7 +2099,7 @@
     <string name="model_realwebphoto_v2">Tối ưu hóa cho ảnh nén trên web, loại bỏ các thành phần giả JPEG và khôi phục hình thức tự nhiên.</string>
     <string name="model_realwebphoto_v4">Phiên bản cải tiến dành cho ảnh trên web với khả năng bảo toàn kết cấu và giảm hiện vật tốt hơn.</string>
     <string name="model_dat_2x">Nâng cấp gấp 2 lần với công nghệ Biến áp tập hợp kép, duy trì độ sắc nét và chi tiết tự nhiên.</string>
-    <string name="model_dat_3x">Nâng cấp gấp 3 lần bằng cách sử dụng kiến ​​trúc biến áp tiên tiến, lý tưởng cho nhu cầu mở rộng vừa phải.</string>
+    <string name="model_dat_3x">Nâng kích thước 3x sử dụng kiến trúc biến áp tiên tiến, lý tưởng cho nhu cầu phóng to vừa phải.</string>
     <string name="model_dat_4x">Nâng cấp chất lượng cao gấp 4 lần với mạng biến áp hiện đại, bảo toàn các chi tiết đẹp ở quy mô lớn hơn.</string>
     <string name="model_nafnet_deblurring">Loại bỏ hiện tượng mờ/nhiễu và rung lắc khỏi ảnh. Mục đích chung nhưng tốt nhất trên ảnh.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Khôi phục hình ảnh chất lượng thấp bằng biến áp Swin2SR, được tối ưu hóa cho sự suy giảm BSRGAN. Tuyệt vời để sửa các hiện vật nén nặng và nâng cao chi tiết ở tỷ lệ 4x.</string>
