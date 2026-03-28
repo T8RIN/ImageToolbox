@@ -46,7 +46,7 @@ agp = "9.0.1"
 hilt = "2.59.2"
 gms = "4.4.4"
 
-ktor = "3.4.1"
+ktor = "3.4.2"
 coil = "3.4.0"
 appCompat = "1.7.1"
 androidxCore = "1.18.0"
