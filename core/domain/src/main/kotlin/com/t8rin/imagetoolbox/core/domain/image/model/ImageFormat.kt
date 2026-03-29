@@ -44,7 +44,7 @@ sealed class ImageFormat(
             title = "PNG Lossless",
             compressionTypes = emptyList(),
             canChangeCompressionValue = false
-        )
+        ), LosslessMarker
 
         data object Lossy : Png(
             title = "PNG Lossy",
@@ -109,7 +109,7 @@ sealed class ImageFormat(
         data object Lossless : Webp(
             title = "WEBP Lossless",
             compressionTypes = listOf(CompressionType.Effort(0..100))
-        )
+        ), LosslessMarker
 
         data object Lossy : Webp(
             title = "WEBP Lossy",
@@ -139,7 +139,7 @@ sealed class ImageFormat(
             compressionTypes = listOf(
                 CompressionType.Effort(0..10)
             )
-        )
+        ), LosslessMarker
 
         data object Lossy : Avif(
             title = "AVIF Lossy",
@@ -163,7 +163,7 @@ sealed class ImageFormat(
         data object Lossless : Heif(
             title = "HEIF Lossless",
             compressionTypes = listOf()
-        )
+        ), LosslessMarker
 
         data object Lossy : Heif(
             title = "HEIF Lossy",
@@ -186,7 +186,7 @@ sealed class ImageFormat(
         data object Lossless : Heic(
             title = "HEIC Lossless",
             compressionTypes = listOf()
-        )
+        ), LosslessMarker
 
         data object Lossy : Heic(
             title = "HEIC Lossy",
@@ -211,7 +211,7 @@ sealed class ImageFormat(
             compressionTypes = listOf(
                 CompressionType.Effort(1..10)
             )
-        )
+        ), LosslessMarker
 
         data object Lossy : Jxl(
             title = "JXL Lossy",
@@ -283,6 +283,8 @@ sealed class ImageFormat(
         mimeType = MimeType.Gif,
         canChangeCompressionValue = true
     )
+
+    interface LosslessMarker
 
     sealed class CompressionType(
         open val compressionRange: IntRange = 0..100
@@ -362,3 +364,5 @@ sealed class ImageFormat(
         }
     }
 }
+
+val ImageFormat.isLossless get() = this is ImageFormat.LosslessMarker
