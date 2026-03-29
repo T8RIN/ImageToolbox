@@ -1741,7 +1741,7 @@
     <string name="add_image_scale_mode_to_filename">Adicionar Modo De Escala De Imagem Ao Nome Do Arquivo</string>
     <string name="add_image_scale_mode_to_filename_sub">Anexa o sufixo com o modo de escala de imagem selecionado ao nome do arquivo de imagem</string>
     <string name="ascii_art">Arte ASCII</string>
-    <string name="ascii_art_sub">Converta a imagem em texto ASCII que se parecerá com a imagem</string>
+    <string name="ascii_art_sub">Converter a imagem em texto ASCII que se parecerá com a imagem</string>
     <string name="params">Parâmetros</string>
     <string name="invert_colors_ascii_sub">Aplica filtro negativo à imagem para obter melhores resultados em alguns casos</string>
     <string name="processing_screenshot">Processando captura de tela</string>
@@ -1845,6 +1845,7 @@
     <string name="open_github_page">Abrir página do Github</string>
     <plurals name="color_count">
         <item quantity="one">%1$s cor</item>
+        <item quantity="many">%1$s cores</item>
         <item quantity="other">%1$s cores</item>
     </plurals>
     <string name="overwrite_files_sub_short">O arquivo original será substituído por um novo, em vez de ser salvo na pasta selecionada</string>
@@ -1946,7 +1947,7 @@
     <string name="failed_to_open_session">Falha ao abrir sessão</string>
     <string name="only_onnx_models">Apenas modelos .onnx/.ort podem ser importados</string>
     <string name="import_model">Importar modelo</string>
-    <string name="import_model_sub">Importe o modelo ONNX personalizado para uso posterior. Somente modelos ONNX/ORT são aceitos, com suporte para quase todas as variantes semelhantes ao ESRGAN</string>
+    <string name="import_model_sub">Importar o modelo ONNX personalizado para uso posterior. Somente modelos ONNX/ORT são aceitos, com suporte para quase todas as variantes semelhantes ao ESRGAN</string>
     <string name="imported_models">Modelos Importados</string>
     <string name="model_scunet_color_15_fp16">Ruído geral, imagens coloridas</string>
     <string name="model_scunet_color_25_fp16">Ruído geral, imagens coloridas, mais forte</string>
