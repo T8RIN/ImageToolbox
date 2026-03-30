@@ -201,6 +201,7 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     private val default = SettingsState.Default
+
     private val currentSettings: SettingsState get() = settingsState.value
 
     override suspend fun getSettingsState(): SettingsState = rawFlow().first()
