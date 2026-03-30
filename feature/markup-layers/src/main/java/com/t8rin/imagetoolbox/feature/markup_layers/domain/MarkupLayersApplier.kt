@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,24 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.domain
 
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+
 interface MarkupLayersApplier<I> {
 
     suspend fun applyToImage(
         image: I,
         layers: List<MarkupLayer>
     ): I
+
+    suspend fun saveProject(
+        uri: String,
+        project: MarkupProject
+    ): SaveResult
+
+    suspend fun openProject(
+        uri: String
+    ): MarkupProjectResult
+
+    fun clearProjectCache()
 
 }

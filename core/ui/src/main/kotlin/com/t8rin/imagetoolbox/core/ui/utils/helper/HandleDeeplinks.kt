@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelableArrayList
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.filename
 
 fun Intent?.handleDeeplinks(
     onStart: () -> Unit,
@@ -60,16 +61,29 @@ fun Intent?.handleDeeplinks(
     val clipData = intent.clipData
 
     runCatching {
+        fun String?.isMarkupProjectName(): Boolean {
+            val value = this?.lowercase().orEmpty()
+            return value.endsWith(".itp") || value.endsWith(".itp.zip")
+        }
+
+        fun Uri?.isMarkupProject(): Boolean = this?.toString().isMarkupProjectName() ||
+                this?.filename().isMarkupProjectName()
+
         val startsWithImage = type?.startsWith("image/") == true
         val hasExtraFormats = clipData?.clipList()
             ?.any {
-                it.toString().endsWith(".jxl") || it.toString().endsWith(".qoi")
+                it.toString().endsWith(".jxl") ||
+                        it.toString().endsWith(".qoi") ||
+                        it.toString().endsWith(".itp") ||
+                        it.toString().endsWith(".itp.zip")
             } == true
         val dataHasExtraFormats = data.toString().let {
-            it.endsWith(".jxl") || it.endsWith(".qoi")
+            it.endsWith(".jxl") || it.endsWith(".qoi") || it.endsWith(".itp") || it.endsWith(".itp.zip")
         }
 
-        if ((startsWithImage || hasExtraFormats || dataHasExtraFormats)) {
+        if (data.isMarkupProject()) {
+            onNavigate(Screen.MarkupLayers(data))
+        } else if ((startsWithImage || hasExtraFormats || dataHasExtraFormats)) {
             when (action) {
                 Intent.ACTION_VIEW -> {
                     val uris =
@@ -148,6 +162,10 @@ fun Intent?.handleDeeplinks(
 
                     Intent.ACTION_SEND -> {
                         intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                            if (it.isMarkupProject()) {
+                                onNavigate(Screen.MarkupLayers(it))
+                                return
+                            }
                             if (it.toString().contains(BACKUP_FILE_EXT, true)) {
                                 onHasExtraDataType(ExtraDataType.Backup(it.toString()))
                                 return
@@ -169,6 +187,11 @@ fun Intent?.handleDeeplinks(
 
                         if (uris.size == 1) {
                             val uri = uris.first()
+
+                            if (uri.isMarkupProject()) {
+                                onNavigate(Screen.MarkupLayers(uri))
+                                return
+                            }
 
                             if (uri.toString().contains(BACKUP_FILE_EXT, true)) {
                                 onHasExtraDataType(ExtraDataType.Backup(uri.toString()))

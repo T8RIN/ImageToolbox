@@ -69,8 +69,10 @@ fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
             x = position.offsetX,
             y = position.offsetY
         ),
+        alpha = position.alpha,
         isActive = false,
         canvasSize = position.currentCanvasSize,
+        isVisible = position.isVisible,
         coerceToBounds = position.coerceToBounds
     )
 )

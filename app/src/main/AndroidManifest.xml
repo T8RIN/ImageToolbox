@@ -108,7 +108,11 @@
                 <data android:mimeType="image/*" />
                 <data android:pathSuffix=".jxl" />
                 <data android:pathSuffix=".qoi" />
+                <data android:pathSuffix=".itp" />
+                <data android:pathSuffix=".itp.zip" />
+                <data android:mimeType="application/x-imagetoolbox-project" />
                 <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="application/zip" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
 
@@ -142,9 +146,13 @@
                 <data
                     android:mimeType="image/*"
                     tools:ignore="AppLinkUrlError" />
+                <data android:mimeType="application/x-imagetoolbox-project" />
                 <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="application/zip" />
                 <data android:pathSuffix=".jxl" />
                 <data android:pathSuffix=".qoi" />
+                <data android:pathSuffix=".itp" />
+                <data android:pathSuffix=".itp.zip" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
             </intent-filter>
@@ -156,9 +164,13 @@
                 <data
                     android:mimeType="image/*"
                     tools:ignore="AppLinkUrlError" />
+                <data android:mimeType="application/x-imagetoolbox-project" />
                 <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="application/zip" />
                 <data android:pathSuffix=".jxl" />
                 <data android:pathSuffix=".qoi" />
+                <data android:pathSuffix=".itp" />
+                <data android:pathSuffix=".itp.zip" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
             </intent-filter>
@@ -170,9 +182,13 @@
                 <data
                     android:mimeType="image/*"
                     tools:ignore="AppLinkUrlError" />
+                <data android:mimeType="application/x-imagetoolbox-project" />
                 <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="application/zip" />
                 <data android:pathSuffix=".jxl" />
                 <data android:pathSuffix=".qoi" />
+                <data android:pathSuffix=".itp" />
+                <data android:pathSuffix=".itp.zip" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
             </intent-filter>

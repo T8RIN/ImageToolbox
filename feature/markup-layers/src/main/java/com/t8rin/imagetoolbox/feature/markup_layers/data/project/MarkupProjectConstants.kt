@@ -15,25 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.markup_layers.di
+package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 
-import android.graphics.Bitmap
-import com.t8rin.imagetoolbox.feature.markup_layers.data.AndroidMarkupLayersApplier
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface MarkupLayersModule {
-
-    @Binds
-    @Singleton
-    fun applier(
-        impl: AndroidMarkupLayersApplier
-    ): MarkupLayersApplier<Bitmap>
-
-}
+const val MarkupProjectExtension = "itp"
+const val MarkupProjectJsonEntry = "project.json"
+const val MarkupProjectVersion = 1

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,6 +68,14 @@ sealed class MimeType(
         val Qoi = Single("image/qoi")
         val Ico = Single("image/x-icon")
         val Svg = Single("image/svg+xml")
+        val MarkupProject = Single("application/x-imagetoolbox-project")
+        val MarkupProjectList = Multiple(
+            setOf(
+                MarkupProject.entry,
+                Zip.entry,
+                "application/octet-stream"
+            )
+        )
     }
 
 }

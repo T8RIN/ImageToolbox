@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Rectangle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -64,12 +65,15 @@ import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
 import androidx.core.graphics.applyCanvas
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -88,6 +92,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
@@ -142,6 +147,14 @@ fun MarkupLayersContent(
             oneTimeSaveLocationUri = it
         )
     }
+    val projectOpener = rememberFilePicker(
+        mimeType = MimeType.MarkupProjectList,
+        onSuccess = component::setUri
+    )
+    val projectSaver = rememberFileCreator(
+        mimeType = MimeType.MarkupProject,
+        onSuccess = component::saveProject
+    )
 
     val screenSize = LocalScreenSize.current
     val isPortrait by isPortraitOrientationAsState()
@@ -321,6 +334,16 @@ fun MarkupLayersContent(
                     imageFormat = component.imageFormat,
                     onCheckedChange = component::setSaveExif
                 )
+                PreferenceItem(
+                    onClick = {
+                        projectSaver.make(component.createProjectFilename())
+                    },
+                    startIcon = Icons.Outlined.Archive,
+                    title = stringResource(R.string.save_markup_project),
+                    subtitle = stringResource(R.string.save_markup_project_sub),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = ShapeDefaults.large,
+                )
                 ImageFormatSelector(
                     modifier = Modifier.navigationBarsPadding(),
                     forceEnabled = component.backgroundBehavior is BackgroundBehavior.Color,
@@ -369,7 +392,8 @@ fun MarkupLayersContent(
         noDataControls = {
             MarkupLayersNoDataControls(
                 component = component,
-                onPickImage = pickImage
+                onPickImage = pickImage,
+                onOpenProject = projectOpener::pickFile
             )
         },
         canShowScreenData = component.backgroundBehavior !is BackgroundBehavior.None,

@@ -15,25 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.markup_layers.di
+package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 
-import android.graphics.Bitmap
-import com.t8rin.imagetoolbox.feature.markup_layers.data.AndroidMarkupLayersApplier
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import android.net.Uri
+import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.filename
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface MarkupLayersModule {
+fun Uri.isMarkupProject(): Boolean {
+    val name = filename(appContext).orEmpty()
+    val uri = toString()
 
-    @Binds
-    @Singleton
-    fun applier(
-        impl: AndroidMarkupLayersApplier
-    ): MarkupLayersApplier<Bitmap>
+    return name.isMarkupProjectFilename() || uri.isMarkupProjectFilename()
+}
 
+private fun String.isMarkupProjectFilename(): Boolean {
+    val value = lowercase()
+    return value.endsWith(".$MarkupProjectExtension") ||
+            value.endsWith(".$MarkupProjectExtension.zip")
 }

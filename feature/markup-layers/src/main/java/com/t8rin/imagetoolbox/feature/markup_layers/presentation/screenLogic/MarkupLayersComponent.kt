@@ -40,14 +40,22 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectExtension
+import com.t8rin.imagetoolbox.feature.markup_layers.data.project.isMarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asDomain
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asUi
 import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -67,7 +75,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
-    private val markupLayersApplier: MarkupLayersApplier<Bitmap>
+    private val markupLayersApplier: MarkupLayersApplier<Bitmap>,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     init {
@@ -239,6 +247,43 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun setUri(uri: Uri) {
+        if (uri.isMarkupProject()) {
+            loadProject(uri)
+            return
+        }
+        setImageUri(uri)
+    }
+
+    fun saveProject(uri: Uri) {
+        savingJob = trackProgress {
+            _isSaving.value = true
+
+            markupLayersApplier.saveProject(
+                uri = uri.toString(),
+                project = createProject()
+            ).onSuccess {
+                registerSave()
+                AppToastHost.showConfetti()
+            }.let(::parseSaveResult)
+
+            _isSaving.value = false
+        }
+    }
+
+    fun createProjectFilename(): String {
+        val baseName = when (backgroundBehavior) {
+            is BackgroundBehavior.Image -> {
+                _uri.value.filename()?.substringBeforeLast('.')?.takeIf(String::isNotBlank)
+            }
+
+            is BackgroundBehavior.Color -> "markup_layers"
+            BackgroundBehavior.None -> null
+        } ?: "markup_layers_${timestamp()}"
+
+        return "${baseName}.$MarkupProjectExtension"
+    }
+
+    private fun setImageUri(uri: Uri) {
         componentScope.launch {
             _layers.update { emptyList() }
             _isImageLoading.value = true
@@ -251,13 +296,32 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             }
             imageGetter.getImageAsync(
                 uri = uri.toString(),
-                originalSize = true,
+                originalSize = false,
                 onGetImage = { data ->
                     updateBitmap(data.image)
                     _imageFormat.update { data.imageInfo.imageFormat }
                 },
                 onFailure = AppToastHost::showFailureToast
             )
+        }
+    }
+
+    private fun loadProject(uri: Uri) {
+        componentScope.launch {
+            _isImageLoading.value = true
+            when (val result = markupLayersApplier.openProject(uri.toString())) {
+                is MarkupProjectResult.Success -> {
+                    applyProject(
+                        project = result.project
+                    )
+                    registerChangesCleared()
+                }
+
+                is MarkupProjectResult.Error -> {
+                    AppToastHost.showFailureToast(result.message)
+                }
+            }
+            _isImageLoading.value = false
         }
     }
 
@@ -284,11 +348,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     override fun resetState() {
+        markupLayersApplier.clearProjectCache()
         _bitmap.value = null
         _backgroundBehavior.update {
             BackgroundBehavior.None
         }
         _uri.value = Uri.EMPTY
+        _lastLayers.value = emptyList()
+        _undoneLayers.value = emptyList()
         _layers.update { emptyList() }
         registerChangesCleared()
     }
@@ -373,6 +440,67 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 )
             }
         }
+    }
+
+    private fun createProject(): MarkupProject = MarkupProject(
+        imageFormat = imageFormat,
+        saveExif = saveExif,
+        background = when (val behavior = backgroundBehavior) {
+            is BackgroundBehavior.Color -> ProjectBackground.Color(
+                width = behavior.width,
+                height = behavior.height,
+                color = behavior.color
+            )
+
+            is BackgroundBehavior.Image -> ProjectBackground.Image(
+                uri = _uri.value.toString()
+            )
+
+            BackgroundBehavior.None -> ProjectBackground.None
+        },
+        layers = layers.map(UiMarkupLayer::asDomain),
+        lastLayers = lastLayers.map(UiMarkupLayer::asDomain),
+        undoneLayers = undoneLayers.map(UiMarkupLayer::asDomain)
+    )
+
+    private suspend fun applyProject(
+        project: MarkupProject
+    ) {
+        _imageFormat.value = project.imageFormat
+        _saveExif.value = project.saveExif
+
+        when (val background = project.background) {
+            is ProjectBackground.Image -> {
+                _uri.value = background.uri.toUri()
+                _backgroundBehavior.value = BackgroundBehavior.Image
+                updateBitmap(
+                    bitmap = imageGetter.getImage(
+                        data = background.uri,
+                        originalSize = false
+                    )
+                )
+            }
+
+            is ProjectBackground.Color -> {
+                _uri.value = Uri.EMPTY
+                _backgroundBehavior.value = BackgroundBehavior.Color(
+                    width = background.width,
+                    height = background.height,
+                    color = background.color
+                )
+                updateBitmap(null)
+            }
+
+            ProjectBackground.None -> {
+                _uri.value = Uri.EMPTY
+                _backgroundBehavior.value = BackgroundBehavior.None
+                updateBitmap(null)
+            }
+        }
+
+        _layers.value = project.layers.map { it.asUi() }
+        _lastLayers.value = project.lastLayers.map { it.asUi() }
+        _undoneLayers.value = project.undoneLayers.map { it.asUi() }
     }
 
     @AssistedFactory

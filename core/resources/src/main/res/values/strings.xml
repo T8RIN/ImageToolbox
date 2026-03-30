@@ -285,6 +285,12 @@
     <string name="encrypt">Encrypt</string>
     <string name="decrypt">Decrypt</string>
     <string name="pick_file_to_start">Pick file to start</string>
+    <string name="open_markup_project">Open project</string>
+    <string name="open_markup_project_sub">Continue editing a previously saved Image Toolbox project</string>
+    <string name="markup_project_open_failed">Unable to open Image Toolbox project</string>
+    <string name="markup_project_missing_data">Image Toolbox project is missing project data</string>
+    <string name="markup_project_corrupted">Image Toolbox project is corrupted</string>
+    <string name="unsupported_markup_project_version">Unsupported Image Toolbox project version: %1$d</string>
     <string name="decryption">Decryption</string>
     <string name="encryption">Encryption</string>
     <string name="key">Key</string>
@@ -1138,6 +1144,8 @@
     <string name="as_qr_code">As QR code image</string>
     <string name="as_file">As file</string>
     <string name="save_as_file">Save as file</string>
+    <string name="save_markup_project">Save project</string>
+    <string name="save_markup_project_sub">Store layers, background and edit history in an editable project file</string>
     <string name="save_as_qr_code_image">Save as QR code image</string>
     <string name="delete_template">Delete Template</string>
     <string name="delete_template_warn">You are about to delete selected template filter. This operation cannot be undone</string>

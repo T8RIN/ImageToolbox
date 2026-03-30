@@ -149,7 +149,7 @@ fun rememberFilePicker(
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
 ): FilePicker = rememberFilePicker(
-    type = FileType.Multiple,
+    type = FileType.Single,
     mimeType = mimeType,
     onFailure = onFailure,
     onSuccess = {

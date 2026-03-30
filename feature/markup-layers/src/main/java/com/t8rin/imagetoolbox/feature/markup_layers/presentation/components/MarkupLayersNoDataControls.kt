@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.ImageTooltip
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
+import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.restrict
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
@@ -75,7 +76,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.Mar
 @Composable
 internal fun MarkupLayersNoDataControls(
     component: MarkupLayersComponent,
-    onPickImage: () -> Unit
+    onPickImage: () -> Unit,
+    onOpenProject: () -> Unit
 ) {
     var showBackgroundDrawingSetup by rememberSaveable { mutableStateOf(false) }
 
@@ -118,6 +120,15 @@ internal fun MarkupLayersNoDataControls(
                 startIcon = Icons.Outlined.FormatPaint,
                 title = stringResource(R.string.layers_on_background),
                 subtitle = stringResource(R.string.layers_on_background_sub),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        item {
+            PreferenceItem(
+                onClick = onOpenProject,
+                startIcon = Icons.Outlined.Unarchive,
+                title = stringResource(R.string.open_markup_project),
+                subtitle = stringResource(R.string.open_markup_project_sub),
                 modifier = Modifier.fillMaxWidth()
             )
         }
