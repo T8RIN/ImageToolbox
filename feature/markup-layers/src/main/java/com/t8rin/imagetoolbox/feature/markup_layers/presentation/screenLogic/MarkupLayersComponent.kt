@@ -240,10 +240,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private fun updateBitmap(bitmap: Bitmap?) {
         componentScope.launch {
-            _isImageLoading.value = true
-            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-            _isImageLoading.value = false
+            updateBitmapSync(bitmap)
         }
+    }
+
+    private suspend fun updateBitmapSync(bitmap: Bitmap?) {
+        _isImageLoading.value = true
+        _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
+        _isImageLoading.value = false
     }
 
     fun setUri(uri: Uri) {
@@ -278,9 +282,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
             is BackgroundBehavior.Color -> "markup_layers"
             BackgroundBehavior.None -> null
-        } ?: "markup_layers_${timestamp()}"
+        } ?: "markup_layers"
 
-        return "${baseName}.$MarkupProjectExtension"
+        return "${baseName}_${timestamp()}.$MarkupProjectExtension"
     }
 
     private fun setImageUri(uri: Uri) {
@@ -301,7 +305,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     updateBitmap(data.image)
                     _imageFormat.update { data.imageInfo.imageFormat }
                 },
-                onFailure = AppToastHost::showFailureToast
+                onFailure = {
+                    _isImageLoading.value = false
+                    AppToastHost.showFailureToast(it)
+                }
             )
         }
     }
@@ -466,6 +473,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private suspend fun applyProject(
         project: MarkupProject
     ) {
+        _layers.value = emptyList()
+        _lastLayers.value = emptyList()
+        _undoneLayers.value = emptyList()
+
         _imageFormat.value = project.imageFormat
         _saveExif.value = project.saveExif
 
@@ -473,7 +484,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             is ProjectBackground.Image -> {
                 _uri.value = background.uri.toUri()
                 _backgroundBehavior.value = BackgroundBehavior.Image
-                updateBitmap(
+                updateBitmapSync(
                     bitmap = imageGetter.getImage(
                         data = background.uri,
                         originalSize = false
@@ -488,13 +499,13 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     height = background.height,
                     color = background.color
                 )
-                updateBitmap(null)
+                updateBitmapSync(null)
             }
 
             ProjectBackground.None -> {
                 _uri.value = Uri.EMPTY
                 _backgroundBehavior.value = BackgroundBehavior.None
-                updateBitmap(null)
+                updateBitmapSync(null)
             }
         }
 

@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.putEntry
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.BackgroundSnapshot
@@ -75,7 +76,9 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     private val jsonParser: JsonParser,
 ) : MarkupLayersApplier<Bitmap>, DispatchersHolder by dispatchersHolder {
 
-    private var projectCacheDir: File? = null
+    private val projectCacheRoot by lazy {
+        File(context.cacheDir, "markup-projects").apply(File::mkdirs)
+    }
 
     override suspend fun applyToImage(
         image: Bitmap,
@@ -116,10 +119,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     override suspend fun openProject(uri: String): MarkupProjectResult = withContext(ioDispatcher) {
         clearProjectCache()
 
-        val extractionDir = File(
-            context.cacheDir,
-            "markup-projects/${UUID.randomUUID()}"
-        ).apply { mkdirs() }
+        val extractionDir = File(projectCacheRoot, UUID.randomUUID().toString()).apply { mkdirs() }
 
         runSuspendCatching {
             var projectJson: String? = null
@@ -149,8 +149,6 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
             } ?: return@runSuspendCatching MarkupProjectResult.Error.InvalidArchive(
                 message = context.getString(R.string.markup_project_open_failed)
             )
-
-            projectCacheDir = extractionDir
 
             if (projectJson.isNullOrBlank()) {
                 clearProjectCache()
@@ -188,8 +186,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     }
 
     override fun clearProjectCache() {
-        projectCacheDir?.deleteRecursively()
-        projectCacheDir = null
+        projectCacheRoot.listFiles().orEmpty().forEach(File::deleteRecursively)
     }
 
     private suspend fun MarkupProject.toSnapshot(
@@ -383,27 +380,27 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         )
     )
 
-    private fun com.t8rin.imagetoolbox.core.settings.domain.model.FontType.toSnapshot(): FontSnapshot =
+    private fun FontType.toSnapshot(): FontSnapshot =
         when (this) {
-            is com.t8rin.imagetoolbox.core.settings.domain.model.FontType.File -> FontSnapshot(
+            is FontType.File -> FontSnapshot(
                 type = FontSnapshotType.File,
                 path = path
             )
 
-            is com.t8rin.imagetoolbox.core.settings.domain.model.FontType.Resource -> FontSnapshot(
+            is FontType.Resource -> FontSnapshot(
                 type = FontSnapshotType.Resource,
                 resourceId = resId
             )
         }
 
-    private fun FontSnapshot.toDomain(): com.t8rin.imagetoolbox.core.settings.domain.model.FontType? =
+    private fun FontSnapshot.toDomain(): FontType? =
         when (type) {
             FontSnapshotType.File -> path?.let {
-                com.t8rin.imagetoolbox.core.settings.domain.model.FontType.File(it)
+                FontType.File(it)
             }
 
             FontSnapshotType.Resource -> resourceId?.let {
-                com.t8rin.imagetoolbox.core.settings.domain.model.FontType.Resource(it)
+                FontType.Resource(it)
             }
         }
 

@@ -31,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -69,6 +70,17 @@ internal fun MarkupLayersTopAppBarActions(
                 )
             }
         }
+
+        EnhancedIconButton(
+            onClick = component::clearLayers,
+            enabled = component.layers.isNotEmpty()
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = stringResource(R.string.clear)
+            )
+        }
+
         var editSheetData by remember {
             mutableStateOf(listOf<Uri>())
         }
