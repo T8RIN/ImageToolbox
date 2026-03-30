@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.util.fastCoerceIn
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import kotlin.math.abs
 import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.cos
@@ -151,15 +150,14 @@ class EditBoxState(
         if (_canvasSize.value != IntegerSize.Zero) {
             val sx = value.width.toFloat() / _canvasSize.value.width
             val sy = value.height.toFloat() / _canvasSize.value.height
-            if (abs(_canvasSize.value.aspectRatio - value.aspectRatio) < 0.01) {
-                offset *= minOf(sx, sy)
-            } else if (_canvasSize.value.aspectRatio < value.aspectRatio) {
-                scale *= minOf(sx, sy)
-                offset *= minOf(sx, sy)
-            } else {
-                scale /= minOf(sx, sy)
-                offset /= minOf(sx, sy)
-            }
+            // Layer offsets live in canvas pixels, so restore them per axis when the
+            // editor canvas changes after project import/reopen. Scaling the layer
+            // itself here double-applies size changes because the content already
+            // remeasures against the new canvas bounds.
+            offset = Offset(
+                x = offset.x * sx,
+                y = offset.y * sy
+            )
         }
         _canvasSize.value = value
     }
