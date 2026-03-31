@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -1742,8 +1740,8 @@
     <string name="add_preset_to_filename_sub">إلحاق لاحقة بالإعداد المسبق المحدد لاسم ملف الصورة</string>
     <string name="add_image_scale_mode_to_filename">أضف وضع مقياس الصورة إلى اسم الملف</string>
     <string name="add_image_scale_mode_to_filename_sub">إلحاق لاحقة مع وضع مقياس الصورة المحدد لاسم ملف الصورة</string>
-    <string name="ascii_art">فن أسكي</string>
-    <string name="ascii_art_sub">تحويل الصورة إلى نص ascii الذي سيبدو مثل الصورة</string>
+    <string name="ascii_art">فن أسكي (ASCII)</string>
+    <string name="ascii_art_sub">تحويل الصورة إلى نص ASCII الذي سيبدو مثل الصورة</string>
     <string name="params">بارامس</string>
     <string name="invert_colors_ascii_sub">يتم تطبيق مرشح سلبي على الصورة للحصول على نتيجة أفضل في بعض الحالات</string>
     <string name="processing_screenshot">معالجة لقطة الشاشة</string>
