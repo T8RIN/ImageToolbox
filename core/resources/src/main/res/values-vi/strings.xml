@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -887,7 +885,7 @@
     <string name="fluent_switch_sub">Sử dụng công tắc kiểu Windows 11 dựa trên hệ thống thiết kế \"Fluent\"</string>
     <string name="cupertino_switch">Cupertino</string>
     <string name="cupertino_switch_sub">Một công tắc dựa trên hệ thống thiết kế \"Cupertino\"</string>
-    <string name="images_to_svg">Hình ảnh thành Svg</string>
+    <string name="images_to_svg">Hình ảnh thành SVG</string>
     <string name="images_to_svg_sub">Theo dõi hình ảnh đã cho thành hình ảnh SVG</string>
     <string name="use_sampled_palette">Sử dụng Bảng màu được lấy mẫu</string>
     <string name="use_sampled_palette_sub">Bảng lượng tử hóa sẽ được lấy mẫu nếu tùy chọn này được bật</string>
