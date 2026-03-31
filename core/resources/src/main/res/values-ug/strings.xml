@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">تۈرنى ساقلاش</string>
     <string name="save_markup_project_sub">تەھرىرلىگىلى بولىدىغان تۈر ھۆججىتىدە قەۋەت ، تەگلىك ۋە تەھرىرلەش تارىخىنى ساقلاڭ</string>
     <string name="failed_to_open">ئېچىلمىدى</string>
+    <string name="ocr_write_to_searchable_pdf">ئىزدەشكە بولىدىغان PDF غا يېزىڭ</string>
+    <string name="ocr_write_to_searchable_pdf_sub">رەسىم گۇرۇپپىسىدىكى تېكىستنى تونۇپ ، رەسىم ۋە تاللىغىلى بولىدىغان تېكىست قەۋىتى بىلەن ئىزدەشكە بولىدىغان PDF نى ساقلاڭ</string>
 </resources>

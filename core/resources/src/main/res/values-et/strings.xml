@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Salvesta projekt</string>
     <string name="save_markup_project_sub">Salvestage kihid, taust ja redigeerimisajalugu redigeeritavas projektifailis</string>
     <string name="failed_to_open">Avamine ebaõnnestus</string>
+    <string name="ocr_write_to_searchable_pdf">Kirjutage otsitavasse PDF-i</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Tuvastage pildikomplektist tekst ja salvestage otsitav PDF koos pildi ja valitava tekstikihiga</string>
 </resources>

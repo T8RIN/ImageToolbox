@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Project opslaan</string>
     <string name="save_markup_project_sub">Bewaar lagen, achtergronden en bewerkingsgeschiedenis in een bewerkbaar projectbestand</string>
     <string name="failed_to_open">Kan niet worden geopend</string>
+    <string name="ocr_write_to_searchable_pdf">Schrijf naar doorzoekbare PDF</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Herken tekst uit de afbeeldingsbatch en sla doorzoekbare PDF op met afbeelding en selecteerbare tekstlaag</string>
 </resources>

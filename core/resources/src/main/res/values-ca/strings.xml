@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Guarda el projecte</string>
     <string name="save_markup_project_sub">Emmagatzema capes, fons i historial d\'edició en un fitxer de projecte editable</string>
     <string name="failed_to_open">No s\'ha pogut obrir</string>
+    <string name="ocr_write_to_searchable_pdf">Escriu en PDF cercable</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Reconeix el text del lot d\'imatges i desa PDF cercable amb imatge i capa de text seleccionable</string>
 </resources>

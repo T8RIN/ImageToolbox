@@ -2203,4 +2203,6 @@
     <string name="save_markup_project">Zapisz projekt</string>
     <string name="save_markup_project_sub">Przechowuj warstwy, tło i historię edycji w edytowalnym pliku projektu</string>
     <string name="failed_to_open">Nie udało się otworzyć</string>
+    <string name="ocr_write_to_searchable_pdf">Zapisz w pliku PDF z możliwością przeszukiwania</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Rozpoznaj tekst z partii obrazów i zapisz plik PDF z możliwością przeszukiwania z obrazem i wybraną warstwą tekstową</string>
 </resources>

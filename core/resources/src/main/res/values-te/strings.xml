@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">ప్రాజెక్ట్‌ను సేవ్ చేయండి</string>
     <string name="save_markup_project_sub">సవరించగలిగే ప్రాజెక్ట్ ఫైల్‌లో లేయర్‌లు, నేపథ్యం మరియు సవరణ చరిత్రను నిల్వ చేయండి</string>
     <string name="failed_to_open">తెరవడంలో విఫలమైంది</string>
+    <string name="ocr_write_to_searchable_pdf">శోధించదగిన PDFకి వ్రాయండి</string>
+    <string name="ocr_write_to_searchable_pdf_sub">ఇమేజ్ బ్యాచ్ నుండి వచనాన్ని గుర్తించి, శోధించదగిన PDFని ఇమేజ్ మరియు ఎంచుకోదగిన టెక్స్ట్ లేయర్‌తో సేవ్ చేయండి</string>
 </resources>

@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Guardar proyecto</string>
     <string name="save_markup_project_sub">Almacene capas, fondos y edite el historial en un archivo de proyecto editable</string>
     <string name="failed_to_open">No se pudo abrir</string>
+    <string name="ocr_write_to_searchable_pdf">Escribir en PDF con capacidad de búsqueda</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Reconozca texto de un lote de imágenes y guarde PDF con capacidad de búsqueda con imagen y capa de texto seleccionable</string>
 </resources>

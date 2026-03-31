@@ -2203,4 +2203,6 @@
     <string name="save_markup_project">Uložiť projekt</string>
     <string name="save_markup_project_sub">Uložte vrstvy, pozadie a históriu úprav do upraviteľného súboru projektu</string>
     <string name="failed_to_open">Nepodarilo sa otvoriť</string>
+    <string name="ocr_write_to_searchable_pdf">Zápis do prehľadávateľného PDF</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Rozpoznajte text z obrázkovej dávky a uložte prehľadávateľný PDF s obrázkom a voliteľnou textovou vrstvou</string>
 </resources>

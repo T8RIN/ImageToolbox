@@ -2203,4 +2203,6 @@
     <string name="save_markup_project">Захаваць праект</string>
     <string name="save_markup_project_sub">Захоўвайце слаі, фон і гісторыю рэдагавання ў файле праекта, які можна рэдагаваць</string>
     <string name="failed_to_open">Не ўдалося адкрыць</string>
+    <string name="ocr_write_to_searchable_pdf">Запіс у PDF з магчымасцю пошуку</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Распазнавайце тэкст з пакета малюнкаў і захоўвайце PDF з магчымасцю пошуку з выявай і тэкставым пластом, які можна выбраць</string>
 </resources>

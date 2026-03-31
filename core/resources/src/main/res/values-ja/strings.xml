@@ -2200,4 +2200,6 @@
     <string name="save_markup_project">プロジェクトの保存</string>
     <string name="save_markup_project_sub">レイヤー、背景、編集履歴を編集可能なプロジェクト ファイルに保存</string>
     <string name="failed_to_open">開けませんでした</string>
+    <string name="ocr_write_to_searchable_pdf">検索可能な PDF に書き込む</string>
+    <string name="ocr_write_to_searchable_pdf_sub">画像バッチからテキストを認識し、画像と選択可能なテキストレイヤーを含む検索可能な PDF を保存します</string>
 </resources>

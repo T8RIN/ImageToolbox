@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Gorde proiektua</string>
     <string name="save_markup_project_sub">Gorde geruzak, atzeko planoa eta editatu historia proiektu editagarri batean</string>
     <string name="failed_to_open">Ezin izan da ireki</string>
+    <string name="ocr_write_to_searchable_pdf">Idatzi bila daitekeen PDF batean</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Ezagutu irudi sortako testua eta gorde PDF bilagarria irudiarekin eta hauta daitekeen testu geruzarekin</string>
 </resources>

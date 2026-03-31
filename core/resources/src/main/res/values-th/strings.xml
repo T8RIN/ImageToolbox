@@ -2200,4 +2200,6 @@
     <string name="save_markup_project">บันทึกโครงการ</string>
     <string name="save_markup_project_sub">จัดเก็บเลเยอร์ พื้นหลัง และประวัติการแก้ไขในไฟล์โปรเจ็กต์ที่แก้ไขได้</string>
     <string name="failed_to_open">ไม่สามารถเปิดได้</string>
+    <string name="ocr_write_to_searchable_pdf">เขียนเป็น PDF ที่ค้นหาได้</string>
+    <string name="ocr_write_to_searchable_pdf_sub">จดจำข้อความจากชุดรูปภาพและบันทึก PDF ที่ค้นหาได้ด้วยรูปภาพและเลเยอร์ข้อความที่เลือกได้</string>
 </resources>

@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">প্রকল্প সংরক্ষণ করুন</string>
     <string name="save_markup_project_sub">একটি সম্পাদনাযোগ্য প্রকল্প ফাইলে স্তর, পটভূমি এবং সম্পাদনা ইতিহাস সংরক্ষণ করুন</string>
     <string name="failed_to_open">খুলতে ব্যর্থ হয়েছে</string>
+    <string name="ocr_write_to_searchable_pdf">অনুসন্ধানযোগ্য পিডিএফ-এ লিখুন</string>
+    <string name="ocr_write_to_searchable_pdf_sub">চিত্র ব্যাচ থেকে পাঠ্য সনাক্ত করুন এবং চিত্র এবং নির্বাচনযোগ্য পাঠ্য স্তর সহ অনুসন্ধানযোগ্য PDF সংরক্ষণ করুন</string>
 </resources>

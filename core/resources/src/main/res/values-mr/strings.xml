@@ -2202,4 +2202,6 @@
     <string name="save_markup_project">प्रकल्प जतन करा</string>
     <string name="save_markup_project_sub">संपादन करण्यायोग्य प्रकल्प फाइलमध्ये स्तर, पार्श्वभूमी आणि संपादित इतिहास संग्रहित करा</string>
     <string name="failed_to_open">उघडण्यात अयशस्वी</string>
+    <string name="ocr_write_to_searchable_pdf">शोधण्यायोग्य PDF वर लिहा</string>
+    <string name="ocr_write_to_searchable_pdf_sub">इमेज बॅचमधील मजकूर ओळखा आणि शोधण्यायोग्य PDF प्रतिमा आणि निवडण्यायोग्य मजकूर स्तरासह जतन करा</string>
 </resources>

@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Projekt speichern</string>
     <string name="save_markup_project_sub">Speichern Sie Ebenen, Hintergrund und Bearbeitungsverlauf in einer bearbeitbaren Projektdatei</string>
     <string name="failed_to_open">Öffnen fehlgeschlagen</string>
+    <string name="ocr_write_to_searchable_pdf">In durchsuchbares PDF schreiben</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Erkennen Sie Text aus dem Bildstapel und speichern Sie durchsuchbare PDFs mit Bild und auswählbarer Textebene</string>
 </resources>

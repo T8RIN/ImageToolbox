@@ -2203,4 +2203,6 @@
     <string name="save_markup_project">Сохранить проект</string>
     <string name="save_markup_project_sub">Храните слои, фон и историю редактирования в редактируемом файле проекта.</string>
     <string name="failed_to_open">Не удалось открыть</string>
+    <string name="ocr_write_to_searchable_pdf">Запись в PDF с возможностью поиска</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Распознавайте текст из пакета изображений и сохраняйте PDF с возможностью поиска с изображением и выбираемым текстовым слоем.</string>
 </resources>

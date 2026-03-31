@@ -2200,4 +2200,6 @@
     <string name="save_markup_project">Simpan proyek</string>
     <string name="save_markup_project_sub">Simpan lapisan, latar belakang, dan riwayat edit dalam file proyek yang dapat diedit</string>
     <string name="failed_to_open">Gagal dibuka</string>
+    <string name="ocr_write_to_searchable_pdf">Tulis Ke PDF yang Dapat Dicari</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Kenali teks dari kumpulan gambar dan simpan PDF yang dapat dicari dengan gambar dan lapisan teks yang dapat dipilih</string>
 </resources>

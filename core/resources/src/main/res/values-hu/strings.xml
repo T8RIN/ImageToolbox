@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Projekt mentése</string>
     <string name="save_markup_project_sub">Tárolja a rétegeket, a hátteret és a szerkesztési előzményeket egy szerkeszthető projektfájlban</string>
     <string name="failed_to_open">Nem sikerült megnyitni</string>
+    <string name="ocr_write_to_searchable_pdf">Írás kereshető PDF-be</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Szöveg felismerése képkötegből, és kereshető PDF mentése képpel és kiválasztható szövegréteggel</string>
 </resources>

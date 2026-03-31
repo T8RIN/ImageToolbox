@@ -2205,4 +2205,6 @@
     <string name="save_markup_project">حفظ المشروع</string>
     <string name="save_markup_project_sub">قم بتخزين الطبقات والخلفية وسجل التحرير في ملف مشروع قابل للتحرير</string>
     <string name="failed_to_open">فشل في الفتح</string>
+    <string name="ocr_write_to_searchable_pdf">الكتابة إلى ملف PDF قابل للبحث</string>
+    <string name="ocr_write_to_searchable_pdf_sub">تعرف على النص من مجموعة الصور واحفظ ملف PDF القابل للبحث مع الصورة وطبقة النص القابلة للتحديد</string>
 </resources>

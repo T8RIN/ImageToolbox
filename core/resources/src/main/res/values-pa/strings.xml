@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="save_markup_project_sub">ਸੰਪਾਦਨਯੋਗ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲ ਵਿੱਚ ਲੇਅਰਾਂ, ਬੈਕਗ੍ਰਾਉਂਡ ਅਤੇ ਸੰਪਾਦਨ ਇਤਿਹਾਸ ਨੂੰ ਸਟੋਰ ਕਰੋ</string>
     <string name="failed_to_open">ਖੋਲ੍ਹਣ ਵਿੱਚ ਅਸਫਲ</string>
+    <string name="ocr_write_to_searchable_pdf">ਖੋਜਯੋਗ PDF ਵਿੱਚ ਲਿਖੋ</string>
+    <string name="ocr_write_to_searchable_pdf_sub">ਚਿੱਤਰ ਬੈਚ ਤੋਂ ਟੈਕਸਟ ਨੂੰ ਪਛਾਣੋ ਅਤੇ ਚਿੱਤਰ ਅਤੇ ਚੋਣਯੋਗ ਟੈਕਸਟ ਲੇਅਰ ਨਾਲ ਖੋਜਣ ਯੋਗ PDF ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
 </resources>

@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">ذخیره پروژه</string>
     <string name="save_markup_project_sub">لایه ها، پس زمینه و تاریخچه ویرایش را در یک فایل پروژه قابل ویرایش ذخیره کنید</string>
     <string name="failed_to_open">باز نشد</string>
+    <string name="ocr_write_to_searchable_pdf">نوشتن در PDF قابل جستجو</string>
+    <string name="ocr_write_to_searchable_pdf_sub">متن را از دسته تصویر تشخیص دهید و PDF قابل جستجو را با تصویر و لایه متن قابل انتخاب ذخیره کنید</string>
 </resources>

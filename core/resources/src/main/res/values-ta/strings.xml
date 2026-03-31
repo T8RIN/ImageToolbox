@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">திட்டத்தை சேமிக்கவும்</string>
     <string name="save_markup_project_sub">திருத்தக்கூடிய திட்டக் கோப்பில் அடுக்குகள், பின்னணி மற்றும் திருத்த வரலாற்றை சேமிக்கவும்</string>
     <string name="failed_to_open">திறக்க முடியவில்லை</string>
+    <string name="ocr_write_to_searchable_pdf">தேடக்கூடிய PDFக்கு எழுதவும்</string>
+    <string name="ocr_write_to_searchable_pdf_sub">படத் தொகுப்பிலிருந்து உரையை அங்கீகரித்து, படம் மற்றும் தேர்ந்தெடுக்கக்கூடிய உரை அடுக்குடன் தேடக்கூடிய PDF ஐச் சேமிக்கவும்</string>
 </resources>

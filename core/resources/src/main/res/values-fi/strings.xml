@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Tallenna projekti</string>
     <string name="save_markup_project_sub">Tallenna tasot, tausta ja muokkaushistoria muokattavaan projektitiedostoon</string>
     <string name="failed_to_open">Avaaminen epäonnistui</string>
+    <string name="ocr_write_to_searchable_pdf">Kirjoita haettavaan PDF-tiedostoon</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Tunnista teksti kuvaerästä ja tallenna haettavissa oleva PDF kuvan ja valittavan tekstikerroksen kanssa</string>
 </resources>

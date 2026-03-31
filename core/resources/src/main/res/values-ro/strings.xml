@@ -2202,4 +2202,6 @@
     <string name="save_markup_project">Salvați proiectul</string>
     <string name="save_markup_project_sub">Stocați straturi, fundal și editează istoricul într-un fișier de proiect editabil</string>
     <string name="failed_to_open">Deschiderea eșuată</string>
+    <string name="ocr_write_to_searchable_pdf">Scrieți într-un PDF care poate fi căutat</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Recunoașteți textul din lotul de imagini și salvați PDF care poate fi căutat cu imagine și strat de text selectabil</string>
 </resources>

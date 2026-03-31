@@ -2202,4 +2202,6 @@
     <string name="save_markup_project">Сачувај пројекат</string>
     <string name="save_markup_project_sub">Чувајте слојеве, позадину и историју уређивања у датотеци пројекта који се може уређивати</string>
     <string name="failed_to_open">Отварање није успело</string>
+    <string name="ocr_write_to_searchable_pdf">Врите То Сеарцхабле ПДФ</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Препознајте текст из групе слика и сачувајте претраживи ПДФ са сликом и слојем текста који се може изабрати</string>
 </resources>

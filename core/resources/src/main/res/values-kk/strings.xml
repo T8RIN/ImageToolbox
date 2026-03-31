@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Жобаны сақтау</string>
     <string name="save_markup_project_sub">Қабаттарды, фондық және өңдеу журналын өңделетін жоба файлында сақтаңыз</string>
     <string name="failed_to_open">Ашылмады</string>
+    <string name="ocr_write_to_searchable_pdf">Іздеуге болатын PDF файлына жазыңыз</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Кескін топтамасынан мәтінді танып, сурет пен таңдалатын мәтін қабатымен ізделетін PDF файлын сақтаңыз</string>
 </resources>

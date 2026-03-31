@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">प्रोजेक्ट सहेजें</string>
     <string name="save_markup_project_sub">एक संपादन योग्य प्रोजेक्ट फ़ाइल में परतें, पृष्ठभूमि और संपादन इतिहास संग्रहीत करें</string>
     <string name="failed_to_open">खोलने में विफल</string>
+    <string name="ocr_write_to_searchable_pdf">खोजने योग्य पीडीएफ में लिखें</string>
+    <string name="ocr_write_to_searchable_pdf_sub">छवि बैच से पाठ को पहचानें और छवि और चयन योग्य पाठ परत के साथ खोजने योग्य पीडीएफ को सहेजें</string>
 </resources>

@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">I-save ang proyekto</string>
     <string name="save_markup_project_sub">Mag-imbak ng mga layer, background at kasaysayan ng pag-edit sa isang nae-edit na file ng proyekto</string>
     <string name="failed_to_open">Nabigong buksan</string>
+    <string name="ocr_write_to_searchable_pdf">Sumulat Sa Mahahanap na PDF</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Kilalanin ang teksto mula sa batch ng imahe at i-save ang nahahanap na PDF na may larawan at maaaring piliin na layer ng teksto</string>
 </resources>

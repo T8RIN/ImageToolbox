@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Enregistrer le projet</string>
     <string name="save_markup_project_sub">Stockez les calques, l\'arrière-plan et l\'historique des modifications dans un fichier de projet modifiable</string>
     <string name="failed_to_open">Échec de l\'ouverture</string>
+    <string name="ocr_write_to_searchable_pdf">Écrire dans un PDF consultable</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Reconnaissez le texte d\'un lot d\'images et enregistrez un PDF consultable avec une image et un calque de texte sélectionnable</string>
 </resources>

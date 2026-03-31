@@ -154,7 +154,7 @@ internal class ModernPdfViewerDelegate : PdfViewerFragment() {
             }
 
         CoroutineScope(Dispatchers.Main.immediate).launch {
-            repeat(20) {
+            repeat(20) { i ->
                 pdfView.fastScroller?.fastScrollDrawer?.let {
                     try {
                         it.javaClass.getDeclaredField("textPaint").apply {
@@ -167,7 +167,7 @@ internal class ModernPdfViewerDelegate : PdfViewerFragment() {
                             )
                         }
                     } catch (t: Throwable) {
-                        t.makeLog("textPaint")
+                        if (i == 0) t.makeLog("textPaint")
                     }
                 }
                 pdfView.fastScrollVisibility = PdfView.FastScrollVisibility.ALWAYS_SHOW

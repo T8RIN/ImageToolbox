@@ -2203,4 +2203,6 @@
     <string name="save_markup_project">שמור פרויקט</string>
     <string name="save_markup_project_sub">אחסן שכבות, רקע והיסטוריית עריכה בקובץ פרויקט הניתן לעריכה</string>
     <string name="failed_to_open">הפתיחה נכשלה</string>
+    <string name="ocr_write_to_searchable_pdf">כתוב ל-PDF הניתן לחיפוש</string>
+    <string name="ocr_write_to_searchable_pdf_sub">זיהוי טקסט מאצוות תמונה ושמור PDF שניתן לחיפוש עם תמונה ושכבת טקסט לבחירה</string>
 </resources>

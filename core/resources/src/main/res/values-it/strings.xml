@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Salva progetto</string>
     <string name="save_markup_project_sub">Memorizza livelli, sfondo e cronologia delle modifiche in un file di progetto modificabile</string>
     <string name="failed_to_open">Impossibile aprire</string>
+    <string name="ocr_write_to_searchable_pdf">Scrivi su PDF ricercabile</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Riconosci il testo da un batch di immagini e salva PDF ricercabili con immagine e livello di testo selezionabile</string>
 </resources>

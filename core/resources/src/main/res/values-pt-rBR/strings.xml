@@ -1845,7 +1845,6 @@
     <string name="open_github_page">Abrir página do Github</string>
     <plurals name="color_count">
         <item quantity="one">%1$s cor</item>
-        <item quantity="many">%1$s cores</item>
         <item quantity="other">%1$s cores</item>
     </plurals>
     <string name="overwrite_files_sub_short">O arquivo original será substituído por um novo, em vez de ser salvo na pasta selecionada</string>
@@ -2202,4 +2201,6 @@
     <string name="save_markup_project">Salvar projeto</string>
     <string name="save_markup_project_sub">Armazene camadas, plano de fundo e histórico de edição em um arquivo de projeto editável</string>
     <string name="failed_to_open">Falha ao abrir</string>
+    <string name="ocr_write_to_searchable_pdf">Escreva em PDF pesquisável</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Reconheça texto de lote de imagens e salve PDF pesquisável com imagem e camada de texto selecionável</string>
 </resources>

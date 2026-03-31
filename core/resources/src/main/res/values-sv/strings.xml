@@ -2202,4 +2202,6 @@
     <string name="save_markup_project" />
     <string name="save_markup_project_sub">Lagra lager, bakgrund och redigeringshistorik i en redigerbar projektfil</string>
     <string name="failed_to_open" />
+    <string name="ocr_write_to_searchable_pdf">Skriv till sökbar PDF</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Känn igen text från bildbatch och spara sökbar PDF med bild och valbart textlager</string>
 </resources>

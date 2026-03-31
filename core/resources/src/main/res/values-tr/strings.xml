@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Projeyi kaydet</string>
     <string name="save_markup_project_sub">Katmanları, arka planı ve düzenleme geçmişini düzenlenebilir bir proje dosyasında saklayın</string>
     <string name="failed_to_open">Açılamadı</string>
+    <string name="ocr_write_to_searchable_pdf">Aranabilir PDF\'ye Yaz</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Görüntü kümesindeki metni tanıyın ve görüntü ve seçilebilir metin katmanıyla aranabilir PDF\'yi kaydedin</string>
 </resources>

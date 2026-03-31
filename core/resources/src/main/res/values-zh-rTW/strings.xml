@@ -2200,4 +2200,6 @@
     <string name="save_markup_project">保存项目</string>
     <string name="save_markup_project_sub">将图层、背景和编辑历史记录存储在可编辑的项目文件中</string>
     <string name="failed_to_open">打开失败</string>
+    <string name="ocr_write_to_searchable_pdf">写入可搜索的 PDF</string>
+    <string name="ocr_write_to_searchable_pdf_sub">从图像批次中识别文本并保存带有图像和可选文本层的可搜索 PDF</string>
 </resources>

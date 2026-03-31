@@ -2200,4 +2200,6 @@
     <string name="save_markup_project">프로젝트 저장</string>
     <string name="save_markup_project_sub">편집 가능한 프로젝트 파일에 레이어, 배경 및 편집 기록 저장</string>
     <string name="failed_to_open">열지 못했습니다.</string>
+    <string name="ocr_write_to_searchable_pdf">검색 가능한 PDF에 쓰기</string>
+    <string name="ocr_write_to_searchable_pdf_sub">이미지 일괄에서 텍스트를 인식하고 이미지 및 선택 가능한 텍스트 레이어와 함께 검색 가능한 PDF를 저장합니다.</string>
 </resources>

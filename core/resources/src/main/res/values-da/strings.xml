@@ -2201,4 +2201,6 @@
     <string name="save_markup_project">Gem projekt</string>
     <string name="save_markup_project_sub">Gem lag, baggrund og redigeringshistorik i en redigerbar projektfil</string>
     <string name="failed_to_open">Kunne ikke åbne</string>
+    <string name="ocr_write_to_searchable_pdf">Skriv til søgbar PDF</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Genkend tekst fra billedbatch og gem søgbar PDF med billede og valgbart tekstlag</string>
 </resources>
