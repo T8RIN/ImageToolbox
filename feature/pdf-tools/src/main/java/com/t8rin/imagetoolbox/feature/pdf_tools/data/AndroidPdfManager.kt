@@ -192,17 +192,28 @@ internal class AndroidPdfManager @Inject constructor(
                     val bottom = word.bottom * scaleY
 
                     val boxHeight = (bottom - top).coerceAtLeast(1f)
-                    val fontSize = (boxHeight * 0.9f).coerceIn(6f, 28f)
                     val targetWidth = (right - left).coerceAtLeast(1f)
                     val x = left.coerceIn(0f, pageWidth - 1f)
-                    val y = (pageHeight - bottom + boxHeight * 0.16f).coerceIn(0f, pageHeight - 1f)
+
+                    val glyphWidthEm = (document.defaultFont.getStringWidth(text) / 1000f)
+                        .coerceAtLeast(0.001f)
+
+                    val fontByHeight = (boxHeight * 0.84f).coerceAtLeast(1f)
+                    val fontByWidth = (targetWidth / glyphWidthEm).coerceAtLeast(1f)
+                    val fontSize = (fontByHeight * 0.72f + fontByWidth * 0.28f)
+                        .coerceIn(1f, pageHeight.coerceAtLeast(1f))
+
+                    val sourceWidth = (glyphWidthEm * fontSize).coerceAtLeast(0.1f)
+                    val horizontalScale = (targetWidth / sourceWidth * 100f).coerceIn(80f, 125f)
+
+                    val y = (pageHeight - bottom +
+                            ((boxHeight - fontSize).coerceAtLeast(0f) * 0.5f) +
+                            (fontSize * 0.10f)
+                            ).coerceIn(0f, pageHeight - 1f)
 
                     beginText()
                     setRenderingMode(RenderingMode.NEITHER)
                     setFont(document.defaultFont, fontSize)
-                    val sourceWidth = (document.defaultFont.getStringWidth(text) / 1000f * fontSize)
-                        .coerceAtLeast(1f)
-                    val horizontalScale = (targetWidth / sourceWidth * 100f).coerceIn(40f, 250f)
                     setHorizontalScaling(horizontalScale)
                     newLineAtOffset(x, y)
                     showText(text)
