@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.logger.makeLog
@@ -197,11 +198,24 @@ internal class AndroidImageGetter @Inject constructor(
         onFailure: (Throwable) -> Unit
     ) {
         appScope.launch {
-            getImage(
+            var failureDelivered = false
+
+            val imageData = getImage(
                 uri = uri,
                 originalSize = originalSize,
-                onFailure = onFailure
-            )?.let(onGetImage)
+                onFailure = {
+                    failureDelivered = true
+                    onFailure(it)
+                }
+            )
+
+            if (imageData != null) {
+                onGetImage(imageData)
+            } else if (!failureDelivered) {
+                onFailure(
+                    IllegalStateException(context.getString(R.string.failed_to_open))
+                )
+            }
         }
     }
 

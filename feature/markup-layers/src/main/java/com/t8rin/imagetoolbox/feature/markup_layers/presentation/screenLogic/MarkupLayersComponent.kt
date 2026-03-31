@@ -253,9 +253,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun setUri(uri: Uri) {
         if (uri.isMarkupProject()) {
             loadProject(uri)
-            return
+        } else {
+            setImageUri(uri)
         }
-        setImageUri(uri)
     }
 
     fun saveProject(uri: Uri) {
@@ -293,20 +293,19 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             _isImageLoading.value = true
 
             _uri.value = uri
-            if (backgroundBehavior !is BackgroundBehavior.Image) {
-                _backgroundBehavior.update {
-                    BackgroundBehavior.Image
-                }
-            }
             imageGetter.getImageAsync(
                 uri = uri.toString(),
                 originalSize = false,
                 onGetImage = { data ->
+                    _backgroundBehavior.update { BackgroundBehavior.Image }
                     updateBitmap(data.image)
                     _imageFormat.update { data.imageInfo.imageFormat }
                 },
                 onFailure = {
                     _isImageLoading.value = false
+
+                    if (bitmap == null) resetState()
+
                     AppToastHost.showFailureToast(it)
                 }
             )

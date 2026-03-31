@@ -120,68 +120,88 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         clearProjectCache()
 
         val extractionDir = File(projectCacheRoot, UUID.randomUUID().toString()).apply { mkdirs() }
+        val extractionDirPath = extractionDir.canonicalPath + File.separator
 
-        runSuspendCatching {
-            var projectJson: String? = null
+        runSuspendCatching run@{
+            val projectJson =
+                context.contentResolver.openInputStream(uri.toUri())?.use { inputStream ->
+                    ZipInputStream(inputStream).use { zipIn ->
+                        var json: String?
+                        var entry: ZipEntry?
+                        while (zipIn.nextEntry.also { entry = it } != null) {
+                            entry?.let { zipEntry ->
+                                if (!zipEntry.isDirectory && zipEntry.name == MarkupProjectJsonEntry) {
+                                    json = zipIn.readBytes().decodeToString()
+                                    zipIn.closeEntry()
+                                    return@use json
+                                }
+                                zipIn.closeEntry()
+                            }
+                        }
+                        null
+                    }
+                } ?: return@run MarkupProjectResult.Error.InvalidArchive(
+                    message = context.getString(R.string.markup_project_open_failed)
+                )
+
+            if (projectJson.isBlank()) {
+                return@run MarkupProjectResult.Error.MissingProjectFile(
+                    message = context.getString(R.string.markup_project_missing_data)
+                )
+            }
+
+            val projectFile = jsonParser.fromJson<MarkupProjectFile>(
+                json = projectJson,
+                type = MarkupProjectFile::class.java
+            ) ?: return@run MarkupProjectResult.Error.InvalidProjectFile(
+                message = context.getString(R.string.markup_project_corrupted)
+            )
 
             context.contentResolver.openInputStream(uri.toUri())?.use { inputStream ->
                 ZipInputStream(inputStream).use { zipIn ->
                     var entry: ZipEntry?
                     while (zipIn.nextEntry.also { entry = it } != null) {
                         entry?.let { zipEntry ->
-                            val output = File(extractionDir, zipEntry.name)
+                            if (zipEntry.name == MarkupProjectJsonEntry) {
+                                zipIn.closeEntry()
+                                return@let
+                            }
+
+                            val output = File(extractionDir, zipEntry.name).canonicalFile
+                            if (!output.path.startsWith(extractionDirPath)) {
+                                throw ZipException("Invalid zip entry path: ${zipEntry.name}")
+                            }
+
                             if (zipEntry.isDirectory) {
                                 output.mkdirs()
                             } else {
                                 output.parentFile?.mkdirs()
-                                if (zipEntry.name == MarkupProjectJsonEntry) {
-                                    projectJson = zipIn.readBytes().decodeToString()
-                                } else {
-                                    FileOutputStream(output).use { fos ->
-                                        zipIn.copyTo(fos)
-                                    }
+                                FileOutputStream(output).use { fos ->
+                                    zipIn.copyTo(fos)
                                 }
                             }
                             zipIn.closeEntry()
                         }
                     }
                 }
-            } ?: return@runSuspendCatching MarkupProjectResult.Error.InvalidArchive(
+            } ?: return@run MarkupProjectResult.Error.InvalidArchive(
                 message = context.getString(R.string.markup_project_open_failed)
             )
 
-            if (projectJson.isNullOrBlank()) {
-                clearProjectCache()
-                return@runSuspendCatching MarkupProjectResult.Error.MissingProjectFile(
-                    message = context.getString(R.string.markup_project_missing_data)
-                )
-            }
-
-            val projectJsonValue = projectJson
-                ?: return@runSuspendCatching MarkupProjectResult.Error.MissingProjectFile(
-                    message = context.getString(R.string.markup_project_missing_data)
-                )
-
-            jsonParser.fromJson<MarkupProjectFile>(
-                json = projectJsonValue,
-                type = MarkupProjectFile::class.java
-            )?.toDomain(extractionDir) ?: run {
-                clearProjectCache()
-                MarkupProjectResult.Error.InvalidProjectFile(
-                    message = context.getString(R.string.markup_project_corrupted)
-                )
-            }
+            projectFile.toDomain(extractionDir)
         }.getOrElse {
-            extractionDir.deleteRecursively()
+            clearProjectCache()
             if (it is ZipException) {
-                return@withContext MarkupProjectResult.Error.InvalidArchive(
+                MarkupProjectResult.Error.InvalidArchive(
                     message = context.getString(R.string.markup_project_open_failed)
                 )
+            } else {
+                MarkupProjectResult.Error.Exception(
+                    throwable = it,
+                    message = it.localizedMessage
+                        ?: context.getString(R.string.something_went_wrong)
+                )
             }
-            MarkupProjectResult.Error.Exception(
-                throwable = it,
-                message = it.localizedMessage ?: context.getString(R.string.something_went_wrong)
-            )
         }
     }
 

@@ -2222,4 +2222,5 @@
     <string name="keep_date_time_sub">Always preserve exif tags related to date and time, works independently of keep exif option</string>
     <string name="background_color_for_alpha_formats">Background Color For Alpha Formats</string>
     <string name="background_color_for_alpha_formats_sub">Adds ability to set background color for every image format with alpha support, when disabled this available for non alpha ones only</string>
+    <string name="failed_to_open">Failed to open</string>
 </resources>
