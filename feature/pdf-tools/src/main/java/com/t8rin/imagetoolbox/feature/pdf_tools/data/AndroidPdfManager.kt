@@ -130,12 +130,11 @@ internal class AndroidPdfManager @Inject constructor(
         imageUris: List<String>,
         params: PdfCreationParams
     ): String = catchPdf {
-        val images = prepareImagesForPdf(
-            imageUris = imageUris,
-            params = params
-        )
         createPdfFromPreparedImages(
-            images = images,
+            images = prepareImagesForPdf(
+                imageUris = imageUris,
+                params = params
+            ),
             quality = params.quality / 100f,
             scaleSmallImagesToLarge = params.scaleSmallImagesToLarge,
             addTextLayer = null
