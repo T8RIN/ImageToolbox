@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 import com.t8rin.imagetoolbox.core.utils.createZip
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.putEntry
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.BackgroundSnapshot
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.BackgroundType
@@ -316,7 +317,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         if (version != MarkupProjectVersion) {
             return MarkupProjectResult.Error.UnsupportedVersion(
                 version = version,
-                message = context.getString(R.string.unsupported_markup_project_version, version)
+                message = getString(R.string.unsupported_markup_project_version, version)
             )
         }
 
