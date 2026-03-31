@@ -2193,4 +2193,13 @@
     <string name="keep_date_time_sub">तारीख आणि वेळेशी संबंधित exif टॅग नेहमी जतन करा, Keep exif पर्यायापेक्षा स्वतंत्रपणे कार्य करते</string>
     <string name="background_color_for_alpha_formats">अल्फा स्वरूपांसाठी पार्श्वभूमी रंग</string>
     <string name="background_color_for_alpha_formats_sub">अल्फा सपोर्टसह प्रत्येक इमेज फॉरमॅटसाठी पार्श्वभूमी रंग सेट करण्याची क्षमता जोडते, जेव्हा हे अक्षम केले जाते तेव्हा हे केवळ अल्फा नसलेल्यांसाठी उपलब्ध असते</string>
+    <string name="open_markup_project">प्रकल्प उघडा</string>
+    <string name="open_markup_project_sub">पूर्वी जतन केलेला प्रतिमा टूलबॉक्स प्रकल्प संपादित करणे सुरू ठेवा</string>
+    <string name="markup_project_open_failed">इमेज टूलबॉक्स प्रोजेक्ट उघडण्यात अक्षम</string>
+    <string name="markup_project_missing_data">इमेज टूलबॉक्स प्रोजेक्टमध्ये प्रोजेक्ट डेटा गहाळ आहे</string>
+    <string name="markup_project_corrupted">इमेज टूलबॉक्स प्रोजेक्ट दूषित झाला आहे</string>
+    <string name="unsupported_markup_project_version">असमर्थित प्रतिमा टूलबॉक्स प्रकल्प आवृत्ती: %1$d</string>
+    <string name="save_markup_project">प्रकल्प जतन करा</string>
+    <string name="save_markup_project_sub">संपादन करण्यायोग्य प्रकल्प फाइलमध्ये स्तर, पार्श्वभूमी आणि संपादित इतिहास संग्रहित करा</string>
+    <string name="failed_to_open">उघडण्यात अयशस्वी</string>
 </resources>

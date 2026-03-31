@@ -2195,4 +2195,13 @@
     <string name="keep_date_time_sub">Visada išsaugokite exif žymas, susijusias su data ir laiku, veikia nepriklausomai nuo parinkties išlaikyti exif</string>
     <string name="background_color_for_alpha_formats">Fono spalva Alfa formatams</string>
     <string name="background_color_for_alpha_formats_sub">Pridedama galimybė nustatyti fono spalvą kiekvienam vaizdo formatui su alfa palaikymu, kai išjungta, tai galima tik ne alfa formatams</string>
+    <string name="open_markup_project">Atviras projektas</string>
+    <string name="open_markup_project_sub">Tęskite anksčiau išsaugoto vaizdo įrankių dėžės projekto redagavimą</string>
+    <string name="markup_project_open_failed">Nepavyko atidaryti „Image Toolbox“ projekto</string>
+    <string name="markup_project_missing_data">Vaizdo įrankių dėžutės projekte trūksta projekto duomenų</string>
+    <string name="markup_project_corrupted">Vaizdo įrankių dėžutės projektas sugadintas</string>
+    <string name="unsupported_markup_project_version">Nepalaikoma „Image Toolbox“ projekto versija: %1$d</string>
+    <string name="save_markup_project">Išsaugoti projektą</string>
+    <string name="save_markup_project_sub">Saugokite sluoksnius, foną ir redaguokite istoriją redaguojamame projekto faile</string>
+    <string name="failed_to_open">Nepavyko atidaryti</string>
 </resources>

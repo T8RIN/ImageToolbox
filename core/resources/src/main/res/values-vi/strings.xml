@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -2189,4 +2191,13 @@
     <string name="keep_date_time_sub">Luôn lưu giữ các thẻ Exif liên quan đến ngày và giờ, hoạt động độc lập với tùy chọn giữ nguyên</string>
     <string name="background_color_for_alpha_formats">Màu nền cho định dạng Alpha</string>
     <string name="background_color_for_alpha_formats_sub">Thêm khả năng đặt màu nền cho mọi định dạng hình ảnh có hỗ trợ alpha, khi bị tắt, tính năng này chỉ khả dụng cho những định dạng không phải alpha</string>
+    <string name="open_markup_project">Dự án mở</string>
+    <string name="open_markup_project_sub">Tiếp tục chỉnh sửa dự án Hộp công cụ Hình ảnh đã lưu trước đó</string>
+    <string name="markup_project_open_failed">Không thể mở dự án Hộp công cụ hình ảnh</string>
+    <string name="markup_project_missing_data">Dự án Hộp công cụ hình ảnh thiếu dữ liệu dự án</string>
+    <string name="markup_project_corrupted">Dự án Hộp công cụ Hình ảnh bị hỏng</string>
+    <string name="unsupported_markup_project_version">Phiên bản dự án Hộp công cụ Hình ảnh không được hỗ trợ: %1$d</string>
+    <string name="save_markup_project">Lưu dự án</string>
+    <string name="save_markup_project_sub">Lưu trữ các lớp, nền và lịch sử chỉnh sửa trong một tệp dự án có thể chỉnh sửa</string>
+    <string name="failed_to_open">Không thể mở được</string>
 </resources>

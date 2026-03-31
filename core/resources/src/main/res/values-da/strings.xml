@@ -2192,4 +2192,13 @@
     <string name="keep_date_time_sub">Bevar altid exif-tags relateret til dato og klokkeslæt, fungerer uafhængigt af keep exif-indstillingen</string>
     <string name="background_color_for_alpha_formats">Baggrundsfarve til alfaformater</string>
     <string name="background_color_for_alpha_formats_sub">Tilføjer mulighed for at indstille baggrundsfarve for hvert billedformat med alfa-understøttelse, når den er deaktiveret, er dette kun tilgængeligt for ikke-alfa-one</string>
+    <string name="open_markup_project">Åbent projekt</string>
+    <string name="open_markup_project_sub">Fortsæt med at redigere et tidligere gemt Image Toolbox-projekt</string>
+    <string name="markup_project_open_failed">Kan ikke åbne Image Toolbox-projektet</string>
+    <string name="markup_project_missing_data">Image Toolbox-projektet mangler projektdata</string>
+    <string name="markup_project_corrupted">Image Toolbox-projektet er beskadiget</string>
+    <string name="unsupported_markup_project_version">Ikke-understøttet Image Toolbox-projektversion: %1$d</string>
+    <string name="save_markup_project">Gem projekt</string>
+    <string name="save_markup_project_sub">Gem lag, baggrund og redigeringshistorik i en redigerbar projektfil</string>
+    <string name="failed_to_open">Kunne ikke åbne</string>
 </resources>

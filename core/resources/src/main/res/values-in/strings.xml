@@ -2191,4 +2191,13 @@
     <string name="keep_date_time_sub">Selalu pertahankan tag Exif yang terkait dengan tanggal dan waktu, bekerja secara independen dari opsi Keep Exic</string>
     <string name="background_color_for_alpha_formats">Warna Latar Belakang Untuk Format Alfa</string>
     <string name="background_color_for_alpha_formats_sub">Menambahkan kemampuan untuk mengatur warna latar belakang untuk setiap format gambar dengan dukungan alfa, jika dinonaktifkan, ini hanya tersedia untuk format non alfa</string>
+    <string name="open_markup_project">Buka proyek</string>
+    <string name="open_markup_project_sub">Lanjutkan mengedit proyek Image Toolbox yang disimpan sebelumnya</string>
+    <string name="markup_project_open_failed">Tidak dapat membuka proyek Image Toolbox</string>
+    <string name="markup_project_missing_data">Proyek Image Toolbox tidak memiliki data proyek</string>
+    <string name="markup_project_corrupted">Proyek Image Toolbox rusak</string>
+    <string name="unsupported_markup_project_version">Versi proyek Image Toolbox yang tidak didukung: %1$d</string>
+    <string name="save_markup_project">Simpan proyek</string>
+    <string name="save_markup_project_sub">Simpan lapisan, latar belakang, dan riwayat edit dalam file proyek yang dapat diedit</string>
+    <string name="failed_to_open">Gagal dibuka</string>
 </resources>

@@ -2194,4 +2194,13 @@
     <string name="keep_date_time_sub">Завжди зберігати теги exif, пов’язані з датою та часом, працює незалежно від параметра keep exif</string>
     <string name="background_color_for_alpha_formats">Колір фону для альфа-форматів</string>
     <string name="background_color_for_alpha_formats_sub">Додає можливість установлювати фоновий колір для кожного формату зображення з підтримкою альфа-версії, якщо вимкнено, це доступно лише для неальфа-версії</string>
+    <string name="open_markup_project">Відкритий проект</string>
+    <string name="open_markup_project_sub">Продовжити редагування раніше збереженого проекту Image Toolbox</string>
+    <string name="markup_project_open_failed">Неможливо відкрити проект Image Toolbox</string>
+    <string name="markup_project_missing_data">У проекті Image Toolbox відсутні дані проекту</string>
+    <string name="markup_project_corrupted">Проект Image Toolbox пошкоджено</string>
+    <string name="unsupported_markup_project_version">Непідтримувана версія проекту Image Toolbox: %1$d</string>
+    <string name="save_markup_project">Зберегти проект</string>
+    <string name="save_markup_project_sub">Зберігайте шари, фон і історію редагування у файлі проекту, який можна редагувати</string>
+    <string name="failed_to_open">Не вдалося відкрити</string>
 </resources>

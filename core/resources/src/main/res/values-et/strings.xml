@@ -2192,4 +2192,13 @@
     <string name="keep_date_time_sub">Säilitage alati kuupäeva ja kellaajaga seotud exif-sildid, töötab sõltumatult exif-i säilitamise võimalusest</string>
     <string name="background_color_for_alpha_formats">Taustavärv Alfa-vormingute jaoks</string>
     <string name="background_color_for_alpha_formats_sub">Lisab võimaluse määrata taustavärvi igale alfatoega pildivormingule, kui see on keelatud, on see saadaval ainult mittealfavormingute jaoks</string>
+    <string name="open_markup_project">Avatud projekt</string>
+    <string name="open_markup_project_sub">Jätkake varem salvestatud Image Toolboxi projekti redigeerimist</string>
+    <string name="markup_project_open_failed">Image Toolboxi projekti ei saa avada</string>
+    <string name="markup_project_missing_data">Pildi tööriistakasti projektil puuduvad projekti andmed</string>
+    <string name="markup_project_corrupted">Pildi tööriistakasti projekt on rikutud</string>
+    <string name="unsupported_markup_project_version">Toetamata pilditööriista projekti versioon: %1$d</string>
+    <string name="save_markup_project">Salvesta projekt</string>
+    <string name="save_markup_project_sub">Salvestage kihid, taust ja redigeerimisajalugu redigeeritavas projektifailis</string>
+    <string name="failed_to_open">Avamine ebaõnnestus</string>
 </resources>

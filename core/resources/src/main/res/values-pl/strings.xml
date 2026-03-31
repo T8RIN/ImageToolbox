@@ -2194,4 +2194,13 @@
     <string name="keep_date_time_sub">Zawsze zachowuj tagi exif powiązane z datą i godziną, działa niezależnie od opcji zachowywania exif</string>
     <string name="background_color_for_alpha_formats">Kolor tła dla formatów Alpha</string>
     <string name="background_color_for_alpha_formats_sub">Dodaje możliwość ustawienia koloru tła dla każdego formatu obrazu z obsługą alfa, gdy jest wyłączona, dostępna tylko dla formatów innych niż alfa</string>
+    <string name="open_markup_project">Otwórz projekt</string>
+    <string name="open_markup_project_sub">Kontynuuj edycję wcześniej zapisanego projektu Image Toolbox</string>
+    <string name="markup_project_open_failed">Nie można otworzyć projektu Image Toolbox</string>
+    <string name="markup_project_missing_data">W projekcie Image Toolbox brakuje danych projektu</string>
+    <string name="markup_project_corrupted">Projekt Image Toolbox jest uszkodzony</string>
+    <string name="unsupported_markup_project_version">Nieobsługiwana wersja projektu Image Toolbox: %1$d</string>
+    <string name="save_markup_project">Zapisz projekt</string>
+    <string name="save_markup_project_sub">Przechowuj warstwy, tło i historię edycji w edytowalnym pliku projektu</string>
+    <string name="failed_to_open">Nie udało się otworzyć</string>
 </resources>

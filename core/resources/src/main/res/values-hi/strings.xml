@@ -2192,4 +2192,13 @@
     <string name="keep_date_time_sub">दिनांक और समय से संबंधित एक्सिफ़ टैग को हमेशा सुरक्षित रखें, एक्सिफ़ विकल्प को बनाए रखने से स्वतंत्र रूप से काम करता है</string>
     <string name="background_color_for_alpha_formats">अल्फ़ा प्रारूपों के लिए पृष्ठभूमि रंग</string>
     <string name="background_color_for_alpha_formats_sub">अल्फ़ा समर्थन के साथ प्रत्येक छवि प्रारूप के लिए पृष्ठभूमि रंग सेट करने की क्षमता जोड़ता है, अक्षम होने पर यह केवल गैर अल्फ़ा वाले के लिए उपलब्ध होता है</string>
+    <string name="open_markup_project">ओपन प्रोजेक्ट</string>
+    <string name="open_markup_project_sub">पहले से सहेजे गए छवि टूलबॉक्स प्रोजेक्ट का संपादन जारी रखें</string>
+    <string name="markup_project_open_failed">छवि टूलबॉक्स प्रोजेक्ट खोलने में असमर्थ</string>
+    <string name="markup_project_missing_data">इमेज टूलबॉक्स प्रोजेक्ट में प्रोजेक्ट डेटा गुम है</string>
+    <string name="markup_project_corrupted">छवि टूलबॉक्स प्रोजेक्ट दूषित है</string>
+    <string name="unsupported_markup_project_version">असमर्थित छवि टूलबॉक्स प्रोजेक्ट संस्करण: %1$d</string>
+    <string name="save_markup_project">प्रोजेक्ट सहेजें</string>
+    <string name="save_markup_project_sub">एक संपादन योग्य प्रोजेक्ट फ़ाइल में परतें, पृष्ठभूमि और संपादन इतिहास संग्रहीत करें</string>
+    <string name="failed_to_open">खोलने में विफल</string>
 </resources>

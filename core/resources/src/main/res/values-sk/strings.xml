@@ -2194,4 +2194,13 @@
     <string name="keep_date_time_sub">Vždy zachovávajte značky exif súvisiace s dátumom a časom, funguje nezávisle od možnosti zachovať exif</string>
     <string name="background_color_for_alpha_formats">Farba pozadia pre formáty alfa</string>
     <string name="background_color_for_alpha_formats_sub">Pridáva možnosť nastaviť farbu pozadia pre každý formát obrázka s podporou alfa kanálov, keď je táto možnosť zakázaná, je k dispozícii iba pre iné než alfa verzie</string>
+    <string name="open_markup_project">Otvorte projekt</string>
+    <string name="open_markup_project_sub">Pokračujte v úpravách predtým uloženého projektu Image Toolbox</string>
+    <string name="markup_project_open_failed">Nie je možné otvoriť projekt Image Toolbox</string>
+    <string name="markup_project_missing_data">Projektu Image Toolbox chýbajú projektové údaje</string>
+    <string name="markup_project_corrupted">Projekt Image Toolbox je poškodený</string>
+    <string name="unsupported_markup_project_version">Nepodporovaná verzia projektu Image Toolbox: %1$d</string>
+    <string name="save_markup_project">Uložiť projekt</string>
+    <string name="save_markup_project_sub">Uložte vrstvy, pozadie a históriu úprav do upraviteľného súboru projektu</string>
+    <string name="failed_to_open">Nepodarilo sa otvoriť</string>
 </resources>

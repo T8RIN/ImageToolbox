@@ -2193,4 +2193,13 @@
     <string name="keep_date_time_sub">Увек сачувајте екиф ознаке повезане са датумом и временом, ради независно од опције Кееп екиф</string>
     <string name="background_color_for_alpha_formats">Боја позадине за алфа формате</string>
     <string name="background_color_for_alpha_formats_sub">Додаје могућност постављања боје позадине за сваки формат слике са алфа подршком, када је онемогућена ово је доступно само за оне које нису алфа</string>
+    <string name="open_markup_project">Отворени пројекат</string>
+    <string name="open_markup_project_sub">Наставите са уређивањем претходно сачуваног пројекта Имаге Тоолбок</string>
+    <string name="markup_project_open_failed">Није могуће отворити пројекат Имаге Тоолбок</string>
+    <string name="markup_project_missing_data">Пројекту Имаге Тоолбок недостају подаци о пројекту</string>
+    <string name="markup_project_corrupted">Пројекат Имаге Тоолбок је оштећен</string>
+    <string name="unsupported_markup_project_version">Неподржана верзија пројекта Имаге Тоолбок: __ПХ_0__</string>
+    <string name="save_markup_project">Сачувај пројекат</string>
+    <string name="save_markup_project_sub">Чувајте слојеве, позадину и историју уређивања у датотеци пројекта који се може уређивати</string>
+    <string name="failed_to_open">Отварање није успело</string>
 </resources>

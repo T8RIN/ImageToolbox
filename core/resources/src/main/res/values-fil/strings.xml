@@ -2192,4 +2192,13 @@
     <string name="keep_date_time_sub">Palaging panatilihin ang mga exif tag na nauugnay sa petsa at oras, gumagana nang hiwalay sa opsyon na panatilihin ang exif</string>
     <string name="background_color_for_alpha_formats">Kulay ng Background Para sa Mga Alpha Format</string>
     <string name="background_color_for_alpha_formats_sub">Nagdaragdag ng kakayahang magtakda ng kulay ng background para sa bawat format ng larawan na may suporta sa alpha, kapag hindi pinagana ito ay magagamit lamang para sa mga hindi alpha</string>
+    <string name="open_markup_project">Buksan ang proyekto</string>
+    <string name="open_markup_project_sub">Ipagpatuloy ang pag-edit ng naunang na-save na proyekto ng Image Toolbox</string>
+    <string name="markup_project_open_failed">Hindi mabuksan ang proyekto ng Image Toolbox</string>
+    <string name="markup_project_missing_data">Ang proyekto ng Image Toolbox ay walang data ng proyekto</string>
+    <string name="markup_project_corrupted">Ang proyekto ng Image Toolbox ay sira</string>
+    <string name="unsupported_markup_project_version">Hindi sinusuportahang bersyon ng proyekto ng Image Toolbox: %1$d</string>
+    <string name="save_markup_project">I-save ang proyekto</string>
+    <string name="save_markup_project_sub">Mag-imbak ng mga layer, background at kasaysayan ng pag-edit sa isang nae-edit na file ng proyekto</string>
+    <string name="failed_to_open">Nabigong buksan</string>
 </resources>

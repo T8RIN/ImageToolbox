@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -2194,4 +2196,13 @@
     <string name="keep_date_time_sub">احتفظ دائمًا بعلامات exif المتعلقة بالتاريخ والوقت، ويعمل بشكل مستقل عن خيار keep exif</string>
     <string name="background_color_for_alpha_formats">لون الخلفية لتنسيقات ألفا</string>
     <string name="background_color_for_alpha_formats_sub">يضيف القدرة على تعيين لون الخلفية لكل تنسيق صورة مع دعم ألفا، عند تعطيله يكون هذا متاحًا للتنسيقات غير ألفا فقط</string>
+    <string name="open_markup_project">مشروع مفتوح</string>
+    <string name="open_markup_project_sub">استمر في تحرير مشروع Image Toolbox المحفوظ مسبقًا</string>
+    <string name="markup_project_open_failed">غير قادر على فتح مشروع Image Toolbox</string>
+    <string name="markup_project_missing_data">يفتقد مشروع Image Toolbox بيانات المشروع</string>
+    <string name="markup_project_corrupted">مشروع Image Toolbox تالف</string>
+    <string name="unsupported_markup_project_version">إصدار مشروع Image Toolbox غير مدعوم: %1$d</string>
+    <string name="save_markup_project">حفظ المشروع</string>
+    <string name="save_markup_project_sub">قم بتخزين الطبقات والخلفية وسجل التحرير في ملف مشروع قابل للتحرير</string>
+    <string name="failed_to_open">فشل في الفتح</string>
 </resources>

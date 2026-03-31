@@ -2193,4 +2193,13 @@
     <string name="background_color_for_alpha_formats_sub">ඇල්ෆා සහාය ඇතිව සෑම රූප ආකෘතියක් සඳහාම පසුබිම් වර්ණය සැකසීමේ හැකියාව එක් කරයි, අක්‍රිය කළ විට මෙය ඇල්ෆා නොවන ඒවා සඳහා පමණි</string>
     <string name="keep_date_time">දිනය වේලාව තබා ගන්න</string>
     <string name="keep_date_time_sub">සෑම විටම දිනය සහ වේලාවට අදාළ exif ටැග් සුරකින්න, Keep exif විකල්පයෙන් ස්වාධීනව ක්‍රියා කරයි</string>
+    <string name="open_markup_project">විවෘත ව්යාපෘතිය</string>
+    <string name="open_markup_project_sub">කලින් සුරකින ලද රූප මෙවලම් පෙට්ටි ව්‍යාපෘතියක් සංස්කරණය කිරීම දිගටම කරගෙන යන්න</string>
+    <string name="markup_project_open_failed">රූප මෙවලම් පෙට්ටිය ව්‍යාපෘතිය විවෘත කළ නොහැක</string>
+    <string name="markup_project_missing_data">රූප මෙවලම් පෙට්ටිය ව්‍යාපෘතියේ ව්‍යාපෘති දත්ත මඟ හැරී ඇත</string>
+    <string name="markup_project_corrupted">රූප මෙවලම් පෙට්ටිය ව්‍යාපෘතිය දූෂිතයි</string>
+    <string name="unsupported_markup_project_version">සහාය නොදක්වන රූප මෙවලම් පෙට්ටිය ව්‍යාපෘති අනුවාදය: %1$d</string>
+    <string name="save_markup_project">ව්යාපෘතිය සුරකින්න</string>
+    <string name="save_markup_project_sub">සංස්කරණය කළ හැකි ව්‍යාපෘති ගොනුවක ස්තර, පසුබිම සහ සංස්කරණ ඉතිහාසය ගබඩා කරන්න</string>
+    <string name="failed_to_open">විවෘත කිරීමට අසමත් විය</string>
 </resources>

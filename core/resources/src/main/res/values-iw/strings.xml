@@ -2194,4 +2194,13 @@
     <string name="keep_date_time_sub">שמור תמיד תגיות exif הקשורות לתאריך ושעה, עובד ללא תלות באפשרות Keep exif</string>
     <string name="background_color_for_alpha_formats">צבע רקע עבור פורמטי אלפא</string>
     <string name="background_color_for_alpha_formats_sub">מוסיף יכולת להגדיר צבע רקע עבור כל פורמט תמונה עם תמיכה באלפא, כאשר מושבת זה זמין עבור לא אלפא בלבד</string>
+    <string name="open_markup_project">פרויקט פתוח</string>
+    <string name="open_markup_project_sub">המשך לערוך פרויקט תמונה כלים שנשמר בעבר</string>
+    <string name="markup_project_open_failed">לא ניתן לפתוח את פרויקט Image Toolbox</string>
+    <string name="markup_project_missing_data">בפרויקט Image Toolbox חסרים נתוני פרויקט</string>
+    <string name="markup_project_corrupted">פרויקט Image Toolbox פגום</string>
+    <string name="unsupported_markup_project_version">גרסת פרויקט Image Toolbox לא נתמכת: %1$d</string>
+    <string name="save_markup_project">שמור פרויקט</string>
+    <string name="save_markup_project_sub">אחסן שכבות, רקע והיסטוריית עריכה בקובץ פרויקט הניתן לעריכה</string>
+    <string name="failed_to_open">הפתיחה נכשלה</string>
 </resources>

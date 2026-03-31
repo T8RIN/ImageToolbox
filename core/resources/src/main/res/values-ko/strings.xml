@@ -2191,4 +2191,13 @@
     <string name="background_color_for_alpha_formats_sub">알파 지원이 포함된 모든 이미지 형식에 배경색을 설정하는 기능을 추가합니다. 이 기능을 비활성화하면 알파가 아닌 형식에만 사용할 수 있습니다.</string>
     <string name="keep_date_time">날짜 시간 유지</string>
     <string name="keep_date_time_sub">날짜 및 시간과 관련된 EXIF ​​태그를 항상 유지하며, EXIF ​​유지 옵션과 독립적으로 작동합니다.</string>
+    <string name="open_markup_project">프로젝트 열기</string>
+    <string name="open_markup_project_sub">이전에 저장한 Image Toolbox 프로젝트 계속 편집</string>
+    <string name="markup_project_open_failed">이미지 도구 상자 프로젝트를 열 수 없습니다</string>
+    <string name="markup_project_missing_data">Image Toolbox 프로젝트에 프로젝트 데이터가 없습니다.</string>
+    <string name="markup_project_corrupted">이미지 도구 상자 프로젝트가 손상되었습니다</string>
+    <string name="unsupported_markup_project_version">지원되지 않는 Image Toolbox 프로젝트 버전: %1$d</string>
+    <string name="save_markup_project">프로젝트 저장</string>
+    <string name="save_markup_project_sub">편집 가능한 프로젝트 파일에 레이어, 배경 및 편집 기록 저장</string>
+    <string name="failed_to_open">열지 못했습니다.</string>
 </resources>

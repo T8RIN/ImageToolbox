@@ -2191,4 +2191,13 @@
     <string name="keep_date_time_sub">日付と時刻に関連する exif タグを常に保持し、exif を保持するオプションとは独立して機能します。</string>
     <string name="background_color_for_alpha_formats">アルファ形式の背景色</string>
     <string name="background_color_for_alpha_formats_sub">アルファサポートを使用してすべての画像フォーマットの背景色を設定する機能を追加します。無効にすると、アルファ以外のフォーマットでのみ使用できます。</string>
+    <string name="open_markup_project">プロジェクトを開く</string>
+    <string name="open_markup_project_sub">以前に保存した Image Toolbox プロジェクトの編集を続行する</string>
+    <string name="markup_project_open_failed">Image Toolbox プロジェクトを開けません</string>
+    <string name="markup_project_missing_data">Image Toolbox プロジェクトにプロジェクト データがありません</string>
+    <string name="markup_project_corrupted">Image Toolbox プロジェクトが破損しています</string>
+    <string name="unsupported_markup_project_version">サポートされていない Image Toolbox プロジェクト バージョン: %1$d</string>
+    <string name="save_markup_project">プロジェクトの保存</string>
+    <string name="save_markup_project_sub">レイヤー、背景、編集履歴を編集可能なプロジェクト ファイルに保存</string>
+    <string name="failed_to_open">開けませんでした</string>
 </resources>

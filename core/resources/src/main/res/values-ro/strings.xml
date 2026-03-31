@@ -2193,4 +2193,13 @@
     <string name="keep_date_time_sub">Păstrați întotdeauna etichetele exif legate de dată și oră, funcționează independent de opțiunea de păstrare exif</string>
     <string name="background_color_for_alpha_formats">Culoare de fundal pentru formatele Alpha</string>
     <string name="background_color_for_alpha_formats_sub">Adaugă capacitatea de a seta culoarea de fundal pentru fiecare format de imagine cu suport alfa, când este dezactivat, acesta este disponibil numai pentru cele non alfa</string>
+    <string name="open_markup_project">Proiect deschis</string>
+    <string name="open_markup_project_sub">Continuați editarea unui proiect Image Toolbox salvat anterior</string>
+    <string name="markup_project_open_failed">Imposibil de deschis proiectul Image Toolbox</string>
+    <string name="markup_project_missing_data">Din proiectul Image Toolbox lipsesc date de proiect</string>
+    <string name="markup_project_corrupted">Proiectul Image Toolbox este corupt</string>
+    <string name="unsupported_markup_project_version">Versiunea proiectului Image Toolbox neacceptată: %1$d</string>
+    <string name="save_markup_project">Salvați proiectul</string>
+    <string name="save_markup_project_sub">Stocați straturi, fundal și editează istoricul într-un fișier de proiect editabil</string>
+    <string name="failed_to_open">Deschiderea eșuată</string>
 </resources>

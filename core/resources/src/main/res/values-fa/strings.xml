@@ -2192,4 +2192,13 @@
     <string name="keep_date_time_sub">همیشه برچسب های exif مربوط به تاریخ و زمان را حفظ کنید، مستقل از گزینه keep exif کار می کند</string>
     <string name="background_color_for_alpha_formats">رنگ پس زمینه برای فرمت های آلفا</string>
     <string name="background_color_for_alpha_formats_sub">قابلیت تنظیم رنگ پس‌زمینه برای هر فرمت تصویر با پشتیبانی آلفا را اضافه می‌کند، در صورت غیرفعال بودن این امکان فقط برای قالب‌های غیر آلفا در دسترس است.</string>
+    <string name="open_markup_project">پروژه را باز کنید</string>
+    <string name="open_markup_project_sub">به ویرایش پروژه جعبه ابزار تصویر ذخیره شده قبلی ادامه دهید</string>
+    <string name="markup_project_open_failed">پروژه جعبه ابزار تصویر باز نمی شود</string>
+    <string name="markup_project_missing_data">پروژه جعبه ابزار تصویر فاقد داده های پروژه است</string>
+    <string name="markup_project_corrupted">پروژه جعبه ابزار تصویر خراب است</string>
+    <string name="unsupported_markup_project_version">نسخه پروژه جعبه ابزار تصویر پشتیبانی نشده: %1$d</string>
+    <string name="save_markup_project">ذخیره پروژه</string>
+    <string name="save_markup_project_sub">لایه ها، پس زمینه و تاریخچه ویرایش را در یک فایل پروژه قابل ویرایش ذخیره کنید</string>
+    <string name="failed_to_open">باز نشد</string>
 </resources>

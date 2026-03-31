@@ -2192,4 +2192,13 @@
     <string name="keep_date_time_sub">తేదీ మరియు సమయానికి సంబంధించిన ఎక్సిఫ్ ట్యాగ్‌లను ఎల్లప్పుడూ భద్రపరచండి, కీప్ ఎక్సిఫ్ ఎంపికతో సంబంధం లేకుండా స్వతంత్రంగా పనిచేస్తుంది</string>
     <string name="background_color_for_alpha_formats">ఆల్ఫా ఫార్మాట్‌ల కోసం నేపథ్య రంగు</string>
     <string name="background_color_for_alpha_formats_sub">ఆల్ఫా సపోర్ట్‌తో ప్రతి ఇమేజ్ ఫార్మాట్‌కి బ్యాక్‌గ్రౌండ్ కలర్ సెట్ చేసే సామర్థ్యాన్ని జోడిస్తుంది, డిసేబుల్ చేసినప్పుడు ఆల్ఫా కాని వాటికి మాత్రమే ఇది అందుబాటులో ఉంటుంది</string>
+    <string name="open_markup_project">ప్రాజెక్ట్ తెరవండి</string>
+    <string name="open_markup_project_sub">మునుపు సేవ్ చేసిన ఇమేజ్ టూల్‌బాక్స్ ప్రాజెక్ట్‌ని సవరించడం కొనసాగించండి</string>
+    <string name="markup_project_open_failed">ఇమేజ్ టూల్‌బాక్స్ ప్రాజెక్ట్‌ను తెరవడం సాధ్యం కాలేదు</string>
+    <string name="markup_project_missing_data">ఇమేజ్ టూల్‌బాక్స్ ప్రాజెక్ట్ ప్రాజెక్ట్ డేటా లేదు</string>
+    <string name="markup_project_corrupted">ఇమేజ్ టూల్‌బాక్స్ ప్రాజెక్ట్ పాడైంది</string>
+    <string name="unsupported_markup_project_version">మద్దతు లేని ఇమేజ్ టూల్‌బాక్స్ ప్రాజెక్ట్ వెర్షన్: %1$d</string>
+    <string name="save_markup_project">ప్రాజెక్ట్‌ను సేవ్ చేయండి</string>
+    <string name="save_markup_project_sub">సవరించగలిగే ప్రాజెక్ట్ ఫైల్‌లో లేయర్‌లు, నేపథ్యం మరియు సవరణ చరిత్రను నిల్వ చేయండి</string>
+    <string name="failed_to_open">తెరవడంలో విఫలమైంది</string>
 </resources>

@@ -2191,4 +2191,13 @@
     <string name="keep_date_time_sub">เก็บแท็ก exif ที่เกี่ยวข้องกับวันที่และเวลาไว้เสมอ โดยทำงานโดยไม่ขึ้นอยู่กับตัวเลือก Keep exif</string>
     <string name="background_color_for_alpha_formats">สีพื้นหลังสำหรับรูปแบบอัลฟ่า</string>
     <string name="background_color_for_alpha_formats_sub">เพิ่มความสามารถในการตั้งค่าสีพื้นหลังสำหรับรูปแบบภาพทุกรูปแบบด้วยการรองรับอัลฟ่า เมื่อปิดใช้งานแล้วจะใช้ได้กับรูปแบบที่ไม่ใช่อัลฟ่าเท่านั้น</string>
+    <string name="open_markup_project">เปิดโครงการ</string>
+    <string name="open_markup_project_sub">แก้ไขโปรเจ็กต์ Image Toolbox ที่บันทึกไว้ก่อนหน้านี้ต่อไป</string>
+    <string name="markup_project_open_failed">ไม่สามารถเปิดโปรเจ็กต์กล่องเครื่องมือรูปภาพได้</string>
+    <string name="markup_project_missing_data">โครงการ Image Toolbox ไม่มีข้อมูลโครงการ</string>
+    <string name="markup_project_corrupted">โครงการกล่องเครื่องมือรูปภาพเสียหาย</string>
+    <string name="unsupported_markup_project_version">เวอร์ชันโปรเจ็กต์กล่องเครื่องมือรูปภาพที่ไม่รองรับ: %1$d</string>
+    <string name="save_markup_project">บันทึกโครงการ</string>
+    <string name="save_markup_project_sub">จัดเก็บเลเยอร์ พื้นหลัง และประวัติการแก้ไขในไฟล์โปรเจ็กต์ที่แก้ไขได้</string>
+    <string name="failed_to_open">ไม่สามารถเปิดได้</string>
 </resources>

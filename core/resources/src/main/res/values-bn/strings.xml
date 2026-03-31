@@ -2192,4 +2192,13 @@
     <string name="background_color_for_alpha_formats">আলফা ফরম্যাটের জন্য পটভূমির রঙ</string>
     <string name="background_color_for_alpha_formats_sub">আলফা সমর্থন সহ প্রতিটি ইমেজ ফরম্যাটের জন্য পটভূমির রঙ সেট করার ক্ষমতা যোগ করে, যখন এটি নিষ্ক্রিয় করা হয় শুধুমাত্র অ-আলফাগুলির জন্য উপলব্ধ</string>
     <string name="keep_date_time_sub">সর্বদা তারিখ এবং সময়ের সাথে সম্পর্কিত exif ট্যাগ সংরক্ষণ করুন, exif বিকল্পটি স্বাধীনভাবে কাজ করে</string>
+    <string name="open_markup_project">প্রকল্প খুলুন</string>
+    <string name="open_markup_project_sub">একটি পূর্বে সংরক্ষিত চিত্র টুলবক্স প্রকল্প সম্পাদনা চালিয়ে যান</string>
+    <string name="markup_project_open_failed">ইমেজ টুলবক্স প্রকল্প খুলতে অক্ষম</string>
+    <string name="markup_project_missing_data">ইমেজ টুলবক্স প্রোজেক্টে প্রোজেক্ট ডেটা নেই</string>
+    <string name="markup_project_corrupted">ইমেজ টুলবক্স প্রকল্প দূষিত হয়েছে</string>
+    <string name="unsupported_markup_project_version">অসমর্থিত চিত্র টুলবক্স প্রকল্প সংস্করণ: %1$d</string>
+    <string name="save_markup_project">প্রকল্প সংরক্ষণ করুন</string>
+    <string name="save_markup_project_sub">একটি সম্পাদনাযোগ্য প্রকল্প ফাইলে স্তর, পটভূমি এবং সম্পাদনা ইতিহাস সংরক্ষণ করুন</string>
+    <string name="failed_to_open">খুলতে ব্যর্থ হয়েছে</string>
 </resources>
