@@ -15,18 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.feature.pdf_tools.data.utils
 
-android.namespace = "com.t8rin.imagetoolbox.feature.recognize.text"
+internal data class HocrWord(
+    val left: Float,
+    val top: Float,
+    val right: Float,
+    val bottom: Float,
+    val text: String
+)
 
-dependencies {
-    implementation(projects.core.filters)
-    implementation(projects.feature.pdfTools)
-    implementation(projects.feature.singleEdit)
-    implementation(libs.tesseract)
-}
+internal data class HocrPageBox(
+    val width: Float,
+    val height: Float
+)
+
+internal data class HocrData(
+    val pageBox: HocrPageBox?,
+    val words: List<HocrWord>
+)

@@ -1641,6 +1641,8 @@
     <string name="ocr_write_to_file_sub">Extract text from batch of images and store it in the one text file</string>
     <string name="ocr_write_to_metadata">Write To Metadata</string>
     <string name="ocr_write_to_metadata_sub">Extract text from each image and place it in EXIF info of relative photos</string>
+    <string name="ocr_write_to_searchable_pdf">Write To Searchable PDF</string>
+    <string name="ocr_write_to_searchable_pdf_sub">Recognize text from image batch and save searchable PDF with image and selectable text layer</string>
     <string name="invisible_mode">Invisible Mode</string>
     <string name="invisible_mode_sub">Use steganography to create eye invisible watermarks inside bytes of your images</string>
     <string name="use_lsb">Use LSB</string>

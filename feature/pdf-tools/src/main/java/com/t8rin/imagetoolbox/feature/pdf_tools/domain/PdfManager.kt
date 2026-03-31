@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParam
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.SearchablePdfPage
 import kotlinx.coroutines.flow.Flow
 
 interface PdfManager : PdfHelper {
@@ -38,6 +39,11 @@ interface PdfManager : PdfHelper {
     suspend fun createPdf(
         imageUris: List<String>,
         params: PdfCreationParams
+    ): String
+
+    suspend fun createSearchablePdf(
+        pages: List<SearchablePdfPage>,
+        params: PdfCreationParams = PdfCreationParams(quality = 100)
     ): String
 
     suspend fun mergePdfs(

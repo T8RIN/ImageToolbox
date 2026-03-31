@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
+import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Webp
 import kotlinx.serialization.SerialName
@@ -541,6 +542,7 @@ sealed class Screen(
                     is Extraction -> Icons.Outlined.TextSearch
                     is WriteToFile -> Icons.Outlined.FilePresent
                     is WriteToMetadata -> Icons.Outlined.Exif
+                    is WriteToSearchablePdf -> Icons.Outlined.Pdf
                 }
 
             @Serializable
@@ -567,12 +569,21 @@ sealed class Screen(
                 subtitle = R.string.ocr_write_to_metadata_sub
             )
 
+            @Serializable
+            data class WriteToSearchablePdf(
+                val uris: List<Uri>? = null
+            ) : Type(
+                title = R.string.ocr_write_to_searchable_pdf,
+                subtitle = R.string.ocr_write_to_searchable_pdf_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         Extraction(),
                         WriteToFile(),
-                        WriteToMetadata()
+                        WriteToMetadata(),
+                        WriteToSearchablePdf()
                     )
                 }
             }

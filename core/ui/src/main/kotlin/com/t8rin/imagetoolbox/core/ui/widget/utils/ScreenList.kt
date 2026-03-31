@@ -223,6 +223,11 @@ internal fun List<Uri>.screenList(
                         Screen.RecognizeText.Type.WriteToMetadata(uris)
                     )
                 )
+                add(
+                    Screen.RecognizeText(
+                        Screen.RecognizeText.Type.WriteToSearchablePdf(uris)
+                    )
+                )
                 add(Screen.Watermarking(uris))
                 add(
                     Screen.GifTools(

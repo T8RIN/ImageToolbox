@@ -83,6 +83,12 @@ internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
         )
     }
 
+    val writeToSearchablePdfPicker = rememberImagePicker { uris: List<Uri> ->
+        component.updateType(
+            type = Screen.RecognizeText.Type.WriteToSearchablePdf(uris)
+        )
+    }
+
     val types = remember {
         Screen.RecognizeText.Type.entries
     }
@@ -131,6 +137,24 @@ internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
             }
         )
     }
+    val preference4 = @Composable {
+        PreferenceItem(
+            title = stringResource(types[3].title),
+            subtitle = stringResource(types[3].subtitle),
+            startIcon = types[3].icon,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                if (component.selectionSheetData.isNotEmpty()) {
+                    component.updateType(
+                        type = Screen.RecognizeText.Type.WriteToSearchablePdf(component.selectionSheetData)
+                    )
+                    component.hideSelectionTypeSheet()
+                } else {
+                    writeToSearchablePdfPicker.pickImage()
+                }
+            }
+        )
+    }
 
     if (isPortrait) {
         Column {
@@ -139,6 +163,8 @@ internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
             preference2()
             Spacer(modifier = Modifier.height(8.dp))
             preference3()
+            Spacer(modifier = Modifier.height(8.dp))
+            preference4()
         }
     } else {
         Column(
@@ -155,7 +181,16 @@ internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
                 preference2.withModifier(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(8.dp))
-            preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
+            Row(
+                modifier = Modifier.padding(
+                    WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
+                        .asPaddingValues()
+                )
+            ) {
+                preference3.withModifier(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.width(8.dp))
+                preference4.withModifier(modifier = Modifier.weight(1f))
+            }
         }
     }
 
@@ -188,6 +223,9 @@ internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
                 }
                 item {
                     preference3()
+                }
+                item {
+                    preference4()
                 }
             }
         },

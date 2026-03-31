@@ -84,7 +84,7 @@ internal class AndroidImageTextReader @Inject constructor(
         model: Any?,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = withContext(defaultDispatcher) {
-        val empty = TextRecognitionResult.Success(RecognitionData("", 0))
+        val empty = TextRecognitionResult.Success(RecognitionData.Empty)
 
         if (model == null) return@withContext empty
 
@@ -136,7 +136,7 @@ internal class AndroidImageTextReader @Inject constructor(
                 setImage(image.copy(Bitmap.Config.ARGB_8888, false))
             }
 
-            api.getHOCRText(0)
+            val hocr = api.getHOCRText(0)
 
             val text = api.utF8Text
 
@@ -145,7 +145,8 @@ internal class AndroidImageTextReader @Inject constructor(
             TextRecognitionResult.Success(
                 RecognitionData(
                     text = text,
-                    accuracy = if (text.isEmpty()) 0 else accuracy
+                    accuracy = if (text.isEmpty()) 0 else accuracy,
+                    hocr = hocr
                 )
             )
         }.let {

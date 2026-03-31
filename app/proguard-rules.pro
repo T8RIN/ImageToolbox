@@ -76,3 +76,5 @@
 
 -keep class com.google.firebase.crashlytics.** { *; }
 -keep class com.google.firebase.analytics.** { *; }
+-keep class androidx.pdf.** { *; }
+-keepnames class androidx.pdf.** { *; }

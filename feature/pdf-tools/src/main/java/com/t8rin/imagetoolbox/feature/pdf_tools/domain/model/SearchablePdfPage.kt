@@ -15,18 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.feature.pdf_tools.domain.model
 
-android.namespace = "com.t8rin.imagetoolbox.feature.recognize.text"
-
-dependencies {
-    implementation(projects.core.filters)
-    implementation(projects.feature.pdfTools)
-    implementation(projects.feature.singleEdit)
-    implementation(libs.tesseract)
-}
+data class SearchablePdfPage(
+    val imageUri: String,
+    val text: String,
+    val hocr: String
+)

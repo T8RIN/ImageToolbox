@@ -70,6 +70,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.SearchablePdfPage
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.DownloadData
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.ImageTextReader
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OCRLanguage
@@ -102,6 +104,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider,
     private val fileController: FileController,
+    private val pdfManager: PdfManager,
     private val filenameCreator: FilenameCreator,
     resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
@@ -137,6 +140,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         get() = when (val target = type) {
             is Screen.RecognizeText.Type.WriteToFile -> target.uris ?: emptyList()
             is Screen.RecognizeText.Type.WriteToMetadata -> target.uris ?: emptyList()
+            is Screen.RecognizeText.Type.WriteToSearchablePdf -> target.uris ?: emptyList()
             else -> emptyList()
         }
 
@@ -444,6 +448,12 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             is Screen.RecognizeText.Type.WriteToMetadata -> {
                 updateType(
                     type = Screen.RecognizeText.Type.WriteToMetadata(uris - uri),
+                )
+            }
+
+            is Screen.RecognizeText.Type.WriteToSearchablePdf -> {
+                updateType(
+                    type = Screen.RecognizeText.Type.WriteToSearchablePdf(uris - uri),
                 )
             }
 
@@ -762,6 +772,20 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     shareProvider.shareUris(cachedUris)
                 }
 
+                is Screen.RecognizeText.Type.WriteToSearchablePdf -> {
+                    val pdfUri = createSearchablePdfUri(
+                        onRequestDownload = { data ->
+                            _downloadDialogData.update { data.map(DownloadData::toUi) }
+                        }
+                    ) ?: return@launch
+
+                    shareProvider.shareUri(
+                        uri = pdfUri,
+                        type = MimeType.Pdf,
+                        onComplete = AppToastHost::showConfetti
+                    )
+                }
+
                 else -> return@launch
             }
         }.apply {
@@ -820,6 +844,8 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     fun generateTextFilename(): String = "OCR_${timestamp()}.txt"
 
+    fun generateSearchablePdfFilename(): String = "OCR_searchable_${timestamp()}.pdf"
+
     fun importLanguagesFrom(
         uri: Uri,
         onFailure: (Throwable) -> Unit
@@ -855,6 +881,25 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         }
     }
 
+    fun saveSearchablePdfTo(uri: Uri) {
+        recognitionJob = componentScope.launch {
+            _isSaving.update { true }
+            val pdfUri = createSearchablePdfUri(
+                onRequestDownload = { data ->
+                    _downloadDialogData.update { data.map(DownloadData::toUi) }
+                }
+            ) ?: return@launch
+            fileController.transferBytes(
+                fromUri = pdfUri,
+                toUri = uri.toString()
+            ).also(::parseFileSaveResult).onSuccess(::registerSave)
+        }.apply {
+            invokeOnCompletion {
+                _isSaving.update { false }
+            }
+        }
+    }
+
     fun updateParams(newParams: TessParams) {
         _params.update { newParams }
         startRecognition()
@@ -864,6 +909,39 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         recognitionJob?.cancel()
         recognitionJob = null
         _isSaving.update { false }
+    }
+
+    private suspend fun createSearchablePdfUri(
+        onRequestDownload: (List<DownloadData>) -> Unit
+    ): String? {
+        val pages = mutableListOf<SearchablePdfPage>()
+        _left.update { uris.size }
+        _done.update { 0 }
+
+        uris.forEachIndexed { index, uri ->
+            val data = when (val result = uri.readText()) {
+                is TextRecognitionResult.Error -> return null
+
+                is TextRecognitionResult.NoData -> {
+                    onRequestDownload(result.data)
+                    return null
+                }
+
+                is TextRecognitionResult.Success -> result.data
+            }
+            pages.add(
+                SearchablePdfPage(
+                    imageUri = uri.toString(),
+                    text = data.text,
+                    hocr = data.hocr
+                )
+            )
+            _done.update { index + 1 }
+        }
+
+        return pdfManager.createSearchablePdf(
+            pages = pages
+        )
     }
 
     private suspend fun Any.readText(): TextRecognitionResult {

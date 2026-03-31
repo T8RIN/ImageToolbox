@@ -23,25 +23,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.awxkee.aire.Aire
-import com.awxkee.aire.ResizeFunction
-import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.data.saving.io.ByteArrayReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.shielded
-import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.PDF
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
-import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -49,6 +43,7 @@ import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.putEntry
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.HocrWord
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPage
@@ -76,6 +71,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParam
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.SearchablePdfPage
 import com.t8rin.logger.makeLog
 import com.t8rin.trickle.Trickle
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
@@ -84,6 +80,7 @@ import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
+import com.tom_roush.pdfbox.pdmodel.graphics.state.RenderingMode
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -93,12 +90,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
-import kotlin.math.max
-import kotlin.math.roundToInt
 
 internal class AndroidPdfManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val helper: AndroidPdfHelper,
@@ -136,71 +130,86 @@ internal class AndroidPdfManager @Inject constructor(
         imageUris: List<String>,
         params: PdfCreationParams
     ): String = catchPdf {
-        createPdf { newDoc ->
-            val scale = params.preset.value / 100f
-            val quality = params.quality / 100f
+        val images = prepareImagesForPdf(
+            imageUris = imageUris,
+            params = params
+        )
+        createPdfFromPreparedImages(
+            images = images,
+            quality = params.quality / 100f,
+            scaleSmallImagesToLarge = params.scaleSmallImagesToLarge,
+            addTextLayer = null
+        )
+    }
 
-            var h = 0
-            var maxHeight = 0
-            var maxWidth = 0
-            val images = imageUris.mapNotNull { uri ->
-                imageGetter.getImage(data = uri)?.let {
-                    imageScaler.scaleImage(
-                        image = it,
-                        width = (it.width * scale).roundToInt(),
-                        height = (it.height * scale).roundToInt(),
-                        resizeType = ResizeType.Flexible
-                    )
-                }?.apply {
-                    maxWidth = max(maxWidth, width)
-                    maxHeight = max(maxHeight, height)
+    override suspend fun createSearchablePdf(
+        pages: List<SearchablePdfPage>,
+        params: PdfCreationParams
+    ): String = catchPdf {
+        val images = prepareImagesForPdf(
+            imageUris = pages.map(SearchablePdfPage::imageUri),
+            params = params
+        )
+
+        createPdfFromPreparedImages(
+            images = images,
+            quality = params.quality / 100f,
+            scaleSmallImagesToLarge = params.scaleSmallImagesToLarge,
+            addTextLayer = { pageIndex, pageWidth, pageHeight, document ->
+                val page = pages.getOrNull(pageIndex) ?: return@createPdfFromPreparedImages
+                val hocrData = page.hocr.let(::parseHocrData)
+                val sourcePageWidth = hocrData.pageBox?.width?.takeIf { it > 0f } ?: pageWidth
+                val sourcePageHeight = hocrData.pageBox?.height?.takeIf { it > 0f } ?: pageHeight
+                val scaleX = (pageWidth / sourcePageWidth).coerceAtLeast(0.0001f)
+                val scaleY = (pageHeight / sourcePageHeight).coerceAtLeast(0.0001f)
+
+                val words = hocrData.words
+                    .ifEmpty {
+                        page.text
+                            .lineSequence()
+                            .map(String::trim)
+                            .filter(String::isNotBlank)
+                            .take(300)
+                            .mapIndexed { index, line ->
+                                HocrWord(
+                                    left = 8f,
+                                    top = (index * 14f),
+                                    right = 8f + 1000f,
+                                    bottom = (index * 14f) + 12f,
+                                    text = line
+                                )
+                            }
+                            .toList()
+                    }
+
+                words.forEach { word ->
+                    val text = word.text.cleanPdfText()
+                    if (text.isBlank()) return@forEach
+
+                    val left = word.left * scaleX
+                    val right = word.right * scaleX
+                    val top = word.top * scaleY
+                    val bottom = word.bottom * scaleY
+
+                    val boxHeight = (bottom - top).coerceAtLeast(1f)
+                    val fontSize = (boxHeight * 0.9f).coerceIn(6f, 28f)
+                    val targetWidth = (right - left).coerceAtLeast(1f)
+                    val x = left.coerceIn(0f, pageWidth - 1f)
+                    val y = (pageHeight - bottom + boxHeight * 0.16f).coerceIn(0f, pageHeight - 1f)
+
+                    beginText()
+                    setRenderingMode(RenderingMode.NEITHER)
+                    setFont(document.defaultFont, fontSize)
+                    val sourceWidth = (document.defaultFont.getStringWidth(text) / 1000f * fontSize)
+                        .coerceAtLeast(1f)
+                    val horizontalScale = (targetWidth / sourceWidth * 100f).coerceIn(40f, 250f)
+                    setHorizontalScaling(horizontalScale)
+                    newLineAtOffset(x, y)
+                    showText(text)
+                    endText()
                 }
             }
-
-            for (image in images) {
-                h += if (params.scaleSmallImagesToLarge && image.width != maxWidth) {
-                    (maxWidth / image.aspectRatio).toInt().coerceAtLeast(1)
-                } else {
-                    image.height.coerceAtLeast(1)
-                }
-            }
-
-            val size = IntegerSize(maxWidth, h)
-
-            images.forEach { image ->
-                val bitmap = if (params.scaleSmallImagesToLarge && image.width != size.width) {
-                    Aire.scale(
-                        bitmap = image,
-                        dstWidth = size.width,
-                        dstHeight = (size.width / image.aspectRatio).toInt(),
-                        scaleMode = ResizeFunction.Bicubic,
-                        colorSpace = ScaleColorSpace.SRGB
-                    )
-                } else image
-
-                newDoc.createPage(
-                    PDPage(
-                        PDRectangle(
-                            bitmap.width.toFloat(),
-                            bitmap.height.toFloat()
-                        )
-                    )
-                ) {
-                    drawImage(
-                        bitmap.asXObject(newDoc, quality),
-                        0f,
-                        0f,
-                        bitmap.width.toFloat(),
-                        bitmap.height.toFloat()
-                    )
-                }
-            }
-
-            shareProvider.cacheData(
-                writeData = newDoc::save,
-                filename = tempName("")
-            ) ?: error("No PDF created")
-        }
+        )
     }
 
     override suspend fun mergePdfs(uris: List<String>): String = catchPdf {

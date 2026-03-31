@@ -106,6 +106,12 @@ fun RecognizeTextContent(
                 )
             }
 
+            type is Screen.RecognizeText.Type.WriteToSearchablePdf -> {
+                component.updateType(
+                    type = Screen.RecognizeText.Type.WriteToSearchablePdf(uris)
+                )
+            }
+
             type == null -> {
                 component.showSelectionTypeSheet(uris)
             }
@@ -125,6 +131,14 @@ fun RecognizeTextContent(
             is Screen.RecognizeText.Type.WriteToMetadata -> {
                 component.updateType(
                     type = Screen.RecognizeText.Type.WriteToMetadata(
+                        type.uris?.plus(uris)?.distinct()
+                    )
+                )
+            }
+
+            is Screen.RecognizeText.Type.WriteToSearchablePdf -> {
+                component.updateType(
+                    type = Screen.RecognizeText.Type.WriteToSearchablePdf(
                         type.uris?.plus(uris)?.distinct()
                     )
                 )

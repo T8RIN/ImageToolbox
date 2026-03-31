@@ -26,8 +26,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -58,6 +60,10 @@ internal fun RecognizeTextButtons(
     var showFolderSelectionDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    val saveSearchablePdfLauncher = rememberFileCreator(
+        mimeType = MimeType.Pdf,
+        onSuccess = component::saveSearchablePdfTo
+    )
     val save: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.save(
             oneTimeSaveLocationUri = it
@@ -72,6 +78,8 @@ internal fun RecognizeTextButtons(
         onPrimaryButtonClick = {
             if (isExtraction) {
                 copyText()
+            } else if (type is Screen.RecognizeText.Type.WriteToSearchablePdf) {
+                saveSearchablePdfLauncher.make(component.generateSearchablePdfFilename())
             } else {
                 save(null)
             }
