@@ -510,6 +510,7 @@ or click one of the badges below.
     - Multiple languages at the same time
     - Reading from batch of images to file
     - Placing in EXIF metadata of batch images
+    - Creating searchable PDF with recognized text behind images
 - EXIF metadata editing/deleting
 - Loading images from internet
 - Image Stitching
