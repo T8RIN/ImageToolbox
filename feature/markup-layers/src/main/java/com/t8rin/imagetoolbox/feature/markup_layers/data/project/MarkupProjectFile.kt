@@ -74,6 +74,10 @@ data class FontSnapshot(
     val type: FontSnapshotType,
     val resourceId: Int? = null,
     val path: String? = null,
+    val resourceName: String? = null,
+    val familyKey: String? = null,
+    val assetPath: String? = null,
+    val filename: String? = null,
 )
 
 data class OutlineSnapshot(

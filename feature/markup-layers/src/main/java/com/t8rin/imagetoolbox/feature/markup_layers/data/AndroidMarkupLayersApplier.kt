@@ -29,10 +29,14 @@ import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
+import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
+import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
+import com.t8rin.imagetoolbox.core.settings.presentation.model.asUi
 import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.putEntry
@@ -74,6 +78,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     private val renderer: LayersRenderer,
     private val imageGetter: ImageGetter<Bitmap>,
     private val jsonParser: JsonParser,
+    private val settingsManager: SettingsManager,
 ) : MarkupLayersApplier<Bitmap>, DispatchersHolder by dispatchersHolder {
 
     private val projectCacheRoot by lazy {
@@ -99,9 +104,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
             val projectJson = jsonParser.toJson(
                 obj = project.toSnapshot(assets),
                 type = MarkupProjectFile::class.java
-            ) ?: return@withContext SaveResult.Error.Exception(
-                Throwable("Unable to serialize markup project")
-            )
+            ) ?: return@withContext
 
             destination.outputStream().createZip { zip ->
                 zip.putEntry(MarkupProjectJsonEntry) {
@@ -294,7 +297,10 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
             TextSnapshot(
                 color = it.color,
                 size = it.size,
-                font = it.font?.toSnapshot(),
+                font = it.font?.toSnapshot(
+                    assets = assets,
+                    prefix = "$prefix-$index-font"
+                ),
                 backgroundColor = it.backgroundColor,
                 text = it.text,
                 decorations = it.decorations.map(Enum<*>::name),
@@ -329,7 +335,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         }
     )
 
-    private fun MarkupProjectFile.toDomain(
+    private suspend fun MarkupProjectFile.toDomain(
         extractionDir: File
     ): MarkupProjectResult {
         if (version != MarkupProjectVersion) {
@@ -367,7 +373,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         BackgroundType.None -> ProjectBackground.None
     }
 
-    private fun LayerSnapshot.toDomain(
+    private suspend fun LayerSnapshot.toDomain(
         extractionDir: File
     ): MarkupLayer = MarkupLayer(
         type = when (type) {
@@ -376,7 +382,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
                 LayerType.Text(
                     color = value.color,
                     size = value.size,
-                    font = value.font?.toDomain(),
+                    font = value.font?.toDomain(extractionDir),
                     backgroundColor = value.backgroundColor,
                     text = value.text,
                     decorations = value.decorations.mapNotNull {
@@ -419,28 +425,68 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         )
     )
 
-    private fun FontType.toSnapshot(): FontSnapshot =
+    private fun FontType.toSnapshot(
+        assets: MutableList<AssetSource>,
+        prefix: String
+    ): FontSnapshot =
         when (this) {
-            is FontType.File -> FontSnapshot(
-                type = FontSnapshotType.File,
-                path = path
-            )
+            is FontType.File -> {
+                val source = path
+                val fileName = File(path).name.takeIf(String::isNotBlank)
+                    ?: "$prefix.ttf"
+                val entryName = "assets/fonts/$prefix/$fileName"
+                assets += AssetSource(
+                    entryName = entryName,
+                    source = source
+                )
+                FontSnapshot(
+                    type = FontSnapshotType.File,
+                    path = path,
+                    assetPath = entryName,
+                    filename = fileName
+                )
+            }
 
-            is FontType.Resource -> FontSnapshot(
-                type = FontSnapshotType.Resource,
-                resourceId = resId
-            )
+            is FontType.Resource -> {
+                val entryName = "assets/fonts/$prefix/resource-$resId.font"
+                assets += AssetSource(
+                    entryName = entryName,
+                    source = "android.resource://${context.packageName}/$resId"
+                )
+                FontSnapshot(
+                    type = FontSnapshotType.Resource,
+                    resourceId = resId,
+                    resourceName = runCatching {
+                        context.resources.getResourceEntryName(resId)
+                    }.getOrNull(),
+                    familyKey = asUi()
+                        .takeIf { (it.type as? FontType.Resource)?.resId == resId }
+                        ?.asDomain()
+                        ?.asString(),
+                    assetPath = entryName,
+                    filename = "resource-$resId.font"
+                )
+            }
         }
 
-    private fun FontSnapshot.toDomain(): FontType? =
+    private suspend fun FontSnapshot.toDomain(
+        extractionDir: File
+    ): FontType? =
         when (type) {
-            FontSnapshotType.File -> path?.let {
-                FontType.File(it)
-            }
+            FontSnapshotType.File -> path
+                ?.takeIf { File(it).exists() }
+                ?.let { FontType.File(it) }
+                ?: restoreFontFromAsset(extractionDir)
 
-            FontSnapshotType.Resource -> resourceId?.let {
-                FontType.Resource(it)
-            }
+            FontSnapshotType.Resource -> familyKey
+                ?.let { DomainFontFamily.fromString(familyKey)?.asFontType() }
+                ?: resourceName
+                    ?.let(::resolveResourceByKnownFonts)
+                    ?.let { FontType.Resource(it) }
+                ?: resourceId
+                    ?.takeIf(::isValidFontResource)
+                    ?.let { FontType.Resource(it) }
+                ?: restoreFontFromAsset(extractionDir)
         }
 
     private fun Any.toPersistableSource(): String = when (this) {
@@ -461,6 +507,53 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         ?: source.substringAfterLast('.', "")
             .takeIf(String::isNotBlank)
         ?: "png"
+
+    private suspend fun FontSnapshot.restoreFontFromAsset(
+        extractionDir: File
+    ): FontType.File? {
+        val fontAsset = assetPath
+            ?.let { File(extractionDir, it) }
+            ?.takeIf(File::exists)
+            ?: return null
+
+        val preferredFilename = filename
+            ?.let { File(it).name }
+            ?.takeIf(String::isNotBlank)
+
+        val existingFont = settingsManager.settingsState.value.customFonts
+            .firstOrNull { custom ->
+                val file = File(custom.filePath)
+                file.exists() && preferredFilename != null && file.name.equals(
+                    preferredFilename,
+                    ignoreCase = true
+                )
+            }
+            ?.filePath
+            ?.let(FontType::File)
+
+        if (existingFont != null) return existingFont
+
+        return settingsManager.importCustomFont(fontAsset.toUri().toString())
+            ?.let { imported ->
+                FontType.File(imported.filePath)
+            } ?: FontType.File(fontAsset.absolutePath)
+    }
+
+    private fun resolveResourceByKnownFonts(
+        resourceName: String
+    ): Int? = UiFontFamily.defaultEntries
+        .mapNotNull { (it.type as? FontType.Resource)?.resId }
+        .firstOrNull { resId ->
+            runCatching {
+                context.resources.getResourceEntryName(resId) == resourceName
+            }.getOrDefault(false)
+        }
+
+    private fun isValidFontResource(
+        resourceId: Int
+    ): Boolean = runCatching {
+        context.resources.getResourceTypeName(resourceId) == "font"
+    }.getOrDefault(false)
 
     private fun openSourceStream(source: String) = when {
         source.startsWith("content://") || source.startsWith("file://") -> {
