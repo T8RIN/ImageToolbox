@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.domain
 
-import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 
 interface MarkupLayersApplier<I> {
 
@@ -27,9 +27,9 @@ interface MarkupLayersApplier<I> {
     ): I
 
     suspend fun saveProject(
-        uri: String,
+        destination: Writeable,
         project: MarkupProject
-    ): SaveResult
+    )
 
     suspend fun openProject(
         uri: String

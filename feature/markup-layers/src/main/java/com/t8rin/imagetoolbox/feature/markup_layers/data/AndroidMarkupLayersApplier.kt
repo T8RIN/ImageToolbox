@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
-import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
@@ -72,7 +72,6 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder,
     private val renderer: LayersRenderer,
-    private val fileController: FileController,
     private val imageGetter: ImageGetter<Bitmap>,
     private val jsonParser: JsonParser,
 ) : MarkupLayersApplier<Bitmap>, DispatchersHolder by dispatchersHolder {
@@ -92,25 +91,26 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     }
 
     override suspend fun saveProject(
-        uri: String,
+        destination: Writeable,
         project: MarkupProject
-    ): SaveResult = withContext(ioDispatcher) {
-        val assets = linkedMapOf<String, ByteArray>()
-        val projectJson = jsonParser.toJson(
-            obj = project.toSnapshot(assets),
-            type = MarkupProjectFile::class.java
-        ) ?: return@withContext SaveResult.Error.Exception(
-            Throwable("Unable to serialize markup project")
-        )
+    ) {
+        withContext(ioDispatcher) {
+            val assets = mutableListOf<AssetSource>()
+            val projectJson = jsonParser.toJson(
+                obj = project.toSnapshot(assets),
+                type = MarkupProjectFile::class.java
+            ) ?: return@withContext SaveResult.Error.Exception(
+                Throwable("Unable to serialize markup project")
+            )
 
-        fileController.writeBytes(uri) { output ->
-            output.outputStream().createZip { zip ->
+            destination.outputStream().createZip { zip ->
                 zip.putEntry(MarkupProjectJsonEntry) {
                     it.write(projectJson.toByteArray())
                 }
-                assets.forEach { (name, bytes) ->
-                    zip.putEntry(name) {
-                        it.write(bytes)
+                assets.forEach { asset ->
+                    zip.putEntry(asset.entryName) { entry ->
+                        openSourceStream(asset.source)?.use { it.copyTo(entry) }
+                            ?: throw IllegalArgumentException("Unable to open source: $asset")
                     }
                 }
             }
@@ -210,8 +210,8 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         projectCacheRoot.listFiles().orEmpty().forEach(File::deleteRecursively)
     }
 
-    private suspend fun MarkupProject.toSnapshot(
-        assets: MutableMap<String, ByteArray>
+    private fun MarkupProject.toSnapshot(
+        assets: MutableList<AssetSource>
     ): MarkupProjectFile = MarkupProjectFile(
         version = MarkupProjectVersion,
         imageFormat = imageFormat.title,
@@ -240,8 +240,8 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         }
     )
 
-    private suspend fun ProjectBackground.toSnapshot(
-        assets: MutableMap<String, ByteArray>
+    private fun ProjectBackground.toSnapshot(
+        assets: MutableList<AssetSource>
     ): BackgroundSnapshot = when (this) {
         is ProjectBackground.Color -> BackgroundSnapshot(
             type = BackgroundType.Color,
@@ -256,7 +256,10 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
                 prefix = "background",
                 extension = sourceExtension(source)
             )
-            assets[entryName] = readSourceBytes(source)
+            assets += AssetSource(
+                entryName = entryName,
+                source = source
+            )
             BackgroundSnapshot(
                 type = BackgroundType.Image,
                 assetPath = entryName
@@ -266,9 +269,9 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         ProjectBackground.None -> BackgroundSnapshot(type = BackgroundType.None)
     }
 
-    private suspend fun MarkupLayer.toSnapshot(
+    private fun MarkupLayer.toSnapshot(
         index: Int,
-        assets: MutableMap<String, ByteArray>,
+        assets: MutableList<AssetSource>,
         prefix: String
     ): LayerSnapshot = LayerSnapshot(
         type = when (type) {
@@ -311,7 +314,10 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
                     prefix = "$prefix-$index",
                     extension = sourceExtension(source)
                 )
-                assets[entryName] = readSourceBytes(source)
+                assets += AssetSource(
+                    entryName = entryName,
+                    source = source
+                )
                 PictureSnapshot(assetPath = entryName)
             }
 
@@ -456,14 +462,17 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
             .takeIf(String::isNotBlank)
         ?: "png"
 
-    private suspend fun readSourceBytes(
-        source: String
-    ): ByteArray = when {
+    private fun openSourceStream(source: String) = when {
         source.startsWith("content://") || source.startsWith("file://") -> {
-            fileController.readBytes(source)
+            context.contentResolver.openInputStream(source.toUri())
         }
 
-        else -> File(source).takeIf(File::exists)?.readBytes()
-            ?: fileController.readBytes(source)
+        else -> File(source).takeIf(File::exists)?.inputStream()
+            ?: context.contentResolver.openInputStream(source.toUri())
     }
+
+    private data class AssetSource(
+        val entryName: String,
+        val source: String
+    )
 }

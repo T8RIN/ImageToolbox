@@ -262,10 +262,12 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         savingJob = trackProgress {
             _isSaving.value = true
 
-            markupLayersApplier.saveProject(
-                uri = uri.toString(),
-                project = createProject()
-            ).onSuccess {
+            fileController.writeBytes(uri.toString()) { output ->
+                markupLayersApplier.saveProject(
+                    destination = output,
+                    project = createProject()
+                )
+            }.onSuccess {
                 registerSave()
                 AppToastHost.showConfetti()
             }.let(::parseSaveResult)
