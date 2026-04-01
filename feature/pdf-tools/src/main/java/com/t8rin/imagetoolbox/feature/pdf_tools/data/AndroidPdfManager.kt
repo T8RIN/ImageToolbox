@@ -145,13 +145,11 @@ internal class AndroidPdfManager @Inject constructor(
         pages: List<SearchablePdfPage>,
         params: PdfCreationParams
     ): String = catchPdf {
-        val images = prepareImagesForPdf(
-            imageUris = pages.map(SearchablePdfPage::imageUri),
-            params = params
-        )
-
         createPdfFromPreparedImages(
-            images = images,
+            images = prepareImagesForPdf(
+                imageUris = pages.map(SearchablePdfPage::imageUri),
+                params = params
+            ),
             quality = params.quality / 100f,
             scaleSmallImagesToLarge = params.scaleSmallImagesToLarge,
             addTextLayer = { pageIndex, pageWidth, pageHeight, document ->
