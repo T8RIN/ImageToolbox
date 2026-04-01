@@ -83,3 +83,7 @@
 -keepattributes Signature
 -keepattributes *Annotation*
 -keep class kotlin.Metadata { *; }
+
+-keep class com.t8rin.imagetoolbox.feature.markup_layers.data.project.** { *; }
+-keep class  com.t8rin.imagetoolbox.feature.markup_layers.data.project.**
+-keep class  com.t8rin.imagetoolbox.feature.markup_layers.data.project.*
