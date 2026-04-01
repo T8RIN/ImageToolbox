@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -2199,4 +2201,7 @@
     <string name="save_markup_project_sub">Lagra lager, bakgrund och redigeringshistorik i en redigerbar projektfil</string>
     <string name="ocr_write_to_searchable_pdf">Skriv till sökbar PDF</string>
     <string name="ocr_write_to_searchable_pdf_sub">Känn igen text från bildbatch och spara sökbar PDF med bild och valbart textlager</string>
+    <string name="open_markup_project">Öppet projekt</string>
+    <string name="save_markup_project">Spara projekt</string>
+    <string name="failed_to_open">Det gick inte att öppna</string>
 </resources>
