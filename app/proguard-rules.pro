@@ -78,3 +78,8 @@
 -keep class com.google.firebase.analytics.** { *; }
 -keep class androidx.pdf.** { *; }
 -keepnames class androidx.pdf.** { *; }
+
+# Moshi reflective adapters need generic signatures in release.
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class kotlin.Metadata { *; }

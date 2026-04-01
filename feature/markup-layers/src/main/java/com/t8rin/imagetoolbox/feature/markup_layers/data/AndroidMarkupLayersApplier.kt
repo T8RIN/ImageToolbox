@@ -218,13 +218,25 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         saveExif = saveExif,
         background = background.toSnapshot(assets),
         layers = layers.mapIndexed { index, layer ->
-            layer.toSnapshot(index, assets, "layer")
+            layer.toSnapshot(
+                index = index,
+                assets = assets,
+                prefix = "layer"
+            )
         },
         lastLayers = lastLayers.mapIndexed { index, layer ->
-            layer.toSnapshot(index, assets, "last")
+            layer.toSnapshot(
+                index = index,
+                assets = assets,
+                prefix = "last"
+            )
         },
         undoneLayers = undoneLayers.mapIndexed { index, layer ->
-            layer.toSnapshot(index, assets, "undone")
+            layer.toSnapshot(
+                index = index,
+                assets = assets,
+                prefix = "undone"
+            )
         }
     )
 
