@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -2193,9 +2191,9 @@
     <string name="background_color_for_alpha_formats_sub">增加了为每种具有 Alpha 支持的图像格式设置背景颜色的功能，禁用后，此功能仅适用于非 Alpha 格式</string>
     <string name="open_markup_project">打开项目</string>
     <string name="open_markup_project_sub">继续编辑之前保存的 Image Toolbox 项目</string>
-    <string name="markup_project_open_failed">无法打开图像工具箱项目</string>
+    <string name="markup_project_open_failed">无法打开 Image Toolbox 项目</string>
     <string name="markup_project_missing_data">Image Toolbox 项目缺少项目数据</string>
-    <string name="markup_project_corrupted">图像工具箱项目已损坏</string>
+    <string name="markup_project_corrupted">Image Toolbox 项目已损坏</string>
     <string name="unsupported_markup_project_version">不受支持的 Image Toolbox 项目版本：%1$d</string>
     <string name="save_markup_project">保存项目</string>
     <string name="save_markup_project_sub">将图层、背景和编辑历史记录存储在可编辑的项目文件中</string>
