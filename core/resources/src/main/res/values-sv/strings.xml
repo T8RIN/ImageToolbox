@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -2193,15 +2191,12 @@
     <string name="keep_date_time_sub">Bevara alltid exif-taggar relaterade till datum och tid, fungerar oberoende av keep exif-alternativet</string>
     <string name="background_color_for_alpha_formats">Bakgrundsfärg För Alfaformat</string>
     <string name="background_color_for_alpha_formats_sub">Lägger till möjlighet att ställa in bakgrundsfärg för varje bildformat med alfa-stöd, när det är inaktiverat är detta endast tillgängligt för icke-alfa-one</string>
-    <string name="open_markup_project" />
     <string name="open_markup_project_sub">Fortsätt redigera ett tidigare sparat Image Toolbox-projekt</string>
     <string name="markup_project_open_failed">Det gick inte att öppna Image Toolbox-projektet</string>
     <string name="markup_project_missing_data">Image Toolbox-projektet saknar projektdata</string>
     <string name="markup_project_corrupted">Image Toolbox-projektet är skadat</string>
     <string name="unsupported_markup_project_version">Image Toolbox-projektversion som inte stöds: %1$d</string>
-    <string name="save_markup_project" />
     <string name="save_markup_project_sub">Lagra lager, bakgrund och redigeringshistorik i en redigerbar projektfil</string>
-    <string name="failed_to_open" />
     <string name="ocr_write_to_searchable_pdf">Skriv till sökbar PDF</string>
     <string name="ocr_write_to_searchable_pdf_sub">Känn igen text från bildbatch och spara sökbar PDF med bild och valbart textlager</string>
 </resources>
