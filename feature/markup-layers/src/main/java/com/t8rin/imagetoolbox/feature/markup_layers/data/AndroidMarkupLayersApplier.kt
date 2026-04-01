@@ -100,9 +100,9 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         project: MarkupProject
     ) {
         withContext(ioDispatcher) {
-            val assets = mutableListOf<AssetSource>()
+            val assetRegistry = AssetRegistry()
             val projectJson = jsonParser.toJson(
-                obj = project.toSnapshot(assets),
+                obj = project.toSnapshot(assetRegistry),
                 type = MarkupProjectFile::class.java
             ) ?: return@withContext
 
@@ -110,7 +110,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
                 zip.putEntry(MarkupProjectJsonEntry) {
                     it.write(projectJson.toByteArray())
                 }
-                assets.forEach { asset ->
+                assetRegistry.entries().forEach { asset ->
                     zip.putEntry(asset.entryName) { entry ->
                         openSourceStream(asset.source)?.use { it.copyTo(entry) }
                             ?: throw IllegalArgumentException("Unable to open source: $asset")
@@ -214,37 +214,37 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     }
 
     private fun MarkupProject.toSnapshot(
-        assets: MutableList<AssetSource>
+        assetRegistry: AssetRegistry
     ): MarkupProjectFile = MarkupProjectFile(
         version = MarkupProjectVersion,
         imageFormat = imageFormat.title,
         saveExif = saveExif,
-        background = background.toSnapshot(assets),
+        background = background.toSnapshot(assetRegistry),
         layers = layers.mapIndexed { index, layer ->
             layer.toSnapshot(
                 index = index,
-                assets = assets,
+                assetRegistry = assetRegistry,
                 prefix = "layer"
             )
         },
         lastLayers = lastLayers.mapIndexed { index, layer ->
             layer.toSnapshot(
                 index = index,
-                assets = assets,
+                assetRegistry = assetRegistry,
                 prefix = "last"
             )
         },
         undoneLayers = undoneLayers.mapIndexed { index, layer ->
             layer.toSnapshot(
                 index = index,
-                assets = assets,
+                assetRegistry = assetRegistry,
                 prefix = "undone"
             )
         }
     )
 
     private fun ProjectBackground.toSnapshot(
-        assets: MutableList<AssetSource>
+        assetRegistry: AssetRegistry
     ): BackgroundSnapshot = when (this) {
         is ProjectBackground.Color -> BackgroundSnapshot(
             type = BackgroundType.Color,
@@ -255,13 +255,12 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
 
         is ProjectBackground.Image -> {
             val source = uri
-            val entryName = assetEntryName(
-                prefix = "background",
-                extension = sourceExtension(source)
-            )
-            assets += AssetSource(
-                entryName = entryName,
-                source = source
+            val entryName = assetRegistry.register(
+                source = source,
+                proposedEntryName = assetEntryName(
+                    prefix = "background",
+                    extension = sourceExtension(source)
+                )
             )
             BackgroundSnapshot(
                 type = BackgroundType.Image,
@@ -274,7 +273,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
 
     private fun MarkupLayer.toSnapshot(
         index: Int,
-        assets: MutableList<AssetSource>,
+        assetRegistry: AssetRegistry,
         prefix: String
     ): LayerSnapshot = LayerSnapshot(
         type = when (type) {
@@ -298,7 +297,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
                 color = it.color,
                 size = it.size,
                 font = it.font?.toSnapshot(
-                    assets = assets,
+                    assetRegistry = assetRegistry,
                     prefix = "$prefix-$index-font"
                 ),
                 backgroundColor = it.backgroundColor,
@@ -316,13 +315,12 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         picture = when (val pictureType = type) {
             is LayerType.Picture.Image -> {
                 val source = pictureType.imageData.toPersistableSource()
-                val entryName = assetEntryName(
-                    prefix = "$prefix-$index",
-                    extension = sourceExtension(source)
-                )
-                assets += AssetSource(
-                    entryName = entryName,
-                    source = source
+                val entryName = assetRegistry.register(
+                    source = source,
+                    proposedEntryName = assetEntryName(
+                        prefix = "$prefix-$index",
+                        extension = sourceExtension(source)
+                    )
                 )
                 PictureSnapshot(assetPath = entryName)
             }
@@ -426,7 +424,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     )
 
     private fun FontType.toSnapshot(
-        assets: MutableList<AssetSource>,
+        assetRegistry: AssetRegistry,
         prefix: String
     ): FontSnapshot =
         when (this) {
@@ -434,10 +432,9 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
                 val source = path
                 val fileName = File(path).name.takeIf(String::isNotBlank)
                     ?: "$prefix.ttf"
-                val entryName = "assets/fonts/$prefix/$fileName"
-                assets += AssetSource(
-                    entryName = entryName,
-                    source = source
+                val entryName = assetRegistry.register(
+                    source = source,
+                    proposedEntryName = "assets/fonts/$prefix/$fileName"
                 )
                 FontSnapshot(
                     type = FontSnapshotType.File,
@@ -448,10 +445,10 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
             }
 
             is FontType.Resource -> {
-                val entryName = "assets/fonts/$prefix/resource-$resId.font"
-                assets += AssetSource(
-                    entryName = entryName,
-                    source = "android.resource://${context.packageName}/$resId"
+                val source = "android.resource://${context.packageName}/$resId"
+                val entryName = assetRegistry.register(
+                    source = source,
+                    proposedEntryName = "assets/fonts/$prefix/resource-$resId.font"
                 )
                 FontSnapshot(
                     type = FontSnapshotType.Resource,
@@ -568,4 +565,42 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         val entryName: String,
         val source: String
     )
+
+    private inner class AssetRegistry {
+        private val entryBySource = linkedMapOf<String, AssetSource>()
+
+        fun register(
+            source: String,
+            proposedEntryName: String
+        ): String {
+            val key = sourceKey(source)
+            return entryBySource[key]?.entryName ?: proposedEntryName.also {
+                entryBySource[key] = AssetSource(
+                    entryName = proposedEntryName,
+                    source = source
+                )
+            }
+        }
+
+        fun entries(): List<AssetSource> = entryBySource.values.toList()
+    }
+
+    private fun sourceKey(
+        source: String
+    ): String = when {
+        source.startsWith("android.resource://") -> source
+        source.startsWith("content://") -> source
+        source.startsWith("file://") -> {
+            source.toUri().path
+                ?.let(::File)
+                ?.canonicalPath
+                ?.let { "file:$it" }
+                ?: source
+        }
+
+        else -> runCatching { File(source).canonicalPath }
+            .getOrNull()
+            ?.let { "path:$it" }
+            ?: source
+    }
 }
