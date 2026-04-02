@@ -24,6 +24,7 @@ android.namespace = "com.websitebeaver.documentscanner"
 dependencies {
     implementation(libs.opencv)
     implementation(libs.appCompat)
+    implementation(libs.toolbox.exif)
 
     implementation(projects.lib.opencvTools)
 }

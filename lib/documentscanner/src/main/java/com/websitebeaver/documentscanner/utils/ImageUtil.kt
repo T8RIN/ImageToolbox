@@ -21,8 +21,9 @@ import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.media.ExifInterface
-import android.net.Uri
+import androidx.core.graphics.createBitmap
+import androidx.core.net.toUri
+import com.t8rin.exif.ExifInterface
 import com.websitebeaver.documentscanner.extensions.distance
 import com.websitebeaver.documentscanner.extensions.toOpenCVPoint
 import com.websitebeaver.documentscanner.models.Quad
@@ -103,7 +104,7 @@ class ImageUtil {
         val image: Mat = this.getImageMatrixFromFilePath(filePath)
 
         // convert image matrix to bitmap
-        val bitmap = Bitmap.createBitmap(image.cols(), image.rows(), Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(image.cols(), image.rows())
         Utils.matToBitmap(image, bitmap)
         return bitmap
     }
@@ -158,11 +159,7 @@ class ImageUtil {
         )
 
         // convert output image matrix to bitmap
-        val croppedBitmap = Bitmap.createBitmap(
-            output.cols(),
-            output.rows(),
-            Bitmap.Config.ARGB_8888
-        )
+        val croppedBitmap = createBitmap(output.cols(), output.rows())
         Utils.matToBitmap(output, croppedBitmap)
 
         return croppedBitmap
@@ -179,7 +176,7 @@ class ImageUtil {
         contentResolver: ContentResolver
     ): Bitmap {
         return BitmapFactory.decodeStream(
-            contentResolver.openInputStream(Uri.parse(fileUriString))
+            contentResolver.openInputStream(fileUriString.toUri())
         )
     }
 }

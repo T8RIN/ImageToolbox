@@ -18,6 +18,7 @@
 package com.t8rin.opencv_tools.qr_prepare
 
 import android.graphics.Bitmap
+import androidx.core.graphics.createBitmap
 import com.t8rin.opencv_tools.utils.OpenCV
 import org.opencv.android.Utils
 import org.opencv.core.Mat
@@ -57,7 +58,7 @@ object QrPrepareHelper : OpenCV() {
         Imgproc.morphologyEx(binary, binary, Imgproc.MORPH_CLOSE, kernel)
 
         // 6. Конвертируем в Bitmap
-        val result = Bitmap.createBitmap(binary.cols(), binary.rows(), Bitmap.Config.ARGB_8888)
+        val result = createBitmap(binary.cols(), binary.rows())
         Imgproc.cvtColor(binary, binary, Imgproc.COLOR_GRAY2RGBA)
         Utils.matToBitmap(binary, result)
 
