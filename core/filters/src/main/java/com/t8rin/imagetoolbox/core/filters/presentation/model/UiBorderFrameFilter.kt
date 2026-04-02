@@ -21,9 +21,11 @@ import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
+@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
 class UiBorderFrameFilter(
     override val value: Triple<Float, Float, ColorModel> = Triple(20f, 40f, Color.White.toModel())
 ) : UiFilter<Triple<Float, Float, ColorModel>>(

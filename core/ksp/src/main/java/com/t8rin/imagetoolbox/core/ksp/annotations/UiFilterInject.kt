@@ -15,14 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.presentation.model
+package com.t8rin.imagetoolbox.core.ksp.annotations
 
-import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
-import com.t8rin.imagetoolbox.core.resources.R
-
-@UiFilterInject(group = UiFilterInject.Groups.SIMPLE)
-class UiFantasyLandscapeFilter : UiFilter<Unit>(
-    title = R.string.fantasy_landscape,
-    value = Unit
-), Filter.FantasyLandscape
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.SOURCE)
+annotation class UiFilterInject(
+    val group: String = Groups.UNSPECIFIED
+) {
+    object Groups {
+        const val SIMPLE = "Simple"
+        const val COLOR = "Color"
+        const val LUT = "LUT"
+        const val LIGHT = "Light"
+        const val EFFECTS = "Effects"
+        const val BLUR = "Blur"
+        const val PIXELATION = "Pixelation"
+        const val DISTORTION = "Distortion"
+        const val DITHERING = "Dithering"
+        const val UNSPECIFIED = "Unspecified"
+    }
+}

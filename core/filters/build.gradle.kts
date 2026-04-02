@@ -29,8 +29,9 @@ dependencies {
     implementation(projects.core.resources)
     implementation(projects.core.settings)
     implementation(projects.core.utils)
+    implementation(projects.core.ksp)
+    ksp(projects.core.ksp)
 
-    implementation(libs.kotlin.reflect)
     implementation(projects.lib.curves)
     implementation(projects.lib.ascii)
     implementation(projects.lib.neuralTools)

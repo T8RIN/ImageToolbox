@@ -224,7 +224,6 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         }
     }
 
-
     private fun openSourceStream(source: String) = when {
         source.startsWith("content://") || source.startsWith("file://") -> {
             context.contentResolver.openInputStream(source.toUri())

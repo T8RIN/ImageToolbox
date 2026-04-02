@@ -30,6 +30,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.filterIsNotInstance
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.blurGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.colorGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.copyUiFilterInstance
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.distortionGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.ditheringGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.effectsGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.lightGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.lutGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.mapFilterToUiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.newUiFilterInstance
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.pixelationGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.simpleGroupFilters
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
@@ -39,7 +51,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.resources.icons.Speed
 import com.t8rin.imagetoolbox.core.resources.icons.TableEye
 import com.t8rin.imagetoolbox.core.utils.appContext
-import kotlin.reflect.full.primaryConstructor
 
 sealed class UiFilter<T : Any>(
     @StringRes val title: Int,
@@ -61,22 +72,14 @@ sealed class UiFilter<T : Any>(
         value = value
     )
 
-    fun <T : Any> copy(value: T): UiFilter<*> {
-        if (this.value::class.simpleName != value::class.simpleName) return newInstance()
-        return runCatching {
-            this::class.primaryConstructor?.run {
-                callBy(mapOf(parameters[0] to value))
-            }
-        }.getOrNull()?.also { it.isVisible = this.isVisible } ?: newInstance()
-    }
+    fun <T : Any> copy(
+        value: T
+    ): UiFilter<*> = copyUiFilterInstance(
+        filter = this,
+        newValue = value
+    )
 
-    fun newInstance(): UiFilter<*> {
-        val instance = this::class.primaryConstructor!!.callBy(emptyMap())
-
-        return if (this.value is Unit) {
-            instance.also { it.isVisible = this.isVisible }
-        } else instance
-    }
+    fun newInstance(): UiFilter<*> = newUiFilterInstance(this)
 
     sealed class Group(
         val icon: ImageVector,
@@ -122,376 +125,55 @@ sealed class UiFilter<T : Any>(
         data object Simple : Group(
             icon = Icons.Rounded.Speed,
             title = R.string.simple_effects,
-            data = listOf(
-                UiSepiaFilter(),
-                UiNegativeFilter(),
-                UiBlackAndWhiteFilter(),
-                UiCGAColorSpaceFilter(),
-                UiLaplacianFilter(),
-                UiNonMaximumSuppressionFilter(),
-                UiWeakPixelFilter(),
-                UiTritanopiaFilter(),
-                UiDeutaronotopiaFilter(),
-                UiProtanopiaFilter(),
-                UiTritonomalyFilter(),
-                UiDeutaromalyFilter(),
-                UiProtonomalyFilter(),
-                UiVintageFilter(),
-                UiBrowniFilter(),
-                UiCodaChromeFilter(),
-                UiNightVisionFilter(),
-                UiWarmFilter(),
-                UiCoolFilter(),
-                UiPolaroidFilter(),
-                UiAchromatopsiaFilter(),
-                UiAchromatomalyFilter(),
-                UiPastelFilter(),
-                UiOrangeHazeFilter(),
-                UiPinkDreamFilter(),
-                UiGoldenHourFilter(),
-                UiHotSummerFilter(),
-                UiPurpleMistFilter(),
-                UiSunriseFilter(),
-                UiColorfulSwirlFilter(),
-                UiSoftSpringLightFilter(),
-                UiAutumnTonesFilter(),
-                UiLavenderDreamFilter(),
-                UiCyberpunkFilter(),
-                UiLemonadeLightFilter(),
-                UiSpectralFireFilter(),
-                UiNightMagicFilter(),
-                UiFantasyLandscapeFilter(),
-                UiColorExplosionFilter(),
-                UiElectricGradientFilter(),
-                UiCaramelDarknessFilter(),
-                UiFuturisticGradientFilter(),
-                UiGreenSunFilter(),
-                UiRainbowWorldFilter(),
-                UiDeepPurpleFilter(),
-                UiSpacePortalFilter(),
-                UiRedSwirlFilter(),
-                UiDigitalCodeFilter(),
-                UiOldTvFilter(),
-                UiEqualizeHistogramFilter(),
-                UiSimpleOldTvFilter(),
-                UiGothamFilter(),
-                UiHDRFilter(),
-                UiSimpleSketchFilter(),
-                UiSobelSimpleFilter(),
-                UiLaplacianSimpleFilter(),
-                UiDespeckleFilter(),
-                UiEqualizeFilter(),
-                UiReduceNoiseFilter(),
-                UiSimpleSolarizeFilter(),
-                UiMoireFilter(),
-                UiAutumnFilter(),
-                UiBoneFilter(),
-                UiJetFilter(),
-                UiWinterFilter(),
-                UiRainbowFilter(),
-                UiOceanFilter(),
-                UiSummerFilter(),
-                UiSpringFilter(),
-                UiCoolVariantFilter(),
-                UiHsvFilter(),
-                UiPinkFilter(),
-                UiHotFilter(),
-                UiParulaFilter(),
-                UiMagmaFilter(),
-                UiInfernoFilter(),
-                UiPlasmaFilter(),
-                UiViridisFilter(),
-                UiCividisFilter(),
-                UiTwilightFilter(),
-                UiTwilightShiftedFilter(),
-                UiAutoPerspectiveFilter(),
-                UiTurboFilter(),
-                UiDeepGreenFilter(),
-                UiLuminanceGradientFilter(),
-                UiAverageDistanceFilter(),
-            )
+            data = simpleGroupFilters()
         )
 
         data object Color : Group(
             icon = Icons.Rounded.FloodFill,
             title = R.string.color,
-            data = listOf(
-                UiHueFilter(),
-                UiColorOverlayFilter(),
-                UiNeonFilter(),
-                UiSaturationFilter(),
-                UiRGBFilter(),
-                UiReplaceColorFilter(),
-                UiRemoveColorFilter(),
-                UiFalseColorFilter(),
-                UiGrayscaleFilter(),
-                UiMonochromeFilter(),
-                UiColorMatrix4x4Filter(),
-                UiColorMatrix3x3Filter(),
-                UiColorBalanceFilter(),
-                UiPaletteTransferFilter(),
-                UiPaletteTransferVariantFilter(),
-                UiPosterizeFilter(),
-                UiColorPosterFilter(),
-                UiTriToneFilter(),
-                UiPopArtFilter(),
-                UiToneCurvesFilter(),
-                UiChannelMixFilter(),
-                UiRubberStampFilter()
-            )
+            data = colorGroupFilters()
         )
 
         data object LUT : Group(
             icon = Icons.Rounded.TableEye,
             title = R.string.lut,
-            data = listOf(
-                UiLUT512x512Filter(),
-                UiAmatorkaFilter(),
-                UiMissEtikateFilter(),
-                UiSoftEleganceFilter(),
-                UiSoftEleganceVariantFilter(),
-                UiCubeLutFilter(),
-                UiBleachBypassFilter(),
-                UiCandlelightFilter(),
-                UiDropBluesFilter(),
-                UiEdgyAmberFilter(),
-                UiFallColorsFilter(),
-                UiFilmStock50Filter(),
-                UiFoggyNightFilter(),
-                UiKodakFilter(),
-                UiCelluloidFilter(),
-                UiCoffeeFilter(),
-                UiGoldenForestFilter(),
-                UiGreenishFilter(),
-                UiRetroYellowFilter()
-            )
+            data = lutGroupFilters()
         )
 
         data object Light : Group(
             icon = Icons.Rounded.Lightbulb,
             title = R.string.light_aka_illumination,
-            data = listOf(
-                UiBrightnessFilter(),
-                UiContrastFilter(),
-                UiVibranceFilter(),
-                UiExposureFilter(),
-                UiWhiteBalanceFilter(),
-                UiGammaFilter(),
-                UiHighlightsAndShadowsFilter(),
-                UiSolarizeFilter(),
-                UiHazeFilter(),
-                UiDehazeFilter(),
-                UiLogarithmicToneMappingFilter(),
-                UiAcesFilmicToneMappingFilter(),
-                UiAcesHillToneMappingFilter(),
-                UiHableFilmicToneMappingFilter(),
-                UiHejlBurgessToneMappingFilter(),
-                UiEqualizeHistogramAdaptiveFilter(),
-                UiEqualizeHistogramAdaptiveLUVFilter(),
-                UiEqualizeHistogramAdaptiveLABFilter(),
-                UiEqualizeHistogramAdaptiveHSLFilter(),
-                UiEqualizeHistogramAdaptiveHSVFilter(),
-                UiEqualizeHistogramHSVFilter(),
-                UiClaheHSVFilter(),
-                UiClaheHSLFilter(),
-                UiClaheFilter(),
-                UiClaheLABFilter(),
-                UiClaheLUVFilter(),
-                UiMobiusFilter(),
-                UiAldridgeFilter(),
-                UiUchimuraFilter(),
-                UiDragoFilter(),
-                UiClaheOklabFilter(),
-                UiClaheOklchFilter(),
-                UiClaheJzazbzFilter(),
-                UiAutoRemoveRedEyesFilter(),
-                UiGlowFilter(),
-                UiSparkleFilter(),
-                UiBloomFilter()
-            )
+            data = lightGroupFilters()
         )
 
         data object Effects : Group(
             icon = Icons.Rounded.FilterHdr,
             title = R.string.effect,
-            data = listOf(
-                UiNoiseFilter(),
-                UiAnisotropicDiffusionFilter(),
-                UiSharpenFilter(),
-                UiUnsharpFilter(),
-                UiGrainFilter(),
-                UiSobelEdgeDetectionFilter(),
-                UiCannyFilter(),
-                UiOilFilter(),
-                UiEnhancedOilFilter(),
-                UiEmbossFilter(),
-                UiVignetteFilter(),
-                UiKuwaharaFilter(),
-                UiErodeFilter(),
-                UiDilationFilter(),
-                UiOpeningFilter(),
-                UiClosingFilter(),
-                UiMorphologicalGradientFilter(),
-                UiTopHatFilter(),
-                UiBlackHatFilter(),
-                UiOpacityFilter(),
-                UiSideFadeFilter(),
-                UiCropToContentFilter(),
-                UiAutoCropFilter(),
-                UiToonFilter(),
-                UiSmoothToonFilter(),
-                UiSketchFilter(),
-                UiLookupFilter(),
-                UiConvolution3x3Filter(),
-                UiThresholdFilter(),
-                UiDoGFilter(),
-                UiErrorLevelAnalysisFilter(),
-                UiCopyMoveDetectionFilter(),
-                UiBorderFrameFilter()
-            )
+            data = effectsGroupFilters()
         )
 
         data object Blur : Group(
             icon = Icons.Rounded.BlurCircular,
             title = R.string.blur,
-            data = listOf(
-                UiShuffleBlurFilter(),
-                UiRingBlurFilter(),
-                UiCircleBlurFilter(),
-                UiCrossBlurFilter(),
-                UiStarBlurFilter(),
-                UiRadialTiltShiftFilter(),
-                UiLinearTiltShiftFilter(),
-                UiGaussianBlurFilter(),
-                UiNativeStackBlurFilter(),
-                UiBoxBlurFilter(),
-                UiBilaterialBlurFilter(),
-                UiTentBlurFilter(),
-                UiStackBlurFilter(),
-                UiFastBlurFilter(),
-                UiZoomBlurFilter(),
-                UiEnhancedZoomBlurFilter(),
-                UiFastBilaterialBlurFilter(),
-                UiPoissonBlurFilter(),
-                UiMedianBlurFilter(),
-                UiBokehFilter(),
-                UiFastGaussianBlur2DFilter(),
-                UiFastGaussianBlur3DFilter(),
-                UiFastGaussianBlur4DFilter(),
-                UiLinearBoxBlurFilter(),
-                UiLinearTentBlurFilter(),
-                UiLinearGaussianBoxBlurFilter(),
-                UiLinearStackBlurFilter(),
-                UiGaussianBoxBlurFilter(),
-                UiLinearFastGaussianBlurNextFilter(),
-                UiLinearFastGaussianBlurFilter(),
-                UiLinearGaussianBlurFilter(),
-                UiMotionBlurFilter(),
-                UiDiffuseFilter()
-            )
+            data = blurGroupFilters()
         )
 
         data object Pixelation : Group(
             icon = Icons.Rounded.Cube,
             title = R.string.pixelation,
-            data = listOf(
-                UiCrystallizeFilter(),
-                UiEqualizeHistogramPixelationFilter(),
-                UiPixelationFilter(),
-                UiEnhancedPixelationFilter(),
-                UiDiamondPixelationFilter(),
-                UiEnhancedDiamondPixelationFilter(),
-                UiCirclePixelationFilter(),
-                UiEnhancedCirclePixelationFilter(),
-                UiStrokePixelationFilter(),
-                UiLowPolyFilter(),
-                UiSandPaintingFilter(),
-                UiPolkaDotFilter(),
-                UiContourFilter(),
-                UiVoronoiCrystallizeFilter(),
-                UiPointillizeFilter(),
-                UiWeaveFilter(),
-                UiSmearFilter(),
-                UiAsciiFilter(),
-                UiSimpleWeavePixelizationFilter(),
-                UiStaggeredPixelizationFilter(),
-                UiCrossPixelizationFilter(),
-                UiMicroMacroPixelizationFilter(),
-                UiOrbitalPixelizationFilter(),
-                UiVortexPixelizationFilter(),
-                UiPulseGridPixelizationFilter(),
-                UiNucleusPixelizationFilter(),
-                UiRadialWeavePixelizationFilter()
-            )
+            data = pixelationGroupFilters()
         )
 
         data object Distortion : Group(
             icon = Icons.Rounded.Animation,
             title = R.string.distortion,
-            data = listOf(
-                UiEnhancedGlitchFilter(),
-                UiFractalGlassFilter(),
-                UiGlitchFilter(),
-                UiMarbleFilter(),
-                UiConvexFilter(),
-                UiColorAnomalyFilter(),
-                UiWaterEffectFilter(),
-                UiPerlinDistortionFilter(),
-                UiAnaglyphFilter(),
-                UiHorizontalWindStaggerFilter(),
-                UiSwirlDistortionFilter(),
-                UiBulgeDistortionFilter(),
-                UiSphereRefractionFilter(),
-                UiGlassSphereRefractionFilter(),
-                UiMirrorFilter(),
-                UiKaleidoscopeFilter(),
-                UiOffsetFilter(),
-                UiPinchFilter(),
-                UiPolarCoordinatesFilter(),
-                UiTwirlFilter(),
-                UiSphereLensDistortionFilter(),
-                UiArcFilter(),
-                UiDeskewFilter(),
-                UiCropOrPerspectiveFilter(),
-                UiLensCorrectionFilter(),
-                UiSeamCarvingFilter(),
-                UiGlitchVariantFilter(),
-                UiVHSFilter(),
-                UiBlockGlitchFilter(),
-                UiCrtCurvatureFilter(),
-                UiPixelMeltFilter()
-            )
+            data = distortionGroupFilters()
         )
 
         data object Dithering : Group(
             icon = Icons.Rounded.Gradient,
             title = R.string.dithering,
-            data = listOf(
-                UiHalftoneFilter(),
-                UiCrosshatchFilter(),
-                UiBayerTwoDitheringFilter(),
-                UiBayerThreeDitheringFilter(),
-                UiBayerFourDitheringFilter(),
-                UiBayerEightDitheringFilter(),
-                UiFloydSteinbergDitheringFilter(),
-                UiJarvisJudiceNinkeDitheringFilter(),
-                UiSierraDitheringFilter(),
-                UiTwoRowSierraDitheringFilter(),
-                UiSierraLiteDitheringFilter(),
-                UiAtkinsonDitheringFilter(),
-                UiStuckiDitheringFilter(),
-                UiBurkesDitheringFilter(),
-                UiFalseFloydSteinbergDitheringFilter(),
-                UiLeftToRightDitheringFilter(),
-                UiRandomDitheringFilter(),
-                UiSimpleThresholdDitheringFilter(),
-                UiQuantizierFilter(),
-                UiClustered2x2DitheringFilter(),
-                UiClustered4x4DitheringFilter(),
-                UiClustered8x8DitheringFilter(),
-                UiYililomaDitheringFilter(),
-                UiColorHalftoneFilter()
-            )
+            data = ditheringGroupFilters()
         )
     }
 
@@ -517,46 +199,15 @@ sealed class UiFilter<T : Any>(
 
 }
 
-private val sealedValues = UiFilter::class.sealedSubclasses
-
 fun Filter<*>.toUiFilter(
     preserveVisibility: Boolean = true
-): UiFilter<*> = sealedValues.first {
-    it.java.isAssignableFrom(this::class.java)
-}.primaryConstructor!!.run {
-    if (parameters.isNotEmpty()) callBy(mapOf(parameters[0] to value))
-    else callBy(emptyMap())
-}.also {
-    if (preserveVisibility) {
-        it.isVisible = isVisible
-    }
-}
+): UiFilter<*> = mapFilterToUiFilter(
+    filter = this,
+    preserveVisibility = preserveVisibility
+)
 
 
 infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam(
     title = this,
     valueRange = valueRange
 )
-
-//private suspend fun reflectionTest() = coroutineScope {
-//    val filters = UiFilter.groupedEntries.flatten()
-//    val failedCopy = mutableListOf<Pair<String, String?>>()
-//    val failedToUi = mutableListOf<Pair<String, String?>>()
-//    filters.forEach { filter ->
-//        runCatching {
-//            filter.copy(filter.value)
-//        }.onFailure {
-//            failedCopy.add(filter::class.simpleName.toString() to it.message)
-//        }
-//        runCatching {
-//            filter.toUiFilter()
-//        }.onFailure {
-//            failedToUi.add(filter::class.simpleName.toString() to it.message)
-//        }
-//    }
-//    "------------------".makeLog()
-//    failedCopy.makeLog()
-//    " ".makeLog()
-//    failedToUi.makeLog()
-//    "------------------".makeLog()
-//}

@@ -20,8 +20,10 @@ package com.t8rin.imagetoolbox.core.filters.presentation.model
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
+@UiFilterInject(group = UiFilterInject.Groups.LIGHT)
 class UiBloomFilter(
     override val value: BloomParams = BloomParams.Default
 ) : UiFilter<BloomParams>(
