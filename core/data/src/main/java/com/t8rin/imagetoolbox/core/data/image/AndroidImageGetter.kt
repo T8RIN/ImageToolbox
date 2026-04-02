@@ -17,10 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.data.image
 
-import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
-import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import coil3.ImageLoader
 import coil3.request.ImageRequest
@@ -42,13 +40,12 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.logger.makeLog
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Locale
 import javax.inject.Inject
 
 internal class AndroidImageGetter @Inject constructor(
@@ -219,19 +216,7 @@ internal class AndroidImageGetter @Inject constructor(
         }
     }
 
-    override fun getExtension(uri: String): String? {
-        val filename = uri.toUri().filename(context) ?: ""
-        if (filename.endsWith(".qoi")) return "qoi"
-        if (filename.endsWith(".jxl")) return "jxl"
-        return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
-            MimeTypeMap.getSingleton()
-                .getExtensionFromMimeType(
-                    context.contentResolver.getType(uri.toUri())
-                )
-        } else {
-            MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
-        }?.replace(".", "")
-    }
+    override fun getExtension(uri: String): String? = uri.toUri().extension(context)
 
     private suspend fun getImageImpl(
         data: Any,

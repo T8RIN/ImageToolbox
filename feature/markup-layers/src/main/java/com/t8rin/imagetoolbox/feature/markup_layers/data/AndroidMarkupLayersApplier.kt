@@ -19,49 +19,25 @@ package com.t8rin.imagetoolbox.feature.markup_layers.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
-import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
-import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
-import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
-import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
-import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
-import com.t8rin.imagetoolbox.core.settings.presentation.model.asUi
 import com.t8rin.imagetoolbox.core.utils.createZip
-import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.putEntry
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.BackgroundSnapshot
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.BackgroundType
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.FontSnapshot
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.FontSnapshotType
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.LayerSnapshot
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.LayerSnapshotType
+import com.t8rin.imagetoolbox.feature.markup_layers.data.project.AssetRegistry
+import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupMapper
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectFile
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectJsonEntry
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectVersion
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.OutlineSnapshot
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.PictureSnapshot
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.PositionSnapshot
-import com.t8rin.imagetoolbox.feature.markup_layers.data.project.TextSnapshot
+import com.t8rin.imagetoolbox.feature.markup_layers.data.project.ProjectArchive
+import com.t8rin.imagetoolbox.feature.markup_layers.data.project.ProjectFileLoadResult
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.LayersRenderer
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
-import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -75,10 +51,9 @@ import javax.inject.Inject
 internal class AndroidMarkupLayersApplier @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder,
+    private val mapper: MarkupMapper,
     private val renderer: LayersRenderer,
-    private val imageGetter: ImageGetter<Bitmap>,
     private val jsonParser: JsonParser,
-    private val settingsManager: SettingsManager,
 ) : MarkupLayersApplier<Bitmap>, DispatchersHolder by dispatchersHolder {
 
     private val projectCacheRoot by lazy {
@@ -98,111 +73,39 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     override suspend fun saveProject(
         destination: Writeable,
         project: MarkupProject
-    ) {
-        withContext(ioDispatcher) {
-            val assetRegistry = AssetRegistry()
-            val projectJson = jsonParser.toJson(
-                obj = project.toSnapshot(assetRegistry),
-                type = MarkupProjectFile::class.java
-            ) ?: return@withContext
-
-            destination.outputStream().createZip { zip ->
-                zip.putEntry(MarkupProjectJsonEntry) {
-                    it.write(projectJson.toByteArray())
-                }
-                assetRegistry.entries().forEach { asset ->
-                    zip.putEntry(asset.entryName) { entry ->
-                        openSourceStream(asset.source)?.use { it.copyTo(entry) }
-                            ?: throw IllegalArgumentException("Unable to open source: $asset")
-                    }
-                }
-            }
-        }
+    ) = withContext(ioDispatcher) {
+        writeProjectArchive(
+            destination = destination,
+            archive = project.toArchive() ?: return@withContext
+        )
     }
 
     override suspend fun openProject(uri: String): MarkupProjectResult = withContext(ioDispatcher) {
         clearProjectCache()
+        try {
+            val extractionDir =
+                File(projectCacheRoot, UUID.randomUUID().toString()).apply(File::mkdirs)
 
-        val extractionDir = File(projectCacheRoot, UUID.randomUUID().toString()).apply { mkdirs() }
-        val extractionDirPath = extractionDir.canonicalPath + File.separator
+            val loadResult = loadProjectFile(
+                uri = uri,
+                extractionDir = extractionDir
+            )
 
-        runSuspendCatching run@{
-            val projectJson =
-                context.contentResolver.openInputStream(uri.toUri())?.use { inputStream ->
-                    ZipInputStream(inputStream).use { zipIn ->
-                        var json: String?
-                        var entry: ZipEntry?
-                        while (zipIn.nextEntry.also { entry = it } != null) {
-                            entry?.let { zipEntry ->
-                                if (!zipEntry.isDirectory && zipEntry.name == MarkupProjectJsonEntry) {
-                                    json = zipIn.readBytes().decodeToString()
-                                    zipIn.closeEntry()
-                                    return@use json
-                                }
-                                zipIn.closeEntry()
-                            }
-                        }
-                        null
-                    }
-                } ?: return@run MarkupProjectResult.Error.InvalidArchive(
-                    message = context.getString(R.string.markup_project_open_failed)
-                )
-
-            if (projectJson.isBlank()) {
-                return@run MarkupProjectResult.Error.MissingProjectFile(
-                    message = context.getString(R.string.markup_project_missing_data)
+            when (loadResult) {
+                is ProjectFileLoadResult.Error -> loadResult.error
+                is ProjectFileLoadResult.Success -> mapper.map(
+                    project = loadResult.projectFile,
+                    extractionDir = extractionDir
                 )
             }
-
-            val projectFile = jsonParser.fromJson<MarkupProjectFile>(
-                json = projectJson,
-                type = MarkupProjectFile::class.java
-            ) ?: return@run MarkupProjectResult.Error.InvalidProjectFile(
-                message = context.getString(R.string.markup_project_corrupted)
-            )
-
-            context.contentResolver.openInputStream(uri.toUri())?.use { inputStream ->
-                ZipInputStream(inputStream).use { zipIn ->
-                    var entry: ZipEntry?
-                    while (zipIn.nextEntry.also { entry = it } != null) {
-                        entry?.let { zipEntry ->
-                            if (zipEntry.name == MarkupProjectJsonEntry) {
-                                zipIn.closeEntry()
-                                return@let
-                            }
-
-                            val output = File(extractionDir, zipEntry.name).canonicalFile
-                            if (!output.path.startsWith(extractionDirPath)) {
-                                throw ZipException("Invalid zip entry path: ${zipEntry.name}")
-                            }
-
-                            if (zipEntry.isDirectory) {
-                                output.mkdirs()
-                            } else {
-                                output.parentFile?.mkdirs()
-                                FileOutputStream(output).use { fos ->
-                                    zipIn.copyTo(fos)
-                                }
-                            }
-                            zipIn.closeEntry()
-                        }
-                    }
-                }
-            } ?: return@run MarkupProjectResult.Error.InvalidArchive(
-                message = context.getString(R.string.markup_project_open_failed)
-            )
-
-            projectFile.toDomain(extractionDir)
-        }.getOrElse {
+        } catch (t: Throwable) {
             clearProjectCache()
-            if (it is ZipException) {
-                MarkupProjectResult.Error.InvalidArchive(
-                    message = context.getString(R.string.markup_project_open_failed)
-                )
+            if (t is ZipException) {
+                invalidArchiveError()
             } else {
                 MarkupProjectResult.Error.Exception(
-                    throwable = it,
-                    message = it.localizedMessage
+                    throwable = t,
+                    message = t.localizedMessage
                         ?: context.getString(R.string.something_went_wrong)
                 )
             }
@@ -213,344 +116,114 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
         projectCacheRoot.listFiles().orEmpty().forEach(File::deleteRecursively)
     }
 
-    private fun MarkupProject.toSnapshot(
-        assetRegistry: AssetRegistry
-    ): MarkupProjectFile = MarkupProjectFile(
-        version = MarkupProjectVersion,
-        imageFormat = imageFormat.title,
-        saveExif = saveExif,
-        background = background.toSnapshot(assetRegistry),
-        layers = layers.mapIndexed { index, layer ->
-            layer.toSnapshot(
-                index = index,
-                assetRegistry = assetRegistry,
-                prefix = "layer"
-            )
-        },
-        lastLayers = lastLayers.mapIndexed { index, layer ->
-            layer.toSnapshot(
-                index = index,
-                assetRegistry = assetRegistry,
-                prefix = "last"
-            )
-        },
-        undoneLayers = undoneLayers.mapIndexed { index, layer ->
-            layer.toSnapshot(
-                index = index,
-                assetRegistry = assetRegistry,
-                prefix = "undone"
-            )
-        }
-    )
-
-    private fun ProjectBackground.toSnapshot(
-        assetRegistry: AssetRegistry
-    ): BackgroundSnapshot = when (this) {
-        is ProjectBackground.Color -> BackgroundSnapshot(
-            type = BackgroundType.Color,
-            width = width,
-            height = height,
-            color = color
-        )
-
-        is ProjectBackground.Image -> {
-            val source = uri
-            val entryName = assetRegistry.register(
-                source = source,
-                proposedEntryName = assetEntryName(
-                    prefix = "background",
-                    extension = sourceExtension(source)
-                )
-            )
-            BackgroundSnapshot(
-                type = BackgroundType.Image,
-                assetPath = entryName
-            )
-        }
-
-        ProjectBackground.None -> BackgroundSnapshot(type = BackgroundType.None)
-    }
-
-    private fun MarkupLayer.toSnapshot(
-        index: Int,
-        assetRegistry: AssetRegistry,
-        prefix: String
-    ): LayerSnapshot = LayerSnapshot(
-        type = when (type) {
-            is LayerType.Text -> LayerSnapshotType.Text
-            is LayerType.Picture.Image -> LayerSnapshotType.Image
-            is LayerType.Picture.Sticker -> LayerSnapshotType.Sticker
-        },
-        position = PositionSnapshot(
-            scale = position.scale,
-            rotation = position.rotation,
-            offsetX = position.offsetX,
-            offsetY = position.offsetY,
-            alpha = position.alpha,
-            canvasWidth = position.currentCanvasSize.width,
-            canvasHeight = position.currentCanvasSize.height,
-            coerceToBounds = position.coerceToBounds,
-            isVisible = position.isVisible
-        ),
-        text = (type as? LayerType.Text)?.let {
-            TextSnapshot(
-                color = it.color,
-                size = it.size,
-                font = it.font?.toSnapshot(
-                    assetRegistry = assetRegistry,
-                    prefix = "$prefix-$index-font"
-                ),
-                backgroundColor = it.backgroundColor,
-                text = it.text,
-                decorations = it.decorations.map(Enum<*>::name),
-                outline = it.outline?.let { outline ->
-                    OutlineSnapshot(
-                        color = outline.color,
-                        width = outline.width
-                    )
-                },
-                alignment = it.alignment.name
-            )
-        },
-        picture = when (val pictureType = type) {
-            is LayerType.Picture.Image -> {
-                val source = pictureType.imageData.toPersistableSource()
-                val entryName = assetRegistry.register(
-                    source = source,
-                    proposedEntryName = assetEntryName(
-                        prefix = "$prefix-$index",
-                        extension = sourceExtension(source)
-                    )
-                )
-                PictureSnapshot(assetPath = entryName)
-            }
-
-            is LayerType.Picture.Sticker -> PictureSnapshot(
-                value = pictureType.imageData.toString()
-            )
-
-            else -> null
-        }
-    )
-
-    private suspend fun MarkupProjectFile.toDomain(
-        extractionDir: File
-    ): MarkupProjectResult {
-        if (version != MarkupProjectVersion) {
-            return MarkupProjectResult.Error.UnsupportedVersion(
-                version = version,
-                message = getString(R.string.unsupported_markup_project_version, version)
-            )
-        }
-
-        return MarkupProjectResult.Success(
-            project = MarkupProject(
-                imageFormat = imageFormat?.let(ImageFormat::get) ?: ImageFormat.Default,
-                saveExif = saveExif,
-                background = background.toDomain(extractionDir),
-                layers = layers.map { it.toDomain(extractionDir) },
-                lastLayers = lastLayers.map { it.toDomain(extractionDir) },
-                undoneLayers = undoneLayers.map { it.toDomain(extractionDir) }
-            )
-        )
-    }
-
-    private fun BackgroundSnapshot.toDomain(
-        extractionDir: File
-    ): ProjectBackground = when (type) {
-        BackgroundType.Image -> ProjectBackground.Image(
-            uri = File(extractionDir, assetPath.orEmpty()).toUri().toString()
-        )
-
-        BackgroundType.Color -> ProjectBackground.Color(
-            width = width ?: 1,
-            height = height ?: 1,
-            color = color ?: 0
-        )
-
-        BackgroundType.None -> ProjectBackground.None
-    }
-
-    private suspend fun LayerSnapshot.toDomain(
-        extractionDir: File
-    ): MarkupLayer = MarkupLayer(
-        type = when (type) {
-            LayerSnapshotType.Text -> {
-                val value = text ?: error("Missing text layer data")
-                LayerType.Text(
-                    color = value.color,
-                    size = value.size,
-                    font = value.font?.toDomain(extractionDir),
-                    backgroundColor = value.backgroundColor,
-                    text = value.text,
-                    decorations = value.decorations.mapNotNull {
-                        runCatching {
-                            LayerType.Text.Decoration.valueOf(it)
-                        }.onFailure(Throwable::makeLog).getOrNull()
-                    },
-                    outline = value.outline?.let {
-                        Outline(
-                            color = it.color,
-                            width = it.width
-                        )
-                    },
-                    alignment = runCatching {
-                        LayerType.Text.Alignment.valueOf(value.alignment)
-                    }.getOrDefault(LayerType.Text.Alignment.Start)
-                )
-            }
-
-            LayerSnapshotType.Image -> LayerType.Picture.Image(
-                imageData = File(extractionDir, picture?.assetPath.orEmpty()).toUri().toString()
-            )
-
-            LayerSnapshotType.Sticker -> LayerType.Picture.Sticker(
-                imageData = picture?.value.orEmpty()
-            )
-        },
-        position = LayerPosition(
-            scale = position.scale,
-            rotation = position.rotation,
-            offsetX = position.offsetX,
-            offsetY = position.offsetY,
-            alpha = position.alpha,
-            currentCanvasSize = IntegerSize(
-                width = position.canvasWidth,
-                height = position.canvasHeight
+    private fun MarkupProject.toArchive(): ProjectArchive? {
+        val assetRegistry = AssetRegistry()
+        val projectJson = jsonParser.toJson(
+            obj = mapper.map(
+                project = this,
+                registry = assetRegistry
             ),
-            coerceToBounds = position.coerceToBounds,
-            isVisible = position.isVisible
+            type = MarkupProjectFile::class.java
+        ) ?: return null
+
+        return ProjectArchive(
+            projectJson = projectJson,
+            assets = assetRegistry.entries()
         )
-    )
-
-    private fun FontType.toSnapshot(
-        assetRegistry: AssetRegistry,
-        prefix: String
-    ): FontSnapshot =
-        when (this) {
-            is FontType.File -> {
-                val source = path
-                val fileName = File(path).name.takeIf(String::isNotBlank)
-                    ?: "$prefix.ttf"
-                val entryName = assetRegistry.register(
-                    source = source,
-                    proposedEntryName = "assets/fonts/$prefix/$fileName"
-                )
-                FontSnapshot(
-                    type = FontSnapshotType.File,
-                    path = path,
-                    assetPath = entryName,
-                    filename = fileName
-                )
-            }
-
-            is FontType.Resource -> {
-                val source = "android.resource://${context.packageName}/$resId"
-                val entryName = assetRegistry.register(
-                    source = source,
-                    proposedEntryName = "assets/fonts/$prefix/resource-$resId.font"
-                )
-                FontSnapshot(
-                    type = FontSnapshotType.Resource,
-                    resourceId = resId,
-                    resourceName = runCatching {
-                        context.resources.getResourceEntryName(resId)
-                    }.getOrNull(),
-                    familyKey = asUi()
-                        .takeIf { (it.type as? FontType.Resource)?.resId == resId }
-                        ?.asDomain()
-                        ?.asString(),
-                    assetPath = entryName,
-                    filename = "resource-$resId.font"
-                )
-            }
-        }
-
-    private suspend fun FontSnapshot.toDomain(
-        extractionDir: File
-    ): FontType? =
-        when (type) {
-            FontSnapshotType.File -> path
-                ?.takeIf { File(it).exists() }
-                ?.let { FontType.File(it) }
-                ?: restoreFontFromAsset(extractionDir)
-
-            FontSnapshotType.Resource -> familyKey
-                ?.let { DomainFontFamily.fromString(familyKey)?.asFontType() }
-                ?: resourceName
-                    ?.let(::resolveResourceByKnownFonts)
-                    ?.let { FontType.Resource(it) }
-                ?: resourceId
-                    ?.takeIf(::isValidFontResource)
-                    ?.let { FontType.Resource(it) }
-                ?: restoreFontFromAsset(extractionDir)
-        }
-
-    private fun Any.toPersistableSource(): String = when (this) {
-        is Uri -> toString()
-        is File -> toUri().toString()
-        else -> toString()
     }
 
-    private fun assetEntryName(
-        prefix: String,
-        extension: String
-    ): String = "assets/$prefix.$extension"
-
-    private fun sourceExtension(
-        source: String
-    ): String = imageGetter.getExtension(source)
-        ?.takeIf(String::isNotBlank)
-        ?: source.substringAfterLast('.', "")
-            .takeIf(String::isNotBlank)
-        ?: "png"
-
-    private suspend fun FontSnapshot.restoreFontFromAsset(
+    private fun loadProjectFile(
+        uri: String,
         extractionDir: File
-    ): FontType.File? {
-        val fontAsset = assetPath
-            ?.let { File(extractionDir, it) }
-            ?.takeIf(File::exists)
-            ?: return null
+    ): ProjectFileLoadResult {
+        val projectJson = extractProjectArchive(
+            uri = uri,
+            extractionDir = extractionDir
+        ) ?: return ProjectFileLoadResult.Error(invalidArchiveError())
 
-        val preferredFilename = filename
-            ?.let { File(it).name }
-            ?.takeIf(String::isNotBlank)
-
-        val existingFont = settingsManager.settingsState.value.customFonts
-            .firstOrNull { custom ->
-                val file = File(custom.filePath)
-                file.exists() && preferredFilename != null && file.name.equals(
-                    preferredFilename,
-                    ignoreCase = true
+        if (projectJson.isBlank()) {
+            return ProjectFileLoadResult.Error(
+                MarkupProjectResult.Error.MissingProjectFile(
+                    message = context.getString(R.string.markup_project_missing_data)
                 )
-            }
-            ?.filePath
-            ?.let(FontType::File)
-
-        if (existingFont != null) return existingFont
-
-        return settingsManager.importCustomFont(fontAsset.toUri().toString())
-            ?.let { imported ->
-                FontType.File(imported.filePath)
-            } ?: FontType.File(fontAsset.absolutePath)
-    }
-
-    private fun resolveResourceByKnownFonts(
-        resourceName: String
-    ): Int? = UiFontFamily.defaultEntries
-        .mapNotNull { (it.type as? FontType.Resource)?.resId }
-        .firstOrNull { resId ->
-            runCatching {
-                context.resources.getResourceEntryName(resId) == resourceName
-            }.getOrDefault(false)
+            )
         }
 
-    private fun isValidFontResource(
-        resourceId: Int
-    ): Boolean = runCatching {
-        context.resources.getResourceTypeName(resourceId) == "font"
-    }.getOrDefault(false)
+        val projectFile = jsonParser.fromJson<MarkupProjectFile>(
+            json = projectJson,
+            type = MarkupProjectFile::class.java
+        ) ?: return ProjectFileLoadResult.Error(
+            MarkupProjectResult.Error.InvalidProjectFile(
+                message = context.getString(R.string.markup_project_corrupted)
+            )
+        )
+
+        return ProjectFileLoadResult.Success(projectFile)
+    }
+
+    private fun invalidArchiveError(): MarkupProjectResult.Error.InvalidArchive {
+        return MarkupProjectResult.Error.InvalidArchive(
+            message = context.getString(R.string.markup_project_open_failed)
+        )
+    }
+
+    private fun writeProjectArchive(
+        destination: Writeable,
+        archive: ProjectArchive
+    ) {
+        destination.outputStream().createZip { zip ->
+            zip.putEntry(MarkupProjectJsonEntry) {
+                it.write(archive.projectJson.toByteArray())
+            }
+            archive.assets.forEach { asset ->
+                zip.putEntry(asset.entryName) { entry ->
+                    openSourceStream(asset.source)?.use { input ->
+                        input.copyTo(entry)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun extractProjectArchive(
+        uri: String,
+        extractionDir: File
+    ): String? {
+        val extractionDirPath = extractionDir.canonicalPath + File.separator
+
+        return context.contentResolver.openInputStream(uri.toUri())?.use { inputStream ->
+            ZipInputStream(inputStream).use { zipIn ->
+                var projectJson: String? = null
+                var entry: ZipEntry?
+                while (zipIn.nextEntry.also { entry = it } != null) {
+                    entry?.let { zipEntry ->
+                        if (!zipEntry.isDirectory && zipEntry.name == MarkupProjectJsonEntry) {
+                            projectJson = zipIn.readBytes().decodeToString()
+                            zipIn.closeEntry()
+                            return@let
+                        }
+
+                        val output = File(extractionDir, zipEntry.name).canonicalFile
+                        if (!output.path.startsWith(extractionDirPath)) {
+                            throw ZipException("Invalid zip entry path: ${zipEntry.name}")
+                        }
+
+                        if (zipEntry.isDirectory) {
+                            output.mkdirs()
+                        } else {
+                            output.parentFile?.mkdirs()
+                            FileOutputStream(output).use { fos ->
+                                zipIn.copyTo(fos)
+                            }
+                        }
+                        zipIn.closeEntry()
+                    }
+                }
+                projectJson
+            }
+        }
+    }
+
 
     private fun openSourceStream(source: String) = when {
         source.startsWith("content://") || source.startsWith("file://") -> {
@@ -561,46 +234,4 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
             ?: context.contentResolver.openInputStream(source.toUri())
     }
 
-    private data class AssetSource(
-        val entryName: String,
-        val source: String
-    )
-
-    private inner class AssetRegistry {
-        private val entryBySource = linkedMapOf<String, AssetSource>()
-
-        fun register(
-            source: String,
-            proposedEntryName: String
-        ): String {
-            val key = sourceKey(source)
-            return entryBySource[key]?.entryName ?: proposedEntryName.also {
-                entryBySource[key] = AssetSource(
-                    entryName = proposedEntryName,
-                    source = source
-                )
-            }
-        }
-
-        fun entries(): List<AssetSource> = entryBySource.values.toList()
-    }
-
-    private fun sourceKey(
-        source: String
-    ): String = when {
-        source.startsWith("android.resource://") -> source
-        source.startsWith("content://") -> source
-        source.startsWith("file://") -> {
-            source.toUri().path
-                ?.let(::File)
-                ?.canonicalPath
-                ?.let { "file:$it" }
-                ?: source
-        }
-
-        else -> runCatching { File(source).canonicalPath }
-            .getOrNull()
-            ?.let { "path:$it" }
-            ?: source
-    }
 }

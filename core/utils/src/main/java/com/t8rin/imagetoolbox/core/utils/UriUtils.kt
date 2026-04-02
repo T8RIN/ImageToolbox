@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.utils
 
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
@@ -24,6 +25,7 @@ import android.os.Build
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.webkit.MimeTypeMap
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
@@ -44,6 +46,7 @@ import kotlinx.coroutines.flow.map
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.LinkedList
+import java.util.Locale
 
 fun Uri?.uiPath(
     default: String
@@ -133,6 +136,22 @@ fun Uri.filename(
     } else {
         DocumentFile.fromSingleUri(context, this)?.name
     }?.decodeEscaped()
+}
+
+fun Uri.extension(
+    context: Context = appContext
+): String? {
+    val filename = filename(context) ?: ""
+    if (filename.endsWith(".qoi")) return "qoi"
+    if (filename.endsWith(".jxl")) return "jxl"
+    return if (ContentResolver.SCHEME_CONTENT == scheme) {
+        MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(
+                context.contentResolver.getType(this)
+            )
+    } else {
+        MimeTypeMap.getFileExtensionFromUrl(this.toString()).lowercase(Locale.getDefault())
+    }?.replace(".", "")
 }
 
 fun Uri.fileSize(): Long? = tryExtractOriginal().run {
