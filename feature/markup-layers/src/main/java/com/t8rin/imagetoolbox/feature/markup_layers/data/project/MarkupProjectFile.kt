@@ -38,6 +38,7 @@ data class BackgroundSnapshot(
 data class LayerSnapshot(
     val type: LayerSnapshotType,
     val position: PositionSnapshot,
+    val visibleLineCount: Int? = null,
     val text: TextSnapshot? = null,
     val picture: PictureSnapshot? = null,
 )

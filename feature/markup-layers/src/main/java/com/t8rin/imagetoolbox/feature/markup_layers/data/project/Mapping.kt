@@ -135,6 +135,7 @@ internal class MarkupMapper @Inject constructor(
         return LayerSnapshot(
             type = layerType.toSnapshotType(),
             position = position.toSnapshot(),
+            visibleLineCount = visibleLineCount,
             text = (layerType as? LayerType.Text)?.toSnapshot(
                 assetRegistry = assetRegistry,
                 fontPrefix = "$prefix-$index-font"
@@ -233,7 +234,8 @@ internal class MarkupMapper @Inject constructor(
         extractionDir: File
     ): MarkupLayer = MarkupLayer(
         type = toDomainType(extractionDir),
-        position = position.toDomain()
+        position = position.toDomain(),
+        visibleLineCount = visibleLineCount
     )
 
     private suspend fun LayerSnapshot.toDomainType(

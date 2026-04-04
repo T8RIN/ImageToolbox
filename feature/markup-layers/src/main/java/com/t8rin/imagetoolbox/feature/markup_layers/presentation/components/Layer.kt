@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 
 @Composable
@@ -55,7 +56,22 @@ internal fun BoxWithConstraintsScope.Layer(
                     maxHeight = this@Layer.maxHeight / 2
                 ),
                 type = type,
-                textFullSize = this@Layer.constraints.run { minOf(maxWidth, maxHeight) }
+                textFullSize = this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
+                onTextLayout = if (layer.type is LayerType.Text) {
+                    { result ->
+                        val visibleLineCount = if (result.didOverflowHeight) {
+                            (0 until result.lineCount).count { lineIndex ->
+                                result.getLineBottom(lineIndex) <= result.size.height
+                            }
+                        } else {
+                            result.lineCount
+                        }
+
+                        if (visibleLineCount > 0 && layer.visibleLineCount != visibleLineCount) {
+                            onUpdateLayer(layer.copy(visibleLineCount = visibleLineCount))
+                        }
+                    }
+                } else null
             )
         }
     )

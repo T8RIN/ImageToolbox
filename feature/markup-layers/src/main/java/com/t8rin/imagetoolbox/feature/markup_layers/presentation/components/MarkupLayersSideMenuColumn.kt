@@ -101,7 +101,8 @@ internal fun MarkupLayersSideMenuColumn(
                 state = reorderableLazyListState,
                 key = layer.hashCode()
             ) {
-                val (type, state) = layer
+                val type = layer.type
+                val state = layer.state
 
                 val boxSize = 84.dp
                 val density = LocalDensity.current

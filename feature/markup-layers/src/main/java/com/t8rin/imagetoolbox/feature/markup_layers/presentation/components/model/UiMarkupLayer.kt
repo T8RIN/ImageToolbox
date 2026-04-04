@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Edit
 
 data class UiMarkupLayer(
     val type: LayerType,
+    val visibleLineCount: Int? = null,
     val state: EditBoxState = EditBoxState(isActive = true)
 ) {
     fun copy(
@@ -39,6 +40,7 @@ data class UiMarkupLayer(
         coerceToBounds: Boolean = state.coerceToBounds
     ) = UiMarkupLayer(
         type = type,
+        visibleLineCount = visibleLineCount,
         state = state.copy(
             isActive = isActive,
             coerceToBounds = coerceToBounds
@@ -57,11 +59,13 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
         currentCanvasSize = state.canvasSize,
         coerceToBounds = state.coerceToBounds,
         isVisible = state.isVisible
-    )
+    ),
+    visibleLineCount = visibleLineCount
 )
 
 fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
     type = type,
+    visibleLineCount = visibleLineCount,
     state = EditBoxState(
         scale = position.scale,
         rotation = position.rotation,

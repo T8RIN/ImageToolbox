@@ -73,7 +73,7 @@ internal class LayersRenderer @Inject constructor(
         val textFullSize = min(authorWidth, authorHeight).roundToInt().coerceAtLeast(1)
 
         val pictureCache = mutableMapOf<Any, Bitmap?>()
-        val textCache = mutableMapOf<Pair<LayerType.Text, Int>, TextLayerRenderData>()
+        val textCache = mutableMapOf<Triple<LayerType.Text, Int, Int?>, TextLayerRenderData>()
 
         resultBitmap.applyCanvas {
             withSave {
@@ -118,11 +118,14 @@ internal class LayersRenderer @Inject constructor(
                         }
 
                         is LayerType.Text -> {
-                            val textData = textCache.getOrPut(type to textFullSize) {
+                            val textData = textCache.getOrPut(
+                                Triple(type, textFullSize, layer.visibleLineCount)
+                            ) {
                                 buildTextLayerRenderData(
                                     type = type,
                                     textFullSize = textFullSize,
-                                    maxTextBoxWidth = authorWidth
+                                    maxTextBoxWidth = authorWidth,
+                                    maxLines = layer.visibleLineCount
                                 )
                             }
                             drawTextLayer(
@@ -173,7 +176,8 @@ internal class LayersRenderer @Inject constructor(
     private fun buildTextLayerRenderData(
         type: LayerType.Text,
         textFullSize: Int,
-        maxTextBoxWidth: Float
+        maxTextBoxWidth: Float,
+        maxLines: Int?
     ): TextLayerRenderData {
         val textMetrics = context.calculateTextLayerMetrics(
             type = type,
@@ -211,7 +215,8 @@ internal class LayersRenderer @Inject constructor(
             paint = fillPaint,
             width = layoutWidth,
             alignment = alignment,
-            lineHeightPx = textMetrics.lineHeightPx
+            lineHeightPx = textMetrics.lineHeightPx,
+            maxLines = maxLines
         )
 
         val bitmapWidth = ceil(
@@ -234,7 +239,8 @@ internal class LayersRenderer @Inject constructor(
                 paint = outlinePaint,
                 width = layoutWidth,
                 alignment = alignment,
-                lineHeightPx = textMetrics.lineHeightPx
+                lineHeightPx = textMetrics.lineHeightPx,
+                maxLines = maxLines
             )
         }
 
@@ -321,13 +327,31 @@ internal class LayersRenderer @Inject constructor(
         paint: TextPaint,
         width: Int,
         alignment: Layout.Alignment,
-        lineHeightPx: Float
+        lineHeightPx: Float,
+        maxLines: Int?
     ): StaticLayout {
+        val boundedText = maxLines
+            ?.takeIf { it > 0 }
+            ?.let { linesLimit ->
+                val fullLayout = StaticLayout.Builder
+                    .obtain(text, 0, text.length, paint, width)
+                    .setAlignment(alignment)
+                    .setIncludePad(false)
+                    .build()
+
+                if (fullLayout.lineCount <= linesLimit) {
+                    text
+                } else {
+                    text.substring(0, fullLayout.getLineEnd(linesLimit - 1))
+                }
+            }
+            ?: text
+
         val naturalLineHeightPx = ceil(
             (paint.fontMetrics.descent - paint.fontMetrics.ascent).toDouble()
         ).toFloat()
         return StaticLayout.Builder
-            .obtain(text, 0, text.length, paint, width)
+            .obtain(boundedText, 0, boundedText.length, paint, width)
             .setAlignment(alignment)
             .setIncludePad(false)
             .setLineSpacing((lineHeightPx - naturalLineHeightPx).coerceAtLeast(0f), 1f)

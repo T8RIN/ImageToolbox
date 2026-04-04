@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,7 +52,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 internal fun LayerContent(
     modifier: Modifier = Modifier,
     type: LayerType,
-    textFullSize: Int
+    textFullSize: Int,
+    onTextLayout: ((TextLayoutResult) -> Unit)? = null
 ) {
     when (type) {
         is LayerType.Picture -> {
@@ -135,6 +137,7 @@ internal fun LayerContent(
                 text = type.text,
                 style = mergedStyle,
                 outlineParams = outlineParams,
+                onTextLayout = onTextLayout,
                 modifier = Modifier
                     .background(
                         color = type.backgroundColor.toColor(),
