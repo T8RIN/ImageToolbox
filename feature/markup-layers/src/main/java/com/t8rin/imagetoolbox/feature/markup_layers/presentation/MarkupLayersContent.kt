@@ -102,6 +102,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Mark
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersSideMenu
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersTopAppBarActions
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersUndoRedo
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.activeLayerGestures
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -151,6 +152,11 @@ fun MarkupLayersContent(
         mimeType = MimeType.MarkupProjectList,
         onSuccess = component::setUri
     )
+    val activeLayer by remember(component) {
+        derivedStateOf {
+            component.layers.firstOrNull { it.state.isActive }
+        }
+    }
     val projectSaver = rememberFileCreator(
         mimeType = MimeType.MarkupProject,
         onSuccess = component::saveProject
@@ -267,7 +273,9 @@ fun MarkupLayersContent(
                                 .transparencyChecker()
                         )
                         BoxWithConstraints(
-                            modifier = Modifier.matchParentSize(),
+                            modifier = Modifier
+                                .matchParentSize()
+                                .activeLayerGestures(activeLayer),
                             contentAlignment = Alignment.Center
                         ) {
                             component.layers.forEachIndexed { index, layer ->

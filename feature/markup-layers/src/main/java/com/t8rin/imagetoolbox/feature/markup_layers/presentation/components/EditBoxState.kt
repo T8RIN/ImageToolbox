@@ -39,6 +39,7 @@ class EditBoxState(
     alpha: Float = 1f,
     isActive: Boolean = false,
     canvasSize: IntegerSize = IntegerSize.Zero,
+    contentSize: IntSize = IntSize.Zero,
     isVisible: Boolean = true,
     coerceToBounds: Boolean = true
 ) {
@@ -49,6 +50,7 @@ class EditBoxState(
         alpha: Float = this.alpha,
         isActive: Boolean = this.isActive,
         canvasSize: IntegerSize = this.canvasSize,
+        contentSize: IntSize = this.contentSize,
         isVisible: Boolean = this.isVisible,
         coerceToBounds: Boolean = this.coerceToBounds
     ): EditBoxState = EditBoxState(
@@ -58,6 +60,7 @@ class EditBoxState(
         alpha = alpha,
         isActive = isActive,
         canvasSize = canvasSize,
+        contentSize = contentSize,
         isVisible = isVisible,
         coerceToBounds = coerceToBounds
     )
@@ -95,12 +98,46 @@ class EditBoxState(
         offsetChange: Offset,
         rotationChange: Float
     ) {
+        applyChangeSet(
+            parentMaxWidth = parentMaxWidth,
+            parentMaxHeight = parentMaxHeight,
+            contentSize = contentSize,
+            zoomChange = zoomChange,
+            offsetChange = (offsetChange * scale).rotateBy(rotation),
+            rotationChange = rotationChange
+        )
+    }
+
+    internal fun applyGlobalChanges(
+        parentMaxWidth: Int,
+        parentMaxHeight: Int,
+        contentSize: IntSize,
+        zoomChange: Float,
+        offsetChange: Offset,
+        rotationChange: Float
+    ) {
+        applyChangeSet(
+            parentMaxWidth = parentMaxWidth,
+            parentMaxHeight = parentMaxHeight,
+            contentSize = contentSize,
+            zoomChange = zoomChange,
+            offsetChange = offsetChange,
+            rotationChange = rotationChange
+        )
+    }
+
+    private fun applyChangeSet(
+        parentMaxWidth: Int,
+        parentMaxHeight: Int,
+        contentSize: IntSize,
+        zoomChange: Float,
+        offsetChange: Offset,
+        rotationChange: Float
+    ) {
         rotation += rotationChange
         scale = (scale * zoomChange).fastCoerceIn(0.3f, 10f)
-        val panChange = (offsetChange * scale).rotateBy(rotation)
 
         val rotatedSize = contentSize.rotateBy(rotation)
-
         val extraWidth = (parentMaxWidth - rotatedSize.width * scale).absoluteValue
         val extraHeight = (parentMaxHeight - rotatedSize.height * scale).absoluteValue
 
@@ -108,8 +145,8 @@ class EditBoxState(
         val maxY = extraHeight / 2 // + contentSize.height * scale / 2
 
         offset = Offset(
-            x = (offset.x + panChange.x).coerceIn(-maxX, maxX, coerceToBounds),
-            y = (offset.y + panChange.y).coerceIn(-maxY, maxY, coerceToBounds),
+            x = (offset.x + offsetChange.x).coerceIn(-maxX, maxX, coerceToBounds),
+            y = (offset.y + offsetChange.y).coerceIn(-maxY, maxY, coerceToBounds),
         )
     }
 
@@ -132,6 +169,9 @@ class EditBoxState(
         internal set
 
     var coerceToBounds by mutableStateOf(coerceToBounds)
+        internal set
+
+    var contentSize by mutableStateOf(contentSize)
         internal set
 
     private val _canvasSize = mutableStateOf(IntegerSize.Zero)

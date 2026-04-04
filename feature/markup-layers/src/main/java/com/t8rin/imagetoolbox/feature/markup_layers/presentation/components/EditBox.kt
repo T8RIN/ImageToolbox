@@ -29,12 +29,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.rememberTransformableState
-import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -65,7 +62,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -122,17 +118,6 @@ fun EditBox(
         state.canvasSize = parentSize
     }
 
-    val transformState = rememberTransformableState { _, zoomChange, offsetChange, rotationChange ->
-        state.applyChanges(
-            parentMaxWidth = parentMaxWidth,
-            parentMaxHeight = parentMaxHeight,
-            contentSize = contentSize,
-            zoomChange = zoomChange,
-            offsetChange = offsetChange,
-            rotationChange = rotationChange
-        )
-    }
-
     var needRecalculations by rememberSaveable(state.coerceToBounds, contentSize) {
         mutableStateOf(state.coerceToBounds && contentSize != IntSize.Zero)
     }
@@ -168,6 +153,7 @@ fun EditBox(
         modifier = modifier
             .onSizeChanged {
                 contentSize = it
+                state.contentSize = it
             }
             .graphicsLayer(
                 scaleX = state.scale,
@@ -191,14 +177,7 @@ fun EditBox(
                     onTap()
                     if (state.isActive) animateTap()
                 }
-            }
-            .then(
-                if (state.isActive) {
-                    Modifier.transformable(
-                        state = transformState
-                    )
-                } else Modifier
-            ),
+            },
         contentAlignment = Alignment.Center
     ) {
         Box(Modifier.alpha(state.alpha)) {
@@ -216,29 +195,6 @@ fun EditBox(
                 modifier = Modifier.matchParentSize()
             ) { }
         }
-    }
-
-    if (state.isActive) {
-        val globalTransformState = rememberTransformableState { _, zoomChange, _, rotationChange ->
-            state.applyChanges(
-                parentMaxWidth = parentMaxWidth,
-                parentMaxHeight = parentMaxHeight,
-                contentSize = contentSize,
-                zoomChange = zoomChange,
-                offsetChange = Offset.Zero,
-                rotationChange = rotationChange
-            )
-        }
-
-        Box(
-            Modifier
-                .zIndex(-100f)
-                .fillMaxSize()
-                .transformable(
-                    state = globalTransformState,
-                    enabled = state.isActive
-                )
-        )
     }
 }
 
