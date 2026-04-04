@@ -282,9 +282,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 _uri.value.filename()?.substringBeforeLast('.')?.takeIf(String::isNotBlank)
             }
 
-            is BackgroundBehavior.Color -> "markup_layers"
+            is BackgroundBehavior.Color -> "Markup"
             BackgroundBehavior.None -> null
-        } ?: "markup_layers"
+        } ?: "Markup"
 
         return "${baseName}_${timestamp()}.$MarkupProjectExtension"
     }
