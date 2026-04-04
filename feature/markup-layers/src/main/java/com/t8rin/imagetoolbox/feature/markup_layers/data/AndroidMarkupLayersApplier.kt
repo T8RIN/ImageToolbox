@@ -57,7 +57,7 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
 ) : MarkupLayersApplier<Bitmap>, DispatchersHolder by dispatchersHolder {
 
     private val projectCacheRoot by lazy {
-        File(context.cacheDir, "markup-projects").apply(File::mkdirs)
+        File(context.filesDir, "markup-projects").apply(File::mkdirs)
     }
 
     override suspend fun applyToImage(
