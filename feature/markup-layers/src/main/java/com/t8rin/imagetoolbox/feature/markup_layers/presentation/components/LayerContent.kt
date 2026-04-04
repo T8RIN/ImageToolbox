@@ -21,8 +21,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,12 +28,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.request.ImageRequest
 import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
@@ -45,6 +43,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 
@@ -71,54 +70,64 @@ internal fun LayerContent(
         }
 
         is LayerType.Text -> {
+            val context = LocalContext.current
+            val density = LocalDensity.current
             val style = LocalTextStyle.current
             val fontFamily = type.font.toUiFont().fontFamily
-            val mergedStyle by remember(style, type, fontFamily) {
-                derivedStateOf {
-                    style.copy(
-                        color = type.color.toColor(),
-                        fontSize = (textFullSize * type.size / 5).sp,
-                        lineHeight = (textFullSize * type.size / 5).sp,
-                        fontFamily = fontFamily,
-                        textDecoration = TextDecoration.combine(
-                            type.decorations.mapNotNull {
-                                when (it) {
-                                    DomainTextDecoration.LineThrough -> TextDecoration.LineThrough
-                                    DomainTextDecoration.Underline -> TextDecoration.Underline
-                                    else -> null
-                                }
-                            }
-                        ),
-                        fontWeight = if (type.decorations.any { it == DomainTextDecoration.Bold }) {
-                            FontWeight.Bold
-                        } else {
-                            style.fontWeight
-                        },
-                        fontStyle = if (type.decorations.any { it == DomainTextDecoration.Italic }) {
-                            FontStyle.Italic
-                        } else {
-                            FontStyle.Normal
-                        },
-                        textAlign = when (type.alignment) {
-                            LayerType.Text.Alignment.Start -> TextAlign.Start
-                            LayerType.Text.Alignment.Center -> TextAlign.Center
-                            LayerType.Text.Alignment.End -> TextAlign.End
-                        }
-                    )
-                }
+            val textMetrics = remember(type, textFullSize, density) {
+                context.calculateTextLayerMetrics(
+                    type = type,
+                    textFullSize = textFullSize
+                )
             }
-            val outlineParams by remember(style, type) {
-                derivedStateOf {
-                    type.outline?.let {
-                        OutlineParams(
-                            color = Color(it.color),
-                            stroke = Stroke(
-                                width = it.width,
-                                cap = StrokeCap.Round,
-                                join = StrokeJoin.Round
-                            )
-                        )
+            val mergedStyle = remember(
+                style,
+                type,
+                fontFamily,
+                textMetrics,
+                density
+            ) {
+                style.copy(
+                    color = type.color.toColor(),
+                    fontSize = with(density) { textMetrics.fontSizePx.toSp() },
+                    lineHeight = with(density) { textMetrics.lineHeightPx.toSp() },
+                    fontFamily = fontFamily,
+                    textDecoration = TextDecoration.combine(
+                        type.decorations.mapNotNull {
+                            when (it) {
+                                DomainTextDecoration.LineThrough -> TextDecoration.LineThrough
+                                DomainTextDecoration.Underline -> TextDecoration.Underline
+                                else -> null
+                            }
+                        }
+                    ),
+                    fontWeight = if (type.decorations.any { it == DomainTextDecoration.Bold }) {
+                        FontWeight.Bold
+                    } else {
+                        style.fontWeight
+                    },
+                    fontStyle = if (type.decorations.any { it == DomainTextDecoration.Italic }) {
+                        FontStyle.Italic
+                    } else {
+                        FontStyle.Normal
+                    },
+                    textAlign = when (type.alignment) {
+                        LayerType.Text.Alignment.Start -> TextAlign.Start
+                        LayerType.Text.Alignment.Center -> TextAlign.Center
+                        LayerType.Text.Alignment.End -> TextAlign.End
                     }
+                )
+            }
+            val outlineParams = remember(type) {
+                type.outline?.let {
+                    OutlineParams(
+                        color = Color(it.color),
+                        stroke = Stroke(
+                            width = it.width,
+                            cap = StrokeCap.Round,
+                            join = StrokeJoin.Round
+                        )
+                    )
                 }
             }
 
@@ -132,8 +141,8 @@ internal fun LayerContent(
                         shape = ShapeDefaults.extraSmall
                     )
                     .padding(
-                        horizontal = (textFullSize * type.size / 10).dp,
-                        vertical = (textFullSize * type.size / 12).dp
+                        horizontal = with(density) { textMetrics.horizontalPaddingPx.toDp() },
+                        vertical = with(density) { textMetrics.verticalPaddingPx.toDp() }
                     )
             )
         }

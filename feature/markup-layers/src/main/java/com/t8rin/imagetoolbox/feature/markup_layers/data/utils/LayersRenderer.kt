@@ -19,15 +19,13 @@ package com.t8rin.imagetoolbox.feature.markup_layers.data.utils
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
-import android.graphics.Typeface
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
-import android.util.TypedValue
 import androidx.core.graphics.applyCanvas
-import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
 import androidx.core.graphics.withSave
 import coil3.ImageLoader
@@ -36,7 +34,6 @@ import coil3.request.allowHardware
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -76,7 +73,7 @@ internal class LayersRenderer @Inject constructor(
         val textFullSize = min(authorWidth, authorHeight).roundToInt().coerceAtLeast(1)
 
         val pictureCache = mutableMapOf<Any, Bitmap?>()
-        val textCache = mutableMapOf<Pair<LayerType.Text, Int>, Bitmap?>()
+        val textCache = mutableMapOf<Pair<LayerType.Text, Int>, TextLayerRenderData>()
 
         resultBitmap.applyCanvas {
             withSave {
@@ -84,46 +81,59 @@ internal class LayersRenderer @Inject constructor(
                 scale(ratio, ratio)
 
                 visibleLayers.forEach { layer ->
-                    val contentBitmap = when (val type = layer.type) {
-                        is LayerType.Picture -> pictureCache.getOrPut(type.imageData) {
-                            loadPictureBitmap(
-                                imageData = type.imageData,
-                                maxWidth = authorWidth / 2f,
-                                maxHeight = authorHeight / 2f
-                            )
-                        }
-
-                        is LayerType.Text -> textCache.getOrPut(type to textFullSize) {
-                            renderTextBitmap(
-                                type = type,
-                                textFullSize = textFullSize
-                            )
-                        }
-                    } ?: return@forEach
-
                     val centerX = authorWidth / 2f + layer.position.offsetX
                     val centerY = authorHeight / 2f + layer.position.offsetY
 
-                    withSave {
-                        translate(centerX, centerY)
-                        rotate(layer.position.rotation)
-                        scale(layer.position.scale, layer.position.scale)
+                    when (val type = layer.type) {
+                        is LayerType.Picture -> {
+                            val contentBitmap = pictureCache.getOrPut(type.imageData) {
+                                loadPictureBitmap(
+                                    imageData = type.imageData,
+                                    maxWidth = authorWidth / 2f,
+                                    maxHeight = authorHeight / 2f
+                                )
+                            } ?: return@forEach
 
-                        drawBitmap(
-                            contentBitmap,
-                            null,
-                            RectF(
-                                -contentBitmap.width / 2f,
-                                -contentBitmap.height / 2f,
-                                contentBitmap.width / 2f,
-                                contentBitmap.height / 2f
-                            ),
-                            Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG).apply {
-                                alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
-                                isFilterBitmap = true
+                            withSave {
+                                translate(centerX, centerY)
+                                rotate(layer.position.rotation)
+                                scale(layer.position.scale, layer.position.scale)
+
+                                drawBitmap(
+                                    contentBitmap,
+                                    null,
+                                    RectF(
+                                        -contentBitmap.width / 2f,
+                                        -contentBitmap.height / 2f,
+                                        contentBitmap.width / 2f,
+                                        contentBitmap.height / 2f
+                                    ),
+                                    Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG).apply {
+                                        alpha = (layer.position.alpha * 255).roundToInt()
+                                            .coerceIn(0, 255)
+                                        isFilterBitmap = true
+                                    }
+                                )
                             }
-                        )
+                        }
 
+                        is LayerType.Text -> {
+                            val textData = textCache.getOrPut(type to textFullSize) {
+                                buildTextLayerRenderData(
+                                    type = type,
+                                    textFullSize = textFullSize,
+                                    maxTextBoxWidth = authorWidth
+                                )
+                            }
+                            drawTextLayer(
+                                data = textData,
+                                centerX = centerX,
+                                centerY = centerY,
+                                rotation = layer.position.rotation,
+                                scale = layer.position.scale,
+                                alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
+                            )
+                        }
                     }
                 }
             }
@@ -160,38 +170,36 @@ internal class LayersRenderer @Inject constructor(
         )
     }
 
-    private fun renderTextBitmap(
+    private fun buildTextLayerRenderData(
         type: LayerType.Text,
-        textFullSize: Int
-    ): Bitmap {
-        val displayMetrics = context.resources.displayMetrics
-        val fontSizePx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP,
-            textFullSize * type.size / 5f,
-            displayMetrics
+        textFullSize: Int,
+        maxTextBoxWidth: Float
+    ): TextLayerRenderData {
+        val textMetrics = context.calculateTextLayerMetrics(
+            type = type,
+            textFullSize = textFullSize
         )
-        val horizontalPaddingPx = (textFullSize * type.size / 10f) * displayMetrics.density
-        val verticalPaddingPx = (textFullSize * type.size / 12f) * displayMetrics.density
-        val cornerRadiusPx = 4f * displayMetrics.density
         val outlineWidth = type.outline?.width ?: 0f
         val layoutText = type.text.ifEmpty { " " }
+        val availableLayoutWidth = (
+                maxTextBoxWidth - (textMetrics.horizontalPaddingPx + outlineWidth) * 2f
+                ).roundToInt().coerceAtLeast(1)
 
         val fillPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {
             color = type.color
-            textSize = fontSizePx
+            textSize = textMetrics.fontSizePx
+            hinting = Paint.HINTING_ON
+            isLinearText = true
             isUnderlineText = type.decorations.any { it == LayerType.Text.Decoration.Underline }
             isStrikeThruText = type.decorations.any { it == LayerType.Text.Decoration.LineThrough }
-            typeface = createTypeface(
-                baseTypeface = type.font.toTypeface(),
-                isBold = type.decorations.any { it == LayerType.Text.Decoration.Bold },
-                isItalic = type.decorations.any { it == LayerType.Text.Decoration.Italic }
-            )
+            typeface = textMetrics.typeface
         }
 
-        val layoutWidth = maxLineWidth(
+        val desiredLayoutWidth = maxLineWidth(
             text = layoutText,
             paint = fillPaint
         ).coerceAtLeast(1)
+        val layoutWidth = min(desiredLayoutWidth, availableLayoutWidth)
         val alignment = when (type.alignment) {
             LayerType.Text.Alignment.Start -> Layout.Alignment.ALIGN_NORMAL
             LayerType.Text.Alignment.Center -> Layout.Alignment.ALIGN_CENTER
@@ -202,74 +210,99 @@ internal class LayersRenderer @Inject constructor(
             text = layoutText,
             paint = fillPaint,
             width = layoutWidth,
-            alignment = alignment
+            alignment = alignment,
+            lineHeightPx = textMetrics.lineHeightPx
         )
 
         val bitmapWidth = ceil(
-            layoutWidth + horizontalPaddingPx * 2f + outlineWidth * 2f
+            layoutWidth + textMetrics.horizontalPaddingPx * 2f + outlineWidth * 2f
         ).toInt().coerceAtLeast(1)
         val bitmapHeight = ceil(
-            fillLayout.height + verticalPaddingPx * 2f + outlineWidth * 2f
+            fillLayout.height + textMetrics.verticalPaddingPx * 2f + outlineWidth * 2f
         ).toInt().coerceAtLeast(1)
 
-        return createBitmap(bitmapWidth, bitmapHeight).applyCanvas {
-            if (type.backgroundColor != 0) {
-                drawRoundRect(
-                    0f,
-                    0f,
-                    bitmapWidth.toFloat(),
-                    bitmapHeight.toFloat(),
-                    cornerRadiusPx,
-                    cornerRadiusPx,
-                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                        color = type.backgroundColor
-                    }
+        val outlineLayout = type.outline?.takeIf { it.width > 0f }?.let { outline ->
+            val outlinePaint = TextPaint(fillPaint).apply {
+                color = outline.color
+                style = Paint.Style.STROKE
+                strokeWidth = outline.width
+                strokeJoin = Paint.Join.ROUND
+                strokeCap = Paint.Cap.ROUND
+            }
+            createStaticLayout(
+                text = layoutText,
+                paint = outlinePaint,
+                width = layoutWidth,
+                alignment = alignment,
+                lineHeightPx = textMetrics.lineHeightPx
+            )
+        }
+
+        return TextLayerRenderData(
+            width = bitmapWidth.toFloat(),
+            height = bitmapHeight.toFloat(),
+            cornerRadius = textMetrics.cornerRadiusPx,
+            textLeft = outlineWidth + textMetrics.horizontalPaddingPx,
+            textTop = outlineWidth + textMetrics.verticalPaddingPx,
+            backgroundPaint = type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
+                Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = backgroundColor
+                }
+            },
+            fillLayout = fillLayout,
+            outlineLayout = outlineLayout
+        )
+    }
+
+    private fun Canvas.drawTextLayer(
+        data: TextLayerRenderData,
+        centerX: Float,
+        centerY: Float,
+        rotation: Float,
+        scale: Float,
+        alpha: Int
+    ) {
+        withSave {
+            translate(centerX, centerY)
+            rotate(rotation)
+            scale(scale, scale)
+
+            if (alpha in 0..254) {
+                saveLayerAlpha(
+                    -data.width / 2f,
+                    -data.height / 2f,
+                    data.width / 2f,
+                    data.height / 2f,
+                    alpha
                 )
             }
 
-            val textLeft = outlineWidth + horizontalPaddingPx
-            val textTop = outlineWidth + verticalPaddingPx
+            translate(-data.width / 2f, -data.height / 2f)
 
-            type.outline?.takeIf { it.width > 0f }?.let { outline ->
-                val outlinePaint = TextPaint(fillPaint).apply {
-                    color = outline.color
-                    style = Paint.Style.STROKE
-                    strokeWidth = outline.width
-                    strokeJoin = Paint.Join.ROUND
-                    strokeCap = Paint.Cap.ROUND
-                }
-                val outlineLayout = createStaticLayout(
-                    text = layoutText,
-                    paint = outlinePaint,
-                    width = layoutWidth,
-                    alignment = alignment
+            data.backgroundPaint?.let { backgroundPaint ->
+                drawRoundRect(
+                    0f,
+                    0f,
+                    data.width,
+                    data.height,
+                    data.cornerRadius,
+                    data.cornerRadius,
+                    backgroundPaint
                 )
+            }
+
+            data.outlineLayout?.let { outlineLayout ->
                 withSave {
-                    translate(textLeft, textTop)
-                    outlineLayout.draw(this)
+                    translate(data.textLeft, data.textTop)
+                    outlineLayout.draw(this@drawTextLayer)
                 }
             }
 
             withSave {
-                translate(textLeft, textTop)
-                fillLayout.draw(this)
+                translate(data.textLeft, data.textTop)
+                data.fillLayout.draw(this@drawTextLayer)
             }
         }
-    }
-
-    private fun createTypeface(
-        baseTypeface: Typeface?,
-        isBold: Boolean,
-        isItalic: Boolean
-    ): Typeface {
-        val style = when {
-            isBold && isItalic -> Typeface.BOLD_ITALIC
-            isBold -> Typeface.BOLD
-            isItalic -> Typeface.ITALIC
-            else -> Typeface.NORMAL
-        }
-
-        return Typeface.create(baseTypeface ?: Typeface.DEFAULT, style)
     }
 
     private fun maxLineWidth(
@@ -287,13 +320,28 @@ internal class LayersRenderer @Inject constructor(
         text: String,
         paint: TextPaint,
         width: Int,
-        alignment: Layout.Alignment
+        alignment: Layout.Alignment,
+        lineHeightPx: Float
     ): StaticLayout {
+        val naturalLineHeightPx = ceil(
+            (paint.fontMetrics.descent - paint.fontMetrics.ascent).toDouble()
+        ).toFloat()
         return StaticLayout.Builder
             .obtain(text, 0, text.length, paint, width)
             .setAlignment(alignment)
             .setIncludePad(false)
-            .setLineSpacing(0f, 1f)
+            .setLineSpacing((lineHeightPx - naturalLineHeightPx).coerceAtLeast(0f), 1f)
             .build()
     }
 }
+
+private data class TextLayerRenderData(
+    val width: Float,
+    val height: Float,
+    val cornerRadius: Float,
+    val textLeft: Float,
+    val textTop: Float,
+    val backgroundPaint: Paint?,
+    val fillLayout: StaticLayout,
+    val outlineLayout: StaticLayout?
+)
