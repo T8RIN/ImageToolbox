@@ -24,7 +24,8 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 data class MarkupLayer(
     val type: LayerType,
     val position: LayerPosition,
-    val visibleLineCount: Int? = null
+    val visibleLineCount: Int? = null,
+    val cornerRadiusPercent: Int = 0
 )
 
 data class LayerPosition(

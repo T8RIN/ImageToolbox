@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.RectF
 import android.text.Layout
 import android.text.StaticLayout
@@ -99,15 +100,25 @@ internal class LayersRenderer @Inject constructor(
                                 rotate(layer.position.rotation)
                                 scale(layer.position.scale, layer.position.scale)
 
+                                val destination = RectF(
+                                    -contentBitmap.width / 2f,
+                                    -contentBitmap.height / 2f,
+                                    contentBitmap.width / 2f,
+                                    contentBitmap.height / 2f
+                                )
+                                clipToRoundedBounds(
+                                    bounds = destination,
+                                    cornerRadiusPx = cornerRadiusPx(
+                                        cornerRadiusPercent = layer.cornerRadiusPercent,
+                                        width = destination.width(),
+                                        height = destination.height()
+                                    )
+                                )
+
                                 drawBitmap(
                                     contentBitmap,
                                     null,
-                                    RectF(
-                                        -contentBitmap.width / 2f,
-                                        -contentBitmap.height / 2f,
-                                        contentBitmap.width / 2f,
-                                        contentBitmap.height / 2f
-                                    ),
+                                    destination,
                                     Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG).apply {
                                         alpha = (layer.position.alpha * 255).roundToInt()
                                             .coerceIn(0, 255)
@@ -134,6 +145,7 @@ internal class LayersRenderer @Inject constructor(
                                 centerY = centerY,
                                 rotation = layer.position.rotation,
                                 scale = layer.position.scale,
+                                cornerRadiusPercent = layer.cornerRadiusPercent,
                                 alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
                             )
                         }
@@ -247,7 +259,6 @@ internal class LayersRenderer @Inject constructor(
         return TextLayerRenderData(
             width = bitmapWidth.toFloat(),
             height = bitmapHeight.toFloat(),
-            cornerRadius = textMetrics.cornerRadiusPx,
             textLeft = outlineWidth + textMetrics.horizontalPaddingPx,
             textTop = outlineWidth + textMetrics.verticalPaddingPx,
             backgroundPaint = type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
@@ -266,6 +277,7 @@ internal class LayersRenderer @Inject constructor(
         centerY: Float,
         rotation: Float,
         scale: Float,
+        cornerRadiusPercent: Int,
         alpha: Int
     ) {
         withSave {
@@ -284,15 +296,21 @@ internal class LayersRenderer @Inject constructor(
             }
 
             translate(-data.width / 2f, -data.height / 2f)
+            clipToRoundedBounds(
+                bounds = RectF(0f, 0f, data.width, data.height),
+                cornerRadiusPx = cornerRadiusPx(
+                    cornerRadiusPercent = cornerRadiusPercent,
+                    width = data.width,
+                    height = data.height
+                )
+            )
 
             data.backgroundPaint?.let { backgroundPaint ->
-                drawRoundRect(
+                drawRect(
                     0f,
                     0f,
                     data.width,
                     data.height,
-                    data.cornerRadius,
-                    data.cornerRadius,
                     backgroundPaint
                 )
             }
@@ -357,12 +375,40 @@ internal class LayersRenderer @Inject constructor(
             .setLineSpacing((lineHeightPx - naturalLineHeightPx).coerceAtLeast(0f), 1f)
             .build()
     }
+
+    private fun cornerRadiusPx(
+        cornerRadiusPercent: Int,
+        width: Float,
+        height: Float
+    ): Float {
+        val normalizedPercent = cornerRadiusPercent.coerceIn(0, 50)
+        if (normalizedPercent == 0) return 0f
+
+        return min(width, height) * (normalizedPercent / 100f)
+    }
+
+    private fun Canvas.clipToRoundedBounds(
+        bounds: RectF,
+        cornerRadiusPx: Float
+    ) {
+        if (cornerRadiusPx <= 0f) return
+
+        clipPath(
+            Path().apply {
+                addRoundRect(
+                    bounds,
+                    cornerRadiusPx,
+                    cornerRadiusPx,
+                    Path.Direction.CW
+                )
+            }
+        )
+    }
 }
 
 private data class TextLayerRenderData(
     val width: Float,
     val height: Float,
-    val cornerRadius: Float,
     val textLeft: Float,
     val textTop: Float,
     val backgroundPaint: Paint?,

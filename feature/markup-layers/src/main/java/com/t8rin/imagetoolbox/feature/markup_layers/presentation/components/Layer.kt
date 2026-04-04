@@ -35,6 +35,7 @@ internal fun BoxWithConstraintsScope.Layer(
 
     EditBox(
         state = layer.state,
+        cornerRadiusPercent = layer.cornerRadiusPercent,
         onTap = {
             if (layer.state.isActive) {
                 layer.state.isInEditMode = true

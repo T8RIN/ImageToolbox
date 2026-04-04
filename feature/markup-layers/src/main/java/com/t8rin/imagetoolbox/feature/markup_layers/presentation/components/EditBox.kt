@@ -23,6 +23,7 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -64,7 +65,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import kotlinx.coroutines.launch
 
 @Composable
@@ -73,7 +74,7 @@ fun BoxWithConstraintsScope.EditBox(
     onTap: () -> Unit,
     modifier: Modifier = Modifier,
     onLongTap: (() -> Unit)? = null,
-    shape: Shape = ShapeDefaults.extraSmall,
+    cornerRadiusPercent: Int = 0,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -90,7 +91,7 @@ fun BoxWithConstraintsScope.EditBox(
         onLongTap = onLongTap,
         state = state,
         parentSize = parentSize,
-        shape = shape,
+        cornerRadiusPercent = cornerRadiusPercent,
         content = content
     )
 }
@@ -102,7 +103,7 @@ fun EditBox(
     parentSize: IntegerSize,
     modifier: Modifier = Modifier,
     onLongTap: (() -> Unit)? = null,
-    shape: Shape = ShapeDefaults.extraSmall,
+    cornerRadiusPercent: Int = 0,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
@@ -149,6 +150,12 @@ fun EditBox(
     }
 
     val borderAlpha by animateFloatAsState(if (state.isActive) 1f else 0f)
+    val shape = AutoCornersShape(
+        animateIntAsState(
+            if (state.isActive) 8 else cornerRadiusPercent
+        ).value
+    )
+
     Box(
         modifier = modifier
             .onSizeChanged {

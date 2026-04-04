@@ -31,7 +31,6 @@ internal data class TextLayerMetrics(
     val lineHeightPx: Float,
     val horizontalPaddingPx: Float,
     val verticalPaddingPx: Float,
-    val cornerRadiusPx: Float,
     val typeface: Typeface
 )
 
@@ -65,7 +64,6 @@ internal fun Context.calculateTextLayerMetrics(
         lineHeightPx = lineHeightPx,
         horizontalPaddingPx = (baseTextSize / 10f) * displayMetrics.density,
         verticalPaddingPx = (baseTextSize / 12f) * displayMetrics.density,
-        cornerRadiusPx = 4f * displayMetrics.density,
         typeface = typeface
     )
 }

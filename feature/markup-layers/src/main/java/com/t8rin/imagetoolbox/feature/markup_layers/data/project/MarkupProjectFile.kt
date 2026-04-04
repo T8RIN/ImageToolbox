@@ -39,6 +39,7 @@ data class LayerSnapshot(
     val type: LayerSnapshotType,
     val position: PositionSnapshot,
     val visibleLineCount: Int? = null,
+    val cornerRadiusPercent: Int = 0,
     val text: TextSnapshot? = null,
     val picture: PictureSnapshot? = null,
 )
