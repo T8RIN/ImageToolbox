@@ -27,6 +27,7 @@ import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
 import androidx.core.graphics.withSave
 import coil3.ImageLoader
@@ -262,15 +263,34 @@ internal class LayersRenderer @Inject constructor(
         return TextLayerRenderData(
             width = bitmapWidth.toFloat(),
             height = bitmapHeight.toFloat(),
-            textLeft = outlineWidth + textMetrics.horizontalPaddingPx,
-            textTop = outlineWidth + textMetrics.verticalPaddingPx,
-            backgroundPaint = type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = backgroundColor
+            bitmap = createBitmap(bitmapWidth, bitmapHeight).applyCanvas {
+                val textLeft = outlineWidth + textMetrics.horizontalPaddingPx
+                val textTop = outlineWidth + textMetrics.verticalPaddingPx
+
+                type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
+                    drawRect(
+                        0f,
+                        0f,
+                        bitmapWidth.toFloat(),
+                        bitmapHeight.toFloat(),
+                        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                            color = backgroundColor
+                        }
+                    )
                 }
-            },
-            fillLayout = fillLayout,
-            outlineLayout = outlineLayout
+
+                outlineLayout?.let {
+                    withSave {
+                        translate(textLeft, textTop)
+                        it.draw(this@applyCanvas)
+                    }
+                }
+
+                withSave {
+                    translate(textLeft, textTop)
+                    fillLayout.draw(this@applyCanvas)
+                }
+            }
         )
     }
 
@@ -288,47 +308,29 @@ internal class LayersRenderer @Inject constructor(
             translate(centerX, centerY)
             rotate(rotation)
             scale(scale, scale)
-            saveLayer(
+            val destination = RectF(
                 -data.width / 2f,
                 -data.height / 2f,
                 data.width / 2f,
-                data.height / 2f,
-                blendingMode.toPaint().apply {
-                    this.alpha = alpha
-                }
+                data.height / 2f
             )
-
-            translate(-data.width / 2f, -data.height / 2f)
             clipToRoundedBounds(
-                bounds = RectF(0f, 0f, data.width, data.height),
+                bounds = destination,
                 cornerRadiusPx = cornerRadiusPx(
                     cornerRadiusPercent = cornerRadiusPercent,
                     width = data.width,
                     height = data.height
                 )
             )
-
-            data.backgroundPaint?.let { backgroundPaint ->
-                drawRect(
-                    0f,
-                    0f,
-                    data.width,
-                    data.height,
-                    backgroundPaint
-                )
-            }
-
-            data.outlineLayout?.let { outlineLayout ->
-                withSave {
-                    translate(data.textLeft, data.textTop)
-                    outlineLayout.draw(this@drawTextLayer)
+            drawBitmap(
+                data.bitmap,
+                null,
+                destination,
+                blendingMode.toPaint().apply {
+                    this.alpha = alpha
+                    isFilterBitmap = true
                 }
-            }
-
-            withSave {
-                translate(data.textLeft, data.textTop)
-                data.fillLayout.draw(this@drawTextLayer)
-            }
+            )
         }
     }
 
@@ -412,9 +414,5 @@ internal class LayersRenderer @Inject constructor(
 private data class TextLayerRenderData(
     val width: Float,
     val height: Float,
-    val textLeft: Float,
-    val textTop: Float,
-    val backgroundPaint: Paint?,
-    val fillLayout: StaticLayout,
-    val outlineLayout: StaticLayout?
+    val bitmap: Bitmap
 )
