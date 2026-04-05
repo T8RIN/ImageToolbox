@@ -21,8 +21,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 
 data class MarkupProjectFile(
     val version: Int = MarkupProjectVersion,
-    val imageFormat: String?,
-    val saveExif: Boolean,
     val background: BackgroundSnapshot,
     val layers: List<LayerSnapshot>,
     val lastLayers: List<LayerSnapshot>,

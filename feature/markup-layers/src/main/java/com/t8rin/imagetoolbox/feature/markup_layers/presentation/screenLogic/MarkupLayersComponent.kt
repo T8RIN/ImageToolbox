@@ -181,7 +181,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private val _uri = mutableStateOf(Uri.EMPTY)
 
-    private val _imageFormat = mutableStateOf(ImageFormat.Default)
+    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
     val imageFormat by _imageFormat
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
@@ -451,8 +451,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     private fun createProject(): MarkupProject = MarkupProject(
-        imageFormat = imageFormat,
-        saveExif = saveExif,
         background = when (val behavior = backgroundBehavior) {
             is BackgroundBehavior.Color -> ProjectBackground.Color(
                 width = behavior.width,
@@ -477,9 +475,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         _layers.value = emptyList()
         _lastLayers.value = emptyList()
         _undoneLayers.value = emptyList()
-
-        _imageFormat.value = project.imageFormat
-        _saveExif.value = project.saveExif
 
         when (val background = project.background) {
             is ProjectBackground.Image -> {

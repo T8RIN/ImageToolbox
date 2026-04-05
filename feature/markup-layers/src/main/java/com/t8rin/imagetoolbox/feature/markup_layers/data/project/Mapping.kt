@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 import android.net.Uri
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.resources.R
@@ -59,8 +58,6 @@ internal class MarkupMapper @Inject constructor(
         assetRegistry: AssetRegistry
     ): MarkupProjectFile = MarkupProjectFile(
         version = MarkupProjectVersion,
-        imageFormat = imageFormat.title,
-        saveExif = saveExif,
         background = background.toSnapshot(assetRegistry),
         layers = layers.toSnapshotList(assetRegistry, prefix = "layer"),
         lastLayers = lastLayers.toSnapshotList(assetRegistry, prefix = "last"),
@@ -79,8 +76,6 @@ internal class MarkupMapper @Inject constructor(
 
         return MarkupProjectResult.Success(
             project = MarkupProject(
-                imageFormat = imageFormat?.let(ImageFormat::get) ?: ImageFormat.Default,
-                saveExif = saveExif,
                 background = background.toDomain(extractionDir),
                 layers = layers.toDomainLayers(extractionDir),
                 lastLayers = lastLayers.toDomainLayers(extractionDir),
