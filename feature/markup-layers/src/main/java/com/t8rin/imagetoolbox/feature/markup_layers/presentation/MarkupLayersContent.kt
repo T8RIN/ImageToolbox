@@ -264,10 +264,7 @@ fun MarkupLayersContent(
                             .background(MaterialTheme.colorScheme.surfaceContainerLow),
                         contentAlignment = Alignment.Center
                     ) {
-                        Picture(
-                            model = imageBitmap,
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
+                        Box(
                             modifier = Modifier
                                 .zIndex(-1f)
                                 .matchParentSize()
@@ -283,6 +280,16 @@ fun MarkupLayersContent(
                                 },
                             contentAlignment = Alignment.Center
                         ) {
+                            Picture(
+                                model = imageBitmap,
+                                contentDescription = null,
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier
+                                    .matchParentSize()
+                                    .clipToBounds(),
+                                showTransparencyChecker = false
+                            )
+
                             component.layers.forEachIndexed { index, layer ->
                                 Layer(
                                     layer = layer,
