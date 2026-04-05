@@ -68,6 +68,8 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverseByLuma
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
@@ -456,6 +458,29 @@ internal fun EditLayerSheet(
             }
 
             Spacer(modifier = Modifier.height(8.dp))
+            AlphaSelector(
+                value = layer.state.alpha,
+                onValueChange = {
+                    layer.state.alpha = it
+                },
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(R.string.layer_alpha),
+                color = MaterialTheme.colorScheme.surface,
+                shape = ShapeDefaults.top
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            BlendingModeSelector(
+                value = layer.blendingMode,
+                onValueChange = {
+                    onUpdateLayer(
+                        layer.copy(blendingMode = it)
+                    )
+                },
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surface,
+                shape = ShapeDefaults.center
+            )
+            Spacer(modifier = Modifier.height(4.dp))
             EnhancedSliderItem(
                 value = layer.cornerRadiusPercent,
                 title = stringResource(R.string.corners_size),
@@ -472,7 +497,7 @@ internal fun EditLayerSheet(
                 },
                 valueRange = 0f..50f,
                 steps = 49,
-                shape = ShapeDefaults.default,
+                shape = ShapeDefaults.bottom,
                 containerColor = MaterialTheme.colorScheme.surface
             )
         }

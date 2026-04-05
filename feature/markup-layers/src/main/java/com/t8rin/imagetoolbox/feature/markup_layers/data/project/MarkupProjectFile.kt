@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+
 data class MarkupProjectFile(
     val version: Int = MarkupProjectVersion,
     val imageFormat: String?,
@@ -40,6 +42,7 @@ data class LayerSnapshot(
     val position: PositionSnapshot,
     val visibleLineCount: Int? = null,
     val cornerRadiusPercent: Int = 0,
+    val blendingMode: Int = BlendingMode.SrcOver.value,
     val text: TextSnapshot? = null,
     val picture: PictureSnapshot? = null,
 )

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 
 import android.net.Uri
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asUi
+import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.imagetoolbox.core.utils.getString
@@ -137,6 +139,7 @@ internal class MarkupMapper @Inject constructor(
             position = position.toSnapshot(),
             visibleLineCount = visibleLineCount,
             cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+            blendingMode = blendingMode.value,
             text = (layerType as? LayerType.Text)?.toSnapshot(
                 assetRegistry = assetRegistry,
                 fontPrefix = "$prefix-$index-font"
@@ -237,7 +240,9 @@ internal class MarkupMapper @Inject constructor(
         type = toDomainType(extractionDir),
         position = position.toDomain(),
         visibleLineCount = visibleLineCount,
-        cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50)
+        cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+        blendingMode = BlendingMode.entries.find { it.value == blendingMode }
+            ?: BlendingMode.SrcOver
     )
 
     private suspend fun LayerSnapshot.toDomainType(

@@ -54,9 +54,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -275,7 +277,10 @@ fun MarkupLayersContent(
                         BoxWithConstraints(
                             modifier = Modifier
                                 .matchParentSize()
-                                .activeLayerGestures(activeLayer),
+                                .activeLayerGestures(activeLayer)
+                                .graphicsLayer {
+                                    compositingStrategy = CompositingStrategy.Offscreen
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             component.layers.forEachIndexed { index, layer ->

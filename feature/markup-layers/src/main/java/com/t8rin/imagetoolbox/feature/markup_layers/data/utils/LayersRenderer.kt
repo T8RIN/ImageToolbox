@@ -33,7 +33,9 @@ import coil3.ImageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
@@ -119,7 +121,7 @@ internal class LayersRenderer @Inject constructor(
                                     contentBitmap,
                                     null,
                                     destination,
-                                    Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG).apply {
+                                    layer.blendingMode.toPaint().apply {
                                         alpha = (layer.position.alpha * 255).roundToInt()
                                             .coerceIn(0, 255)
                                         isFilterBitmap = true
@@ -146,6 +148,7 @@ internal class LayersRenderer @Inject constructor(
                                 rotation = layer.position.rotation,
                                 scale = layer.position.scale,
                                 cornerRadiusPercent = layer.cornerRadiusPercent,
+                                blendingMode = layer.blendingMode,
                                 alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
                             )
                         }
@@ -278,22 +281,22 @@ internal class LayersRenderer @Inject constructor(
         rotation: Float,
         scale: Float,
         cornerRadiusPercent: Int,
+        blendingMode: BlendingMode,
         alpha: Int
     ) {
         withSave {
             translate(centerX, centerY)
             rotate(rotation)
             scale(scale, scale)
-
-            if (alpha in 0..254) {
-                saveLayerAlpha(
-                    -data.width / 2f,
-                    -data.height / 2f,
-                    data.width / 2f,
-                    data.height / 2f,
-                    alpha
-                )
-            }
+            saveLayer(
+                -data.width / 2f,
+                -data.height / 2f,
+                data.width / 2f,
+                data.height / 2f,
+                blendingMode.toPaint().apply {
+                    this.alpha = alpha
+                }
+            )
 
             translate(-data.width / 2f, -data.height / 2f)
             clipToRoundedBounds(

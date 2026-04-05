@@ -49,11 +49,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asComposePaint
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
@@ -63,6 +66,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
@@ -75,6 +80,7 @@ fun BoxWithConstraintsScope.EditBox(
     modifier: Modifier = Modifier,
     onLongTap: (() -> Unit)? = null,
     cornerRadiusPercent: Int = 0,
+    blendingMode: BlendingMode = BlendingMode.SrcOver,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -92,6 +98,7 @@ fun BoxWithConstraintsScope.EditBox(
         state = state,
         parentSize = parentSize,
         cornerRadiusPercent = cornerRadiusPercent,
+        blendingMode = blendingMode,
         content = content
     )
 }
@@ -104,6 +111,7 @@ fun EditBox(
     modifier: Modifier = Modifier,
     onLongTap: (() -> Unit)? = null,
     cornerRadiusPercent: Int = 0,
+    blendingMode: BlendingMode = BlendingMode.SrcOver,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
@@ -187,7 +195,11 @@ fun EditBox(
             },
         contentAlignment = Alignment.Center
     ) {
-        Box(Modifier.alpha(state.alpha)) {
+        Box(
+            Modifier
+                .alpha(state.alpha)
+                .layerBlendingMode(blendingMode)
+        ) {
             content()
         }
         AnimatedBorder(
@@ -201,6 +213,21 @@ fun EditBox(
                 color = Color.Transparent,
                 modifier = Modifier.matchParentSize()
             ) { }
+        }
+    }
+}
+
+private fun Modifier.layerBlendingMode(
+    mode: BlendingMode
+): Modifier {
+    if (mode == BlendingMode.SrcOver) return this
+
+    return drawWithCache {
+        val paint = mode.toPaint().asComposePaint()
+        onDrawWithContent {
+            drawContext.canvas.saveLayer(size.toRect(), paint)
+            drawContent()
+            drawContext.canvas.restore()
         }
     }
 }
