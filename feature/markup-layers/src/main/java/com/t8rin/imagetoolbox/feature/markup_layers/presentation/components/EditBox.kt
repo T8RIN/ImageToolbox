@@ -28,7 +28,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -47,7 +46,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.scale
@@ -163,6 +161,9 @@ fun EditBox(
             if (state.isActive) 8 else cornerRadiusPercent
         ).value
     )
+    val selectionBackgroundColor = MaterialTheme.colorScheme.primary.copy(
+        alpha = 0.2f * borderAlpha
+    )
 
     Box(
         modifier = modifier
@@ -179,7 +180,14 @@ fun EditBox(
             )
             .scale(tapScale.value)
             .clip(shape)
-            .background(MaterialTheme.colorScheme.primary.copy(0.2f * borderAlpha))
+            .drawWithCache {
+                onDrawWithContent {
+                    if (state.isActive && blendingMode == BlendingMode.SrcOver) {
+                        drawRect(selectionBackgroundColor)
+                    }
+                    drawContent()
+                }
+            }
             .pointerInput(onTap, animateTap) {
                 detectTapGestures(
                     onLongPress = onLongTap?.let {
@@ -197,8 +205,10 @@ fun EditBox(
     ) {
         Box(
             Modifier
-                .alpha(state.alpha)
-                .layerBlendingMode(blendingMode)
+                .layerBlendingMode(
+                    mode = blendingMode,
+                    alpha = state.alpha
+                )
         ) {
             content()
         }
@@ -218,12 +228,21 @@ fun EditBox(
 }
 
 private fun Modifier.layerBlendingMode(
-    mode: BlendingMode
+    mode: BlendingMode,
+    alpha: Float
 ): Modifier {
-    if (mode == BlendingMode.SrcOver) return this
+    val coercedAlpha = alpha.coerceIn(0f, 1f)
+
+    if (mode == BlendingMode.SrcOver) {
+        return if (coercedAlpha >= 0.999f) this else graphicsLayer {
+            this.alpha = coercedAlpha
+        }
+    }
 
     return drawWithCache {
-        val paint = mode.toPaint().asComposePaint()
+        val paint = mode.toPaint().asComposePaint().apply {
+            this.alpha = coercedAlpha
+        }
         onDrawWithContent {
             drawContext.canvas.saveLayer(size.toRect(), paint)
             drawContent()
