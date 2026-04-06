@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
@@ -59,6 +60,9 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -361,15 +365,31 @@ fun EnhancedButtonGroup(
                                     checked = selected,
                                     shapes = when (index) {
                                         0 -> ButtonGroupDefaults.connectedLeadingButtonShapes(
-                                            pressedShape = ButtonDefaults.pressedShape
+                                            shape = AutoCornersShape(
+                                                topStart = CornerFull,
+                                                bottomStart = CornerFull,
+                                                topEnd = CornerValueSmall,
+                                                bottomEnd = CornerValueSmall,
+                                            ),
+                                            pressedShape = ButtonDefaults.pressedShape,
+                                            checkedShape = AutoCircleShape()
                                         )
 
                                         itemCount - 1 -> ButtonGroupDefaults.connectedTrailingButtonShapes(
-                                            pressedShape = ButtonDefaults.pressedShape
+                                            shape = AutoCornersShape(
+                                                topEnd = CornerFull,
+                                                bottomEnd = CornerFull,
+                                                topStart = CornerValueSmall,
+                                                bottomStart = CornerValueSmall,
+                                            ),
+                                            pressedShape = ButtonDefaults.pressedShape,
+                                            checkedShape = AutoCircleShape()
                                         )
 
                                         else -> ButtonGroupDefaults.connectedMiddleButtonShapes(
+                                            shape = ShapeDefaults.mini,
                                             pressedShape = ButtonDefaults.pressedShape,
+                                            checkedShape = AutoCircleShape()
                                         )
                                     },
                                     elevation = elevation,
@@ -407,3 +427,6 @@ private val DefaultContentPadding = PaddingValues(
     bottom = 6.dp,
     top = 8.dp
 )
+
+private val CornerFull: CornerSize = CornerSize(50)
+private val CornerValueSmall = CornerSize(8.0.dp)
