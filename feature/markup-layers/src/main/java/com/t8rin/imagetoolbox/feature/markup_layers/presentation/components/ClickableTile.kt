@@ -108,9 +108,24 @@ internal fun ClickableTile(
                     return@awaitEachGesture
                 }
 
+                val holdStartNanos = System.nanoTime()
+                var stepsAccumulator = 0f
                 while (up == null) {
-                    onHoldStep()
-                    repeatDelayMs = (repeatDelayMs * 0.9f).toLong()
+                    val holdDurationMs = ((System.nanoTime() - holdStartNanos) / 1_000_000L)
+
+                    // Smoothly ramps average speed from 1 to 10 steps per tick.
+                    val progress = (holdDurationMs / 3000f).coerceIn(0f, 1f)
+                    val smoothStepsPerTick = 1f + 9f * progress
+                    stepsAccumulator += smoothStepsPerTick
+
+                    val stepsPerTick = stepsAccumulator.toInt().coerceIn(1, 20).also {
+                        stepsAccumulator -= it
+                    }
+                    repeat(stepsPerTick) {
+                        onHoldStep()
+                    }
+
+                    repeatDelayMs = (repeatDelayMs * 0.94f).toLong()
                         .coerceAtLeast(minRepeatDelayMs)
                     up = withTimeoutOrNull(repeatDelayMs) {
                         waitForUpOrCancellation()
