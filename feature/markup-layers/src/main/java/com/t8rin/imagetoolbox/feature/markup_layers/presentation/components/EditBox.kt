@@ -157,9 +157,7 @@ fun EditBox(
 
     val borderAlpha by animateFloatAsState(if (state.isActive) 1f else 0f)
     val shape = AutoCornersShape(
-        animateIntAsState(
-            if (state.isActive) 8 else cornerRadiusPercent
-        ).value
+        animateIntAsState(cornerRadiusPercent).value
     )
     val selectionBackgroundColor = MaterialTheme.colorScheme.primary.copy(
         alpha = 0.2f * borderAlpha
@@ -172,8 +170,8 @@ fun EditBox(
                 state.contentSize = it
             }
             .graphicsLayer(
-                scaleX = state.scale,
-                scaleY = state.scale,
+                scaleX = state.scale * if (state.isFlippedHorizontally) -1f else 1f,
+                scaleY = state.scale * if (state.isFlippedVertically) -1f else 1f,
                 rotationZ = state.rotation,
                 translationX = state.offset.x,
                 translationY = state.offset.y

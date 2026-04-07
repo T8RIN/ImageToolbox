@@ -101,7 +101,10 @@ internal class LayersRenderer @Inject constructor(
                             withSave {
                                 translate(centerX, centerY)
                                 rotate(layer.position.rotation)
-                                scale(layer.position.scale, layer.position.scale)
+                                scale(
+                                    layer.position.scale * if (layer.position.isFlippedHorizontally) -1f else 1f,
+                                    layer.position.scale * if (layer.position.isFlippedVertically) -1f else 1f
+                                )
 
                                 val destination = RectF(
                                     -contentBitmap.width / 2f,
@@ -148,6 +151,8 @@ internal class LayersRenderer @Inject constructor(
                                 centerY = centerY,
                                 rotation = layer.position.rotation,
                                 scale = layer.position.scale,
+                                isFlippedHorizontally = layer.position.isFlippedHorizontally,
+                                isFlippedVertically = layer.position.isFlippedVertically,
                                 cornerRadiusPercent = layer.cornerRadiusPercent,
                                 blendingMode = layer.blendingMode,
                                 alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
@@ -300,6 +305,8 @@ internal class LayersRenderer @Inject constructor(
         centerY: Float,
         rotation: Float,
         scale: Float,
+        isFlippedHorizontally: Boolean,
+        isFlippedVertically: Boolean,
         cornerRadiusPercent: Int,
         blendingMode: BlendingMode,
         alpha: Int
@@ -307,7 +314,10 @@ internal class LayersRenderer @Inject constructor(
         withSave {
             translate(centerX, centerY)
             rotate(rotation)
-            scale(scale, scale)
+            scale(
+                scale * if (isFlippedHorizontally) -1f else 1f,
+                scale * if (isFlippedVertically) -1f else 1f
+            )
             val destination = RectF(
                 -data.width / 2f,
                 -data.height / 2f,

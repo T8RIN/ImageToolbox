@@ -33,6 +33,8 @@ data class MarkupLayer(
 data class LayerPosition(
     val scale: Float = 1f,
     val rotation: Float = 0f,
+    val isFlippedHorizontally: Boolean = false,
+    val isFlippedVertically: Boolean = false,
     val offsetX: Float = 0f,
     val offsetY: Float = 0f,
     val alpha: Float = 1f,

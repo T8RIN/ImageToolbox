@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -48,9 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -61,6 +60,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.sin
 
 @Composable
 internal fun MarkupLayersSideMenuColumn(
@@ -104,17 +106,13 @@ internal fun MarkupLayersSideMenuColumn(
                 val type = layer.type
                 val state = layer.state
 
-                val boxSize = 84.dp
-                val density = LocalDensity.current
-                val size by remember(state.rotation, density) {
+                val boxSize = 92.dp
+                val rotationFitScale by remember(state.rotation) {
                     derivedStateOf {
-                        DpSize(
-                            width = boxSize,
-                            height = boxSize
-                        ).rotateBy(
-                            degrees = state.rotation,
-                            density = density
-                        )
+                        val radians = Math.toRadians((state.rotation % 180f).toDouble())
+                        val projectionSum = abs(cos(radians)) + abs(sin(radians))
+                        (1f / projectionSum.toFloat().coerceAtLeast(1f))
+                            .coerceIn(0.55f, 1f)
                     }
                 }
                 Row(
@@ -150,24 +148,30 @@ internal fun MarkupLayersSideMenuColumn(
 
                         BoxWithConstraints(
                             modifier = Modifier
-                                .size(size)
+                                .fillMaxSize()
                                 .background(
                                     MaterialTheme.colorScheme.primary.copy(
-                                        0.2f * borderAlpha
+                                        0.16f * borderAlpha
                                     )
                                 )
-                                .padding(4.dp),
+                                .padding(6.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             val scope = this
 
                             Box(
                                 modifier = Modifier
-                                    .padding(12.dp)
+                                    .fillMaxSize(0.96f)
                                     .graphicsLayer {
+                                        scaleX = rotationFitScale *
+                                                if (state.isFlippedHorizontally) -1f else 1f
+                                        scaleY = rotationFitScale *
+                                                if (state.isFlippedVertically) -1f else 1f
                                         rotationZ = state.rotation
                                         alpha = state.alpha
                                     }
+                                    .padding(4.dp),
+                                contentAlignment = Alignment.Center
                             ) {
                                 LayerContent(
                                     modifier = Modifier.sizeIn(

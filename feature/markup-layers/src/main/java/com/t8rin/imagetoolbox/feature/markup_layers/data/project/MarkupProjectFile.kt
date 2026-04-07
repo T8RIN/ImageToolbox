@@ -48,6 +48,8 @@ data class LayerSnapshot(
 data class PositionSnapshot(
     val scale: Float,
     val rotation: Float,
+    val isFlippedHorizontally: Boolean = false,
+    val isFlippedVertically: Boolean = false,
     val offsetX: Float,
     val offsetY: Float,
     val alpha: Float,

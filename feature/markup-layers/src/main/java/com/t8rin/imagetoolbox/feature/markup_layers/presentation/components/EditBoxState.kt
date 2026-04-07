@@ -35,6 +35,8 @@ import kotlin.math.sin
 class EditBoxState(
     scale: Float = 1f,
     rotation: Float = 0f,
+    isFlippedHorizontally: Boolean = false,
+    isFlippedVertically: Boolean = false,
     offset: Offset = Offset.Zero,
     alpha: Float = 1f,
     isActive: Boolean = false,
@@ -46,6 +48,8 @@ class EditBoxState(
     fun copy(
         scale: Float = this.scale,
         rotation: Float = this.rotation,
+        isFlippedHorizontally: Boolean = this.isFlippedHorizontally,
+        isFlippedVertically: Boolean = this.isFlippedVertically,
         offset: Offset = this.offset,
         alpha: Float = this.alpha,
         isActive: Boolean = this.isActive,
@@ -56,6 +60,8 @@ class EditBoxState(
     ): EditBoxState = EditBoxState(
         scale = scale,
         rotation = rotation,
+        isFlippedHorizontally = isFlippedHorizontally,
+        isFlippedVertically = isFlippedVertically,
         offset = offset,
         alpha = alpha,
         isActive = isActive,
@@ -160,6 +166,12 @@ class EditBoxState(
         internal set
 
     var rotation by mutableFloatStateOf(rotation)
+        internal set
+
+    var isFlippedHorizontally by mutableStateOf(isFlippedHorizontally)
+        internal set
+
+    var isFlippedVertically by mutableStateOf(isFlippedVertically)
         internal set
 
     var offset by mutableStateOf(offset)

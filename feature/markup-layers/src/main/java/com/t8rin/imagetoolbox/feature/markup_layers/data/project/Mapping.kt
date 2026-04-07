@@ -149,6 +149,8 @@ internal class MarkupMapper @Inject constructor(
     private fun LayerPosition.toSnapshot(): PositionSnapshot = PositionSnapshot(
         scale = scale,
         rotation = rotation,
+        isFlippedHorizontally = isFlippedHorizontally,
+        isFlippedVertically = isFlippedVertically,
         offsetX = offsetX,
         offsetY = offsetY,
         alpha = alpha,
@@ -287,6 +289,8 @@ internal class MarkupMapper @Inject constructor(
     private fun PositionSnapshot.toDomain(): LayerPosition = LayerPosition(
         scale = scale,
         rotation = rotation,
+        isFlippedHorizontally = isFlippedHorizontally,
+        isFlippedVertically = isFlippedVertically,
         offsetX = offsetX,
         offsetY = offsetY,
         alpha = alpha,
