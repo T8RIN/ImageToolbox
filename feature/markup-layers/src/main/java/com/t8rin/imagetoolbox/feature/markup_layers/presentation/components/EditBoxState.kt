@@ -30,6 +30,8 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.cos
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sin
 
 class EditBoxState(
@@ -100,6 +102,7 @@ class EditBoxState(
         parentMaxWidth: Int,
         parentMaxHeight: Int,
         contentSize: IntSize,
+        cornerRadiusPercent: Int,
         zoomChange: Float,
         offsetChange: Offset,
         rotationChange: Float
@@ -108,6 +111,7 @@ class EditBoxState(
             parentMaxWidth = parentMaxWidth,
             parentMaxHeight = parentMaxHeight,
             contentSize = contentSize,
+            cornerRadiusPercent = cornerRadiusPercent,
             zoomChange = zoomChange,
             offsetChange = (offsetChange * scale).rotateBy(rotation),
             rotationChange = rotationChange
@@ -118,6 +122,7 @@ class EditBoxState(
         parentMaxWidth: Int,
         parentMaxHeight: Int,
         contentSize: IntSize,
+        cornerRadiusPercent: Int,
         zoomChange: Float,
         offsetChange: Offset,
         rotationChange: Float
@@ -126,6 +131,7 @@ class EditBoxState(
             parentMaxWidth = parentMaxWidth,
             parentMaxHeight = parentMaxHeight,
             contentSize = contentSize,
+            cornerRadiusPercent = cornerRadiusPercent,
             zoomChange = zoomChange,
             offsetChange = offsetChange,
             rotationChange = rotationChange
@@ -136,6 +142,7 @@ class EditBoxState(
         parentMaxWidth: Int,
         parentMaxHeight: Int,
         contentSize: IntSize,
+        cornerRadiusPercent: Int,
         zoomChange: Float,
         offsetChange: Offset,
         rotationChange: Float
@@ -143,12 +150,14 @@ class EditBoxState(
         rotation += rotationChange
         scale = (scale * zoomChange).fastCoerceIn(0.3f, 10f)
 
-        val rotatedSize = contentSize.rotateBy(rotation)
-        val extraWidth = (parentMaxWidth - rotatedSize.width * scale).absoluteValue
-        val extraHeight = (parentMaxHeight - rotatedSize.height * scale).absoluteValue
-
-        val maxX = extraWidth / 2 // + contentSize.width * scale / 2
-        val maxY = extraHeight / 2 // + contentSize.height * scale / 2
+        val halfExtents = contentSize.rotatedHalfExtents(
+            degrees = rotation,
+            cornerRadiusPercent = cornerRadiusPercent
+        )
+        val halfParentWidth = parentMaxWidth / 2f
+        val halfParentHeight = parentMaxHeight / 2f
+        val maxX = (halfParentWidth - halfExtents.x * scale).absoluteValue
+        val maxY = (halfParentHeight - halfExtents.y * scale).absoluteValue
 
         offset = Offset(
             x = (offset.x + offsetChange.x).coerceIn(-maxX, maxX, coerceToBounds),
@@ -241,6 +250,33 @@ private fun IntSize.rotateBy(degrees: Float): IntSize {
     val width = ceil(currentSize.width * cos(radians) + currentSize.height * sin(radians)).toInt()
     val height = ceil(currentSize.width * sin(radians) + currentSize.height * cos(radians)).toInt()
     return IntSize(width, height)
+}
+
+private fun IntSize.rotatedHalfExtents(
+    degrees: Float,
+    cornerRadiusPercent: Int
+): Offset {
+    val halfWidth = width / 2f
+    val halfHeight = height / 2f
+
+    val cornerRadiusPx = (
+            min(width, height) *
+                    (cornerRadiusPercent.coerceIn(0, 50) / 100f)
+            ).coerceIn(0f, min(halfWidth, halfHeight))
+
+    // Rounded rectangle can be represented as an inner rectangle expanded by a circle.
+    // This gives accurate support extents for collision checks in any rotation.
+    val innerHalfWidth = max(0f, halfWidth - cornerRadiusPx)
+    val innerHalfHeight = max(0f, halfHeight - cornerRadiusPx)
+
+    val radians = Math.toRadians(degrees.toDouble())
+    val cos = kotlin.math.abs(cos(radians)).toFloat()
+    val sin = kotlin.math.abs(sin(radians)).toFloat()
+
+    return Offset(
+        x = innerHalfWidth * cos + innerHalfHeight * sin + cornerRadiusPx,
+        y = innerHalfWidth * sin + innerHalfHeight * cos + cornerRadiusPx
+    )
 }
 
 private fun Offset.rotateBy(

@@ -183,9 +183,12 @@ internal fun MarkupLayersSideMenu(
                                             }
                                         },
                                         onMoveLayerBy = { dx, dy ->
-                                            activeLayer?.state?.moveBy(
-                                                offsetChange = Offset(dx, dy)
-                                            )
+                                            activeLayer?.let { layer ->
+                                                layer.state.moveBy(
+                                                    offsetChange = Offset(dx, dy),
+                                                    cornerRadiusPercent = layer.cornerRadiusPercent
+                                                )
+                                            }
                                         },
                                         onResetLayerPosition = {
                                             activeLayer?.state?.resetPosition()
@@ -224,7 +227,8 @@ internal fun MarkupLayersSideMenu(
 }
 
 private fun EditBoxState.moveBy(
-    offsetChange: Offset
+    offsetChange: Offset,
+    cornerRadiusPercent: Int
 ) {
     val contentSize = contentSize
     if (contentSize.width <= 0 || contentSize.height <= 0) {
@@ -239,6 +243,7 @@ private fun EditBoxState.moveBy(
         parentMaxWidth = canvasWidth,
         parentMaxHeight = canvasHeight,
         contentSize = contentSize,
+        cornerRadiusPercent = cornerRadiusPercent,
         zoomChange = 1f,
         offsetChange = offsetChange,
         rotationChange = 0f

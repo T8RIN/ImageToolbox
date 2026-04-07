@@ -135,6 +135,7 @@ fun EditBox(
                 parentMaxWidth = parentMaxWidth,
                 parentMaxHeight = parentMaxHeight,
                 contentSize = contentSize,
+                cornerRadiusPercent = cornerRadiusPercent,
                 zoomChange = 1f,
                 offsetChange = Offset.Zero,
                 rotationChange = 0f
