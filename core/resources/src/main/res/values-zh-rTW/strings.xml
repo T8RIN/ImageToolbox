@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -1753,12 +1751,12 @@
     <string name="allow_skip_if_larger">如果較大則允許跳過</string>
     <string name="allow_skip_if_larger_sub">如果生成的檔案大小大於原始檔案大小，某些工具將被允許跳過保存圖像</string>
     <string name="qr_type_calendar_event">日曆事件</string>
-    <string name="qr_type_contact_info">接觸</string>
+    <string name="qr_type_contact_info">聯絡人</string>
     <string name="qr_type_email">電子郵件</string>
     <string name="qr_type_geo_point">地點</string>
     <string name="qr_type_phone">電話</string>
     <string name="qr_type_plain">文字</string>
-    <string name="qr_type_sms">短信</string>
+    <string name="qr_type_sms">簡訊</string>
     <string name="qr_type_url">網址</string>
     <string name="qr_type_wifi">無線上網</string>
     <string name="open_network">開放網路</string>
