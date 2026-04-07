@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,6 +38,7 @@ import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.Flip
+import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.ScreenRotationAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -51,6 +53,7 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,6 +63,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -77,6 +81,7 @@ internal fun BoxScope.MarkupLayersContextActions(
     onFlipLayerHorizontally: () -> Unit,
     onFlipLayerVertically: () -> Unit,
     onMoveLayerBy: (Float, Float) -> Unit,
+    onResetLayerPosition: () -> Unit,
     normalizedPositionX: Float?,
     normalizedPositionY: Float?,
     rotationDegrees: Float?,
@@ -289,21 +294,37 @@ internal fun BoxScope.MarkupLayersContextActions(
                 )
             }
             if (normalizedPositionX != null && normalizedPositionY != null) {
-                AutoSizeText(
-                    text = "X: ${normalizedPositionX.roundTo(3)}   Y: ${
-                        normalizedPositionY.roundTo(
-                            3
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val xPart = "X: ${normalizedPositionX.roundTo(3)}"
+                    val yPart = "Y: ${normalizedPositionY.roundTo(3)}"
+
+                    Spacer(Modifier.width(8.dp))
+                    AutoSizeText(
+                        text = "$xPart   $yPart",
+                        style = LocalTextStyle.current.copy(
+                            fontSize = 12.sp,
+                            lineHeight = 13.sp,
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        modifier = Modifier.weight(1f)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    val containerColor = takeColorFromScheme {
+                        surfaceContainerLow.blend(
+                            color = errorContainer,
+                            fraction = 0.2f
                         )
-                    }",
-                    textAlign = TextAlign.Center,
-                    style = LocalTextStyle.current.copy(
-                        fontSize = 12.sp,
-                        lineHeight = 13.sp
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
-                )
+                    }
+                    SupportingButton(
+                        icon = Icons.Rounded.RestartAlt,
+                        onClick = onResetLayerPosition,
+                        containerColor = containerColor,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                    Spacer(Modifier.width(8.dp))
+                }
             }
         }
     }

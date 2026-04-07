@@ -187,6 +187,9 @@ internal fun MarkupLayersSideMenu(
                                                 offsetChange = Offset(dx, dy)
                                             )
                                         },
+                                        onResetLayerPosition = {
+                                            activeLayer?.state?.resetPosition()
+                                        },
                                         normalizedPositionX = activeLayer?.state?.normalizedX,
                                         normalizedPositionY = activeLayer?.state?.normalizedY,
                                         rotationDegrees = activeLayer?.state?.rotation?.roundTo(1),
@@ -255,3 +258,7 @@ private val EditBoxState.normalizedY: Float?
         ?.let { canvasHeight ->
             (offset.y / canvasHeight + 0.5f).coerceIn(0f, 1f)
         }
+
+private fun EditBoxState.resetPosition() {
+    offset = Offset.Zero
+}
