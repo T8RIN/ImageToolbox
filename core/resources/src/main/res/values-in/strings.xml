@@ -2202,4 +2202,7 @@
     <string name="failed_to_open">Gagal dibuka</string>
     <string name="ocr_write_to_searchable_pdf">Tulis Ke PDF yang Dapat Dicari</string>
     <string name="ocr_write_to_searchable_pdf_sub">Kenali teks dari kumpulan gambar dan simpan PDF yang dapat dicari dengan gambar dan lapisan teks yang dapat dipilih</string>
+    <string name="layer_alpha">Lapisan alfa</string>
+    <string name="horizontal_flip">Balik Horisontal</string>
+    <string name="vertical_flip">Balik Vertikal</string>
 </resources>

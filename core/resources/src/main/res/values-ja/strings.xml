@@ -2202,4 +2202,7 @@
     <string name="failed_to_open">開けませんでした</string>
     <string name="ocr_write_to_searchable_pdf">検索可能な PDF に書き込む</string>
     <string name="ocr_write_to_searchable_pdf_sub">画像バッチからテキストを認識し、画像と選択可能なテキストレイヤーを含む検索可能な PDF を保存します</string>
+    <string name="layer_alpha">レイヤーアルファ</string>
+    <string name="horizontal_flip">水平反転</string>
+    <string name="vertical_flip">垂直反転</string>
 </resources>

@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Avamine ebaõnnestus</string>
     <string name="ocr_write_to_searchable_pdf">Kirjutage otsitavasse PDF-i</string>
     <string name="ocr_write_to_searchable_pdf_sub">Tuvastage pildikomplektist tekst ja salvestage otsitav PDF koos pildi ja valitava tekstikihiga</string>
+    <string name="layer_alpha">Alfa kiht</string>
+    <string name="horizontal_flip">Horisontaalne klapp</string>
+    <string name="vertical_flip">Vertikaalne ümberpööramine</string>
 </resources>

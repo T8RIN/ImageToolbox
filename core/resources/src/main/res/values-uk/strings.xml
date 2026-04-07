@@ -2205,4 +2205,7 @@
     <string name="failed_to_open">Не вдалося відкрити</string>
     <string name="ocr_write_to_searchable_pdf">Запис у PDF з можливістю пошуку</string>
     <string name="ocr_write_to_searchable_pdf_sub">Розпізнавайте текст із пакету зображень і зберігайте файл PDF із можливістю пошуку із зображенням і текстовим шаром, який можна вибрати</string>
+    <string name="layer_alpha">Шар альфа</string>
+    <string name="horizontal_flip">Горизонтальний фліп</string>
+    <string name="vertical_flip">Вертикальний фліп</string>
 </resources>

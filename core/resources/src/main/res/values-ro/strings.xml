@@ -2204,4 +2204,7 @@
     <string name="failed_to_open">Deschiderea eșuată</string>
     <string name="ocr_write_to_searchable_pdf">Scrieți într-un PDF care poate fi căutat</string>
     <string name="ocr_write_to_searchable_pdf_sub">Recunoașteți textul din lotul de imagini și salvați PDF care poate fi căutat cu imagine și strat de text selectabil</string>
+    <string name="layer_alpha">Stratul alfa</string>
+    <string name="horizontal_flip">Flip orizontal</string>
+    <string name="vertical_flip">Flip vertical</string>
 </resources>

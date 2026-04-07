@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">తెరవడంలో విఫలమైంది</string>
     <string name="ocr_write_to_searchable_pdf">శోధించదగిన PDFకి వ్రాయండి</string>
     <string name="ocr_write_to_searchable_pdf_sub">ఇమేజ్ బ్యాచ్ నుండి వచనాన్ని గుర్తించి, శోధించదగిన PDFని ఇమేజ్ మరియు ఎంచుకోదగిన టెక్స్ట్ లేయర్‌తో సేవ్ చేయండి</string>
+    <string name="layer_alpha">ఆల్ఫా పొర</string>
+    <string name="horizontal_flip">క్షితిజసమాంతర ఫ్లిప్</string>
+    <string name="vertical_flip">వర్టికల్ ఫ్లిప్</string>
 </resources>

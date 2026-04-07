@@ -2205,4 +2205,7 @@
     <string name="failed_to_open">Nepodarilo sa otvoriť</string>
     <string name="ocr_write_to_searchable_pdf">Zápis do prehľadávateľného PDF</string>
     <string name="ocr_write_to_searchable_pdf_sub">Rozpoznajte text z obrázkovej dávky a uložte prehľadávateľný PDF s obrázkom a voliteľnou textovou vrstvou</string>
+    <string name="layer_alpha">Vrstva alfa</string>
+    <string name="horizontal_flip">Horizontálne preklopenie</string>
+    <string name="vertical_flip">Vertikálne preklopenie</string>
 </resources>

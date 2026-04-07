@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">No se pudo abrir</string>
     <string name="ocr_write_to_searchable_pdf">Escribir en PDF con capacidad de búsqueda</string>
     <string name="ocr_write_to_searchable_pdf_sub">Reconozca texto de un lote de imágenes y guarde PDF con capacidad de búsqueda con imagen y capa de texto seleccionable</string>
+    <string name="layer_alpha">Capa alfa</string>
+    <string name="horizontal_flip">Voltear horizontalmente</string>
+    <string name="vertical_flip">Voltear verticalmente</string>
 </resources>

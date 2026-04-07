@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Échec de l\'ouverture</string>
     <string name="ocr_write_to_searchable_pdf">Écrire dans un PDF consultable</string>
     <string name="ocr_write_to_searchable_pdf_sub">Reconnaissez le texte d\'un lot d\'images et enregistrez un PDF consultable avec une image et un calque de texte sélectionnable</string>
+    <string name="layer_alpha">Couche alpha</string>
+    <string name="horizontal_flip">Retournement horizontal</string>
+    <string name="vertical_flip">Retournement vertical</string>
 </resources>

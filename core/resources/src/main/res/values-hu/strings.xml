@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Nem sikerült megnyitni</string>
     <string name="ocr_write_to_searchable_pdf">Írás kereshető PDF-be</string>
     <string name="ocr_write_to_searchable_pdf_sub">Szöveg felismerése képkötegből, és kereshető PDF mentése képpel és kiválasztható szövegréteggel</string>
+    <string name="layer_alpha">Alfa réteg</string>
+    <string name="horizontal_flip">Vízszintes Flip</string>
+    <string name="vertical_flip">Függőleges Flip</string>
 </resources>

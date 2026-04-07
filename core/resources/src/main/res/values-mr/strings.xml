@@ -2204,4 +2204,7 @@
     <string name="failed_to_open">उघडण्यात अयशस्वी</string>
     <string name="ocr_write_to_searchable_pdf">शोधण्यायोग्य PDF वर लिहा</string>
     <string name="ocr_write_to_searchable_pdf_sub">इमेज बॅचमधील मजकूर ओळखा आणि शोधण्यायोग्य PDF प्रतिमा आणि निवडण्यायोग्य मजकूर स्तरासह जतन करा</string>
+    <string name="layer_alpha">लेयर अल्फा</string>
+    <string name="horizontal_flip">क्षैतिज फ्लिप</string>
+    <string name="vertical_flip">उभ्या फ्लिप</string>
 </resources>

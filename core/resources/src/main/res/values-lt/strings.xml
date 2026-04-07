@@ -2206,4 +2206,7 @@
     <string name="failed_to_open">Nepavyko atidaryti</string>
     <string name="ocr_write_to_searchable_pdf">Rašyti į ieškomą PDF</string>
     <string name="ocr_write_to_searchable_pdf_sub">Atpažinkite tekstą iš vaizdų paketo ir išsaugokite ieškomą PDF su vaizdu ir pasirenkamu teksto sluoksniu</string>
+    <string name="layer_alpha">Alfa sluoksnis</string>
+    <string name="horizontal_flip">Horizontalus apvertimas</string>
+    <string name="vertical_flip">Vertikalus apvertimas</string>
 </resources>

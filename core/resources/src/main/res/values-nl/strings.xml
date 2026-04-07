@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Kan niet worden geopend</string>
     <string name="ocr_write_to_searchable_pdf">Schrijf naar doorzoekbare PDF</string>
     <string name="ocr_write_to_searchable_pdf_sub">Herken tekst uit de afbeeldingsbatch en sla doorzoekbare PDF op met afbeelding en selecteerbare tekstlaag</string>
+    <string name="layer_alpha">Laag-alfa</string>
+    <string name="horizontal_flip">Horizontale spiegeling</string>
+    <string name="vertical_flip">Verticale spiegeling</string>
 </resources>

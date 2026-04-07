@@ -2202,4 +2202,7 @@
     <string name="failed_to_open">Không thể mở được</string>
     <string name="ocr_write_to_searchable_pdf">Viết vào PDF có thể tìm kiếm</string>
     <string name="ocr_write_to_searchable_pdf_sub">Nhận dạng văn bản từ hàng loạt hình ảnh và lưu tệp PDF có thể tìm kiếm bằng hình ảnh và lớp văn bản có thể chọn</string>
+    <string name="layer_alpha">Lớp alpha</string>
+    <string name="horizontal_flip">Lật ngang</string>
+    <string name="vertical_flip">Lật dọc</string>
 </resources>
