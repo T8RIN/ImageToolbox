@@ -23,10 +23,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowLeft
+import androidx.compose.material.icons.automirrored.rounded.ArrowRight
+import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.Flip
@@ -47,9 +54,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -66,6 +76,9 @@ internal fun BoxScope.MarkupLayersContextActions(
     onActivateLayer: () -> Unit,
     onFlipLayerHorizontally: () -> Unit,
     onFlipLayerVertically: () -> Unit,
+    onMoveLayerBy: (Float, Float) -> Unit,
+    normalizedPositionX: Float?,
+    normalizedPositionY: Float?,
     rotationDegrees: Float?,
     onRotationDegreesChange: (Float) -> Unit
 ) {
@@ -213,6 +226,85 @@ internal fun BoxScope.MarkupLayersContextActions(
                     }
                 }
             )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+            ) {
+                val buttonContainerColor = takeColorFromScheme {
+                    surfaceContainerLow.blend(
+                        color = primaryContainer,
+                        fraction = 0.2f
+                    )
+                }
+
+                ClickableTile(
+                    onClick = { onMoveLayerBy(-1f, 0f) },
+                    onHoldStep = { onMoveLayerBy(-1f, 0f) },
+                    icon = Icons.AutoMirrored.Rounded.ArrowLeft,
+                    text = null,
+                    containerColor = buttonContainerColor,
+                    modifier = Modifier
+                        .width(66.dp)
+                        .fillMaxHeight()
+                )
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .width(66.dp)
+                        .fillMaxHeight()
+                ) {
+                    ClickableTile(
+                        onClick = { onMoveLayerBy(0f, -1f) },
+                        onHoldStep = { onMoveLayerBy(0f, -1f) },
+                        icon = Icons.Rounded.ArrowDropUp,
+                        text = null,
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                        containerColor = buttonContainerColor
+                    )
+                    ClickableTile(
+                        onClick = { onMoveLayerBy(0f, 1f) },
+                        onHoldStep = { onMoveLayerBy(0f, 1f) },
+                        icon = Icons.Rounded.ArrowDropDown,
+                        text = null,
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                        containerColor = buttonContainerColor
+                    )
+                }
+                ClickableTile(
+                    onClick = { onMoveLayerBy(1f, 0f) },
+                    onHoldStep = { onMoveLayerBy(1f, 0f) },
+                    icon = Icons.AutoMirrored.Rounded.ArrowRight,
+                    text = null,
+                    containerColor = buttonContainerColor,
+                    modifier = Modifier
+                        .width(66.dp)
+                        .fillMaxHeight()
+                )
+            }
+            if (normalizedPositionX != null && normalizedPositionY != null) {
+                AutoSizeText(
+                    text = "X: ${normalizedPositionX.roundTo(3)}   Y: ${
+                        normalizedPositionY.roundTo(
+                            3
+                        )
+                    }",
+                    textAlign = TextAlign.Center,
+                    style = LocalTextStyle.current.copy(
+                        fontSize = 12.sp,
+                        lineHeight = 13.sp
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
         }
     }
 

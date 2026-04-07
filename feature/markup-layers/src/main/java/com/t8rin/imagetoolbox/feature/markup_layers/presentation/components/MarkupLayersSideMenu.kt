@@ -49,6 +49,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
@@ -181,6 +182,13 @@ internal fun MarkupLayersSideMenu(
                                                     !state.isFlippedVertically
                                             }
                                         },
+                                        onMoveLayerBy = { dx, dy ->
+                                            activeLayer?.state?.moveBy(
+                                                offsetChange = Offset(dx, dy)
+                                            )
+                                        },
+                                        normalizedPositionX = activeLayer?.state?.normalizedX,
+                                        normalizedPositionY = activeLayer?.state?.normalizedY,
                                         rotationDegrees = activeLayer?.state?.rotation?.roundTo(1),
                                         onRotationDegreesChange = {
                                             activeLayer?.state?.rotation = it.roundTo(1)
@@ -211,3 +219,39 @@ internal fun MarkupLayersSideMenu(
         }
     }
 }
+
+private fun EditBoxState.moveBy(
+    offsetChange: Offset
+) {
+    val contentSize = contentSize
+    if (contentSize.width <= 0 || contentSize.height <= 0) {
+        offset += offsetChange
+        return
+    }
+
+    val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: contentSize.width
+    val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: contentSize.height
+
+    applyGlobalChanges(
+        parentMaxWidth = canvasWidth,
+        parentMaxHeight = canvasHeight,
+        contentSize = contentSize,
+        zoomChange = 1f,
+        offsetChange = offsetChange,
+        rotationChange = 0f
+    )
+}
+
+private val EditBoxState.normalizedX: Float?
+    get() = canvasSize.width
+        .takeIf { it > 0 }
+        ?.let { canvasWidth ->
+            (offset.x / canvasWidth + 0.5f).coerceIn(0f, 1f)
+        }
+
+private val EditBoxState.normalizedY: Float?
+    get() = canvasSize.height
+        .takeIf { it > 0 }
+        ?.let { canvasHeight ->
+            (offset.y / canvasHeight + 0.5f).coerceIn(0f, 1f)
+        }
