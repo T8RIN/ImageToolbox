@@ -222,6 +222,68 @@ class EditBoxState(
         }
         _canvasSize.value = value
     }
+
+    internal fun normalizedPosition(
+        cornerRadiusPercent: Int
+    ): Offset? {
+        val contentSize = contentSize
+        val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: return null
+        val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: return null
+
+        if (contentSize.width <= 0 || contentSize.height <= 0) return null
+
+        val halfExtents = contentSize.rotatedHalfExtents(
+            degrees = rotation,
+            cornerRadiusPercent = cornerRadiusPercent
+        )
+
+        val halfWidth = halfExtents.x * scale
+        val halfHeight = halfExtents.y * scale
+        val layerWidth = halfWidth * 2f
+        val layerHeight = halfHeight * 2f
+        val left = canvasWidth / 2f + offset.x - halfWidth
+        val top = canvasHeight / 2f + offset.y - halfHeight
+
+        return Offset(
+            x = left.normalizeEdgeAware(
+                axisSize = canvasWidth.toFloat(),
+                layerSize = layerWidth
+            ),
+            y = top.normalizeEdgeAware(
+                axisSize = canvasHeight.toFloat(),
+                layerSize = layerHeight
+            )
+        )
+    }
+}
+
+private fun Float.normalizeEdgeAware(
+    axisSize: Float,
+    layerSize: Float
+): Float {
+    val safeAxisSize = axisSize.coerceAtLeast(1f)
+    val safeLayerSize = layerSize.coerceAtLeast(1f)
+    val maxInsideStart = safeAxisSize - safeLayerSize
+
+    return when {
+        maxInsideStart > 0f -> when {
+            this < 0f -> this / safeLayerSize
+            this + safeLayerSize > safeAxisSize -> 1f + (this - maxInsideStart) / safeLayerSize
+            else -> this / maxInsideStart
+        }
+
+        maxInsideStart == 0f -> when {
+            this < 0f -> this / safeLayerSize
+            this > 0f -> 1f + this / safeLayerSize
+            else -> 0f
+        }
+
+        else -> when {
+            this > 0f -> -this / safeLayerSize
+            this < maxInsideStart -> 1f + (maxInsideStart - this) / safeLayerSize
+            else -> this / maxInsideStart
+        }
+    }
 }
 
 internal fun DpSize.rotateBy(

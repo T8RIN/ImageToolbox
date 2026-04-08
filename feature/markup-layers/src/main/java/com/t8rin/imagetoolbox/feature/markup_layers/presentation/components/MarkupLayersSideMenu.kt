@@ -121,6 +121,15 @@ internal fun MarkupLayersSideMenu(
                                 layers.find { it.state.isActive }
                             }
                         }
+                        val normalizedPosition by remember(activeLayer) {
+                            derivedStateOf {
+                                activeLayer?.let { layer ->
+                                    layer.state.normalizedPosition(
+                                        cornerRadiusPercent = layer.cornerRadiusPercent
+                                    )
+                                }
+                            }
+                        }
                         Column(
                             modifier = Modifier.container(
                                 shape = RectangleShape,
@@ -193,8 +202,8 @@ internal fun MarkupLayersSideMenu(
                                         onResetLayerPosition = {
                                             activeLayer?.state?.resetPosition()
                                         },
-                                        normalizedPositionX = activeLayer?.state?.normalizedX,
-                                        normalizedPositionY = activeLayer?.state?.normalizedY,
+                                        normalizedPositionX = normalizedPosition?.x,
+                                        normalizedPositionY = normalizedPosition?.y,
                                         rotationDegrees = activeLayer?.state?.rotation?.roundTo(1),
                                         onRotationDegreesChange = {
                                             activeLayer?.state?.rotation = it.roundTo(1)
@@ -249,20 +258,6 @@ private fun EditBoxState.moveBy(
         rotationChange = 0f
     )
 }
-
-private val EditBoxState.normalizedX: Float?
-    get() = canvasSize.width
-        .takeIf { it > 0 }
-        ?.let { canvasWidth ->
-            (offset.x / canvasWidth + 0.5f).coerceIn(0f, 1f)
-        }
-
-private val EditBoxState.normalizedY: Float?
-    get() = canvasSize.height
-        .takeIf { it > 0 }
-        ?.let { canvasHeight ->
-            (offset.y / canvasHeight + 0.5f).coerceIn(0f, 1f)
-        }
 
 private fun EditBoxState.resetPosition() {
     offset = Offset.Zero
