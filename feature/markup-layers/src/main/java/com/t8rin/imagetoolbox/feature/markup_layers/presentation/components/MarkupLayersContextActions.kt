@@ -66,6 +66,8 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueDialog
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueText
@@ -295,12 +297,18 @@ internal fun BoxScope.MarkupLayersContextActions(
             }
             if (normalizedPositionX != null && normalizedPositionY != null) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.container(
+                        shape = ShapeDefaults.extraSmall,
+                        color = takeColorFromScheme {
+                            surfaceContainerLow.blend(tertiaryContainer, 0.3f)
+                        }
+                    )
                 ) {
                     val xPart = "X: ${normalizedPositionX.roundTo(3)}"
                     val yPart = "Y: ${normalizedPositionY.roundTo(3)}"
 
-                    Spacer(Modifier.width(8.dp))
+                    Spacer(Modifier.width(4.dp))
                     AutoSizeText(
                         text = "$xPart   $yPart",
                         style = LocalTextStyle.current.copy(
@@ -314,7 +322,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                     val containerColor = takeColorFromScheme {
                         surfaceContainerLow.blend(
                             color = errorContainer,
-                            fraction = 0.2f
+                            fraction = 0.5f
                         )
                     }
                     SupportingButton(
@@ -323,7 +331,6 @@ internal fun BoxScope.MarkupLayersContextActions(
                         containerColor = containerColor,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer
                     )
-                    Spacer(Modifier.width(8.dp))
                 }
             }
         }
