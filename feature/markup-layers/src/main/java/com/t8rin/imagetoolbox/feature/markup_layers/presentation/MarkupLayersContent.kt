@@ -54,9 +54,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -262,10 +264,7 @@ fun MarkupLayersContent(
                             .background(MaterialTheme.colorScheme.surfaceContainerLow),
                         contentAlignment = Alignment.Center
                     ) {
-                        Picture(
-                            model = imageBitmap,
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
+                        Box(
                             modifier = Modifier
                                 .zIndex(-1f)
                                 .matchParentSize()
@@ -275,9 +274,22 @@ fun MarkupLayersContent(
                         BoxWithConstraints(
                             modifier = Modifier
                                 .matchParentSize()
-                                .activeLayerGestures(activeLayer),
+                                .activeLayerGestures(activeLayer)
+                                .graphicsLayer {
+                                    compositingStrategy = CompositingStrategy.Offscreen
+                                },
                             contentAlignment = Alignment.Center
                         ) {
+                            Picture(
+                                model = imageBitmap,
+                                contentDescription = null,
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier
+                                    .matchParentSize()
+                                    .clipToBounds(),
+                                showTransparencyChecker = false
+                            )
+
                             component.layers.forEachIndexed { index, layer ->
                                 Layer(
                                     layer = layer,

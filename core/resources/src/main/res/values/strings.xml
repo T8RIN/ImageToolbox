@@ -2225,4 +2225,7 @@
     <string name="background_color_for_alpha_formats">Background Color For Alpha Formats</string>
     <string name="background_color_for_alpha_formats_sub">Adds ability to set background color for every image format with alpha support, when disabled this available for non alpha ones only</string>
     <string name="failed_to_open">Failed to open</string>
+    <string name="layer_alpha">Layer alpha</string>
+    <string name="horizontal_flip">Horizontal Flip</string>
+    <string name="vertical_flip">Vertical Flip</string>
 </resources>

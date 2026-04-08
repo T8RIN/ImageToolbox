@@ -2202,4 +2202,7 @@
     <string name="failed_to_open">ไม่สามารถเปิดได้</string>
     <string name="ocr_write_to_searchable_pdf">เขียนเป็น PDF ที่ค้นหาได้</string>
     <string name="ocr_write_to_searchable_pdf_sub">จดจำข้อความจากชุดรูปภาพและบันทึก PDF ที่ค้นหาได้ด้วยรูปภาพและเลเยอร์ข้อความที่เลือกได้</string>
+    <string name="layer_alpha">เลเยอร์อัลฟ่า</string>
+    <string name="horizontal_flip">พลิกแนวนอน</string>
+    <string name="vertical_flip">พลิกแนวตั้ง</string>
 </resources>

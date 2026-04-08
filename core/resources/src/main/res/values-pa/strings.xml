@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">ਖੋਲ੍ਹਣ ਵਿੱਚ ਅਸਫਲ</string>
     <string name="ocr_write_to_searchable_pdf">ਖੋਜਯੋਗ PDF ਵਿੱਚ ਲਿਖੋ</string>
     <string name="ocr_write_to_searchable_pdf_sub">ਚਿੱਤਰ ਬੈਚ ਤੋਂ ਟੈਕਸਟ ਨੂੰ ਪਛਾਣੋ ਅਤੇ ਚਿੱਤਰ ਅਤੇ ਚੋਣਯੋਗ ਟੈਕਸਟ ਲੇਅਰ ਨਾਲ ਖੋਜਣ ਯੋਗ PDF ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
+    <string name="layer_alpha">ਲੇਅਰ ਅਲਫ਼ਾ</string>
+    <string name="horizontal_flip">ਹਰੀਜ਼ੱਟਲ ਫਲਿੱਪ</string>
+    <string name="vertical_flip">ਵਰਟੀਕਲ ਫਲਿੱਪ</string>
 </resources>

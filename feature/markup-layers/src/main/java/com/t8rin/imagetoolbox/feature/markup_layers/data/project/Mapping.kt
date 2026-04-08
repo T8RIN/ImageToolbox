@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 
 import android.net.Uri
 import androidx.core.net.toUri
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.resources.R
@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asUi
+import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.imagetoolbox.core.utils.getString
@@ -57,8 +58,6 @@ internal class MarkupMapper @Inject constructor(
         assetRegistry: AssetRegistry
     ): MarkupProjectFile = MarkupProjectFile(
         version = MarkupProjectVersion,
-        imageFormat = imageFormat.title,
-        saveExif = saveExif,
         background = background.toSnapshot(assetRegistry),
         layers = layers.toSnapshotList(assetRegistry, prefix = "layer"),
         lastLayers = lastLayers.toSnapshotList(assetRegistry, prefix = "last"),
@@ -77,8 +76,6 @@ internal class MarkupMapper @Inject constructor(
 
         return MarkupProjectResult.Success(
             project = MarkupProject(
-                imageFormat = imageFormat?.let(ImageFormat::get) ?: ImageFormat.Default,
-                saveExif = saveExif,
                 background = background.toDomain(extractionDir),
                 layers = layers.toDomainLayers(extractionDir),
                 lastLayers = lastLayers.toDomainLayers(extractionDir),
@@ -136,6 +133,8 @@ internal class MarkupMapper @Inject constructor(
             type = layerType.toSnapshotType(),
             position = position.toSnapshot(),
             visibleLineCount = visibleLineCount,
+            cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+            blendingMode = blendingMode.value,
             text = (layerType as? LayerType.Text)?.toSnapshot(
                 assetRegistry = assetRegistry,
                 fontPrefix = "$prefix-$index-font"
@@ -150,6 +149,8 @@ internal class MarkupMapper @Inject constructor(
     private fun LayerPosition.toSnapshot(): PositionSnapshot = PositionSnapshot(
         scale = scale,
         rotation = rotation,
+        isFlippedHorizontally = isFlippedHorizontally,
+        isFlippedVertically = isFlippedVertically,
         offsetX = offsetX,
         offsetY = offsetY,
         alpha = alpha,
@@ -235,7 +236,10 @@ internal class MarkupMapper @Inject constructor(
     ): MarkupLayer = MarkupLayer(
         type = toDomainType(extractionDir),
         position = position.toDomain(),
-        visibleLineCount = visibleLineCount
+        visibleLineCount = visibleLineCount,
+        cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+        blendingMode = BlendingMode.entries.find { it.value == blendingMode }
+            ?: BlendingMode.SrcOver
     )
 
     private suspend fun LayerSnapshot.toDomainType(
@@ -285,6 +289,8 @@ internal class MarkupMapper @Inject constructor(
     private fun PositionSnapshot.toDomain(): LayerPosition = LayerPosition(
         scale = scale,
         rotation = rotation,
+        isFlippedHorizontally = isFlippedHorizontally,
+        isFlippedVertically = isFlippedVertically,
         offsetX = offsetX,
         offsetY = offsetY,
         alpha = alpha,

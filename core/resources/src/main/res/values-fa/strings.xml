@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">باز نشد</string>
     <string name="ocr_write_to_searchable_pdf">نوشتن در PDF قابل جستجو</string>
     <string name="ocr_write_to_searchable_pdf_sub">متن را از دسته تصویر تشخیص دهید و PDF قابل جستجو را با تصویر و لایه متن قابل انتخاب ذخیره کنید</string>
+    <string name="layer_alpha">لایه آلفا</string>
+    <string name="horizontal_flip">تلنگر افقی</string>
+    <string name="vertical_flip">چرخش عمودی</string>
 </resources>

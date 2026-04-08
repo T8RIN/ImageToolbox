@@ -17,11 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.domain
 
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
-
 data class MarkupProject(
-    val imageFormat: ImageFormat,
-    val saveExif: Boolean,
     val background: ProjectBackground,
     val layers: List<MarkupLayer>,
     val lastLayers: List<MarkupLayer>,

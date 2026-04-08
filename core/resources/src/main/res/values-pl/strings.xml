@@ -2205,4 +2205,7 @@
     <string name="failed_to_open">Nie udało się otworzyć</string>
     <string name="ocr_write_to_searchable_pdf">Zapisz w pliku PDF z możliwością przeszukiwania</string>
     <string name="ocr_write_to_searchable_pdf_sub">Rozpoznaj tekst z partii obrazów i zapisz plik PDF z możliwością przeszukiwania z obrazem i wybraną warstwą tekstową</string>
+    <string name="layer_alpha">Warstwa alfa</string>
+    <string name="horizontal_flip">Odwrócenie poziome</string>
+    <string name="vertical_flip">Odwrócenie w pionie</string>
 </resources>

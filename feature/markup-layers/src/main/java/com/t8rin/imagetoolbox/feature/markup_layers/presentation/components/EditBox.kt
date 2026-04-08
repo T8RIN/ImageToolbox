@@ -23,11 +23,11 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -46,13 +46,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asComposePaint
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
@@ -62,9 +64,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import kotlinx.coroutines.launch
 
 @Composable
@@ -73,7 +77,8 @@ fun BoxWithConstraintsScope.EditBox(
     onTap: () -> Unit,
     modifier: Modifier = Modifier,
     onLongTap: (() -> Unit)? = null,
-    shape: Shape = ShapeDefaults.extraSmall,
+    cornerRadiusPercent: Int = 0,
+    blendingMode: BlendingMode = BlendingMode.SrcOver,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -90,7 +95,8 @@ fun BoxWithConstraintsScope.EditBox(
         onLongTap = onLongTap,
         state = state,
         parentSize = parentSize,
-        shape = shape,
+        cornerRadiusPercent = cornerRadiusPercent,
+        blendingMode = blendingMode,
         content = content
     )
 }
@@ -102,7 +108,8 @@ fun EditBox(
     parentSize: IntegerSize,
     modifier: Modifier = Modifier,
     onLongTap: (() -> Unit)? = null,
-    shape: Shape = ShapeDefaults.extraSmall,
+    cornerRadiusPercent: Int = 0,
+    blendingMode: BlendingMode = BlendingMode.SrcOver,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
@@ -128,6 +135,7 @@ fun EditBox(
                 parentMaxWidth = parentMaxWidth,
                 parentMaxHeight = parentMaxHeight,
                 contentSize = contentSize,
+                cornerRadiusPercent = cornerRadiusPercent,
                 zoomChange = 1f,
                 offsetChange = Offset.Zero,
                 rotationChange = 0f
@@ -149,6 +157,13 @@ fun EditBox(
     }
 
     val borderAlpha by animateFloatAsState(if (state.isActive) 1f else 0f)
+    val shape = AutoCornersShape(
+        animateIntAsState(cornerRadiusPercent).value
+    )
+    val selectionBackgroundColor = MaterialTheme.colorScheme.primary.copy(
+        alpha = 0.2f * borderAlpha
+    )
+
     Box(
         modifier = modifier
             .onSizeChanged {
@@ -156,15 +171,22 @@ fun EditBox(
                 state.contentSize = it
             }
             .graphicsLayer(
-                scaleX = state.scale,
-                scaleY = state.scale,
+                scaleX = state.scale * if (state.isFlippedHorizontally) -1f else 1f,
+                scaleY = state.scale * if (state.isFlippedVertically) -1f else 1f,
                 rotationZ = state.rotation,
                 translationX = state.offset.x,
                 translationY = state.offset.y
             )
             .scale(tapScale.value)
             .clip(shape)
-            .background(MaterialTheme.colorScheme.primary.copy(0.2f * borderAlpha))
+            .drawWithCache {
+                onDrawWithContent {
+                    if (state.isActive && blendingMode == BlendingMode.SrcOver) {
+                        drawRect(selectionBackgroundColor)
+                    }
+                    drawContent()
+                }
+            }
             .pointerInput(onTap, animateTap) {
                 detectTapGestures(
                     onLongPress = onLongTap?.let {
@@ -180,7 +202,13 @@ fun EditBox(
             },
         contentAlignment = Alignment.Center
     ) {
-        Box(Modifier.alpha(state.alpha)) {
+        Box(
+            Modifier
+                .layerBlendingMode(
+                    mode = blendingMode,
+                    alpha = state.alpha
+                )
+        ) {
             content()
         }
         AnimatedBorder(
@@ -194,6 +222,30 @@ fun EditBox(
                 color = Color.Transparent,
                 modifier = Modifier.matchParentSize()
             ) { }
+        }
+    }
+}
+
+private fun Modifier.layerBlendingMode(
+    mode: BlendingMode,
+    alpha: Float
+): Modifier {
+    val coercedAlpha = alpha.coerceIn(0f, 1f)
+
+    if (mode == BlendingMode.SrcOver) {
+        return if (coercedAlpha >= 0.999f) this else graphicsLayer {
+            this.alpha = coercedAlpha
+        }
+    }
+
+    return drawWithCache {
+        val paint = mode.toPaint().asComposePaint().apply {
+            this.alpha = coercedAlpha
+        }
+        onDrawWithContent {
+            drawContext.canvas.saveLayer(size.toRect(), paint)
+            drawContent()
+            drawContext.canvas.restore()
         }
     }
 }

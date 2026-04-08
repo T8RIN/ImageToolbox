@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Avaaminen epäonnistui</string>
     <string name="ocr_write_to_searchable_pdf">Kirjoita haettavaan PDF-tiedostoon</string>
     <string name="ocr_write_to_searchable_pdf_sub">Tunnista teksti kuvaerästä ja tallenna haettavissa oleva PDF kuvan ja valittavan tekstikerroksen kanssa</string>
+    <string name="layer_alpha">Kerros alfa</string>
+    <string name="horizontal_flip">Vaakasuora kääntö</string>
+    <string name="vertical_flip">Pystysuora kääntö</string>
 </resources>

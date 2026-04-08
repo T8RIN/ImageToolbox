@@ -2207,4 +2207,7 @@
     <string name="failed_to_open">فشل في الفتح</string>
     <string name="ocr_write_to_searchable_pdf">الكتابة إلى ملف PDF قابل للبحث</string>
     <string name="ocr_write_to_searchable_pdf_sub">تعرف على النص من مجموعة الصور واحفظ ملف PDF القابل للبحث مع الصورة وطبقة النص القابلة للتحديد</string>
+    <string name="layer_alpha">طبقة ألفا</string>
+    <string name="horizontal_flip">الوجه الأفقي</string>
+    <string name="vertical_flip">الوجه العمودي</string>
 </resources>

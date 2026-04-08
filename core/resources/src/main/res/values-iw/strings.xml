@@ -2205,4 +2205,7 @@
     <string name="failed_to_open">הפתיחה נכשלה</string>
     <string name="ocr_write_to_searchable_pdf">כתוב ל-PDF הניתן לחיפוש</string>
     <string name="ocr_write_to_searchable_pdf_sub">זיהוי טקסט מאצוות תמונה ושמור PDF שניתן לחיפוש עם תמונה ושכבת טקסט לבחירה</string>
+    <string name="layer_alpha">שכבת אלפא</string>
+    <string name="horizontal_flip">היפוך אופקי</string>
+    <string name="vertical_flip">Flip אנכי</string>
 </resources>

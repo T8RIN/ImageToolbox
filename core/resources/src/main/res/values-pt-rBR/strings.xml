@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Falha ao abrir</string>
     <string name="ocr_write_to_searchable_pdf">Escreva em PDF pesquisável</string>
     <string name="ocr_write_to_searchable_pdf_sub">Reconheça texto de lote de imagens e salve PDF pesquisável com imagem e camada de texto selecionável</string>
+    <string name="layer_alpha">Camada alfa</string>
+    <string name="horizontal_flip">Inversão Horizontal</string>
+    <string name="vertical_flip">Inversão Vertical</string>
 </resources>

@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.materialShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import kotlinx.coroutines.delay
@@ -64,7 +65,7 @@ fun EnhancedButton(
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = contentColor(containerColor),
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant(onTopOf = containerColor),
-    shape: Shape = ButtonDefaults.outlinedShape,
+    shape: Shape = AutoCircleShape(),
     pressedShape: Shape = ButtonDefaults.pressedShape,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },

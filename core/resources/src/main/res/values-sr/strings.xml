@@ -2204,4 +2204,7 @@
     <string name="failed_to_open">Отварање није успело</string>
     <string name="ocr_write_to_searchable_pdf">Врите То Сеарцхабле ПДФ</string>
     <string name="ocr_write_to_searchable_pdf_sub">Препознајте текст из групе слика и сачувајте претраживи ПДФ са сликом и слојем текста који се може изабрати</string>
+    <string name="layer_alpha">Слој алфа</string>
+    <string name="horizontal_flip">Хоризонтал Флип</string>
+    <string name="vertical_flip">Вертицал Флип</string>
 </resources>

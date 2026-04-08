@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Ашылмады</string>
     <string name="ocr_write_to_searchable_pdf">Іздеуге болатын PDF файлына жазыңыз</string>
     <string name="ocr_write_to_searchable_pdf_sub">Кескін топтамасынан мәтінді танып, сурет пен таңдалатын мәтін қабатымен ізделетін PDF файлын сақтаңыз</string>
+    <string name="layer_alpha">Альфа қабаты</string>
+    <string name="horizontal_flip">Көлденең айналдыру</string>
+    <string name="vertical_flip">Тік бұру</string>
 </resources>

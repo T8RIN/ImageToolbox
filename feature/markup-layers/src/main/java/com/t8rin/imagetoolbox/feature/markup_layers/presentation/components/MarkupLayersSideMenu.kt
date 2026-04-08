@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
@@ -169,6 +170,31 @@ internal fun MarkupLayersSideMenu(
                                         onActivateLayer = {
                                             activeLayer?.state?.isActive = false
                                         },
+                                        onFlipLayerHorizontally = {
+                                            activeLayer?.state?.let { state ->
+                                                state.isFlippedHorizontally =
+                                                    !state.isFlippedHorizontally
+                                            }
+                                        },
+                                        onFlipLayerVertically = {
+                                            activeLayer?.state?.let { state ->
+                                                state.isFlippedVertically =
+                                                    !state.isFlippedVertically
+                                            }
+                                        },
+                                        onMoveLayerBy = { dx, dy ->
+                                            activeLayer?.let { layer ->
+                                                layer.state.moveBy(
+                                                    offsetChange = Offset(dx, dy),
+                                                    cornerRadiusPercent = layer.cornerRadiusPercent
+                                                )
+                                            }
+                                        },
+                                        onResetLayerPosition = {
+                                            activeLayer?.state?.resetPosition()
+                                        },
+                                        normalizedPositionX = activeLayer?.state?.normalizedX,
+                                        normalizedPositionY = activeLayer?.state?.normalizedY,
                                         rotationDegrees = activeLayer?.state?.rotation?.roundTo(1),
                                         onRotationDegreesChange = {
                                             activeLayer?.state?.rotation = it.roundTo(1)
@@ -198,4 +224,46 @@ internal fun MarkupLayersSideMenu(
             }
         }
     }
+}
+
+private fun EditBoxState.moveBy(
+    offsetChange: Offset,
+    cornerRadiusPercent: Int
+) {
+    val contentSize = contentSize
+    if (contentSize.width <= 0 || contentSize.height <= 0) {
+        offset += offsetChange
+        return
+    }
+
+    val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: contentSize.width
+    val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: contentSize.height
+
+    applyGlobalChanges(
+        parentMaxWidth = canvasWidth,
+        parentMaxHeight = canvasHeight,
+        contentSize = contentSize,
+        cornerRadiusPercent = cornerRadiusPercent,
+        zoomChange = 1f,
+        offsetChange = offsetChange,
+        rotationChange = 0f
+    )
+}
+
+private val EditBoxState.normalizedX: Float?
+    get() = canvasSize.width
+        .takeIf { it > 0 }
+        ?.let { canvasWidth ->
+            (offset.x / canvasWidth + 0.5f).coerceIn(0f, 1f)
+        }
+
+private val EditBoxState.normalizedY: Float?
+    get() = canvasSize.height
+        .takeIf { it > 0 }
+        ?.let { canvasHeight ->
+            (offset.y / canvasHeight + 0.5f).coerceIn(0f, 1f)
+        }
+
+private fun EditBoxState.resetPosition() {
+    offset = Offset.Zero
 }

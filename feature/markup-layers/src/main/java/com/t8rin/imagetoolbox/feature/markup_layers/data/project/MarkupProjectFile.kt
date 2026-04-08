@@ -17,10 +17,10 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+
 data class MarkupProjectFile(
     val version: Int = MarkupProjectVersion,
-    val imageFormat: String?,
-    val saveExif: Boolean,
     val background: BackgroundSnapshot,
     val layers: List<LayerSnapshot>,
     val lastLayers: List<LayerSnapshot>,
@@ -39,6 +39,8 @@ data class LayerSnapshot(
     val type: LayerSnapshotType,
     val position: PositionSnapshot,
     val visibleLineCount: Int? = null,
+    val cornerRadiusPercent: Int = 0,
+    val blendingMode: Int = BlendingMode.SrcOver.value,
     val text: TextSnapshot? = null,
     val picture: PictureSnapshot? = null,
 )
@@ -46,6 +48,8 @@ data class LayerSnapshot(
 data class PositionSnapshot(
     val scale: Float,
     val rotation: Float,
+    val isFlippedHorizontally: Boolean = false,
+    val isFlippedVertically: Boolean = false,
     val offsetX: Float,
     val offsetY: Float,
     val alpha: Float,

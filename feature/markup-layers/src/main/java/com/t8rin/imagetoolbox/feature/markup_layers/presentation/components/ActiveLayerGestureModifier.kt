@@ -104,6 +104,7 @@ internal fun Modifier.activeLayerGestures(
                         parentMaxWidth = canvasWidth,
                         parentMaxHeight = canvasHeight,
                         contentSize = contentSize,
+                        cornerRadiusPercent = activeLayer.cornerRadiusPercent,
                         zoomChange = zoomChange,
                         offsetChange = panChange,
                         rotationChange = rotationChange

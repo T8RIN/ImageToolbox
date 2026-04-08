@@ -17,6 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -28,11 +31,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -41,26 +48,32 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 internal fun ClickableTile(
     onClick: () -> Unit,
     icon: ImageVector,
-    text: String,
+    text: String?,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    onHoldStep: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     ClickableTile(
+        containerColor = containerColor,
         onClick = onClick,
+        onHoldStep = onHoldStep,
         modifier = modifier
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null
         )
-        AutoSizeText(
-            text = text,
-            textAlign = TextAlign.Center,
-            style = LocalTextStyle.current.copy(
-                fontSize = 12.sp,
-                lineHeight = 13.sp
-            ),
-            maxLines = 2
-        )
+        text?.let {
+            AutoSizeText(
+                text = text,
+                textAlign = TextAlign.Center,
+                style = LocalTextStyle.current.copy(
+                    fontSize = 12.sp,
+                    lineHeight = 13.sp
+                ),
+                maxLines = 2
+            )
+        }
     }
 }
 
@@ -68,9 +81,63 @@ internal fun ClickableTile(
 @Composable
 internal fun ClickableTile(
     onClick: () -> Unit,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    onHoldStep: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    val haptics = LocalHapticFeedback.current
+
+    val interactionModifier = if (onHoldStep != null) {
+        Modifier.pointerInput(onClick, onHoldStep) {
+            awaitEachGesture {
+                val down = awaitFirstDown(requireUnconsumed = false)
+                down.consume()
+
+                haptics.longPress()
+                onClick()
+
+                var repeatDelayMs = 140L
+                val minRepeatDelayMs = 45L
+
+                var up = withTimeoutOrNull(240L) {
+                    waitForUpOrCancellation()
+                }
+                if (up != null) {
+                    up.consume()
+                    return@awaitEachGesture
+                }
+
+                val holdStartNanos = System.nanoTime()
+                var stepsAccumulator = 0f
+                while (up == null) {
+                    val holdDurationMs = ((System.nanoTime() - holdStartNanos) / 1_000_000L)
+
+                    // Smoothly ramps average speed from 1 to 10 steps per tick.
+                    val progress = (holdDurationMs / 3000f).coerceIn(0f, 1f)
+                    val smoothStepsPerTick = 1f + 9f * progress
+                    stepsAccumulator += smoothStepsPerTick
+
+                    val stepsPerTick = stepsAccumulator.toInt().coerceIn(1, 20).also {
+                        stepsAccumulator -= it
+                    }
+                    repeat(stepsPerTick) {
+                        onHoldStep()
+                    }
+
+                    repeatDelayMs = (repeatDelayMs * 0.94f).toLong()
+                        .coerceAtLeast(minRepeatDelayMs)
+                    up = withTimeoutOrNull(repeatDelayMs) {
+                        waitForUpOrCancellation()
+                    }
+                }
+                up.consume()
+            }
+        }
+    } else {
+        Modifier.hapticsClickable(onClick = onClick)
+    }
+
     Column(
         modifier = Modifier
             .then(
@@ -85,10 +152,10 @@ internal fun ClickableTile(
             )
             .container(
                 shape = ShapeDefaults.extraSmall,
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                color = containerColor,
                 resultPadding = 0.dp
             )
-            .hapticsClickable(onClick = onClick)
+            .then(interactionModifier)
             .padding(6.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

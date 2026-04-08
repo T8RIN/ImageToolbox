@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Nabigong buksan</string>
     <string name="ocr_write_to_searchable_pdf">Sumulat Sa Mahahanap na PDF</string>
     <string name="ocr_write_to_searchable_pdf_sub">Kilalanin ang teksto mula sa batch ng imahe at i-save ang nahahanap na PDF na may larawan at maaaring piliin na layer ng teksto</string>
+    <string name="layer_alpha">Layer alpha</string>
+    <string name="horizontal_flip">Pahalang na Baligtad</string>
+    <string name="vertical_flip">Vertical Flip</string>
 </resources>

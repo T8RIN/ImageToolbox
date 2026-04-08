@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">खोलने में विफल</string>
     <string name="ocr_write_to_searchable_pdf">खोजने योग्य पीडीएफ में लिखें</string>
     <string name="ocr_write_to_searchable_pdf_sub">छवि बैच से पाठ को पहचानें और छवि और चयन योग्य पाठ परत के साथ खोजने योग्य पीडीएफ को सहेजें</string>
+    <string name="layer_alpha">परत अल्फा</string>
+    <string name="horizontal_flip">क्षैतिज फ़्लिप</string>
+    <string name="vertical_flip">लंबवत फ्लिप</string>
 </resources>

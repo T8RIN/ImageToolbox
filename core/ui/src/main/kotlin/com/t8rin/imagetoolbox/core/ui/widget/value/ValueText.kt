@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -68,7 +69,7 @@ fun ValueText(
     val interactionSource = remember { MutableInteractionSource() }
 
     val shape = shapeByInteraction(
-        shape = ButtonDefaults.shape,
+        shape = AutoCircleShape(),
         pressedShape = ButtonDefaults.pressedShape,
         interactionSource = interactionSource
     )

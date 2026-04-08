@@ -21,18 +21,22 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.RectF
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
 import androidx.core.graphics.withSave
 import coil3.ImageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
@@ -97,18 +101,31 @@ internal class LayersRenderer @Inject constructor(
                             withSave {
                                 translate(centerX, centerY)
                                 rotate(layer.position.rotation)
-                                scale(layer.position.scale, layer.position.scale)
+                                scale(
+                                    layer.position.scale * if (layer.position.isFlippedHorizontally) -1f else 1f,
+                                    layer.position.scale * if (layer.position.isFlippedVertically) -1f else 1f
+                                )
+
+                                val destination = RectF(
+                                    -contentBitmap.width / 2f,
+                                    -contentBitmap.height / 2f,
+                                    contentBitmap.width / 2f,
+                                    contentBitmap.height / 2f
+                                )
+                                clipToRoundedBounds(
+                                    bounds = destination,
+                                    cornerRadiusPx = cornerRadiusPx(
+                                        cornerRadiusPercent = layer.cornerRadiusPercent,
+                                        width = destination.width(),
+                                        height = destination.height()
+                                    )
+                                )
 
                                 drawBitmap(
                                     contentBitmap,
                                     null,
-                                    RectF(
-                                        -contentBitmap.width / 2f,
-                                        -contentBitmap.height / 2f,
-                                        contentBitmap.width / 2f,
-                                        contentBitmap.height / 2f
-                                    ),
-                                    Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG).apply {
+                                    destination,
+                                    layer.blendingMode.toPaint().apply {
                                         alpha = (layer.position.alpha * 255).roundToInt()
                                             .coerceIn(0, 255)
                                         isFilterBitmap = true
@@ -134,6 +151,10 @@ internal class LayersRenderer @Inject constructor(
                                 centerY = centerY,
                                 rotation = layer.position.rotation,
                                 scale = layer.position.scale,
+                                isFlippedHorizontally = layer.position.isFlippedHorizontally,
+                                isFlippedVertically = layer.position.isFlippedVertically,
+                                cornerRadiusPercent = layer.cornerRadiusPercent,
+                                blendingMode = layer.blendingMode,
                                 alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
                             )
                         }
@@ -247,16 +268,34 @@ internal class LayersRenderer @Inject constructor(
         return TextLayerRenderData(
             width = bitmapWidth.toFloat(),
             height = bitmapHeight.toFloat(),
-            cornerRadius = textMetrics.cornerRadiusPx,
-            textLeft = outlineWidth + textMetrics.horizontalPaddingPx,
-            textTop = outlineWidth + textMetrics.verticalPaddingPx,
-            backgroundPaint = type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = backgroundColor
+            bitmap = createBitmap(bitmapWidth, bitmapHeight).applyCanvas {
+                val textLeft = outlineWidth + textMetrics.horizontalPaddingPx
+                val textTop = outlineWidth + textMetrics.verticalPaddingPx
+
+                type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
+                    drawRect(
+                        0f,
+                        0f,
+                        bitmapWidth.toFloat(),
+                        bitmapHeight.toFloat(),
+                        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                            color = backgroundColor
+                        }
+                    )
                 }
-            },
-            fillLayout = fillLayout,
-            outlineLayout = outlineLayout
+
+                outlineLayout?.let {
+                    withSave {
+                        translate(textLeft, textTop)
+                        it.draw(this@applyCanvas)
+                    }
+                }
+
+                withSave {
+                    translate(textLeft, textTop)
+                    fillLayout.draw(this@applyCanvas)
+                }
+            }
         )
     }
 
@@ -266,48 +305,42 @@ internal class LayersRenderer @Inject constructor(
         centerY: Float,
         rotation: Float,
         scale: Float,
+        isFlippedHorizontally: Boolean,
+        isFlippedVertically: Boolean,
+        cornerRadiusPercent: Int,
+        blendingMode: BlendingMode,
         alpha: Int
     ) {
         withSave {
             translate(centerX, centerY)
             rotate(rotation)
-            scale(scale, scale)
-
-            if (alpha in 0..254) {
-                saveLayerAlpha(
-                    -data.width / 2f,
-                    -data.height / 2f,
-                    data.width / 2f,
-                    data.height / 2f,
-                    alpha
+            scale(
+                scale * if (isFlippedHorizontally) -1f else 1f,
+                scale * if (isFlippedVertically) -1f else 1f
+            )
+            val destination = RectF(
+                -data.width / 2f,
+                -data.height / 2f,
+                data.width / 2f,
+                data.height / 2f
+            )
+            clipToRoundedBounds(
+                bounds = destination,
+                cornerRadiusPx = cornerRadiusPx(
+                    cornerRadiusPercent = cornerRadiusPercent,
+                    width = data.width,
+                    height = data.height
                 )
-            }
-
-            translate(-data.width / 2f, -data.height / 2f)
-
-            data.backgroundPaint?.let { backgroundPaint ->
-                drawRoundRect(
-                    0f,
-                    0f,
-                    data.width,
-                    data.height,
-                    data.cornerRadius,
-                    data.cornerRadius,
-                    backgroundPaint
-                )
-            }
-
-            data.outlineLayout?.let { outlineLayout ->
-                withSave {
-                    translate(data.textLeft, data.textTop)
-                    outlineLayout.draw(this@drawTextLayer)
+            )
+            drawBitmap(
+                data.bitmap,
+                null,
+                destination,
+                blendingMode.toPaint().apply {
+                    this.alpha = alpha
+                    isFilterBitmap = true
                 }
-            }
-
-            withSave {
-                translate(data.textLeft, data.textTop)
-                data.fillLayout.draw(this@drawTextLayer)
-            }
+            )
         }
     }
 
@@ -357,15 +390,39 @@ internal class LayersRenderer @Inject constructor(
             .setLineSpacing((lineHeightPx - naturalLineHeightPx).coerceAtLeast(0f), 1f)
             .build()
     }
+
+    private fun cornerRadiusPx(
+        cornerRadiusPercent: Int,
+        width: Float,
+        height: Float
+    ): Float {
+        val normalizedPercent = cornerRadiusPercent.coerceIn(0, 50)
+        if (normalizedPercent == 0) return 0f
+
+        return min(width, height) * (normalizedPercent / 100f)
+    }
+
+    private fun Canvas.clipToRoundedBounds(
+        bounds: RectF,
+        cornerRadiusPx: Float
+    ) {
+        if (cornerRadiusPx <= 0f) return
+
+        clipPath(
+            Path().apply {
+                addRoundRect(
+                    bounds,
+                    cornerRadiusPx,
+                    cornerRadiusPx,
+                    Path.Direction.CW
+                )
+            }
+        )
+    }
 }
 
 private data class TextLayerRenderData(
     val width: Float,
     val height: Float,
-    val cornerRadius: Float,
-    val textLeft: Float,
-    val textTop: Float,
-    val backgroundPaint: Paint?,
-    val fillLayout: StaticLayout,
-    val outlineLayout: StaticLayout?
+    val bitmap: Bitmap
 )

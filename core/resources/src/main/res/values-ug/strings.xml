@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">ئېچىلمىدى</string>
     <string name="ocr_write_to_searchable_pdf">ئىزدەشكە بولىدىغان PDF غا يېزىڭ</string>
     <string name="ocr_write_to_searchable_pdf_sub">رەسىم گۇرۇپپىسىدىكى تېكىستنى تونۇپ ، رەسىم ۋە تاللىغىلى بولىدىغان تېكىست قەۋىتى بىلەن ئىزدەشكە بولىدىغان PDF نى ساقلاڭ</string>
+    <string name="layer_alpha">قەۋەت ئالفا</string>
+    <string name="horizontal_flip">توغرىسىغا توغرىلاش</string>
+    <string name="vertical_flip">Vertical Flip</string>
 </resources>

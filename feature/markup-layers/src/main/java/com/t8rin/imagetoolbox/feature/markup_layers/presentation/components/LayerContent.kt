@@ -40,7 +40,6 @@ import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -140,8 +139,7 @@ internal fun LayerContent(
                 onTextLayout = onTextLayout,
                 modifier = Modifier
                     .background(
-                        color = type.backgroundColor.toColor(),
-                        shape = ShapeDefaults.extraSmall
+                        color = type.backgroundColor.toColor()
                     )
                     .padding(
                         horizontal = with(density) { textMetrics.horizontalPaddingPx.toDp() },

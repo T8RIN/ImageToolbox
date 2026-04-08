@@ -24,6 +24,7 @@ import androidx.compose.material.icons.rounded.FormatStrikethrough
 import androidx.compose.material.icons.rounded.FormatUnderlined
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
@@ -33,6 +34,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Edit
 data class UiMarkupLayer(
     val type: LayerType,
     val visibleLineCount: Int? = null,
+    val cornerRadiusPercent: Int = 0,
+    val blendingMode: BlendingMode = BlendingMode.SrcOver,
     val state: EditBoxState = EditBoxState(isActive = true)
 ) {
     fun copy(
@@ -41,6 +44,8 @@ data class UiMarkupLayer(
     ) = UiMarkupLayer(
         type = type,
         visibleLineCount = visibleLineCount,
+        cornerRadiusPercent = cornerRadiusPercent,
+        blendingMode = blendingMode,
         state = state.copy(
             isActive = isActive,
             coerceToBounds = coerceToBounds
@@ -53,6 +58,8 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
     position = LayerPosition(
         scale = state.scale,
         rotation = state.rotation,
+        isFlippedHorizontally = state.isFlippedHorizontally,
+        isFlippedVertically = state.isFlippedVertically,
         offsetX = state.offset.x,
         offsetY = state.offset.y,
         alpha = state.alpha,
@@ -60,15 +67,21 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
         coerceToBounds = state.coerceToBounds,
         isVisible = state.isVisible
     ),
-    visibleLineCount = visibleLineCount
+    visibleLineCount = visibleLineCount,
+    cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+    blendingMode = blendingMode
 )
 
 fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
     type = type,
     visibleLineCount = visibleLineCount,
+    cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+    blendingMode = blendingMode,
     state = EditBoxState(
         scale = position.scale,
         rotation = position.rotation,
+        isFlippedHorizontally = position.isFlippedHorizontally,
+        isFlippedVertically = position.isFlippedVertically,
         offset = Offset(
             x = position.offsetX,
             y = position.offsetY

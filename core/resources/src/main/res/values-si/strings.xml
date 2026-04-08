@@ -2204,4 +2204,7 @@
     <string name="failed_to_open">විවෘත කිරීමට අසමත් විය</string>
     <string name="ocr_write_to_searchable_pdf">සෙවිය හැකි PDF වෙත ලියන්න</string>
     <string name="ocr_write_to_searchable_pdf_sub">පින්තූර කාණ්ඩයෙන් පෙළ හඳුනාගෙන සෙවිය හැකි PDF රූපය සහ තෝරාගත හැකි පෙළ ස්ථරය සමඟ සුරකින්න</string>
+    <string name="layer_alpha">ඇල්ෆා ස්ථරය</string>
+    <string name="horizontal_flip">තිරස් පෙරළීම</string>
+    <string name="vertical_flip">සිරස් පෙරළීම</string>
 </resources>

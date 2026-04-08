@@ -2202,4 +2202,7 @@
     <string name="failed_to_open">打开失败</string>
     <string name="ocr_write_to_searchable_pdf">写入可搜索的 PDF</string>
     <string name="ocr_write_to_searchable_pdf_sub">从图像批次中识别文本并保存带有图像和可选文本层的可搜索 PDF</string>
+    <string name="layer_alpha">阿尔法层</string>
+    <string name="horizontal_flip">水平翻转</string>
+    <string name="vertical_flip">垂直翻转</string>
 </resources>

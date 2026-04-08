@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Öffnen fehlgeschlagen</string>
     <string name="ocr_write_to_searchable_pdf">In durchsuchbares PDF schreiben</string>
     <string name="ocr_write_to_searchable_pdf_sub">Erkennen Sie Text aus dem Bildstapel und speichern Sie durchsuchbare PDFs mit Bild und auswählbarer Textebene</string>
+    <string name="layer_alpha">Ebene Alpha</string>
+    <string name="horizontal_flip">Horizontaler Flip</string>
+    <string name="vertical_flip">Vertikaler Flip</string>
 </resources>

@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Açılamadı</string>
     <string name="ocr_write_to_searchable_pdf">Aranabilir PDF\'ye Yaz</string>
     <string name="ocr_write_to_searchable_pdf_sub">Görüntü kümesindeki metni tanıyın ve görüntü ve seçilebilir metin katmanıyla aranabilir PDF\'yi kaydedin</string>
+    <string name="layer_alpha">Katman alfa</string>
+    <string name="horizontal_flip">Yatay Çevirme</string>
+    <string name="vertical_flip">Dikey Çevirme</string>
 </resources>

@@ -2203,4 +2203,7 @@
     <string name="failed_to_open">Ezin izan da ireki</string>
     <string name="ocr_write_to_searchable_pdf">Idatzi bila daitekeen PDF batean</string>
     <string name="ocr_write_to_searchable_pdf_sub">Ezagutu irudi sortako testua eta gorde PDF bilagarria irudiarekin eta hauta daitekeen testu geruzarekin</string>
+    <string name="layer_alpha">Geruza alfa</string>
+    <string name="horizontal_flip">Flip horizontala</string>
+    <string name="vertical_flip">Flip bertikala</string>
 </resources>

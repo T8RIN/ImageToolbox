@@ -35,6 +35,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.FormatAlignLeft
 import androidx.compose.material.icons.automirrored.rounded.FormatAlignRight
 import androidx.compose.material.icons.outlined.BorderColor
+import androidx.compose.material.icons.outlined.Percent
 import androidx.compose.material.icons.rounded.FormatAlignCenter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -67,6 +68,8 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverseByLuma
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
@@ -90,6 +93,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType.Text.Alignment
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.icon
+import kotlin.math.roundToInt
 
 @Composable
 internal fun EditLayerSheet(
@@ -169,7 +173,7 @@ internal fun EditLayerSheet(
                             )
                         },
                         subtitle = null,
-                        color = Color.Unspecified
+                        color = MaterialTheme.colorScheme.surface
                     )
                 }
 
@@ -426,7 +430,7 @@ internal fun EditLayerSheet(
                         },
                         modifier = Modifier.fillMaxWidth(),
                         shape = ShapeDefaults.large,
-                        containerColor = Color.Unspecified,
+                        containerColor = MaterialTheme.colorScheme.surface,
                         drawStartIconContainer = false
                     )
 
@@ -452,6 +456,50 @@ internal fun EditLayerSheet(
                     )
                 }
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            AlphaSelector(
+                value = layer.state.alpha,
+                onValueChange = {
+                    layer.state.alpha = it
+                },
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(R.string.layer_alpha),
+                color = MaterialTheme.colorScheme.surface,
+                shape = ShapeDefaults.top
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            BlendingModeSelector(
+                value = layer.blendingMode,
+                onValueChange = {
+                    onUpdateLayer(
+                        layer.copy(blendingMode = it)
+                    )
+                },
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surface,
+                shape = ShapeDefaults.center
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            EnhancedSliderItem(
+                value = layer.cornerRadiusPercent,
+                title = stringResource(R.string.corners_size),
+                icon = Icons.Outlined.Percent,
+                internalStateTransformation = {
+                    it.roundToInt()
+                },
+                onValueChange = {
+                    onUpdateLayer(
+                        layer.copy(
+                            cornerRadiusPercent = it.roundToInt().coerceIn(0, 50)
+                        )
+                    )
+                },
+                valueRange = 0f..50f,
+                steps = 49,
+                shape = ShapeDefaults.bottom,
+                containerColor = MaterialTheme.colorScheme.surface
+            )
         }
     }
 }

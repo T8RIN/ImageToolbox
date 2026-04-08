@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.domain
 
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
@@ -24,12 +25,16 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 data class MarkupLayer(
     val type: LayerType,
     val position: LayerPosition,
-    val visibleLineCount: Int? = null
+    val visibleLineCount: Int? = null,
+    val cornerRadiusPercent: Int = 0,
+    val blendingMode: BlendingMode = BlendingMode.SrcOver
 )
 
 data class LayerPosition(
     val scale: Float = 1f,
     val rotation: Float = 0f,
+    val isFlippedHorizontally: Boolean = false,
+    val isFlippedVertically: Boolean = false,
     val offsetX: Float = 0f,
     val offsetY: Float = 0f,
     val alpha: Float = 1f,

@@ -2202,4 +2202,7 @@
     <string name="failed_to_open">열지 못했습니다.</string>
     <string name="ocr_write_to_searchable_pdf">검색 가능한 PDF에 쓰기</string>
     <string name="ocr_write_to_searchable_pdf_sub">이미지 일괄에서 텍스트를 인식하고 이미지 및 선택 가능한 텍스트 레이어와 함께 검색 가능한 PDF를 저장합니다.</string>
+    <string name="layer_alpha">레이어 알파</string>
+    <string name="horizontal_flip">수평 뒤집기</string>
+    <string name="vertical_flip">수직 뒤집기</string>
 </resources>
