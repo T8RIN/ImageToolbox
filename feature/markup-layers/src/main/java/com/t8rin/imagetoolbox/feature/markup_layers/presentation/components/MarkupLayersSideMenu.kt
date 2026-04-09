@@ -128,6 +128,11 @@ internal fun MarkupLayersSideMenu(
                                 }
                             }
                         }
+                        val scale by remember(activeLayer) {
+                            derivedStateOf {
+                                activeLayer?.state?.scale?.roundTo(3)
+                            }
+                        }
                         Column(
                             modifier = Modifier.container(
                                 shape = RectangleShape,
@@ -206,6 +211,20 @@ internal fun MarkupLayersSideMenu(
                                         },
                                         normalizedPositionX = normalizedPosition?.x,
                                         normalizedPositionY = normalizedPosition?.y,
+                                        scale = scale,
+                                        onScaleChange = {
+                                            component.beginHistoryTransaction()
+                                            activeLayer?.let { layer ->
+                                                component.setLayerScale(
+                                                    layer = layer,
+                                                    scale = it,
+                                                    commitToHistory = false
+                                                )
+                                            }
+                                        },
+                                        onScaleChangeFinished = {
+                                            component.commitHistoryTransaction()
+                                        },
                                         rotationDegrees = activeLayer?.state?.rotation?.roundTo(1),
                                         onRotationDegreesChange = {
                                             component.beginHistoryTransaction()

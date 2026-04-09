@@ -246,8 +246,23 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         ) {
             moveBy(
                 offsetChange = offsetChange,
-                cornerRadiusPercent = layers.getOrNull(layers.indexOf(layer))
-                    ?.cornerRadiusPercent ?: 0
+                cornerRadiusPercent = layer.cornerRadiusPercent
+            )
+        }
+    }
+
+    fun setLayerScale(
+        layer: UiMarkupLayer,
+        scale: Float,
+        commitToHistory: Boolean = true
+    ) {
+        updateLayerState(
+            layer = layer,
+            commitToHistory = commitToHistory
+        ) {
+            setScalePrecisely(
+                targetScale = scale,
+                cornerRadiusPercent = layer.cornerRadiusPercent
             )
         }
     }

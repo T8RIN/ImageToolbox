@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,6 +34,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowLeft
 import androidx.compose.material.icons.automirrored.rounded.ArrowRight
+import androidx.compose.material.icons.outlined.FitScreen
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.CenterFocusStrong
@@ -87,6 +87,9 @@ internal fun BoxScope.MarkupLayersContextActions(
     onResetLayerPosition: () -> Unit,
     normalizedPositionX: Float?,
     normalizedPositionY: Float?,
+    scale: Float?,
+    onScaleChange: (Float) -> Unit,
+    onScaleChangeFinished: () -> Unit,
     rotationDegrees: Float?,
     onRotationDegreesChange: (Float) -> Unit,
     onRotationDegreesChangeFinished: () -> Unit
@@ -94,12 +97,18 @@ internal fun BoxScope.MarkupLayersContextActions(
     var isRotationAdjusting by rememberSaveable {
         mutableStateOf(false)
     }
-    var showValueDialog by rememberSaveable { mutableStateOf(false) }
+    var isScaleAdjusting by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var valueDialogType by rememberSaveable {
+        mutableStateOf(ValueDialogType.None)
+    }
 
     EnhancedDropdownMenu(
         expanded = visible,
         onDismissRequest = {
             if (isRotationAdjusting) isRotationAdjusting = false
+            else if (isScaleAdjusting) isScaleAdjusting = false
             else onDismiss()
         },
         containerColor = MaterialTheme.colorScheme.surface
@@ -212,8 +221,10 @@ internal fun BoxScope.MarkupLayersContextActions(
                             ValueText(
                                 value = rotationDegrees ?: 0f,
                                 onClick = {
+                                    isRotationAdjusting = false
+                                    isScaleAdjusting = false
                                     onDismiss()
-                                    showValueDialog = true
+                                    valueDialogType = ValueDialogType.Rotation
                                 }
                             )
                         }
@@ -228,6 +239,76 @@ internal fun BoxScope.MarkupLayersContextActions(
                             onValueChange = onRotationDegreesChange,
                             onValueChangeFinished = onRotationDegreesChangeFinished,
                             valueRange = 0f..360f,
+                            drawContainer = false,
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .padding(top = 8.dp)
+                        )
+                    }
+                }
+            )
+            ClickableTile(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 84.dp),
+                onClick = {
+                    isScaleAdjusting = !isScaleAdjusting
+                },
+                content = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = BiasAlignment.Horizontal(
+                                animateFloatAsState(
+                                    if (isScaleAdjusting) -0.5f
+                                    else 0f
+                                ).value
+                            )
+                        ) {
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.FitScreen,
+                                    contentDescription = null
+                                )
+                                AutoSizeText(
+                                    text = stringResource(R.string.scale),
+                                    textAlign = TextAlign.Center,
+                                    style = LocalTextStyle.current.copy(
+                                        fontSize = 12.sp,
+                                        lineHeight = 13.sp
+                                    ),
+                                    maxLines = 2
+                                )
+                            }
+                        }
+                        AnimatedVisibility(isScaleAdjusting) {
+                            ValueText(
+                                value = scale ?: 1f,
+                                onClick = {
+                                    isRotationAdjusting = false
+                                    isScaleAdjusting = false
+                                    onDismiss()
+                                    valueDialogType = ValueDialogType.Scale
+                                }
+                            )
+                        }
+                    }
+                    AnimatedVisibility(
+                        visible = isScaleAdjusting,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        EnhancedSlider(
+                            value = scale ?: 1f,
+                            enabled = scale != null,
+                            onValueChange = onScaleChange,
+                            onValueChangeFinished = onScaleChangeFinished,
+                            valueRange = 0.3f..10f,
                             drawContainer = false,
                             modifier = Modifier
                                 .padding(horizontal = 8.dp)
@@ -308,18 +389,24 @@ internal fun BoxScope.MarkupLayersContextActions(
                         }
                     )
                 ) {
-                    val xPart = "X: ${normalizedPositionX.roundTo(3)}"
-                    val yPart = "Y: ${normalizedPositionY.roundTo(3)}"
-
-                    Spacer(Modifier.width(4.dp))
-                    AutoSizeText(
-                        text = "$xPart   $yPart",
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontSize = 12.sp
-                        ),
-                        modifier = Modifier.weight(1f)
-                    )
-                    Spacer(Modifier.width(8.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 4.dp, vertical = 4.dp)
+                    ) {
+                        AutoSizeText(
+                            text = "X: ${normalizedPositionX.roundTo(3)}   Y: ${
+                                normalizedPositionY.roundTo(
+                                    3
+                                )
+                            }",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontSize = 12.sp
+                            ),
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                     SupportingButton(
                         icon = Icons.Rounded.CenterFocusStrong,
                         onClick = onResetLayerPosition,
@@ -333,14 +420,41 @@ internal fun BoxScope.MarkupLayersContextActions(
     }
 
     ValueDialog(
-        roundTo = null,
-        valueRange = 0f..360f,
-        valueState = (rotationDegrees ?: 0f).toString(),
-        expanded = showValueDialog,
-        onDismiss = { showValueDialog = false },
+        roundTo = when (valueDialogType) {
+            ValueDialogType.Rotation -> null
+            ValueDialogType.Scale -> 3
+            ValueDialogType.None -> null
+        },
+        valueRange = when (valueDialogType) {
+            ValueDialogType.Rotation -> 0f..360f
+            ValueDialogType.Scale -> 0.3f..10f
+            ValueDialogType.None -> 0f..1f
+        },
+        valueState = when (valueDialogType) {
+            ValueDialogType.Rotation -> (rotationDegrees ?: 0f).toString()
+            ValueDialogType.Scale -> (scale ?: 1f).toString()
+            ValueDialogType.None -> "0"
+        },
+        expanded = valueDialogType != ValueDialogType.None,
+        onDismiss = { valueDialogType = ValueDialogType.None },
         onValueUpdate = {
-            onRotationDegreesChange(it)
-            onRotationDegreesChangeFinished()
+            when (valueDialogType) {
+                ValueDialogType.Rotation -> {
+                    onRotationDegreesChange(it)
+                    onRotationDegreesChangeFinished()
+                }
+
+                ValueDialogType.Scale -> {
+                    onScaleChange(it)
+                    onScaleChangeFinished()
+                }
+
+                ValueDialogType.None -> Unit
+            }
         }
     )
+}
+
+private enum class ValueDialogType {
+    None, Rotation, Scale
 }

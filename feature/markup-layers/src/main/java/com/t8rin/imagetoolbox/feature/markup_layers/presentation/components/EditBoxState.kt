@@ -253,6 +253,32 @@ class EditBoxState(
             )
         )
     }
+
+    internal fun setScalePrecisely(
+        targetScale: Float,
+        cornerRadiusPercent: Int
+    ) {
+        val contentSize = contentSize
+        val scale = targetScale.fastCoerceIn(0.3f, 10f)
+
+        if (contentSize.width <= 0 || contentSize.height <= 0) {
+            this.scale = scale
+            return
+        }
+
+        val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: contentSize.width
+        val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: contentSize.height
+
+        applyGlobalChanges(
+            parentMaxWidth = canvasWidth,
+            parentMaxHeight = canvasHeight,
+            contentSize = contentSize,
+            cornerRadiusPercent = cornerRadiusPercent,
+            zoomChange = scale / this.scale.coerceAtLeast(0.0001f),
+            offsetChange = Offset.Zero,
+            rotationChange = 0f
+        )
+    }
 }
 
 private fun Float.normalizeEdgeAware(
