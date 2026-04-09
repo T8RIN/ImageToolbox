@@ -43,12 +43,14 @@ import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Rectangle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -190,6 +192,36 @@ fun MarkupLayersContent(
     var isContextOptionsVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    var shouldOpenContextOptions by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val closeLayersSelection = {
+        showLayersSelection = false
+        isContextOptionsVisible = false
+        shouldOpenContextOptions = false
+    }
+    val toggleLayersSelection = {
+        if (showLayersSelection) {
+            closeLayersSelection()
+        } else {
+            showLayersSelection = true
+        }
+    }
+    val requestContextOptions = { waitForActiveLayer: Boolean ->
+        showLayersSelection = true
+        if (waitForActiveLayer || activeLayer != null) {
+            shouldOpenContextOptions = true
+        }
+    }
+
+    LaunchedEffect(showLayersSelection, activeLayer, shouldOpenContextOptions) {
+        if (showLayersSelection && shouldOpenContextOptions && activeLayer != null) {
+            withFrameNanos { }
+            isContextOptionsVisible = true
+            shouldOpenContextOptions = false
+        }
+    }
 
     AdaptiveBottomScaffoldLayoutScreen(
         autoClearFocus = false,
@@ -212,10 +244,9 @@ fun MarkupLayersContent(
             MarkupLayersActions(
                 component = component,
                 showLayersSelection = showLayersSelection,
-                onToggleLayersSection = { showLayersSelection = !showLayersSelection },
+                onToggleLayersSection = toggleLayersSelection,
                 onToggleLayersSectionQuick = {
-                    showLayersSelection = true
-                    isContextOptionsVisible = true
+                    requestContextOptions(false)
                 }
             )
         },
@@ -308,8 +339,7 @@ fun MarkupLayersContent(
                                         )
                                     },
                                     onShowContextOptions = {
-                                        showLayersSelection = true
-                                        isContextOptionsVisible = true
+                                        requestContextOptions(true)
                                     }
                                 )
                             }
@@ -431,7 +461,7 @@ fun MarkupLayersContent(
     MarkupLayersSideMenu(
         component = component,
         visible = showLayersSelection,
-        onDismiss = { showLayersSelection = false },
+        onDismiss = closeLayersSelection,
         isContextOptionsVisible = isContextOptionsVisible,
         onContextOptionsVisibleChange = { isContextOptionsVisible = it }
     )

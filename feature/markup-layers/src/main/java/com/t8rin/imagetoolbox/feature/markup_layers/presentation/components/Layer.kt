@@ -46,13 +46,12 @@ internal fun BoxWithConstraintsScope.Layer(
                 onActivate()
             }
         },
-//        onLongTap = {
-//            TODO: Works Bad
-//            if (!layer.state.isActive) {
-//                onActivate()
-//            }
-//            onShowContextOptions()
-//        },
+        onLongTap = {
+            if (!layer.state.isActive) {
+                onActivate()
+            }
+            onShowContextOptions()
+        },
         content = {
             LayerContent(
                 modifier = Modifier.sizeIn(

@@ -22,13 +22,11 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.util.fastCoerceIn
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import kotlin.math.abs
 import kotlin.math.absoluteValue
-import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
@@ -286,34 +284,6 @@ private fun Float.normalizeEdgeAware(
     }
 }
 
-internal fun DpSize.rotateBy(
-    degrees: Float,
-    density: Density
-): DpSize = with(density) {
-    IntSize(width.roundToPx(), height.roundToPx()).rotateBy(degrees).run {
-        DpSize(width.toDp(), height.toDp())
-    }
-}
-
-private fun IntSize.rotateBy(degrees: Float): IntSize {
-    var normalizedDegrees = degrees % 180
-    if (normalizedDegrees < 0) {
-        normalizedDegrees += 180
-    }
-    var currentSize = this
-    if (normalizedDegrees >= 90) {
-        currentSize = IntSize(height, width)
-        normalizedDegrees -= 90
-    }
-    if (normalizedDegrees == 0f) {
-        return currentSize
-    }
-    val radians = Math.toRadians(normalizedDegrees.toDouble())
-    val width = ceil(currentSize.width * cos(radians) + currentSize.height * sin(radians)).toInt()
-    val height = ceil(currentSize.width * sin(radians) + currentSize.height * cos(radians)).toInt()
-    return IntSize(width, height)
-}
-
 private fun IntSize.rotatedHalfExtents(
     degrees: Float,
     cornerRadiusPercent: Int
@@ -332,8 +302,8 @@ private fun IntSize.rotatedHalfExtents(
     val innerHalfHeight = max(0f, halfHeight - cornerRadiusPx)
 
     val radians = Math.toRadians(degrees.toDouble())
-    val cos = kotlin.math.abs(cos(radians)).toFloat()
-    val sin = kotlin.math.abs(sin(radians)).toFloat()
+    val cos = abs(cos(radians)).toFloat()
+    val sin = abs(sin(radians)).toFloat()
 
     return Offset(
         x = innerHalfWidth * cos + innerHalfHeight * sin + cornerRadiusPx,
