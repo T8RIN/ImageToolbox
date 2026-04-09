@@ -88,7 +88,8 @@ internal fun BoxScope.MarkupLayersContextActions(
     normalizedPositionX: Float?,
     normalizedPositionY: Float?,
     rotationDegrees: Float?,
-    onRotationDegreesChange: (Float) -> Unit
+    onRotationDegreesChange: (Float) -> Unit,
+    onRotationDegreesChangeFinished: () -> Unit
 ) {
     var isRotationAdjusting by rememberSaveable {
         mutableStateOf(false)
@@ -225,6 +226,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                             value = rotationDegrees ?: 0f,
                             enabled = rotationDegrees != null,
                             onValueChange = onRotationDegreesChange,
+                            onValueChangeFinished = onRotationDegreesChangeFinished,
                             valueRange = 0f..360f,
                             drawContainer = false,
                             modifier = Modifier
@@ -338,6 +340,7 @@ internal fun BoxScope.MarkupLayersContextActions(
         onDismiss = { showValueDialog = false },
         onValueUpdate = {
             onRotationDegreesChange(it)
+            onRotationDegreesChangeFinished()
         }
     )
 }

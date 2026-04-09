@@ -59,21 +59,19 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
-import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.modalsheet.FullscreenPopup
 
 @Composable
 internal fun MarkupLayersSideMenu(
+    component: MarkupLayersComponent,
     visible: Boolean,
     onDismiss: () -> Unit,
     isContextOptionsVisible: Boolean,
-    onContextOptionsVisibleChange: (Boolean) -> Unit,
-    onRemoveLayer: (UiMarkupLayer) -> Unit,
-    onReorderLayers: (List<UiMarkupLayer>) -> Unit,
-    onActivateLayer: (UiMarkupLayer) -> Unit,
-    onCopyLayer: (UiMarkupLayer) -> Unit,
-    layers: List<UiMarkupLayer>
+    onContextOptionsVisibleChange: (Boolean) -> Unit
 ) {
+    val layers = component.layers
+
     FullscreenPopup {
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize(),
@@ -142,7 +140,7 @@ internal fun MarkupLayersSideMenu(
                             ) {
                                 EnhancedIconButton(
                                     onClick = {
-                                        activeLayer?.let(onRemoveLayer)
+                                        activeLayer?.let(component::removeLayer)
                                     },
                                     enabled = activeLayer != null
                                 ) {
@@ -168,45 +166,60 @@ internal fun MarkupLayersSideMenu(
                                         visible = isContextOptionsVisible && activeLayer != null,
                                         onDismiss = { onContextOptionsVisibleChange(false) },
                                         onCopyLayer = {
-                                            activeLayer?.let(onCopyLayer)
+                                            activeLayer?.let(component::copyLayer)
                                         },
                                         onToggleEditMode = {
                                             activeLayer?.state?.isInEditMode = true
                                         },
                                         onRemoveLayer = {
-                                            activeLayer?.let(onRemoveLayer)
+                                            activeLayer?.let(component::removeLayer)
                                         },
                                         onActivateLayer = {
-                                            activeLayer?.state?.isActive = false
+                                            component.deactivateAllLayers()
                                         },
                                         onFlipLayerHorizontally = {
-                                            activeLayer?.state?.let { state ->
-                                                state.isFlippedHorizontally =
-                                                    !state.isFlippedHorizontally
+                                            activeLayer?.let { layer ->
+                                                component.updateLayerState(layer) {
+                                                    isFlippedHorizontally =
+                                                        !isFlippedHorizontally
+                                                }
                                             }
                                         },
                                         onFlipLayerVertically = {
-                                            activeLayer?.state?.let { state ->
-                                                state.isFlippedVertically =
-                                                    !state.isFlippedVertically
+                                            activeLayer?.let { layer ->
+                                                component.updateLayerState(layer) {
+                                                    isFlippedVertically =
+                                                        !isFlippedVertically
+                                                }
                                             }
                                         },
                                         onMoveLayerBy = { dx, dy ->
                                             activeLayer?.let { layer ->
-                                                layer.state.moveBy(
-                                                    offsetChange = Offset(dx, dy),
-                                                    cornerRadiusPercent = layer.cornerRadiusPercent
+                                                component.moveLayerBy(
+                                                    layer = layer,
+                                                    offsetChange = Offset(dx, dy)
                                                 )
                                             }
                                         },
                                         onResetLayerPosition = {
-                                            activeLayer?.state?.resetPosition()
+                                            activeLayer?.let(component::resetLayerPosition)
                                         },
                                         normalizedPositionX = normalizedPosition?.x,
                                         normalizedPositionY = normalizedPosition?.y,
                                         rotationDegrees = activeLayer?.state?.rotation?.roundTo(1),
                                         onRotationDegreesChange = {
-                                            activeLayer?.state?.rotation = it.roundTo(1)
+                                            component.beginHistoryTransaction()
+                                            activeLayer?.let { layer ->
+                                                component.updateLayerState(
+                                                    layer = layer,
+                                                    commitToHistory = false
+                                                ) {
+                                                    rotation = it.roundTo(1)
+                                                }
+                                            }
+                                        },
+                                        onRotationDegreesChangeFinished = {
+                                            component.commitHistoryTransaction()
                                         }
                                     )
                                 }
@@ -215,8 +228,17 @@ internal fun MarkupLayersSideMenu(
                                 value = activeLayer?.state?.alpha ?: 1f,
                                 enabled = activeLayer != null,
                                 onValueChange = {
-                                    activeLayer?.state?.alpha = it
+                                    component.beginHistoryTransaction()
+                                    activeLayer?.let { layer ->
+                                        component.updateLayerState(
+                                            layer = layer,
+                                            commitToHistory = false
+                                        ) {
+                                            alpha = it
+                                        }
+                                    }
                                 },
+                                onValueChangeFinished = component::commitHistoryTransaction,
                                 valueRange = 0f..1f,
                                 drawContainer = false,
                                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -225,40 +247,17 @@ internal fun MarkupLayersSideMenu(
                         MarkupLayersSideMenuColumn(
                             modifier = Modifier.weight(1f),
                             layers = layers,
-                            onReorderLayers = onReorderLayers,
-                            onActivateLayer = onActivateLayer
+                            onReorderLayers = component::reorderLayers,
+                            onActivateLayer = component::activateLayer,
+                            onToggleLayerVisibility = { layer ->
+                                component.updateLayerState(layer) {
+                                    isVisible = !isVisible
+                                }
+                            }
                         )
                     }
                 }
             }
         }
     }
-}
-
-private fun EditBoxState.moveBy(
-    offsetChange: Offset,
-    cornerRadiusPercent: Int
-) {
-    val contentSize = contentSize
-    if (contentSize.width <= 0 || contentSize.height <= 0) {
-        offset += offsetChange
-        return
-    }
-
-    val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: contentSize.width
-    val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: contentSize.height
-
-    applyGlobalChanges(
-        parentMaxWidth = canvasWidth,
-        parentMaxHeight = canvasHeight,
-        contentSize = contentSize,
-        cornerRadiusPercent = cornerRadiusPercent,
-        zoomChange = 1f,
-        offsetChange = offsetChange,
-        rotationChange = 0f
-    )
-}
-
-private fun EditBoxState.resetPosition() {
-    offset = Offset.Zero
 }

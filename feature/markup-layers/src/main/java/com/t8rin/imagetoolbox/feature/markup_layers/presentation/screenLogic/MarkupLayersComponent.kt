@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -48,10 +49,12 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectExtension
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.isMarkupProject
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asDomain
@@ -91,49 +94,58 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private val _layers: MutableState<List<UiMarkupLayer>> = mutableStateOf(emptyList())
     val layers: List<UiMarkupLayer> by _layers
 
-    private val _lastLayers: MutableState<List<UiMarkupLayer>> = mutableStateOf(emptyList())
-    val lastLayers: List<UiMarkupLayer> by _lastLayers
+    private val _history: MutableState<List<HistorySnapshot>> = mutableStateOf(
+        listOf(HistorySnapshot())
+    )
+    private val history: List<HistorySnapshot> by _history
 
-    private val _undoneLayers: MutableState<List<UiMarkupLayer>> = mutableStateOf(emptyList())
-    val undoneLayers: List<UiMarkupLayer> by _undoneLayers
+    private val _redoHistory: MutableState<List<HistorySnapshot>> = mutableStateOf(emptyList())
+    private val redoHistory: List<HistorySnapshot> by _redoHistory
+
+    private var pendingHistorySnapshot: HistorySnapshot? = null
+
+    val canUndo: Boolean get() = history.size > 1
+    val canRedo: Boolean get() = redoHistory.isNotEmpty()
 
     val coerceToBounds get() = layers.all { it.state.coerceToBounds }
 
     fun undo() {
-        if (layers.isEmpty() && lastLayers.isNotEmpty()) {
-            _layers.value = lastLayers
-            _lastLayers.value = listOf()
-            return
-        }
-        if (layers.isEmpty()) return
+        finalizePendingHistoryTransaction()
+        if (!canUndo) return
 
-        val lastLayer = layers.last()
+        val current = history.last()
+        val previous = history[history.lastIndex - 1]
 
-        _layers.update { it - lastLayer }
-        _undoneLayers.update { it + lastLayer }
+        _history.value = history.dropLast(1)
+        _redoHistory.update { (it + current).takeLast(MAX_HISTORY_SIZE) }
+        applyHistorySnapshot(previous)
         registerChanges()
     }
 
     fun redo() {
-        if (undoneLayers.isEmpty()) return
+        finalizePendingHistoryTransaction()
+        if (!canRedo) return
 
-        val lastLayer = undoneLayers.last()
-        _layers.update { it + lastLayer }
-        _undoneLayers.update { it - lastLayer }
+        val snapshot = redoHistory.last()
+
+        _redoHistory.value = redoHistory.dropLast(1)
+        _history.update { (it + snapshot).takeLast(MAX_HISTORY_SIZE) }
+        applyHistorySnapshot(snapshot)
         registerChanges()
     }
 
     fun clearLayers() {
-        if (layers.isNotEmpty()) {
-            _lastLayers.value = layers
-            _layers.value = listOf()
-            _undoneLayers.value = listOf()
-            registerChanges()
+        if (layers.isEmpty()) return
+
+        runEditorChange {
+            _layers.value = emptyList()
         }
     }
 
     fun addLayer(layer: UiMarkupLayer) {
-        _layers.update { it + layer }
+        runEditorChange {
+            _layers.update { it + layer }
+        }
     }
 
     fun deactivateAllLayers() {
@@ -146,34 +158,104 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun copyLayer(layer: UiMarkupLayer) {
-        val copied = layer.copy(
-            isActive = false
-        )
-        _layers.update {
-            it.toMutableList().apply {
-                add(indexOf(layer), copied)
+        runEditorChange {
+            val copied = layer.copy(
+                isActive = false
+            )
+            _layers.update {
+                it.toMutableList().apply {
+                    add(indexOf(layer), copied)
+                }
             }
+            activateLayer(copied)
         }
-        activateLayer(copied)
     }
 
     fun updateLayerAt(
         index: Int,
-        layer: UiMarkupLayer
+        layer: UiMarkupLayer,
+        commitToHistory: Boolean = true
     ) {
-        _layers.update {
-            it.toMutableList().apply {
-                set(index, layer)
+        val currentLayer = layers.getOrNull(index) ?: return
+        if (currentLayer == layer) return
+
+        val replaceLayer: () -> Unit = {
+            _layers.update {
+                it.toMutableList().apply {
+                    set(index, layer)
+                }
             }
+        }
+
+        val shouldTrackHistory = commitToHistory &&
+                currentLayer.copy(visibleLineCount = layer.visibleLineCount) != layer
+
+        if (shouldTrackHistory) {
+            runEditorChange(replaceLayer)
+        } else {
+            replaceLayer()
+        }
+    }
+
+    fun updateLayerState(
+        layer: UiMarkupLayer,
+        commitToHistory: Boolean = true,
+        block: EditBoxState.() -> Unit
+    ) {
+        val currentLayer = layers.getOrNull(layers.indexOf(layer)) ?: return
+
+        if (commitToHistory) {
+            runEditorChange {
+                currentLayer.state.block()
+            }
+        } else {
+            currentLayer.state.block()
         }
     }
 
     fun removeLayer(layer: UiMarkupLayer) {
-        _layers.update { it - layer }
+        runEditorChange {
+            _layers.update { it - layer }
+        }
     }
 
     fun reorderLayers(layers: List<UiMarkupLayer>) {
-        _layers.update { layers }
+        runEditorChange {
+            _layers.update { layers }
+        }
+    }
+
+    fun beginHistoryTransaction() {
+        if (pendingHistorySnapshot == null) {
+            pendingHistorySnapshot = currentHistorySnapshot()
+        }
+    }
+
+    fun commitHistoryTransaction() {
+        pendingHistorySnapshot?.let(::commitHistoryFrom)
+    }
+
+    fun moveLayerBy(
+        layer: UiMarkupLayer,
+        offsetChange: Offset,
+        commitToHistory: Boolean = true
+    ) {
+        updateLayerState(
+            layer = layer,
+            commitToHistory = commitToHistory
+        ) {
+            moveBy(
+                offsetChange = offsetChange,
+                cornerRadiusPercent = layers.getOrNull(layers.indexOf(layer))
+                    ?.cornerRadiusPercent ?: 0
+            )
+        }
+    }
+
+    fun resetLayerPosition(layer: UiMarkupLayer) {
+        updateLayerState(layer = layer) {
+            resetPosition()
+        }
     }
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -302,6 +384,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     _backgroundBehavior.update { BackgroundBehavior.Image }
                     updateBitmap(data.image)
                     _imageFormat.update { data.imageInfo.imageFormat }
+                    resetHistory()
+                    registerChangesCleared()
                 },
                 onFailure = {
                     _isImageLoading.value = false
@@ -362,9 +446,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             BackgroundBehavior.None
         }
         _uri.value = Uri.EMPTY
-        _lastLayers.value = emptyList()
-        _undoneLayers.value = emptyList()
         _layers.update { emptyList() }
+        resetHistory()
         registerChangesCleared()
     }
 
@@ -383,6 +466,11 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 color = color.toArgb()
             )
         }
+        _uri.value = Uri.EMPTY
+        _layers.value = emptyList()
+        updateBitmap(null)
+        resetHistory()
+        registerChangesCleared()
     }
 
     fun shareBitmap() {
@@ -431,21 +519,25 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
 
     fun updateBackgroundColor(color: Color) {
-        _backgroundBehavior.update {
-            if (it is BackgroundBehavior.Color) {
-                it.copy(color = color.toArgb())
-            } else it
+        runEditorChange {
+            _backgroundBehavior.update {
+                if (it is BackgroundBehavior.Color) {
+                    it.copy(color = color.toArgb())
+                } else it
+            }
         }
     }
 
     fun toggleCoerceToBounds() {
         val result = !coerceToBounds
 
-        _layers.update { list ->
-            list.map {
-                it.copy(
-                    coerceToBounds = result
-                )
+        runEditorChange {
+            _layers.update { list ->
+                list.map {
+                    it.copy(
+                        coerceToBounds = result
+                    )
+                }
             }
         }
     }
@@ -465,16 +557,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             BackgroundBehavior.None -> ProjectBackground.None
         },
         layers = layers.map(UiMarkupLayer::asDomain),
-        lastLayers = lastLayers.map(UiMarkupLayer::asDomain),
-        undoneLayers = undoneLayers.map(UiMarkupLayer::asDomain)
+        lastLayers = history.dropLast(1).lastOrNull()?.layers ?: emptyList(),
+        undoneLayers = redoHistory.lastOrNull()?.layers ?: emptyList()
     )
 
     private suspend fun applyProject(
         project: MarkupProject
     ) {
         _layers.value = emptyList()
-        _lastLayers.value = emptyList()
-        _undoneLayers.value = emptyList()
 
         when (val background = project.background) {
             is ProjectBackground.Image -> {
@@ -506,8 +596,85 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
 
         _layers.value = project.layers.map { it.asUi() }
-        _lastLayers.value = project.lastLayers.map { it.asUi() }
-        _undoneLayers.value = project.undoneLayers.map { it.asUi() }
+        restoreHistory(
+            previousLayers = project.lastLayers,
+            redoneLayers = project.undoneLayers
+        )
+    }
+
+    private fun runEditorChange(
+        block: () -> Unit
+    ) {
+        val beforeSnapshot = pendingHistorySnapshot ?: currentHistorySnapshot()
+        pendingHistorySnapshot = null
+        block()
+        commitHistoryFrom(beforeSnapshot)
+    }
+
+    private fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        backgroundBehavior = backgroundBehavior,
+        layers = layers.map(UiMarkupLayer::asDomain)
+    )
+
+    private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
+        pendingHistorySnapshot = null
+
+        val afterSnapshot = currentHistorySnapshot()
+        if (afterSnapshot == beforeSnapshot) return
+
+        _history.update { states ->
+            val normalizedStates = when {
+                states.isEmpty() -> listOf(beforeSnapshot)
+                states.last() == beforeSnapshot -> states
+                else -> (states + beforeSnapshot).takeLast(MAX_HISTORY_SIZE)
+            }
+
+            (normalizedStates + afterSnapshot).takeLast(MAX_HISTORY_SIZE)
+        }
+        _redoHistory.value = emptyList()
+        registerChanges()
+    }
+
+    private fun finalizePendingHistoryTransaction() {
+        pendingHistorySnapshot?.let(::commitHistoryFrom)
+    }
+
+    private fun resetHistory() {
+        restoreHistory()
+    }
+
+    private fun restoreHistory(
+        previousLayers: List<MarkupLayer> = emptyList(),
+        redoneLayers: List<MarkupLayer> = emptyList()
+    ) {
+        pendingHistorySnapshot = null
+
+        val currentSnapshot = currentHistorySnapshot()
+        val previousSnapshot = HistorySnapshot(
+            backgroundBehavior = currentSnapshot.backgroundBehavior,
+            layers = previousLayers
+        ).takeIf { it != currentSnapshot }
+        val redoneSnapshot = HistorySnapshot(
+            backgroundBehavior = currentSnapshot.backgroundBehavior,
+            layers = redoneLayers
+        ).takeIf { it != currentSnapshot }
+
+        _history.value = listOfNotNull(previousSnapshot, currentSnapshot)
+        _redoHistory.value = listOfNotNull(redoneSnapshot)
+    }
+
+    private fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _backgroundBehavior.value = snapshot.backgroundBehavior
+        _layers.value = snapshot.layers.map { it.asUi() }
+    }
+
+    private data class HistorySnapshot(
+        val backgroundBehavior: BackgroundBehavior = BackgroundBehavior.None,
+        val layers: List<MarkupLayer> = emptyList()
+    )
+
+    private companion object {
+        const val MAX_HISTORY_SIZE = 100
     }
 
     @AssistedFactory
@@ -520,4 +687,32 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         ): MarkupLayersComponent
     }
 
+}
+
+private fun EditBoxState.moveBy(
+    offsetChange: Offset,
+    cornerRadiusPercent: Int
+) {
+    val contentSize = contentSize
+    if (contentSize.width <= 0 || contentSize.height <= 0) {
+        offset += offsetChange
+        return
+    }
+
+    val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: contentSize.width
+    val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: contentSize.height
+
+    applyGlobalChanges(
+        parentMaxWidth = canvasWidth,
+        parentMaxHeight = canvasHeight,
+        contentSize = contentSize,
+        cornerRadiusPercent = cornerRadiusPercent,
+        zoomChange = 1f,
+        offsetChange = offsetChange,
+        rotationChange = 0f
+    )
+}
+
+private fun EditBoxState.resetPosition() {
+    offset = Offset.Zero
 }

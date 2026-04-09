@@ -274,7 +274,10 @@ fun MarkupLayersContent(
                         BoxWithConstraints(
                             modifier = Modifier
                                 .matchParentSize()
-                                .activeLayerGestures(activeLayer)
+                                .activeLayerGestures(
+                                    component = component,
+                                    activeLayer = activeLayer
+                                )
                                 .graphicsLayer {
                                     compositingStrategy = CompositingStrategy.Offscreen
                                 },
@@ -292,12 +295,17 @@ fun MarkupLayersContent(
 
                             component.layers.forEachIndexed { index, layer ->
                                 Layer(
+                                    component = component,
                                     layer = layer,
                                     onActivate = {
                                         component.activateLayer(layer)
                                     },
-                                    onUpdateLayer = {
-                                        component.updateLayerAt(index, it)
+                                    onUpdateLayer = { updatedLayer, commitToHistory ->
+                                        component.updateLayerAt(
+                                            index = index,
+                                            layer = updatedLayer,
+                                            commitToHistory = commitToHistory
+                                        )
                                     },
                                     onShowContextOptions = {
                                         showLayersSelection = true
@@ -421,15 +429,11 @@ fun MarkupLayersContent(
     )
 
     MarkupLayersSideMenu(
+        component = component,
         visible = showLayersSelection,
         onDismiss = { showLayersSelection = false },
         isContextOptionsVisible = isContextOptionsVisible,
-        onContextOptionsVisibleChange = { isContextOptionsVisible = it },
-        onRemoveLayer = component::removeLayer,
-        onReorderLayers = component::reorderLayers,
-        onActivateLayer = component::activateLayer,
-        onCopyLayer = component::copyLayer,
-        layers = component.layers
+        onContextOptionsVisibleChange = { isContextOptionsVisible = it }
     )
 
     LoadingDialog(

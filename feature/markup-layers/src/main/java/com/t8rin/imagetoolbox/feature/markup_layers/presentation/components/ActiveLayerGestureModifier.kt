@@ -31,16 +31,18 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.positionChanged
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import kotlin.math.PI
 import kotlin.math.abs
 
 internal fun Modifier.activeLayerGestures(
+    component: MarkupLayersComponent,
     activeLayer: UiMarkupLayer?
 ): Modifier = pointerInput(activeLayer) {
     activeLayer ?: return@pointerInput
 
     awaitEachGesture {
-        val state = activeLayer.state
+        activeLayer.state
         var totalZoom = 1f
         var totalRotation = 0f
         var totalPan = Offset.Zero
@@ -90,25 +92,31 @@ internal fun Modifier.activeLayerGestures(
                     rotationMotion > touchSlop ||
                     panMotion > touchSlop
                 ) {
+                    component.beginHistoryTransaction()
                     pastTouchSlop = true
                 }
             }
 
             if (pastTouchSlop) {
-                val contentSize = state.contentSize
-                if (contentSize.width > 0 && contentSize.height > 0) {
-                    val canvasWidth = state.canvasSize.width.takeIf { it > 0 } ?: size.width
-                    val canvasHeight = state.canvasSize.height.takeIf { it > 0 } ?: size.height
+                component.updateLayerState(
+                    layer = activeLayer,
+                    commitToHistory = false
+                ) {
+                    val contentSize = contentSize
+                    if (contentSize.width > 0 && contentSize.height > 0) {
+                        val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: size.width
+                        val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: size.height
 
-                    state.applyGlobalChanges(
-                        parentMaxWidth = canvasWidth,
-                        parentMaxHeight = canvasHeight,
-                        contentSize = contentSize,
-                        cornerRadiusPercent = activeLayer.cornerRadiusPercent,
-                        zoomChange = zoomChange,
-                        offsetChange = panChange,
-                        rotationChange = rotationChange
-                    )
+                        applyGlobalChanges(
+                            parentMaxWidth = canvasWidth,
+                            parentMaxHeight = canvasHeight,
+                            contentSize = contentSize,
+                            cornerRadiusPercent = activeLayer.cornerRadiusPercent,
+                            zoomChange = zoomChange,
+                            offsetChange = panChange,
+                            rotationChange = rotationChange
+                        )
+                    }
                 }
 
                 event.changes.forEach { change ->
@@ -121,5 +129,9 @@ internal fun Modifier.activeLayerGestures(
             down = activePointer
             activePointerId = down.id
         } while (true)
+
+        if (pastTouchSlop) {
+            component.commitHistoryTransaction()
+        }
     }
 }

@@ -184,7 +184,7 @@ internal fun MarkupLayersUndoRedo(
     ) {
         EnhancedIconButton(
             onClick = component::undo,
-            enabled = component.lastLayers.isNotEmpty() || component.layers.isNotEmpty()
+            enabled = component.canUndo
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.Undo,
@@ -193,7 +193,7 @@ internal fun MarkupLayersUndoRedo(
         }
         EnhancedIconButton(
             onClick = component::redo,
-            enabled = component.undoneLayers.isNotEmpty()
+            enabled = component.canRedo
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.Redo,

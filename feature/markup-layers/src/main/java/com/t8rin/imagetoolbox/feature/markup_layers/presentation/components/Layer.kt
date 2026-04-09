@@ -23,13 +23,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
 @Composable
 internal fun BoxWithConstraintsScope.Layer(
+    component: MarkupLayersComponent,
     layer: UiMarkupLayer,
     onActivate: () -> Unit,
     onShowContextOptions: () -> Unit,
-    onUpdateLayer: (UiMarkupLayer) -> Unit
+    onUpdateLayer: (UiMarkupLayer, Boolean) -> Unit
 ) {
     val type = layer.type
 
@@ -70,7 +72,10 @@ internal fun BoxWithConstraintsScope.Layer(
                         }
 
                         if (visibleLineCount > 0 && layer.visibleLineCount != visibleLineCount) {
-                            onUpdateLayer(layer.copy(visibleLineCount = visibleLineCount))
+                            onUpdateLayer(
+                                layer.copy(visibleLineCount = visibleLineCount),
+                                false
+                            )
                         }
                     }
                 } else null
@@ -79,6 +84,7 @@ internal fun BoxWithConstraintsScope.Layer(
     )
 
     EditLayerSheet(
+        component = component,
         visible = layer.state.isInEditMode,
         onDismiss = { layer.state.isInEditMode = it },
         onUpdateLayer = onUpdateLayer,

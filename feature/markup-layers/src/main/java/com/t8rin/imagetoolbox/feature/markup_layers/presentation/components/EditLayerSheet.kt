@@ -93,15 +93,26 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType.Text.Alignment
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.icon
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import kotlin.math.roundToInt
 
 @Composable
 internal fun EditLayerSheet(
+    component: MarkupLayersComponent,
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
-    onUpdateLayer: (UiMarkupLayer) -> Unit,
+    onUpdateLayer: (UiMarkupLayer, Boolean) -> Unit,
     layer: UiMarkupLayer
 ) {
+    val updateLayerWithHistory: (UiMarkupLayer) -> Unit = {
+        onUpdateLayer(it, true)
+    }
+    val updateLayerContinuously: (UiMarkupLayer) -> Unit = {
+        component.beginHistoryTransaction()
+        onUpdateLayer(it, false)
+    }
+    val finishContinuousEdit = component::commitHistoryTransaction
+
     EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = onDismiss,
@@ -119,7 +130,7 @@ internal fun EditLayerSheet(
                         DomainTextDecoration.entries.forEach { decoration ->
                             EnhancedIconButton(
                                 onClick = {
-                                    onUpdateLayer(
+                                    updateLayerWithHistory(
                                         layer.copy(
                                             type = type.copy(
                                                 decorations = type.decorations.toggle(decoration)
@@ -164,7 +175,7 @@ internal fun EditLayerSheet(
                     ImageSelector(
                         value = type.imageData,
                         onValueChange = {
-                            onUpdateLayer(
+                            updateLayerWithHistory(
                                 layer.copy(
                                     type = type.copy(
                                         imageData = it
@@ -181,7 +192,7 @@ internal fun EditLayerSheet(
                     RoundedTextField(
                         value = type.text,
                         onValueChange = {
-                            onUpdateLayer(
+                            updateLayerWithHistory(
                                 layer.copy(
                                     type = type.copy(
                                         text = it
@@ -213,7 +224,7 @@ internal fun EditLayerSheet(
                         entries = Alignment.entries,
                         value = type.alignment,
                         onValueChange = {
-                            onUpdateLayer(
+                            updateLayerWithHistory(
                                 layer.copy(
                                     type = type.copy(alignment = it)
                                 )
@@ -237,7 +248,7 @@ internal fun EditLayerSheet(
                     FontSelector(
                         value = type.font.toUiFont(),
                         onValueChange = {
-                            onUpdateLayer(
+                            updateLayerWithHistory(
                                 layer.copy(
                                     type = type.copy(
                                         font = it.type
@@ -256,12 +267,13 @@ internal fun EditLayerSheet(
                             it.roundToTwoDigits()
                         },
                         onValueChange = {
-                            onUpdateLayer(
+                            updateLayerContinuously(
                                 layer.copy(
                                     type = type.copy(size = it)
                                 )
                             )
                         },
+                        onValueChangeFinished = { _ -> finishContinuousEdit() },
                         valueRange = 0.01f..1f,
                         shape = ShapeDefaults.center,
                         containerColor = MaterialTheme.colorScheme.surface
@@ -270,7 +282,7 @@ internal fun EditLayerSheet(
                     ColorRowSelector(
                         value = type.backgroundColor.toColor(),
                         onValueChange = {
-                            onUpdateLayer(
+                            updateLayerWithHistory(
                                 layer.copy(
                                     type = type.copy(
                                         backgroundColor = it.toArgb()
@@ -289,7 +301,7 @@ internal fun EditLayerSheet(
                     ColorRowSelector(
                         value = type.color.toColor(),
                         onValueChange = {
-                            onUpdateLayer(
+                            updateLayerWithHistory(
                                 layer.copy(
                                     type = type.copy(
                                         color = it.toArgb()
@@ -308,7 +320,7 @@ internal fun EditLayerSheet(
                         mutableStateOf(type.outline != null)
                     }
                     LaunchedEffect(haveOutline) {
-                        onUpdateLayer(
+                        updateLayerWithHistory(
                             layer.copy(
                                 type = type.copy(
                                     outline = if (haveOutline) {
@@ -344,7 +356,7 @@ internal fun EditLayerSheet(
                                     ColorRowSelector(
                                         value = type.outline?.color?.toColor() ?: Color.Transparent,
                                         onValueChange = {
-                                            onUpdateLayer(
+                                            updateLayerWithHistory(
                                                 layer.copy(
                                                     type = type.copy(
                                                         outline = type.outline?.copy(
@@ -368,7 +380,7 @@ internal fun EditLayerSheet(
                                             it.roundToTwoDigits()
                                         },
                                         onValueChange = {
-                                            onUpdateLayer(
+                                            updateLayerContinuously(
                                                 layer.copy(
                                                     type = type.copy(
                                                         outline = type.outline?.copy(
@@ -378,6 +390,7 @@ internal fun EditLayerSheet(
                                                 )
                                             )
                                         },
+                                        onValueChangeFinished = { _ -> finishContinuousEdit() },
                                         valueRange = 0.01f..10f,
                                         shape = ShapeDefaults.bottom,
                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
@@ -440,7 +453,7 @@ internal fun EditLayerSheet(
                         selectedEmojiIndex = null,
                         allEmojis = allEmojis,
                         onEmojiPicked = {
-                            onUpdateLayer(
+                            updateLayerWithHistory(
                                 layer.copy(
                                     type = type.copy(
                                         imageData = allEmojis[it]
@@ -461,7 +474,16 @@ internal fun EditLayerSheet(
             AlphaSelector(
                 value = layer.state.alpha,
                 onValueChange = {
-                    layer.state.alpha = it
+                    component.beginHistoryTransaction()
+                    component.updateLayerState(
+                        layer = layer,
+                        commitToHistory = false
+                    ) {
+                        alpha = it
+                    }
+                },
+                onValueChangeFinished = { _ ->
+                    finishContinuousEdit()
                 },
                 modifier = Modifier.fillMaxWidth(),
                 title = stringResource(R.string.layer_alpha),
@@ -472,7 +494,7 @@ internal fun EditLayerSheet(
             BlendingModeSelector(
                 value = layer.blendingMode,
                 onValueChange = {
-                    onUpdateLayer(
+                    updateLayerWithHistory(
                         layer.copy(blendingMode = it)
                     )
                 },
@@ -489,12 +511,13 @@ internal fun EditLayerSheet(
                     it.roundToInt()
                 },
                 onValueChange = {
-                    onUpdateLayer(
+                    updateLayerContinuously(
                         layer.copy(
                             cornerRadiusPercent = it.roundToInt().coerceIn(0, 50)
                         )
                     )
                 },
+                onValueChangeFinished = { _ -> finishContinuousEdit() },
                 valueRange = 0f..50f,
                 steps = 49,
                 shape = ShapeDefaults.bottom,

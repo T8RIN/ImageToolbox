@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 fun AlphaSelector(
     value: Float,
     onValueChange: (Float) -> Unit,
+    onValueChangeFinished: ((Float) -> Unit)? = null,
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     shape: Shape = ShapeDefaults.extraLarge,
@@ -56,6 +57,7 @@ fun AlphaSelector(
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },
+        onValueChangeFinished = onValueChangeFinished,
         shape = shape,
         containerColor = color
     )

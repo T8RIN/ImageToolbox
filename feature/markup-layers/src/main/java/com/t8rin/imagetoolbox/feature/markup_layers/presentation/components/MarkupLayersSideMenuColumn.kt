@@ -69,7 +69,8 @@ internal fun MarkupLayersSideMenuColumn(
     modifier: Modifier,
     layers: List<UiMarkupLayer>,
     onReorderLayers: (List<UiMarkupLayer>) -> Unit,
-    onActivateLayer: (UiMarkupLayer) -> Unit
+    onActivateLayer: (UiMarkupLayer) -> Unit,
+    onToggleLayerVisibility: (UiMarkupLayer) -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
     val lazyListState = rememberLazyListState()
@@ -131,7 +132,7 @@ internal fun MarkupLayersSideMenuColumn(
                                 indication = null,
                                 interactionSource = null
                             ) {
-                                layer.state.isVisible = !layer.state.isVisible
+                                onToggleLayerVisibility(layer)
                             }
                     )
                     Spacer(Modifier.width(8.dp))
