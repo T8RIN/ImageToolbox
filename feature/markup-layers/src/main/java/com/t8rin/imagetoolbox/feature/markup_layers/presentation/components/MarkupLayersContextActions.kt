@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("UnusedReceiverParameter")
+
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
@@ -35,10 +37,10 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowLeft
 import androidx.compose.material.icons.automirrored.rounded.ArrowRight
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
+import androidx.compose.material.icons.rounded.CenterFocusStrong
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.Flip
-import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.ScreenRotationAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -53,7 +55,6 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -311,25 +312,18 @@ internal fun BoxScope.MarkupLayersContextActions(
                     Spacer(Modifier.width(4.dp))
                     AutoSizeText(
                         text = "$xPart   $yPart",
-                        style = LocalTextStyle.current.copy(
-                            fontSize = 12.sp,
-                            lineHeight = 13.sp,
-                            fontWeight = FontWeight.SemiBold
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontSize = 12.sp
                         ),
                         modifier = Modifier.weight(1f)
                     )
                     Spacer(Modifier.width(8.dp))
-                    val containerColor = takeColorFromScheme {
-                        surfaceContainerLow.blend(
-                            color = errorContainer,
-                            fraction = 0.5f
-                        )
-                    }
                     SupportingButton(
-                        icon = Icons.Rounded.RestartAlt,
+                        icon = Icons.Rounded.CenterFocusStrong,
                         onClick = onResetLayerPosition,
-                        containerColor = containerColor,
-                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        shape = ShapeDefaults.extremeSmall
                     )
                 }
             }

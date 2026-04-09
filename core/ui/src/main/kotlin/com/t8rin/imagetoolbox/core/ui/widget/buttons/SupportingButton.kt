@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -51,11 +52,12 @@ fun SupportingButton(
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     contentColor: Color = MaterialTheme.colorScheme.contentColorFor(containerColor),
     style: TextStyle = LocalTextStyle.current,
+    shape: Shape = AutoCircleShape(),
     iconPadding: Dp = 1.dp
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val shape = shapeByInteraction(
-        shape = AutoCircleShape(),
+        shape = shape,
         pressedShape = ShapeDefaults.extraSmall,
         interactionSource = interactionSource
     )
