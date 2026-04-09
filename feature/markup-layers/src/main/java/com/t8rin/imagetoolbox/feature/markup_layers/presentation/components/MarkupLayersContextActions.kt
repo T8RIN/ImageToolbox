@@ -107,9 +107,12 @@ internal fun BoxScope.MarkupLayersContextActions(
     EnhancedDropdownMenu(
         expanded = visible,
         onDismissRequest = {
-            if (isRotationAdjusting) isRotationAdjusting = false
-            else if (isScaleAdjusting) isScaleAdjusting = false
-            else onDismiss()
+            if (isRotationAdjusting || isScaleAdjusting) {
+                isScaleAdjusting = false
+                isRotationAdjusting = false
+            } else {
+                onDismiss()
+            }
         },
         containerColor = MaterialTheme.colorScheme.surface
     ) {
