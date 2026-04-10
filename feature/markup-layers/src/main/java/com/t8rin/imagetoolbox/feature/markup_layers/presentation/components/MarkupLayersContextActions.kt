@@ -405,12 +405,11 @@ internal fun BoxScope.MarkupLayersContextActions(
                             .weight(1f)
                             .padding(horizontal = 4.dp, vertical = 4.dp)
                     ) {
+                        val xPart = "X: ${normalizedPositionX.roundTo(3)}"
+                        val yPart = "Y: ${normalizedPositionY.roundTo(3)}"
+
                         AutoSizeText(
-                            text = "X: ${normalizedPositionX.roundTo(3)}   Y: ${
-                                normalizedPositionY.roundTo(
-                                    3
-                                )
-                            }",
+                            text = "$xPart   $yPart",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontSize = 12.sp
                             ),
