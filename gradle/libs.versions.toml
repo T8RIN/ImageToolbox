@@ -86,7 +86,7 @@ opencv = "4.13.0"
 tiffdecoder = "1.0.5"
 materialKolor = "5.0.0-alpha07"
 paletteKtx = "1.0.0"
-kotlinxSerializationJson = "1.10.0"
+kotlinxSerializationJson = "1.11.0"
 lifecycle = "2.10.0"
 
 firebaseBom = "34.12.0"
