@@ -46,6 +46,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -53,8 +54,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
@@ -331,66 +334,68 @@ internal fun BoxScope.MarkupLayersContextActions(
                 }
             )
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-            ) {
-                val buttonContainerColor = takeColorFromScheme {
-                    surfaceContainerLow.blend(
-                        color = primaryContainer,
-                        fraction = 0.2f
-                    )
-                }
-
-                ClickableTile(
-                    onClick = { onMoveLayerBy(-1f, 0f) },
-                    onHoldStep = { onMoveLayerBy(-1f, 0f) },
-                    icon = Icons.AutoMirrored.Rounded.ArrowLeft,
-                    text = null,
-                    containerColor = buttonContainerColor,
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier
-                        .width(66.dp)
-                        .fillMaxHeight()
-                )
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier
-                        .width(66.dp)
-                        .fillMaxHeight()
+                        .fillMaxWidth()
+                        .height(100.dp)
                 ) {
+                    val buttonContainerColor = takeColorFromScheme {
+                        surfaceContainerLow.blend(
+                            color = primaryContainer,
+                            fraction = 0.2f
+                        )
+                    }
+
                     ClickableTile(
-                        onClick = { onMoveLayerBy(0f, -1f) },
-                        onHoldStep = { onMoveLayerBy(0f, -1f) },
-                        icon = Icons.Rounded.ArrowDropUp,
+                        onClick = { onMoveLayerBy(-1f, 0f) },
+                        onHoldStep = { onMoveLayerBy(-1f, 0f) },
+                        icon = Icons.AutoMirrored.Rounded.ArrowLeft,
                         text = null,
+                        containerColor = buttonContainerColor,
                         modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth(),
-                        containerColor = buttonContainerColor
+                            .width(66.dp)
+                            .fillMaxHeight()
                     )
-                    ClickableTile(
-                        onClick = { onMoveLayerBy(0f, 1f) },
-                        onHoldStep = { onMoveLayerBy(0f, 1f) },
-                        icon = Icons.Rounded.ArrowDropDown,
-                        text = null,
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
                         modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth(),
-                        containerColor = buttonContainerColor
+                            .width(66.dp)
+                            .fillMaxHeight()
+                    ) {
+                        ClickableTile(
+                            onClick = { onMoveLayerBy(0f, -1f) },
+                            onHoldStep = { onMoveLayerBy(0f, -1f) },
+                            icon = Icons.Rounded.ArrowDropUp,
+                            text = null,
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
+                            containerColor = buttonContainerColor
+                        )
+                        ClickableTile(
+                            onClick = { onMoveLayerBy(0f, 1f) },
+                            onHoldStep = { onMoveLayerBy(0f, 1f) },
+                            icon = Icons.Rounded.ArrowDropDown,
+                            text = null,
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
+                            containerColor = buttonContainerColor
+                        )
+                    }
+                    ClickableTile(
+                        onClick = { onMoveLayerBy(1f, 0f) },
+                        onHoldStep = { onMoveLayerBy(1f, 0f) },
+                        icon = Icons.AutoMirrored.Rounded.ArrowRight,
+                        text = null,
+                        containerColor = buttonContainerColor,
+                        modifier = Modifier
+                            .width(66.dp)
+                            .fillMaxHeight()
                     )
                 }
-                ClickableTile(
-                    onClick = { onMoveLayerBy(1f, 0f) },
-                    onHoldStep = { onMoveLayerBy(1f, 0f) },
-                    icon = Icons.AutoMirrored.Rounded.ArrowRight,
-                    text = null,
-                    containerColor = buttonContainerColor,
-                    modifier = Modifier
-                        .width(66.dp)
-                        .fillMaxHeight()
-                )
             }
             if (normalizedPositionX != null && normalizedPositionY != null) {
                 Row(
