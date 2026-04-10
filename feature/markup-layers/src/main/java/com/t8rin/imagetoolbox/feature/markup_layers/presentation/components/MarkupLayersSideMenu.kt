@@ -133,6 +133,13 @@ internal fun MarkupLayersSideMenu(
                                 activeLayer?.state?.scale?.roundTo(3)
                             }
                         }
+                        val normalizedRotationDegrees by remember(activeLayer) {
+                            derivedStateOf {
+                                activeLayer?.state?.rotation
+                                    ?.normalizeForUi()
+                                    ?.roundTo(1)
+                            }
+                        }
                         Column(
                             modifier = Modifier.container(
                                 shape = RectangleShape,
@@ -241,7 +248,7 @@ internal fun MarkupLayersSideMenu(
                                         onScaleChangeFinished = {
                                             component.commitHistoryTransaction()
                                         },
-                                        rotationDegrees = activeLayer?.state?.rotation?.roundTo(1),
+                                        rotationDegrees = normalizedRotationDegrees,
                                         onRotationDegreesChange = {
                                             component.beginHistoryTransaction()
                                             activeLayer?.let { layer ->
@@ -294,5 +301,15 @@ internal fun MarkupLayersSideMenu(
                 }
             }
         }
+    }
+}
+
+private fun Float.normalizeForUi(): Float {
+    val normalized = this % 360f
+
+    return when {
+        normalized < 0f -> normalized + 360f
+        normalized == 0f && this > 0f -> 360f
+        else -> normalized
     }
 }

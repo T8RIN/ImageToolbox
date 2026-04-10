@@ -460,15 +460,17 @@ internal fun BoxScope.MarkupLayersContextActions(
         }
     }
 
+    val activeValueDialogType = valueDialogType
+
     ValueDialog(
-        roundTo = when (valueDialogType) {
+        roundTo = when (activeValueDialogType) {
             ValueDialogType.Rotation -> null
             ValueDialogType.Scale -> 3
             ValueDialogType.PositionX,
             ValueDialogType.PositionY -> 3
             ValueDialogType.None -> null
         },
-        valueRange = when (valueDialogType) {
+        valueRange = when (activeValueDialogType) {
             ValueDialogType.Rotation -> 0f..360f
             ValueDialogType.Scale -> 0.3f..10f
             ValueDialogType.PositionX,
@@ -476,17 +478,17 @@ internal fun BoxScope.MarkupLayersContextActions(
 
             ValueDialogType.None -> 0f..1f
         },
-        valueState = when (valueDialogType) {
+        valueState = when (activeValueDialogType) {
             ValueDialogType.Rotation -> (rotationDegrees ?: 0f).toString()
             ValueDialogType.Scale -> (scale ?: 1f).toString()
             ValueDialogType.PositionX -> (normalizedPositionX?.roundTo(3) ?: 0f).toString()
             ValueDialogType.PositionY -> (normalizedPositionY?.roundTo(3) ?: 0f).toString()
             ValueDialogType.None -> "0"
         },
-        expanded = valueDialogType != ValueDialogType.None,
+        expanded = activeValueDialogType != ValueDialogType.None,
         onDismiss = { valueDialogType = ValueDialogType.None },
         onValueUpdate = {
-            when (valueDialogType) {
+            when (activeValueDialogType) {
                 ValueDialogType.Rotation -> {
                     onRotationDegreesChange(it)
                     onRotationDegreesChangeFinished()
