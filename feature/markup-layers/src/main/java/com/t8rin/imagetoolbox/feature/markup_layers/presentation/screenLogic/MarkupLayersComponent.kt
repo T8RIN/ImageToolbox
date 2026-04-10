@@ -273,6 +273,24 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
+    fun setLayerNormalizedPosition(
+        layer: UiMarkupLayer,
+        x: Float? = null,
+        y: Float? = null,
+        commitToHistory: Boolean = true
+    ) {
+        updateLayerState(
+            layer = layer,
+            commitToHistory = commitToHistory
+        ) {
+            setNormalizedPosition(
+                x = x,
+                y = y,
+                cornerRadiusPercent = layer.cornerRadiusPercent
+            )
+        }
+    }
+
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 

@@ -254,6 +254,58 @@ class EditBoxState(
         )
     }
 
+    internal fun setNormalizedPosition(
+        x: Float? = null,
+        y: Float? = null,
+        cornerRadiusPercent: Int
+    ) {
+        if (x == null && y == null) return
+
+        val contentSize = contentSize
+        val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: return
+        val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: return
+
+        if (contentSize.width <= 0 || contentSize.height <= 0) return
+
+        val halfExtents = contentSize.rotatedHalfExtents(
+            degrees = rotation,
+            cornerRadiusPercent = cornerRadiusPercent
+        )
+
+        val halfWidth = halfExtents.x * scale
+        val halfHeight = halfExtents.y * scale
+        val layerWidth = halfWidth * 2f
+        val layerHeight = halfHeight * 2f
+        val currentLeft = canvasWidth / 2f + offset.x - halfWidth
+        val currentTop = canvasHeight / 2f + offset.y - halfHeight
+
+        val targetLeft = x?.denormalizeEdgeAware(
+            axisSize = canvasWidth.toFloat(),
+            layerSize = layerWidth
+        ) ?: currentLeft
+        val targetTop = y?.denormalizeEdgeAware(
+            axisSize = canvasHeight.toFloat(),
+            layerSize = layerHeight
+        ) ?: currentTop
+        val targetOffset = Offset(
+            x = targetLeft - canvasWidth / 2f + halfWidth,
+            y = targetTop - canvasHeight / 2f + halfHeight
+        )
+
+        applyGlobalChanges(
+            parentMaxWidth = canvasWidth,
+            parentMaxHeight = canvasHeight,
+            contentSize = contentSize,
+            cornerRadiusPercent = cornerRadiusPercent,
+            zoomChange = 1f,
+            offsetChange = Offset(
+                x = targetOffset.x - offset.x,
+                y = targetOffset.y - offset.y
+            ),
+            rotationChange = 0f
+        )
+    }
+
     internal fun setScalePrecisely(
         targetScale: Float,
         cornerRadiusPercent: Int
@@ -306,6 +358,35 @@ private fun Float.normalizeEdgeAware(
             this > 0f -> -this / safeLayerSize
             this < maxInsideStart -> 1f + (maxInsideStart - this) / safeLayerSize
             else -> this / maxInsideStart
+        }
+    }
+}
+
+private fun Float.denormalizeEdgeAware(
+    axisSize: Float,
+    layerSize: Float
+): Float {
+    val safeAxisSize = axisSize.coerceAtLeast(1f)
+    val safeLayerSize = layerSize.coerceAtLeast(1f)
+    val maxInsideStart = safeAxisSize - safeLayerSize
+
+    return when {
+        maxInsideStart > 0f -> when {
+            this < 0f -> this * safeLayerSize
+            this > 1f -> maxInsideStart + (this - 1f) * safeLayerSize
+            else -> this * maxInsideStart
+        }
+
+        maxInsideStart == 0f -> when {
+            this < 0f -> this * safeLayerSize
+            this > 1f -> (this - 1f) * safeLayerSize
+            else -> 0f
+        }
+
+        else -> when {
+            this < 0f -> -this * safeLayerSize
+            this > 1f -> maxInsideStart - (this - 1f) * safeLayerSize
+            else -> this * maxInsideStart
         }
     }
 }

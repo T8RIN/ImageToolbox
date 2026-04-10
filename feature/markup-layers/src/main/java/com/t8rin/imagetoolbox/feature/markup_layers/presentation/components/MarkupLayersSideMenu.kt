@@ -209,6 +209,22 @@ internal fun MarkupLayersSideMenu(
                                         onResetLayerPosition = {
                                             activeLayer?.let(component::resetLayerPosition)
                                         },
+                                        onNormalizedPositionXChange = { x ->
+                                            activeLayer?.let { layer ->
+                                                component.setLayerNormalizedPosition(
+                                                    layer = layer,
+                                                    x = x
+                                                )
+                                            }
+                                        },
+                                        onNormalizedPositionYChange = { y ->
+                                            activeLayer?.let { layer ->
+                                                component.setLayerNormalizedPosition(
+                                                    layer = layer,
+                                                    y = y
+                                                )
+                                            }
+                                        },
                                         normalizedPositionX = normalizedPosition?.x,
                                         normalizedPositionY = normalizedPosition?.y,
                                         scale = scale,

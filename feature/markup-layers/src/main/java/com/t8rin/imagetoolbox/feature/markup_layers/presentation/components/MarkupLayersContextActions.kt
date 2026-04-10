@@ -68,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -86,6 +87,8 @@ internal fun BoxScope.MarkupLayersContextActions(
     onFlipLayerVertically: () -> Unit,
     onMoveLayerBy: (Float, Float) -> Unit,
     onResetLayerPosition: () -> Unit,
+    onNormalizedPositionXChange: (Float) -> Unit,
+    onNormalizedPositionYChange: (Float) -> Unit,
     normalizedPositionX: Float?,
     normalizedPositionY: Float?,
     scale: Float?,
@@ -396,24 +399,52 @@ internal fun BoxScope.MarkupLayersContextActions(
                         shape = ShapeDefaults.extraSmall,
                         color = takeColorFromScheme {
                             surfaceContainerLow.blend(tertiaryContainer, 0.3f)
-                        }
+                        },
+                        resultPadding = 0.dp
                     )
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 4.dp, vertical = 4.dp)
+                        modifier = Modifier.weight(1f)
                     ) {
-                        val xPart = "X: ${normalizedPositionX.roundTo(3)}"
-                        val yPart = "Y: ${normalizedPositionY.roundTo(3)}"
+                        val x = normalizedPositionX.roundTo(3)
+                        val y = normalizedPositionY.roundTo(3)
 
                         AutoSizeText(
-                            text = "$xPart   $yPart",
+                            text = "X: $x",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontSize = 12.sp
                             ),
-                            modifier = Modifier.weight(1f)
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .hapticsClickable {
+                                    onDismiss()
+                                    valueDialogType = ValueDialogType.PositionX
+                                }
+                                .padding(
+                                    start = 8.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp,
+                                    end = 4.dp
+                                )
+                        )
+                        AutoSizeText(
+                            text = "Y: $y",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontSize = 12.sp
+                            ),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .hapticsClickable {
+                                    onDismiss()
+                                    valueDialogType = ValueDialogType.PositionY
+                                }
+                                .padding(
+                                    start = 4.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp,
+                                    end = 8.dp
+                                )
                         )
                     }
                     SupportingButton(
@@ -421,7 +452,8 @@ internal fun BoxScope.MarkupLayersContextActions(
                         onClick = onResetLayerPosition,
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                        shape = ShapeDefaults.extremeSmall
+                        shape = ShapeDefaults.extremeSmall,
+                        modifier = Modifier.padding(4.dp)
                     )
                 }
             }
@@ -432,16 +464,23 @@ internal fun BoxScope.MarkupLayersContextActions(
         roundTo = when (valueDialogType) {
             ValueDialogType.Rotation -> null
             ValueDialogType.Scale -> 3
+            ValueDialogType.PositionX,
+            ValueDialogType.PositionY -> 3
             ValueDialogType.None -> null
         },
         valueRange = when (valueDialogType) {
             ValueDialogType.Rotation -> 0f..360f
             ValueDialogType.Scale -> 0.3f..10f
+            ValueDialogType.PositionX,
+            ValueDialogType.PositionY -> -2f..2f
+
             ValueDialogType.None -> 0f..1f
         },
         valueState = when (valueDialogType) {
             ValueDialogType.Rotation -> (rotationDegrees ?: 0f).toString()
             ValueDialogType.Scale -> (scale ?: 1f).toString()
+            ValueDialogType.PositionX -> (normalizedPositionX?.roundTo(3) ?: 0f).toString()
+            ValueDialogType.PositionY -> (normalizedPositionY?.roundTo(3) ?: 0f).toString()
             ValueDialogType.None -> "0"
         },
         expanded = valueDialogType != ValueDialogType.None,
@@ -458,6 +497,14 @@ internal fun BoxScope.MarkupLayersContextActions(
                     onScaleChangeFinished()
                 }
 
+                ValueDialogType.PositionX -> {
+                    onNormalizedPositionXChange(it)
+                }
+
+                ValueDialogType.PositionY -> {
+                    onNormalizedPositionYChange(it)
+                }
+
                 ValueDialogType.None -> Unit
             }
         }
@@ -465,5 +512,5 @@ internal fun BoxScope.MarkupLayersContextActions(
 }
 
 private enum class ValueDialogType {
-    None, Rotation, Scale
+    None, Rotation, Scale, PositionX, PositionY
 }
