@@ -190,7 +190,7 @@ internal fun BoxScope.MarkupLayersContextActions(
             ClickableTile(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 72.dp),
+                    .heightIn(min = 50.dp),
                 onClick = {
                     isRotationAdjusting = !isRotationAdjusting
                 },
@@ -260,7 +260,7 @@ internal fun BoxScope.MarkupLayersContextActions(
             ClickableTile(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 72.dp),
+                    .heightIn(min = 50.dp),
                 onClick = {
                     isScaleAdjusting = !isScaleAdjusting
                 },
