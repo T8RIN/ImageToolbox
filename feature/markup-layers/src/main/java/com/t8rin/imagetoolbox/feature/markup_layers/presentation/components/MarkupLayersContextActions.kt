@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowLeft
@@ -40,7 +41,6 @@ import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.CenterFocusStrong
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Deselect
-import androidx.compose.material.icons.rounded.Flip
 import androidx.compose.material.icons.rounded.ScreenRotationAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -53,7 +53,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -61,6 +60,8 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Flip
+import com.t8rin.imagetoolbox.core.resources.icons.FlipVertical
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
@@ -129,61 +130,67 @@ internal fun BoxScope.MarkupLayersContextActions(
                         onDismiss()
                     },
                     icon = Icons.Rounded.MiniEdit,
-                    text = stringResource(R.string.edit)
+                    text = stringResource(R.string.edit),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
                 )
                 ClickableTile(
                     onClick = onCopyLayer,
                     icon = Icons.Rounded.ContentCopy,
-                    text = stringResource(R.string.copy)
+                    text = stringResource(R.string.copy),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
                 )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
                 ClickableTile(
                     onClick = onRemoveLayer,
                     icon = Icons.Rounded.Delete,
-                    text = stringResource(R.string.delete)
-                )
-                ClickableTile(
-                    onClick = onActivateLayer,
-                    icon = Icons.Rounded.Deselect,
-                    text = stringResource(R.string.clear_selection)
+                    text = stringResource(R.string.delete),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
                 )
             }
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 ClickableTile(
+                    onClick = onActivateLayer,
+                    icon = Icons.Rounded.Deselect,
+                    text = stringResource(R.string.clear_selection),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
+                )
+                ClickableTile(
                     onClick = onFlipLayerHorizontally,
-                    icon = Icons.Rounded.Flip,
-                    text = stringResource(R.string.horizontal_flip)
+                    icon = Icons.Outlined.Flip,
+                    text = stringResource(R.string.horizontal_flip),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
                 )
                 ClickableTile(
                     onClick = onFlipLayerVertically,
-                    content = {
-                        Icon(
-                            imageVector = Icons.Rounded.Flip,
-                            contentDescription = null,
-                            modifier = Modifier.rotate(90f)
-                        )
-                        AutoSizeText(
-                            text = stringResource(R.string.vertical_flip),
-                            textAlign = TextAlign.Center,
-                            style = LocalTextStyle.current.copy(
-                                fontSize = 12.sp,
-                                lineHeight = 13.sp
-                            ),
-                            maxLines = 2
-                        )
-                    }
+                    icon = Icons.Outlined.FlipVertical,
+                    text = stringResource(R.string.vertical_flip),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
                 )
             }
 
             ClickableTile(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 84.dp),
+                    .heightIn(min = 72.dp),
                 onClick = {
                     isRotationAdjusting = !isRotationAdjusting
                 },
@@ -253,7 +260,7 @@ internal fun BoxScope.MarkupLayersContextActions(
             ClickableTile(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 84.dp),
+                    .heightIn(min = 72.dp),
                 onClick = {
                     isScaleAdjusting = !isScaleAdjusting
                 },

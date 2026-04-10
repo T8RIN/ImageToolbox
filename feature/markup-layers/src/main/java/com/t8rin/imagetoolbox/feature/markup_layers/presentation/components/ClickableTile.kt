@@ -26,8 +26,13 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,14 +40,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
 @Composable
 internal fun ClickableTile(
@@ -53,25 +55,41 @@ internal fun ClickableTile(
     onHoldStep: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
-    ClickableTile(
-        containerColor = containerColor,
-        onClick = onClick,
-        onHoldStep = onHoldStep,
-        modifier = modifier
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null
-        )
-        text?.let {
-            AutoSizeText(
-                text = text,
-                textAlign = TextAlign.Center,
-                style = LocalTextStyle.current.copy(
-                    fontSize = 12.sp,
-                    lineHeight = 13.sp
-                ),
-                maxLines = 2
+    if (text != null) {
+        val tooltipState = rememberTooltipState()
+        TooltipBox(
+            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                TooltipAnchorPosition.Above
+            ),
+            tooltip = {
+                PlainTooltip {
+                    Text(text)
+                }
+            },
+            state = tooltipState
+        ) {
+            ClickableTile(
+                containerColor = containerColor,
+                onClick = onClick,
+                onHoldStep = onHoldStep,
+                modifier = modifier
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null
+                )
+            }
+        }
+    } else {
+        ClickableTile(
+            containerColor = containerColor,
+            onClick = onClick,
+            onHoldStep = onHoldStep,
+            modifier = modifier
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null
             )
         }
     }
@@ -144,7 +162,7 @@ internal fun ClickableTile(
                 if (modifier == Modifier) {
                     Modifier.size(
                         width = 100.dp,
-                        height = 84.dp
+                        height = 72.dp
                     )
                 } else {
                     modifier
