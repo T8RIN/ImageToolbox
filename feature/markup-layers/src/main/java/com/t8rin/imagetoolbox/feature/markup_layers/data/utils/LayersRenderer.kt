@@ -28,15 +28,16 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
-import androidx.core.graphics.scale
 import androidx.core.graphics.withSave
 import coil3.ImageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
@@ -55,7 +56,8 @@ internal class LayersRenderer @Inject constructor(
 
     suspend fun render(
         backgroundImage: Bitmap,
-        layers: List<MarkupLayer>
+        layers: List<MarkupLayer>,
+        measuredContentSizes: List<IntegerSize?> = emptyList()
     ): Bitmap = withContext(defaultDispatcher) {
         val resultBitmap = backgroundImage.copy(Bitmap.Config.ARGB_8888, true)
 
@@ -84,19 +86,27 @@ internal class LayersRenderer @Inject constructor(
                 translate(canvasOffsetX, canvasOffsetY)
                 scale(ratio, ratio)
 
-                visibleLayers.forEach { layer ->
+                layers.forEachIndexed { index, layer ->
+                    if (!layer.position.isVisible) return@forEachIndexed
+
                     val centerX = authorWidth / 2f + layer.position.offsetX
                     val centerY = authorHeight / 2f + layer.position.offsetY
+                    val measuredContentSize = measuredContentSizes.getOrNull(index)
 
                     when (val type = layer.type) {
                         is LayerType.Picture -> {
                             val contentBitmap = pictureCache.getOrPut(type.imageData) {
                                 loadPictureBitmap(
-                                    imageData = type.imageData,
-                                    maxWidth = authorWidth / 2f,
-                                    maxHeight = authorHeight / 2f
+                                    imageData = type.imageData
                                 )
-                            } ?: return@forEach
+                            } ?: return@forEachIndexed
+
+                            val pictureData = resolvePictureRenderData(
+                                bitmap = contentBitmap,
+                                measuredContentSize = measuredContentSize,
+                                maxWidth = authorWidth / 2f,
+                                maxHeight = authorHeight / 2f
+                            ) ?: return@forEachIndexed
 
                             withSave {
                                 translate(centerX, centerY)
@@ -107,10 +117,10 @@ internal class LayersRenderer @Inject constructor(
                                 )
 
                                 val destination = RectF(
-                                    -contentBitmap.width / 2f,
-                                    -contentBitmap.height / 2f,
-                                    contentBitmap.width / 2f,
-                                    contentBitmap.height / 2f
+                                    -pictureData.width / 2f,
+                                    -pictureData.height / 2f,
+                                    pictureData.width / 2f,
+                                    pictureData.height / 2f
                                 )
                                 clipToRoundedBounds(
                                     bounds = destination,
@@ -167,30 +177,39 @@ internal class LayersRenderer @Inject constructor(
     }
 
     private suspend fun loadPictureBitmap(
-        imageData: Any,
-        maxWidth: Float,
-        maxHeight: Float
-    ): Bitmap? {
-        val source = imageLoader.execute(
+        imageData: Any
+    ): Bitmap? = imageLoader.execute(
             ImageRequest.Builder(appContext)
                 .data(imageData)
+                .static()
                 .allowHardware(false)
-                .size(2000)
+                .size(1600)
                 .build()
-        ).image?.toBitmap() ?: return null
+    ).image?.toBitmap()
 
-        val width = source.width.takeIf { it > 0 } ?: return null
-        val height = source.height.takeIf { it > 0 } ?: return null
+    private fun resolvePictureRenderData(
+        bitmap: Bitmap,
+        measuredContentSize: IntegerSize?,
+        maxWidth: Float,
+        maxHeight: Float
+    ): PictureLayerRenderData? {
+        measuredContentSize?.takeIf { it.width > 0 && it.height > 0 }?.let {
+            return PictureLayerRenderData(
+                width = it.width.toFloat(),
+                height = it.height.toFloat()
+            )
+        }
+
+        val width = bitmap.width.takeIf { it > 0 } ?: return null
+        val height = bitmap.height.takeIf { it > 0 } ?: return null
         val fitScale = min(
             1f,
             min(maxWidth / width, maxHeight / height)
         )
 
-        if (fitScale >= 0.999f) return source
-
-        return source.scale(
-            (width * fitScale).roundToInt().coerceAtLeast(1),
-            (height * fitScale).roundToInt().coerceAtLeast(1)
+        return PictureLayerRenderData(
+            width = (width * fitScale).roundToInt().coerceAtLeast(1).toFloat(),
+            height = (height * fitScale).roundToInt().coerceAtLeast(1).toFloat()
         )
     }
 
@@ -425,4 +444,9 @@ private data class TextLayerRenderData(
     val width: Float,
     val height: Float,
     val bitmap: Bitmap
+)
+
+private data class PictureLayerRenderData(
+    val width: Float,
+    val height: Float
 )

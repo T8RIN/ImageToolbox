@@ -17,13 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 
 interface MarkupLayersApplier<I> {
 
     suspend fun applyToImage(
         image: I,
-        layers: List<MarkupLayer>
+        layers: List<MarkupLayer>,
+        measuredContentSizes: List<IntegerSize?> = emptyList()
     ): I
 
     suspend fun saveProject(
