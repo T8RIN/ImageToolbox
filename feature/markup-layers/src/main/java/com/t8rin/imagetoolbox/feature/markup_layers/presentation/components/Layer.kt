@@ -39,6 +39,7 @@ internal fun BoxWithConstraintsScope.Layer(
         state = layer.state,
         cornerRadiusPercent = layer.cornerRadiusPercent,
         blendingMode = layer.blendingMode,
+        isInteractive = !layer.isLocked,
         onTap = {
             if (layer.state.isActive) {
                 layer.state.isInEditMode = true
@@ -84,7 +85,7 @@ internal fun BoxWithConstraintsScope.Layer(
 
     EditLayerSheet(
         component = component,
-        visible = layer.state.isInEditMode,
+        visible = layer.state.isInEditMode && !layer.isLocked,
         onDismiss = { layer.state.isInEditMode = it },
         onUpdateLayer = onUpdateLayer,
         layer = layer

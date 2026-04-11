@@ -134,6 +134,7 @@ internal class MarkupMapper @Inject constructor(
             position = position.toSnapshot(),
             visibleLineCount = visibleLineCount,
             cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+            isLocked = isLocked,
             blendingMode = blendingMode.value,
             text = (layerType as? LayerType.Text)?.toSnapshot(
                 assetRegistry = assetRegistry,
@@ -239,6 +240,7 @@ internal class MarkupMapper @Inject constructor(
         contentSize = IntegerSize.Zero,
         visibleLineCount = visibleLineCount,
         cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+        isLocked = isLocked,
         blendingMode = BlendingMode.entries.find { it.value == blendingMode }
             ?: BlendingMode.SrcOver
     )

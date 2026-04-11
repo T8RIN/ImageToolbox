@@ -36,6 +36,7 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
@@ -51,6 +52,7 @@ internal fun ClickableTile(
     onClick: () -> Unit,
     icon: ImageVector,
     text: String?,
+    enabled: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     onHoldStep: (() -> Unit)? = null,
     modifier: Modifier = Modifier
@@ -71,6 +73,7 @@ internal fun ClickableTile(
             ClickableTile(
                 containerColor = containerColor,
                 onClick = onClick,
+                enabled = enabled,
                 onHoldStep = onHoldStep,
                 modifier = modifier
             ) {
@@ -84,6 +87,7 @@ internal fun ClickableTile(
         ClickableTile(
             containerColor = containerColor,
             onClick = onClick,
+            enabled = enabled,
             onHoldStep = onHoldStep,
             modifier = modifier
         ) {
@@ -99,6 +103,7 @@ internal fun ClickableTile(
 @Composable
 internal fun ClickableTile(
     onClick: () -> Unit,
+    enabled: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     onHoldStep: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
@@ -106,7 +111,9 @@ internal fun ClickableTile(
 ) {
     val haptics = LocalHapticFeedback.current
 
-    val interactionModifier = if (onHoldStep != null) {
+    val interactionModifier = if (!enabled) {
+        Modifier
+    } else if (onHoldStep != null) {
         Modifier.pointerInput(onClick, onHoldStep) {
             awaitEachGesture {
                 val down = awaitFirstDown(requireUnconsumed = false)
@@ -173,6 +180,7 @@ internal fun ClickableTile(
                 color = containerColor,
                 resultPadding = 0.dp
             )
+            .alpha(if (enabled) 1f else 0.5f)
             .then(interactionModifier)
             .padding(6.dp),
         verticalArrangement = Arrangement.Center,

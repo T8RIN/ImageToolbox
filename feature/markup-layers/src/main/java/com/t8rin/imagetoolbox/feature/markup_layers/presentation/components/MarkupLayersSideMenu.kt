@@ -181,13 +181,20 @@ internal fun MarkupLayersSideMenu(
                                             activeLayer?.let(component::copyLayer)
                                         },
                                         onToggleEditMode = {
-                                            activeLayer?.state?.isInEditMode = true
+                                            activeLayer
+                                                ?.takeIf { !it.isLocked }
+                                                ?.state
+                                                ?.isInEditMode = true
                                         },
                                         onRemoveLayer = {
                                             activeLayer?.let(component::removeLayer)
                                         },
                                         onActivateLayer = {
                                             component.deactivateAllLayers()
+                                        },
+                                        isLayerLocked = activeLayer?.isLocked == true,
+                                        onToggleLayerLock = {
+                                            activeLayer?.let(component::toggleLayerLock)
                                         },
                                         onFlipLayerHorizontally = {
                                             activeLayer?.let { layer ->
@@ -268,7 +275,7 @@ internal fun MarkupLayersSideMenu(
                             }
                             EnhancedSlider(
                                 value = activeLayer?.state?.alpha ?: 1f,
-                                enabled = activeLayer != null,
+                                enabled = activeLayer != null && activeLayer?.isLocked != true,
                                 onValueChange = {
                                     component.beginHistoryTransaction()
                                     activeLayer?.let { layer ->
@@ -292,10 +299,14 @@ internal fun MarkupLayersSideMenu(
                             onReorderLayers = component::reorderLayers,
                             onActivateLayer = component::activateLayer,
                             onToggleLayerVisibility = { layer ->
-                                component.updateLayerState(layer) {
+                                component.updateLayerState(
+                                    layer = layer,
+                                    allowLocked = true
+                                ) {
                                     isVisible = !isVisible
                                 }
-                            }
+                            },
+                            onUnlockLayer = component::toggleLayerLock
                         )
                     }
                 }

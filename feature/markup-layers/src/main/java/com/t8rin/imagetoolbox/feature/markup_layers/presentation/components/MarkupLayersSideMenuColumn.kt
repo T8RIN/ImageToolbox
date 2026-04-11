@@ -37,6 +37,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
+import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
@@ -70,7 +71,8 @@ internal fun MarkupLayersSideMenuColumn(
     layers: List<UiMarkupLayer>,
     onReorderLayers: (List<UiMarkupLayer>) -> Unit,
     onActivateLayer: (UiMarkupLayer) -> Unit,
-    onToggleLayerVisibility: (UiMarkupLayer) -> Unit
+    onToggleLayerVisibility: (UiMarkupLayer) -> Unit,
+    onUnlockLayer: (UiMarkupLayer) -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
     val lazyListState = rememberLazyListState()
@@ -142,7 +144,9 @@ internal fun MarkupLayersSideMenuColumn(
                             .clip(ShapeDefaults.extraSmall)
                             .transparencyChecker()
                             .hapticsClickable {
-                                onActivateLayer(layer)
+                                if (!layer.isLocked) {
+                                    onActivateLayer(layer)
+                                }
                             }
                     ) {
                         val borderAlpha by animateFloatAsState(if (state.isActive) 1f else 0f)
@@ -193,6 +197,25 @@ internal fun MarkupLayersSideMenuColumn(
                             scale = 1f,
                             shape = ShapeDefaults.extraSmall
                         )
+                        if (layer.isLocked) {
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(6.dp)
+                                    .clip(ShapeDefaults.extraSmall)
+                                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                                    .hapticsClickable {
+                                        onUnlockLayer(layer)
+                                    }
+                                    .padding(4.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Lock,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        }
                     }
                     Spacer(Modifier.width(8.dp))
                     Icon(

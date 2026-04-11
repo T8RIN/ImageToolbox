@@ -41,6 +41,8 @@ import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.CenterFocusStrong
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Deselect
+import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.LockOpen
 import androidx.compose.material.icons.rounded.ScreenRotationAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -54,6 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -86,6 +89,8 @@ internal fun BoxScope.MarkupLayersContextActions(
     onToggleEditMode: () -> Unit,
     onRemoveLayer: () -> Unit,
     onActivateLayer: () -> Unit,
+    isLayerLocked: Boolean,
+    onToggleLayerLock: () -> Unit,
     onFlipLayerHorizontally: () -> Unit,
     onFlipLayerVertically: () -> Unit,
     onMoveLayerBy: (Float, Float) -> Unit,
@@ -110,6 +115,7 @@ internal fun BoxScope.MarkupLayersContextActions(
     var valueDialogType by rememberSaveable {
         mutableStateOf(ValueDialogType.None)
     }
+    val transformActionsEnabled = !isLayerLocked
 
     EnhancedDropdownMenu(
         expanded = visible,
@@ -135,6 +141,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                         onToggleEditMode()
                         onDismiss()
                     },
+                    enabled = transformActionsEnabled,
                     icon = Icons.Rounded.MiniEdit,
                     text = stringResource(R.string.edit),
                     modifier = Modifier.size(
@@ -175,6 +182,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                 )
                 ClickableTile(
                     onClick = onFlipLayerHorizontally,
+                    enabled = transformActionsEnabled,
                     icon = Icons.Outlined.Flip,
                     text = stringResource(R.string.horizontal_flip),
                     modifier = Modifier.size(
@@ -184,6 +192,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                 )
                 ClickableTile(
                     onClick = onFlipLayerVertically,
+                    enabled = transformActionsEnabled,
                     icon = Icons.Outlined.FlipVertical,
                     text = stringResource(R.string.vertical_flip),
                     modifier = Modifier.size(
@@ -192,14 +201,30 @@ internal fun BoxScope.MarkupLayersContextActions(
                     )
                 )
             }
+            ClickableTile(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 50.dp),
+                onClick = {
+                    onToggleLayerLock()
+                    onDismiss()
+                },
+                icon = if (isLayerLocked) Icons.Rounded.LockOpen else Icons.Rounded.Lock,
+                text = stringResource(
+                    if (isLayerLocked) R.string.unlock else R.string.lock
+                )
+            )
 
             ClickableTile(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 50.dp),
                 onClick = {
-                    isRotationAdjusting = !isRotationAdjusting
+                    if (transformActionsEnabled) {
+                        isRotationAdjusting = !isRotationAdjusting
+                    }
                 },
+                enabled = transformActionsEnabled,
                 content = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -268,8 +293,11 @@ internal fun BoxScope.MarkupLayersContextActions(
                     .fillMaxWidth()
                     .heightIn(min = 50.dp),
                 onClick = {
-                    isScaleAdjusting = !isScaleAdjusting
+                    if (transformActionsEnabled) {
+                        isScaleAdjusting = !isScaleAdjusting
+                    }
                 },
+                enabled = transformActionsEnabled,
                 content = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -351,6 +379,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                     ClickableTile(
                         onClick = { onMoveLayerBy(-1f, 0f) },
                         onHoldStep = { onMoveLayerBy(-1f, 0f) },
+                        enabled = transformActionsEnabled,
                         icon = Icons.AutoMirrored.Rounded.ArrowLeft,
                         text = null,
                         containerColor = buttonContainerColor,
@@ -367,6 +396,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                         ClickableTile(
                             onClick = { onMoveLayerBy(0f, -1f) },
                             onHoldStep = { onMoveLayerBy(0f, -1f) },
+                            enabled = transformActionsEnabled,
                             icon = Icons.Rounded.ArrowDropUp,
                             text = null,
                             modifier = Modifier
@@ -377,6 +407,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                         ClickableTile(
                             onClick = { onMoveLayerBy(0f, 1f) },
                             onHoldStep = { onMoveLayerBy(0f, 1f) },
+                            enabled = transformActionsEnabled,
                             icon = Icons.Rounded.ArrowDropDown,
                             text = null,
                             modifier = Modifier
@@ -388,6 +419,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                     ClickableTile(
                         onClick = { onMoveLayerBy(1f, 0f) },
                         onHoldStep = { onMoveLayerBy(1f, 0f) },
+                        enabled = transformActionsEnabled,
                         icon = Icons.AutoMirrored.Rounded.ArrowRight,
                         text = null,
                         containerColor = buttonContainerColor,
@@ -422,10 +454,15 @@ internal fun BoxScope.MarkupLayersContextActions(
                             ),
                             textAlign = TextAlign.Center,
                             modifier = Modifier
-                                .hapticsClickable {
-                                    onDismiss()
-                                    valueDialogType = ValueDialogType.PositionX
-                                }
+                                .then(
+                                    if (transformActionsEnabled) {
+                                        Modifier.hapticsClickable {
+                                            onDismiss()
+                                            valueDialogType = ValueDialogType.PositionX
+                                        }
+                                    } else Modifier
+                                )
+                                .alpha(if (transformActionsEnabled) 1f else 0.5f)
                                 .padding(
                                     start = 8.dp,
                                     top = 8.dp,
@@ -440,10 +477,15 @@ internal fun BoxScope.MarkupLayersContextActions(
                             ),
                             textAlign = TextAlign.Center,
                             modifier = Modifier
-                                .hapticsClickable {
-                                    onDismiss()
-                                    valueDialogType = ValueDialogType.PositionY
-                                }
+                                .then(
+                                    if (transformActionsEnabled) {
+                                        Modifier.hapticsClickable {
+                                            onDismiss()
+                                            valueDialogType = ValueDialogType.PositionY
+                                        }
+                                    } else Modifier
+                                )
+                                .alpha(if (transformActionsEnabled) 1f else 0.5f)
                                 .padding(
                                     start = 4.dp,
                                     top = 8.dp,
@@ -454,11 +496,17 @@ internal fun BoxScope.MarkupLayersContextActions(
                     }
                     SupportingButton(
                         icon = Icons.Rounded.CenterFocusStrong,
-                        onClick = onResetLayerPosition,
+                        onClick = {
+                            if (transformActionsEnabled) {
+                                onResetLayerPosition()
+                            }
+                        },
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                         shape = ShapeDefaults.extremeSmall,
-                        modifier = Modifier.padding(4.dp)
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .alpha(if (transformActionsEnabled) 1f else 0.5f)
                     )
                 }
             }

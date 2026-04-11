@@ -79,6 +79,7 @@ fun BoxWithConstraintsScope.EditBox(
     onLongTap: (() -> Unit)? = null,
     cornerRadiusPercent: Int = 0,
     blendingMode: BlendingMode = BlendingMode.SrcOver,
+    isInteractive: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -97,6 +98,7 @@ fun BoxWithConstraintsScope.EditBox(
         parentSize = parentSize,
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = blendingMode,
+        isInteractive = isInteractive,
         content = content
     )
 }
@@ -110,6 +112,7 @@ fun EditBox(
     onLongTap: (() -> Unit)? = null,
     cornerRadiusPercent: Int = 0,
     blendingMode: BlendingMode = BlendingMode.SrcOver,
+    isInteractive: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
@@ -163,6 +166,23 @@ fun EditBox(
     val selectionBackgroundColor = MaterialTheme.colorScheme.primary.copy(
         alpha = 0.2f * borderAlpha
     )
+    val interactionModifier = if (isInteractive) {
+        Modifier.pointerInput(onTap, animateTap) {
+            detectTapGestures(
+                onLongPress = onLongTap?.let {
+                    {
+                        it()
+                        animateTap()
+                    }
+                }
+            ) {
+                onTap()
+                if (state.isActive) animateTap()
+            }
+        }
+    } else {
+        Modifier
+    }
 
     Box(
         modifier = modifier
@@ -187,19 +207,7 @@ fun EditBox(
                     drawContent()
                 }
             }
-            .pointerInput(onTap, animateTap) {
-                detectTapGestures(
-                    onLongPress = onLongTap?.let {
-                        {
-                            it()
-                            animateTap()
-                        }
-                    }
-                ) {
-                    onTap()
-                    if (state.isActive) animateTap()
-                }
-            },
+            .then(interactionModifier),
         contentAlignment = Alignment.Center
     ) {
         Box(

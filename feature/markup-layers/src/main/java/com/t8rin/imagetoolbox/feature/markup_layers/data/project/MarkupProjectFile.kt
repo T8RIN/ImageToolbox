@@ -40,6 +40,7 @@ data class LayerSnapshot(
     val position: PositionSnapshot,
     val visibleLineCount: Int? = null,
     val cornerRadiusPercent: Int = 0,
+    val isLocked: Boolean = false,
     val blendingMode: Int = BlendingMode.SrcOver.value,
     val text: TextSnapshot? = null,
     val picture: PictureSnapshot? = null,

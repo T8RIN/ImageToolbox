@@ -153,6 +153,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun activateLayer(layer: UiMarkupLayer) {
+        if (layer.isLocked) return
         deactivateAllLayers()
         layer.state.activate()
     }
@@ -178,6 +179,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     ) {
         val currentLayer = layers.getOrNull(index) ?: return
         if (currentLayer == layer) return
+        val metadataOnlyUpdate = currentLayer.copy(
+            visibleLineCount = layer.visibleLineCount
+        ) == layer
+        if (currentLayer.isLocked && !metadataOnlyUpdate) return
 
         val replaceLayer: () -> Unit = {
             _layers.update {
@@ -187,8 +192,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             }
         }
 
-        val shouldTrackHistory = commitToHistory &&
-                currentLayer.copy(visibleLineCount = layer.visibleLineCount) != layer
+        val shouldTrackHistory = commitToHistory && !metadataOnlyUpdate
 
         if (shouldTrackHistory) {
             runEditorChange(replaceLayer)
@@ -200,9 +204,11 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun updateLayerState(
         layer: UiMarkupLayer,
         commitToHistory: Boolean = true,
+        allowLocked: Boolean = false,
         block: EditBoxState.() -> Unit
     ) {
         val currentLayer = layers.getOrNull(layers.indexOf(layer)) ?: return
+        if (currentLayer.isLocked && !allowLocked) return
 
         if (commitToHistory) {
             runEditorChange {
@@ -210,6 +216,29 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             }
         } else {
             currentLayer.state.block()
+        }
+    }
+
+    fun toggleLayerLock(layer: UiMarkupLayer) {
+        val index = layers.indexOf(layer)
+        val currentLayer = layers.getOrNull(index) ?: return
+
+        runEditorChange {
+            currentLayer.state.deactivate()
+            currentLayer.state.isInEditMode = false
+            _layers.update {
+                it.toMutableList().apply {
+                    set(
+                        index,
+                        currentLayer.copy(
+                            isLocked = !currentLayer.isLocked,
+                            state = currentLayer.state.copy(
+                                isActive = false
+                            )
+                        )
+                    )
+                }
+            }
         }
     }
 

@@ -28,6 +28,7 @@ data class MarkupLayer(
     val contentSize: IntegerSize = IntegerSize.Zero,
     val visibleLineCount: Int? = null,
     val cornerRadiusPercent: Int = 0,
+    val isLocked: Boolean = false,
     val blendingMode: BlendingMode = BlendingMode.SrcOver
 )
 

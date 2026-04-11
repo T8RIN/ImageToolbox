@@ -38,6 +38,7 @@ data class UiMarkupLayer(
     val visibleLineCount: Int? = null,
     val cornerRadiusPercent: Int = 0,
     val blendingMode: BlendingMode = BlendingMode.SrcOver,
+    val isLocked: Boolean = false,
     val state: EditBoxState = EditBoxState(isActive = true)
 ) {
     fun copy(
@@ -48,6 +49,7 @@ data class UiMarkupLayer(
         visibleLineCount = visibleLineCount,
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = blendingMode,
+        isLocked = isLocked,
         state = state.copy(
             isActive = isActive,
             coerceToBounds = coerceToBounds
@@ -72,6 +74,7 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
     contentSize = state.contentSize.toIntegerSize(),
     visibleLineCount = visibleLineCount,
     cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+    isLocked = isLocked,
     blendingMode = blendingMode
 )
 
@@ -80,6 +83,7 @@ fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
     visibleLineCount = visibleLineCount,
     cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
     blendingMode = blendingMode,
+    isLocked = isLocked,
     state = EditBoxState(
         scale = position.scale,
         rotation = position.rotation,
