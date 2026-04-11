@@ -207,35 +207,32 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         allowLocked: Boolean = false,
         block: EditBoxState.() -> Unit
     ) {
-        val currentLayer = layers.getOrNull(layers.indexOf(layer)) ?: return
-        if (currentLayer.isLocked && !allowLocked) return
+        if (layer.isLocked && !allowLocked) return
 
         if (commitToHistory) {
             runEditorChange {
-                currentLayer.state.block()
+                layer.state.block()
             }
         } else {
-            currentLayer.state.block()
+            layer.state.block()
         }
     }
 
     fun toggleLayerLock(layer: UiMarkupLayer) {
-        val index = layers.indexOf(layer)
-        val currentLayer = layers.getOrNull(index) ?: return
-
         runEditorChange {
-            currentLayer.state.deactivate()
-            currentLayer.state.isInEditMode = false
+            val copied = layer.copy(
+                isLocked = !layer.isLocked,
+                state = layer.state.copy(
+                    isActive = false,
+                    isInEditMode = false
+                )
+            )
+
             _layers.update {
                 it.toMutableList().apply {
                     set(
-                        index,
-                        currentLayer.copy(
-                            isLocked = !currentLayer.isLocked,
-                            state = currentLayer.state.copy(
-                                isActive = false
-                            )
-                        )
+                        index = indexOf(layer),
+                        element = copied
                     )
                 }
             }
