@@ -20,18 +20,17 @@ package com.t8rin.imagetoolbox.feature.palette_tools.presentation
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.rounded.FileOpen
@@ -41,11 +40,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -63,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -91,6 +91,10 @@ fun PaletteToolsContent(
 
     var showPreferencePicker by rememberSaveable(component.initialUri) {
         mutableStateOf(component.initialUri != null && paletteType == PaletteType.Default || paletteType == PaletteType.MaterialYou)
+    }
+
+    var showExitDialog by remember {
+        mutableStateOf(false)
     }
 
     AutoContentBasedColors(
@@ -200,17 +204,8 @@ fun PaletteToolsContent(
                 preference3()
             }
         } else {
-            val direction = LocalLayoutDirection.current
             Column(
-                Modifier.padding(
-                    WindowInsets.displayCutout.asPaddingValues()
-                        .let {
-                            PaddingValues(
-                                start = it.calculateStartPadding(direction),
-                                end = it.calculateEndPadding(direction)
-                            )
-                        }
-                )
+                Modifier.windowInsetsPadding(WindowInsets.displayCutout.only(WindowInsetsSides.End))
             ) {
                 Row {
                     preference1.withModifier(modifier = Modifier.weight(1f))
@@ -219,7 +214,7 @@ fun PaletteToolsContent(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row {
-                    preference3()
+                    preference3.withModifier(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.width(8.dp))
                     Spacer(Modifier.weight(1f))
                 }
@@ -253,10 +248,10 @@ fun PaletteToolsContent(
             )
         },
         onGoBack = {
-            if (paletteType != null) {
-                component.setUri(null)
-            } else {
-                component.onGoBack()
+            when (paletteType) {
+                PaletteType.Edit if component.palette.isNotEmpty() -> showExitDialog = true
+                null -> component.onGoBack()
+                else -> component.setUri(null)
             }
         },
         actions = {
@@ -276,10 +271,9 @@ fun PaletteToolsContent(
                     )
                 }
             }
-            if (paletteType == PaletteType.Edit) {
+            if (paletteType == PaletteType.Edit && component.palette.isNotEmpty()) {
                 ShareButton(
-                    onShare = component::sharePalette,
-                    enabled = component.palette.isNotEmpty()
+                    onShare = component::sharePalette
                 )
             }
         },
@@ -305,7 +299,7 @@ fun PaletteToolsContent(
 
             BottomButtonsBlock(
                 isNoData = if (paletteType == PaletteType.Edit) {
-                    !component.palette.isNotEmpty()
+                    isPortrait
                 } else {
                     paletteType == null || component.bitmap == null
                 },
@@ -386,6 +380,17 @@ fun PaletteToolsContent(
         }
     }
 
+    ExitWithoutSavingDialog(
+        onExit = {
+            if (paletteType != null) {
+                component.setUri(null)
+            } else {
+                component.onGoBack()
+            }
+        },
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
+    )
 
     LoadingDialog(
         visible = component.isImageLoading || component.isSaving,

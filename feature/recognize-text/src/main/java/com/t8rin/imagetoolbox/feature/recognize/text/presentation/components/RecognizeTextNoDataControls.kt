@@ -168,25 +168,19 @@ internal fun RecognizeTextNoDataControls(component: RecognizeTextComponent) {
         }
     } else {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(
+                WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
+                    .asPaddingValues()
+            )
         ) {
-            Row(
-                modifier = Modifier.padding(
-                    WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
-                        .asPaddingValues()
-                )
-            ) {
+            Row {
                 preference1.withModifier(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.width(8.dp))
                 preference2.withModifier(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.padding(
-                    WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
-                        .asPaddingValues()
-                )
-            ) {
+            Row {
                 preference3.withModifier(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.width(8.dp))
                 preference4.withModifier(modifier = Modifier.weight(1f))
