@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 data class MarkupLayer(
     val type: LayerType,
     val position: LayerPosition,
+    val contentSize: IntegerSize = IntegerSize.Zero,
     val visibleLineCount: Int? = null,
     val cornerRadiusPercent: Int = 0,
     val blendingMode: BlendingMode = BlendingMode.SrcOver

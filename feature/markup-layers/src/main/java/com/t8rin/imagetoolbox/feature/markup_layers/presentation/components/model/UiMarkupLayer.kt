@@ -24,7 +24,9 @@ import androidx.compose.material.icons.rounded.FormatStrikethrough
 import androidx.compose.material.icons.rounded.FormatUnderlined
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.IntSize
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
@@ -67,6 +69,7 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
         coerceToBounds = state.coerceToBounds,
         isVisible = state.isVisible
     ),
+    contentSize = state.contentSize.toIntegerSize(),
     visibleLineCount = visibleLineCount,
     cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
     blendingMode = blendingMode
@@ -89,9 +92,20 @@ fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
         alpha = position.alpha,
         isActive = false,
         canvasSize = position.currentCanvasSize,
+        contentSize = contentSize.toIntSize(),
         isVisible = position.isVisible,
         coerceToBounds = position.coerceToBounds
     )
+)
+
+private fun IntSize.toIntegerSize(): IntegerSize = IntegerSize(
+    width = width.coerceAtLeast(0),
+    height = height.coerceAtLeast(0)
+)
+
+private fun IntegerSize.toIntSize(): IntSize = IntSize(
+    width = width.coerceAtLeast(0),
+    height = height.coerceAtLeast(0)
 )
 
 val DomainTextDecoration.icon: ImageVector

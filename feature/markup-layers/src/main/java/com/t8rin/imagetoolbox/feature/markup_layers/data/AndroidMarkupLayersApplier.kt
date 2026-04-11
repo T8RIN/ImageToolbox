@@ -23,7 +23,6 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.createZip
@@ -63,13 +62,11 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
 
     override suspend fun applyToImage(
         image: Bitmap,
-        layers: List<MarkupLayer>,
-        measuredContentSizes: List<IntegerSize?>
+        layers: List<MarkupLayer>
     ): Bitmap = withContext(defaultDispatcher) {
         renderer.render(
             backgroundImage = image,
-            layers = layers,
-            measuredContentSizes = measuredContentSizes
+            layers = layers
         )
     }
 

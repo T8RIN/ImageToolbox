@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.IntSize
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
@@ -39,7 +38,6 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -467,12 +465,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                             layers.firstOrNull()?.state?.canvasSize?.height?.takeIf { it > 0 } ?: 1
                         ImageBitmap(w, h).asAndroidBitmap()
                     },
-                layers = layers.map { it.asDomain() },
-                measuredContentSizes = layers.map { layer ->
-                    layer.state.contentSize
-                        .takeIf { it.isSpecified() }
-                        ?.toIntegerSize()
-                }
+                layers = layers.map { it.asDomain() }
             )
         }.onFailure {
             it.makeLog()
@@ -756,10 +749,3 @@ private fun EditBoxState.moveBy(
 private fun EditBoxState.resetPosition() {
     offset = Offset.Zero
 }
-
-private fun IntSize.isSpecified(): Boolean = width > 0 && height > 0
-
-private fun IntSize.toIntegerSize(): IntegerSize = IntegerSize(
-    width = width,
-    height = height
-)

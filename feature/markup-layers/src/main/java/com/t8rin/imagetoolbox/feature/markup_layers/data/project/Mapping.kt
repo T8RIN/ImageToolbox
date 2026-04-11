@@ -236,6 +236,7 @@ internal class MarkupMapper @Inject constructor(
     ): MarkupLayer = MarkupLayer(
         type = toDomainType(extractionDir),
         position = position.toDomain(),
+        contentSize = IntegerSize.Zero,
         visibleLineCount = visibleLineCount,
         cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
         blendingMode = BlendingMode.entries.find { it.value == blendingMode }

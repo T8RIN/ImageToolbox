@@ -56,8 +56,7 @@ internal class LayersRenderer @Inject constructor(
 
     suspend fun render(
         backgroundImage: Bitmap,
-        layers: List<MarkupLayer>,
-        measuredContentSizes: List<IntegerSize?> = emptyList()
+        layers: List<MarkupLayer>
     ): Bitmap = withContext(defaultDispatcher) {
         val resultBitmap = backgroundImage.copy(Bitmap.Config.ARGB_8888, true)
 
@@ -86,12 +85,11 @@ internal class LayersRenderer @Inject constructor(
                 translate(canvasOffsetX, canvasOffsetY)
                 scale(ratio, ratio)
 
-                layers.forEachIndexed { index, layer ->
-                    if (!layer.position.isVisible) return@forEachIndexed
+                layers.forEach { layer ->
+                    if (!layer.position.isVisible) return@forEach
 
                     val centerX = authorWidth / 2f + layer.position.offsetX
                     val centerY = authorHeight / 2f + layer.position.offsetY
-                    val measuredContentSize = measuredContentSizes.getOrNull(index)
 
                     when (val type = layer.type) {
                         is LayerType.Picture -> {
@@ -99,14 +97,14 @@ internal class LayersRenderer @Inject constructor(
                                 loadPictureBitmap(
                                     imageData = type.imageData
                                 )
-                            } ?: return@forEachIndexed
+                            } ?: return@forEach
 
                             val pictureData = resolvePictureRenderData(
                                 bitmap = contentBitmap,
-                                measuredContentSize = measuredContentSize,
+                                contentSize = layer.contentSize,
                                 maxWidth = authorWidth / 2f,
                                 maxHeight = authorHeight / 2f
-                            ) ?: return@forEachIndexed
+                            ) ?: return@forEach
 
                             withSave {
                                 translate(centerX, centerY)
@@ -189,11 +187,11 @@ internal class LayersRenderer @Inject constructor(
 
     private fun resolvePictureRenderData(
         bitmap: Bitmap,
-        measuredContentSize: IntegerSize?,
+        contentSize: IntegerSize,
         maxWidth: Float,
         maxHeight: Float
     ): PictureLayerRenderData? {
-        measuredContentSize?.takeIf { it.width > 0 && it.height > 0 }?.let {
+        contentSize.takeIf { it.width > 0 && it.height > 0 }?.let {
             return PictureLayerRenderData(
                 width = it.width.toFloat(),
                 height = it.height.toFloat()
