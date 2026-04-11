@@ -206,17 +206,23 @@ class EditBoxState(
         }
 
     private fun adjustByCanvasSize(value: IntegerSize) {
-        if (_canvasSize.value != IntegerSize.Zero) {
-            val sx = value.width.toFloat() / _canvasSize.value.width
-            val sy = value.height.toFloat() / _canvasSize.value.height
-            // Layer offsets live in canvas pixels, so restore them per axis when the
-            // editor canvas changes after project import/reopen. Scaling the layer
-            // itself here double-applies size changes because the content already
-            // remeasures against the new canvas bounds.
+        val previousCanvasSize = _canvasSize.value
+        if (previousCanvasSize != IntegerSize.Zero) {
+            val sx = value.width.toFloat() / previousCanvasSize.width
+            val sy = value.height.toFloat() / previousCanvasSize.height
+
             offset = Offset(
                 x = offset.x * sx,
                 y = offset.y * sy
             )
+
+            // Layers whose measured content did not depend on the canvas bounds
+            // need an explicit scale adjustment to preserve their visual size
+            // relative to the preview after canvas resize. Layers already capped
+            // by `sizeIn(max = canvas / 2)` will remeasure on their own.
+            if (contentSize.isSpecified() && !contentSize.isBoundedByCanvas(previousCanvasSize)) {
+                scale = (scale * min(sx, sy)).fastCoerceIn(0.3f, 10f)
+            }
         }
         _canvasSize.value = value
     }
@@ -416,6 +422,18 @@ private fun IntSize.rotatedHalfExtents(
         x = innerHalfWidth * cos + innerHalfHeight * sin + cornerRadiusPx,
         y = innerHalfWidth * sin + innerHalfHeight * cos + cornerRadiusPx
     )
+}
+
+private fun IntSize.isSpecified(): Boolean = width > 0 && height > 0
+
+private fun IntSize.isBoundedByCanvas(
+    canvasSize: IntegerSize,
+    tolerancePx: Int = 1
+): Boolean {
+    val maxWidth = canvasSize.width / 2
+    val maxHeight = canvasSize.height / 2
+
+    return width >= maxWidth - tolerancePx || height >= maxHeight - tolerancePx
 }
 
 private fun Offset.rotateBy(
