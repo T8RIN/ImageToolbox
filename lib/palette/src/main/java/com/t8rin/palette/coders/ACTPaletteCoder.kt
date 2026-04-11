@@ -125,19 +125,6 @@ class ACTPaletteCoder : PaletteCoder {
             writer.writeUInt16(maxColors.toUShort(), ByteOrder.BIG_ENDIAN)
             writer.writeUInt16(0xFFFFu, ByteOrder.BIG_ENDIAN)
         }
-
-        // Append color names as a comment extension (non-standard but preserves names)
-        val allColorsList = palette.allColors()
-        val names = (0 until maxColors).mapNotNull { index ->
-            if (index < allColorsList.size && allColorsList[index].name.isNotEmpty()) {
-                allColorsList[index].name
-            } else null
-        }
-        if (names.isNotEmpty()) {
-            val nameText = "\n; ACT_NAMES: ${names.joinToString("|")}\n"
-            output.write(nameText.toByteArray(StandardCharsets.UTF_8))
-        }
     }
 }
-
 

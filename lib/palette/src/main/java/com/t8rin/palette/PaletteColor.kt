@@ -399,7 +399,7 @@ data class PaletteColor(
                     l = lab.l,
                     a = lab.a,
                     b = lab.b,
-                    alpha = lab.a,
+                    alpha = lab.alpha,
                     name = name,
                     colorType = colorType
                 )

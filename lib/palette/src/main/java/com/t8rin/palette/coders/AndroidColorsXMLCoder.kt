@@ -44,6 +44,8 @@ class AndroidColorsXMLCoder(
         private var currentName: String? = null
         private var isInsideResourcesBlock = false
         private var currentChars = StringBuilder()
+        private fun elementName(localName: String, qName: String?): String =
+            localName.ifBlank { qName ?: "" }.substringAfter(':').lowercase()
 
         override fun startElement(
             uri: String?,
@@ -52,7 +54,7 @@ class AndroidColorsXMLCoder(
             attributes: Attributes
         ) {
             currentChars.clear()
-            when (localName.lowercase()) {
+            when (elementName(localName, qName)) {
                 "resources" -> isInsideResourcesBlock = true
                 "color" -> {
                     currentElement = "color"
@@ -62,7 +64,7 @@ class AndroidColorsXMLCoder(
         }
 
         override fun endElement(uri: String?, localName: String, qName: String?) {
-            when (localName.lowercase()) {
+            when (elementName(localName, qName)) {
                 "resources" -> isInsideResourcesBlock = false
                 "color" -> {
                     if (isInsideResourcesBlock && currentElement == "color") {

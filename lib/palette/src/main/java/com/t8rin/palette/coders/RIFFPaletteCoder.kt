@@ -35,25 +35,21 @@ class RIFFPaletteCoder : PaletteCoder {
         val parser = BytesReader(input)
         val result = Palette.Builder()
 
-        // Check header 'RIFF'
-        val header = parser.readInt32(ByteOrder.BIG_ENDIAN)
-        if (header != 0x52494646) {
+        val header = parser.readStringASCII(4)
+        if (header != "RIFF") {
             throw PaletteCoderException.InvalidFormat()
         }
 
-        // Skip some header
-        parser.readInt32(ByteOrder.BIG_ENDIAN)
+        parser.readInt32(ByteOrder.LITTLE_ENDIAN)
 
-        // Check RIFF type 'PAL '
-        val riffType = parser.readInt32(ByteOrder.BIG_ENDIAN)
-        if (riffType != 0x50414C20) {
+        val riffType = parser.readStringASCII(4)
+        if (riffType != "PAL ") {
             throw PaletteCoderException.InvalidFormat()
         }
 
-        // Data header 'data'
-        val dataHeader = parser.readInt32(ByteOrder.BIG_ENDIAN)
-        parser.readInt32(ByteOrder.LITTLE_ENDIAN) // chunkSize
-        if (dataHeader != 0x64617461) {
+        val dataHeader = parser.readStringASCII(4)
+        parser.readInt32(ByteOrder.LITTLE_ENDIAN)
+        if (dataHeader != "data") {
             throw PaletteCoderException.InvalidFormat()
         }
 
@@ -102,32 +98,29 @@ class RIFFPaletteCoder : PaletteCoder {
 
     override fun encode(palette: Palette, output: OutputStream) {
         val writer = BytesWriter(output)
-        val allColors = palette.allColors().map { it.toRgb() }
+        val sourceColors = palette.allColors()
+        val allColors = sourceColors.map { it.toRgb() }
         val colorCount = allColors.size
 
-        // RIFF header 'RIFF' (4 bytes, big endian)
+        val dataChunkSize = 2 + 2 + colorCount * 4
+        val dataChunkTotalSize = 8 + dataChunkSize
+
+        val names = sourceColors.map { it.name }
+        val hasNames = names.any { it.isNotEmpty() }
+        val nameBytes = if (hasNames) {
+            names.joinToString("\n").toByteArray(java.nio.charset.StandardCharsets.UTF_8)
+        } else {
+            ByteArray(0)
+        }
+        val nameChunkPadding = if (hasNames && nameBytes.size % 2 != 0) 1 else 0
+        val nameChunkTotalSize = if (hasNames) 8 + nameBytes.size + nameChunkPadding else 0
+        val fileSizeMinus8 = 4 + dataChunkTotalSize + nameChunkTotalSize
+
         writer.writeInt32(0x52494646, ByteOrder.BIG_ENDIAN)
-
-        // Calculate sizes
-        // Data chunk: 4 (data header) + 4 (chunk size) + 2 (version) + 2 (num entries) + colorCount * 4
-        val dataChunkSize = 4 + 4 + 2 + 2 + colorCount * 4
-        // RIFF chunk size: 4 (RIFF type) + dataChunkSize
-        val riffChunkSize = 4 + dataChunkSize
-        // File size minus 8
-        val fileSizeMinus8 = riffChunkSize
-
-        // File size minus 8 (4 bytes, big endian)
-        writer.writeInt32(fileSizeMinus8, ByteOrder.BIG_ENDIAN)
-
-        // RIFF type 'PAL ' (4 bytes, big endian)
+        writer.writeInt32(fileSizeMinus8, ByteOrder.LITTLE_ENDIAN)
         writer.writeInt32(0x50414C20, ByteOrder.BIG_ENDIAN)
-
-        // Data header 'data' (4 bytes, big endian)
         writer.writeInt32(0x64617461, ByteOrder.BIG_ENDIAN)
-
-        // Chunk size (4 bytes, little endian) - size of data after this field
-        val chunkSize = 2 + 2 + colorCount * 4
-        writer.writeInt32(chunkSize, ByteOrder.LITTLE_ENDIAN)
+        writer.writeInt32(dataChunkSize, ByteOrder.LITTLE_ENDIAN)
 
         // palVersion (2 bytes, little endian) - typically 3
         writer.writeInt16(3, ByteOrder.LITTLE_ENDIAN)
@@ -143,27 +136,14 @@ class RIFFPaletteCoder : PaletteCoder {
             writer.writeByte(0) // unused
         }
 
-        // Add non-standard "name" chunk with color names
-        val names = palette.allColors().mapNotNull { if (it.name.isNotEmpty()) it.name else null }
-        if (names.isNotEmpty()) {
-            val nameText = names.joinToString("\n")
-            val nameBytes = nameText.toByteArray(java.nio.charset.StandardCharsets.UTF_8)
-
-            // "name" chunk header (4 bytes, big endian)
+        if (hasNames) {
             writer.writeInt32(0x6E616D65, ByteOrder.BIG_ENDIAN)
-
-            // Chunk size (4 bytes, little endian)
             writer.writeInt32(nameBytes.size, ByteOrder.LITTLE_ENDIAN)
-
-            // Name data
             writer.writeData(nameBytes)
-
-            // Pad to even boundary if needed
-            if (nameBytes.size % 2 != 0) {
+            if (nameChunkPadding != 0) {
                 writer.writeByte(0)
             }
         }
     }
 }
-
 

@@ -39,6 +39,8 @@ class BasicXMLCoder : PaletteCoder {
     private class BasicXMLHandler : DefaultHandler() {
         val palette = Palette.Builder()
         private var currentChars = StringBuilder()
+        private fun elementName(localName: String, qName: String?): String =
+            localName.ifBlank { qName ?: "" }.substringAfter(':').lowercase()
 
         override fun startElement(
             uri: String?,
@@ -47,7 +49,7 @@ class BasicXMLCoder : PaletteCoder {
             attributes: Attributes
         ) {
             currentChars.clear()
-            when (localName.lowercase()) {
+            when (elementName(localName, qName)) {
                 "palette" -> {
                     val name = attributes.getValue("name")?.xmlDecoded()
                     if (name != null) {

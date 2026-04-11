@@ -25,6 +25,7 @@ import com.t8rin.palette.PaletteColor
 import com.t8rin.palette.utils.readText
 import java.io.InputStream
 import java.io.OutputStream
+import kotlin.math.roundToInt
 
 /**
  * GIMP Palette (GPL) coder
@@ -32,14 +33,15 @@ import java.io.OutputStream
 class GIMPPaletteCoder : PaletteCoder {
     companion object {
         private val nameRegex = Regex("^Name:\\s*(.*)$", RegexOption.IGNORE_CASE)
-        private val colorRegex = Regex("^\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)(.*)$")
+        private val colorRegex = Regex("^\\s*(\\d{1,3})\\s+(\\d{1,3})\\s+(\\d{1,3})(?:\\s+(.*))?$")
     }
 
     override fun decode(input: InputStream): Palette {
         val text = input.readText()
         val lines = text.lines()
 
-        if (lines.isEmpty() || !lines[0].contains("GIMP Palette", ignoreCase = true)) {
+        val header = lines.firstOrNull()?.removePrefix("\uFEFF")?.trim() ?: ""
+        if (!header.equals("GIMP Palette", ignoreCase = true)) {
             throw PaletteCoderException.InvalidFormat()
         }
 
@@ -48,6 +50,8 @@ class GIMPPaletteCoder : PaletteCoder {
         for (line in lines.drop(1)) {
             val trimmed = line.trim()
             if (trimmed.isEmpty()) continue
+            if (trimmed.startsWith("#")) continue
+            if (trimmed.startsWith("Columns:", ignoreCase = true)) continue
 
             // Check for name
             nameRegex.find(trimmed)?.let { match ->
@@ -60,7 +64,9 @@ class GIMPPaletteCoder : PaletteCoder {
                 val r = match.groupValues[1].toIntOrNull() ?: continue
                 val g = match.groupValues[2].toIntOrNull() ?: continue
                 val b = match.groupValues[3].toIntOrNull() ?: continue
-                val name = match.groupValues[4].trim()
+                if (r !in 0..255 || g !in 0..255 || b !in 0..255) continue
+
+                val name = match.groupValues.getOrElse(4) { "" }.trim()
 
                 val color = PaletteColor.rgb(
                     r = (r / 255.0).coerceIn(0.0, 1.0),
@@ -76,34 +82,34 @@ class GIMPPaletteCoder : PaletteCoder {
     }
 
     override fun encode(palette: Palette, output: OutputStream) {
-        val flattenedColors = palette.allColors().map { color ->
-            val rgb =
-                if (color.colorSpace == ColorSpace.RGB) color else color.converted(ColorSpace.RGB)
-            rgb.toRgb()
-        }
-        var result = "GIMP Palette\n"
-
-        if (palette.name.isNotEmpty()) {
-            result += "Name: ${palette.name}\n"
-        }
-
-        result += "#Colors: ${flattenedColors.size}\n"
-
-        // We need to preserve original color names, so we'll use the original colors
         val originalColors = palette.allColors()
-        flattenedColors.forEachIndexed { index, rgb ->
-            val r = ((rgb.rf * 255).coerceIn(0.0, 255.0).toInt())
-            val g = ((rgb.gf * 255).coerceIn(0.0, 255.0).toInt())
-            val b = ((rgb.bf * 255).coerceIn(0.0, 255.0).toInt())
+        val result = buildString {
+            appendLine("GIMP Palette")
+            appendLine("Name: ${sanitizeGimpText(palette.name)}")
+            appendLine("Columns: 0")
+            appendLine("#Colors: ${originalColors.size}")
 
-            result += "$r\t$g\t$b"
-            if (index < originalColors.size && originalColors[index].name.isNotEmpty()) {
-                result += "\t${originalColors[index].name}"
+            originalColors.forEach { color ->
+                val rgb = if (color.colorSpace == ColorSpace.RGB) color.toRgb()
+                else color.converted(ColorSpace.RGB).toRgb()
+
+                val r = (rgb.rf * 255.0).roundToInt().coerceIn(0, 255)
+                val g = (rgb.gf * 255.0).roundToInt().coerceIn(0, 255)
+                val b = (rgb.bf * 255.0).roundToInt().coerceIn(0, 255)
+
+                append("$r\t$g\t$b")
+                val colorName = sanitizeGimpText(color.name)
+                if (colorName.isNotEmpty()) {
+                    append('\t')
+                    append(colorName)
+                }
+                append('\n')
             }
-            result += "\n"
         }
 
         output.write(result.toByteArray(java.nio.charset.StandardCharsets.UTF_8))
     }
-}
 
+    private fun sanitizeGimpText(value: String): String =
+        value.replace(Regex("[\\r\\n\\t]+"), " ").trim()
+}
