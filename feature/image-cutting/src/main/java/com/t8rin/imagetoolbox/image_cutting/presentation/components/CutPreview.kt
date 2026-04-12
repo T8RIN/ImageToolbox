@@ -37,8 +37,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -50,9 +50,11 @@ import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.other.rememberAnimatedBorder
+import com.t8rin.imagetoolbox.core.ui.widget.other.rememberAnimatedBorderPhase
 import com.t8rin.imagetoolbox.image_cutting.domain.CutParams
 import com.t8rin.imagetoolbox.image_cutting.domain.PivotPair
+import kotlin.math.abs
+import kotlin.math.hypot
 
 @Composable
 internal fun CutPreview(
@@ -97,17 +99,22 @@ private fun CutFrameBorder(
     val keptRects = remember(params) {
         params.toPreviewRects()
     } ?: return
+    val meaningfulEdgeGroups = remember(keptRects) {
+        keptRects.map(Rect::toMeaningfulEdges).filter(List<PreviewEdge>::isNotEmpty)
+    }
 
     val isNightMode = LocalSettingsState.current.isNightMode
     val colorScheme = MaterialTheme.colorScheme
     val overlayColor = Black.copy(alpha = if (isNightMode) 0.5f else 0.3f)
-    val pathEffect = rememberAnimatedBorder()
+    val animatedBorderPhase = rememberAnimatedBorderPhase()
 
     Canvas(
         modifier = modifier.graphicsLayer {
             compositingStrategy = CompositingStrategy.Offscreen
         }
     ) {
+        val strokeWidth = 1.5.dp.toPx()
+
         drawRect(
             color = overlayColor,
             size = size
@@ -129,23 +136,42 @@ private fun CutFrameBorder(
                 topLeft = topLeft,
                 size = rectSize
             )
+        }
 
-            drawRect(
-                color = colorScheme.primary,
-                style = Stroke(width = 1.5.dp.toPx()),
-                topLeft = topLeft,
-                size = rectSize
-            )
+        meaningfulEdgeGroups.forEach { edges ->
+            var accumulatedLength = 0f
 
-            drawRect(
-                color = colorScheme.primaryContainer,
-                style = Stroke(
-                    width = 1.5.dp.toPx(),
-                    pathEffect = pathEffect
-                ),
-                topLeft = topLeft,
-                size = rectSize
-            )
+            edges.forEach { edge ->
+                val start = Offset(
+                    x = edge.start.x * size.width,
+                    y = edge.start.y * size.height
+                )
+                val end = Offset(
+                    x = edge.end.x * size.width,
+                    y = edge.end.y * size.height
+                )
+                val lineLength = hypot(end.x - start.x, end.y - start.y)
+
+                drawLine(
+                    color = colorScheme.primary,
+                    start = start,
+                    end = end,
+                    strokeWidth = strokeWidth
+                )
+
+                drawLine(
+                    color = colorScheme.primaryContainer,
+                    start = start,
+                    end = end,
+                    strokeWidth = strokeWidth,
+                    pathEffect = PathEffect.dashPathEffect(
+                        intervals = DashIntervals,
+                        phase = animatedBorderPhase - accumulatedLength
+                    )
+                )
+
+                accumulatedLength += lineLength
+            }
         }
     }
 }
@@ -195,6 +221,55 @@ private fun ClosedFloatingPointRange<Float>?.toPreviewSegments(
         }
     }
 }
+
+private data class PreviewEdge(
+    val start: Offset,
+    val end: Offset
+)
+
+private val DashIntervals = floatArrayOf(20f, 20f)
+
+private fun Rect.toMeaningfulEdges(): List<PreviewEdge> {
+    return buildList {
+        if (!top.isCloseTo(0f)) {
+            add(
+                PreviewEdge(
+                    start = Offset(left, top),
+                    end = Offset(right, top)
+                )
+            )
+        }
+        if (!right.isCloseTo(1f)) {
+            add(
+                PreviewEdge(
+                    start = Offset(right, top),
+                    end = Offset(right, bottom)
+                )
+            )
+        }
+        if (!bottom.isCloseTo(1f)) {
+            add(
+                PreviewEdge(
+                    start = Offset(right, bottom),
+                    end = Offset(left, bottom)
+                )
+            )
+        }
+        if (!left.isCloseTo(0f)) {
+            add(
+                PreviewEdge(
+                    start = Offset(left, bottom),
+                    end = Offset(left, top)
+                )
+            )
+        }
+    }
+}
+
+private fun Float.isCloseTo(
+    other: Float,
+    epsilon: Float = 0.001f
+): Boolean = abs(this - other) <= epsilon
 
 @EnPreview
 @Composable

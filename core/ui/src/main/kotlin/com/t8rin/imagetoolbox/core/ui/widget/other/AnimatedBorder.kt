@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.other
 
-import androidx.compose.animation.core.InfiniteTransition
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -77,10 +76,22 @@ fun rememberAnimatedBorder(
     intervals: FloatArray = floatArrayOf(20f, 20f),
     phase: Float = 80f,
     repeatDuration: Int = 1000
-): PathEffect {
-    val transition: InfiniteTransition = rememberInfiniteTransition()
+): PathEffect = PathEffect.dashPathEffect(
+    intervals = intervals,
+    phase = rememberAnimatedBorderPhase(
+        phase = phase,
+        repeatDuration = repeatDuration
+    )
+)
 
-    val phase by transition.animateFloat(
+@Composable
+fun rememberAnimatedBorderPhase(
+    phase: Float = 80f,
+    repeatDuration: Int = 1000
+): Float {
+    val transition = rememberInfiniteTransition()
+
+    val animatedPhase by transition.animateFloat(
         initialValue = 0f,
         targetValue = phase,
         animationSpec = infiniteRepeatable(
@@ -92,8 +103,5 @@ fun rememberAnimatedBorder(
         )
     )
 
-    return PathEffect.dashPathEffect(
-        intervals = intervals,
-        phase = phase
-    )
+    return animatedPhase
 }
