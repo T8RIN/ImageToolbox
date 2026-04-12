@@ -27,11 +27,12 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.Mar
 
 @Composable
 internal fun BoxWithConstraintsScope.Layer(
-    component: MarkupLayersComponent,
+    component: MarkupLayersComponent?,
     layer: UiMarkupLayer,
-    onActivate: () -> Unit,
-    onShowContextOptions: () -> Unit,
-    onUpdateLayer: (UiMarkupLayer, Boolean) -> Unit
+    onActivate: (() -> Unit)?,
+    onShowContextOptions: (() -> Unit)?,
+    onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?,
+    isPreview: Boolean = false
 ) {
     val type = layer.type
 
@@ -40,28 +41,31 @@ internal fun BoxWithConstraintsScope.Layer(
         cornerRadiusPercent = layer.cornerRadiusPercent,
         blendingMode = layer.blendingMode,
         isInteractive = !layer.isLocked,
+        isPreview = isPreview,
         onTap = {
             if (layer.state.isActive) {
                 layer.state.isInEditMode = true
             } else {
-                onActivate()
+                onActivate?.invoke()
             }
         },
         onLongTap = {
             if (!layer.state.isActive) {
-                onActivate()
+                onActivate?.invoke()
             }
-            onShowContextOptions()
+            onShowContextOptions?.invoke()
         },
         content = {
+            val scaleFactor = if (!isPreview) 2 else 1
+
             LayerContent(
                 modifier = Modifier.sizeIn(
-                    maxWidth = this@Layer.maxWidth / 2,
-                    maxHeight = this@Layer.maxHeight / 2
+                    maxWidth = this@Layer.maxWidth / scaleFactor,
+                    maxHeight = this@Layer.maxHeight / scaleFactor
                 ),
                 type = type,
                 textFullSize = this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
-                onTextLayout = if (layer.type is LayerType.Text) {
+                onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
                     { result ->
                         val visibleLineCount = if (result.didOverflowHeight) {
                             (0 until result.lineCount).count { lineIndex ->
@@ -83,11 +87,13 @@ internal fun BoxWithConstraintsScope.Layer(
         }
     )
 
-    EditLayerSheet(
-        component = component,
-        visible = layer.state.isInEditMode && !layer.isLocked,
-        onDismiss = { layer.state.isInEditMode = it },
-        onUpdateLayer = onUpdateLayer,
-        layer = layer
-    )
+    if (onUpdateLayer != null && component != null) {
+        EditLayerSheet(
+            component = component,
+            visible = layer.state.isInEditMode && !layer.isLocked,
+            onDismiss = { layer.state.isInEditMode = it },
+            onUpdateLayer = onUpdateLayer,
+            layer = layer
+        )
+    }
 }

@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -43,13 +42,10 @@ import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -61,9 +57,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.sin
 
 @Composable
 internal fun MarkupLayersSideMenuColumn(
@@ -106,18 +99,9 @@ internal fun MarkupLayersSideMenuColumn(
                 state = reorderableLazyListState,
                 key = layer.hashCode()
             ) {
-                val type = layer.type
                 val state = layer.state
 
                 val boxSize = 92.dp
-                val rotationFitScale by remember(state.rotation) {
-                    derivedStateOf {
-                        val radians = Math.toRadians((state.rotation % 180f).toDouble())
-                        val projectionSum = abs(cos(radians)) + abs(sin(radians))
-                        (1f / projectionSum.toFloat().coerceAtLeast(1f))
-                            .coerceIn(0.55f, 1f)
-                    }
-                }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -159,36 +143,17 @@ internal fun MarkupLayersSideMenuColumn(
                                         0.16f * borderAlpha
                                     )
                                 )
-                                .padding(6.dp),
+                                .padding(12.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            val scope = this
-
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize(0.96f)
-                                    .graphicsLayer {
-                                        scaleX = rotationFitScale *
-                                                if (state.isFlippedHorizontally) -1f else 1f
-                                        scaleY = rotationFitScale *
-                                                if (state.isFlippedVertically) -1f else 1f
-                                        rotationZ = state.rotation
-                                        alpha = state.alpha
-                                    }
-                                    .padding(4.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                LayerContent(
-                                    modifier = Modifier.sizeIn(
-                                        maxWidth = scope.maxWidth,
-                                        maxHeight = scope.maxHeight
-                                    ),
-                                    type = type,
-                                    textFullSize = scope.constraints.run {
-                                        minOf(maxWidth, maxHeight)
-                                    }
-                                )
-                            }
+                            Layer(
+                                component = null,
+                                layer = layer,
+                                onActivate = null,
+                                onShowContextOptions = null,
+                                onUpdateLayer = null,
+                                isPreview = true,
+                            )
                         }
 
                         AnimatedBorder(
