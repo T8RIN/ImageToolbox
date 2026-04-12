@@ -19,8 +19,7 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -44,9 +43,8 @@ import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.LockOpen
 import androidx.compose.material.icons.rounded.ScreenRotationAlt
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -54,7 +52,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -106,11 +103,8 @@ internal fun BoxScope.MarkupLayersContextActions(
     onRotationDegreesChange: (Float) -> Unit,
     onRotationDegreesChangeFinished: () -> Unit
 ) {
-    var isRotationAdjusting by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var isScaleAdjusting by rememberSaveable {
-        mutableStateOf(false)
+    var expandedAdjustableAction by rememberSaveable {
+        mutableStateOf(AdjustableActionType.None)
     }
     var valueDialogType by rememberSaveable {
         mutableStateOf(ValueDialogType.None)
@@ -120,9 +114,8 @@ internal fun BoxScope.MarkupLayersContextActions(
     EnhancedDropdownMenu(
         expanded = visible,
         onDismissRequest = {
-            if (isRotationAdjusting || isScaleAdjusting) {
-                isScaleAdjusting = false
-                isRotationAdjusting = false
+            if (expandedAdjustableAction != AdjustableActionType.None) {
+                expandedAdjustableAction = AdjustableActionType.None
             } else {
                 onDismiss()
             }
@@ -201,166 +194,114 @@ internal fun BoxScope.MarkupLayersContextActions(
                     )
                 )
             }
-            ClickableTile(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 50.dp),
-                onClick = {
-                    onToggleLayerLock()
-                    onDismiss()
-                },
-                icon = if (isLayerLocked) Icons.Rounded.LockOpen else Icons.Rounded.Lock,
-                text = stringResource(
-                    if (isLayerLocked) R.string.unlock else R.string.lock
+            val activeActionContainerColor = takeColorFromScheme {
+                surfaceContainerLow.blend(
+                    color = tertiaryContainer,
+                    fraction = 0.5f
                 )
-            )
+            }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                ClickableTile(
+                    onClick = {
+                        onToggleLayerLock()
+                        onDismiss()
+                    },
+                    icon = if (isLayerLocked) Icons.Rounded.LockOpen else Icons.Rounded.Lock,
+                    text = stringResource(
+                        if (isLayerLocked) R.string.unlock else R.string.lock
+                    ),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
+                )
+                ClickableTile(
+                    onClick = {
+                        if (transformActionsEnabled) {
+                            expandedAdjustableAction =
+                                expandedAdjustableAction.toggle(AdjustableActionType.Rotation)
+                        }
+                    },
+                    enabled = transformActionsEnabled,
+                    icon = Icons.Rounded.ScreenRotationAlt,
+                    text = stringResource(R.string.rotation),
+                    containerColor = if (expandedAdjustableAction == AdjustableActionType.Rotation) {
+                        activeActionContainerColor
+                    } else {
+                        MaterialTheme.colorScheme.surfaceContainerLow
+                    },
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
+                )
+                ClickableTile(
+                    onClick = {
+                        if (transformActionsEnabled) {
+                            expandedAdjustableAction =
+                                expandedAdjustableAction.toggle(AdjustableActionType.Scale)
+                        }
+                    },
+                    enabled = transformActionsEnabled,
+                    icon = Icons.Outlined.FitScreen,
+                    text = stringResource(R.string.scale),
+                    containerColor = if (expandedAdjustableAction == AdjustableActionType.Scale) {
+                        activeActionContainerColor
+                    } else {
+                        MaterialTheme.colorScheme.surfaceContainerLow
+                    },
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
+                )
+            }
+            AnimatedContent(
+                targetState = expandedAdjustableAction,
+                modifier = Modifier.fillMaxWidth()
+            ) { action ->
+                when (action) {
+                    AdjustableActionType.Rotation -> AdjustableActionCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 50.dp),
+                        title = stringResource(R.string.rotation),
+                        value = rotationDegrees ?: 0f,
+                        valueRange = 0f..360f,
+                        enabled = transformActionsEnabled,
+                        sliderEnabled = rotationDegrees != null,
+                        onValueClick = {
+                            expandedAdjustableAction = AdjustableActionType.None
+                            onDismiss()
+                            valueDialogType = ValueDialogType.Rotation
+                        },
+                        onValueChange = onRotationDegreesChange,
+                        onValueChangeFinished = onRotationDegreesChangeFinished
+                    )
 
-            ClickableTile(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 50.dp),
-                onClick = {
-                    if (transformActionsEnabled) {
-                        isRotationAdjusting = !isRotationAdjusting
-                    }
-                },
-                enabled = transformActionsEnabled,
-                content = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = BiasAlignment.Horizontal(
-                                animateFloatAsState(
-                                    if (isRotationAdjusting) -0.5f
-                                    else 0f
-                                ).value
-                            )
-                        ) {
-                            Column(
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.ScreenRotationAlt,
-                                    contentDescription = null
-                                )
-                                AutoSizeText(
-                                    text = stringResource(R.string.rotation),
-                                    textAlign = TextAlign.Center,
-                                    style = LocalTextStyle.current.copy(
-                                        fontSize = 12.sp,
-                                        lineHeight = 13.sp
-                                    ),
-                                    maxLines = 2
-                                )
-                            }
-                        }
-                        AnimatedVisibility(isRotationAdjusting) {
-                            ValueText(
-                                value = rotationDegrees ?: 0f,
-                                onClick = {
-                                    isRotationAdjusting = false
-                                    isScaleAdjusting = false
-                                    onDismiss()
-                                    valueDialogType = ValueDialogType.Rotation
-                                }
-                            )
-                        }
-                    }
-                    AnimatedVisibility(
-                        visible = isRotationAdjusting,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        EnhancedSlider(
-                            value = rotationDegrees ?: 0f,
-                            enabled = rotationDegrees != null,
-                            onValueChange = onRotationDegreesChange,
-                            onValueChangeFinished = onRotationDegreesChangeFinished,
-                            valueRange = 0f..360f,
-                            drawContainer = false,
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .padding(top = 8.dp)
-                        )
-                    }
+                    AdjustableActionType.Scale -> AdjustableActionCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 50.dp),
+                        title = stringResource(R.string.scale),
+                        value = scale ?: 1f,
+                        valueRange = 0.3f..10f,
+                        enabled = transformActionsEnabled,
+                        sliderEnabled = scale != null,
+                        onValueClick = {
+                            expandedAdjustableAction = AdjustableActionType.None
+                            onDismiss()
+                            valueDialogType = ValueDialogType.Scale
+                        },
+                        onValueChange = onScaleChange,
+                        onValueChangeFinished = onScaleChangeFinished
+                    )
+
+                    AdjustableActionType.None -> Unit
                 }
-            )
-            ClickableTile(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 50.dp),
-                onClick = {
-                    if (transformActionsEnabled) {
-                        isScaleAdjusting = !isScaleAdjusting
-                    }
-                },
-                enabled = transformActionsEnabled,
-                content = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = BiasAlignment.Horizontal(
-                                animateFloatAsState(
-                                    if (isScaleAdjusting) -0.5f
-                                    else 0f
-                                ).value
-                            )
-                        ) {
-                            Column(
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.FitScreen,
-                                    contentDescription = null
-                                )
-                                AutoSizeText(
-                                    text = stringResource(R.string.scale),
-                                    textAlign = TextAlign.Center,
-                                    style = LocalTextStyle.current.copy(
-                                        fontSize = 12.sp,
-                                        lineHeight = 13.sp
-                                    ),
-                                    maxLines = 2
-                                )
-                            }
-                        }
-                        AnimatedVisibility(isScaleAdjusting) {
-                            ValueText(
-                                value = scale ?: 1f,
-                                onClick = {
-                                    isRotationAdjusting = false
-                                    isScaleAdjusting = false
-                                    onDismiss()
-                                    valueDialogType = ValueDialogType.Scale
-                                }
-                            )
-                        }
-                    }
-                    AnimatedVisibility(
-                        visible = isScaleAdjusting,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        EnhancedSlider(
-                            value = scale ?: 1f,
-                            enabled = scale != null,
-                            onValueChange = onScaleChange,
-                            onValueChangeFinished = onScaleChangeFinished,
-                            valueRange = 0.3f..10f,
-                            drawContainer = false,
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .padding(top = 8.dp)
-                        )
-                    }
-                }
-            )
+            }
 
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                 Row(
@@ -564,6 +505,69 @@ internal fun BoxScope.MarkupLayersContextActions(
             }
         }
     )
+}
+
+@Composable
+private fun AdjustableActionCard(
+    title: String,
+    value: Float,
+    valueRange: ClosedFloatingPointRange<Float>,
+    enabled: Boolean,
+    sliderEnabled: Boolean,
+    onValueClick: () -> Unit,
+    onValueChange: (Float) -> Unit,
+    onValueChangeFinished: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .container(
+                shape = ShapeDefaults.extraSmall,
+                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                resultPadding = 0.dp
+            )
+            .alpha(if (enabled) 1f else 0.5f)
+            .padding(6.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                modifier = Modifier.weight(1f)
+            )
+            ValueText(
+                value = value,
+                onClick = if (enabled) {
+                    onValueClick
+                } else null,
+                modifier = Modifier
+            )
+        }
+        EnhancedSlider(
+            value = value,
+            enabled = enabled && sliderEnabled,
+            onValueChange = onValueChange,
+            onValueChangeFinished = onValueChangeFinished,
+            valueRange = valueRange,
+            drawContainer = false,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+        )
+    }
+}
+
+private enum class AdjustableActionType {
+    None, Rotation, Scale
+}
+
+private fun AdjustableActionType.toggle(target: AdjustableActionType): AdjustableActionType {
+    return if (this == target) AdjustableActionType.None else target
 }
 
 private enum class ValueDialogType {
