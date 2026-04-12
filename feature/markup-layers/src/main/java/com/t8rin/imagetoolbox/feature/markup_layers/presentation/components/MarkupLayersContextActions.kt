@@ -538,6 +538,7 @@ private fun AdjustableActionCard(
         ) {
             Text(
                 text = title,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.weight(1f)
             )
             ValueText(
