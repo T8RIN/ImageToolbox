@@ -2205,4 +2205,5 @@
     <string name="layer_alpha">เลเยอร์อัลฟ่า</string>
     <string name="horizontal_flip">พลิกแนวนอน</string>
     <string name="vertical_flip">พลิกแนวตั้ง</string>
+    <string name="lock">ล็อค</string>
 </resources>

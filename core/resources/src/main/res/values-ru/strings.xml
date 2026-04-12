@@ -2208,4 +2208,5 @@
     <string name="layer_alpha">Слой альфа</string>
     <string name="horizontal_flip">Горизонтальный флип</string>
     <string name="vertical_flip">Вертикальный флип</string>
+    <string name="lock">Замок</string>
 </resources>

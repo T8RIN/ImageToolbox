@@ -2208,4 +2208,5 @@
     <string name="layer_alpha">Vrstva alfa</string>
     <string name="horizontal_flip">Horizontálne preklopenie</string>
     <string name="vertical_flip">Vertikálne preklopenie</string>
+    <string name="lock">Zámok</string>
 </resources>

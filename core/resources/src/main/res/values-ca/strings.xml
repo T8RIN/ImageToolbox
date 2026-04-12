@@ -2206,4 +2206,5 @@
     <string name="layer_alpha">Capa alfa</string>
     <string name="horizontal_flip">Flip horitzontal</string>
     <string name="vertical_flip">Flip vertical</string>
+    <string name="lock">Bloqueig</string>
 </resources>

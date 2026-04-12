@@ -170,6 +170,10 @@ class AiToolsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun cancelDownload(model: NeuralModel) {
+        downloadJobs.remove(model.name)?.cancel()
+    }
+
     fun importModel(uri: Uri) {
         componentScope.launch {
             _isImageLoading.update { true }

@@ -60,9 +60,9 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -203,13 +203,18 @@ fun AutoEraseBackgroundCard(
 
                             AnimatedVisibility(type !in downloadedModels) {
                                 downloadProgresses[type]?.let { progress ->
-                                    EnhancedAutoCircularProgressIndicator(
+                                    EnhancedCancellableCircularProgressIndicator(
                                         progress = { progress.currentPercent },
                                         modifier = Modifier
                                             .padding(start = 8.dp)
                                             .size(24.dp),
                                         trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                                        strokeWidth = 3.dp
+                                        strokeWidth = 3.dp,
+                                        onCancel = {
+                                            downloadJob?.cancel()
+                                            downloadProgresses.remove(type)
+                                            downloadJob = null
+                                        }
                                     )
                                 } ?: Icon(
                                     imageVector = Icons.Rounded.DownloadForOffline,

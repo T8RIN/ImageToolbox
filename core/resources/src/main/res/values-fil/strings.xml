@@ -2206,4 +2206,5 @@
     <string name="layer_alpha">Layer alpha</string>
     <string name="horizontal_flip">Pahalang na Baligtad</string>
     <string name="vertical_flip">Vertical Flip</string>
+    <string name="lock">Lock</string>
 </resources>

@@ -2207,4 +2207,5 @@
     <string name="layer_alpha">ඇල්ෆා ස්ථරය</string>
     <string name="horizontal_flip">තිරස් පෙරළීම</string>
     <string name="vertical_flip">සිරස් පෙරළීම</string>
+    <string name="lock">අගුළු දමන්න</string>
 </resources>

@@ -2208,4 +2208,5 @@
     <string name="layer_alpha">Warstwa alfa</string>
     <string name="horizontal_flip">Odwrócenie poziome</string>
     <string name="vertical_flip">Odwrócenie w pionie</string>
+    <string name="lock">Zamek</string>
 </resources>

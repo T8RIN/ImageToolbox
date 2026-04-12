@@ -2206,4 +2206,5 @@
     <string name="layer_alpha">لایه آلفا</string>
     <string name="horizontal_flip">تلنگر افقی</string>
     <string name="vertical_flip">چرخش عمودی</string>
+    <string name="lock">قفل</string>
 </resources>

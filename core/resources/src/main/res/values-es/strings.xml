@@ -2206,4 +2206,5 @@
     <string name="layer_alpha">Capa alfa</string>
     <string name="horizontal_flip">Voltear horizontalmente</string>
     <string name="vertical_flip">Voltear verticalmente</string>
+    <string name="lock">Cerrar</string>
 </resources>

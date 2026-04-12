@@ -2205,4 +2205,5 @@
     <string name="layer_alpha">레이어 알파</string>
     <string name="horizontal_flip">수평 뒤집기</string>
     <string name="vertical_flip">수직 뒤집기</string>
+    <string name="lock">잠그다</string>
 </resources>

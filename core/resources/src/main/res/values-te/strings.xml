@@ -2206,4 +2206,5 @@
     <string name="layer_alpha">ఆల్ఫా పొర</string>
     <string name="horizontal_flip">క్షితిజసమాంతర ఫ్లిప్</string>
     <string name="vertical_flip">వర్టికల్ ఫ్లిప్</string>
+    <string name="lock">తాళం వేయండి</string>
 </resources>

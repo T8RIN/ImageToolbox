@@ -2207,4 +2207,5 @@
     <string name="layer_alpha">Lager alfa</string>
     <string name="horizontal_flip">Horisontell Vänd</string>
     <string name="vertical_flip">Vertikal flip</string>
+    <string name="lock">Låsa</string>
 </resources>

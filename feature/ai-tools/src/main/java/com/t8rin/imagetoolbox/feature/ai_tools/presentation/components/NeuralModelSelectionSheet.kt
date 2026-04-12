@@ -58,7 +58,8 @@ internal fun NeuralModelSelectionSheet(
     notDownloadedModels: List<NeuralModel>,
     onImportModel: (Uri) -> Unit,
     downloadProgresses: Map<String, DownloadProgress>,
-    occupiedStorageSize: Long
+    occupiedStorageSize: Long,
+    onCancelDownload: (NeuralModel) -> Unit
 ) {
     var typeFilters by rememberSaveable(stateSaver = TypeFiltersSaver) {
         mutableStateOf(emptyList())
@@ -149,7 +150,8 @@ internal fun NeuralModelSelectionSheet(
                 onDeleteModel = onDeleteModel,
                 onImportModel = onImportModel,
                 downloadProgresses = downloadProgresses,
-                occupiedStorageSize = occupiedStorageSize
+                occupiedStorageSize = occupiedStorageSize,
+                onCancelDownload = onCancelDownload
             )
         }
     )

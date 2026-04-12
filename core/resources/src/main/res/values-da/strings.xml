@@ -2206,4 +2206,5 @@
     <string name="layer_alpha">Alfa lag</string>
     <string name="horizontal_flip">Vandret vending</string>
     <string name="vertical_flip">Lodret flip</string>
+    <string name="lock">Låse</string>
 </resources>

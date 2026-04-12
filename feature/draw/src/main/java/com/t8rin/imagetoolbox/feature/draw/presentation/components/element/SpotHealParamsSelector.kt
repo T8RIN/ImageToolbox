@@ -47,7 +47,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.utils.getString
@@ -159,11 +159,20 @@ internal fun SpotHealParamsSelector(
             },
             contentInsteadOfSwitch = downloadProgress?.let { progress ->
                 {
-                    EnhancedAutoCircularProgressIndicator(
+                    EnhancedCancellableCircularProgressIndicator(
                         progress = { progress.currentPercent },
                         modifier = Modifier.size(24.dp),
                         trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                        strokeWidth = 3.dp
+                        strokeWidth = 3.dp,
+                        onCancel = {
+                            downloadJob?.cancel()
+                            downloadProgress = null
+                            downloadJob = null
+                            useLama = false
+                            scope.launch {
+                                simpleSettingsInteractor.setSpotHealMode(0)
+                            }
+                        }
                     )
                 }
             },

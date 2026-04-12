@@ -68,7 +68,8 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         downloadedModels = downloadedModels,
         notDownloadedModels = notDownloadedModels,
         downloadProgresses = component.downloadProgresses,
-        occupiedStorageSize = occupiedStorageSize
+        occupiedStorageSize = occupiedStorageSize,
+        onCancelDownload = component::cancelDownload
     )
 
     AnimatedVisibility(

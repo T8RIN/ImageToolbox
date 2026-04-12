@@ -2206,4 +2206,5 @@
     <string name="layer_alpha">Alfa kiht</string>
     <string name="horizontal_flip">Horisontaalne klapp</string>
     <string name="vertical_flip">Vertikaalne ümberpööramine</string>
+    <string name="lock">Lukk</string>
 </resources>

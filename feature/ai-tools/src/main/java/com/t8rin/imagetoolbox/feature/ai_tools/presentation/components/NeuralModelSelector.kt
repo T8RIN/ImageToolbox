@@ -53,7 +53,8 @@ internal fun NeuralModelSelector(
     notDownloadedModels: List<NeuralModel>,
     onImportModel: (Uri) -> Unit,
     downloadProgresses: Map<String, DownloadProgress>,
-    occupiedStorageSize: Long
+    occupiedStorageSize: Long,
+    onCancelDownload: (NeuralModel) -> Unit
 ) {
     var showSelectionSheet by rememberSaveable {
         mutableStateOf(false)
@@ -108,7 +109,8 @@ internal fun NeuralModelSelector(
         notDownloadedModels = notDownloadedModels,
         onImportModel = onImportModel,
         downloadProgresses = downloadProgresses,
-        occupiedStorageSize = occupiedStorageSize
+        occupiedStorageSize = occupiedStorageSize,
+        onCancelDownload = onCancelDownload
     )
 }
 
@@ -127,6 +129,7 @@ private fun Preview() = ImageToolboxThemeForPreview(
         notDownloadedModels = emptyList(),
         onImportModel = { _ -> },
         downloadProgresses = emptyMap(),
-        occupiedStorageSize = 0
+        occupiedStorageSize = 0,
+        onCancelDownload = {}
     )
 }

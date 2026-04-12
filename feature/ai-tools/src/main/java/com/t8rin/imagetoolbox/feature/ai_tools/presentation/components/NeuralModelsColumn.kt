@@ -76,9 +76,9 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -106,7 +106,8 @@ internal fun NeuralModelsColumn(
     onDeleteModel: (NeuralModel) -> Unit,
     onImportModel: (Uri) -> Unit,
     downloadProgresses: Map<String, DownloadProgress>,
-    occupiedStorageSize: Long
+    occupiedStorageSize: Long,
+    onCancelDownload: (NeuralModel) -> Unit
 ) {
     val scope = rememberCoroutineScope()
 
@@ -548,11 +549,12 @@ internal fun NeuralModelsColumn(
                                             style = MaterialTheme.typography.bodySmall
                                         )
                                         Spacer(Modifier.width(8.dp))
-                                        EnhancedAutoCircularProgressIndicator(
+                                        EnhancedCancellableCircularProgressIndicator(
                                             progress = { progress.currentPercent },
                                             modifier = Modifier.size(24.dp),
                                             trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                                            strokeWidth = 3.dp
+                                            strokeWidth = 3.dp,
+                                            onCancel = { onCancelDownload(model) }
                                         )
                                     }
                                 } else {

@@ -2207,4 +2207,5 @@
     <string name="layer_alpha">लेयर अल्फा</string>
     <string name="horizontal_flip">क्षैतिज फ्लिप</string>
     <string name="vertical_flip">उभ्या फ्लिप</string>
+    <string name="lock">कुलूप</string>
 </resources>

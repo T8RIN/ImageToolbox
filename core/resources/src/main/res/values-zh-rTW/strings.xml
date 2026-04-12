@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2203,4 +2205,5 @@
     <string name="layer_alpha">阿尔法层</string>
     <string name="horizontal_flip">水平翻转</string>
     <string name="vertical_flip">垂直翻转</string>
+    <string name="lock">锁</string>
 </resources>

@@ -2205,4 +2205,5 @@
     <string name="layer_alpha">Lapisan alfa</string>
     <string name="horizontal_flip">Balik Horisontal</string>
     <string name="vertical_flip">Balik Vertikal</string>
+    <string name="lock">Kunci</string>
 </resources>

@@ -2206,4 +2206,5 @@
     <string name="layer_alpha">அடுக்கு ஆல்பா</string>
     <string name="horizontal_flip">கிடைமட்ட திருப்பு</string>
     <string name="vertical_flip">செங்குத்து ஃபிளிப்</string>
+    <string name="lock">பூட்டு</string>
 </resources>

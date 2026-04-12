@@ -2208,4 +2208,5 @@
     <string name="layer_alpha">שכבת אלפא</string>
     <string name="horizontal_flip">היפוך אופקי</string>
     <string name="vertical_flip">Flip אנכי</string>
+    <string name="lock">לִנְעוֹל</string>
 </resources>

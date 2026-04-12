@@ -2205,4 +2205,5 @@
     <string name="layer_alpha">阿尔法层</string>
     <string name="horizontal_flip">水平翻转</string>
     <string name="vertical_flip">垂直翻转</string>
+    <string name="lock">锁</string>
 </resources>
