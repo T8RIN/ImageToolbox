@@ -56,23 +56,8 @@ internal class AndroidImageCutter @Inject constructor(
         params: CutParams
     ): Bitmap = withContext(defaultDispatcher) {
         runSuspendCatching {
-            val verticalStart = params.vertical.takeIf { it != PivotPair(0f, 1f) }
-                ?.let { (it.startRtlAdjusted * image.width).roundToInt() }
-            val verticalEnd = params.vertical.takeIf { it != PivotPair(0f, 1f) }
-                ?.let { (it.endRtlAdjusted * image.width).roundToInt() }
-            val horizontalStart = params.horizontal.takeIf { it != PivotPair(0f, 1f) }
-                ?.let { (it.startRtlAdjusted * image.height).roundToInt() }
-            val horizontalEnd = params.horizontal.takeIf { it != PivotPair(0f, 1f) }
-                ?.let { (it.endRtlAdjusted * image.height).roundToInt() }
-
-            require(
-                (verticalStart == null || verticalStart in 0..image.width) &&
-                        (verticalEnd == null || verticalEnd in 0..image.width) &&
-                        (horizontalStart == null || horizontalStart in 0..image.height) &&
-                        (horizontalEnd == null || horizontalEnd in 0..image.height) &&
-                        (verticalStart == null || verticalEnd == null || verticalStart < verticalEnd) &&
-                        (horizontalStart == null || horizontalEnd == null || horizontalStart < horizontalEnd)
-            ) { "Invalid cut range" }
+            val (verticalStart, verticalEnd) = params.vertical.toCutBounds(image.width)
+            val (horizontalStart, horizontalEnd) = params.horizontal.toCutBounds(image.height)
 
             image.cutAndMerge(
                 verticalStart = verticalStart,
@@ -83,6 +68,26 @@ internal class AndroidImageCutter @Inject constructor(
                 inverseHorizontal = params.inverseHorizontal
             )
         }.getOrNull() ?: image
+    }
+
+    private fun PivotPair?.toCutBounds(
+        size: Int
+    ): Pair<Int?, Int?> {
+        val bounds = this
+            ?.takeIf { it != PivotPair(0f, 1f) }
+            ?.let {
+                (it.startRtlAdjusted * size).roundToInt() to
+                        (it.endRtlAdjusted * size).roundToInt()
+            }
+            ?: return null to null
+
+        val (start, end) = bounds
+
+        return if (start in 0..size && end in 0..size && start < end) {
+            start to end
+        } else {
+            null to null
+        }
     }
 
     private suspend fun Bitmap.cutAndMerge(
