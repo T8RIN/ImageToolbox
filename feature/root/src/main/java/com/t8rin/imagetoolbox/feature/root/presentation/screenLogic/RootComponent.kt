@@ -375,22 +375,22 @@ class RootComponent @AssistedInject internal constructor(
     fun navigateTo(screen: Screen) {
         componentScope.launch {
             delay(100)
-            hideSelectDialog()
             screen.simpleName.makeLog("Navigator").also(analyticsManager::registerScreenOpen)
             navController.pushNew(screen)
+            hideSelectDialog()
         }
     }
 
     fun replaceTo(screen: Screen) {
         componentScope.launch {
             delay(100)
-            hideSelectDialog()
             screen.simpleName.makeLog("Navigator").also(analyticsManager::registerScreenOpen)
             navController.navigate(
                 transformer = { stack ->
                     stack.dropLastWhile { it !is Screen.PdfTools } + screen
                 }
-            )
+            )   
+            hideSelectDialog()
         }
     }
 
