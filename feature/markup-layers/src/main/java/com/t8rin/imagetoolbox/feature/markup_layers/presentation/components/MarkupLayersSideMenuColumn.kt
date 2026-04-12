@@ -64,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
+import com.t8rin.imagetoolbox.core.ui.widget.other.AnimatedBorder
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem

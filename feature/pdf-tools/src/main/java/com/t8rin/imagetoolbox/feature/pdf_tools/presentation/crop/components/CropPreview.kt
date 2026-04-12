@@ -18,13 +18,6 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.components
 
 import android.net.Uri
-import androidx.compose.animation.core.InfiniteTransition
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -45,7 +38,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
@@ -65,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.other.rememberAnimatedBorder
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
 
@@ -150,19 +143,7 @@ private fun CropFrameBorder(
         }
     }
 
-    val transition: InfiniteTransition = rememberInfiniteTransition()
-
-    val phase = transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 80f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 1000,
-                easing = LinearEasing
-            ),
-            repeatMode = RepeatMode.Restart
-        )
-    )
+    val pathEffect = rememberAnimatedBorder()
 
     Canvas(
         modifier = modifier.graphicsLayer {
@@ -206,10 +187,7 @@ private fun CropFrameBorder(
             color = colorScheme.primaryContainer,
             style = Stroke(
                 width = 1.5.dp.toPx(),
-                pathEffect = PathEffect.dashPathEffect(
-                    floatArrayOf(20f, 20f),
-                    phase.value
-                )
+                pathEffect = pathEffect
             ),
             topLeft = topLeft,
             size = size

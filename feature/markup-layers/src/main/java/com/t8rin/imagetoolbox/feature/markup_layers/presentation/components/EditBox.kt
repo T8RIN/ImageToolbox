@@ -18,16 +18,8 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.InfiniteTransition
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -52,23 +44,18 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asComposePaint
-import androidx.compose.ui.graphics.drawOutline
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.widget.other.AnimatedBorder
 import kotlinx.coroutines.launch
 
 @Composable
@@ -255,58 +242,5 @@ private fun Modifier.layerBlendingMode(
             drawContent()
             drawContext.canvas.restore()
         }
-    }
-}
-
-@Composable
-internal fun AnimatedBorder(
-    modifier: Modifier,
-    alpha: Float,
-    scale: Float,
-    shape: Shape
-) {
-    val transition: InfiniteTransition = rememberInfiniteTransition()
-
-    // Infinite phase animation for PathEffect
-    val phase by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 80f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 1000,
-                easing = LinearEasing
-            ),
-            repeatMode = RepeatMode.Restart
-        )
-    )
-
-    val pathEffect = PathEffect.dashPathEffect(
-        intervals = floatArrayOf(20f, 20f),
-        phase = phase
-    )
-
-    val density = LocalDensity.current
-    val colorScheme = MaterialTheme.colorScheme
-    Canvas(modifier = modifier) {
-        val outline = shape.createOutline(
-            size = size,
-            layoutDirection = layoutDirection,
-            density = density
-        )
-        drawOutline(
-            outline = outline,
-            color = colorScheme.primary.copy(alpha),
-            style = Stroke(
-                width = 3.dp.toPx() * (1f / scale)
-            )
-        )
-        drawOutline(
-            outline = outline,
-            color = colorScheme.primaryContainer.copy(alpha),
-            style = Stroke(
-                width = 3.dp.toPx() * (1f / scale),
-                pathEffect = pathEffect
-            )
-        )
     }
 }
