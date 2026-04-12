@@ -42,6 +42,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -140,174 +141,181 @@ internal fun MarkupLayersSideMenu(
                                     ?.roundTo(1)
                             }
                         }
-                        Column(
-                            modifier = Modifier.container(
-                                shape = RectangleShape,
-                                color = MaterialTheme.colorScheme.surfaceContainerHigh
-                            )
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                EnhancedIconButton(
-                                    onClick = {
-                                        activeLayer?.let(component::removeLayer)
-                                    },
-                                    enabled = activeLayer != null
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Delete,
-                                        contentDescription = null
+                        Scaffold(
+                            topBar = {
+                                Column(
+                                    modifier = Modifier.container(
+                                        shape = RectangleShape,
+                                        color = MaterialTheme.colorScheme.surfaceContainerHigh
                                     )
-                                }
-                                Spacer(Modifier.weight(1f))
-                                Box {
-                                    EnhancedIconButton(
-                                        onClick = {
-                                            onContextOptionsVisibleChange(true)
-                                        },
-                                        enabled = activeLayer != null
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Build,
-                                            contentDescription = null
-                                        )
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                activeLayer?.let(component::removeLayer)
+                                            },
+                                            enabled = activeLayer != null
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Delete,
+                                                contentDescription = null
+                                            )
+                                        }
+                                        Spacer(Modifier.weight(1f))
+                                        Box {
+                                            EnhancedIconButton(
+                                                onClick = {
+                                                    onContextOptionsVisibleChange(true)
+                                                },
+                                                enabled = activeLayer != null
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.Build,
+                                                    contentDescription = null
+                                                )
+                                            }
+                                            MarkupLayersContextActions(
+                                                visible = isContextOptionsVisible && activeLayer != null,
+                                                onDismiss = { onContextOptionsVisibleChange(false) },
+                                                onCopyLayer = {
+                                                    activeLayer?.let(component::copyLayer)
+                                                },
+                                                onToggleEditMode = {
+                                                    activeLayer
+                                                        ?.takeIf { !it.isLocked }
+                                                        ?.state
+                                                        ?.isInEditMode = true
+                                                },
+                                                onRemoveLayer = {
+                                                    activeLayer?.let(component::removeLayer)
+                                                },
+                                                onActivateLayer = {
+                                                    component.deactivateAllLayers()
+                                                },
+                                                isLayerLocked = activeLayer?.isLocked == true,
+                                                onToggleLayerLock = {
+                                                    activeLayer?.let(component::toggleLayerLock)
+                                                },
+                                                onFlipLayerHorizontally = {
+                                                    activeLayer?.let { layer ->
+                                                        component.updateLayerState(layer) {
+                                                            isFlippedHorizontally =
+                                                                !isFlippedHorizontally
+                                                        }
+                                                    }
+                                                },
+                                                onFlipLayerVertically = {
+                                                    activeLayer?.let { layer ->
+                                                        component.updateLayerState(layer) {
+                                                            isFlippedVertically =
+                                                                !isFlippedVertically
+                                                        }
+                                                    }
+                                                },
+                                                onMoveLayerBy = { dx, dy ->
+                                                    activeLayer?.let { layer ->
+                                                        component.moveLayerBy(
+                                                            layer = layer,
+                                                            offsetChange = Offset(dx, dy)
+                                                        )
+                                                    }
+                                                },
+                                                onResetLayerPosition = {
+                                                    activeLayer?.let(component::resetLayerPosition)
+                                                },
+                                                onNormalizedPositionXChange = { x ->
+                                                    activeLayer?.let { layer ->
+                                                        component.setLayerNormalizedPosition(
+                                                            layer = layer,
+                                                            x = x
+                                                        )
+                                                    }
+                                                },
+                                                onNormalizedPositionYChange = { y ->
+                                                    activeLayer?.let { layer ->
+                                                        component.setLayerNormalizedPosition(
+                                                            layer = layer,
+                                                            y = y
+                                                        )
+                                                    }
+                                                },
+                                                normalizedPositionX = normalizedPosition?.x,
+                                                normalizedPositionY = normalizedPosition?.y,
+                                                scale = scale,
+                                                onScaleChange = {
+                                                    component.beginHistoryTransaction()
+                                                    activeLayer?.let { layer ->
+                                                        component.setLayerScale(
+                                                            layer = layer,
+                                                            scale = it,
+                                                            commitToHistory = false
+                                                        )
+                                                    }
+                                                },
+                                                onScaleChangeFinished = {
+                                                    component.commitHistoryTransaction()
+                                                },
+                                                rotationDegrees = normalizedRotationDegrees,
+                                                onRotationDegreesChange = {
+                                                    component.beginHistoryTransaction()
+                                                    activeLayer?.let { layer ->
+                                                        component.updateLayerState(
+                                                            layer = layer,
+                                                            commitToHistory = false
+                                                        ) {
+                                                            rotation = it.roundTo(1)
+                                                        }
+                                                    }
+                                                },
+                                                onRotationDegreesChangeFinished = {
+                                                    component.commitHistoryTransaction()
+                                                }
+                                            )
+                                        }
                                     }
-                                    MarkupLayersContextActions(
-                                        visible = isContextOptionsVisible && activeLayer != null,
-                                        onDismiss = { onContextOptionsVisibleChange(false) },
-                                        onCopyLayer = {
-                                            activeLayer?.let(component::copyLayer)
-                                        },
-                                        onToggleEditMode = {
-                                            activeLayer
-                                                ?.takeIf { !it.isLocked }
-                                                ?.state
-                                                ?.isInEditMode = true
-                                        },
-                                        onRemoveLayer = {
-                                            activeLayer?.let(component::removeLayer)
-                                        },
-                                        onActivateLayer = {
-                                            component.deactivateAllLayers()
-                                        },
-                                        isLayerLocked = activeLayer?.isLocked == true,
-                                        onToggleLayerLock = {
-                                            activeLayer?.let(component::toggleLayerLock)
-                                        },
-                                        onFlipLayerHorizontally = {
-                                            activeLayer?.let { layer ->
-                                                component.updateLayerState(layer) {
-                                                    isFlippedHorizontally =
-                                                        !isFlippedHorizontally
-                                                }
-                                            }
-                                        },
-                                        onFlipLayerVertically = {
-                                            activeLayer?.let { layer ->
-                                                component.updateLayerState(layer) {
-                                                    isFlippedVertically =
-                                                        !isFlippedVertically
-                                                }
-                                            }
-                                        },
-                                        onMoveLayerBy = { dx, dy ->
-                                            activeLayer?.let { layer ->
-                                                component.moveLayerBy(
-                                                    layer = layer,
-                                                    offsetChange = Offset(dx, dy)
-                                                )
-                                            }
-                                        },
-                                        onResetLayerPosition = {
-                                            activeLayer?.let(component::resetLayerPosition)
-                                        },
-                                        onNormalizedPositionXChange = { x ->
-                                            activeLayer?.let { layer ->
-                                                component.setLayerNormalizedPosition(
-                                                    layer = layer,
-                                                    x = x
-                                                )
-                                            }
-                                        },
-                                        onNormalizedPositionYChange = { y ->
-                                            activeLayer?.let { layer ->
-                                                component.setLayerNormalizedPosition(
-                                                    layer = layer,
-                                                    y = y
-                                                )
-                                            }
-                                        },
-                                        normalizedPositionX = normalizedPosition?.x,
-                                        normalizedPositionY = normalizedPosition?.y,
-                                        scale = scale,
-                                        onScaleChange = {
-                                            component.beginHistoryTransaction()
-                                            activeLayer?.let { layer ->
-                                                component.setLayerScale(
-                                                    layer = layer,
-                                                    scale = it,
-                                                    commitToHistory = false
-                                                )
-                                            }
-                                        },
-                                        onScaleChangeFinished = {
-                                            component.commitHistoryTransaction()
-                                        },
-                                        rotationDegrees = normalizedRotationDegrees,
-                                        onRotationDegreesChange = {
+                                    EnhancedSlider(
+                                        value = activeLayer?.state?.alpha ?: 1f,
+                                        enabled = activeLayer != null && activeLayer?.isLocked != true,
+                                        onValueChange = {
                                             component.beginHistoryTransaction()
                                             activeLayer?.let { layer ->
                                                 component.updateLayerState(
                                                     layer = layer,
                                                     commitToHistory = false
                                                 ) {
-                                                    rotation = it.roundTo(1)
+                                                    alpha = it
                                                 }
                                             }
                                         },
-                                        onRotationDegreesChangeFinished = {
-                                            component.commitHistoryTransaction()
-                                        }
+                                        onValueChangeFinished = component::commitHistoryTransaction,
+                                        valueRange = 0f..1f,
+                                        drawContainer = false,
+                                        modifier = Modifier.padding(horizontal = 8.dp)
                                     )
                                 }
-                            }
-                            EnhancedSlider(
-                                value = activeLayer?.state?.alpha ?: 1f,
-                                enabled = activeLayer != null && activeLayer?.isLocked != true,
-                                onValueChange = {
-                                    component.beginHistoryTransaction()
-                                    activeLayer?.let { layer ->
-                                        component.updateLayerState(
-                                            layer = layer,
-                                            commitToHistory = false
-                                        ) {
-                                            alpha = it
-                                        }
+                            },
+                            contentWindowInsets = WindowInsets(0)
+                        ) { contentPadding ->
+                            MarkupLayersSideMenuColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                contentPadding = contentPadding,
+                                layers = layers,
+                                onReorderLayers = component::reorderLayers,
+                                onActivateLayer = component::activateLayer,
+                                onToggleLayerVisibility = { layer ->
+                                    component.updateLayerState(
+                                        layer = layer,
+                                        allowLocked = true
+                                    ) {
+                                        isVisible = !isVisible
                                     }
                                 },
-                                onValueChangeFinished = component::commitHistoryTransaction,
-                                valueRange = 0f..1f,
-                                drawContainer = false,
-                                modifier = Modifier.padding(horizontal = 8.dp)
+                                onUnlockLayer = component::toggleLayerLock
                             )
                         }
-                        MarkupLayersSideMenuColumn(
-                            modifier = Modifier.weight(1f),
-                            layers = layers,
-                            onReorderLayers = component::reorderLayers,
-                            onActivateLayer = component::activateLayer,
-                            onToggleLayerVisibility = { layer ->
-                                component.updateLayerState(
-                                    layer = layer,
-                                    allowLocked = true
-                                ) {
-                                    isVisible = !isVisible
-                                }
-                            },
-                            onUnlockLayer = component::toggleLayerLock
-                        )
                     }
                 }
             }

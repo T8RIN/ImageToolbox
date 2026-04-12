@@ -31,8 +31,7 @@ internal fun BoxWithConstraintsScope.Layer(
     layer: UiMarkupLayer,
     onActivate: (() -> Unit)?,
     onShowContextOptions: (() -> Unit)?,
-    onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?,
-    isPreview: Boolean = false
+    onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?
 ) {
     val type = layer.type
 
@@ -41,7 +40,6 @@ internal fun BoxWithConstraintsScope.Layer(
         cornerRadiusPercent = layer.cornerRadiusPercent,
         blendingMode = layer.blendingMode,
         isInteractive = !layer.isLocked,
-        isPreview = isPreview,
         onTap = {
             if (layer.state.isActive) {
                 layer.state.isInEditMode = true
@@ -57,16 +55,15 @@ internal fun BoxWithConstraintsScope.Layer(
         },
         content = {
             val contentModifier = when {
-                type is LayerType.Text && !isPreview -> Modifier.sizeIn(
+                type is LayerType.Text -> Modifier.sizeIn(
                     maxWidth = this@Layer.maxWidth,
                     maxHeight = this@Layer.maxHeight
                 )
 
                 else -> {
-                    val scaleFactor = if (!isPreview) 2 else 1
                     Modifier.sizeIn(
-                        maxWidth = this@Layer.maxWidth / scaleFactor,
-                        maxHeight = this@Layer.maxHeight / scaleFactor
+                        maxWidth = this@Layer.maxWidth / 2,
+                        maxHeight = this@Layer.maxHeight / 2
                     )
                 }
             }

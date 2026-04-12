@@ -80,7 +80,6 @@ fun BoxWithConstraintsScope.EditBox(
     cornerRadiusPercent: Int = 0,
     blendingMode: BlendingMode = BlendingMode.SrcOver,
     isInteractive: Boolean = true,
-    isPreview: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -97,7 +96,6 @@ fun BoxWithConstraintsScope.EditBox(
         onLongTap = onLongTap,
         state = state,
         parentSize = parentSize,
-        isPreview = isPreview,
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = blendingMode,
         isInteractive = isInteractive,
@@ -115,7 +113,6 @@ fun EditBox(
     cornerRadiusPercent: Int = 0,
     blendingMode: BlendingMode = BlendingMode.SrcOver,
     isInteractive: Boolean = true,
-    isPreview: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
@@ -124,31 +121,29 @@ fun EditBox(
         mutableStateOf(IntSize.Zero)
     }
 
-    if (!isPreview) {
-        val parentMaxWidth = parentSize.width
-        val parentMaxHeight = parentSize.height
+    val parentMaxWidth = parentSize.width
+    val parentMaxHeight = parentSize.height
 
-        SideEffect {
-            state.canvasSize = parentSize
-        }
+    SideEffect {
+        state.canvasSize = parentSize
+    }
 
-        var needRecalculations by rememberSaveable(state.coerceToBounds, contentSize) {
-            mutableStateOf(state.coerceToBounds && contentSize != IntSize.Zero)
-        }
+    var needRecalculations by rememberSaveable(state.coerceToBounds, contentSize) {
+        mutableStateOf(state.coerceToBounds && contentSize != IntSize.Zero)
+    }
 
-        LaunchedEffect(needRecalculations) {
-            if (needRecalculations) {
-                state.applyChanges(
-                    parentMaxWidth = parentMaxWidth,
-                    parentMaxHeight = parentMaxHeight,
-                    contentSize = contentSize,
-                    cornerRadiusPercent = cornerRadiusPercent,
-                    zoomChange = 1f,
-                    offsetChange = Offset.Zero,
-                    rotationChange = 0f
-                )
-                needRecalculations = false
-            }
+    LaunchedEffect(needRecalculations) {
+        if (needRecalculations) {
+            state.applyChanges(
+                parentMaxWidth = parentMaxWidth,
+                parentMaxHeight = parentMaxHeight,
+                contentSize = contentSize,
+                cornerRadiusPercent = cornerRadiusPercent,
+                zoomChange = 1f,
+                offsetChange = Offset.Zero,
+                rotationChange = 0f
+            )
+            needRecalculations = false
         }
     }
 
@@ -157,12 +152,10 @@ fun EditBox(
     val haptics = LocalHapticFeedback.current
     val animateTap = {
         haptics.longPress()
-        if (!isPreview) {
-            scope.launch {
-                tapScale.animateTo(0.98f)
-                tapScale.animateTo(1.02f)
-                tapScale.animateTo(1f)
-            }
+        scope.launch {
+            tapScale.animateTo(0.98f)
+            tapScale.animateTo(1.02f)
+            tapScale.animateTo(1f)
         }
     }
 
@@ -173,7 +166,7 @@ fun EditBox(
     val selectionBackgroundColor = MaterialTheme.colorScheme.primary.copy(
         alpha = 0.2f * borderAlpha
     )
-    val interactionModifier = if (isInteractive && !isPreview) {
+    val interactionModifier = if (isInteractive) {
         Modifier.pointerInput(onTap, animateTap) {
             detectTapGestures(
                 onLongPress = onLongTap?.let {
@@ -193,30 +186,22 @@ fun EditBox(
 
     Box(
         modifier = modifier
-            .then(
-                if (!isPreview) {
-                    Modifier.onSizeChanged {
-                        contentSize = it
-                        state.contentSize = it
-                    }
-                } else {
-                    Modifier
-                }
-            )
-            .graphicsLayer {
-                if (!isPreview) {
-                    scaleX = state.scale * if (state.isFlippedHorizontally) -1f else 1f
-                    scaleY = state.scale * if (state.isFlippedVertically) -1f else 1f
-                    translationX = state.offset.x
-                    translationY = state.offset.y
-                }
-                rotationZ = state.rotation
+            .onSizeChanged {
+                contentSize = it
+                state.contentSize = it
             }
+            .graphicsLayer(
+                scaleX = state.scale * if (state.isFlippedHorizontally) -1f else 1f,
+                scaleY = state.scale * if (state.isFlippedVertically) -1f else 1f,
+                rotationZ = state.rotation,
+                translationX = state.offset.x,
+                translationY = state.offset.y
+            )
             .scale(tapScale.value)
             .clip(shape)
             .drawWithCache {
                 onDrawWithContent {
-                    if (!isPreview && state.isActive && blendingMode == BlendingMode.SrcOver) {
+                    if (state.isActive && blendingMode == BlendingMode.SrcOver) {
                         drawRect(selectionBackgroundColor)
                     }
                     drawContent()
@@ -226,30 +211,25 @@ fun EditBox(
         contentAlignment = Alignment.Center
     ) {
         Box(
-            modifier = if (!isPreview) {
-                Modifier.layerBlendingMode(
+            Modifier
+                .layerBlendingMode(
                     mode = blendingMode,
                     alpha = state.alpha
                 )
-            } else {
-                Modifier
-            }
         ) {
             content()
         }
-        if (!isPreview) {
-            AnimatedBorder(
-                modifier = Modifier.matchParentSize(),
-                alpha = borderAlpha,
-                scale = state.scale,
-                shape = shape
-            )
-            if (state.isActive) {
-                Surface(
-                    color = Color.Transparent,
-                    modifier = Modifier.matchParentSize()
-                ) { }
-            }
+        AnimatedBorder(
+            modifier = Modifier.matchParentSize(),
+            alpha = borderAlpha,
+            scale = state.scale,
+            shape = shape
+        )
+        if (state.isActive) {
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier.matchParentSize()
+            ) { }
         }
     }
 }

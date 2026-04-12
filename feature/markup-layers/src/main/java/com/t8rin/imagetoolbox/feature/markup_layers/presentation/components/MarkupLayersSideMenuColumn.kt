@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.plus
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -39,6 +40,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
@@ -61,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -72,6 +75,7 @@ import kotlin.math.sin
 @Composable
 internal fun MarkupLayersSideMenuColumn(
     modifier: Modifier,
+    contentPadding: PaddingValues,
     layers: List<UiMarkupLayer>,
     onReorderLayers: (List<UiMarkupLayer>) -> Unit,
     onActivateLayer: (UiMarkupLayer) -> Unit,
@@ -92,7 +96,7 @@ internal fun MarkupLayersSideMenuColumn(
     LazyColumn(
         state = lazyListState,
         modifier = modifier,
-        contentPadding = PaddingValues(
+        contentPadding = contentPadding + PaddingValues(
             top = 12.dp,
             bottom = 12.dp,
             start = 8.dp,
@@ -236,6 +240,22 @@ internal fun MarkupLayersSideMenuColumn(
                             scale = 1f,
                             shape = ShapeDefaults.extraSmall
                         )
+                        if (layer.type is LayerType.Text) {
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.TopStart)
+                                    .padding(6.dp)
+                                    .clip(ShapeDefaults.extraSmall)
+                                    .background(MaterialTheme.colorScheme.primaryContainer.copy(0.8f))
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.TextFormat,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        }
                         if (layer.isLocked) {
                             Box(
                                 modifier = Modifier
