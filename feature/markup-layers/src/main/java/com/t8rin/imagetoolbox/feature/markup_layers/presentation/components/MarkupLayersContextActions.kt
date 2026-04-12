@@ -197,7 +197,7 @@ internal fun BoxScope.MarkupLayersContextActions(
             val activeActionContainerColor = takeColorFromScheme {
                 surfaceContainerLow.blend(
                     color = tertiaryContainer,
-                    fraction = 0.5f
+                    fraction = 0.7f
                 )
             }
             Row(
