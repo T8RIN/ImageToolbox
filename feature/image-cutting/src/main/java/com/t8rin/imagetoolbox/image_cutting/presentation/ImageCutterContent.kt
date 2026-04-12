@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -33,7 +32,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.toBitmap
@@ -68,6 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.image_cutting.presentation.components.CutParamsSelector
+import com.t8rin.imagetoolbox.image_cutting.presentation.components.CutPreview
 import com.t8rin.imagetoolbox.image_cutting.presentation.components.rememberCutTransformations
 import com.t8rin.imagetoolbox.image_cutting.presentation.screenLogic.ImageCutterComponent
 
@@ -151,19 +150,9 @@ fun ImageCutterContent(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                var aspectRatio by remember {
-                    mutableFloatStateOf(1f)
-                }
-                Picture(
-                    model = component.selectedUri,
-                    size = 1500,
-                    contentScale = ContentScale.FillBounds,
-                    transformations = component.rememberCutTransformations(component.selectedUri),
-                    modifier = Modifier.aspectRatio(aspectRatio),
-                    onSuccess = {
-                        aspectRatio = it.result.image.toBitmap().safeAspectRatio
-                    },
-                    shape = MaterialTheme.shapes.medium,
+                CutPreview(
+                    uri = component.selectedUri,
+                    params = component.params,
                     isLoadingFromDifferentPlace = component.isImageLoading
                 )
             }
