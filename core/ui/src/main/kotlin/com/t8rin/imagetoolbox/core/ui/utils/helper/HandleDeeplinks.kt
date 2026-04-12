@@ -122,6 +122,16 @@ fun Intent?.handleDeeplinks(
                     }
                 }
 
+                Intent.ACTION_EDIT,
+                Intent.ACTION_INSERT,
+                Intent.ACTION_INSERT_OR_EDIT -> {
+                    val uris = clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
+                    if (type?.contains("gif") == true) {
+                        onHasExtraDataType(ExtraDataType.Gif)
+                    }
+                    onGetUris(uris)
+                }
+
                 else -> {
                     data?.let {
                         if (type?.contains("gif") == true) {
