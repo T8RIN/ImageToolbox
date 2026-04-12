@@ -78,7 +78,7 @@ internal class LayersRenderer @Inject constructor(
         val textFullSize = min(authorWidth, authorHeight).roundToInt().coerceAtLeast(1)
 
         val pictureCache = mutableMapOf<Any, Bitmap?>()
-        val textCache = mutableMapOf<Triple<LayerType.Text, Int, Int?>, TextLayerRenderData>()
+        val textCache = mutableMapOf<TextLayerCacheKey, TextLayerRenderData>()
 
         resultBitmap.applyCanvas {
             withSave {
@@ -144,12 +144,18 @@ internal class LayersRenderer @Inject constructor(
 
                         is LayerType.Text -> {
                             val textData = textCache.getOrPut(
-                                Triple(type, textFullSize, layer.visibleLineCount)
+                                TextLayerCacheKey(
+                                    type = type,
+                                    textFullSize = textFullSize,
+                                    contentSize = layer.contentSize,
+                                    maxLines = layer.visibleLineCount
+                                )
                             ) {
                                 buildTextLayerRenderData(
                                     type = type,
                                     textFullSize = textFullSize,
-                                    maxTextBoxWidth = authorWidth,
+                                    contentSize = layer.contentSize,
+                                    fallbackMaxTextBoxWidth = authorWidth,
                                     maxLines = layer.visibleLineCount
                                 )
                             }
@@ -214,7 +220,8 @@ internal class LayersRenderer @Inject constructor(
     private fun buildTextLayerRenderData(
         type: LayerType.Text,
         textFullSize: Int,
-        maxTextBoxWidth: Float,
+        contentSize: IntegerSize,
+        fallbackMaxTextBoxWidth: Float,
         maxLines: Int?
     ): TextLayerRenderData {
         val textMetrics = context.calculateTextLayerMetrics(
@@ -223,8 +230,10 @@ internal class LayersRenderer @Inject constructor(
         )
         val outlineWidth = type.outline?.width ?: 0f
         val layoutText = type.text.ifEmpty { " " }
+        val resolvedContentSize = contentSize.takeIf { it.width > 0 && it.height > 0 }
         val availableLayoutWidth = (
-                maxTextBoxWidth - (textMetrics.horizontalPaddingPx + outlineWidth) * 2f
+                (resolvedContentSize?.width?.toFloat() ?: fallbackMaxTextBoxWidth) -
+                        (textMetrics.horizontalPaddingPx + outlineWidth) * 2f
                 ).roundToInt().coerceAtLeast(1)
 
         val fillPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {
@@ -241,7 +250,8 @@ internal class LayersRenderer @Inject constructor(
             text = layoutText,
             paint = fillPaint
         ).coerceAtLeast(1)
-        val layoutWidth = min(desiredLayoutWidth, availableLayoutWidth)
+        val layoutWidth = resolvedContentSize?.let { availableLayoutWidth }
+            ?: min(desiredLayoutWidth, availableLayoutWidth)
         val alignment = when (type.alignment) {
             LayerType.Text.Alignment.Start -> Layout.Alignment.ALIGN_NORMAL
             LayerType.Text.Alignment.Center -> Layout.Alignment.ALIGN_CENTER
@@ -257,10 +267,10 @@ internal class LayersRenderer @Inject constructor(
             maxLines = maxLines
         )
 
-        val bitmapWidth = ceil(
+        val bitmapWidth = resolvedContentSize?.width?.coerceAtLeast(1) ?: ceil(
             layoutWidth + textMetrics.horizontalPaddingPx * 2f + outlineWidth * 2f
         ).toInt().coerceAtLeast(1)
-        val bitmapHeight = ceil(
+        val bitmapHeight = resolvedContentSize?.height?.coerceAtLeast(1) ?: ceil(
             fillLayout.height + textMetrics.verticalPaddingPx * 2f + outlineWidth * 2f
         ).toInt().coerceAtLeast(1)
 
@@ -442,6 +452,13 @@ private data class TextLayerRenderData(
     val width: Float,
     val height: Float,
     val bitmap: Bitmap
+)
+
+private data class TextLayerCacheKey(
+    val type: LayerType.Text,
+    val textFullSize: Int,
+    val contentSize: IntegerSize,
+    val maxLines: Int?
 )
 
 private data class PictureLayerRenderData(

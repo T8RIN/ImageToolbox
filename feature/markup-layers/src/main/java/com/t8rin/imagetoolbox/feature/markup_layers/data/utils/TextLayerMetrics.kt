@@ -42,9 +42,9 @@ internal fun Context.calculateTextLayerMetrics(
     val baseTextSize = textFullSize.coerceAtLeast(1) * type.size
     val fontSizePx = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_SP,
-        baseTextSize / 5f,
+        baseTextSize / 12.5f,
         displayMetrics
-    )
+    ).coerceAtLeast(1f)
     val typeface = createTextLayerTypeface(type)
     val lineHeightPx = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {
         textSize = fontSizePx
@@ -62,8 +62,8 @@ internal fun Context.calculateTextLayerMetrics(
     return TextLayerMetrics(
         fontSizePx = fontSizePx,
         lineHeightPx = lineHeightPx,
-        horizontalPaddingPx = (baseTextSize / 10f) * displayMetrics.density,
-        verticalPaddingPx = (baseTextSize / 12f) * displayMetrics.density,
+        horizontalPaddingPx = baseTextSize / 10f,
+        verticalPaddingPx = baseTextSize / 12f,
         typeface = typeface
     )
 }

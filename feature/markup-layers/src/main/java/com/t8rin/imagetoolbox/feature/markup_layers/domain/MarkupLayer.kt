@@ -71,7 +71,7 @@ sealed interface LayerType {
             val Default by lazy {
                 Text(
                     color = -16777216,
-                    size = 0.2f,
+                    size = 0.5f,
                     font = null,
                     backgroundColor = 0,
                     text = "Text",

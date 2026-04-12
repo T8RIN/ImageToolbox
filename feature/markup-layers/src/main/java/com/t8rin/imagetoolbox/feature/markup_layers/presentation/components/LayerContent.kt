@@ -18,10 +18,12 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
@@ -52,6 +54,7 @@ internal fun LayerContent(
     modifier: Modifier = Modifier,
     type: LayerType,
     textFullSize: Int,
+    maxLines: Int = Int.MAX_VALUE,
     onTextLayout: ((TextLayoutResult) -> Unit)? = null
 ) {
     when (type) {
@@ -132,20 +135,26 @@ internal fun LayerContent(
                 }
             }
 
-            OutlinedText(
-                text = type.text,
-                style = mergedStyle,
-                outlineParams = outlineParams,
-                onTextLayout = onTextLayout,
-                modifier = Modifier
-                    .background(
-                        color = type.backgroundColor.toColor()
-                    )
-                    .padding(
-                        horizontal = with(density) { textMetrics.horizontalPaddingPx.toDp() },
-                        vertical = with(density) { textMetrics.verticalPaddingPx.toDp() }
-                    )
-            )
+            Box(
+                modifier = modifier,
+                contentAlignment = Alignment.Center
+            ) {
+                OutlinedText(
+                    text = type.text,
+                    style = mergedStyle,
+                    outlineParams = outlineParams,
+                    maxLines = maxLines,
+                    onTextLayout = onTextLayout,
+                    modifier = Modifier
+                        .background(
+                            color = type.backgroundColor.toColor()
+                        )
+                        .padding(
+                            horizontal = with(density) { textMetrics.horizontalPaddingPx.toDp() },
+                            vertical = with(density) { textMetrics.verticalPaddingPx.toDp() }
+                        )
+                )
+            }
         }
     }
 }

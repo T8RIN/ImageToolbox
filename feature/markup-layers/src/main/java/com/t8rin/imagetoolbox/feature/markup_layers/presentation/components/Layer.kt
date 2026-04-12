@@ -56,13 +56,23 @@ internal fun BoxWithConstraintsScope.Layer(
             onShowContextOptions?.invoke()
         },
         content = {
-            val scaleFactor = if (!isPreview) 2 else 1
+            val contentModifier = when {
+                type is LayerType.Text && !isPreview -> Modifier.sizeIn(
+                    maxWidth = this@Layer.maxWidth,
+                    maxHeight = this@Layer.maxHeight
+                )
+
+                else -> {
+                    val scaleFactor = if (!isPreview) 2 else 1
+                    Modifier.sizeIn(
+                        maxWidth = this@Layer.maxWidth / scaleFactor,
+                        maxHeight = this@Layer.maxHeight / scaleFactor
+                    )
+                }
+            }
 
             LayerContent(
-                modifier = Modifier.sizeIn(
-                    maxWidth = this@Layer.maxWidth / scaleFactor,
-                    maxHeight = this@Layer.maxHeight / scaleFactor
-                ),
+                modifier = contentModifier,
                 type = type,
                 textFullSize = this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
                 onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
