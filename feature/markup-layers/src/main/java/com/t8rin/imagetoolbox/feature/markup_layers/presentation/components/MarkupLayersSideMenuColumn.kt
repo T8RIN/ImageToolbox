@@ -46,6 +46,7 @@ import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -92,6 +93,12 @@ internal fun MarkupLayersSideMenuColumn(
             add(to.index, removeAt(from.index))
         }
         onReorderLayers(data)
+    }
+    LaunchedEffect(Unit) {
+        val index = layers.indexOfFirst { it.state.isActive }
+            .takeIf { it >= 0 } ?: return@LaunchedEffect
+
+        lazyListState.scrollToItem(index)
     }
     LazyColumn(
         state = lazyListState,
