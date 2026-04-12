@@ -106,8 +106,14 @@ android {
             isUniversalApk = true
         }
     }
+
+    lint {
+        disable += "Instantiatable"
+    }
+
     packaging {
         jniLibs {
+            keepDebugSymbols.add("**/*.so")
             pickFirsts.add("lib/*/libcoder.so")
             pickFirsts.add("**/libc++_shared.so")
             pickFirsts.add("**/libdatstore_shared_counter.so")
