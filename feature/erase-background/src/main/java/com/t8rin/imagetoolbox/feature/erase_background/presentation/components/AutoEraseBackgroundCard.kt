@@ -21,9 +21,11 @@ package com.t8rin.imagetoolbox.feature.erase_background.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -111,7 +113,7 @@ fun AutoEraseBackgroundCard(
 
     LaunchedEffect(downloadedModels) {
         if (!downloadedModels.contains(selectedModel)) {
-            selectedModel = BgModelType.U2NetP
+            selectedModel = BgModelType.Default
         }
     }
 
@@ -132,7 +134,9 @@ fun AutoEraseBackgroundCard(
     ) {
         if (flavoredEntries.size > 1) {
             EnhancedButtonGroup(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min),
                 entries = flavoredEntries,
                 value = selectedModel,
                 title = null,
@@ -169,7 +173,7 @@ fun AutoEraseBackgroundCard(
                                         BgRemover.getRemover(type.toLib()).checkModel()
                                     }
                                     .catch {
-                                        selectedModel = BgModelType.U2NetP
+                                        selectedModel = BgModelType.Default
                                         downloadProgresses.remove(type)
                                         downloadJob = null
                                     }
@@ -189,18 +193,15 @@ fun AutoEraseBackgroundCard(
                     }
                 },
                 itemContent = { type ->
-                    if (type == BgModelType.MlKit) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxHeight()
+                    ) {
                         Text(
                             text = type.title
                         )
-                    } else {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = type.title
-                            )
 
+                        if (type != BgModelType.MlKit) {
                             AnimatedVisibility(type !in downloadedModels) {
                                 downloadProgresses[type]?.let { progress ->
                                     EnhancedCancellableCircularProgressIndicator(
@@ -212,6 +213,7 @@ fun AutoEraseBackgroundCard(
                                         strokeWidth = 3.dp,
                                         onCancel = {
                                             downloadJob?.cancel()
+                                            selectedModel = BgModelType.Default
                                             downloadProgresses.remove(type)
                                             downloadJob = null
                                         }

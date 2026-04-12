@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.erase_background.domain.model
 
+import com.t8rin.imagetoolbox.core.domain.utils.Flavor
+
 enum class BgModelType(
     val title: String
 ) {
@@ -26,5 +28,9 @@ enum class BgModelType(
     RMBG("RMBG"),
     InSPyReNet("InSPyReNet"),
     BiRefNetTiny("BiRefNet"),
-    ISNet("ISNet")
+    ISNet("ISNet");
+
+    companion object {
+        val Default = if (Flavor.isFoss()) U2NetP else MlKit
+    }
 }
