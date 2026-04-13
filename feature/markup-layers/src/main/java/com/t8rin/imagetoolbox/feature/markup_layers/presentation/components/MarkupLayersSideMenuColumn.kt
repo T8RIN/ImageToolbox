@@ -53,6 +53,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -229,6 +230,11 @@ internal fun MarkupLayersSideMenuColumn(
                                                 if (state.isFlippedVertically) -1f else 1f
                                         rotationZ = state.rotation
                                         alpha = state.alpha
+                                        compositingStrategy = if (state.alpha < 0.999f) {
+                                            CompositingStrategy.ModulateAlpha
+                                        } else {
+                                            CompositingStrategy.Auto
+                                        }
                                     }
                                     .padding(4.dp),
                                 contentAlignment = Alignment.Center
