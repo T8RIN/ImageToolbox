@@ -233,7 +233,9 @@ internal class LayersRenderer @Inject constructor(
         val resolvedContentSize = contentSize.takeIf { it.width > 0 && it.height > 0 }
         val availableLayoutWidth = (
                 (resolvedContentSize?.width?.toFloat() ?: fallbackMaxTextBoxWidth) -
-                        (textMetrics.horizontalPaddingPx + outlineWidth) * 2f
+                        textMetrics.padding.leftPx -
+                        textMetrics.padding.rightPx -
+                        outlineWidth * 2f
                 ).roundToInt().coerceAtLeast(1)
 
         val fillPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {
@@ -244,6 +246,16 @@ internal class LayersRenderer @Inject constructor(
             isUnderlineText = type.decorations.any { it == LayerType.Text.Decoration.Underline }
             isStrikeThruText = type.decorations.any { it == LayerType.Text.Decoration.LineThrough }
             typeface = textMetrics.typeface
+            textScaleX = type.geometricTransform?.scaleX?.coerceAtLeast(0.01f) ?: 1f
+            textSkewX = type.geometricTransform?.skewX ?: 0f
+            type.shadow?.let {
+                setShadowLayer(
+                    it.blurRadius.coerceAtLeast(0f),
+                    it.offsetX,
+                    it.offsetY,
+                    it.color
+                )
+            }
         }
 
         val desiredLayoutWidth = maxLineWidth(
@@ -268,10 +280,16 @@ internal class LayersRenderer @Inject constructor(
         )
 
         val bitmapWidth = resolvedContentSize?.width?.coerceAtLeast(1) ?: ceil(
-            layoutWidth + textMetrics.horizontalPaddingPx * 2f + outlineWidth * 2f
+            layoutWidth +
+                    textMetrics.padding.leftPx +
+                    textMetrics.padding.rightPx +
+                    outlineWidth * 2f
         ).toInt().coerceAtLeast(1)
         val bitmapHeight = resolvedContentSize?.height?.coerceAtLeast(1) ?: ceil(
-            fillLayout.height + textMetrics.verticalPaddingPx * 2f + outlineWidth * 2f
+            fillLayout.height +
+                    textMetrics.padding.topPx +
+                    textMetrics.padding.bottomPx +
+                    outlineWidth * 2f
         ).toInt().coerceAtLeast(1)
 
         val outlineLayout = type.outline?.takeIf { it.width > 0f }?.let { outline ->
@@ -281,6 +299,7 @@ internal class LayersRenderer @Inject constructor(
                 strokeWidth = outline.width
                 strokeJoin = Paint.Join.ROUND
                 strokeCap = Paint.Cap.ROUND
+                clearShadowLayer()
             }
             createStaticLayout(
                 text = layoutText,
@@ -296,8 +315,8 @@ internal class LayersRenderer @Inject constructor(
             width = bitmapWidth.toFloat(),
             height = bitmapHeight.toFloat(),
             bitmap = createBitmap(bitmapWidth, bitmapHeight).applyCanvas {
-                val textLeft = outlineWidth + textMetrics.horizontalPaddingPx
-                val textTop = outlineWidth + textMetrics.verticalPaddingPx
+                val textLeft = outlineWidth + textMetrics.padding.leftPx
+                val textTop = outlineWidth + textMetrics.padding.topPx
 
                 type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
                     drawRect(

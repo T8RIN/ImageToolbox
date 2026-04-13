@@ -25,7 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -48,6 +50,7 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import androidx.compose.ui.text.style.TextGeometricTransform as ComposeTextGeometricTransform
 
 @Composable
 internal fun LayerContent(
@@ -115,6 +118,22 @@ internal fun LayerContent(
                     } else {
                         FontStyle.Normal
                     },
+                    textGeometricTransform = type.geometricTransform?.let {
+                        ComposeTextGeometricTransform(
+                            scaleX = it.scaleX,
+                            skewX = it.skewX
+                        )
+                    },
+                    shadow = type.shadow?.let {
+                        Shadow(
+                            color = Color(it.color),
+                            offset = Offset(
+                                x = it.offsetX,
+                                y = it.offsetY
+                            ),
+                            blurRadius = it.blurRadius
+                        )
+                    },
                     textAlign = when (type.alignment) {
                         LayerType.Text.Alignment.Start -> TextAlign.Start
                         LayerType.Text.Alignment.Center -> TextAlign.Center
@@ -150,8 +169,10 @@ internal fun LayerContent(
                             color = type.backgroundColor.toColor()
                         )
                         .padding(
-                            horizontal = with(density) { textMetrics.horizontalPaddingPx.toDp() },
-                            vertical = with(density) { textMetrics.verticalPaddingPx.toDp() }
+                            start = with(density) { textMetrics.padding.leftPx.toDp() },
+                            top = with(density) { textMetrics.padding.topPx.toDp() },
+                            end = with(density) { textMetrics.padding.rightPx.toDp() },
+                            bottom = with(density) { textMetrics.padding.bottomPx.toDp() }
                         )
                 )
             }

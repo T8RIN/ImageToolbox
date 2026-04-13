@@ -39,6 +39,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextGeometricTransform
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextShadow
 import com.t8rin.logger.makeLog
 import java.io.File
 import javax.inject.Inject
@@ -181,7 +183,9 @@ internal class MarkupMapper @Inject constructor(
         text = text,
         decorations = decorations.map(Enum<*>::name),
         outline = outline?.toSnapshot(),
-        alignment = alignment.name
+        alignment = alignment.name,
+        geometricTransform = geometricTransform?.toSnapshot(),
+        shadow = shadow?.toSnapshot()
     )
 
     private fun LayerType.toPictureSnapshot(
@@ -210,6 +214,19 @@ internal class MarkupMapper @Inject constructor(
     private fun Outline.toSnapshot(): OutlineSnapshot = OutlineSnapshot(
         color = color,
         width = width
+    )
+
+    private fun TextGeometricTransform.toSnapshot(): TextGeometricTransformSnapshot =
+        TextGeometricTransformSnapshot(
+            scaleX = scaleX,
+            skewX = skewX
+        )
+
+    private fun TextShadow.toSnapshot(): TextShadowSnapshot = TextShadowSnapshot(
+        color = color,
+        offsetX = offsetX,
+        offsetY = offsetY,
+        blurRadius = blurRadius
     )
 
     private suspend fun List<LayerSnapshot>.toDomainLayers(
@@ -272,7 +289,9 @@ internal class MarkupMapper @Inject constructor(
         text = text,
         decorations = decorations.toDomainDecorations(),
         outline = outline?.toDomain(),
-        alignment = alignment.toDomainAlignment()
+        alignment = alignment.toDomainAlignment(),
+        geometricTransform = geometricTransform?.toDomain(),
+        shadow = shadow?.toDomain()
     )
 
     private fun List<String>.toDomainDecorations(): List<LayerType.Text.Decoration> {
@@ -308,6 +327,19 @@ internal class MarkupMapper @Inject constructor(
     private fun OutlineSnapshot.toDomain(): Outline = Outline(
         color = color,
         width = width
+    )
+
+    private fun TextGeometricTransformSnapshot.toDomain(): TextGeometricTransform =
+        TextGeometricTransform(
+            scaleX = scaleX,
+            skewX = skewX
+        )
+
+    private fun TextShadowSnapshot.toDomain(): TextShadow = TextShadow(
+        color = color,
+        offsetX = offsetX,
+        offsetY = offsetY,
+        blurRadius = blurRadius
     )
 
     private fun FontType.toSnapshot(

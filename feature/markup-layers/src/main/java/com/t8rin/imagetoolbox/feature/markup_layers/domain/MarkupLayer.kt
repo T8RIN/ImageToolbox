@@ -47,6 +47,18 @@ data class LayerPosition(
 
 typealias DomainTextDecoration = LayerType.Text.Decoration
 
+data class TextGeometricTransform(
+    val scaleX: Float = 1f,
+    val skewX: Float = 0f
+)
+
+data class TextShadow(
+    val color: Int,
+    val offsetX: Float = 0f,
+    val offsetY: Float = 0f,
+    val blurRadius: Float = 0f
+)
+
 sealed interface LayerType {
     data class Text(
         val color: Int,
@@ -56,7 +68,9 @@ sealed interface LayerType {
         val text: String,
         val decorations: List<Decoration>,
         val outline: Outline?,
-        val alignment: Alignment
+        val alignment: Alignment,
+        val geometricTransform: TextGeometricTransform? = null,
+        val shadow: TextShadow? = null
     ) : LayerType {
 
         enum class Decoration {
@@ -78,6 +92,8 @@ sealed interface LayerType {
                     decorations = listOf(),
                     outline = null,
                     alignment = Alignment.Start,
+                    geometricTransform = null,
+                    shadow = null
                 )
             }
         }

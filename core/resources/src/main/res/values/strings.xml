@@ -1552,8 +1552,15 @@
     <string name="base_64_actions">Base64 Actions</string>
     <string name="add_outline">Add Outline</string>
     <string name="add_outline_sub">Add outline around text with specified color and width</string>
+    <string name="add_shadow">Add Shadow</string>
+    <string name="add_shadow_sub">Add blur shadow behind text with configurable color and offsets</string>
     <string name="outline_color">Outline Color</string>
     <string name="outline_size">Outline Size</string>
+    <string name="shadow_color">Shadow Color</string>
+    <string name="text_geometry">Text Geometry</string>
+    <string name="text_geometry_sub">Stretch or skew text for sharper stylization</string>
+    <string name="scale_x">Scale X</string>
+    <string name="skew_x">Skew X</string>
     <string name="rotation">Rotation</string>
     <string name="checksum_as_filename">Checksum as Filename</string>
     <string name="checksum_as_filename_sub">Output images will have name corresponding to their data checksum</string>

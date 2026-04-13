@@ -69,6 +69,8 @@ data class TextSnapshot(
     val decorations: List<String>,
     val outline: OutlineSnapshot?,
     val alignment: String,
+    val geometricTransform: TextGeometricTransformSnapshot? = null,
+    val shadow: TextShadowSnapshot? = null,
 )
 
 data class PictureSnapshot(
@@ -89,6 +91,18 @@ data class FontSnapshot(
 data class OutlineSnapshot(
     val color: Int,
     val width: Float,
+)
+
+data class TextGeometricTransformSnapshot(
+    val scaleX: Float = 1f,
+    val skewX: Float = 0f,
+)
+
+data class TextShadowSnapshot(
+    val color: Int,
+    val offsetX: Float = 0f,
+    val offsetY: Float = 0f,
+    val blurRadius: Float = 0f,
 )
 
 enum class BackgroundType {

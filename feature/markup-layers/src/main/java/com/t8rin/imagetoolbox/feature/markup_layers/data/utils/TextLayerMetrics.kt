@@ -24,13 +24,29 @@ import android.text.TextPaint
 import android.util.TypedValue
 import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import kotlin.math.abs
 import kotlin.math.ceil
+
+internal data class TextLayerPadding(
+    val leftPx: Float,
+    val topPx: Float,
+    val rightPx: Float,
+    val bottomPx: Float
+) {
+    companion object {
+        val Zero = TextLayerPadding(
+            leftPx = 0f,
+            topPx = 0f,
+            rightPx = 0f,
+            bottomPx = 0f
+        )
+    }
+}
 
 internal data class TextLayerMetrics(
     val fontSizePx: Float,
     val lineHeightPx: Float,
-    val horizontalPaddingPx: Float,
-    val verticalPaddingPx: Float,
+    val padding: TextLayerPadding,
     val typeface: Typeface
 )
 
@@ -58,12 +74,20 @@ internal fun Context.calculateTextLayerMetrics(
             .toFloat()
             .coerceAtLeast(fontSizePx)
     }
+    val baseHorizontalPaddingPx = baseTextSize / 10f
+    val baseVerticalPaddingPx = baseTextSize / 12f
+    val shadowPadding = type.calculateShadowPadding()
+    val geometricTransformPaddingPx = lineHeightPx * abs(type.geometricTransform?.skewX ?: 0f)
 
     return TextLayerMetrics(
         fontSizePx = fontSizePx,
         lineHeightPx = lineHeightPx,
-        horizontalPaddingPx = baseTextSize / 10f,
-        verticalPaddingPx = baseTextSize / 12f,
+        padding = TextLayerPadding(
+            leftPx = baseHorizontalPaddingPx + geometricTransformPaddingPx + shadowPadding.leftPx,
+            topPx = baseVerticalPaddingPx + shadowPadding.topPx,
+            rightPx = baseHorizontalPaddingPx + geometricTransformPaddingPx + shadowPadding.rightPx,
+            bottomPx = baseVerticalPaddingPx + shadowPadding.bottomPx
+        ),
         typeface = typeface
     )
 }
@@ -79,4 +103,16 @@ internal fun createTextLayerTypeface(type: LayerType.Text): Typeface {
     }
 
     return Typeface.create(type.font.toTypeface() ?: Typeface.DEFAULT, style)
+}
+
+private fun LayerType.Text.calculateShadowPadding(): TextLayerPadding {
+    val shadow = shadow ?: return TextLayerPadding.Zero
+    val blurRadius = shadow.blurRadius.coerceAtLeast(0f)
+
+    return TextLayerPadding(
+        leftPx = (blurRadius - shadow.offsetX).coerceAtLeast(0f),
+        topPx = (blurRadius - shadow.offsetY).coerceAtLeast(0f),
+        rightPx = (blurRadius + shadow.offsetX).coerceAtLeast(0f),
+        bottomPx = (blurRadius + shadow.offsetY).coerceAtLeast(0f)
+    )
 }
