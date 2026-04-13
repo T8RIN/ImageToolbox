@@ -27,7 +27,6 @@ import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.core.graphics.applyCanvas
-import androidx.core.graphics.createBitmap
 import androidx.core.graphics.withSave
 import coil3.ImageLoader
 import coil3.request.ImageRequest
@@ -314,34 +313,15 @@ internal class LayersRenderer @Inject constructor(
         return TextLayerRenderData(
             width = bitmapWidth.toFloat(),
             height = bitmapHeight.toFloat(),
-            bitmap = createBitmap(bitmapWidth, bitmapHeight).applyCanvas {
-                val textLeft = outlineWidth + textMetrics.padding.leftPx
-                val textTop = outlineWidth + textMetrics.padding.topPx
-
-                type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
-                    drawRect(
-                        0f,
-                        0f,
-                        bitmapWidth.toFloat(),
-                        bitmapHeight.toFloat(),
-                        Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                            color = backgroundColor
-                        }
-                    )
+            backgroundPaint = type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
+                Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = backgroundColor
                 }
-
-                outlineLayout?.let {
-                    withSave {
-                        translate(textLeft, textTop)
-                        it.draw(this@applyCanvas)
-                    }
-                }
-
-                withSave {
-                    translate(textLeft, textTop)
-                    fillLayout.draw(this@applyCanvas)
-                }
-            }
+            },
+            textLeft = outlineWidth + textMetrics.padding.leftPx,
+            textTop = outlineWidth + textMetrics.padding.topPx,
+            outlineLayout = outlineLayout,
+            fillLayout = fillLayout
         )
     }
 
@@ -378,15 +358,50 @@ internal class LayersRenderer @Inject constructor(
                     height = data.height
                 )
             )
-            drawBitmap(
-                data.bitmap,
-                null,
-                destination,
-                blendingMode.toPaint().apply {
-                    this.alpha = alpha
-                    isFilterBitmap = true
-                }
-            )
+
+            if (blendingMode == BlendingMode.SrcOver && alpha >= 255) {
+                drawTextLayerContent(
+                    data = data,
+                    bounds = destination
+                )
+            } else {
+                val checkpoint = saveLayer(
+                    destination,
+                    blendingMode.toPaint().apply {
+                        this.alpha = alpha
+                    }
+                )
+                drawTextLayerContent(
+                    data = data,
+                    bounds = destination
+                )
+                restoreToCount(checkpoint)
+            }
+        }
+    }
+
+    private fun Canvas.drawTextLayerContent(
+        data: TextLayerRenderData,
+        bounds: RectF
+    ) {
+        withSave {
+            translate(bounds.left, bounds.top)
+
+            data.backgroundPaint?.let {
+                drawRect(
+                    0f,
+                    0f,
+                    data.width,
+                    data.height,
+                    it
+                )
+            }
+
+            withSave {
+                translate(data.textLeft, data.textTop)
+                data.outlineLayout?.draw(this@drawTextLayerContent)
+                data.fillLayout.draw(this@drawTextLayerContent)
+            }
         }
     }
 
@@ -470,7 +485,11 @@ internal class LayersRenderer @Inject constructor(
 private data class TextLayerRenderData(
     val width: Float,
     val height: Float,
-    val bitmap: Bitmap
+    val backgroundPaint: Paint?,
+    val textLeft: Float,
+    val textTop: Float,
+    val outlineLayout: StaticLayout?,
+    val fillLayout: StaticLayout
 )
 
 private data class TextLayerCacheKey(
