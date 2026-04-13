@@ -247,14 +247,6 @@ internal class LayersRenderer @Inject constructor(
             typeface = textMetrics.typeface
             textScaleX = type.geometricTransform?.scaleX?.coerceAtLeast(0.01f) ?: 1f
             textSkewX = type.geometricTransform?.skewX ?: 0f
-            type.shadow?.let {
-                setShadowLayer(
-                    it.blurRadius.coerceAtLeast(0f),
-                    it.offsetX,
-                    it.offsetY,
-                    it.color
-                )
-            }
         }
 
         val desiredLayoutWidth = maxLineWidth(
@@ -269,12 +261,18 @@ internal class LayersRenderer @Inject constructor(
             LayerType.Text.Alignment.End -> Layout.Alignment.ALIGN_OPPOSITE
         }
 
-        val fillLayout = createStaticLayout(
+        val fillLayout = createTextStaticLayout(
             text = layoutText,
             paint = fillPaint,
             width = layoutWidth,
             alignment = alignment,
             lineHeightPx = textMetrics.lineHeightPx,
+            maxLines = maxLines
+        )
+        val shadowRenderData = buildTextShadowRenderData(
+            type = type,
+            textMetrics = textMetrics,
+            layoutWidth = layoutWidth,
             maxLines = maxLines
         )
 
@@ -300,7 +298,7 @@ internal class LayersRenderer @Inject constructor(
                 strokeCap = Paint.Cap.ROUND
                 clearShadowLayer()
             }
-            createStaticLayout(
+            createTextStaticLayout(
                 text = layoutText,
                 paint = outlinePaint,
                 width = layoutWidth,
@@ -320,6 +318,7 @@ internal class LayersRenderer @Inject constructor(
             },
             textLeft = outlineWidth + textMetrics.padding.leftPx,
             textTop = outlineWidth + textMetrics.padding.topPx,
+            shadowRenderData = shadowRenderData,
             outlineLayout = outlineLayout,
             fillLayout = fillLayout
         )
@@ -397,6 +396,17 @@ internal class LayersRenderer @Inject constructor(
                 )
             }
 
+            data.shadowRenderData?.let { shadow ->
+                drawBitmap(
+                    shadow.bitmap,
+                    data.textLeft + shadow.left,
+                    data.textTop + shadow.top,
+                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                        isFilterBitmap = true
+                    }
+                )
+            }
+
             withSave {
                 translate(data.textLeft, data.textTop)
                 data.outlineLayout?.draw(this@drawTextLayerContent)
@@ -415,42 +425,6 @@ internal class LayersRenderer @Inject constructor(
         }
         ?.coerceAtLeast(1)
         ?: 1
-
-    private fun createStaticLayout(
-        text: String,
-        paint: TextPaint,
-        width: Int,
-        alignment: Layout.Alignment,
-        lineHeightPx: Float,
-        maxLines: Int?
-    ): StaticLayout {
-        val boundedText = maxLines
-            ?.takeIf { it > 0 }
-            ?.let { linesLimit ->
-                val fullLayout = StaticLayout.Builder
-                    .obtain(text, 0, text.length, paint, width)
-                    .setAlignment(alignment)
-                    .setIncludePad(false)
-                    .build()
-
-                if (fullLayout.lineCount <= linesLimit) {
-                    text
-                } else {
-                    text.substring(0, fullLayout.getLineEnd(linesLimit - 1))
-                }
-            }
-            ?: text
-
-        val naturalLineHeightPx = ceil(
-            (paint.fontMetrics.descent - paint.fontMetrics.ascent).toDouble()
-        ).toFloat()
-        return StaticLayout.Builder
-            .obtain(boundedText, 0, boundedText.length, paint, width)
-            .setAlignment(alignment)
-            .setIncludePad(false)
-            .setLineSpacing((lineHeightPx - naturalLineHeightPx).coerceAtLeast(0f), 1f)
-            .build()
-    }
 
     private fun cornerRadiusPx(
         cornerRadiusPercent: Int,
@@ -488,6 +462,7 @@ private data class TextLayerRenderData(
     val backgroundPaint: Paint?,
     val textLeft: Float,
     val textTop: Float,
+    val shadowRenderData: TextShadowRenderData?,
     val outlineLayout: StaticLayout?,
     val fillLayout: StaticLayout
 )
