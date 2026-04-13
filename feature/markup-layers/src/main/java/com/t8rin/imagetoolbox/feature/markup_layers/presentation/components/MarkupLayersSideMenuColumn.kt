@@ -230,10 +230,10 @@ internal fun MarkupLayersSideMenuColumn(
                                                 if (state.isFlippedVertically) -1f else 1f
                                         rotationZ = state.rotation
                                         alpha = state.alpha
-                                        compositingStrategy = if (state.alpha < 0.999f) {
-                                            CompositingStrategy.ModulateAlpha
-                                        } else {
+                                        compositingStrategy = if (state.alpha >= 1f) {
                                             CompositingStrategy.Auto
+                                        } else {
+                                            CompositingStrategy.ModulateAlpha
                                         }
                                     }
                                     .padding(4.dp),
