@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
@@ -25,12 +24,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -40,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import coil3.request.ImageRequest
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
@@ -47,9 +47,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildTextShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import kotlin.math.roundToInt
 import androidx.compose.ui.text.style.TextGeometricTransform as ComposeTextGeometricTransform
 
 @Composable
@@ -124,16 +126,6 @@ internal fun LayerContent(
                             skewX = it.skewX
                         )
                     },
-                    shadow = type.shadow?.let {
-                        Shadow(
-                            color = Color(it.color),
-                            offset = Offset(
-                                x = it.offsetX,
-                                y = it.offsetY
-                            ),
-                            blurRadius = it.blurRadius
-                        )
-                    },
                     textAlign = when (type.alignment) {
                         LayerType.Text.Alignment.Start -> TextAlign.Start
                         LayerType.Text.Alignment.Center -> TextAlign.Center
@@ -165,9 +157,34 @@ internal fun LayerContent(
                     maxLines = maxLines,
                     onTextLayout = onTextLayout,
                     modifier = Modifier
-                        .background(
-                            color = type.backgroundColor.toColor()
-                        )
+                        .drawWithCache {
+                            val textLeft = textMetrics.padding.leftPx
+                            val textTop = textMetrics.padding.topPx
+                            val layoutWidth =
+                                (size.width - textMetrics.padding.leftPx - textMetrics.padding.rightPx)
+                                    .roundToInt()
+                                    .coerceAtLeast(1)
+                            val shadow = buildTextShadowRenderData(
+                                type = type,
+                                textMetrics = textMetrics,
+                                layoutWidth = layoutWidth,
+                                maxLines = maxLines.takeIf { it != Int.MAX_VALUE }
+                            )
+
+                            onDrawWithContent {
+                                drawRect(type.backgroundColor.toColor())
+                                shadow?.let {
+                                    drawContext.canvas.nativeCanvas.apply {
+                                        drawBitmap(
+                                            bitmap = shadow.bitmap,
+                                            top = textTop + shadow.top,
+                                            left = textLeft + shadow.left
+                                        )
+                                    }
+                                }
+                                drawContent()
+                            }
+                        }
                         .padding(
                             start = with(density) { textMetrics.padding.leftPx.toDp() },
                             top = with(density) { textMetrics.padding.topPx.toDp() },
