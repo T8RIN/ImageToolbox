@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -142,12 +143,16 @@ internal class LayersRenderer @Inject constructor(
                         }
 
                         is LayerType.Text -> {
+                            val shadowRasterScale = resolveShadowRasterScale(
+                                layerScale = layer.position.scale
+                            )
                             val textData = textCache.getOrPut(
                                 TextLayerCacheKey(
                                     type = type,
                                     textFullSize = textFullSize,
                                     contentSize = layer.contentSize,
-                                    maxLines = layer.visibleLineCount
+                                    maxLines = layer.visibleLineCount,
+                                    shadowRasterScaleKey = (shadowRasterScale * 100f).roundToInt()
                                 )
                             ) {
                                 buildTextLayerRenderData(
@@ -155,7 +160,8 @@ internal class LayersRenderer @Inject constructor(
                                     textFullSize = textFullSize,
                                     contentSize = layer.contentSize,
                                     fallbackMaxTextBoxWidth = authorWidth,
-                                    maxLines = layer.visibleLineCount
+                                    maxLines = layer.visibleLineCount,
+                                    shadowRasterScale = shadowRasterScale
                                 )
                             }
                             drawTextLayer(
@@ -221,7 +227,8 @@ internal class LayersRenderer @Inject constructor(
         textFullSize: Int,
         contentSize: IntegerSize,
         fallbackMaxTextBoxWidth: Float,
-        maxLines: Int?
+        maxLines: Int?,
+        shadowRasterScale: Float
     ): TextLayerRenderData {
         val textMetrics = context.calculateTextLayerMetrics(
             type = type,
@@ -273,7 +280,8 @@ internal class LayersRenderer @Inject constructor(
             type = type,
             textMetrics = textMetrics,
             layoutWidth = layoutWidth,
-            maxLines = maxLines
+            maxLines = maxLines,
+            rasterScale = shadowRasterScale
         )
 
         val bitmapWidth = resolvedContentSize?.width?.coerceAtLeast(1) ?: ceil(
@@ -397,14 +405,18 @@ internal class LayersRenderer @Inject constructor(
             }
 
             data.shadowRenderData?.let { shadow ->
-                drawBitmap(
-                    shadow.bitmap,
-                    data.textLeft + shadow.left,
-                    data.textTop + shadow.top,
-                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                        isFilterBitmap = true
-                    }
-                )
+                withSave {
+                    val rasterScale = shadow.rasterScale.coerceAtLeast(1f)
+                    scale(1f / rasterScale, 1f / rasterScale)
+                    drawBitmap(
+                        shadow.bitmap,
+                        data.textLeft * rasterScale + shadow.left,
+                        data.textTop * rasterScale + shadow.top,
+                        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                            isFilterBitmap = true
+                        }
+                    )
+                }
             }
 
             withSave {
@@ -413,6 +425,17 @@ internal class LayersRenderer @Inject constructor(
                 data.fillLayout.draw(this@drawTextLayerContent)
             }
         }
+    }
+
+    private fun resolveShadowRasterScale(
+        layerScale: Float
+    ): Float = layerScale
+        .absoluteValue
+        .coerceAtLeast(1f)
+        .coerceAtMost(MAX_SHADOW_RASTER_SCALE)
+
+    private companion object {
+        const val MAX_SHADOW_RASTER_SCALE = 4f
     }
 
     private fun maxLineWidth(
@@ -471,7 +494,8 @@ private data class TextLayerCacheKey(
     val type: LayerType.Text,
     val textFullSize: Int,
     val contentSize: IntegerSize,
-    val maxLines: Int?
+    val maxLines: Int?,
+    val shadowRasterScaleKey: Int
 )
 
 private data class PictureLayerRenderData(

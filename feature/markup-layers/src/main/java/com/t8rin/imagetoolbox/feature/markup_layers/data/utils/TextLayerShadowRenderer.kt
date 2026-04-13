@@ -26,23 +26,30 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.withSave
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 internal data class TextShadowRenderData(
     val bitmap: Bitmap,
     val left: Float,
-    val top: Float
+    val top: Float,
+    val rasterScale: Float
 )
 
 internal fun buildTextShadowRenderData(
     type: LayerType.Text,
     textMetrics: TextLayerMetrics,
     layoutWidth: Int,
-    maxLines: Int?
+    maxLines: Int?,
+    rasterScale: Float = 1f
 ): TextShadowRenderData? {
     val shadow = type.shadow ?: return null
-    val safeLayoutWidth = layoutWidth.coerceAtLeast(1)
+    val safeRasterScale = rasterScale.coerceAtLeast(1f)
+    val safeLayoutWidth = (layoutWidth.coerceAtLeast(1) * safeRasterScale)
+        .roundToInt()
+        .coerceAtLeast(1)
     val text = type.text.ifEmpty { " " }
     val alignment = when (type.alignment) {
         LayerType.Text.Alignment.Start -> Layout.Alignment.ALIGN_NORMAL
@@ -51,7 +58,7 @@ internal fun buildTextShadowRenderData(
     }
     val paint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {
         color = android.graphics.Color.BLACK
-        textSize = textMetrics.fontSizePx
+        textSize = textMetrics.fontSizePx * safeRasterScale
         hinting = Paint.HINTING_ON
         isLinearText = true
         isUnderlineText = type.decorations.any { it == LayerType.Text.Decoration.Underline }
@@ -65,17 +72,28 @@ internal fun buildTextShadowRenderData(
         paint = paint,
         width = safeLayoutWidth,
         alignment = alignment,
-        lineHeightPx = textMetrics.lineHeightPx,
+        lineHeightPx = textMetrics.lineHeightPx * safeRasterScale,
         maxLines = maxLines
     )
+    val sourcePadding = shadowSourcePadding(
+        textMetrics = textMetrics,
+        rasterScale = safeRasterScale
+    )
     val sourceBitmap = createBitmap(
-        width = layout.width.coerceAtLeast(1),
-        height = layout.height.coerceAtLeast(1)
+        width = ceil(layout.width + sourcePadding.leftPx + sourcePadding.rightPx)
+            .toInt()
+            .coerceAtLeast(1),
+        height = ceil(layout.height + sourcePadding.topPx + sourcePadding.bottomPx)
+            .toInt()
+            .coerceAtLeast(1)
     ).applyCanvas {
-        layout.draw(this)
+        withSave {
+            translate(sourcePadding.leftPx, sourcePadding.topPx)
+            layout.draw(this)
+        }
     }
 
-    val blurRadius = shadow.blurRadius.coerceAtLeast(0f)
+    val blurRadius = shadow.blurRadius.coerceAtLeast(0f) * safeRasterScale
     val offset = IntArray(2)
     val alphaBitmap = sourceBitmap.extractAlpha(
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -109,10 +127,21 @@ internal fun buildTextShadowRenderData(
 
     return TextShadowRenderData(
         bitmap = tintedBitmap,
-        left = offset[0].toFloat() + shadow.offsetX,
-        top = offset[1].toFloat() + shadow.offsetY
+        left = offset[0].toFloat() - sourcePadding.leftPx + shadow.offsetX * safeRasterScale,
+        top = offset[1].toFloat() - sourcePadding.topPx + shadow.offsetY * safeRasterScale,
+        rasterScale = safeRasterScale
     )
 }
+
+private fun shadowSourcePadding(
+    textMetrics: TextLayerMetrics,
+    rasterScale: Float
+): TextLayerPadding = TextLayerPadding(
+    leftPx = ceil(textMetrics.padding.leftPx * rasterScale),
+    topPx = ceil(textMetrics.padding.topPx * rasterScale),
+    rightPx = ceil(textMetrics.padding.rightPx * rasterScale),
+    bottomPx = ceil(textMetrics.padding.bottomPx * rasterScale)
+)
 
 internal fun createTextStaticLayout(
     text: String,

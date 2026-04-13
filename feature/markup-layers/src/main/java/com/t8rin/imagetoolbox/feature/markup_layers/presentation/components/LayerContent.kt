@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.core.graphics.withSave
 import coil3.request.ImageRequest
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.static
@@ -173,13 +174,19 @@ internal fun LayerContent(
 
                             onDrawWithContent {
                                 drawRect(type.backgroundColor.toColor())
-                                shadow?.let {
+                                shadow?.let { shadowData ->
                                     drawContext.canvas.nativeCanvas.apply {
-                                        drawBitmap(
-                                            bitmap = shadow.bitmap,
-                                            top = textTop + shadow.top,
-                                            left = textLeft + shadow.left
-                                        )
+                                        withSave {
+                                            scale(
+                                                1f / shadowData.rasterScale,
+                                                1f / shadowData.rasterScale
+                                            )
+                                            drawBitmap(
+                                                bitmap = shadowData.bitmap,
+                                                top = textTop * shadowData.rasterScale + shadowData.top,
+                                                left = textLeft * shadowData.rasterScale + shadowData.left
+                                            )
+                                        }
                                     }
                                 }
                                 drawContent()
