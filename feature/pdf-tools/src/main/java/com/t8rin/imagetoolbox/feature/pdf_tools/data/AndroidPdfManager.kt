@@ -63,11 +63,13 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.writePage
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfAnnotationType
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfRemoveAnnotationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
@@ -81,6 +83,17 @@ import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.graphics.state.RenderingMode
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationFileAttachment
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationLine
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationMarkup
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationPopup
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationRubberStamp
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationSquareCircle
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationText
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationTextMarkup
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationUnknown
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -939,6 +952,48 @@ internal class AndroidPdfManager @Inject constructor(
                     )
                 )
             }
+        }
+    }
+
+    override suspend fun removeAnnotations(
+        uri: String,
+        params: PdfRemoveAnnotationParams
+    ): String = catchPdf {
+        usePdf(uri) { document ->
+            val removeAll = params.types == PdfAnnotationType.setEntries
+
+            params.pages.orAll(document).forEach { pageIndex ->
+                val page = document.getPageSafe(pageIndex)
+
+                if (removeAll) {
+                    page.annotations = emptyList()
+                } else {
+                    page.annotations = page.annotations.filterNot { annotation ->
+                        params.types.any { type ->
+                            when (type) {
+                                PdfAnnotationType.Link -> annotation is PDAnnotationLink
+                                PdfAnnotationType.FileAttachment -> annotation is PDAnnotationFileAttachment
+                                PdfAnnotationType.Line -> annotation is PDAnnotationLine
+                                PdfAnnotationType.Popup -> annotation is PDAnnotationPopup
+                                PdfAnnotationType.Stamp -> annotation is PDAnnotationRubberStamp
+                                PdfAnnotationType.SquareCircle -> annotation is PDAnnotationSquareCircle
+                                PdfAnnotationType.Text -> annotation is PDAnnotationText
+                                PdfAnnotationType.TextMarkup -> annotation is PDAnnotationTextMarkup
+                                PdfAnnotationType.Widget -> annotation is PDAnnotationWidget
+                                PdfAnnotationType.Markup -> annotation is PDAnnotationMarkup
+                                PdfAnnotationType.Unknown -> annotation is PDAnnotationUnknown
+                            }
+                        }
+                    }
+                }
+            }
+
+            document.save(
+                filename = tempName(
+                    key = "annotations_removed",
+                    uri = uri
+                )
+            )
         }
     }
 

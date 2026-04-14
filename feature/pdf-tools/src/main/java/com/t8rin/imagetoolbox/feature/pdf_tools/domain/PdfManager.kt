@@ -23,6 +23,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfRemoveAnnotationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
@@ -151,6 +152,11 @@ interface PdfManager : PdfHelper {
     suspend fun printPdf(
         uri: String,
         params: PrintPdfParams
+    ): String
+
+    suspend fun removeAnnotations(
+        uri: String,
+        params: PdfRemoveAnnotationParams
     ): String
 
 }
