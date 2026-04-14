@@ -70,13 +70,13 @@ data class TextSnapshot(
     val outline: OutlineSnapshot?,
     val alignment: String,
     val geometricTransform: TextGeometricTransformSnapshot? = null,
-    val shadow: TextShadowSnapshot? = null,
+    val shadow: DropShadowSnapshot? = null,
 )
 
 data class PictureSnapshot(
     val assetPath: String? = null,
     val value: String? = null,
-    val shadow: TextShadowSnapshot? = null,
+    val shadow: DropShadowSnapshot? = null,
 )
 
 data class FontSnapshot(
@@ -99,7 +99,7 @@ data class TextGeometricTransformSnapshot(
     val skewX: Float = 0f,
 )
 
-data class TextShadowSnapshot(
+data class DropShadowSnapshot(
     val color: Int,
     val offsetX: Float = 0f,
     val offsetY: Float = 0f,

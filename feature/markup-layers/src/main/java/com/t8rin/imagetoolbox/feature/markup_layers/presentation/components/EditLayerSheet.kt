@@ -90,10 +90,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType.Text.Alignment
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextGeometricTransform
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.icon
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
@@ -409,7 +409,7 @@ internal fun EditLayerSheet(
                     }
                     LaunchedEffect(haveShadow, type.shadow, type.color) {
                         val desiredShadow = if (haveShadow) {
-                            type.shadow ?: TextShadow(
+                            type.shadow ?: DropShadow(
                                 color = type.color.toColor()
                                     .inverseByLuma()
                                     .copy(alpha = 0.75f)
@@ -778,7 +778,7 @@ private fun PictureShadowSection(
     }
     LaunchedEffect(haveShadow, type.shadow) {
         val desiredShadow = if (haveShadow) {
-            type.shadow ?: TextShadow(
+            type.shadow ?: DropShadow(
                 color = Color.Black.copy(alpha = 0.75f).toArgb(),
                 offsetX = 0f,
                 offsetY = 6f,
@@ -905,7 +905,7 @@ private fun PictureShadowSection(
 }
 
 private fun LayerType.Picture.withShadow(
-    shadow: TextShadow?
+    shadow: DropShadow?
 ): LayerType.Picture = when (this) {
     is LayerType.Picture.Image -> copy(shadow = shadow)
     is LayerType.Picture.Sticker -> copy(shadow = shadow)

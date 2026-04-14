@@ -52,7 +52,7 @@ data class TextGeometricTransform(
     val skewX: Float = 0f
 )
 
-data class TextShadow(
+data class DropShadow(
     val color: Int,
     val offsetX: Float = 0f,
     val offsetY: Float = 0f,
@@ -70,7 +70,7 @@ sealed interface LayerType {
         val outline: Outline?,
         val alignment: Alignment,
         val geometricTransform: TextGeometricTransform? = null,
-        val shadow: TextShadow? = null
+        val shadow: DropShadow? = null
     ) : LayerType {
 
         enum class Decoration {
@@ -101,11 +101,11 @@ sealed interface LayerType {
 
     sealed class Picture(
         open val imageData: Any,
-        open val shadow: TextShadow? = null
+        open val shadow: DropShadow? = null
     ) : LayerType {
         data class Image(
             override val imageData: Any,
-            override val shadow: TextShadow? = null
+            override val shadow: DropShadow? = null
         ) : Picture(
             imageData = imageData,
             shadow = shadow
@@ -113,7 +113,7 @@ sealed interface LayerType {
 
         data class Sticker(
             override val imageData: Any,
-            override val shadow: TextShadow? = null
+            override val shadow: DropShadow? = null
         ) : Picture(
             imageData = imageData,
             shadow = shadow

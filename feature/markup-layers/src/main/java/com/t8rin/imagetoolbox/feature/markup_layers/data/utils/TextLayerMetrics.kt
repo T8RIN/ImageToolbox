@@ -23,8 +23,8 @@ import android.graphics.Typeface
 import android.text.TextPaint
 import android.util.TypedValue
 import com.t8rin.imagetoolbox.core.utils.toTypeface
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextShadow
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -107,7 +107,7 @@ internal fun createTextLayerTypeface(type: LayerType.Text): Typeface {
 }
 
 internal fun calculateShadowPadding(
-    shadow: TextShadow?
+    shadow: DropShadow?
 ): TextLayerPadding {
     shadow ?: return TextLayerPadding.Zero
     val blurRadius = shadow.blurRadius.coerceAtLeast(0f)

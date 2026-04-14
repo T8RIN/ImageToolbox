@@ -25,7 +25,7 @@ import android.graphics.RectF
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.withSave
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextShadow
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import kotlin.math.roundToInt
 
 internal data class PictureShadowRenderData(
@@ -37,7 +37,7 @@ internal data class PictureShadowRenderData(
 
 internal fun buildPictureShadowRenderData(
     sourceBitmap: Bitmap,
-    shadow: TextShadow?,
+    shadow: DropShadow?,
     targetWidth: Float,
     targetHeight: Float,
     rasterScale: Float = 1f

@@ -188,7 +188,7 @@ internal class LayersRenderer @Inject constructor(
 
     private fun resolvePictureRenderData(
         bitmap: Bitmap,
-        shadow: com.t8rin.imagetoolbox.feature.markup_layers.domain.TextShadow?,
+        shadow: com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow?,
         contentSize: IntegerSize,
         maxWidth: Float,
         maxHeight: Float

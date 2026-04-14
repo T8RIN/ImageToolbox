@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
@@ -40,7 +41,6 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextGeometricTransform
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextShadow
 import com.t8rin.logger.makeLog
 import java.io.File
 import javax.inject.Inject
@@ -226,7 +226,7 @@ internal class MarkupMapper @Inject constructor(
             skewX = skewX
         )
 
-    private fun TextShadow.toSnapshot(): TextShadowSnapshot = TextShadowSnapshot(
+    private fun DropShadow.toSnapshot(): DropShadowSnapshot = DropShadowSnapshot(
         color = color,
         offsetX = offsetX,
         offsetY = offsetY,
@@ -341,7 +341,7 @@ internal class MarkupMapper @Inject constructor(
             skewX = skewX
         )
 
-    private fun TextShadowSnapshot.toDomain(): TextShadow = TextShadow(
+    private fun DropShadowSnapshot.toDomain(): DropShadow = DropShadow(
         color = color,
         offsetX = offsetX,
         offsetY = offsetY,
