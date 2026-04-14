@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
@@ -51,6 +52,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -69,211 +71,235 @@ internal fun LayerContent(
     type: LayerType,
     textFullSize: Int,
     maxLines: Int = Int.MAX_VALUE,
+    cornerRadiusPercent: Int = 0,
     onTextLayout: ((TextLayoutResult) -> Unit)? = null
 ) {
     when (type) {
-        is LayerType.Picture -> {
-            val density = LocalDensity.current
-            var previewBitmap by remember(type.imageData) {
-                mutableStateOf<Bitmap?>(null)
-            }
-            val shadowPadding = remember(type.shadow) {
-                calculateShadowPadding(type.shadow)
-            }
+        is LayerType.Picture -> PictureLayerContent(
+            modifier = modifier,
+            type = type,
+            cornerRadiusPercent = cornerRadiusPercent
+        )
 
-            Box(
-                modifier = modifier
-                    .drawWithCache {
-                        val contentWidth = (
-                                size.width -
-                                        shadowPadding.leftPx -
-                                        shadowPadding.rightPx
-                                )
-                            .coerceAtLeast(1f)
-                        val contentHeight = (
-                                size.height -
-                                        shadowPadding.topPx -
-                                        shadowPadding.bottomPx
-                                )
-                            .coerceAtLeast(1f)
-                        val shadow = previewBitmap?.let { bitmap ->
-                            buildPictureShadowRenderData(
-                                sourceBitmap = bitmap,
-                                shadow = type.shadow,
-                                targetWidth = contentWidth,
-                                targetHeight = contentHeight
-                            )
-                        }
+        is LayerType.Text -> TextLayerContent(
+            modifier = modifier,
+            type = type,
+            textFullSize = textFullSize,
+            maxLines = maxLines,
+            onTextLayout = onTextLayout
+        )
+    }
+}
 
-                        onDrawWithContent {
-                            shadow?.let { shadowData ->
-                                drawContext.canvas.nativeCanvas.withSave {
+@Composable
+private fun PictureLayerContent(
+    modifier: Modifier,
+    type: LayerType.Picture,
+    cornerRadiusPercent: Int
+) {
+    val density = LocalDensity.current
+    var previewBitmap by remember(type.imageData) {
+        mutableStateOf<Bitmap?>(null)
+    }
+    val shadowPadding = remember(type.shadow) {
+        calculateShadowPadding(type.shadow)
+    }
+
+    Box(
+        modifier = modifier
+            .drawWithCache {
+                val contentWidth = (
+                        size.width -
+                                shadowPadding.leftPx -
+                                shadowPadding.rightPx
+                        )
+                    .coerceAtLeast(1f)
+                val contentHeight = (
+                        size.height -
+                                shadowPadding.topPx -
+                                shadowPadding.bottomPx
+                        )
+                    .coerceAtLeast(1f)
+                val shadow = previewBitmap?.let { bitmap ->
+                    buildPictureShadowRenderData(
+                        sourceBitmap = bitmap,
+                        shadow = type.shadow,
+                        targetWidth = contentWidth,
+                        targetHeight = contentHeight,
+                        cornerRadiusPercent = cornerRadiusPercent
+                    )
+                }
+
+                onDrawWithContent {
+                    shadow?.let { shadowData ->
+                        drawContext.canvas.nativeCanvas.drawBitmap(
+                            shadowData.bitmap,
+                            shadowPadding.leftPx + shadowData.left,
+                            shadowPadding.topPx + shadowData.top,
+                            null
+                        )
+                    }
+                    drawContent()
+                }
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Picture(
+            model = remember(type.imageData) {
+                ImageRequest.Builder(appContext)
+                    .data(type.imageData)
+                    .static()
+                    .allowHardware(false)
+                    .size(1600)
+                    .build()
+            },
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .padding(
+                    start = with(density) { shadowPadding.leftPx.toDp() },
+                    top = with(density) { shadowPadding.topPx.toDp() },
+                    end = with(density) { shadowPadding.rightPx.toDp() },
+                    bottom = with(density) { shadowPadding.bottomPx.toDp() }
+                )
+                .clip(AutoCornersShape(cornerRadiusPercent)),
+            showTransparencyChecker = false,
+            allowHardware = false,
+            onSuccess = {
+                previewBitmap = it.result.image.toBitmap()
+            },
+            onError = {
+                previewBitmap = null
+            }
+        )
+    }
+}
+
+@Composable
+private fun TextLayerContent(
+    modifier: Modifier,
+    type: LayerType.Text,
+    textFullSize: Int,
+    maxLines: Int = Int.MAX_VALUE,
+    onTextLayout: ((TextLayoutResult) -> Unit)? = null
+) {
+    val context = LocalContext.current
+    val density = LocalDensity.current
+    val style = LocalTextStyle.current
+    val fontFamily = type.font.toUiFont().fontFamily
+    val textMetrics = remember(type, textFullSize, density) {
+        context.calculateTextLayerMetrics(
+            type = type,
+            textFullSize = textFullSize
+        )
+    }
+    val mergedStyle = remember(
+        style,
+        type,
+        fontFamily,
+        textMetrics,
+        density
+    ) {
+        style.copy(
+            color = type.color.toColor(),
+            fontSize = with(density) { textMetrics.fontSizePx.toSp() },
+            lineHeight = with(density) { textMetrics.lineHeightPx.toSp() },
+            fontFamily = fontFamily,
+            textDecoration = TextDecoration.combine(
+                type.decorations.mapNotNull {
+                    when (it) {
+                        DomainTextDecoration.LineThrough -> TextDecoration.LineThrough
+                        DomainTextDecoration.Underline -> TextDecoration.Underline
+                        else -> null
+                    }
+                }
+            ),
+            fontWeight = if (type.decorations.any { it == DomainTextDecoration.Bold }) {
+                FontWeight.Bold
+            } else {
+                style.fontWeight
+            },
+            fontStyle = if (type.decorations.any { it == DomainTextDecoration.Italic }) {
+                FontStyle.Italic
+            } else {
+                FontStyle.Normal
+            },
+            textGeometricTransform = type.geometricTransform?.let {
+                ComposeTextGeometricTransform(
+                    scaleX = it.scaleX,
+                    skewX = it.skewX
+                )
+            },
+            textAlign = when (type.alignment) {
+                LayerType.Text.Alignment.Start -> TextAlign.Start
+                LayerType.Text.Alignment.Center -> TextAlign.Center
+                LayerType.Text.Alignment.End -> TextAlign.End
+            }
+        )
+    }
+    val outlineParams = remember(type) {
+        type.outline?.let {
+            OutlineParams(
+                color = Color(it.color),
+                stroke = Stroke(
+                    width = it.width,
+                    cap = StrokeCap.Round,
+                    join = StrokeJoin.Round
+                )
+            )
+        }
+    }
+
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        OutlinedText(
+            text = type.text,
+            style = mergedStyle,
+            outlineParams = outlineParams,
+            maxLines = maxLines,
+            onTextLayout = onTextLayout,
+            modifier = Modifier
+                .drawWithCache {
+                    val textLeft = textMetrics.padding.leftPx
+                    val textTop = textMetrics.padding.topPx
+                    val layoutWidth =
+                        (size.width - textMetrics.padding.leftPx - textMetrics.padding.rightPx)
+                            .roundToInt()
+                            .coerceAtLeast(1)
+                    val shadow = buildTextShadowRenderData(
+                        type = type,
+                        textMetrics = textMetrics,
+                        layoutWidth = layoutWidth,
+                        maxLines = maxLines.takeIf { it != Int.MAX_VALUE }
+                    )
+
+                    onDrawWithContent {
+                        drawRect(type.backgroundColor.toColor())
+                        shadow?.let { shadowData ->
+                            drawContext.canvas.nativeCanvas.apply {
+                                withSave {
                                     scale(
                                         1f / shadowData.rasterScale,
                                         1f / shadowData.rasterScale
                                     )
                                     drawBitmap(
                                         bitmap = shadowData.bitmap,
-                                        top = shadowPadding.topPx * shadowData.rasterScale + shadowData.top,
-                                        left = shadowPadding.leftPx * shadowData.rasterScale + shadowData.left
+                                        top = textTop * shadowData.rasterScale + shadowData.top,
+                                        left = textLeft * shadowData.rasterScale + shadowData.left
                                     )
                                 }
                             }
-                            drawContent()
                         }
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-                Picture(
-                    model = remember(type.imageData) {
-                        ImageRequest.Builder(appContext)
-                            .data(type.imageData)
-                            .static()
-                            .allowHardware(false)
-                            .size(1600)
-                            .build()
-                    },
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .padding(
-                            start = with(density) { shadowPadding.leftPx.toDp() },
-                            top = with(density) { shadowPadding.topPx.toDp() },
-                            end = with(density) { shadowPadding.rightPx.toDp() },
-                            bottom = with(density) { shadowPadding.bottomPx.toDp() }
-                        ),
-                    showTransparencyChecker = false,
-                    allowHardware = false,
-                    onSuccess = {
-                        previewBitmap = it.result.image.toBitmap()
-                    },
-                    onError = {
-                        previewBitmap = null
+                        drawContent()
                     }
-                )
-            }
-        }
-
-        is LayerType.Text -> {
-            val context = LocalContext.current
-            val density = LocalDensity.current
-            val style = LocalTextStyle.current
-            val fontFamily = type.font.toUiFont().fontFamily
-            val textMetrics = remember(type, textFullSize, density) {
-                context.calculateTextLayerMetrics(
-                    type = type,
-                    textFullSize = textFullSize
-                )
-            }
-            val mergedStyle = remember(
-                style,
-                type,
-                fontFamily,
-                textMetrics,
-                density
-            ) {
-                style.copy(
-                    color = type.color.toColor(),
-                    fontSize = with(density) { textMetrics.fontSizePx.toSp() },
-                    lineHeight = with(density) { textMetrics.lineHeightPx.toSp() },
-                    fontFamily = fontFamily,
-                    textDecoration = TextDecoration.combine(
-                        type.decorations.mapNotNull {
-                            when (it) {
-                                DomainTextDecoration.LineThrough -> TextDecoration.LineThrough
-                                DomainTextDecoration.Underline -> TextDecoration.Underline
-                                else -> null
-                            }
-                        }
-                    ),
-                    fontWeight = if (type.decorations.any { it == DomainTextDecoration.Bold }) {
-                        FontWeight.Bold
-                    } else {
-                        style.fontWeight
-                    },
-                    fontStyle = if (type.decorations.any { it == DomainTextDecoration.Italic }) {
-                        FontStyle.Italic
-                    } else {
-                        FontStyle.Normal
-                    },
-                    textGeometricTransform = type.geometricTransform?.let {
-                        ComposeTextGeometricTransform(
-                            scaleX = it.scaleX,
-                            skewX = it.skewX
-                        )
-                    },
-                    textAlign = when (type.alignment) {
-                        LayerType.Text.Alignment.Start -> TextAlign.Start
-                        LayerType.Text.Alignment.Center -> TextAlign.Center
-                        LayerType.Text.Alignment.End -> TextAlign.End
-                    }
-                )
-            }
-            val outlineParams = remember(type) {
-                type.outline?.let {
-                    OutlineParams(
-                        color = Color(it.color),
-                        stroke = Stroke(
-                            width = it.width,
-                            cap = StrokeCap.Round,
-                            join = StrokeJoin.Round
-                        )
-                    )
                 }
-            }
-
-            Box(
-                modifier = modifier,
-                contentAlignment = Alignment.Center
-            ) {
-                OutlinedText(
-                    text = type.text,
-                    style = mergedStyle,
-                    outlineParams = outlineParams,
-                    maxLines = maxLines,
-                    onTextLayout = onTextLayout,
-                    modifier = Modifier
-                        .drawWithCache {
-                            val textLeft = textMetrics.padding.leftPx
-                            val textTop = textMetrics.padding.topPx
-                            val layoutWidth =
-                                (size.width - textMetrics.padding.leftPx - textMetrics.padding.rightPx)
-                                    .roundToInt()
-                                    .coerceAtLeast(1)
-                            val shadow = buildTextShadowRenderData(
-                                type = type,
-                                textMetrics = textMetrics,
-                                layoutWidth = layoutWidth,
-                                maxLines = maxLines.takeIf { it != Int.MAX_VALUE }
-                            )
-
-                            onDrawWithContent {
-                                drawRect(type.backgroundColor.toColor())
-                                shadow?.let { shadowData ->
-                                    drawContext.canvas.nativeCanvas.apply {
-                                        withSave {
-                                            scale(
-                                                1f / shadowData.rasterScale,
-                                                1f / shadowData.rasterScale
-                                            )
-                                            drawBitmap(
-                                                bitmap = shadowData.bitmap,
-                                                top = textTop * shadowData.rasterScale + shadowData.top,
-                                                left = textLeft * shadowData.rasterScale + shadowData.left
-                                            )
-                                        }
-                                    }
-                                }
-                                drawContent()
-                            }
-                        }
-                        .padding(
-                            start = with(density) { textMetrics.padding.leftPx.toDp() },
-                            top = with(density) { textMetrics.padding.topPx.toDp() },
-                            end = with(density) { textMetrics.padding.rightPx.toDp() },
-                            bottom = with(density) { textMetrics.padding.bottomPx.toDp() }
-                        )
+                .padding(
+                    start = with(density) { textMetrics.padding.leftPx.toDp() },
+                    top = with(density) { textMetrics.padding.topPx.toDp() },
+                    end = with(density) { textMetrics.padding.rightPx.toDp() },
+                    bottom = with(density) { textMetrics.padding.bottomPx.toDp() }
                 )
-            }
-        }
+        )
     }
 }

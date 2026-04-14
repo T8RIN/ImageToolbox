@@ -111,6 +111,7 @@ internal class LayersRenderer @Inject constructor(
                                 shadow = type.shadow,
                                 targetWidth = pictureData.contentWidth,
                                 targetHeight = pictureData.contentHeight,
+                                cornerRadiusPercent = layer.cornerRadiusPercent,
                                 rasterScale = resolveShadowRasterScale(
                                     layerScale = layer.position.scale
                                 )

@@ -243,7 +243,8 @@ internal fun MarkupLayersSideMenuColumn(
                                     modifier = previewModifier,
                                     type = type,
                                     textFullSize = previewTextFullSize,
-                                    maxLines = layer.visibleLineCount ?: Int.MAX_VALUE
+                                    maxLines = layer.visibleLineCount ?: Int.MAX_VALUE,
+                                    cornerRadiusPercent = layer.cornerRadiusPercent
                                 )
                             }
                         }

@@ -72,6 +72,7 @@ internal fun BoxWithConstraintsScope.Layer(
                 modifier = contentModifier,
                 type = type,
                 textFullSize = this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
+                cornerRadiusPercent = layer.cornerRadiusPercent,
                 onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
                     { result ->
                         val visibleLineCount = if (result.didOverflowHeight) {
