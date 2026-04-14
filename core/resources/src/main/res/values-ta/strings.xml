@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">கிடைமட்ட திருப்பு</string>
     <string name="vertical_flip">செங்குத்து ஃபிளிப்</string>
     <string name="lock">பூட்டு</string>
+    <string name="add_shadow">நிழலைச் சேர்க்கவும்</string>
+    <string name="add_shadow_sub">உள்ளமைக்கக்கூடிய வண்ணம் மற்றும் ஆஃப்செட்களுடன் உரைக்குப் பின்னால் மங்கலான நிழலைச் சேர்க்கவும்</string>
+    <string name="shadow_color">நிழல் நிறம்</string>
+    <string name="text_geometry">உரை வடிவியல்</string>
+    <string name="text_geometry_sub">கூர்மையான ஸ்டைலைசேஷன் செய்ய உரையை நீட்டவும் அல்லது வளைக்கவும்</string>
+    <string name="scale_x">அளவு X</string>
+    <string name="skew_x">ஸ்க்யூ எக்ஸ்</string>
+    <string name="remove_annotations">சிறுகுறிப்புகளை அகற்று</string>
+    <string name="remove_annotations_sub">PDF பக்கங்களிலிருந்து இணைப்புகள், கருத்துகள், சிறப்பம்சங்கள், வடிவங்கள் அல்லது படிவப் புலங்கள் போன்ற தேர்ந்தெடுக்கப்பட்ட சிறுகுறிப்பு வகைகளை அகற்றவும்</string>
+    <string name="annotation_link">ஹைப்பர்லிங்க்கள்</string>
+    <string name="annotation_file_attachment">கோப்பு இணைப்புகள்</string>
+    <string name="annotation_line">கோடுகள்</string>
+    <string name="annotation_popup">பாப்அப்கள்</string>
+    <string name="annotation_stamp">முத்திரைகள்</string>
+    <string name="annotation_shapes">வடிவங்கள்</string>
+    <string name="annotation_text">உரை குறிப்புகள்</string>
+    <string name="annotation_text_markup">உரை மார்க்அப்</string>
+    <string name="annotation_widget">படிவ புலங்கள்</string>
+    <string name="annotation_markup">மார்க்அப்</string>
+    <string name="annotation_unknown">தெரியவில்லை</string>
+    <string name="annotations">சிறுகுறிப்புகள்</string>
 </resources>

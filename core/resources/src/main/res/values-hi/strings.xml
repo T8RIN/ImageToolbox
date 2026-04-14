@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">क्षैतिज फ़्लिप</string>
     <string name="vertical_flip">लंबवत फ्लिप</string>
     <string name="lock">ताला</string>
+    <string name="add_shadow">छाया जोड़ें</string>
+    <string name="add_shadow_sub">कॉन्फ़िगर करने योग्य रंग और ऑफसेट के साथ टेक्स्ट के पीछे धुंधली छाया जोड़ें</string>
+    <string name="shadow_color">छाया रंग</string>
+    <string name="text_geometry">पाठ ज्यामिति</string>
+    <string name="text_geometry_sub">अधिक स्पष्ट शैलीकरण के लिए पाठ को फैलाएँ या तिरछा करें</string>
+    <string name="scale_x">स्केल एक्स</string>
+    <string name="skew_x">तिरछा एक्स</string>
+    <string name="remove_annotations">एनोटेशन हटाएँ</string>
+    <string name="remove_annotations_sub">पीडीएफ पृष्ठों से चयनित एनोटेशन प्रकार जैसे लिंक, टिप्पणियाँ, हाइलाइट्स, आकार या फॉर्म फ़ील्ड हटा दें</string>
+    <string name="annotation_link">हाइपरलिंक</string>
+    <string name="annotation_file_attachment">फ़ाइल अनुलग्नक</string>
+    <string name="annotation_line">पंक्तियां</string>
+    <string name="annotation_popup">पॉप अप</string>
+    <string name="annotation_stamp">टिकटों</string>
+    <string name="annotation_shapes">आकार</string>
+    <string name="annotation_text">पाठ नोट्स</string>
+    <string name="annotation_text_markup">टेक्स्ट मार्कअप</string>
+    <string name="annotation_widget">प्रपत्र फ़ील्ड</string>
+    <string name="annotation_markup">मार्कअप</string>
+    <string name="annotation_unknown">अज्ञात</string>
+    <string name="annotations">एनोटेशन</string>
 </resources>

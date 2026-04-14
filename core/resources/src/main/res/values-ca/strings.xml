@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Flip horitzontal</string>
     <string name="vertical_flip">Flip vertical</string>
     <string name="lock">Bloqueig</string>
+    <string name="add_shadow">Afegeix ombra</string>
+    <string name="add_shadow_sub">Afegeix ombra borrosa darrere del text amb color i desplaçaments configurables</string>
+    <string name="shadow_color">Color de l\'ombra</string>
+    <string name="text_geometry">Geometria del text</string>
+    <string name="text_geometry_sub">Estira o inclina el text per a una estilització més nítida</string>
+    <string name="scale_x">Escala X</string>
+    <string name="skew_x">Esbiaix X</string>
+    <string name="remove_annotations">Elimina les anotacions</string>
+    <string name="remove_annotations_sub">Elimina els tipus d\'anotacions seleccionats, com ara enllaços, comentaris, ressaltats, formes o camps de formulari de les pàgines PDF</string>
+    <string name="annotation_link">Hiperenllaços</string>
+    <string name="annotation_file_attachment">Fitxers adjunts</string>
+    <string name="annotation_line">Línies</string>
+    <string name="annotation_popup">Popups</string>
+    <string name="annotation_stamp">Segells</string>
+    <string name="annotation_shapes">Formes</string>
+    <string name="annotation_text">Notes de text</string>
+    <string name="annotation_text_markup">Marcatge de text</string>
+    <string name="annotation_widget">Camps de formulari</string>
+    <string name="annotation_markup">Marcatge</string>
+    <string name="annotation_unknown">Desconegut</string>
+    <string name="annotations">Anotacions</string>
 </resources>

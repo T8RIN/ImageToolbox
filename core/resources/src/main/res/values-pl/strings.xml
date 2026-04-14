@@ -2209,4 +2209,25 @@
     <string name="horizontal_flip">Odwrócenie poziome</string>
     <string name="vertical_flip">Odwrócenie w pionie</string>
     <string name="lock">Zamek</string>
+    <string name="add_shadow">Dodaj cień</string>
+    <string name="add_shadow_sub">Dodaj rozmyty cień za tekstem z konfigurowalnymi kolorami i przesunięciami</string>
+    <string name="shadow_color">Kolor cienia</string>
+    <string name="text_geometry">Geometria tekstu</string>
+    <string name="text_geometry_sub">Rozciągnij lub pochyl tekst, aby uzyskać ostrzejszą stylizację</string>
+    <string name="scale_x">Skala X</string>
+    <string name="skew_x">Pochylić X</string>
+    <string name="remove_annotations">Usuń adnotacje</string>
+    <string name="remove_annotations_sub">Usuń wybrane typy adnotacji, takie jak łącza, komentarze, wyróżnienia, kształty lub pola formularzy ze stron PDF</string>
+    <string name="annotation_link">Hiperłącza</string>
+    <string name="annotation_file_attachment">Załączniki plików</string>
+    <string name="annotation_line">Kwestia</string>
+    <string name="annotation_popup">Wyskakujące okienka</string>
+    <string name="annotation_stamp">Znaczki</string>
+    <string name="annotation_shapes">Kształty</string>
+    <string name="annotation_text">Notatki tekstowe</string>
+    <string name="annotation_text_markup">Oznaczenia tekstowe</string>
+    <string name="annotation_widget">Pola formularza</string>
+    <string name="annotation_markup">Markup</string>
+    <string name="annotation_unknown">Nieznany</string>
+    <string name="annotations">Adnotacje</string>
 </resources>

@@ -2209,4 +2209,25 @@
     <string name="horizontal_flip">Горизонтальный флип</string>
     <string name="vertical_flip">Вертикальный флип</string>
     <string name="lock">Замок</string>
+    <string name="add_shadow">Добавить тень</string>
+    <string name="add_shadow_sub">Добавьте размытую тень за текстом с настраиваемым цветом и смещениями.</string>
+    <string name="shadow_color">Цвет тени</string>
+    <string name="text_geometry">Текстовая геометрия</string>
+    <string name="text_geometry_sub">Растяните или наклоните текст для более четкой стилизации.</string>
+    <string name="scale_x">Масштаб X</string>
+    <string name="skew_x">Наклон X</string>
+    <string name="remove_annotations">Удаление аннотаций</string>
+    <string name="remove_annotations_sub">Удаление выбранных типов аннотаций, таких как ссылки, комментарии, выделение, фигуры или поля форм, со страниц PDF.</string>
+    <string name="annotation_link">Гиперссылки</string>
+    <string name="annotation_file_attachment">Вложения файлов</string>
+    <string name="annotation_line">Линии</string>
+    <string name="annotation_popup">Всплывающие окна</string>
+    <string name="annotation_stamp">Марки</string>
+    <string name="annotation_shapes">Формы</string>
+    <string name="annotation_text">Текстовые заметки</string>
+    <string name="annotation_text_markup">Текстовая разметка</string>
+    <string name="annotation_widget">Поля формы</string>
+    <string name="annotation_markup">Разметка</string>
+    <string name="annotation_unknown">Неизвестный</string>
+    <string name="annotations">Аннотации</string>
 </resources>

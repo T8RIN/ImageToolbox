@@ -2209,4 +2209,25 @@
     <string name="horizontal_flip">Гарызантальны фліп</string>
     <string name="vertical_flip">Вертыкальны фліп</string>
     <string name="lock">Замак</string>
+    <string name="add_shadow">Дадайце цень</string>
+    <string name="add_shadow_sub">Дадайце размытую цень за тэкстам з наладжвальнымі колерам і зрухамі</string>
+    <string name="shadow_color">Колер цені</string>
+    <string name="text_geometry">Геаметрыя тэксту</string>
+    <string name="text_geometry_sub">Расцягніце або перакосіце тэкст для больш выразнай стылізацыі</string>
+    <string name="scale_x">Маштаб X</string>
+    <string name="skew_x">Перакос X</string>
+    <string name="remove_annotations">Выдаліць анатацыі</string>
+    <string name="remove_annotations_sub">Выдаліце ​​са старонак PDF выбраныя тыпы анатацый, такія як спасылкі, каментарыі, вылучэнні, фігуры або палі формы</string>
+    <string name="annotation_link">Гіперспасылкі</string>
+    <string name="annotation_file_attachment">Укладанні файлаў</string>
+    <string name="annotation_line">Радкі</string>
+    <string name="annotation_popup">Усплывальныя вокны</string>
+    <string name="annotation_stamp">Маркі</string>
+    <string name="annotation_shapes">Формы</string>
+    <string name="annotation_text">Тэкставыя нататкі</string>
+    <string name="annotation_text_markup">Разметка тэксту</string>
+    <string name="annotation_widget">Палі формы</string>
+    <string name="annotation_markup">Разметка</string>
+    <string name="annotation_unknown">Невядомы</string>
+    <string name="annotations">Анатацыі</string>
 </resources>

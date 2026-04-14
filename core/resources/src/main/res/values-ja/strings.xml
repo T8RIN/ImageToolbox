@@ -2206,4 +2206,25 @@
     <string name="horizontal_flip">水平反転</string>
     <string name="vertical_flip">垂直反転</string>
     <string name="lock">ロック</string>
+    <string name="add_shadow">影を追加する</string>
+    <string name="add_shadow_sub">構成可能な色とオフセットを使用してテキストの後ろにぼかしシャドウを追加します</string>
+    <string name="shadow_color">影の色</string>
+    <string name="text_geometry">テキストジオメトリ</string>
+    <string name="text_geometry_sub">テキストを引き伸ばしたり傾けたりして、よりシャープなスタイルを実現します</string>
+    <string name="scale_x">スケールX</string>
+    <string name="skew_x">スキューX</string>
+    <string name="remove_annotations">注釈を削除する</string>
+    <string name="remove_annotations_sub">リンク、コメント、ハイライト、図形、フォームフィールドなどの選択した注釈タイプを PDF ページから削除します</string>
+    <string name="annotation_link">ハイパーリンク</string>
+    <string name="annotation_file_attachment">添付ファイル</string>
+    <string name="annotation_line">ライン</string>
+    <string name="annotation_popup">ポップアップ</string>
+    <string name="annotation_stamp">スタンプ</string>
+    <string name="annotation_shapes">形状</string>
+    <string name="annotation_text">テキストメモ</string>
+    <string name="annotation_text_markup">テキストのマークアップ</string>
+    <string name="annotation_widget">フォームフィールド</string>
+    <string name="annotation_markup">マークアップ</string>
+    <string name="annotation_unknown">未知</string>
+    <string name="annotations">注釈</string>
 </resources>

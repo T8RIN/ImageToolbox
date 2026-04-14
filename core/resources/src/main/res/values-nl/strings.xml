@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Horizontale spiegeling</string>
     <string name="vertical_flip">Verticale spiegeling</string>
     <string name="lock">Slot</string>
+    <string name="add_shadow">Schaduw toevoegen</string>
+    <string name="add_shadow_sub">Voeg vervagingsschaduw achter tekst toe met configureerbare kleuren en offsets</string>
+    <string name="shadow_color">Schaduwkleur</string>
+    <string name="text_geometry">Tekstgeometrie</string>
+    <string name="text_geometry_sub">Rek tekst uit of scheef voor scherpere stilering</string>
+    <string name="scale_x">Schaal X</string>
+    <string name="skew_x">Scheef X</string>
+    <string name="remove_annotations">Annotaties verwijderen</string>
+    <string name="remove_annotations_sub">Verwijder geselecteerde annotatietypen, zoals koppelingen, opmerkingen, markeringen, vormen of formuliervelden, van de PDF-pagina\'s</string>
+    <string name="annotation_link">Hyperlinks</string>
+    <string name="annotation_file_attachment">Bestandsbijlagen</string>
+    <string name="annotation_line">Lijnen</string>
+    <string name="annotation_popup">Pop-ups</string>
+    <string name="annotation_stamp">Stempels</string>
+    <string name="annotation_shapes">Vormen</string>
+    <string name="annotation_text">Tekstnotities</string>
+    <string name="annotation_text_markup">Tekstopmaak</string>
+    <string name="annotation_widget">Formuliervelden</string>
+    <string name="annotation_markup">Opmaak</string>
+    <string name="annotation_unknown">Onbekend</string>
+    <string name="annotations">Annotaties</string>
 </resources>

@@ -2206,4 +2206,25 @@
     <string name="horizontal_flip">수평 뒤집기</string>
     <string name="vertical_flip">수직 뒤집기</string>
     <string name="lock">잠그다</string>
+    <string name="add_shadow">그림자 추가</string>
+    <string name="add_shadow_sub">구성 가능한 색상과 오프셋을 사용하여 텍스트 뒤에 흐림 그림자 추가</string>
+    <string name="shadow_color">그림자 색상</string>
+    <string name="text_geometry">텍스트 기하학</string>
+    <string name="text_geometry_sub">더 선명한 스타일을 위해 텍스트를 늘리거나 기울입니다.</string>
+    <string name="scale_x">스케일 X</string>
+    <string name="skew_x">기울이기 X</string>
+    <string name="remove_annotations">주석 제거</string>
+    <string name="remove_annotations_sub">PDF 페이지에서 링크, 주석, 강조 표시, 모양 또는 양식 필드와 같은 선택한 주석 유형을 제거합니다.</string>
+    <string name="annotation_link">하이퍼링크</string>
+    <string name="annotation_file_attachment">파일 첨부</string>
+    <string name="annotation_line">윤곽</string>
+    <string name="annotation_popup">팝업</string>
+    <string name="annotation_stamp">우표</string>
+    <string name="annotation_shapes">모양</string>
+    <string name="annotation_text">텍스트 참고</string>
+    <string name="annotation_text_markup">텍스트 마크업</string>
+    <string name="annotation_widget">양식 필드</string>
+    <string name="annotation_markup">마크업</string>
+    <string name="annotation_unknown">알려지지 않은</string>
+    <string name="annotations">주석</string>
 </resources>

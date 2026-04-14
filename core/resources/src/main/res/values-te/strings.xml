@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">క్షితిజసమాంతర ఫ్లిప్</string>
     <string name="vertical_flip">వర్టికల్ ఫ్లిప్</string>
     <string name="lock">తాళం వేయండి</string>
+    <string name="add_shadow">షాడో జోడించండి</string>
+    <string name="add_shadow_sub">కాన్ఫిగర్ చేయగల రంగు మరియు ఆఫ్‌సెట్‌లతో టెక్స్ట్ వెనుక బ్లర్ షాడోని జోడించండి</string>
+    <string name="shadow_color">నీడ రంగు</string>
+    <string name="text_geometry">టెక్స్ట్ జ్యామితి</string>
+    <string name="text_geometry_sub">పదునైన స్టైలైజేషన్ కోసం వచనాన్ని సాగదీయండి లేదా వక్రంగా మార్చండి</string>
+    <string name="scale_x">స్కేల్ X</string>
+    <string name="skew_x">స్కేవ్ X</string>
+    <string name="remove_annotations">ఉల్లేఖనాలను తీసివేయండి</string>
+    <string name="remove_annotations_sub">PDF పేజీల నుండి లింక్‌లు, వ్యాఖ్యలు, ముఖ్యాంశాలు, ఆకారాలు లేదా ఫారమ్ ఫీల్డ్‌ల వంటి ఎంచుకున్న ఉల్లేఖన రకాలను తీసివేయండి</string>
+    <string name="annotation_link">హైపర్‌లింక్‌లు</string>
+    <string name="annotation_file_attachment">ఫైల్ జోడింపులు</string>
+    <string name="annotation_line">లైన్లు</string>
+    <string name="annotation_popup">పాపప్‌లు</string>
+    <string name="annotation_stamp">స్టాంపులు</string>
+    <string name="annotation_shapes">ఆకారాలు</string>
+    <string name="annotation_text">టెక్స్ట్ నోట్స్</string>
+    <string name="annotation_text_markup">టెక్స్ట్ మార్కప్</string>
+    <string name="annotation_widget">ఫారమ్ ఫీల్డ్స్</string>
+    <string name="annotation_markup">మార్కప్</string>
+    <string name="annotation_unknown">తెలియదు</string>
+    <string name="annotations">ఉల్లేఖనాలు</string>
 </resources>

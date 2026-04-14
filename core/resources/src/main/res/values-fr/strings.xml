@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Retournement horizontal</string>
     <string name="vertical_flip">Retournement vertical</string>
     <string name="lock">Verrouillage</string>
+    <string name="add_shadow">Ajouter une ombre</string>
+    <string name="add_shadow_sub">Ajoutez une ombre floue derrière le texte avec des couleurs et des décalages configurables</string>
+    <string name="shadow_color">Couleur de l\'ombre</string>
+    <string name="text_geometry">Géométrie du texte</string>
+    <string name="text_geometry_sub">Étirez ou inclinez le texte pour une stylisation plus nette</string>
+    <string name="scale_x">Échelle X</string>
+    <string name="skew_x">Inclinaison X</string>
+    <string name="remove_annotations">Supprimer les annotations</string>
+    <string name="remove_annotations_sub">Supprimez les types d\'annotations sélectionnés tels que les liens, les commentaires, les surlignages, les formes ou les champs de formulaire des pages PDF.</string>
+    <string name="annotation_link">Liens hypertextes</string>
+    <string name="annotation_file_attachment">Fichiers joints</string>
+    <string name="annotation_line">Lignes</string>
+    <string name="annotation_popup">Fenêtres contextuelles</string>
+    <string name="annotation_stamp">Timbres</string>
+    <string name="annotation_shapes">Formes</string>
+    <string name="annotation_text">Notes de texte</string>
+    <string name="annotation_text_markup">Balisage de texte</string>
+    <string name="annotation_widget">Champs de formulaire</string>
+    <string name="annotation_markup">Balisage</string>
+    <string name="annotation_unknown">Inconnu</string>
+    <string name="annotations">Annotations</string>
 </resources>

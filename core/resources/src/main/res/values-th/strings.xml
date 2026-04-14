@@ -2206,4 +2206,25 @@
     <string name="horizontal_flip">พลิกแนวนอน</string>
     <string name="vertical_flip">พลิกแนวตั้ง</string>
     <string name="lock">ล็อค</string>
+    <string name="add_shadow">เพิ่มเงา</string>
+    <string name="add_shadow_sub">เพิ่มเงาเบลอหลังข้อความด้วยสีและออฟเซ็ตที่กำหนดค่าได้</string>
+    <string name="shadow_color">สีเงา</string>
+    <string name="text_geometry">เรขาคณิตข้อความ</string>
+    <string name="text_geometry_sub">ยืดหรือเอียงข้อความเพื่อให้มีสไตล์ที่คมชัดยิ่งขึ้น</string>
+    <string name="scale_x">สเกล X</string>
+    <string name="skew_x">สกิว เอ็กซ์</string>
+    <string name="remove_annotations">ลบคำอธิบายประกอบ</string>
+    <string name="remove_annotations_sub">ลบประเภทคำอธิบายประกอบที่เลือก เช่น ลิงก์ ความคิดเห็น ไฮไลต์ รูปร่าง หรือฟิลด์แบบฟอร์มออกจากหน้า PDF</string>
+    <string name="annotation_link">ไฮเปอร์ลิงก์</string>
+    <string name="annotation_file_attachment">ไฟล์แนบ</string>
+    <string name="annotation_line">เส้น</string>
+    <string name="annotation_popup">ป๊อปอัป</string>
+    <string name="annotation_stamp">แสตมป์</string>
+    <string name="annotation_shapes">รูปร่าง</string>
+    <string name="annotation_text">หมายเหตุข้อความ</string>
+    <string name="annotation_text_markup">มาร์กอัปข้อความ</string>
+    <string name="annotation_widget">ฟิลด์แบบฟอร์ม</string>
+    <string name="annotation_markup">มาร์กอัป</string>
+    <string name="annotation_unknown">ไม่ทราบ</string>
+    <string name="annotations">คำอธิบายประกอบ</string>
 </resources>

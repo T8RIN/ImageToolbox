@@ -2208,4 +2208,25 @@
     <string name="horizontal_flip">Horisontell Vänd</string>
     <string name="vertical_flip">Vertikal flip</string>
     <string name="lock">Låsa</string>
+    <string name="add_shadow">Lägg till skugga</string>
+    <string name="add_shadow_sub">Lägg till oskärpa bakom text med konfigurerbar färg och offset</string>
+    <string name="shadow_color">Skuggfärg</string>
+    <string name="text_geometry">Textgeometri</string>
+    <string name="text_geometry_sub">Sträck ut eller skeva text för skarpare stilisering</string>
+    <string name="scale_x">Skala X</string>
+    <string name="skew_x">Skev X</string>
+    <string name="remove_annotations">Ta bort anteckningar</string>
+    <string name="remove_annotations_sub">Ta bort valda anteckningstyper som länkar, kommentarer, markeringar, former eller formulärfält från PDF-sidorna</string>
+    <string name="annotation_link">Hyperlänkar</string>
+    <string name="annotation_file_attachment">Filbilagor</string>
+    <string name="annotation_line">Rader</string>
+    <string name="annotation_popup">Popup-fönster</string>
+    <string name="annotation_stamp">Frimärken</string>
+    <string name="annotation_shapes">Former</string>
+    <string name="annotation_text">Textanteckningar</string>
+    <string name="annotation_text_markup">Textuppmärkning</string>
+    <string name="annotation_widget">Formulärfält</string>
+    <string name="annotation_markup">Pålägg</string>
+    <string name="annotation_unknown">Okänd</string>
+    <string name="annotations">Anteckningar</string>
 </resources>

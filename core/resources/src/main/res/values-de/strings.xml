@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Horizontaler Flip</string>
     <string name="vertical_flip">Vertikaler Flip</string>
     <string name="lock">Sperren</string>
+    <string name="add_shadow">Schatten hinzufügen</string>
+    <string name="add_shadow_sub">Fügen Sie Unschärfeschatten hinter Text mit konfigurierbaren Farben und Offsets hinzu</string>
+    <string name="shadow_color">Schattenfarbe</string>
+    <string name="text_geometry">Textgeometrie</string>
+    <string name="text_geometry_sub">Dehnen oder neigen Sie Text für eine schärfere Stilisierung</string>
+    <string name="scale_x">Maßstab X</string>
+    <string name="skew_x">Skew X</string>
+    <string name="remove_annotations">Anmerkungen entfernen</string>
+    <string name="remove_annotations_sub">Entfernen Sie ausgewählte Anmerkungstypen wie Links, Kommentare, Hervorhebungen, Formen oder Formularfelder von den PDF-Seiten</string>
+    <string name="annotation_link">Hyperlinks</string>
+    <string name="annotation_file_attachment">Dateianhänge</string>
+    <string name="annotation_line">Linien</string>
+    <string name="annotation_popup">Popups</string>
+    <string name="annotation_stamp">Briefmarken</string>
+    <string name="annotation_shapes">Formen</string>
+    <string name="annotation_text">Textnotizen</string>
+    <string name="annotation_text_markup">Textmarkierung</string>
+    <string name="annotation_widget">Formularfelder</string>
+    <string name="annotation_markup">Markup</string>
+    <string name="annotation_unknown">Unbekannt</string>
+    <string name="annotations">Anmerkungen</string>
 </resources>

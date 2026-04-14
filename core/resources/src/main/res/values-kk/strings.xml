@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Көлденең айналдыру</string>
     <string name="vertical_flip">Тік бұру</string>
     <string name="lock">Құлыптау</string>
+    <string name="add_shadow">Көлеңке қосу</string>
+    <string name="add_shadow_sub">Конфигурацияланатын түсі мен ығысуы бар мәтіннің артына бұлыңғыр көлеңке қосыңыз</string>
+    <string name="shadow_color">Көлеңке түсі</string>
+    <string name="text_geometry">Мәтін геометриясы</string>
+    <string name="text_geometry_sub">Анық стильдеу үшін мәтінді созыңыз немесе қисайтыңыз</string>
+    <string name="scale_x">X шкаласы</string>
+    <string name="skew_x">Скью X</string>
+    <string name="remove_annotations">Аннотацияларды жою</string>
+    <string name="remove_annotations_sub">PDF беттерінен сілтемелер, түсініктемелер, ерекшеліктер, пішіндер немесе пішін өрістері сияқты таңдалған аннотация түрлерін алып тастаңыз</string>
+    <string name="annotation_link">Гиперсілтемелер</string>
+    <string name="annotation_file_attachment">Файл қосымшалары</string>
+    <string name="annotation_line">Сызықтар</string>
+    <string name="annotation_popup">Қалқымалы терезелер</string>
+    <string name="annotation_stamp">Маркалар</string>
+    <string name="annotation_shapes">Пішіндер</string>
+    <string name="annotation_text">Мәтіндік жазбалар</string>
+    <string name="annotation_text_markup">Мәтінді белгілеу</string>
+    <string name="annotation_widget">Пішін өрістері</string>
+    <string name="annotation_markup">Белгілеу</string>
+    <string name="annotation_unknown">Белгісіз</string>
+    <string name="annotations">Аннотациялар</string>
 </resources>

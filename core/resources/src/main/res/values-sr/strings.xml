@@ -2208,4 +2208,25 @@
     <string name="horizontal_flip">Хоризонтал Флип</string>
     <string name="vertical_flip">Вертицал Флип</string>
     <string name="lock">Закључај</string>
+    <string name="add_shadow">Додај сенку</string>
+    <string name="add_shadow_sub">Додајте замућену сенку иза текста са подесивом бојом и офсетима</string>
+    <string name="shadow_color">Схадов Цолор</string>
+    <string name="text_geometry">Тект Геометри</string>
+    <string name="text_geometry_sub">Растегните или искосите текст за оштрију стилизацију</string>
+    <string name="scale_x">Скала Кс</string>
+    <string name="skew_x">Скев Кс</string>
+    <string name="remove_annotations">Уклоните напомене</string>
+    <string name="remove_annotations_sub">Уклоните изабране типове напомена као што су везе, коментари, истакнути делови, облици или поља обрасца са ПДФ страница</string>
+    <string name="annotation_link">Хипервезе</string>
+    <string name="annotation_file_attachment">Филе Аттацхментс</string>
+    <string name="annotation_line">Линије</string>
+    <string name="annotation_popup">Попупс</string>
+    <string name="annotation_stamp">Марке</string>
+    <string name="annotation_shapes">Облици</string>
+    <string name="annotation_text">Тект Нотес</string>
+    <string name="annotation_text_markup">Означавање текста</string>
+    <string name="annotation_widget">Форм Фиелдс</string>
+    <string name="annotation_markup">Маркуп</string>
+    <string name="annotation_unknown">Непознато</string>
+    <string name="annotations">Напомене</string>
 </resources>

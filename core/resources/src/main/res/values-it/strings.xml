@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Capovolgimento orizzontale</string>
     <string name="vertical_flip">Capovolgimento verticale</string>
     <string name="lock">Serratura</string>
+    <string name="add_shadow">Aggiungi ombra</string>
+    <string name="add_shadow_sub">Aggiungi un\'ombra sfocata dietro il testo con colori e offset configurabili</string>
+    <string name="shadow_color">Colore dell\'ombra</string>
+    <string name="text_geometry">Geometria del testo</string>
+    <string name="text_geometry_sub">Allunga o inclina il testo per una stilizzazione più nitida</string>
+    <string name="scale_x">Scala X</string>
+    <string name="skew_x">Inclina X</string>
+    <string name="remove_annotations">Rimuovi le annotazioni</string>
+    <string name="remove_annotations_sub">Rimuovi i tipi di annotazioni selezionati come collegamenti, commenti, evidenziazioni, forme o campi modulo dalle pagine PDF</string>
+    <string name="annotation_link">Collegamenti ipertestuali</string>
+    <string name="annotation_file_attachment">Allegati file</string>
+    <string name="annotation_line">Linee</string>
+    <string name="annotation_popup">Popup</string>
+    <string name="annotation_stamp">Francobolli</string>
+    <string name="annotation_shapes">Forme</string>
+    <string name="annotation_text">Note di testo</string>
+    <string name="annotation_text_markup">Markup del testo</string>
+    <string name="annotation_widget">Campi del modulo</string>
+    <string name="annotation_markup">Markup</string>
+    <string name="annotation_unknown">Sconosciuto</string>
+    <string name="annotations">Annotazioni</string>
 </resources>

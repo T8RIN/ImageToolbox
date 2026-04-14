@@ -2208,4 +2208,25 @@
     <string name="horizontal_flip">Flip orizontal</string>
     <string name="vertical_flip">Flip vertical</string>
     <string name="lock">Blocare</string>
+    <string name="add_shadow">Adaugă Shadow</string>
+    <string name="add_shadow_sub">Adăugați umbră neclară în spatele textului cu culori și decalaje configurabile</string>
+    <string name="shadow_color">Culoare umbră</string>
+    <string name="text_geometry">Geometria textului</string>
+    <string name="text_geometry_sub">Întindeți sau înclinați textul pentru o stilizare mai clară</string>
+    <string name="scale_x">Scara X</string>
+    <string name="skew_x">Înclinați X</string>
+    <string name="remove_annotations">Eliminați adnotările</string>
+    <string name="remove_annotations_sub">Eliminați tipurile de adnotări selectate, cum ar fi linkuri, comentarii, evidențieri, forme sau câmpuri de formular din paginile PDF</string>
+    <string name="annotation_link">Hiperlinkuri</string>
+    <string name="annotation_file_attachment">Fișiere atașate</string>
+    <string name="annotation_line">Linii</string>
+    <string name="annotation_popup">Ferestre pop-up</string>
+    <string name="annotation_stamp">Timbre</string>
+    <string name="annotation_shapes">Forme</string>
+    <string name="annotation_text">Note de text</string>
+    <string name="annotation_text_markup">Marcare text</string>
+    <string name="annotation_widget">Câmpuri de formular</string>
+    <string name="annotation_markup">Markup</string>
+    <string name="annotation_unknown">Necunoscut</string>
+    <string name="annotations">Adnotări</string>
 </resources>

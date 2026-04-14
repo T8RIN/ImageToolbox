@@ -2210,4 +2210,25 @@
     <string name="horizontal_flip">Horizontalus apvertimas</string>
     <string name="vertical_flip">Vertikalus apvertimas</string>
     <string name="lock">Užraktas</string>
+    <string name="add_shadow">Pridėti šešėlį</string>
+    <string name="add_shadow_sub">Už teksto pridėkite neryškų šešėlį su konfigūruojama spalva ir poslinkiais</string>
+    <string name="shadow_color">Šešėlių spalva</string>
+    <string name="text_geometry">Teksto geometrija</string>
+    <string name="text_geometry_sub">Ištempkite arba pasukite tekstą, kad stilizacija būtų ryškesnė</string>
+    <string name="scale_x">X skalė</string>
+    <string name="skew_x">Iškreiptas X</string>
+    <string name="remove_annotations">Pašalinti komentarus</string>
+    <string name="remove_annotations_sub">Pašalinkite pasirinktus komentarų tipus, pvz., nuorodas, komentarus, paryškinimus, figūras ar formos laukus iš PDF puslapių</string>
+    <string name="annotation_link">Hipersaitai</string>
+    <string name="annotation_file_attachment">Failų priedai</string>
+    <string name="annotation_line">Linijos</string>
+    <string name="annotation_popup">Iššokantys langai</string>
+    <string name="annotation_stamp">Antspaudai</string>
+    <string name="annotation_shapes">Formos</string>
+    <string name="annotation_text">Teksto pastabos</string>
+    <string name="annotation_text_markup">Teksto žymėjimas</string>
+    <string name="annotation_widget">Formos laukai</string>
+    <string name="annotation_markup">Žymėjimas</string>
+    <string name="annotation_unknown">Nežinoma</string>
+    <string name="annotations">Anotacijos</string>
 </resources>

@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Flip horizontala</string>
     <string name="vertical_flip">Flip bertikala</string>
     <string name="lock">Blokea</string>
+    <string name="add_shadow">Gehitu Itzala</string>
+    <string name="add_shadow_sub">Gehitu lausotutako itzala testuaren atzean kolore eta desplazamendu konfiguragarriekin</string>
+    <string name="shadow_color">Itzalen Kolorea</string>
+    <string name="text_geometry">Testuaren Geometria</string>
+    <string name="text_geometry_sub">Luzatu edo okertu testua estilizazio zorrotzagoa lortzeko</string>
+    <string name="scale_x">X eskala</string>
+    <string name="skew_x">Okertu X</string>
+    <string name="remove_annotations">Kendu oharrak</string>
+    <string name="remove_annotations_sub">Kendu hautatutako ohar motak, hala nola estekak, iruzkinak, nabarmenduak, formak edo inprimaki-eremuak PDF orrietatik</string>
+    <string name="annotation_link">Hiperestekak</string>
+    <string name="annotation_file_attachment">Fitxategi eranskinak</string>
+    <string name="annotation_line">Lerroak</string>
+    <string name="annotation_popup">Popup-ak</string>
+    <string name="annotation_stamp">Zigiluak</string>
+    <string name="annotation_shapes">Formak</string>
+    <string name="annotation_text">Testu-oharrak</string>
+    <string name="annotation_text_markup">Testuaren markaketa</string>
+    <string name="annotation_widget">Inprimaki-eremuak</string>
+    <string name="annotation_markup">Markatzea</string>
+    <string name="annotation_unknown">Ezezaguna</string>
+    <string name="annotations">Oharpenak</string>
 </resources>

@@ -2209,4 +2209,25 @@
     <string name="horizontal_flip">Horizontálne preklopenie</string>
     <string name="vertical_flip">Vertikálne preklopenie</string>
     <string name="lock">Zámok</string>
+    <string name="add_shadow">Pridajte tieň</string>
+    <string name="add_shadow_sub">Pridajte tieň rozostrenia za text pomocou konfigurovateľných farieb a posunov</string>
+    <string name="shadow_color">Farba tieňa</string>
+    <string name="text_geometry">Geometria textu</string>
+    <string name="text_geometry_sub">Roztiahnutím alebo zošikmením textu dosiahnete ostrejšiu štylizáciu</string>
+    <string name="scale_x">Mierka X</string>
+    <string name="skew_x">Skočiť X</string>
+    <string name="remove_annotations">Odstráňte anotácie</string>
+    <string name="remove_annotations_sub">Odstráňte vybraté typy anotácií, ako sú prepojenia, komentáre, zvýraznenia, tvary alebo polia formulárov zo stránok PDF</string>
+    <string name="annotation_link">Hypertextové odkazy</string>
+    <string name="annotation_file_attachment">Prílohy súborov</string>
+    <string name="annotation_line">Čiary</string>
+    <string name="annotation_popup">Vyskakovacie okná</string>
+    <string name="annotation_stamp">Známky</string>
+    <string name="annotation_shapes">Tvary</string>
+    <string name="annotation_text">Textové poznámky</string>
+    <string name="annotation_text_markup">Označenie textu</string>
+    <string name="annotation_widget">Polia formulára</string>
+    <string name="annotation_markup">značkovanie</string>
+    <string name="annotation_unknown">Neznámy</string>
+    <string name="annotations">Anotácie</string>
 </resources>

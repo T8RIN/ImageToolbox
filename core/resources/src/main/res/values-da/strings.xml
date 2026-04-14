@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Vandret vending</string>
     <string name="vertical_flip">Lodret flip</string>
     <string name="lock">Låse</string>
+    <string name="add_shadow">Tilføj skygge</string>
+    <string name="add_shadow_sub">Tilføj sløringsskygge bag tekst med konfigurerbare farver og forskydninger</string>
+    <string name="shadow_color">Skygge farve</string>
+    <string name="text_geometry">Tekstgeometri</string>
+    <string name="text_geometry_sub">Stræk eller skæv tekst for skarpere stilisering</string>
+    <string name="scale_x">Skala X</string>
+    <string name="skew_x">Skæv X</string>
+    <string name="remove_annotations">Fjern annoteringer</string>
+    <string name="remove_annotations_sub">Fjern valgte annoteringstyper såsom links, kommentarer, fremhævninger, former eller formularfelter fra PDF-siderne</string>
+    <string name="annotation_link">Hyperlinks</string>
+    <string name="annotation_file_attachment">Vedhæftede filer</string>
+    <string name="annotation_line">Linjer</string>
+    <string name="annotation_popup">Popups</string>
+    <string name="annotation_stamp">Frimærker</string>
+    <string name="annotation_shapes">Former</string>
+    <string name="annotation_text">Tekstnoter</string>
+    <string name="annotation_text_markup">Tekstmarkering</string>
+    <string name="annotation_widget">Formularfelter</string>
+    <string name="annotation_markup">Markup</string>
+    <string name="annotation_unknown">Ukendt</string>
+    <string name="annotations">Anmærkninger</string>
 </resources>

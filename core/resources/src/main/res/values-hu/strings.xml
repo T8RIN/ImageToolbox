@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Vízszintes Flip</string>
     <string name="vertical_flip">Függőleges Flip</string>
     <string name="lock">Zár</string>
+    <string name="add_shadow">Árnyék hozzáadása</string>
+    <string name="add_shadow_sub">Adjon hozzá elmosódott árnyékot a szöveg mögé konfigurálható színekkel és eltolásokkal</string>
+    <string name="shadow_color">Árnyék színe</string>
+    <string name="text_geometry">Szöveggeometria</string>
+    <string name="text_geometry_sub">Nyújtsa vagy ferdítse a szöveget az élesebb stilizáció érdekében</string>
+    <string name="scale_x">X skála</string>
+    <string name="skew_x">Ferde X</string>
+    <string name="remove_annotations">Távolítsa el a megjegyzéseket</string>
+    <string name="remove_annotations_sub">A kiválasztott megjegyzéstípusok, például hivatkozások, megjegyzések, kiemelések, alakzatok vagy űrlapmezők eltávolítása a PDF-oldalakról</string>
+    <string name="annotation_link">Hiperhivatkozások</string>
+    <string name="annotation_file_attachment">Fájlmellékletek</string>
+    <string name="annotation_line">Vonalak</string>
+    <string name="annotation_popup">Előugró ablakok</string>
+    <string name="annotation_stamp">Bélyegek</string>
+    <string name="annotation_shapes">Alakzatok</string>
+    <string name="annotation_text">Szöveg Megjegyzések</string>
+    <string name="annotation_text_markup">Szövegjelölés</string>
+    <string name="annotation_widget">Űrlapmezők</string>
+    <string name="annotation_markup">Jelölés</string>
+    <string name="annotation_unknown">Ismeretlen</string>
+    <string name="annotations">Annotációk</string>
 </resources>

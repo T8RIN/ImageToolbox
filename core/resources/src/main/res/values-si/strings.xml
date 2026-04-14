@@ -2208,4 +2208,25 @@
     <string name="horizontal_flip">තිරස් පෙරළීම</string>
     <string name="vertical_flip">සිරස් පෙරළීම</string>
     <string name="lock">අගුළු දමන්න</string>
+    <string name="add_shadow">සෙවනැල්ල එකතු කරන්න</string>
+    <string name="add_shadow_sub">වින්‍යාස කළ හැකි වර්ණ සහ ඕෆ්සෙට් සමඟින් පෙළ පිටුපස බොඳ සෙවනැල්ල එක් කරන්න</string>
+    <string name="shadow_color">සෙවනැලි වර්ණය</string>
+    <string name="text_geometry">පෙළ ජ්යාමිතිය</string>
+    <string name="text_geometry_sub">තියුණු ශෛලීකරණය සඳහා පෙළ දිගු කරන්න හෝ ඇල කරන්න</string>
+    <string name="scale_x">X පරිමාණය</string>
+    <string name="skew_x">ස්කීව් X</string>
+    <string name="remove_annotations">විවරණ ඉවත් කරන්න</string>
+    <string name="remove_annotations_sub">PDF පිටුවලින් සබැඳි, අදහස්, උද්දීපනය, හැඩතල, හෝ පෝරම ක්ෂේත්‍ර වැනි තෝරාගත් විවරණ වර්ග ඉවත් කරන්න</string>
+    <string name="annotation_link">අධි සබැඳි</string>
+    <string name="annotation_file_attachment">ගොනු ඇමුණුම්</string>
+    <string name="annotation_line">රේඛා</string>
+    <string name="annotation_popup">උත්පතන</string>
+    <string name="annotation_stamp">මුද්දර</string>
+    <string name="annotation_shapes">හැඩතල</string>
+    <string name="annotation_text">පෙළ සටහන්</string>
+    <string name="annotation_text_markup">පෙළ සලකුණු කිරීම</string>
+    <string name="annotation_widget">ආකෘති ක්ෂේත්ර</string>
+    <string name="annotation_markup">සලකුණු කිරීම</string>
+    <string name="annotation_unknown">නොදන්නා</string>
+    <string name="annotations">විවරණ</string>
 </resources>

@@ -2206,4 +2206,25 @@
     <string name="horizontal_flip">Lật ngang</string>
     <string name="vertical_flip">Lật dọc</string>
     <string name="lock">Khóa</string>
+    <string name="add_shadow">Thêm bóng</string>
+    <string name="add_shadow_sub">Thêm bóng mờ phía sau văn bản với màu sắc và độ lệch có thể định cấu hình</string>
+    <string name="shadow_color">Màu bóng</string>
+    <string name="text_geometry">Hình học văn bản</string>
+    <string name="text_geometry_sub">Kéo dài hoặc nghiêng văn bản để cách điệu sắc nét hơn</string>
+    <string name="scale_x">Thang đo X</string>
+    <string name="skew_x">nghiêng X</string>
+    <string name="remove_annotations">Xóa chú thích</string>
+    <string name="remove_annotations_sub">Xóa các loại chú thích đã chọn như liên kết, nhận xét, đánh dấu, hình dạng hoặc trường biểu mẫu khỏi trang PDF</string>
+    <string name="annotation_link">Siêu liên kết</string>
+    <string name="annotation_file_attachment">Tệp đính kèm</string>
+    <string name="annotation_line">dòng</string>
+    <string name="annotation_popup">Cửa sổ bật lên</string>
+    <string name="annotation_stamp">Tem</string>
+    <string name="annotation_shapes">Hình dạng</string>
+    <string name="annotation_text">Ghi chú văn bản</string>
+    <string name="annotation_text_markup">Đánh dấu văn bản</string>
+    <string name="annotation_widget">Trường biểu mẫu</string>
+    <string name="annotation_markup">Đánh dấu</string>
+    <string name="annotation_unknown">Không xác định</string>
+    <string name="annotations">Chú thích</string>
 </resources>

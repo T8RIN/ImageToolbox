@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Horisontaalne klapp</string>
     <string name="vertical_flip">Vertikaalne ümberpööramine</string>
     <string name="lock">Lukk</string>
+    <string name="add_shadow">Lisa varju</string>
+    <string name="add_shadow_sub">Lisage konfigureeritavate värvide ja nihetega teksti taha hägune vari</string>
+    <string name="shadow_color">Varju värv</string>
+    <string name="text_geometry">Teksti geomeetria</string>
+    <string name="text_geometry_sub">Teravama stiliseerimise jaoks venitage või kallutage teksti</string>
+    <string name="scale_x">Skaala X</string>
+    <string name="skew_x">Viltus X</string>
+    <string name="remove_annotations">Eemalda märkused</string>
+    <string name="remove_annotations_sub">Eemaldage PDF-lehtedelt valitud märkuste tüübid, nagu lingid, kommentaarid, esiletõstmised, kujundid või vormiväljad</string>
+    <string name="annotation_link">Hüperlingid</string>
+    <string name="annotation_file_attachment">Failide manused</string>
+    <string name="annotation_line">Jooned</string>
+    <string name="annotation_popup">Hüpikaknad</string>
+    <string name="annotation_stamp">Margid</string>
+    <string name="annotation_shapes">Kujundid</string>
+    <string name="annotation_text">Tekst Märkused</string>
+    <string name="annotation_text_markup">Teksti märgistus</string>
+    <string name="annotation_widget">Vormi väljad</string>
+    <string name="annotation_markup">Märgistus</string>
+    <string name="annotation_unknown">Tundmatu</string>
+    <string name="annotations">Märkused</string>
 </resources>

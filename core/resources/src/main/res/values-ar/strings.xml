@@ -2211,4 +2211,25 @@
     <string name="horizontal_flip">الوجه الأفقي</string>
     <string name="vertical_flip">الوجه العمودي</string>
     <string name="lock">قفل</string>
+    <string name="add_shadow">أضف الظل</string>
+    <string name="add_shadow_sub">أضف ظلًا ضبابيًا خلف النص بألوان وإزاحات قابلة للتكوين</string>
+    <string name="shadow_color">لون الظل</string>
+    <string name="text_geometry">هندسة النص</string>
+    <string name="text_geometry_sub">قم بتمديد النص أو تحريفه للحصول على أسلوب أكثر وضوحًا</string>
+    <string name="scale_x">مقياس X</string>
+    <string name="skew_x">انحراف X</string>
+    <string name="remove_annotations">إزالة التعليقات التوضيحية</string>
+    <string name="remove_annotations_sub">قم بإزالة أنواع التعليقات التوضيحية المحددة مثل الروابط أو التعليقات أو الإبرازات أو الأشكال أو حقول النموذج من صفحات PDF</string>
+    <string name="annotation_link">الارتباطات التشعبية</string>
+    <string name="annotation_file_attachment">مرفقات الملفات</string>
+    <string name="annotation_line">خطوط</string>
+    <string name="annotation_popup">النوافذ المنبثقة</string>
+    <string name="annotation_stamp">الطوابع</string>
+    <string name="annotation_shapes">الأشكال</string>
+    <string name="annotation_text">ملاحظات نصية</string>
+    <string name="annotation_text_markup">ترميز النص</string>
+    <string name="annotation_widget">حقول النموذج</string>
+    <string name="annotation_markup">العلامات</string>
+    <string name="annotation_unknown">مجهول</string>
+    <string name="annotations">الشروح</string>
 </resources>

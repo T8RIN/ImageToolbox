@@ -2208,4 +2208,25 @@
     <string name="horizontal_flip">क्षैतिज फ्लिप</string>
     <string name="vertical_flip">उभ्या फ्लिप</string>
     <string name="lock">कुलूप</string>
+    <string name="add_shadow">सावली जोडा</string>
+    <string name="add_shadow_sub">कॉन्फिगर करण्यायोग्य रंग आणि ऑफसेटसह मजकुराच्या मागे अस्पष्ट सावली जोडा</string>
+    <string name="shadow_color">सावलीचा रंग</string>
+    <string name="text_geometry">मजकूर भूमिती</string>
+    <string name="text_geometry_sub">तीक्ष्ण शैलीकरणासाठी मजकूर स्ट्रेच किंवा स्क्यू करा</string>
+    <string name="scale_x">स्केल एक्स</string>
+    <string name="skew_x">स्क्यू एक्स</string>
+    <string name="remove_annotations">भाष्ये काढा</string>
+    <string name="remove_annotations_sub">पीडीएफ पेजेसमधून निवडक भाष्य प्रकार जसे की लिंक्स, टिप्पण्या, हायलाइट्स, आकार किंवा फॉर्म फील्ड काढून टाका</string>
+    <string name="annotation_link">हायपरलिंक्स</string>
+    <string name="annotation_file_attachment">फाइल संलग्नक</string>
+    <string name="annotation_line">ओळी</string>
+    <string name="annotation_popup">पॉपअप</string>
+    <string name="annotation_stamp">शिक्के</string>
+    <string name="annotation_shapes">आकार</string>
+    <string name="annotation_text">मजकूर नोट्स</string>
+    <string name="annotation_text_markup">मजकूर मार्कअप</string>
+    <string name="annotation_widget">फॉर्म फील्ड</string>
+    <string name="annotation_markup">मार्कअप</string>
+    <string name="annotation_unknown">अज्ञात</string>
+    <string name="annotations">भाष्ये</string>
 </resources>

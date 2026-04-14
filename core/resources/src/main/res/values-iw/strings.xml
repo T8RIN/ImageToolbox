@@ -2209,4 +2209,25 @@
     <string name="horizontal_flip">היפוך אופקי</string>
     <string name="vertical_flip">Flip אנכי</string>
     <string name="lock">לִנְעוֹל</string>
+    <string name="add_shadow">הוסף צל</string>
+    <string name="add_shadow_sub">הוסף צל טשטוש מאחורי טקסט עם צבע והיסטים הניתנים להגדרה</string>
+    <string name="shadow_color">צבע צל</string>
+    <string name="text_geometry">גיאומטריית טקסט</string>
+    <string name="text_geometry_sub">למתוח או להטות טקסט לסטייליזציה חדה יותר</string>
+    <string name="scale_x">סולם X</string>
+    <string name="skew_x">עיוות X</string>
+    <string name="remove_annotations">הסר הערות</string>
+    <string name="remove_annotations_sub">הסר סוגי הערות שנבחרו כגון קישורים, הערות, הדגשות, צורות או שדות טופס מדפי PDF</string>
+    <string name="annotation_link">היפר-קישורים</string>
+    <string name="annotation_file_attachment">קבצים מצורפים</string>
+    <string name="annotation_line">קווים</string>
+    <string name="annotation_popup">חלונות קופצים</string>
+    <string name="annotation_stamp">חותמות</string>
+    <string name="annotation_shapes">צורות</string>
+    <string name="annotation_text">הערות טקסט</string>
+    <string name="annotation_text_markup">סימון טקסט</string>
+    <string name="annotation_widget">שדות טופס</string>
+    <string name="annotation_markup">סימון</string>
+    <string name="annotation_unknown">לֹא יְדוּעַ</string>
+    <string name="annotations">הערות</string>
 </resources>

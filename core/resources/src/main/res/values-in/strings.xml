@@ -2206,4 +2206,25 @@
     <string name="horizontal_flip">Balik Horisontal</string>
     <string name="vertical_flip">Balik Vertikal</string>
     <string name="lock">Kunci</string>
+    <string name="add_shadow">Tambahkan Bayangan</string>
+    <string name="add_shadow_sub">Tambahkan bayangan buram di belakang teks dengan warna dan offset yang dapat dikonfigurasi</string>
+    <string name="shadow_color">Warna Bayangan</string>
+    <string name="text_geometry">Geometri Teks</string>
+    <string name="text_geometry_sub">Regangkan atau miringkan teks untuk gaya yang lebih tajam</string>
+    <string name="scale_x">Skala X</string>
+    <string name="skew_x">miring X</string>
+    <string name="remove_annotations">Hapus anotasi</string>
+    <string name="remove_annotations_sub">Hapus jenis anotasi yang dipilih seperti tautan, komentar, sorotan, bentuk, atau bidang formulir dari halaman PDF</string>
+    <string name="annotation_link">Hyperlink</string>
+    <string name="annotation_file_attachment">Lampiran Berkas</string>
+    <string name="annotation_line">Garis</string>
+    <string name="annotation_popup">Popup</string>
+    <string name="annotation_stamp">Perangko</string>
+    <string name="annotation_shapes">Bentuk</string>
+    <string name="annotation_text">Catatan Teks</string>
+    <string name="annotation_text_markup">Markup Teks</string>
+    <string name="annotation_widget">Bidang Formulir</string>
+    <string name="annotation_markup">Menandai</string>
+    <string name="annotation_unknown">Tidak dikenal</string>
+    <string name="annotations">Anotasi</string>
 </resources>

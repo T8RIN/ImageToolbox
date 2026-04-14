@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Vaakasuora kääntö</string>
     <string name="vertical_flip">Pystysuora kääntö</string>
     <string name="lock">Lukko</string>
+    <string name="add_shadow">Lisää varjo</string>
+    <string name="add_shadow_sub">Lisää sumeusvarjo tekstin taakse konfiguroitavilla väreillä ja poikkeamilla</string>
+    <string name="shadow_color">Varjon väri</string>
+    <string name="text_geometry">Tekstin geometria</string>
+    <string name="text_geometry_sub">Venytä tai vino tekstiä terävämmän tyylin saamiseksi</string>
+    <string name="scale_x">Mittakaava X</string>
+    <string name="skew_x">Vino X</string>
+    <string name="remove_annotations">Poista merkinnät</string>
+    <string name="remove_annotations_sub">Poista valitut merkintätyypit, kuten linkit, kommentit, korostukset, muodot tai lomakekentät PDF-sivuilta</string>
+    <string name="annotation_link">Hyperlinkit</string>
+    <string name="annotation_file_attachment">Tiedoston liitteet</string>
+    <string name="annotation_line">Linjat</string>
+    <string name="annotation_popup">Ponnahdusikkunat</string>
+    <string name="annotation_stamp">Postimerkit</string>
+    <string name="annotation_shapes">Muodot</string>
+    <string name="annotation_text">Teksti Huomautuksia</string>
+    <string name="annotation_text_markup">Tekstin merkintä</string>
+    <string name="annotation_widget">Lomakekentät</string>
+    <string name="annotation_markup">Merkintä</string>
+    <string name="annotation_unknown">Tuntematon</string>
+    <string name="annotations">Huomautukset</string>
 </resources>

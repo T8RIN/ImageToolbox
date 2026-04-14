@@ -2206,4 +2206,25 @@
     <string name="horizontal_flip">水平翻转</string>
     <string name="vertical_flip">垂直翻转</string>
     <string name="lock">锁</string>
+    <string name="add_shadow">添加阴影</string>
+    <string name="add_shadow_sub">使用可配置的颜色和偏移在文本后面添加模糊阴影</string>
+    <string name="shadow_color">阴影颜色</string>
+    <string name="text_geometry">文本几何</string>
+    <string name="text_geometry_sub">拉伸或倾斜文本以获得更清晰的风格</string>
+    <string name="scale_x">规模 X</string>
+    <string name="skew_x">倾斜 X</string>
+    <string name="remove_annotations">删除注释</string>
+    <string name="remove_annotations_sub">从 PDF 页面中删除选定的注释类型，例如链接、注释、突出显示、形状或表单字段</string>
+    <string name="annotation_link">超链接</string>
+    <string name="annotation_file_attachment">文件附件</string>
+    <string name="annotation_line">线路</string>
+    <string name="annotation_popup">弹出窗口</string>
+    <string name="annotation_stamp">邮票</string>
+    <string name="annotation_shapes">形状</string>
+    <string name="annotation_text">文字注释</string>
+    <string name="annotation_text_markup">文本标记</string>
+    <string name="annotation_widget">表单字段</string>
+    <string name="annotation_markup">标记</string>
+    <string name="annotation_unknown">未知</string>
+    <string name="annotations">注释</string>
 </resources>

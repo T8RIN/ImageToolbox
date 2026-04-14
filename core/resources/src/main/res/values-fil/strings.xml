@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Pahalang na Baligtad</string>
     <string name="vertical_flip">Vertical Flip</string>
     <string name="lock">Lock</string>
+    <string name="add_shadow">Magdagdag ng Shadow</string>
+    <string name="add_shadow_sub">Magdagdag ng blur shadow sa likod ng text na may nako-configure na kulay at mga offset</string>
+    <string name="shadow_color">Kulay ng Anino</string>
+    <string name="text_geometry">Text Geometry</string>
+    <string name="text_geometry_sub">I-stretch o i-skew ang text para sa mas matalas na stylization</string>
+    <string name="scale_x">Scale X</string>
+    <string name="skew_x">I-skew X</string>
+    <string name="remove_annotations">Alisin ang mga anotasyon</string>
+    <string name="remove_annotations_sub">Alisin ang mga napiling uri ng anotasyon gaya ng mga link, komento, highlight, hugis, o mga field ng form mula sa mga pahinang PDF</string>
+    <string name="annotation_link">Mga hyperlink</string>
+    <string name="annotation_file_attachment">Mga Attachment ng File</string>
+    <string name="annotation_line">Mga linya</string>
+    <string name="annotation_popup">Mga popup</string>
+    <string name="annotation_stamp">Mga selyo</string>
+    <string name="annotation_shapes">Mga hugis</string>
+    <string name="annotation_text">Mga Tala sa Teksto</string>
+    <string name="annotation_text_markup">Markup ng Teksto</string>
+    <string name="annotation_widget">Mga Patlang ng Form</string>
+    <string name="annotation_markup">Markup</string>
+    <string name="annotation_unknown">Hindi alam</string>
+    <string name="annotations">Mga anotasyon</string>
 </resources>

@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">অনুভূমিক উল্টানো</string>
     <string name="vertical_flip">উল্লম্ব উল্টানো</string>
     <string name="lock">তালা</string>
+    <string name="add_shadow">ছায়া যোগ করুন</string>
+    <string name="add_shadow_sub">কনফিগারযোগ্য রঙ এবং অফসেট সহ পাঠ্যের পিছনে অস্পষ্ট ছায়া যোগ করুন</string>
+    <string name="shadow_color">ছায়া রঙ</string>
+    <string name="text_geometry">পাঠ্য জ্যামিতি</string>
+    <string name="text_geometry_sub">তীক্ষ্ণ স্টাইলাইজেশনের জন্য টেক্সট প্রসারিত বা তির্যক করুন</string>
+    <string name="scale_x">স্কেল এক্স</string>
+    <string name="skew_x">স্কু এক্স</string>
+    <string name="remove_annotations">টীকাগুলি সরান৷</string>
+    <string name="remove_annotations_sub">পিডিএফ পৃষ্ঠাগুলি থেকে লিঙ্ক, মন্তব্য, হাইলাইট, আকার বা ফর্ম ক্ষেত্রগুলির মতো নির্বাচিত টীকা প্রকারগুলি সরান</string>
+    <string name="annotation_link">হাইপারলিঙ্ক</string>
+    <string name="annotation_file_attachment">ফাইল সংযুক্তি</string>
+    <string name="annotation_line">লাইন</string>
+    <string name="annotation_popup">পপআপ</string>
+    <string name="annotation_stamp">স্ট্যাম্প</string>
+    <string name="annotation_shapes">আকৃতি</string>
+    <string name="annotation_text">টেক্সট নোট</string>
+    <string name="annotation_text_markup">টেক্সট মার্কআপ</string>
+    <string name="annotation_widget">ফর্ম ক্ষেত্র</string>
+    <string name="annotation_markup">মার্কআপ</string>
+    <string name="annotation_unknown">অজানা</string>
+    <string name="annotations">টীকা</string>
 </resources>

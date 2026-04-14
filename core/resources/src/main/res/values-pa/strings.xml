@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">ਹਰੀਜ਼ੱਟਲ ਫਲਿੱਪ</string>
     <string name="vertical_flip">ਵਰਟੀਕਲ ਫਲਿੱਪ</string>
     <string name="lock">ਤਾਲਾ</string>
+    <string name="add_shadow">ਸ਼ੈਡੋ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="add_shadow_sub">ਸੰਰਚਨਾਯੋਗ ਰੰਗ ਅਤੇ ਆਫਸੈਟਾਂ ਦੇ ਨਾਲ ਟੈਕਸਟ ਦੇ ਪਿੱਛੇ ਬਲਰ ਸ਼ੈਡੋ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="shadow_color">ਸ਼ੈਡੋ ਰੰਗ</string>
+    <string name="text_geometry">ਟੈਕਸਟ ਜਿਓਮੈਟਰੀ</string>
+    <string name="text_geometry_sub">ਤਿੱਖੀ ਸ਼ੈਲੀ ਲਈ ਟੈਕਸਟ ਨੂੰ ਖਿੱਚੋ ਜਾਂ ਤਿੱਖਾ ਕਰੋ</string>
+    <string name="scale_x">ਸਕੇਲ ਐਕਸ</string>
+    <string name="skew_x">ਸਕਿਊ ਐਕਸ</string>
+    <string name="remove_annotations">ਐਨੋਟੇਸ਼ਨਾਂ ਨੂੰ ਹਟਾਓ</string>
+    <string name="remove_annotations_sub">PDF ਪੰਨਿਆਂ ਤੋਂ ਚੁਣੀਆਂ ਗਈਆਂ ਐਨੋਟੇਸ਼ਨ ਕਿਸਮਾਂ ਨੂੰ ਹਟਾਓ ਜਿਵੇਂ ਕਿ ਲਿੰਕ, ਟਿੱਪਣੀਆਂ, ਹਾਈਲਾਈਟਸ, ਆਕਾਰ ਜਾਂ ਫਾਰਮ ਖੇਤਰ</string>
+    <string name="annotation_link">ਹਾਈਪਰਲਿੰਕਸ</string>
+    <string name="annotation_file_attachment">ਫਾਈਲ ਅਟੈਚਮੈਂਟਸ</string>
+    <string name="annotation_line">ਲਾਈਨਾਂ</string>
+    <string name="annotation_popup">ਪੌਪਅੱਪ</string>
+    <string name="annotation_stamp">ਸਟਪਸ</string>
+    <string name="annotation_shapes">ਆਕਾਰ</string>
+    <string name="annotation_text">ਟੈਕਸਟ ਨੋਟਸ</string>
+    <string name="annotation_text_markup">ਟੈਕਸਟ ਮਾਰਕਅੱਪ</string>
+    <string name="annotation_widget">ਫਾਰਮ ਖੇਤਰ</string>
+    <string name="annotation_markup">ਮਾਰਕਅੱਪ</string>
+    <string name="annotation_unknown">ਅਗਿਆਤ</string>
+    <string name="annotations">ਐਨੋਟੇਸ਼ਨ</string>
 </resources>

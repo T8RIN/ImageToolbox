@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">تلنگر افقی</string>
     <string name="vertical_flip">چرخش عمودی</string>
     <string name="lock">قفل</string>
+    <string name="add_shadow">سایه اضافه کنید</string>
+    <string name="add_shadow_sub">سایه تاری پشت متن را با رنگ های قابل تنظیم و افست اضافه کنید</string>
+    <string name="shadow_color">رنگ سایه</string>
+    <string name="text_geometry">هندسه متن</string>
+    <string name="text_geometry_sub">برای سبک‌سازی واضح‌تر، متن را کشیده یا کج کنید</string>
+    <string name="scale_x">مقیاس X</string>
+    <string name="skew_x">کج X</string>
+    <string name="remove_annotations">حاشیه نویسی ها را حذف کنید</string>
+    <string name="remove_annotations_sub">انواع حاشیه نویسی انتخاب شده مانند پیوندها، نظرات، هایلایت ها، اشکال یا فیلدهای فرم را از صفحات PDF حذف کنید.</string>
+    <string name="annotation_link">هایپرلینک ها</string>
+    <string name="annotation_file_attachment">فایل های پیوست</string>
+    <string name="annotation_line">خطوط</string>
+    <string name="annotation_popup">پنجره های بازشو</string>
+    <string name="annotation_stamp">تمبر</string>
+    <string name="annotation_shapes">اشکال</string>
+    <string name="annotation_text">یادداشت های متنی</string>
+    <string name="annotation_text_markup">نشانه گذاری متن</string>
+    <string name="annotation_widget">فیلدهای فرم</string>
+    <string name="annotation_markup">نشانه گذاری</string>
+    <string name="annotation_unknown">ناشناس</string>
+    <string name="annotations">حاشیه نویسی ها</string>
 </resources>

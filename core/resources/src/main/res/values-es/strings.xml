@@ -2207,4 +2207,25 @@
     <string name="horizontal_flip">Voltear horizontalmente</string>
     <string name="vertical_flip">Voltear verticalmente</string>
     <string name="lock">Cerrar</string>
+    <string name="add_shadow">Agregar sombra</string>
+    <string name="add_shadow_sub">Agregue sombras borrosas detrás del texto con colores y compensaciones configurables</string>
+    <string name="shadow_color">Color de sombra</string>
+    <string name="text_geometry">Geometría del texto</string>
+    <string name="text_geometry_sub">Estire o sesgue el texto para lograr un estilo más nítido</string>
+    <string name="scale_x">Escala X</string>
+    <string name="skew_x">Sesgar X</string>
+    <string name="remove_annotations">Eliminar anotaciones</string>
+    <string name="remove_annotations_sub">Elimine los tipos de anotaciones seleccionados, como enlaces, comentarios, resaltados, formas o campos de formulario de las páginas PDF</string>
+    <string name="annotation_link">Hipervínculos</string>
+    <string name="annotation_file_attachment">Archivos adjuntos</string>
+    <string name="annotation_line">Pauta</string>
+    <string name="annotation_popup">Ventanas emergentes</string>
+    <string name="annotation_stamp">Sellos</string>
+    <string name="annotation_shapes">formas</string>
+    <string name="annotation_text">Notas de texto</string>
+    <string name="annotation_text_markup">Marcado de texto</string>
+    <string name="annotation_widget">Campos de formulario</string>
+    <string name="annotation_markup">Margen</string>
+    <string name="annotation_unknown">Desconocido</string>
+    <string name="annotations">Anotaciones</string>
 </resources>
