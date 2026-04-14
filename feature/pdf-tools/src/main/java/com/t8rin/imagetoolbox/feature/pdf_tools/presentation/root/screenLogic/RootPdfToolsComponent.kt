@@ -47,6 +47,7 @@ class RootPdfToolsComponent @AssistedInject internal constructor(
                 is Screen.PdfTools.Watermark -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Signature -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Compress -> screen.copy(uri = tempSelectionUri)
+                is Screen.PdfTools.RemoveAnnotations -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Flatten -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Print -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Grayscale -> screen.copy(uri = tempSelectionUri)

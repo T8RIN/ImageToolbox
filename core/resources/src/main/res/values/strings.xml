@@ -2236,4 +2236,18 @@
     <string name="layer_alpha">Layer alpha</string>
     <string name="horizontal_flip">Horizontal Flip</string>
     <string name="vertical_flip">Vertical Flip</string>
+    <string name="remove_annotations">Remove annotations</string>
+    <string name="remove_annotations_sub">Remove selected annotation types such as links, comments, highlights, shapes, or form fields from the PDF pages</string>
+    <string name="annotation_link">Hyperlinks</string>
+    <string name="annotation_file_attachment">File Attachments</string>
+    <string name="annotation_line">Lines</string>
+    <string name="annotation_popup">Popups</string>
+    <string name="annotation_stamp">Stamps</string>
+    <string name="annotation_shapes">Shapes</string>
+    <string name="annotation_text">Text Notes</string>
+    <string name="annotation_text_markup">Text Markup</string>
+    <string name="annotation_widget">Form Fields</string>
+    <string name="annotation_markup">Markup</string>
+    <string name="annotation_unknown">Unknown</string>
+    <string name="annotations">Annotations</string>
 </resources>

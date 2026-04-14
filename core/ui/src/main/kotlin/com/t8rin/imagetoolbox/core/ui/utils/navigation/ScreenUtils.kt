@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Ascii
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
+import com.t8rin.imagetoolbox.core.resources.icons.BubbleDelete
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Compare
@@ -231,6 +232,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Preview -> "PdfTools_Preview"
     is PdfTools.ImagesToPdf -> "PdfTools_ImagesToPdf"
     is PdfTools.ExtractPages -> "PdfTools_ExtractPages"
+    is PdfTools.RemoveAnnotations -> "PdfTools_RemoveAnnotations"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -308,6 +310,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Preview -> Icons.Outlined.Preview
     is PdfTools.ImagesToPdf -> Icons.Outlined.Scanner
     is PdfTools.ExtractPages -> Icons.Outlined.ArtTrack
+    is PdfTools.RemoveAnnotations -> Icons.Outlined.BubbleDelete
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -385,6 +388,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Preview -> Icons.TwoTone.Preview
     is PdfTools.ImagesToPdf -> Icons.TwoTone.Scanner
     is PdfTools.ExtractPages -> Icons.TwoTone.ArtTrack
+    is PdfTools.RemoveAnnotations -> Icons.TwoTone.BubbleDelete
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

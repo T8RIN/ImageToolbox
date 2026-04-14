@@ -67,6 +67,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.screenLogic
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.print.screenLogic.PrintPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic.ProtectPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_annotations.screenLogic.RemoveAnnotationsPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.screenLogic.RemovePagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.screenLogic.RepairPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.RootPdfToolsComponent
@@ -133,6 +134,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ProtectPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RearrangePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RecognizeText
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RemoveAnnotationsPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RemovePagesPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RepairPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ResizeAndConvert
@@ -241,7 +243,8 @@ internal class ChildProvider @Inject constructor(
     private val printPdfToolComponentFactory: PrintPdfToolComponent.Factory,
     private val previewPdfToolComponentFactory: PreviewPdfToolComponent.Factory,
     private val imagesToPdfToolComponentFactory: ImagesToPdfToolComponent.Factory,
-    private val extractPagesPdfToolComponent: ExtractPagesPdfToolComponent.Factory,
+    private val extractPagesPdfToolComponentFactory: ExtractPagesPdfToolComponent.Factory,
+    private val removeAnnotationsPdfToolComponentFactory: RemoveAnnotationsPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -882,7 +885,16 @@ internal class ChildProvider @Inject constructor(
         )
 
         is Screen.PdfTools.ExtractPages -> ExtractPagesPdfTool(
-            extractPagesPdfToolComponent(
+            extractPagesPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.RemoveAnnotations -> RemoveAnnotationsPdfTool(
+            removeAnnotationsPdfToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

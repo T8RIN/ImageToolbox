@@ -114,6 +114,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.ProtectPdfT
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic.ProtectPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.RearrangePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_annotations.RemoveAnnotationsPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_annotations.screenLogic.RemoveAnnotationsPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.RemovePagesPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.screenLogic.RemovePagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.RepairPdfToolContent
@@ -539,5 +541,11 @@ internal sealed interface NavigationChild {
         NavigationChild {
         @Composable
         override fun Content() = ExtractPagesPdfToolContent(component)
+    }
+
+    class RemoveAnnotationsPdfTool(private val component: RemoveAnnotationsPdfToolComponent) :
+        NavigationChild {
+        @Composable
+        override fun Content() = RemoveAnnotationsPdfToolContent(component)
     }
 }

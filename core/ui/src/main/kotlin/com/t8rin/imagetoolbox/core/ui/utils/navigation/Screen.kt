@@ -302,6 +302,7 @@ sealed class Screen(
                 Watermark(),
                 Signature(),
                 Compress(),
+                RemoveAnnotations(),
                 Flatten(),
                 Print(),
                 Grayscale(),
@@ -520,6 +521,15 @@ sealed class Screen(
             id = 66,
             title = R.string.pdf_to_images,
             subtitle = R.string.pdf_to_images_sub
+        )
+
+        @Serializable
+        data class RemoveAnnotations(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 67,
+            title = R.string.remove_annotations,
+            subtitle = R.string.remove_annotations_sub
         )
     }
 
