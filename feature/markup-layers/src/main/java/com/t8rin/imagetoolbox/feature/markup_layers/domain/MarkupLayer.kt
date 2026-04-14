@@ -100,9 +100,23 @@ sealed interface LayerType {
     }
 
     sealed class Picture(
-        open val imageData: Any
+        open val imageData: Any,
+        open val shadow: TextShadow? = null
     ) : LayerType {
-        data class Image(override val imageData: Any) : Picture(imageData)
-        data class Sticker(override val imageData: Any) : Picture(imageData)
+        data class Image(
+            override val imageData: Any,
+            override val shadow: TextShadow? = null
+        ) : Picture(
+            imageData = imageData,
+            shadow = shadow
+        )
+
+        data class Sticker(
+            override val imageData: Any,
+            override val shadow: TextShadow? = null
+        ) : Picture(
+            imageData = imageData,
+            shadow = shadow
+        )
     }
 }

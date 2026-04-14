@@ -101,45 +101,35 @@ internal class LayersRenderer @Inject constructor(
 
                             val pictureData = resolvePictureRenderData(
                                 bitmap = contentBitmap,
+                                shadow = type.shadow,
                                 contentSize = layer.contentSize,
                                 maxWidth = authorWidth / 2f,
                                 maxHeight = authorHeight / 2f
                             ) ?: return@forEach
+                            val shadowRenderData = buildPictureShadowRenderData(
+                                sourceBitmap = contentBitmap,
+                                shadow = type.shadow,
+                                targetWidth = pictureData.contentWidth,
+                                targetHeight = pictureData.contentHeight,
+                                rasterScale = resolveShadowRasterScale(
+                                    layerScale = layer.position.scale
+                                )
+                            )
 
-                            withSave {
-                                translate(centerX, centerY)
-                                rotate(layer.position.rotation)
-                                scale(
-                                    layer.position.scale * if (layer.position.isFlippedHorizontally) -1f else 1f,
-                                    layer.position.scale * if (layer.position.isFlippedVertically) -1f else 1f
-                                )
-
-                                val destination = RectF(
-                                    -pictureData.width / 2f,
-                                    -pictureData.height / 2f,
-                                    pictureData.width / 2f,
-                                    pictureData.height / 2f
-                                )
-                                clipToRoundedBounds(
-                                    bounds = destination,
-                                    cornerRadiusPx = cornerRadiusPx(
-                                        cornerRadiusPercent = layer.cornerRadiusPercent,
-                                        width = destination.width(),
-                                        height = destination.height()
-                                    )
-                                )
-
-                                drawBitmap(
-                                    contentBitmap,
-                                    null,
-                                    destination,
-                                    layer.blendingMode.toPaint().apply {
-                                        alpha = (layer.position.alpha * 255).roundToInt()
-                                            .coerceIn(0, 255)
-                                        isFilterBitmap = true
-                                    }
-                                )
-                            }
+                            drawPictureLayer(
+                                bitmap = contentBitmap,
+                                data = pictureData,
+                                shadowRenderData = shadowRenderData,
+                                centerX = centerX,
+                                centerY = centerY,
+                                rotation = layer.position.rotation,
+                                scale = layer.position.scale,
+                                isFlippedHorizontally = layer.position.isFlippedHorizontally,
+                                isFlippedVertically = layer.position.isFlippedVertically,
+                                cornerRadiusPercent = layer.cornerRadiusPercent,
+                                blendingMode = layer.blendingMode,
+                                alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
+                            )
                         }
 
                         is LayerType.Text -> {
@@ -198,27 +188,46 @@ internal class LayersRenderer @Inject constructor(
 
     private fun resolvePictureRenderData(
         bitmap: Bitmap,
+        shadow: com.t8rin.imagetoolbox.feature.markup_layers.domain.TextShadow?,
         contentSize: IntegerSize,
         maxWidth: Float,
         maxHeight: Float
     ): PictureLayerRenderData? {
+        val shadowPadding = calculateShadowPadding(shadow)
+        val horizontalShadowPadding = shadowPadding.leftPx + shadowPadding.rightPx
+        val verticalShadowPadding = shadowPadding.topPx + shadowPadding.bottomPx
+
         contentSize.takeIf { it.width > 0 && it.height > 0 }?.let {
+            val width = it.width.toFloat().coerceAtLeast(horizontalShadowPadding + 1f)
+            val height = it.height.toFloat().coerceAtLeast(verticalShadowPadding + 1f)
             return PictureLayerRenderData(
-                width = it.width.toFloat(),
-                height = it.height.toFloat()
+                width = width,
+                height = height,
+                contentLeft = shadowPadding.leftPx,
+                contentTop = shadowPadding.topPx,
+                contentWidth = (width - horizontalShadowPadding).coerceAtLeast(1f),
+                contentHeight = (height - verticalShadowPadding).coerceAtLeast(1f)
             )
         }
 
         val width = bitmap.width.takeIf { it > 0 } ?: return null
         val height = bitmap.height.takeIf { it > 0 } ?: return null
+        val availableContentWidth = (maxWidth - horizontalShadowPadding).coerceAtLeast(1f)
+        val availableContentHeight = (maxHeight - verticalShadowPadding).coerceAtLeast(1f)
         val fitScale = min(
             1f,
-            min(maxWidth / width, maxHeight / height)
+            min(availableContentWidth / width, availableContentHeight / height)
         )
+        val contentWidth = (width * fitScale).roundToInt().coerceAtLeast(1).toFloat()
+        val contentHeight = (height * fitScale).roundToInt().coerceAtLeast(1).toFloat()
 
         return PictureLayerRenderData(
-            width = (width * fitScale).roundToInt().coerceAtLeast(1).toFloat(),
-            height = (height * fitScale).roundToInt().coerceAtLeast(1).toFloat()
+            width = contentWidth + horizontalShadowPadding,
+            height = contentHeight + verticalShadowPadding,
+            contentLeft = shadowPadding.leftPx,
+            contentTop = shadowPadding.topPx,
+            contentWidth = contentWidth,
+            contentHeight = contentHeight
         )
     }
 
@@ -427,6 +436,114 @@ internal class LayersRenderer @Inject constructor(
         }
     }
 
+    private fun Canvas.drawPictureLayer(
+        bitmap: Bitmap,
+        data: PictureLayerRenderData,
+        shadowRenderData: PictureShadowRenderData?,
+        centerX: Float,
+        centerY: Float,
+        rotation: Float,
+        scale: Float,
+        isFlippedHorizontally: Boolean,
+        isFlippedVertically: Boolean,
+        cornerRadiusPercent: Int,
+        blendingMode: BlendingMode,
+        alpha: Int
+    ) {
+        withSave {
+            translate(centerX, centerY)
+            rotate(rotation)
+            scale(
+                scale * if (isFlippedHorizontally) -1f else 1f,
+                scale * if (isFlippedVertically) -1f else 1f
+            )
+
+            val destination = RectF(
+                -data.width / 2f,
+                -data.height / 2f,
+                data.width / 2f,
+                data.height / 2f
+            )
+
+            if (blendingMode == BlendingMode.SrcOver && alpha >= 255) {
+                drawPictureLayerContent(
+                    bitmap = bitmap,
+                    data = data,
+                    bounds = destination,
+                    shadowRenderData = shadowRenderData,
+                    cornerRadiusPercent = cornerRadiusPercent
+                )
+            } else {
+                val checkpoint = saveLayer(
+                    destination,
+                    blendingMode.toPaint().apply {
+                        this.alpha = alpha
+                    }
+                )
+                drawPictureLayerContent(
+                    bitmap = bitmap,
+                    data = data,
+                    bounds = destination,
+                    shadowRenderData = shadowRenderData,
+                    cornerRadiusPercent = cornerRadiusPercent
+                )
+                restoreToCount(checkpoint)
+            }
+        }
+    }
+
+    private fun Canvas.drawPictureLayerContent(
+        bitmap: Bitmap,
+        data: PictureLayerRenderData,
+        bounds: RectF,
+        shadowRenderData: PictureShadowRenderData?,
+        cornerRadiusPercent: Int
+    ) {
+        withSave {
+            translate(bounds.left, bounds.top)
+
+            shadowRenderData?.let { shadow ->
+                withSave {
+                    val rasterScale = shadow.rasterScale.coerceAtLeast(1f)
+                    scale(1f / rasterScale, 1f / rasterScale)
+                    drawBitmap(
+                        shadow.bitmap,
+                        data.contentLeft * rasterScale + shadow.left,
+                        data.contentTop * rasterScale + shadow.top,
+                        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                            isFilterBitmap = true
+                        }
+                    )
+                }
+            }
+
+            val imageBounds = RectF(
+                data.contentLeft,
+                data.contentTop,
+                data.contentLeft + data.contentWidth,
+                data.contentTop + data.contentHeight
+            )
+            withSave {
+                clipToRoundedBounds(
+                    bounds = imageBounds,
+                    cornerRadiusPx = cornerRadiusPx(
+                        cornerRadiusPercent = cornerRadiusPercent,
+                        width = imageBounds.width(),
+                        height = imageBounds.height()
+                    )
+                )
+                drawBitmap(
+                    bitmap,
+                    null,
+                    imageBounds,
+                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                        isFilterBitmap = true
+                    }
+                )
+            }
+        }
+    }
+
     private fun resolveShadowRasterScale(
         layerScale: Float
     ): Float = layerScale
@@ -500,5 +617,9 @@ private data class TextLayerCacheKey(
 
 private data class PictureLayerRenderData(
     val width: Float,
-    val height: Float
+    val height: Float,
+    val contentLeft: Float,
+    val contentTop: Float,
+    val contentWidth: Float,
+    val contentHeight: Float
 )

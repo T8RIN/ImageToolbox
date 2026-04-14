@@ -17,11 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -40,6 +44,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.core.graphics.withSave
 import coil3.request.ImageRequest
+import coil3.request.allowHardware
+import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
@@ -48,7 +54,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildPictureShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildTextShadowRenderData
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateShadowPadding
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
@@ -65,18 +73,84 @@ internal fun LayerContent(
 ) {
     when (type) {
         is LayerType.Picture -> {
-            Picture(
-                model = remember(type.imageData) {
-                    ImageRequest.Builder(appContext)
-                        .data(type.imageData)
-                        .static()
-                        .size(1600)
-                        .build()
-                },
-                contentScale = ContentScale.Fit,
-                modifier = modifier,
-                showTransparencyChecker = false
-            )
+            val density = LocalDensity.current
+            var previewBitmap by remember(type.imageData) {
+                mutableStateOf<Bitmap?>(null)
+            }
+            val shadowPadding = remember(type.shadow) {
+                calculateShadowPadding(type.shadow)
+            }
+
+            Box(
+                modifier = modifier
+                    .drawWithCache {
+                        val contentWidth = (
+                                size.width -
+                                        shadowPadding.leftPx -
+                                        shadowPadding.rightPx
+                                )
+                            .coerceAtLeast(1f)
+                        val contentHeight = (
+                                size.height -
+                                        shadowPadding.topPx -
+                                        shadowPadding.bottomPx
+                                )
+                            .coerceAtLeast(1f)
+                        val shadow = previewBitmap?.let { bitmap ->
+                            buildPictureShadowRenderData(
+                                sourceBitmap = bitmap,
+                                shadow = type.shadow,
+                                targetWidth = contentWidth,
+                                targetHeight = contentHeight
+                            )
+                        }
+
+                        onDrawWithContent {
+                            shadow?.let { shadowData ->
+                                drawContext.canvas.nativeCanvas.withSave {
+                                    scale(
+                                        1f / shadowData.rasterScale,
+                                        1f / shadowData.rasterScale
+                                    )
+                                    drawBitmap(
+                                        bitmap = shadowData.bitmap,
+                                        top = shadowPadding.topPx * shadowData.rasterScale + shadowData.top,
+                                        left = shadowPadding.leftPx * shadowData.rasterScale + shadowData.left
+                                    )
+                                }
+                            }
+                            drawContent()
+                        }
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                Picture(
+                    model = remember(type.imageData) {
+                        ImageRequest.Builder(appContext)
+                            .data(type.imageData)
+                            .static()
+                            .allowHardware(false)
+                            .size(1600)
+                            .build()
+                    },
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .padding(
+                            start = with(density) { shadowPadding.leftPx.toDp() },
+                            top = with(density) { shadowPadding.topPx.toDp() },
+                            end = with(density) { shadowPadding.rightPx.toDp() },
+                            bottom = with(density) { shadowPadding.bottomPx.toDp() }
+                        ),
+                    showTransparencyChecker = false,
+                    allowHardware = false,
+                    onSuccess = {
+                        previewBitmap = it.result.image.toBitmap()
+                    },
+                    onError = {
+                        previewBitmap = null
+                    }
+                )
+            }
         }
 
         is LayerType.Text -> {

@@ -24,6 +24,7 @@ import android.text.TextPaint
 import android.util.TypedValue
 import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextShadow
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -76,7 +77,7 @@ internal fun Context.calculateTextLayerMetrics(
     }
     val baseHorizontalPaddingPx = baseTextSize / 10f
     val baseVerticalPaddingPx = baseTextSize / 12f
-    val shadowPadding = type.calculateShadowPadding()
+    val shadowPadding = calculateShadowPadding(type.shadow)
     val geometricTransformPaddingPx = lineHeightPx * abs(type.geometricTransform?.skewX ?: 0f)
 
     return TextLayerMetrics(
@@ -105,8 +106,10 @@ internal fun createTextLayerTypeface(type: LayerType.Text): Typeface {
     return Typeface.create(type.font.toTypeface() ?: Typeface.DEFAULT, style)
 }
 
-private fun LayerType.Text.calculateShadowPadding(): TextLayerPadding {
-    val shadow = shadow ?: return TextLayerPadding.Zero
+internal fun calculateShadowPadding(
+    shadow: TextShadow?
+): TextLayerPadding {
+    shadow ?: return TextLayerPadding.Zero
     val blurRadius = shadow.blurRadius.coerceAtLeast(0f)
 
     return TextLayerPadding(

@@ -201,11 +201,15 @@ internal class MarkupMapper @Inject constructor(
                     extension = sourceExtension(source)
                 )
             )
-            PictureSnapshot(assetPath = entryName)
+            PictureSnapshot(
+                assetPath = entryName,
+                shadow = shadow?.toSnapshot()
+            )
         }
 
         is LayerType.Picture.Sticker -> PictureSnapshot(
-            value = imageData.toString()
+            value = imageData.toString(),
+            shadow = shadow?.toSnapshot()
         )
 
         is LayerType.Text -> null
@@ -271,11 +275,13 @@ internal class MarkupMapper @Inject constructor(
         }
 
         LayerSnapshotType.Image -> LayerType.Picture.Image(
-            imageData = File(extractionDir, picture?.assetPath.orEmpty()).toUri().toString()
+            imageData = File(extractionDir, picture?.assetPath.orEmpty()).toUri().toString(),
+            shadow = picture?.shadow?.toDomain()
         )
 
         LayerSnapshotType.Sticker -> LayerType.Picture.Sticker(
-            imageData = picture?.value.orEmpty()
+            imageData = picture?.value.orEmpty(),
+            shadow = picture?.shadow?.toDomain()
         )
     }
 

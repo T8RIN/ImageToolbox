@@ -76,6 +76,7 @@ data class TextSnapshot(
 data class PictureSnapshot(
     val assetPath: String? = null,
     val value: String? = null,
+    val shadow: TextShadowSnapshot? = null,
 )
 
 data class FontSnapshot(

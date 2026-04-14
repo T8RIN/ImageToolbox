@@ -697,6 +697,17 @@ internal fun EditLayerSheet(
                 }
             }
 
+            (layer.type as? LayerType.Picture)?.let { type ->
+                Spacer(modifier = Modifier.height(4.dp))
+                PictureShadowSection(
+                    layer = layer,
+                    type = type,
+                    onUpdateLayer = updateLayerWithHistory,
+                    onUpdateLayerContinuously = updateLayerContinuously,
+                    onContinuousEditFinished = finishContinuousEdit
+                )
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
             AlphaSelector(
                 value = layer.state.alpha,
@@ -752,4 +763,150 @@ internal fun EditLayerSheet(
             )
         }
     }
+}
+
+@Composable
+private fun PictureShadowSection(
+    layer: UiMarkupLayer,
+    type: LayerType.Picture,
+    onUpdateLayer: (UiMarkupLayer) -> Unit,
+    onUpdateLayerContinuously: (UiMarkupLayer) -> Unit,
+    onContinuousEditFinished: () -> Unit
+) {
+    var haveShadow by remember {
+        mutableStateOf(type.shadow != null)
+    }
+    LaunchedEffect(haveShadow, type.shadow) {
+        val desiredShadow = if (haveShadow) {
+            type.shadow ?: TextShadow(
+                color = Color.Black.copy(alpha = 0.75f).toArgb(),
+                offsetX = 0f,
+                offsetY = 6f,
+                blurRadius = 12f
+            )
+        } else null
+
+        if (type.shadow != desiredShadow) {
+            onUpdateLayer(
+                layer.copy(
+                    type = type.withShadow(desiredShadow)
+                )
+            )
+        }
+    }
+
+    PreferenceRowSwitch(
+        title = stringResource(R.string.add_shadow),
+        subtitle = stringResource(R.string.add_shadow_sub),
+        shape = ShapeDefaults.large,
+        containerColor = MaterialTheme.colorScheme.surface,
+        applyHorizontalPadding = false,
+        resultModifier = Modifier.padding(16.dp),
+        checked = haveShadow,
+        onClick = {
+            haveShadow = it
+        },
+        additionalContent = {
+            AnimatedVisibility(type.shadow != null) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    ColorRowSelector(
+                        value = type.shadow?.color?.toColor() ?: Color.Transparent,
+                        onValueChange = {
+                            onUpdateLayer(
+                                layer.copy(
+                                    type = type.withShadow(
+                                        type.shadow?.copy(
+                                            color = it.toArgb()
+                                        )
+                                    )
+                                )
+                            )
+                        },
+                        title = stringResource(R.string.shadow_color),
+                        modifier = Modifier.container(
+                            shape = ShapeDefaults.top,
+                            color = MaterialTheme.colorScheme.surfaceContainerLow
+                        ),
+                        icon = Icons.Filled.Shadow
+                    )
+                    EnhancedSliderItem(
+                        value = type.shadow?.blurRadius ?: 0f,
+                        title = stringResource(R.string.blur_radius),
+                        internalStateTransformation = {
+                            it.roundToTwoDigits()
+                        },
+                        onValueChange = {
+                            onUpdateLayerContinuously(
+                                layer.copy(
+                                    type = type.withShadow(
+                                        type.shadow?.copy(
+                                            blurRadius = it
+                                        )
+                                    )
+                                )
+                            )
+                        },
+                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
+                        valueRange = 0f..48f,
+                        shape = ShapeDefaults.center,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                    )
+                    EnhancedSliderItem(
+                        value = type.shadow?.offsetX ?: 0f,
+                        title = stringResource(R.string.offset_x),
+                        internalStateTransformation = {
+                            it.roundToTwoDigits()
+                        },
+                        onValueChange = {
+                            onUpdateLayerContinuously(
+                                layer.copy(
+                                    type = type.withShadow(
+                                        type.shadow?.copy(
+                                            offsetX = it
+                                        )
+                                    )
+                                )
+                            )
+                        },
+                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
+                        valueRange = -48f..48f,
+                        shape = ShapeDefaults.center,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                    )
+                    EnhancedSliderItem(
+                        value = type.shadow?.offsetY ?: 0f,
+                        title = stringResource(R.string.offset_y),
+                        internalStateTransformation = {
+                            it.roundToTwoDigits()
+                        },
+                        onValueChange = {
+                            onUpdateLayerContinuously(
+                                layer.copy(
+                                    type = type.withShadow(
+                                        type.shadow?.copy(
+                                            offsetY = it
+                                        )
+                                    )
+                                )
+                            )
+                        },
+                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
+                        valueRange = -48f..48f,
+                        shape = ShapeDefaults.bottom,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                    )
+                }
+            }
+        }
+    )
+}
+
+private fun LayerType.Picture.withShadow(
+    shadow: TextShadow?
+): LayerType.Picture = when (this) {
+    is LayerType.Picture.Image -> copy(shadow = shadow)
+    is LayerType.Picture.Sticker -> copy(shadow = shadow)
 }
