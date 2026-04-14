@@ -72,7 +72,7 @@ squircle-shape = "5.2.0"
 
 mlkitDocumentScanner = "16.0.0"
 moshi = "1.15.2"
-bouncycastle = "1.83"
+bouncycastle = "1.84"
 pdfviewer = "1.0.0-alpha17"
 fragmentCompose = "1.8.9"
 aboutlibraries = "14.0.0-b03"
