@@ -38,6 +38,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.TextFormat
@@ -59,6 +60,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.icons.StickerEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -255,22 +257,26 @@ internal fun MarkupLayersSideMenuColumn(
                             scale = 1f,
                             shape = ShapeDefaults.extraSmall
                         )
-                        if (layer.type is LayerType.Text) {
-                            Box(
-                                modifier = Modifier
-                                    .align(Alignment.TopStart)
-                                    .padding(6.dp)
-                                    .clip(ShapeDefaults.extraSmall)
-                                    .background(MaterialTheme.colorScheme.primaryContainer.copy(0.8f))
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.TextFormat,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    modifier = Modifier.size(16.dp)
-                                )
-                            }
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(3.dp)
+                                .clip(ShapeDefaults.extraSmall)
+                                .background(MaterialTheme.colorScheme.primaryContainer.copy(0.8f))
+                                .padding(2.dp)
+                        ) {
+                            Icon(
+                                imageVector = when (layer.type) {
+                                    is LayerType.Picture.Image -> Icons.Outlined.Image
+                                    is LayerType.Picture.Sticker -> Icons.Outlined.StickerEmoji
+                                    is LayerType.Text -> Icons.Rounded.TextFormat
+                                },
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                modifier = Modifier.size(13.dp)
+                            )
                         }
+
                         if (layer.isLocked) {
                             Box(
                                 modifier = Modifier
