@@ -38,6 +38,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CandlestickChart
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Visibility
@@ -270,6 +271,7 @@ internal fun MarkupLayersSideMenuColumn(
                                     is LayerType.Picture.Image -> Icons.Outlined.ImageSticky
                                     is LayerType.Picture.Sticker -> Icons.Outlined.EmojiSticky
                                     is LayerType.Text -> Icons.Outlined.TextSticky
+                                    is LayerType.Shape -> Icons.Outlined.CandlestickChart
                                 },
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onPrimaryContainer,

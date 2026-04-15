@@ -97,6 +97,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType.Text.Alignm
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextGeometricTransform
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.icon
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.titleRes
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import kotlin.math.roundToInt
 
@@ -156,6 +157,13 @@ internal fun EditLayerSheet(
                             }
                         }
                     }
+                }
+
+                is LayerType.Shape -> {
+                    TitleItem(
+                        icon = type.drawPathMode.icon,
+                        text = stringResource(type.drawPathMode.titleRes)
+                    )
                 }
             }
         },
@@ -629,6 +637,16 @@ internal fun EditLayerSheet(
                     )
                 }
 
+                is LayerType.Shape -> {
+                    ShapeLayerEditorSection(
+                        layer = layer,
+                        type = type,
+                        onUpdateLayer = updateLayerWithHistory,
+                        onUpdateLayerContinuously = updateLayerContinuously,
+                        onContinuousEditFinished = finishContinuousEdit
+                    )
+                }
+
                 is LayerType.Picture.Sticker -> {
                     var showEmojiPicker by rememberSaveable {
                         mutableStateOf(false)
@@ -701,6 +719,17 @@ internal fun EditLayerSheet(
             (layer.type as? LayerType.Picture)?.let { type ->
                 Spacer(modifier = Modifier.height(4.dp))
                 PictureShadowSection(
+                    layer = layer,
+                    type = type,
+                    onUpdateLayer = updateLayerWithHistory,
+                    onUpdateLayerContinuously = updateLayerContinuously,
+                    onContinuousEditFinished = finishContinuousEdit
+                )
+            }
+
+            (layer.type as? LayerType.Shape)?.let { type ->
+                Spacer(modifier = Modifier.height(4.dp))
+                ShapeShadowSection(
                     layer = layer,
                     type = type,
                     onUpdateLayer = updateLayerWithHistory,

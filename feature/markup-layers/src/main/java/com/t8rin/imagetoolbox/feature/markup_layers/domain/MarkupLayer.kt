@@ -21,6 +21,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 
 data class MarkupLayer(
     val type: LayerType,
@@ -118,5 +119,28 @@ sealed interface LayerType {
             imageData = imageData,
             shadow = shadow
         )
+    }
+
+    data class Shape(
+        val drawPathMode: DrawPathMode,
+        val color: Int,
+        val strokeWidth: Float = 8f,
+        val widthRatio: Float = 0.35f,
+        val heightRatio: Float = 0.35f,
+        val shadow: DropShadow? = null
+    ) : LayerType {
+
+        companion object {
+            val Default by lazy {
+                Shape(
+                    drawPathMode = DrawPathMode.OutlinedRect(),
+                    color = -16777216,
+                    strokeWidth = 8f,
+                    widthRatio = 0.35f,
+                    heightRatio = 0.35f,
+                    shadow = null
+                )
+            }
+        }
     }
 }

@@ -18,8 +18,11 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import android.graphics.Bitmap
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -57,9 +60,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildPictureShadowRenderData
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildShapeShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildTextShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateShadowPadding
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.drawShapeLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import kotlin.math.roundToInt
@@ -88,6 +93,80 @@ internal fun LayerContent(
             maxLines = maxLines,
             onTextLayout = onTextLayout
         )
+
+        is LayerType.Shape -> ShapeLayerContent(
+            modifier = modifier,
+            type = type,
+            textFullSize = textFullSize
+        )
+    }
+}
+
+@Composable
+private fun ShapeLayerContent(
+    modifier: Modifier,
+    type: LayerType.Shape,
+    textFullSize: Int
+) {
+    val density = LocalDensity.current
+    val shadowPadding = remember(type.shadow) {
+        calculateShadowPadding(type.shadow)
+    }
+    val defaultWidthDp = with(density) {
+        (textFullSize * type.widthRatio + shadowPadding.leftPx + shadowPadding.rightPx).toDp()
+    }
+    val defaultHeightDp = with(density) {
+        (textFullSize * type.heightRatio + shadowPadding.topPx + shadowPadding.bottomPx).toDp()
+    }
+
+    Box(
+        modifier = modifier
+            .requiredSize(defaultWidthDp, defaultHeightDp)
+            .drawWithCache {
+                val contentWidth = (
+                        size.width -
+                                shadowPadding.leftPx -
+                                shadowPadding.rightPx
+                        )
+                    .coerceAtLeast(1f)
+                val contentHeight = (
+                        size.height -
+                                shadowPadding.topPx -
+                                shadowPadding.bottomPx
+                        )
+                    .coerceAtLeast(1f)
+                val shadow = buildShapeShadowRenderData(
+                    type = type,
+                    targetWidth = contentWidth,
+                    targetHeight = contentHeight
+                )
+
+                onDrawWithContent {
+                    shadow?.let { shadowData ->
+                        drawContext.canvas.nativeCanvas.drawBitmap(
+                            shadowData.bitmap,
+                            shadowPadding.leftPx + shadowData.left,
+                            shadowPadding.topPx + shadowData.top,
+                            null
+                        )
+                    }
+                    drawContent()
+                }
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    start = with(density) { shadowPadding.leftPx.toDp() },
+                    top = with(density) { shadowPadding.topPx.toDp() },
+                    end = with(density) { shadowPadding.rightPx.toDp() },
+                    bottom = with(density) { shadowPadding.bottomPx.toDp() }
+                )
+        ) {
+            drawShapeLayer(type)
+        }
     }
 }
 

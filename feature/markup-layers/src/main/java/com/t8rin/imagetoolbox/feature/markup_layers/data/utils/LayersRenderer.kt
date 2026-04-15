@@ -79,6 +79,7 @@ internal class LayersRenderer @Inject constructor(
 
         val pictureCache = mutableMapOf<Any, Bitmap?>()
         val textCache = mutableMapOf<TextLayerCacheKey, TextLayerRenderData>()
+        val shapeCache = mutableMapOf<ShapeLayerCacheKey, ShapeLayerCacheValue>()
 
         resultBitmap.applyCanvas {
             withSave {
@@ -157,6 +158,48 @@ internal class LayersRenderer @Inject constructor(
                             }
                             drawTextLayer(
                                 data = textData,
+                                centerX = centerX,
+                                centerY = centerY,
+                                rotation = layer.position.rotation,
+                                scale = layer.position.scale,
+                                isFlippedHorizontally = layer.position.isFlippedHorizontally,
+                                isFlippedVertically = layer.position.isFlippedVertically,
+                                cornerRadiusPercent = layer.cornerRadiusPercent,
+                                blendingMode = layer.blendingMode,
+                                alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
+                            )
+                        }
+
+                        is LayerType.Shape -> {
+                            val shadowRasterScale = resolveShadowRasterScale(
+                                layerScale = layer.position.scale
+                            )
+                            val shapeValue = shapeCache.getOrPut(
+                                ShapeLayerCacheKey(
+                                    type = type,
+                                    referenceSize = textFullSize,
+                                    contentSize = layer.contentSize,
+                                    shadowRasterScaleKey = (shadowRasterScale * 100f).roundToInt()
+                                )
+                            ) {
+                                val data = resolveShapeLayerRenderData(
+                                    type = type,
+                                    referenceSize = textFullSize.toFloat()
+                                )
+                                ShapeLayerCacheValue(
+                                    data = data,
+                                    shadowRenderData = buildShapeShadowRenderData(
+                                        type = type,
+                                        targetWidth = data.contentWidth,
+                                        targetHeight = data.contentHeight,
+                                        rasterScale = shadowRasterScale
+                                    )
+                                )
+                            }
+                            drawShapeLayerItem(
+                                type = type,
+                                data = shapeValue.data,
+                                shadowRenderData = shapeValue.shadowRenderData,
                                 centerX = centerX,
                                 centerY = centerY,
                                 rotation = layer.position.rotation,
@@ -545,6 +588,104 @@ internal class LayersRenderer @Inject constructor(
         }
     }
 
+    private fun Canvas.drawShapeLayerItem(
+        type: LayerType.Shape,
+        data: ShapeLayerRenderData,
+        shadowRenderData: PictureShadowRenderData?,
+        centerX: Float,
+        centerY: Float,
+        rotation: Float,
+        scale: Float,
+        isFlippedHorizontally: Boolean,
+        isFlippedVertically: Boolean,
+        cornerRadiusPercent: Int,
+        blendingMode: BlendingMode,
+        alpha: Int
+    ) {
+        withSave {
+            translate(centerX, centerY)
+            rotate(rotation)
+            scale(
+                scale * if (isFlippedHorizontally) -1f else 1f,
+                scale * if (isFlippedVertically) -1f else 1f
+            )
+
+            val destination = RectF(
+                -data.width / 2f,
+                -data.height / 2f,
+                data.width / 2f,
+                data.height / 2f
+            )
+
+            clipToRoundedBounds(
+                bounds = destination,
+                cornerRadiusPx = cornerRadiusPx(
+                    cornerRadiusPercent = cornerRadiusPercent,
+                    width = data.width,
+                    height = data.height
+                )
+            )
+
+            if (blendingMode == BlendingMode.SrcOver && alpha >= 255) {
+                drawShapeLayerContent(
+                    type = type,
+                    data = data,
+                    bounds = destination,
+                    shadowRenderData = shadowRenderData
+                )
+            } else {
+                val checkpoint = saveLayer(
+                    destination,
+                    blendingMode.toPaint().apply {
+                        this.alpha = alpha
+                    }
+                )
+                drawShapeLayerContent(
+                    type = type,
+                    data = data,
+                    bounds = destination,
+                    shadowRenderData = shadowRenderData
+                )
+                restoreToCount(checkpoint)
+            }
+        }
+    }
+
+    private fun Canvas.drawShapeLayerContent(
+        type: LayerType.Shape,
+        data: ShapeLayerRenderData,
+        bounds: RectF,
+        shadowRenderData: PictureShadowRenderData?
+    ) {
+        withSave {
+            translate(bounds.left, bounds.top)
+
+            shadowRenderData?.let { shadow ->
+                withSave {
+                    val rasterScale = shadow.rasterScale.coerceAtLeast(1f)
+                    scale(1f / rasterScale, 1f / rasterScale)
+                    drawBitmap(
+                        shadow.bitmap,
+                        data.contentLeft * rasterScale + shadow.left,
+                        data.contentTop * rasterScale + shadow.top,
+                        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                            isFilterBitmap = true
+                        }
+                    )
+                }
+            }
+
+            withSave {
+                translate(data.contentLeft, data.contentTop)
+                drawShapeLayer(
+                    type = type,
+                    width = data.contentWidth,
+                    height = data.contentHeight
+                )
+            }
+        }
+    }
+
     private fun resolveShadowRasterScale(
         layerScale: Float
     ): Float = layerScale
@@ -623,4 +764,16 @@ private data class PictureLayerRenderData(
     val contentTop: Float,
     val contentWidth: Float,
     val contentHeight: Float
+)
+
+private data class ShapeLayerCacheKey(
+    val type: LayerType.Shape,
+    val referenceSize: Int,
+    val contentSize: IntegerSize,
+    val shadowRasterScaleKey: Int
+)
+
+private data class ShapeLayerCacheValue(
+    val data: ShapeLayerRenderData,
+    val shadowRenderData: PictureShadowRenderData?
 )

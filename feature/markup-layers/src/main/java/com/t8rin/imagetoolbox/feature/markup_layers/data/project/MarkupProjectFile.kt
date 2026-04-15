@@ -44,6 +44,7 @@ data class LayerSnapshot(
     val blendingMode: Int = BlendingMode.SrcOver.value,
     val text: TextSnapshot? = null,
     val picture: PictureSnapshot? = null,
+    val shape: ShapeSnapshot? = null,
 )
 
 data class PositionSnapshot(
@@ -79,6 +80,23 @@ data class PictureSnapshot(
     val shadow: DropShadowSnapshot? = null,
 )
 
+data class ShapeSnapshot(
+    val modeOrdinal: Int,
+    val color: Int,
+    val strokeWidth: Float,
+    val widthRatio: Float,
+    val heightRatio: Float,
+    val fillColor: Int? = null,
+    val rotationDegrees: Int? = null,
+    val cornerRadius: Float? = null,
+    val vertices: Int? = null,
+    val isRegular: Boolean? = null,
+    val innerRadiusRatio: Float? = null,
+    val sizeScale: Float? = null,
+    val angle: Float? = null,
+    val shadow: DropShadowSnapshot? = null,
+)
+
 data class FontSnapshot(
     val type: FontSnapshotType,
     val resourceId: Int? = null,
@@ -111,7 +129,7 @@ enum class BackgroundType {
 }
 
 enum class LayerSnapshotType {
-    Text, Image, Sticker
+    Text, Image, Sticker, Shape
 }
 
 enum class FontSnapshotType {

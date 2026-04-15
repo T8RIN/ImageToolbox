@@ -37,10 +37,25 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayerShapeModes
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextGeometricTransform
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowAngle
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowSizeScale
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.cornerRadius
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.innerRadiusRatio
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.isRegular
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.outlinedFillColorInt
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.rotationDegrees
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.sanitizeForMarkupLayerShape
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateArrow
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.updatePolygon
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateRect
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateStar
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.vertices
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.withOutlinedFillColor
 import com.t8rin.logger.makeLog
 import java.io.File
 import javax.inject.Inject
@@ -145,7 +160,8 @@ internal class MarkupMapper @Inject constructor(
             picture = layerType.toPictureSnapshot(
                 assetRegistry = assetRegistry,
                 prefix = "$prefix-$index"
-            )
+            ),
+            shape = (layerType as? LayerType.Shape)?.toSnapshot()
         )
     }
 
@@ -167,6 +183,7 @@ internal class MarkupMapper @Inject constructor(
         is LayerType.Text -> LayerSnapshotType.Text
         is LayerType.Picture.Image -> LayerSnapshotType.Image
         is LayerType.Picture.Sticker -> LayerSnapshotType.Sticker
+        is LayerType.Shape -> LayerSnapshotType.Shape
     }
 
     private fun LayerType.Text.toSnapshot(
@@ -212,8 +229,26 @@ internal class MarkupMapper @Inject constructor(
             shadow = shadow?.toSnapshot()
         )
 
-        is LayerType.Text -> null
+        is LayerType.Text,
+        is LayerType.Shape -> null
     }
+
+    private fun LayerType.Shape.toSnapshot(): ShapeSnapshot = ShapeSnapshot(
+        modeOrdinal = drawPathMode.ordinal,
+        color = color,
+        strokeWidth = strokeWidth,
+        widthRatio = widthRatio,
+        heightRatio = heightRatio,
+        fillColor = drawPathMode.outlinedFillColorInt(),
+        rotationDegrees = drawPathMode.rotationDegrees(),
+        cornerRadius = drawPathMode.cornerRadius(),
+        vertices = drawPathMode.vertices(),
+        isRegular = drawPathMode.isRegular(),
+        innerRadiusRatio = drawPathMode.innerRadiusRatio(),
+        sizeScale = drawPathMode.arrowSizeScale(),
+        angle = drawPathMode.arrowAngle(),
+        shadow = shadow?.toSnapshot()
+    )
 
     private fun Outline.toSnapshot(): OutlineSnapshot = OutlineSnapshot(
         color = color,
@@ -283,6 +318,11 @@ internal class MarkupMapper @Inject constructor(
             imageData = picture?.value.orEmpty(),
             shadow = picture?.shadow?.toDomain()
         )
+
+        LayerSnapshotType.Shape -> {
+            val value = shape ?: error("Missing shape layer data")
+            value.toDomain()
+        }
     }
 
     private suspend fun TextSnapshot.toDomain(
@@ -299,6 +339,44 @@ internal class MarkupMapper @Inject constructor(
         geometricTransform = geometricTransform?.toDomain(),
         shadow = shadow?.toDomain()
     )
+
+    private fun ShapeSnapshot.toDomain(): LayerType.Shape {
+        val baseMode = MarkupLayerShapeModes
+            .firstOrNull { it.ordinal == modeOrdinal }
+            ?.sanitizeForMarkupLayerShape()
+            ?: LayerType.Shape.Default.drawPathMode
+
+        val drawPathMode = baseMode
+            .updateArrow(
+                sizeScale = sizeScale,
+                angle = angle
+            )
+            .updateRect(
+                rotationDegrees = rotationDegrees,
+                cornerRadius = cornerRadius
+            )
+            .updatePolygon(
+                vertices = vertices,
+                rotationDegrees = rotationDegrees,
+                isRegular = isRegular
+            )
+            .updateStar(
+                vertices = vertices,
+                innerRadiusRatio = innerRadiusRatio,
+                rotationDegrees = rotationDegrees,
+                isRegular = isRegular
+            )
+            .withOutlinedFillColor(fillColor)
+
+        return LayerType.Shape(
+            drawPathMode = drawPathMode,
+            color = color,
+            strokeWidth = strokeWidth,
+            widthRatio = widthRatio,
+            heightRatio = heightRatio,
+            shadow = shadow?.toDomain()
+        )
+    }
 
     private fun List<String>.toDomainDecorations(): List<LayerType.Text.Decoration> {
         return mapNotNull { value ->

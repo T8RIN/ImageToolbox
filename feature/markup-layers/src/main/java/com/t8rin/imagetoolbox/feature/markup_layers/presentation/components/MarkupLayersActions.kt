@@ -31,6 +31,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
+import androidx.compose.material.icons.outlined.CandlestickChart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -142,6 +143,22 @@ internal fun MarkupLayersActions(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(end = 4.dp)
                 ) {
+                    EnhancedIconButton(
+                        onClick = {
+                            component.deactivateAllLayers()
+                            component.addLayer(
+                                UiMarkupLayer(
+                                    type = LayerType.Shape.Default
+                                )
+                            )
+                        },
+                        forceMinimumInteractiveComponentSize = false
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.CandlestickChart,
+                            contentDescription = null
+                        )
+                    }
                     EnhancedIconButton(
                         onClick = {
                             showTextEnteringDialog = true

@@ -2205,7 +2205,7 @@
     <string name="failed_to_open">Не удалось открыть</string>
     <string name="ocr_write_to_searchable_pdf">Запись в PDF с возможностью поиска</string>
     <string name="ocr_write_to_searchable_pdf_sub">Распознавайте текст из пакета изображений и сохраняйте PDF с возможностью поиска с изображением и выбираемым текстовым слоем.</string>
-    <string name="layer_alpha">Слой альфа</string>
+    <string name="layer_alpha">Прозрачность слоя</string>
     <string name="horizontal_flip">Горизонтальный флип</string>
     <string name="vertical_flip">Вертикальный флип</string>
     <string name="lock">Замок</string>
