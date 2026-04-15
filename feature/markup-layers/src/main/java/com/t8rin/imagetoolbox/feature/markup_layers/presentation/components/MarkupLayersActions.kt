@@ -83,9 +83,6 @@ internal fun MarkupLayersActions(
     var showEmojiPicker by rememberSaveable {
         mutableStateOf(false)
     }
-    var expandOptions by rememberSaveable {
-        mutableStateOf(false)
-    }
 
     val state = rememberScrollState()
     Row(
@@ -114,7 +111,7 @@ internal fun MarkupLayersActions(
             modifier = Modifier.container(
                 shape = ShapeDefaults.circle,
                 color = takeColorFromScheme {
-                    if (expandOptions) surface else Color.Transparent
+                    if (component.isOptionsExpanded) surface else Color.Transparent
                 },
                 composeColorOnTopOfBackground = false,
                 clip = false,
@@ -122,14 +119,12 @@ internal fun MarkupLayersActions(
             )
         ) {
             EnhancedIconButton(
-                onClick = {
-                    expandOptions = !expandOptions
-                },
+                onClick = component::toggleExpandOptions,
                 containerColor = takeColorFromScheme {
-                    if (expandOptions) secondaryContainer else Color.Transparent
+                    if (component.isOptionsExpanded) secondaryContainer else Color.Transparent
                 },
                 contentColor = takeColorFromScheme {
-                    if (expandOptions) onSecondaryContainer else LocalContentColor.current
+                    if (component.isOptionsExpanded) onSecondaryContainer else LocalContentColor.current
                 }
             ) {
                 Icon(
@@ -139,7 +134,7 @@ internal fun MarkupLayersActions(
             }
 
             AnimatedVisibility(
-                visible = expandOptions,
+                visible = component.isOptionsExpanded,
                 enter = fadeIn() + expandHorizontally(),
                 exit = fadeOut() + shrinkHorizontally()
             ) {

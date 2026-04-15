@@ -42,9 +42,11 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectExtension
@@ -87,6 +89,12 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
+    private val _isOptionsExpanded = fileController.savable(
+        scope = componentScope,
+        initial = false
+    )
+    val isOptionsExpanded: Boolean get() = _isOptionsExpanded.get()
+
     private val _backgroundBehavior: MutableState<BackgroundBehavior> =
         mutableStateOf(BackgroundBehavior.None)
     val backgroundBehavior: BackgroundBehavior by _backgroundBehavior
@@ -108,6 +116,10 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     val canRedo: Boolean get() = redoHistory.isNotEmpty()
 
     val coerceToBounds get() = layers.all { it.state.coerceToBounds }
+
+    fun toggleExpandOptions() {
+        _isOptionsExpanded.update { !it }
+    }
 
     fun undo() {
         finalizePendingHistoryTransaction()
