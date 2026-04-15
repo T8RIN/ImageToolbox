@@ -54,7 +54,7 @@ fun Modifier.container(
     clip: Boolean = true,
     composeColorOnTopOfBackground: Boolean = true,
     isShadowClip: Boolean = color.alpha < 1f,
-    isStandaloneContainer: Boolean = true,
+    isStandaloneContainer: Boolean = color.alpha < 1f,
     shadowColor: Color = Color.Black
 ) = this.composed {
     val localContainerShape = LocalContainerShape.current

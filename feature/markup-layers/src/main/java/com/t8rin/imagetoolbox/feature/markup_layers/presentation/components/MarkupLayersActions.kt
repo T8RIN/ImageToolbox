@@ -18,6 +18,11 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -26,9 +31,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
-import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,8 +44,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
+import com.t8rin.imagetoolbox.core.resources.icons.AddSticky
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiSticky
+import com.t8rin.imagetoolbox.core.resources.icons.ImageSticky
 import com.t8rin.imagetoolbox.core.resources.icons.Layers
-import com.t8rin.imagetoolbox.core.resources.icons.StickerEmoji
+import com.t8rin.imagetoolbox.core.resources.icons.TextSticky
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -76,6 +83,9 @@ internal fun MarkupLayersActions(
     var showEmojiPicker by rememberSaveable {
         mutableStateOf(false)
     }
+    var expandOptions by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     val state = rememberScrollState()
     Row(
@@ -99,37 +109,82 @@ internal fun MarkupLayersActions(
                 contentDescription = null
             )
         }
-        EnhancedIconButton(
-            onClick = {
-                showTextEnteringDialog = true
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.container(
+                shape = ShapeDefaults.circle,
+                color = takeColorFromScheme {
+                    if (expandOptions) surface else Color.Transparent
+                },
+                composeColorOnTopOfBackground = false,
+                clip = false,
+                resultPadding = 0.dp
+            )
+        ) {
+            EnhancedIconButton(
+                onClick = {
+                    expandOptions = !expandOptions
+                },
+                containerColor = takeColorFromScheme {
+                    if (expandOptions) secondaryContainer else Color.Transparent
+                },
+                contentColor = takeColorFromScheme {
+                    if (expandOptions) onSecondaryContainer else LocalContentColor.current
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.AddSticky,
+                    contentDescription = null
+                )
             }
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.TextFields,
-                contentDescription = null
-            )
-        }
-        EnhancedIconButton(
-            onClick = {
-                showEmojiPicker = true
+
+            AnimatedVisibility(
+                visible = expandOptions,
+                enter = fadeIn() + expandHorizontally(),
+                exit = fadeOut() + shrinkHorizontally()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(end = 4.dp)
+                ) {
+                    EnhancedIconButton(
+                        onClick = {
+                            showTextEnteringDialog = true
+                        },
+                        forceMinimumInteractiveComponentSize = false
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.TextSticky,
+                            contentDescription = null
+                        )
+                    }
+                    EnhancedIconButton(
+                        onClick = {
+                            showEmojiPicker = true
+                        },
+                        forceMinimumInteractiveComponentSize = false
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.EmojiSticky,
+                            contentDescription = null
+                        )
+                    }
+                    EnhancedIconButton(
+                        onClick = layerImagePicker::pickImage,
+                        forceMinimumInteractiveComponentSize = false
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.ImageSticky,
+                            contentDescription = null
+                        )
+                    }
+                }
             }
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.StickerEmoji,
-                contentDescription = null
-            )
-        }
-        EnhancedIconButton(
-            onClick = layerImagePicker::pickImage
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Image,
-                contentDescription = null
-            )
         }
 
         val isPortrait by isPortraitOrientationAsState()
         if (isPortrait) {
+            Spacer(Modifier.width(8.dp))
             MarkupLayersUndoRedo(
                 component = component,
                 color = MaterialTheme.colorScheme.surface,

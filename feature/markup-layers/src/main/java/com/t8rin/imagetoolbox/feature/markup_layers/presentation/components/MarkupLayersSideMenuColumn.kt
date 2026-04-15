@@ -38,10 +38,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.Lock
-import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
@@ -60,7 +58,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.resources.icons.StickerEmoji
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiSticky
+import com.t8rin.imagetoolbox.core.resources.icons.ImageSticky
+import com.t8rin.imagetoolbox.core.resources.icons.TextSticky
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -267,9 +267,9 @@ internal fun MarkupLayersSideMenuColumn(
                         ) {
                             Icon(
                                 imageVector = when (layer.type) {
-                                    is LayerType.Picture.Image -> Icons.Outlined.Image
-                                    is LayerType.Picture.Sticker -> Icons.Outlined.StickerEmoji
-                                    is LayerType.Text -> Icons.Rounded.TextFormat
+                                    is LayerType.Picture.Image -> Icons.Outlined.ImageSticky
+                                    is LayerType.Picture.Sticker -> Icons.Outlined.EmojiSticky
+                                    is LayerType.Text -> Icons.Outlined.TextSticky
                                 },
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
