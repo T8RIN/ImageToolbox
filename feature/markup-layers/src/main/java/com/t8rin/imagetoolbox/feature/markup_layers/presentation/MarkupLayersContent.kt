@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Archive
-import androidx.compose.material.icons.outlined.Rectangle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -97,7 +96,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Layer
@@ -375,17 +373,6 @@ fun MarkupLayersContent(
                             )
                     )
                 }
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.coerce_points_to_image_bounds),
-                    subtitle = stringResource(R.string.coerce_points_to_image_bounds_sub),
-                    startIcon = Icons.Outlined.Rectangle,
-                    checked = component.coerceToBounds,
-                    onClick = {
-                        component.toggleCoerceToBounds()
-                    },
-                    shape = ShapeDefaults.large,
-                    modifier = Modifier.fillMaxWidth()
-                )
                 SaveExifWidget(
                     modifier = Modifier.fillMaxWidth(),
                     checked = component.saveExif,

@@ -115,8 +115,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     val canUndo: Boolean get() = history.size > 1
     val canRedo: Boolean get() = redoHistory.isNotEmpty()
 
-    val coerceToBounds get() = layers.all { it.state.coerceToBounds }
-
     fun toggleExpandOptions() {
         _isOptionsExpanded.update { !it }
     }
@@ -595,20 +593,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 if (it is BackgroundBehavior.Color) {
                     it.copy(color = color.toArgb())
                 } else it
-            }
-        }
-    }
-
-    fun toggleCoerceToBounds() {
-        val result = !coerceToBounds
-
-        runEditorChange {
-            _layers.update { list ->
-                list.map {
-                    it.copy(
-                        coerceToBounds = result
-                    )
-                }
             }
         }
     }

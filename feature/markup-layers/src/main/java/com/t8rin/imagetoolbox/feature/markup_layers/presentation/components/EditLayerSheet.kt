@@ -36,6 +36,7 @@ import androidx.compose.material.icons.automirrored.rounded.FormatAlignLeft
 import androidx.compose.material.icons.automirrored.rounded.FormatAlignRight
 import androidx.compose.material.icons.outlined.BorderColor
 import androidx.compose.material.icons.outlined.Percent
+import androidx.compose.material.icons.outlined.Rectangle
 import androidx.compose.material.icons.rounded.FormatAlignCenter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -709,6 +710,21 @@ internal fun EditLayerSheet(
             }
 
             Spacer(modifier = Modifier.height(8.dp))
+            PreferenceRowSwitch(
+                title = stringResource(R.string.coerce_points_to_image_bounds),
+                subtitle = stringResource(R.string.coerce_points_to_image_bounds_sub),
+                startIcon = Icons.Outlined.Rectangle,
+                checked = layer.state.coerceToBounds,
+                onClick = {
+                    updateLayerWithHistory(
+                        layer.copy(coerceToBounds = it)
+                    )
+                },
+                shape = ShapeDefaults.top,
+                modifier = Modifier.fillMaxWidth(),
+                containerColor = MaterialTheme.colorScheme.surface
+            )
+            Spacer(modifier = Modifier.height(4.dp))
             AlphaSelector(
                 value = layer.state.alpha,
                 onValueChange = {
@@ -726,7 +742,7 @@ internal fun EditLayerSheet(
                 modifier = Modifier.fillMaxWidth(),
                 title = stringResource(R.string.layer_alpha),
                 color = MaterialTheme.colorScheme.surface,
-                shape = ShapeDefaults.top
+                shape = ShapeDefaults.center
             )
             Spacer(modifier = Modifier.height(4.dp))
             BlendingModeSelector(
