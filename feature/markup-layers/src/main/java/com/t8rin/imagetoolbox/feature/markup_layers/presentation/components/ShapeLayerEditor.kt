@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -52,13 +54,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayerShapeModes
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowAngle
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowSizeScale
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.cornerRadius
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.innerRadiusRatio
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.isFilledShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isOutlinedShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isRegular
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ordinal
@@ -92,7 +92,7 @@ internal fun ShapeLayerEditorSection(
     ) {
         EnhancedButtonGroup(
             enabled = true,
-            itemCount = MarkupLayerShapeModes.size,
+            itemCount = ShapeMode.entries.size,
             title = {
                 Text(
                     text = stringResource(R.string.shape),
@@ -105,19 +105,17 @@ internal fun ShapeLayerEditorSection(
             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
             itemContent = {
                 Icon(
-                    imageVector = MarkupLayerShapeModes[it].kind.icon,
+                    imageVector = ShapeMode.entries[it].kind.icon,
                     contentDescription = null
                 )
             },
             onIndexChange = {
-                val mode = MarkupLayerShapeModes[it]
+                val mode = ShapeMode.entries[it]
                     .withSavedStateFrom(type.shapeMode)
                     .let { candidate ->
                         if (candidate.isOutlinedShapeMode() && candidate.outlinedFillColorInt() == null) {
                             candidate.withOutlinedFillColor(
-                                color = type.shapeMode.outlinedFillColorInt() ?: type.color.takeIf {
-                                    type.shapeMode.isFilledShapeMode()
-                                }
+                                color = type.shapeMode.outlinedFillColorInt()
                             )
                         } else {
                             candidate
@@ -151,13 +149,21 @@ internal fun ShapeLayerEditorSection(
         onContinuousEditFinished = onContinuousEditFinished
     )
 
-    ShapeSpecificControls(
-        layer = layer,
-        type = type,
-        onUpdateLayer = onUpdateLayer,
-        onUpdateLayerContinuously = onUpdateLayerContinuously,
-        onContinuousEditFinished = onContinuousEditFinished
-    )
+    AnimatedContent(
+        targetState = type,
+        contentKey = { it.shapeMode.kind },
+        modifier = Modifier.fillMaxWidth()
+    ) { animatedType ->
+        Column {
+            ShapeSpecificControls(
+                layer = layer,
+                type = animatedType,
+                onUpdateLayer = onUpdateLayer,
+                onUpdateLayerContinuously = onUpdateLayerContinuously,
+                onContinuousEditFinished = onContinuousEditFinished
+            )
+        }
+    }
 }
 
 @Composable
@@ -192,56 +198,66 @@ private fun ShapeAppearanceSection(
         )
     )
 
-    if (showFillColor) {
-        Spacer(modifier = Modifier.height(4.dp))
-        ColorRowSelector(
-            value = mode.outlinedFillColorInt()?.toColor(),
-            onValueChange = {
-                onUpdateLayer(
-                    layer.copy(
-                        type = type.copy(
-                            shapeMode = mode.withOutlinedFillColor(it.toArgb())
+    AnimatedVisibility(
+        visible = showFillColor,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column {
+            Spacer(modifier = Modifier.height(4.dp))
+            ColorRowSelector(
+                value = mode.outlinedFillColorInt()?.toColor(),
+                onValueChange = {
+                    onUpdateLayer(
+                        layer.copy(
+                            type = type.copy(
+                                shapeMode = mode.withOutlinedFillColor(it.toArgb())
+                            )
                         )
                     )
-                )
-            },
-            onNullClick = {
-                onUpdateLayer(
-                    layer.copy(
-                        type = type.copy(
-                            shapeMode = mode.withOutlinedFillColor(null)
+                },
+                onNullClick = {
+                    onUpdateLayer(
+                        layer.copy(
+                            type = type.copy(
+                                shapeMode = mode.withOutlinedFillColor(null)
+                            )
                         )
                     )
+                },
+                title = stringResource(R.string.fill_color),
+                icon = Icons.Outlined.FormatColorFill,
+                allowAlpha = true,
+                modifier = Modifier.container(
+                    shape = if (showStrokeWidth) ShapeDefaults.center else ShapeDefaults.bottom,
+                    color = MaterialTheme.colorScheme.surface
                 )
-            },
-            title = stringResource(R.string.fill_color),
-            icon = Icons.Outlined.FormatColorFill,
-            allowAlpha = true,
-            modifier = Modifier.container(
-                shape = if (showStrokeWidth) ShapeDefaults.center else ShapeDefaults.bottom,
-                color = MaterialTheme.colorScheme.surface
             )
-        )
+        }
     }
 
-    if (showStrokeWidth) {
-        Spacer(modifier = Modifier.height(4.dp))
-        EnhancedSliderItem(
-            value = type.strokeWidth,
-            title = stringResource(R.string.line_width),
-            internalStateTransformation = { it.roundToTwoDigits() },
-            onValueChange = {
-                onUpdateLayerContinuously(
-                    layer.copy(
-                        type = type.copy(strokeWidth = it)
+    AnimatedVisibility(
+        visible = showStrokeWidth,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column {
+            Spacer(modifier = Modifier.height(4.dp))
+            EnhancedSliderItem(
+                value = type.strokeWidth,
+                title = stringResource(R.string.line_width),
+                internalStateTransformation = { it.roundToTwoDigits() },
+                onValueChange = {
+                    onUpdateLayerContinuously(
+                        layer.copy(
+                            type = type.copy(strokeWidth = it)
+                        )
                     )
-                )
-            },
-            onValueChangeFinished = { _ -> onContinuousEditFinished() },
-            valueRange = 1f..48f,
-            shape = if (showFillColor) ShapeDefaults.bottom else ShapeDefaults.bottom,
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+                },
+                onValueChangeFinished = { _ -> onContinuousEditFinished() },
+                valueRange = 1f..48f,
+                shape = if (showFillColor) ShapeDefaults.bottom else ShapeDefaults.bottom,
+                containerColor = MaterialTheme.colorScheme.surface
+            )
+        }
     }
 }
 

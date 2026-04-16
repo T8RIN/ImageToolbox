@@ -140,30 +140,32 @@ sealed interface ShapeMode {
     ) : ShapeMode {
         override val kind: Kind = Kind.OutlinedStar
     }
-}
 
-internal val MarkupLayerShapeModes: List<ShapeMode> by lazy {
-    listOf(
-        ShapeMode.Line,
-        ShapeMode.Arrow(),
-        ShapeMode.DoubleArrow(),
-        ShapeMode.LineArrow(),
-        ShapeMode.DoubleLineArrow(),
-        ShapeMode.Rect(),
-        ShapeMode.OutlinedRect(),
-        ShapeMode.Oval,
-        ShapeMode.OutlinedOval(),
-        ShapeMode.Triangle,
-        ShapeMode.OutlinedTriangle(),
-        ShapeMode.Polygon(),
-        ShapeMode.OutlinedPolygon(),
-        ShapeMode.Star(),
-        ShapeMode.OutlinedStar()
-    )
+    companion object {
+        val entries by lazy {
+            listOf(
+                Line,
+                Arrow(),
+                DoubleArrow(),
+                LineArrow(),
+                DoubleLineArrow(),
+                Rect(),
+                OutlinedRect(),
+                Oval,
+                OutlinedOval(),
+                Triangle,
+                OutlinedTriangle(),
+                Polygon(),
+                OutlinedPolygon(),
+                Star(),
+                OutlinedStar()
+            )
+        }
+    }
 }
 
 internal val ShapeMode.ordinal: Int
-    get() = MarkupLayerShapeModes.indexOfFirst { it.kind == kind }
+    get() = ShapeMode.entries.indexOfFirst { it.kind == kind }
         .takeIf { it >= 0 }
         ?: 0
 
@@ -194,7 +196,7 @@ internal fun resolveMarkupLayerShapeMode(
         ?.defaultMode()
 
     return modeByName
-        ?: modeOrdinal?.let(MarkupLayerShapeModes::getOrNull)
+        ?: modeOrdinal?.let(ShapeMode.entries::getOrNull)
         ?: ShapeMode.Kind.OutlinedRect.defaultMode()
 }
 
