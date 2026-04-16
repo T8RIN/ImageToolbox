@@ -31,7 +31,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
-import androidx.compose.material.icons.outlined.CandlestickChart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +48,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.AddSticky
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiSticky
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSticky
 import com.t8rin.imagetoolbox.core.resources.icons.Layers
+import com.t8rin.imagetoolbox.core.resources.icons.StarSticky
 import com.t8rin.imagetoolbox.core.resources.icons.TextSticky
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -155,7 +155,7 @@ internal fun MarkupLayersActions(
                         forceMinimumInteractiveComponentSize = false
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.CandlestickChart,
+                            imageVector = Icons.Outlined.StarSticky,
                             contentDescription = null
                         )
                     }
