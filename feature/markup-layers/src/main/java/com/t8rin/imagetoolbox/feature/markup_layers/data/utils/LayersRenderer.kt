@@ -206,7 +206,6 @@ internal class LayersRenderer @Inject constructor(
                                 scale = layer.position.scale,
                                 isFlippedHorizontally = layer.position.isFlippedHorizontally,
                                 isFlippedVertically = layer.position.isFlippedVertically,
-                                cornerRadiusPercent = layer.cornerRadiusPercent,
                                 blendingMode = layer.blendingMode,
                                 alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
                             )
@@ -598,7 +597,6 @@ internal class LayersRenderer @Inject constructor(
         scale: Float,
         isFlippedHorizontally: Boolean,
         isFlippedVertically: Boolean,
-        cornerRadiusPercent: Int,
         blendingMode: BlendingMode,
         alpha: Int
     ) {
@@ -615,15 +613,6 @@ internal class LayersRenderer @Inject constructor(
                 -data.height / 2f,
                 data.width / 2f,
                 data.height / 2f
-            )
-
-            clipToRoundedBounds(
-                bounds = destination,
-                cornerRadiusPx = cornerRadiusPx(
-                    cornerRadiusPercent = cornerRadiusPercent,
-                    width = data.width,
-                    height = data.height
-                )
             )
 
             if (blendingMode == BlendingMode.SrcOver && alpha >= 255) {

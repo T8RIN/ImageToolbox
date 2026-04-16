@@ -70,6 +70,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.AnimatedBorder
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -247,7 +248,9 @@ internal fun MarkupLayersSideMenuColumn(
                                     type = type,
                                     textFullSize = previewTextFullSize,
                                     maxLines = layer.visibleLineCount ?: Int.MAX_VALUE,
-                                    cornerRadiusPercent = layer.cornerRadiusPercent
+                                    cornerRadiusPercent = type.layerCornerRadiusPercent(
+                                        layer.cornerRadiusPercent
+                                    )
                                 )
                             }
                         }

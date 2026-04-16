@@ -23,14 +23,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatColorFill
-import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,24 +38,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
-import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayerShapeModes
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowAngle
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowSizeScale
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.cornerRadius
@@ -64,6 +61,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.innerRadiusRatio
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isFilledShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isOutlinedShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isRegular
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.ordinal
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.outlinedFillColorInt
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.rotationDegrees
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateArrow
@@ -76,8 +74,6 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.withOutlinedFillColor
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.withSavedStateFrom
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.icon
-import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.subtitleRes
-import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.titleRes
 import kotlin.math.roundToInt
 
 @Composable
@@ -88,25 +84,95 @@ internal fun ShapeLayerEditorSection(
     onUpdateLayerContinuously: (UiMarkupLayer) -> Unit,
     onContinuousEditFinished: () -> Unit
 ) {
-    var showShapeModePicker by rememberSaveable {
-        mutableStateOf(false)
+    Column(
+        modifier = Modifier.container(
+            shape = ShapeDefaults.large,
+            color = MaterialTheme.colorScheme.surface,
+        )
+    ) {
+        EnhancedButtonGroup(
+            enabled = true,
+            itemCount = MarkupLayerShapeModes.size,
+            title = {
+                Text(
+                    text = stringResource(R.string.shape),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Medium
+                )
+            },
+            selectedIndex = type.shapeMode.ordinal,
+            activeButtonColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+            itemContent = {
+                Icon(
+                    imageVector = MarkupLayerShapeModes[it].kind.icon,
+                    contentDescription = null
+                )
+            },
+            onIndexChange = {
+                val mode = MarkupLayerShapeModes[it]
+                    .withSavedStateFrom(type.shapeMode)
+                    .let { candidate ->
+                        if (candidate.isOutlinedShapeMode() && candidate.outlinedFillColorInt() == null) {
+                            candidate.withOutlinedFillColor(
+                                color = type.shapeMode.outlinedFillColorInt() ?: type.color.takeIf {
+                                    type.shapeMode.isFilledShapeMode()
+                                }
+                            )
+                        } else {
+                            candidate
+                        }
+                    }
+
+                onUpdateLayer(
+                    layer.copy(
+                        cornerRadiusPercent = 0,
+                        type = type.copy(shapeMode = mode)
+                    )
+                )
+            }
+        )
     }
 
-    PreferenceItemOverload(
-        title = stringResource(R.string.shape),
-        subtitle = stringResource(type.drawPathMode.titleRes),
-        onClick = { showShapeModePicker = true },
-        startIcon = {
-            Icon(
-                imageVector = type.drawPathMode.icon,
-                contentDescription = null
-            )
-        },
-        modifier = Modifier.fillMaxWidth(),
-        shape = ShapeDefaults.top,
-        containerColor = MaterialTheme.colorScheme.surface
+    Spacer(modifier = Modifier.height(8.dp))
+    ShapeAppearanceSection(
+        layer = layer,
+        type = type,
+        onUpdateLayer = onUpdateLayer,
+        onUpdateLayerContinuously = onUpdateLayerContinuously,
+        onContinuousEditFinished = onContinuousEditFinished
     )
-    Spacer(modifier = Modifier.height(4.dp))
+
+    Spacer(modifier = Modifier.height(8.dp))
+    ShapeSizeSection(
+        layer = layer,
+        type = type,
+        onUpdateLayerContinuously = onUpdateLayerContinuously,
+        onContinuousEditFinished = onContinuousEditFinished
+    )
+
+    ShapeSpecificControls(
+        layer = layer,
+        type = type,
+        onUpdateLayer = onUpdateLayer,
+        onUpdateLayerContinuously = onUpdateLayerContinuously,
+        onContinuousEditFinished = onContinuousEditFinished
+    )
+}
+
+@Composable
+private fun ShapeAppearanceSection(
+    layer: UiMarkupLayer,
+    type: LayerType.Shape,
+    onUpdateLayer: (UiMarkupLayer) -> Unit,
+    onUpdateLayerContinuously: (UiMarkupLayer) -> Unit,
+    onContinuousEditFinished: () -> Unit
+) {
+    val mode = type.shapeMode
+    val showFillColor = mode.isOutlinedShapeMode()
+    val showStrokeWidth = mode.usesStrokeWidth()
+    val singleItemShape = ShapeDefaults.large
+
     ColorRowSelector(
         value = type.color.toColor(),
         onValueChange = {
@@ -118,24 +184,23 @@ internal fun ShapeLayerEditorSection(
         },
         title = stringResource(R.string.color),
         modifier = Modifier.container(
-            shape = if (type.drawPathMode.isOutlinedShapeMode() || type.drawPathMode.usesStrokeWidth()) {
-                ShapeDefaults.center
-            } else {
-                ShapeDefaults.top
+            shape = when {
+                showFillColor || showStrokeWidth -> ShapeDefaults.top
+                else -> singleItemShape
             },
             color = MaterialTheme.colorScheme.surface
         )
     )
 
-    if (type.drawPathMode.isOutlinedShapeMode()) {
+    if (showFillColor) {
         Spacer(modifier = Modifier.height(4.dp))
         ColorRowSelector(
-            value = type.drawPathMode.outlinedFillColorInt()?.toColor(),
+            value = mode.outlinedFillColorInt()?.toColor(),
             onValueChange = {
                 onUpdateLayer(
                     layer.copy(
                         type = type.copy(
-                            drawPathMode = type.drawPathMode.withOutlinedFillColor(it.toArgb())
+                            shapeMode = mode.withOutlinedFillColor(it.toArgb())
                         )
                     )
                 )
@@ -144,7 +209,7 @@ internal fun ShapeLayerEditorSection(
                 onUpdateLayer(
                     layer.copy(
                         type = type.copy(
-                            drawPathMode = type.drawPathMode.withOutlinedFillColor(null)
+                            shapeMode = mode.withOutlinedFillColor(null)
                         )
                     )
                 )
@@ -153,17 +218,13 @@ internal fun ShapeLayerEditorSection(
             icon = Icons.Outlined.FormatColorFill,
             allowAlpha = true,
             modifier = Modifier.container(
-                shape = if (type.drawPathMode.usesStrokeWidth()) {
-                    ShapeDefaults.center
-                } else {
-                    ShapeDefaults.bottom
-                },
+                shape = if (showStrokeWidth) ShapeDefaults.center else ShapeDefaults.bottom,
                 color = MaterialTheme.colorScheme.surface
             )
         )
     }
 
-    if (type.drawPathMode.usesStrokeWidth()) {
+    if (showStrokeWidth) {
         Spacer(modifier = Modifier.height(4.dp))
         EnhancedSliderItem(
             value = type.strokeWidth,
@@ -172,20 +233,25 @@ internal fun ShapeLayerEditorSection(
             onValueChange = {
                 onUpdateLayerContinuously(
                     layer.copy(
-                        type = type.copy(
-                            strokeWidth = it
-                        )
+                        type = type.copy(strokeWidth = it)
                     )
                 )
             },
             onValueChangeFinished = { _ -> onContinuousEditFinished() },
             valueRange = 1f..48f,
-            shape = ShapeDefaults.bottom,
+            shape = if (showFillColor) ShapeDefaults.bottom else ShapeDefaults.bottom,
             containerColor = MaterialTheme.colorScheme.surface
         )
     }
+}
 
-    Spacer(modifier = Modifier.height(8.dp))
+@Composable
+private fun ShapeSizeSection(
+    layer: UiMarkupLayer,
+    type: LayerType.Shape,
+    onUpdateLayerContinuously: (UiMarkupLayer) -> Unit,
+    onContinuousEditFinished: () -> Unit
+) {
     EnhancedSliderItem(
         value = type.widthRatio,
         title = stringResource(R.string.width, "").trim(),
@@ -205,7 +271,7 @@ internal fun ShapeLayerEditorSection(
     Spacer(modifier = Modifier.height(4.dp))
     EnhancedSliderItem(
         value = type.heightRatio,
-        title = stringResource(R.string.height_ratio),
+        title = stringResource(R.string.height, "").trim(),
         internalStateTransformation = { it.roundToTwoDigits() },
         onValueChange = {
             onUpdateLayerContinuously(
@@ -219,41 +285,6 @@ internal fun ShapeLayerEditorSection(
         shape = ShapeDefaults.bottom,
         containerColor = MaterialTheme.colorScheme.surface
     )
-
-    ShapeSpecificControls(
-        layer = layer,
-        type = type,
-        onUpdateLayer = onUpdateLayer,
-        onUpdateLayerContinuously = onUpdateLayerContinuously,
-        onContinuousEditFinished = onContinuousEditFinished
-    )
-
-    ShapeModeSelectionSheet(
-        visible = showShapeModePicker,
-        current = type.drawPathMode,
-        onDismiss = { showShapeModePicker = it },
-        onSelect = { newMode ->
-            val mode = newMode
-                .withSavedStateFrom(type.drawPathMode)
-                .let { candidate ->
-                    if (
-                        candidate.isOutlinedShapeMode() &&
-                        candidate.outlinedFillColorInt() == null &&
-                        type.drawPathMode.isFilledShapeMode()
-                    ) {
-                        candidate.withOutlinedFillColor(type.color)
-                    } else {
-                        candidate
-                    }
-                }
-            onUpdateLayer(
-                layer.copy(
-                    type = type.copy(drawPathMode = mode)
-                )
-            )
-            showShapeModePicker = false
-        }
-    )
 }
 
 @Composable
@@ -264,11 +295,11 @@ private fun ShapeSpecificControls(
     onUpdateLayerContinuously: (UiMarkupLayer) -> Unit,
     onContinuousEditFinished: () -> Unit
 ) {
-    when (val mode = type.drawPathMode) {
-        is DrawPathMode.PointingArrow,
-        is DrawPathMode.DoublePointingArrow,
-        is DrawPathMode.LinePointingArrow,
-        is DrawPathMode.DoubleLinePointingArrow -> {
+    when (val mode = type.shapeMode) {
+        is ShapeMode.Arrow,
+        is ShapeMode.DoubleArrow,
+        is ShapeMode.LineArrow,
+        is ShapeMode.DoubleLineArrow -> {
             Spacer(modifier = Modifier.height(8.dp))
             EnhancedSliderItem(
                 value = mode.arrowSizeScale(),
@@ -278,7 +309,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updateArrow(sizeScale = it)
+                                shapeMode = mode.updateArrow(sizeScale = it)
                             )
                         )
                     )
@@ -297,7 +328,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updateArrow(angle = it + 90f)
+                                shapeMode = mode.updateArrow(angle = it + 90f)
                             )
                         )
                     )
@@ -309,8 +340,8 @@ private fun ShapeSpecificControls(
             )
         }
 
-        is DrawPathMode.Rect,
-        is DrawPathMode.OutlinedRect -> {
+        is ShapeMode.Rect,
+        is ShapeMode.OutlinedRect -> {
             Spacer(modifier = Modifier.height(8.dp))
             EnhancedSliderItem(
                 value = mode.rotationDegrees().toFloat(),
@@ -320,7 +351,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updateRect(rotationDegrees = it.roundToInt())
+                                shapeMode = mode.updateRect(rotationDegrees = it.roundToInt())
                             )
                         )
                     )
@@ -339,7 +370,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updateRect(cornerRadius = it.roundToTwoDigits())
+                                shapeMode = mode.updateRect(cornerRadius = it.roundToTwoDigits())
                             )
                         )
                     )
@@ -351,8 +382,8 @@ private fun ShapeSpecificControls(
             )
         }
 
-        is DrawPathMode.Polygon,
-        is DrawPathMode.OutlinedPolygon -> {
+        is ShapeMode.Polygon,
+        is ShapeMode.OutlinedPolygon -> {
             Spacer(modifier = Modifier.height(8.dp))
             EnhancedSliderItem(
                 value = mode.vertices().toFloat(),
@@ -362,7 +393,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updatePolygon(vertices = it.roundToInt())
+                                shapeMode = mode.updatePolygon(vertices = it.roundToInt())
                             )
                         )
                     )
@@ -382,7 +413,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updatePolygon(rotationDegrees = it.roundToInt())
+                                shapeMode = mode.updatePolygon(rotationDegrees = it.roundToInt())
                             )
                         )
                     )
@@ -401,7 +432,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayer(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updatePolygon(isRegular = it)
+                                shapeMode = mode.updatePolygon(isRegular = it)
                             )
                         )
                     )
@@ -412,8 +443,8 @@ private fun ShapeSpecificControls(
             )
         }
 
-        is DrawPathMode.Star,
-        is DrawPathMode.OutlinedStar -> {
+        is ShapeMode.Star,
+        is ShapeMode.OutlinedStar -> {
             Spacer(modifier = Modifier.height(8.dp))
             EnhancedSliderItem(
                 value = mode.vertices().toFloat(),
@@ -423,7 +454,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updateStar(vertices = it.roundToInt())
+                                shapeMode = mode.updateStar(vertices = it.roundToInt())
                             )
                         )
                     )
@@ -443,7 +474,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updateStar(rotationDegrees = it.roundToInt())
+                                shapeMode = mode.updateStar(rotationDegrees = it.roundToInt())
                             )
                         )
                     )
@@ -462,7 +493,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayerContinuously(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updateStar(innerRadiusRatio = it.roundToTwoDigits())
+                                shapeMode = mode.updateStar(innerRadiusRatio = it.roundToTwoDigits())
                             )
                         )
                     )
@@ -481,7 +512,7 @@ private fun ShapeSpecificControls(
                     onUpdateLayer(
                         layer.copy(
                             type = type.copy(
-                                drawPathMode = mode.updateStar(isRegular = it)
+                                shapeMode = mode.updateStar(isRegular = it)
                             )
                         )
                     )
@@ -497,68 +528,6 @@ private fun ShapeSpecificControls(
 }
 
 @Composable
-internal fun ShapeModeSelectionSheet(
-    visible: Boolean,
-    current: DrawPathMode,
-    onDismiss: (Boolean) -> Unit,
-    onSelect: (DrawPathMode) -> Unit
-) {
-    EnhancedModalBottomSheet(
-        visible = visible,
-        onDismiss = onDismiss,
-        title = {
-            TitleItem(
-                text = stringResource(R.string.shape),
-                icon = current.icon
-            )
-        },
-        confirmButton = {
-            EnhancedButton(
-                onClick = { onDismiss(false) }
-            ) {
-                Text(stringResource(R.string.close))
-            }
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .enhancedVerticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            MarkupLayerShapeModes.forEachIndexed { index, mode ->
-                PreferenceItemOverload(
-                    title = stringResource(mode.titleRes),
-                    subtitle = mode.subtitleRes?.let { stringResource(it) },
-                    onClick = { onSelect(mode) },
-                    startIcon = {
-                        Icon(
-                            imageVector = mode.icon,
-                            contentDescription = null
-                        )
-                    },
-                    endIcon = if (current::class == mode::class) {
-                        {
-                            Icon(
-                                imageVector = Icons.Rounded.Check,
-                                contentDescription = null
-                            )
-                        }
-                    } else null,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = ShapeDefaults.byIndex(
-                        index = index,
-                        size = MarkupLayerShapeModes.size
-                    ),
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    drawStartIconContainer = false
-                )
-            }
-        }
-    }
-}
-
-@Composable
 internal fun ShapeShadowSection(
     layer: UiMarkupLayer,
     type: LayerType.Shape,
@@ -570,7 +539,7 @@ internal fun ShapeShadowSection(
         mutableStateOf(type.shadow != null)
     }
 
-    androidx.compose.runtime.LaunchedEffect(haveShadow, type.shadow) {
+    LaunchedEffect(haveShadow, type.shadow) {
         val desiredShadow = if (haveShadow) {
             type.shadow ?: DropShadow(
                 color = Color.Black.copy(alpha = 0.75f).toArgb(),

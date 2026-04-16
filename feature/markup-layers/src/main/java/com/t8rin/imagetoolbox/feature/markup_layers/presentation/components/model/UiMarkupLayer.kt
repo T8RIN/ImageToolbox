@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
 
 data class UiMarkupLayer(
@@ -73,7 +74,7 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
     ),
     contentSize = state.contentSize.toIntegerSize(),
     visibleLineCount = visibleLineCount,
-    cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+    cornerRadiusPercent = type.layerCornerRadiusPercent(cornerRadiusPercent),
     isLocked = isLocked,
     blendingMode = blendingMode
 )
@@ -81,7 +82,7 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
 fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
     type = type,
     visibleLineCount = visibleLineCount,
-    cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+    cornerRadiusPercent = type.layerCornerRadiusPercent(cornerRadiusPercent),
     blendingMode = blendingMode,
     isLocked = isLocked,
     state = EditBoxState(

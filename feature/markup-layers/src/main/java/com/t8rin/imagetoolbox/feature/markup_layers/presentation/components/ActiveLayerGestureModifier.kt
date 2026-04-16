@@ -30,6 +30,7 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.positionChanged
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import kotlin.math.PI
@@ -111,7 +112,9 @@ internal fun Modifier.activeLayerGestures(
                             parentMaxWidth = canvasWidth,
                             parentMaxHeight = canvasHeight,
                             contentSize = contentSize,
-                            cornerRadiusPercent = activeLayer.cornerRadiusPercent,
+                            cornerRadiusPercent = activeLayer.type.layerCornerRadiusPercent(
+                                activeLayer.cornerRadiusPercent
+                            ),
                             zoomChange = zoomChange,
                             offsetChange = panChange,
                             rotationChange = rotationChange

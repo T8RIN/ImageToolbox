@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
@@ -37,7 +38,7 @@ internal fun BoxWithConstraintsScope.Layer(
 
     EditBox(
         state = layer.state,
-        cornerRadiusPercent = layer.cornerRadiusPercent,
+        cornerRadiusPercent = type.layerCornerRadiusPercent(layer.cornerRadiusPercent),
         blendingMode = layer.blendingMode,
         isInteractive = !layer.isLocked,
         onTap = {
@@ -72,7 +73,7 @@ internal fun BoxWithConstraintsScope.Layer(
                 modifier = contentModifier,
                 type = type,
                 textFullSize = this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
-                cornerRadiusPercent = layer.cornerRadiusPercent,
+                cornerRadiusPercent = type.layerCornerRadiusPercent(layer.cornerRadiusPercent),
                 onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
                     { result ->
                         val visibleLineCount = if (result.didOverflowHeight) {

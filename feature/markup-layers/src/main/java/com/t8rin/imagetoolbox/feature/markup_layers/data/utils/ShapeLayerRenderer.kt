@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowAngle
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowSizeScale
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.cornerRadius
@@ -68,20 +69,23 @@ internal fun resolveShapeLayerRenderData(
     referenceSize: Float
 ): ShapeLayerRenderData {
     val shadowPadding = calculateShadowPadding(type.shadow)
-    val horizontalShadowPadding = shadowPadding.leftPx + shadowPadding.rightPx
-    val verticalShadowPadding = shadowPadding.topPx + shadowPadding.bottomPx
-    val fallbackContentWidth = (referenceSize * type.widthRatio).coerceAtLeast(1f)
-    val fallbackContentHeight = (referenceSize * type.heightRatio).coerceAtLeast(1f)
-    val width = fallbackContentWidth + horizontalShadowPadding
-    val height = fallbackContentHeight + verticalShadowPadding
+    val shapeWidth = (referenceSize * type.widthRatio).coerceAtLeast(1f)
+    val shapeHeight = (referenceSize * type.heightRatio).coerceAtLeast(1f)
+    val contentInset = calculateShapeContentInset(
+        type = type,
+        shapeWidth = shapeWidth,
+        shapeHeight = shapeHeight
+    )
+    val totalWidth = shapeWidth + contentInset * 2f + shadowPadding.leftPx + shadowPadding.rightPx
+    val totalHeight = shapeHeight + contentInset * 2f + shadowPadding.topPx + shadowPadding.bottomPx
 
     return ShapeLayerRenderData(
-        width = width,
-        height = height,
-        contentLeft = shadowPadding.leftPx,
-        contentTop = shadowPadding.topPx,
-        contentWidth = (width - horizontalShadowPadding).coerceAtLeast(1f),
-        contentHeight = (height - verticalShadowPadding).coerceAtLeast(1f)
+        width = totalWidth,
+        height = totalHeight,
+        contentLeft = shadowPadding.leftPx + contentInset,
+        contentTop = shadowPadding.topPx + contentInset,
+        contentWidth = shapeWidth,
+        contentHeight = shapeHeight
     )
 }
 
@@ -118,7 +122,7 @@ internal fun DrawScope.drawShapeLayer(type: LayerType.Shape) {
         height = size.height
     )
 
-    if (type.drawPathMode.isFilledShapeMode()) {
+    if (type.shapeMode.isFilledShapeMode()) {
         drawPath(
             path = path,
             color = type.color.toColor(),
@@ -127,8 +131,8 @@ internal fun DrawScope.drawShapeLayer(type: LayerType.Shape) {
         return
     }
 
-    if (type.drawPathMode.isOutlinedShapeMode()) {
-        type.drawPathMode.outlinedFillColorInt()?.let {
+    if (type.shapeMode.isOutlinedShapeMode()) {
+        type.shapeMode.outlinedFillColorInt()?.let {
             drawPath(
                 path = path,
                 color = Color(it),
@@ -159,7 +163,7 @@ internal fun Canvas.drawShapeLayer(
         height = height
     ).asAndroidPath()
 
-    if (type.drawPathMode.isFilledShapeMode()) {
+    if (type.shapeMode.isFilledShapeMode()) {
         drawPath(
             path,
             Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -170,8 +174,8 @@ internal fun Canvas.drawShapeLayer(
         return
     }
 
-    if (type.drawPathMode.isOutlinedShapeMode()) {
-        type.drawPathMode.outlinedFillColorInt()?.let {
+    if (type.shapeMode.isOutlinedShapeMode()) {
+        type.shapeMode.outlinedFillColorInt()?.let {
             drawPath(
                 path,
                 Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -209,12 +213,33 @@ private fun renderShapeBitmap(
     )
 }
 
+private fun calculateShapeContentInset(
+    type: LayerType.Shape,
+    shapeWidth: Float,
+    shapeHeight: Float
+): Float {
+    val minDimension = min(shapeWidth, shapeHeight).coerceAtLeast(1f)
+    val baseInset = (minDimension * 0.08f).coerceIn(4f, 24f)
+    val strokeInset = if (type.shapeMode.usesStrokeWidth()) {
+        type.strokeWidth.coerceAtLeast(1f) * 0.75f
+    } else {
+        0f
+    }
+    val shadowInset = type.shadow?.let {
+        it.blurRadius.coerceAtLeast(0f) * 0.18f +
+                max(abs(it.offsetX), abs(it.offsetY)) * 0.1f
+    } ?: 0f
+
+    return max(baseInset, strokeInset + shadowInset)
+        .coerceAtMost(max(shapeWidth, shapeHeight) * 0.2f)
+}
+
 private fun buildShapePath(
     type: LayerType.Shape,
     width: Float,
     height: Float
 ): Path {
-    val strokeInset = if (type.drawPathMode.usesStrokeWidth()) {
+    val strokeInset = if (type.shapeMode.usesStrokeWidth()) {
         type.strokeWidth / 2f + 1f
     } else {
         1f
@@ -224,9 +249,9 @@ private fun buildShapePath(
     val right = max(left + 1f, width - strokeInset)
     val bottom = max(top + 1f, height - strokeInset)
 
-    return when (val mode = type.drawPathMode) {
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Rect,
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.OutlinedRect -> {
+    return when (val mode = type.shapeMode) {
+        is ShapeMode.Rect,
+        is ShapeMode.OutlinedRect -> {
             buildRotatedRoundRectPath(
                 left = left,
                 top = top,
@@ -237,21 +262,21 @@ private fun buildShapePath(
             )
         }
 
-        com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Oval,
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.OutlinedOval -> Path().apply {
+        ShapeMode.Oval,
+        is ShapeMode.OutlinedOval -> Path().apply {
             addOval(Rect(left, top, right, bottom))
         }
 
-        com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Triangle,
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.OutlinedTriangle -> Path().apply {
+        ShapeMode.Triangle,
+        is ShapeMode.OutlinedTriangle -> Path().apply {
             moveTo((left + right) / 2f, top)
             lineTo(right, bottom)
             lineTo(left, bottom)
             close()
         }
 
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Polygon,
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.OutlinedPolygon -> {
+        is ShapeMode.Polygon,
+        is ShapeMode.OutlinedPolygon -> {
             buildPolygonPath(
                 left = left,
                 top = top,
@@ -263,8 +288,8 @@ private fun buildShapePath(
             )
         }
 
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Star,
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.OutlinedStar -> {
+        is ShapeMode.Star,
+        is ShapeMode.OutlinedStar -> {
             buildStarPath(
                 left = left,
                 top = top,
@@ -277,7 +302,7 @@ private fun buildShapePath(
             )
         }
 
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.PointingArrow -> {
+        is ShapeMode.Arrow -> {
             buildFilledArrowPath(
                 left = left,
                 top = top,
@@ -289,7 +314,7 @@ private fun buildShapePath(
             )
         }
 
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.DoublePointingArrow -> {
+        is ShapeMode.DoubleArrow -> {
             buildFilledArrowPath(
                 left = left,
                 top = top,
@@ -301,24 +326,19 @@ private fun buildShapePath(
             )
         }
 
-        com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Line,
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.LinePointingArrow,
-        is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.DoubleLinePointingArrow -> {
+        ShapeMode.Line,
+        is ShapeMode.LineArrow,
+        is ShapeMode.DoubleLineArrow -> {
             buildLineArrowPath(
                 left = left,
                 top = top,
                 right = right,
                 bottom = bottom,
-                drawStartArrow = mode is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.DoubleLinePointingArrow,
-                drawEndArrow = mode is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.LinePointingArrow ||
-                        mode is com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.DoubleLinePointingArrow,
+                drawStartArrow = mode is ShapeMode.DoubleLineArrow,
+                drawEndArrow = mode is ShapeMode.LineArrow || mode is ShapeMode.DoubleLineArrow,
                 sizeScale = mode.arrowSizeScale(),
                 angle = mode.arrowAngle()
             )
-        }
-
-        else -> Path().apply {
-            addRect(Rect(left, top, right, bottom))
         }
     }
 }
@@ -520,7 +540,7 @@ private fun buildFilledArrowPath(
     val height = bottom - top
     val centerY = (top + bottom) / 2f
     val angleRadians = Math.toRadians(angle.coerceIn(100f, 175f).toDouble())
-    val normalizedScale = ((sizeScale.coerceIn(0.5f, 8f) - 0.5f) / 7.5f)
+    val normalizedScale = (sizeScale.coerceIn(0.5f, 8f) - 0.5f) / 7.5f
     val desiredHeadLength = width * (0.22f + normalizedScale * 0.28f)
     val headBackOffset = abs(cos(angleRadians)).toFloat() * desiredHeadLength
     val tipHalfHeight = min(height / 2f, abs(sin(angleRadians)).toFloat() * desiredHeadLength)

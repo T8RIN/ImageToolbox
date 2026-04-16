@@ -81,7 +81,8 @@ data class PictureSnapshot(
 )
 
 data class ShapeSnapshot(
-    val modeOrdinal: Int,
+    val modeName: String? = null,
+    val modeOrdinal: Int = 0,
     val color: Int,
     val strokeWidth: Float,
     val widthRatio: Float,

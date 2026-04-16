@@ -161,8 +161,8 @@ internal fun EditLayerSheet(
 
                 is LayerType.Shape -> {
                     TitleItem(
-                        icon = type.drawPathMode.icon,
-                        text = stringResource(type.drawPathMode.titleRes)
+                        icon = type.shapeMode.kind.icon,
+                        text = stringResource(type.shapeMode.kind.titleRes)
                     )
                 }
             }
@@ -783,29 +783,35 @@ internal fun EditLayerSheet(
                 },
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.surface,
-                shape = ShapeDefaults.center
+                shape = if (layer.type is LayerType.Shape) {
+                    ShapeDefaults.bottom
+                } else {
+                    ShapeDefaults.center
+                }
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            EnhancedSliderItem(
-                value = layer.cornerRadiusPercent,
-                title = stringResource(R.string.corners_size),
-                icon = Icons.Outlined.Percent,
-                internalStateTransformation = {
-                    it.roundToInt()
-                },
-                onValueChange = {
-                    updateLayerContinuously(
-                        layer.copy(
-                            cornerRadiusPercent = it.roundToInt().coerceIn(0, 50)
+            if (layer.type !is LayerType.Shape) {
+                Spacer(modifier = Modifier.height(4.dp))
+                EnhancedSliderItem(
+                    value = layer.cornerRadiusPercent,
+                    title = stringResource(R.string.corners_size),
+                    icon = Icons.Outlined.Percent,
+                    internalStateTransformation = {
+                        it.roundToInt()
+                    },
+                    onValueChange = {
+                        updateLayerContinuously(
+                            layer.copy(
+                                cornerRadiusPercent = it.roundToInt().coerceIn(0, 50)
+                            )
                         )
-                    )
-                },
-                onValueChangeFinished = { _ -> finishContinuousEdit() },
-                valueRange = 0f..50f,
-                steps = 49,
-                shape = ShapeDefaults.bottom,
-                containerColor = MaterialTheme.colorScheme.surface
-            )
+                    },
+                    onValueChangeFinished = { _ -> finishContinuousEdit() },
+                    valueRange = 0f..50f,
+                    steps = 49,
+                    shape = ShapeDefaults.bottom,
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            }
         }
     }
 }

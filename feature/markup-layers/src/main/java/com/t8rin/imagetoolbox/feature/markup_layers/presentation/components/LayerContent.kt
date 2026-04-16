@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildTextShadowRe
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateShadowPadding
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.drawShapeLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.resolveShapeLayerRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import kotlin.math.roundToInt
@@ -109,44 +110,32 @@ private fun ShapeLayerContent(
     textFullSize: Int
 ) {
     val density = LocalDensity.current
-    val shadowPadding = remember(type.shadow) {
-        calculateShadowPadding(type.shadow)
-    }
-    val defaultWidthDp = with(density) {
-        (textFullSize * type.widthRatio + shadowPadding.leftPx + shadowPadding.rightPx).toDp()
-    }
-    val defaultHeightDp = with(density) {
-        (textFullSize * type.heightRatio + shadowPadding.topPx + shadowPadding.bottomPx).toDp()
+    val renderData = remember(type, textFullSize) {
+        resolveShapeLayerRenderData(
+            type = type,
+            referenceSize = textFullSize.toFloat()
+        )
     }
 
     Box(
         modifier = modifier
-            .requiredSize(defaultWidthDp, defaultHeightDp)
+            .requiredSize(
+                width = with(density) { renderData.width.toDp() },
+                height = with(density) { renderData.height.toDp() }
+            )
             .drawWithCache {
-                val contentWidth = (
-                        size.width -
-                                shadowPadding.leftPx -
-                                shadowPadding.rightPx
-                        )
-                    .coerceAtLeast(1f)
-                val contentHeight = (
-                        size.height -
-                                shadowPadding.topPx -
-                                shadowPadding.bottomPx
-                        )
-                    .coerceAtLeast(1f)
                 val shadow = buildShapeShadowRenderData(
                     type = type,
-                    targetWidth = contentWidth,
-                    targetHeight = contentHeight
+                    targetWidth = renderData.contentWidth,
+                    targetHeight = renderData.contentHeight
                 )
 
                 onDrawWithContent {
                     shadow?.let { shadowData ->
                         drawContext.canvas.nativeCanvas.drawBitmap(
                             shadowData.bitmap,
-                            shadowPadding.leftPx + shadowData.left,
-                            shadowPadding.topPx + shadowData.top,
+                            renderData.contentLeft + shadowData.left,
+                            renderData.contentTop + shadowData.top,
                             null
                         )
                     }
@@ -159,10 +148,10 @@ private fun ShapeLayerContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    start = with(density) { shadowPadding.leftPx.toDp() },
-                    top = with(density) { shadowPadding.topPx.toDp() },
-                    end = with(density) { shadowPadding.rightPx.toDp() },
-                    bottom = with(density) { shadowPadding.bottomPx.toDp() }
+                    start = with(density) { renderData.contentLeft.toDp() },
+                    top = with(density) { renderData.contentTop.toDp() },
+                    end = with(density) { (renderData.width - renderData.contentLeft - renderData.contentWidth).toDp() },
+                    bottom = with(density) { (renderData.height - renderData.contentTop - renderData.contentHeight).toDp() }
                 )
         ) {
             drawShapeLayer(type)

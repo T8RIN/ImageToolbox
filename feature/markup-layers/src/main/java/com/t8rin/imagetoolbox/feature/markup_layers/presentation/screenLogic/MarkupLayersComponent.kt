@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
@@ -282,7 +283,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         ) {
             moveBy(
                 offsetChange = offsetChange,
-                cornerRadiusPercent = layer.cornerRadiusPercent
+                cornerRadiusPercent = layer.type.layerCornerRadiusPercent(layer.cornerRadiusPercent)
             )
         }
     }
@@ -298,7 +299,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         ) {
             setScalePrecisely(
                 targetScale = scale,
-                cornerRadiusPercent = layer.cornerRadiusPercent
+                cornerRadiusPercent = layer.type.layerCornerRadiusPercent(layer.cornerRadiusPercent)
             )
         }
     }
@@ -322,7 +323,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             setNormalizedPosition(
                 x = x,
                 y = y,
-                cornerRadiusPercent = layer.cornerRadiusPercent
+                cornerRadiusPercent = layer.type.layerCornerRadiusPercent(layer.cornerRadiusPercent)
             )
         }
     }

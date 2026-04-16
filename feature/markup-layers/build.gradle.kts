@@ -23,7 +23,3 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.markup_layers"
-
-dependencies {
-    implementation(projects.feature.draw)
-}

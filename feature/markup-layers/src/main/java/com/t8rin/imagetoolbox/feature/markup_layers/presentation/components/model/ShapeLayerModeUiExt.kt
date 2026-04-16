@@ -33,59 +33,42 @@ import com.t8rin.imagetoolbox.core.resources.icons.LineDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.Polygon
 import com.t8rin.imagetoolbox.core.resources.icons.Square
 import com.t8rin.imagetoolbox.core.resources.icons.Triangle
-import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
 
-internal val DrawPathMode.titleRes: Int
+internal val ShapeMode.Kind.titleRes: Int
     get() = when (this) {
-        DrawPathMode.Line -> R.string.line
-        is DrawPathMode.PointingArrow -> R.string.arrow
-        is DrawPathMode.DoublePointingArrow -> R.string.double_arrow
-        is DrawPathMode.LinePointingArrow -> R.string.line_arrow
-        is DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow
-        is DrawPathMode.Rect -> R.string.rect
-        is DrawPathMode.OutlinedRect -> R.string.outlined_rect
-        DrawPathMode.Oval -> R.string.oval
-        is DrawPathMode.OutlinedOval -> R.string.outlined_oval
-        DrawPathMode.Triangle -> R.string.triangle
-        is DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle
-        is DrawPathMode.Polygon -> R.string.polygon
-        is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon
-        is DrawPathMode.Star -> R.string.star
-        is DrawPathMode.OutlinedStar -> R.string.outlined_star
-        else -> R.string.shape
+        ShapeMode.Kind.Line -> R.string.line
+        ShapeMode.Kind.Arrow -> R.string.arrow
+        ShapeMode.Kind.DoubleArrow -> R.string.double_arrow
+        ShapeMode.Kind.LineArrow -> R.string.line_arrow
+        ShapeMode.Kind.DoubleLineArrow -> R.string.double_line_arrow
+        ShapeMode.Kind.Rect -> R.string.rect
+        ShapeMode.Kind.OutlinedRect -> R.string.outlined_rect
+        ShapeMode.Kind.Oval -> R.string.oval
+        ShapeMode.Kind.OutlinedOval -> R.string.outlined_oval
+        ShapeMode.Kind.Triangle -> R.string.triangle
+        ShapeMode.Kind.OutlinedTriangle -> R.string.outlined_triangle
+        ShapeMode.Kind.Polygon -> R.string.polygon
+        ShapeMode.Kind.OutlinedPolygon -> R.string.outlined_polygon
+        ShapeMode.Kind.Star -> R.string.star
+        ShapeMode.Kind.OutlinedStar -> R.string.outlined_star
     }
 
-internal val DrawPathMode.subtitleRes: Int?
+internal val ShapeMode.Kind.icon: ImageVector
     get() = when (this) {
-        DrawPathMode.Line -> R.string.line_sub
-        is DrawPathMode.PointingArrow -> R.string.arrow_sub
-        is DrawPathMode.DoublePointingArrow -> R.string.double_arrow_sub
-        is DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
-        is DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
-        is DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
-        is DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
-        is DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle_sub
-        is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon_sub
-        is DrawPathMode.OutlinedStar -> R.string.outlined_star_sub
-        else -> null
-    }
-
-internal val DrawPathMode.icon: ImageVector
-    get() = when (this) {
-        DrawPathMode.Line -> Icons.Rounded.Line
-        is DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
-        is DrawPathMode.DoublePointingArrow -> Icons.Rounded.FreeDoubleArrow
-        is DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
-        is DrawPathMode.DoubleLinePointingArrow -> Icons.Rounded.LineDoubleArrow
-        is DrawPathMode.Rect -> Icons.Rounded.Square
-        is DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
-        DrawPathMode.Oval -> Icons.Rounded.Circle
-        is DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
-        DrawPathMode.Triangle -> Icons.Rounded.Triangle
-        is DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
-        is DrawPathMode.Polygon -> Icons.Rounded.Polygon
-        is DrawPathMode.OutlinedPolygon -> Icons.Outlined.Polygon
-        is DrawPathMode.Star -> Icons.Rounded.Star
-        is DrawPathMode.OutlinedStar -> Icons.Rounded.StarOutline
-        else -> Icons.Rounded.Square
+        ShapeMode.Kind.Line -> Icons.Rounded.Line
+        ShapeMode.Kind.Arrow -> Icons.Rounded.FreeArrow
+        ShapeMode.Kind.DoubleArrow -> Icons.Rounded.FreeDoubleArrow
+        ShapeMode.Kind.LineArrow -> Icons.Rounded.LineArrow
+        ShapeMode.Kind.DoubleLineArrow -> Icons.Rounded.LineDoubleArrow
+        ShapeMode.Kind.Rect -> Icons.Rounded.Square
+        ShapeMode.Kind.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
+        ShapeMode.Kind.Oval -> Icons.Rounded.Circle
+        ShapeMode.Kind.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
+        ShapeMode.Kind.Triangle -> Icons.Rounded.Triangle
+        ShapeMode.Kind.OutlinedTriangle -> Icons.Outlined.Triangle
+        ShapeMode.Kind.Polygon -> Icons.Rounded.Polygon
+        ShapeMode.Kind.OutlinedPolygon -> Icons.Outlined.Polygon
+        ShapeMode.Kind.Star -> Icons.Rounded.Star
+        ShapeMode.Kind.OutlinedStar -> Icons.Rounded.StarOutline
     }

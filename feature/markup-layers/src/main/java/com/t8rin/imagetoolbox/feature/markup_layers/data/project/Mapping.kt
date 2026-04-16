@@ -37,7 +37,6 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayerShapeModes
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
@@ -47,9 +46,11 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowSizeScale
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.cornerRadius
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.innerRadiusRatio
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isRegular
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.ordinal
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.outlinedFillColorInt
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.resolveMarkupLayerShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.rotationDegrees
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.sanitizeForMarkupLayerShape
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateArrow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.updatePolygon
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateRect
@@ -150,7 +151,7 @@ internal class MarkupMapper @Inject constructor(
             type = layerType.toSnapshotType(),
             position = position.toSnapshot(),
             visibleLineCount = visibleLineCount,
-            cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
+            cornerRadiusPercent = layerType.layerCornerRadiusPercent(cornerRadiusPercent),
             isLocked = isLocked,
             blendingMode = blendingMode.value,
             text = (layerType as? LayerType.Text)?.toSnapshot(
@@ -234,19 +235,20 @@ internal class MarkupMapper @Inject constructor(
     }
 
     private fun LayerType.Shape.toSnapshot(): ShapeSnapshot = ShapeSnapshot(
-        modeOrdinal = drawPathMode.ordinal,
+        modeName = shapeMode.kind.name,
+        modeOrdinal = shapeMode.ordinal,
         color = color,
         strokeWidth = strokeWidth,
         widthRatio = widthRatio,
         heightRatio = heightRatio,
-        fillColor = drawPathMode.outlinedFillColorInt(),
-        rotationDegrees = drawPathMode.rotationDegrees(),
-        cornerRadius = drawPathMode.cornerRadius(),
-        vertices = drawPathMode.vertices(),
-        isRegular = drawPathMode.isRegular(),
-        innerRadiusRatio = drawPathMode.innerRadiusRatio(),
-        sizeScale = drawPathMode.arrowSizeScale(),
-        angle = drawPathMode.arrowAngle(),
+        fillColor = shapeMode.outlinedFillColorInt(),
+        rotationDegrees = shapeMode.rotationDegrees(),
+        cornerRadius = shapeMode.cornerRadius(),
+        vertices = shapeMode.vertices(),
+        isRegular = shapeMode.isRegular(),
+        innerRadiusRatio = shapeMode.innerRadiusRatio(),
+        sizeScale = shapeMode.arrowSizeScale(),
+        angle = shapeMode.arrowAngle(),
         shadow = shadow?.toSnapshot()
     )
 
@@ -290,16 +292,19 @@ internal class MarkupMapper @Inject constructor(
 
     private suspend fun LayerSnapshot.toDomain(
         extractionDir: File
-    ): MarkupLayer = MarkupLayer(
-        type = toDomainType(extractionDir),
-        position = position.toDomain(),
-        contentSize = IntegerSize.Zero,
-        visibleLineCount = visibleLineCount,
-        cornerRadiusPercent = cornerRadiusPercent.coerceIn(0, 50),
-        isLocked = isLocked,
-        blendingMode = BlendingMode.entries.find { it.value == blendingMode }
-            ?: BlendingMode.SrcOver
-    )
+    ): MarkupLayer {
+        val layerType = toDomainType(extractionDir)
+        return MarkupLayer(
+            type = layerType,
+            position = position.toDomain(),
+            contentSize = IntegerSize.Zero,
+            visibleLineCount = visibleLineCount,
+            cornerRadiusPercent = layerType.layerCornerRadiusPercent(cornerRadiusPercent),
+            isLocked = isLocked,
+            blendingMode = BlendingMode.entries.find { it.value == blendingMode }
+                ?: BlendingMode.SrcOver
+        )
+    }
 
     private suspend fun LayerSnapshot.toDomainType(
         extractionDir: File
@@ -341,12 +346,12 @@ internal class MarkupMapper @Inject constructor(
     )
 
     private fun ShapeSnapshot.toDomain(): LayerType.Shape {
-        val baseMode = MarkupLayerShapeModes
-            .firstOrNull { it.ordinal == modeOrdinal }
-            ?.sanitizeForMarkupLayerShape()
-            ?: LayerType.Shape.Default.drawPathMode
+        val baseMode = resolveMarkupLayerShapeMode(
+            modeName = modeName,
+            modeOrdinal = modeOrdinal
+        )
 
-        val drawPathMode = baseMode
+        val shapeMode = baseMode
             .updateArrow(
                 sizeScale = sizeScale,
                 angle = angle
@@ -369,7 +374,7 @@ internal class MarkupMapper @Inject constructor(
             .withOutlinedFillColor(fillColor)
 
         return LayerType.Shape(
-            drawPathMode = drawPathMode,
+            shapeMode = shapeMode,
             color = color,
             strokeWidth = strokeWidth,
             widthRatio = widthRatio,

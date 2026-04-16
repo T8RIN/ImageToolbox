@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.modalsheet.FullscreenPopup
 
@@ -124,7 +125,9 @@ internal fun MarkupLayersSideMenu(
                             derivedStateOf {
                                 activeLayer?.let { layer ->
                                     layer.state.normalizedPosition(
-                                        cornerRadiusPercent = layer.cornerRadiusPercent
+                                        cornerRadiusPercent = layer.type.layerCornerRadiusPercent(
+                                            layer.cornerRadiusPercent
+                                        )
                                     )
                                 }
                             }

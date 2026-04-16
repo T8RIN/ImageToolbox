@@ -21,7 +21,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
-import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 
 data class MarkupLayer(
     val type: LayerType,
@@ -122,7 +121,7 @@ sealed interface LayerType {
     }
 
     data class Shape(
-        val drawPathMode: DrawPathMode,
+        val shapeMode: ShapeMode,
         val color: Int,
         val strokeWidth: Float = 8f,
         val widthRatio: Float = 0.35f,
@@ -133,7 +132,7 @@ sealed interface LayerType {
         companion object {
             val Default by lazy {
                 Shape(
-                    drawPathMode = DrawPathMode.OutlinedRect(),
+                    shapeMode = ShapeMode.Star(),
                     color = -16777216,
                     strokeWidth = 8f,
                     widthRatio = 0.35f,
@@ -143,4 +142,9 @@ sealed interface LayerType {
             }
         }
     }
+}
+
+internal fun LayerType.layerCornerRadiusPercent(value: Int): Int = when (this) {
+    is LayerType.Shape -> 0
+    else -> value.coerceIn(0, 50)
 }
