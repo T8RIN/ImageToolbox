@@ -287,7 +287,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                             .heightIn(min = 50.dp),
                         title = stringResource(R.string.scale),
                         value = scale ?: 1f,
-                        valueRange = 0.3f..10f,
+                        valueRange = 0.1f..10f,
                         enabled = transformActionsEnabled,
                         sliderEnabled = scale != null,
                         onValueClick = {

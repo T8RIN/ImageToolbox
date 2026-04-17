@@ -149,7 +149,10 @@ class EditBoxState(
         rotationChange: Float
     ) {
         rotation += rotationChange
-        scale = (scale * zoomChange).fastCoerceIn(0.3f, 10f)
+        scale = (scale * zoomChange).fastCoerceIn(
+            minimumValue = SCALE_RANGE.start,
+            maximumValue = SCALE_RANGE.endInclusive
+        )
 
         val halfExtents = contentSize.rotatedHalfExtents(
             degrees = rotation,
@@ -224,7 +227,10 @@ class EditBoxState(
             // relative to the preview after canvas resize. Layers already capped
             // by `sizeIn(max = canvas / 2)` will remeasure on their own.
             if (contentSize.isSpecified() && !contentSize.isBoundedByCanvas(previousCanvasSize)) {
-                scale = (scale * min(sx, sy)).fastCoerceIn(0.3f, 10f)
+                scale = (scale * min(sx, sy)).fastCoerceIn(
+                    minimumValue = SCALE_RANGE.start,
+                    maximumValue = SCALE_RANGE.endInclusive
+                )
             }
         }
         _canvasSize.value = value
@@ -320,7 +326,10 @@ class EditBoxState(
         cornerRadiusPercent: Int
     ) {
         val contentSize = contentSize
-        val scale = targetScale.fastCoerceIn(0.3f, 10f)
+        val scale = targetScale.fastCoerceIn(
+            minimumValue = SCALE_RANGE.start,
+            maximumValue = SCALE_RANGE.endInclusive
+        )
 
         if (contentSize.width <= 0 || contentSize.height <= 0) {
             this.scale = scale
@@ -449,3 +458,4 @@ private fun Offset.rotateBy(
 }
 
 private const val ROTATION_CONST = (Math.PI / 180f).toFloat()
+private val SCALE_RANGE = 0.1f..10f
