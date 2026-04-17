@@ -148,23 +148,21 @@ internal fun MarkupLayersActions(
                 ) {
                     EnhancedIconButton(
                         onClick = {
-                            showShapePicker = true
-                        },
-                        forceMinimumInteractiveComponentSize = false
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.StarSticky,
-                            contentDescription = null
-                        )
-                    }
-                    EnhancedIconButton(
-                        onClick = {
                             showTextEnteringDialog = true
                         },
                         forceMinimumInteractiveComponentSize = false
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.TextSticky,
+                            contentDescription = null
+                        )
+                    }
+                    EnhancedIconButton(
+                        onClick = layerImagePicker::pickImage,
+                        forceMinimumInteractiveComponentSize = false
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.ImageSticky,
                             contentDescription = null
                         )
                     }
@@ -180,11 +178,13 @@ internal fun MarkupLayersActions(
                         )
                     }
                     EnhancedIconButton(
-                        onClick = layerImagePicker::pickImage,
+                        onClick = {
+                            showShapePicker = true
+                        },
                         forceMinimumInteractiveComponentSize = false
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.ImageSticky,
+                            imageVector = Icons.Outlined.StarSticky,
                             contentDescription = null
                         )
                     }
