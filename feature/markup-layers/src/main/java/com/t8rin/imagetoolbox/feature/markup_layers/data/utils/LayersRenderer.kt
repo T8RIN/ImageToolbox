@@ -27,6 +27,7 @@ import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.withSave
 import coil3.ImageLoader
 import coil3.request.ImageRequest
@@ -426,17 +427,18 @@ internal class LayersRenderer @Inject constructor(
                     bounds = destination
                 )
             } else {
-                val checkpoint = saveLayer(
+                drawBitmap(
+                    renderTextLayerBitmap(
+                        data = data,
+                        cornerRadiusPercent = cornerRadiusPercent
+                    ),
+                    null,
                     destination,
                     blendingMode.toPaint().apply {
                         this.alpha = alpha
+                        isFilterBitmap = true
                     }
                 )
-                drawTextLayerContent(
-                    data = data,
-                    bounds = destination
-                )
-                restoreToCount(checkpoint)
             }
         }
     }
@@ -519,20 +521,20 @@ internal class LayersRenderer @Inject constructor(
                     cornerRadiusPercent = cornerRadiusPercent
                 )
             } else {
-                val checkpoint = saveLayer(
+                drawBitmap(
+                    renderPictureLayerBitmap(
+                        bitmap = bitmap,
+                        data = data,
+                        shadowRenderData = shadowRenderData,
+                        cornerRadiusPercent = cornerRadiusPercent
+                    ),
+                    null,
                     destination,
                     blendingMode.toPaint().apply {
                         this.alpha = alpha
+                        isFilterBitmap = true
                     }
                 )
-                drawPictureLayerContent(
-                    bitmap = bitmap,
-                    data = data,
-                    bounds = destination,
-                    shadowRenderData = shadowRenderData,
-                    cornerRadiusPercent = cornerRadiusPercent
-                )
-                restoreToCount(checkpoint)
             }
         }
     }
@@ -625,19 +627,19 @@ internal class LayersRenderer @Inject constructor(
                     shadowRenderData = shadowRenderData
                 )
             } else {
-                val checkpoint = saveLayer(
+                drawBitmap(
+                    renderShapeLayerBitmap(
+                        type = type,
+                        data = data,
+                        shadowRenderData = shadowRenderData
+                    ),
+                    null,
                     destination,
                     blendingMode.toPaint().apply {
                         this.alpha = alpha
+                        isFilterBitmap = true
                     }
                 )
-                drawShapeLayerContent(
-                    type = type,
-                    data = data,
-                    bounds = destination,
-                    shadowRenderData = shadowRenderData
-                )
-                restoreToCount(checkpoint)
             }
         }
     }
@@ -679,6 +681,90 @@ internal class LayersRenderer @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun renderTextLayerBitmap(
+        data: TextLayerRenderData,
+        cornerRadiusPercent: Int
+    ): Bitmap = createLayerBitmap(
+        width = data.width,
+        height = data.height
+    ) { canvas ->
+        val bounds = RectF(
+            0f,
+            0f,
+            data.width,
+            data.height
+        )
+        canvas.withSave {
+            clipToRoundedBounds(
+                bounds = bounds,
+                cornerRadiusPx = cornerRadiusPx(
+                    cornerRadiusPercent = cornerRadiusPercent,
+                    width = data.width,
+                    height = data.height
+                )
+            )
+            drawTextLayerContent(
+                data = data,
+                bounds = bounds
+            )
+        }
+    }
+
+    private fun renderPictureLayerBitmap(
+        bitmap: Bitmap,
+        data: PictureLayerRenderData,
+        shadowRenderData: PictureShadowRenderData?,
+        cornerRadiusPercent: Int
+    ): Bitmap = createLayerBitmap(
+        width = data.width,
+        height = data.height
+    ) { canvas ->
+        canvas.drawPictureLayerContent(
+            bitmap = bitmap,
+            data = data,
+            bounds = RectF(
+                0f,
+                0f,
+                data.width,
+                data.height
+            ),
+            shadowRenderData = shadowRenderData,
+            cornerRadiusPercent = cornerRadiusPercent
+        )
+    }
+
+    private fun renderShapeLayerBitmap(
+        type: LayerType.Shape,
+        data: ShapeLayerRenderData,
+        shadowRenderData: PictureShadowRenderData?
+    ): Bitmap = createLayerBitmap(
+        width = data.width,
+        height = data.height
+    ) { canvas ->
+        canvas.drawShapeLayerContent(
+            type = type,
+            data = data,
+            bounds = RectF(
+                0f,
+                0f,
+                data.width,
+                data.height
+            ),
+            shadowRenderData = shadowRenderData
+        )
+    }
+
+    private inline fun createLayerBitmap(
+        width: Float,
+        height: Float,
+        draw: (Canvas) -> Unit
+    ): Bitmap = createBitmap(
+        ceil(width.toDouble()).toInt().coerceAtLeast(1),
+        ceil(height.toDouble()).toInt().coerceAtLeast(1)
+    ).apply {
+        draw(Canvas(this))
     }
 
     private fun resolveShadowRasterScale(
