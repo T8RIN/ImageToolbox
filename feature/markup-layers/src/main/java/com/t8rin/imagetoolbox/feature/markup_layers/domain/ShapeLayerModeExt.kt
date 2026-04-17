@@ -164,6 +164,20 @@ sealed interface ShapeMode {
     }
 }
 
+private data class ShapeSizePreset(
+    val widthRatio: Float,
+    val heightRatio: Float
+)
+
+private enum class ShapeGeometryFamily {
+    Line,
+    FilledArrow,
+    RectLike,
+    Triangle,
+    Polygon,
+    Star
+}
+
 internal val ShapeMode.ordinal: Int
     get() = ShapeMode.entries.indexOfFirst { it.kind == kind }
         .takeIf { it >= 0 }
@@ -433,6 +447,86 @@ internal fun ShapeMode.withSavedStateFrom(previous: ShapeMode): ShapeMode {
 
         else -> this
     }
+}
+
+internal fun LayerType.Shape.withPreferredGeometryFor(
+    newMode: ShapeMode
+): LayerType.Shape {
+    val previousKind = shapeMode.kind
+    val updatedType = copy(shapeMode = newMode)
+    if (previousKind.geometryFamily() == newMode.kind.geometryFamily()) {
+        return updatedType
+    }
+
+    val preset = newMode.kind.preferredSizePreset()
+    return updatedType.copy(
+        widthRatio = preset.widthRatio,
+        heightRatio = preset.heightRatio
+    )
+}
+
+private fun ShapeMode.Kind.geometryFamily(): ShapeGeometryFamily = when (this) {
+    ShapeMode.Kind.Line,
+    ShapeMode.Kind.LineArrow,
+    ShapeMode.Kind.DoubleLineArrow -> ShapeGeometryFamily.Line
+
+    ShapeMode.Kind.Arrow,
+    ShapeMode.Kind.DoubleArrow -> ShapeGeometryFamily.FilledArrow
+
+    ShapeMode.Kind.Rect,
+    ShapeMode.Kind.OutlinedRect,
+    ShapeMode.Kind.Oval,
+    ShapeMode.Kind.OutlinedOval -> ShapeGeometryFamily.RectLike
+
+    ShapeMode.Kind.Triangle,
+    ShapeMode.Kind.OutlinedTriangle -> ShapeGeometryFamily.Triangle
+
+    ShapeMode.Kind.Polygon,
+    ShapeMode.Kind.OutlinedPolygon -> ShapeGeometryFamily.Polygon
+
+    ShapeMode.Kind.Star,
+    ShapeMode.Kind.OutlinedStar -> ShapeGeometryFamily.Star
+}
+
+private fun ShapeMode.Kind.preferredSizePreset(): ShapeSizePreset = when (this) {
+    ShapeMode.Kind.Line,
+    ShapeMode.Kind.LineArrow,
+    ShapeMode.Kind.DoubleLineArrow -> ShapeSizePreset(
+        widthRatio = 0.5f,
+        heightRatio = 0.1f
+    )
+
+    ShapeMode.Kind.Arrow,
+    ShapeMode.Kind.DoubleArrow -> ShapeSizePreset(
+        widthRatio = 0.5f,
+        heightRatio = 0.2f
+    )
+
+    ShapeMode.Kind.Rect,
+    ShapeMode.Kind.OutlinedRect,
+    ShapeMode.Kind.Oval,
+    ShapeMode.Kind.OutlinedOval -> ShapeSizePreset(
+        widthRatio = 0.42f,
+        heightRatio = 0.28f
+    )
+
+    ShapeMode.Kind.Triangle,
+    ShapeMode.Kind.OutlinedTriangle -> ShapeSizePreset(
+        widthRatio = 0.36f,
+        heightRatio = 0.32f
+    )
+
+    ShapeMode.Kind.Polygon,
+    ShapeMode.Kind.OutlinedPolygon -> ShapeSizePreset(
+        widthRatio = 0.36f,
+        heightRatio = 0.36f
+    )
+
+    ShapeMode.Kind.Star,
+    ShapeMode.Kind.OutlinedStar -> ShapeSizePreset(
+        widthRatio = 0.38f,
+        heightRatio = 0.38f
+    )
 }
 
 private const val DEFAULT_ARROW_SIZE_SCALE = 3f

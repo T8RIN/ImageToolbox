@@ -71,6 +71,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateStar
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.usesStrokeWidth
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.vertices
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.withOutlinedFillColor
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.withPreferredGeometryFor
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.withSavedStateFrom
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.icon
@@ -125,7 +126,7 @@ internal fun ShapeLayerEditorSection(
                 onUpdateLayer(
                     layer.copy(
                         cornerRadiusPercent = 0,
-                        type = type.copy(shapeMode = mode)
+                        type = type.withPreferredGeometryFor(mode)
                     )
                 )
             }
