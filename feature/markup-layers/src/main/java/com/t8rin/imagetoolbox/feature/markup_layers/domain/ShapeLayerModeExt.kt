@@ -507,7 +507,7 @@ private fun ShapeMode.Kind.preferredSizePreset(): ShapeSizePreset = when (this) 
     ShapeMode.Kind.Oval,
     ShapeMode.Kind.OutlinedOval -> ShapeSizePreset(
         widthRatio = 0.42f,
-        heightRatio = 0.28f
+        heightRatio = 0.42f
     )
 
     ShapeMode.Kind.Triangle,
