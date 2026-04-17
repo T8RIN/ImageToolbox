@@ -224,7 +224,7 @@ internal fun MarkupLayersActions(
         icon = Icons.Outlined.EmojiSticky
     )
 
-    AddShapeLayerSheet(
+    AddShapeLayerDialog(
         visible = showShapePicker,
         onDismiss = {
             showShapePicker = false
