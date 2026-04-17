@@ -421,15 +421,7 @@ internal fun EditLayerSheet(
                     }
                     LaunchedEffect(haveShadow, type.shadow, type.color) {
                         val desiredShadow = if (haveShadow) {
-                            type.shadow ?: DropShadow(
-                                color = type.color.toColor()
-                                    .inverseByLuma()
-                                    .copy(alpha = 0.75f)
-                                    .toArgb(),
-                                offsetX = 0f,
-                                offsetY = 6f,
-                                blurRadius = 12f
-                            )
+                            type.shadow ?: DropShadow.Default
                         } else null
 
                         if (type.shadow != desiredShadow) {
@@ -501,7 +493,7 @@ internal fun EditLayerSheet(
                                             )
                                         },
                                         onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = 0f..48f,
+                                        valueRange = DropShadow.BlurRadiusRange,
                                         shape = ShapeDefaults.center,
                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                                     )
@@ -523,7 +515,7 @@ internal fun EditLayerSheet(
                                             )
                                         },
                                         onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = -48f..48f,
+                                        valueRange = DropShadow.OffsetXRange,
                                         shape = ShapeDefaults.center,
                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                                     )
@@ -545,7 +537,7 @@ internal fun EditLayerSheet(
                                             )
                                         },
                                         onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = -48f..48f,
+                                        valueRange = DropShadow.OffsetYRange,
                                         shape = ShapeDefaults.bottom,
                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                                     )
@@ -838,12 +830,7 @@ private fun PictureShadowSection(
     }
     LaunchedEffect(haveShadow, type.shadow) {
         val desiredShadow = if (haveShadow) {
-            type.shadow ?: DropShadow(
-                color = Color.Black.copy(alpha = 0.75f).toArgb(),
-                offsetX = 0f,
-                offsetY = 6f,
-                blurRadius = 12f
-            )
+            type.shadow ?: DropShadow.Default
         } else null
 
         if (type.shadow != desiredShadow) {
@@ -913,7 +900,7 @@ private fun PictureShadowSection(
                             )
                         },
                         onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = 0f..48f,
+                        valueRange = DropShadow.BlurRadiusRange,
                         shape = ShapeDefaults.center,
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                     )
@@ -935,7 +922,7 @@ private fun PictureShadowSection(
                             )
                         },
                         onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = -48f..48f,
+                        valueRange = DropShadow.OffsetXRange,
                         shape = ShapeDefaults.center,
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                     )
@@ -957,7 +944,7 @@ private fun PictureShadowSection(
                             )
                         },
                         onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = -48f..48f,
+                        valueRange = DropShadow.OffsetYRange,
                         shape = ShapeDefaults.bottom,
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                     )

@@ -37,7 +37,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -254,7 +253,7 @@ private fun ShapeAppearanceSection(
                     )
                 },
                 onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                valueRange = 1f..48f,
+                valueRange = 1f..64f,
                 shape = if (showFillColor) ShapeDefaults.bottom else ShapeDefaults.bottom,
                 containerColor = MaterialTheme.colorScheme.surface
             )
@@ -560,12 +559,7 @@ internal fun ShapeShadowSection(
 
     LaunchedEffect(haveShadow, type.shadow) {
         val desiredShadow = if (haveShadow) {
-            type.shadow ?: DropShadow(
-                color = Color.Black.copy(alpha = 0.75f).toArgb(),
-                offsetX = 0f,
-                offsetY = 6f,
-                blurRadius = 12f
-            )
+            type.shadow ?: DropShadow.Default
         } else null
 
         if (type.shadow != desiredShadow) {
@@ -632,7 +626,7 @@ internal fun ShapeShadowSection(
                                 )
                             },
                             onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                            valueRange = 0f..48f,
+                            valueRange = DropShadow.BlurRadiusRange,
                             shape = ShapeDefaults.center,
                             containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                         )
@@ -652,7 +646,7 @@ internal fun ShapeShadowSection(
                                 )
                             },
                             onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                            valueRange = -48f..48f,
+                            valueRange = DropShadow.OffsetXRange,
                             shape = ShapeDefaults.center,
                             containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                         )
@@ -672,7 +666,7 @@ internal fun ShapeShadowSection(
                                 )
                             },
                             onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                            valueRange = -48f..48f,
+                            valueRange = DropShadow.OffsetYRange,
                             shape = ShapeDefaults.bottom,
                             containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                         )

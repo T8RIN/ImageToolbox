@@ -53,11 +53,24 @@ data class TextGeometricTransform(
 )
 
 data class DropShadow(
-    val color: Int,
+    val color: Int = 0xFF000000.toInt(),
     val offsetX: Float = 0f,
-    val offsetY: Float = 0f,
-    val blurRadius: Float = 0f
-)
+    val offsetY: Float = 6f,
+    val blurRadius: Float = 12f
+) {
+    companion object {
+        val Default = DropShadow()
+
+        val BlurRadiusRange: ClosedFloatingPointRange<Float>
+            get() = 0f..82f
+
+        val OffsetXRange: ClosedFloatingPointRange<Float>
+            get() = -82f..82f
+
+        val OffsetYRange: ClosedFloatingPointRange<Float>
+            get() = -82f..82f
+    }
+}
 
 sealed interface LayerType {
     data class Text(
