@@ -123,7 +123,7 @@ sealed interface LayerType {
     data class Shape(
         val shapeMode: ShapeMode,
         val color: Int,
-        val strokeWidth: Float = 8f,
+        val strokeWidth: Float = 16f,
         val widthRatio: Float = 0.35f,
         val heightRatio: Float = 0.35f,
         val shadow: DropShadow? = null
@@ -134,7 +134,7 @@ sealed interface LayerType {
                 Shape(
                     shapeMode = ShapeMode.Star(),
                     color = -16777216,
-                    strokeWidth = 8f,
+                    strokeWidth = 16f,
                     widthRatio = 0.35f,
                     heightRatio = 0.35f,
                     shadow = null

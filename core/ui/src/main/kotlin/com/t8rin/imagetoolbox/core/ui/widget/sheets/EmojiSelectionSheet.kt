@@ -61,6 +61,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -96,6 +97,7 @@ fun EmojiSelectionSheet(
     allEmojis: ImmutableList<Uri> = Emoji.allIcons(),
     onEmojiPicked: (Int) -> Unit,
     visible: Boolean,
+    icon: ImageVector = Icons.Outlined.Face5,
     onDismiss: () -> Unit
 ) {
     val state = rememberLazyGridState()
@@ -162,7 +164,7 @@ fun EmojiSelectionSheet(
         title = {
             TitleItem(
                 text = stringResource(R.string.emoji),
-                icon = Icons.Outlined.Face5
+                icon = icon
             )
         },
         visible = visible,

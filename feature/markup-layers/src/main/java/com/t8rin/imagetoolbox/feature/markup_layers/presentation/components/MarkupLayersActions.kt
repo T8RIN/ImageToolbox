@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.EmojiSelectionSheet
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.withPreferredInitialGeometryFor
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
@@ -71,7 +72,6 @@ internal fun MarkupLayersActions(
     onToggleLayersSectionQuick: () -> Unit
 ) {
     val layerImagePicker = rememberImagePicker { uri: Uri ->
-        component.deactivateAllLayers()
         component.addLayer(
             UiMarkupLayer(
                 type = LayerType.Picture.Image(uri)
@@ -82,6 +82,9 @@ internal fun MarkupLayersActions(
         mutableStateOf(false)
     }
     var showEmojiPicker by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var showShapePicker by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -145,12 +148,7 @@ internal fun MarkupLayersActions(
                 ) {
                     EnhancedIconButton(
                         onClick = {
-                            component.deactivateAllLayers()
-                            component.addLayer(
-                                UiMarkupLayer(
-                                    type = LayerType.Shape.Default
-                                )
-                            )
+                            showShapePicker = true
                         },
                         forceMinimumInteractiveComponentSize = false
                     ) {
@@ -212,7 +210,6 @@ internal fun MarkupLayersActions(
         selectedEmojiIndex = null,
         allEmojis = allEmojis,
         onEmojiPicked = {
-            component.deactivateAllLayers()
             component.addLayer(
                 UiMarkupLayer(
                     type = LayerType.Picture.Sticker(allEmojis[it])
@@ -223,16 +220,29 @@ internal fun MarkupLayersActions(
         visible = showEmojiPicker,
         onDismiss = {
             showEmojiPicker = false
+        },
+        icon = Icons.Outlined.EmojiSticky
+    )
+
+    AddShapeLayerSheet(
+        visible = showShapePicker,
+        onDismiss = {
+            showShapePicker = false
+        },
+        onShapePicked = { mode ->
+            component.addLayer(
+                UiMarkupLayer(
+                    type = LayerType.Shape.Default.withPreferredInitialGeometryFor(mode)
+                )
+            )
+            showShapePicker = false
         }
     )
 
     AddTextLayerDialog(
         visible = showTextEnteringDialog,
         onDismiss = { showTextEnteringDialog = false },
-        onAddLayer = {
-            component.deactivateAllLayers()
-            component.addLayer(it)
-        }
+        onAddLayer = component::addLayer
     )
 }
 

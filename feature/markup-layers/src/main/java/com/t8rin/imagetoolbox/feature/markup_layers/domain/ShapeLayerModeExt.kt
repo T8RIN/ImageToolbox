@@ -465,6 +465,17 @@ internal fun LayerType.Shape.withPreferredGeometryFor(
     )
 }
 
+internal fun LayerType.Shape.withPreferredInitialGeometryFor(
+    mode: ShapeMode
+): LayerType.Shape {
+    val preset = mode.kind.preferredSizePreset()
+    return copy(
+        shapeMode = mode,
+        widthRatio = preset.widthRatio,
+        heightRatio = preset.heightRatio
+    )
+}
+
 private fun ShapeMode.Kind.geometryFamily(): ShapeGeometryFamily = when (this) {
     ShapeMode.Kind.Line,
     ShapeMode.Kind.LineArrow,

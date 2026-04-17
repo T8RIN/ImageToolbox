@@ -154,6 +154,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun addLayer(layer: UiMarkupLayer) {
+        deactivateAllLayers()
         runEditorChange {
             _layers.update { it + layer }
         }
