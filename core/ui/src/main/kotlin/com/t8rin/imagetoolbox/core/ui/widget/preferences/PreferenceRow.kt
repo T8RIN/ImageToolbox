@@ -23,6 +23,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,6 +45,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -210,7 +212,13 @@ fun PreferenceRow(
         if (additionalContent != null) {
             Column(rowModifier) {
                 rowContent(Modifier)
-                additionalContent()
+                Column(
+                    modifier = Modifier.pointerInput(Unit) {
+                        detectTapGestures { }
+                    }
+                ) {
+                    additionalContent()
+                }
             }
         } else {
             rowContent(rowModifier)

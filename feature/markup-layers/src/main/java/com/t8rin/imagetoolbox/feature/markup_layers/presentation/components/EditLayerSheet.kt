@@ -359,7 +359,10 @@ internal fun EditLayerSheet(
                             haveTextGeometry = it
                         },
                         additionalContent = {
-                            AnimatedVisibility(type.geometricTransform != null) {
+                            AnimatedVisibility(
+                                visible = type.geometricTransform != null,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
                                 Column(
                                     verticalArrangement = Arrangement.spacedBy(4.dp),
                                     modifier = Modifier.padding(top = 16.dp)
@@ -452,7 +455,10 @@ internal fun EditLayerSheet(
                             haveShadow = it
                         },
                         additionalContent = {
-                            AnimatedVisibility(type.shadow != null) {
+                            AnimatedVisibility(
+                                visible = type.shadow != null,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
                                 Column(
                                     verticalArrangement = Arrangement.spacedBy(4.dp),
                                     modifier = Modifier.padding(top = 16.dp)
@@ -584,7 +590,10 @@ internal fun EditLayerSheet(
                             haveOutline = it
                         },
                         additionalContent = {
-                            AnimatedVisibility(type.outline != null) {
+                            AnimatedVisibility(
+                                visible = type.outline != null,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
                                 Column(
                                     verticalArrangement = Arrangement.spacedBy(4.dp),
                                     modifier = Modifier.padding(top = 16.dp)
@@ -858,7 +867,10 @@ private fun PictureShadowSection(
             haveShadow = it
         },
         additionalContent = {
-            AnimatedVisibility(type.shadow != null) {
+            AnimatedVisibility(
+                visible = type.shadow != null,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.padding(top = 16.dp)
