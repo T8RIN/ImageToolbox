@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Signature
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -77,7 +78,8 @@ fun SignatureSelector(
                         end = 16.dp,
                         bottom = 16.dp
                     ),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    flingBehavior = enhancedFlingBehavior()
                 ) {
                     items(savedSignatures) { signature ->
                         Picture(
