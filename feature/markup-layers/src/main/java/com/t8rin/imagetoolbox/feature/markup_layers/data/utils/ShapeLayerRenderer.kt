@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
@@ -61,46 +62,97 @@ internal data class ShapeLayerRenderData(
     val contentLeft: Float,
     val contentTop: Float,
     val contentWidth: Float,
-    val contentHeight: Float
+    val contentHeight: Float,
+    val shapeWidth: Float,
+    val shapeHeight: Float,
+    val shapeTranslateX: Float,
+    val shapeTranslateY: Float
 )
 
 internal fun resolveShapeLayerRenderData(
     type: LayerType.Shape,
-    referenceSize: Float
+    referenceSize: Float,
+    contentSize: IntegerSize = IntegerSize.Zero,
+    maxWidth: Float = Float.POSITIVE_INFINITY,
+    maxHeight: Float = Float.POSITIVE_INFINITY
 ): ShapeLayerRenderData {
     val shadowPadding = calculateShadowPadding(type.shadow)
-    val shapeWidth = (referenceSize * type.widthRatio).coerceAtLeast(1f)
-    val shapeHeight = (referenceSize * type.heightRatio).coerceAtLeast(1f)
-    val contentInset = calculateShapeContentInset(
+    val horizontalShadowPadding = shadowPadding.leftPx + shadowPadding.rightPx
+    val verticalShadowPadding = shadowPadding.topPx + shadowPadding.bottomPx
+    val desiredShapeWidth = (referenceSize * type.widthRatio).coerceAtLeast(1f)
+    val desiredShapeHeight = (referenceSize * type.heightRatio).coerceAtLeast(1f)
+    val constrainedSize = contentSize.takeIf { it.width > 0 && it.height > 0 }
+    val availableContentWidth = constrainedSize?.width?.toFloat()?.let {
+        (it - horizontalShadowPadding).coerceAtLeast(1f)
+    } ?: maxWidth
+        .takeIf(Float::isFinite)
+        ?.let { (it - horizontalShadowPadding).coerceAtLeast(1f) }
+    ?: Float.POSITIVE_INFINITY
+    val availableContentHeight = constrainedSize?.height?.toFloat()?.let {
+        (it - verticalShadowPadding).coerceAtLeast(1f)
+    } ?: maxHeight
+        .takeIf(Float::isFinite)
+        ?.let { (it - verticalShadowPadding).coerceAtLeast(1f) }
+    ?: Float.POSITIVE_INFINITY
+    val desiredPlacement = resolveShapePlacement(
+        type = type,
+        shapeWidth = desiredShapeWidth,
+        shapeHeight = desiredShapeHeight
+    )
+    val fitScale = min(
+        1f,
+        min(
+            availableContentWidth / desiredPlacement.contentWidth,
+            availableContentHeight / desiredPlacement.contentHeight
+        )
+    ).coerceAtLeast(0.01f)
+    val shapeWidth = desiredShapeWidth * fitScale
+    val shapeHeight = desiredShapeHeight * fitScale
+    val placement = if (fitScale == 1f) desiredPlacement else resolveShapePlacement(
         type = type,
         shapeWidth = shapeWidth,
         shapeHeight = shapeHeight
     )
-    val totalWidth = shapeWidth + contentInset * 2f + shadowPadding.leftPx + shadowPadding.rightPx
-    val totalHeight = shapeHeight + contentInset * 2f + shadowPadding.topPx + shadowPadding.bottomPx
+    val resolvedContentWidth = constrainedSize?.let {
+        (it.width.toFloat() - horizontalShadowPadding).coerceAtLeast(1f)
+    } ?: placement.contentWidth
+    val resolvedContentHeight = constrainedSize?.let {
+        (it.height.toFloat() - verticalShadowPadding).coerceAtLeast(1f)
+    } ?: placement.contentHeight
+    val extraContentLeft = ((resolvedContentWidth - placement.contentWidth) / 2f).coerceAtLeast(0f)
+    val extraContentTop = ((resolvedContentHeight - placement.contentHeight) / 2f).coerceAtLeast(0f)
+    val totalWidth = constrainedSize?.width?.toFloat()?.coerceAtLeast(horizontalShadowPadding + 1f)
+        ?: (placement.contentWidth + horizontalShadowPadding)
+    val totalHeight = constrainedSize?.height?.toFloat()?.coerceAtLeast(verticalShadowPadding + 1f)
+        ?: (placement.contentHeight + verticalShadowPadding)
 
     return ShapeLayerRenderData(
         width = totalWidth,
         height = totalHeight,
-        contentLeft = shadowPadding.leftPx + contentInset,
-        contentTop = shadowPadding.topPx + contentInset,
-        contentWidth = shapeWidth,
-        contentHeight = shapeHeight
+        contentLeft = shadowPadding.leftPx,
+        contentTop = shadowPadding.topPx,
+        contentWidth = resolvedContentWidth,
+        contentHeight = resolvedContentHeight,
+        shapeWidth = shapeWidth,
+        shapeHeight = shapeHeight,
+        shapeTranslateX = placement.shapeTranslateX + extraContentLeft,
+        shapeTranslateY = placement.shapeTranslateY + extraContentTop
     )
 }
 
 internal fun buildShapeShadowRenderData(
     type: LayerType.Shape,
-    targetWidth: Float,
-    targetHeight: Float,
+    data: ShapeLayerRenderData,
     rasterScale: Float = 1f
 ): PictureShadowRenderData? {
     if (type.shadow == null) return null
 
-    val scaledWidth = (targetWidth * rasterScale).roundToInt().coerceAtLeast(1)
-    val scaledHeight = (targetHeight * rasterScale).roundToInt().coerceAtLeast(1)
+    val scaledData = data.scaleContent(rasterScale)
+    val scaledWidth = scaledData.contentWidth.roundToInt().coerceAtLeast(1)
+    val scaledHeight = scaledData.contentHeight.roundToInt().coerceAtLeast(1)
     val bitmap = renderShapeBitmap(
         type = type.copy(strokeWidth = type.strokeWidth * rasterScale),
+        data = scaledData,
         width = scaledWidth,
         height = scaledHeight
     )
@@ -108,18 +160,20 @@ internal fun buildShapeShadowRenderData(
     return buildPictureShadowRenderData(
         sourceBitmap = bitmap,
         shadow = type.shadow,
-        targetWidth = targetWidth,
-        targetHeight = targetHeight,
+        targetWidth = data.contentWidth,
+        targetHeight = data.contentHeight,
         cornerRadiusPercent = 0,
         rasterScale = rasterScale
     )
 }
 
-internal fun DrawScope.drawShapeLayer(type: LayerType.Shape) {
-    val path = buildShapePath(
+internal fun DrawScope.drawShapeLayer(
+    type: LayerType.Shape,
+    data: ShapeLayerRenderData
+) {
+    val path = buildPlacedShapePath(
         type = type,
-        width = size.width,
-        height = size.height
+        data = data
     )
 
     if (type.shapeMode.isFilledShapeMode()) {
@@ -154,13 +208,11 @@ internal fun DrawScope.drawShapeLayer(type: LayerType.Shape) {
 
 internal fun Canvas.drawShapeLayer(
     type: LayerType.Shape,
-    width: Float,
-    height: Float
+    data: ShapeLayerRenderData
 ) {
-    val path = buildShapePath(
+    val path = buildPlacedShapePath(
         type = type,
-        width = width,
-        height = height
+        data = data
     ).asAndroidPath()
 
     if (type.shapeMode.isFilledShapeMode()) {
@@ -200,6 +252,7 @@ internal fun Canvas.drawShapeLayer(
 
 private fun renderShapeBitmap(
     type: LayerType.Shape,
+    data: ShapeLayerRenderData,
     width: Int,
     height: Int
 ): Bitmap = createBitmap(
@@ -208,30 +261,61 @@ private fun renderShapeBitmap(
 ).apply {
     Canvas(this).drawShapeLayer(
         type = type,
-        width = width.toFloat(),
-        height = height.toFloat()
+        data = data
     )
 }
 
-private fun calculateShapeContentInset(
+private data class ShapePlacement(
+    val contentWidth: Float,
+    val contentHeight: Float,
+    val shapeTranslateX: Float,
+    val shapeTranslateY: Float
+)
+
+private fun resolveShapePlacement(
     type: LayerType.Shape,
     shapeWidth: Float,
     shapeHeight: Float
-): Float {
-    val minDimension = min(shapeWidth, shapeHeight).coerceAtLeast(1f)
-    val baseInset = (minDimension * 0.08f).coerceIn(4f, 24f)
-    val strokeInset = if (type.shapeMode.usesStrokeWidth()) {
-        type.strokeWidth.coerceAtLeast(1f) * 0.75f
+): ShapePlacement {
+    val path = buildShapePath(
+        type = type,
+        width = shapeWidth,
+        height = shapeHeight
+    )
+    val bounds = path.getBounds()
+    val drawPadding = if (type.shapeMode.usesStrokeWidth()) {
+        type.strokeWidth.coerceAtLeast(1f) / 2f + 1f
     } else {
-        0f
+        1f
     }
-    val shadowInset = type.shadow?.let {
-        it.blurRadius.coerceAtLeast(0f) * 0.18f +
-                max(abs(it.offsetX), abs(it.offsetY)) * 0.1f
-    } ?: 0f
+    val visibleLeft = bounds.left - drawPadding
+    val visibleTop = bounds.top - drawPadding
+    val visibleRight = bounds.right + drawPadding
+    val visibleBottom = bounds.bottom + drawPadding
 
-    return max(baseInset, strokeInset + shadowInset)
-        .coerceAtMost(max(shapeWidth, shapeHeight) * 0.2f)
+    return ShapePlacement(
+        contentWidth = (visibleRight - visibleLeft).coerceAtLeast(1f),
+        contentHeight = (visibleBottom - visibleTop).coerceAtLeast(1f),
+        shapeTranslateX = -visibleLeft,
+        shapeTranslateY = -visibleTop
+    )
+}
+
+private fun buildPlacedShapePath(
+    type: LayerType.Shape,
+    data: ShapeLayerRenderData
+): Path {
+    val path = buildShapePath(
+        type = type,
+        width = data.shapeWidth,
+        height = data.shapeHeight
+    )
+    if (data.shapeTranslateX == 0f && data.shapeTranslateY == 0f) return path
+
+    val matrix = Matrix().apply {
+        setTranslate(data.shapeTranslateX, data.shapeTranslateY)
+    }
+    return path.asAndroidPath().apply { transform(matrix) }.asComposePath()
 }
 
 private fun buildShapePath(
@@ -577,3 +661,18 @@ private fun buildFilledArrowPath(
         close()
     }
 }
+
+private fun ShapeLayerRenderData.scaleContent(
+    scale: Float
+): ShapeLayerRenderData = copy(
+    width = width * scale,
+    height = height * scale,
+    contentLeft = contentLeft * scale,
+    contentTop = contentTop * scale,
+    contentWidth = contentWidth * scale,
+    contentHeight = contentHeight * scale,
+    shapeWidth = shapeWidth * scale,
+    shapeHeight = shapeHeight * scale,
+    shapeTranslateX = shapeTranslateX * scale,
+    shapeTranslateY = shapeTranslateY * scale
+)

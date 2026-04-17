@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 import android.graphics.Bitmap
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
@@ -110,51 +111,60 @@ private fun ShapeLayerContent(
     textFullSize: Int
 ) {
     val density = LocalDensity.current
-    val renderData = remember(type, textFullSize) {
-        resolveShapeLayerRenderData(
-            type = type,
-            referenceSize = textFullSize.toFloat()
-        )
-    }
-
-    Box(
-        modifier = modifier
-            .requiredSize(
-                width = with(density) { renderData.width.toDp() },
-                height = with(density) { renderData.height.toDp() }
-            )
-            .drawWithCache {
-                val shadow = buildShapeShadowRenderData(
-                    type = type,
-                    targetWidth = renderData.contentWidth,
-                    targetHeight = renderData.contentHeight
-                )
-
-                onDrawWithContent {
-                    shadow?.let { shadowData ->
-                        drawContext.canvas.nativeCanvas.drawBitmap(
-                            shadowData.bitmap,
-                            renderData.contentLeft + shadowData.left,
-                            renderData.contentTop + shadowData.top,
-                            null
-                        )
-                    }
-                    drawContent()
-                }
-            },
+    BoxWithConstraints(
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        Canvas(
+        val renderData = remember(type, textFullSize, constraints.maxWidth, constraints.maxHeight) {
+            resolveShapeLayerRenderData(
+                type = type,
+                referenceSize = textFullSize.toFloat(),
+                maxWidth = constraints.maxWidth.toFloat(),
+                maxHeight = constraints.maxHeight.toFloat()
+            )
+        }
+
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = with(density) { renderData.contentLeft.toDp() },
-                    top = with(density) { renderData.contentTop.toDp() },
-                    end = with(density) { (renderData.width - renderData.contentLeft - renderData.contentWidth).toDp() },
-                    bottom = with(density) { (renderData.height - renderData.contentTop - renderData.contentHeight).toDp() }
+                .requiredSize(
+                    width = with(density) { renderData.width.toDp() },
+                    height = with(density) { renderData.height.toDp() }
                 )
+                .drawWithCache {
+                    val shadow = buildShapeShadowRenderData(
+                        type = type,
+                        data = renderData
+                    )
+
+                    onDrawWithContent {
+                        shadow?.let { shadowData ->
+                            drawContext.canvas.nativeCanvas.drawBitmap(
+                                shadowData.bitmap,
+                                renderData.contentLeft + shadowData.left,
+                                renderData.contentTop + shadowData.top,
+                                null
+                            )
+                        }
+                        drawContent()
+                    }
+                },
+            contentAlignment = Alignment.Center
         ) {
-            drawShapeLayer(type)
+            Canvas(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = with(density) { renderData.contentLeft.toDp() },
+                        top = with(density) { renderData.contentTop.toDp() },
+                        end = with(density) { (renderData.width - renderData.contentLeft - renderData.contentWidth).toDp() },
+                        bottom = with(density) { (renderData.height - renderData.contentTop - renderData.contentHeight).toDp() }
+                    )
+            ) {
+                drawShapeLayer(
+                    type = type,
+                    data = renderData
+                )
+            }
         }
     }
 }

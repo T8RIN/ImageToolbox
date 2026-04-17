@@ -455,6 +455,7 @@ private fun ShapeSpecificControls(
                 },
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier.fillMaxWidth(),
+                applyHorizontalPadding = false,
                 containerColor = MaterialTheme.colorScheme.surface
             )
         }
@@ -535,6 +536,7 @@ private fun ShapeSpecificControls(
                 },
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier.fillMaxWidth(),
+                applyHorizontalPadding = false,
                 containerColor = MaterialTheme.colorScheme.surface
             )
         }

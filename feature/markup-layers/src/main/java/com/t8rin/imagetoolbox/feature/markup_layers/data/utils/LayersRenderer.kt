@@ -184,14 +184,16 @@ internal class LayersRenderer @Inject constructor(
                             ) {
                                 val data = resolveShapeLayerRenderData(
                                     type = type,
-                                    referenceSize = textFullSize.toFloat()
+                                    referenceSize = textFullSize.toFloat(),
+                                    contentSize = layer.contentSize,
+                                    maxWidth = authorWidth / 2f,
+                                    maxHeight = authorHeight / 2f
                                 )
                                 ShapeLayerCacheValue(
                                     data = data,
                                     shadowRenderData = buildShapeShadowRenderData(
                                         type = type,
-                                        targetWidth = data.contentWidth,
-                                        targetHeight = data.contentHeight,
+                                        data = data,
                                         rasterScale = shadowRasterScale
                                     )
                                 )
@@ -668,8 +670,12 @@ internal class LayersRenderer @Inject constructor(
                 translate(data.contentLeft, data.contentTop)
                 drawShapeLayer(
                     type = type,
-                    width = data.contentWidth,
-                    height = data.contentHeight
+                    data = data.copy(
+                        width = data.contentWidth,
+                        height = data.contentHeight,
+                        contentLeft = 0f,
+                        contentTop = 0f
+                    )
                 )
             }
         }
