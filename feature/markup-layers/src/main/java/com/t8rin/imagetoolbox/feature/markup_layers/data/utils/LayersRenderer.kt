@@ -77,6 +77,7 @@ internal class LayersRenderer @Inject constructor(
         val canvasOffsetX = (targetWidth - authorWidth * ratio) / 2f
         val canvasOffsetY = (targetHeight - authorHeight * ratio) / 2f
         val textFullSize = min(authorWidth, authorHeight).roundToInt().coerceAtLeast(1)
+        val shapeContentInsetPx = context.resources.displayMetrics.density * 4f
 
         val pictureCache = mutableMapOf<Any, Bitmap?>()
         val textCache = mutableMapOf<TextLayerCacheKey, TextLayerRenderData>()
@@ -180,7 +181,8 @@ internal class LayersRenderer @Inject constructor(
                                     type = type,
                                     referenceSize = textFullSize,
                                     contentSize = layer.contentSize,
-                                    shadowRasterScaleKey = (shadowRasterScale * 100f).roundToInt()
+                                    shadowRasterScaleKey = (shadowRasterScale * 100f).roundToInt(),
+                                    contentInsetKey = shapeContentInsetPx.roundToInt()
                                 )
                             ) {
                                 val data = resolveShapeLayerRenderData(
@@ -188,7 +190,8 @@ internal class LayersRenderer @Inject constructor(
                                     referenceSize = textFullSize.toFloat(),
                                     contentSize = layer.contentSize,
                                     maxWidth = authorWidth / 2f,
-                                    maxHeight = authorHeight / 2f
+                                    maxHeight = authorHeight / 2f,
+                                    contentInsetPx = shapeContentInsetPx
                                 )
                                 ShapeLayerCacheValue(
                                     data = data,
@@ -851,7 +854,8 @@ private data class ShapeLayerCacheKey(
     val type: LayerType.Shape,
     val referenceSize: Int,
     val contentSize: IntegerSize,
-    val shadowRasterScaleKey: Int
+    val shadowRasterScaleKey: Int,
+    val contentInsetKey: Int
 )
 
 private data class ShapeLayerCacheValue(

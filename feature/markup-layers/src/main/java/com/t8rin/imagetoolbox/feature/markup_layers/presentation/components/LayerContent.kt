@@ -47,6 +47,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
 import androidx.core.graphics.withSave
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
@@ -111,16 +112,24 @@ private fun ShapeLayerContent(
     textFullSize: Int
 ) {
     val density = LocalDensity.current
+    val shapeContentInsetPx = with(density) { 4.dp.toPx() }
     BoxWithConstraints(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        val renderData = remember(type, textFullSize, constraints.maxWidth, constraints.maxHeight) {
+        val renderData = remember(
+            type,
+            textFullSize,
+            constraints.maxWidth,
+            constraints.maxHeight,
+            shapeContentInsetPx
+        ) {
             resolveShapeLayerRenderData(
                 type = type,
                 referenceSize = textFullSize.toFloat(),
                 maxWidth = constraints.maxWidth.toFloat(),
-                maxHeight = constraints.maxHeight.toFloat()
+                maxHeight = constraints.maxHeight.toFloat(),
+                contentInsetPx = shapeContentInsetPx
             )
         }
 

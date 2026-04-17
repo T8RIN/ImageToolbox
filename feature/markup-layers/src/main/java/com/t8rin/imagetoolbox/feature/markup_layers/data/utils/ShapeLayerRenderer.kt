@@ -74,7 +74,8 @@ internal fun resolveShapeLayerRenderData(
     referenceSize: Float,
     contentSize: IntegerSize = IntegerSize.Zero,
     maxWidth: Float = Float.POSITIVE_INFINITY,
-    maxHeight: Float = Float.POSITIVE_INFINITY
+    maxHeight: Float = Float.POSITIVE_INFINITY,
+    contentInsetPx: Float = 0f
 ): ShapeLayerRenderData {
     val shadowPadding = calculateShadowPadding(type.shadow)
     val horizontalShadowPadding = shadowPadding.leftPx + shadowPadding.rightPx
@@ -97,7 +98,8 @@ internal fun resolveShapeLayerRenderData(
     val desiredPlacement = resolveShapePlacement(
         type = type,
         shapeWidth = desiredShapeWidth,
-        shapeHeight = desiredShapeHeight
+        shapeHeight = desiredShapeHeight,
+        contentInsetPx = contentInsetPx
     )
     val fitScale = min(
         1f,
@@ -111,7 +113,8 @@ internal fun resolveShapeLayerRenderData(
     val placement = if (fitScale == 1f) desiredPlacement else resolveShapePlacement(
         type = type,
         shapeWidth = shapeWidth,
-        shapeHeight = shapeHeight
+        shapeHeight = shapeHeight,
+        contentInsetPx = contentInsetPx
     )
     val resolvedContentWidth = constrainedSize?.let {
         (it.width.toFloat() - horizontalShadowPadding).coerceAtLeast(1f)
@@ -275,7 +278,8 @@ private data class ShapePlacement(
 private fun resolveShapePlacement(
     type: LayerType.Shape,
     shapeWidth: Float,
-    shapeHeight: Float
+    shapeHeight: Float,
+    contentInsetPx: Float
 ): ShapePlacement {
     val path = buildShapePath(
         type = type,
@@ -294,10 +298,10 @@ private fun resolveShapePlacement(
     val visibleBottom = bounds.bottom + drawPadding
 
     return ShapePlacement(
-        contentWidth = (visibleRight - visibleLeft).coerceAtLeast(1f),
-        contentHeight = (visibleBottom - visibleTop).coerceAtLeast(1f),
-        shapeTranslateX = -visibleLeft,
-        shapeTranslateY = -visibleTop
+        contentWidth = (visibleRight - visibleLeft + contentInsetPx * 2f).coerceAtLeast(1f),
+        contentHeight = (visibleBottom - visibleTop + contentInsetPx * 2f).coerceAtLeast(1f),
+        shapeTranslateX = -visibleLeft + contentInsetPx,
+        shapeTranslateY = -visibleTop + contentInsetPx
     )
 }
 
