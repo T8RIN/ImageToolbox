@@ -587,90 +587,96 @@ internal fun ShapeShadowSection(
         checked = haveShadow,
         onClick = { haveShadow = it },
         additionalContent = {
-            if (type.shadow != null) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    ColorRowSelector(
-                        value = type.shadow.color.toColor(),
-                        onValueChange = {
-                            onUpdateLayer(
-                                layer.copy(
-                                    type = type.copy(
-                                        shadow = type.shadow.copy(
-                                            color = it.toArgb()
+            AnimatedContent(
+                targetState = type.shadow,
+                contentKey = { it != null },
+                modifier = Modifier.fillMaxWidth()
+            ) { shadow ->
+                shadow?.let {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        ColorRowSelector(
+                            value = shadow.color.toColor(),
+                            onValueChange = {
+                                onUpdateLayer(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow.copy(
+                                                color = it.toArgb()
+                                            )
                                         )
                                     )
                                 )
+                            },
+                            title = stringResource(R.string.shadow_color),
+                            modifier = Modifier.container(
+                                shape = ShapeDefaults.top,
+                                color = MaterialTheme.colorScheme.surfaceContainerLow
                             )
-                        },
-                        title = stringResource(R.string.shadow_color),
-                        modifier = Modifier.container(
-                            shape = ShapeDefaults.top,
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
                         )
-                    )
-                    EnhancedSliderItem(
-                        value = type.shadow.blurRadius,
-                        title = stringResource(R.string.blur_radius),
-                        internalStateTransformation = { it.roundToTwoDigits() },
-                        onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.copy(
-                                        shadow = type.shadow.copy(
-                                            blurRadius = it
+                        EnhancedSliderItem(
+                            value = shadow.blurRadius,
+                            title = stringResource(R.string.blur_radius),
+                            internalStateTransformation = { it.roundToTwoDigits() },
+                            onValueChange = {
+                                onUpdateLayerContinuously(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow.copy(
+                                                blurRadius = it
+                                            )
                                         )
                                     )
                                 )
-                            )
-                        },
-                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = 0f..48f,
-                        shape = ShapeDefaults.center,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                    )
-                    EnhancedSliderItem(
-                        value = type.shadow.offsetX,
-                        title = stringResource(R.string.offset_x),
-                        internalStateTransformation = { it.roundToTwoDigits() },
-                        onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.copy(
-                                        shadow = type.shadow.copy(
-                                            offsetX = it
+                            },
+                            onValueChangeFinished = { _ -> onContinuousEditFinished() },
+                            valueRange = 0f..48f,
+                            shape = ShapeDefaults.center,
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                        )
+                        EnhancedSliderItem(
+                            value = shadow.offsetX,
+                            title = stringResource(R.string.offset_x),
+                            internalStateTransformation = { it.roundToTwoDigits() },
+                            onValueChange = {
+                                onUpdateLayerContinuously(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow.copy(
+                                                offsetX = it
+                                            )
                                         )
                                     )
                                 )
-                            )
-                        },
-                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = -48f..48f,
-                        shape = ShapeDefaults.center,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                    )
-                    EnhancedSliderItem(
-                        value = type.shadow.offsetY,
-                        title = stringResource(R.string.offset_y),
-                        internalStateTransformation = { it.roundToTwoDigits() },
-                        onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.copy(
-                                        shadow = type.shadow.copy(
-                                            offsetY = it
+                            },
+                            onValueChangeFinished = { _ -> onContinuousEditFinished() },
+                            valueRange = -48f..48f,
+                            shape = ShapeDefaults.center,
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                        )
+                        EnhancedSliderItem(
+                            value = shadow.offsetY,
+                            title = stringResource(R.string.offset_y),
+                            internalStateTransformation = { it.roundToTwoDigits() },
+                            onValueChange = {
+                                onUpdateLayerContinuously(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow.copy(
+                                                offsetY = it
+                                            )
                                         )
                                     )
                                 )
-                            )
-                        },
-                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = -48f..48f,
-                        shape = ShapeDefaults.bottom,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                    )
+                            },
+                            onValueChangeFinished = { _ -> onContinuousEditFinished() },
+                            valueRange = -48f..48f,
+                            shape = ShapeDefaults.bottom,
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                        )
+                    }
                 }
             }
         }
