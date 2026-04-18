@@ -416,10 +416,11 @@ internal fun List<UiMarkupLayer>.combinedBounds(): LayerBounds? = map(UiMarkupLa
 private fun UiMarkupLayer.previewLeafLayers(): List<UiMarkupLayer> =
     groupedLayers.flatMap { child ->
         child.flattenLeafLayers(
-            parentTransform = state.toLayerTransform(),
+            parentTransform = state.toLayerTransform(includeScale = false),
             inheritedAlpha = state.alpha,
             inheritedVisible = state.isVisible,
-            rootCanvasSize = state.canvasSize
+            rootCanvasSize = state.canvasSize,
+            includeScale = false
         )
     }
 
@@ -431,10 +432,12 @@ private fun UiMarkupLayer.flattenLeafLayers(
     parentTransform: LayerTransform? = null,
     inheritedAlpha: Float = 1f,
     inheritedVisible: Boolean = true,
-    rootCanvasSize: IntegerSize = state.canvasSize
+    rootCanvasSize: IntegerSize = state.canvasSize,
+    includeScale: Boolean = true
 ): List<UiMarkupLayer> {
     val currentTransform =
-        parentTransform?.compose(state.toLayerTransform()) ?: state.toLayerTransform()
+        parentTransform?.compose(state.toLayerTransform(includeScale = includeScale))
+            ?: state.toLayerTransform(includeScale = includeScale)
     val combinedAlpha = (inheritedAlpha * state.alpha).coerceIn(0f, 1f)
     val combinedVisible = inheritedVisible && state.isVisible
 
@@ -444,7 +447,8 @@ private fun UiMarkupLayer.flattenLeafLayers(
                 parentTransform = currentTransform,
                 inheritedAlpha = combinedAlpha,
                 inheritedVisible = combinedVisible,
-                rootCanvasSize = rootCanvasSize
+                rootCanvasSize = rootCanvasSize,
+                includeScale = includeScale
             )
         }
     }
@@ -470,12 +474,15 @@ private fun UiMarkupLayer.flattenLeafLayers(
     )
 }
 
-private fun EditBoxState.toLayerTransform(): LayerTransform {
+private fun EditBoxState.toLayerTransform(
+    includeScale: Boolean = true
+): LayerTransform {
     val angle = rotation * DEGREES_TO_RADIANS
     val cos = cos(angle)
     val sin = sin(angle)
-    val scaleX = scale * if (isFlippedHorizontally) -1f else 1f
-    val scaleY = scale * if (isFlippedVertically) -1f else 1f
+    val appliedScale = if (includeScale) scale else 1f
+    val scaleX = appliedScale * if (isFlippedHorizontally) -1f else 1f
+    val scaleY = appliedScale * if (isFlippedVertically) -1f else 1f
 
     return LayerTransform(
         matrix = TransformMatrix(

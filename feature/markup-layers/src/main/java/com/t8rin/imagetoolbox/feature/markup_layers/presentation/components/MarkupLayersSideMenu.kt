@@ -41,8 +41,6 @@ import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Build
-import androidx.compose.material.icons.rounded.Folder
-import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -59,6 +57,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Group
+import com.t8rin.imagetoolbox.core.resources.icons.Ungroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -178,7 +178,7 @@ internal fun MarkupLayersSideMenu(
                                                     onClick = component::groupSelectedLayers
                                                 ) {
                                                     Icon(
-                                                        imageVector = Icons.Rounded.Folder,
+                                                        imageVector = Icons.Outlined.Group,
                                                         contentDescription = null
                                                     )
                                                 }
@@ -189,10 +189,12 @@ internal fun MarkupLayersSideMenu(
                                                     }
                                                 ) {
                                                     Icon(
-                                                        imageVector = Icons.Rounded.FolderOpen,
+                                                        imageVector = Icons.Outlined.Ungroup,
                                                         contentDescription = null
                                                     )
                                                 }
+                                            } else {
+                                                Spacer(Modifier.height(48.dp))
                                             }
                                         }
                                         Box {

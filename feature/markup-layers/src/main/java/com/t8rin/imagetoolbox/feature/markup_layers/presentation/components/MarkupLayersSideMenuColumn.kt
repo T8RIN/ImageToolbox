@@ -39,7 +39,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
-import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
@@ -60,6 +59,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiSticky
+import com.t8rin.imagetoolbox.core.resources.icons.Group
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSticky
 import com.t8rin.imagetoolbox.core.resources.icons.StarSticky
 import com.t8rin.imagetoolbox.core.resources.icons.TextSticky
@@ -297,13 +297,14 @@ internal fun MarkupLayersSideMenuColumn(
                                 .padding(2.dp)
                         ) {
                             Icon(
-                                imageVector = when {
-                                    layer.isGroup -> Icons.Rounded.Folder
-                                    else -> when (layer.type) {
-                                    is LayerType.Picture.Image -> Icons.Outlined.ImageSticky
-                                    is LayerType.Picture.Sticker -> Icons.Outlined.EmojiSticky
-                                    is LayerType.Text -> Icons.Outlined.TextSticky
-                                    is LayerType.Shape -> Icons.Outlined.StarSticky
+                                imageVector = if (layer.isGroup) {
+                                    Icons.Outlined.Group
+                                } else {
+                                    when (layer.type) {
+                                        is LayerType.Picture.Image -> Icons.Outlined.ImageSticky
+                                        is LayerType.Picture.Sticker -> Icons.Outlined.EmojiSticky
+                                        is LayerType.Text -> Icons.Outlined.TextSticky
+                                        is LayerType.Shape -> Icons.Outlined.StarSticky
                                     }
                                 },
                                 contentDescription = null,
