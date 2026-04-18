@@ -45,6 +45,7 @@ data class LayerSnapshot(
     val text: TextSnapshot? = null,
     val picture: PictureSnapshot? = null,
     val shape: ShapeSnapshot? = null,
+    val groupedLayers: List<LayerSnapshot> = emptyList(),
 )
 
 data class PositionSnapshot(

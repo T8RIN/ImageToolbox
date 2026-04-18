@@ -67,7 +67,7 @@ data class UiMarkupLayer(
 }
 
 fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
-    type = type,
+    type = if (isGroup) defaultGroupPlaceholderType() else type,
     position = LayerPosition(
         scale = state.scale,
         rotation = state.rotation,
@@ -84,7 +84,8 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
     visibleLineCount = visibleLineCount,
     cornerRadiusPercent = type.layerCornerRadiusPercent(cornerRadiusPercent),
     isLocked = isLocked,
-    blendingMode = blendingMode
+    blendingMode = blendingMode,
+    groupedLayers = groupedLayers.map(UiMarkupLayer::asDomain)
 )
 
 fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
@@ -93,6 +94,7 @@ fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
     cornerRadiusPercent = type.layerCornerRadiusPercent(cornerRadiusPercent),
     blendingMode = blendingMode,
     isLocked = isLocked,
+    groupedLayers = groupedLayers.map(MarkupLayer::asUi),
     state = EditBoxState(
         scale = position.scale,
         rotation = position.rotation,
@@ -119,6 +121,11 @@ private fun IntSize.toIntegerSize(): IntegerSize = IntegerSize(
 private fun IntegerSize.toIntSize(): IntSize = IntSize(
     width = width.coerceAtLeast(0),
     height = height.coerceAtLeast(0)
+)
+
+internal fun defaultGroupPlaceholderType(): LayerType = LayerType.Shape.Default.copy(
+    color = 0,
+    shadow = null
 )
 
 internal fun noteUiLayerId(id: Long) {

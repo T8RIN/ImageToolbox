@@ -43,18 +43,22 @@ internal fun BoxWithConstraintsScope.Layer(
     onShowContextOptions: (() -> Unit)?,
     onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?
 ) {
+    val canEditLayer = onUpdateLayer != null && component != null
+
     if (layer.isGroup) {
         GroupLayer(
+            component = component,
             layer = layer,
             onActivate = onActivate,
-            onShowContextOptions = onShowContextOptions
+            onShowContextOptions = onShowContextOptions,
+            onUpdateLayer = onUpdateLayer,
+            canEditLayer = canEditLayer
         )
         return
     }
 
     val type = layer.type
     val cornerRadiusPercent = layer.uiCornerRadiusPercent()
-    val canEditLayer = onUpdateLayer != null && component != null
     val isInteractive = !layer.isLocked && onActivate != null
 
     EditBox(
@@ -140,9 +144,12 @@ internal fun BoxWithConstraintsScope.Layer(
 
 @Composable
 private fun BoxWithConstraintsScope.GroupLayer(
+    component: MarkupLayersComponent?,
     layer: UiMarkupLayer,
     onActivate: (() -> Unit)?,
-    onShowContextOptions: (() -> Unit)?
+    onShowContextOptions: (() -> Unit)?,
+    onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?,
+    canEditLayer: Boolean
 ) {
     val density = LocalDensity.current
 
@@ -188,7 +195,11 @@ private fun BoxWithConstraintsScope.GroupLayer(
         isInteractive = true,
         showSelectionBackground = false,
         onTap = {
-            onActivate?.invoke()
+            if (layer.state.isActive && canEditLayer) {
+                layer.state.isInEditMode = true
+            } else {
+                onActivate?.invoke()
+            }
         },
         onLongTap = {
             if (!layer.state.isActive) {
@@ -202,6 +213,16 @@ private fun BoxWithConstraintsScope.GroupLayer(
                 width = with(density) { overlayState.contentSize.width.toDp() },
                 height = with(density) { overlayState.contentSize.height.toDp() }
             )
+        )
+    }
+
+    if (canEditLayer && component != null && onUpdateLayer != null) {
+        EditLayerSheet(
+            component = component,
+            visible = layer.state.isInEditMode && !layer.isLocked,
+            onDismiss = { layer.state.isInEditMode = it },
+            onUpdateLayer = onUpdateLayer,
+            layer = layer
         )
     }
 }

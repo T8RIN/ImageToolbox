@@ -162,7 +162,11 @@ internal class MarkupMapper @Inject constructor(
                 assetRegistry = assetRegistry,
                 prefix = "$prefix-$index"
             ),
-            shape = (layerType as? LayerType.Shape)?.toSnapshot()
+            shape = (layerType as? LayerType.Shape)?.toSnapshot(),
+            groupedLayers = groupedLayers.toSnapshotList(
+                assetRegistry = assetRegistry,
+                prefix = "$prefix-$index-group"
+            )
         )
     }
 
@@ -302,7 +306,8 @@ internal class MarkupMapper @Inject constructor(
             cornerRadiusPercent = layerType.layerCornerRadiusPercent(cornerRadiusPercent),
             isLocked = isLocked,
             blendingMode = BlendingMode.entries.find { it.value == blendingMode }
-                ?: BlendingMode.SrcOver
+                ?: BlendingMode.SrcOver,
+            groupedLayers = groupedLayers.toDomainLayers(extractionDir)
         )
     }
 

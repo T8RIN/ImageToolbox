@@ -60,15 +60,19 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Edit
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayerSnapshot
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asDomain
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asUi
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.combinedBounds
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.composeToParentSpace
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.deepDuplicate
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.defaultGroupPlaceholderType
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.effectiveCoerceToBounds
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.flattenToDomain
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.groupChildAt
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toSnapshot
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toUi
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.withCoerceToBoundsRecursively
 import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -374,16 +378,20 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         val canvasSize = selectedLayers.firstNotNullOfOrNull { layer ->
             layer.state.canvasSize.takeIf { it.width > 0 && it.height > 0 }
         } ?: return
+        val groupCoerceToBounds = selectedLayers.all(UiMarkupLayer::effectiveCoerceToBounds)
 
         val groupedLayer = UiMarkupLayer(
-            type = selectedLayers.first().type,
-            groupedLayers = selectedLayers.map { it.groupChildAt(center) },
+            type = defaultGroupPlaceholderType(),
+            groupedLayers = selectedLayers.map { layer ->
+                layer.groupChildAt(center)
+                    .withCoerceToBoundsRecursively(groupCoerceToBounds)
+            },
             state = EditBoxState(
                 isActive = true,
                 canvasSize = canvasSize,
                 contentSize = bounds.toIntSize(),
                 offset = center,
-                coerceToBounds = bounds.isFullyInside(canvasSize)
+                coerceToBounds = groupCoerceToBounds
             )
         )
 
@@ -713,9 +721,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
             BackgroundBehavior.None -> ProjectBackground.None
         },
-        layers = flattenLayers(layers),
-        lastLayers = history.dropLast(1).lastOrNull()?.flattenedLayers() ?: emptyList(),
-        undoneLayers = redoHistory.lastOrNull()?.flattenedLayers() ?: emptyList()
+        layers = layers.toProjectLayers(),
+        lastLayers = history.dropLast(1).lastOrNull()?.projectLayers() ?: emptyList(),
+        undoneLayers = redoHistory.lastOrNull()?.projectLayers() ?: emptyList()
     )
 
     private suspend fun applyProject(
@@ -833,13 +841,17 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         val layers: List<UiMarkupLayerSnapshot> = emptyList()
     )
 
-    private fun HistorySnapshot.flattenedLayers(): List<MarkupLayer> = flattenLayers(
-        layers.map(UiMarkupLayerSnapshot::toUi)
-    )
+    private fun HistorySnapshot.projectLayers(): List<MarkupLayer> = layers.map(
+        UiMarkupLayerSnapshot::toUi
+    ).toProjectLayers()
 
     private fun flattenLayers(
         layers: List<UiMarkupLayer>
     ): List<MarkupLayer> = layers.flatMap(UiMarkupLayer::flattenToDomain)
+
+    private fun List<UiMarkupLayer>.toProjectLayers(): List<MarkupLayer> = map(
+        UiMarkupLayer::asDomain
+    )
 
     private fun normalizeGroupingSelection() {
         if (groupingSelectionIds.isEmpty()) return

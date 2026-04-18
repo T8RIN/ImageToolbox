@@ -75,6 +75,20 @@ internal fun UiMarkupLayer.groupChildAt(
     )
 )
 
+internal fun UiMarkupLayer.effectiveCoerceToBounds(): Boolean = state.coerceToBounds &&
+        groupedLayers.all(UiMarkupLayer::effectiveCoerceToBounds)
+
+internal fun UiMarkupLayer.withCoerceToBoundsRecursively(
+    value: Boolean
+): UiMarkupLayer = copy(
+    groupedLayers = groupedLayers.map { child ->
+        child.withCoerceToBoundsRecursively(value)
+    },
+    state = state.copy(
+        coerceToBounds = value
+    )
+)
+
 internal data class GroupPreviewData(
     val layers: List<UiMarkupLayer>,
     val contentSize: IntSize
@@ -394,18 +408,6 @@ internal data class LayerBounds(
         width = ceil(right - left).roundToInt().coerceAtLeast(1),
         height = ceil(bottom - top).roundToInt().coerceAtLeast(1)
     )
-
-    fun isFullyInside(
-        canvasSize: IntegerSize
-    ): Boolean {
-        val halfWidth = canvasSize.width / 2f
-        val halfHeight = canvasSize.height / 2f
-
-        return left >= -halfWidth &&
-                top >= -halfHeight &&
-                right <= halfWidth &&
-                bottom <= halfHeight
-    }
 }
 
 internal fun List<UiMarkupLayer>.combinedBounds(): LayerBounds? = map(UiMarkupLayer::visualBounds)

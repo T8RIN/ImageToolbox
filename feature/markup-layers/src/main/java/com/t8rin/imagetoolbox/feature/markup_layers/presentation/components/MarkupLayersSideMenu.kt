@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
@@ -40,6 +41,8 @@ import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -166,6 +169,32 @@ internal fun MarkupLayersSideMenu(
                                             )
                                         }
                                         Spacer(Modifier.weight(1f))
+
+                                        AnimatedContent(
+                                            targetState = (component.groupingSelectionCount >= 2) to (activeLayer?.isGroup == true && !component.isGroupingSelectionMode)
+                                        ) { (canGroupLayers, canUngroupLayer) ->
+                                            if (canGroupLayers) {
+                                                EnhancedIconButton(
+                                                    onClick = component::groupSelectedLayers
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.Folder,
+                                                        contentDescription = null
+                                                    )
+                                                }
+                                            } else if (canUngroupLayer) {
+                                                EnhancedIconButton(
+                                                    onClick = {
+                                                        activeLayer?.let(component::ungroupLayer)
+                                                    }
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.FolderOpen,
+                                                        contentDescription = null
+                                                    )
+                                                }
+                                            }
+                                        }
                                         Box {
                                             EnhancedIconButton(
                                                 onClick = {
@@ -202,12 +231,6 @@ internal fun MarkupLayersSideMenu(
                                                 },
                                                 isGroupingSelectionMode = component.isGroupingSelectionMode,
                                                 groupingSelectionCount = component.groupingSelectionCount,
-                                                canGroup = component.groupingSelectionCount >= 2,
-                                                canUngroup = activeLayer?.isGroup == true,
-                                                onGroup = component::groupSelectedLayers,
-                                                onUngroup = {
-                                                    activeLayer?.let(component::ungroupLayer)
-                                                },
                                                 onFlipLayerHorizontally = {
                                                     activeLayer?.let { layer ->
                                                         component.updateLayerState(layer) {

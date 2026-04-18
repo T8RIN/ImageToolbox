@@ -37,6 +37,7 @@ import androidx.compose.material.icons.automirrored.rounded.FormatAlignRight
 import androidx.compose.material.icons.outlined.BorderColor
 import androidx.compose.material.icons.outlined.Percent
 import androidx.compose.material.icons.outlined.Rectangle
+import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FormatAlignCenter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -98,6 +99,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextGeometricTransfor
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.icon
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.titleRes
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.withCoerceToBoundsRecursively
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import kotlin.math.roundToInt
 
@@ -122,7 +124,12 @@ internal fun EditLayerSheet(
         visible = visible,
         onDismiss = onDismiss,
         title = {
-            when (val type = layer.type) {
+            if (layer.isGroup) {
+                TitleItem(
+                    icon = Icons.Rounded.Folder,
+                    text = stringResource(R.string.edit_layer)
+                )
+            } else when (val type = layer.type) {
                 is LayerType.Picture -> {
                     TitleItem(
                         icon = Icons.Rounded.MiniEditLarge,
@@ -182,23 +189,24 @@ internal fun EditLayerSheet(
                 .enhancedVerticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            when (val type = layer.type) {
-                is LayerType.Picture.Image -> {
-                    ImageSelector(
-                        value = type.imageData,
-                        onValueChange = {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        imageData = it
+            if (!layer.isGroup) {
+                when (val type = layer.type) {
+                    is LayerType.Picture.Image -> {
+                        ImageSelector(
+                            value = type.imageData,
+                            onValueChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            imageData = it
+                                        )
                                     )
                                 )
-                            )
-                        },
-                        subtitle = null,
-                        color = MaterialTheme.colorScheme.surface
-                    )
-                }
+                            },
+                            subtitle = null,
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                    }
 
                 is LayerType.Text -> {
                     RoundedTextField(
@@ -715,31 +723,32 @@ internal fun EditLayerSheet(
                         }
                     )
                 }
-            }
+                }
 
-            (layer.type as? LayerType.Picture)?.let { type ->
-                Spacer(modifier = Modifier.height(4.dp))
-                PictureShadowSection(
-                    layer = layer,
-                    type = type,
-                    onUpdateLayer = updateLayerWithHistory,
-                    onUpdateLayerContinuously = updateLayerContinuously,
-                    onContinuousEditFinished = finishContinuousEdit
-                )
-            }
+                (layer.type as? LayerType.Picture)?.let { type ->
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PictureShadowSection(
+                        layer = layer,
+                        type = type,
+                        onUpdateLayer = updateLayerWithHistory,
+                        onUpdateLayerContinuously = updateLayerContinuously,
+                        onContinuousEditFinished = finishContinuousEdit
+                    )
+                }
 
-            (layer.type as? LayerType.Shape)?.let { type ->
-                Spacer(modifier = Modifier.height(4.dp))
-                ShapeShadowSection(
-                    layer = layer,
-                    type = type,
-                    onUpdateLayer = updateLayerWithHistory,
-                    onUpdateLayerContinuously = updateLayerContinuously,
-                    onContinuousEditFinished = finishContinuousEdit
-                )
-            }
+                (layer.type as? LayerType.Shape)?.let { type ->
+                    Spacer(modifier = Modifier.height(4.dp))
+                    ShapeShadowSection(
+                        layer = layer,
+                        type = type,
+                        onUpdateLayer = updateLayerWithHistory,
+                        onUpdateLayerContinuously = updateLayerContinuously,
+                        onContinuousEditFinished = finishContinuousEdit
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             PreferenceRowSwitch(
                 title = stringResource(R.string.coerce_points_to_image_bounds),
                 subtitle = stringResource(R.string.coerce_points_to_image_bounds_sub),
@@ -747,71 +756,73 @@ internal fun EditLayerSheet(
                 checked = layer.state.coerceToBounds,
                 onClick = {
                     updateLayerWithHistory(
-                        layer.copy(coerceToBounds = it)
+                        layer.withCoerceToBoundsRecursively(it)
                     )
                 },
-                shape = ShapeDefaults.top,
+                shape = if (layer.isGroup) ShapeDefaults.large else ShapeDefaults.top,
                 modifier = Modifier.fillMaxWidth(),
                 containerColor = MaterialTheme.colorScheme.surface
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            AlphaSelector(
-                value = layer.state.alpha,
-                onValueChange = {
-                    component.beginHistoryTransaction()
-                    component.updateLayerState(
-                        layer = layer,
-                        commitToHistory = false
-                    ) {
-                        alpha = it
-                    }
-                },
-                onValueChangeFinished = { _ ->
-                    finishContinuousEdit()
-                },
-                modifier = Modifier.fillMaxWidth(),
-                title = stringResource(R.string.layer_alpha),
-                color = MaterialTheme.colorScheme.surface,
-                shape = ShapeDefaults.center
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            BlendingModeSelector(
-                value = layer.blendingMode,
-                onValueChange = {
-                    updateLayerWithHistory(
-                        layer.copy(blendingMode = it)
-                    )
-                },
-                modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.surface,
-                shape = if (layer.type is LayerType.Shape) {
-                    ShapeDefaults.bottom
-                } else {
-                    ShapeDefaults.center
-                }
-            )
-            if (layer.type !is LayerType.Shape) {
+            if (!layer.isGroup) {
                 Spacer(modifier = Modifier.height(4.dp))
-                EnhancedSliderItem(
-                    value = layer.cornerRadiusPercent,
-                    title = stringResource(R.string.corners_size),
-                    icon = Icons.Outlined.Percent,
-                    internalStateTransformation = {
-                        it.roundToInt()
-                    },
+                AlphaSelector(
+                    value = layer.state.alpha,
                     onValueChange = {
-                        updateLayerContinuously(
-                            layer.copy(
-                                cornerRadiusPercent = it.roundToInt().coerceIn(0, 50)
-                            )
+                        component.beginHistoryTransaction()
+                        component.updateLayerState(
+                            layer = layer,
+                            commitToHistory = false
+                        ) {
+                            alpha = it
+                        }
+                    },
+                    onValueChangeFinished = { _ ->
+                        finishContinuousEdit()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(R.string.layer_alpha),
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = ShapeDefaults.center
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                BlendingModeSelector(
+                    value = layer.blendingMode,
+                    onValueChange = {
+                        updateLayerWithHistory(
+                            layer.copy(blendingMode = it)
                         )
                     },
-                    onValueChangeFinished = { _ -> finishContinuousEdit() },
-                    valueRange = 0f..50f,
-                    steps = 49,
-                    shape = ShapeDefaults.bottom,
-                    containerColor = MaterialTheme.colorScheme.surface
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = if (layer.type is LayerType.Shape) {
+                        ShapeDefaults.bottom
+                    } else {
+                        ShapeDefaults.center
+                    }
                 )
+                if (layer.type !is LayerType.Shape) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    EnhancedSliderItem(
+                        value = layer.cornerRadiusPercent,
+                        title = stringResource(R.string.corners_size),
+                        icon = Icons.Outlined.Percent,
+                        internalStateTransformation = {
+                            it.roundToInt()
+                        },
+                        onValueChange = {
+                            updateLayerContinuously(
+                                layer.copy(
+                                    cornerRadiusPercent = it.roundToInt().coerceIn(0, 50)
+                                )
+                            )
+                        },
+                        onValueChangeFinished = { _ -> finishContinuousEdit() },
+                        valueRange = 0f..50f,
+                        steps = 49,
+                        shape = ShapeDefaults.bottom,
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                }
             }
         }
     }
