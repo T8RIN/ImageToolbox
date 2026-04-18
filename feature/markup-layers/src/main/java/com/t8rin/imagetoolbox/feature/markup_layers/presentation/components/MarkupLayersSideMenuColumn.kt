@@ -138,8 +138,10 @@ internal fun MarkupLayersSideMenuColumn(
                 val state = layer.state
                 val isSelectedForGrouping = layer.id in groupingSelectionIds
                 val density = LocalDensity.current
-                val previewData = remember(layer) {
-                    layer.takeIf(UiMarkupLayer::isGroup)?.toPreviewGroupData()
+                val previewData by remember(layer) {
+                    derivedStateOf {
+                        layer.takeIf(UiMarkupLayer::isGroup)?.toPreviewGroupData()
+                    }
                 }
                 val previewContentSize = remember(state.contentSize, previewData) {
                     previewData?.contentSize ?: state.contentSize.takeIf(IntSize::isSpecified)

@@ -111,6 +111,16 @@ internal fun UiMarkupLayer.groupContentSize(): IntSize? = localLeafLayers()
     .combinedBounds()
     ?.toIntSize()
 
+internal fun UiMarkupLayer.canvasLeafLayers(): List<UiMarkupLayer> =
+    groupedLayers.flatMap { child ->
+        child.flattenLeafLayers(
+            parentTransform = state.toLayerTransform(),
+            inheritedAlpha = state.alpha,
+            inheritedVisible = state.isVisible,
+            rootCanvasSize = state.canvasSize
+        )
+    }
+
 internal fun UiMarkupLayer.flattenToDomain(): List<MarkupLayer> = flattenToDomain(
     parentTransform = null,
     inheritedAlpha = 1f,
@@ -408,6 +418,18 @@ internal data class LayerBounds(
         width = ceil(right - left).roundToInt().coerceAtLeast(1),
         height = ceil(bottom - top).roundToInt().coerceAtLeast(1)
     )
+
+    fun contains(point: Offset): Boolean = point.x in left..right && point.y in top..bottom
+
+    fun translate(
+        dx: Float,
+        dy: Float
+    ): LayerBounds = LayerBounds(
+        left = left + dx,
+        top = top + dy,
+        right = right + dx,
+        bottom = bottom + dy
+    )
 }
 
 internal fun List<UiMarkupLayer>.combinedBounds(): LayerBounds? = map(UiMarkupLayer::visualBounds)
@@ -419,8 +441,7 @@ private fun UiMarkupLayer.previewLeafLayers(): List<UiMarkupLayer> =
             parentTransform = state.toLayerTransform(includeScale = false),
             inheritedAlpha = state.alpha,
             inheritedVisible = state.isVisible,
-            rootCanvasSize = state.canvasSize,
-            includeScale = false
+            rootCanvasSize = state.canvasSize
         )
     }
 

@@ -17,22 +17,27 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
-import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.composeToParentSpace
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.canvasLeafLayers
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.combinedBounds
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.groupContentSize
-import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.groupOverlayState
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.renderCopy
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.visualBounds
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
 @Composable
@@ -152,9 +157,20 @@ private fun BoxWithConstraintsScope.GroupLayer(
     canEditLayer: Boolean
 ) {
     val density = LocalDensity.current
+    val activateGroup: (() -> Unit)? = onActivate?.let {
+        {
+            if (layer.state.isActive && canEditLayer) {
+                layer.state.isInEditMode = true
+            } else {
+                it()
+            }
+        }
+    }
 
-    layer.groupedLayers.forEach { child ->
-        val renderedChild = child.composeToParentSpace(layer).renderCopy().let { renderCopy ->
+    val leafLayers = layer.canvasLeafLayers()
+
+    leafLayers.forEach { child ->
+        val renderedChild = child.renderCopy().let { renderCopy ->
             if (layer.state.isActive) {
                 renderCopy.copy(
                     state = renderCopy.state.copy(
@@ -172,6 +188,49 @@ private fun BoxWithConstraintsScope.GroupLayer(
         )
     }
 
+    val hitBounds = leafLayers.combinedBounds()
+    if ((activateGroup != null || onShowContextOptions != null) && hitBounds != null) {
+        val localLeafBounds = leafLayers.map { it.visualBounds() }.map { bounds ->
+            bounds.translate(
+                dx = -hitBounds.left,
+                dy = -hitBounds.top
+            )
+        }
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .graphicsLayer {
+                    translationX = hitBounds.center.x
+                    translationY = hitBounds.center.y
+                }
+                .requiredSize(
+                    width = with(density) { hitBounds.toIntSize().width.toDp() },
+                    height = with(density) { hitBounds.toIntSize().height.toDp() }
+                )
+                .pointerInput(
+                    layer.state.isActive,
+                    canEditLayer,
+                    localLeafBounds
+                ) {
+                    detectTapGestures(
+                        onTap = { offset ->
+                            if (localLeafBounds.any { it.contains(offset) }) {
+                                activateGroup?.invoke()
+                            }
+                        },
+                        onLongPress = { offset ->
+                            if (localLeafBounds.any { it.contains(offset) }) {
+                                if (!layer.state.isActive) {
+                                    activateGroup?.invoke()
+                                }
+                                onShowContextOptions?.invoke()
+                            }
+                        }
+                    )
+                }
+        )
+    }
+
     val measuredContentSize = layer.groupContentSize()
         ?.takeIf { it.isSpecified() }
         ?: layer.state.contentSize.takeIf { it.isSpecified() }
@@ -181,39 +240,6 @@ private fun BoxWithConstraintsScope.GroupLayer(
         if (layer.state.contentSize != measuredContentSize) {
             layer.state.contentSize = measuredContentSize
         }
-    }
-
-    val overlayState = layer.groupOverlayState()
-        ?.copy(isActive = false)
-        ?: return
-    val isInteractive = onActivate != null || onShowContextOptions != null
-    if (!isInteractive) return
-
-    EditBox(
-        state = overlayState,
-        cornerRadiusPercent = 0,
-        isInteractive = true,
-        showSelectionBackground = false,
-        onTap = {
-            if (layer.state.isActive && canEditLayer) {
-                layer.state.isInEditMode = true
-            } else {
-                onActivate?.invoke()
-            }
-        },
-        onLongTap = {
-            if (!layer.state.isActive) {
-                onActivate?.invoke()
-            }
-            onShowContextOptions?.invoke()
-        }
-    ) {
-        Box(
-            modifier = Modifier.requiredSize(
-                width = with(density) { overlayState.contentSize.width.toDp() },
-                height = with(density) { overlayState.contentSize.height.toDp() }
-            )
-        )
     }
 
     if (canEditLayer && component != null && onUpdateLayer != null) {
