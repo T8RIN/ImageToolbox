@@ -56,12 +56,19 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
-import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asDomain
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayerSnapshot
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asUi
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.combinedBounds
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.composeToParentSpace
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.deepDuplicate
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.flattenToDomain
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.groupChildAt
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toSnapshot
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toUi
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
 import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -102,6 +109,11 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private val _layers: MutableState<List<UiMarkupLayer>> = mutableStateOf(emptyList())
     val layers: List<UiMarkupLayer> by _layers
+
+    private val _groupingSelectionIds: MutableState<Set<Long>> = mutableStateOf(emptySet())
+    val groupingSelectionIds: Set<Long> by _groupingSelectionIds
+    val isGroupingSelectionMode: Boolean get() = groupingSelectionIds.isNotEmpty()
+    val groupingSelectionCount: Int get() = groupingSelectionIds.size
 
     private val _history: MutableState<List<HistorySnapshot>> = mutableStateOf(
         listOf(HistorySnapshot())
@@ -148,12 +160,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun clearLayers() {
         if (layers.isEmpty()) return
 
+        cancelGroupingSelection()
         runEditorChange {
             _layers.value = emptyList()
         }
     }
 
     fun addLayer(layer: UiMarkupLayer) {
+        cancelGroupingSelection()
         deactivateAllLayers()
         runEditorChange {
             _layers.update { it + layer }
@@ -171,10 +185,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun copyLayer(layer: UiMarkupLayer) {
+        cancelGroupingSelection()
         runEditorChange {
-            val copied = layer.copy(
-                isActive = false
-            )
+            val copied = layer.deepDuplicate()
             _layers.update {
                 it.toMutableList().apply {
                     add(indexOf(layer), copied)
@@ -231,6 +244,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun toggleLayerLock(layer: UiMarkupLayer) {
+        cancelGroupingSelection()
         runEditorChange {
             val copied = layer.copy(
                 isLocked = !layer.isLocked,
@@ -252,6 +266,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun removeLayer(layer: UiMarkupLayer) {
+        cancelGroupingSelection()
         runEditorChange {
             _layers.update { it - layer }
         }
@@ -284,7 +299,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         ) {
             moveBy(
                 offsetChange = offsetChange,
-                cornerRadiusPercent = layer.type.layerCornerRadiusPercent(layer.cornerRadiusPercent)
+                cornerRadiusPercent = layer.uiCornerRadiusPercent()
             )
         }
     }
@@ -300,7 +315,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         ) {
             setScalePrecisely(
                 targetScale = scale,
-                cornerRadiusPercent = layer.type.layerCornerRadiusPercent(layer.cornerRadiusPercent)
+                cornerRadiusPercent = layer.uiCornerRadiusPercent()
             )
         }
     }
@@ -324,8 +339,90 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             setNormalizedPosition(
                 x = x,
                 y = y,
-                cornerRadiusPercent = layer.type.layerCornerRadiusPercent(layer.cornerRadiusPercent)
+                cornerRadiusPercent = layer.uiCornerRadiusPercent()
             )
+        }
+    }
+
+    fun toggleGroupingSelection(layer: UiMarkupLayer) {
+        if (layer.isLocked) return
+        if (layers.none { it.id == layer.id }) return
+
+        deactivateAllLayers()
+        _groupingSelectionIds.update { ids ->
+            if (layer.id in ids) ids - layer.id else ids + layer.id
+        }
+    }
+
+    fun cancelGroupingSelection() {
+        _groupingSelectionIds.value = emptySet()
+    }
+
+    fun clearSelections() {
+        cancelGroupingSelection()
+        deactivateAllLayers()
+    }
+
+    fun groupSelectedLayers() {
+        val selectedEntries = layers.withIndex()
+            .filter { it.value.id in groupingSelectionIds }
+        if (selectedEntries.size < 2) return
+
+        val selectedLayers = selectedEntries.map { it.value }
+        val bounds = selectedLayers.combinedBounds() ?: return
+        val center = bounds.center
+        val canvasSize = selectedLayers.firstNotNullOfOrNull { layer ->
+            layer.state.canvasSize.takeIf { it.width > 0 && it.height > 0 }
+        } ?: return
+
+        val groupedLayer = UiMarkupLayer(
+            type = selectedLayers.first().type,
+            groupedLayers = selectedLayers.map { it.groupChildAt(center) },
+            state = EditBoxState(
+                isActive = true,
+                canvasSize = canvasSize,
+                contentSize = bounds.toIntSize(),
+                offset = center,
+                coerceToBounds = bounds.isFullyInside(canvasSize)
+            )
+        )
+
+        runEditorChange {
+            val selectedIds = selectedEntries.map { it.value.id }.toSet()
+            val firstSelectedIndex = selectedEntries.minOf { it.index }
+
+            _layers.update { current ->
+                buildList {
+                    current.forEachIndexed { index, currentLayer ->
+                        if (index == firstSelectedIndex) add(groupedLayer)
+                        if (currentLayer.id !in selectedIds) add(currentLayer)
+                    }
+                }
+            }
+        }
+        cancelGroupingSelection()
+    }
+
+    fun ungroupLayer(layer: UiMarkupLayer) {
+        if (!layer.isGroup) return
+
+        cancelGroupingSelection()
+        runEditorChange {
+            val restoredLayers = layer.groupedLayers.map { child ->
+                child.composeToParentSpace(layer)
+            }
+
+            _layers.update { current ->
+                current.toMutableList().apply {
+                    val index = indexOf(layer)
+                    if (index >= 0) {
+                        removeAt(index)
+                        addAll(index, restoredLayers)
+                    }
+                }
+            }
+
+            restoredLayers.firstOrNull()?.let(::activateLayer)
         }
     }
 
@@ -444,6 +541,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private fun setImageUri(uri: Uri) {
         componentScope.launch {
+            cancelGroupingSelection()
             _layers.update { emptyList() }
             _isImageLoading.value = true
 
@@ -503,7 +601,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                             layers.firstOrNull()?.state?.canvasSize?.height?.takeIf { it > 0 } ?: 1
                         ImageBitmap(w, h).asAndroidBitmap()
                     },
-                layers = layers.map { it.asDomain() }
+                layers = flattenLayers(layers)
             )
         }.onFailure {
             it.makeLog()
@@ -518,6 +616,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
         _uri.value = Uri.EMPTY
         _layers.update { emptyList() }
+        cancelGroupingSelection()
         resetHistory()
         registerChangesCleared()
     }
@@ -539,6 +638,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
         _uri.value = Uri.EMPTY
         _layers.value = emptyList()
+        cancelGroupingSelection()
         updateBitmap(null)
         resetHistory()
         registerChangesCleared()
@@ -613,14 +713,15 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
             BackgroundBehavior.None -> ProjectBackground.None
         },
-        layers = layers.map(UiMarkupLayer::asDomain),
-        lastLayers = history.dropLast(1).lastOrNull()?.layers ?: emptyList(),
-        undoneLayers = redoHistory.lastOrNull()?.layers ?: emptyList()
+        layers = flattenLayers(layers),
+        lastLayers = history.dropLast(1).lastOrNull()?.flattenedLayers() ?: emptyList(),
+        undoneLayers = redoHistory.lastOrNull()?.flattenedLayers() ?: emptyList()
     )
 
     private suspend fun applyProject(
         project: MarkupProject
     ) {
+        cancelGroupingSelection()
         _layers.value = emptyList()
 
         when (val background = project.background) {
@@ -665,12 +766,13 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         val beforeSnapshot = pendingHistorySnapshot ?: currentHistorySnapshot()
         pendingHistorySnapshot = null
         block()
+        normalizeGroupingSelection()
         commitHistoryFrom(beforeSnapshot)
     }
 
     private fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         backgroundBehavior = backgroundBehavior,
-        layers = layers.map(UiMarkupLayer::asDomain)
+        layers = layers.map(UiMarkupLayer::toSnapshot)
     )
 
     private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
@@ -709,11 +811,11 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         val currentSnapshot = currentHistorySnapshot()
         val previousSnapshot = HistorySnapshot(
             backgroundBehavior = currentSnapshot.backgroundBehavior,
-            layers = previousLayers
+            layers = previousLayers.map { it.asUi().toSnapshot() }
         ).takeIf { it != currentSnapshot }
         val redoneSnapshot = HistorySnapshot(
             backgroundBehavior = currentSnapshot.backgroundBehavior,
-            layers = redoneLayers
+            layers = redoneLayers.map { it.asUi().toSnapshot() }
         ).takeIf { it != currentSnapshot }
 
         _history.value = listOfNotNull(previousSnapshot, currentSnapshot)
@@ -722,13 +824,31 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private fun applyHistorySnapshot(snapshot: HistorySnapshot) {
         _backgroundBehavior.value = snapshot.backgroundBehavior
-        _layers.value = snapshot.layers.map { it.asUi() }
+        _layers.value = snapshot.layers.map(UiMarkupLayerSnapshot::toUi)
+        cancelGroupingSelection()
     }
 
     private data class HistorySnapshot(
         val backgroundBehavior: BackgroundBehavior = BackgroundBehavior.None,
-        val layers: List<MarkupLayer> = emptyList()
+        val layers: List<UiMarkupLayerSnapshot> = emptyList()
     )
+
+    private fun HistorySnapshot.flattenedLayers(): List<MarkupLayer> = flattenLayers(
+        layers.map(UiMarkupLayerSnapshot::toUi)
+    )
+
+    private fun flattenLayers(
+        layers: List<UiMarkupLayer>
+    ): List<MarkupLayer> = layers.flatMap(UiMarkupLayer::flattenToDomain)
+
+    private fun normalizeGroupingSelection() {
+        if (groupingSelectionIds.isEmpty()) return
+
+        val validIds = layers.mapTo(mutableSetOf()) { it.id }
+        _groupingSelectionIds.update { ids ->
+            ids.filterTo(mutableSetOf()) { it in validIds }
+        }
+    }
 
     private companion object {
         const val MAX_HISTORY_SIZE = 100

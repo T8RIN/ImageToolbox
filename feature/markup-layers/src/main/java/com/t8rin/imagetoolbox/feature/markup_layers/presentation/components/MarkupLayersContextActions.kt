@@ -40,6 +40,8 @@ import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.CenterFocusStrong
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Deselect
+import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.LockOpen
 import androidx.compose.material.icons.rounded.ScreenRotationAlt
@@ -88,6 +90,12 @@ internal fun BoxScope.MarkupLayersContextActions(
     onActivateLayer: () -> Unit,
     isLayerLocked: Boolean,
     onToggleLayerLock: () -> Unit,
+    isGroupingSelectionMode: Boolean,
+    groupingSelectionCount: Int,
+    canGroup: Boolean,
+    canUngroup: Boolean,
+    onGroup: () -> Unit,
+    onUngroup: () -> Unit,
     onFlipLayerHorizontally: () -> Unit,
     onFlipLayerVertically: () -> Unit,
     onMoveLayerBy: (Float, Float) -> Unit,
@@ -109,7 +117,7 @@ internal fun BoxScope.MarkupLayersContextActions(
     var valueDialogType by rememberSaveable {
         mutableStateOf(ValueDialogType.None)
     }
-    val transformActionsEnabled = !isLayerLocked
+    val transformActionsEnabled = !isLayerLocked && !isGroupingSelectionMode
 
     EnhancedDropdownMenu(
         expanded = visible,
@@ -131,6 +139,32 @@ internal fun BoxScope.MarkupLayersContextActions(
             ) {
                 ClickableTile(
                     onClick = {
+                        onGroup()
+                        onDismiss()
+                    },
+                    enabled = canGroup,
+                    icon = Icons.Rounded.Folder,
+                    text = stringResource(R.string.group),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
+                )
+                ClickableTile(
+                    onClick = {
+                        onUngroup()
+                        onDismiss()
+                    },
+                    enabled = canUngroup,
+                    icon = Icons.Rounded.FolderOpen,
+                    text = stringResource(R.string.ungroup),
+                    modifier = Modifier.size(
+                        width = 66.dp,
+                        height = 50.dp
+                    )
+                )
+                ClickableTile(
+                    onClick = {
                         onToggleEditMode()
                         onDismiss()
                     },
@@ -142,8 +176,13 @@ internal fun BoxScope.MarkupLayersContextActions(
                         height = 50.dp
                     )
                 )
+            }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
                 ClickableTile(
                     onClick = onCopyLayer,
+                    enabled = !isGroupingSelectionMode,
                     icon = Icons.Rounded.ContentCopy,
                     text = stringResource(R.string.copy),
                     modifier = Modifier.size(
@@ -153,6 +192,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                 )
                 ClickableTile(
                     onClick = onRemoveLayer,
+                    enabled = !isGroupingSelectionMode,
                     icon = Icons.Rounded.Delete,
                     text = stringResource(R.string.delete),
                     modifier = Modifier.size(
@@ -160,12 +200,9 @@ internal fun BoxScope.MarkupLayersContextActions(
                         height = 50.dp
                     )
                 )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
                 ClickableTile(
                     onClick = onActivateLayer,
+                    enabled = !isGroupingSelectionMode || groupingSelectionCount > 0,
                     icon = Icons.Rounded.Deselect,
                     text = stringResource(R.string.clear_selection),
                     modifier = Modifier.size(

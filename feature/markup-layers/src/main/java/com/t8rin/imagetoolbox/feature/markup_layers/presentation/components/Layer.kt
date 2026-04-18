@@ -17,13 +17,22 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntSize
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.composeToParentSpace
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.groupContentSize
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.groupOverlayState
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.renderCopy
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 
 @Composable
@@ -34,15 +43,27 @@ internal fun BoxWithConstraintsScope.Layer(
     onShowContextOptions: (() -> Unit)?,
     onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?
 ) {
+    if (layer.isGroup) {
+        GroupLayer(
+            layer = layer,
+            onActivate = onActivate,
+            onShowContextOptions = onShowContextOptions
+        )
+        return
+    }
+
     val type = layer.type
+    val cornerRadiusPercent = layer.uiCornerRadiusPercent()
+    val canEditLayer = onUpdateLayer != null && component != null
+    val isInteractive = !layer.isLocked && onActivate != null
 
     EditBox(
         state = layer.state,
-        cornerRadiusPercent = type.layerCornerRadiusPercent(layer.cornerRadiusPercent),
+        cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = layer.blendingMode,
-        isInteractive = !layer.isLocked,
+        isInteractive = isInteractive,
         onTap = {
-            if (layer.state.isActive) {
+            if (layer.state.isActive && canEditLayer) {
                 layer.state.isInEditMode = true
             } else {
                 onActivate?.invoke()
@@ -55,8 +76,17 @@ internal fun BoxWithConstraintsScope.Layer(
             onShowContextOptions?.invoke()
         },
         content = {
+            val measuredContentSize = layer.state.contentSize
+            val density = LocalDensity.current
             val contentModifier = when {
-                type is LayerType.Text -> Modifier.sizeIn(
+                measuredContentSize.width > 0 &&
+                        measuredContentSize.height > 0 &&
+                        (layer.isGroup || onUpdateLayer == null) -> Modifier.requiredSize(
+                    width = with(density) { measuredContentSize.width.toDp() },
+                    height = with(density) { measuredContentSize.height.toDp() }
+                )
+
+                layer.isGroup || type is LayerType.Text -> Modifier.sizeIn(
                     maxWidth = this@Layer.maxWidth,
                     maxHeight = this@Layer.maxHeight
                 )
@@ -72,8 +102,9 @@ internal fun BoxWithConstraintsScope.Layer(
             LayerContent(
                 modifier = contentModifier,
                 type = type,
+                groupedLayers = layer.groupedLayers,
                 textFullSize = this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
-                cornerRadiusPercent = type.layerCornerRadiusPercent(layer.cornerRadiusPercent),
+                cornerRadiusPercent = cornerRadiusPercent,
                 onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
                     { result ->
                         val visibleLineCount = if (result.didOverflowHeight) {
@@ -96,7 +127,7 @@ internal fun BoxWithConstraintsScope.Layer(
         }
     )
 
-    if (onUpdateLayer != null && component != null) {
+    if (canEditLayer) {
         EditLayerSheet(
             component = component,
             visible = layer.state.isInEditMode && !layer.isLocked,
@@ -106,3 +137,73 @@ internal fun BoxWithConstraintsScope.Layer(
         )
     }
 }
+
+@Composable
+private fun BoxWithConstraintsScope.GroupLayer(
+    layer: UiMarkupLayer,
+    onActivate: (() -> Unit)?,
+    onShowContextOptions: (() -> Unit)?
+) {
+    val density = LocalDensity.current
+
+    layer.groupedLayers.forEach { child ->
+        val renderedChild = child.composeToParentSpace(layer).renderCopy().let { renderCopy ->
+            if (layer.state.isActive) {
+                renderCopy.copy(
+                    state = renderCopy.state.copy(
+                        isActive = true
+                    )
+                )
+            } else renderCopy
+        }
+        Layer(
+            component = null,
+            layer = renderedChild,
+            onActivate = null,
+            onShowContextOptions = null,
+            onUpdateLayer = null
+        )
+    }
+
+    val measuredContentSize = layer.groupContentSize()
+        ?.takeIf { it.isSpecified() }
+        ?: layer.state.contentSize.takeIf { it.isSpecified() }
+        ?: IntSize(1, 1)
+
+    SideEffect {
+        if (layer.state.contentSize != measuredContentSize) {
+            layer.state.contentSize = measuredContentSize
+        }
+    }
+
+    val overlayState = layer.groupOverlayState()
+        ?.copy(isActive = false)
+        ?: return
+    val isInteractive = onActivate != null || onShowContextOptions != null
+    if (!isInteractive) return
+
+    EditBox(
+        state = overlayState,
+        cornerRadiusPercent = 0,
+        isInteractive = true,
+        showSelectionBackground = false,
+        onTap = {
+            onActivate?.invoke()
+        },
+        onLongTap = {
+            if (!layer.state.isActive) {
+                onActivate?.invoke()
+            }
+            onShowContextOptions?.invoke()
+        }
+    ) {
+        Box(
+            modifier = Modifier.requiredSize(
+                width = with(density) { overlayState.contentSize.width.toDp() },
+                height = with(density) { overlayState.contentSize.height.toDp() }
+            )
+        )
+    }
+}
+
+private fun IntSize.isSpecified(): Boolean = width > 0 && height > 0

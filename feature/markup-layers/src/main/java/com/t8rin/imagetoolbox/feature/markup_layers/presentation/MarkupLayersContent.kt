@@ -198,6 +198,7 @@ fun MarkupLayersContent(
         showLayersSelection = false
         isContextOptionsVisible = false
         shouldOpenContextOptions = false
+        component.cancelGroupingSelection()
     }
     val toggleLayersSelection = {
         if (showLayersSelection) {

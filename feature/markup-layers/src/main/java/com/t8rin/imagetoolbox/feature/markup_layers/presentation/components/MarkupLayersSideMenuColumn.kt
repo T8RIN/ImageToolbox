@@ -39,6 +39,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
+import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
@@ -64,14 +65,16 @@ import com.t8rin.imagetoolbox.core.resources.icons.StarSticky
 import com.t8rin.imagetoolbox.core.resources.icons.TextSticky
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.AnimatedBorder
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toPreviewGroupData
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 import kotlin.math.abs
@@ -86,6 +89,9 @@ internal fun MarkupLayersSideMenuColumn(
     layers: List<UiMarkupLayer>,
     onReorderLayers: (List<UiMarkupLayer>) -> Unit,
     onActivateLayer: (UiMarkupLayer) -> Unit,
+    isGroupingSelectionMode: Boolean,
+    groupingSelectionIds: Set<Long>,
+    onToggleGroupingSelection: (UiMarkupLayer) -> Unit,
     onToggleLayerVisibility: (UiMarkupLayer) -> Unit,
     onUnlockLayer: (UiMarkupLayer) -> Unit
 ) {
@@ -94,6 +100,7 @@ internal fun MarkupLayersSideMenuColumn(
     val reorderableLazyListState = rememberReorderableLazyListState(
         lazyListState = lazyListState
     ) { from, to ->
+        if (isGroupingSelectionMode) return@rememberReorderableLazyListState
         haptics.press()
         val data = layers.toMutableList().apply {
             add(to.index, removeAt(from.index))
@@ -121,17 +128,21 @@ internal fun MarkupLayersSideMenuColumn(
     ) {
         items(
             items = layers,
-            key = { it.hashCode() }
+            key = { it.id }
         ) { layer ->
             ReorderableItem(
                 state = reorderableLazyListState,
-                key = layer.hashCode()
+                key = layer.id
             ) {
                 val type = layer.type
                 val state = layer.state
+                val isSelectedForGrouping = layer.id in groupingSelectionIds
                 val density = LocalDensity.current
-                val previewContentSize = remember(state.contentSize) {
-                    state.contentSize.takeIf(IntSize::isSpecified)
+                val previewData = remember(layer) {
+                    layer.takeIf(UiMarkupLayer::isGroup)?.toPreviewGroupData()
+                }
+                val previewContentSize = remember(state.contentSize, previewData) {
+                    previewData?.contentSize ?: state.contentSize.takeIf(IntSize::isSpecified)
                 }
                 val previewTextFullSize by remember(state.canvasSize) {
                     derivedStateOf {
@@ -166,13 +177,21 @@ internal fun MarkupLayersSideMenuColumn(
                             .size(boxSize)
                             .clip(ShapeDefaults.extraSmall)
                             .transparencyChecker()
-                            .hapticsClickable {
-                                if (!layer.isLocked) {
+                            .hapticsCombinedClickable(
+                                onLongClick = {
+                                    onToggleGroupingSelection(layer)
+                                }
+                            ) {
+                                if (isGroupingSelectionMode) {
+                                    onToggleGroupingSelection(layer)
+                                } else if (!layer.isLocked) {
                                     onActivateLayer(layer)
                                 }
                             }
                     ) {
-                        val borderAlpha by animateFloatAsState(if (state.isActive) 1f else 0f)
+                        val borderAlpha by animateFloatAsState(
+                            if (state.isActive || isSelectedForGrouping) 1f else 0f
+                        )
 
                         BoxWithConstraints(
                             modifier = Modifier
@@ -202,7 +221,7 @@ internal fun MarkupLayersSideMenuColumn(
                                         calculatePreviewFitScale(
                                             contentSize = contentSize,
                                             containerSize = previewContainerSize,
-                                            rotation = state.rotation
+                                            rotation = if (layer.isGroup) 0f else state.rotation
                                         )
                                     } ?: 1f
                                 }
@@ -228,17 +247,26 @@ internal fun MarkupLayersSideMenuColumn(
                                 modifier = Modifier
                                     .fillMaxSize(0.96f)
                                     .graphicsLayer {
-                                        scaleX = previewFitScale *
-                                                if (state.isFlippedHorizontally) -1f else 1f
-                                        scaleY = previewFitScale *
-                                                if (state.isFlippedVertically) -1f else 1f
-                                        rotationZ = state.rotation
-                                        alpha = state.alpha
-                                        compositingStrategy = if (state.alpha >= 1f) {
-                                            CompositingStrategy.Auto
+                                        scaleX = if (layer.isGroup) {
+                                            previewFitScale
                                         } else {
-                                            CompositingStrategy.ModulateAlpha
+                                            previewFitScale *
+                                                    if (state.isFlippedHorizontally) -1f else 1f
                                         }
+                                        scaleY = if (layer.isGroup) {
+                                            previewFitScale
+                                        } else {
+                                            previewFitScale *
+                                                    if (state.isFlippedVertically) -1f else 1f
+                                        }
+                                        rotationZ = if (layer.isGroup) 0f else state.rotation
+                                        alpha = if (layer.isGroup) 1f else state.alpha
+                                        compositingStrategy =
+                                            if ((if (layer.isGroup) 1f else state.alpha) >= 1f) {
+                                                CompositingStrategy.Auto
+                                            } else {
+                                                CompositingStrategy.ModulateAlpha
+                                            }
                                     }
                                     .padding(4.dp),
                                 contentAlignment = Alignment.Center
@@ -246,11 +274,10 @@ internal fun MarkupLayersSideMenuColumn(
                                 LayerContent(
                                     modifier = previewModifier,
                                     type = type,
+                                    groupedLayers = previewData?.layers ?: layer.groupedLayers,
                                     textFullSize = previewTextFullSize,
                                     maxLines = layer.visibleLineCount ?: Int.MAX_VALUE,
-                                    cornerRadiusPercent = type.layerCornerRadiusPercent(
-                                        layer.cornerRadiusPercent
-                                    )
+                                    cornerRadiusPercent = layer.uiCornerRadiusPercent()
                                 )
                             }
                         }
@@ -270,11 +297,14 @@ internal fun MarkupLayersSideMenuColumn(
                                 .padding(2.dp)
                         ) {
                             Icon(
-                                imageVector = when (layer.type) {
+                                imageVector = when {
+                                    layer.isGroup -> Icons.Rounded.Folder
+                                    else -> when (layer.type) {
                                     is LayerType.Picture.Image -> Icons.Outlined.ImageSticky
                                     is LayerType.Picture.Sticker -> Icons.Outlined.EmojiSticky
                                     is LayerType.Text -> Icons.Outlined.TextSticky
                                     is LayerType.Shape -> Icons.Outlined.StarSticky
+                                    }
                                 },
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -306,11 +336,17 @@ internal fun MarkupLayersSideMenuColumn(
                     Icon(
                         imageVector = Icons.Rounded.DragHandle,
                         contentDescription = null,
-                        modifier = Modifier.longPressDraggableHandle(
-                            onDragStarted = {
-                                haptics.longPress()
+                        modifier = if (isGroupingSelectionMode) {
+                            Modifier.graphicsLayer {
+                                alpha = 0.35f
                             }
-                        )
+                        } else {
+                            Modifier.longPressDraggableHandle(
+                                onDragStarted = {
+                                    haptics.longPress()
+                                }
+                            )
+                        }
                     )
                 }
             }

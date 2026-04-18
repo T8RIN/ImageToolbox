@@ -60,7 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.modalsheet.FullscreenPopup
 
@@ -125,9 +125,7 @@ internal fun MarkupLayersSideMenu(
                             derivedStateOf {
                                 activeLayer?.let { layer ->
                                     layer.state.normalizedPosition(
-                                        cornerRadiusPercent = layer.type.layerCornerRadiusPercent(
-                                            layer.cornerRadiusPercent
-                                        )
+                                        cornerRadiusPercent = layer.uiCornerRadiusPercent()
                                     )
                                 }
                             }
@@ -160,7 +158,7 @@ internal fun MarkupLayersSideMenu(
                                             onClick = {
                                                 activeLayer?.let(component::removeLayer)
                                             },
-                                            enabled = activeLayer != null
+                                            enabled = activeLayer != null && !component.isGroupingSelectionMode
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Delete,
@@ -173,7 +171,7 @@ internal fun MarkupLayersSideMenu(
                                                 onClick = {
                                                     onContextOptionsVisibleChange(true)
                                                 },
-                                                enabled = activeLayer != null
+                                                enabled = activeLayer != null || component.isGroupingSelectionMode
                                             ) {
                                                 Icon(
                                                     imageVector = Icons.Rounded.Build,
@@ -181,7 +179,7 @@ internal fun MarkupLayersSideMenu(
                                                 )
                                             }
                                             MarkupLayersContextActions(
-                                                visible = isContextOptionsVisible && activeLayer != null,
+                                                visible = isContextOptionsVisible && (activeLayer != null || component.isGroupingSelectionMode),
                                                 onDismiss = { onContextOptionsVisibleChange(false) },
                                                 onCopyLayer = {
                                                     activeLayer?.let(component::copyLayer)
@@ -196,11 +194,19 @@ internal fun MarkupLayersSideMenu(
                                                     activeLayer?.let(component::removeLayer)
                                                 },
                                                 onActivateLayer = {
-                                                    component.deactivateAllLayers()
+                                                    component.clearSelections()
                                                 },
                                                 isLayerLocked = activeLayer?.isLocked == true,
                                                 onToggleLayerLock = {
                                                     activeLayer?.let(component::toggleLayerLock)
+                                                },
+                                                isGroupingSelectionMode = component.isGroupingSelectionMode,
+                                                groupingSelectionCount = component.groupingSelectionCount,
+                                                canGroup = component.groupingSelectionCount >= 2,
+                                                canUngroup = activeLayer?.isGroup == true,
+                                                onGroup = component::groupSelectedLayers,
+                                                onUngroup = {
+                                                    activeLayer?.let(component::ungroupLayer)
                                                 },
                                                 onFlipLayerHorizontally = {
                                                     activeLayer?.let { layer ->
@@ -281,7 +287,9 @@ internal fun MarkupLayersSideMenu(
                                     }
                                     EnhancedSlider(
                                         value = activeLayer?.state?.alpha ?: 1f,
-                                        enabled = activeLayer != null && activeLayer?.isLocked != true,
+                                        enabled = activeLayer != null &&
+                                                activeLayer?.isLocked != true &&
+                                                !component.isGroupingSelectionMode,
                                         onValueChange = {
                                             component.beginHistoryTransaction()
                                             activeLayer?.let { layer ->
@@ -308,6 +316,9 @@ internal fun MarkupLayersSideMenu(
                                 layers = layers,
                                 onReorderLayers = component::reorderLayers,
                                 onActivateLayer = component::activateLayer,
+                                isGroupingSelectionMode = component.isGroupingSelectionMode,
+                                groupingSelectionIds = component.groupingSelectionIds,
+                                onToggleGroupingSelection = component::toggleGroupingSelection,
                                 onToggleLayerVisibility = { layer ->
                                     component.updateLayerState(
                                         layer = layer,

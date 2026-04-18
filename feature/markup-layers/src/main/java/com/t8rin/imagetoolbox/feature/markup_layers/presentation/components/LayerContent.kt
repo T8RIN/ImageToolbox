@@ -70,6 +70,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.drawShapeLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.resolveShapeLayerRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.renderCopy
 import kotlin.math.roundToInt
 import androidx.compose.ui.text.style.TextGeometricTransform as ComposeTextGeometricTransform
 
@@ -77,31 +79,64 @@ import androidx.compose.ui.text.style.TextGeometricTransform as ComposeTextGeome
 internal fun LayerContent(
     modifier: Modifier = Modifier,
     type: LayerType,
+    groupedLayers: List<UiMarkupLayer> = emptyList(),
     textFullSize: Int,
     maxLines: Int = Int.MAX_VALUE,
     cornerRadiusPercent: Int = 0,
     onTextLayout: ((TextLayoutResult) -> Unit)? = null
 ) {
-    when (type) {
-        is LayerType.Picture -> PictureLayerContent(
+    if (groupedLayers.isNotEmpty()) {
+        GroupLayerContent(
             modifier = modifier,
-            type = type,
-            cornerRadiusPercent = cornerRadiusPercent
+            groupedLayers = groupedLayers
         )
+    } else {
+        when (type) {
+            is LayerType.Picture -> PictureLayerContent(
+                modifier = modifier,
+                type = type,
+                cornerRadiusPercent = cornerRadiusPercent
+            )
 
-        is LayerType.Text -> TextLayerContent(
-            modifier = modifier,
-            type = type,
-            textFullSize = textFullSize,
-            maxLines = maxLines,
-            onTextLayout = onTextLayout
-        )
+            is LayerType.Text -> TextLayerContent(
+                modifier = modifier,
+                type = type,
+                textFullSize = textFullSize,
+                maxLines = maxLines,
+                onTextLayout = onTextLayout
+            )
 
-        is LayerType.Shape -> ShapeLayerContent(
-            modifier = modifier,
-            type = type,
-            textFullSize = textFullSize
-        )
+            is LayerType.Shape -> ShapeLayerContent(
+                modifier = modifier,
+                type = type,
+                textFullSize = textFullSize
+            )
+        }
+    }
+}
+
+@Composable
+private fun GroupLayerContent(
+    modifier: Modifier,
+    groupedLayers: List<UiMarkupLayer>
+) {
+    val renderLayers = remember(groupedLayers) {
+        groupedLayers.map(UiMarkupLayer::renderCopy)
+    }
+
+    BoxWithConstraints(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        renderLayers.forEach { layer ->
+            Layer(
+                component = null,
+                layer = layer,
+                onActivate = null,
+                onShowContextOptions = null,
+                onUpdateLayer = null
+            )
+        }
     }
 }
 

@@ -67,6 +67,7 @@ fun BoxWithConstraintsScope.EditBox(
     cornerRadiusPercent: Int = 0,
     blendingMode: BlendingMode = BlendingMode.SrcOver,
     isInteractive: Boolean = true,
+    showSelectionBackground: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -86,6 +87,7 @@ fun BoxWithConstraintsScope.EditBox(
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = blendingMode,
         isInteractive = isInteractive,
+        showSelectionBackground = showSelectionBackground,
         content = content
     )
 }
@@ -100,6 +102,7 @@ fun EditBox(
     cornerRadiusPercent: Int = 0,
     blendingMode: BlendingMode = BlendingMode.SrcOver,
     isInteractive: Boolean = true,
+    showSelectionBackground: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
@@ -188,7 +191,7 @@ fun EditBox(
             .clip(shape)
             .drawWithCache {
                 onDrawWithContent {
-                    if (state.isActive && blendingMode == BlendingMode.SrcOver) {
+                    if (showSelectionBackground && state.isActive && blendingMode == BlendingMode.SrcOver) {
                         drawRect(selectionBackgroundColor)
                     }
                     drawContent()

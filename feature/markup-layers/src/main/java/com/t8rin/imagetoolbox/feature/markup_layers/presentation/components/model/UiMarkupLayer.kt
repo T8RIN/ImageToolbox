@@ -33,24 +33,32 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
+import java.util.concurrent.atomic.AtomicLong
 
 data class UiMarkupLayer(
+    val id: Long = nextUiLayerId(),
     val type: LayerType,
     val visibleLineCount: Int? = null,
     val cornerRadiusPercent: Int = 0,
     val blendingMode: BlendingMode = BlendingMode.SrcOver,
     val isLocked: Boolean = false,
+    val groupedLayers: List<UiMarkupLayer> = emptyList(),
     val state: EditBoxState = EditBoxState(isActive = true)
 ) {
+    val isGroup: Boolean
+        get() = groupedLayers.isNotEmpty()
+
     fun copy(
         isActive: Boolean = state.isActive,
         coerceToBounds: Boolean = state.coerceToBounds
     ) = UiMarkupLayer(
+        id = id,
         type = type,
         visibleLineCount = visibleLineCount,
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = blendingMode,
         isLocked = isLocked,
+        groupedLayers = groupedLayers,
         state = state.copy(
             isActive = isActive,
             coerceToBounds = coerceToBounds
@@ -112,6 +120,16 @@ private fun IntegerSize.toIntSize(): IntSize = IntSize(
     width = width.coerceAtLeast(0),
     height = height.coerceAtLeast(0)
 )
+
+internal fun noteUiLayerId(id: Long) {
+    uiLayerIdCounter.updateAndGet { current ->
+        maxOf(current, id + 1)
+    }
+}
+
+private fun nextUiLayerId(): Long = uiLayerIdCounter.getAndIncrement()
+
+private val uiLayerIdCounter = AtomicLong(1L)
 
 val DomainTextDecoration.icon: ImageVector
     get() = when (this) {
