@@ -62,13 +62,13 @@ data class DropShadow(
         val Default = DropShadow()
 
         val BlurRadiusRange: ClosedFloatingPointRange<Float>
-            get() = 0f..82f
+            get() = 0f..100f
 
         val OffsetXRange: ClosedFloatingPointRange<Float>
-            get() = -82f..82f
+            get() = -64f..64f
 
         val OffsetYRange: ClosedFloatingPointRange<Float>
-            get() = -82f..82f
+            get() = -64f..64f
     }
 }
 
