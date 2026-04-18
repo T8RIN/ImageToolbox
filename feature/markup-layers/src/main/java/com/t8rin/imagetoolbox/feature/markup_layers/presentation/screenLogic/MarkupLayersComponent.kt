@@ -358,6 +358,32 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
+    fun startGroupingSelection(layer: UiMarkupLayer) {
+        if (layer.isLocked) return
+        if (layers.none { it.id == layer.id }) return
+
+        val activeLayerId = layers.firstOrNull { it.state.isActive && !it.isLocked }?.id
+
+        deactivateAllLayers()
+        _groupingSelectionIds.update { ids ->
+            val seededIds = if (ids.isEmpty()) {
+                buildSet {
+                    activeLayerId?.let(::add)
+                    add(layer.id)
+                }
+            } else {
+                ids
+            }
+
+            when {
+                seededIds.isEmpty() -> setOf(layer.id)
+                ids.isEmpty() -> seededIds
+                layer.id in seededIds -> seededIds - layer.id
+                else -> seededIds + layer.id
+            }
+        }
+    }
+
     fun cancelGroupingSelection() {
         _groupingSelectionIds.value = emptySet()
     }

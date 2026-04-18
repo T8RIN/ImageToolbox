@@ -91,6 +91,7 @@ internal fun MarkupLayersSideMenuColumn(
     onActivateLayer: (UiMarkupLayer) -> Unit,
     isGroupingSelectionMode: Boolean,
     groupingSelectionIds: Set<Long>,
+    onStartGroupingSelection: (UiMarkupLayer) -> Unit,
     onToggleGroupingSelection: (UiMarkupLayer) -> Unit,
     onToggleLayerVisibility: (UiMarkupLayer) -> Unit,
     onUnlockLayer: (UiMarkupLayer) -> Unit
@@ -181,7 +182,7 @@ internal fun MarkupLayersSideMenuColumn(
                             .transparencyChecker()
                             .hapticsCombinedClickable(
                                 onLongClick = {
-                                    onToggleGroupingSelection(layer)
+                                    onStartGroupingSelection(layer)
                                 }
                             ) {
                                 if (isGroupingSelectionMode) {

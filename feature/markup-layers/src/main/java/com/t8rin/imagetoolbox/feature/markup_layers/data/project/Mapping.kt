@@ -150,6 +150,8 @@ internal class MarkupMapper @Inject constructor(
         return LayerSnapshot(
             type = layerType.toSnapshotType(),
             position = position.toSnapshot(),
+            contentWidth = contentSize.width,
+            contentHeight = contentSize.height,
             visibleLineCount = visibleLineCount,
             cornerRadiusPercent = layerType.layerCornerRadiusPercent(cornerRadiusPercent),
             isLocked = isLocked,
@@ -301,7 +303,10 @@ internal class MarkupMapper @Inject constructor(
         return MarkupLayer(
             type = layerType,
             position = position.toDomain(),
-            contentSize = IntegerSize.Zero,
+            contentSize = IntegerSize(
+                width = (contentWidth ?: 0).coerceAtLeast(0),
+                height = (contentHeight ?: 0).coerceAtLeast(0)
+            ),
             visibleLineCount = visibleLineCount,
             cornerRadiusPercent = layerType.layerCornerRadiusPercent(cornerRadiusPercent),
             isLocked = isLocked,

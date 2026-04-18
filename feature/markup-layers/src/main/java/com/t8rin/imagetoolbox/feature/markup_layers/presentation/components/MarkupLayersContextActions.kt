@@ -213,6 +213,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                         onToggleLayerLock()
                         onDismiss()
                     },
+                    enabled = !isGroupingSelectionMode,
                     icon = if (isLayerLocked) Icons.Rounded.LockOpen else Icons.Rounded.Lock,
                     text = stringResource(
                         if (isLayerLocked) R.string.unlock else R.string.lock

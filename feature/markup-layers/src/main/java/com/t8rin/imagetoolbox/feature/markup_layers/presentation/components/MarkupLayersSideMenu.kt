@@ -343,6 +343,7 @@ internal fun MarkupLayersSideMenu(
                                 onActivateLayer = component::activateLayer,
                                 isGroupingSelectionMode = component.isGroupingSelectionMode,
                                 groupingSelectionIds = component.groupingSelectionIds,
+                                onStartGroupingSelection = component::startGroupingSelection,
                                 onToggleGroupingSelection = component::toggleGroupingSelection,
                                 onToggleLayerVisibility = { layer ->
                                     component.updateLayerState(

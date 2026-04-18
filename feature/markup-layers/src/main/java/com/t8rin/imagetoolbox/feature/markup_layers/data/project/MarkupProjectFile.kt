@@ -38,6 +38,8 @@ data class BackgroundSnapshot(
 data class LayerSnapshot(
     val type: LayerSnapshotType,
     val position: PositionSnapshot,
+    val contentWidth: Int? = null,
+    val contentHeight: Int? = null,
     val visibleLineCount: Int? = null,
     val cornerRadiusPercent: Int = 0,
     val isLocked: Boolean = false,
