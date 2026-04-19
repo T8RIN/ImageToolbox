@@ -100,12 +100,21 @@ internal fun UiMarkupLayer.groupContentSize(): IntSize? = localLeafLayers()
     ?.toIntSize()
 
 internal fun UiMarkupLayer.canvasLeafLayers(
-    canvasSize: IntegerSize = state.canvasSize
+    canvasSize: IntegerSize = state.canvasSize,
+    coerceScale: Boolean = false
 ): List<UiMarkupLayer> {
     val rootState = state.adjustedToCanvasSize(
         canvasSize = canvasSize,
         forceScaleAdjustment = true
-    )
+    ).let { state ->
+        if (coerceScale) {
+            state.copy(
+                scale = 1f
+            )
+        } else {
+            state
+        }
+    }
 
     return groupedLayers.flatMap { child ->
         child.flattenLeafLayers(
@@ -422,7 +431,9 @@ internal data class LayerBounds(
 internal fun List<UiMarkupLayer>.combinedBounds(): LayerBounds? = map(UiMarkupLayer::visualBounds)
     .reduceOrNull(LayerBounds::plus)
 
-private fun UiMarkupLayer.previewLeafLayers(): List<UiMarkupLayer> = canvasLeafLayers()
+private fun UiMarkupLayer.previewLeafLayers(): List<UiMarkupLayer> = canvasLeafLayers(
+    coerceScale = true
+)
 
 private fun UiMarkupLayer.localLeafLayers(): List<UiMarkupLayer> = groupedLayers.flatMap { child ->
     child.flattenLeafLayers()
