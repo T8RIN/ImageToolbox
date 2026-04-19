@@ -425,7 +425,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             type = defaultGroupPlaceholderType(),
             groupedLayers = selectedLayers.map { layer ->
                 layer.groupChildAt(center)
-                    .withCoerceToBoundsRecursively(groupCoerceToBounds)
             },
             state = EditBoxState(
                 isActive = true,
@@ -434,7 +433,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 offset = center,
                 coerceToBounds = groupCoerceToBounds
             )
-        )
+        ).withCoerceToBoundsRecursively(groupCoerceToBounds)
 
         runEditorChange {
             val selectedIds = selectedEntries.map { it.value.id }.toSet()

@@ -145,7 +145,11 @@ internal fun UiMarkupLayer.applyGroupGlobalChanges(
 ) {
     if (!isGroup) return
 
-    val targetScale = (state.scale * zoomChange).coerceIn(GROUP_SCALE_RANGE)
+    val currentScale = state.scale
+    val targetScale = coerceGroupInteractiveScale(
+        currentScale = currentScale,
+        targetScale = currentScale * zoomChange
+    )
     val proposedState = state.copy(
         scale = targetScale,
         rotation = state.rotation + rotationChange,
@@ -169,9 +173,13 @@ internal fun UiMarkupLayer.applyGroupGlobalChanges(
 internal fun UiMarkupLayer.setGroupScalePrecisely(
     targetScale: Float
 ) {
-    val currentScale = state.scale.coerceAtLeast(0.0001f)
+    val resolvedScale = coerceGroupInteractiveScale(
+        currentScale = state.scale,
+        targetScale = targetScale
+    )
+    val currentScale = state.scale.coerceAtLeast(MIN_GROUP_SCALE_EPSILON)
     applyGroupGlobalChanges(
-        zoomChange = targetScale / currentScale
+        zoomChange = resolvedScale / currentScale
     )
 }
 
@@ -243,21 +251,24 @@ internal fun UiMarkupLayer.composeToParentSpace(
     parent: UiMarkupLayer
 ): UiMarkupLayer {
     val rootCanvasSize = parent.state.canvasSize
-    val composedTransform = parent.state.toLayerTransform().compose(state.toLayerTransform())
+    val detachedLayer = detachedSubtree()
+    val composedTransform = parent.state.toLayerTransform().compose(
+        detachedLayer.state.toLayerTransform()
+    )
     val decomposition = composedTransform.matrix.decompose()
 
-    return copy(
-        state = state.copy(
+    return detachedLayer.copy(
+        state = detachedLayer.state.copy(
             scale = decomposition.scale,
             rotation = decomposition.rotation,
             isFlippedHorizontally = decomposition.isFlippedHorizontally,
             isFlippedVertically = decomposition.isFlippedVertically,
             offset = composedTransform.offset,
-            alpha = (parent.state.alpha * state.alpha).coerceIn(0f, 1f),
+            alpha = (parent.state.alpha * detachedLayer.state.alpha).coerceIn(0f, 1f),
             isActive = false,
             canvasSize = rootCanvasSize,
-            isVisible = parent.state.isVisible && state.isVisible,
-            coerceToBounds = state.coerceToBounds,
+            isVisible = parent.state.isVisible && detachedLayer.state.isVisible,
+            coerceToBounds = detachedLayer.state.coerceToBounds,
             isInEditMode = false
         )
     )
@@ -542,6 +553,14 @@ private fun UiMarkupLayer.previewLeafLayers(): List<UiMarkupLayer> = canvasLeafL
     coerceScale = true
 )
 
+private fun UiMarkupLayer.detachedSubtree(): UiMarkupLayer = copy(
+    groupedLayers = groupedLayers.map(UiMarkupLayer::detachedSubtree),
+    state = state.copy(
+        isActive = false,
+        isInEditMode = false
+    )
+)
+
 private fun UiMarkupLayer.localLeafLayers(): List<UiMarkupLayer> = groupedLayers.flatMap { child ->
     child.flattenLeafLayers()
 }
@@ -656,5 +675,21 @@ private fun radiansToDegrees(
     radians: Float
 ): Float = radians * 180f / PI.toFloat()
 
+private fun coerceGroupInteractiveScale(
+    currentScale: Float,
+    targetScale: Float
+): Float {
+    val minimumValue = GROUP_SCALE_RANGE.start
+    val maximumValue = GROUP_SCALE_RANGE.endInclusive
+    val safeTargetScale = targetScale.coerceAtLeast(MIN_GROUP_SCALE_EPSILON)
+
+    return when {
+        safeTargetScale >= minimumValue -> safeTargetScale.coerceAtMost(maximumValue)
+        currentScale < minimumValue -> safeTargetScale.coerceAtMost(maximumValue)
+        else -> minimumValue
+    }
+}
+
 private const val DEGREES_TO_RADIANS = (PI / 180f).toFloat()
+private const val MIN_GROUP_SCALE_EPSILON = 0.0001f
 private val GROUP_SCALE_RANGE = 0.1f..10f

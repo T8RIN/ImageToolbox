@@ -149,7 +149,10 @@ class EditBoxState(
         rotationChange: Float
     ) {
         rotation += rotationChange
-        scale = (scale * zoomChange).fastCoerceIn(
+        val currentScale = scale
+        scale = coerceInteractiveScale(
+            currentScale = currentScale,
+            targetScale = currentScale * zoomChange,
             minimumValue = SCALE_RANGE.start,
             maximumValue = SCALE_RANGE.endInclusive
         )
@@ -226,6 +229,10 @@ class EditBoxState(
         forceScaleAdjustment: Boolean = false
     ) {
         val previousCanvasSize = _canvasSize.value
+        if (previousCanvasSize == value) {
+            _canvasSize.value = value
+            return
+        }
         if (previousCanvasSize != IntegerSize.Zero) {
             val sx = value.width.toFloat() / previousCanvasSize.width
             val sy = value.height.toFloat() / previousCanvasSize.height
@@ -244,10 +251,15 @@ class EditBoxState(
                         forceScaleAdjustment || !contentSize.isBoundedByCanvas(previousCanvasSize)
                         )
             ) {
-                scale = (scale * min(sx, sy)).fastCoerceIn(
-                    minimumValue = SCALE_RANGE.start,
-                    maximumValue = SCALE_RANGE.endInclusive
-                )
+                val scaledValue = scale * min(sx, sy)
+                scale = if (forceScaleAdjustment) {
+                    scaledValue.coerceAtMost(SCALE_RANGE.endInclusive)
+                } else {
+                    scaledValue.fastCoerceIn(
+                        minimumValue = SCALE_RANGE.start,
+                        maximumValue = SCALE_RANGE.endInclusive
+                    )
+                }
             }
         }
         _canvasSize.value = value
@@ -343,7 +355,9 @@ class EditBoxState(
         cornerRadiusPercent: Int
     ) {
         val contentSize = contentSize
-        val scale = targetScale.fastCoerceIn(
+        val scale = coerceInteractiveScale(
+            currentScale = this.scale,
+            targetScale = targetScale,
             minimumValue = SCALE_RANGE.start,
             maximumValue = SCALE_RANGE.endInclusive
         )
@@ -474,5 +488,21 @@ private fun Offset.rotateBy(
     return Offset(newX, newY)
 }
 
+private fun coerceInteractiveScale(
+    currentScale: Float,
+    targetScale: Float,
+    minimumValue: Float,
+    maximumValue: Float
+): Float {
+    val safeTargetScale = targetScale.coerceAtLeast(MIN_SCALE_EPSILON)
+
+    return when {
+        safeTargetScale >= minimumValue -> safeTargetScale.coerceAtMost(maximumValue)
+        currentScale < minimumValue -> safeTargetScale.coerceAtMost(maximumValue)
+        else -> minimumValue
+    }
+}
+
 private const val ROTATION_CONST = (Math.PI / 180f).toFloat()
+private const val MIN_SCALE_EPSILON = 0.0001f
 private val SCALE_RANGE = 0.1f..10f

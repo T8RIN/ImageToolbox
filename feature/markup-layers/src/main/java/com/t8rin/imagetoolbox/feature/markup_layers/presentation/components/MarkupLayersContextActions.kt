@@ -472,7 +472,7 @@ internal fun BoxScope.MarkupLayersContextActions(
         },
         valueRange = when (activeValueDialogType) {
             ValueDialogType.Rotation -> 0f..360f
-            ValueDialogType.Scale -> 0.3f..10f
+            ValueDialogType.Scale -> 0.1f..10f
             ValueDialogType.PositionX,
             ValueDialogType.PositionY -> -2f..2f
 
