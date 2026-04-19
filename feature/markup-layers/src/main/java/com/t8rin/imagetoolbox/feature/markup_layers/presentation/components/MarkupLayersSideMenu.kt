@@ -57,8 +57,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
-import com.t8rin.imagetoolbox.core.resources.icons.Group
-import com.t8rin.imagetoolbox.core.resources.icons.Ungroup
+import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
+import com.t8rin.imagetoolbox.core.resources.icons.StackStickyOff
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -178,7 +178,7 @@ internal fun MarkupLayersSideMenu(
                                                     onClick = component::groupSelectedLayers
                                                 ) {
                                                     Icon(
-                                                        imageVector = Icons.Outlined.Group,
+                                                        imageVector = Icons.Outlined.StackSticky,
                                                         contentDescription = null
                                                     )
                                                 }
@@ -189,7 +189,7 @@ internal fun MarkupLayersSideMenu(
                                                     }
                                                 ) {
                                                     Icon(
-                                                        imageVector = Icons.Outlined.Ungroup,
+                                                        imageVector = Icons.Outlined.StackStickyOff,
                                                         contentDescription = null
                                                     )
                                                 }

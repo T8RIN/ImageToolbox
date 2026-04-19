@@ -61,10 +61,10 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
-import com.t8rin.imagetoolbox.core.resources.icons.Group
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.Shadow
+import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.inverseByLuma
@@ -126,7 +126,7 @@ internal fun EditLayerSheet(
         title = {
             if (layer.isGroup) {
                 TitleItem(
-                    icon = Icons.Outlined.Group,
+                    icon = Icons.Outlined.StackSticky,
                     text = stringResource(R.string.edit_layer)
                 )
             } else when (val type = layer.type) {

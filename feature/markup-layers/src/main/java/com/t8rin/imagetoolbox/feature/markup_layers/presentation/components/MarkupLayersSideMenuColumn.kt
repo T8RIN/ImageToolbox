@@ -59,8 +59,8 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiSticky
-import com.t8rin.imagetoolbox.core.resources.icons.Group
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSticky
+import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
 import com.t8rin.imagetoolbox.core.resources.icons.StarSticky
 import com.t8rin.imagetoolbox.core.resources.icons.TextSticky
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -304,7 +304,7 @@ internal fun MarkupLayersSideMenuColumn(
                         ) {
                             Icon(
                                 imageVector = if (layer.isGroup) {
-                                    Icons.Outlined.Group
+                                    Icons.Outlined.StackSticky
                                 } else {
                                     when (layer.type) {
                                         is LayerType.Picture.Image -> Icons.Outlined.ImageSticky
