@@ -53,7 +53,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
-import com.t8rin.imagetoolbox.core.resources.icons.ImageTooltip
+import com.t8rin.imagetoolbox.core.resources.icons.ImagesMode
 import com.t8rin.imagetoolbox.core.resources.icons.ImagesearchRoller
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
@@ -108,7 +108,7 @@ internal fun MarkupLayersNoDataControls(
         item {
             PreferenceItem(
                 onClick = onPickImage,
-                startIcon = Icons.Outlined.ImageTooltip,
+                startIcon = Icons.Outlined.ImagesMode,
                 title = stringResource(R.string.layers_on_image),
                 subtitle = stringResource(R.string.layers_on_image_sub),
                 modifier = Modifier.fillMaxWidth()
