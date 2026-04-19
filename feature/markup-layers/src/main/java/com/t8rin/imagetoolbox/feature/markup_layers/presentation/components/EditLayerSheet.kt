@@ -191,6 +191,456 @@ internal fun EditLayerSheet(
         ) {
             if (!layer.isGroup) {
                 when (val type = layer.type) {
+                    is LayerType.Text -> {
+                        RoundedTextField(
+                            value = type.text,
+                            onValueChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            text = it
+                                        )
+                                    )
+                                )
+                            },
+                            hint = stringResource(R.string.text),
+                            colors = RoundedTextFieldColors(
+                                isError = false,
+                                containerColor = SafeLocalContainerColor
+                            ),
+                            modifier = Modifier.container(
+                                shape = ShapeDefaults.top,
+                                color = MaterialTheme.colorScheme.surface,
+                                resultPadding = 8.dp
+                            ),
+                            keyboardOptions = KeyboardOptions(),
+                            singleLine = false
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        EnhancedButtonGroup(
+                            modifier = Modifier
+                                .container(
+                                    shape = ShapeDefaults.bottom,
+                                    color = MaterialTheme.colorScheme.surface
+                                ),
+                            title = stringResource(id = R.string.alignment),
+                            entries = Alignment.entries,
+                            value = type.alignment,
+                            onValueChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(alignment = it)
+                                    )
+                                )
+                            },
+                            itemContent = {
+                                Icon(
+                                    imageVector = when (it) {
+                                        Alignment.Start -> Icons.AutoMirrored.Rounded.FormatAlignLeft
+                                        Alignment.Center -> Icons.Rounded.FormatAlignCenter
+                                        Alignment.End -> Icons.AutoMirrored.Rounded.FormatAlignRight
+                                    },
+                                    contentDescription = null
+                                )
+                            },
+                            activeButtonColor = MaterialTheme.colorScheme.secondaryContainer,
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            isScrollable = false
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        FontSelector(
+                            value = type.font.toUiFont(),
+                            onValueChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            font = it.type
+                                        )
+                                    )
+                                )
+                            },
+                            shape = ShapeDefaults.top,
+                            containerColor = MaterialTheme.colorScheme.surface
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        EnhancedSliderItem(
+                            value = type.size,
+                            title = stringResource(R.string.font_scale),
+                            internalStateTransformation = {
+                                it.roundToTwoDigits()
+                            },
+                            onValueChange = {
+                                updateLayerContinuously(
+                                    layer.copy(
+                                        type = type.copy(size = it)
+                                    )
+                                )
+                            },
+                            onValueChangeFinished = { _ -> finishContinuousEdit() },
+                            valueRange = 0.01f..1f,
+                            shape = ShapeDefaults.center,
+                            containerColor = MaterialTheme.colorScheme.surface
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        ColorRowSelector(
+                            value = type.backgroundColor.toColor(),
+                            onValueChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            backgroundColor = it.toArgb()
+                                        )
+                                    )
+                                )
+                            },
+                            title = stringResource(R.string.background_color),
+                            icon = Icons.Outlined.BackgroundColor,
+                            modifier = Modifier.container(
+                                shape = ShapeDefaults.center,
+                                color = MaterialTheme.colorScheme.surface
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        ColorRowSelector(
+                            value = type.color.toColor(),
+                            onValueChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            color = it.toArgb()
+                                        )
+                                    )
+                                )
+                            },
+                            title = stringResource(R.string.text_color),
+                            modifier = Modifier.container(
+                                shape = ShapeDefaults.center,
+                                color = MaterialTheme.colorScheme.surface
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        var haveTextGeometry by remember {
+                            mutableStateOf(type.geometricTransform != null)
+                        }
+                        LaunchedEffect(haveTextGeometry, type.geometricTransform) {
+                            val desiredGeometricTransform = if (haveTextGeometry) {
+                                type.geometricTransform ?: TextGeometricTransform()
+                            } else null
+
+                            if (type.geometricTransform != desiredGeometricTransform) {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            geometricTransform = desiredGeometricTransform
+                                        )
+                                    )
+                                )
+                            }
+                        }
+
+                        PreferenceRowSwitch(
+                            title = stringResource(R.string.text_geometry),
+                            subtitle = stringResource(R.string.text_geometry_sub),
+                            shape = ShapeDefaults.center,
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            applyHorizontalPadding = false,
+                            resultModifier = Modifier.padding(16.dp),
+                            checked = haveTextGeometry,
+                            onClick = {
+                                haveTextGeometry = it
+                            },
+                            additionalContent = {
+                                AnimatedVisibility(
+                                    visible = type.geometricTransform != null,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(
+                                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                                        modifier = Modifier.padding(top = 16.dp)
+                                    ) {
+                                        EnhancedSliderItem(
+                                            value = type.geometricTransform?.scaleX ?: 1f,
+                                            title = stringResource(R.string.scale_x),
+                                            internalStateTransformation = {
+                                                it.roundToTwoDigits()
+                                            },
+                                            onValueChange = {
+                                                updateLayerContinuously(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            geometricTransform = type.geometricTransform?.copy(
+                                                                scaleX = it
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            },
+                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
+                                            valueRange = 0.25f..3f,
+                                            shape = ShapeDefaults.top,
+                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                                        )
+                                        EnhancedSliderItem(
+                                            value = type.geometricTransform?.skewX ?: 0f,
+                                            title = stringResource(R.string.skew_x),
+                                            internalStateTransformation = {
+                                                it.roundToTwoDigits()
+                                            },
+                                            onValueChange = {
+                                                updateLayerContinuously(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            geometricTransform = type.geometricTransform?.copy(
+                                                                skewX = it
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            },
+                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
+                                            valueRange = -1.5f..1.5f,
+                                            shape = ShapeDefaults.bottom,
+                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                                        )
+                                    }
+                                }
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        var haveShadow by remember {
+                            mutableStateOf(type.shadow != null)
+                        }
+                        LaunchedEffect(haveShadow, type.shadow, type.color) {
+                            val desiredShadow = if (haveShadow) {
+                                type.shadow ?: DropShadow.Default
+                            } else null
+
+                            if (type.shadow != desiredShadow) {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = desiredShadow
+                                        )
+                                    )
+                                )
+                            }
+                        }
+
+                        PreferenceRowSwitch(
+                            title = stringResource(R.string.add_shadow),
+                            subtitle = stringResource(R.string.add_shadow_sub),
+                            shape = ShapeDefaults.center,
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            applyHorizontalPadding = false,
+                            resultModifier = Modifier.padding(16.dp),
+                            checked = haveShadow,
+                            onClick = {
+                                haveShadow = it
+                            },
+                            additionalContent = {
+                                AnimatedVisibility(
+                                    visible = type.shadow != null,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(
+                                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                                        modifier = Modifier.padding(top = 16.dp)
+                                    ) {
+                                        ColorRowSelector(
+                                            value = type.shadow?.color?.toColor()
+                                                ?: Color.Transparent,
+                                            onValueChange = {
+                                                updateLayerWithHistory(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            shadow = type.shadow?.copy(
+                                                                color = it.toArgb()
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            },
+                                            title = stringResource(R.string.shadow_color),
+                                            modifier = Modifier.container(
+                                                shape = ShapeDefaults.top,
+                                                color = MaterialTheme.colorScheme.surfaceContainerLow
+                                            ),
+                                            icon = Icons.Filled.Shadow
+                                        )
+                                        EnhancedSliderItem(
+                                            value = type.shadow?.blurRadius ?: 0f,
+                                            title = stringResource(R.string.blur_radius),
+                                            internalStateTransformation = {
+                                                it.roundToTwoDigits()
+                                            },
+                                            onValueChange = {
+                                                updateLayerContinuously(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            shadow = type.shadow?.copy(
+                                                                blurRadius = it
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            },
+                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
+                                            valueRange = DropShadow.BlurRadiusRange,
+                                            shape = ShapeDefaults.center,
+                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                                        )
+                                        EnhancedSliderItem(
+                                            value = type.shadow?.offsetX ?: 0f,
+                                            title = stringResource(R.string.offset_x),
+                                            internalStateTransformation = {
+                                                it.roundToTwoDigits()
+                                            },
+                                            onValueChange = {
+                                                updateLayerContinuously(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            shadow = type.shadow?.copy(
+                                                                offsetX = it
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            },
+                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
+                                            valueRange = DropShadow.OffsetXRange,
+                                            shape = ShapeDefaults.center,
+                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                                        )
+                                        EnhancedSliderItem(
+                                            value = type.shadow?.offsetY ?: 0f,
+                                            title = stringResource(R.string.offset_y),
+                                            internalStateTransformation = {
+                                                it.roundToTwoDigits()
+                                            },
+                                            onValueChange = {
+                                                updateLayerContinuously(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            shadow = type.shadow?.copy(
+                                                                offsetY = it
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            },
+                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
+                                            valueRange = DropShadow.OffsetYRange,
+                                            shape = ShapeDefaults.bottom,
+                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                                        )
+                                    }
+                                }
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        var haveOutline by remember {
+                            mutableStateOf(type.outline != null)
+                        }
+                        LaunchedEffect(haveOutline, type.outline, type.color) {
+                            val desiredOutline = if (haveOutline) {
+                                type.outline ?: Outline(
+                                    color = type.color.toColor()
+                                        .inverseByLuma()
+                                        .toArgb(),
+                                    width = 4f
+                                )
+                            } else null
+
+                            if (type.outline != desiredOutline) {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            outline = desiredOutline
+                                        )
+                                    )
+                                )
+                            }
+                        }
+
+                        PreferenceRowSwitch(
+                            title = stringResource(R.string.add_outline),
+                            subtitle = stringResource(R.string.add_outline_sub),
+                            shape = ShapeDefaults.bottom,
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            applyHorizontalPadding = false,
+                            resultModifier = Modifier.padding(16.dp),
+                            checked = haveOutline,
+                            onClick = {
+                                haveOutline = it
+                            },
+                            additionalContent = {
+                                AnimatedVisibility(
+                                    visible = type.outline != null,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(
+                                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                                        modifier = Modifier.padding(top = 16.dp)
+                                    ) {
+                                        ColorRowSelector(
+                                            value = type.outline?.color?.toColor()
+                                                ?: Color.Transparent,
+                                            onValueChange = {
+                                                updateLayerWithHistory(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            outline = type.outline?.copy(
+                                                                color = it.toArgb()
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            },
+                                            title = stringResource(R.string.outline_color),
+                                            modifier = Modifier.container(
+                                                shape = ShapeDefaults.top,
+                                                color = MaterialTheme.colorScheme.surfaceContainerLow
+                                            ),
+                                            icon = Icons.Outlined.BorderColor
+                                        )
+                                        EnhancedSliderItem(
+                                            value = type.outline?.width ?: 0.2f,
+                                            title = stringResource(R.string.outline_size),
+                                            internalStateTransformation = {
+                                                it.roundToTwoDigits()
+                                            },
+                                            onValueChange = {
+                                                updateLayerContinuously(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            outline = type.outline?.copy(
+                                                                width = it
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            },
+                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
+                                            valueRange = 0.01f..10f,
+                                            shape = ShapeDefaults.bottom,
+                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                                        )
+                                    }
+                                }
+                            }
+                        )
+                    }
+
+                    is LayerType.Shape -> {
+                        ShapeLayerParamsSelector(
+                            layer = layer,
+                            type = type,
+                            onUpdateLayer = updateLayerWithHistory,
+                            onUpdateLayerContinuously = updateLayerContinuously,
+                            onContinuousEditFinished = finishContinuousEdit
+                        )
+                    }
+
                     is LayerType.Picture.Image -> {
                         ImageSelector(
                             value = type.imageData,
@@ -206,547 +656,93 @@ internal fun EditLayerSheet(
                             subtitle = null,
                             color = MaterialTheme.colorScheme.surface
                         )
-                    }
-
-                is LayerType.Text -> {
-                    RoundedTextField(
-                        value = type.text,
-                        onValueChange = {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        text = it
-                                    )
-                                )
-                            )
-                        },
-                        hint = stringResource(R.string.text),
-                        colors = RoundedTextFieldColors(
-                            isError = false,
-                            containerColor = SafeLocalContainerColor
-                        ),
-                        modifier = Modifier.container(
-                            shape = ShapeDefaults.top,
-                            color = MaterialTheme.colorScheme.surface,
-                            resultPadding = 8.dp
-                        ),
-                        keyboardOptions = KeyboardOptions(),
-                        singleLine = false
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    EnhancedButtonGroup(
-                        modifier = Modifier
-                            .container(
-                                shape = ShapeDefaults.bottom,
-                                color = MaterialTheme.colorScheme.surface
-                            ),
-                        title = stringResource(id = R.string.alignment),
-                        entries = Alignment.entries,
-                        value = type.alignment,
-                        onValueChange = {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(alignment = it)
-                                )
-                            )
-                        },
-                        itemContent = {
-                            Icon(
-                                imageVector = when (it) {
-                                    Alignment.Start -> Icons.AutoMirrored.Rounded.FormatAlignLeft
-                                    Alignment.Center -> Icons.Rounded.FormatAlignCenter
-                                    Alignment.End -> Icons.AutoMirrored.Rounded.FormatAlignRight
-                                },
-                                contentDescription = null
-                            )
-                        },
-                        activeButtonColor = MaterialTheme.colorScheme.secondaryContainer,
-                        inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        isScrollable = false
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    FontSelector(
-                        value = type.font.toUiFont(),
-                        onValueChange = {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        font = it.type
-                                    )
-                                )
-                            )
-                        },
-                        shape = ShapeDefaults.top,
-                        containerColor = MaterialTheme.colorScheme.surface
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    EnhancedSliderItem(
-                        value = type.size,
-                        title = stringResource(R.string.font_scale),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
-                        onValueChange = {
-                            updateLayerContinuously(
-                                layer.copy(
-                                    type = type.copy(size = it)
-                                )
-                            )
-                        },
-                        onValueChangeFinished = { _ -> finishContinuousEdit() },
-                        valueRange = 0.01f..1f,
-                        shape = ShapeDefaults.center,
-                        containerColor = MaterialTheme.colorScheme.surface
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    ColorRowSelector(
-                        value = type.backgroundColor.toColor(),
-                        onValueChange = {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        backgroundColor = it.toArgb()
-                                    )
-                                )
-                            )
-                        },
-                        title = stringResource(R.string.background_color),
-                        icon = Icons.Outlined.BackgroundColor,
-                        modifier = Modifier.container(
-                            shape = ShapeDefaults.center,
-                            color = MaterialTheme.colorScheme.surface
+                        Spacer(modifier = Modifier.height(4.dp))
+                        PictureShadowSection(
+                            layer = layer,
+                            type = type,
+                            onUpdateLayer = updateLayerWithHistory,
+                            onUpdateLayerContinuously = updateLayerContinuously,
+                            onContinuousEditFinished = finishContinuousEdit
                         )
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    ColorRowSelector(
-                        value = type.color.toColor(),
-                        onValueChange = {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        color = it.toArgb()
-                                    )
+                    }
+
+                    is LayerType.Picture.Sticker -> {
+                        var showEmojiPicker by rememberSaveable {
+                            mutableStateOf(false)
+                        }
+
+                        PreferenceItemOverload(
+                            title = stringResource(R.string.change_sticker),
+                            subtitle = null,
+                            onClick = {
+                                showEmojiPicker = true
+                            },
+                            startIcon = {
+                                Picture(
+                                    model = type.imageData,
+                                    contentPadding = PaddingValues(8.dp),
+                                    shape = MaterialStarShape,
+                                    modifier = Modifier.size(48.dp),
+                                    error = {
+                                        Icon(
+                                            imageVector = Icons.Outlined.AddPhotoAlt,
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .clip(MaterialStarShape)
+                                                .background(
+                                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                        0.5f
+                                                    )
+                                                )
+                                                .padding(8.dp)
+                                        )
+                                    }
                                 )
-                            )
-                        },
-                        title = stringResource(R.string.text_color),
-                        modifier = Modifier.container(
-                            shape = ShapeDefaults.center,
-                            color = MaterialTheme.colorScheme.surface
+                            },
+                            endIcon = {
+                                Icon(
+                                    imageVector = Icons.Rounded.MiniEdit,
+                                    contentDescription = stringResource(R.string.edit)
+                                )
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = ShapeDefaults.large,
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            drawStartIconContainer = false
                         )
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    var haveTextGeometry by remember {
-                        mutableStateOf(type.geometricTransform != null)
-                    }
-                    LaunchedEffect(haveTextGeometry, type.geometricTransform) {
-                        val desiredGeometricTransform = if (haveTextGeometry) {
-                            type.geometricTransform ?: TextGeometricTransform()
-                        } else null
 
-                        if (type.geometricTransform != desiredGeometricTransform) {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        geometricTransform = desiredGeometricTransform
+                        Spacer(modifier = Modifier.height(4.dp))
+                        PictureShadowSection(
+                            layer = layer,
+                            type = type,
+                            onUpdateLayer = updateLayerWithHistory,
+                            onUpdateLayerContinuously = updateLayerContinuously,
+                            onContinuousEditFinished = finishContinuousEdit
+                        )
+
+                        val allEmojis = Emoji.allIcons()
+
+                        EmojiSelectionSheet(
+                            selectedEmojiIndex = null,
+                            allEmojis = allEmojis,
+                            onEmojiPicked = {
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            imageData = allEmojis[it]
+                                        )
                                     )
                                 )
-                            )
-                        }
-                    }
-
-                    PreferenceRowSwitch(
-                        title = stringResource(R.string.text_geometry),
-                        subtitle = stringResource(R.string.text_geometry_sub),
-                        shape = ShapeDefaults.center,
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        applyHorizontalPadding = false,
-                        resultModifier = Modifier.padding(16.dp),
-                        checked = haveTextGeometry,
-                        onClick = {
-                            haveTextGeometry = it
-                        },
-                        additionalContent = {
-                            AnimatedVisibility(
-                                visible = type.geometricTransform != null,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Column(
-                                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                                    modifier = Modifier.padding(top = 16.dp)
-                                ) {
-                                    EnhancedSliderItem(
-                                        value = type.geometricTransform?.scaleX ?: 1f,
-                                        title = stringResource(R.string.scale_x),
-                                        internalStateTransformation = {
-                                            it.roundToTwoDigits()
-                                        },
-                                        onValueChange = {
-                                            updateLayerContinuously(
-                                                layer.copy(
-                                                    type = type.copy(
-                                                        geometricTransform = type.geometricTransform?.copy(
-                                                            scaleX = it
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        },
-                                        onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = 0.25f..3f,
-                                        shape = ShapeDefaults.top,
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                    )
-                                    EnhancedSliderItem(
-                                        value = type.geometricTransform?.skewX ?: 0f,
-                                        title = stringResource(R.string.skew_x),
-                                        internalStateTransformation = {
-                                            it.roundToTwoDigits()
-                                        },
-                                        onValueChange = {
-                                            updateLayerContinuously(
-                                                layer.copy(
-                                                    type = type.copy(
-                                                        geometricTransform = type.geometricTransform?.copy(
-                                                            skewX = it
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        },
-                                        onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = -1.5f..1.5f,
-                                        shape = ShapeDefaults.bottom,
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                    )
-                                }
+                                showEmojiPicker = false
+                            },
+                            visible = showEmojiPicker,
+                            onDismiss = {
+                                showEmojiPicker = false
                             }
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    var haveShadow by remember {
-                        mutableStateOf(type.shadow != null)
+                        )
                     }
-                    LaunchedEffect(haveShadow, type.shadow, type.color) {
-                        val desiredShadow = if (haveShadow) {
-                            type.shadow ?: DropShadow.Default
-                        } else null
-
-                        if (type.shadow != desiredShadow) {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        shadow = desiredShadow
-                                    )
-                                )
-                            )
-                        }
-                    }
-
-                    PreferenceRowSwitch(
-                        title = stringResource(R.string.add_shadow),
-                        subtitle = stringResource(R.string.add_shadow_sub),
-                        shape = ShapeDefaults.center,
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        applyHorizontalPadding = false,
-                        resultModifier = Modifier.padding(16.dp),
-                        checked = haveShadow,
-                        onClick = {
-                            haveShadow = it
-                        },
-                        additionalContent = {
-                            AnimatedVisibility(
-                                visible = type.shadow != null,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Column(
-                                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                                    modifier = Modifier.padding(top = 16.dp)
-                                ) {
-                                    ColorRowSelector(
-                                        value = type.shadow?.color?.toColor() ?: Color.Transparent,
-                                        onValueChange = {
-                                            updateLayerWithHistory(
-                                                layer.copy(
-                                                    type = type.copy(
-                                                        shadow = type.shadow?.copy(
-                                                            color = it.toArgb()
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        },
-                                        title = stringResource(R.string.shadow_color),
-                                        modifier = Modifier.container(
-                                            shape = ShapeDefaults.top,
-                                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                                        ),
-                                        icon = Icons.Filled.Shadow
-                                    )
-                                    EnhancedSliderItem(
-                                        value = type.shadow?.blurRadius ?: 0f,
-                                        title = stringResource(R.string.blur_radius),
-                                        internalStateTransformation = {
-                                            it.roundToTwoDigits()
-                                        },
-                                        onValueChange = {
-                                            updateLayerContinuously(
-                                                layer.copy(
-                                                    type = type.copy(
-                                                        shadow = type.shadow?.copy(
-                                                            blurRadius = it
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        },
-                                        onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = DropShadow.BlurRadiusRange,
-                                        shape = ShapeDefaults.center,
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                    )
-                                    EnhancedSliderItem(
-                                        value = type.shadow?.offsetX ?: 0f,
-                                        title = stringResource(R.string.offset_x),
-                                        internalStateTransformation = {
-                                            it.roundToTwoDigits()
-                                        },
-                                        onValueChange = {
-                                            updateLayerContinuously(
-                                                layer.copy(
-                                                    type = type.copy(
-                                                        shadow = type.shadow?.copy(
-                                                            offsetX = it
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        },
-                                        onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = DropShadow.OffsetXRange,
-                                        shape = ShapeDefaults.center,
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                    )
-                                    EnhancedSliderItem(
-                                        value = type.shadow?.offsetY ?: 0f,
-                                        title = stringResource(R.string.offset_y),
-                                        internalStateTransformation = {
-                                            it.roundToTwoDigits()
-                                        },
-                                        onValueChange = {
-                                            updateLayerContinuously(
-                                                layer.copy(
-                                                    type = type.copy(
-                                                        shadow = type.shadow?.copy(
-                                                            offsetY = it
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        },
-                                        onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = DropShadow.OffsetYRange,
-                                        shape = ShapeDefaults.bottom,
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                    )
-                                }
-                            }
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    var haveOutline by remember {
-                        mutableStateOf(type.outline != null)
-                    }
-                    LaunchedEffect(haveOutline, type.outline, type.color) {
-                        val desiredOutline = if (haveOutline) {
-                            type.outline ?: Outline(
-                                color = type.color.toColor()
-                                    .inverseByLuma()
-                                    .toArgb(),
-                                width = 4f
-                            )
-                        } else null
-
-                        if (type.outline != desiredOutline) {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        outline = desiredOutline
-                                    )
-                                )
-                            )
-                        }
-                    }
-
-                    PreferenceRowSwitch(
-                        title = stringResource(R.string.add_outline),
-                        subtitle = stringResource(R.string.add_outline_sub),
-                        shape = ShapeDefaults.bottom,
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        applyHorizontalPadding = false,
-                        resultModifier = Modifier.padding(16.dp),
-                        checked = haveOutline,
-                        onClick = {
-                            haveOutline = it
-                        },
-                        additionalContent = {
-                            AnimatedVisibility(
-                                visible = type.outline != null,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Column(
-                                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                                    modifier = Modifier.padding(top = 16.dp)
-                                ) {
-                                    ColorRowSelector(
-                                        value = type.outline?.color?.toColor() ?: Color.Transparent,
-                                        onValueChange = {
-                                            updateLayerWithHistory(
-                                                layer.copy(
-                                                    type = type.copy(
-                                                        outline = type.outline?.copy(
-                                                            color = it.toArgb()
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        },
-                                        title = stringResource(R.string.outline_color),
-                                        modifier = Modifier.container(
-                                            shape = ShapeDefaults.top,
-                                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                                        ),
-                                        icon = Icons.Outlined.BorderColor
-                                    )
-                                    EnhancedSliderItem(
-                                        value = type.outline?.width ?: 0.2f,
-                                        title = stringResource(R.string.outline_size),
-                                        internalStateTransformation = {
-                                            it.roundToTwoDigits()
-                                        },
-                                        onValueChange = {
-                                            updateLayerContinuously(
-                                                layer.copy(
-                                                    type = type.copy(
-                                                        outline = type.outline?.copy(
-                                                            width = it
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        },
-                                        onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                        valueRange = 0.01f..10f,
-                                        shape = ShapeDefaults.bottom,
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                    )
-                                }
-                            }
-                        }
-                    )
                 }
-
-                is LayerType.Shape -> {
-                    ShapeLayerEditorSection(
-                        layer = layer,
-                        type = type,
-                        onUpdateLayer = updateLayerWithHistory,
-                        onUpdateLayerContinuously = updateLayerContinuously,
-                        onContinuousEditFinished = finishContinuousEdit
-                    )
-                }
-
-                is LayerType.Picture.Sticker -> {
-                    var showEmojiPicker by rememberSaveable {
-                        mutableStateOf(false)
-                    }
-
-                    PreferenceItemOverload(
-                        title = stringResource(R.string.change_sticker),
-                        subtitle = null,
-                        onClick = {
-                            showEmojiPicker = true
-                        },
-                        startIcon = {
-                            Picture(
-                                model = type.imageData,
-                                contentPadding = PaddingValues(8.dp),
-                                shape = MaterialStarShape,
-                                modifier = Modifier.size(48.dp),
-                                error = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.AddPhotoAlt,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .clip(MaterialStarShape)
-                                            .background(
-                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    0.5f
-                                                )
-                                            )
-                                            .padding(8.dp)
-                                    )
-                                }
-                            )
-                        },
-                        endIcon = {
-                            Icon(
-                                imageVector = Icons.Rounded.MiniEdit,
-                                contentDescription = stringResource(R.string.edit)
-                            )
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = ShapeDefaults.large,
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        drawStartIconContainer = false
-                    )
-
-                    val allEmojis = Emoji.allIcons()
-
-                    EmojiSelectionSheet(
-                        selectedEmojiIndex = null,
-                        allEmojis = allEmojis,
-                        onEmojiPicked = {
-                            updateLayerWithHistory(
-                                layer.copy(
-                                    type = type.copy(
-                                        imageData = allEmojis[it]
-                                    )
-                                )
-                            )
-                            showEmojiPicker = false
-                        },
-                        visible = showEmojiPicker,
-                        onDismiss = {
-                            showEmojiPicker = false
-                        }
-                    )
-                }
-                }
-
-                (layer.type as? LayerType.Picture)?.let { type ->
-                    Spacer(modifier = Modifier.height(4.dp))
-                    PictureShadowSection(
-                        layer = layer,
-                        type = type,
-                        onUpdateLayer = updateLayerWithHistory,
-                        onUpdateLayerContinuously = updateLayerContinuously,
-                        onContinuousEditFinished = finishContinuousEdit
-                    )
-                }
-
-                (layer.type as? LayerType.Shape)?.let { type ->
-                    Spacer(modifier = Modifier.height(4.dp))
-                    ShapeShadowSection(
-                        layer = layer,
-                        type = type,
-                        onUpdateLayer = updateLayerWithHistory,
-                        onUpdateLayerContinuously = updateLayerContinuously,
-                        onContinuousEditFinished = finishContinuousEdit
-                    )
-                }
-
                 Spacer(modifier = Modifier.height(8.dp))
             }
             PreferenceRowSwitch(
@@ -826,148 +822,4 @@ internal fun EditLayerSheet(
             }
         }
     }
-}
-
-@Composable
-private fun PictureShadowSection(
-    layer: UiMarkupLayer,
-    type: LayerType.Picture,
-    onUpdateLayer: (UiMarkupLayer) -> Unit,
-    onUpdateLayerContinuously: (UiMarkupLayer) -> Unit,
-    onContinuousEditFinished: () -> Unit
-) {
-    var haveShadow by remember {
-        mutableStateOf(type.shadow != null)
-    }
-    LaunchedEffect(haveShadow, type.shadow) {
-        val desiredShadow = if (haveShadow) {
-            type.shadow ?: DropShadow.Default
-        } else null
-
-        if (type.shadow != desiredShadow) {
-            onUpdateLayer(
-                layer.copy(
-                    type = type.withShadow(desiredShadow)
-                )
-            )
-        }
-    }
-
-    PreferenceRowSwitch(
-        title = stringResource(R.string.add_shadow),
-        subtitle = stringResource(R.string.add_shadow_sub),
-        shape = ShapeDefaults.large,
-        containerColor = MaterialTheme.colorScheme.surface,
-        applyHorizontalPadding = false,
-        resultModifier = Modifier.padding(16.dp),
-        checked = haveShadow,
-        onClick = {
-            haveShadow = it
-        },
-        additionalContent = {
-            AnimatedVisibility(
-                visible = type.shadow != null,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    ColorRowSelector(
-                        value = type.shadow?.color?.toColor() ?: Color.Transparent,
-                        onValueChange = {
-                            onUpdateLayer(
-                                layer.copy(
-                                    type = type.withShadow(
-                                        type.shadow?.copy(
-                                            color = it.toArgb()
-                                        )
-                                    )
-                                )
-                            )
-                        },
-                        title = stringResource(R.string.shadow_color),
-                        modifier = Modifier.container(
-                            shape = ShapeDefaults.top,
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                        ),
-                        icon = Icons.Filled.Shadow
-                    )
-                    EnhancedSliderItem(
-                        value = type.shadow?.blurRadius ?: 0f,
-                        title = stringResource(R.string.blur_radius),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
-                        onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.withShadow(
-                                        type.shadow?.copy(
-                                            blurRadius = it
-                                        )
-                                    )
-                                )
-                            )
-                        },
-                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = DropShadow.BlurRadiusRange,
-                        shape = ShapeDefaults.center,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                    )
-                    EnhancedSliderItem(
-                        value = type.shadow?.offsetX ?: 0f,
-                        title = stringResource(R.string.offset_x),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
-                        onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.withShadow(
-                                        type.shadow?.copy(
-                                            offsetX = it
-                                        )
-                                    )
-                                )
-                            )
-                        },
-                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = DropShadow.OffsetXRange,
-                        shape = ShapeDefaults.center,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                    )
-                    EnhancedSliderItem(
-                        value = type.shadow?.offsetY ?: 0f,
-                        title = stringResource(R.string.offset_y),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
-                        onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.withShadow(
-                                        type.shadow?.copy(
-                                            offsetY = it
-                                        )
-                                    )
-                                )
-                            )
-                        },
-                        onValueChangeFinished = { _ -> onContinuousEditFinished() },
-                        valueRange = DropShadow.OffsetYRange,
-                        shape = ShapeDefaults.bottom,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                    )
-                }
-            }
-        }
-    )
-}
-
-private fun LayerType.Picture.withShadow(
-    shadow: DropShadow?
-): LayerType.Picture = when (this) {
-    is LayerType.Picture.Image -> copy(shadow = shadow)
-    is LayerType.Picture.Sticker -> copy(shadow = shadow)
 }

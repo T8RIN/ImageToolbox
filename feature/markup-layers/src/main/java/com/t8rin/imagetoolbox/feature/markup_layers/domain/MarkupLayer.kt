@@ -158,6 +158,13 @@ sealed interface LayerType {
     }
 }
 
+internal fun LayerType.Picture.withShadow(
+    shadow: DropShadow?
+): LayerType.Picture = when (this) {
+    is LayerType.Picture.Image -> copy(shadow = shadow)
+    is LayerType.Picture.Sticker -> copy(shadow = shadow)
+}
+
 internal fun LayerType.layerCornerRadiusPercent(value: Int): Int = when (this) {
     is LayerType.Shape -> 0
     else -> value.coerceIn(0, 50)
