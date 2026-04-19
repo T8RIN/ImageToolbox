@@ -966,7 +966,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     private companion object {
-        const val MAX_HISTORY_SIZE = 100
+        const val MAX_HISTORY_SIZE = 50
     }
 
     @AssistedFactory
