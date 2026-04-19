@@ -153,6 +153,9 @@ internal fun MarkupLayersSideMenuColumn(
                             .coerceAtLeast(1)
                     }
                 }
+                val previewReferenceSize = remember(previewData, previewTextFullSize) {
+                    previewData?.referenceSize ?: previewTextFullSize
+                }
 
                 val boxSize = 92.dp
                 Row(
@@ -278,7 +281,7 @@ internal fun MarkupLayersSideMenuColumn(
                                     modifier = previewModifier,
                                     type = type,
                                     groupedLayers = previewData?.layers ?: layer.groupedLayers,
-                                    textFullSize = previewTextFullSize,
+                                    textFullSize = previewReferenceSize,
                                     maxLines = layer.visibleLineCount ?: Int.MAX_VALUE,
                                     cornerRadiusPercent = layer.uiCornerRadiusPercent()
                                 )

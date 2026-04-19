@@ -91,35 +91,31 @@ internal fun UiMarkupLayer.withCoerceToBoundsRecursively(
 
 internal data class GroupPreviewData(
     val layers: List<UiMarkupLayer>,
-    val contentSize: IntSize
+    val contentSize: IntSize,
+    val referenceSize: Int
 )
-
-internal fun UiMarkupLayer.groupOverlayState(): EditBoxState? = previewLeafLayers()
-    .combinedBounds()
-    ?.let { bounds ->
-        state.copy(
-            scale = 1f,
-            rotation = 0f,
-            isFlippedHorizontally = false,
-            isFlippedVertically = false,
-            offset = bounds.center,
-            contentSize = bounds.toIntSize()
-        )
-    }
 
 internal fun UiMarkupLayer.groupContentSize(): IntSize? = localLeafLayers()
     .combinedBounds()
     ?.toIntSize()
 
-internal fun UiMarkupLayer.canvasLeafLayers(): List<UiMarkupLayer> =
-    groupedLayers.flatMap { child ->
+internal fun UiMarkupLayer.canvasLeafLayers(
+    canvasSize: IntegerSize = state.canvasSize
+): List<UiMarkupLayer> {
+    val rootState = state.adjustedToCanvasSize(
+        canvasSize = canvasSize,
+        forceScaleAdjustment = true
+    )
+
+    return groupedLayers.flatMap { child ->
         child.flattenLeafLayers(
-            parentTransform = state.toLayerTransform(),
-            inheritedAlpha = state.alpha,
-            inheritedVisible = state.isVisible,
-            rootCanvasSize = state.canvasSize
+            parentTransform = rootState.toLayerTransform(),
+            inheritedAlpha = rootState.alpha,
+            inheritedVisible = rootState.isVisible,
+            rootCanvasSize = rootState.canvasSize
         )
     }
+}
 
 internal fun UiMarkupLayer.flattenToDomain(): List<MarkupLayer> = flattenToDomain(
     parentTransform = null,
@@ -146,7 +142,8 @@ internal fun UiMarkupLayer.toPreviewGroupData(): GroupPreviewData {
 
     return GroupPreviewData(
         layers = centeredLayers,
-        contentSize = previewSize
+        contentSize = previewSize,
+        referenceSize = minOf(state.canvasSize.width, state.canvasSize.height).coerceAtLeast(1)
     )
 }
 
@@ -420,33 +417,25 @@ internal data class LayerBounds(
     )
 
     fun contains(point: Offset): Boolean = point.x in left..right && point.y in top..bottom
-
-    fun translate(
-        dx: Float,
-        dy: Float
-    ): LayerBounds = LayerBounds(
-        left = left + dx,
-        top = top + dy,
-        right = right + dx,
-        bottom = bottom + dy
-    )
 }
 
 internal fun List<UiMarkupLayer>.combinedBounds(): LayerBounds? = map(UiMarkupLayer::visualBounds)
     .reduceOrNull(LayerBounds::plus)
 
-private fun UiMarkupLayer.previewLeafLayers(): List<UiMarkupLayer> =
-    groupedLayers.flatMap { child ->
-        child.flattenLeafLayers(
-            parentTransform = state.toLayerTransform(includeScale = false),
-            inheritedAlpha = state.alpha,
-            inheritedVisible = state.isVisible,
-            rootCanvasSize = state.canvasSize
-        )
-    }
+private fun UiMarkupLayer.previewLeafLayers(): List<UiMarkupLayer> = canvasLeafLayers()
 
 private fun UiMarkupLayer.localLeafLayers(): List<UiMarkupLayer> = groupedLayers.flatMap { child ->
     child.flattenLeafLayers()
+}
+
+private fun EditBoxState.adjustedToCanvasSize(
+    canvasSize: IntegerSize,
+    forceScaleAdjustment: Boolean = false
+): EditBoxState = copy().also {
+    it.syncCanvasSize(
+        value = canvasSize,
+        forceScaleAdjustment = forceScaleAdjustment
+    )
 }
 
 private fun UiMarkupLayer.flattenLeafLayers(

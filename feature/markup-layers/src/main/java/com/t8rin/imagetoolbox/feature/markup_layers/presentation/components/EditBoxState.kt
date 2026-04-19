@@ -211,7 +211,20 @@ class EditBoxState(
             adjustByCanvasSize(value)
         }
 
-    private fun adjustByCanvasSize(value: IntegerSize) {
+    internal fun syncCanvasSize(
+        value: IntegerSize,
+        forceScaleAdjustment: Boolean = false
+    ) {
+        adjustByCanvasSize(
+            value = value,
+            forceScaleAdjustment = forceScaleAdjustment
+        )
+    }
+
+    private fun adjustByCanvasSize(
+        value: IntegerSize,
+        forceScaleAdjustment: Boolean = false
+    ) {
         val previousCanvasSize = _canvasSize.value
         if (previousCanvasSize != IntegerSize.Zero) {
             val sx = value.width.toFloat() / previousCanvasSize.width
@@ -226,7 +239,11 @@ class EditBoxState(
             // need an explicit scale adjustment to preserve their visual size
             // relative to the preview after canvas resize. Layers already capped
             // by `sizeIn(max = canvas / 2)` will remeasure on their own.
-            if (contentSize.isSpecified() && !contentSize.isBoundedByCanvas(previousCanvasSize)) {
+            if (
+                contentSize.isSpecified() && (
+                        forceScaleAdjustment || !contentSize.isBoundedByCanvas(previousCanvasSize)
+                        )
+            ) {
                 scale = (scale * min(sx, sy)).fastCoerceIn(
                     minimumValue = SCALE_RANGE.start,
                     maximumValue = SCALE_RANGE.endInclusive

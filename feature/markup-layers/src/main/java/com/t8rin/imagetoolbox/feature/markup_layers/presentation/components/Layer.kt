@@ -26,6 +26,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.canvasLeafLayers
@@ -40,7 +41,8 @@ internal fun BoxWithConstraintsScope.Layer(
     layer: UiMarkupLayer,
     onActivate: (() -> Unit)?,
     onShowContextOptions: (() -> Unit)?,
-    onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?
+    onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?,
+    referenceSizeOverride: Int? = null
 ) {
     val canEditLayer = onUpdateLayer != null && component != null
 
@@ -106,7 +108,8 @@ internal fun BoxWithConstraintsScope.Layer(
                 modifier = contentModifier,
                 type = type,
                 groupedLayers = layer.groupedLayers,
-                textFullSize = this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
+                textFullSize = referenceSizeOverride
+                    ?: this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
                 cornerRadiusPercent = cornerRadiusPercent,
                 onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
                     { result ->
@@ -151,6 +154,10 @@ private fun BoxWithConstraintsScope.GroupLayer(
     canEditLayer: Boolean
 ) {
     val density = LocalDensity.current
+    val parentCanvasSize = IntegerSize(
+        width = constraints.maxWidth,
+        height = constraints.maxHeight
+    )
     val activateGroup = if (!layer.isLocked && onActivate != null) {
         {
             if (layer.state.isActive && canEditLayer) {
@@ -161,7 +168,7 @@ private fun BoxWithConstraintsScope.GroupLayer(
         }
     } else null
 
-    val leafLayers = layer.canvasLeafLayers()
+    val leafLayers = layer.canvasLeafLayers(canvasSize = parentCanvasSize)
 
     leafLayers.forEach { child ->
         val renderedChild = child.renderCopy().let { renderCopy ->
@@ -222,6 +229,10 @@ private fun BoxWithConstraintsScope.GroupLayer(
         ?: IntSize(1, 1)
 
     SideEffect {
+        layer.state.syncCanvasSize(
+            value = parentCanvasSize,
+            forceScaleAdjustment = true
+        )
         if (layer.state.contentSize != measuredContentSize) {
             layer.state.contentSize = measuredContentSize
         }

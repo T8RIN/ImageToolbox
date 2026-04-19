@@ -88,7 +88,8 @@ internal fun LayerContent(
     if (groupedLayers.isNotEmpty()) {
         GroupLayerContent(
             modifier = modifier,
-            groupedLayers = groupedLayers
+            groupedLayers = groupedLayers,
+            referenceSize = textFullSize
         )
     } else {
         when (type) {
@@ -118,7 +119,8 @@ internal fun LayerContent(
 @Composable
 private fun GroupLayerContent(
     modifier: Modifier,
-    groupedLayers: List<UiMarkupLayer>
+    groupedLayers: List<UiMarkupLayer>,
+    referenceSize: Int
 ) {
     val renderLayers = remember(groupedLayers) {
         groupedLayers.map(UiMarkupLayer::renderCopy)
@@ -134,7 +136,8 @@ private fun GroupLayerContent(
                 layer = layer,
                 onActivate = null,
                 onShowContextOptions = null,
-                onUpdateLayer = null
+                onUpdateLayer = null,
+                referenceSizeOverride = referenceSize
             )
         }
     }
