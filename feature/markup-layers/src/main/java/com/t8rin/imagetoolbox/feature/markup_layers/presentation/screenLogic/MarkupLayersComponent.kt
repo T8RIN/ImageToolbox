@@ -60,8 +60,10 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Edit
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayerSnapshot
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.applyGroupGlobalChanges
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asDomain
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asUi
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.coerceGroupToBounds
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.combinedBounds
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.composeToParentSpace
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.deepDuplicate
@@ -69,6 +71,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.mode
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.effectiveCoerceToBounds
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.flattenToDomain
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.groupChildAt
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.setGroupScalePrecisely
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toSnapshot
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toUi
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
@@ -241,9 +244,11 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         if (commitToHistory) {
             runEditorChange {
                 layer.state.block()
+                layer.coerceGroupToBounds()
             }
         } else {
             layer.state.block()
+            layer.coerceGroupToBounds()
         }
     }
 
@@ -301,10 +306,16 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             layer = layer,
             commitToHistory = commitToHistory
         ) {
-            moveBy(
-                offsetChange = offsetChange,
-                cornerRadiusPercent = layer.uiCornerRadiusPercent()
-            )
+            if (layer.isGroup) {
+                layer.applyGroupGlobalChanges(
+                    offsetChange = offsetChange
+                )
+            } else {
+                moveBy(
+                    offsetChange = offsetChange,
+                    cornerRadiusPercent = layer.uiCornerRadiusPercent()
+                )
+            }
         }
     }
 
@@ -317,10 +328,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             layer = layer,
             commitToHistory = commitToHistory
         ) {
-            setScalePrecisely(
-                targetScale = scale,
-                cornerRadiusPercent = layer.uiCornerRadiusPercent()
-            )
+            if (layer.isGroup) {
+                layer.setGroupScalePrecisely(scale)
+            } else {
+                setScalePrecisely(
+                    targetScale = scale,
+                    cornerRadiusPercent = layer.uiCornerRadiusPercent()
+                )
+            }
         }
     }
 

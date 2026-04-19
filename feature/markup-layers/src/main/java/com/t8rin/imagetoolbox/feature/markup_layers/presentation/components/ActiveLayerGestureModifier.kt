@@ -31,6 +31,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.positionChanged
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.applyGroupGlobalChanges
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import kotlin.math.PI
@@ -103,20 +104,28 @@ internal fun Modifier.activeLayerGestures(
                     layer = activeLayer,
                     commitToHistory = false
                 ) {
-                    val contentSize = contentSize
-                    if (contentSize.width > 0 && contentSize.height > 0) {
-                        val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: size.width
-                        val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: size.height
-
-                        applyGlobalChanges(
-                            parentMaxWidth = canvasWidth,
-                            parentMaxHeight = canvasHeight,
-                            contentSize = contentSize,
-                            cornerRadiusPercent = activeLayer.uiCornerRadiusPercent(),
+                    if (activeLayer.isGroup) {
+                        activeLayer.applyGroupGlobalChanges(
                             zoomChange = zoomChange,
                             offsetChange = panChange,
                             rotationChange = rotationChange
                         )
+                    } else {
+                        val contentSize = contentSize
+                        if (contentSize.width > 0 && contentSize.height > 0) {
+                            val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: size.width
+                            val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: size.height
+
+                            applyGlobalChanges(
+                                parentMaxWidth = canvasWidth,
+                                parentMaxHeight = canvasHeight,
+                                contentSize = contentSize,
+                                cornerRadiusPercent = activeLayer.uiCornerRadiusPercent(),
+                                zoomChange = zoomChange,
+                                offsetChange = panChange,
+                                rotationChange = rotationChange
+                            )
+                        }
                     }
                 }
 

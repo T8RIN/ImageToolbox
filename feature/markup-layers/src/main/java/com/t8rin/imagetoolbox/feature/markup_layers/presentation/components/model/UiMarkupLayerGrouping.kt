@@ -126,6 +126,89 @@ internal fun UiMarkupLayer.canvasLeafLayers(
     }
 }
 
+internal fun UiMarkupLayer.coerceGroupToBounds() {
+    if (!isGroup || !state.coerceToBounds) return
+
+    val canvasSize = state.canvasSize.takeIf { it.width > 0 && it.height > 0 } ?: return
+    val bounds = canvasLeafLayers(canvasSize = canvasSize).combinedBounds() ?: return
+    val constrainedOffset = state.offset + bounds.offsetCorrection(canvasSize)
+
+    if (constrainedOffset != state.offset) {
+        state.offset = constrainedOffset
+    }
+}
+
+internal fun UiMarkupLayer.applyGroupGlobalChanges(
+    zoomChange: Float = 1f,
+    offsetChange: Offset = Offset.Zero,
+    rotationChange: Float = 0f
+) {
+    if (!isGroup) return
+
+    val targetScale = (state.scale * zoomChange).coerceIn(GROUP_SCALE_RANGE)
+    val proposedState = state.copy(
+        scale = targetScale,
+        rotation = state.rotation + rotationChange,
+        offset = state.offset + offsetChange
+    )
+
+    val targetOffset = if (proposedState.coerceToBounds) {
+        proposedState.withOffsetCorrection(
+            layer = this,
+            canvasSize = proposedState.canvasSize
+        )
+    } else {
+        proposedState.offset
+    }
+
+    state.scale = targetScale
+    state.rotation = proposedState.rotation
+    state.offset = targetOffset
+}
+
+internal fun UiMarkupLayer.setGroupScalePrecisely(
+    targetScale: Float
+) {
+    val currentScale = state.scale.coerceAtLeast(0.0001f)
+    applyGroupGlobalChanges(
+        zoomChange = targetScale / currentScale
+    )
+}
+
+private fun EditBoxState.withOffsetCorrection(
+    layer: UiMarkupLayer,
+    canvasSize: IntegerSize
+): Offset {
+    if (canvasSize.width <= 0 || canvasSize.height <= 0) return offset
+
+    val bounds = layer.copy(state = this)
+        .canvasLeafLayers(canvasSize = canvasSize)
+        .combinedBounds() ?: return offset
+
+    return offset + bounds.offsetCorrection(canvasSize)
+}
+
+private fun LayerBounds.offsetCorrection(
+    canvasSize: IntegerSize
+): Offset {
+    val halfCanvasWidth = canvasSize.width / 2f
+    val halfCanvasHeight = canvasSize.height / 2f
+    val dx = axisCoerceDelta(
+        minEdge = -halfCanvasWidth,
+        maxEdge = halfCanvasWidth,
+        start = left,
+        end = right
+    )
+    val dy = axisCoerceDelta(
+        minEdge = -halfCanvasHeight,
+        maxEdge = halfCanvasHeight,
+        start = top,
+        end = bottom
+    )
+
+    return Offset(dx, dy)
+}
+
 internal fun UiMarkupLayer.flattenToDomain(): List<MarkupLayer> = flattenToDomain(
     parentTransform = null,
     inheritedAlpha = 1f,
@@ -426,6 +509,30 @@ internal data class LayerBounds(
     )
 
     fun contains(point: Offset): Boolean = point.x in left..right && point.y in top..bottom
+
+    fun axisCoerceDelta(
+        minEdge: Float,
+        maxEdge: Float,
+        start: Float,
+        end: Float
+    ): Float {
+        val size = end - start
+        val availableSize = maxEdge - minEdge
+
+        return if (size <= availableSize) {
+            when {
+                start < minEdge -> minEdge - start
+                end > maxEdge -> maxEdge - end
+                else -> 0f
+            }
+        } else {
+            when {
+                start > minEdge -> minEdge - start
+                end < maxEdge -> maxEdge - end
+                else -> 0f
+            }
+        }
+    }
 }
 
 internal fun List<UiMarkupLayer>.combinedBounds(): LayerBounds? = map(UiMarkupLayer::visualBounds)
@@ -550,3 +657,4 @@ private fun radiansToDegrees(
 ): Float = radians * 180f / PI.toFloat()
 
 private const val DEGREES_TO_RADIANS = (PI / 180f).toFloat()
+private val GROUP_SCALE_RANGE = 0.1f..10f
