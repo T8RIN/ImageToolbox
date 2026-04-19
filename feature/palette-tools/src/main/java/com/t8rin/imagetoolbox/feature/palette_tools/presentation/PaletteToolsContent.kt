@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
@@ -50,6 +49,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
+import com.t8rin.imagetoolbox.core.resources.icons.ContractEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteBox
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
@@ -187,7 +187,7 @@ fun PaletteToolsContent(
             PreferenceItem(
                 title = stringResource(R.string.edit_palette),
                 subtitle = stringResource(R.string.edit_palette_sub),
-                startIcon = Icons.AutoMirrored.Outlined.InsertDriveFile,
+                startIcon = Icons.Outlined.ContractEdit,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     component.setPaletteType(PaletteType.Edit)
