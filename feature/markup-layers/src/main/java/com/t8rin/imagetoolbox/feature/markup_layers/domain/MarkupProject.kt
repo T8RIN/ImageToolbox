@@ -22,4 +22,11 @@ data class MarkupProject(
     val layers: List<MarkupLayer>,
     val lastLayers: List<MarkupLayer>,
     val undoneLayers: List<MarkupLayer>,
+    val history: List<MarkupProjectHistorySnapshot> = emptyList(),
+    val redoHistory: List<MarkupProjectHistorySnapshot> = emptyList(),
+)
+
+data class MarkupProjectHistorySnapshot(
+    val background: ProjectBackground,
+    val layers: List<MarkupLayer>,
 )

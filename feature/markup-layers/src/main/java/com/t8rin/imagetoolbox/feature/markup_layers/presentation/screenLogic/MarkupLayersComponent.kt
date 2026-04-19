@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.data.project.isMarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectHistorySnapshot
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
@@ -381,13 +382,11 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
         deactivateAllLayers()
         _groupingSelectionIds.update { ids ->
-            val seededIds = if (ids.isEmpty()) {
+            val seededIds = ids.ifEmpty {
                 buildSet {
                     activeLayerId?.let(::add)
                     add(layer.id)
                 }
-            } else {
-                ids
             }
 
             when {
@@ -559,6 +558,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun saveProject(uri: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
+            finalizePendingHistoryTransaction()
 
             fileController.writeBytes(uri.toString()) { output ->
                 markupLayersApplier.saveProject(
@@ -763,7 +763,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         },
         layers = layers.toProjectLayers(),
         lastLayers = history.dropLast(1).lastOrNull()?.projectLayers() ?: emptyList(),
-        undoneLayers = redoHistory.lastOrNull()?.projectLayers() ?: emptyList()
+        undoneLayers = redoHistory.lastOrNull()?.projectLayers() ?: emptyList(),
+        history = history.map { it.toProjectHistorySnapshot() },
+        redoHistory = redoHistory.map { it.toProjectHistorySnapshot() }
     )
 
     private suspend fun applyProject(
@@ -802,10 +804,17 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
 
         _layers.value = project.layers.map { it.asUi() }
-        restoreHistory(
-            previousLayers = project.lastLayers,
-            redoneLayers = project.undoneLayers
-        )
+        if (project.history.isNotEmpty() || project.redoHistory.isNotEmpty()) {
+            restoreHistory(
+                historySnapshots = project.history.map { it.toInternalHistorySnapshot() },
+                redoSnapshots = project.redoHistory.map { it.toInternalHistorySnapshot() }
+            )
+        } else {
+            restoreHistory(
+                previousLayers = project.lastLayers,
+                redoneLayers = project.undoneLayers
+            )
+        }
     }
 
     private fun runEditorChange(
@@ -852,11 +861,28 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private fun restoreHistory(
         previousLayers: List<MarkupLayer> = emptyList(),
-        redoneLayers: List<MarkupLayer> = emptyList()
+        redoneLayers: List<MarkupLayer> = emptyList(),
+        historySnapshots: List<HistorySnapshot> = emptyList(),
+        redoSnapshots: List<HistorySnapshot> = emptyList()
     ) {
         pendingHistorySnapshot = null
 
         val currentSnapshot = currentHistorySnapshot()
+        if (historySnapshots.isNotEmpty() || redoSnapshots.isNotEmpty()) {
+            val restoredHistory = historySnapshots
+                .ifEmpty { listOf(currentSnapshot) }
+                .let { snapshots ->
+                    if (snapshots.lastOrNull() == currentSnapshot) {
+                        snapshots
+                    } else {
+                        (snapshots + currentSnapshot).takeLast(MAX_HISTORY_SIZE)
+                    }
+                }
+            _history.value = restoredHistory.takeLast(MAX_HISTORY_SIZE)
+            _redoHistory.value = redoSnapshots.takeLast(MAX_HISTORY_SIZE)
+            return
+        }
+
         val previousSnapshot = HistorySnapshot(
             backgroundBehavior = currentSnapshot.backgroundBehavior,
             layers = previousLayers.map { it.asUi().toSnapshot() }
@@ -881,9 +907,46 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         val layers: List<UiMarkupLayerSnapshot> = emptyList()
     )
 
+    private fun HistorySnapshot.toProjectHistorySnapshot(): MarkupProjectHistorySnapshot =
+        MarkupProjectHistorySnapshot(
+            background = backgroundBehavior.toProjectBackground(),
+            layers = projectLayers()
+        )
+
+    private fun MarkupProjectHistorySnapshot.toInternalHistorySnapshot(): HistorySnapshot =
+        HistorySnapshot(
+            backgroundBehavior = background.toBackgroundBehavior(),
+            layers = layers.map { it.asUi().toSnapshot() }
+        )
+
     private fun HistorySnapshot.projectLayers(): List<MarkupLayer> = layers.map(
         UiMarkupLayerSnapshot::toUi
     ).toProjectLayers()
+
+    private fun BackgroundBehavior.toProjectBackground(): ProjectBackground = when (this) {
+        is BackgroundBehavior.Color -> ProjectBackground.Color(
+            width = width,
+            height = height,
+            color = color
+        )
+
+        BackgroundBehavior.Image -> ProjectBackground.Image(
+            uri = _uri.value.toString()
+        )
+
+        BackgroundBehavior.None -> ProjectBackground.None
+    }
+
+    private fun ProjectBackground.toBackgroundBehavior(): BackgroundBehavior = when (this) {
+        is ProjectBackground.Color -> BackgroundBehavior.Color(
+            width = width,
+            height = height,
+            color = color
+        )
+
+        is ProjectBackground.Image -> BackgroundBehavior.Image
+        ProjectBackground.None -> BackgroundBehavior.None
+    }
 
     private fun flattenLayers(
         layers: List<UiMarkupLayer>

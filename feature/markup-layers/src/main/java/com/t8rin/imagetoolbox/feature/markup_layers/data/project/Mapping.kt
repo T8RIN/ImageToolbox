@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectHistorySnapshot
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextGeometricTransform
@@ -79,7 +80,9 @@ internal class MarkupMapper @Inject constructor(
         background = background.toSnapshot(assetRegistry),
         layers = layers.toSnapshotList(assetRegistry, prefix = "layer"),
         lastLayers = lastLayers.toSnapshotList(assetRegistry, prefix = "last"),
-        undoneLayers = undoneLayers.toSnapshotList(assetRegistry, prefix = "undone")
+        undoneLayers = undoneLayers.toSnapshotList(assetRegistry, prefix = "undone"),
+        history = history.toEditorSnapshots(assetRegistry, prefix = "history"),
+        redoHistory = redoHistory.toEditorSnapshots(assetRegistry, prefix = "redo")
     )
 
     private suspend fun MarkupProjectFile.toDomain(
@@ -97,10 +100,33 @@ internal class MarkupMapper @Inject constructor(
                 background = background.toDomain(extractionDir),
                 layers = layers.toDomainLayers(extractionDir),
                 lastLayers = lastLayers.toDomainLayers(extractionDir),
-                undoneLayers = undoneLayers.toDomainLayers(extractionDir)
+                undoneLayers = undoneLayers.toDomainLayers(extractionDir),
+                history = history.toDomainSnapshots(extractionDir),
+                redoHistory = redoHistory.toDomainSnapshots(extractionDir)
             )
         )
     }
+
+    private fun List<MarkupProjectHistorySnapshot>.toEditorSnapshots(
+        assetRegistry: AssetRegistry,
+        prefix: String
+    ): List<EditorSnapshot> = mapIndexed { index, snapshot ->
+        snapshot.toSnapshot(
+            assetRegistry = assetRegistry,
+            prefix = "$prefix-$index"
+        )
+    }
+
+    private fun MarkupProjectHistorySnapshot.toSnapshot(
+        assetRegistry: AssetRegistry,
+        prefix: String
+    ): EditorSnapshot = EditorSnapshot(
+        background = background.toSnapshot(assetRegistry),
+        layers = layers.toSnapshotList(
+            assetRegistry = assetRegistry,
+            prefix = prefix
+        )
+    )
 
     private fun List<MarkupLayer>.toSnapshotList(
         assetRegistry: AssetRegistry,
@@ -279,6 +305,15 @@ internal class MarkupMapper @Inject constructor(
     private suspend fun List<LayerSnapshot>.toDomainLayers(
         extractionDir: File
     ): List<MarkupLayer> = map { it.toDomain(extractionDir) }
+
+    private suspend fun List<EditorSnapshot>.toDomainSnapshots(
+        extractionDir: File
+    ): List<MarkupProjectHistorySnapshot> = map { snapshot ->
+        MarkupProjectHistorySnapshot(
+            background = snapshot.background.toDomain(extractionDir),
+            layers = snapshot.layers.toDomainLayers(extractionDir)
+        )
+    }
 
     private fun BackgroundSnapshot.toDomain(
         extractionDir: File

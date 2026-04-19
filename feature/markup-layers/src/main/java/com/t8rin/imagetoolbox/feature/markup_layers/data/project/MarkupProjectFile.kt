@@ -25,6 +25,13 @@ data class MarkupProjectFile(
     val layers: List<LayerSnapshot>,
     val lastLayers: List<LayerSnapshot>,
     val undoneLayers: List<LayerSnapshot>,
+    val history: List<EditorSnapshot> = emptyList(),
+    val redoHistory: List<EditorSnapshot> = emptyList(),
+)
+
+data class EditorSnapshot(
+    val background: BackgroundSnapshot,
+    val layers: List<LayerSnapshot>,
 )
 
 data class BackgroundSnapshot(
