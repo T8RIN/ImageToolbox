@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.rounded.Architecture
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.alphaContainedEntries
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ImagesearchRoller
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
@@ -351,7 +351,7 @@ fun ImageFormatSelector(
                         } else Modifier
                     ),
                 value = settingsState.backgroundForNoAlphaImageFormats,
-                icon = Icons.Outlined.FormatPaint,
+                icon = Icons.Outlined.ImagesearchRoller,
                 onValueChange = {
                     scope.launch {
                         simpleSettingsInteractor.setBackgroundColorForNoAlphaFormats(

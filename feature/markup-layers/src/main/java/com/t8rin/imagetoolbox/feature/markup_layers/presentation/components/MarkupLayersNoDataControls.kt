@@ -35,7 +35,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.ImageTooltip
+import com.t8rin.imagetoolbox.core.resources.icons.ImagesearchRoller
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.restrict
@@ -117,7 +117,7 @@ internal fun MarkupLayersNoDataControls(
         item {
             PreferenceItem(
                 onClick = { showBackgroundDrawingSetup = true },
-                startIcon = Icons.Outlined.FormatPaint,
+                startIcon = Icons.Outlined.ImagesearchRoller,
                 title = stringResource(R.string.layers_on_background),
                 subtitle = stringResource(R.string.layers_on_background_sub),
                 modifier = Modifier.fillMaxWidth()
