@@ -2229,4 +2229,6 @@
     <string name="annotation_markup">סימון</string>
     <string name="annotation_unknown">לֹא יְדוּעַ</string>
     <string name="annotations">הערות</string>
+    <string name="ungroup">בטל קבוצה</string>
+    <string name="add_shadow_sub">הוסף צל טשטוש מאחורי השכבה עם צבע והיסטים הניתנים להגדרה</string>
 </resources>

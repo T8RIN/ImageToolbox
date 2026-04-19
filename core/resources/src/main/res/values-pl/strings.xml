@@ -2229,4 +2229,6 @@
     <string name="annotation_markup">Markup</string>
     <string name="annotation_unknown">Nieznany</string>
     <string name="annotations">Adnotacje</string>
+    <string name="ungroup">Rozgrupuj</string>
+    <string name="add_shadow_sub">Dodaj rozmyty cień za warstwą z konfigurowalnym kolorem i przesunięciami</string>
 </resources>

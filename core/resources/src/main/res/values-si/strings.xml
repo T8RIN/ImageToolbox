@@ -2228,4 +2228,6 @@
     <string name="annotation_markup">සලකුණු කිරීම</string>
     <string name="annotation_unknown">නොදන්නා</string>
     <string name="annotations">විවරණ</string>
+    <string name="ungroup">සමූහ ඉවත් කරන්න</string>
+    <string name="add_shadow_sub">වින්‍යාසගත කළ හැකි වර්ණ සහ ඕෆ්සෙට් සහිත ස්ථරය පිටුපස බොඳ සෙවනැල්ල එක් කරන්න</string>
 </resources>

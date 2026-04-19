@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,98 +19,96 @@ package com.t8rin.imagetoolbox.core.resources.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.QualityHigh: ImageVector by lazy {
-    Builder(
-        name = "Quality High", defaultWidth = 24.0.dp, defaultHeight =
-            24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
+val Icons.Outlined.QualityHigh: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Outlined.QualityHigh",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f
     ).apply {
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(14.5f, 13.5f)
-            horizontalLineTo(16.5f)
-            verticalLineTo(10.5f)
-            horizontalLineTo(14.5f)
-            moveTo(18.0f, 14.0f)
-            arcTo(
-                1.0f, 1.0f, 0.0f,
-                isMoreThanHalf = false,
-                isPositiveArc = true,
-                x1 = 17.0f,
-                y1 = 15.0f
-            )
-            horizontalLineTo(16.25f)
-            verticalLineTo(16.5f)
-            horizontalLineTo(14.75f)
-            verticalLineTo(15.0f)
-            horizontalLineTo(14.0f)
-            arcTo(
-                1.0f, 1.0f, 0.0f,
-                isMoreThanHalf = false,
-                isPositiveArc = true,
-                x1 = 13.0f,
-                y1 = 14.0f
-            )
-            verticalLineTo(10.0f)
-            arcTo(
-                1.0f, 1.0f, 0.0f,
-                isMoreThanHalf = false,
-                isPositiveArc = true,
-                x1 = 14.0f,
-                y1 = 9.0f
-            )
-            horizontalLineTo(17.0f)
-            arcTo(
-                1.0f, 1.0f, 0.0f,
-                isMoreThanHalf = false,
-                isPositiveArc = true,
-                x1 = 18.0f,
-                y1 = 10.0f
-            )
-            moveTo(11.0f, 15.0f)
-            horizontalLineTo(9.5f)
-            verticalLineTo(13.0f)
-            horizontalLineTo(7.5f)
-            verticalLineTo(15.0f)
-            horizontalLineTo(6.0f)
-            verticalLineTo(9.0f)
-            horizontalLineTo(7.5f)
-            verticalLineTo(11.5f)
-            horizontalLineTo(9.5f)
-            verticalLineTo(9.0f)
-            horizontalLineTo(11.0f)
-            moveTo(19.0f, 4.0f)
-            horizontalLineTo(5.0f)
-            curveTo(3.89f, 4.0f, 3.0f, 4.89f, 3.0f, 6.0f)
-            verticalLineTo(18.0f)
-            arcTo(
-                2.0f, 2.0f, 0.0f,
-                isMoreThanHalf = false,
-                isPositiveArc = false,
-                x1 = 5.0f,
-                y1 = 20.0f
-            )
-            horizontalLineTo(19.0f)
-            arcTo(
-                2.0f, 2.0f, 0.0f,
-                isMoreThanHalf = false,
-                isPositiveArc = false,
-                x1 = 21.0f,
-                y1 = 18.0f
-            )
-            verticalLineTo(6.0f)
-            curveTo(21.0f, 4.89f, 20.1f, 4.0f, 19.0f, 4.0f)
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(590f, 600f)
+            verticalLineToRelative(30f)
+            quadToRelative(0f, 13f, 8.5f, 21.5f)
+            reflectiveQuadTo(620f, 660f)
+            quadToRelative(13f, 0f, 21.5f, -8.5f)
+            reflectiveQuadTo(650f, 630f)
+            verticalLineToRelative(-30f)
+            horizontalLineToRelative(30f)
+            quadToRelative(17f, 0f, 28.5f, -11.5f)
+            reflectiveQuadTo(720f, 560f)
+            verticalLineToRelative(-160f)
+            quadToRelative(0f, -17f, -11.5f, -28.5f)
+            reflectiveQuadTo(680f, 360f)
+            lineTo(560f, 360f)
+            quadToRelative(-17f, 0f, -28.5f, 11.5f)
+            reflectiveQuadTo(520f, 400f)
+            verticalLineToRelative(160f)
+            quadToRelative(0f, 17f, 11.5f, 28.5f)
+            reflectiveQuadTo(560f, 600f)
+            horizontalLineToRelative(30f)
+            close()
+            moveTo(300f, 520f)
+            horizontalLineToRelative(80f)
+            verticalLineToRelative(50f)
+            quadToRelative(0f, 13f, 8.5f, 21.5f)
+            reflectiveQuadTo(410f, 600f)
+            quadToRelative(13f, 0f, 21.5f, -8.5f)
+            reflectiveQuadTo(440f, 570f)
+            verticalLineToRelative(-180f)
+            quadToRelative(0f, -13f, -8.5f, -21.5f)
+            reflectiveQuadTo(410f, 360f)
+            quadToRelative(-13f, 0f, -21.5f, 8.5f)
+            reflectiveQuadTo(380f, 390f)
+            verticalLineToRelative(70f)
+            horizontalLineToRelative(-80f)
+            verticalLineToRelative(-70f)
+            quadToRelative(0f, -13f, -8.5f, -21.5f)
+            reflectiveQuadTo(270f, 360f)
+            quadToRelative(-13f, 0f, -21.5f, 8.5f)
+            reflectiveQuadTo(240f, 390f)
+            verticalLineToRelative(180f)
+            quadToRelative(0f, 13f, 8.5f, 21.5f)
+            reflectiveQuadTo(270f, 600f)
+            quadToRelative(13f, 0f, 21.5f, -8.5f)
+            reflectiveQuadTo(300f, 570f)
+            verticalLineToRelative(-50f)
+            close()
+            moveTo(580f, 540f)
+            verticalLineToRelative(-120f)
+            horizontalLineToRelative(80f)
+            verticalLineToRelative(120f)
+            horizontalLineToRelative(-80f)
+            close()
+            moveTo(160f, 800f)
+            quadToRelative(-33f, 0f, -56.5f, -23.5f)
+            reflectiveQuadTo(80f, 720f)
+            verticalLineToRelative(-480f)
+            quadToRelative(0f, -33f, 23.5f, -56.5f)
+            reflectiveQuadTo(160f, 160f)
+            horizontalLineToRelative(640f)
+            quadToRelative(33f, 0f, 56.5f, 23.5f)
+            reflectiveQuadTo(880f, 240f)
+            verticalLineToRelative(480f)
+            quadToRelative(0f, 33f, -23.5f, 56.5f)
+            reflectiveQuadTo(800f, 800f)
+            lineTo(160f, 800f)
+            close()
+            moveTo(160f, 720f)
+            horizontalLineToRelative(640f)
+            verticalLineToRelative(-480f)
+            lineTo(160f, 240f)
+            verticalLineToRelative(480f)
+            close()
+            moveTo(160f, 720f)
+            verticalLineToRelative(-480f)
+            verticalLineToRelative(480f)
             close()
         }
     }.build()

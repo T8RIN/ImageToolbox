@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">मार्कअप</string>
     <string name="annotation_unknown">अज्ञात</string>
     <string name="annotations">एनोटेशन</string>
+    <string name="ungroup">असमूहीकृत</string>
+    <string name="add_shadow_sub">कॉन्फ़िगर करने योग्य रंग और ऑफसेट के साथ परत के पीछे धुंधली छाया जोड़ें</string>
 </resources>

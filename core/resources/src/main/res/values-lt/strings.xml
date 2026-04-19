@@ -2230,4 +2230,6 @@
     <string name="annotation_markup">Žymėjimas</string>
     <string name="annotation_unknown">Nežinoma</string>
     <string name="annotations">Anotacijos</string>
+    <string name="ungroup">Išgrupuoti</string>
+    <string name="add_shadow_sub">Už sluoksnio pridėkite neryškų šešėlį su konfigūruojama spalva ir poslinkiais</string>
 </resources>

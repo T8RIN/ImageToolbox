@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Opmaak</string>
     <string name="annotation_unknown">Onbekend</string>
     <string name="annotations">Annotaties</string>
+    <string name="ungroup">Degroeperen</string>
+    <string name="add_shadow_sub">Voeg vervagingsschaduw toe achter de laag met configureerbare kleuren en offsets</string>
 </resources>

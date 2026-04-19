@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">మార్కప్</string>
     <string name="annotation_unknown">తెలియదు</string>
     <string name="annotations">ఉల్లేఖనాలు</string>
+    <string name="ungroup">సమూహాన్ని తీసివేయండి</string>
+    <string name="add_shadow_sub">కాన్ఫిగర్ చేయగల రంగు మరియు ఆఫ్‌సెట్‌లతో లేయర్ వెనుక బ్లర్ షాడోని జోడించండి</string>
 </resources>

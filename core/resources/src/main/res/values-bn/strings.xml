@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">মার্কআপ</string>
     <string name="annotation_unknown">অজানা</string>
     <string name="annotations">টীকা</string>
+    <string name="ungroup">আনগ্রুপ করুন</string>
+    <string name="add_shadow_sub">কনফিগারযোগ্য রঙ এবং অফসেট সহ স্তরের পিছনে অস্পষ্ট ছায়া যোগ করুন</string>
 </resources>

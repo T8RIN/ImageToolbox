@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Markup</string>
     <string name="annotation_unknown">Unbekannt</string>
     <string name="annotations">Anmerkungen</string>
+    <string name="ungroup">Gruppierung aufheben</string>
+    <string name="add_shadow_sub">Fügen Sie Unschärfeschatten hinter der Ebene mit konfigurierbaren Farben und Offsets hinzu</string>
 </resources>

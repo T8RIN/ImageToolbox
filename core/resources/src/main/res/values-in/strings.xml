@@ -2226,4 +2226,6 @@
     <string name="annotation_markup">Menandai</string>
     <string name="annotation_unknown">Tidak dikenal</string>
     <string name="annotations">Anotasi</string>
+    <string name="ungroup">Pisahkan</string>
+    <string name="add_shadow_sub">Tambahkan bayangan buram di belakang lapisan dengan warna dan offset yang dapat dikonfigurasi</string>
 </resources>

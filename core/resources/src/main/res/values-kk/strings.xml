@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Белгілеу</string>
     <string name="annotation_unknown">Белгісіз</string>
     <string name="annotations">Аннотациялар</string>
+    <string name="ungroup">Топтан шығару</string>
+    <string name="add_shadow_sub">Конфигурацияланатын түс пен ығысу арқылы қабаттың артына бұлыңғыр көлеңке қосыңыз</string>
 </resources>

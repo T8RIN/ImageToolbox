@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">İşaretleme</string>
     <string name="annotation_unknown">Bilinmiyor</string>
     <string name="annotations">Ek açıklamalar</string>
+    <string name="ungroup">Grubu çöz</string>
+    <string name="add_shadow_sub">Yapılandırılabilir renk ve ofsetlerle katmanın arkasına bulanıklık gölgesi ekleyin</string>
 </resources>

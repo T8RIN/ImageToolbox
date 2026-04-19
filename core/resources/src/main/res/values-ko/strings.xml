@@ -2226,4 +2226,6 @@
     <string name="annotation_markup">마크업</string>
     <string name="annotation_unknown">알려지지 않은</string>
     <string name="annotations">주석</string>
+    <string name="ungroup">그룹 해제</string>
+    <string name="add_shadow_sub">구성 가능한 색상과 오프셋을 사용하여 레이어 뒤에 흐림 그림자 추가</string>
 </resources>

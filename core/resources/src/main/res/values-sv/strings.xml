@@ -2228,4 +2228,6 @@
     <string name="annotation_markup">Pålägg</string>
     <string name="annotation_unknown">Okänd</string>
     <string name="annotations">Anteckningar</string>
+    <string name="ungroup">Dela upp gruppen</string>
+    <string name="add_shadow_sub">Lägg till oskärpa bakom lagret med konfigurerbar färg och offset</string>
 </resources>

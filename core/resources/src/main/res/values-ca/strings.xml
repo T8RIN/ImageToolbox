@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Marcatge</string>
     <string name="annotation_unknown">Desconegut</string>
     <string name="annotations">Anotacions</string>
+    <string name="ungroup">Desagrupar</string>
+    <string name="add_shadow_sub">Afegeix ombra borrosa darrere de la capa amb color i desplaçaments configurables</string>
 </resources>

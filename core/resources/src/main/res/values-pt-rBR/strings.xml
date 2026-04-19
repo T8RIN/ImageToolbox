@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Marcação</string>
     <string name="annotation_unknown">Desconhecido</string>
     <string name="annotations">Anotações</string>
+    <string name="ungroup">Desagrupar</string>
+    <string name="add_shadow_sub">Adicione sombra desfocada atrás da camada com cores e deslocamentos configuráveis</string>
 </resources>

@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Markatzea</string>
     <string name="annotation_unknown">Ezezaguna</string>
     <string name="annotations">Oharpenak</string>
+    <string name="ungroup">Destaldekatu</string>
+    <string name="add_shadow_sub">Gehitu lausotutako itzala geruzaren atzean, kolore eta desplazamendu konfiguragarriekin</string>
 </resources>

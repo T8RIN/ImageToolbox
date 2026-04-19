@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Balisage</string>
     <string name="annotation_unknown">Inconnu</string>
     <string name="annotations">Annotations</string>
+    <string name="ungroup">Dissocier</string>
+    <string name="add_shadow_sub">Ajoutez une ombre floue derrière le calque avec des couleurs et des décalages configurables</string>
 </resources>

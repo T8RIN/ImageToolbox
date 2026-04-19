@@ -2226,4 +2226,6 @@
     <string name="annotation_markup">มาร์กอัป</string>
     <string name="annotation_unknown">ไม่ทราบ</string>
     <string name="annotations">คำอธิบายประกอบ</string>
+    <string name="ungroup">ยกเลิกการจัดกลุ่ม</string>
+    <string name="add_shadow_sub">เพิ่มเงาเบลอด้านหลังเลเยอร์ด้วยสีและออฟเซ็ตที่กำหนดค่าได้</string>
 </resources>

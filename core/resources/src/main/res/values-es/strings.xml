@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Margen</string>
     <string name="annotation_unknown">Desconocido</string>
     <string name="annotations">Anotaciones</string>
+    <string name="ungroup">Desagrupar</string>
+    <string name="add_shadow_sub">Agregue sombra borrosa detrás de la capa con colores y compensaciones configurables</string>
 </resources>

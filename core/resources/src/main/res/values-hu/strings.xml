@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Jelölés</string>
     <string name="annotation_unknown">Ismeretlen</string>
     <string name="annotations">Annotációk</string>
+    <string name="ungroup">Csoportbontás feloldása</string>
+    <string name="add_shadow_sub">Adjon hozzá homályos árnyékot a réteg mögé konfigurálható színekkel és eltolásokkal</string>
 </resources>

@@ -2229,4 +2229,6 @@
     <string name="annotation_markup">Розмітка</string>
     <string name="annotation_unknown">Невідомий</string>
     <string name="annotations">Анотації</string>
+    <string name="ungroup">Розгрупувати</string>
+    <string name="add_shadow_sub">Додайте розмиту тінь за шаром із настроюваним кольором і зсувами</string>
 </resources>

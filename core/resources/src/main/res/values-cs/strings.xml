@@ -2229,4 +2229,6 @@
     <string name="annotation_markup">Označení</string>
     <string name="annotation_unknown">Neznámý</string>
     <string name="annotations">Anotace</string>
+    <string name="ungroup">Zrušit seskupení</string>
+    <string name="add_shadow_sub">Přidejte stín rozostření za vrstvu s konfigurovatelnou barvou a posuny</string>
 </resources>

@@ -2229,4 +2229,6 @@
     <string name="annotation_markup">Разметка</string>
     <string name="annotation_unknown">Неизвестный</string>
     <string name="annotations">Аннотации</string>
+    <string name="ungroup">Разгруппировать</string>
+    <string name="add_shadow_sub">Добавьте размытую тень за слоем с настраиваемым цветом и смещениями.</string>
 </resources>

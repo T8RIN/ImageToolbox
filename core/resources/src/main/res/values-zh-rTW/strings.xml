@@ -2226,4 +2226,6 @@
     <string name="annotation_markup">标记</string>
     <string name="annotation_unknown">未知</string>
     <string name="annotations">注释</string>
+    <string name="ungroup">取消分组</string>
+    <string name="add_shadow_sub">使用可配置的颜色和偏移在图层后面添加模糊阴影</string>
 </resources>

@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Markup</string>
     <string name="annotation_unknown">Hindi alam</string>
     <string name="annotations">Mga anotasyon</string>
+    <string name="ungroup">Alisin sa pangkat</string>
+    <string name="add_shadow_sub">Magdagdag ng blur shadow sa likod ng layer na may nako-configure na kulay at mga offset</string>
 </resources>

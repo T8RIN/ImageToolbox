@@ -2231,4 +2231,6 @@
     <string name="annotation_markup">العلامات</string>
     <string name="annotation_unknown">مجهول</string>
     <string name="annotations">الشروح</string>
+    <string name="ungroup">فك التجميع</string>
+    <string name="add_shadow_sub">أضف ظلًا ضبابيًا خلف الطبقة مع لون وإزاحات قابلة للتكوين</string>
 </resources>

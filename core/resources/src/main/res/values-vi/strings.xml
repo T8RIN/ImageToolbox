@@ -2226,4 +2226,6 @@
     <string name="annotation_markup">Đánh dấu</string>
     <string name="annotation_unknown">Không xác định</string>
     <string name="annotations">Chú thích</string>
+    <string name="ungroup">Ungroup</string>
+    <string name="add_shadow_sub">Thêm bóng mờ phía sau lớp với màu sắc và độ lệch có thể định cấu hình</string>
 </resources>

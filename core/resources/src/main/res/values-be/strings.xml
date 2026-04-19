@@ -2229,4 +2229,6 @@
     <string name="annotation_markup">Разметка</string>
     <string name="annotation_unknown">Невядомы</string>
     <string name="annotations">Анатацыі</string>
+    <string name="ungroup">Разгрупаваць</string>
+    <string name="add_shadow_sub">Дадайце цень размыцця за пласт з наладжвальнымі колерам і зрухамі</string>
 </resources>

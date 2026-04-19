@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Markup</string>
     <string name="annotation_unknown">نامەلۇم</string>
     <string name="annotations">ئىزاھلار</string>
+    <string name="ungroup">Ungroup</string>
+    <string name="add_shadow_sub">سەپلىگىلى بولىدىغان رەڭ ۋە سىزىقلار بىلەن قەۋەتنىڭ ئارقىسىغا تۇتۇق سايە قوشۇڭ</string>
 </resources>

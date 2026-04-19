@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Markup</string>
     <string name="annotation_unknown">Sconosciuto</string>
     <string name="annotations">Annotazioni</string>
+    <string name="ungroup">Separa</string>
+    <string name="add_shadow_sub">Aggiungi ombra sfocata dietro il livello con colori e offset configurabili</string>
 </resources>

@@ -2228,4 +2228,6 @@
     <string name="annotation_markup">Маркуп</string>
     <string name="annotation_unknown">Непознато</string>
     <string name="annotations">Напомене</string>
+    <string name="ungroup">Разгрупиши</string>
+    <string name="add_shadow_sub">Додајте замућену сенку иза слоја са подесивом бојом и офсетима</string>
 </resources>

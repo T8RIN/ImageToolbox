@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">ਮਾਰਕਅੱਪ</string>
     <string name="annotation_unknown">ਅਗਿਆਤ</string>
     <string name="annotations">ਐਨੋਟੇਸ਼ਨ</string>
+    <string name="ungroup">ਅਨਗਰੁੱਪ ਕਰੋ</string>
+    <string name="add_shadow_sub">ਸੰਰਚਨਾਯੋਗ ਰੰਗ ਅਤੇ ਆਫਸੈਟਾਂ ਦੇ ਨਾਲ ਪਰਤ ਦੇ ਪਿੱਛੇ ਬਲਰ ਸ਼ੈਡੋ ਸ਼ਾਮਲ ਕਰੋ</string>
 </resources>

@@ -138,9 +138,9 @@ fun QualitySelector(
                     derivedStateOf {
                         when {
                             icon != null -> icon
-                            actualImageFormat.isHighQuality(quality.qualityValue) -> Icons.Rounded.QualityHigh
-                            actualImageFormat.isMidQuality(quality.qualityValue) -> Icons.Rounded.QualityMedium
-                            else -> Icons.Rounded.QualityLow
+                            actualImageFormat.isHighQuality(quality.qualityValue) -> Icons.Outlined.QualityHigh
+                            actualImageFormat.isMidQuality(quality.qualityValue) -> Icons.Outlined.QualityMedium
+                            else -> Icons.Outlined.QualityLow
                         }
                     }
                 }

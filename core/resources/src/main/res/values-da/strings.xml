@@ -2227,4 +2227,6 @@
     <string name="annotation_markup">Markup</string>
     <string name="annotation_unknown">Ukendt</string>
     <string name="annotations">Anmærkninger</string>
+    <string name="ungroup">Ophæv grupperingen</string>
+    <string name="add_shadow_sub">Tilføj sløret skygge bag lag med konfigurerbar farve og offsets</string>
 </resources>

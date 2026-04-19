@@ -2228,4 +2228,6 @@
     <string name="annotation_markup">Markup</string>
     <string name="annotation_unknown">Necunoscut</string>
     <string name="annotations">Adnotări</string>
+    <string name="ungroup">Degrupați</string>
+    <string name="add_shadow_sub">Adăugați umbră încețoșată în spatele stratului cu culori și decalaje configurabile</string>
 </resources>
