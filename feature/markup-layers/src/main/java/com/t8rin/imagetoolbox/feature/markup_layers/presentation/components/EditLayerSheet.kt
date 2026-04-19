@@ -35,6 +35,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.FormatAlignLeft
 import androidx.compose.material.icons.automirrored.rounded.FormatAlignRight
 import androidx.compose.material.icons.outlined.BorderColor
+import androidx.compose.material.icons.outlined.BorderStyle
 import androidx.compose.material.icons.outlined.Percent
 import androidx.compose.material.icons.outlined.Rectangle
 import androidx.compose.material.icons.rounded.FormatAlignCenter
@@ -63,6 +64,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
+import com.t8rin.imagetoolbox.core.resources.icons.SkewMore
 import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
@@ -341,8 +343,7 @@ internal fun EditLayerSheet(
                             subtitle = stringResource(R.string.text_geometry_sub),
                             shape = ShapeDefaults.center,
                             containerColor = MaterialTheme.colorScheme.surface,
-                            applyHorizontalPadding = false,
-                            resultModifier = Modifier.padding(16.dp),
+                            startIcon = Icons.Outlined.SkewMore,
                             checked = haveTextGeometry,
                             onClick = {
                                 haveTextGeometry = it
@@ -458,8 +459,7 @@ internal fun EditLayerSheet(
                             subtitle = stringResource(R.string.add_outline_sub),
                             shape = ShapeDefaults.bottom,
                             containerColor = MaterialTheme.colorScheme.surface,
-                            applyHorizontalPadding = false,
-                            resultModifier = Modifier.padding(16.dp),
+                            startIcon = Icons.Outlined.BorderStyle,
                             checked = haveOutline,
                             onClick = {
                                 haveOutline = it

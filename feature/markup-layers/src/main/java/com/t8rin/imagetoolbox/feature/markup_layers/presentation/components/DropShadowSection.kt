@@ -72,8 +72,7 @@ internal fun DropShadowSection(
         subtitle = stringResource(R.string.add_shadow_sub),
         shape = shape,
         containerColor = MaterialTheme.colorScheme.surface,
-        startIcon = Icons.Filled.Shadow,
-        resultModifier = Modifier.padding(16.dp),
+        startIcon = Icons.Outlined.Shadow,
         checked = haveShadow,
         onClick = { haveShadow = it },
         additionalContent = {

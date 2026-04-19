@@ -1,3 +1,20 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
 package com.t8rin.imagetoolbox.core.resources.icons
 
 import androidx.compose.material.icons.Icons
@@ -15,7 +32,7 @@ val Icons.Outlined.FolderImage: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFFE3E3E3))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(6.667f, 15.733f)
             lineToRelative(10.667f, 0f)
             lineToRelative(-3.68f, -4.8f)
@@ -24,7 +41,7 @@ val Icons.Outlined.FolderImage: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(-2.88f, 3.733f)
             close()
         }
-        path(fill = SolidColor(Color(0xFFE3E3E3))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(20.973f, 6.76f)
             curveToRelative(-0.418f, -0.418f, -0.92f, -0.627f, -1.507f, -0.627f)
             horizontalLineToRelative(-7.467f)
@@ -61,7 +78,7 @@ val Icons.Rounded.FolderImage: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFFE3E3E3))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(20.973f, 6.76f)
             curveToRelative(-0.418f, -0.418f, -0.92f, -0.627f, -1.507f, -0.627f)
             horizontalLineToRelative(-7.467f)

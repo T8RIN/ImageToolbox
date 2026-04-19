@@ -39,7 +39,6 @@ import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.CenterFocusStrong
 import androidx.compose.material.icons.rounded.ContentCopy
-import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.LockOpen
 import androidx.compose.material.icons.rounded.ScreenRotationAlt
@@ -63,6 +62,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Deselect
 import com.t8rin.imagetoolbox.core.resources.icons.Flip
 import com.t8rin.imagetoolbox.core.resources.icons.FlipVertical
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
@@ -171,7 +171,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                 ClickableTile(
                     onClick = onActivateLayer,
                     enabled = !isGroupingSelectionMode || groupingSelectionCount > 0,
-                    icon = Icons.Rounded.Deselect,
+                    icon = Icons.Outlined.Deselect,
                     text = stringResource(R.string.clear_selection),
                     modifier = Modifier.size(
                         width = 66.dp,

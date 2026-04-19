@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatColorFill
 import androidx.compose.material3.Icon
@@ -38,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
@@ -472,8 +472,7 @@ private fun ShapeSpecificControls(
                 },
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier.fillMaxWidth(),
-                applyHorizontalPadding = false,
-                resultModifier = Modifier.padding(16.dp),
+                startIcon = Icons.Rounded.SquareFoot,
                 containerColor = MaterialTheme.colorScheme.surface
             )
         }
@@ -554,8 +553,7 @@ private fun ShapeSpecificControls(
                 },
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier.fillMaxWidth(),
-                applyHorizontalPadding = false,
-                resultModifier = Modifier.padding(16.dp),
+                startIcon = Icons.Rounded.SquareFoot,
                 containerColor = MaterialTheme.colorScheme.surface
             )
         }

@@ -32,7 +32,7 @@ val Icons.Outlined.Flip: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFFE3E3E3))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(611.5f, 188.5f)
             quadTo(600f, 177f, 600f, 160f)
             reflectiveQuadToRelative(11.5f, -28.5f)

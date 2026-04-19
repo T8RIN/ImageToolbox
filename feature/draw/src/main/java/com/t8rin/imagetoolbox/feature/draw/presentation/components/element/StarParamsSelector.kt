@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -138,7 +140,7 @@ internal fun StarParamsSelector(
             Spacer(modifier = Modifier.height(4.dp))
             PreferenceRowSwitch(
                 title = stringResource(R.string.draw_regular_star),
-                subtitle = stringResource(R.string.draw_regular_polygon_sub),
+                subtitle = stringResource(R.string.draw_regular_star_sub),
                 checked = value.isRegular(),
                 onClick = {
                     onValueChange(
@@ -150,8 +152,7 @@ internal fun StarParamsSelector(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                resultModifier = Modifier.padding(16.dp),
-                applyHorizontalPadding = false
+                startIcon = Icons.Rounded.SquareFoot,
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

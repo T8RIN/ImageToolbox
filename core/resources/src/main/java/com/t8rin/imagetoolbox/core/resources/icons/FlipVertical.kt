@@ -32,7 +32,7 @@ val Icons.Outlined.FlipVertical: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFFE3E3E3))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19.288f, 15.287f)
             curveToRelative(0.192f, -0.192f, 0.429f, -0.288f, 0.712f, -0.288f)
             reflectiveCurveToRelative(0.521f, 0.096f, 0.713f, 0.287f)

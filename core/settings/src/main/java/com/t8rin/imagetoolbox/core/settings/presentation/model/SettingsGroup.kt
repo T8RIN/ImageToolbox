@@ -46,8 +46,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
 import com.t8rin.imagetoolbox.core.resources.icons.Psychology
 import com.t8rin.imagetoolbox.core.resources.icons.ResponsiveLayout
 import com.t8rin.imagetoolbox.core.resources.icons.Routine
+import com.t8rin.imagetoolbox.core.resources.icons.Shadow
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
-import com.t8rin.imagetoolbox.core.resources.icons.Tonality
 
 sealed class SettingsGroup(
     val id: Int,
@@ -124,7 +124,7 @@ sealed class SettingsGroup(
 
     data object Shadows : SettingsGroup(
         id = 5,
-        icon = Icons.Rounded.Tonality,
+        icon = Icons.Outlined.Shadow,
         titleId = R.string.shadows,
         settingsList = listOf(
             Setting.ContainerShadows,
