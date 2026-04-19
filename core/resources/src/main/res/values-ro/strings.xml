@@ -2209,7 +2209,6 @@
     <string name="vertical_flip">Flip vertical</string>
     <string name="lock">Blocare</string>
     <string name="add_shadow">Adaugă Shadow</string>
-    <string name="add_shadow_sub">Adăugați umbră neclară în spatele textului cu culori și decalaje configurabile</string>
     <string name="shadow_color">Culoare umbră</string>
     <string name="text_geometry">Geometria textului</string>
     <string name="text_geometry_sub">Întindeți sau înclinați textul pentru o stilizare mai clară</string>

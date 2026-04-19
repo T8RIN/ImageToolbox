@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Vertical Flip</string>
     <string name="lock">قۇلۇپ</string>
     <string name="add_shadow">سايە قوشۇڭ</string>
-    <string name="add_shadow_sub">سەپلىگىلى بولىدىغان رەڭ ۋە سىزىقلار بىلەن تېكىستنىڭ كەينىگە تۇتۇق سايە قوشۇڭ</string>
     <string name="shadow_color">سايە رەڭگى</string>
     <string name="text_geometry">Text Geometry</string>
     <string name="text_geometry_sub">ئۆتكۈر ئۇسلۇب ئۈچۈن تېكىستنى سوزۇش ياكى ئېغىش</string>

@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Lodret flip</string>
     <string name="lock">Låse</string>
     <string name="add_shadow">Tilføj skygge</string>
-    <string name="add_shadow_sub">Tilføj sløringsskygge bag tekst med konfigurerbare farver og forskydninger</string>
     <string name="shadow_color">Skygge farve</string>
     <string name="text_geometry">Tekstgeometri</string>
     <string name="text_geometry_sub">Stræk eller skæv tekst for skarpere stilisering</string>

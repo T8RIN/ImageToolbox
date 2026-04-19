@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Dikey Çevirme</string>
     <string name="lock">Kilit</string>
     <string name="add_shadow">Gölge Ekle</string>
-    <string name="add_shadow_sub">Yapılandırılabilir renk ve ofsetlerle metnin arkasına bulanıklık gölgesi ekleyin</string>
     <string name="shadow_color">Gölge Rengi</string>
     <string name="text_geometry">Metin Geometrisi</string>
     <string name="text_geometry_sub">Daha keskin stilizasyon için metni uzatın veya eğriltin</string>

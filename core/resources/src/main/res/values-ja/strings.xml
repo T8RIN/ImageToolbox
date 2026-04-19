@@ -2207,7 +2207,6 @@
     <string name="vertical_flip">垂直反転</string>
     <string name="lock">ロック</string>
     <string name="add_shadow">影を追加する</string>
-    <string name="add_shadow_sub">構成可能な色とオフセットを使用してテキストの後ろにぼかしシャドウを追加します</string>
     <string name="shadow_color">影の色</string>
     <string name="text_geometry">テキストジオメトリ</string>
     <string name="text_geometry_sub">テキストを引き伸ばしたり傾けたりして、よりシャープなスタイルを実現します</string>

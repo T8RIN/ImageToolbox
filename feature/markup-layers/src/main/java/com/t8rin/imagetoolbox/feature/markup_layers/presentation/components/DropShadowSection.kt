@@ -28,10 +28,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -45,65 +44,55 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.withShadow
-import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 
 @Composable
-internal fun PictureShadowSection(
-    layer: UiMarkupLayer,
-    type: LayerType.Picture,
-    onUpdateLayer: (UiMarkupLayer) -> Unit,
-    onUpdateLayerContinuously: (UiMarkupLayer) -> Unit,
-    onContinuousEditFinished: () -> Unit
+internal fun DropShadowSection(
+    shadow: DropShadow?,
+    onShadowChange: (DropShadow?) -> Unit,
+    onShadowChangeContinuously: (DropShadow) -> Unit,
+    onContinuousEditFinished: () -> Unit,
+    shape: androidx.compose.ui.graphics.Shape = ShapeDefaults.large
 ) {
-    var haveShadow by remember {
-        mutableStateOf(type.shadow != null)
+    var haveShadow by rememberSaveable(shadow != null) {
+        mutableStateOf(shadow != null)
     }
-    LaunchedEffect(haveShadow, type.shadow) {
+
+    LaunchedEffect(haveShadow, shadow) {
         val desiredShadow = if (haveShadow) {
-            type.shadow ?: DropShadow.Default
+            shadow ?: DropShadow.Default
         } else null
 
-        if (type.shadow != desiredShadow) {
-            onUpdateLayer(
-                layer.copy(
-                    type = type.withShadow(desiredShadow)
-                )
-            )
+        if (shadow != desiredShadow) {
+            onShadowChange(desiredShadow)
         }
     }
 
     PreferenceRowSwitch(
         title = stringResource(R.string.add_shadow),
         subtitle = stringResource(R.string.add_shadow_sub),
-        shape = ShapeDefaults.large,
+        shape = shape,
         containerColor = MaterialTheme.colorScheme.surface,
-        applyHorizontalPadding = false,
+        startIcon = Icons.Filled.Shadow,
         resultModifier = Modifier.padding(16.dp),
         checked = haveShadow,
-        onClick = {
-            haveShadow = it
-        },
+        onClick = { haveShadow = it },
         additionalContent = {
             AnimatedVisibility(
-                visible = type.shadow != null,
+                visible = shadow != null,
                 modifier = Modifier.fillMaxWidth()
             ) {
+                val resolvedShadow = shadow ?: DropShadow.Default
+
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
                     ColorRowSelector(
-                        value = type.shadow?.color?.toColor() ?: Color.Transparent,
+                        value = resolvedShadow.color.toColor(),
                         onValueChange = {
-                            onUpdateLayer(
-                                layer.copy(
-                                    type = type.withShadow(
-                                        type.shadow?.copy(
-                                            color = it.toArgb()
-                                        )
-                                    )
+                            onShadowChange(
+                                resolvedShadow.copy(
+                                    color = it.toArgb()
                                 )
                             )
                         },
@@ -111,23 +100,16 @@ internal fun PictureShadowSection(
                         modifier = Modifier.container(
                             shape = ShapeDefaults.top,
                             color = MaterialTheme.colorScheme.surfaceContainerLow
-                        ),
-                        icon = Icons.Filled.Shadow
+                        )
                     )
                     EnhancedSliderItem(
-                        value = type.shadow?.blurRadius ?: 0f,
+                        value = resolvedShadow.blurRadius,
                         title = stringResource(R.string.blur_radius),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
+                        internalStateTransformation = { it.roundToTwoDigits() },
                         onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.withShadow(
-                                        type.shadow?.copy(
-                                            blurRadius = it
-                                        )
-                                    )
+                            onShadowChangeContinuously(
+                                resolvedShadow.copy(
+                                    blurRadius = it
                                 )
                             )
                         },
@@ -137,19 +119,13 @@ internal fun PictureShadowSection(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                     )
                     EnhancedSliderItem(
-                        value = type.shadow?.offsetX ?: 0f,
+                        value = resolvedShadow.offsetX,
                         title = stringResource(R.string.offset_x),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
+                        internalStateTransformation = { it.roundToTwoDigits() },
                         onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.withShadow(
-                                        type.shadow?.copy(
-                                            offsetX = it
-                                        )
-                                    )
+                            onShadowChangeContinuously(
+                                resolvedShadow.copy(
+                                    offsetX = it
                                 )
                             )
                         },
@@ -159,19 +135,13 @@ internal fun PictureShadowSection(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                     )
                     EnhancedSliderItem(
-                        value = type.shadow?.offsetY ?: 0f,
+                        value = resolvedShadow.offsetY,
                         title = stringResource(R.string.offset_y),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
+                        internalStateTransformation = { it.roundToTwoDigits() },
                         onValueChange = {
-                            onUpdateLayerContinuously(
-                                layer.copy(
-                                    type = type.withShadow(
-                                        type.shadow?.copy(
-                                            offsetY = it
-                                        )
-                                    )
+                            onShadowChangeContinuously(
+                                resolvedShadow.copy(
+                                    offsetY = it
                                 )
                             )
                         },

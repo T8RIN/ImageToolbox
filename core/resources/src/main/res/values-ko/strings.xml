@@ -2207,7 +2207,6 @@
     <string name="vertical_flip">수직 뒤집기</string>
     <string name="lock">잠그다</string>
     <string name="add_shadow">그림자 추가</string>
-    <string name="add_shadow_sub">구성 가능한 색상과 오프셋을 사용하여 텍스트 뒤에 흐림 그림자 추가</string>
     <string name="shadow_color">그림자 색상</string>
     <string name="text_geometry">텍스트 기하학</string>
     <string name="text_geometry_sub">더 선명한 스타일을 위해 텍스트를 늘리거나 기울입니다.</string>

@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Retournement vertical</string>
     <string name="lock">Verrouillage</string>
     <string name="add_shadow">Ajouter une ombre</string>
-    <string name="add_shadow_sub">Ajoutez une ombre floue derrière le texte avec des couleurs et des décalages configurables</string>
     <string name="shadow_color">Couleur de l\'ombre</string>
     <string name="text_geometry">Géométrie du texte</string>
     <string name="text_geometry_sub">Étirez ou inclinez le texte pour une stylisation plus nette</string>

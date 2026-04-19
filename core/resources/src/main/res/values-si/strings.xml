@@ -2209,7 +2209,6 @@
     <string name="vertical_flip">සිරස් පෙරළීම</string>
     <string name="lock">අගුළු දමන්න</string>
     <string name="add_shadow">සෙවනැල්ල එකතු කරන්න</string>
-    <string name="add_shadow_sub">වින්‍යාස කළ හැකි වර්ණ සහ ඕෆ්සෙට් සමඟින් පෙළ පිටුපස බොඳ සෙවනැල්ල එක් කරන්න</string>
     <string name="shadow_color">සෙවනැලි වර්ණය</string>
     <string name="text_geometry">පෙළ ජ්යාමිතිය</string>
     <string name="text_geometry_sub">තියුණු ශෛලීකරණය සඳහා පෙළ දිගු කරන්න හෝ ඇල කරන්න</string>

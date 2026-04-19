@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Capovolgimento verticale</string>
     <string name="lock">Serratura</string>
     <string name="add_shadow">Aggiungi ombra</string>
-    <string name="add_shadow_sub">Aggiungi un\'ombra sfocata dietro il testo con colori e offset configurabili</string>
     <string name="shadow_color">Colore dell\'ombra</string>
     <string name="text_geometry">Geometria del testo</string>
     <string name="text_geometry_sub">Allunga o inclina il testo per una stilizzazione più nitida</string>

@@ -63,7 +63,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
-import com.t8rin.imagetoolbox.core.resources.icons.Shadow
 import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
@@ -92,7 +91,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType.Text.Alignment
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.TextGeometricTransform
@@ -407,135 +405,28 @@ internal fun EditLayerSheet(
                             }
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        var haveShadow by remember {
-                            mutableStateOf(type.shadow != null)
-                        }
-                        LaunchedEffect(haveShadow, type.shadow, type.color) {
-                            val desiredShadow = if (haveShadow) {
-                                type.shadow ?: DropShadow.Default
-                            } else null
-
-                            if (type.shadow != desiredShadow) {
+                        DropShadowSection(
+                            shadow = type.shadow,
+                            onShadowChange = { shadow ->
                                 updateLayerWithHistory(
                                     layer.copy(
                                         type = type.copy(
-                                            shadow = desiredShadow
+                                            shadow = shadow
                                         )
                                     )
                                 )
-                            }
-                        }
-
-                        PreferenceRowSwitch(
-                            title = stringResource(R.string.add_shadow),
-                            subtitle = stringResource(R.string.add_shadow_sub),
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surface,
-                            applyHorizontalPadding = false,
-                            resultModifier = Modifier.padding(16.dp),
-                            checked = haveShadow,
-                            onClick = {
-                                haveShadow = it
                             },
-                            additionalContent = {
-                                AnimatedVisibility(
-                                    visible = type.shadow != null,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Column(
-                                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                                        modifier = Modifier.padding(top = 16.dp)
-                                    ) {
-                                        ColorRowSelector(
-                                            value = type.shadow?.color?.toColor()
-                                                ?: Color.Transparent,
-                                            onValueChange = {
-                                                updateLayerWithHistory(
-                                                    layer.copy(
-                                                        type = type.copy(
-                                                            shadow = type.shadow?.copy(
-                                                                color = it.toArgb()
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            },
-                                            title = stringResource(R.string.shadow_color),
-                                            modifier = Modifier.container(
-                                                shape = ShapeDefaults.top,
-                                                color = MaterialTheme.colorScheme.surfaceContainerLow
-                                            ),
-                                            icon = Icons.Filled.Shadow
+                            onShadowChangeContinuously = { shadow ->
+                                updateLayerContinuously(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow
                                         )
-                                        EnhancedSliderItem(
-                                            value = type.shadow?.blurRadius ?: 0f,
-                                            title = stringResource(R.string.blur_radius),
-                                            internalStateTransformation = {
-                                                it.roundToTwoDigits()
-                                            },
-                                            onValueChange = {
-                                                updateLayerContinuously(
-                                                    layer.copy(
-                                                        type = type.copy(
-                                                            shadow = type.shadow?.copy(
-                                                                blurRadius = it
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            },
-                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                            valueRange = DropShadow.BlurRadiusRange,
-                                            shape = ShapeDefaults.center,
-                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                        )
-                                        EnhancedSliderItem(
-                                            value = type.shadow?.offsetX ?: 0f,
-                                            title = stringResource(R.string.offset_x),
-                                            internalStateTransformation = {
-                                                it.roundToTwoDigits()
-                                            },
-                                            onValueChange = {
-                                                updateLayerContinuously(
-                                                    layer.copy(
-                                                        type = type.copy(
-                                                            shadow = type.shadow?.copy(
-                                                                offsetX = it
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            },
-                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                            valueRange = DropShadow.OffsetXRange,
-                                            shape = ShapeDefaults.center,
-                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                        )
-                                        EnhancedSliderItem(
-                                            value = type.shadow?.offsetY ?: 0f,
-                                            title = stringResource(R.string.offset_y),
-                                            internalStateTransformation = {
-                                                it.roundToTwoDigits()
-                                            },
-                                            onValueChange = {
-                                                updateLayerContinuously(
-                                                    layer.copy(
-                                                        type = type.copy(
-                                                            shadow = type.shadow?.copy(
-                                                                offsetY = it
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            },
-                                            onValueChangeFinished = { _ -> finishContinuousEdit() },
-                                            valueRange = DropShadow.OffsetYRange,
-                                            shape = ShapeDefaults.bottom,
-                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                        )
-                                    }
-                                }
-                            }
+                                    )
+                                )
+                            },
+                            onContinuousEditFinished = finishContinuousEdit,
+                            shape = ShapeDefaults.center
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         var haveOutline by remember {
@@ -657,11 +548,26 @@ internal fun EditLayerSheet(
                             color = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        PictureShadowSection(
-                            layer = layer,
-                            type = type,
-                            onUpdateLayer = updateLayerWithHistory,
-                            onUpdateLayerContinuously = updateLayerContinuously,
+                        DropShadowSection(
+                            shadow = type.shadow,
+                            onShadowChange = { shadow ->
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow
+                                        )
+                                    )
+                                )
+                            },
+                            onShadowChangeContinuously = { shadow ->
+                                updateLayerContinuously(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow
+                                        )
+                                    )
+                                )
+                            },
                             onContinuousEditFinished = finishContinuousEdit
                         )
                     }
@@ -713,11 +619,26 @@ internal fun EditLayerSheet(
                         )
 
                         Spacer(modifier = Modifier.height(4.dp))
-                        PictureShadowSection(
-                            layer = layer,
-                            type = type,
-                            onUpdateLayer = updateLayerWithHistory,
-                            onUpdateLayerContinuously = updateLayerContinuously,
+                        DropShadowSection(
+                            shadow = type.shadow,
+                            onShadowChange = { shadow ->
+                                updateLayerWithHistory(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow
+                                        )
+                                    )
+                                )
+                            },
+                            onShadowChangeContinuously = { shadow ->
+                                updateLayerContinuously(
+                                    layer.copy(
+                                        type = type.copy(
+                                            shadow = shadow
+                                        )
+                                    )
+                                )
+                            },
                             onContinuousEditFinished = finishContinuousEdit
                         )
 

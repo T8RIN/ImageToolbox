@@ -2210,7 +2210,6 @@
     <string name="vertical_flip">Flip אנכי</string>
     <string name="lock">לִנְעוֹל</string>
     <string name="add_shadow">הוסף צל</string>
-    <string name="add_shadow_sub">הוסף צל טשטוש מאחורי טקסט עם צבע והיסטים הניתנים להגדרה</string>
     <string name="shadow_color">צבע צל</string>
     <string name="text_geometry">גיאומטריית טקסט</string>
     <string name="text_geometry_sub">למתוח או להטות טקסט לסטייליזציה חדה יותר</string>

@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Voltear verticalmente</string>
     <string name="lock">Cerrar</string>
     <string name="add_shadow">Agregar sombra</string>
-    <string name="add_shadow_sub">Agregue sombras borrosas detrás del texto con colores y compensaciones configurables</string>
     <string name="shadow_color">Color de sombra</string>
     <string name="text_geometry">Geometría del texto</string>
     <string name="text_geometry_sub">Estire o sesgue el texto para lograr un estilo más nítido</string>

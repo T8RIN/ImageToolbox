@@ -2210,7 +2210,6 @@
     <string name="vertical_flip">Вертикальний фліп</string>
     <string name="lock">Замок</string>
     <string name="add_shadow">Додати тінь</string>
-    <string name="add_shadow_sub">Додайте розмиту тінь за текстом із настроюваним кольором і зсувами</string>
     <string name="shadow_color">Колір тіні</string>
     <string name="text_geometry">Геометрія тексту</string>
     <string name="text_geometry_sub">Розтягніть або перекосіть текст для чіткішої стилізації</string>

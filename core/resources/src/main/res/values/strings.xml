@@ -1554,7 +1554,7 @@
     <string name="add_outline">Add Outline</string>
     <string name="add_outline_sub">Add outline around text with specified color and width</string>
     <string name="add_shadow">Add Shadow</string>
-    <string name="add_shadow_sub">Add blur shadow behind text with configurable color and offsets</string>
+    <string name="add_shadow_sub">Add blur shadow behind layer with configurable color and offsets</string>
     <string name="outline_color">Outline Color</string>
     <string name="outline_size">Outline Size</string>
     <string name="shadow_color">Shadow Color</string>

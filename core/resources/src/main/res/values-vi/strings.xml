@@ -2207,7 +2207,6 @@
     <string name="vertical_flip">Lật dọc</string>
     <string name="lock">Khóa</string>
     <string name="add_shadow">Thêm bóng</string>
-    <string name="add_shadow_sub">Thêm bóng mờ phía sau văn bản với màu sắc và độ lệch có thể định cấu hình</string>
     <string name="shadow_color">Màu bóng</string>
     <string name="text_geometry">Hình học văn bản</string>
     <string name="text_geometry_sub">Kéo dài hoặc nghiêng văn bản để cách điệu sắc nét hơn</string>

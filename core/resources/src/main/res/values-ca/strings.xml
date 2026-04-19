@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Flip vertical</string>
     <string name="lock">Bloqueig</string>
     <string name="add_shadow">Afegeix ombra</string>
-    <string name="add_shadow_sub">Afegeix ombra borrosa darrere del text amb color i desplaçaments configurables</string>
     <string name="shadow_color">Color de l\'ombra</string>
     <string name="text_geometry">Geometria del text</string>
     <string name="text_geometry_sub">Estira o inclina el text per a una estilització més nítida</string>

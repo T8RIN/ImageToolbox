@@ -2207,7 +2207,6 @@
     <string name="vertical_flip">垂直翻转</string>
     <string name="lock">锁</string>
     <string name="add_shadow">添加阴影</string>
-    <string name="add_shadow_sub">使用可配置的颜色和偏移在文本后面添加模糊阴影</string>
     <string name="shadow_color">阴影颜色</string>
     <string name="text_geometry">文本几何</string>
     <string name="text_geometry_sub">拉伸或倾斜文本以获得更清晰的风格</string>

@@ -159,11 +159,26 @@ internal fun ShapeLayerParamsSelector(
     }
 
     Spacer(modifier = Modifier.height(4.dp))
-    ShapeShadowSection(
-        layer = layer,
-        type = type,
-        onUpdateLayer = onUpdateLayer,
-        onUpdateLayerContinuously = onUpdateLayerContinuously,
+    DropShadowSection(
+        shadow = type.shadow,
+        onShadowChange = { shadow ->
+            onUpdateLayer(
+                layer.copy(
+                    type = type.copy(
+                        shadow = shadow
+                    )
+                )
+            )
+        },
+        onShadowChangeContinuously = { shadow ->
+            onUpdateLayerContinuously(
+                layer.copy(
+                    type = type.copy(
+                        shadow = shadow
+                    )
+                )
+            )
+        },
         onContinuousEditFinished = onContinuousEditFinished
     )
 }

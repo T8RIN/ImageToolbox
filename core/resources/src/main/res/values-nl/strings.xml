@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Verticale spiegeling</string>
     <string name="lock">Slot</string>
     <string name="add_shadow">Schaduw toevoegen</string>
-    <string name="add_shadow_sub">Voeg vervagingsschaduw achter tekst toe met configureerbare kleuren en offsets</string>
     <string name="shadow_color">Schaduwkleur</string>
     <string name="text_geometry">Tekstgeometrie</string>
     <string name="text_geometry_sub">Rek tekst uit of scheef voor scherpere stilering</string>

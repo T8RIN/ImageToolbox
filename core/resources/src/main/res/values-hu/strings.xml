@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Függőleges Flip</string>
     <string name="lock">Zár</string>
     <string name="add_shadow">Árnyék hozzáadása</string>
-    <string name="add_shadow_sub">Adjon hozzá elmosódott árnyékot a szöveg mögé konfigurálható színekkel és eltolásokkal</string>
     <string name="shadow_color">Árnyék színe</string>
     <string name="text_geometry">Szöveggeometria</string>
     <string name="text_geometry_sub">Nyújtsa vagy ferdítse a szöveget az élesebb stilizáció érdekében</string>

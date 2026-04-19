@@ -2210,7 +2210,6 @@
     <string name="vertical_flip">Вертыкальны фліп</string>
     <string name="lock">Замак</string>
     <string name="add_shadow">Дадайце цень</string>
-    <string name="add_shadow_sub">Дадайце размытую цень за тэкстам з наладжвальнымі колерам і зрухамі</string>
     <string name="shadow_color">Колер цені</string>
     <string name="text_geometry">Геаметрыя тэксту</string>
     <string name="text_geometry_sub">Расцягніце або перакосіце тэкст для больш выразнай стылізацыі</string>

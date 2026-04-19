@@ -2207,7 +2207,6 @@
     <string name="vertical_flip">พลิกแนวตั้ง</string>
     <string name="lock">ล็อค</string>
     <string name="add_shadow">เพิ่มเงา</string>
-    <string name="add_shadow_sub">เพิ่มเงาเบลอหลังข้อความด้วยสีและออฟเซ็ตที่กำหนดค่าได้</string>
     <string name="shadow_color">สีเงา</string>
     <string name="text_geometry">เรขาคณิตข้อความ</string>
     <string name="text_geometry_sub">ยืดหรือเอียงข้อความเพื่อให้มีสไตล์ที่คมชัดยิ่งขึ้น</string>

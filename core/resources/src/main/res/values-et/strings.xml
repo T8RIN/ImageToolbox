@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Vertikaalne ümberpööramine</string>
     <string name="lock">Lukk</string>
     <string name="add_shadow">Lisa varju</string>
-    <string name="add_shadow_sub">Lisage konfigureeritavate värvide ja nihetega teksti taha hägune vari</string>
     <string name="shadow_color">Varju värv</string>
     <string name="text_geometry">Teksti geomeetria</string>
     <string name="text_geometry_sub">Teravama stiliseerimise jaoks venitage või kallutage teksti</string>

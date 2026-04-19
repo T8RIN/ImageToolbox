@@ -2210,7 +2210,6 @@
     <string name="vertical_flip">Vertikálne preklopenie</string>
     <string name="lock">Zámok</string>
     <string name="add_shadow">Pridajte tieň</string>
-    <string name="add_shadow_sub">Pridajte tieň rozostrenia za text pomocou konfigurovateľných farieb a posunov</string>
     <string name="shadow_color">Farba tieňa</string>
     <string name="text_geometry">Geometria textu</string>
     <string name="text_geometry_sub">Roztiahnutím alebo zošikmením textu dosiahnete ostrejšiu štylizáciu</string>

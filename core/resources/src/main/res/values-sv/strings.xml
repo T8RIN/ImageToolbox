@@ -2209,7 +2209,6 @@
     <string name="vertical_flip">Vertikal flip</string>
     <string name="lock">Låsa</string>
     <string name="add_shadow">Lägg till skugga</string>
-    <string name="add_shadow_sub">Lägg till oskärpa bakom text med konfigurerbar färg och offset</string>
     <string name="shadow_color">Skuggfärg</string>
     <string name="text_geometry">Textgeometri</string>
     <string name="text_geometry_sub">Sträck ut eller skeva text för skarpare stilisering</string>

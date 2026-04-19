@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Vertikaler Flip</string>
     <string name="lock">Sperren</string>
     <string name="add_shadow">Schatten hinzufügen</string>
-    <string name="add_shadow_sub">Fügen Sie Unschärfeschatten hinter Text mit konfigurierbaren Farben und Offsets hinzu</string>
     <string name="shadow_color">Schattenfarbe</string>
     <string name="text_geometry">Textgeometrie</string>
     <string name="text_geometry_sub">Dehnen oder neigen Sie Text für eine schärfere Stilisierung</string>

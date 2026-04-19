@@ -2209,7 +2209,6 @@
     <string name="vertical_flip">उभ्या फ्लिप</string>
     <string name="lock">कुलूप</string>
     <string name="add_shadow">सावली जोडा</string>
-    <string name="add_shadow_sub">कॉन्फिगर करण्यायोग्य रंग आणि ऑफसेटसह मजकुराच्या मागे अस्पष्ट सावली जोडा</string>
     <string name="shadow_color">सावलीचा रंग</string>
     <string name="text_geometry">मजकूर भूमिती</string>
     <string name="text_geometry_sub">तीक्ष्ण शैलीकरणासाठी मजकूर स्ट्रेच किंवा स्क्यू करा</string>

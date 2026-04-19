@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">लंबवत फ्लिप</string>
     <string name="lock">ताला</string>
     <string name="add_shadow">छाया जोड़ें</string>
-    <string name="add_shadow_sub">कॉन्फ़िगर करने योग्य रंग और ऑफसेट के साथ टेक्स्ट के पीछे धुंधली छाया जोड़ें</string>
     <string name="shadow_color">छाया रंग</string>
     <string name="text_geometry">पाठ ज्यामिति</string>
     <string name="text_geometry_sub">अधिक स्पष्ट शैलीकरण के लिए पाठ को फैलाएँ या तिरछा करें</string>

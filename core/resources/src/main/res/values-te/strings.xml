@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">వర్టికల్ ఫ్లిప్</string>
     <string name="lock">తాళం వేయండి</string>
     <string name="add_shadow">షాడో జోడించండి</string>
-    <string name="add_shadow_sub">కాన్ఫిగర్ చేయగల రంగు మరియు ఆఫ్‌సెట్‌లతో టెక్స్ట్ వెనుక బ్లర్ షాడోని జోడించండి</string>
     <string name="shadow_color">నీడ రంగు</string>
     <string name="text_geometry">టెక్స్ట్ జ్యామితి</string>
     <string name="text_geometry_sub">పదునైన స్టైలైజేషన్ కోసం వచనాన్ని సాగదీయండి లేదా వక్రంగా మార్చండి</string>

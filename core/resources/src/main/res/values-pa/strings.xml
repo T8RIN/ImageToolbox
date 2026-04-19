@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">ਵਰਟੀਕਲ ਫਲਿੱਪ</string>
     <string name="lock">ਤਾਲਾ</string>
     <string name="add_shadow">ਸ਼ੈਡੋ ਸ਼ਾਮਲ ਕਰੋ</string>
-    <string name="add_shadow_sub">ਸੰਰਚਨਾਯੋਗ ਰੰਗ ਅਤੇ ਆਫਸੈਟਾਂ ਦੇ ਨਾਲ ਟੈਕਸਟ ਦੇ ਪਿੱਛੇ ਬਲਰ ਸ਼ੈਡੋ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="shadow_color">ਸ਼ੈਡੋ ਰੰਗ</string>
     <string name="text_geometry">ਟੈਕਸਟ ਜਿਓਮੈਟਰੀ</string>
     <string name="text_geometry_sub">ਤਿੱਖੀ ਸ਼ੈਲੀ ਲਈ ਟੈਕਸਟ ਨੂੰ ਖਿੱਚੋ ਜਾਂ ਤਿੱਖਾ ਕਰੋ</string>

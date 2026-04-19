@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">செங்குத்து ஃபிளிப்</string>
     <string name="lock">பூட்டு</string>
     <string name="add_shadow">நிழலைச் சேர்க்கவும்</string>
-    <string name="add_shadow_sub">உள்ளமைக்கக்கூடிய வண்ணம் மற்றும் ஆஃப்செட்களுடன் உரைக்குப் பின்னால் மங்கலான நிழலைச் சேர்க்கவும்</string>
     <string name="shadow_color">நிழல் நிறம்</string>
     <string name="text_geometry">உரை வடிவியல்</string>
     <string name="text_geometry_sub">கூர்மையான ஸ்டைலைசேஷன் செய்ய உரையை நீட்டவும் அல்லது வளைக்கவும்</string>

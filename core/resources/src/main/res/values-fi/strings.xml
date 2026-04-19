@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Pystysuora kääntö</string>
     <string name="lock">Lukko</string>
     <string name="add_shadow">Lisää varjo</string>
-    <string name="add_shadow_sub">Lisää sumeusvarjo tekstin taakse konfiguroitavilla väreillä ja poikkeamilla</string>
     <string name="shadow_color">Varjon väri</string>
     <string name="text_geometry">Tekstin geometria</string>
     <string name="text_geometry_sub">Venytä tai vino tekstiä terävämmän tyylin saamiseksi</string>

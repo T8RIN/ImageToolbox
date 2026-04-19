@@ -2207,7 +2207,6 @@
     <string name="vertical_flip">Balik Vertikal</string>
     <string name="lock">Kunci</string>
     <string name="add_shadow">Tambahkan Bayangan</string>
-    <string name="add_shadow_sub">Tambahkan bayangan buram di belakang teks dengan warna dan offset yang dapat dikonfigurasi</string>
     <string name="shadow_color">Warna Bayangan</string>
     <string name="text_geometry">Geometri Teks</string>
     <string name="text_geometry_sub">Regangkan atau miringkan teks untuk gaya yang lebih tajam</string>

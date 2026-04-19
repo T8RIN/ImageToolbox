@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">Тік бұру</string>
     <string name="lock">Құлыптау</string>
     <string name="add_shadow">Көлеңке қосу</string>
-    <string name="add_shadow_sub">Конфигурацияланатын түсі мен ығысуы бар мәтіннің артына бұлыңғыр көлеңке қосыңыз</string>
     <string name="shadow_color">Көлеңке түсі</string>
     <string name="text_geometry">Мәтін геометриясы</string>
     <string name="text_geometry_sub">Анық стильдеу үшін мәтінді созыңыз немесе қисайтыңыз</string>

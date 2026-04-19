@@ -2208,7 +2208,6 @@
     <string name="vertical_flip">چرخش عمودی</string>
     <string name="lock">قفل</string>
     <string name="add_shadow">سایه اضافه کنید</string>
-    <string name="add_shadow_sub">سایه تاری پشت متن را با رنگ های قابل تنظیم و افست اضافه کنید</string>
     <string name="shadow_color">رنگ سایه</string>
     <string name="text_geometry">هندسه متن</string>
     <string name="text_geometry_sub">برای سبک‌سازی واضح‌تر، متن را کشیده یا کج کنید</string>

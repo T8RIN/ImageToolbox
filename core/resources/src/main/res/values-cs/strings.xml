@@ -2210,7 +2210,6 @@
     <string name="vertical_flip">Vertikální překlopení</string>
     <string name="lock">Zámek</string>
     <string name="add_shadow">Přidat stín</string>
-    <string name="add_shadow_sub">Přidejte stín rozostření za text pomocí konfigurovatelných barev a posunů</string>
     <string name="shadow_color">Barva stínu</string>
     <string name="text_geometry">Geometrie textu</string>
     <string name="text_geometry_sub">Roztažením nebo zkosením textu získáte ostřejší stylizaci</string>
