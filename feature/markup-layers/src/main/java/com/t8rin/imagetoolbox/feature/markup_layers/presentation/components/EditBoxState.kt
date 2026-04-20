@@ -72,7 +72,9 @@ class EditBoxState(
         isVisible = isVisible,
         coerceToBounds = coerceToBounds,
         isInEditMode = isInEditMode
-    )
+    ).also { copied ->
+        copied.preserveGeometryOnNextCanvasResize = preserveGeometryOnNextCanvasResize
+    }
 
     var isActive by mutableStateOf(isActive)
         internal set
@@ -203,6 +205,7 @@ class EditBoxState(
         internal set
 
     private val _canvasSize = mutableStateOf(IntegerSize.Zero)
+    private var preserveGeometryOnNextCanvasResize = false
 
     init {
         adjustByCanvasSize(canvasSize)
@@ -224,6 +227,10 @@ class EditBoxState(
         )
     }
 
+    internal fun markPreserveGeometryOnNextCanvasResize() {
+        preserveGeometryOnNextCanvasResize = true
+    }
+
     private fun adjustByCanvasSize(
         value: IntegerSize,
         forceScaleAdjustment: Boolean = false
@@ -231,6 +238,12 @@ class EditBoxState(
         val previousCanvasSize = _canvasSize.value
         if (previousCanvasSize == value) {
             _canvasSize.value = value
+            preserveGeometryOnNextCanvasResize = false
+            return
+        }
+        if (preserveGeometryOnNextCanvasResize) {
+            _canvasSize.value = value
+            preserveGeometryOnNextCanvasResize = false
             return
         }
         if (previousCanvasSize != IntegerSize.Zero) {

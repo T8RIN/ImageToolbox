@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,10 +68,11 @@ fun ResizeImageField(
     modifier: Modifier = Modifier,
     showWarning: Boolean = false,
     enabled: Boolean = true,
+    shape: Shape = ShapeDefaults.extraLarge
 ) {
     Column(
         modifier = modifier
-            .container(shape = ShapeDefaults.extraLarge)
+            .container(shape = shape)
             .padding(8.dp)
             .animateContentSizeNoClip()
     ) {

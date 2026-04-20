@@ -747,6 +747,27 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
+    fun resizeBackgroundCanvas(
+        reqWidth: Int,
+        reqHeight: Int
+    ) {
+        val behavior = backgroundBehavior as? BackgroundBehavior.Color ?: return
+        val width = reqWidth.takeIf { it > 0 } ?: behavior.width
+        val height = reqHeight.takeIf { it > 0 } ?: behavior.height
+
+        if (width == behavior.width && height == behavior.height) return
+
+        runEditorChange {
+            _backgroundBehavior.value = behavior.copy(
+                width = width,
+                height = height
+            )
+            layers.forEach { layer ->
+                layer.state.markPreserveGeometryOnNextCanvasResize()
+            }
+        }
+    }
+
     private fun createProject(): MarkupProject = MarkupProject(
         background = when (val behavior = backgroundBehavior) {
             is BackgroundBehavior.Color -> ProjectBackground.Color(

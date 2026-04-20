@@ -19,7 +19,6 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -55,9 +54,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -65,7 +61,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
-import androidx.core.graphics.applyCanvas
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
@@ -98,6 +93,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.BackgroundCanvasSizeControls
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Layer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersActions
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersNoDataControls
@@ -167,18 +163,20 @@ fun MarkupLayersContent(
     val screenSize = LocalScreenSize.current
     val isPortrait by isPortraitOrientationAsState()
 
-    val bitmap =
-        component.bitmap ?: (component.backgroundBehavior as? BackgroundBehavior.Color)?.run {
-            remember(width, height, color) {
-                ImageBitmap(width, height).asAndroidBitmap()
-                    .applyCanvas { drawColor(color) }
-            }
-        } ?: remember {
-            ImageBitmap(
-                screenSize.widthPx,
-                screenSize.heightPx
-            ).asAndroidBitmap()
+    val colorBackground = component.backgroundBehavior as? BackgroundBehavior.Color
+    val imageBitmap = component.bitmap
+    val canvasAspectRatio = remember(
+        imageBitmap,
+        colorBackground,
+        screenSize.widthPx,
+        screenSize.heightPx
+    ) {
+        when {
+            imageBitmap != null -> imageBitmap.width / imageBitmap.height.toFloat()
+            colorBackground != null -> colorBackground.width / colorBackground.height.toFloat()
+            else -> screenSize.widthPx / screenSize.heightPx.toFloat()
         }
+    }
 
     var showOneTimeImagePickingDialog by rememberSaveable {
         mutableStateOf(false)
@@ -256,13 +254,7 @@ fun MarkupLayersContent(
             )
         },
         mainContent = {
-            val imageBitmap by remember(bitmap) {
-                derivedStateOf {
-                    bitmap.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
-                }
-            }
             val direction = LocalLayoutDirection.current
-            val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -283,7 +275,7 @@ fun MarkupLayersContent(
                                     .calculateStartPadding(direction)
                             )
                             .padding(16.dp)
-                            .aspectRatio(aspectRatio, isPortrait)
+                            .aspectRatio(canvasAspectRatio, isPortrait)
                             .fillMaxSize()
                             .clip(ShapeDefaults.extremeSmall)
                             .border(
@@ -313,15 +305,24 @@ fun MarkupLayersContent(
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            Picture(
-                                model = imageBitmap,
-                                contentDescription = null,
-                                contentScale = ContentScale.FillBounds,
-                                modifier = Modifier
-                                    .matchParentSize()
-                                    .clipToBounds(),
-                                showTransparencyChecker = false
-                            )
+                            if (colorBackground != null) {
+                                Box(
+                                    modifier = Modifier
+                                        .matchParentSize()
+                                        .clipToBounds()
+                                        .background(colorBackground.color.toColor())
+                                )
+                            } else if (imageBitmap != null) {
+                                Picture(
+                                    model = imageBitmap,
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillBounds,
+                                    modifier = Modifier
+                                        .matchParentSize()
+                                        .clipToBounds(),
+                                    showTransparencyChecker = false
+                                )
+                            }
 
                             component.layers.forEachIndexed { index, layer ->
                                 Layer(
@@ -372,6 +373,11 @@ fun MarkupLayersContent(
                             .container(
                                 shape = ShapeDefaults.extraLarge
                             )
+                    )
+                    BackgroundCanvasSizeControls(
+                        behavior = behavior,
+                        imageFormat = component.imageFormat,
+                        onApply = component::resizeBackgroundCanvas
                     )
                 }
                 SaveExifWidget(
