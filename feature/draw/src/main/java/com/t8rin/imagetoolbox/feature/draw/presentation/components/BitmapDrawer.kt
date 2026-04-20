@@ -29,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,16 +41,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.geometry.takeOrElse
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asImageBitmap
@@ -70,7 +66,6 @@ import com.t8rin.imagetoolbox.feature.draw.domain.WarpStroke
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.BitmapDrawerPreview
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawPathEffectPreview
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionEvent
-import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
@@ -249,9 +244,34 @@ fun BitmapDrawer(
             var warpClearTrigger by remember {
                 mutableIntStateOf(0)
             }
+            var warpPreviewToken by remember {
+                mutableLongStateOf(0L)
+            }
+            var pendingWarpCommitToken by remember {
+                mutableLongStateOf(-1L)
+            }
+            var previousPathsCount by remember {
+                mutableIntStateOf(paths.size)
+            }
 
             LaunchedEffect(paths.size) {
-                if (paths.isEmpty()) warpClearTrigger++
+                if (paths.isEmpty() || paths.size < previousPathsCount) {
+                    warpClearTrigger++
+                    pendingWarpCommitToken = -1L
+                }
+                previousPathsCount = paths.size
+            }
+
+            LaunchedEffect(drawMode, isEraserOn) {
+                if (drawMode !is DrawMode.Warp || isEraserOn) {
+                    pendingWarpCommitToken = -1L
+                }
+            }
+
+            val isWarpInputLocked by remember(drawMode, isEraserOn, pendingWarpCommitToken) {
+                derivedStateOf {
+                    drawMode is DrawMode.Warp && !isEraserOn && pendingWarpCommitToken >= 0L
+                }
             }
 
             with(canvas) {
@@ -272,6 +292,14 @@ fun BitmapDrawer(
                                 drawPath = Path()
                                 warpClearTrigger++
                                 warpRuntimeStrokes = emptyList()
+                            },
+                            onClearWarpDrawPath = { token ->
+                                if (token == pendingWarpCommitToken) {
+                                    drawPath = Path()
+                                    warpClearTrigger++
+                                    warpRuntimeStrokes = emptyList()
+                                    pendingWarpCommitToken = -1L
+                                }
                             },
                             onRequestFiltering = onRequestFiltering,
                             canvasSize = canvasSize
@@ -350,8 +378,15 @@ fun BitmapDrawer(
 
                 motionEvent.value.handle(
                     onDown = {
-                        warpClearTrigger++
-                        warpRuntimeStrokes = emptyList()
+                        if (drawMode is DrawMode.Warp && !isEraserOn) {
+                            warpPreviewToken++
+                            warpRuntimeStrokes = emptyList()
+                            drawPath = Path()
+                            pathWithoutTransformations = Path()
+                        } else {
+                            warpClearTrigger++
+                            warpRuntimeStrokes = emptyList()
+                        }
 
                         if (currentDrawPosition.isSpecified) {
                             onDrawStart?.invoke()
@@ -452,13 +487,15 @@ fun BitmapDrawer(
                                         drawColor = Color.Transparent,
                                         isErasing = false,
                                         drawMode = drawMode.copy(
-                                            strokes = warpRuntimeStrokes.toList()
+                                            strokes = warpRuntimeStrokes.toList(),
+                                            previewClearToken = warpPreviewToken
                                         ),
                                         canvasSize = canvasSize,
                                         drawPathMode = DrawPathMode.Free,
                                         drawLineStyle = DrawLineStyle.None
                                     )
                                 )
+                                pendingWarpCommitToken = warpPreviewToken
                             } else {
                                 drawHelper.drawPath(
                                     currentDrawPath = null,
@@ -594,19 +631,9 @@ fun BitmapDrawer(
             val warpedImage by remember(invalidations, warpEngine) {
                 derivedStateOf {
                     if (warpRuntimeStrokes.isNotEmpty()) {
-                        outputImage.overlay(
-                            warpEngine.render().asImageBitmap().clipBitmap(
-                                path = drawPath,
-                                paint = Paint().apply {
-                                    style = PaintingStyle.Stroke
-                                    this.strokeWidth = strokeWidth.toPx(canvasSize)
-                                    strokeCap = StrokeCap.Round
-                                    strokeJoin = StrokeJoin.Round
-                                    color = Color.White
-                                    blendMode = BlendMode.Clear
-                                }
-                            )
-                        )
+                        warpEngine.render().asImageBitmap().also {
+                            it.prepareToDraw()
+                        }
                     } else {
                         outputImage.overlay(drawPathBitmap)
                     }
@@ -636,7 +663,7 @@ fun BitmapDrawer(
                 onInvalidate = { invalidations++ },
                 onUpdateCurrentDrawPosition = { currentDrawPosition = it },
                 onUpdateDrawDownPosition = { drawDownPosition = it },
-                drawEnabled = !panEnabled,
+                drawEnabled = !panEnabled && !isWarpInputLocked,
                 helperGridParams = helperGridParams
             )
         }

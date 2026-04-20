@@ -212,15 +212,6 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             )
                         }
                     } else if (drawMode is DrawMode.Warp && !isErasing) {
-                        val paint = Paint().apply {
-                            style = PaintingStyle.Stroke
-                            strokeWidth = stroke
-                            strokeCap = StrokeCap.Round
-                            strokeJoin = StrokeJoin.Round
-                            color = Color.White
-                            blendMode = BlendMode.Clear
-                        }
-
                         val engine = WarpEngine(image.overlay(bitmap))
 
                         try {
@@ -243,16 +234,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 )
                             }
 
-                            drawBitmap(
-                                engine
-                                    .render()
-                                    .asImageBitmap()
-                                    .clipBitmap(
-                                        path = path,
-                                        paint = paint
-                                    )
-                                    .asAndroidBitmap()
-                            )
+                            drawBitmap(engine.render())
                         } finally {
                             engine.release()
                         }

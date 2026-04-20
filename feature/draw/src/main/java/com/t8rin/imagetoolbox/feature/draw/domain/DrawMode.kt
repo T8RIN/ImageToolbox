@@ -61,7 +61,8 @@ sealed class DrawMode(open val ordinal: Int) {
         val warpMode: WarpMode = WarpMode.MOVE,
         val strength: Float = 0.25f,
         val hardness: Float = 0.5f,
-        val strokes: List<WarpStroke> = emptyList()
+        val strokes: List<WarpStroke> = emptyList(),
+        val previewClearToken: Long = 0L
     ) : DrawMode(9)
 
     companion object {

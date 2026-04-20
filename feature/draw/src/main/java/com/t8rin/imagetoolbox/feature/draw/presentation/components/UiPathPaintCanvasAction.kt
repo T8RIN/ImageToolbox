@@ -92,6 +92,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
     drawImageBitmap: ImageBitmap,
     drawBitmap: ImageBitmap,
     onClearDrawPath: () -> Unit,
+    onClearWarpDrawPath: (Long) -> Unit,
     onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
 ) = with(nativeCanvas) {
     val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle) = uiPathPaint
@@ -263,29 +264,17 @@ internal fun Canvas.UiPathPaintCanvasAction(
             }
         )
     } else if (drawMode is DrawMode.Warp && !isEraserOn) {
-        val paint = remember(uiPathPaint, canvasSize) {
-            val stroke = strokeWidth.toPx(canvasSize)
-
-            Paint().apply {
-                style = PaintingStyle.Stroke
-                this.strokeWidth = stroke
-                strokeCap = StrokeCap.Round
-                strokeJoin = StrokeJoin.Round
-                color = Color.White
-                blendMode = BlendMode.Clear
-            }
-        }
         var warpedBitmap by remember(uiPathPaint, canvasSize) {
             mutableStateOf<ImageBitmap?>(null)
         }
 
         LaunchedEffect(warpedBitmap, invalidations) {
-            withContext(Dispatchers.Default) {
-                if (warpedBitmap == null || invalidations <= pathsCount) {
-                    val source = drawImageBitmap
-                        .overlay(drawBitmap)
-                        .asAndroidBitmap()
+            if (warpedBitmap == null || invalidations <= pathsCount) {
+                val source = drawImageBitmap
+                    .overlay(drawBitmap)
+                    .asAndroidBitmap()
 
+                withContext(Dispatchers.Default) {
                     val engine = WarpEngine(source)
 
                     try {
@@ -310,11 +299,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
 
                         warpedBitmap = engine
                             .render()
-                            .asImageBitmap()
-                            .clipBitmap(
-                                path = path.asComposePath(),
-                                paint = paint
-                            ).also {
+                            .asImageBitmap().also {
                                 it.prepareToDraw()
                                 onInvalidate()
                             }
@@ -327,7 +312,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
 
         warpedBitmap?.let {
             LaunchedEffect(warpedBitmap) {
-                onClearDrawPath()
+                onClearWarpDrawPath(drawMode.previewClearToken)
             }
             val imagePaint = remember { Paint() }
             drawImage(
