@@ -40,7 +40,7 @@ detektCompose = "0.5.7"
 decompose = "3.5.0"
 
 kotlin = "2.3.20"
-agp = "9.1.1"
+agp = "9.2.0"
 hilt = "2.59.2"
 gms = "4.4.4"
 
