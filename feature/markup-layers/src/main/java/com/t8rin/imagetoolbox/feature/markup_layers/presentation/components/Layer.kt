@@ -202,6 +202,7 @@ private fun BoxWithConstraintsScope.GroupLayer(
                 ),
                 cornerRadiusPercent = child.uiCornerRadiusPercent(),
                 isInteractive = true,
+                animateOnTapWhenInactive = true,
                 showSelectionBackground = false,
                 onTap = {
                     activateGroup?.invoke()

@@ -676,31 +676,31 @@ internal fun EditLayerSheet(
                         layer.withCoerceToBoundsRecursively(it)
                     )
                 },
-                shape = if (layer.isGroup) ShapeDefaults.large else ShapeDefaults.top,
+                shape = ShapeDefaults.top,
                 modifier = Modifier.fillMaxWidth(),
                 containerColor = MaterialTheme.colorScheme.surface
             )
+            Spacer(modifier = Modifier.height(4.dp))
+            AlphaSelector(
+                value = layer.state.alpha,
+                onValueChange = {
+                    component.beginHistoryTransaction()
+                    component.updateLayerState(
+                        layer = layer,
+                        commitToHistory = false
+                    ) {
+                        alpha = it
+                    }
+                },
+                onValueChangeFinished = { _ ->
+                    finishContinuousEdit()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(R.string.layer_alpha),
+                color = MaterialTheme.colorScheme.surface,
+                shape = if (layer.isGroup) ShapeDefaults.bottom else ShapeDefaults.center
+            )
             if (!layer.isGroup) {
-                Spacer(modifier = Modifier.height(4.dp))
-                AlphaSelector(
-                    value = layer.state.alpha,
-                    onValueChange = {
-                        component.beginHistoryTransaction()
-                        component.updateLayerState(
-                            layer = layer,
-                            commitToHistory = false
-                        ) {
-                            alpha = it
-                        }
-                    },
-                    onValueChangeFinished = { _ ->
-                        finishContinuousEdit()
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(R.string.layer_alpha),
-                    color = MaterialTheme.colorScheme.surface,
-                    shape = ShapeDefaults.center
-                )
                 Spacer(modifier = Modifier.height(4.dp))
                 BlendingModeSelector(
                     value = layer.blendingMode,

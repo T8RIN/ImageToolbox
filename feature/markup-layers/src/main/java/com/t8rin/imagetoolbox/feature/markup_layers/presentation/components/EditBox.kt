@@ -67,6 +67,7 @@ fun BoxWithConstraintsScope.EditBox(
     cornerRadiusPercent: Int = 0,
     blendingMode: BlendingMode = BlendingMode.SrcOver,
     isInteractive: Boolean = true,
+    animateOnTapWhenInactive: Boolean = false,
     showSelectionBackground: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -87,6 +88,7 @@ fun BoxWithConstraintsScope.EditBox(
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = blendingMode,
         isInteractive = isInteractive,
+        animateOnTapWhenInactive = animateOnTapWhenInactive,
         showSelectionBackground = showSelectionBackground,
         content = content
     )
@@ -102,6 +104,7 @@ fun EditBox(
     cornerRadiusPercent: Int = 0,
     blendingMode: BlendingMode = BlendingMode.SrcOver,
     isInteractive: Boolean = true,
+    animateOnTapWhenInactive: Boolean = false,
     showSelectionBackground: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -167,7 +170,7 @@ fun EditBox(
                 }
             ) {
                 onTap()
-                if (state.isActive) animateTap()
+                if (state.isActive || animateOnTapWhenInactive) animateTap()
             }
         }
     } else {
