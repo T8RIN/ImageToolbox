@@ -17,23 +17,29 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.canvasLeafLayers
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.combinedBounds
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.groupContentSize
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.renderCopy
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun BoxWithConstraintsScope.Layer(
@@ -154,10 +160,21 @@ private fun BoxWithConstraintsScope.GroupLayer(
     canEditLayer: Boolean
 ) {
     val density = LocalDensity.current
+    val scope = rememberCoroutineScope()
+    val tapScale = remember { Animatable(1f) }
     val parentCanvasSize = IntegerSize(
         width = constraints.maxWidth,
         height = constraints.maxHeight
     )
+    val animateGroupTap = {
+        scope.launch {
+            tapScale.stop()
+            tapScale.snapTo(1f)
+            tapScale.animateTo(0.98f)
+            tapScale.animateTo(1.02f)
+            tapScale.animateTo(1f)
+        }
+    }
     val activateGroup = if (!layer.isLocked && onActivate != null) {
         {
             if (layer.state.isActive && canEditLayer) {
@@ -169,16 +186,22 @@ private fun BoxWithConstraintsScope.GroupLayer(
     } else null
 
     val leafLayers = layer.canvasLeafLayers(canvasSize = parentCanvasSize)
+    val groupCenter = leafLayers.combinedBounds()?.center ?: Offset.Zero
 
     leafLayers.forEach { child ->
         val renderedChild = child.renderCopy().let { renderCopy ->
+            val displayCopy = renderCopy.withTransientGroupTapScale(
+                scaleMultiplier = tapScale.value,
+                groupCenter = groupCenter
+            )
+
             if (layer.state.isActive) {
-                renderCopy.copy(
-                    state = renderCopy.state.copy(
+                displayCopy.copy(
+                    state = displayCopy.state.copy(
                         isActive = true
                     )
                 )
-            } else renderCopy
+            } else displayCopy
         }
         Layer(
             component = null,
@@ -205,9 +228,11 @@ private fun BoxWithConstraintsScope.GroupLayer(
                 animateOnTapWhenInactive = true,
                 showSelectionBackground = false,
                 onTap = {
+                    animateGroupTap()
                     activateGroup?.invoke()
                 },
                 onLongTap = {
+                    animateGroupTap()
                     if (!layer.state.isActive) {
                         activateGroup?.invoke()
                     }
@@ -251,3 +276,17 @@ private fun BoxWithConstraintsScope.GroupLayer(
 }
 
 private fun IntSize.isSpecified(): Boolean = width > 0 && height > 0
+
+private fun UiMarkupLayer.withTransientGroupTapScale(
+    scaleMultiplier: Float,
+    groupCenter: Offset
+): UiMarkupLayer {
+    if (scaleMultiplier == 1f || isGroup) return this
+
+    return copy(
+        state = state.copy(
+            scale = state.scale * scaleMultiplier,
+            offset = groupCenter + (state.offset - groupCenter) * scaleMultiplier
+        )
+    )
+}
