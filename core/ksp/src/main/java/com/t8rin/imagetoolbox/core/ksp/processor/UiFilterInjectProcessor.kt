@@ -125,7 +125,6 @@ private class UiFilterInjectProcessorImpl(
             appendLine(line)
         }
 
-        appendLine("    else -> error(\"No copy mapping for \${filter::class.qualifiedName}\")")
         appendLine("}.also { copied ->")
         appendLine("    copied.isVisible = filter.isVisible")
         appendLine("}")
@@ -138,7 +137,6 @@ private class UiFilterInjectProcessorImpl(
             appendLine("    is ${entry.uiClassName} -> ${entry.defaultConstructorCall(receiverName = "filter")}")
         }
 
-        appendLine("    else -> error(\"No newInstance mapping for \${filter::class.qualifiedName}\")")
         appendLine("}.also { instance ->")
         appendLine("    if (filter.value is Unit) {")
         appendLine("        instance.isVisible = filter.isVisible")
@@ -161,7 +159,7 @@ private class UiFilterInjectProcessorImpl(
             appendLine("    is ${entry.filterInterface} -> $constructorCall")
         }
 
-        appendLine("    else -> error(\"No UiFilter mapping for \${filter::class.qualifiedName}\")")
+        appendLine($$"    else -> error(\"No UiFilter mapping for ${filter::class.qualifiedName}\")")
         appendLine("}.also { uiFilter ->")
         appendLine("    if (preserveVisibility) {")
         appendLine("        uiFilter.isVisible = filter.isVisible")
@@ -200,10 +198,9 @@ private class UiFilterInjectProcessorImpl(
     ): UiFilterEntry? {
         val className = simpleName.asString()
 
-        val filterInterface = superTypes
-            .map { it.resolve().declaration as? KSClassDeclaration }
-            .filterNotNull()
-            .firstOrNull {
+        val filterInterface =
+            superTypes.mapNotNull { it.resolve().declaration as? KSClassDeclaration }
+                .firstOrNull {
                 it.qualifiedName?.asString()
                     ?.startsWith("$PACKAGE.core.filters.domain.model.Filter.") == true
             }

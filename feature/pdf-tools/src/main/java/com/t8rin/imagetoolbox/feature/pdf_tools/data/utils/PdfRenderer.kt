@@ -96,7 +96,10 @@ fun PdfRenderer(
 }.getOrNull()
 
 
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
+fun canUseNewPdf(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+
 @ChecksSdkIntAtLeast(api = 13, extension = Build.VERSION_CODES.S)
-fun canUseNewPdf(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM
+fun canUseNewPdfFully(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM
         || Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
         && SdkExtensions.getExtensionVersion(Build.VERSION_CODES.S) >= 13

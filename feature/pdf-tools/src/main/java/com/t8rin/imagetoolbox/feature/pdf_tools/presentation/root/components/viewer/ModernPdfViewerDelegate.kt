@@ -30,7 +30,7 @@ import android.os.Build
 import android.text.TextPaint
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresExtension
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -57,7 +57,7 @@ import kotlin.math.min
 
 @OptIn(ExperimentalPdfApi::class)
 @SuppressLint("RestrictedApi", "VisibleForTests", "PrivateResource")
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 13)
+@RequiresApi(Build.VERSION_CODES.P)
 internal class ModernPdfViewerDelegate : PdfViewerFragment() {
     private val _loadingState = MutableStateFlow<Boolean?>(true)
     val loadingState: StateFlow<Boolean?> = _loadingState

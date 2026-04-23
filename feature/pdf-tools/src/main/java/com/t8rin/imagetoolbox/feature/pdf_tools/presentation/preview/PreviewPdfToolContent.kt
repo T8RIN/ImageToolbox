@@ -38,7 +38,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.canUseNewPdf
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.canUseNewPdfFully
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.screenLogic.PreviewPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfViewer
@@ -70,7 +70,7 @@ fun PreviewPdfToolContent(
         canShare = true,
         canSave = false,
         topAppBarPersistentActions = {
-            if (component.uri != null && canUseNewPdf()) {
+            if (component.uri != null && canUseNewPdfFully()) {
                 EnhancedIconButton(
                     onClick = {
                         isSearching = !isSearching

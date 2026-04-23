@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.vi
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresExtension
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +38,7 @@ import androidx.fragment.compose.AndroidFragment
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 13)
+@RequiresApi(Build.VERSION_CODES.P)
 @Composable
 internal fun ModernPdfViewer(
     uri: Uri,
