@@ -44,8 +44,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 import kotlin.math.ceil
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -115,7 +115,7 @@ internal class LayersRenderer @Inject constructor(
                                 targetWidth = pictureData.contentWidth,
                                 targetHeight = pictureData.contentHeight,
                                 cornerRadiusPercent = layer.cornerRadiusPercent,
-                                rasterScale = resolveShadowRasterScale(
+                                rasterScale = resolveLayerShadowRasterScale(
                                     layerScale = layer.position.scale
                                 )
                             )
@@ -137,7 +137,7 @@ internal class LayersRenderer @Inject constructor(
                         }
 
                         is LayerType.Text -> {
-                            val shadowRasterScale = resolveShadowRasterScale(
+                            val shadowRasterScale = resolveLayerShadowRasterScale(
                                 layerScale = layer.position.scale
                             )
                             val textData = textCache.getOrPut(
@@ -173,7 +173,7 @@ internal class LayersRenderer @Inject constructor(
                         }
 
                         is LayerType.Shape -> {
-                            val shadowRasterScale = resolveShadowRasterScale(
+                            val shadowRasterScale = resolveLayerShadowRasterScale(
                                 layerScale = layer.position.scale
                             )
                             val shapeValue = shapeCache.getOrPut(
@@ -295,13 +295,6 @@ internal class LayersRenderer @Inject constructor(
         val outlineWidth = type.outline?.width ?: 0f
         val layoutText = type.text.ifEmpty { " " }
         val resolvedContentSize = contentSize.takeIf { it.width > 0 && it.height > 0 }
-        val availableLayoutWidth = (
-                (resolvedContentSize?.width?.toFloat() ?: fallbackMaxTextBoxWidth) -
-                        textMetrics.padding.leftPx -
-                        textMetrics.padding.rightPx -
-                        outlineWidth * 2f
-                ).roundToInt().coerceAtLeast(1)
-
         val fillPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {
             color = type.color
             textSize = textMetrics.fontSizePx
@@ -318,8 +311,33 @@ internal class LayersRenderer @Inject constructor(
             text = layoutText,
             paint = fillPaint
         ).coerceAtLeast(1)
-        val layoutWidth = resolvedContentSize?.let { availableLayoutWidth }
-            ?: min(desiredLayoutWidth, availableLayoutWidth)
+        val availableLayoutWidth = (
+                (resolvedContentSize?.width?.toFloat() ?: fallbackMaxTextBoxWidth) -
+                        textMetrics.padding.horizontalPx -
+                        outlineWidth * 2f
+                ).roundToInt().coerceAtLeast(1)
+        val baseAvailableLayoutWidth = resolvedContentSize?.let {
+            (
+                    it.width.toFloat() -
+                            textMetrics.basePadding.horizontalPx
+                    ).roundToInt().coerceAtLeast(1)
+        } ?: availableLayoutWidth
+        val layoutWidthSafetyPx = (textMetrics.fontSizePx * TEXT_LAYOUT_WIDTH_SAFETY_RATIO)
+            .roundToInt()
+            .coerceAtLeast(1)
+        val layoutWidth = resolvedContentSize?.let {
+            when {
+                desiredLayoutWidth <= availableLayoutWidth + layoutWidthSafetyPx -> {
+                    max(availableLayoutWidth, desiredLayoutWidth)
+                }
+
+                desiredLayoutWidth <= baseAvailableLayoutWidth + layoutWidthSafetyPx -> {
+                    max(baseAvailableLayoutWidth, desiredLayoutWidth)
+                }
+
+                else -> availableLayoutWidth
+            }
+        } ?: min(desiredLayoutWidth, availableLayoutWidth)
         val alignment = when (type.alignment) {
             LayerType.Text.Alignment.Start -> Layout.Alignment.ALIGN_NORMAL
             LayerType.Text.Alignment.Center -> Layout.Alignment.ALIGN_CENTER
@@ -342,18 +360,22 @@ internal class LayersRenderer @Inject constructor(
             rasterScale = shadowRasterScale
         )
 
-        val bitmapWidth = resolvedContentSize?.width?.coerceAtLeast(1) ?: ceil(
+        val requiredBitmapWidth = ceil(
             layoutWidth +
-                    textMetrics.padding.leftPx +
-                    textMetrics.padding.rightPx +
+                    textMetrics.padding.horizontalPx +
                     outlineWidth * 2f
         ).toInt().coerceAtLeast(1)
-        val bitmapHeight = resolvedContentSize?.height?.coerceAtLeast(1) ?: ceil(
+        val requiredBitmapHeight = ceil(
             fillLayout.height +
-                    textMetrics.padding.topPx +
-                    textMetrics.padding.bottomPx +
+                    textMetrics.padding.verticalPx +
                     outlineWidth * 2f
         ).toInt().coerceAtLeast(1)
+        val bitmapWidth = resolvedContentSize?.width
+            ?.coerceAtLeast(requiredBitmapWidth)
+            ?: requiredBitmapWidth
+        val bitmapHeight = resolvedContentSize?.height
+            ?.coerceAtLeast(requiredBitmapHeight)
+            ?: requiredBitmapHeight
 
         val outlineLayout = type.outline?.takeIf { it.width > 0f }?.let { outline ->
             val outlinePaint = TextPaint(fillPaint).apply {
@@ -770,15 +792,8 @@ internal class LayersRenderer @Inject constructor(
         draw(Canvas(this))
     }
 
-    private fun resolveShadowRasterScale(
-        layerScale: Float
-    ): Float = layerScale
-        .absoluteValue
-        .coerceAtLeast(1f)
-        .coerceAtMost(MAX_SHADOW_RASTER_SCALE)
-
     private companion object {
-        const val MAX_SHADOW_RASTER_SCALE = 4f
+        const val TEXT_LAYOUT_WIDTH_SAFETY_RATIO = 0.25f
     }
 
     private fun maxLineWidth(

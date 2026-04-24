@@ -34,6 +34,12 @@ internal data class TextLayerPadding(
     val rightPx: Float,
     val bottomPx: Float
 ) {
+    val horizontalPx: Float
+        get() = leftPx + rightPx
+
+    val verticalPx: Float
+        get() = topPx + bottomPx
+
     companion object {
         val Zero = TextLayerPadding(
             leftPx = 0f,
@@ -47,6 +53,7 @@ internal data class TextLayerPadding(
 internal data class TextLayerMetrics(
     val fontSizePx: Float,
     val lineHeightPx: Float,
+    val basePadding: TextLayerPadding,
     val padding: TextLayerPadding,
     val typeface: Typeface
 )
@@ -80,14 +87,22 @@ internal fun Context.calculateTextLayerMetrics(
     val shadowPadding = calculateShadowPadding(type.shadow)
     val geometricTransformPaddingPx = lineHeightPx * abs(type.geometricTransform?.skewX ?: 0f)
 
+    val basePadding = TextLayerPadding(
+        leftPx = baseHorizontalPaddingPx + geometricTransformPaddingPx,
+        topPx = baseVerticalPaddingPx,
+        rightPx = baseHorizontalPaddingPx + geometricTransformPaddingPx,
+        bottomPx = baseVerticalPaddingPx
+    )
+
     return TextLayerMetrics(
         fontSizePx = fontSizePx,
         lineHeightPx = lineHeightPx,
+        basePadding = basePadding,
         padding = TextLayerPadding(
-            leftPx = baseHorizontalPaddingPx + geometricTransformPaddingPx + shadowPadding.leftPx,
-            topPx = baseVerticalPaddingPx + shadowPadding.topPx,
-            rightPx = baseHorizontalPaddingPx + geometricTransformPaddingPx + shadowPadding.rightPx,
-            bottomPx = baseVerticalPaddingPx + shadowPadding.bottomPx
+            leftPx = basePadding.leftPx + shadowPadding.leftPx,
+            topPx = basePadding.topPx + shadowPadding.topPx,
+            rightPx = basePadding.rightPx + shadowPadding.rightPx,
+            bottomPx = basePadding.bottomPx + shadowPadding.bottomPx
         ),
         typeface = typeface
     )

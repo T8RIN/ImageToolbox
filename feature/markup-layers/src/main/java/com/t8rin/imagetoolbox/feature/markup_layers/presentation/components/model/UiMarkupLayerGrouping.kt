@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.mod
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntSize
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.layerCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
@@ -217,12 +216,13 @@ private fun LayerBounds.offsetCorrection(
     return Offset(dx, dy)
 }
 
-internal fun UiMarkupLayer.flattenToDomain(): List<MarkupLayer> = flattenToDomain(
-    parentTransform = null,
-    inheritedAlpha = 1f,
-    inheritedVisible = true,
-    rootCanvasSize = state.canvasSize
-)
+internal fun UiMarkupLayer.flattenToDomain(): List<MarkupLayer> {
+    if (!isGroup) return listOf(asDomain())
+
+    return canvasLeafLayers(
+        canvasSize = state.canvasSize
+    ).map(UiMarkupLayer::asDomain)
+}
 
 internal fun UiMarkupLayer.toPreviewGroupData(): GroupPreviewData {
     val previewLayers = previewLeafLayers()
@@ -377,54 +377,6 @@ private fun EditBoxStateSnapshot.toUi(): EditBoxState = EditBoxState(
     coerceToBounds = coerceToBounds,
     isInEditMode = isInEditMode
 )
-
-private fun UiMarkupLayer.flattenToDomain(
-    parentTransform: LayerTransform?,
-    inheritedAlpha: Float,
-    inheritedVisible: Boolean,
-    rootCanvasSize: IntegerSize
-): List<MarkupLayer> {
-    val currentTransform =
-        parentTransform?.compose(state.toLayerTransform()) ?: state.toLayerTransform()
-    val combinedAlpha = (inheritedAlpha * state.alpha).coerceIn(0f, 1f)
-    val combinedVisible = inheritedVisible && state.isVisible
-
-    if (isGroup) {
-        return groupedLayers.flatMap { child ->
-            child.flattenToDomain(
-                parentTransform = currentTransform,
-                inheritedAlpha = combinedAlpha,
-                inheritedVisible = combinedVisible,
-                rootCanvasSize = rootCanvasSize
-            )
-        }
-    }
-
-    val decomposition = currentTransform.matrix.decompose()
-
-    return listOf(
-        MarkupLayer(
-            type = type,
-            position = LayerPosition(
-                scale = decomposition.scale,
-                rotation = decomposition.rotation,
-                isFlippedHorizontally = decomposition.isFlippedHorizontally,
-                isFlippedVertically = decomposition.isFlippedVertically,
-                offsetX = currentTransform.offset.x,
-                offsetY = currentTransform.offset.y,
-                alpha = combinedAlpha,
-                currentCanvasSize = rootCanvasSize,
-                coerceToBounds = state.coerceToBounds,
-                isVisible = combinedVisible
-            ),
-            contentSize = state.contentSize.toIntegerSize(),
-            visibleLineCount = visibleLineCount,
-            cornerRadiusPercent = type.layerCornerRadiusPercent(cornerRadiusPercent),
-            isLocked = isLocked,
-            blendingMode = blendingMode
-        )
-    )
-}
 
 private data class LayerTransform(
     val matrix: TransformMatrix,

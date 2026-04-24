@@ -116,6 +116,8 @@ internal fun BoxWithConstraintsScope.Layer(
                 groupedLayers = layer.groupedLayers,
                 textFullSize = referenceSizeOverride
                     ?: this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
+                contentSize = layer.state.contentSize,
+                layerScale = layer.state.scale,
                 cornerRadiusPercent = cornerRadiusPercent,
                 onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
                     { result ->

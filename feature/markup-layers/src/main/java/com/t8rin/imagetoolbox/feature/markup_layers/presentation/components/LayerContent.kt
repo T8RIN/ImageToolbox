@@ -47,6 +47,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.withSave
 import coil3.request.ImageRequest
@@ -54,6 +55,7 @@ import coil3.request.allowHardware
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.static
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
@@ -67,6 +69,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildTextShadowRe
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateShadowPadding
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.drawShapeLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.resolveLayerShadowRasterScale
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.resolveShapeLayerRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
@@ -81,6 +84,8 @@ internal fun LayerContent(
     type: LayerType,
     groupedLayers: List<UiMarkupLayer> = emptyList(),
     textFullSize: Int,
+    contentSize: IntSize = IntSize.Zero,
+    layerScale: Float = 1f,
     maxLines: Int = Int.MAX_VALUE,
     cornerRadiusPercent: Int = 0,
     onTextLayout: ((TextLayoutResult) -> Unit)? = null
@@ -96,13 +101,15 @@ internal fun LayerContent(
             is LayerType.Picture -> PictureLayerContent(
                 modifier = modifier,
                 type = type,
-                cornerRadiusPercent = cornerRadiusPercent
+                cornerRadiusPercent = cornerRadiusPercent,
+                layerScale = layerScale
             )
 
             is LayerType.Text -> TextLayerContent(
                 modifier = modifier,
                 type = type,
                 textFullSize = textFullSize,
+                layerScale = layerScale,
                 maxLines = maxLines,
                 onTextLayout = onTextLayout
             )
@@ -110,7 +117,9 @@ internal fun LayerContent(
             is LayerType.Shape -> ShapeLayerContent(
                 modifier = modifier,
                 type = type,
-                textFullSize = textFullSize
+                textFullSize = textFullSize,
+                contentSize = contentSize,
+                layerScale = layerScale
             )
         }
     }
@@ -147,10 +156,15 @@ private fun GroupLayerContent(
 private fun ShapeLayerContent(
     modifier: Modifier,
     type: LayerType.Shape,
-    textFullSize: Int
+    textFullSize: Int,
+    contentSize: IntSize,
+    layerScale: Float
 ) {
     val density = LocalDensity.current
     val shapeContentInsetPx = with(density) { 4.dp.toPx() }
+    val shadowRasterScale = remember(layerScale) {
+        resolveLayerShadowRasterScale(layerScale)
+    }
     BoxWithConstraints(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -158,6 +172,7 @@ private fun ShapeLayerContent(
         val renderData = remember(
             type,
             textFullSize,
+            contentSize,
             constraints.maxWidth,
             constraints.maxHeight,
             shapeContentInsetPx
@@ -165,6 +180,7 @@ private fun ShapeLayerContent(
             resolveShapeLayerRenderData(
                 type = type,
                 referenceSize = textFullSize.toFloat(),
+                contentSize = contentSize.toIntegerSize(),
                 maxWidth = constraints.maxWidth.toFloat(),
                 maxHeight = constraints.maxHeight.toFloat(),
                 contentInsetPx = shapeContentInsetPx
@@ -180,17 +196,24 @@ private fun ShapeLayerContent(
                 .drawWithCache {
                     val shadow = buildShapeShadowRenderData(
                         type = type,
-                        data = renderData
+                        data = renderData,
+                        rasterScale = shadowRasterScale
                     )
 
                     onDrawWithContent {
                         shadow?.let { shadowData ->
-                            drawContext.canvas.nativeCanvas.drawBitmap(
-                                shadowData.bitmap,
-                                renderData.contentLeft + shadowData.left,
-                                renderData.contentTop + shadowData.top,
-                                null
-                            )
+                            drawContext.canvas.nativeCanvas.apply {
+                                withSave {
+                                    val rasterScale = shadowData.rasterScale.coerceAtLeast(1f)
+                                    scale(1f / rasterScale, 1f / rasterScale)
+                                    drawBitmap(
+                                        shadowData.bitmap,
+                                        renderData.contentLeft * rasterScale + shadowData.left,
+                                        renderData.contentTop * rasterScale + shadowData.top,
+                                        null
+                                    )
+                                }
+                            }
                         }
                         drawContent()
                     }
@@ -220,7 +243,8 @@ private fun ShapeLayerContent(
 private fun PictureLayerContent(
     modifier: Modifier,
     type: LayerType.Picture,
-    cornerRadiusPercent: Int
+    cornerRadiusPercent: Int,
+    layerScale: Float
 ) {
     val density = LocalDensity.current
     var previewBitmap by remember(type.imageData) {
@@ -228,6 +252,9 @@ private fun PictureLayerContent(
     }
     val shadowPadding = remember(type.shadow) {
         calculateShadowPadding(type.shadow)
+    }
+    val shadowRasterScale = remember(layerScale) {
+        resolveLayerShadowRasterScale(layerScale)
     }
 
     Box(
@@ -251,18 +278,25 @@ private fun PictureLayerContent(
                         shadow = type.shadow,
                         targetWidth = contentWidth,
                         targetHeight = contentHeight,
-                        cornerRadiusPercent = cornerRadiusPercent
+                        cornerRadiusPercent = cornerRadiusPercent,
+                        rasterScale = shadowRasterScale
                     )
                 }
 
                 onDrawWithContent {
                     shadow?.let { shadowData ->
-                        drawContext.canvas.nativeCanvas.drawBitmap(
-                            shadowData.bitmap,
-                            shadowPadding.leftPx + shadowData.left,
-                            shadowPadding.topPx + shadowData.top,
-                            null
-                        )
+                        drawContext.canvas.nativeCanvas.apply {
+                            withSave {
+                                val rasterScale = shadowData.rasterScale.coerceAtLeast(1f)
+                                scale(1f / rasterScale, 1f / rasterScale)
+                                drawBitmap(
+                                    shadowData.bitmap,
+                                    shadowPadding.leftPx * rasterScale + shadowData.left,
+                                    shadowPadding.topPx * rasterScale + shadowData.top,
+                                    null
+                                )
+                            }
+                        }
                     }
                     drawContent()
                 }
@@ -304,6 +338,7 @@ private fun TextLayerContent(
     modifier: Modifier,
     type: LayerType.Text,
     textFullSize: Int,
+    layerScale: Float,
     maxLines: Int = Int.MAX_VALUE,
     onTextLayout: ((TextLayoutResult) -> Unit)? = null
 ) {
@@ -373,6 +408,9 @@ private fun TextLayerContent(
             )
         }
     }
+    val shadowRasterScale = remember(layerScale) {
+        resolveLayerShadowRasterScale(layerScale)
+    }
 
     Box(
         modifier = modifier,
@@ -396,7 +434,8 @@ private fun TextLayerContent(
                         type = type,
                         textMetrics = textMetrics,
                         layoutWidth = layoutWidth,
-                        maxLines = maxLines.takeIf { it != Int.MAX_VALUE }
+                        maxLines = maxLines.takeIf { it != Int.MAX_VALUE },
+                        rasterScale = shadowRasterScale
                     )
 
                     onDrawWithContent {
@@ -428,3 +467,8 @@ private fun TextLayerContent(
         )
     }
 }
+
+private fun IntSize.toIntegerSize(): IntegerSize = IntegerSize(
+    width = width.coerceAtLeast(0),
+    height = height.coerceAtLeast(0)
+)

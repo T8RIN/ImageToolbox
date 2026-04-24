@@ -27,6 +27,7 @@ import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.withSave
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
+import kotlin.math.absoluteValue
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -36,6 +37,13 @@ internal data class PictureShadowRenderData(
     val top: Float,
     val rasterScale: Float
 )
+
+internal fun resolveLayerShadowRasterScale(
+    layerScale: Float
+): Float = layerScale
+    .absoluteValue
+    .coerceAtLeast(1f)
+    .coerceAtMost(MAX_SHADOW_RASTER_SCALE)
 
 internal fun buildPictureShadowRenderData(
     sourceBitmap: Bitmap,
@@ -131,6 +139,8 @@ internal fun buildPictureShadowRenderData(
         rasterScale = safeRasterScale
     )
 }
+
+private const val MAX_SHADOW_RASTER_SCALE = 4f
 
 private fun calculatePictureCornerRadiusPx(
     cornerRadiusPercent: Int,
