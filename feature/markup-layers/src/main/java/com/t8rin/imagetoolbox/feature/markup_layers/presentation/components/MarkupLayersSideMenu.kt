@@ -153,6 +153,9 @@ internal fun MarkupLayersSideMenu(
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh
                                     )
                                 ) {
+                                    val showContextActions =
+                                        isContextOptionsVisible && (activeLayer != null || component.isGroupingSelectionMode)
+
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.Center
@@ -161,13 +164,14 @@ internal fun MarkupLayersSideMenu(
                                             onClick = {
                                                 activeLayer?.let(component::removeLayer)
                                             },
-                                            enabled = activeLayer != null && !component.isGroupingSelectionMode
+                                            enabled = activeLayer != null && !component.isGroupingSelectionMode && !showContextActions
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Delete,
                                                 contentDescription = null
                                             )
                                         }
+
                                         Spacer(Modifier.weight(1f))
 
                                         AnimatedContent(
@@ -175,7 +179,8 @@ internal fun MarkupLayersSideMenu(
                                         ) { (canGroupLayers, canUngroupLayer) ->
                                             if (canGroupLayers) {
                                                 EnhancedIconButton(
-                                                    onClick = component::groupSelectedLayers
+                                                    onClick = component::groupSelectedLayers,
+                                                    enabled = !showContextActions
                                                 ) {
                                                     Icon(
                                                         imageVector = Icons.Outlined.StackSticky,
@@ -186,7 +191,8 @@ internal fun MarkupLayersSideMenu(
                                                 EnhancedIconButton(
                                                     onClick = {
                                                         activeLayer?.let(component::ungroupLayer)
-                                                    }
+                                                    },
+                                                    enabled = !showContextActions
                                                 ) {
                                                     Icon(
                                                         imageVector = Icons.Outlined.StackStickyOff,
@@ -210,7 +216,7 @@ internal fun MarkupLayersSideMenu(
                                                 )
                                             }
                                             MarkupLayersContextActions(
-                                                visible = isContextOptionsVisible && (activeLayer != null || component.isGroupingSelectionMode),
+                                                visible = showContextActions,
                                                 onDismiss = { onContextOptionsVisibleChange(false) },
                                                 onCopyLayer = {
                                                     activeLayer?.let(component::copyLayer)
