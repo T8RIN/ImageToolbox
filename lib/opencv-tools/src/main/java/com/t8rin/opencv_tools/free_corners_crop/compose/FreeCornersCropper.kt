@@ -146,13 +146,20 @@ fun FreeCornersCropper(
     val handleRadiusPx = with(density) {
         handlesSize.toPx()
     }
+    val strictCornerTouchRadiusPx = with(density) {
+        maxOf(handleRadiusPx * StrictCornerTouchRadiusMultiplier, MinStrictCornerTouchRadius.toPx())
+    }
+    val cornerTouchRadiusPx = with(density) {
+        maxOf(handleRadiusPx * CornerTouchRadiusMultiplier, MinCornerTouchRadius.toPx())
+    }
+    val edgeTouchRadiusPx = with(density) {
+        maxOf(handleRadiusPx * EdgeTouchRadiusMultiplier, MinEdgeTouchRadius.toPx())
+    }
     val frameStrokeWidthPx = with(density) {
         frameStrokeWidth.toPx()
     }
 
-    val touchIndex = remember {
-        mutableIntStateOf(-1)
-    }
+    var dragTarget by remember { mutableStateOf<DragTarget>(DragTarget.None) }
     var globalTouchPointersCount by remember { mutableIntStateOf(0) }
 
     val colorScheme = MaterialTheme.colorScheme
@@ -226,8 +233,9 @@ fun FreeCornersCropper(
             )
         }
 
+        val selectedPointIndices = dragTarget.pointIndices
         val pointScales = List(drawPoints.value.size) {
-            animateFloatAsState(if (it == touchIndex.intValue) 1.4f else 1f)
+            animateFloatAsState(if (it in selectedPointIndices) 1.4f else 1f)
         }
 
         LaunchedEffect(croppingTrigger) {
@@ -271,6 +279,29 @@ fun FreeCornersCropper(
             verticalRange = (topOffset).toFloat()..((imageHeight + topOffset).toFloat())
         )
 
+        fun Offset.coerceDragAmountFor(points: List<Offset>): Offset {
+            if (!coercePointsToImageArea) return this
+
+            val horizontalRange = (startOffset).toFloat()..((imageWidth + startOffset).toFloat())
+            val verticalRange = (topOffset).toFloat()..((imageHeight + topOffset).toFloat())
+            var minX = Float.NEGATIVE_INFINITY
+            var maxX = Float.POSITIVE_INFINITY
+            var minY = Float.NEGATIVE_INFINITY
+            var maxY = Float.POSITIVE_INFINITY
+
+            points.forEach { point ->
+                minX = minX.coerceAtLeast(horizontalRange.start - point.x)
+                maxX = maxX.coerceAtMost(horizontalRange.endInclusive - point.x)
+                minY = minY.coerceAtLeast(verticalRange.start - point.y)
+                maxY = maxY.coerceAtMost(verticalRange.endInclusive - point.y)
+            }
+
+            return Offset(
+                x = x.coerceIn(minX, maxX),
+                y = y.coerceIn(minY, maxY)
+            )
+        }
+
         LaunchedEffect(coercePointsToImageArea) {
             drawPoints.value = drawPoints.value.map {
                 it.coerceToImageBounds()
@@ -300,72 +331,60 @@ fun FreeCornersCropper(
                     contentPadding,
                     coercePointsToImageArea,
                     handleRadiusPx,
+                    strictCornerTouchRadiusPx,
+                    cornerTouchRadiusPx,
+                    edgeTouchRadiusPx,
                     bitmap,
                     showMagnifier
                 ) {
                     detectDragGestures(
                         onDragStart = { offset ->
-                            touchIndex.intValue = -1
-                            drawPoints.value.forEachIndexed { index, drawProperties ->
-                                val isTouched = isTouched(
-                                    center = drawProperties,
-                                    touchPosition = offset,
-                                    radius = handleRadiusPx
-                                )
-
-                                if (isTouched) {
-                                    touchIndex.intValue = index
-                                }
-                            }
+                            dragTarget = findDragTarget(
+                                points = drawPoints.value,
+                                touchPosition = offset,
+                                strictCornerTouchRadius = strictCornerTouchRadiusPx,
+                                cornerTouchRadius = cornerTouchRadiusPx,
+                                edgeTouchRadius = edgeTouchRadiusPx
+                            )
 
                             magnifierCenter =
-                                if (showMagnifier && touchIndex.intValue != -1) offset
-                                else Offset.Unspecified
+                                if (showMagnifier && dragTarget != DragTarget.None) {
+                                    dragTarget.focusPoint(drawPoints.value)
+                                } else Offset.Unspecified
                         },
                         onDrag = { _, dragAmount ->
-                            drawPoints.value
-                                .getOrNull(touchIndex.intValue)
-                                ?.let { point ->
-                                    drawPoints.value = drawPoints.value
-                                        .toMutableList()
-                                        .apply {
-                                            this[touchIndex.intValue] = point
-                                                .plus(dragAmount)
+                            val selectedIndices = dragTarget.pointIndices
+                            val selectedPoints = selectedIndices.mapNotNull { index ->
+                                drawPoints.value.getOrNull(index)
+                            }
+                            val coercedDragAmount = dragAmount.coerceDragAmountFor(selectedPoints)
+
+                            if (selectedIndices.isNotEmpty()) {
+                                drawPoints.value = drawPoints.value
+                                    .toMutableList()
+                                    .apply {
+                                        selectedIndices.forEach { index ->
+                                            this[index] = this[index]
+                                                .plus(coercedDragAmount)
                                                 .let {
                                                     if (coercePointsToImageArea) {
                                                         it.coerceToImageBounds()
                                                     } else it
                                                 }
-                                                .also { newPoint ->
-                                                    if (showMagnifier) magnifierCenter = newPoint
-                                                }
                                         }
+                                    }
+
+                                if (showMagnifier) {
+                                    magnifierCenter = dragTarget.focusPoint(drawPoints.value)
                                 }
+                            }
                         },
                         onDragEnd = {
-                            drawPoints.value
-                                .getOrNull(touchIndex.intValue)
-                                ?.let { point ->
-                                    drawPoints.value = drawPoints.value
-                                        .toMutableList()
-                                        .apply {
-                                            this[touchIndex.intValue] = point
-                                        }
-                                }
-                            touchIndex.intValue = -1
+                            dragTarget = DragTarget.None
                             magnifierCenter = Offset.Unspecified
                         },
                         onDragCancel = {
-                            drawPoints.value
-                                .getOrNull(touchIndex.intValue)
-                                ?.let { point ->
-                                    drawPoints.value = drawPoints.value
-                                        .toMutableList()
-                                        .apply {
-                                            this[touchIndex.intValue] = point
-                                        }
-                                }
-                            touchIndex.intValue = -1
+                            dragTarget = DragTarget.None
                             magnifierCenter = Offset.Unspecified
                         }
                     )
@@ -414,9 +433,142 @@ fun FreeCornersCropper(
     }
 }
 
-private fun isTouched(center: Offset, touchPosition: Offset, radius: Float): Boolean {
-    return center.minus(touchPosition).getDistanceSquared() < radius * radius * radius
+private sealed class DragTarget {
+    object None : DragTarget()
+    data class Corner(val index: Int) : DragTarget()
+    data class Edge(
+        val firstIndex: Int,
+        val secondIndex: Int
+    ) : DragTarget()
+
+    val pointIndices: List<Int>
+        get() = when (this) {
+            is Corner -> listOf(index)
+            is Edge -> listOf(firstIndex, secondIndex)
+            None -> emptyList()
+        }
 }
+
+private fun findDragTarget(
+    points: List<Offset>,
+    touchPosition: Offset,
+    strictCornerTouchRadius: Float,
+    cornerTouchRadius: Float,
+    edgeTouchRadius: Float
+): DragTarget {
+    val touchedStrictCornerIndex = findTouchedCornerIndex(
+        points = points,
+        touchPosition = touchPosition,
+        distanceThresholdSquared = strictCornerTouchRadius.square()
+    )
+
+    if (touchedStrictCornerIndex != null) return DragTarget.Corner(touchedStrictCornerIndex)
+
+    val touchedEdge = edgeIndices
+        .mapNotNull { (firstIndex, secondIndex) ->
+            val firstPoint = points.getOrNull(firstIndex) ?: return@mapNotNull null
+            val secondPoint = points.getOrNull(secondIndex) ?: return@mapNotNull null
+            val edgeTouch = touchPosition.edgeTouch(firstPoint, secondPoint)
+
+            if (
+                edgeTouch.projection in EdgeTouchProjectionRange &&
+                edgeTouch.distanceSquared < edgeTouchRadius.square()
+            ) {
+                DragTarget.Edge(firstIndex, secondIndex) to edgeTouch.distanceSquared
+            } else null
+        }
+        .minByOrNull { it.second }
+        ?.first
+
+    if (touchedEdge != null) return touchedEdge
+
+    val touchedCornerIndex = findTouchedCornerIndex(
+        points = points,
+        touchPosition = touchPosition,
+        distanceThresholdSquared = cornerTouchRadius.square()
+    )
+
+    return touchedCornerIndex?.let(DragTarget::Corner) ?: DragTarget.None
+}
+
+private fun DragTarget.focusPoint(points: List<Offset>): Offset {
+    return when (this) {
+        is DragTarget.Corner -> points.getOrNull(index) ?: Offset.Unspecified
+        is DragTarget.Edge -> {
+            val firstPoint = points.getOrNull(firstIndex) ?: return Offset.Unspecified
+            val secondPoint = points.getOrNull(secondIndex) ?: return Offset.Unspecified
+            Offset(
+                x = (firstPoint.x + secondPoint.x) / 2f,
+                y = (firstPoint.y + secondPoint.y) / 2f
+            )
+        }
+
+        DragTarget.None -> Offset.Unspecified
+    }
+}
+
+private fun findTouchedCornerIndex(
+    points: List<Offset>,
+    touchPosition: Offset,
+    distanceThresholdSquared: Float
+): Int? = points
+    .mapIndexedNotNull { index, point ->
+        val distanceSquared = point.minus(touchPosition).getDistanceSquared()
+        if (distanceSquared < distanceThresholdSquared) {
+            index to distanceSquared
+        } else null
+    }
+    .minByOrNull { it.second }
+    ?.first
+
+private fun Float.square(): Float = this * this
+
+private data class EdgeTouch(
+    val distanceSquared: Float,
+    val projection: Float
+)
+
+private fun Offset.edgeTouch(start: Offset, end: Offset): EdgeTouch {
+    val segmentX = end.x - start.x
+    val segmentY = end.y - start.y
+    val lengthSquared = segmentX * segmentX + segmentY * segmentY
+
+    if (lengthSquared == 0f) {
+        return EdgeTouch(
+            distanceSquared = minus(start).getDistanceSquared(),
+            projection = 0f
+        )
+    }
+
+    val projection = (((x - start.x) * segmentX + (y - start.y) * segmentY) / lengthSquared)
+        .coerceIn(0f, 1f)
+    val closestPoint = Offset(
+        x = start.x + projection * segmentX,
+        y = start.y + projection * segmentY
+    )
+
+    return EdgeTouch(
+        distanceSquared = minus(closestPoint).getDistanceSquared(),
+        projection = projection
+    )
+}
+
+private val edgeIndices = listOf(
+    0 to 1,
+    1 to 2,
+    2 to 3,
+    3 to 0
+)
+
+private val EdgeTouchProjectionRange = 0.20f..0.80f
+
+private val MinStrictCornerTouchRadius = 22.dp
+private val MinCornerTouchRadius = 30.dp
+private val MinEdgeTouchRadius = 22.dp
+
+private const val StrictCornerTouchRadiusMultiplier = 1.9f
+private const val CornerTouchRadiusMultiplier = 3.2f
+private const val EdgeTouchRadiusMultiplier = 2.5f
 
 private val OffsetListSaver: Saver<List<Offset>, String> = Saver(
     save = { list ->
