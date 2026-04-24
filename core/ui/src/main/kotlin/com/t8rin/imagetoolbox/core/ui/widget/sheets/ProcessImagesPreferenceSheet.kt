@@ -62,7 +62,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -95,8 +94,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.utils.screenList
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
@@ -233,8 +230,6 @@ fun ProcessImagesPreferenceSheet(
             }
         },
         sheetContent = {
-            val scope = rememberCoroutineScope()
-
             AnimatedContent(
                 targetState = urisCorrespondingScreens.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth()
@@ -265,11 +260,8 @@ fun ProcessImagesPreferenceSheet(
                             ScreenPreference(
                                 screen = screen,
                                 navigate = {
-                                    scope.launch {
-                                        onDismiss()
-                                        delay(200)
-                                        onNavigate(screen)
-                                    }
+                                    onNavigate(screen)
+                                    onDismiss()
                                 }
                             )
                         }
@@ -333,11 +325,8 @@ fun ProcessImagesPreferenceSheet(
                                     ScreenPreference(
                                         screen = screen,
                                         navigate = {
-                                            scope.launch {
-                                                onDismiss()
-                                                delay(200)
-                                                onNavigate(screen)
-                                            }
+                                            onNavigate(screen)
+                                            onDismiss()
                                         }
                                     )
                                 }
