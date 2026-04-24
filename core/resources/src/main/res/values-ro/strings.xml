@@ -2230,4 +2230,5 @@
     <string name="annotations">Adnotări</string>
     <string name="ungroup">Degrupați</string>
     <string name="add_shadow_sub">Adăugați umbră încețoșată în spatele stratului cu culori și decalaje configurabile</string>
+    <string name="distortion_filter">Distorsiuni în funcție de conținut</string>
 </resources>

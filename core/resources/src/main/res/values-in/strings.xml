@@ -2228,4 +2228,5 @@
     <string name="annotations">Anotasi</string>
     <string name="ungroup">Pisahkan</string>
     <string name="add_shadow_sub">Tambahkan bayangan buram di belakang lapisan dengan warna dan offset yang dapat dikonfigurasi</string>
+    <string name="distortion_filter">Distorsi Sadar Konten</string>
 </resources>

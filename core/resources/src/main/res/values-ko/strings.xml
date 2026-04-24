@@ -2228,4 +2228,5 @@
     <string name="annotations">주석</string>
     <string name="ungroup">그룹 해제</string>
     <string name="add_shadow_sub">구성 가능한 색상과 오프셋을 사용하여 레이어 뒤에 흐림 그림자 추가</string>
+    <string name="distortion_filter">콘텐츠 인식 왜곡</string>
 </resources>

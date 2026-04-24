@@ -2229,4 +2229,5 @@
     <string name="annotations">টীকা</string>
     <string name="ungroup">আনগ্রুপ করুন</string>
     <string name="add_shadow_sub">কনফিগারযোগ্য রঙ এবং অফসেট সহ স্তরের পিছনে অস্পষ্ট ছায়া যোগ করুন</string>
+    <string name="distortion_filter">বিষয়বস্তু সচেতন বিকৃতি</string>
 </resources>

@@ -2229,4 +2229,5 @@
     <string name="annotations">Oharpenak</string>
     <string name="ungroup">Destaldekatu</string>
     <string name="add_shadow_sub">Gehitu lausotutako itzala geruzaren atzean, kolore eta desplazamendu konfiguragarriekin</string>
+    <string name="distortion_filter">Edukiari buruzko distortsioa</string>
 </resources>

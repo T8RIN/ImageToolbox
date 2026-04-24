@@ -2229,4 +2229,5 @@
     <string name="annotations">حاشیه نویسی ها</string>
     <string name="ungroup">لغو گروه کردن</string>
     <string name="add_shadow_sub">سایه تاری پشت لایه را با رنگ قابل تنظیم و افست اضافه کنید</string>
+    <string name="distortion_filter">تحریف آگاهانه محتوا</string>
 </resources>

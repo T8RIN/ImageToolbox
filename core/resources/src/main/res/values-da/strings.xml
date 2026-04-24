@@ -2229,4 +2229,5 @@
     <string name="annotations">Anmærkninger</string>
     <string name="ungroup">Ophæv grupperingen</string>
     <string name="add_shadow_sub">Tilføj sløret skygge bag lag med konfigurerbar farve og offsets</string>
+    <string name="distortion_filter">Indholdsbevidst forvrængning</string>
 </resources>

@@ -2232,4 +2232,5 @@
     <string name="annotations">Anotacijos</string>
     <string name="ungroup">Išgrupuoti</string>
     <string name="add_shadow_sub">Už sluoksnio pridėkite neryškų šešėlį su konfigūruojama spalva ir poslinkiais</string>
+    <string name="distortion_filter">Turinio suvokimo iškraipymas</string>
 </resources>

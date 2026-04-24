@@ -2229,4 +2229,5 @@
     <string name="annotations">Anotacions</string>
     <string name="ungroup">Desagrupar</string>
     <string name="add_shadow_sub">Afegeix ombra borrosa darrere de la capa amb color i desplaçaments configurables</string>
+    <string name="distortion_filter">Distorsió conscient del contingut</string>
 </resources>

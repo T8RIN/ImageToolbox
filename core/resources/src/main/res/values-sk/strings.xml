@@ -2231,4 +2231,5 @@
     <string name="annotations">Anotácie</string>
     <string name="ungroup">Zrušiť zoskupenie</string>
     <string name="add_shadow_sub">Pridajte tieň rozostrenia za vrstvu s konfigurovateľnou farbou a posunmi</string>
+    <string name="distortion_filter">Content Aware Distortion</string>
 </resources>

@@ -2229,4 +2229,5 @@
     <string name="annotations">Märkused</string>
     <string name="ungroup">Lahutage rühmitamine</string>
     <string name="add_shadow_sub">Lisage konfigureeritava värvi ja nihkega kihi taha hägune vari</string>
+    <string name="distortion_filter">Sisu teadlik moonutamine</string>
 </resources>

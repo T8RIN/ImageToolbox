@@ -2229,4 +2229,5 @@
     <string name="annotations">एनोटेशन</string>
     <string name="ungroup">असमूहीकृत</string>
     <string name="add_shadow_sub">कॉन्फ़िगर करने योग्य रंग और ऑफसेट के साथ परत के पीछे धुंधली छाया जोड़ें</string>
+    <string name="distortion_filter">सामग्री जागरूक विरूपण</string>
 </resources>

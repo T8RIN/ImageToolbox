@@ -2229,4 +2229,5 @@
     <string name="annotations">Huomautukset</string>
     <string name="ungroup">Pura ryhmittely</string>
     <string name="add_shadow_sub">Lisää sumea varjo tason taakse konfiguroitavilla väreillä ja poikkeamilla</string>
+    <string name="distortion_filter">Sisältötietoinen vääristyminen</string>
 </resources>

@@ -2229,4 +2229,5 @@
     <string name="annotations">Annotazioni</string>
     <string name="ungroup">Separa</string>
     <string name="add_shadow_sub">Aggiungi ombra sfocata dietro il livello con colori e offset configurabili</string>
+    <string name="distortion_filter">Distorsione consapevole del contenuto</string>
 </resources>

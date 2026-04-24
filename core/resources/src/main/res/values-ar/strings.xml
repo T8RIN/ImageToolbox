@@ -2233,4 +2233,5 @@
     <string name="annotations">الشروح</string>
     <string name="ungroup">فك التجميع</string>
     <string name="add_shadow_sub">أضف ظلًا ضبابيًا خلف الطبقة مع لون وإزاحات قابلة للتكوين</string>
+    <string name="distortion_filter">تشويه المحتوى المدرك</string>
 </resources>

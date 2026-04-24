@@ -2230,4 +2230,5 @@
     <string name="annotations">Напомене</string>
     <string name="ungroup">Разгрупиши</string>
     <string name="add_shadow_sub">Додајте замућену сенку иза слоја са подесивом бојом и офсетима</string>
+    <string name="distortion_filter">Дисторзија свесног садржаја</string>
 </resources>

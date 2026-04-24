@@ -2229,4 +2229,5 @@
     <string name="annotations">சிறுகுறிப்புகள்</string>
     <string name="ungroup">குழுவிலக்கு</string>
     <string name="add_shadow_sub">கட்டமைக்கக்கூடிய வண்ணம் மற்றும் ஆஃப்செட்களுடன் லேயருக்குப் பின்னால் மங்கலான நிழலைச் சேர்க்கவும்</string>
+    <string name="distortion_filter">உள்ளடக்க விழிப்புணர்வு சிதைவு</string>
 </resources>

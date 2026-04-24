@@ -2231,4 +2231,5 @@
     <string name="annotations">Анотації</string>
     <string name="ungroup">Розгрупувати</string>
     <string name="add_shadow_sub">Додайте розмиту тінь за шаром із настроюваним кольором і зсувами</string>
+    <string name="distortion_filter">Спотворення з урахуванням вмісту</string>
 </resources>

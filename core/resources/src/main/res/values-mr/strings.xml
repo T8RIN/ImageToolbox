@@ -2230,4 +2230,5 @@
     <string name="annotations">भाष्ये</string>
     <string name="ungroup">गट रद्द करा</string>
     <string name="add_shadow_sub">कॉन्फिगर करण्यायोग्य रंग आणि ऑफसेटसह लेयरच्या मागे ब्लर शॅडो जोडा</string>
+    <string name="distortion_filter">सामग्री जागरूक विकृती</string>
 </resources>

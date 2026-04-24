@@ -2229,4 +2229,5 @@
     <string name="annotations">Ek açıklamalar</string>
     <string name="ungroup">Grubu çöz</string>
     <string name="add_shadow_sub">Yapılandırılabilir renk ve ofsetlerle katmanın arkasına bulanıklık gölgesi ekleyin</string>
+    <string name="distortion_filter">İçeriğe Duyarlı Bozulma</string>
 </resources>

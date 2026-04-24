@@ -2229,4 +2229,5 @@
     <string name="annotations">Anmerkungen</string>
     <string name="ungroup">Gruppierung aufheben</string>
     <string name="add_shadow_sub">Fügen Sie Unschärfeschatten hinter der Ebene mit konfigurierbaren Farben und Offsets hinzu</string>
+    <string name="distortion_filter">Inhaltsbewusste Verzerrung</string>
 </resources>

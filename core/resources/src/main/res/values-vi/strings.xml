@@ -2228,4 +2228,5 @@
     <string name="annotations">Chú thích</string>
     <string name="ungroup">Ungroup</string>
     <string name="add_shadow_sub">Thêm bóng mờ phía sau lớp với màu sắc và độ lệch có thể định cấu hình</string>
+    <string name="distortion_filter">Biến dạng nhận thức nội dung</string>
 </resources>

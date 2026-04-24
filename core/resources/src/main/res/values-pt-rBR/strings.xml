@@ -2229,4 +2229,5 @@
     <string name="annotations">Anotações</string>
     <string name="ungroup">Desagrupar</string>
     <string name="add_shadow_sub">Adicione sombra desfocada atrás da camada com cores e deslocamentos configuráveis</string>
+    <string name="distortion_filter">Distorção sensível ao conteúdo</string>
 </resources>

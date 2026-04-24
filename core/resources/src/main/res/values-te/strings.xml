@@ -2229,4 +2229,5 @@
     <string name="annotations">ఉల్లేఖనాలు</string>
     <string name="ungroup">సమూహాన్ని తీసివేయండి</string>
     <string name="add_shadow_sub">కాన్ఫిగర్ చేయగల రంగు మరియు ఆఫ్‌సెట్‌లతో లేయర్ వెనుక బ్లర్ షాడోని జోడించండి</string>
+    <string name="distortion_filter">కంటెంట్ అవేర్ వక్రీకరణ</string>
 </resources>
