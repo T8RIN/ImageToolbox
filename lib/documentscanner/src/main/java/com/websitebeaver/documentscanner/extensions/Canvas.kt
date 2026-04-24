@@ -37,7 +37,7 @@ import com.websitebeaver.documentscanner.models.Quad
  * @param cropperCornerStyle quad corner style (color, thickness for example)
  * @param cropperCornerOutlineStyle quad corner outer outline style
  * @param cropperSelectedCornerFillStyles style for selected corner
- * @param selectedCorners selected corners
+ * @param selectedCornerProgress corner selection animation progress
  */
 fun Canvas.drawQuad(
     quad: Quad,
@@ -46,7 +46,7 @@ fun Canvas.drawQuad(
     cropperCornerStyle: Paint,
     cropperCornerOutlineStyle: Paint,
     cropperSelectedCornerFillStyles: Paint,
-    selectedCorners: Set<QuadCorner>,
+    selectedCornerProgress: Map<QuadCorner, Float>,
     imagePreviewBounds: RectF,
     ratio: Float,
     selectedCornerRadiusMagnification: Float,
@@ -58,20 +58,30 @@ fun Canvas.drawQuad(
         }
     }
 
+    fun Float.lerpTo(target: Float, progress: Float): Float = this + (target - this) * progress
+
     // draw connecting lines under the corner handles
     drawEdges()
 
     // draw selected corner magnifier fills first, then redraw edges so the frame is visible in zoom
     for ((quadCorner: QuadCorner, cornerPoint: PointF) in quad.corners) {
-        if (quadCorner !in selectedCorners) continue
+        val progress = selectedCornerProgress[quadCorner]?.coerceIn(0f, 1f) ?: 0f
+        if (progress <= 0f) continue
 
-        val circleRadius = selectedCornerRadiusMagnification * pointRadius
+        val circleRadius = pointRadius.lerpTo(
+            selectedCornerRadiusMagnification * pointRadius,
+            progress
+        )
+        val backgroundMagnification = 1f.lerpTo(
+            selectedCornerBackgroundMagnification,
+            progress
+        )
         val matrix = Matrix()
         matrix.postScale(ratio, ratio, ratio / cornerPoint.x, ratio / cornerPoint.y)
         matrix.postTranslate(imagePreviewBounds.left, imagePreviewBounds.top)
         matrix.postScale(
-            selectedCornerBackgroundMagnification,
-            selectedCornerBackgroundMagnification,
+            backgroundMagnification,
+            backgroundMagnification,
             cornerPoint.x,
             cornerPoint.y
         )
@@ -80,18 +90,17 @@ fun Canvas.drawQuad(
         drawCircle(cornerPoint.x, cornerPoint.y, circleRadius, cropperSelectedCornerFillStyles)
     }
 
-    if (selectedCorners.isNotEmpty()) {
+    if (selectedCornerProgress.isNotEmpty()) {
         drawEdges()
     }
 
     // draw 4 corner points
     for ((quadCorner: QuadCorner, cornerPoint: PointF) in quad.corners) {
-        val circleRadius = if (quadCorner in selectedCorners) {
-            // the cropper corner circle grows when you touch and drag it
-            selectedCornerRadiusMagnification * pointRadius
-        } else {
-            pointRadius
-        }
+        val progress = selectedCornerProgress[quadCorner]?.coerceIn(0f, 1f) ?: 0f
+        val circleRadius = pointRadius.lerpTo(
+            selectedCornerRadiusMagnification * pointRadius,
+            progress
+        )
 
         // draw outer ring around corner circles
         drawCircle(

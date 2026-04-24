@@ -17,6 +17,9 @@
 
 package com.websitebeaver.documentscanner.ui
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
@@ -29,6 +32,7 @@ import android.graphics.RectF
 import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.toBitmap
 import com.websitebeaver.documentscanner.R
@@ -63,6 +67,16 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
      * @property dragTarget corner or edge that should move on drag
      */
     private var dragTarget: CropperDragTarget? = null
+
+    /**
+     * @property selectedCornerProgress animated selected state for each cropper corner
+     */
+    private val selectedCornerProgress = mutableMapOf<QuadCorner, Float>()
+
+    /**
+     * @property selectedCornerAnimators active corner selection animations
+     */
+    private val selectedCornerAnimators = mutableMapOf<QuadCorner, ValueAnimator>()
 
     /**
      * @property cropperLineStyle paint style for connecting lines
@@ -336,7 +350,7 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
                 cropperCornerStyle,
                 cropperCornerOutlineStyle,
                 cropperSelectedCornerFillStyles,
-                dragTarget?.corners ?: emptySet(),
+                selectedCornerProgress,
                 imagePreviewBounds,
                 ratio,
                 resources.getDimension(R.dimen.cropper_selected_corner_radius_magnification),
@@ -363,12 +377,14 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
                 // corner or edge to the touch point
                 prevTouchPoint = touchPoint
                 dragTarget = findDragTarget(touchPoint)
+                animateSelectedCorners(dragTarget?.corners ?: emptySet())
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 // when the user stops touching the screen reset these values
                 prevTouchPoint = null
                 dragTarget = null
+                animateSelectedCorners(emptySet())
             }
 
             MotionEvent.ACTION_MOVE -> {
@@ -399,6 +415,62 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
         invalidate()
 
         return true
+    }
+
+    override fun onDetachedFromWindow() {
+        val animators = selectedCornerAnimators.values.toList()
+        selectedCornerAnimators.clear()
+        selectedCornerProgress.clear()
+        animators.forEach { it.cancel() }
+        super.onDetachedFromWindow()
+    }
+
+    private fun animateSelectedCorners(selectedCorners: Set<QuadCorner>) {
+        val cornersToUpdate = selectedCornerProgress.keys + selectedCorners
+
+        cornersToUpdate.forEach { corner ->
+            animateCornerSelection(
+                corner = corner,
+                targetProgress = if (corner in selectedCorners) 1f else 0f
+            )
+        }
+    }
+
+    private fun animateCornerSelection(corner: QuadCorner, targetProgress: Float) {
+        val currentProgress = selectedCornerProgress[corner] ?: 0f
+        if (currentProgress == targetProgress) return
+
+        selectedCornerAnimators.remove(corner)?.cancel()
+
+        val animator = ValueAnimator.ofFloat(currentProgress, targetProgress).apply {
+            duration = CornerSelectionAnimationDurationMs
+            interpolator = DecelerateInterpolator()
+            addUpdateListener { animation ->
+                val progress = animation.animatedValue as Float
+                if (progress <= 0f) {
+                    selectedCornerProgress.remove(corner)
+                } else {
+                    selectedCornerProgress[corner] = progress
+                }
+                invalidate()
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    if (selectedCornerAnimators[corner] != animation) return
+
+                    selectedCornerAnimators.remove(corner)
+                    if (targetProgress <= 0f) {
+                        selectedCornerProgress.remove(corner)
+                    } else {
+                        selectedCornerProgress[corner] = targetProgress
+                    }
+                    invalidate()
+                }
+            })
+        }
+
+        selectedCornerAnimators[corner] = animator
+        animator.start()
     }
 
     private fun Float.dpToPx(): Float = this * resources.displayMetrics.density
@@ -440,6 +512,7 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
 
     private companion object {
         private const val DefaultCropperStrokeWidthDp = 1.2f
+        private const val CornerSelectionAnimationDurationMs = 140L
 
         val cropperEdges = listOf(
             QuadCorner.TOP_LEFT to QuadCorner.TOP_RIGHT,
