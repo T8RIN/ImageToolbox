@@ -316,8 +316,7 @@ internal data class EditBoxStateSnapshot(
     val contentWidth: Int,
     val contentHeight: Int,
     val isVisible: Boolean,
-    val coerceToBounds: Boolean,
-    val isInEditMode: Boolean
+    val coerceToBounds: Boolean
 )
 
 internal fun UiMarkupLayer.toSnapshot(): UiMarkupLayerSnapshot = UiMarkupLayerSnapshot(
@@ -359,8 +358,7 @@ private fun EditBoxState.toSnapshot(): EditBoxStateSnapshot = EditBoxStateSnapsh
     contentWidth = contentSize.width,
     contentHeight = contentSize.height,
     isVisible = isVisible,
-    coerceToBounds = coerceToBounds,
-    isInEditMode = isInEditMode
+    coerceToBounds = coerceToBounds
 )
 
 private fun EditBoxStateSnapshot.toUi(): EditBoxState = EditBoxState(
@@ -374,8 +372,7 @@ private fun EditBoxStateSnapshot.toUi(): EditBoxState = EditBoxState(
     canvasSize = IntegerSize(canvasWidth, canvasHeight),
     contentSize = IntSize(contentWidth, contentHeight),
     isVisible = isVisible,
-    coerceToBounds = coerceToBounds,
-    isInEditMode = isInEditMode
+    coerceToBounds = coerceToBounds
 )
 
 private data class LayerTransform(
