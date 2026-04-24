@@ -28,9 +28,52 @@ import org.opencv.core.CvType
 import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
+import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 object SeamCarver : OpenCV() {
+
+    fun distort(
+        bitmap: Bitmap,
+        distortionPercent: Float,
+        maxInputSide: Int = 512
+    ): Bitmap {
+        val amount = distortionPercent.coerceIn(0f, 95f)
+        if (amount <= 0f) return bitmap
+
+        val originalWidth = bitmap.width
+        val originalHeight = bitmap.height
+        val targetScale = 1f - amount / 100f
+
+        val originalMat = bitmap.toMat()
+        var mat = originalMat.resizeToFit(maxInputSide)
+        if (mat !== originalMat) {
+            originalMat.release()
+        }
+
+        val targetWidth = (mat.cols() * targetScale).roundToInt().coerceAtLeast(1)
+        val targetHeight = (mat.rows() * targetScale).roundToInt().coerceAtLeast(1)
+
+        mat = carveMat(
+            mat = mat,
+            desiredWidth = targetWidth,
+            desiredHeight = targetHeight
+        )
+
+        val restored = Mat()
+        Imgproc.resize(
+            mat,
+            restored,
+            Size(originalWidth.toDouble(), originalHeight.toDouble()),
+            0.0,
+            0.0,
+            Imgproc.INTER_CUBIC
+        )
+        mat.release()
+
+        return restored.toBitmap()
+    }
 
     /**
      * Main entry:
@@ -38,49 +81,86 @@ object SeamCarver : OpenCV() {
      * returns: processed Bitmap (content-aware reduced). If desired dimensions are larger than source,
      * result will be upscaled with normal resizing after seam carving.
      */
-    fun carve(bitmap: Bitmap, desiredWidth: Int, desiredHeight: Int): Bitmap {
-        var mat = bitmap.toMat()
+    fun carve(bitmap: Bitmap, desiredWidth: Int, desiredHeight: Int): Bitmap = carveMat(
+        mat = bitmap.toMat(),
+        desiredWidth = desiredWidth,
+        desiredHeight = desiredHeight
+    ).toBitmap()
 
+    private fun carveMat(mat: Mat, desiredWidth: Int, desiredHeight: Int): Mat {
+        var current = mat
         val targetW = desiredWidth.coerceAtLeast(1)
         val targetH = desiredHeight.coerceAtLeast(1)
 
         // If target dims are bigger than current, we will only seam-carve to min(current, target) and then resize up.
-        val targetWClamp = min(targetW, mat.cols())
-        val targetHClamp = min(targetH, mat.rows())
+        val targetWClamp = min(targetW, current.cols())
+        val targetHClamp = min(targetH, current.rows())
 
         // reduce width
-        while (mat.cols() > targetWClamp) {
-            val energy = computeEnergy(mat)
+        while (current.cols() > targetWClamp) {
+            val energy = computeEnergy(current)
             val seam = findVerticalSeam(energy)
-            mat = removeVerticalSeam(mat, seam)
+            energy.release()
+
+            val previous = current
+            current = removeVerticalSeam(current, seam)
+            previous.release()
         }
 
         // reduce height via transpose trick
-        mat = transposeMat(mat)
-        while (mat.cols() > targetHClamp) {
-            val energy = computeEnergy(mat)
+        var transposed = transposeMat(current)
+        current.release()
+        current = transposed
+
+        while (current.cols() > targetHClamp) {
+            val energy = computeEnergy(current)
             val seam = findVerticalSeam(energy)
-            mat = removeVerticalSeam(mat, seam)
+            energy.release()
+
+            val previous = current
+            current = removeVerticalSeam(current, seam)
+            previous.release()
         }
-        mat = transposeMat(mat)
+        transposed = transposeMat(current)
+        current.release()
+        current = transposed
 
         // If the user requested larger dimensions than we could seam-carve to, upscale with interpolation.
-        val finalMat = if (mat.cols() != targetW || mat.rows() != targetH) {
+        return if (current.cols() != targetW || current.rows() != targetH) {
             val dst = Mat()
             Imgproc.resize(
-                mat,
+                current,
                 dst,
                 Size(targetW.toDouble(), targetH.toDouble()),
                 0.0,
                 0.0,
                 Imgproc.INTER_CUBIC
             )
+            current.release()
             dst
         } else {
-            mat
+            current
         }
+    }
 
-        return finalMat.toBitmap()
+    private fun Mat.resizeToFit(maxSide: Int): Mat {
+        val currentMaxSide = max(cols(), rows())
+        if (maxSide !in 1..<currentMaxSide) return this
+
+        val scale = maxSide.toDouble() / currentMaxSide
+        val resized = Mat()
+        Imgproc.resize(
+            this,
+            resized,
+            Size(
+                (cols() * scale).roundToInt().coerceAtLeast(1).toDouble(),
+                (rows() * scale).roundToInt().coerceAtLeast(1).toDouble()
+            ),
+            0.0,
+            0.0,
+            Imgproc.INTER_AREA
+        )
+        return resized
     }
 
     private fun transposeMat(src: Mat): Mat {
@@ -111,6 +191,13 @@ object SeamCarver : OpenCV() {
         val energy = Mat()
         Core.add(gradXSq, gradYSq, energy)
         Core.sqrt(energy, energy) // sqrt(gx^2 + gy^2)
+
+        gray.release()
+        gradX.release()
+        gradY.release()
+        gradXSq.release()
+        gradYSq.release()
+
         return energy
     }
 
@@ -123,43 +210,39 @@ object SeamCarver : OpenCV() {
         val rows = energy.rows()
         val cols = energy.cols()
 
-        // read energy into 2D double array
-        val e = Array(rows) { DoubleArray(cols) }
-        val buf = DoubleArray(cols)
-        for (r in 0 until rows) {
-            energy.get(r, 0, buf)
-            for (c in 0 until cols) e[r][c] = buf[c]
-        }
-
-        // dp cumulative energy
-        val dp = Array(rows) { DoubleArray(cols) { Double.POSITIVE_INFINITY } }
+        var previous = DoubleArray(cols)
+        var current = DoubleArray(cols)
+        val rowEnergy = DoubleArray(cols)
         val backtrack = Array(rows) { IntArray(cols) }
 
-        // initialize first row
-        for (c in 0 until cols) dp[0][c] = e[0][c]
+        energy.get(0, 0, previous)
 
         for (r in 1 until rows) {
+            energy.get(r, 0, rowEnergy)
             for (c in 0 until cols) {
                 // consider three pixels from previous row
-                var minPrev = dp[r - 1][c]
+                var minPrev = previous[c]
                 var idx = c
-                if (c > 0 && dp[r - 1][c - 1] < minPrev) {
-                    minPrev = dp[r - 1][c - 1]; idx = c - 1
+                if (c > 0 && previous[c - 1] < minPrev) {
+                    minPrev = previous[c - 1]; idx = c - 1
                 }
-                if (c < cols - 1 && dp[r - 1][c + 1] < minPrev) {
-                    minPrev = dp[r - 1][c + 1]; idx = c + 1
+                if (c < cols - 1 && previous[c + 1] < minPrev) {
+                    minPrev = previous[c + 1]; idx = c + 1
                 }
-                dp[r][c] = e[r][c] + minPrev
+                current[c] = rowEnergy[c] + minPrev
                 backtrack[r][c] = idx
             }
+            val swap = previous
+            previous = current
+            current = swap
         }
 
         // find min in last row
         var minCol = 0
-        var minVal = dp[rows - 1][0]
+        var minVal = previous[0]
         for (c in 1 until cols) {
-            if (dp[rows - 1][c] < minVal) {
-                minVal = dp[rows - 1][c]
+            if (previous[c] < minVal) {
+                minVal = previous[c]
                 minCol = c
             }
         }

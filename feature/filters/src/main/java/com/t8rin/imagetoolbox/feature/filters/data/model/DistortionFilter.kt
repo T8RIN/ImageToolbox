@@ -18,13 +18,11 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.opencv_tools.seam_carving.SeamCarver
-import kotlin.math.roundToInt
 
 @FilterInject
 internal class DistortionFilter(
@@ -37,26 +35,9 @@ internal class DistortionFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap {
-        val amount = value.coerceIn(0f, 95f)
-        if (amount <= 0f) return input
-
-        val targetScale = 1f - amount / 100f
-        val targetWidth = (input.width * targetScale).roundToInt().coerceAtLeast(1)
-        val targetHeight = (input.height * targetScale).roundToInt().coerceAtLeast(1)
-
-        if (targetWidth == input.width && targetHeight == input.height) return input
-
-        return SeamCarver
-            .carve(
-                bitmap = input,
-                desiredWidth = targetWidth,
-                desiredHeight = targetHeight
-            )
-            .scale(
-                width = input.width,
-                height = input.height
-            )
-    }
+    ): Bitmap = SeamCarver.distort(
+        bitmap = input,
+        distortionPercent = value
+    )
 
 }
