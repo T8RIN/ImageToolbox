@@ -28,11 +28,15 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ScanResult
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
@@ -65,10 +69,25 @@ internal fun rememberDocumentScannerImpl(
     onSuccess: (ScanResult) -> Unit
 ): DocumentScanner {
     val context = LocalComponentActivity.current
+    val colorScheme = MaterialTheme.colorScheme
+    val cropperHandleColor = colorScheme.onPrimaryContainerFixed
+    val cropperFrameColor = colorScheme.onPrimaryContainerFixed.copy(alpha = 0.78f)
+    val buttonTintColor = colorScheme.onPrimaryContainerFixed
+    val buttonContainerColor = colorScheme.primaryContainerFixed
 
-    val scanner = remember(context) {
+    val scanner = remember(
+        context,
+        cropperHandleColor,
+        cropperFrameColor,
+        buttonTintColor,
+        buttonContainerColor
+    ) {
         DocumentScannerDelegate(
             activity = context,
+            cropperHandleColor = cropperHandleColor.toArgb(),
+            cropperFrameColor = cropperFrameColor.toArgb(),
+            buttonTintColor = buttonTintColor.toArgb(),
+            buttonContainerColor = buttonContainerColor.toArgb(),
             successHandler = { imageUris ->
                 onSuccess(
                     ScanResult(imageUris.map { it.toUri() })
@@ -106,7 +125,7 @@ internal fun rememberDocumentScannerImpl(
         }
     }
 
-    return remember(context, scannerLauncher) {
+    return remember(context, scanner, scannerLauncher, requestPermissionLauncher) {
         DocumentScannerImpl(
             context = context,
             scanner = scanner,

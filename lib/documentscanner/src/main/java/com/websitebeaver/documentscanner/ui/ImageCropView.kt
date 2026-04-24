@@ -34,6 +34,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.websitebeaver.documentscanner.R
 import com.websitebeaver.documentscanner.enums.QuadCorner
 import com.websitebeaver.documentscanner.extensions.changeByteCountByResizing
+import com.websitebeaver.documentscanner.extensions.distance
 import com.websitebeaver.documentscanner.extensions.drawQuad
 import com.websitebeaver.documentscanner.models.Quad
 
@@ -59,15 +60,19 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     private var prevTouchPoint: PointF? = null
 
     /**
-     * @property closestCornerToTouch if the user touches close to the top left corner for
-     * example, that corner should move on drag
+     * @property dragTarget corner or edge that should move on drag
      */
-    private var closestCornerToTouch: QuadCorner? = null
+    private var dragTarget: CropperDragTarget? = null
 
     /**
-     * @property cropperLinesAndCornersStyles paint style for 4 corners and connecting lines
+     * @property cropperLineStyle paint style for connecting lines
      */
-    private val cropperLinesAndCornersStyles = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val cropperLineStyle = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    /**
+     * @property cropperCornerStyle paint style for 4 corners
+     */
+    private val cropperCornerStyle = Paint(Paint.ANTI_ALIAS_FLAG)
 
     /**
      * @property cropperSelectedCornerFillStyles when you tap and drag a cropper corner the circle
@@ -106,9 +111,13 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
 
     init {
         // set cropper style
-        cropperLinesAndCornersStyles.color = Color.WHITE
-        cropperLinesAndCornersStyles.style = Paint.Style.STROKE
-        cropperLinesAndCornersStyles.strokeWidth = 3f
+        cropperLineStyle.color = Color.WHITE
+        cropperLineStyle.style = Paint.Style.STROKE
+        cropperLineStyle.strokeWidth = 3f
+
+        cropperCornerStyle.color = Color.WHITE
+        cropperCornerStyle.style = Paint.Style.STROKE
+        cropperCornerStyle.strokeWidth = 3f
     }
 
     /**
@@ -173,6 +182,15 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     }
 
     /**
+     * Set cropper colors from the app theme.
+     */
+    fun setCropperColors(handleColor: Int, frameColor: Int) {
+        cropperCornerStyle.color = handleColor
+        cropperLineStyle.color = frameColor
+        invalidate()
+    }
+
+    /**
      * @property imagePreviewBounds image coordinates - if the image ratio is different than
      * the image container ratio then there's blank space either at the top and bottom of the
      * image or the left and right of the image
@@ -208,19 +226,6 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
         }
 
     /**
-     * This ensures that the user doesn't drag a corner outside the image
-     *
-     * @param point a point
-     * @return true if the point is inside the image preview container, false it's not
-     */
-    private fun isPointInsideImage(point: PointF): Boolean {
-        return (point.x >= imagePreviewBounds.left
-                && point.y >= imagePreviewBounds.top
-                && point.x <= imagePreviewBounds.right
-                && point.y <= imagePreviewBounds.bottom)
-    }
-
-    /**
      * This gets called once we insert an image in this image view
      */
     private fun onSetImage() {
@@ -229,6 +234,57 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
             drawable.toBitmap(),
             Shader.TileMode.CLAMP,
             Shader.TileMode.CLAMP
+        )
+    }
+
+    private fun findDragTarget(touchPoint: PointF): CropperDragTarget {
+        val touchRadius = resources.getDimension(R.dimen.cropper_corner_radius) * 2f
+        val touchedCorner = quad!!.corners
+            .mapNotNull { (corner, point) ->
+                val distance = point.distance(touchPoint)
+                if (distance <= touchRadius) {
+                    corner to distance
+                } else null
+            }
+            .minByOrNull { it.second }
+            ?.first
+
+        if (touchedCorner != null) return CropperDragTarget.Corner(touchedCorner)
+
+        val touchedEdge = cropperEdges
+            .mapNotNull { (firstCorner, secondCorner) ->
+                val firstPoint = quad!!.corners[firstCorner] ?: return@mapNotNull null
+                val secondPoint = quad!!.corners[secondCorner] ?: return@mapNotNull null
+                val distanceSquared = touchPoint.distanceToSegmentSquared(firstPoint, secondPoint)
+
+                if (distanceSquared <= touchRadius * touchRadius) {
+                    CropperDragTarget.Edge(firstCorner, secondCorner) to distanceSquared
+                } else null
+            }
+            .minByOrNull { it.second }
+            ?.first
+
+        return touchedEdge ?: CropperDragTarget.Corner(quad!!.getCornerClosestToPoint(touchPoint))
+    }
+
+    private fun PointF.coerceDragAmountFor(corners: Set<QuadCorner>): PointF {
+        val bounds = imagePreviewBounds
+        var minX = Float.NEGATIVE_INFINITY
+        var maxX = Float.POSITIVE_INFINITY
+        var minY = Float.NEGATIVE_INFINITY
+        var maxY = Float.POSITIVE_INFINITY
+
+        corners.forEach { corner ->
+            val point = quad!!.corners[corner] ?: return@forEach
+            minX = minX.coerceAtLeast(bounds.left - point.x)
+            maxX = maxX.coerceAtMost(bounds.right - point.x)
+            minY = minY.coerceAtLeast(bounds.top - point.y)
+            maxY = maxY.coerceAtMost(bounds.bottom - point.y)
+        }
+
+        return PointF(
+            x.coerceIn(minX, maxX),
+            y.coerceIn(minY, maxY)
         )
     }
 
@@ -245,9 +301,10 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
             canvas.drawQuad(
                 quad!!,
                 resources.getDimension(R.dimen.cropper_corner_radius),
-                cropperLinesAndCornersStyles,
+                cropperLineStyle,
+                cropperCornerStyle,
                 cropperSelectedCornerFillStyles,
-                closestCornerToTouch,
+                dragTarget?.corners ?: emptySet(),
                 imagePreviewBounds,
                 ratio,
                 resources.getDimension(R.dimen.cropper_selected_corner_radius_magnification),
@@ -271,33 +328,33 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 // when the user touches the screen record the point, and find the closest
-                // corner to the touch point
+                // corner or edge to the touch point
                 prevTouchPoint = touchPoint
-                closestCornerToTouch = quad!!.getCornerClosestToPoint(touchPoint)
+                dragTarget = findDragTarget(touchPoint)
             }
 
-            MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 // when the user stops touching the screen reset these values
                 prevTouchPoint = null
-                closestCornerToTouch = null
+                dragTarget = null
             }
 
             MotionEvent.ACTION_MOVE -> {
-                // when the user drags their finger, update the closest corner position
-                val touchMoveXDistance = touchPoint.x - prevTouchPoint!!.x
-                val touchMoveYDistance = touchPoint.y - prevTouchPoint!!.y
-                val cornerNewPosition = PointF(
-                    quad!!.corners[closestCornerToTouch]!!.x + touchMoveXDistance,
-                    quad!!.corners[closestCornerToTouch]!!.y + touchMoveYDistance
-                )
+                // when the user drags their finger, update the selected corner or edge position
+                val target = dragTarget ?: return true
+                val touchMoveDistance = PointF(
+                    touchPoint.x - prevTouchPoint!!.x,
+                    touchPoint.y - prevTouchPoint!!.y
+                ).coerceDragAmountFor(target.corners)
 
-                // make sure the user doesn't drag the corner outside the image preview container
-                if (isPointInsideImage(cornerNewPosition)) {
-                    quad!!.moveCorner(
-                        closestCornerToTouch!!,
-                        touchMoveXDistance,
-                        touchMoveYDistance
-                    )
+                if (target.corners.isNotEmpty()) {
+                    target.corners.forEach { corner ->
+                        quad!!.moveCorner(
+                            corner,
+                            touchMoveDistance.x,
+                            touchMoveDistance.y
+                        )
+                    }
                 }
 
                 // record the point touched, so we can use it to calculate how far to move corner
@@ -310,5 +367,49 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
         invalidate()
 
         return true
+    }
+
+    private sealed class CropperDragTarget {
+        data class Corner(val corner: QuadCorner) : CropperDragTarget()
+        data class Edge(
+            val firstCorner: QuadCorner,
+            val secondCorner: QuadCorner
+        ) : CropperDragTarget()
+
+        val corners: Set<QuadCorner>
+            get() = when (this) {
+                is Corner -> setOf(corner)
+                is Edge -> setOf(firstCorner, secondCorner)
+            }
+    }
+
+    private fun PointF.distanceToSegmentSquared(start: PointF, end: PointF): Float {
+        val segmentX = end.x - start.x
+        val segmentY = end.y - start.y
+        val lengthSquared = segmentX * segmentX + segmentY * segmentY
+
+        if (lengthSquared == 0f) {
+            val xDistance = x - start.x
+            val yDistance = y - start.y
+            return xDistance * xDistance + yDistance * yDistance
+        }
+
+        val projection = (((x - start.x) * segmentX + (y - start.y) * segmentY) / lengthSquared)
+            .coerceIn(0f, 1f)
+        val closestX = start.x + projection * segmentX
+        val closestY = start.y + projection * segmentY
+        val xDistance = x - closestX
+        val yDistance = y - closestY
+
+        return xDistance * xDistance + yDistance * yDistance
+    }
+
+    private companion object {
+        val cropperEdges = listOf(
+            QuadCorner.TOP_LEFT to QuadCorner.TOP_RIGHT,
+            QuadCorner.TOP_RIGHT to QuadCorner.BOTTOM_RIGHT,
+            QuadCorner.BOTTOM_RIGHT to QuadCorner.BOTTOM_LEFT,
+            QuadCorner.BOTTOM_LEFT to QuadCorner.TOP_LEFT
+        )
     }
 }

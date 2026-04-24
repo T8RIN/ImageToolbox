@@ -21,13 +21,18 @@ package com.websitebeaver.documentscanner
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
+import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.t8rin.opencv_tools.document_detector.DocumentDetector
 import com.websitebeaver.documentscanner.constants.DefaultSetting
 import com.websitebeaver.documentscanner.constants.DocumentScannerExtra
@@ -38,6 +43,8 @@ import com.websitebeaver.documentscanner.extensions.screenHeight
 import com.websitebeaver.documentscanner.extensions.screenWidth
 import com.websitebeaver.documentscanner.models.Document
 import com.websitebeaver.documentscanner.models.Quad
+import com.websitebeaver.documentscanner.ui.CircleButton
+import com.websitebeaver.documentscanner.ui.DoneButton
 import com.websitebeaver.documentscanner.ui.ImageCropView
 import com.websitebeaver.documentscanner.utils.FileUtil
 import com.websitebeaver.documentscanner.utils.ImageUtil
@@ -93,6 +100,14 @@ class DocumentScannerActivity : AppCompatActivity() {
      */
     private lateinit var imageView: ImageCropView
 
+    private var cropperHandleColor = Color.WHITE
+    private var cropperFrameColor = Color.WHITE
+    private var buttonTintColor = Color.WHITE
+    private var buttonContainerColor = Color.argb(128, 255, 255, 255)
+    private var shouldApplyButtonColors = false
+    private var contentWidth = 0
+    private var contentHeight = 0
+
     /**
      * called when activity is created
      *
@@ -109,10 +124,20 @@ class DocumentScannerActivity : AppCompatActivity() {
             )
         }
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.BLACK
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
+
         // Show cropper, accept crop button, add new document button, and
         // retake photo button. Since we open the camera in a few lines, the user
         // doesn't see this until they finish taking a photo
         setContentView(R.layout.activity_image_crop)
+        setupWindowInsets()
         imageView = findViewById(R.id.image_view)
 
         try {
@@ -160,6 +185,27 @@ class DocumentScannerActivity : AppCompatActivity() {
                 }
                 croppedImageQuality = it
             }
+
+            cropperHandleColor = intent.getIntExtra(
+                DocumentScannerExtra.EXTRA_CROPPER_HANDLE_COLOR,
+                cropperHandleColor
+            )
+            cropperFrameColor = intent.getIntExtra(
+                DocumentScannerExtra.EXTRA_CROPPER_FRAME_COLOR,
+                cropperFrameColor
+            )
+            buttonTintColor = intent.getIntExtra(
+                DocumentScannerExtra.EXTRA_BUTTON_TINT_COLOR,
+                buttonTintColor
+            )
+            buttonContainerColor = intent.getIntExtra(
+                DocumentScannerExtra.EXTRA_BUTTON_CONTAINER_COLOR,
+                buttonContainerColor
+            )
+            shouldApplyButtonColors = listOf(
+                DocumentScannerExtra.EXTRA_BUTTON_TINT_COLOR,
+                DocumentScannerExtra.EXTRA_BUTTON_CONTAINER_COLOR
+            ).any(intent::hasExtra)
         } catch (exception: Exception) {
             finishIntentWithError(
                 "invalid extra: ${exception.message}"
@@ -169,11 +215,31 @@ class DocumentScannerActivity : AppCompatActivity() {
 
         // set click event handlers for new document button, accept and crop document button,
         // and retake document photo button
-        val newPhotoButton: ImageButton = findViewById(R.id.new_photo_button)
-        val completeDocumentScanButton: ImageButton = findViewById(
+        val newPhotoButton: CircleButton = findViewById(R.id.new_photo_button)
+        val completeDocumentScanButton: DoneButton = findViewById(
             R.id.complete_document_scan_button
         )
-        val retakePhotoButton: ImageButton = findViewById(R.id.retake_photo_button)
+        val retakePhotoButton: CircleButton = findViewById(R.id.retake_photo_button)
+
+        imageView.setCropperColors(
+            handleColor = cropperHandleColor,
+            frameColor = cropperFrameColor
+        )
+        if (shouldApplyButtonColors) {
+            retakePhotoButton.setColors(
+                containerColor = buttonContainerColor,
+                iconColor = buttonTintColor
+            )
+            completeDocumentScanButton.setColors(
+                ringColor = buttonContainerColor,
+                circleColor = buttonContainerColor,
+                iconColor = buttonTintColor
+            )
+            newPhotoButton.setColors(
+                containerColor = buttonContainerColor,
+                iconColor = buttonTintColor
+            )
+        }
 
         newPhotoButton.onClick { onClickNew() }
         completeDocumentScanButton.onClick { onClickDone() }
@@ -187,6 +253,37 @@ class DocumentScannerActivity : AppCompatActivity() {
                 "error opening camera: ${exception.message}"
             )
         }
+    }
+
+    private fun setupWindowInsets() {
+        val root: View = findViewById(R.id.document_scanner_root)
+        val initialPaddingLeft = root.paddingLeft
+        val initialPaddingTop = root.paddingTop
+        val initialPaddingRight = root.paddingRight
+        val initialPaddingBottom = root.paddingBottom
+
+        fun updateContentSize() {
+            contentWidth = (screenWidth - root.paddingLeft - root.paddingRight).coerceAtLeast(0)
+            contentHeight = (screenHeight - root.paddingTop - root.paddingBottom).coerceAtLeast(0)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+            val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val displayCutout = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            val safeInsets = Insets.max(systemBars, displayCutout)
+
+            view.setPadding(
+                initialPaddingLeft + safeInsets.left,
+                initialPaddingTop + safeInsets.top,
+                initialPaddingRight + safeInsets.right,
+                initialPaddingBottom + safeInsets.bottom
+            )
+            updateContentSize()
+            windowInsets
+        }
+
+        ViewCompat.requestApplyInsets(root)
+        updateContentSize()
     }
 
     /**
@@ -244,7 +341,7 @@ class DocumentScannerActivity : AppCompatActivity() {
             // if maxNumDocuments is 3 and this is the 3rd photo, hide the new photo button since
             // we reach the allowed limit
             if (documents.size == maxNumDocuments - 1) {
-                val newPhotoButton: ImageButton = findViewById(R.id.new_photo_button)
+                val newPhotoButton: CircleButton = findViewById(R.id.new_photo_button)
                 newPhotoButton.isClickable = false
                 newPhotoButton.visibility = View.INVISIBLE
             }
@@ -270,7 +367,11 @@ class DocumentScannerActivity : AppCompatActivity() {
                 // user is allowed to move corners to make corrections
                 try {
                     // set preview image height based off of photo dimensions
-                    imageView.setImagePreviewBounds(photo, screenWidth, screenHeight)
+                    imageView.setImagePreviewBounds(
+                        photo,
+                        contentWidth.takeIf { it > 0 } ?: screenWidth,
+                        contentHeight.takeIf { it > 0 } ?: screenHeight
+                    )
 
                     // display original photo, so user can adjust detected corners
                     imageView.setImage(photo)

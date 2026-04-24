@@ -33,16 +33,18 @@ import com.websitebeaver.documentscanner.models.Quad
  *
  * @param quad 4 corners
  * @param pointRadius corner circle radius
- * @param cropperLinesAndCornersStyles quad style (color, thickness for example)
+ * @param cropperLineStyle quad line style (color, thickness for example)
+ * @param cropperCornerStyle quad corner style (color, thickness for example)
  * @param cropperSelectedCornerFillStyles style for selected corner
- * @param selectedCorner selected corner
+ * @param selectedCorners selected corners
  */
 fun Canvas.drawQuad(
     quad: Quad,
     pointRadius: Float,
-    cropperLinesAndCornersStyles: Paint,
+    cropperLineStyle: Paint,
+    cropperCornerStyle: Paint,
     cropperSelectedCornerFillStyles: Paint,
-    selectedCorner: QuadCorner?,
+    selectedCorners: Set<QuadCorner>,
     imagePreviewBounds: RectF,
     ratio: Float,
     selectedCornerRadiusMagnification: Float,
@@ -52,7 +54,7 @@ fun Canvas.drawQuad(
     for ((quadCorner: QuadCorner, cornerPoint: PointF) in quad.corners) {
         var circleRadius = pointRadius
 
-        if (quadCorner === selectedCorner) {
+        if (quadCorner in selectedCorners) {
             // the cropper corner circle grows when you touch and drag it
             circleRadius = selectedCornerRadiusMagnification * pointRadius
             val matrix = Matrix()
@@ -74,13 +76,13 @@ fun Canvas.drawQuad(
             cornerPoint.x,
             cornerPoint.y,
             circleRadius,
-            cropperLinesAndCornersStyles
+            cropperCornerStyle
         )
     }
 
     // draw 4 connecting lines
     for (edge: Line in quad.edges) {
-        drawLine(edge.from.x, edge.from.y, edge.to.x, edge.to.y, cropperLinesAndCornersStyles)
+        drawLine(edge.from.x, edge.from.y, edge.to.x, edge.to.y, cropperLineStyle)
     }
 }
 
@@ -92,8 +94,14 @@ fun Canvas.drawQuad(
  * @param buttonCenterY the button center y coordinate
  * @param drawable the check icon
  */
-fun Canvas.drawCheck(buttonCenterX: Float, buttonCenterY: Float, drawable: Drawable) {
+fun Canvas.drawCheck(
+    buttonCenterX: Float,
+    buttonCenterY: Float,
+    drawable: Drawable,
+    tintColor: Int? = null
+) {
     val mutate = drawable.constantState?.newDrawable()?.mutate()
+    tintColor?.let { mutate?.setTint(it) }
     mutate?.setBounds(
         (buttonCenterX - drawable.intrinsicWidth.toFloat() / 2).toInt(),
         (buttonCenterY - drawable.intrinsicHeight.toFloat() / 2).toInt(),

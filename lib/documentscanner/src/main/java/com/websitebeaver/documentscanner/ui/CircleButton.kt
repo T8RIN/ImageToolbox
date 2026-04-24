@@ -18,15 +18,17 @@
 package com.websitebeaver.documentscanner.ui
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import com.websitebeaver.documentscanner.R
 
 /**
- * This class creates a circular done button by modifying an image button. This is used for the
+ * This class creates a rounded action button by modifying an image button. This is used for the
  * add new document button and retake photo button.
  *
  * @param context image button context
@@ -42,11 +44,28 @@ class CircleButton(
      */
     private val ring = Paint(Paint.ANTI_ALIAS_FLAG)
 
+    private val circle = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    private var drawCircleBackground = false
+
     init {
         // set outer ring style
         ring.color = Color.WHITE
         ring.style = Paint.Style.STROKE
         ring.strokeWidth = resources.getDimension(R.dimen.small_button_ring_thickness)
+
+        circle.style = Paint.Style.FILL
+    }
+
+    /**
+     * Set button colors from the app theme.
+     */
+    fun setColors(containerColor: Int, iconColor: Int) {
+        ring.color = containerColor
+        circle.color = containerColor
+        drawCircleBackground = true
+        imageTintList = ColorStateList.valueOf(iconColor)
+        invalidate()
     }
 
     /**
@@ -55,14 +74,21 @@ class CircleButton(
      * @param canvas the image button canvas
      */
     override fun onDraw(canvas: Canvas) {
+        val rect = RectF(
+            ring.strokeWidth / 2,
+            ring.strokeWidth / 2,
+            width.toFloat() - ring.strokeWidth / 2,
+            height.toFloat() - ring.strokeWidth / 2
+        )
+        val cornerRadius = resources.getDimension(R.dimen.small_button_corner_radius)
+
+        if (drawCircleBackground) {
+            canvas.drawRoundRect(rect, cornerRadius, cornerRadius, circle)
+        }
+
         super.onDraw(canvas)
 
         // draw outer ring
-        canvas.drawCircle(
-            (width / 2).toFloat(),
-            (height / 2).toFloat(),
-            (width.toFloat() - ring.strokeWidth) / 2,
-            ring
-        )
+        canvas.drawRoundRect(rect, cornerRadius, cornerRadius, ring)
     }
 }

@@ -41,6 +41,10 @@ import java.io.File
  * @param letUserAdjustCrop whether or not the user can change the auto detected document corners
  * @param maxNumDocuments the maximum number of documents a user can scan at once
  * @param croppedImageQuality the 0 - 100 quality of the cropped image
+ * @param cropperHandleColor color of cropper corner handles
+ * @param cropperFrameColor color of cropper frame lines
+ * @param buttonTintColor color of scanner button icons
+ * @param buttonContainerColor color of scanner button containers
  * @constructor creates document scanner
  */
 class DocumentScanner(
@@ -51,7 +55,11 @@ class DocumentScanner(
     private var responseType: String? = null,
     private var letUserAdjustCrop: Boolean? = null,
     private var maxNumDocuments: Int? = null,
-    private var croppedImageQuality: Int? = null
+    private var croppedImageQuality: Int? = null,
+    private val cropperHandleColor: Int? = null,
+    private val cropperFrameColor: Int? = null,
+    private val buttonTintColor: Int? = null,
+    private val buttonContainerColor: Int? = null
 ) {
     init {
         responseType = responseType ?: DefaultSetting.RESPONSE_TYPE
@@ -75,6 +83,18 @@ class DocumentScanner(
             DocumentScannerExtra.EXTRA_MAX_NUM_DOCUMENTS,
             maxNumDocuments
         )
+        cropperHandleColor?.let {
+            documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_CROPPER_HANDLE_COLOR, it)
+        }
+        cropperFrameColor?.let {
+            documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_CROPPER_FRAME_COLOR, it)
+        }
+        buttonTintColor?.let {
+            documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_BUTTON_TINT_COLOR, it)
+        }
+        buttonContainerColor?.let {
+            documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_BUTTON_CONTAINER_COLOR, it)
+        }
 
         return documentScanIntent
     }

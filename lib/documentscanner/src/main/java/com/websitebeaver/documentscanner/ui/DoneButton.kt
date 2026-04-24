@@ -18,6 +18,7 @@
 package com.websitebeaver.documentscanner.ui
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -49,6 +50,8 @@ class DoneButton(
      */
     private val circle = Paint(Paint.ANTI_ALIAS_FLAG)
 
+    private var iconTintColor = Color.WHITE
+
     init {
         // set outer ring style
         ring.color = Color.WHITE
@@ -58,6 +61,17 @@ class DoneButton(
         // set inner circle style
         circle.color = ContextCompat.getColor(context, R.color.done_button_inner_circle_color)
         circle.style = Paint.Style.FILL
+    }
+
+    /**
+     * Set button colors from the app theme.
+     */
+    fun setColors(ringColor: Int, circleColor: Int, iconColor: Int) {
+        ring.color = ringColor
+        circle.color = circleColor
+        iconTintColor = iconColor
+        imageTintList = ColorStateList.valueOf(iconColor)
+        invalidate()
     }
 
     /**
@@ -83,6 +97,6 @@ class DoneButton(
         canvas.drawCircle(centerX, centerY, innerRadius, circle)
 
         // draw check icon since it gets covered by inner circle
-        canvas.drawCheck(centerX, centerY, drawable)
+        canvas.drawCheck(centerX, centerY, drawable, iconTintColor)
     }
 }
