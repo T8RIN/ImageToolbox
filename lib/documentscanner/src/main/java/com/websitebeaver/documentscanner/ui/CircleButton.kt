@@ -17,6 +17,7 @@
 
 package com.websitebeaver.documentscanner.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Canvas
@@ -73,6 +74,7 @@ class CircleButton(
      *
      * @param canvas the image button canvas
      */
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         val rect = RectF(
             ring.strokeWidth / 2,
@@ -88,7 +90,9 @@ class CircleButton(
 
         super.onDraw(canvas)
 
-        // draw outer ring
-        canvas.drawRoundRect(rect, cornerRadius, cornerRadius, ring)
+        if (!drawCircleBackground) {
+            // draw outer ring
+            canvas.drawRoundRect(rect, cornerRadius, cornerRadius, ring)
+        }
     }
 }

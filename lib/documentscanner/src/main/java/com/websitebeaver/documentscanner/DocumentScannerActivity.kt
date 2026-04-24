@@ -104,6 +104,10 @@ class DocumentScannerActivity : AppCompatActivity() {
     private var cropperFrameColor = Color.WHITE
     private var buttonTintColor = Color.WHITE
     private var buttonContainerColor = Color.argb(128, 255, 255, 255)
+    private var cropperHandleOutlineColor = buttonContainerColor
+    private var cropperStrokeWidthDp = 1.2f
+    private var doneButtonTintColor = buttonTintColor
+    private var doneButtonContainerColor = buttonContainerColor
     private var shouldApplyButtonColors = false
     private var contentWidth = 0
     private var contentHeight = 0
@@ -194,6 +198,24 @@ class DocumentScannerActivity : AppCompatActivity() {
                 DocumentScannerExtra.EXTRA_CROPPER_FRAME_COLOR,
                 cropperFrameColor
             )
+            intent.extras?.get(DocumentScannerExtra.EXTRA_CROPPER_STROKE_WIDTH_DP)?.let {
+                val strokeWidthDp = (it as? Number)?.toFloat()
+                    ?: throw Exception(
+                        "${DocumentScannerExtra.EXTRA_CROPPER_STROKE_WIDTH_DP} must be a number"
+                    )
+
+                if (
+                    strokeWidthDp <= 0f ||
+                    strokeWidthDp.isNaN() ||
+                    strokeWidthDp.isInfinite()
+                ) {
+                    throw Exception(
+                        "${DocumentScannerExtra.EXTRA_CROPPER_STROKE_WIDTH_DP} must be greater than 0"
+                    )
+                }
+
+                cropperStrokeWidthDp = strokeWidthDp
+            }
             buttonTintColor = intent.getIntExtra(
                 DocumentScannerExtra.EXTRA_BUTTON_TINT_COLOR,
                 buttonTintColor
@@ -202,9 +224,23 @@ class DocumentScannerActivity : AppCompatActivity() {
                 DocumentScannerExtra.EXTRA_BUTTON_CONTAINER_COLOR,
                 buttonContainerColor
             )
+            cropperHandleOutlineColor = intent.getIntExtra(
+                DocumentScannerExtra.EXTRA_CROPPER_HANDLE_OUTLINE_COLOR,
+                buttonContainerColor
+            )
+            doneButtonTintColor = intent.getIntExtra(
+                DocumentScannerExtra.EXTRA_DONE_BUTTON_TINT_COLOR,
+                buttonTintColor
+            )
+            doneButtonContainerColor = intent.getIntExtra(
+                DocumentScannerExtra.EXTRA_DONE_BUTTON_CONTAINER_COLOR,
+                buttonContainerColor
+            )
             shouldApplyButtonColors = listOf(
                 DocumentScannerExtra.EXTRA_BUTTON_TINT_COLOR,
-                DocumentScannerExtra.EXTRA_BUTTON_CONTAINER_COLOR
+                DocumentScannerExtra.EXTRA_BUTTON_CONTAINER_COLOR,
+                DocumentScannerExtra.EXTRA_DONE_BUTTON_TINT_COLOR,
+                DocumentScannerExtra.EXTRA_DONE_BUTTON_CONTAINER_COLOR
             ).any(intent::hasExtra)
         } catch (exception: Exception) {
             finishIntentWithError(
@@ -221,9 +257,11 @@ class DocumentScannerActivity : AppCompatActivity() {
         )
         val retakePhotoButton: CircleButton = findViewById(R.id.retake_photo_button)
 
-        imageView.setCropperColors(
+        imageView.setCropperStyle(
             handleColor = cropperHandleColor,
-            frameColor = cropperFrameColor
+            frameColor = cropperFrameColor,
+            handleOutlineColor = cropperHandleOutlineColor,
+            strokeWidthDp = cropperStrokeWidthDp
         )
         if (shouldApplyButtonColors) {
             retakePhotoButton.setColors(
@@ -232,8 +270,8 @@ class DocumentScannerActivity : AppCompatActivity() {
             )
             completeDocumentScanButton.setColors(
                 ringColor = buttonContainerColor,
-                circleColor = buttonContainerColor,
-                iconColor = buttonTintColor
+                circleColor = doneButtonContainerColor,
+                iconColor = doneButtonTintColor
             )
             newPhotoButton.setColors(
                 containerColor = buttonContainerColor,

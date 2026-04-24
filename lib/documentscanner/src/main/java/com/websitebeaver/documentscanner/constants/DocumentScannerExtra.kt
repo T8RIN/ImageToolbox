@@ -26,8 +26,12 @@ class DocumentScannerExtra {
         const val EXTRA_LET_USER_ADJUST_CROP = "letUserAdjustCrop"
         const val EXTRA_MAX_NUM_DOCUMENTS = "maxNumDocuments"
         const val EXTRA_CROPPER_HANDLE_COLOR = "cropperHandleColor"
+        const val EXTRA_CROPPER_HANDLE_OUTLINE_COLOR = "cropperHandleOutlineColor"
         const val EXTRA_CROPPER_FRAME_COLOR = "cropperFrameColor"
+        const val EXTRA_CROPPER_STROKE_WIDTH_DP = "cropperStrokeWidthDp"
         const val EXTRA_BUTTON_TINT_COLOR = "buttonTintColor"
         const val EXTRA_BUTTON_CONTAINER_COLOR = "buttonContainerColor"
+        const val EXTRA_DONE_BUTTON_TINT_COLOR = "doneButtonTintColor"
+        const val EXTRA_DONE_BUTTON_CONTAINER_COLOR = "doneButtonContainerColor"
     }
 }

@@ -28,10 +28,10 @@
     <dimen name="grown_button_zoom">1.07</dimen>
     <dimen name="image_crop_view_initial_height">0dp</dimen>
     <dimen name="image_crop_view_vertical_padding">15.4dp</dimen>
-    <dimen name="large_button_diameter">75dp</dimen>
-    <dimen name="large_button_ring_thickness">2.91dp</dimen>
+    <dimen name="large_button_diameter">84dp</dimen>
+    <dimen name="large_button_ring_thickness">4dp</dimen>
     <dimen name="large_button_outer_ring_offset">8dp</dimen>
     <dimen name="small_button_corner_radius">16dp</dimen>
-    <dimen name="small_button_diameter">54.5dp</dimen>
+    <dimen name="small_button_diameter">52dp</dimen>
     <dimen name="small_button_ring_thickness">2dp</dimen>
 </resources>

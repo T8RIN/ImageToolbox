@@ -75,6 +75,11 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     private val cropperCornerStyle = Paint(Paint.ANTI_ALIAS_FLAG)
 
     /**
+     * @property cropperCornerOutlineStyle paint style for the outer ring around corner handles
+     */
+    private val cropperCornerOutlineStyle = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    /**
      * @property cropperSelectedCornerFillStyles when you tap and drag a cropper corner the circle
      * acts like a magnifying glass
      */
@@ -110,14 +115,20 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     private val imagePreviewMaxSizeInBytes = 100 * 1024 * 1024
 
     init {
+        val defaultCropperStrokeWidth = DefaultCropperStrokeWidthDp.dpToPx()
+
         // set cropper style
         cropperLineStyle.color = Color.WHITE
         cropperLineStyle.style = Paint.Style.STROKE
-        cropperLineStyle.strokeWidth = 3f
+        cropperLineStyle.strokeWidth = defaultCropperStrokeWidth
 
         cropperCornerStyle.color = Color.WHITE
         cropperCornerStyle.style = Paint.Style.STROKE
-        cropperCornerStyle.strokeWidth = 3f
+        cropperCornerStyle.strokeWidth = defaultCropperStrokeWidth
+
+        cropperCornerOutlineStyle.color = Color.argb(128, 255, 255, 255)
+        cropperCornerOutlineStyle.style = Paint.Style.STROKE
+        cropperCornerOutlineStyle.strokeWidth = defaultCropperStrokeWidth
     }
 
     /**
@@ -187,6 +198,26 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     fun setCropperColors(handleColor: Int, frameColor: Int) {
         cropperCornerStyle.color = handleColor
         cropperLineStyle.color = frameColor
+        invalidate()
+    }
+
+    /**
+     * Set cropper colors and line width from the app theme.
+     */
+    fun setCropperStyle(
+        handleColor: Int,
+        frameColor: Int,
+        handleOutlineColor: Int,
+        strokeWidthDp: Float
+    ) {
+        val strokeWidth = strokeWidthDp.dpToPx()
+
+        cropperCornerStyle.color = handleColor
+        cropperCornerOutlineStyle.color = handleOutlineColor
+        cropperLineStyle.color = frameColor
+        cropperCornerStyle.strokeWidth = strokeWidth
+        cropperCornerOutlineStyle.strokeWidth = strokeWidth
+        cropperLineStyle.strokeWidth = strokeWidth
         invalidate()
     }
 
@@ -303,6 +334,7 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
                 resources.getDimension(R.dimen.cropper_corner_radius),
                 cropperLineStyle,
                 cropperCornerStyle,
+                cropperCornerOutlineStyle,
                 cropperSelectedCornerFillStyles,
                 dragTarget?.corners ?: emptySet(),
                 imagePreviewBounds,
@@ -369,6 +401,8 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
         return true
     }
 
+    private fun Float.dpToPx(): Float = this * resources.displayMetrics.density
+
     private sealed class CropperDragTarget {
         data class Corner(val corner: QuadCorner) : CropperDragTarget()
         data class Edge(
@@ -405,6 +439,8 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     }
 
     private companion object {
+        private const val DefaultCropperStrokeWidthDp = 1.2f
+
         val cropperEdges = listOf(
             QuadCorner.TOP_LEFT to QuadCorner.TOP_RIGHT,
             QuadCorner.TOP_RIGHT to QuadCorner.BOTTOM_RIGHT,

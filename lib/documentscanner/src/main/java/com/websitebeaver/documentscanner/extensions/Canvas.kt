@@ -35,6 +35,7 @@ import com.websitebeaver.documentscanner.models.Quad
  * @param pointRadius corner circle radius
  * @param cropperLineStyle quad line style (color, thickness for example)
  * @param cropperCornerStyle quad corner style (color, thickness for example)
+ * @param cropperCornerOutlineStyle quad corner outer outline style
  * @param cropperSelectedCornerFillStyles style for selected corner
  * @param selectedCorners selected corners
  */
@@ -43,6 +44,7 @@ fun Canvas.drawQuad(
     pointRadius: Float,
     cropperLineStyle: Paint,
     cropperCornerStyle: Paint,
+    cropperCornerOutlineStyle: Paint,
     cropperSelectedCornerFillStyles: Paint,
     selectedCorners: Set<QuadCorner>,
     imagePreviewBounds: RectF,
@@ -50,26 +52,54 @@ fun Canvas.drawQuad(
     selectedCornerRadiusMagnification: Float,
     selectedCornerBackgroundMagnification: Float,
 ) {
+    fun drawEdges() {
+        for (edge: Line in quad.edges) {
+            drawLine(edge.from.x, edge.from.y, edge.to.x, edge.to.y, cropperLineStyle)
+        }
+    }
+
+    // draw connecting lines under the corner handles
+    drawEdges()
+
+    // draw selected corner magnifier fills first, then redraw edges so the frame is visible in zoom
+    for ((quadCorner: QuadCorner, cornerPoint: PointF) in quad.corners) {
+        if (quadCorner !in selectedCorners) continue
+
+        val circleRadius = selectedCornerRadiusMagnification * pointRadius
+        val matrix = Matrix()
+        matrix.postScale(ratio, ratio, ratio / cornerPoint.x, ratio / cornerPoint.y)
+        matrix.postTranslate(imagePreviewBounds.left, imagePreviewBounds.top)
+        matrix.postScale(
+            selectedCornerBackgroundMagnification,
+            selectedCornerBackgroundMagnification,
+            cornerPoint.x,
+            cornerPoint.y
+        )
+        cropperSelectedCornerFillStyles.shader.setLocalMatrix(matrix)
+        // fill selected corner circle with magnified image, so it's easier to crop
+        drawCircle(cornerPoint.x, cornerPoint.y, circleRadius, cropperSelectedCornerFillStyles)
+    }
+
+    if (selectedCorners.isNotEmpty()) {
+        drawEdges()
+    }
+
     // draw 4 corner points
     for ((quadCorner: QuadCorner, cornerPoint: PointF) in quad.corners) {
-        var circleRadius = pointRadius
-
-        if (quadCorner in selectedCorners) {
+        val circleRadius = if (quadCorner in selectedCorners) {
             // the cropper corner circle grows when you touch and drag it
-            circleRadius = selectedCornerRadiusMagnification * pointRadius
-            val matrix = Matrix()
-            matrix.postScale(ratio, ratio, ratio / cornerPoint.x, ratio / cornerPoint.y)
-            matrix.postTranslate(imagePreviewBounds.left, imagePreviewBounds.top)
-            matrix.postScale(
-                selectedCornerBackgroundMagnification,
-                selectedCornerBackgroundMagnification,
-                cornerPoint.x,
-                cornerPoint.y
-            )
-            cropperSelectedCornerFillStyles.shader.setLocalMatrix(matrix)
-            // fill selected corner circle with magnified image, so it's easier to crop
-            drawCircle(cornerPoint.x, cornerPoint.y, circleRadius, cropperSelectedCornerFillStyles)
+            selectedCornerRadiusMagnification * pointRadius
+        } else {
+            pointRadius
         }
+
+        // draw outer ring around corner circles
+        drawCircle(
+            cornerPoint.x,
+            cornerPoint.y,
+            circleRadius + cropperCornerOutlineStyle.strokeWidth,
+            cropperCornerOutlineStyle
+        )
 
         // draw corner circles
         drawCircle(
@@ -78,11 +108,6 @@ fun Canvas.drawQuad(
             circleRadius,
             cropperCornerStyle
         )
-    }
-
-    // draw 4 connecting lines
-    for (edge: Line in quad.edges) {
-        drawLine(edge.from.x, edge.from.y, edge.to.x, edge.to.y, cropperLineStyle)
     }
 }
 

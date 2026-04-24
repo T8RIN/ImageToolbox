@@ -42,9 +42,13 @@ import java.io.File
  * @param maxNumDocuments the maximum number of documents a user can scan at once
  * @param croppedImageQuality the 0 - 100 quality of the cropped image
  * @param cropperHandleColor color of cropper corner handles
+ * @param cropperHandleOutlineColor color of cropper corner outer outline
  * @param cropperFrameColor color of cropper frame lines
+ * @param cropperStrokeWidthDp width of cropper lines in dp
  * @param buttonTintColor color of scanner button icons
  * @param buttonContainerColor color of scanner button containers
+ * @param doneButtonTintColor color of finish button icon
+ * @param doneButtonContainerColor color of finish button inner circle
  * @constructor creates document scanner
  */
 class DocumentScanner(
@@ -57,9 +61,13 @@ class DocumentScanner(
     private var maxNumDocuments: Int? = null,
     private var croppedImageQuality: Int? = null,
     private val cropperHandleColor: Int? = null,
+    private val cropperHandleOutlineColor: Int? = null,
     private val cropperFrameColor: Int? = null,
+    private val cropperStrokeWidthDp: Float? = null,
     private val buttonTintColor: Int? = null,
-    private val buttonContainerColor: Int? = null
+    private val buttonContainerColor: Int? = null,
+    private val doneButtonTintColor: Int? = null,
+    private val doneButtonContainerColor: Int? = null
 ) {
     init {
         responseType = responseType ?: DefaultSetting.RESPONSE_TYPE
@@ -86,14 +94,35 @@ class DocumentScanner(
         cropperHandleColor?.let {
             documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_CROPPER_HANDLE_COLOR, it)
         }
+        cropperHandleOutlineColor?.let {
+            documentScanIntent.putExtra(
+                DocumentScannerExtra.EXTRA_CROPPER_HANDLE_OUTLINE_COLOR,
+                it
+            )
+        }
         cropperFrameColor?.let {
             documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_CROPPER_FRAME_COLOR, it)
+        }
+        cropperStrokeWidthDp?.let {
+            documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_CROPPER_STROKE_WIDTH_DP, it)
         }
         buttonTintColor?.let {
             documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_BUTTON_TINT_COLOR, it)
         }
         buttonContainerColor?.let {
             documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_BUTTON_CONTAINER_COLOR, it)
+        }
+        doneButtonTintColor?.let {
+            documentScanIntent.putExtra(
+                DocumentScannerExtra.EXTRA_DONE_BUTTON_TINT_COLOR,
+                it
+            )
+        }
+        doneButtonContainerColor?.let {
+            documentScanIntent.putExtra(
+                DocumentScannerExtra.EXTRA_DONE_BUTTON_CONTAINER_COLOR,
+                it
+            )
         }
 
         return documentScanIntent

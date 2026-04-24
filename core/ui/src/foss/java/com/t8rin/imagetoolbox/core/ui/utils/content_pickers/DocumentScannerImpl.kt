@@ -71,23 +71,34 @@ internal fun rememberDocumentScannerImpl(
     val context = LocalComponentActivity.current
     val colorScheme = MaterialTheme.colorScheme
     val cropperHandleColor = colorScheme.onPrimaryContainerFixed
-    val cropperFrameColor = colorScheme.onPrimaryContainerFixed.copy(alpha = 0.78f)
+    val cropperFrameColor = colorScheme.onPrimaryContainerFixed
     val buttonTintColor = colorScheme.onPrimaryContainerFixed
     val buttonContainerColor = colorScheme.primaryContainerFixed
+    val cropperStrokeWidthDp = 1.2f
+    val doneButtonTintColor = colorScheme.onPrimaryFixed
+    val doneButtonContainerColor = colorScheme.primaryFixed
 
     val scanner = remember(
         context,
         cropperHandleColor,
         cropperFrameColor,
         buttonTintColor,
-        buttonContainerColor
+        buttonContainerColor,
+        buttonContainerColor,
+        cropperStrokeWidthDp,
+        doneButtonTintColor,
+        doneButtonContainerColor
     ) {
         DocumentScannerDelegate(
             activity = context,
             cropperHandleColor = cropperHandleColor.toArgb(),
+            cropperHandleOutlineColor = buttonContainerColor.toArgb(),
             cropperFrameColor = cropperFrameColor.toArgb(),
+            cropperStrokeWidthDp = cropperStrokeWidthDp,
             buttonTintColor = buttonTintColor.toArgb(),
             buttonContainerColor = buttonContainerColor.toArgb(),
+            doneButtonTintColor = doneButtonTintColor.toArgb(),
+            doneButtonContainerColor = doneButtonContainerColor.toArgb(),
             successHandler = { imageUris ->
                 onSuccess(
                     ScanResult(imageUris.map { it.toUri() })
