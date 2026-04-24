@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -129,8 +130,13 @@ fun EnhancedIconButton(
                 ),
             shape = animatedShape,
             colors = IconButtonDefaults.iconButtonColors(
-                contentColor = contentColor,
-                containerColor = containerColor
+                contentColor = animateColorAsState(
+                    if (enabled) contentColor
+                    else contentColor.copy(alpha = DisabledAlpha)
+                ).value,
+                containerColor = animateColorAsState(
+                    if (enabled) containerColor else Color.Transparent
+                ).value
             ),
             enabled = enabled,
             border = BorderStroke(
