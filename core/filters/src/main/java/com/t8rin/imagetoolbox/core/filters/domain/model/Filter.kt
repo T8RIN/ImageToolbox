@@ -369,6 +369,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface CrtCurvature : TripleFloatFilter
     interface PixelMelt : PairFloatFilter
     interface Bloom : Filter<BloomParams>
+    interface Distortion : FloatFilter
 }
 
 interface SimpleFilter : Filter<Unit>

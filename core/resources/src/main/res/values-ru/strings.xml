@@ -2231,4 +2231,5 @@
     <string name="annotations">Аннотации</string>
     <string name="ungroup">Разгруппировать</string>
     <string name="add_shadow_sub">Добавьте размытую тень за слоем с настраиваемым цветом и смещениями.</string>
+    <string name="distortion_filter">Контентное искажение</string>
 </resources>
