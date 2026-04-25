@@ -36,8 +36,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.Redo
-import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -63,6 +61,8 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Redo
+import com.t8rin.imagetoolbox.core.resources.icons.Undo
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -181,7 +181,7 @@ fun EraseBackgroundContent(
             enabled = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty()
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Rounded.Undo,
+                imageVector = Icons.Rounded.Undo,
                 contentDescription = "Undo"
             )
         }
@@ -194,7 +194,7 @@ fun EraseBackgroundContent(
             enabled = component.undonePaths.isNotEmpty()
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Rounded.Redo,
+                imageVector = Icons.Rounded.Redo,
                 contentDescription = "Redo"
             )
         }

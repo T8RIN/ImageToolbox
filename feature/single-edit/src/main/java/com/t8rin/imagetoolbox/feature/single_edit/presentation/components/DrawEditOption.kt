@@ -40,8 +40,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.Redo
-import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -71,6 +69,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Redo
+import com.t8rin.imagetoolbox.core.resources.icons.Undo
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.EraseModeButton
@@ -183,7 +183,7 @@ fun DrawEditOption(
                     enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.Undo,
+                        imageVector = Icons.Rounded.Undo,
                         contentDescription = "Undo"
                     )
                 }
@@ -196,7 +196,7 @@ fun DrawEditOption(
                     enabled = undonePaths.isNotEmpty()
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.Redo,
+                        imageVector = Icons.Rounded.Redo,
                         contentDescription = "Redo"
                     )
                 }

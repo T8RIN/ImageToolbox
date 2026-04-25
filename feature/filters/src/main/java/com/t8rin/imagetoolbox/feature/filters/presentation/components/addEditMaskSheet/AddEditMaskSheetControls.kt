@@ -37,8 +37,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.Redo
-import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -62,6 +60,8 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Preview
+import com.t8rin.imagetoolbox.core.resources.icons.Redo
+import com.t8rin.imagetoolbox.core.resources.icons.Undo
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.EraseModeButton
@@ -132,7 +132,7 @@ internal fun AddEditMaskSheetControls(
             enabled = (component.lastPaths.isNotEmpty() || component.paths.isNotEmpty())
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Rounded.Undo,
+                imageVector = Icons.Rounded.Undo,
                 contentDescription = "Undo"
             )
         }
@@ -145,7 +145,7 @@ internal fun AddEditMaskSheetControls(
             enabled = component.undonePaths.isNotEmpty()
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Rounded.Redo,
+                imageVector = Icons.Rounded.Redo,
                 contentDescription = "Redo"
             )
         }
