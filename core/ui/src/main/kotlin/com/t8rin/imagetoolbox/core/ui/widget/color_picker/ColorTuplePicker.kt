@@ -31,7 +31,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -53,6 +52,7 @@ import com.t8rin.dynamic.theme.calculateTertiaryColor
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton

@@ -34,7 +34,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material.icons.outlined.ChangeHistory
 import androidx.compose.material.icons.outlined.ColorLens
-import androidx.compose.material.icons.outlined.FormatColorFill
 import androidx.compose.material.icons.outlined.LinearScale
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.Upcoming
@@ -53,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
+import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
 import com.t8rin.imagetoolbox.core.resources.icons.Line
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
@@ -232,7 +232,7 @@ fun SvgParamsSelector(
                     value.copy(isPaletteSampled = it)
                 )
             },
-            startIcon = Icons.Outlined.FormatColorFill,
+            startIcon = Icons.Rounded.FormatColorFill,
             modifier = Modifier.fillMaxWidth(),
             shape = ShapeDefaults.extraLarge
         )

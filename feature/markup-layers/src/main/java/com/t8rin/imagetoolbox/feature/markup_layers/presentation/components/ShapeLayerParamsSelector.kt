@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FormatColorFill
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
@@ -242,7 +242,7 @@ private fun ShapeAppearanceSection(
                     )
                 },
                 title = stringResource(R.string.fill_color),
-                icon = Icons.Outlined.FormatColorFill,
+                icon = Icons.Rounded.FormatColorFill,
                 allowAlpha = true,
                 modifier = Modifier.container(
                     shape = if (showStrokeWidth) ShapeDefaults.center else ShapeDefaults.bottom,

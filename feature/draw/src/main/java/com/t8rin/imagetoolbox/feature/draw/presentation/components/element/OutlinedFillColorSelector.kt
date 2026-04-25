@@ -19,13 +19,13 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components.element
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FormatColorFill
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -43,7 +43,7 @@ fun OutlinedFillColorSelector(
         onValueChange = onValueChange,
         onNullClick = { onValueChange(null) },
         title = stringResource(R.string.fill_color),
-        icon = Icons.Outlined.FormatColorFill,
+        icon = Icons.Rounded.FormatColorFill,
         allowAlpha = true,
         modifier = modifier
             .fillMaxWidth()
