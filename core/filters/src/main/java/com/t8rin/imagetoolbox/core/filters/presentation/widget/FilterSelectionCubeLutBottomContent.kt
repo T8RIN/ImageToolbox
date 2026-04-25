@@ -46,8 +46,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material.icons.rounded.Update
 import androidx.compose.material.icons.rounded.Visibility
@@ -82,6 +80,8 @@ import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCubeLutFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Search
+import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -267,7 +267,7 @@ internal fun FilterSelectionCubeLutBottomContent(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Search,
+                                    imageVector = Icons.Outlined.Search,
                                     contentDescription = stringResource(R.string.search_here)
                                 )
                             }
@@ -383,7 +383,7 @@ internal fun FilterSelectionCubeLutBottomContent(
                             )
                         )
                         Icon(
-                            imageVector = Icons.Rounded.SearchOff,
+                            imageVector = Icons.Outlined.SearchOff,
                             contentDescription = null,
                             modifier = Modifier
                                 .weight(2f)

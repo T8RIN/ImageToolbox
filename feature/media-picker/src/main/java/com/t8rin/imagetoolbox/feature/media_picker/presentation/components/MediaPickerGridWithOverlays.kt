@@ -51,8 +51,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.twotone.ImageNotSupported
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -78,6 +76,8 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Deselect
+import com.t8rin.imagetoolbox.core.resources.icons.Search
+import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.resources.icons.Verified
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
@@ -279,7 +279,7 @@ internal fun MediaPickerGridWithOverlays(
                     )
                 )
                 Icon(
-                    imageVector = Icons.Rounded.SearchOff,
+                    imageVector = Icons.Outlined.SearchOff,
                     contentDescription = null,
                     modifier = Modifier
                         .weight(2f)
@@ -418,7 +418,7 @@ internal fun MediaPickerGridWithOverlays(
                             pressedShape = MaterialStarShape
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Search,
+                                imageVector = Icons.Outlined.Search,
                                 contentDescription = null
                             )
                         }

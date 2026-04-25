@@ -47,8 +47,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryScrollableTabRow
@@ -81,6 +79,8 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterPreviewShee
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Search
+import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -323,7 +323,7 @@ fun AddFiltersSheet(
                                     )
                                 )
                                 Icon(
-                                    imageVector = Icons.Rounded.SearchOff,
+                                    imageVector = Icons.Outlined.SearchOff,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .weight(2f)
@@ -453,7 +453,7 @@ fun AddFiltersSheet(
                             containerColor = MaterialTheme.colorScheme.tertiaryContainer
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Search,
+                                imageVector = Icons.Outlined.Search,
                                 contentDescription = stringResource(R.string.search_here)
                             )
                         }

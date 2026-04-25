@@ -56,7 +56,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentPasteOff
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -79,6 +78,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
+import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
@@ -454,7 +454,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                         )
                     )
                     Icon(
-                        imageVector = Icons.Rounded.SearchOff,
+                        imageVector = Icons.Outlined.SearchOff,
                         contentDescription = null,
                         modifier = Modifier
                             .weight(2f)
