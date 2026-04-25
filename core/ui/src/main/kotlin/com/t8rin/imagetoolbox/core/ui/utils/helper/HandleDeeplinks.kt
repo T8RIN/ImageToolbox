@@ -21,6 +21,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
+import com.t8rin.imagetoolbox.core.domain.TEMPLATE_EXT
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Error
@@ -61,197 +62,221 @@ fun Intent?.handleDeeplinks(
     val clipData = intent.clipData
 
     runCatching {
-        fun String?.isMarkupProjectName(): Boolean {
-            val value = this?.lowercase().orEmpty()
-            return value.endsWith(".itp") || value.endsWith(".itp.zip")
-        }
+        fun String?.isEndsWith(ext: String): Boolean = this?.lowercase().orEmpty().endsWith(ext)
 
-        fun Uri?.isMarkupProject(): Boolean = this?.toString().isMarkupProjectName() ||
-                this?.filename().isMarkupProjectName()
+        fun Uri?.isMarkupProject(): Boolean = this?.toString().isEndsWith(".itp") ||
+                this?.filename().isEndsWith(".itp")
+
+        fun Uri?.isTemplate(): Boolean = this?.toString().isEndsWith(TEMPLATE_EXT) ||
+                this?.filename().isEndsWith(TEMPLATE_EXT)
 
         val startsWithImage = type?.startsWith("image/") == true
         val hasExtraFormats = clipData?.clipList()
             ?.any {
                 it.toString().endsWith(".jxl") ||
                         it.toString().endsWith(".qoi") ||
-                        it.toString().endsWith(".itp") ||
-                        it.toString().endsWith(".itp.zip")
+                        it.toString().endsWith(".itp")
             } == true
         val dataHasExtraFormats = data.toString().let {
-            it.endsWith(".jxl") || it.endsWith(".qoi") || it.endsWith(".itp") || it.endsWith(".itp.zip")
+            it.endsWith(".jxl") || it.endsWith(".qoi") || it.endsWith(".itp")
         }
 
-        if (data.isMarkupProject()) {
-            onNavigate(Screen.MarkupLayers(data))
-        } else if ((startsWithImage || hasExtraFormats || dataHasExtraFormats)) {
-            when (action) {
-                Intent.ACTION_VIEW -> {
-                    val uris =
-                        clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
+        when {
+            data.isTemplate() -> onHasExtraDataType(ExtraDataType.Template(data.toString()))
 
-                    if (isOpenEditInsteadOfPreview) {
-                        onGetUris(uris)
-                    } else {
-                        onNavigate(Screen.ImagePreview(uris))
-                    }
-                }
+            data.isMarkupProject() -> onNavigate(Screen.MarkupLayers(data))
 
-                Intent.ACTION_SEND -> {
-                    intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                        when (intent.getScreenExtra()) {
-                            is Screen.PickColorFromImage -> onNavigate(Screen.PickColorFromImage(it))
-                            is Screen.PaletteTools -> onNavigate(Screen.PaletteTools(it))
-                            else -> {
-                                if (type?.contains("gif") == true) {
-                                    onHasExtraDataType(ExtraDataType.Gif)
-                                }
-                                onGetUris(listOf(it))
-                            }
-                        }
-                    }
-                }
-
-                Intent.ACTION_SEND_MULTIPLE -> {
-                    intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
-                        if (type?.contains("gif") == true) {
-                            onHasExtraDataType(ExtraDataType.Gif)
-                            it.firstOrNull()?.let { uri ->
-                                onGetUris(listOf(uri))
-                            }
-                        } else onGetUris(it)
-                    }
-                }
-
-                Intent.ACTION_EDIT,
-                Intent.ACTION_INSERT,
-                Intent.ACTION_INSERT_OR_EDIT -> {
-                    val uris = clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
-                    if (type?.contains("gif") == true) {
-                        onHasExtraDataType(ExtraDataType.Gif)
-                    }
-                    onGetUris(uris)
-                }
-
-                else -> {
-                    data?.let {
-                        if (type?.contains("gif") == true) {
-                            onHasExtraDataType(ExtraDataType.Gif)
-                        }
-                        onGetUris(listOf(it))
-                    }
-                }
-            }
-        } else if (type != null) {
-            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-
-            if (text != null) {
-                onHasExtraDataType(ExtraDataType.Text(text))
-                onGetUris(listOf())
-            } else {
-                val isPdf = type.contains("pdf")
-                val isAudio = type.startsWith("audio/")
-
+            startsWithImage || hasExtraFormats || dataHasExtraFormats -> {
                 when (action) {
-                    Intent.ACTION_SEND_MULTIPLE -> {
-                        intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
-                            when {
-                                isAudio -> {
-                                    onHasExtraDataType(ExtraDataType.Audio)
-                                    onGetUris(it)
-                                }
+                    Intent.ACTION_VIEW -> {
+                        val uris =
+                            clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
 
-                                isPdf -> {
-                                    onHasExtraDataType(ExtraDataType.Pdf)
-                                    onGetUris(it)
-                                }
-
-                                else -> onNavigate(Screen.Zip(it))
-                            }
+                        if (isOpenEditInsteadOfPreview) {
+                            onGetUris(uris)
+                        } else {
+                            onNavigate(Screen.ImagePreview(uris))
                         }
                     }
 
                     Intent.ACTION_SEND -> {
                         intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                            if (it.isMarkupProject()) {
-                                onNavigate(Screen.MarkupLayers(it))
-                                return
-                            }
-                            if (it.toString().contains(BACKUP_FILE_EXT, true)) {
-                                onHasExtraDataType(ExtraDataType.Backup(it.toString()))
-                                return
-                            }
-                            when {
-                                isAudio -> onHasExtraDataType(ExtraDataType.Audio)
-                                isPdf -> onHasExtraDataType(ExtraDataType.Pdf)
-                                else -> onHasExtraDataType(ExtraDataType.File)
-                            }
+                            when (intent.getScreenExtra()) {
+                                is Screen.PickColorFromImage -> onNavigate(
+                                    Screen.PickColorFromImage(
+                                        it
+                                    )
+                                )
 
+                                is Screen.PaletteTools -> onNavigate(Screen.PaletteTools(it))
+                                else -> {
+                                    if (type?.contains("gif") == true) {
+                                        onHasExtraDataType(ExtraDataType.Gif)
+                                    }
+                                    onGetUris(listOf(it))
+                                }
+                            }
+                        }
+                    }
+
+                    Intent.ACTION_SEND_MULTIPLE -> {
+                        intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
+                            if (type?.contains("gif") == true) {
+                                onHasExtraDataType(ExtraDataType.Gif)
+                                it.firstOrNull()?.let { uri ->
+                                    onGetUris(listOf(uri))
+                                }
+                            } else onGetUris(it)
+                        }
+                    }
+
+                    Intent.ACTION_EDIT,
+                    Intent.ACTION_INSERT,
+                    Intent.ACTION_INSERT_OR_EDIT -> {
+                        val uris =
+                            clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
+                        if (type?.contains("gif") == true) {
+                            onHasExtraDataType(ExtraDataType.Gif)
+                        }
+                        onGetUris(uris)
+                    }
+
+                    else -> {
+                        data?.let {
+                            if (type?.contains("gif") == true) {
+                                onHasExtraDataType(ExtraDataType.Gif)
+                            }
                             onGetUris(listOf(it))
                         }
                     }
+                }
+            }
 
-                    Intent.ACTION_VIEW -> {
-                        val uris =
-                            clipData?.clipList() ?: data?.let { listOf(it) }
-                            ?: listOfNotNull(intent.parcelable<Uri>(Intent.EXTRA_STREAM))
+            type != null -> {
+                val text = intent.getStringExtra(Intent.EXTRA_TEXT)
 
-                        if (uris.size == 1) {
-                            val uri = uris.first()
+                if (text != null) {
+                    onHasExtraDataType(ExtraDataType.Text(text))
+                    onGetUris(listOf())
+                } else {
+                    val isPdf = type.contains("pdf")
+                    val isAudio = type.startsWith("audio/")
 
-                            if (uri.isMarkupProject()) {
-                                onNavigate(Screen.MarkupLayers(uri))
-                                return
+                    when (action) {
+                        Intent.ACTION_SEND_MULTIPLE -> {
+                            intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
+                                when {
+                                    isAudio -> {
+                                        onHasExtraDataType(ExtraDataType.Audio)
+                                        onGetUris(it)
+                                    }
+
+                                    isPdf -> {
+                                        onHasExtraDataType(ExtraDataType.Pdf)
+                                        onGetUris(it)
+                                    }
+
+                                    else -> onNavigate(Screen.Zip(it))
+                                }
                             }
+                        }
 
-                            if (uri.toString().contains(BACKUP_FILE_EXT, true)) {
-                                onHasExtraDataType(ExtraDataType.Backup(uri.toString()))
-                                return
-                            }
-
-                            when {
-                                isPdf -> {
-                                    onNavigate(Screen.PdfTools.Preview(uri))
+                        Intent.ACTION_SEND -> {
+                            intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                                if (it.isMarkupProject()) {
+                                    onNavigate(Screen.MarkupLayers(it))
                                     return
                                 }
 
-                                isAudio -> {
-                                    onHasExtraDataType(ExtraDataType.Audio)
+                                if (it.isTemplate()) {
+                                    onHasExtraDataType(ExtraDataType.Template(it.toString()))
+                                    return
                                 }
 
-                                else -> {
-                                    onHasExtraDataType(ExtraDataType.File)
+                                if (it.toString().contains(BACKUP_FILE_EXT, true)) {
+                                    onHasExtraDataType(ExtraDataType.Backup(it.toString()))
+                                    return
                                 }
+                                when {
+                                    isAudio -> onHasExtraDataType(ExtraDataType.Audio)
+                                    isPdf -> onHasExtraDataType(ExtraDataType.Pdf)
+                                    else -> onHasExtraDataType(ExtraDataType.File)
+                                }
+
+                                onGetUris(listOf(it))
                             }
-
-                            onGetUris(uris)
-                        } else if (uris.isNotEmpty()) {
-                            when {
-                                isPdf -> {
-                                    onHasExtraDataType(ExtraDataType.Pdf)
-                                    onGetUris(uris)
-                                }
-
-                                isAudio -> {
-                                    onHasExtraDataType(ExtraDataType.Audio)
-                                    onGetUris(uris)
-                                }
-
-                                else -> {
-                                    onNavigate(Screen.Zip(uris))
-                                }
-                            }
-                        } else {
-                            Unit
                         }
-                    }
 
-                    else -> null
-                } ?: AppToastHost.showToast(
-                    message = appContext.getString(R.string.unsupported_type, type),
-                    icon = Icons.Outlined.Error
-                )
+                        Intent.ACTION_VIEW -> {
+                            val uris =
+                                clipData?.clipList() ?: data?.let { listOf(it) }
+                                ?: listOfNotNull(intent.parcelable<Uri>(Intent.EXTRA_STREAM))
+
+                            if (uris.size == 1) {
+                                val uri = uris.first()
+
+                                if (uri.isMarkupProject()) {
+                                    onNavigate(Screen.MarkupLayers(uri))
+                                    return
+                                }
+
+                                if (uri.isTemplate()) {
+                                    onHasExtraDataType(ExtraDataType.Template(uri.toString()))
+                                    return
+                                }
+
+                                if (uri.toString().contains(BACKUP_FILE_EXT, true)) {
+                                    onHasExtraDataType(ExtraDataType.Backup(uri.toString()))
+                                    return
+                                }
+
+                                when {
+                                    isPdf -> {
+                                        onNavigate(Screen.PdfTools.Preview(uri))
+                                        return
+                                    }
+
+                                    isAudio -> {
+                                        onHasExtraDataType(ExtraDataType.Audio)
+                                    }
+
+                                    else -> {
+                                        onHasExtraDataType(ExtraDataType.File)
+                                    }
+                                }
+
+                                onGetUris(uris)
+                            } else if (uris.isNotEmpty()) {
+                                when {
+                                    isPdf -> {
+                                        onHasExtraDataType(ExtraDataType.Pdf)
+                                        onGetUris(uris)
+                                    }
+
+                                    isAudio -> {
+                                        onHasExtraDataType(ExtraDataType.Audio)
+                                        onGetUris(uris)
+                                    }
+
+                                    else -> {
+                                        onNavigate(Screen.Zip(uris))
+                                    }
+                                }
+                            } else {
+                                Unit
+                            }
+                        }
+
+                        else -> null
+                    } ?: AppToastHost.showToast(
+                        message = appContext.getString(R.string.unsupported_type, type),
+                        icon = Icons.Outlined.Error
+                    )
+                }
             }
-        } else Unit
+
+            else -> Unit
+        }
     }.getOrNull() ?: AppToastHost.showToast(
         message = appContext.getString(R.string.something_went_wrong),
         icon = Icons.Outlined.Error

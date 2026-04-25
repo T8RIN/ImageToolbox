@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.root.presentation.screenLogic
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -85,8 +86,8 @@ class RootComponent @AssistedInject internal constructor(
     private val childProvider: ChildProvider,
     private val analyticsManager: AnalyticsManager,
     private val client: HttpClient,
-    filterParamsInteractor: FilterParamsInteractor,
-    fileController: FileController,
+    private val filterParamsInteractor: FilterParamsInteractor,
+    private val fileController: FileController,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
     resourceManager: ResourceManager,
@@ -318,6 +319,30 @@ class RootComponent @AssistedInject internal constructor(
                         _backupRestoredEvents.trySend(false)
                     }
                 )
+            }
+            return
+        }
+
+        if (type is ExtraDataType.Template) {
+            componentScope.launch {
+                val content = fileController.readBytes(type.uri).toString(Charsets.UTF_8)
+
+                if (filterParamsInteractor.isValidTemplateFilter(content)) {
+                    filterParamsInteractor.addTemplateFilterFromString(
+                        string = content,
+                        onSuccess = { filterName, filtersCount ->
+                            AppToastHost.showToast(
+                                message = getString(
+                                    R.string.added_filter_template,
+                                    filterName,
+                                    filtersCount
+                                ),
+                                icon = Icons.Outlined.AutoFixHigh
+                            )
+                        },
+                        onFailure = {}
+                    )
+                }
             }
             return
         }

@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.toImageModel
 import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.PACKAGE_ALIAS
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.REAL_PACKAGE
 import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.toDatastoreString
 import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.toFiltersList
 import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.toTemplateFiltersList
@@ -59,7 +60,7 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
 ) : FilterParamsInteractor {
 
     override fun getFavoriteFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
-        prefs[FAVORITE_FILTERS]?.toFiltersList(false, context) ?: emptyList()
+        prefs[FAVORITE_FILTERS]?.toFiltersList(false) ?: emptyList()
     }
 
     override suspend fun toggleFavorite(filter: Filter<*>) {
@@ -67,7 +68,7 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
         if (currentFilters.filterIsInstance(filter::class.java).isEmpty()) {
             dataStore.edit { prefs ->
                 prefs[FAVORITE_FILTERS] =
-                    (listOf(filter) + currentFilters).toDatastoreString(context = context)
+                    (listOf(filter) + currentFilters).toDatastoreString()
             }
         } else {
             dataStore.edit { prefs ->
@@ -75,14 +76,14 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
                     .filter {
                         !it::class.java.isInstance(filter)
                     }
-                    .toDatastoreString(context = context)
+                    .toDatastoreString()
             }
         }
     }
 
     override fun getTemplateFilters(): Flow<List<TemplateFilter>> =
         dataStore.data.map { prefs ->
-            prefs[TEMPLATE_FILTERS]?.takeIf { it.isNotEmpty() }?.toTemplateFiltersList(context)
+            prefs[TEMPLATE_FILTERS]?.takeIf { it.isNotEmpty() }?.toTemplateFiltersList()
                 ?: emptyList()
         }
 
@@ -94,7 +95,7 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
         runSuspendCatching {
             if (isValidTemplateFilter(string)) {
                 runSuspendCatching {
-                    string.removePrefix(LINK_HEADER).toTemplateFiltersList(context).firstOrNull()
+                    string.removePrefix(LINK_HEADER).toTemplateFiltersList().firstOrNull()
                 }.getOrNull()?.let {
                     addTemplateFilter(it)
                     onSuccess(it.name, it.filters.size)
@@ -106,11 +107,11 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
     override fun isValidTemplateFilter(
         string: String,
     ): Boolean =
-        (context.applicationInfo.packageName in string || PACKAGE_ALIAS in string) && "Filter" in string && LINK_HEADER in string
+        (REAL_PACKAGE in string || PACKAGE_ALIAS in string) && "Filter" in string && LINK_HEADER in string
 
     override suspend fun reorderFavoriteFilters(newOrder: List<Filter<*>>) {
         dataStore.edit { prefs ->
-            prefs[FAVORITE_FILTERS] = newOrder.toDatastoreString(context = context)
+            prefs[FAVORITE_FILTERS] = newOrder.toDatastoreString()
         }
     }
 
@@ -167,13 +168,13 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
         dataStore.edit { prefs ->
             prefs[TEMPLATE_FILTERS] = currentFilters.filter {
                 convertTemplateFilterToString(it) != convertTemplateFilterToString(templateFilter)
-            }.toDatastoreString(context)
+            }.toDatastoreString()
         }
     }
 
     override suspend fun convertTemplateFilterToString(
         templateFilter: TemplateFilter,
-    ): String = "$LINK_HEADER${listOf(templateFilter).toDatastoreString(context)}"
+    ): String = "$LINK_HEADER${listOf(templateFilter).toDatastoreString()}"
 
     override suspend fun addTemplateFilter(templateFilter: TemplateFilter) {
         val currentFilters = getTemplateFilters().first()
@@ -185,7 +186,7 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
                     )
                 }
                 if (index != -1) filters else filters + templateFilter
-            }.toDatastoreString(context)
+            }.toDatastoreString()
         }
     }
 

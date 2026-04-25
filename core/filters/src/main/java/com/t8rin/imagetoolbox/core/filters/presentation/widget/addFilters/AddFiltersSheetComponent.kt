@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.imagetoolbox.core.domain.TEMPLATE_EXT
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -258,7 +259,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun createTemplateFilename(templateFilter: TemplateFilter): String {
-        return "template(${templateFilter.name})${timestamp()}.imtbx_template"
+        return "template(${templateFilter.name})${timestamp()}.${TEMPLATE_EXT}"
     }
 
     fun reorderFavoriteFilters(value: List<UiFilter<*>>) {

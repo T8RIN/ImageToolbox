@@ -24,5 +24,6 @@ sealed interface ExtraDataType {
     data object Audio : ExtraDataType
 
     data class Backup(val uri: String) : ExtraDataType
+    data class Template(val uri: String) : ExtraDataType
     data class Text(val text: String) : ExtraDataType
 }

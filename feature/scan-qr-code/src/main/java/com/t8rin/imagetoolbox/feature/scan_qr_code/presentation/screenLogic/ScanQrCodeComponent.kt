@@ -20,6 +20,8 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,12 +39,14 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.onResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.scan_qr_code.domain.ImageBarcodeReader
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.QrPreviewParams
 import dagger.assisted.Assisted
@@ -188,14 +192,21 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         }
     }
 
-    fun processFilterTemplateFromQrContent(
-        onSuccess: (filterName: String, filtersCount: Int) -> Unit
-    ) {
+    fun processFilterTemplateFromQrContent() {
         componentScope.launch {
             if (filterParamsInteractor.isValidTemplateFilter(params.content.raw)) {
                 filterParamsInteractor.addTemplateFilterFromString(
                     string = params.content.raw,
-                    onSuccess = onSuccess,
+                    onSuccess = { filterName, filtersCount ->
+                        AppToastHost.showToast(
+                            message = getString(
+                                R.string.added_filter_template,
+                                filterName,
+                                filtersCount
+                            ),
+                            icon = Icons.Outlined.AutoFixHigh
+                        )
+                    },
                     onFailure = {}
                 )
             }
@@ -214,6 +225,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     ) {
         componentScope.launch {
             syncReadBarcodeFromImage(image).onFailure(onFailure)
+            processFilterTemplateFromQrContent()
         }
     }
 

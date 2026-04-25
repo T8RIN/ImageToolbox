@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
-import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import kotlin.reflect.full.primaryConstructor
 
 internal fun List<Filter<*>>.toDatastoreString(
-    includeValue: Boolean = false,
-    context: Context
+    includeValue: Boolean = false
 ): String = joinToString(separator = FILTERS_SEPARATOR) { filter ->
     filter::class.qualifiedName!!.replace(
-        context.applicationInfo.packageName,
+        REAL_PACKAGE,
         PACKAGE_ALIAS
     ) + if (includeValue) {
         VALUE_SEPARATOR + filter.value.toPair()
@@ -38,8 +36,7 @@ internal fun List<Filter<*>>.toDatastoreString(
 
 @Suppress("UNCHECKED_CAST")
 internal fun String.toFiltersList(
-    includeValue: Boolean,
-    context: Context
+    includeValue: Boolean
 ): List<Filter<*>> = split(FILTERS_SEPARATOR).mapNotNull { line ->
     if (line.trim().isEmpty()) return@mapNotNull null
 
@@ -56,7 +53,7 @@ internal fun String.toFiltersList(
         val filterClass = Class.forName(
             name.replace(
                 PACKAGE_ALIAS,
-                context.applicationInfo.packageName
+                REAL_PACKAGE
             )
         ) as Class<Filter<*>>
         filterClass.kotlin.primaryConstructor?.run {
@@ -71,11 +68,11 @@ internal fun String.toFiltersList(
     }.getOrNull()
 }
 
-internal fun String.toTemplateFiltersList(context: Context): List<TemplateFilter> =
+internal fun String.toTemplateFiltersList(): List<TemplateFilter> =
     split(TEMPLATES_SEPARATOR).map {
         val splitData = it.split(TEMPLATE_CONTENT_SEPARATOR)
         val name = splitData[0]
-        val filters = splitData[1].toFiltersList(true, context)
+        val filters = splitData[1].toFiltersList(true)
 
         TemplateFilter(
             name = name,
@@ -83,9 +80,9 @@ internal fun String.toTemplateFiltersList(context: Context): List<TemplateFilter
         )
     }
 
-internal fun List<TemplateFilter>.toDatastoreString(context: Context): String =
+internal fun List<TemplateFilter>.toDatastoreString(): String =
     joinToString(separator = TEMPLATES_SEPARATOR) {
-        it.name + TEMPLATE_CONTENT_SEPARATOR + it.filters.toDatastoreString(true, context)
+        it.name + TEMPLATE_CONTENT_SEPARATOR + it.filters.toDatastoreString(true)
     }
 
 private const val FILTERS_SEPARATOR = ","
@@ -93,4 +90,5 @@ private const val TEMPLATES_SEPARATOR = "\\"
 private const val TEMPLATE_CONTENT_SEPARATOR = "+"
 private const val VALUE_SEPARATOR = ":"
 
+internal const val REAL_PACKAGE = "com.t8rin.imagetoolbox"
 internal const val PACKAGE_ALIAS = "^^"

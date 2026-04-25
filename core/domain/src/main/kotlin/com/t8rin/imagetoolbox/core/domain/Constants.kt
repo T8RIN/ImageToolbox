@@ -39,6 +39,7 @@ const val HF_BASE_URL = "https://huggingface.co/T8RIN/imagetoolbox-models/resolv
 
 const val GLOBAL_STORAGE_NAME = "image_resizer"
 const val BACKUP_FILE_EXT = "imtbx_backup"
+const val TEMPLATE_EXT = "imtbx_template"
 const val PDF = "pdf/"
 
 

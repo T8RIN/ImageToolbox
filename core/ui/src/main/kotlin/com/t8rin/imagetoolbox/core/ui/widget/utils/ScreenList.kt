@@ -325,6 +325,7 @@ internal fun List<Uri>.screenList(
         derivedStateOf {
             val baseScreens = when (extraDataType) {
                 is ExtraDataType.Backup -> filesAvailableScreens
+                is ExtraDataType.Template -> filesAvailableScreens
                 is ExtraDataType.Text -> textAvailableScreens
                 ExtraDataType.Audio -> audioAvailableScreens
                 ExtraDataType.File -> filesAvailableScreens

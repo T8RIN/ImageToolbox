@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -84,6 +83,7 @@ fun ScanQrCodeContent(
                 content = it
             )
         )
+        component.processFilterTemplateFromQrContent()
     }
 
     val isNotScannable = params.content.raw.isNotEmpty() && component.mayBeNotScannable
@@ -110,21 +110,6 @@ fun ScanQrCodeContent(
                 content = params.content.raw,
                 type = params.type
             )
-        )
-    }
-
-    LaunchedEffect(params.content) {
-        component.processFilterTemplateFromQrContent(
-            onSuccess = { filterName, filtersCount ->
-                AppToastHost.showToast(
-                    message = getString(
-                        R.string.added_filter_template,
-                        filterName,
-                        filtersCount
-                    ),
-                    icon = Icons.Outlined.AutoFixHigh
-                )
-            }
         )
     }
 
