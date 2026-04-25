@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.Extension
 import androidx.compose.material.icons.rounded.FilterHdr
 import androidx.compose.material.icons.rounded.Lightbulb
@@ -45,6 +44,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.simpleGr
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.Gradient

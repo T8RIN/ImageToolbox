@@ -22,7 +22,6 @@ package com.t8rin.imagetoolbox.core.settings.presentation.model
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
-import androidx.compose.material.icons.rounded.Info
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.R
@@ -37,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.FolderOpened
 import com.t8rin.imagetoolbox.core.resources.icons.Glyphs
 import com.t8rin.imagetoolbox.core.resources.icons.HardDrive
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
+import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.LabelPercent
 import com.t8rin.imagetoolbox.core.resources.icons.Mobile
 import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowDown

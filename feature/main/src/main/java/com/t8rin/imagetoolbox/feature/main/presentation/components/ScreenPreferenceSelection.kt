@@ -55,7 +55,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentPasteOff
-import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.BadgedBox
@@ -76,6 +75,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
@@ -275,7 +275,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                                             val icon by remember(isInFavorite) {
                                                                 derivedStateOf {
                                                                     if (isInFavorite) Icons.Rounded.BookmarkRemove
-                                                                    else Icons.Rounded.BookmarkBorder
+                                                                    else Icons.Outlined.Bookmark
                                                                 }
                                                             }
                                                             Icon(

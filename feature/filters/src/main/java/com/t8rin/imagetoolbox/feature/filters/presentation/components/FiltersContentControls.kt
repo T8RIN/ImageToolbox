@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -53,6 +52,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.AddFilterButton
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheet
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Texture
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
@@ -276,7 +276,7 @@ internal fun FiltersContentControls(
                                     )
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Rounded.Texture,
+                                        imageVector = Icons.Outlined.Texture,
                                         contentDescription = stringResource(R.string.add_mask)
                                     )
                                     Spacer(Modifier.width(8.dp))
@@ -293,7 +293,7 @@ internal fun FiltersContentControls(
                             )
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Texture,
+                                imageVector = Icons.Outlined.Texture,
                                 contentDescription = stringResource(R.string.add_mask)
                             )
                             Spacer(Modifier.width(8.dp))

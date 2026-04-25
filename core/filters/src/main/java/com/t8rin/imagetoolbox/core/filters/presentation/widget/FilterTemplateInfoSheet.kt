@@ -41,7 +41,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.rounded.FilePresent
-import androidx.compose.material.icons.rounded.QrCode
 import androidx.compose.material.icons.rounded.QrCode2
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
@@ -74,6 +73,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
+import com.t8rin.imagetoolbox.core.resources.icons.QrCode
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.capturable
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.rememberCaptureController
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
@@ -322,7 +322,7 @@ internal fun FilterTemplateInfoSheet(
                     PreferenceItem(
                         title = stringResource(R.string.as_qr_code),
                         shape = ShapeDefaults.top,
-                        startIcon = Icons.Rounded.QrCode,
+                        startIcon = Icons.Outlined.QrCode,
                         onClick = {
                             showShareDialog = false
                             scope.launch {

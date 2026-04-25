@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ import androidx.compose.material.icons.outlined.Business
 import androidx.compose.material.icons.outlined.Call
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Public
@@ -57,6 +56,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.icons.Prefix
 import com.t8rin.imagetoolbox.core.resources.icons.Suffix
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ContactPickerButton
@@ -206,7 +206,7 @@ private fun ColumnScope.UrlsEnterBlock(
                 updated[index] = it
                 onValueChange(value.copy(urls = updated))
             },
-            startIcon = Icons.Outlined.Link,
+            startIcon = Icons.Rounded.Link,
             label = "${stringResource(R.string.website)} ${index + 1}",
             onRemove = {
                 val updated = value.urls.toMutableList()

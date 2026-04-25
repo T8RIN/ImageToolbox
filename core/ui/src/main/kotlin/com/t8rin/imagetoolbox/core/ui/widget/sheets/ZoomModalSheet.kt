@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,6 +52,7 @@ import coil3.asDrawable
 import coil3.transform.Transformation
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ZoomIn
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -146,7 +146,10 @@ fun ZoomModalSheet(
                 modifier = Modifier.padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                TitleItem(text = stringResource(R.string.zoom), icon = Icons.Rounded.ZoomIn)
+                TitleItem(
+                    text = stringResource(R.string.zoom),
+                    icon = Icons.Outlined.ZoomIn
+                )
                 Spacer(Modifier.weight(1f))
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,

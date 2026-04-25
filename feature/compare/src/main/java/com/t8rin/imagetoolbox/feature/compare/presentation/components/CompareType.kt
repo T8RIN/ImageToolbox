@@ -19,13 +19,13 @@ package com.t8rin.imagetoolbox.feature.compare.presentation.components
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.TouchApp
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Compare
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
-import com.t8rin.imagetoolbox.core.resources.icons.Transparency
+import com.t8rin.imagetoolbox.core.resources.icons.Tonality
+import com.t8rin.imagetoolbox.core.resources.icons.TouchApp
+import com.t8rin.imagetoolbox.core.resources.icons.ZoomIn
 
 sealed class CompareType(
     val icon: ImageVector,
@@ -37,17 +37,17 @@ sealed class CompareType(
     )
 
     data object SideBySide : CompareType(
-        icon = Icons.Rounded.ZoomIn,
+        icon = Icons.Outlined.ZoomIn,
         title = R.string.side_by_side
     )
 
     data object Tap : CompareType(
-        icon = Icons.Rounded.TouchApp,
+        icon = Icons.Outlined.TouchApp,
         title = R.string.toggle_tap
     )
 
     data object Transparency : CompareType(
-        icon = Icons.Filled.Transparency,
+        icon = Icons.Outlined.Tonality,
         title = R.string.transparency
     )
 

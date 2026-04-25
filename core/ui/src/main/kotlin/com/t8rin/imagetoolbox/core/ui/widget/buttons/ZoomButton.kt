@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ZoomIn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 
 @Composable
@@ -44,7 +44,7 @@ fun ZoomButton(
             onClick = onClick
         ) {
             Icon(
-                imageVector = Icons.Rounded.ZoomIn,
+                imageVector = Icons.Outlined.ZoomIn,
                 contentDescription = stringResource(R.string.zoom)
             )
         }

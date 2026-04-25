@@ -27,8 +27,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -54,6 +52,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Info
+import com.t8rin.imagetoolbox.core.resources.icons.Slideshow
 import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -136,17 +136,15 @@ internal fun TemplateFilterSelectionItem(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Slideshow,
+                            imageVector = Icons.Outlined.Slideshow,
                             contentDescription = stringResource(R.string.image_preview),
-                            tint = if (isBitmapDark) StrongBlack
-                            else White,
+                            tint = if (isBitmapDark) StrongBlack else White,
                             modifier = Modifier.scale(1.2f)
                         )
                         Icon(
-                            imageVector = Icons.Rounded.Slideshow,
+                            imageVector = Icons.Outlined.Slideshow,
                             contentDescription = stringResource(R.string.image_preview),
-                            tint = if (isBitmapDark) White
-                            else StrongBlack
+                            tint = if (isBitmapDark) White else StrongBlack
                         )
                     }
                 }

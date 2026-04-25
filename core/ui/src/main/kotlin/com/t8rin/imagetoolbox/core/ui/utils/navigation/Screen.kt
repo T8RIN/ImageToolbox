@@ -25,7 +25,6 @@ import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Gif
-import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -37,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
+import com.t8rin.imagetoolbox.core.resources.icons.Texture
 import com.t8rin.imagetoolbox.core.resources.icons.Webp
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -151,7 +151,7 @@ sealed class Screen(
 
             val icon: ImageVector
                 get() = when (this) {
-                    is Masking -> Icons.Rounded.Texture
+                    is Masking -> Icons.Outlined.Texture
                     is Basic -> Icons.Outlined.AutoFixHigh
                 }
 

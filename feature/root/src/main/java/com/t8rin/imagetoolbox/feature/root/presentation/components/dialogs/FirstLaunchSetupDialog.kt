@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.SystemSecurityUpdate
 import androidx.compose.material.icons.rounded.Webhook
 import androidx.compose.material3.Icon
@@ -44,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Beta
+import com.t8rin.imagetoolbox.core.resources.icons.ReleaseAlert
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
@@ -123,7 +123,7 @@ internal fun FirstLaunchSetupDialog(
                         onClick = {
                             toggleShowUpdateDialog()
                         },
-                        startIcon = Icons.Rounded.NewReleases
+                        startIcon = Icons.Rounded.ReleaseAlert
                     )
                     if (!appContext.isInstalledFromPlayStore()) {
                         Spacer(Modifier.height(4.dp))

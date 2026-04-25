@@ -34,9 +34,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
-import androidx.compose.material.icons.rounded.Bookmark
-import androidx.compose.material.icons.rounded.BookmarkBorder
-import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -64,7 +61,9 @@ import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
+import com.t8rin.imagetoolbox.core.resources.icons.Slideshow
 import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -166,17 +165,15 @@ internal fun FilterSelectionItem(
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Slideshow,
+                                imageVector = Icons.Outlined.Slideshow,
                                 contentDescription = stringResource(R.string.image_preview),
-                                tint = if (isBitmapDark) StrongBlack
-                                else White,
+                                tint = if (isBitmapDark) StrongBlack else White,
                                 modifier = Modifier.scale(1.2f)
                             )
                             Icon(
-                                imageVector = Icons.Rounded.Slideshow,
+                                imageVector = Icons.Outlined.Slideshow,
                                 contentDescription = stringResource(R.string.image_preview),
-                                tint = if (isBitmapDark) White
-                                else StrongBlack
+                                tint = if (isBitmapDark) White else StrongBlack
                             )
                         }
                     }
@@ -212,7 +209,7 @@ internal fun FilterSelectionItem(
                             when {
                                 isFavPage && isInFavorite -> Icons.Rounded.BookmarkRemove
                                 isInFavorite -> Icons.Rounded.Bookmark
-                                else -> Icons.Rounded.BookmarkBorder
+                                else -> Icons.Outlined.Bookmark
                             }
                         }
                     }

@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.filters.presentation.components
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoFixHigh
-import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -28,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import com.t8rin.imagetoolbox.core.resources.icons.Texture
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -105,7 +105,7 @@ internal fun FiltersContentActionButtons(
 
                     is Screen.Filter.Type.Masking -> {
                         Icon(
-                            imageVector = Icons.Rounded.Texture,
+                            imageVector = Icons.Outlined.Texture,
                             contentDescription = null
                         )
                     }

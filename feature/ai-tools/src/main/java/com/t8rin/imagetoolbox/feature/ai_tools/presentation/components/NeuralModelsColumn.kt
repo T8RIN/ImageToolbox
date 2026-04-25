@@ -42,7 +42,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
-import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.DownloadForOffline
@@ -72,6 +71,7 @@ import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.FileImport
+import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -373,7 +373,7 @@ internal fun NeuralModelsColumn(
                             }
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.Link,
+                            imageVector = Icons.Rounded.Link,
                             contentDescription = "link",
                             modifier = Modifier
                                 .padding(16.dp)
@@ -498,7 +498,7 @@ internal fun NeuralModelsColumn(
                             }
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.Link,
+                            imageVector = Icons.Rounded.Link,
                             contentDescription = "link",
                             modifier = Modifier
                                 .padding(16.dp)

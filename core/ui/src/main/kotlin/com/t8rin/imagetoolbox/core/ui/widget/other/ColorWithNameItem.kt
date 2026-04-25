@@ -34,7 +34,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -58,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.colors.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
@@ -192,7 +192,7 @@ fun ColorWithNameItem(
                     imageVector = if (isFavorite) {
                         Icons.Rounded.BookmarkRemove
                     } else {
-                        Icons.Outlined.BookmarkBorder
+                        Icons.Outlined.Bookmark
                     },
                     contentDescription = stringResource(R.string.favorite),
                     tint = contentColor.copy(0.8f),

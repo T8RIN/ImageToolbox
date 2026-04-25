@@ -22,8 +22,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Bookmark
-import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
@@ -32,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedNavigationBarItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -63,7 +62,7 @@ internal fun MainNavigationBarForFavorites(
                     }
                 ) { selected ->
                     Icon(
-                        imageVector = if (selected) Icons.Rounded.Bookmark else Icons.Rounded.BookmarkBorder,
+                        imageVector = if (selected) Icons.Rounded.Bookmark else Icons.Outlined.Bookmark,
                         contentDescription = null
                     )
                 }

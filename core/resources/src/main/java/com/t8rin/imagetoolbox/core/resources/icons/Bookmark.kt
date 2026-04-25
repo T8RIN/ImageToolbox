@@ -24,46 +24,66 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.BookmarkRemove: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val Icons.Outlined.Bookmark: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "Rounded.BookmarkRemove",
+        name = "Outlined.Bookmark",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
         path(fill = SolidColor(Color.Black)) {
-            moveTo(640f, 280f)
-            quadToRelative(-17f, 0f, -28.5f, -11.5f)
-            reflectiveQuadTo(600f, 240f)
-            quadToRelative(0f, -17f, 11.5f, -28.5f)
-            reflectiveQuadTo(640f, 200f)
-            horizontalLineToRelative(160f)
-            quadToRelative(17f, 0f, 28.5f, 11.5f)
-            reflectiveQuadTo(840f, 240f)
-            quadToRelative(0f, 17f, -11.5f, 28.5f)
-            reflectiveQuadTo(800f, 280f)
-            lineTo(640f, 280f)
-            close()
-            moveTo(480f, 720f)
+            moveToRelative(480f, 720f)
             lineToRelative(-168f, 72f)
             quadToRelative(-40f, 17f, -76f, -6.5f)
             reflectiveQuadTo(200f, 719f)
             verticalLineToRelative(-519f)
             quadToRelative(0f, -33f, 23.5f, -56.5f)
             reflectiveQuadTo(280f, 120f)
-            horizontalLineToRelative(225f)
-            quadToRelative(18f, 0f, 27f, 16f)
-            reflectiveQuadToRelative(1f, 33f)
-            quadToRelative(-7f, 17f, -10f, 34f)
-            reflectiveQuadToRelative(-3f, 37f)
-            quadToRelative(0f, 72f, 45.5f, 127f)
-            reflectiveQuadTo(680f, 436f)
-            quadToRelative(12f, 2f, 21.5f, 2.5f)
-            reflectiveQuadToRelative(18.5f, 0.5f)
-            quadToRelative(17f, 0f, 28.5f, 10.5f)
-            reflectiveQuadTo(760f, 476f)
-            verticalLineToRelative(243f)
+            horizontalLineToRelative(400f)
+            quadToRelative(33f, 0f, 56.5f, 23.5f)
+            reflectiveQuadTo(760f, 200f)
+            verticalLineToRelative(519f)
+            quadToRelative(0f, 43f, -36f, 66.5f)
+            reflectiveQuadToRelative(-76f, 6.5f)
+            lineToRelative(-168f, -72f)
+            close()
+            moveTo(480f, 632f)
+            lineTo(680f, 718f)
+            verticalLineToRelative(-518f)
+            lineTo(280f, 200f)
+            verticalLineToRelative(518f)
+            lineToRelative(200f, -86f)
+            close()
+            moveTo(480f, 200f)
+            lineTo(280f, 200f)
+            horizontalLineToRelative(400f)
+            horizontalLineToRelative(-200f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.Rounded.Bookmark: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Rounded.Bookmark",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveToRelative(480f, 720f)
+            lineToRelative(-168f, 72f)
+            quadToRelative(-40f, 17f, -76f, -6.5f)
+            reflectiveQuadTo(200f, 719f)
+            verticalLineToRelative(-519f)
+            quadToRelative(0f, -33f, 23.5f, -56.5f)
+            reflectiveQuadTo(280f, 120f)
+            horizontalLineToRelative(400f)
+            quadToRelative(33f, 0f, 56.5f, 23.5f)
+            reflectiveQuadTo(760f, 200f)
+            verticalLineToRelative(519f)
             quadToRelative(0f, 43f, -36f, 66.5f)
             reflectiveQuadToRelative(-76f, 6.5f)
             lineToRelative(-168f, -72f)
