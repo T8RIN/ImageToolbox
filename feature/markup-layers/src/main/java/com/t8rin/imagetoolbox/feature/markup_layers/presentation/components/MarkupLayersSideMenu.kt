@@ -84,6 +84,7 @@ internal fun MarkupLayersSideMenu(
         ) {
             if (visible) {
                 BackHandler(onBack = onDismiss)
+
                 Box(
                     Modifier
                         .fillMaxSize()
