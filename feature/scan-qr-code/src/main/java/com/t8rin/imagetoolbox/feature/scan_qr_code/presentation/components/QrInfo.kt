@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import android.content.Intent
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.StickyNote2
 import androidx.compose.material.icons.automirrored.rounded.ShortText
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Business
@@ -34,7 +33,6 @@ import androidx.compose.material.icons.outlined.RecordVoiceOver
 import androidx.compose.material.icons.outlined.Start
 import androidx.compose.material.icons.outlined.Topic
 import androidx.compose.material.icons.rounded.AlternateEmail
-import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
@@ -45,10 +43,12 @@ import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.Latitude
 import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.icons.Longitude
+import com.t8rin.imagetoolbox.core.resources.icons.NoteSticky
 import com.t8rin.imagetoolbox.core.utils.getString
 import java.text.DateFormat
 
@@ -223,7 +223,7 @@ private fun smsQrInfo(
 ): QrInfo = qrInfoBuilder(qrType) {
     entry(
         InfoEntry(
-            icon = Icons.AutoMirrored.Outlined.StickyNote2,
+            icon = Icons.Outlined.NoteSticky,
             text = qrType.message.ifBlank { getString(R.string.not_specified) },
             canCopy = qrType.message.isNotBlank()
         )
@@ -243,7 +243,7 @@ private fun phoneQrInfo(
 ): QrInfo = qrInfoBuilder(qrType) {
     entry(
         InfoEntry(
-            icon = Icons.Rounded.Numbers,
+            icon = Icons.Rounded.HashTag,
             text = qrType.number.ifBlank { getString(R.string.not_specified) },
             canCopy = qrType.number.isNotBlank()
         )

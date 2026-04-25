@@ -35,7 +35,6 @@ import androidx.compose.material.icons.outlined.FileOpen
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
@@ -60,6 +59,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.isBase64
 import com.t8rin.imagetoolbox.core.domain.utils.trimToBase64
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
+import com.t8rin.imagetoolbox.core.resources.icons.CopyAll
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -177,7 +177,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                                 )
                             }
                         },
-                        icon = Icons.Rounded.CopyAll,
+                        icon = Icons.Outlined.CopyAll,
                         textRes = R.string.copy_base_64
                     )
 

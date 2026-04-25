@@ -24,10 +24,10 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipEntry
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.CopyAll
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.getString
 
@@ -51,7 +51,7 @@ object Clipboard {
     fun copy(
         uri: Uri,
         @StringRes message: Int = R.string.copied,
-        icon: ImageVector = Icons.Rounded.CopyAll
+        icon: ImageVector = Icons.Outlined.CopyAll
     ) {
         copy(
             clipEntry = uri.asClip(appContext),
@@ -70,7 +70,7 @@ object Clipboard {
     fun copy(
         text: CharSequence,
         @StringRes message: Int = R.string.copied,
-        icon: ImageVector = Icons.Rounded.CopyAll
+        icon: ImageVector = Icons.Outlined.CopyAll
     ) {
         copy(
             clipEntry = ClipEntry(text.toClipData()),

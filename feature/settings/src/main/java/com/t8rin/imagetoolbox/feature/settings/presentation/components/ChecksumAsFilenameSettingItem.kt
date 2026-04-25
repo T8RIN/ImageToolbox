@@ -21,7 +21,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
@@ -81,7 +81,7 @@ fun ChecksumAsFilenameSettingItem(
         title = stringResource(R.string.checksum_as_filename),
         subtitle = stringResource(R.string.checksum_as_filename_sub),
         checked = checkedState,
-        startIcon = Icons.Rounded.Tag,
+        startIcon = Icons.Rounded.HashTag,
         additionalContent = {
             AnimatedVisibility(
                 visible = checkedState,

@@ -25,7 +25,6 @@ import androidx.compose.material.icons.outlined.FilterBAndW
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
-import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material.icons.twotone.Album
 import androidx.compose.material.icons.twotone.AutoFixHigh
 import androidx.compose.material.icons.twotone.ColorLens
@@ -34,7 +33,6 @@ import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
 import androidx.compose.material.icons.twotone.Preview
-import androidx.compose.material.icons.twotone.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
@@ -60,6 +58,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.FileImage
 import com.t8rin.imagetoolbox.core.resources.icons.FindInPage
 import com.t8rin.imagetoolbox.core.resources.icons.FormatPaintVariant
+import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -279,7 +278,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is CollageMaker -> Icons.Outlined.Collage
     is MarkupLayers -> Icons.Outlined.Stacks
     is Base64Tools -> Icons.Outlined.Base64
-    is ChecksumTools -> Icons.Rounded.Tag
+    is ChecksumTools -> Icons.Rounded.HashTag
     is EditExif -> Icons.Outlined.ExifEdit
     is ImageCutter -> Icons.Outlined.ScissorsSmall
     is AudioCoverExtractor -> Icons.Outlined.Album
@@ -357,7 +356,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is CollageMaker -> Icons.TwoTone.Collage
     is MarkupLayers -> Icons.TwoTone.Stacks
     is Base64Tools -> Icons.TwoTone.Base64
-    is ChecksumTools -> Icons.TwoTone.Tag
+    is ChecksumTools -> Icons.Rounded.HashTag
     is EditExif -> Icons.TwoTone.ExifEdit
     is ImageCutter -> Icons.TwoTone.ScissorsSmall
     is AudioCoverExtractor -> Icons.TwoTone.Album

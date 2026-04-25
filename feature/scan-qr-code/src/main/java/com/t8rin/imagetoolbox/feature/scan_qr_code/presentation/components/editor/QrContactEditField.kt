@@ -43,7 +43,6 @@ import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.RecordVoiceOver
 import androidx.compose.material.icons.outlined.RemoveCircleOutline
 import androidx.compose.material.icons.outlined.SupervisedUserCircle
-import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -56,6 +55,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.icons.Prefix
 import com.t8rin.imagetoolbox.core.resources.icons.Suffix
@@ -325,7 +325,7 @@ private fun ColumnScope.PhonesEnterBlock(
                 updated[index] = phone.copy(number = it)
                 onValueChange(value.copy(phones = updated))
             },
-            startIcon = Icons.Rounded.Numbers,
+            startIcon = Icons.Rounded.HashTag,
             label = "${stringResource(R.string.phone)} ${index + 1}",
             onRemove = {
                 val updated = value.phones.toMutableList()
