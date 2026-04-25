@@ -50,7 +50,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
@@ -78,6 +77,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Deselect
+import com.t8rin.imagetoolbox.core.resources.icons.Verified
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -170,7 +171,7 @@ internal fun MediaPickerGridWithOverlays(
                             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             content = {
                                 Icon(
-                                    imageVector = Icons.Rounded.Close,
+                                    imageVector = Icons.Outlined.Deselect,
                                     contentDescription = stringResource(R.string.close)
                                 )
                             },
@@ -195,7 +196,7 @@ internal fun MediaPickerGridWithOverlays(
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Outlined.TaskAlt,
+                                        imageVector = Icons.Outlined.Verified,
                                         contentDescription = null
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
