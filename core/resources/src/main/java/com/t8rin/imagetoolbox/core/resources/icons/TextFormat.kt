@@ -32,7 +32,7 @@ val Icons.Rounded.TextFormat: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(240f, 760f)
             quadToRelative(-17f, 0f, -28.5f, -11.5f)
             reflectiveQuadTo(200f, 720f)

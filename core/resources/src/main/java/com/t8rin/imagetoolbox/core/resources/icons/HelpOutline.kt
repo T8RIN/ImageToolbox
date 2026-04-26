@@ -24,16 +24,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.AutoMirrored.Rounded.HelpOutline: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val Icons.Rounded.HelpOutline: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "AutoMirrored.Rounded.HelpOutline",
+        name = "Rounded.HelpOutline",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 24f,
         viewportHeight = 24f,
         autoMirror = true
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(11.95f, 18f)
             quadTo(12.475f, 18f, 12.837f, 17.638f)
             quadTo(13.2f, 17.275f, 13.2f, 16.75f)

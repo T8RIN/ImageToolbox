@@ -32,7 +32,7 @@ val Icons.Rounded.PlayCircle: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveToRelative(426f, 630f)
             lineToRelative(195f, -125f)
             quadToRelative(14f, -9f, 14f, -25f)

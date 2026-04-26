@@ -32,7 +32,7 @@ val Icons.Outlined.CreateNewFolder: ImageVector by lazy(LazyThreadSafetyMode.NON
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(160f, 800f)
             quadToRelative(-33f, 0f, -56.5f, -23.5f)
             reflectiveQuadTo(80f, 720f)

@@ -121,7 +121,7 @@ fun ImageTransformBar(
                 enabled = canRotate
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.RotateLeft,
+                    imageVector = Icons.Rounded.RotateLeft,
                     contentDescription = "Rotate Left"
                 )
             }
@@ -142,7 +142,7 @@ fun ImageTransformBar(
                 enabled = canRotate
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.RotateRight,
+                    imageVector = Icons.Rounded.RotateRight,
                     contentDescription = "Rotate Right"
                 )
             }

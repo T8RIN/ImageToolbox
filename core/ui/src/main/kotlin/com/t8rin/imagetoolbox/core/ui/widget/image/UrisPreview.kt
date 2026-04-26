@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -61,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.File
+import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
@@ -83,7 +83,7 @@ fun UrisPreview(
     isAddUrisVisible: Boolean = true,
     addUrisContent: @Composable BoxScope.(width: Dp) -> Unit = { width ->
         Icon(
-            imageVector = Icons.AutoMirrored.Rounded.NoteAdd,
+            imageVector = Icons.Rounded.NoteAdd,
             contentDescription = stringResource(R.string.add),
             modifier = Modifier.size(width / 3f)
         )

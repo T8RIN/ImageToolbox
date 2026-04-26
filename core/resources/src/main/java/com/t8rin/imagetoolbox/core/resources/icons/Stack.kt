@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ val Icons.Outlined.Stack: ImageVector by lazy {
         name = "Stack", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
         viewportWidth = 960f, viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 560f)
             lineTo(40f, 320f)
             lineTo(480f, 80f)
@@ -76,7 +76,7 @@ val Icons.TwoTone.Stack: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 18f)
             lineToRelative(-10.425f, -5.675f)
             lineToRelative(2.1f, -1.15f)
@@ -86,7 +86,7 @@ val Icons.TwoTone.Stack: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(-10.425f, 5.675f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 22f)
             lineToRelative(-10.425f, -5.675f)
             lineToRelative(2.1f, -1.15f)
@@ -97,7 +97,7 @@ val Icons.TwoTone.Stack: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -108,14 +108,14 @@ val Icons.TwoTone.Stack: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(6.825f, 3.725f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 8f)
             lineToRelative(0f, 0f)
             lineToRelative(0f, 0f)
             lineToRelative(0f, 0f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 2f)
             lineTo(1f, 8f)
             lineToRelative(11f, 6f)

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ val Icons.Outlined.Exif: ImageVector by lazy {
         viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -61,7 +61,7 @@ val Icons.Outlined.Exif: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -72,7 +72,7 @@ val Icons.Outlined.Exif: ImageVector by lazy {
             reflectiveCurveTo(5.766f, 4.65f, 6.4701f, 4.65f)
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -83,7 +83,7 @@ val Icons.Outlined.Exif: ImageVector by lazy {
             lineToRelative(-3.0977f, 3.0977f)
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -100,7 +100,7 @@ val Icons.Outlined.Exif: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -125,7 +125,7 @@ val Icons.Outlined.Exif: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -153,7 +153,7 @@ val Icons.Rounded.Exif: ImageVector by lazy {
             24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -241,7 +241,7 @@ val Icons.TwoTone.Exif: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(22.37f, 11.58f)
             lineTo(12.92f, 2.13f)
             curveToRelative(-0.42f, -0.42f, -0.945f, -0.63f, -1.47f, -0.63f)
@@ -265,7 +265,7 @@ val Icons.TwoTone.Exif: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -277,21 +277,21 @@ val Icons.TwoTone.Exif: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(-7.35f, 7.35f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(6.47f, 4.65f)
             curveToRelative(0.704f, 0f, 1.32f, 0.616f, 1.32f, 1.32f)
             reflectiveCurveToRelative(-0.616f, 1.32f, -1.32f, 1.32f)
             reflectiveCurveToRelative(-1.32f, -0.616f, -1.32f, -1.32f)
             reflectiveCurveToRelative(0.616f, -1.32f, 1.32f, -1.32f)
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12.233f, 14.804f)
             lineToRelative(-0.774f, -0.774f)
             lineToRelative(3.098f, -3.098f)
             lineToRelative(0.774f, 0.774f)
             lineToRelative(-3.098f, 3.098f)
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(16.88f, 14.804f)
             lineToRelative(-0.774f, -0.774f)
             lineToRelative(-0.516f, 0.516f)
@@ -305,7 +305,7 @@ val Icons.TwoTone.Exif: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(-0.775f, 0.774f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(10.231f, 8.156f)
             lineToRelative(0.774f, 0.774f)
             lineToRelative(0.774f, -0.774f)
@@ -327,7 +327,7 @@ val Icons.TwoTone.Exif: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(0.258f, -0.258f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12.243f, 8.599f)
             lineToRelative(-0.935f, 2.182f)
             lineToRelative(-2.182f, 0.935f)

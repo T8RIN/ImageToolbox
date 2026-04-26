@@ -32,7 +32,7 @@ val Icons.Rounded.DataSaverOff: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 22f)
             quadTo(9.925f, 22f, 8.1f, 21.212f)
             quadTo(6.275f, 20.425f, 4.925f, 19.075f)

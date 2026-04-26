@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ val Icons.Outlined.NeonBrush: ImageVector by lazy {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19.443f, 6.414f)
             lineToRelative(-1.858f, -1.858f)
             curveToRelative(-0.354f, -0.354f, -0.774f, -0.531f, -1.261f, -0.531f)
@@ -55,8 +55,8 @@ val Icons.Outlined.NeonBrush: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
-            stroke = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
+            stroke = SolidColor(Color.Black),
             strokeAlpha = 0.3f,
             strokeLineWidth = 6f
         ) {

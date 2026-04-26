@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ val Icons.Rounded.ImageCombine: ImageVector by lazy {
         viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -162,7 +162,7 @@ val Icons.TwoTone.ImageCombine: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportHeight = 24f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -177,7 +177,7 @@ val Icons.TwoTone.ImageCombine: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             arcTo(2.075f, 2.075f, 0f, isMoreThanHalf = false, isPositiveArc = true, 5.075f, 3f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(4f, 9f)
             curveToRelative(-0.283f, 0f, -0.521f, -0.096f, -0.712f, -0.287f)
             curveToRelative(-0.192f, -0.192f, -0.287f, -0.429f, -0.287f, -0.712f)

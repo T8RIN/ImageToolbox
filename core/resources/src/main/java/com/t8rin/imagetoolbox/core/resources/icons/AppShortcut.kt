@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ val Icons.Outlined.AppShortcut: ImageVector by lazy {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(280f, 800f)
             lineTo(280f, 840f)
             quadTo(280f, 840f, 280f, 840f)
@@ -140,7 +140,7 @@ val Icons.Rounded.AppShortcut: ImageVector by lazy {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(686f, 520f)
             lineTo(480f, 520f)
             quadTo(480f, 520f, 480f, 520f)

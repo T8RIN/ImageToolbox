@@ -32,7 +32,7 @@ val Icons.Rounded.Webhook: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(280f, 840f)
             quadToRelative(-83f, 0f, -141.5f, -58.5f)
             reflectiveQuadTo(80f, 640f)

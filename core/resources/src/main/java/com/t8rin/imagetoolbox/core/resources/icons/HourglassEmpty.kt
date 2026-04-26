@@ -32,7 +32,7 @@ val Icons.Rounded.HourglassEmpty: ImageVector by lazy(LazyThreadSafetyMode.NONE)
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(320f, 800f)
             horizontalLineToRelative(320f)
             verticalLineToRelative(-120f)

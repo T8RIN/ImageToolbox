@@ -32,7 +32,7 @@ val Icons.Outlined.RecordVoiceOver: ImageVector by lazy(LazyThreadSafetyMode.NON
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(920f, 360f)
             quadToRelative(0f, 69f, -24.5f, 131.5f)
             reflectiveQuadTo(829f, 605f)

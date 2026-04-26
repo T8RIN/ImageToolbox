@@ -32,7 +32,7 @@ val Icons.Outlined.Description: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(360f, 720f)
             horizontalLineToRelative(240f)
             quadToRelative(17f, 0f, 28.5f, -11.5f)
@@ -102,7 +102,7 @@ val Icons.Rounded.Description: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(360f, 720f)
             horizontalLineToRelative(240f)
             quadToRelative(17f, 0f, 28.5f, -11.5f)

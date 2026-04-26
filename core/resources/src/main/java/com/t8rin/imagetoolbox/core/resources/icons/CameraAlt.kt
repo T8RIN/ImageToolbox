@@ -32,7 +32,7 @@ val Icons.Outlined.CameraAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 17.5f)
             quadTo(13.875f, 17.5f, 15.188f, 16.188f)
             quadTo(16.5f, 14.875f, 16.5f, 13f)
@@ -114,7 +114,7 @@ val Icons.Rounded.CameraAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 17.5f)
             quadTo(13.875f, 17.5f, 15.188f, 16.188f)
             quadTo(16.5f, 14.875f, 16.5f, 13f)

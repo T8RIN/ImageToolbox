@@ -32,7 +32,7 @@ val Icons.Outlined.Phone: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19.95f, 21f)
             quadTo(16.825f, 21f, 13.775f, 19.638f)
             quadTo(10.725f, 18.275f, 8.225f, 15.775f)
@@ -118,7 +118,7 @@ val Icons.Rounded.Phone: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19.95f, 21f)
             quadTo(16.825f, 21f, 13.775f, 19.638f)
             quadTo(10.725f, 18.275f, 8.225f, 15.775f)

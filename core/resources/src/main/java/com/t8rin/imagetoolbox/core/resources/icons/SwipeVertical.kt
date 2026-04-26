@@ -32,7 +32,7 @@ val Icons.Outlined.SwipeVertical: ImageVector by lazy(LazyThreadSafetyMode.NONE)
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(161f, 820f)
             quadToRelative(-59f, -72f, -90f, -159f)
             reflectiveQuadTo(40f, 480f)

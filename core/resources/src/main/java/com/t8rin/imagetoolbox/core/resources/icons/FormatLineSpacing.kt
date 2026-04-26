@@ -32,7 +32,7 @@ val Icons.Rounded.FormatLineSpacing: ImageVector by lazy(LazyThreadSafetyMode.NO
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveToRelative(200f, 314f)
             lineToRelative(-36f, 35f)
             quadToRelative(-11f, 11f, -27.5f, 11f)

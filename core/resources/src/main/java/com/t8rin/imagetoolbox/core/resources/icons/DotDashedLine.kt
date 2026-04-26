@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ val Icons.Rounded.DotDashedLine: ImageVector by lazy {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(9.877f, 16.243f)
             lineToRelative(-2.828f, 2.828f)
             curveToRelative(-0.585f, 0.585f, -1.534f, 0.585f, -2.119f, 0f)
@@ -44,7 +44,7 @@ val Icons.Rounded.DotDashedLine: ImageVector by lazy {
             curveTo(10.462f, 14.708f, 10.462f, 15.657f, 9.877f, 16.243f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19.071f, 7.049f)
             lineToRelative(-2.83f, 2.83f)
             curveToRelative(-0.585f, 0.585f, -1.534f, 0.585f, -2.119f, 0f)
@@ -56,7 +56,7 @@ val Icons.Rounded.DotDashedLine: ImageVector by lazy {
             curveTo(19.656f, 5.515f, 19.656f, 6.464f, 19.071f, 7.049f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(13.06f, 13.06f)
             lineToRelative(-0f, 0f)
             curveToRelative(-0.585f, 0.585f, -1.534f, 0.585f, -2.119f, 0f)

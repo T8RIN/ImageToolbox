@@ -32,7 +32,7 @@ val Icons.Rounded.CalendarMonth: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(200f, 880f)
             quadToRelative(-33f, 0f, -56.5f, -23.5f)
             reflectiveQuadTo(120f, 800f)

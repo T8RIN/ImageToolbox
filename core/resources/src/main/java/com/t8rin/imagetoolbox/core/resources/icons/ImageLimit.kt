@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ val Icons.Outlined.ImageLimit: ImageVector by lazy {
         viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -48,7 +48,7 @@ val Icons.Outlined.ImageLimit: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -101,7 +101,7 @@ val Icons.TwoTone.ImageLimit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(7.67f, 15.289f)
             horizontalLineToRelative(8.66f)
             lineToRelative(-2.706f, -3.608f)
@@ -110,7 +110,7 @@ val Icons.TwoTone.ImageLimit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(-2.165f, 2.887f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 3.114f)
             curveTo(6.477f, 3.114f, 2f, 7.591f, 2f, 13.114f)
             curveToRelative(0f, 3.117f, 1.44f, 5.885f, 3.676f, 7.719f)
@@ -150,7 +150,7 @@ val Icons.TwoTone.ImageLimit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {

@@ -65,7 +65,7 @@ fun PagerScrollPanel(
             containerColor = MaterialTheme.colorScheme.surface
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Rounded.ArrowBackIos,
+                imageVector = Icons.Rounded.ArrowBackIos,
                 contentDescription = null,
                 modifier = Modifier.size(20.dp)
             )
@@ -90,7 +90,7 @@ fun PagerScrollPanel(
             containerColor = MaterialTheme.colorScheme.surface
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Rounded.ArrowForwardIos,
+                imageVector = Icons.Rounded.ArrowForwardIos,
                 contentDescription = null,
                 modifier = Modifier.size(20.dp)
             )

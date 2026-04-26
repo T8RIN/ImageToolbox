@@ -24,16 +24,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.AutoMirrored.Rounded.DirectionsWalk: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val Icons.Rounded.DirectionsWalk: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "AutoMirrored.Rounded.DirectionsWalk",
+        name = "Rounded.DirectionsWalk",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,
         viewportHeight = 960f,
         autoMirror = true
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(436f, 596f)
             lineTo(371f, 888f)
             quadToRelative(-3f, 14f, -14.5f, 23f)

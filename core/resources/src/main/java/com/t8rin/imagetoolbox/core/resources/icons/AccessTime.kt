@@ -32,7 +32,7 @@ val Icons.Outlined.AccessTime: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(13f, 11.6f)
             verticalLineTo(8f)
             quadTo(13f, 7.575f, 12.712f, 7.287f)

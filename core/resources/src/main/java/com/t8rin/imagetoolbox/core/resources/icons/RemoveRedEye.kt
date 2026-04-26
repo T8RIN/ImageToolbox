@@ -32,7 +32,7 @@ val Icons.Outlined.RemoveRedEye: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 16f)
             quadTo(13.875f, 16f, 15.188f, 14.688f)
             quadTo(16.5f, 13.375f, 16.5f, 11.5f)
@@ -103,7 +103,7 @@ val Icons.Rounded.RemoveRedEye: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 16f)
             quadTo(13.875f, 16f, 15.188f, 14.688f)
             quadTo(16.5f, 13.375f, 16.5f, 11.5f)

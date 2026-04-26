@@ -32,7 +32,7 @@ val Icons.Outlined.FormatShapes: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveToRelative(327f, 599f)
             lineToRelative(114f, -300f)
             quadToRelative(3f, -9f, 11f, -14f)

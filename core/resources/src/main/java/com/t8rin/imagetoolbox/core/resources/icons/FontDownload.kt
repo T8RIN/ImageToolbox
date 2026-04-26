@@ -32,7 +32,7 @@ val Icons.Rounded.FontDownload: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(384f, 598f)
             horizontalLineToRelative(192f)
             lineToRelative(35f, 97f)

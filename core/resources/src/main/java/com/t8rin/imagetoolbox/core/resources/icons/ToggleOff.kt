@@ -32,7 +32,7 @@ val Icons.Outlined.ToggleOff: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(280f, 720f)
             quadToRelative(-100f, 0f, -170f, -70f)
             reflectiveQuadTo(40f, 480f)

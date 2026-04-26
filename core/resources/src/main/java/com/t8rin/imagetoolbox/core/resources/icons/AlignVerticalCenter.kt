@@ -32,7 +32,7 @@ val Icons.Rounded.AlignVerticalCenter: ImageVector by lazy(LazyThreadSafetyMode.
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(340f, 840f)
             quadToRelative(-25f, 0f, -42.5f, -17.5f)
             reflectiveQuadTo(280f, 780f)

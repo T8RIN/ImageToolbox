@@ -32,7 +32,7 @@ val Icons.Rounded.Business: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(2f, 19f)
             verticalLineTo(5f)
             quadTo(2f, 4.175f, 2.588f, 3.588f)

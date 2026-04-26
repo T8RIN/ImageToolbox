@@ -32,7 +32,7 @@ val Icons.Rounded.RestartAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(393f, 828f)
             quadToRelative(-103f, -29f, -168f, -113.5f)
             reflectiveQuadTo(160f, 520f)

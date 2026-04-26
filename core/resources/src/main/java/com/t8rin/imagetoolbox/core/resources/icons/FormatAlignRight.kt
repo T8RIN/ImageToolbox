@@ -24,16 +24,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.AutoMirrored.Rounded.FormatAlignRight: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val Icons.Rounded.FormatAlignRight: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "AutoMirrored.Rounded.FormatAlignRight",
+        name = "Rounded.FormatAlignRight",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,
         viewportHeight = 960f,
         autoMirror = true
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(160f, 200f)
             quadToRelative(-17f, 0f, -28.5f, -11.5f)
             reflectiveQuadTo(120f, 160f)

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ val Icons.Rounded.Webp: ImageVector by lazy {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(4.115f, 14.781f)
             curveTo(3.499f, 14.781f, 3f, 14.282f, 3f, 13.666f)
             verticalLineTo(9.207f)
@@ -50,7 +50,7 @@ val Icons.Rounded.Webp: ImageVector by lazy {
             horizontalLineTo(4.115f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(9.372f, 9.202f)
             verticalLineToRelative(5.574f)
             horizontalLineToRelative(3.344f)
@@ -66,7 +66,7 @@ val Icons.Rounded.Webp: ImageVector by lazy {
             horizontalLineTo(9.372f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(16.858f, 11.158f)
             verticalLineToRelative(-0.836f)
             curveToRelative(0f, -0.616f, -0.499f, -1.115f, -1.115f, -1.115f)
@@ -89,7 +89,7 @@ val Icons.Rounded.Webp: ImageVector by lazy {
             verticalLineTo(11.437f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(17.656f, 9.207f)
             verticalLineToRelative(5.574f)
             horizontalLineToRelative(1.115f)

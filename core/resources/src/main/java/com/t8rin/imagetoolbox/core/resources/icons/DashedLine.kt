@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ val Icons.Rounded.DashedLine: ImageVector by lazy {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(11.291f, 14.828f)
             lineToRelative(-4.242f, 4.242f)
             curveToRelative(-0.585f, 0.585f, -1.534f, 0.585f, -2.119f, 0f)
@@ -45,7 +45,7 @@ val Icons.Rounded.DashedLine: ImageVector by lazy {
             curveTo(11.877f, 13.294f, 11.877f, 14.243f, 11.291f, 14.828f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19.071f, 7.049f)
             lineToRelative(-4.242f, 4.242f)
             curveToRelative(-0.585f, 0.585f, -1.534f, 0.585f, -2.119f, 0f)

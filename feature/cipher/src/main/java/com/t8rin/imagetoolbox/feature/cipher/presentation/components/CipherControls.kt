@@ -125,7 +125,7 @@ internal fun CipherControls(component: CipherComponent) {
                 onClick = component::showTip
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.HelpOutline,
+                    imageVector = Icons.Rounded.HelpOutline,
                     contentDescription = "Info"
                 )
             }

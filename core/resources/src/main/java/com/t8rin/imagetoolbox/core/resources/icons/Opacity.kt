@@ -32,7 +32,7 @@ val Icons.Rounded.Opacity: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 840f)
             quadToRelative(-133f, 0f, -226.5f, -92f)
             reflectiveQuadTo(160f, 524f)

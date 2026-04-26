@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ val Icons.Rounded.StampedLine: ImageVector by lazy {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(7.427f, 17.754f)
             curveToRelative(0.116f, 0.124f, 0.118f, 0.317f, 0.003f, 0.443f)
             lineToRelative(0f, 0f)
@@ -84,7 +84,7 @@ val Icons.Rounded.StampedLine: ImageVector by lazy {
             lineTo(7.427f, 17.754f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(18.015f, 4.515f)
             curveToRelative(-0.022f, -0.011f, -0.048f, -0.011f, -0.07f, 0.002f)
             curveToRelative(-0.123f, 0.071f, -0.537f, 0.306f, -0.629f, 0.306f)
@@ -112,7 +112,7 @@ val Icons.Rounded.StampedLine: ImageVector by lazy {
             curveTo(18.667f, 4.852f, 18.155f, 4.588f, 18.015f, 4.515f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(7.424f, 15.775f)
             curveToRelative(0f, 0.399f, 0.321f, 0.722f, 0.717f, 0.722f)
             curveToRelative(0.108f, 0f, 0.21f, -0.024f, 0.302f, -0.067f)
@@ -144,7 +144,7 @@ val Icons.Rounded.StampedLine: ImageVector by lazy {
             horizontalLineTo(7.424f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(12f, 10.5f)
             curveToRelative(-0.828f, 0f, -1.5f, 0.672f, -1.5f, 1.5f)
             curveToRelative(0f, 0.014f, 0f, 0.029f, 0.001f, 0.043f)
@@ -158,7 +158,7 @@ val Icons.Rounded.StampedLine: ImageVector by lazy {
             reflectiveCurveTo(12.828f, 10.5f, 12f, 10.5f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(16.132f, 10.14f)
             curveToRelative(0f, 0f, -0.096f, -0.124f, 0f, -0.301f)
             curveToRelative(0.599f, -0.999f, 0.285f, -2.17f, 0.285f, -2.17f)

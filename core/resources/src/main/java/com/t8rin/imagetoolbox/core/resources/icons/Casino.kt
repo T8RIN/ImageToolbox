@@ -32,7 +32,7 @@ val Icons.Outlined.Casino: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(300f, 720f)
             quadToRelative(25f, 0f, 42.5f, -17.5f)
             reflectiveQuadTo(360f, 660f)
@@ -119,7 +119,7 @@ val Icons.Rounded.Casino: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(300f, 720f)
             quadToRelative(25f, 0f, 42.5f, -17.5f)
             reflectiveQuadTo(360f, 660f)

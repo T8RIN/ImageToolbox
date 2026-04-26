@@ -33,7 +33,7 @@ val Icons.Outlined.ApngBox: ImageVector by lazy {
         viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -58,7 +58,7 @@ val Icons.Outlined.ApngBox: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -84,7 +84,7 @@ val Icons.Outlined.ApngBox: ImageVector by lazy {
             horizontalLineTo(17.9844f)
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -110,7 +110,7 @@ val Icons.Outlined.ApngBox: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -138,7 +138,7 @@ val Icons.Outlined.ApngBox: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -170,7 +170,7 @@ val Icons.TwoTone.ApngBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportHeight = 24f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -180,7 +180,7 @@ val Icons.TwoTone.ApngBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             horizontalLineToRelative(-14f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19f, 3f)
             horizontalLineTo(5f)
             curveToRelative(-1.11f, 0f, -2f, 0.89f, -2f, 2f)

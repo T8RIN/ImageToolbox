@@ -32,7 +32,7 @@ val Icons.Outlined.ViewWeek: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(160f, 720f)
             horizontalLineToRelative(160f)
             verticalLineToRelative(-480f)

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ val Icons.Outlined.Perspective: ImageVector by lazy {
         viewportHeight = 24f
     ).apply {
         path(
-            stroke = SolidColor(Color(0xFF000000)),
+            stroke = SolidColor(Color.Black),
             strokeLineWidth = 1f
         ) {
             moveTo(5.892f, 7.771f)
@@ -44,8 +44,8 @@ val Icons.Outlined.Perspective: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
-            stroke = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
+            stroke = SolidColor(Color.Black),
             strokeLineWidth = 1f
         ) {
             moveTo(4.482f, 7.771f)
@@ -55,8 +55,8 @@ val Icons.Outlined.Perspective: ImageVector by lazy {
             reflectiveCurveTo(4.482f, 8.55f, 4.482f, 7.771f)
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
-            stroke = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
+            stroke = SolidColor(Color.Black),
             strokeLineWidth = 1f
         ) {
             moveTo(16.699f, 5.892f)
@@ -66,8 +66,8 @@ val Icons.Outlined.Perspective: ImageVector by lazy {
             reflectiveCurveTo(16.699f, 6.67f, 16.699f, 5.892f)
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
-            stroke = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
+            stroke = SolidColor(Color.Black),
             strokeLineWidth = 1f
         ) {
             moveTo(17.638f, 18.108f)
@@ -77,8 +77,8 @@ val Icons.Outlined.Perspective: ImageVector by lazy {
             reflectiveCurveTo(17.638f, 18.887f, 17.638f, 18.108f)
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
-            stroke = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
+            stroke = SolidColor(Color.Black),
             strokeLineWidth = 1f
         ) {
             moveTo(3.543f, 15.289f)

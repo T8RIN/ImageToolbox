@@ -32,7 +32,7 @@ val Icons.Rounded.ScreenRotationAlt: ImageVector by lazy(LazyThreadSafetyMode.NO
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(487f, 856f)
             lineTo(219f, 589f)
             quadToRelative(-6f, -6f, -9f, -13f)

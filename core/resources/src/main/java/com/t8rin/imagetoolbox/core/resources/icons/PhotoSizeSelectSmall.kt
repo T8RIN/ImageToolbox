@@ -32,7 +32,7 @@ val Icons.Outlined.PhotoSizeSelectSmall: ImageVector by lazy(LazyThreadSafetyMod
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(194f, 760f)
             horizontalLineToRelative(240f)
             quadToRelative(12f, 0f, 18f, -11f)

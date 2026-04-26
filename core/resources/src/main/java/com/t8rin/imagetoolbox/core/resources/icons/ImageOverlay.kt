@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ val Icons.Outlined.ImageOverlay: ImageVector by lazy {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(3.5f, 1.5f)
             curveToRelative(-1.11f, 0f, -2f, 0.89f, -2f, 2f)
             verticalLineToRelative(11f)
@@ -63,7 +63,7 @@ val Icons.Outlined.ImageOverlay: ImageVector by lazy {
             horizontalLineTo(18.5f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(10.633f, 9.242f)
             lineToRelative(-2.292f, 2.95f)
             lineToRelative(-1.633f, -1.967f)
@@ -82,7 +82,7 @@ val Icons.TwoTone.ImageOverlay: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(3.5f, 1.5f)
             curveToRelative(-1.11f, 0f, -2f, 0.89f, -2f, 2f)
             verticalLineToRelative(11f)
@@ -114,7 +114,7 @@ val Icons.TwoTone.ImageOverlay: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -124,7 +124,7 @@ val Icons.TwoTone.ImageOverlay: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             horizontalLineToRelative(-11f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(10.633f, 9.242f)
             lineToRelative(-2.292f, 2.95f)
             lineToRelative(-1.633f, -1.967f)

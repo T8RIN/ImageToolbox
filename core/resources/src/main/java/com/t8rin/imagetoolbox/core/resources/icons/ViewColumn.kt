@@ -32,7 +32,7 @@ val Icons.Outlined.ViewColumn: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(121f, 680f)
             verticalLineToRelative(-400f)
             quadToRelative(0f, -33f, 23.5f, -56.5f)
@@ -77,7 +77,7 @@ val Icons.Rounded.ViewColumn: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(200f, 760f)
             quadToRelative(-33f, 0f, -56.5f, -23.5f)
             reflectiveQuadTo(120f, 680f)

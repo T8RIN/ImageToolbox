@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ val Icons.Outlined.Highlighter: ImageVector by lazy {
         name = "Highlighter", defaultWidth = 24.0.dp, defaultHeight =
             24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(544f, 560f)
             lineTo(440f, 456f)
             lineTo(240f, 656f)

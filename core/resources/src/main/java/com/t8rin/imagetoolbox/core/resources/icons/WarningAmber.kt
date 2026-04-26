@@ -32,7 +32,7 @@ val Icons.Outlined.WarningAmber: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(2.725f, 21f)
             quadTo(2.45f, 21f, 2.225f, 20.862f)
             quadTo(2f, 20.725f, 1.875f, 20.5f)
@@ -89,7 +89,7 @@ val Icons.Rounded.WarningAmber: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(2.725f, 21f)
             quadTo(2.45f, 21f, 2.225f, 20.862f)
             quadTo(2f, 20.725f, 1.875f, 20.5f)

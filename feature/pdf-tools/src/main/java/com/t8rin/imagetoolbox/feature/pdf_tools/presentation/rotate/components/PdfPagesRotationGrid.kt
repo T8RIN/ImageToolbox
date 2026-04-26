@@ -169,7 +169,7 @@ internal fun PdfPagesRotationGrid(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.RotateRight,
+                        imageVector = Icons.Rounded.RotateRight,
                         contentDescription = "Rotate 90",
                         modifier = Modifier.size(20.dp)
                     )

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ val Icons.Rounded.CropSmall: ImageVector by lazy {
         viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -53,7 +53,7 @@ val Icons.Rounded.CropSmall: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -114,14 +114,14 @@ val Icons.Rounded.CropSmall: ImageVector by lazy {
 }
 
 val Icons.TwoTone.CropSmall: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
-    ImageVector.Builder(
+    Builder(
         name = "TwoTone.CropSmall",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(16.429f, 5.571f)
             horizontalLineToRelative(-7.216f)
             verticalLineToRelative(2f)
@@ -132,7 +132,7 @@ val Icons.TwoTone.CropSmall: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             curveToRelative(0f, -1.105f, -0.896f, -2f, -2f, -2f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(20f, 16.428f)
             horizontalLineToRelative(-3.34f)
             verticalLineToRelative(0f)
@@ -168,7 +168,7 @@ val Icons.TwoTone.CropSmall: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {

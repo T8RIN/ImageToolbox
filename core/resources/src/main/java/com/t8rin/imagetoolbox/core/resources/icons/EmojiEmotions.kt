@@ -32,7 +32,7 @@ val Icons.Outlined.EmojiEmotions: ImageVector by lazy(LazyThreadSafetyMode.NONE)
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(15.5f, 11f)
             quadTo(16.125f, 11f, 16.563f, 10.563f)
             quadTo(17f, 10.125f, 17f, 9.5f)

@@ -327,7 +327,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                         onClick = { onMoveLayerBy(-1f, 0f) },
                         onHoldStep = { onMoveLayerBy(-1f, 0f) },
                         enabled = transformActionsEnabled,
-                        icon = Icons.AutoMirrored.Rounded.ArrowLeft,
+                        icon = Icons.Rounded.ArrowLeft,
                         text = null,
                         containerColor = buttonContainerColor,
                         modifier = Modifier
@@ -367,7 +367,7 @@ internal fun BoxScope.MarkupLayersContextActions(
                         onClick = { onMoveLayerBy(1f, 0f) },
                         onHoldStep = { onMoveLayerBy(1f, 0f) },
                         enabled = transformActionsEnabled,
-                        icon = Icons.AutoMirrored.Rounded.ArrowRight,
+                        icon = Icons.Rounded.ArrowRight,
                         text = null,
                         containerColor = buttonContainerColor,
                         modifier = Modifier

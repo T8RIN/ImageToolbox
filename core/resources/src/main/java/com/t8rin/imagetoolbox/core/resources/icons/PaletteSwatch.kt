@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ val Icons.Rounded.PaletteSwatch: ImageVector by lazy {
             24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -97,7 +97,7 @@ val Icons.Outlined.PaletteSwatch: ImageVector by lazy {
         defaultHeight = 24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -151,7 +151,7 @@ val Icons.TwoTone.PaletteSwatch: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(2.5f, 19.6f)
             lineToRelative(1.3f, 0.6f)
             verticalLineToRelative(-9f)
@@ -159,7 +159,7 @@ val Icons.TwoTone.PaletteSwatch: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
             curveToRelative(-0.4f, 1.1f, 0.1f, 2.2f, 1.1f, 2.6f)
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -170,14 +170,14 @@ val Icons.TwoTone.PaletteSwatch: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
             lineToRelative(0f, -0.1f)
             lineToRelative(7.3f, -3f)
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(10.5f, 9.9f)
             curveToRelative(-0.6f, 0f, -1f, -0.4f, -1f, -1f)
             reflectiveCurveToRelative(0.4f, -1f, 1f, -1f)
             reflectiveCurveToRelative(1f, 0.5f, 1f, 1f)
             reflectiveCurveToRelative(-0.4f, 1f, -1f, 1f)
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(5.9f, 19.8f)
             curveToRelative(0f, 1.1f, 0.9f, 2f, 2f, 2f)
             horizontalLineToRelative(1.4f)
@@ -185,7 +185,7 @@ val Icons.TwoTone.PaletteSwatch: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
             verticalLineToRelative(6.3f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(22.1f, 15.9f)
             lineToRelative(-5f, -11.9f)
             curveToRelative(-0.3f, -0.8f, -1.1f, -1.2f, -1.8f, -1.2f)

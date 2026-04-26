@@ -32,7 +32,7 @@ val Icons.Outlined.Face6: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 880f)
             quadToRelative(-82f, 0f, -155f, -31.5f)
             reflectiveQuadToRelative(-127.5f, -86f)

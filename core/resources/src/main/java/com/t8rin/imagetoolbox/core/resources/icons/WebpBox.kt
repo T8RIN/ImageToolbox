@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ val Icons.Outlined.WebpBox: ImageVector by lazy {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(6.757f, 13.855f)
             curveToRelative(-0.409f, 0f, -0.741f, -0.332f, -0.741f, -0.741f)
             verticalLineToRelative(-2.965f)
@@ -50,7 +50,7 @@ val Icons.Outlined.WebpBox: ImageVector by lazy {
             horizontalLineTo(6.757f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(10.252f, 10.145f)
             verticalLineToRelative(3.706f)
             horizontalLineToRelative(2.224f)
@@ -66,7 +66,7 @@ val Icons.Outlined.WebpBox: ImageVector by lazy {
             horizontalLineTo(10.252f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(15.23f, 11.446f)
             verticalLineToRelative(-0.556f)
             curveToRelative(0f, -0.409f, -0.332f, -0.741f, -0.741f, -0.741f)
@@ -89,7 +89,7 @@ val Icons.Outlined.WebpBox: ImageVector by lazy {
             verticalLineTo(11.631f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(15.761f, 10.148f)
             verticalLineToRelative(3.706f)
             horizontalLineToRelative(0.741f)
@@ -106,7 +106,7 @@ val Icons.Outlined.WebpBox: ImageVector by lazy {
             verticalLineTo(10.89f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19f, 3f)
             horizontalLineTo(5f)
             curveTo(3.89f, 3f, 3f, 3.89f, 3f, 5f)
@@ -135,7 +135,7 @@ val Icons.TwoTone.WebpBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportHeight = 24f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -145,7 +145,7 @@ val Icons.TwoTone.WebpBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             horizontalLineToRelative(-14f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(6.757f, 13.855f)
             curveToRelative(-0.409f, 0f, -0.741f, -0.332f, -0.741f, -0.741f)
             verticalLineToRelative(-2.965f)
@@ -163,7 +163,7 @@ val Icons.TwoTone.WebpBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             horizontalLineToRelative(-2.223f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(10.252f, 10.145f)
             verticalLineToRelative(3.706f)
             horizontalLineToRelative(2.224f)
@@ -180,7 +180,7 @@ val Icons.TwoTone.WebpBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             verticalLineToRelative(-0.001f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(15.23f, 11.446f)
             verticalLineToRelative(-0.556f)
             curveToRelative(0f, -0.409f, -0.332f, -0.741f, -0.741f, -0.741f)
@@ -203,7 +203,7 @@ val Icons.TwoTone.WebpBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             verticalLineToRelative(0.741f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(15.761f, 10.148f)
             verticalLineToRelative(3.706f)
             horizontalLineToRelative(0.741f)
@@ -220,7 +220,7 @@ val Icons.TwoTone.WebpBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             verticalLineToRelative(-0.741f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19f, 3f)
             horizontalLineTo(5f)
             curveToRelative(-1.11f, 0f, -2f, 0.89f, -2f, 2f)

@@ -32,7 +32,7 @@ val Icons.Rounded.AutoAwesome: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19f, 8.3f)
             quadToRelative(-0.125f, 0f, -0.262f, -0.075f)
             quadTo(18.6f, 8.15f, 18.55f, 8f)

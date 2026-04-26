@@ -105,7 +105,7 @@ fun NeuralModel.Type.icon(): ImageVector = when (this) {
 fun NeuralModel.Speed.icon(): ImageVector = when (this) {
     is NeuralModel.Speed.VeryFast -> Icons.Rounded.Bolt
     is NeuralModel.Speed.Fast -> Icons.Rounded.Rabbit
-    is NeuralModel.Speed.Normal -> Icons.AutoMirrored.Rounded.DirectionsWalk
+    is NeuralModel.Speed.Normal -> Icons.Rounded.DirectionsWalk
     is NeuralModel.Speed.Slow -> Icons.Rounded.Tortoise
     is NeuralModel.Speed.VerySlow -> Icons.Rounded.Snail
 }

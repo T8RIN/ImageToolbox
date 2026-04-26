@@ -24,16 +24,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.AutoMirrored.Rounded.ArrowLeft: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val Icons.Rounded.ArrowLeft: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "AutoMirrored.Rounded.ArrowLeft",
+        name = "Rounded.ArrowLeft",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,
         viewportHeight = 960f,
         autoMirror = true
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(526f, 646f)
             lineTo(381f, 501f)
             quadToRelative(-5f, -5f, -7f, -10f)

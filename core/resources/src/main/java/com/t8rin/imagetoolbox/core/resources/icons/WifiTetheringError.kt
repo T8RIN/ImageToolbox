@@ -32,7 +32,7 @@ val Icons.Rounded.WifiTetheringError: ImageVector by lazy(LazyThreadSafetyMode.N
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(233f, 781f)
             quadToRelative(-12f, 12f, -29f, 12f)
             reflectiveQuadToRelative(-28f, -13f)

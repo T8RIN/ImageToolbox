@@ -32,7 +32,7 @@ val Icons.Rounded.Percent: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(300f, 440f)
             quadToRelative(-58f, 0f, -99f, -41f)
             reflectiveQuadToRelative(-41f, -99f)

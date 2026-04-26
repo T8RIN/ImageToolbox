@@ -32,7 +32,7 @@ val Icons.Rounded.Water: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(213f, 680f)
             quadToRelative(-29f, 0f, -42f, 12.5f)
             reflectiveQuadTo(135f, 710f)

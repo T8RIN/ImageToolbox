@@ -32,7 +32,7 @@ val Icons.Outlined.DriveFileRenameOutline: ImageVector by lazy(LazyThreadSafetyM
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveToRelative(10f, 21f)
             lineToRelative(4f, -4f)
             horizontalLineToRelative(6f)

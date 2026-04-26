@@ -32,7 +32,7 @@ val Icons.Rounded.SettingsBackupRestore: ImageVector by lazy(LazyThreadSafetyMod
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 840f)
             quadToRelative(-126f, 0f, -223f, -76.5f)
             reflectiveQuadTo(131f, 568f)

@@ -32,7 +32,7 @@ val Icons.Rounded.AlternateEmail: ImageVector by lazy(LazyThreadSafetyMode.NONE)
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 880f)
             quadToRelative(-83f, 0f, -156f, -31.5f)
             reflectiveQuadTo(197f, 763f)

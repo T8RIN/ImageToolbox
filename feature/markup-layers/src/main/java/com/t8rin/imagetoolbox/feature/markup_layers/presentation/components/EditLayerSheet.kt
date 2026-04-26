@@ -236,9 +236,9 @@ internal fun EditLayerSheet(
                             itemContent = {
                                 Icon(
                                     imageVector = when (it) {
-                                        Alignment.Start -> Icons.AutoMirrored.Rounded.FormatAlignLeft
+                                        Alignment.Start -> Icons.Rounded.FormatAlignLeft
                                         Alignment.Center -> Icons.Rounded.FormatAlignCenter
-                                        Alignment.End -> Icons.AutoMirrored.Rounded.FormatAlignRight
+                                        Alignment.End -> Icons.Rounded.FormatAlignRight
                                     },
                                     contentDescription = null
                                 )

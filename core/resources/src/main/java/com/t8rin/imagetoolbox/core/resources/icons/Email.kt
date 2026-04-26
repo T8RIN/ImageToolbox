@@ -32,7 +32,7 @@ val Icons.Outlined.Email: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(4f, 20f)
             quadTo(3.175f, 20f, 2.588f, 19.413f)
             quadTo(2f, 18.825f, 2f, 18f)
@@ -95,7 +95,7 @@ val Icons.Rounded.Email: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(4f, 20f)
             quadTo(3.175f, 20f, 2.588f, 19.413f)
             quadTo(2f, 18.825f, 2f, 18f)

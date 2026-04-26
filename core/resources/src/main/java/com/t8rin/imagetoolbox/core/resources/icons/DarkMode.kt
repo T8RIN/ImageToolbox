@@ -32,7 +32,7 @@ val Icons.Outlined.DarkMode: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 840f)
             quadToRelative(-151f, 0f, -255.5f, -104.5f)
             reflectiveQuadTo(120f, 480f)
@@ -83,7 +83,7 @@ val Icons.Rounded.DarkMode: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 840f)
             quadToRelative(-151f, 0f, -255.5f, -104.5f)
             reflectiveQuadTo(120f, 480f)

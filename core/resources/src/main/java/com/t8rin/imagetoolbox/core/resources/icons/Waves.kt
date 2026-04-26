@@ -32,7 +32,7 @@ val Icons.Rounded.Waves: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(280f, 758f)
             quadToRelative(-49f, 0f, -78f, 22f)
             reflectiveQuadToRelative(-81f, 31f)

@@ -128,7 +128,7 @@ fun MainContent(
                                         }
                                     ) {
                                         Icon(
-                                            imageVector = Icons.AutoMirrored.Rounded.MenuOpen,
+                                            imageVector = Icons.Rounded.MenuOpen,
                                             contentDescription = "Expand",
                                             modifier = Modifier.rotate(
                                                 animateFloatAsState(if (!sheetExpanded) 0f else 180f).value

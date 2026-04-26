@@ -32,7 +32,7 @@ val Icons.Rounded.ContentPasteOff: ImageVector by lazy(LazyThreadSafetyMode.NONE
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(800f, 680f)
             quadToRelative(-15f, 0f, -27.5f, -10.5f)
             reflectiveQuadTo(760f, 639f)

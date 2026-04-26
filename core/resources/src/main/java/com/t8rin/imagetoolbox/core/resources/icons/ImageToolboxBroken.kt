@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ val Icons.Outlined.ImageToolboxBroken: ImageVector by lazy {
         viewportHeight = 1295f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             pathFillType = PathFillType.EvenOdd
         ) {
             moveTo(794.4f, 452.5f)
@@ -66,7 +66,7 @@ val Icons.Outlined.ImageToolboxBroken: ImageVector by lazy {
             lineTo(933.4f, 517.7f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(657.8f, 301.6f)
             curveToRelative(69.4f, 0f, 125.2f, 0.3f, 171.5f, 2.2f)
             lineToRelative(94f, -94f)
@@ -75,7 +75,7 @@ val Icons.Outlined.ImageToolboxBroken: ImageVector by lazy {
             lineTo(657.8f, 301.6f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(1029f, 1268.8f)
             curveToRelative(12.8f, -6.2f, 24.6f, -13.4f, 35.8f, -21.7f)
             curveToRelative(23.7f, -17.6f, 44.7f, -38.6f, 62.3f, -62.3f)
@@ -89,7 +89,7 @@ val Icons.Outlined.ImageToolboxBroken: ImageVector by lazy {
             lineTo(1029f, 1268.8f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(493.8f, 352.3f)
             curveToRelative(-6.3f, -14.6f, -14.9f, -27.4f, -25.7f, -38.2f)
             curveToRelative(-10.8f, -10.8f, -23.6f, -19.4f, -38.2f, -25.7f)
@@ -131,7 +131,7 @@ val Icons.Outlined.ImageToolboxBroken: ImageVector by lazy {
             verticalLineTo(399.3f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(338.5f, 837.2f)
             lineToRelative(75.9f, 22.8f)
             lineToRelative(32.7f, -33.6f)
@@ -140,7 +140,7 @@ val Icons.Outlined.ImageToolboxBroken: ImageVector by lazy {
             lineTo(338.5f, 837.2f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(763.4f, 887.4f)
             lineToRelative(-24.2f, -69.5f)
             lineToRelative(-201f, 42.6f)
@@ -184,7 +184,7 @@ val Icons.Outlined.ImageToolboxBroken: ImageVector by lazy {
             lineTo(299.4f, 1073.4f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(723.5f, 783.5f)
             lineToRelative(-9f, -23.4f)
             lineToRelative(-17.5f, -45.5f)

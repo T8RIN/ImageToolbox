@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ val Icons.Outlined.ImageText: ImageVector by lazy {
         viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -60,7 +60,7 @@ val Icons.Outlined.ImageText: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -72,7 +72,7 @@ val Icons.Outlined.ImageText: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -82,7 +82,7 @@ val Icons.Outlined.ImageText: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -93,7 +93,7 @@ val Icons.Outlined.ImageText: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -104,7 +104,7 @@ val Icons.Outlined.ImageText: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -125,7 +125,7 @@ val Icons.TwoTone.ImageText: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(14.413f, 5.587f)
             curveToRelative(-0.392f, -0.392f, -0.863f, -0.588f, -1.413f, -0.588f)
             horizontalLineTo(3f)
@@ -148,7 +148,7 @@ val Icons.TwoTone.ImageText: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFF000000)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -158,7 +158,7 @@ val Icons.TwoTone.ImageText: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             horizontalLineToRelative(-10f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(4f, 15f)
             horizontalLineToRelative(8f)
             lineToRelative(-2.6f, -3.5f)
@@ -167,13 +167,13 @@ val Icons.TwoTone.ImageText: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(-2.1f, 2.85f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(3f, 17f)
             verticalLineTo(7f)
             verticalLineToRelative(10f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(17f, 5.175f)
             horizontalLineToRelative(6f)
             verticalLineToRelative(3f)
@@ -181,7 +181,7 @@ val Icons.TwoTone.ImageText: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             verticalLineToRelative(-3f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(17f, 15.824f)
             horizontalLineToRelative(6f)
             verticalLineToRelative(3f)
@@ -189,7 +189,7 @@ val Icons.TwoTone.ImageText: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             verticalLineToRelative(-3f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(16.84f, 10.5f)
             horizontalLineToRelative(6f)
             verticalLineToRelative(3f)

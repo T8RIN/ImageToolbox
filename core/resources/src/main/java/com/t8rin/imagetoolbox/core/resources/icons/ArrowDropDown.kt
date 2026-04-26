@@ -32,7 +32,7 @@ val Icons.Rounded.ArrowDropDown: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(459f, 579f)
             lineTo(314f, 434f)
             quadToRelative(-3f, -3f, -4.5f, -6.5f)

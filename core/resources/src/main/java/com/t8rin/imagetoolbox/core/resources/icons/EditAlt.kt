@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ val Icons.Rounded.EditAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportHeight = 960f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000))
+            fill = SolidColor(Color.Black)
         ) {
             moveTo(200f, 760f)
             horizontalLineToRelative(57f)
@@ -84,7 +84,7 @@ val Icons.Filled.EditAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(160f, 840f)
             quadToRelative(-17f, 0f, -28.5f, -11.5f)
             reflectiveQuadTo(120f, 800f)

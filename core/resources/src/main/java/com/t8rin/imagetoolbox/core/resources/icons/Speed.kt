@@ -74,7 +74,7 @@ val Icons.Outlined.Speed: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(418f, 620f)
             quadToRelative(24f, 24f, 62f, 23.5f)
             reflectiveQuadToRelative(56f, -27.5f)

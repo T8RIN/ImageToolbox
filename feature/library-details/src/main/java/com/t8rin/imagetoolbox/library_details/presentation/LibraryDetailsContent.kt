@@ -81,7 +81,7 @@ fun LibraryDetailsContent(
                             onClick = { linkHandler.openUri(component.libraryLink) }
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.OpenInNew,
+                                imageVector = Icons.Rounded.OpenInNew,
                                 contentDescription = component.libraryLink
                             )
                         }

@@ -32,7 +32,7 @@ val Icons.Rounded.Pix: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(15.45f, 16.52f)
             lineToRelative(-3.01f, -3.01f)
             curveToRelative(-0.11f, -0.11f, -0.24f, -0.13f, -0.31f, -0.13f)
@@ -45,7 +45,7 @@ val Icons.Rounded.Pix: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             curveTo(16.92f, 17.41f, 16.16f, 17.23f, 15.45f, 16.52f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(8.8f, 7.47f)
             lineToRelative(3.02f, 3.02f)
             curveToRelative(0.08f, 0.08f, 0.2f, 0.13f, 0.31f, 0.13f)
@@ -58,7 +58,7 @@ val Icons.Rounded.Pix: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             curveTo(7.95f, 6.58f, 8.49f, 7.16f, 8.8f, 7.47f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(21.11f, 9.85f)
             lineToRelative(-2.25f, -2.26f)
             horizontalLineTo(17.6f)

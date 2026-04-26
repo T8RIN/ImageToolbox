@@ -74,7 +74,7 @@ internal fun QrEmailEditField(
             label = { Text(stringResource(R.string.body)) },
             startIcon = {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ShortText,
+                    imageVector = Icons.Rounded.ShortText,
                     contentDescription = null
                 )
             },

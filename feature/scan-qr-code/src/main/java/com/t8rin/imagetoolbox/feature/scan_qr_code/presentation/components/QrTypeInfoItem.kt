@@ -120,7 +120,7 @@ private fun QrInfoItem(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.OpenInNew,
+                            imageVector = Icons.Rounded.OpenInNew,
                             contentDescription = "open",
                             modifier = Modifier.size(20.dp)
                         )

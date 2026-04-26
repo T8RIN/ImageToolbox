@@ -296,7 +296,7 @@ private fun emailQrInfo(
 
     entry(
         InfoEntry(
-            icon = Icons.AutoMirrored.Rounded.ShortText,
+            icon = Icons.Rounded.ShortText,
             text = qrType.body.ifBlank { getString(R.string.not_specified) },
             canCopy = qrType.body.isNotBlank()
         )

@@ -32,7 +32,7 @@ val Icons.Outlined.FolderOff: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(880f, 320f)
             verticalLineToRelative(351f)
             quadToRelative(0f, 20f, -12.5f, 30f)

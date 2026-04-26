@@ -32,7 +32,7 @@ val Icons.Outlined.EnergySavingsLeaf: ImageVector by lazy(LazyThreadSafetyMode.N
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 720f)
             quadToRelative(100f, 0f, 169f, -70f)
             reflectiveQuadToRelative(71f, -170f)

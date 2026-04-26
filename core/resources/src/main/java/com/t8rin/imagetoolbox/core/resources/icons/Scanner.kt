@@ -179,7 +179,7 @@ val Icons.Rounded.Scanner: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(704f, 480f)
             lineTo(178f, 290f)
             quadToRelative(-16f, -6f, -23f, -21f)

@@ -32,7 +32,7 @@ val Icons.Rounded.EmojiSymbols: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(400f, 160f)
             lineTo(160f, 160f)
             quadToRelative(-17f, 0f, -28.5f, -11.5f)

@@ -32,7 +32,7 @@ val Icons.Rounded.CenterFocusStrong: ImageVector by lazy(LazyThreadSafetyMode.NO
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 680f)
             quadToRelative(-83f, 0f, -141.5f, -58.5f)
             reflectiveQuadTo(280f, 480f)

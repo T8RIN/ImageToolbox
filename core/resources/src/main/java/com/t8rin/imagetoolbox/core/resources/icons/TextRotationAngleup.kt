@@ -32,7 +32,7 @@ val Icons.Rounded.TextRotationAngleup: ImageVector by lazy(LazyThreadSafetyMode.
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(761f, 496f)
             lineTo(417f, 840f)
             quadToRelative(-11f, 11f, -28f, 11f)

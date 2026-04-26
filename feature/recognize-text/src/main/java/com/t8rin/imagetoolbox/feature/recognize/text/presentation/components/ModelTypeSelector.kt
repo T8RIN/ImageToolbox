@@ -61,7 +61,7 @@ fun ModelTypeSelector(
             showSelectionSheet = true
         },
         shape = ShapeDefaults.extraLarge,
-        startIcon = Icons.AutoMirrored.Rounded.Segment,
+        startIcon = Icons.Rounded.Segment,
         endIcon = Icons.Rounded.MiniEdit
     )
 
@@ -83,7 +83,7 @@ fun ModelTypeSelector(
         title = {
             TitleItem(
                 text = stringResource(id = R.string.segmentation_mode),
-                icon = Icons.AutoMirrored.Rounded.Segment
+                icon = Icons.Rounded.Segment
             )
         }
     ) {

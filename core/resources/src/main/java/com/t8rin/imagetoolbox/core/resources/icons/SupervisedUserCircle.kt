@@ -32,7 +32,7 @@ val Icons.Outlined.SupervisedUserCircle: ImageVector by lazy(LazyThreadSafetyMod
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(412f, 792f)
             quadToRelative(45f, -91f, 120f, -121.5f)
             reflectiveQuadTo(660f, 640f)

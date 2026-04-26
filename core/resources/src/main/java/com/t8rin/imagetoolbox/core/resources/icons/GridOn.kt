@@ -32,7 +32,7 @@ val Icons.Rounded.GridOn: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(200f, 840f)
             horizontalLineToRelative(107f)
             verticalLineToRelative(-187f)

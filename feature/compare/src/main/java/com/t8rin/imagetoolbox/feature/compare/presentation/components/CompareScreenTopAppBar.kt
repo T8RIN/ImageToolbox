@@ -110,8 +110,8 @@ fun CompareScreenTopAppBar(
                 ) {
                     AnimatedContent(isImagesRotated) { rotated ->
                         Icon(
-                            imageVector = if (rotated) Icons.AutoMirrored.Rounded.RotateLeft
-                            else Icons.AutoMirrored.Rounded.RotateRight,
+                            imageVector = if (rotated) Icons.Rounded.RotateLeft
+                            else Icons.Rounded.RotateRight,
                             contentDescription = "Rotate"
                         )
                     }
@@ -127,7 +127,7 @@ fun CompareScreenTopAppBar(
                         ).value
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.Label,
+                            imageVector = Icons.Rounded.Label,
                             contentDescription = "Label"
                         )
                     }

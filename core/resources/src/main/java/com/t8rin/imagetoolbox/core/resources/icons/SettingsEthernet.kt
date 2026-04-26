@@ -32,7 +32,7 @@ val Icons.Rounded.SettingsEthernet: ImageVector by lazy(LazyThreadSafetyMode.NON
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(806f, 480f)
             lineTo(652f, 324f)
             quadToRelative(-11f, -11f, -11.5f, -27.5f)

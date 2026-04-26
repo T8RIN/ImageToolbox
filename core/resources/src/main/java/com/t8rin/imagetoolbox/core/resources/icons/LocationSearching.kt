@@ -32,7 +32,7 @@ val Icons.Rounded.LocationSearching: ImageVector by lazy(LazyThreadSafetyMode.NO
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(440f, 880f)
             verticalLineToRelative(-40f)
             quadToRelative(-125f, -14f, -214.5f, -103.5f)

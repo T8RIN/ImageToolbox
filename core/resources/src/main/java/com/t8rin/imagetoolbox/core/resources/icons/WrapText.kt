@@ -33,7 +33,7 @@ val Icons.Rounded.WrapText: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportHeight = 960f,
         autoMirror = true
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(200f, 500f)
             quadToRelative(-17f, 0f, -28.5f, -11.5f)
             reflectiveQuadTo(160f, 460f)

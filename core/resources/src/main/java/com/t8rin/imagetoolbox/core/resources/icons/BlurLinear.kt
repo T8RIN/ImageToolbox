@@ -32,7 +32,7 @@ val Icons.Rounded.BlurLinear: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(200f, 700f)
             quadToRelative(26f, 0f, 43f, -17f)
             reflectiveQuadToRelative(17f, -43f)

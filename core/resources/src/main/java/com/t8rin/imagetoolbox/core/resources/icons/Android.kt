@@ -32,7 +32,7 @@ val Icons.Rounded.Android: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFF000000))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(40f, 720f)
             quadToRelative(9f, -107f, 65.5f, -197f)
             reflectiveQuadTo(256f, 380f)
