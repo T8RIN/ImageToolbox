@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.load_net_image.presentation.components
 
 import android.net.Uri
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

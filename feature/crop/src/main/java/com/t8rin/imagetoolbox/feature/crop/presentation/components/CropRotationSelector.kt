@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.crop.presentation.components
 
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource

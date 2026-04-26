@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

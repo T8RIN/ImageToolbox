@@ -20,7 +20,7 @@
 package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.annotation.StringRes
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector

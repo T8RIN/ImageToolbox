@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toColor

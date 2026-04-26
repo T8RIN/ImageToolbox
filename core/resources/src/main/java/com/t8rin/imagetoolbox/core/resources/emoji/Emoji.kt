@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.core.resources.emoji
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember

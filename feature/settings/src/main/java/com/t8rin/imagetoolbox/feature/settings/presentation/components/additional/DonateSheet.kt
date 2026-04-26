@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components.additional
 
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

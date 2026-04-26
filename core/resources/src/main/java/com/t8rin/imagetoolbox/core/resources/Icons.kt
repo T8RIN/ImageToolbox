@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package androidx.compose.material.icons
+package com.t8rin.imagetoolbox.core.resources
 
-object Icons {
-    object Filled
-    object Outlined
-    object Rounded
-    object TwoTone
+data object Icons {
+    data object Filled
+    data object Outlined
+    data object Rounded
+    data object TwoTone
 }

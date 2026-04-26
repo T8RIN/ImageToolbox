@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model
 
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.FormatBold
 import com.t8rin.imagetoolbox.core.resources.icons.FormatItalic
 import com.t8rin.imagetoolbox.core.resources.icons.FormatStrikethrough

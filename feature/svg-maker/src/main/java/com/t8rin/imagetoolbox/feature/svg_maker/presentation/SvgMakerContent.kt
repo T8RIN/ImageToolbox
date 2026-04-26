@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.svg_maker.presentation
 
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

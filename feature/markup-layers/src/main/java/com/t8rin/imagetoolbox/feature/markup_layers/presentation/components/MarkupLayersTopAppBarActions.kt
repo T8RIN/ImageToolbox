@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import android.net.Uri
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SheetValue

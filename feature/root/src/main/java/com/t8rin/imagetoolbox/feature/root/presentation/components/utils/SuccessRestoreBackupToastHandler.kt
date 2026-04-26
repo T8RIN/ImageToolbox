@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.root.presentation.components.utils
 
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.t8rin.imagetoolbox.core.resources.R

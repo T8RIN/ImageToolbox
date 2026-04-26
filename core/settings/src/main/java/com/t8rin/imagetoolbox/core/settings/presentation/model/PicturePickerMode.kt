@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.core.settings.presentation.model
 
 import android.os.Build
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderImage

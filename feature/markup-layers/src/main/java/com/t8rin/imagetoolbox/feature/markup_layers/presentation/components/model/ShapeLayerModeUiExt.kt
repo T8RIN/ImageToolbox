@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model
 
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CheckBoxOutlineBlank

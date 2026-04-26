@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.root.presentation.screenLogic
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

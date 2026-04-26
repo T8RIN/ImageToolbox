@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.color_tools.presentation.components
 
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb

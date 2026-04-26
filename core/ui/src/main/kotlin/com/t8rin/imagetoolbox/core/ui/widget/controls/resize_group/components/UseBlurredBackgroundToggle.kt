@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.controls.resize_group.components
 
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

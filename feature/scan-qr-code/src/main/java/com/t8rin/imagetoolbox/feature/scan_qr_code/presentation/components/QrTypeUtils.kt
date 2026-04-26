@@ -21,7 +21,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.provider.CalendarContract
 import android.provider.ContactsContract
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.QrType

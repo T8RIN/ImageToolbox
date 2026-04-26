@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs
 
 import android.os.Build
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

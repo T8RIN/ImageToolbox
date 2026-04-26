@@ -20,7 +20,7 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.annotation.SuppressLint
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.firstOfType
 import com.t8rin.imagetoolbox.core.resources.R

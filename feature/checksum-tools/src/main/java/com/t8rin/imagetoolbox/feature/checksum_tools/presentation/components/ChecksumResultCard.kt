@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.checksum_tools.presentation.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier

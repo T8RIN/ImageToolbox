@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
 import com.t8rin.imagetoolbox.core.domain.TEMPLATE_EXT
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType

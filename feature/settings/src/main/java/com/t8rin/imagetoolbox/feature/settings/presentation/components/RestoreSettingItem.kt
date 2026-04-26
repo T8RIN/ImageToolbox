@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import android.net.Uri
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape

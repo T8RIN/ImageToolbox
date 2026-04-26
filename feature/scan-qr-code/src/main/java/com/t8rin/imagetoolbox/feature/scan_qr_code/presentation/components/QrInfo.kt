@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import android.content.Intent
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.model.QrType

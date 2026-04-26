@@ -23,7 +23,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.StringRes
-import androidx.compose.material.icons.Icons
+import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipEntry
 import com.t8rin.imagetoolbox.core.resources.R
