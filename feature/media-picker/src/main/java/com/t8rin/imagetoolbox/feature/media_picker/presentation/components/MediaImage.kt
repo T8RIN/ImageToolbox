@@ -29,8 +29,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -52,6 +50,8 @@ import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.size.Precision
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
+import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
+import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.MediaCheckBox
@@ -231,8 +231,10 @@ fun MediaImage(
                         MaterialTheme.colorScheme.error
                     } else MaterialTheme.colorScheme.primary,
                     checkedIcon = if (isImageError) {
-                        Icons.Filled.Error
-                    } else Icons.Filled.CheckCircle,
+                        Icons.Rounded.Error
+                    } else {
+                        Icons.Rounded.CheckCircle
+                    },
                     selectionIndex = selectionIndex,
                     modifier = Modifier
                         .clip(ShapeDefaults.circle)

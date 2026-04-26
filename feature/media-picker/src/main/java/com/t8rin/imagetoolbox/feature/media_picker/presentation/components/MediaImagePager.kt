@@ -55,8 +55,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -87,6 +85,8 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
+import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
+import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
@@ -346,8 +346,10 @@ internal fun MediaImagePager(
                                         MaterialTheme.colorScheme.error
                                     } else MaterialTheme.colorScheme.primary,
                                     checkedIcon = if (isImageError) {
-                                        Icons.Filled.Error
-                                    } else Icons.Filled.CheckCircle,
+                                        Icons.Rounded.Error
+                                    } else {
+                                        Icons.Rounded.CheckCircle
+                                    },
                                     addContainer = isChecked
                                 )
                             }
