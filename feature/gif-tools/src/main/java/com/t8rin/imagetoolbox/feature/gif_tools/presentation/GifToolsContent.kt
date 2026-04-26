@@ -21,8 +21,6 @@ import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Gif
-import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Gif
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
@@ -85,7 +84,7 @@ fun GifToolsContent(
                 if (uris.isEmpty()) {
                     AppToastHost.showToast(
                         message = getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Gif
+                        icon = Icons.Rounded.Gif
                     )
                 } else {
                     component.setType(
@@ -105,7 +104,7 @@ fun GifToolsContent(
                 if (uris.isEmpty()) {
                     AppToastHost.showToast(
                         message = getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Gif
+                        icon = Icons.Rounded.Gif
                     )
                 } else {
                     component.setType(
@@ -125,7 +124,7 @@ fun GifToolsContent(
                 if (uris.isEmpty()) {
                     AppToastHost.showToast(
                         message = getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Gif
+                        icon = Icons.Rounded.Gif
                     )
                 } else {
                     component.setType(
@@ -148,7 +147,7 @@ fun GifToolsContent(
                 if (uris.isEmpty()) {
                     AppToastHost.showToast(
                         message = getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Gif
+                        icon = Icons.Rounded.Gif
                     )
                 } else {
                     component.setType(
