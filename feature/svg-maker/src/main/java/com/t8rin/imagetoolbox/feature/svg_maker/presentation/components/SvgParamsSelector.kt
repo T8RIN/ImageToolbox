@@ -36,6 +36,7 @@ import androidx.compose.material.icons.outlined.ChangeHistory
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.LinearScale
 import androidx.compose.material.icons.outlined.RepeatOne
+import androidx.compose.material.icons.outlined.SettingsEthernet
 import androidx.compose.material.icons.outlined.Upcoming
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material3.MaterialTheme
@@ -217,6 +218,22 @@ fun SvgParamsSelector(
                 onValueChange(
                     value.copy(
                         quantizationCyclesCount = it.roundToInt()
+                    )
+                )
+            },
+            shape = ShapeDefaults.extraLarge
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        EnhancedSliderItem(
+            value = value.seed,
+            icon = Icons.Outlined.SettingsEthernet,
+            title = stringResource(id = R.string.seed),
+            valueRange = -10000f..10000f,
+            internalStateTransformation = { it.roundToInt() },
+            onValueChange = {
+                onValueChange(
+                    value.copy(
+                        seed = it.roundToInt()
                     )
                 )
             },

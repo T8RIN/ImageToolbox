@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.RandomStringGenerator
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracer
+import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracer.Options
 import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracer.SvgListener
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgManager
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgParams
@@ -87,18 +88,19 @@ internal class AndroidSvgManager @Inject constructor(
         ): SvgListener = apply { onProgress(part.toString()) }
     }
 
-    private fun SvgParams.toOptions(): HashMap<String, Float> = HashMap<String, Float>().apply {
-        put("numberofcolors", colorsCount.toFloat())
-        put("colorquantcycles", quantizationCyclesCount.toFloat())
-        put("colorsampling", if (isPaletteSampled) 1f else 0f)
-        put("blurradius", blurRadius.toFloat())
-        put("blurdelta", blurDelta.toFloat())
-        put("pathomit", pathOmit.toFloat())
-        put("ltres", linesThreshold)
-        put("qtres", quadraticThreshold)
-        put("roundcoords", coordinatesRoundingAmount.toFloat())
-        put("mincolorratio", minColorRatio)
-        put("scale", svgPathsScale)
-    }
+    private fun SvgParams.toOptions(): Options = Options(
+        numberOfColors = colorsCount.toFloat(),
+        colorQuantCycles = quantizationCyclesCount.toFloat(),
+        colorSampling = if (isPaletteSampled) 1f else 0f,
+        blurRadius = blurRadius.toFloat(),
+        blurDelta = blurDelta.toFloat(),
+        pathOmit = pathOmit.toFloat(),
+        lineThreshold = linesThreshold,
+        quadraticThreshold = quadraticThreshold,
+        roundCoords = coordinatesRoundingAmount.toFloat(),
+        minColorRatio = minColorRatio,
+        scale = svgPathsScale,
+        seed = seed.toFloat()
+    )
 
 }

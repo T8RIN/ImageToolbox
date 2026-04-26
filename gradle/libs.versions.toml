@@ -36,7 +36,7 @@ shadowsPlus = "1.0.4"
 google-segmentationSelfie = "16.0.0-beta6"
 google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.8"
-detektCompose = "0.5.7"
+detektCompose = "0.5.8"
 decompose = "3.5.0"
 
 kotlin = "2.3.21"
@@ -128,7 +128,6 @@ toolbox-gpuimage = { module = "com.github.T8RIN.ImageToolboxLibs:gpuimage", vers
 toolbox-androidwm = { module = "com.github.T8RIN.ImageToolboxLibs:androidwm", version.ref = "imageToolboxLibs" }
 toolbox-gifConverter = { module = "com.github.T8RIN.ImageToolboxLibs:gif-converter", version.ref = "imageToolboxLibs" }
 toolbox-apng = { module = "com.github.T8RIN.ImageToolboxLibs:apng", version.ref = "imageToolboxLibs" }
-toolbox-svg = { module = "com.github.T8RIN.ImageToolboxLibs:svg", version.ref = "imageToolboxLibs" }
 toolbox-jp2decoder = { module = "com.github.T8RIN.ImageToolboxLibs:jp2decoder", version.ref = "imageToolboxLibs" }
 toolbox-qoiCoder = { module = "com.github.T8RIN.ImageToolboxLibs:qoi-coder", version.ref = "imageToolboxLibs" }
 toolbox-awebp = { module = "com.github.T8RIN.ImageToolboxLibs:awebp", version.ref = "imageToolboxLibs" }

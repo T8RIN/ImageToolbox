@@ -38,6 +38,7 @@ package com.t8rin.imagetoolbox.feature.svg_maker.data.tracer
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppVersion
 import java.io.File
 import java.nio.IntBuffer
 import java.util.TreeMap
@@ -47,9 +48,28 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-data object ImageTracer {
+internal data object ImageTracer {
 
-    const val VERSION_NUMBER: String = "2.0.0"
+    private val SIGNATURE = "desc=\"Created with ImageToolbox version $AppVersion\" "
+
+    data class Options(
+        val lineThreshold: Float = 1f,
+        val quadraticThreshold: Float = 1f,
+        val pathOmit: Float = 8f,
+        val colorSampling: Float = 1f,
+        val numberOfColors: Float = 16f,
+        val minColorRatio: Float = 0.02f,
+        val colorQuantCycles: Float = 3f,
+        val scale: Float = 1f,
+        val roundCoords: Float = 1f,
+        val lineControlPointRadius: Float = 0f,
+        val quadraticControlPointRadius: Float = 0f,
+        val description: Float = 1f,
+        val viewBox: Float = 0f,
+        val blurRadius: Float = 0f,
+        val blurDelta: Float = 20f,
+        val seed: Float = 0f
+    )
 
     private val pathsDirLookup = byteArrayOf(
         0, 0, 3, 0,
@@ -235,112 +255,90 @@ data object ImageTracer {
 
     fun imageToSVG(
         filename: String,
-        options: HashMap<String, Float>?,
+        options: Options?,
         palette: Array<ByteArray>?
     ): String {
-        val checkedOptions = checkoptions(options)
+        val checkedOptions = checkOptions(options)
         val imageData = loadImageData(filename)
         return imageDataToSVG(imageData, checkedOptions, palette)
     }
 
     fun imageToSVG(
         bitmap: Bitmap,
-        options: HashMap<String, Float>?,
+        options: Options?,
         palette: Array<ByteArray>?
     ): String {
-        val checkedOptions = checkoptions(options)
+        val checkedOptions = checkOptions(options)
         val imageData = loadImageData(bitmap)
         return imageDataToSVG(imageData, checkedOptions, palette)
     }
 
     fun imageDataToSVG(
         imageData: ImageData,
-        options: HashMap<String, Float>?,
+        options: Options?,
         palette: Array<ByteArray>?
     ): String {
-        val checkedOptions = checkoptions(options)
+        val checkedOptions = checkOptions(options)
         val indexedImage = imageDataToIndexedImage(imageData, checkedOptions, palette)
         return getsvgstring(indexedImage, checkedOptions)
     }
 
     fun imageToSVG(
         bitmap: Bitmap,
-        options: HashMap<String, Float>?,
+        options: Options?,
         palette: Array<ByteArray>?,
         listener: SvgListener
     ) {
-        val checkedOptions = checkoptions(options)
+        val checkedOptions = checkOptions(options)
         val imageData = loadImageData(bitmap)
         imageDataToSVG(imageData, checkedOptions, palette, listener)
     }
 
     fun imageDataToSVG(
         imageData: ImageData,
-        options: HashMap<String, Float>?,
+        options: Options?,
         palette: Array<ByteArray>?,
         listener: SvgListener
     ) {
-        val checkedOptions = checkoptions(options)
+        val checkedOptions = checkOptions(options)
         val indexedImage = imageDataToIndexedImage(imageData, checkedOptions, palette)
         getsvgstring(indexedImage, checkedOptions, listener)
     }
 
     fun imageDataToIndexedImage(
         imageData: ImageData,
-        options: HashMap<String, Float>?,
+        options: Options?,
         palette: Array<ByteArray>?
     ): IndexedImage {
-        val checkedOptions = checkoptions(options)
+        val checkedOptions = checkOptions(options)
         val indexedImage = colorquantization(imageData, palette, checkedOptions)
         val rawLayers = layering(indexedImage)
         val batchPathScan = batchpathscan(
             layers = rawLayers,
-            pathomit = floor(checkedOptions.option("pathomit").toDouble()).toFloat()
+            pathomit = floor(checkedOptions.pathOmit.toDouble()).toFloat()
         )
         indexedImage.layers.clear()
         indexedImage.layers.addAll(
             batchtracelayers(
                 binternodes = batchinternodes(batchPathScan),
-                ltres = checkedOptions.option("ltres"),
-                qtres = checkedOptions.option("qtres")
+                ltres = checkedOptions.lineThreshold,
+                qtres = checkedOptions.quadraticThreshold
             )
         )
         return indexedImage
     }
 
-    private fun checkoptions(options: HashMap<String, Float>?): HashMap<String, Float> {
-        val checkedOptions = options ?: HashMap()
-
-        checkedOptions.putIfAbsent("ltres", 1f)
-        checkedOptions.putIfAbsent("qtres", 1f)
-        checkedOptions.putIfAbsent("pathomit", 8f)
-        checkedOptions.putIfAbsent("colorsampling", 1f)
-        checkedOptions.putIfAbsent("numberofcolors", 16f)
-        checkedOptions.putIfAbsent("mincolorratio", 0.02f)
-        checkedOptions.putIfAbsent("colorquantcycles", 3f)
-        checkedOptions.putIfAbsent("scale", 1f)
-        checkedOptions.putIfAbsent("simplifytolerance", 0f)
-        checkedOptions.putIfAbsent("roundcoords", 1f)
-        checkedOptions.putIfAbsent("lcpr", 0f)
-        checkedOptions.putIfAbsent("qcpr", 0f)
-        checkedOptions.putIfAbsent("desc", 1f)
-        checkedOptions.putIfAbsent("viewbox", 0f)
-        checkedOptions.putIfAbsent("blurradius", 0f)
-        checkedOptions.putIfAbsent("blurdelta", 20f)
-        checkedOptions.putIfAbsent("seed", 0f)
-
-        return checkedOptions
-    }
+    private fun checkOptions(options: Options?): Options = options ?: Options()
 
     private fun colorquantization(
         imgd: ImageData,
         palette: Array<ByteArray>?,
-        options: HashMap<String, Float>
+        options: Options
     ): IndexedImage {
-        val numberOfColors = floor(options.option("numberofcolors").toDouble()).toInt()
-        val minRatio = options.option("mincolorratio")
-        val cycles = floor(options.option("colorquantcycles").toDouble()).toInt()
-        val random = Random(options.option("seed").toLong())
+        val numberOfColors = floor(options.numberOfColors.toDouble()).toInt()
+        val minRatio = options.minColorRatio
+        val cycles = floor(options.colorQuantCycles.toDouble()).toInt()
+        val random = Random(options.seed.toLong())
         val arr = Array(imgd.height + 2) { IntArray(imgd.width + 2) }
 
         for (j in 0 until imgd.height + 2) {
@@ -354,7 +352,7 @@ data object ImageTracer {
 
         var workingPalette = palette?.copyPalette()
         if (workingPalette == null) {
-            workingPalette = if (options.option("colorsampling") != 0f) {
+            workingPalette = if (options.colorSampling != 0f) {
                 samplepalette(numberOfColors, imgd, random)
             } else {
                 createPalette(numberOfColors, random)
@@ -362,11 +360,11 @@ data object ImageTracer {
         }
 
         var workingImageData = imgd
-        if (options.option("blurradius") > 0f) {
+        if (options.blurRadius > 0f) {
             workingImageData = blur(
                 imgd = workingImageData,
-                rad = options.option("blurradius"),
-                del = options.option("blurdelta")
+                rad = options.blurRadius,
+                del = options.blurDelta
             )
         }
 
@@ -838,12 +836,12 @@ data object ImageTracer {
         desc: String,
         segments: ArrayList<Array<Double>>,
         color: String,
-        options: HashMap<String, Float>
+        options: Options
     ) {
-        val scale = options.option("scale").toDouble()
-        val lcpr = options.option("lcpr").toDouble()
-        val qcpr = options.option("qcpr").toDouble()
-        val roundcoords = floor(options.option("roundcoords").toDouble()).toFloat()
+        val scale = options.scale.toDouble()
+        val lcpr = options.lineControlPointRadius.toDouble()
+        val qcpr = options.quadraticControlPointRadius.toDouble()
+        val roundcoords = floor(options.roundCoords.toDouble()).toFloat()
 
         sb.append("<path ")
             .append(desc)
@@ -878,12 +876,12 @@ data object ImageTracer {
         desc: String,
         segments: ArrayList<Array<Double>>,
         colorstr: String,
-        options: HashMap<String, Float>
+        options: Options
     ) {
-        val scale = options.option("scale").toDouble()
-        val lcpr = options.option("lcpr").toDouble()
-        val qcpr = options.option("qcpr").toDouble()
-        val roundcoords = floor(options.option("roundcoords").toDouble()).toFloat()
+        val scale = options.scale.toDouble()
+        val lcpr = options.lineControlPointRadius.toDouble()
+        val qcpr = options.quadraticControlPointRadius.toDouble()
+        val roundcoords = floor(options.roundCoords.toDouble()).toFloat()
 
         listener.onProgress("<path ")
             .onProgress(desc)
@@ -913,11 +911,11 @@ data object ImageTracer {
         }
     }
 
-    fun getsvgstring(ii: IndexedImage, options: HashMap<String, Float>?): String {
-        val checkedOptions = checkoptions(options)
-        val w = (ii.width * checkedOptions.option("scale")).toInt()
-        val h = (ii.height * checkedOptions.option("scale")).toInt()
-        val viewBoxOrViewport = if (checkedOptions.option("viewbox") != 0f) {
+    fun getsvgstring(ii: IndexedImage, options: Options?): String {
+        val checkedOptions = checkOptions(options)
+        val w = (ii.width * checkedOptions.scale).toInt()
+        val h = (ii.height * checkedOptions.scale).toInt()
+        val viewBoxOrViewport = if (checkedOptions.viewBox != 0f) {
             "viewBox=\"0 0 $w $h\" "
         } else {
             "width=\"$w\" height=\"$h\" "
@@ -926,8 +924,8 @@ data object ImageTracer {
             "<svg ${viewBoxOrViewport}version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" "
         )
 
-        if (checkedOptions.option("desc") != 0f) {
-            svgString.append("desc=\"Created with ImageTracer.kt version $VERSION_NUMBER\" ")
+        if (checkedOptions.description != 0f) {
+            svgString.append(SIGNATURE)
         }
         svgString.append(">")
 
@@ -943,7 +941,7 @@ data object ImageTracer {
         for (entry in zindex.entries) {
             val layerIndex = entry.value[0]
             val pathIndex = entry.value[1]
-            val pathDescription = if (checkedOptions.option("desc") != 0f) {
+            val pathDescription = if (checkedOptions.description != 0f) {
                 "desc=\"l $layerIndex p $pathIndex\" "
             } else {
                 ""
@@ -963,21 +961,21 @@ data object ImageTracer {
 
     fun getsvgstring(
         ii: IndexedImage,
-        options: HashMap<String, Float>?,
+        options: Options?,
         listener: SvgListener
     ) {
-        val checkedOptions = checkoptions(options)
-        val w = (ii.width * checkedOptions.option("scale")).toInt()
-        val h = (ii.height * checkedOptions.option("scale")).toInt()
-        val viewBoxOrViewport = if (checkedOptions.option("viewbox") != 0f) {
+        val checkedOptions = checkOptions(options)
+        val w = (ii.width * checkedOptions.scale).toInt()
+        val h = (ii.height * checkedOptions.scale).toInt()
+        val viewBoxOrViewport = if (checkedOptions.viewBox != 0f) {
             "viewBox=\"0 0 $w $h\" "
         } else {
             "width=\"$w\" height=\"$h\" "
         }
 
         listener.onProgress("<svg ${viewBoxOrViewport}version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" ")
-        if (checkedOptions.option("desc") != 0f) {
-            listener.onProgress("desc=\"Created with ImageTracer.kt version $VERSION_NUMBER\" ")
+        if (checkedOptions.description != 0f) {
+            listener.onProgress(SIGNATURE)
         }
         listener.onProgress(">")
 
@@ -993,7 +991,7 @@ data object ImageTracer {
         for (entry in zindex.entries) {
             val layerIndex = entry.value[0]
             val pathIndex = entry.value[1]
-            val pathDescription = if (checkedOptions.option("desc") != 0f) {
+            val pathDescription = if (checkedOptions.description != 0f) {
                 "desc=\"l $layerIndex p $pathIndex\" "
             } else {
                 ""
@@ -1268,9 +1266,6 @@ data object ImageTracer {
             .onProgress("\" stroke=\"cyan\" />")
     }
 
-    private fun HashMap<String, Float>.option(key: String): Float =
-        this[key] ?: error("Missing ImageTracer option: $key")
-
     private fun randomPaletteByte(random: Random): Byte =
         (-128 + random.nextInt(255)).toByte()
 
@@ -1282,20 +1277,20 @@ data object ImageTracer {
 
     fun imageToIndexedImage(
         filename: String,
-        options: HashMap<String, Float>?,
+        options: Options?,
         palette: Array<ByteArray>?
     ): IndexedImage {
-        val checkedOptions = checkoptions(options)
+        val checkedOptions = checkOptions(options)
         val imageData = loadImageData(filename)
         return imageDataToIndexedImage(imageData, checkedOptions, palette)
     }
 
     fun imageToIndexedImage(
         bitmap: Bitmap,
-        options: HashMap<String, Float>?,
+        options: Options?,
         palette: Array<ByteArray>?
     ): IndexedImage {
-        val checkedOptions = checkoptions(options)
+        val checkedOptions = checkOptions(options)
         val imageData = loadImageData(bitmap)
         return imageDataToIndexedImage(imageData, checkedOptions, palette)
     }
