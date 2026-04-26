@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,50 +19,48 @@ package com.t8rin.imagetoolbox.core.resources.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.MiniEdit: ImageVector by lazy {
+val Icons.Rounded.MiniEdit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "Mini Edit", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-        viewportWidth = 24.0f, viewportHeight = 24.0f
+        name = "Rounded.MiniEdit",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
     ).apply {
-        path(
-            fill = SolidColor(Color(0xFF000000)),
-            stroke = null,
-            strokeLineWidth = 0.0f,
-            strokeLineCap = StrokeCap.Butt,
-            strokeLineJoin = StrokeJoin.Miter,
-            strokeLineMiter = 4.0f,
-            pathFillType = PathFillType.NonZero
-        ) {
-            moveTo(18.7912f, 7.9369f)
-            curveToRelative(-0.1161f, -0.2838f, -0.2774f, -0.5418f, -0.4837f, -0.7739f)
-            lineToRelative(-1.4317f, -1.4318f)
-            curveToRelative(-0.2322f, -0.2321f, -0.4902f, -0.4062f, -0.7739f, -0.5223f)
-            curveToRelative(-0.2838f, -0.1161f, -0.5804f, -0.1741f, -0.89f, -0.1741f)
-            curveToRelative(-0.2838f, 0.0f, -0.5676f, 0.0516f, -0.8513f, 0.1547f)
-            curveToRelative(-0.2838f, 0.1032f, -0.5418f, 0.2709f, -0.7739f, 0.5031f)
-            lineToRelative(-8.5519f, 8.5132f)
-            verticalLineToRelative(4.7596f)
-            horizontalLineToRelative(4.7596f)
-            lineToRelative(8.5132f, -8.5132f)
-            curveToRelative(0.2321f, -0.2322f, 0.3998f, -0.4966f, 0.5031f, -0.7933f)
-            curveToRelative(0.1032f, -0.2966f, 0.1547f, -0.5869f, 0.1547f, -0.8707f)
-            curveTo(18.9653f, 8.5044f, 18.9073f, 8.2206f, 18.7912f, 7.9369f)
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(18.825f, 7.917f)
+            curveToRelative(-0.117f, -0.285f, -0.278f, -0.544f, -0.486f, -0.778f)
+            lineToRelative(-1.439f, -1.439f)
+            curveToRelative(-0.233f, -0.233f, -0.492f, -0.408f, -0.778f, -0.525f)
+            curveToRelative(-0.285f, -0.117f, -0.583f, -0.175f, -0.894f, -0.175f)
+            curveToRelative(-0.285f, 0f, -0.57f, 0.052f, -0.856f, 0.156f)
+            curveToRelative(-0.285f, 0.103f, -0.544f, 0.272f, -0.778f, 0.506f)
+            lineTo(5.467f, 13.75f)
+            curveToRelative(-0.156f, 0.156f, -0.272f, 0.331f, -0.35f, 0.525f)
+            reflectiveCurveToRelative(-0.117f, 0.395f, -0.117f, 0.603f)
+            verticalLineToRelative(2.567f)
+            curveToRelative(0f, 0.441f, 0.149f, 0.81f, 0.447f, 1.108f)
+            curveToRelative(0.298f, 0.298f, 0.667f, 0.447f, 1.108f, 0.447f)
+            horizontalLineToRelative(2.567f)
+            curveToRelative(0.208f, 0f, 0.408f, -0.039f, 0.603f, -0.117f)
+            reflectiveCurveToRelative(0.369f, -0.194f, 0.525f, -0.35f)
+            lineToRelative(8.089f, -8.089f)
+            curveToRelative(0.233f, -0.233f, 0.402f, -0.499f, 0.506f, -0.797f)
+            curveToRelative(0.103f, -0.298f, 0.156f, -0.59f, 0.156f, -0.875f)
+            reflectiveCurveToRelative(-0.058f, -0.57f, -0.175f, -0.856f)
             close()
-            moveTo(8.8269f, 16.6435f)
-            horizontalLineTo(7.3565f)
-            verticalLineToRelative(-1.4705f)
-            lineToRelative(4.7209f, -4.6823f)
-            lineToRelative(0.7353f, 0.6965f)
-            lineToRelative(0.6965f, 0.7352f)
-            lineTo(8.8269f, 16.6435f)
+            moveTo(8.811f, 16.667f)
+            horizontalLineToRelative(-1.478f)
+            verticalLineToRelative(-1.478f)
+            lineToRelative(4.744f, -4.706f)
+            lineToRelative(0.739f, 0.7f)
+            lineToRelative(0.7f, 0.739f)
+            lineToRelative(-4.706f, 4.744f)
             close()
         }
     }.build()
