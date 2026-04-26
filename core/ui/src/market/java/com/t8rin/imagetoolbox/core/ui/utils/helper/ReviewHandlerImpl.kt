@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.app.Activity
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 
 internal object ReviewHandlerImpl : ReviewHandler() {
 

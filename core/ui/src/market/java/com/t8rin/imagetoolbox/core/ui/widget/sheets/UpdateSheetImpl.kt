@@ -17,15 +17,15 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.sheets
 
-import androidx.compose.material.icons.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.FileDownloadOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FileDownloadOff
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
