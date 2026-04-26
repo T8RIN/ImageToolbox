@@ -19,13 +19,11 @@ package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Album
-import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.FilterBAndW
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.twotone.Album
-import androidx.compose.material.icons.twotone.ColorLens
 import androidx.compose.material.icons.twotone.FilterBAndW
 import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
@@ -72,6 +70,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
+import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Panorama
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
@@ -271,7 +270,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ScanQrCode -> Icons.Outlined.QrCode
     is ImageStacking -> Icons.Outlined.ImageOverlay
     is ImageSplitting -> Icons.Outlined.SplitAlt
-    is ColorTools -> Icons.Outlined.ColorLens
+    is ColorTools -> Icons.Outlined.Palette
     is WebpTools -> Icons.Outlined.WebpBox
     is NoiseGeneration -> Icons.Outlined.NoiseAlt
     is CollageMaker -> Icons.Outlined.Collage
@@ -349,7 +348,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ScanQrCode -> Icons.TwoTone.QrCode
     is ImageStacking -> Icons.TwoTone.ImageOverlay
     is ImageSplitting -> Icons.TwoTone.SplitAlt
-    is ColorTools -> Icons.TwoTone.ColorLens
+    is ColorTools -> Icons.TwoTone.Palette
     is WebpTools -> Icons.TwoTone.WebpBox
     is NoiseGeneration -> Icons.Outlined.NoiseAlt
     is CollageMaker -> Icons.TwoTone.Collage

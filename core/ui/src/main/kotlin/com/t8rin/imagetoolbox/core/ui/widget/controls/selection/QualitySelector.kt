@@ -34,7 +34,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.LocalContentColor
@@ -61,6 +60,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.TiffCompressionScheme
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.QualityHigh
 import com.t8rin.imagetoolbox.core.resources.icons.QualityLow
 import com.t8rin.imagetoolbox.core.resources.icons.QualityMedium
@@ -301,7 +301,7 @@ fun QualitySelector(
                 EnhancedSliderItem(
                     value = pngLossyQuality?.maxColors ?: 0,
                     title = stringResource(R.string.max_colors_count),
-                    icon = Icons.Outlined.ColorLens,
+                    icon = Icons.Outlined.Palette,
                     valueRange = 2f..1024f,
                     internalStateTransformation = {
                         it.roundToInt().coerceIn(2..1024).toFloat()

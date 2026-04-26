@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.LineWeight
 import androidx.compose.material.icons.outlined.TableRows
 import androidx.compose.material.icons.outlined.ViewColumn
@@ -46,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -97,7 +97,7 @@ fun HelperGridParamsSelector(
                             resultPadding = 0.dp
                         )
                         .padding(start = 4.dp),
-                    icon = Icons.Outlined.ColorLens,
+                    icon = Icons.Outlined.Palette,
                     title = stringResource(R.string.grid_color)
                 )
                 EnhancedSliderItem(

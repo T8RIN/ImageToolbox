@@ -27,8 +27,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ColorLens
-import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -49,6 +47,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
@@ -109,7 +108,7 @@ fun ConfettiHarmonizationColorSettingItem(
                 ),
                 iconEndPadding = 14.dp,
                 text = stringResource(R.string.harmonization_color),
-                icon = Icons.Outlined.ColorLens
+                icon = Icons.Outlined.Palette
             )
 
             FlowRow(
@@ -216,7 +215,7 @@ fun ConfettiHarmonizationColorSettingItem(
         title = {
             TitleItem(
                 text = stringResource(R.string.color),
-                icon = Icons.Rounded.ColorLens
+                icon = Icons.Rounded.Palette
             )
         },
         confirmButton = {

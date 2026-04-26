@@ -33,7 +33,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material.icons.outlined.ChangeHistory
-import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.LinearScale
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.SettingsEthernet
@@ -56,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
 import com.t8rin.imagetoolbox.core.resources.icons.Line
+import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -173,7 +173,7 @@ fun SvgParamsSelector(
         EnhancedSliderItem(
             value = value.colorsCount,
             title = stringResource(R.string.max_colors_count),
-            icon = Icons.Outlined.ColorLens,
+            icon = Icons.Outlined.Palette,
             valueRange = 2f..64f,
             steps = 61,
             internalStateTransformation = {
