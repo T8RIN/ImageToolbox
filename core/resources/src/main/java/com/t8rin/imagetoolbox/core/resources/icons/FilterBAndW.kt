@@ -59,3 +59,54 @@ val Icons.Rounded.FilterBAndW: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         }
     }.build()
 }
+
+val Icons.TwoTone.FilterBAndW: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "TwoTone.FilterBAndW",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(19f, 21f)
+            horizontalLineTo(5f)
+            curveToRelative(-0.55f, 0f, -1.021f, -0.196f, -1.413f, -0.587f)
+            curveToRelative(-0.392f, -0.392f, -0.587f, -0.863f, -0.587f, -1.413f)
+            verticalLineTo(5f)
+            curveToRelative(0f, -0.55f, 0.196f, -1.021f, 0.587f, -1.413f)
+            curveToRelative(0.392f, -0.392f, 0.863f, -0.587f, 1.413f, -0.587f)
+            horizontalLineToRelative(14f)
+            curveToRelative(0.55f, 0f, 1.021f, 0.196f, 1.413f, 0.587f)
+            reflectiveCurveToRelative(0.587f, 0.863f, 0.587f, 1.413f)
+            verticalLineToRelative(14f)
+            curveToRelative(0f, 0.55f, -0.196f, 1.021f, -0.587f, 1.413f)
+            curveToRelative(-0.392f, 0.392f, -0.863f, 0.587f, -1.413f, 0.587f)
+            close()
+            moveTo(5f, 19f)
+            horizontalLineToRelative(7f)
+            verticalLineToRelative(-8f)
+            lineToRelative(7f, 8f)
+            verticalLineTo(5f)
+            horizontalLineToRelative(-7f)
+            verticalLineToRelative(6f)
+            lineToRelative(-7f, 8f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color.Black),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(5f, 19f)
+            lineToRelative(7f, 0f)
+            lineToRelative(0f, -8f)
+            lineToRelative(7f, 8f)
+            lineToRelative(0f, -14f)
+            lineToRelative(-7f, 0f)
+            lineToRelative(0f, 6f)
+            lineToRelative(-7f, 8f)
+            close()
+        }
+    }.build()
+}

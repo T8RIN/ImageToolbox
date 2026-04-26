@@ -60,7 +60,7 @@ fun FontScaleSettingItem(
         shape = shape,
         value = sliderValue,
         title = stringResource(R.string.font_scale),
-        icon = Icons.Outlined.TextFields,
+        icon = Icons.Rounded.TextFields,
         onValueChange = {
             sliderValue = it.roundToTwoDigits()
         },

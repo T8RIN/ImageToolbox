@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Outlined.TextFields: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val Icons.Rounded.TextFields: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
         name = "Rounded.TextFields",
         defaultWidth = 24.dp,
@@ -74,5 +74,3 @@ val Icons.Outlined.TextFields: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         }
     }.build()
 }
-
-val Icons.Rounded.TextFields: ImageVector get() = Icons.Outlined.TextFields

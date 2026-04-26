@@ -40,7 +40,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.BugReport
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -67,6 +66,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BugReport
 import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowUpRight
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoPrints
 import com.t8rin.imagetoolbox.core.resources.icons.PushPin

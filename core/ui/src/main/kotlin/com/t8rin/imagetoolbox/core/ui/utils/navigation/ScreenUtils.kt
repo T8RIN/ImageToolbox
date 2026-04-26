@@ -18,12 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Album
-import androidx.compose.material.icons.twotone.FilterBAndW
-import androidx.compose.material.icons.twotone.FolderZip
-import androidx.compose.material.icons.twotone.GifBox
-import androidx.compose.material.icons.twotone.Gradient
-import androidx.compose.material.icons.twotone.Preview
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
@@ -329,7 +323,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Filter -> Icons.Outlined.AutoFixHigh
     is PaletteTools -> Icons.TwoTone.PaletteSwatch
     is GifTools -> Icons.TwoTone.GifBox
-    is GradientMaker -> Icons.TwoTone.Gradient
+    is GradientMaker -> Icons.Outlined.Gradient
     is ImagePreview -> Icons.TwoTone.Landscape
     is ImageStitching -> Icons.TwoTone.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
