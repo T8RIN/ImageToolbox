@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.core.data.json
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.rawType
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import java.lang.reflect.Type
 import javax.inject.Inject
 

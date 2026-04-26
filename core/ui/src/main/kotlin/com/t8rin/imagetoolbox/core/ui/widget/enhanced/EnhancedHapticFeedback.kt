@@ -43,7 +43,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.Role
 import androidx.core.content.getSystemService
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 
 private fun View.vibrate() =
     reallyPerformHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)

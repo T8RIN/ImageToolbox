@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.app.Activity
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow

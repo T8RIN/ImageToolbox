@@ -17,14 +17,14 @@
 
 package com.t8rin.imagetoolbox.app.presentation.components.functions
 
-import android.app.Application
+import com.t8rin.imagetoolbox.app.presentation.components.ImageToolboxApplication
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
-import com.t8rin.logger.Logger
-import com.t8rin.logger.attachLogWriter
+import com.t8rin.imagetoolbox.core.utils.Logger
+import com.t8rin.imagetoolbox.core.utils.attachLogWriter
 
 
-internal fun Application.attachLogWriter() {
+internal fun ImageToolboxApplication.attachLogWriter() {
     Logger.attachLogWriter(
         context = this@attachLogWriter,
         fileProvider = getString(R.string.file_provider),
@@ -34,6 +34,7 @@ internal fun Application.attachLogWriter() {
             message = "--${DeviceInfo.get()}--",
             level = Logger.Level.Info
         ),
+        errorHandler = analyticsManager::sendReport,
         isSyncCreate = false
     )
 }

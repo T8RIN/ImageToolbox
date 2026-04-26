@@ -34,7 +34,7 @@ import coil3.size.pxOrElse
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.rendering.PDFRenderer
 import okio.ByteString.Companion.toByteString

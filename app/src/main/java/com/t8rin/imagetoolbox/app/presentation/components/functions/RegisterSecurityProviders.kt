@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.app.presentation.components.functions
 
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import org.bouncycastle.asn1.ASN1ObjectIdentifier
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.operator.DefaultAlgorithmNameFinder

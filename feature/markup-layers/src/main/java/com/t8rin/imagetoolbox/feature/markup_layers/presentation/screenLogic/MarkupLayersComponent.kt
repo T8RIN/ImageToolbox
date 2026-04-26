@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectExtension
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.isMarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
@@ -77,7 +78,6 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.mode
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toUi
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.withCoerceToBoundsRecursively
-import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

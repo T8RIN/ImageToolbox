@@ -21,7 +21,7 @@ import com.t8rin.imagetoolbox.core.data.remote.AndroidDownloadManager
 import com.t8rin.imagetoolbox.core.data.remote.AndroidRemoteResourcesStore
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

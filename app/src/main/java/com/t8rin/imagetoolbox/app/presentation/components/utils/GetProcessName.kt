@@ -22,7 +22,7 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.Context.ACTIVITY_SERVICE
 import android.os.Build.VERSION.SDK_INT
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 
 internal fun Application.isMain(): Boolean =
     getProcessName().makeLog("Current Process") == packageName.makeLog("Current packageName")
@@ -39,7 +39,7 @@ internal fun Application.getProcessName(): String? {
         val activityThread = Class.forName(
             "android.app.ActivityThread",
             false,
-            this::class.java.getClassLoader()
+            this::class.java.classLoader
         )
         val packageName: Any?
         val currentProcessName = activityThread.getDeclaredMethod("currentProcessName")

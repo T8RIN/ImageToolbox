@@ -33,7 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.SaveResultHandler
 import com.t8rin.imagetoolbox.core.ui.utils.helper.SaveResultHandlerImpl
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart

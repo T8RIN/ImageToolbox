@@ -67,9 +67,9 @@ import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getPath
 import com.t8rin.imagetoolbox.core.utils.listFilesInDirectory
 import com.t8rin.imagetoolbox.core.utils.listFilesInDirectoryProgressive
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
 import com.t8rin.imagetoolbox.core.utils.uiPath
-import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first

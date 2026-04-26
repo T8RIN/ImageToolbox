@@ -22,10 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.t8rin.imagetoolbox.core.data.image.utils.healAlpha
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackendFactory
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
-import com.t8rin.logger.makeLog
 import com.t8rin.neural_tools.bgremover.BgRemover
 import com.t8rin.trickle.TrickleUtils
 import kotlinx.coroutines.coroutineScope

@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DropShadow
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
@@ -58,7 +59,6 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateRect
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateStar
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.vertices
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.withOutlinedFillColor
-import com.t8rin.logger.makeLog
 import java.io.File
 import javax.inject.Inject
 

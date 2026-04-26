@@ -32,7 +32,7 @@ import androidx.core.app.ServiceCompat
 import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import kotlin.math.roundToInt
 
 internal class KeepAliveForegroundService : Service() {

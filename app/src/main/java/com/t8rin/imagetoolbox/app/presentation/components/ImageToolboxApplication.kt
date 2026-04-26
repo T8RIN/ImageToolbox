@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.app.presentation.components.functions.setupFlags
 import com.t8rin.imagetoolbox.app.presentation.components.utils.isMain
 import com.t8rin.imagetoolbox.core.crash.presentation.components.applyGlobalExceptionHandler
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication
 import com.t8rin.imagetoolbox.core.utils.initAppContext
@@ -49,6 +50,9 @@ class ImageToolboxApplication : ComposeApplication() {
 
     @Inject
     lateinit var httpClient: HttpClient
+
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
 
     private var isSetupCompleted: Boolean = false
 

@@ -59,7 +59,6 @@ dependencies {
     api(projects.lib.gesture)
     api(projects.lib.image)
     api(projects.lib.modalsheet)
-    api(libs.logger)
     api(projects.lib.zoomable)
     api(projects.lib.snowfall)
     api(libs.toolbox.histogram)

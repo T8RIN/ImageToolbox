@@ -59,7 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.utils.provider.setContentWithWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

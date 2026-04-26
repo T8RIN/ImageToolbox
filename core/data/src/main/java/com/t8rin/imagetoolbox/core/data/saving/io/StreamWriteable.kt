@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.core.data.saving.io
 
 import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import java.io.InputStream
 import java.io.OutputStream
 

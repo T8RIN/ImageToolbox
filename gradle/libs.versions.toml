@@ -14,7 +14,6 @@ trickle = "1.6.1"
 evaluator = "1.0.0"
 quickie = "1.18.1"
 fadingEdges = "1.0.4"
-logger = "1.0.2"
 
 avifCoder = "2.2.0"
 avifCoderCoil = "2.2.0"
@@ -121,7 +120,6 @@ jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-document-scanner", version.ref = "mlkitDocumentScanner" }
 quickie-bundled = { module = "com.github.T8RIN.QuickieExtended:quickie-bundled", version.ref = "quickie" }
 quickie-foss = { module = "com.github.T8RIN.QuickieExtended:quickie-foss", version.ref = "quickie" }
-logger = { module = "com.github.T8RIN:Logger", version.ref = "logger" }
 
 toolbox-gpuimage = { module = "com.github.T8RIN.ImageToolboxLibs:gpuimage", version.ref = "imageToolboxLibs" }
 toolbox-androidwm = { module = "com.github.T8RIN.ImageToolboxLibs:androidwm", version.ref = "imageToolboxLibs" }

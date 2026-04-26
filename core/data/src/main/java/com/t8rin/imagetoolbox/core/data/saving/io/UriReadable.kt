@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.core.data.saving.io
 import android.content.Context
 import android.net.Uri
 import com.t8rin.imagetoolbox.core.data.utils.openWriteableStream
-import com.t8rin.logger.makeLog
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import io.ktor.utils.io.charsets.Charset
 import java.io.ByteArrayOutputStream
 

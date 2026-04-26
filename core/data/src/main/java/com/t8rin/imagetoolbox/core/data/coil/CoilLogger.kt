@@ -19,8 +19,8 @@ package com.t8rin.imagetoolbox.core.data.coil
 
 import coil3.util.DebugLogger
 import coil3.util.Logger
-import com.t8rin.logger.makeLog
-import com.t8rin.logger.Logger as RealLogger
+import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.imagetoolbox.core.utils.Logger as RealLogger
 
 internal class CoilLogger : Logger {
 

@@ -21,8 +21,8 @@ import ai.onnxruntime.NodeInfo
 import ai.onnxruntime.OnnxJavaType
 import ai.onnxruntime.OrtSession
 import ai.onnxruntime.TensorInfo
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
-import com.t8rin.logger.makeLog
 import kotlin.math.abs
 
 internal class ModelInfo(
