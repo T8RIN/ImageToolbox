@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@ package com.t8rin.imagetoolbox.feature.svg_maker.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.t8rin.image.toolbox.svg.ImageTracerAndroid
-import com.t8rin.image.toolbox.svg.ImageTracerAndroid.SvgListener
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.RandomStringGenerator
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracerAndroid
+import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracerAndroid.SvgListener
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgManager
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgParams
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -57,17 +57,15 @@ internal class AndroidSvgManager @Inject constructor(
                 withContext(ioDispatcher) {
                     file.bufferedWriter().use { writer ->
                         ImageTracerAndroid.imageToSVG(
-                            imageGetter.getImage(
+                            bitmap = imageGetter.getImage(
                                 data = uri,
                                 size = if (params.isImageSampled) {
                                     IntegerSize(1000, 1000)
                                 } else null
                             )!!,
-                            params.toOptions(),
-                            null,
-                            SvgTracer {
-                                writer.write(it)
-                            }
+                            options = params.toOptions(),
+                            palette = null,
+                            listener = SvgTracer(writer::write)
                         )
                     }
                 }
@@ -81,8 +79,8 @@ internal class AndroidSvgManager @Inject constructor(
         onProgress: (String) -> Unit
     ): SvgListener = object : SvgListener {
         override fun onProgress(
-            part: String?
-        ): SvgListener = apply { onProgress(part ?: "") }
+            part: String
+        ): SvgListener = apply { onProgress(part) }
 
         override fun onProgress(
             part: Double
