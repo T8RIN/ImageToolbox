@@ -25,9 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Healing
-import androidx.compose.material.icons.rounded.BlurCircular
-import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -50,12 +47,15 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
+import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
+import com.t8rin.imagetoolbox.core.resources.icons.Healing
 import com.t8rin.imagetoolbox.core.resources.icons.Highlighter
 import com.t8rin.imagetoolbox.core.resources.icons.Image
 import com.t8rin.imagetoolbox.core.resources.icons.MeshGradient
 import com.t8rin.imagetoolbox.core.resources.icons.NeonBrush
 import com.t8rin.imagetoolbox.core.resources.icons.Pen
+import com.t8rin.imagetoolbox.core.resources.icons.TextFormat
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup

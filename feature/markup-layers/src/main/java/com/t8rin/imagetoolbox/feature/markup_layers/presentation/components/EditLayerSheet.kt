@@ -32,13 +32,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.FormatAlignLeft
-import androidx.compose.material.icons.automirrored.rounded.FormatAlignRight
-import androidx.compose.material.icons.outlined.BorderColor
-import androidx.compose.material.icons.outlined.BorderStyle
-import androidx.compose.material.icons.outlined.Percent
-import androidx.compose.material.icons.outlined.Rectangle
-import androidx.compose.material.icons.rounded.FormatAlignCenter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,8 +55,15 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
+import com.t8rin.imagetoolbox.core.resources.icons.BorderColor
+import com.t8rin.imagetoolbox.core.resources.icons.BorderStyle
+import com.t8rin.imagetoolbox.core.resources.icons.FormatAlignCenter
+import com.t8rin.imagetoolbox.core.resources.icons.FormatAlignLeft
+import com.t8rin.imagetoolbox.core.resources.icons.FormatAlignRight
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
+import com.t8rin.imagetoolbox.core.resources.icons.Percent
+import com.t8rin.imagetoolbox.core.resources.icons.Rectangle
 import com.t8rin.imagetoolbox.core.resources.icons.SkewMore
 import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
@@ -459,7 +459,7 @@ internal fun EditLayerSheet(
                             subtitle = stringResource(R.string.add_outline_sub),
                             shape = ShapeDefaults.bottom,
                             containerColor = MaterialTheme.colorScheme.surface,
-                            startIcon = Icons.Outlined.BorderStyle,
+                            startIcon = Icons.Rounded.BorderStyle,
                             checked = haveOutline,
                             onClick = {
                                 haveOutline = it
@@ -722,7 +722,7 @@ internal fun EditLayerSheet(
                     EnhancedSliderItem(
                         value = layer.cornerRadiusPercent,
                         title = stringResource(R.string.corners_size),
-                        icon = Icons.Outlined.Percent,
+                        icon = Icons.Rounded.Percent,
                         internalStateTransformation = {
                             it.roundToInt()
                         },

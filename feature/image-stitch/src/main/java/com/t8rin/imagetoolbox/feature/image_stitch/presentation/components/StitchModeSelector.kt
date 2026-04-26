@@ -27,12 +27,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BorderBottom
-import androidx.compose.material.icons.rounded.BorderLeft
-import androidx.compose.material.icons.rounded.BorderRight
-import androidx.compose.material.icons.rounded.BorderTop
-import androidx.compose.material.icons.rounded.TableRows
-import androidx.compose.material.icons.rounded.ViewColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +35,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BorderBottom
+import com.t8rin.imagetoolbox.core.resources.icons.BorderLeft
+import com.t8rin.imagetoolbox.core.resources.icons.BorderRight
+import com.t8rin.imagetoolbox.core.resources.icons.BorderTop
+import com.t8rin.imagetoolbox.core.resources.icons.TableRows
+import com.t8rin.imagetoolbox.core.resources.icons.ViewColumn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults

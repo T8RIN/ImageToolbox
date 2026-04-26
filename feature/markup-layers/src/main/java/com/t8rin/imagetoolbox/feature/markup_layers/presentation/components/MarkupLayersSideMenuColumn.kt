@@ -38,8 +38,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DragHandle
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -56,8 +54,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiSticky
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSticky
+import com.t8rin.imagetoolbox.core.resources.icons.Lock
 import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
 import com.t8rin.imagetoolbox.core.resources.icons.StarSticky
 import com.t8rin.imagetoolbox.core.resources.icons.TextSticky

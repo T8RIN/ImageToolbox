@@ -27,8 +27,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FormatLineSpacing
-import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -46,6 +44,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BatchPrediction
+import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
+import com.t8rin.imagetoolbox.core.resources.icons.FormatLineSpacing
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -101,7 +101,7 @@ fun ScreenOrderSettingItem(
             )
         },
         enabled = !settingsState.groupOptionsByTypes,
-        startIcon = Icons.Outlined.FormatLineSpacing,
+        startIcon = Icons.Rounded.FormatLineSpacing,
         title = stringResource(R.string.order),
         subtitle = stringResource(R.string.order_sub),
         endIcon = Icons.Rounded.MiniEdit,

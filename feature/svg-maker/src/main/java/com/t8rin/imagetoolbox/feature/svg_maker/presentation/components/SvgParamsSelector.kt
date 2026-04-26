@@ -31,13 +31,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Calculate
-import androidx.compose.material.icons.outlined.ChangeHistory
-import androidx.compose.material.icons.outlined.LinearScale
-import androidx.compose.material.icons.outlined.RepeatOne
-import androidx.compose.material.icons.outlined.SettingsEthernet
-import androidx.compose.material.icons.outlined.Upcoming
-import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,12 +44,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
+import com.t8rin.imagetoolbox.core.resources.icons.Calculate
+import com.t8rin.imagetoolbox.core.resources.icons.ChangeHistory
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
 import com.t8rin.imagetoolbox.core.resources.icons.Line
+import com.t8rin.imagetoolbox.core.resources.icons.LinearScale
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
+import com.t8rin.imagetoolbox.core.resources.icons.RepeatOne
+import com.t8rin.imagetoolbox.core.resources.icons.SettingsEthernet
+import com.t8rin.imagetoolbox.core.resources.icons.Upcoming
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -209,7 +209,7 @@ fun SvgParamsSelector(
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
             value = value.quantizationCyclesCount,
-            icon = Icons.Outlined.RepeatOne,
+            icon = Icons.Rounded.RepeatOne,
             title = stringResource(id = R.string.repeat_count),
             valueRange = 1f..10f,
             steps = 8,
@@ -226,7 +226,7 @@ fun SvgParamsSelector(
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
             value = value.seed,
-            icon = Icons.Outlined.SettingsEthernet,
+            icon = Icons.Rounded.SettingsEthernet,
             title = stringResource(id = R.string.seed),
             valueRange = -10000f..10000f,
             internalStateTransformation = { it.roundToInt() },
@@ -256,7 +256,7 @@ fun SvgParamsSelector(
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
             value = value.svgPathsScale,
-            icon = Icons.Outlined.LinearScale,
+            icon = Icons.Rounded.LinearScale,
             title = stringResource(R.string.path_scale),
             valueRange = 0.01f..100f,
             internalStateTransformation = {

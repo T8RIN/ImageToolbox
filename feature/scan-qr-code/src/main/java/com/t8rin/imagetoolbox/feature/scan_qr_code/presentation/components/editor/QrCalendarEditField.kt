@@ -25,13 +25,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Event
-import androidx.compose.material.icons.outlined.Flag
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Place
-import androidx.compose.material.icons.outlined.Start
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,8 +42,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.DateRange
+import com.t8rin.imagetoolbox.core.resources.icons.Description
+import com.t8rin.imagetoolbox.core.resources.icons.Event
+import com.t8rin.imagetoolbox.core.resources.icons.Flag
 import com.t8rin.imagetoolbox.core.resources.icons.Info
-import com.t8rin.imagetoolbox.core.resources.icons.TimerEdit
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.resources.icons.Person
+import com.t8rin.imagetoolbox.core.resources.icons.Place
+import com.t8rin.imagetoolbox.core.resources.icons.Start
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDateRangePickerDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTimePickerDialog
@@ -185,7 +185,7 @@ internal fun QrCalendarEditField(
                         label = { Text(stringResource(R.string.start_date)) },
                         startIcon = {
                             Icon(
-                                imageVector = Icons.Outlined.Start,
+                                imageVector = Icons.Rounded.Start,
                                 contentDescription = null
                             )
                         },
@@ -201,7 +201,7 @@ internal fun QrCalendarEditField(
                         shape = ShapeDefaults.smallEnd
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.TimerEdit,
+                            imageVector = Icons.Rounded.MiniEdit,
                             contentDescription = null
                         )
                     }
@@ -234,7 +234,7 @@ internal fun QrCalendarEditField(
                         shape = ShapeDefaults.smallEnd
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.TimerEdit,
+                            imageVector = Icons.Rounded.MiniEdit,
                             contentDescription = null
                         )
                     }

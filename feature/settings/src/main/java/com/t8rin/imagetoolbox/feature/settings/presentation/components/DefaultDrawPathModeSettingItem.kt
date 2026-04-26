@@ -20,11 +20,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.TouchApp
-import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
-import androidx.compose.material.icons.rounded.HourglassEmpty
-import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -34,11 +29,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.CheckBoxOutlineBlank
 import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeArrow
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
+import com.t8rin.imagetoolbox.core.resources.icons.HourglassEmpty
 import com.t8rin.imagetoolbox.core.resources.icons.Lasso
 import com.t8rin.imagetoolbox.core.resources.icons.Line
 import com.t8rin.imagetoolbox.core.resources.icons.LineArrow
@@ -47,6 +44,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Polygon
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
 import com.t8rin.imagetoolbox.core.resources.icons.Spray
 import com.t8rin.imagetoolbox.core.resources.icons.Square
+import com.t8rin.imagetoolbox.core.resources.icons.Star
+import com.t8rin.imagetoolbox.core.resources.icons.TouchApp
 import com.t8rin.imagetoolbox.core.resources.icons.Triangle
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
@@ -130,7 +129,7 @@ private fun Int.getIcon(): ImageVector = when (this) {
     12 -> Icons.Outlined.Triangle
     13 -> Icons.Rounded.Polygon
     14 -> Icons.Outlined.Polygon
-    16 -> Icons.Rounded.StarOutline
+    16 -> Icons.Outlined.Star
     15 -> Icons.Rounded.Star
     17 -> Icons.Rounded.FloodFill
     18 -> Icons.Outlined.Spray

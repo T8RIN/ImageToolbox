@@ -36,7 +36,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -52,6 +51,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.icons.Block
 import com.t8rin.imagetoolbox.core.resources.icons.Done
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.resources.icons.Palette

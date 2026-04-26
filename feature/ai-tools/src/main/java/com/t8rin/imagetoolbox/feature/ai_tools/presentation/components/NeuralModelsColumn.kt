@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ModelTraining
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -69,6 +68,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.DownloadForOffline
 import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.FileImport
 import com.t8rin.imagetoolbox.core.resources.icons.Link
+import com.t8rin.imagetoolbox.core.resources.icons.ModelTraining
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff

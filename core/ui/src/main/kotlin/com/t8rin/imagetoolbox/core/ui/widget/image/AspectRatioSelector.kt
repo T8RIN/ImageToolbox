@@ -37,8 +37,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CropFree
-import androidx.compose.material.icons.outlined.DashboardCustomize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -66,6 +64,8 @@ import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.utils.ifCasts
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.CropFree
+import com.t8rin.imagetoolbox.core.resources.icons.DashboardCustomize
 import com.t8rin.imagetoolbox.core.resources.icons.Image
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
@@ -225,7 +225,7 @@ fun AspectRatioSelector(
 
                                 is DomainAspectRatio.Free -> {
                                     Icon(
-                                        imageVector = Icons.Outlined.CropFree,
+                                        imageVector = Icons.Rounded.CropFree,
                                         contentDescription = null
                                     )
                                 }

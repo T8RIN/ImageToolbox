@@ -40,9 +40,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Face5
-import androidx.compose.material.icons.outlined.Face6
-import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -68,7 +65,10 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.emoji.EmojiData
+import com.t8rin.imagetoolbox.core.resources.icons.Face5
+import com.t8rin.imagetoolbox.core.resources.icons.Face6
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -97,7 +97,7 @@ fun EmojiSelectionSheet(
     allEmojis: ImmutableList<Uri> = Emoji.allIcons(),
     onEmojiPicked: (Int) -> Unit,
     visible: Boolean,
-    icon: ImageVector = Icons.Outlined.Face5,
+    icon: ImageVector = Icons.Rounded.Face5,
     onDismiss: () -> Unit
 ) {
     val state = rememberLazyGridState()

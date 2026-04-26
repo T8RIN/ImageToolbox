@@ -33,8 +33,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Language
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getCurrentLocaleString
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getDisplayName
@@ -85,7 +84,7 @@ fun ChangeLanguageSettingItem(
             subtitle = remember {
                 context.getCurrentLocaleString()
             },
-            startIcon = Icons.Outlined.Language,
+            startIcon = Icons.Rounded.Language,
             endIcon = Icons.Rounded.MiniEdit,
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

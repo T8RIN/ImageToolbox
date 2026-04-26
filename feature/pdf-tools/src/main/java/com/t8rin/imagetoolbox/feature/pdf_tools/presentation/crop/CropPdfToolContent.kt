@@ -20,8 +20,6 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BorderHorizontal
-import androidx.compose.material.icons.rounded.BorderVertical
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BorderHorizontal
+import com.t8rin.imagetoolbox.core.resources.icons.BorderVertical
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.widget.controls.page.PageSelectionItem

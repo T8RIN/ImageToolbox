@@ -34,8 +34,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FileCopy
-import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +45,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FileCopy
+import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FileType
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
@@ -98,7 +98,7 @@ internal fun ColumnScope.CompareWithUrisPage(
             onClick = filePicker::pickFile,
             shape = ShapeDefaults.start,
             titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
-            startIcon = Icons.Outlined.FileCopy,
+            startIcon = Icons.Rounded.FileCopy,
             drawStartIconContainer = false,
             modifier = Modifier
                 .weight(1f)

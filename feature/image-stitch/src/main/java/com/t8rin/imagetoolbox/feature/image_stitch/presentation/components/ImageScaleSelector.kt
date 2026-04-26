@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.ui.widget.controls.OOMWarning
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -89,7 +89,7 @@ fun ImageScaleSelector(
                 end = 12.dp,
                 bottom = 10.dp
             ),
-        icon = Icons.Rounded.PhotoSizeSelectSmall,
+        icon = Icons.Outlined.PhotoSizeSelectSmall,
         shape = ShapeDefaults.extraLarge
     ) {
         AnimatedContent(

@@ -50,7 +50,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.ImageNotSupported
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -73,6 +72,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Deselect
@@ -306,7 +306,7 @@ internal fun MediaPickerGridWithOverlays(
             ) {
                 Spacer(Modifier.weight(1f))
                 Icon(
-                    imageVector = Icons.TwoTone.ImageNotSupported,
+                    imageVector = Icons.Rounded.BrokenImageAlt,
                     contentDescription = null,
                     modifier = Modifier.size(108.dp)
                 )

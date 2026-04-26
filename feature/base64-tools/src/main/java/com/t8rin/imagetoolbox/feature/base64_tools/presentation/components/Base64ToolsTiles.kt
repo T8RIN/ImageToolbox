@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
@@ -56,6 +55,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.isBase64
 import com.t8rin.imagetoolbox.core.domain.utils.trimToBase64
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
+import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
 import com.t8rin.imagetoolbox.core.resources.icons.CopyAll
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.Save

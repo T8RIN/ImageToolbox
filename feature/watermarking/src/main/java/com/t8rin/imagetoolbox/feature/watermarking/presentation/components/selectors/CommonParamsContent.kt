@@ -28,8 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.TextRotationAngleup
-import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -37,6 +35,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Repeat
+import com.t8rin.imagetoolbox.core.resources.icons.TextRotationAngleup
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -101,7 +101,7 @@ internal fun CommonParamsContent(
     ) {
         EnhancedSliderItem(
             value = params.rotation,
-            icon = Icons.Outlined.TextRotationAngleup,
+            icon = Icons.Rounded.TextRotationAngleup,
             title = stringResource(id = R.string.angle),
             valueRange = 0f..360f,
             internalStateTransformation = Float::roundToInt,

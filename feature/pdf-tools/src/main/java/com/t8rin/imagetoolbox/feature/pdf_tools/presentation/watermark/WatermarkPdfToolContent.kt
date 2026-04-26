@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.TextRotationAngleup
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.TextRotationAngleup
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
@@ -116,7 +116,7 @@ fun WatermarkPdfToolContent(
             Spacer(Modifier.height(8.dp))
             EnhancedSliderItem(
                 value = params.rotation,
-                icon = Icons.Outlined.TextRotationAngleup,
+                icon = Icons.Rounded.TextRotationAngleup,
                 title = stringResource(id = R.string.angle),
                 valueRange = 0f..360f,
                 internalStateTransformation = Float::roundToInt,

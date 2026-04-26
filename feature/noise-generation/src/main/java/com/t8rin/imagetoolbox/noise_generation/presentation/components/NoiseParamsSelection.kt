@@ -23,9 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.RampLeft
-import androidx.compose.material.icons.outlined.SettingsEthernet
-import androidx.compose.material.icons.outlined.Waves
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +31,9 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.RampLeft
+import com.t8rin.imagetoolbox.core.resources.icons.SettingsEthernet
+import com.t8rin.imagetoolbox.core.resources.icons.Waves
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -55,7 +55,7 @@ fun NoiseParamsSelection(
     ) {
         EnhancedSliderItem(
             value = value.seed,
-            icon = Icons.Outlined.SettingsEthernet,
+            icon = Icons.Rounded.SettingsEthernet,
             title = stringResource(R.string.seed),
             valueRange = -10000f..10000f,
             internalStateTransformation = {
@@ -68,7 +68,7 @@ fun NoiseParamsSelection(
         )
         EnhancedSliderItem(
             value = value.frequency,
-            icon = Icons.Outlined.Waves,
+            icon = Icons.Rounded.Waves,
             title = stringResource(R.string.frequency),
             valueRange = -0.5f..0.5f,
             internalStateTransformation = {
@@ -238,7 +238,7 @@ fun NoiseParamsSelection(
         )
         EnhancedSliderItem(
             value = value.domainWarpAmp,
-            icon = Icons.Outlined.RampLeft,
+            icon = Icons.Rounded.RampLeft,
             title = stringResource(R.string.amplitude),
             valueRange = -2000f..2000f,
             internalStateTransformation = {

@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.widget.sheets
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FileDownloadOff
+import com.t8rin.imagetoolbox.core.resources.icons.FileDownloadOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory

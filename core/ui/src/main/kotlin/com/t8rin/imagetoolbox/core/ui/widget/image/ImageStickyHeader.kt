@@ -37,8 +37,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Lock
-import androidx.compose.material.icons.rounded.LockOpen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderDefaults
@@ -65,6 +63,8 @@ import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.FadingEdgesGravity
 import com.t8rin.gesture.PointerRequisite
 import com.t8rin.gesture.detectPointerTransformGestures
+import com.t8rin.imagetoolbox.core.resources.icons.Lock
+import com.t8rin.imagetoolbox.core.resources.icons.LockOpen
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant

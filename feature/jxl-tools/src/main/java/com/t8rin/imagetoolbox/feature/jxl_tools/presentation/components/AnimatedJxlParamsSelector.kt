@@ -23,9 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.EnergySavingsLeaf
-import androidx.compose.material.icons.outlined.RepeatOne
-import androidx.compose.material.icons.outlined.Timelapse
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +32,10 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.EnergySavingsLeaf
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectLarge
+import com.t8rin.imagetoolbox.core.resources.icons.RepeatOne
+import com.t8rin.imagetoolbox.core.resources.icons.Timelapse
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -120,7 +120,7 @@ fun AnimatedJxlParamsSelector(
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
             value = value.repeatCount,
-            icon = Icons.Outlined.RepeatOne,
+            icon = Icons.Rounded.RepeatOne,
             title = stringResource(id = R.string.repeat_count),
             valueRange = 1f..10f,
             steps = 9,

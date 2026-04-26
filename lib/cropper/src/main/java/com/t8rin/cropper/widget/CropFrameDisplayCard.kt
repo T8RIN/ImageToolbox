@@ -23,8 +23,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,7 +46,9 @@ import com.t8rin.cropper.model.CropOutline
 import com.t8rin.cropper.model.CropPath
 import com.t8rin.cropper.model.CropShape
 import com.t8rin.cropper.settings.Paths
+import com.t8rin.imagetoolbox.core.resources.icons.Favorite
 import com.t8rin.imagetoolbox.core.resources.icons.Image
+import com.t8rin.imagetoolbox.core.resources.icons.Star
 
 @Composable
 fun CropFrameDisplayCard(
@@ -156,7 +156,7 @@ private fun CropFrameDisplay(
                         modifier = Modifier
                             .matchParentSize()
                             .scale(1.3f),
-                        imageVector = Icons.Rounded.StarBorder,
+                        imageVector = Icons.Outlined.Star,
                         tint = color,
                         contentDescription = "Crop with Path"
                     )
@@ -165,7 +165,7 @@ private fun CropFrameDisplay(
                         modifier = Modifier
                             .matchParentSize()
                             .scale(1.3f),
-                        imageVector = Icons.Rounded.FavoriteBorder,
+                        imageVector = Icons.Outlined.Favorite,
                         tint = color,
                         contentDescription = "Crop with Path"
                     )

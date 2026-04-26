@@ -33,8 +33,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.rounded.ContentPasteGo
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -56,7 +54,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
+import com.t8rin.imagetoolbox.core.resources.icons.ContentPasteGo
 import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
+import com.t8rin.imagetoolbox.core.resources.icons.History
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.blend
@@ -109,7 +109,7 @@ fun RecentAndFavoriteColorsCard(
                 Column {
                     TitleItem(
                         text = stringResource(R.string.recently_used),
-                        icon = Icons.Outlined.History,
+                        icon = Icons.Rounded.History,
                         modifier = Modifier,
                         endContent = {
                             EnhancedIconButton(

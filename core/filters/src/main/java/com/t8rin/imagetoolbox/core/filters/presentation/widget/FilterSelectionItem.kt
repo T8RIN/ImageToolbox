@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -64,6 +63,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.Slideshow
+import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
 import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -252,7 +252,7 @@ internal fun FilterSelectionItem(
             } else {
                 AppToastHost.showToast(
                     message = getString(R.string.no_connection),
-                    icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
+                    icon = Icons.Rounded.WifiTetheringError,
                     duration = ToastDuration.Long
                 )
             }

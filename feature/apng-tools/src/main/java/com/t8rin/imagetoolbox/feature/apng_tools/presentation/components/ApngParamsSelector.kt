@@ -24,9 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.RepeatOne
-import androidx.compose.material.icons.outlined.Timelapse
-import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +38,9 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectLarge
+import com.t8rin.imagetoolbox.core.resources.icons.RepeatOne
+import com.t8rin.imagetoolbox.core.resources.icons.Stream
+import com.t8rin.imagetoolbox.core.resources.icons.Timelapse
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -127,7 +127,7 @@ fun ApngParamsSelector(
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
             value = value.repeatCount,
-            icon = Icons.Outlined.RepeatOne,
+            icon = Icons.Rounded.RepeatOne,
             title = stringResource(id = R.string.repeat_count),
             valueRange = 1f..10f,
             steps = 9,

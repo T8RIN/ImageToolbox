@@ -43,8 +43,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.TableChart
-import androidx.compose.material.icons.rounded.Update
+import com.t8rin.imagetoolbox.core.resources.icons.TableChart
+import com.t8rin.imagetoolbox.core.resources.icons.Update
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle

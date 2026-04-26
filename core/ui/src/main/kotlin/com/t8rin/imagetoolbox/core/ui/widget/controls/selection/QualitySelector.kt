@@ -34,8 +34,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Speed
-import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -64,6 +62,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.QualityHigh
 import com.t8rin.imagetoolbox.core.resources.icons.QualityLow
 import com.t8rin.imagetoolbox.core.resources.icons.QualityMedium
+import com.t8rin.imagetoolbox.core.resources.icons.Speed
+import com.t8rin.imagetoolbox.core.resources.icons.Stream
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip

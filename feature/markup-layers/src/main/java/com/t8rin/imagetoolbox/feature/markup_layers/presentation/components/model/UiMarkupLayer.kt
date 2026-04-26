@@ -18,10 +18,10 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FormatBold
-import androidx.compose.material.icons.rounded.FormatItalic
-import androidx.compose.material.icons.rounded.FormatStrikethrough
-import androidx.compose.material.icons.rounded.FormatUnderlined
+import com.t8rin.imagetoolbox.core.resources.icons.FormatBold
+import com.t8rin.imagetoolbox.core.resources.icons.FormatItalic
+import com.t8rin.imagetoolbox.core.resources.icons.FormatStrikethrough
+import com.t8rin.imagetoolbox.core.resources.icons.FormatUnderlined
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.IntSize

@@ -19,8 +19,8 @@ package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FilterHdr
-import androidx.compose.material.icons.rounded.Lightbulb
+import com.t8rin.imagetoolbox.core.resources.icons.FilterHdr
+import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue

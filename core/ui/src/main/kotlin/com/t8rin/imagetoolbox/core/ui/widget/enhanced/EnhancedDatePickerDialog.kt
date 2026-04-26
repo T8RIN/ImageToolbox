@@ -34,8 +34,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Keyboard
-import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerColors
@@ -75,6 +73,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirst
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Keyboard
+import com.t8rin.imagetoolbox.core.resources.icons.Schedule
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.alertDialogBorder
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges

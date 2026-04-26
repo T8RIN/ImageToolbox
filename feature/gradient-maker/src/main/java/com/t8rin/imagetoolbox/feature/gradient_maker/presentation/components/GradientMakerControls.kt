@@ -25,8 +25,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DensitySmall
-import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -41,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Build
+import com.t8rin.imagetoolbox.core.resources.icons.DensitySmall
+import com.t8rin.imagetoolbox.core.resources.icons.GridOn
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector

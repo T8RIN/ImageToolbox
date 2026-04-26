@@ -22,7 +22,6 @@ package com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Language
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -64,6 +63,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiContrastFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiSharpenFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiThresholdFilter
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Language
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -858,7 +858,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                         AppToastHost.showConfetti()
                         AppToastHost.showToast(
                             message = getString(R.string.languages_imported),
-                            icon = Icons.Outlined.Language
+                            icon = Icons.Rounded.Language
                         )
                         startRecognition()
                     }

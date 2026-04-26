@@ -23,8 +23,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.SystemSecurityUpdate
-import androidx.compose.material.icons.rounded.Webhook
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +42,8 @@ import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Beta
 import com.t8rin.imagetoolbox.core.resources.icons.ReleaseAlert
+import com.t8rin.imagetoolbox.core.resources.icons.SystemSecurityUpdate
+import com.t8rin.imagetoolbox.core.resources.icons.Webhook
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore

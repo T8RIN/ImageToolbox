@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.core.ui.utils.content_pickers
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -30,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.CameraAlt
 import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.onTertiaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed

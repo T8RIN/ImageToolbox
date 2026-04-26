@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Animation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -69,7 +68,7 @@ fun FlingTypeSettingItem(
     PreferenceItem(
         modifier = modifier,
         title = stringResource(id = R.string.fling_type),
-        startIcon = Icons.Outlined.Animation,
+        startIcon = Icons.Rounded.Animation,
         subtitle = settingsState.flingType.title,
         onClick = {
             showSheet = true

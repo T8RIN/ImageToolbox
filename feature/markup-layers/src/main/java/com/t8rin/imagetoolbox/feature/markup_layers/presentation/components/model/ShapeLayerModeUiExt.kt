@@ -18,11 +18,9 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
-import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.CheckBoxOutlineBlank
 import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.resources.icons.FreeArrow
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDoubleArrow
@@ -31,6 +29,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.LineArrow
 import com.t8rin.imagetoolbox.core.resources.icons.LineDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.Polygon
 import com.t8rin.imagetoolbox.core.resources.icons.Square
+import com.t8rin.imagetoolbox.core.resources.icons.Star
 import com.t8rin.imagetoolbox.core.resources.icons.Triangle
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
 
@@ -69,5 +68,5 @@ internal val ShapeMode.Kind.icon: ImageVector
         ShapeMode.Kind.Polygon -> Icons.Rounded.Polygon
         ShapeMode.Kind.OutlinedPolygon -> Icons.Outlined.Polygon
         ShapeMode.Kind.Star -> Icons.Rounded.Star
-        ShapeMode.Kind.OutlinedStar -> Icons.Rounded.StarOutline
+        ShapeMode.Kind.OutlinedStar -> Icons.Outlined.Star
     }

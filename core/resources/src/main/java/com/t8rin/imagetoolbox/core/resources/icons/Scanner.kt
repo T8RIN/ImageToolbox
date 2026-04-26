@@ -170,3 +170,58 @@ val Icons.TwoTone.Scanner: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         }
     }.build()
 }
+
+val Icons.Rounded.Scanner: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Rounded.Scanner",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f
+    ).apply {
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(704f, 480f)
+            lineTo(178f, 290f)
+            quadToRelative(-16f, -6f, -23f, -21f)
+            reflectiveQuadToRelative(-1f, -31f)
+            quadToRelative(6f, -16f, 21f, -23f)
+            reflectiveQuadToRelative(31f, -1f)
+            lineToRelative(586f, 214f)
+            quadToRelative(20f, 8f, 34f, 28f)
+            reflectiveQuadToRelative(14f, 44f)
+            verticalLineToRelative(220f)
+            quadToRelative(0f, 33f, -23.5f, 56.5f)
+            reflectiveQuadTo(760f, 800f)
+            lineTo(200f, 800f)
+            quadToRelative(-33f, 0f, -56.5f, -23.5f)
+            reflectiveQuadTo(120f, 720f)
+            verticalLineToRelative(-160f)
+            quadToRelative(0f, -33f, 23.5f, -56.5f)
+            reflectiveQuadTo(200f, 480f)
+            horizontalLineToRelative(504f)
+            close()
+            moveTo(440f, 680f)
+            horizontalLineToRelative(240f)
+            quadToRelative(17f, 0f, 28.5f, -11.5f)
+            reflectiveQuadTo(720f, 640f)
+            quadToRelative(0f, -17f, -11.5f, -28.5f)
+            reflectiveQuadTo(680f, 600f)
+            lineTo(440f, 600f)
+            quadToRelative(-17f, 0f, -28.5f, 11.5f)
+            reflectiveQuadTo(400f, 640f)
+            quadToRelative(0f, 17f, 11.5f, 28.5f)
+            reflectiveQuadTo(440f, 680f)
+            close()
+            moveTo(280f, 680f)
+            quadToRelative(17f, 0f, 28.5f, -11.5f)
+            reflectiveQuadTo(320f, 640f)
+            quadToRelative(0f, -17f, -11.5f, -28.5f)
+            reflectiveQuadTo(280f, 600f)
+            quadToRelative(-17f, 0f, -28.5f, 11.5f)
+            reflectiveQuadTo(240f, 640f)
+            quadToRelative(0f, 17f, 11.5f, 28.5f)
+            reflectiveQuadTo(280f, 680f)
+            close()
+        }
+    }.build()
+}

@@ -25,10 +25,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ToggleOff
-import androidx.compose.material.icons.outlined.ToggleOn
-import androidx.compose.material.icons.rounded.Android
-import androidx.compose.material.icons.rounded.Water
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +40,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Android
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.HyperOS
 import com.t8rin.imagetoolbox.core.resources.icons.IOS
@@ -52,6 +49,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
 import com.t8rin.imagetoolbox.core.resources.icons.SamsungLetter
+import com.t8rin.imagetoolbox.core.resources.icons.ToggleOff
+import com.t8rin.imagetoolbox.core.resources.icons.ToggleOn
+import com.t8rin.imagetoolbox.core.resources.icons.Water
 import com.t8rin.imagetoolbox.core.resources.icons.Windows
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState

@@ -18,14 +18,12 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
-import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toColor
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.CheckBoxOutlineBlank
 import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeArrow
@@ -38,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.LineDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.Polygon
 import com.t8rin.imagetoolbox.core.resources.icons.Spray
 import com.t8rin.imagetoolbox.core.resources.icons.Square
+import com.t8rin.imagetoolbox.core.resources.icons.Star
 import com.t8rin.imagetoolbox.core.resources.icons.Triangle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 
@@ -517,7 +516,7 @@ internal fun DrawPathMode.getIcon(): ImageVector = when (this) {
     is DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
     is DrawPathMode.Polygon -> Icons.Rounded.Polygon
     is DrawPathMode.OutlinedPolygon -> Icons.Outlined.Polygon
-    is DrawPathMode.OutlinedStar -> Icons.Rounded.StarOutline
+    is DrawPathMode.OutlinedStar -> Icons.Outlined.Star
     is DrawPathMode.Star -> Icons.Rounded.Star
     is DrawPathMode.FloodFill -> Icons.Rounded.FloodFill
     is DrawPathMode.Spray -> Icons.Outlined.Spray

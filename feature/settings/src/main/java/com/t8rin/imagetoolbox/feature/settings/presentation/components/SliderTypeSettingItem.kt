@@ -25,8 +25,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Android
-import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,6 +40,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Android
+import com.t8rin.imagetoolbox.core.resources.icons.AutoAwesome
 import com.t8rin.imagetoolbox.core.resources.icons.HyperOS
 import com.t8rin.imagetoolbox.core.resources.icons.MaterialDesign
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit

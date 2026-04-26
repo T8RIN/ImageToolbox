@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -37,6 +36,7 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.AUTHOR_GITHUB
 import com.t8rin.imagetoolbox.core.domain.AUTHOR_TELEGRAM
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AlternateEmail
 import com.t8rin.imagetoolbox.core.resources.icons.Forum
 import com.t8rin.imagetoolbox.core.resources.icons.Github
 import com.t8rin.imagetoolbox.core.resources.icons.Link

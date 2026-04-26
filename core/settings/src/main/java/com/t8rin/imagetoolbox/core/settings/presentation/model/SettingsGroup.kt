@@ -20,14 +20,14 @@
 package com.t8rin.imagetoolbox.core.settings.presentation.model
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Celebration
-import androidx.compose.material.icons.rounded.Description
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Celebration
 import com.t8rin.imagetoolbox.core.resources.icons.ClipboardFile
 import com.t8rin.imagetoolbox.core.resources.icons.Cool
 import com.t8rin.imagetoolbox.core.resources.icons.Database
+import com.t8rin.imagetoolbox.core.resources.icons.Description
 import com.t8rin.imagetoolbox.core.resources.icons.DesignServices
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Exif

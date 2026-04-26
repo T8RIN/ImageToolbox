@@ -19,9 +19,9 @@ package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.ActivityNotFoundException
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FolderOff
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState

@@ -37,9 +37,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.RoundedCorner
-import androidx.compose.material.icons.rounded.QrCode2
-import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,6 +59,9 @@ import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.resources.icons.QrCode2
+import com.t8rin.imagetoolbox.core.resources.icons.RoundedCorner
+import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
@@ -386,7 +386,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                 internalStateTransformation = {
                     it.roundToInt()
                 },
-                icon = Icons.Outlined.RoundedCorner,
+                icon = Icons.Rounded.RoundedCorner,
                 steps = 22
             )
             Spacer(modifier = Modifier.height(8.dp))

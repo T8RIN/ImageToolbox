@@ -21,13 +21,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.EmojiEmotions
-import androidx.compose.material.icons.outlined.EmojiEvents
-import androidx.compose.material.icons.outlined.EmojiFoodBeverage
-import androidx.compose.material.icons.outlined.EmojiNature
-import androidx.compose.material.icons.outlined.EmojiObjects
-import androidx.compose.material.icons.outlined.EmojiSymbols
-import androidx.compose.material.icons.outlined.EmojiTransportation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +28,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiEmotions
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiEvents
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiFoodBeverage
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiNature
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiObjects
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiSymbols
+import com.t8rin.imagetoolbox.core.resources.icons.EmojiTransportation
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
@@ -98,7 +98,7 @@ object Emoji {
                 ),
                 EmojiData(
                     title = resources.getString(R.string.symbols),
-                    icon = Icons.Outlined.EmojiSymbols,
+                    icon = Icons.Rounded.EmojiSymbols,
                     emojis = Symbols!!
                 )
             )

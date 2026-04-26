@@ -34,9 +34,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Contrast
-import androidx.compose.material.icons.rounded.DarkMode
-import androidx.compose.material.icons.rounded.InvertColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -58,6 +55,9 @@ import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Contrast
+import com.t8rin.imagetoolbox.core.resources.icons.DarkMode
+import com.t8rin.imagetoolbox.core.resources.icons.InvertColors
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.Swatch

@@ -30,17 +30,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AlternateEmail
-import androidx.compose.material.icons.outlined.Badge
-import androidx.compose.material.icons.outlined.Business
-import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Place
-import androidx.compose.material.icons.outlined.Public
-import androidx.compose.material.icons.outlined.RecordVoiceOver
-import androidx.compose.material.icons.outlined.SupervisedUserCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -54,11 +43,22 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.AlternateEmail
+import com.t8rin.imagetoolbox.core.resources.icons.Badge
+import com.t8rin.imagetoolbox.core.resources.icons.Business
+import com.t8rin.imagetoolbox.core.resources.icons.Call
+import com.t8rin.imagetoolbox.core.resources.icons.Email
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
+import com.t8rin.imagetoolbox.core.resources.icons.Home
 import com.t8rin.imagetoolbox.core.resources.icons.Link
+import com.t8rin.imagetoolbox.core.resources.icons.Person
+import com.t8rin.imagetoolbox.core.resources.icons.Place
 import com.t8rin.imagetoolbox.core.resources.icons.Prefix
+import com.t8rin.imagetoolbox.core.resources.icons.Public
+import com.t8rin.imagetoolbox.core.resources.icons.RecordVoiceOver
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Suffix
+import com.t8rin.imagetoolbox.core.resources.icons.SupervisedUserCircle
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ContactPickerButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -128,7 +128,7 @@ private fun ColumnScope.ContactInfoEnterBlock(
         value = value.organization,
         onValueChange = { onValueChange(value.copy(organization = it)) },
         label = { Text(stringResource(R.string.organization)) },
-        startIcon = { Icon(Icons.Outlined.Business, null) }
+        startIcon = { Icon(Icons.Rounded.Business, null) }
     )
 
     RoundedTextField(
@@ -194,7 +194,7 @@ private fun ColumnScope.UrlsEnterBlock(
 ) {
     TitleItem(
         text = stringResource(R.string.urls),
-        icon = Icons.Outlined.Public,
+        icon = Icons.Rounded.Public,
         modifier = Modifier.padding(vertical = 8.dp)
     )
 
@@ -287,7 +287,7 @@ private fun ColumnScope.EmailsEnterBlock(
                 updated[index] = email.copy(address = it)
                 onValueChange(value.copy(emails = updated))
             },
-            startIcon = Icons.Outlined.AlternateEmail,
+            startIcon = Icons.Rounded.AlternateEmail,
             label = "${stringResource(R.string.email)} ${index + 1}",
             onRemove = {
                 val updated = value.emails.toMutableList()

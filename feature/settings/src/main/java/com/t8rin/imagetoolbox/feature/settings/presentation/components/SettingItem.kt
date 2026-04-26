@@ -19,8 +19,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FileDownloadOff
-import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,7 +30,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FileDownloadOff
 import com.t8rin.imagetoolbox.core.resources.icons.Save
+import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore

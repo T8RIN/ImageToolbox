@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,6 +26,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.APP_GITHUB_LINK
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Star
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 
@@ -67,7 +67,7 @@ internal fun GithubReviewDialog(
         },
         icon = {
             Icon(
-                imageVector = Icons.Rounded.StarRate,
+                imageVector = Icons.Rounded.Star,
                 contentDescription = null
             )
         },

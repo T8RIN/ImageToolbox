@@ -41,13 +41,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AutoAwesomeMosaic
-import androidx.compose.material.icons.outlined.PinEnd
-import androidx.compose.material.icons.outlined.SwipeVertical
-import androidx.compose.material.icons.rounded.FormatLineSpacing
-import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
-import androidx.compose.material.icons.rounded.RoundedCorner
-import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -84,9 +77,16 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.AutoAwesomeMosaic
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.FormatLineSpacing
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
+import com.t8rin.imagetoolbox.core.resources.icons.PinEnd
+import com.t8rin.imagetoolbox.core.resources.icons.RoundedCorner
+import com.t8rin.imagetoolbox.core.resources.icons.SwapHoriz
+import com.t8rin.imagetoolbox.core.resources.icons.SwipeVertical
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -604,7 +604,7 @@ fun CollageMakerContent(
                             end = 12.dp,
                             bottom = 10.dp
                         ),
-                    icon = Icons.Rounded.PhotoSizeSelectSmall,
+                    icon = Icons.Outlined.PhotoSizeSelectSmall,
                     shape = ShapeDefaults.extraLarge
                 )
                 PreferenceRowSwitch(
@@ -618,7 +618,7 @@ fun CollageMakerContent(
                     title = stringResource(id = R.string.enable_snapping_to_borders),
                     subtitle = stringResource(id = R.string.enable_snapping_to_borders_sub),
                     checked = component.params.enableSnapToBorders,
-                    startIcon = Icons.Outlined.PinEnd,
+                    startIcon = Icons.Rounded.PinEnd,
                     onClick = component::setEnableSnapToBorders
                 )
                 QualitySelector(

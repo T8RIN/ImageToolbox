@@ -54,8 +54,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ContentPasteOff
-import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -77,6 +75,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
+import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
+import com.t8rin.imagetoolbox.core.resources.icons.ContentPasteOff
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -346,7 +346,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                     if (list.isEmpty()) {
                                         AppToastHost.showToast(
                                             message = getString(R.string.clipboard_paste_invalid_empty),
-                                            icon = Icons.Outlined.ContentPasteOff
+                                            icon = Icons.Rounded.ContentPasteOff
                                         )
                                     } else onGetClipList(list)
                                 } else onGetClipList(clipboardData)

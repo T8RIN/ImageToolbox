@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -27,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.utils.getString
@@ -68,7 +68,7 @@ internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) 
                 component.clearDownloadDialogData()
                 AppToastHost.showToast(
                     message = getString(R.string.no_connection),
-                    icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
+                    icon = Icons.Rounded.WifiTetheringError,
                     duration = ToastDuration.Long
                 )
             },

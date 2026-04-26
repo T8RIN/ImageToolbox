@@ -25,11 +25,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.LineWeight
-import androidx.compose.material.icons.outlined.TableRows
-import androidx.compose.material.icons.outlined.ViewColumn
-import androidx.compose.material.icons.rounded.FormatLineSpacing
-import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,7 +40,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FormatLineSpacing
+import com.t8rin.imagetoolbox.core.resources.icons.GridOn
+import com.t8rin.imagetoolbox.core.resources.icons.LineWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
+import com.t8rin.imagetoolbox.core.resources.icons.TableRows
+import com.t8rin.imagetoolbox.core.resources.icons.ViewColumn
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -103,7 +103,7 @@ fun HelperGridParamsSelector(
                 EnhancedSliderItem(
                     value = value.linesWidth,
                     title = stringResource(R.string.line_width),
-                    icon = Icons.Outlined.LineWeight,
+                    icon = Icons.Rounded.LineWeight,
                     internalStateTransformation = {
                         it.roundToTwoDigits()
                     },
