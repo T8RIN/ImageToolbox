@@ -32,9 +32,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
-import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.rounded.FileDownload
-import androidx.compose.material.icons.rounded.Key
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -57,8 +55,10 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.domain.utils.toInt
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Cancel
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.File
+import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.Green
@@ -334,7 +334,7 @@ internal fun CipherControls(component: CipherComponent) {
             onValueChange = component::updateCipherType,
             entries = CipherType.entries,
             title = stringResource(R.string.algorithms),
-            titleIcon = Icons.Rounded.Key,
+            titleIcon = Icons.Rounded.HashTag,
             itemContentText = {
                 it.name
             },

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.TELEGRAM_CHANNEL_LINK
 import com.t8rin.imagetoolbox.core.domain.TELEGRAM_GROUP_LINK
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Cancel
 import com.t8rin.imagetoolbox.core.resources.icons.Telegram
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
