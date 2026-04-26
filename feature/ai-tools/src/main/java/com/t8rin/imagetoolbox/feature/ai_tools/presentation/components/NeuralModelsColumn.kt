@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.ModelTraining
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -67,6 +66,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Download
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadDone
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadForOffline
+import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.FileImport
 import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
@@ -189,7 +189,7 @@ internal fun NeuralModelsColumn(
         if (importedModels.isNotEmpty()) {
             item {
                 TitleItem(
-                    icon = Icons.AutoMirrored.Rounded.InsertDriveFile,
+                    icon = Icons.Rounded.File,
                     text = stringResource(id = R.string.imported_models)
                 )
             }
