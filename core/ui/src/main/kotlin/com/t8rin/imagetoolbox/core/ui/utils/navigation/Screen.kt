@@ -21,7 +21,6 @@ package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Gif
@@ -31,6 +30,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
 import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
+import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl

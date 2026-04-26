@@ -21,7 +21,6 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.onResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont

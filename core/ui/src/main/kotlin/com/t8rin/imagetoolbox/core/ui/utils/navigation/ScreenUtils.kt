@@ -19,14 +19,12 @@ package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Album
-import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.FilterBAndW
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.twotone.Album
-import androidx.compose.material.icons.twotone.AutoFixHigh
 import androidx.compose.material.icons.twotone.ColorLens
 import androidx.compose.material.icons.twotone.FilterBAndW
 import androidx.compose.material.icons.twotone.FolderZip
@@ -39,6 +37,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ApngBox
 import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Ascii
+import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleDelete
@@ -328,7 +327,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is DeleteExif -> Icons.TwoTone.Exif
     is Draw -> Icons.TwoTone.Draw
     is EraseBackground -> Icons.TwoTone.Eraser
-    is Filter -> Icons.TwoTone.AutoFixHigh
+    is Filter -> Icons.Outlined.AutoFixHigh
     is PaletteTools -> Icons.TwoTone.PaletteSwatch
     is GifTools -> Icons.TwoTone.GifBox
     is GradientMaker -> Icons.TwoTone.Gradient
