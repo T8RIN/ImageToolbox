@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Business
@@ -54,6 +53,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.icons.Prefix
@@ -393,7 +393,10 @@ private fun AddButton(
         modifier = Modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.secondaryContainer
     ) {
-        Icon(Icons.Outlined.Add, null)
+        Icon(
+            imageVector = Icons.Rounded.Add,
+            contentDescription = null
+        )
         Spacer(Modifier.width(4.dp))
         Text(stringResource(title))
     }
