@@ -39,7 +39,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
-import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.InvertColors
 import androidx.compose.material3.Icon
@@ -71,6 +70,7 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.nearestFor
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteBox
@@ -453,7 +453,7 @@ fun AvailableColorTuplesSheet(
                                 backgroundColor = Color.Transparent
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.AddCircleOutline,
+                                    imageVector = Icons.Outlined.AddCircle,
                                     contentDescription = stringResource(R.string.add),
                                     tint = MaterialTheme.colorScheme.onSecondary,
                                     modifier = Modifier.size(24.dp)

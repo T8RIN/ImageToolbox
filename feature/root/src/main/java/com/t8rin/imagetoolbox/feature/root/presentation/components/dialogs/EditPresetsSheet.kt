@@ -29,8 +29,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
-import androidx.compose.material.icons.rounded.AddCircle
+import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.LabelPercent
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -123,7 +123,7 @@ internal fun EditPresetsSheet(
                             shape = MaterialTheme.shapes.medium,
                             label = {
                                 Icon(
-                                    imageVector = Icons.Rounded.AddCircle,
+                                    imageVector = Icons.Rounded.AddCircleOutline,
                                     contentDescription = stringResource(R.string.add)
                                 )
                             }

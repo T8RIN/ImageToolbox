@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,6 +39,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Signature
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -67,7 +67,7 @@ fun SignatureSelector(
         title = stringResource(R.string.draw_signature),
         subtitle = stringResource(R.string.draw_signature_sub),
         startIcon = Icons.Outlined.Signature,
-        endIcon = Icons.Rounded.AddCircleOutline,
+        endIcon = Icons.Outlined.AddCircle,
         modifier = Modifier.fillMaxWidth(),
         bottomContent = if (savedSignatures.isNotEmpty()) {
             {
