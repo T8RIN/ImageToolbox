@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -40,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
+import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.ui.theme.suggestContainerColorBy
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -58,7 +58,9 @@ fun MediaCheckBox(
 ) {
     val image = if (isChecked) {
         checkedIcon
-    } else Icons.Outlined.Circle
+    } else {
+        Icons.Outlined.Circle
+    }
     val color by animateColorAsState(
         if (isChecked) checkedColor
         else uncheckedColor

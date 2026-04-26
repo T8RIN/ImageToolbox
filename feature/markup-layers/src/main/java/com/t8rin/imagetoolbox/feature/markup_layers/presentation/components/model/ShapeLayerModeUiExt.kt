@@ -19,18 +19,17 @@ package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.mod
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
-import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.resources.icons.FreeArrow
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.Line
 import com.t8rin.imagetoolbox.core.resources.icons.LineArrow
 import com.t8rin.imagetoolbox.core.resources.icons.LineDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.Polygon
-import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
 import com.t8rin.imagetoolbox.core.resources.icons.Square
 import com.t8rin.imagetoolbox.core.resources.icons.Triangle
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
@@ -64,7 +63,7 @@ internal val ShapeMode.Kind.icon: ImageVector
         ShapeMode.Kind.Rect -> Icons.Rounded.Square
         ShapeMode.Kind.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
         ShapeMode.Kind.Oval -> Icons.Rounded.Circle
-        ShapeMode.Kind.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
+        ShapeMode.Kind.OutlinedOval -> Icons.Outlined.Circle
         ShapeMode.Kind.Triangle -> Icons.Rounded.Triangle
         ShapeMode.Kind.OutlinedTriangle -> Icons.Outlined.Triangle
         ShapeMode.Kind.Polygon -> Icons.Rounded.Polygon

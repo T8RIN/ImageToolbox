@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
-import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.ui.graphics.Color
@@ -27,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toColor
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeArrow
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDoubleArrow
@@ -36,7 +36,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Line
 import com.t8rin.imagetoolbox.core.resources.icons.LineArrow
 import com.t8rin.imagetoolbox.core.resources.icons.LineDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.Polygon
-import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
 import com.t8rin.imagetoolbox.core.resources.icons.Spray
 import com.t8rin.imagetoolbox.core.resources.icons.Square
 import com.t8rin.imagetoolbox.core.resources.icons.Triangle
@@ -509,7 +508,7 @@ internal fun DrawPathMode.getIcon(): ImageVector = when (this) {
     DrawPathMode.Line -> Icons.Rounded.Line
     is DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
     is DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
-    is DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
+    is DrawPathMode.OutlinedOval -> Icons.Outlined.Circle
     is DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
     DrawPathMode.Oval -> Icons.Rounded.Circle
     is DrawPathMode.Rect -> Icons.Rounded.Square

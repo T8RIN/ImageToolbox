@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TouchApp
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
-import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.HourglassEmpty
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
@@ -35,6 +34,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeArrow
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDoubleArrow
