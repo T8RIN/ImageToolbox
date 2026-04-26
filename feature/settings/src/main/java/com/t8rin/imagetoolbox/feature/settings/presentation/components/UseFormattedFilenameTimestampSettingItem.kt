@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.FormatTextdirectionLToR
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,6 +26,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FormatParagraph
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -58,6 +58,6 @@ fun UseFormattedFilenameTimestampSettingItem(
         title = stringResource(R.string.formatted_timestamp),
         subtitle = stringResource(R.string.formatted_timestamp_sub),
         checked = settingsState.useFormattedFilenameTimestamp,
-        startIcon = Icons.AutoMirrored.Outlined.FormatTextdirectionLToR
+        startIcon = Icons.Rounded.FormatParagraph
     )
 }
