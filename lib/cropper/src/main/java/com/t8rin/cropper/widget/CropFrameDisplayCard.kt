@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.material3.Icon
@@ -49,6 +48,7 @@ import com.t8rin.cropper.model.CropOutline
 import com.t8rin.cropper.model.CropPath
 import com.t8rin.cropper.model.CropShape
 import com.t8rin.cropper.settings.Paths
+import com.t8rin.imagetoolbox.core.resources.icons.Image
 
 @Composable
 fun CropFrameDisplayCard(

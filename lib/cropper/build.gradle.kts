@@ -24,4 +24,5 @@ android.namespace = "com.t8rin.cropper"
 
 dependencies {
     implementation(projects.lib.gesture)
+    implementation(projects.core.resources)
 }
