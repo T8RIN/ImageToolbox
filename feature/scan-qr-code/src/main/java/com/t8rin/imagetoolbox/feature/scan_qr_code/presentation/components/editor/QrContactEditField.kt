@@ -41,7 +41,6 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.RecordVoiceOver
-import androidx.compose.material.icons.outlined.RemoveCircleOutline
 import androidx.compose.material.icons.outlined.SupervisedUserCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -58,6 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.icons.Prefix
+import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Suffix
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ContactPickerButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -375,7 +375,7 @@ private fun RemovableTextField(
             onClick = onRemove
         ) {
             Icon(
-                imageVector = Icons.Outlined.RemoveCircleOutline,
+                imageVector = Icons.Outlined.RemoveCircle,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.error
             )

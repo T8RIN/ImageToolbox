@@ -36,7 +36,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -64,6 +63,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -182,7 +182,7 @@ fun <T : Any> FilterItem(
                                             containerColor = MaterialTheme.colorScheme.secondary
                                         ) {
                                             Icon(
-                                                imageVector = Icons.Rounded.RemoveCircleOutline,
+                                                imageVector = Icons.Outlined.RemoveCircle,
                                                 contentDescription = stringResource(R.string.create_template)
                                             )
                                             Spacer(Modifier.width(8.dp))
@@ -244,7 +244,7 @@ fun <T : Any> FilterItem(
                                 onClick = onRemove
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.RemoveCircleOutline,
+                                    imageVector = Icons.Outlined.RemoveCircle,
                                     contentDescription = stringResource(R.string.remove)
                                 )
                             }

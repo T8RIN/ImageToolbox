@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircleOutline
-import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -66,6 +65,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
+import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Search
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.localizedName
@@ -238,8 +238,10 @@ fun AddExifSheet(
                             val endIcon by remember(isSelected) {
                                 derivedStateOf {
                                     if (isSelected) {
-                                        Icons.Rounded.RemoveCircleOutline
-                                    } else Icons.Rounded.AddCircleOutline
+                                        Icons.Outlined.RemoveCircle
+                                    } else {
+                                        Icons.Rounded.AddCircleOutline
+                                    }
                                 }
                             }
                             PreferenceItem(
