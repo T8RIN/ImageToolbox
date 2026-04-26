@@ -19,7 +19,6 @@ package com.websitebeaver.documentscanner.utils
 
 import androidx.activity.ComponentActivity
 import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -36,7 +35,6 @@ class FileUtil {
      * @param activity the current activity
      * @param pageNumber the current document page number
      */
-    @Throws(IOException::class)
     fun createImageFile(activity: ComponentActivity, pageNumber: Int): File {
         // use current time to make file name more unique
         val dateTime: String = SimpleDateFormat(

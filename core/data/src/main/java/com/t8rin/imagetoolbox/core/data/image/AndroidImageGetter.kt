@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageData
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
@@ -52,6 +53,7 @@ internal class AndroidImageGetter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
     private val appScope: AppScope,
+    private val failureNotifier: FailureNotifier,
     metadataProvider: Lazy<MetadataProvider>,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,
@@ -68,13 +70,13 @@ internal class AndroidImageGetter @Inject constructor(
     override suspend fun getImage(
         uri: String,
         originalSize: Boolean,
-        onFailure: (Throwable) -> Unit
+        onFailure: ((Throwable) -> Unit)?
     ): ImageData<Bitmap>? = withContext(defaultDispatcher) {
         getImageImpl(
             data = uri,
             size = null,
             addSizeToRequest = originalSize,
-            onFailure = onFailure
+            onFailure = onFailure ?: failureNotifier::send
         )?.let { bitmap ->
             ImageData(
                 image = bitmap,

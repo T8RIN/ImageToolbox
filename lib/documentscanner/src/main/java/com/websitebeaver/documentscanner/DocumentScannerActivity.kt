@@ -51,7 +51,6 @@ import com.websitebeaver.documentscanner.utils.ImageUtil
 import org.opencv.android.OpenCVLoader
 import org.opencv.core.Point
 import java.io.File
-import java.io.IOException
 
 /**
  * This class contains the main document scanner code. It opens the camera, lets the user
@@ -122,7 +121,7 @@ class DocumentScannerActivity : AppCompatActivity() {
 
         try {
             OpenCVLoader.initLocal()
-        } catch (exception: Exception) {
+        } catch (exception: Throwable) {
             finishIntentWithError(
                 "error starting OpenCV: ${exception.message}"
             )
@@ -149,7 +148,7 @@ class DocumentScannerActivity : AppCompatActivity() {
             var userSpecifiedMaxImages: Int? = null
             intent.extras?.get(DocumentScannerExtra.EXTRA_MAX_NUM_DOCUMENTS)?.let {
                 if (it.toString().toIntOrNull() == null) {
-                    throw Exception(
+                    throw Throwable(
                         "${DocumentScannerExtra.EXTRA_MAX_NUM_DOCUMENTS} must be a positive number"
                     )
                 }
@@ -160,7 +159,7 @@ class DocumentScannerActivity : AppCompatActivity() {
             // validate letUserAdjustCrop option, and update default if user sets it
             intent.extras?.get(DocumentScannerExtra.EXTRA_LET_USER_ADJUST_CROP)?.let {
                 if (!arrayOf("true", "false").contains(it.toString())) {
-                    throw Exception(
+                    throw Throwable(
                         "${DocumentScannerExtra.EXTRA_LET_USER_ADJUST_CROP} must true or false"
                     )
                 }
@@ -172,7 +171,7 @@ class DocumentScannerActivity : AppCompatActivity() {
                 maxNumDocuments = 1
 
                 if (userSpecifiedMaxImages != null && userSpecifiedMaxImages != 1) {
-                    throw Exception(
+                    throw Throwable(
                         "${DocumentScannerExtra.EXTRA_MAX_NUM_DOCUMENTS} must be 1 when " +
                                 "${DocumentScannerExtra.EXTRA_LET_USER_ADJUST_CROP} is false"
                     )
@@ -182,7 +181,7 @@ class DocumentScannerActivity : AppCompatActivity() {
             // validate croppedImageQuality option, and update value if user sets it
             intent.extras?.get(DocumentScannerExtra.EXTRA_CROPPED_IMAGE_QUALITY)?.let {
                 if (it !is Int || it < 0 || it > 100) {
-                    throw Exception(
+                    throw Throwable(
                         "${DocumentScannerExtra.EXTRA_CROPPED_IMAGE_QUALITY} must be a number " +
                                 "between 0 and 100"
                     )
@@ -200,7 +199,7 @@ class DocumentScannerActivity : AppCompatActivity() {
             )
             intent.extras?.get(DocumentScannerExtra.EXTRA_CROPPER_STROKE_WIDTH_DP)?.let {
                 val strokeWidthDp = (it as? Number)?.toFloat()
-                    ?: throw Exception(
+                    ?: throw Throwable(
                         "${DocumentScannerExtra.EXTRA_CROPPER_STROKE_WIDTH_DP} must be a number"
                     )
 
@@ -209,7 +208,7 @@ class DocumentScannerActivity : AppCompatActivity() {
                     strokeWidthDp.isNaN() ||
                     strokeWidthDp.isInfinite()
                 ) {
-                    throw Exception(
+                    throw Throwable(
                         "${DocumentScannerExtra.EXTRA_CROPPER_STROKE_WIDTH_DP} must be greater than 0"
                     )
                 }
@@ -242,7 +241,7 @@ class DocumentScannerActivity : AppCompatActivity() {
                 DocumentScannerExtra.EXTRA_DONE_BUTTON_TINT_COLOR,
                 DocumentScannerExtra.EXTRA_DONE_BUTTON_CONTAINER_COLOR
             ).any(intent::hasExtra)
-        } catch (exception: Exception) {
+        } catch (exception: Throwable) {
             finishIntentWithError(
                 "invalid extra: ${exception.message}"
             )
@@ -286,7 +285,7 @@ class DocumentScannerActivity : AppCompatActivity() {
         // open camera, so user can snap document photo
         try {
             openCamera()
-        } catch (exception: Exception) {
+        } catch (exception: Throwable) {
             finishIntentWithError(
                 "error opening camera: ${exception.message}"
             )
@@ -392,7 +391,7 @@ class DocumentScannerActivity : AppCompatActivity() {
             val corners = try {
                 val (topLeft, topRight, bottomLeft, bottomRight) = getDocumentCorners(photo)
                 Quad(topLeft, topRight, bottomRight, bottomLeft)
-            } catch (exception: Exception) {
+            } catch (exception: Throwable) {
                 finishIntentWithError(
                     "unable to get document corners: ${exception.message}"
                 )
@@ -425,7 +424,7 @@ class DocumentScannerActivity : AppCompatActivity() {
 
                     // display cropper, and allow user to move corners
                     imageView.setCropper(cornersInImagePreviewCoordinates)
-                } catch (exception: Exception) {
+                } catch (exception: Throwable) {
                     finishIntentWithError(
                         "unable get image preview ready: ${exception.message}"
                     )
@@ -457,7 +456,6 @@ class DocumentScannerActivity : AppCompatActivity() {
      *
      * @param pageNumber the current document page number
      */
-    @Throws(IOException::class)
     private fun openCamera(pageNumber: Int = documents.size) {
         // create new file for photo
         val photoFile: File = FileUtil().createImageFile(this, pageNumber)
@@ -549,7 +547,7 @@ class DocumentScannerActivity : AppCompatActivity() {
                     document.originalPhotoFilePath,
                     document.corners
                 )
-            } catch (exception: Exception) {
+            } catch (exception: Throwable) {
                 finishIntentWithError("unable to crop image: ${exception.message}")
                 return
             }
@@ -562,7 +560,7 @@ class DocumentScannerActivity : AppCompatActivity() {
                 val croppedImageFile = FileUtil().createImageFile(this, pageNumber)
                 croppedImage.saveToFile(croppedImageFile, croppedImageQuality)
                 croppedImageResults.add(Uri.fromFile(croppedImageFile).toString())
-            } catch (exception: Exception) {
+            } catch (exception: Throwable) {
                 finishIntentWithError(
                     "unable to save cropped image: ${exception.message}"
                 )

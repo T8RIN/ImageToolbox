@@ -423,6 +423,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                 },
                 onFailure = {
                     _isImageLoading.value = false
+                    AppToastHost.showFailureToast(it)
                 }
             )
         }

@@ -140,7 +140,7 @@ class DocumentScanner(
                 ResponseType.IMAGE_FILE_PATH
             ).contains(responseType)
         ) {
-            throw Exception(
+            throw Throwable(
                 "responseType must be either ${ResponseType.BASE64} " +
                         "or ${ResponseType.IMAGE_FILE_PATH}"
             )
@@ -151,14 +151,14 @@ class DocumentScanner(
                 // check for errors
                 val error = result.data?.extras?.getString("error")
                 if (error != null) {
-                    throw Exception("error - $error")
+                    throw Throwable("error - $error")
                 }
 
                 // get an array with scanned document file paths
                 val croppedImageResults: ArrayList<String> =
                     result.data?.getStringArrayListExtra(
                         "croppedImageResults"
-                    ) ?: throw Exception("No cropped images returned")
+                    ) ?: throw Throwable("No cropped images returned")
 
                 // if responseType is imageFilePath return an array of file paths
                 var successResponse: ArrayList<String> = croppedImageResults
@@ -194,7 +194,7 @@ class DocumentScanner(
 
             else -> Unit
         }
-    } catch (exception: Exception) {
+    } catch (exception: Throwable) {
         // trigger the error event handler
         errorHandler?.let { it(exception.localizedMessage ?: "An error happened") }
     }

@@ -126,8 +126,8 @@ internal class AiProcessor @Inject constructor(
         listener: AiProgressListener,
         info: ModelInfo,
     ): Bitmap = withContext(defaultDispatcher) {
-        val width = inputBitmap.getWidth()
-        val height = inputBitmap.getHeight()
+        val width = inputBitmap.width
+        val height = inputBitmap.height
 
         val processingConfig = Bitmap.Config.ARGB_8888
         // Use the smaller of chunkSize or model's fixed dimensions
@@ -271,7 +271,7 @@ internal class AiProcessor @Inject constructor(
             ensureActive()
             val loadedProcessed = withContext(ioDispatcher) {
                 BitmapFactory.decodeFile(chunkInfo.processedFile.absolutePath)
-            } ?: throw Exception("Failed to load processed chunk ${chunkInfo.index}")
+            } ?: throw Throwable("Failed to load processed chunk ${chunkInfo.index}")
 
             mergeChunkWithBlending(
                 result = result,

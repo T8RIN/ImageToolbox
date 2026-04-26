@@ -485,6 +485,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             onGetImage = ::setImageData,
             onFailure = {
                 _isImageLoading.update { false }
+                AppToastHost.showFailureToast(it)
             }
         )
     }

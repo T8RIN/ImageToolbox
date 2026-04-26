@@ -73,7 +73,7 @@ private fun initBouncyCastle() {
         Security.addProvider(BouncyCastleWorkaroundProvider())
 
         logProviders("NEW")
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.makeLog()
         "Failed to register BouncyCastleWorkaroundProvider".makeLog()
     }

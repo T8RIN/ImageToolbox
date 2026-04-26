@@ -44,7 +44,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ScanResult
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
@@ -270,7 +269,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
 
     fun shareUri(uri: Uri) {
-        coroutineScope.launch {
+        componentScope.launch {
             shareProvider.shareUri(
                 uri = uri.toString(),
                 onComplete = {}

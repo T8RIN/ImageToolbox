@@ -61,11 +61,11 @@ class ImageUtil {
         }
 
         if (!File(filePath).exists()) {
-            throw Exception("File doesn't exist - $filePath")
+            throw Throwable("File doesn't exist - $filePath")
         }
 
         if (!File(filePath).canRead()) {
-            throw Exception("You don't have permission to read $filePath")
+            throw Throwable("You don't have permission to read $filePath")
         }
 
         // try reading image without OpenCV

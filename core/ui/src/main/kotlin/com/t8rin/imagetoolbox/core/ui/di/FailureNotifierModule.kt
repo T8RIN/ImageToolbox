@@ -15,11 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.opencv_tools.lens_correction.model
+package com.t8rin.imagetoolbox.core.ui.di
 
-sealed class LCException(message: String) : Throwable(message) {
-    class MissingFisheyeParams : LCException("No fisheye_params in JSON")
-    class InvalidMatrixSize : LCException("Incorrect camera_matrix size (pass 3x3)")
-    class InvalidCalibDimensions : LCException("Invalid calibration dimensions")
-    class InvalidDistortionCoeffs : LCException("Bad distortion coefficients (pass only 4)")
+import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object FailureNotifierModule {
+
+    @Provides
+    @Singleton
+    fun notifier(): FailureNotifier = FailureNotifier(AppToastHost::showFailureToast)
+
 }

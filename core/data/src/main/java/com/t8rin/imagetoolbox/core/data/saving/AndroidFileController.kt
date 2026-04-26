@@ -245,7 +245,7 @@ internal class AndroidFileController @Inject constructor(
                             )
                         }
                         return@withContext SaveResult.Error.Exception(
-                            Exception(
+                            Throwable(
                                 getString(
                                     R.string.no_such_directory,
                                     treeUri.toUri().uiPath(treeUri)

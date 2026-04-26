@@ -46,7 +46,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -78,9 +77,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.resources.icons.Folder
+import com.t8rin.imagetoolbox.core.resources.icons.Memory
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.blend
@@ -473,16 +474,28 @@ suspend fun ToastHostState.showFailureToast(
     context: Context,
     throwable: Throwable
 ) = showFailureToast(
-    message = context.getString(
-        R.string.smth_went_wrong,
-        throwable.localizedMessage?.decodeEscaped() ?: ""
-    )
+    message = if (throwable is OutOfMemoryError) {
+        context.getString(R.string.oom_description)
+    } else {
+        context.getString(
+            R.string.smth_went_wrong,
+            throwable.localizedMessage?.decodeEscaped().orEmpty().ifEmpty {
+                throwable::class.java.simpleName
+            }
+        )
+    },
+    icon = if (throwable is OutOfMemoryError) {
+        Icons.Outlined.Memory
+    } else {
+        null
+    }
 )
 
 suspend fun ToastHostState.showFailureToast(
-    message: String
+    message: String,
+    icon: ImageVector? = null
 ) = showToast(
     message = message,
-    icon = Icons.Outlined.Error,
+    icon = icon ?: Icons.Outlined.Error,
     duration = ToastDuration.Long
 )

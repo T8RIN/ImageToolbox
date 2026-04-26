@@ -15,11 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.opencv_tools.lens_correction.model
+package com.t8rin.imagetoolbox.core.domain.saving
 
-sealed class LCException(message: String) : Throwable(message) {
-    class MissingFisheyeParams : LCException("No fisheye_params in JSON")
-    class InvalidMatrixSize : LCException("Incorrect camera_matrix size (pass 3x3)")
-    class InvalidCalibDimensions : LCException("Invalid calibration dimensions")
-    class InvalidDistortionCoeffs : LCException("Bad distortion coefficients (pass only 4)")
+fun interface FailureNotifier {
+    fun send(error: Throwable)
 }

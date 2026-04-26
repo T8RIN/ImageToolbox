@@ -26,7 +26,7 @@ interface ImageGetter<I> {
     suspend fun getImage(
         uri: String,
         originalSize: Boolean = true,
-        onFailure: (Throwable) -> Unit = {}
+        onFailure: ((Throwable) -> Unit)? = null
     ): ImageData<I>?
 
     fun getImageAsync(
