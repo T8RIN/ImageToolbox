@@ -40,7 +40,7 @@ import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
-import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.ui.theme.inverseByLuma
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorPickerSheet
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -90,7 +90,7 @@ internal fun MeshGradientEditor(
                 if (tappedPoint == null) dragOffset.value = null
             }
     ) {
-        val painter = rememberVectorPainter(Icons.Rounded.EditAlt)
+        val painter = rememberVectorPainter(Icons.Outlined.MiniEditLarge)
 
         Canvas(
             modifier = Modifier
