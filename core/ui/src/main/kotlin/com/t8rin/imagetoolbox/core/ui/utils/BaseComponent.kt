@@ -173,6 +173,8 @@ abstract class BaseComponent(
             ) = Unit
 
             override fun stop(removeNotification: Boolean) = Unit
+
+            override fun send(error: Throwable) = Unit
         }
 
         fun inject(keepAliveService: KeepAliveService) {

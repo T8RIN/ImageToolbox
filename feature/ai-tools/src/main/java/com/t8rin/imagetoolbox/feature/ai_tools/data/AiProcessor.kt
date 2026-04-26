@@ -35,7 +35,7 @@ import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
-import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ChunkInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ModelInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
@@ -79,9 +79,7 @@ internal class AiProcessor @Inject constructor(
                 clearChunks()
             },
             onFailure = { e ->
-                listener.onError(
-                    e.localizedMessage ?: e.message ?: getString(R.string.something_went_wrong)
-                )
+                listener.onError(e.extractMessage())
             },
             action = {
                 processBitmapImpl(

@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.other
 
-import android.content.Context
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -78,7 +77,6 @@ import androidx.compose.ui.util.fastCoerceIn
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.resources.icons.Folder
 import com.t8rin.imagetoolbox.core.resources.icons.Memory
@@ -95,7 +93,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
-import com.t8rin.imagetoolbox.core.utils.decodeEscaped
+import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CoroutineScope
@@ -471,19 +469,9 @@ private fun ToastDuration.toMillis(
 }
 
 suspend fun ToastHostState.showFailureToast(
-    context: Context,
     throwable: Throwable
 ) = showFailureToast(
-    message = if (throwable is OutOfMemoryError) {
-        context.getString(R.string.oom_description)
-    } else {
-        context.getString(
-            R.string.smth_went_wrong,
-            throwable.localizedMessage?.decodeEscaped().orEmpty().ifEmpty {
-                throwable::class.java.simpleName
-            }
-        )
-    },
+    message = throwable.extractMessage(),
     icon = if (throwable is OutOfMemoryError) {
         Icons.Outlined.Memory
     } else {

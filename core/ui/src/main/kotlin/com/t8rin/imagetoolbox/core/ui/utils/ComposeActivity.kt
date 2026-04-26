@@ -173,12 +173,16 @@ abstract class ComposeActivity : AppCompatActivity() {
 
     fun applyDynamicColors() {
         val colorTuple = settingsState.appColorTuple.asColorTuple()
-        DynamicColors.applyToActivityIfAvailable(
-            this@ComposeActivity,
-            DynamicColorsOptions.Builder()
-                .setContentBasedSource(colorTuple.primary.toArgb())
-                .build()
-        )
+        runCatching {
+            DynamicColors.applyToActivityIfAvailable(
+                this@ComposeActivity,
+                DynamicColorsOptions.Builder()
+                    .setContentBasedSource(colorTuple.primary.toArgb())
+                    .build()
+            )
+        }.onFailure {
+            it.makeLog("applyDynamicColors")
+        }
     }
 
     private fun updateFirebaseParams() = analyticsManager.apply {

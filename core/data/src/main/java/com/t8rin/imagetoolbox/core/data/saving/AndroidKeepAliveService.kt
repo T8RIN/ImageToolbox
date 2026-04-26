@@ -26,14 +26,16 @@ import com.t8rin.imagetoolbox.core.data.saving.KeepAliveForegroundService.Compan
 import com.t8rin.imagetoolbox.core.data.saving.KeepAliveForegroundService.Companion.EXTRA_PROGRESS
 import com.t8rin.imagetoolbox.core.data.saving.KeepAliveForegroundService.Companion.EXTRA_REMOVE_NOTIFICATION
 import com.t8rin.imagetoolbox.core.data.saving.KeepAliveForegroundService.Companion.EXTRA_TITLE
+import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.utils.tryAll
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 internal class AndroidKeepAliveService @Inject constructor(
-    @ApplicationContext private val context: Context
-) : KeepAliveService {
+    @ApplicationContext private val context: Context,
+    failureNotifier: FailureNotifier
+) : KeepAliveService, FailureNotifier by failureNotifier {
 
     private val baseIntent: Intent
         get() = Intent(context, KeepAliveForegroundService::class.java)

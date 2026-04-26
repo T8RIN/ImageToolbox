@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
@@ -272,7 +273,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
         return keepAliveService.track(
             onFailure = {
-                listener.onError(it.message ?: it::class.simpleName.orEmpty())
+                listener.onError(it.extractMessage())
             },
             action = {
                 function()

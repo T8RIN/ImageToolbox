@@ -18,8 +18,8 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.ActivityNotFoundException
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOff
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHostState
@@ -77,7 +77,6 @@ data object AppToastHost {
     fun showFailureToast(throwable: Throwable) {
         scope.launch {
             state.showFailureToast(
-                context = appContext,
                 throwable = throwable
             )
         }

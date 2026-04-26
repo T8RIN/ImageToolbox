@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifConverter
 import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifParams
@@ -48,6 +49,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.isActive
@@ -61,6 +63,7 @@ internal class AndroidGifConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageShareProvider: ImageShareProvider<Bitmap>,
     @ApplicationContext private val context: Context,
+    private val failureNotifier: FailureNotifier,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, GifConverter {
 
@@ -238,6 +241,8 @@ internal class AndroidGifConverter @Inject constructor(
                 pos in indexes
             }?.let { emit(it) }
         }
+    }.catch {
+        failureNotifier.send(it)
     }
 
     private val String.inputStream: InputStream?
