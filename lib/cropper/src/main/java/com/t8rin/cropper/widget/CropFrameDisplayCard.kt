@@ -17,22 +17,16 @@
 
 package com.t8rin.cropper.widget
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.StarBorder
+import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -55,22 +49,16 @@ import com.t8rin.cropper.model.CropOutline
 import com.t8rin.cropper.model.CropPath
 import com.t8rin.cropper.model.CropShape
 import com.t8rin.cropper.settings.Paths
-import com.t8rin.cropper.util.scale
 
 @Composable
 fun CropFrameDisplayCard(
     modifier: Modifier = Modifier,
-    editable: Boolean,
     scale: Float,
     outlineColor: Color,
-    editButtonBackgroundColor: Color = MaterialTheme.colorScheme.tertiary,
-    editButtonContentColor: Color = MaterialTheme.colorScheme.onTertiary,
     fontSize: TextUnit = 12.sp,
     title: String,
     cropOutline: CropOutline,
-    onEditClick: () -> Unit = {},
 ) {
-
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -90,45 +78,9 @@ fun CropFrameDisplayCard(
                     .padding(4.dp)
                     .aspectRatio(1f),
                 cropOutline = cropOutline,
-                color = outlineColor
-            ) {
-
-                if (editable) {
-                    Icon(
-                        modifier = Modifier
-                            .graphicsLayer {
-                                val iconScale =
-                                    scale(
-                                        start1 = .9f,
-                                        end1 = 1f,
-                                        pos = scale.coerceAtLeast(.9f),
-                                        start2 = 0f,
-                                        end2 = 1f
-                                    )
-                                scaleX = iconScale
-                                scaleY = iconScale
-
-                                val translation = this.density.run { 12.dp.toPx() }
-                                translationX = translation
-                                translationY = -translation
-                                clip = true
-                                shape = CircleShape
-
-                                this.density
-                            }
-                            .clickable {
-                                onEditClick()
-                            }
-                            .padding(8.dp)
-                            .background(editButtonBackgroundColor, CircleShape)
-                            .size(20.dp)
-                            .padding(4.dp),
-                        imageVector = Icons.Default.Edit,
-                        tint = editButtonContentColor,
-                        contentDescription = "Edit"
-                    )
-                }
-            }
+                color = outlineColor,
+                content = {}
+            )
 
 
             if (title.isNotEmpty()) {
@@ -204,7 +156,7 @@ private fun CropFrameDisplay(
                         modifier = Modifier
                             .matchParentSize()
                             .scale(1.3f),
-                        imageVector = Icons.Outlined.StarBorder,
+                        imageVector = Icons.Rounded.StarBorder,
                         tint = color,
                         contentDescription = "Crop with Path"
                     )
@@ -213,7 +165,7 @@ private fun CropFrameDisplay(
                         modifier = Modifier
                             .matchParentSize()
                             .scale(1.3f),
-                        imageVector = Icons.Outlined.FavoriteBorder,
+                        imageVector = Icons.Rounded.FavoriteBorder,
                         tint = color,
                         contentDescription = "Crop with Path"
                     )

@@ -27,8 +27,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -54,6 +53,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LinkPreview
@@ -84,7 +84,7 @@ fun LinkPreviewCard(
                     linkPreview.link?.let {
                         Clipboard.copy(
                             text = it,
-                            icon = Icons.Default.Link
+                            icon = Icons.Rounded.Link
                         )
                     }
                 },
@@ -105,7 +105,7 @@ fun LinkPreviewCard(
             alignment = Alignment.Center,
             error = {
                 Icon(
-                    imageVector = Icons.Default.Language,
+                    imageVector = Icons.Rounded.Language,
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()

@@ -161,7 +161,6 @@ fun CropMaskSelection(
                             cornerRadius = 20
                         }
                         .padding(16.dp),
-                    editable = false,
                     scale = 1f,
                     outlineColor = MaterialTheme.colorScheme.secondary,
                     title = "",

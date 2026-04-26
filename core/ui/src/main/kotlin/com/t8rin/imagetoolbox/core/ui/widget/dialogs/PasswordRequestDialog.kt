@@ -19,8 +19,8 @@ package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -100,7 +100,7 @@ fun PasswordRequestDialog(
                 },
                 startIcon = {
                     Icon(
-                        imageVector = Icons.Filled.Password,
+                        imageVector = Icons.Rounded.Password,
                         contentDescription = null
                     )
                 },
