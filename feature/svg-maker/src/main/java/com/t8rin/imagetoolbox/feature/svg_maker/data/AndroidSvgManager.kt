@@ -26,8 +26,8 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.RandomStringGenerator
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
-import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracerAndroid
-import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracerAndroid.SvgListener
+import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracer
+import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracer.SvgListener
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgManager
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgParams
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -56,7 +56,7 @@ internal class AndroidSvgManager @Inject constructor(
 
                 withContext(ioDispatcher) {
                     file.bufferedWriter().use { writer ->
-                        ImageTracerAndroid.imageToSVG(
+                        ImageTracer.imageToSVG(
                             bitmap = imageGetter.getImage(
                                 data = uri,
                                 size = if (params.isImageSampled) {
