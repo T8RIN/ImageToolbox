@@ -47,9 +47,11 @@ internal class TiffDecoder private constructor(
             } else true
         } ?: Bitmap.Config.ARGB_8888
 
-        val decoded = TiffBitmapFactory.decodeFile(
-            source.file().toFile()
-        ) ?: return null
+        val decoded = runCatching {
+            TiffBitmapFactory.decodeFile(
+                source.file().toFile()
+            )
+        }.getOrNull() ?: return null
 
         val image = decoded
             .createScaledBitmap(options.size)
