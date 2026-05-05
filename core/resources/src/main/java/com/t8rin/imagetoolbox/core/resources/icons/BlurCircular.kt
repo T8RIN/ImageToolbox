@@ -1,11 +1,28 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Rounded.BlurCircular: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -153,6 +170,169 @@ val Icons.Rounded.BlurCircular: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             quadTo(520f, 543f, 520f, 560f)
             quadTo(520f, 577f, 531.5f, 588.5f)
             quadTo(543f, 600f, 560f, 600f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.Outlined.BlurCircular: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Outlined.BlurCircular",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(428.5f, 428.5f)
+            quadTo(440f, 417f, 440f, 400f)
+            reflectiveQuadToRelative(-11.5f, -28.5f)
+            quadTo(417f, 360f, 400f, 360f)
+            reflectiveQuadToRelative(-28.5f, 11.5f)
+            quadTo(360f, 383f, 360f, 400f)
+            reflectiveQuadToRelative(11.5f, 28.5f)
+            quadTo(383f, 440f, 400f, 440f)
+            reflectiveQuadToRelative(28.5f, -11.5f)
+            close()
+            moveTo(428.5f, 588.5f)
+            quadTo(440f, 577f, 440f, 560f)
+            reflectiveQuadToRelative(-11.5f, -28.5f)
+            quadTo(417f, 520f, 400f, 520f)
+            reflectiveQuadToRelative(-28.5f, 11.5f)
+            quadTo(360f, 543f, 360f, 560f)
+            reflectiveQuadToRelative(11.5f, 28.5f)
+            quadTo(383f, 600f, 400f, 600f)
+            reflectiveQuadToRelative(28.5f, -11.5f)
+            close()
+            moveTo(294f, 414f)
+            quadToRelative(6f, -6f, 6f, -14f)
+            reflectiveQuadToRelative(-6f, -14f)
+            quadToRelative(-6f, -6f, -14f, -6f)
+            reflectiveQuadToRelative(-14f, 6f)
+            quadToRelative(-6f, 6f, -6f, 14f)
+            reflectiveQuadToRelative(6f, 14f)
+            quadToRelative(6f, 6f, 14f, 6f)
+            reflectiveQuadToRelative(14f, -6f)
+            close()
+            moveTo(400f, 700f)
+            quadToRelative(8f, 0f, 14f, -6f)
+            reflectiveQuadToRelative(6f, -14f)
+            quadToRelative(0f, -8f, -6f, -14f)
+            reflectiveQuadToRelative(-14f, -6f)
+            quadToRelative(-8f, 0f, -14f, 6f)
+            reflectiveQuadToRelative(-6f, 14f)
+            quadToRelative(0f, 8f, 6f, 14f)
+            reflectiveQuadToRelative(14f, 6f)
+            close()
+            moveTo(294f, 574f)
+            quadToRelative(6f, -6f, 6f, -14f)
+            reflectiveQuadToRelative(-6f, -14f)
+            quadToRelative(-6f, -6f, -14f, -6f)
+            reflectiveQuadToRelative(-14f, 6f)
+            quadToRelative(-6f, 6f, -6f, 14f)
+            reflectiveQuadToRelative(6f, 14f)
+            quadToRelative(6f, 6f, 14f, 6f)
+            reflectiveQuadToRelative(14f, -6f)
+            close()
+            moveTo(414f, 294f)
+            quadToRelative(6f, -6f, 6f, -14f)
+            reflectiveQuadToRelative(-6f, -14f)
+            quadToRelative(-6f, -6f, -14f, -6f)
+            reflectiveQuadToRelative(-14f, 6f)
+            quadToRelative(-6f, 6f, -6f, 14f)
+            reflectiveQuadToRelative(6f, 14f)
+            quadToRelative(6f, 6f, 14f, 6f)
+            reflectiveQuadToRelative(14f, -6f)
+            close()
+            moveTo(588.5f, 428.5f)
+            quadTo(600f, 417f, 600f, 400f)
+            reflectiveQuadToRelative(-11.5f, -28.5f)
+            quadTo(577f, 360f, 560f, 360f)
+            reflectiveQuadToRelative(-28.5f, 11.5f)
+            quadTo(520f, 383f, 520f, 400f)
+            reflectiveQuadToRelative(11.5f, 28.5f)
+            quadTo(543f, 440f, 560f, 440f)
+            reflectiveQuadToRelative(28.5f, -11.5f)
+            close()
+            moveTo(574f, 294f)
+            quadToRelative(6f, -6f, 6f, -14f)
+            reflectiveQuadToRelative(-6f, -14f)
+            quadToRelative(-6f, -6f, -14f, -6f)
+            reflectiveQuadToRelative(-14f, 6f)
+            quadToRelative(-6f, 6f, -6f, 14f)
+            reflectiveQuadToRelative(6f, 14f)
+            quadToRelative(6f, 6f, 14f, 6f)
+            reflectiveQuadToRelative(14f, -6f)
+            close()
+            moveTo(694f, 574f)
+            quadToRelative(6f, -6f, 6f, -14f)
+            reflectiveQuadToRelative(-6f, -14f)
+            quadToRelative(-6f, -6f, -14f, -6f)
+            reflectiveQuadToRelative(-14f, 6f)
+            quadToRelative(-6f, 6f, -6f, 14f)
+            reflectiveQuadToRelative(6f, 14f)
+            quadToRelative(6f, 6f, 14f, 6f)
+            reflectiveQuadToRelative(14f, -6f)
+            close()
+            moveTo(694f, 414f)
+            quadToRelative(6f, -6f, 6f, -14f)
+            reflectiveQuadToRelative(-6f, -14f)
+            quadToRelative(-6f, -6f, -14f, -6f)
+            reflectiveQuadToRelative(-14f, 6f)
+            quadToRelative(-6f, 6f, -6f, 14f)
+            reflectiveQuadToRelative(6f, 14f)
+            quadToRelative(6f, 6f, 14f, 6f)
+            reflectiveQuadToRelative(14f, -6f)
+            close()
+            moveTo(324f, 848.5f)
+            quadTo(251f, 817f, 197f, 763f)
+            reflectiveQuadToRelative(-85.5f, -127f)
+            quadTo(80f, 563f, 80f, 480f)
+            reflectiveQuadToRelative(31.5f, -156f)
+            quadTo(143f, 251f, 197f, 197f)
+            reflectiveQuadToRelative(127f, -85.5f)
+            quadTo(397f, 80f, 480f, 80f)
+            reflectiveQuadToRelative(156f, 31.5f)
+            quadTo(709f, 143f, 763f, 197f)
+            reflectiveQuadToRelative(85.5f, 127f)
+            quadTo(880f, 397f, 880f, 480f)
+            reflectiveQuadToRelative(-31.5f, 156f)
+            quadTo(817f, 709f, 763f, 763f)
+            reflectiveQuadToRelative(-127f, 85.5f)
+            quadTo(563f, 880f, 480f, 880f)
+            reflectiveQuadToRelative(-156f, -31.5f)
+            close()
+            moveTo(480f, 800f)
+            quadToRelative(134f, 0f, 227f, -93f)
+            reflectiveQuadToRelative(93f, -227f)
+            quadToRelative(0f, -134f, -93f, -227f)
+            reflectiveQuadToRelative(-227f, -93f)
+            quadToRelative(-134f, 0f, -227f, 93f)
+            reflectiveQuadToRelative(-93f, 227f)
+            quadToRelative(0f, 134f, 93f, 227f)
+            reflectiveQuadToRelative(227f, 93f)
+            close()
+            moveTo(574f, 694f)
+            quadToRelative(6f, -6f, 6f, -14f)
+            reflectiveQuadToRelative(-6f, -14f)
+            quadToRelative(-6f, -6f, -14f, -6f)
+            reflectiveQuadToRelative(-14f, 6f)
+            quadToRelative(-6f, 6f, -6f, 14f)
+            reflectiveQuadToRelative(6f, 14f)
+            quadToRelative(6f, 6f, 14f, 6f)
+            reflectiveQuadToRelative(14f, -6f)
+            close()
+            moveTo(588.5f, 588.5f)
+            quadTo(600f, 577f, 600f, 560f)
+            reflectiveQuadToRelative(-11.5f, -28.5f)
+            quadTo(577f, 520f, 560f, 520f)
+            reflectiveQuadToRelative(-28.5f, 11.5f)
+            quadTo(520f, 543f, 520f, 560f)
+            reflectiveQuadToRelative(11.5f, 28.5f)
+            quadTo(543f, 600f, 560f, 600f)
+            reflectiveQuadToRelative(28.5f, -11.5f)
+            close()
+            moveTo(480f, 480f)
             close()
         }
     }.build()

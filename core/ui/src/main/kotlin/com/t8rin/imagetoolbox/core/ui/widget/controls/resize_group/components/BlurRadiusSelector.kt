@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.controls.resize_group.components
 
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -52,7 +52,7 @@ fun BlurRadiusSelector(
                 end = 12.dp,
                 bottom = 10.dp
             ),
-        icon = Icons.Rounded.BlurCircular,
+        icon = Icons.Outlined.BlurCircular,
         valueRange = valueRange,
         internalStateTransformation = {
             it.roundToInt()
