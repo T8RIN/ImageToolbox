@@ -19,6 +19,8 @@ package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.Intent
 import android.net.Uri
+import android.provider.DocumentsContract
+import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
 import com.t8rin.imagetoolbox.core.domain.TEMPLATE_EXT
@@ -63,6 +65,14 @@ fun Intent?.handleDeeplinks(
 
     runCatching {
         fun String?.isEndsWith(ext: String): Boolean = this?.lowercase().orEmpty().endsWith(ext)
+        fun Uri?.isDirectoryUri(): Boolean {
+            val uri = this ?: return false
+            return runCatching {
+                DocumentFile.fromTreeUri(appContext, uri)?.isDirectory == true ||
+                        DocumentFile.fromSingleUri(appContext, uri)?.isDirectory == true ||
+                        DocumentsContract.getTreeDocumentId(uri).isNotEmpty()
+            }.getOrDefault(false)
+        }
 
         fun Uri?.isMarkupProject(): Boolean = this?.toString().isEndsWith(".itp") ||
                 this?.filename().isEndsWith(".itp")
@@ -89,6 +99,10 @@ fun Intent?.handleDeeplinks(
             startsWithImage || hasExtraFormats || dataHasExtraFormats -> {
                 when (action) {
                     Intent.ACTION_VIEW -> {
+                        if (data.isDirectoryUri()) {
+                            onNavigate(Screen.FormatConversion(treeUri = data))
+                            return@runCatching
+                        }
                         val uris =
                             clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
 
@@ -133,6 +147,10 @@ fun Intent?.handleDeeplinks(
                     Intent.ACTION_EDIT,
                     Intent.ACTION_INSERT,
                     Intent.ACTION_INSERT_OR_EDIT -> {
+                        if (data.isDirectoryUri()) {
+                            onNavigate(Screen.FormatConversion(treeUri = data))
+                            return@runCatching
+                        }
                         val uris =
                             clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
                         if (type?.contains("gif") == true) {
@@ -143,6 +161,10 @@ fun Intent?.handleDeeplinks(
 
                     else -> {
                         data?.let {
+                            if (it.isDirectoryUri()) {
+                                onNavigate(Screen.FormatConversion(treeUri = it))
+                                return@runCatching
+                            }
                             if (type?.contains("gif") == true) {
                                 onHasExtraDataType(ExtraDataType.Gif)
                             }

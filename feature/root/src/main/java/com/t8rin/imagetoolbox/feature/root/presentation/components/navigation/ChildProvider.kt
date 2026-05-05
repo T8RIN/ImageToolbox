@@ -367,6 +367,7 @@ internal class ChildProvider @Inject constructor(
             formatConversionComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
+                initialTreeUri = config.treeUri,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

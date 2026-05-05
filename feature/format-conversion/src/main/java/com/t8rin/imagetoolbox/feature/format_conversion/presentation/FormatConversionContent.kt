@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Text
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -85,7 +86,7 @@ fun FormatConversionContent(
 
     AutoFilePicker(
         onAutoPick = pickImage,
-        isPickedAlready = !component.initialUris.isNullOrEmpty()
+        isPickedAlready = !component.initialUris.isNullOrEmpty() || component.initialTreeUri != null
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -179,6 +180,20 @@ fun FormatConversionContent(
         },
         controls = {
             val imageInfo = component.imageInfo
+            AnimatedVisibility(
+                visible = component.isIndexingTree,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                Column {
+                    Text(
+                        text = stringResource(
+                            R.string.loading
+                        ) + " (${component.indexedTreeFiles})"
+                    )
+                    Spacer(Modifier.size(8.dp))
+                }
+            }
             ImageCounter(
                 imageCount = component.uris?.size?.takeIf { it > 1 },
                 onRepick = {
@@ -267,7 +282,7 @@ fun FormatConversionContent(
         canShowScreenData = component.bitmap != null,
         forceImagePreviewToMax = false,
         noDataControls = {
-            if (!component.isImageLoading) {
+            if (!component.isImageLoading && !component.isIndexingTree) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         }

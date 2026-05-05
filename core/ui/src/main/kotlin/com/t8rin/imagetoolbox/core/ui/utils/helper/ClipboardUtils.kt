@@ -32,7 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isFromAppFileProvider
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.moveToCache
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.takePersistablePermission
 
 @Composable
 fun rememberClipboardData(): State<List<Uri>> {
@@ -126,7 +126,7 @@ fun ClipData.clipList() = List(
     size = itemCount,
     init = { index ->
         getItemAt(index).uri?.let { uri ->
-            if (uri.isFromAppFileProvider()) uri else uri.moveToCache()
+            if (uri.isFromAppFileProvider()) uri else uri.takePersistablePermission()
         }
     }
 ).filterNotNull()

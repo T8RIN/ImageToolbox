@@ -52,14 +52,19 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.extension
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onCompletion
 
 class FormatConversionComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
+    @Assisted val initialTreeUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
@@ -76,6 +81,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     init {
         debounce {
             initialUris?.let(::setUris)
+            initialTreeUri?.let(::indexTreeUri)
         }
     }
 
@@ -108,6 +114,12 @@ class FormatConversionComponent @AssistedInject internal constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
+    private val _isIndexingTree: MutableState<Boolean> = mutableStateOf(false)
+    val isIndexingTree by _isIndexingTree
+
+    private val _indexedTreeFiles: MutableState<Int> = mutableIntStateOf(0)
+    val indexedTreeFiles by _indexedTreeFiles
+
     private var job: Job? by smartJob {
         _isImageLoading.update { false }
     }
@@ -128,6 +140,49 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 onGetImage = ::setImageData,
                 onFailure = AppToastHost::showFailureToast
             )
+        }
+    }
+
+    private fun isSupportedInputUri(uri: Uri): Boolean {
+        if (appContext.contentResolver.getType(uri)?.startsWith("image/") == true) return true
+        return uri.extension().orEmpty().lowercase() in setOf(
+            "jpg", "jpeg", "png", "webp", "gif", "bmp", "heic", "heif", "avif", "jxl", "qoi"
+        )
+    }
+
+    private fun indexTreeUri(treeUri: Uri) {
+        componentScope.launch {
+            _isIndexingTree.value = true
+            _indexedTreeFiles.value = 0
+            _uris.value = emptyList()
+            _selectedUri.value = null
+            fileController
+                .listFilesInDirectoryAsFlow(treeUri.toString())
+                .catch { AppToastHost.showFailureToast(it) }
+                .onCompletion {
+                    _isIndexingTree.value = false
+                }
+                .collect { uriString ->
+                    val uri = uriString.toUri()
+                    if (!isSupportedInputUri(uri)) return@collect
+
+                    val updated = (_uris.value.orEmpty() + uri)
+                    _uris.value = updated
+                    _indexedTreeFiles.value = updated.size
+
+                    if (_selectedUri.value == null) {
+                        _selectedUri.value = uri
+                        _imageInfo.update {
+                            it.copy(originalUri = uri.toString())
+                        }
+                        imageGetter.getImageAsync(
+                            uri = uri.toString(),
+                            originalSize = false,
+                            onGetImage = ::setImageData,
+                            onFailure = AppToastHost::showFailureToast
+                        )
+                    }
+                }
         }
     }
 
@@ -466,6 +521,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            initialTreeUri: Uri?,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): FormatConversionComponent

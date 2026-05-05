@@ -829,7 +829,8 @@ sealed class Screen(
 
     @Serializable
     data class FormatConversion(
-        val uris: List<Uri>? = null
+        val uris: List<Uri>? = null,
+        val treeUri: Uri? = null
     ) : Screen(
         id = 25,
         title = R.string.format_conversion,
