@@ -23,11 +23,11 @@ import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtSession
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
-import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
@@ -39,8 +39,6 @@ import com.t8rin.imagetoolbox.feature.ai_tools.data.model.TensorSize
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.Tile
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.TileFiles
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.TileGrid
-import com.t8rin.imagetoolbox.feature.ai_tools.data.model.tensorSizeFor
-import com.t8rin.imagetoolbox.feature.ai_tools.data.model.tileLimit
 import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.AiExtensions.LOG_TAG
 import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.AiExtensions.OPAQUE
 import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.appendControlInputs
@@ -65,7 +63,6 @@ import javax.inject.Inject
 internal class AiProcessor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val service: KeepAliveService,
-    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager
 ) : DispatchersHolder by dispatchersHolder, ResourceManager by resourceManager {
@@ -133,7 +130,8 @@ internal class AiProcessor @Inject constructor(
     ): Bitmap = withContext(defaultDispatcher) {
         ensureActive()
 
-        val tileLimit = info.tileLimit()
+        val tileLimit = info.tileLimit
+
         if (source.width > tileLimit || source.height > tileLimit) {
             renderByTiles(
                 session = session,
@@ -508,7 +506,7 @@ internal class AiProcessor @Inject constructor(
         file: File,
         label: String
     ): Bitmap = withContext(ioDispatcher) {
-        imageGetter.getImage(file.absolutePath)?.image
+        BitmapFactory.decodeFile(file.absolutePath)
     } ?: error("Could not read $label")
 
 }

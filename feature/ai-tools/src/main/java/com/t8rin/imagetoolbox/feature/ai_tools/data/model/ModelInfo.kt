@@ -18,14 +18,12 @@
 package com.t8rin.imagetoolbox.feature.ai_tools.data.model
 
 import ai.onnxruntime.NodeInfo
-import ai.onnxruntime.OnnxJavaType
 import ai.onnxruntime.OrtSession
-import ai.onnxruntime.TensorInfo
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ImageTensor.Companion.firstImageTensor
 import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.AiExtensions.MODEL_ALIGNMENT
 import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.roundedUpTo
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
-import kotlin.math.abs
 
 internal class ModelInfo(
     val strength: Float,
@@ -35,98 +33,73 @@ internal class ModelInfo(
     session: OrtSession,
     model: NeuralModel
 ) {
-    val inputName: String
     val inputInfoMap: Map<String, NodeInfo> = session.inputInfo
-    val inputChannels: Int
-    val outputChannels: Int
-    val isFp16: Boolean
-    val expectedWidth: Int?
-    val expectedHeight: Int?
+
+    private val inputTensor = inputInfoMap.firstImageTensor()
+        ?: error("ONNX session does not expose an image input tensor")
+
+    val inputName: String = inputTensor.name
+    val inputChannels: Int = inputTensor.channels
     val isScuNet = model.name.startsWith("scunet_")
+    val outputChannels: Int = session.outputInfo
+        .firstImageTensor()
+        ?.outputChannels(keepSignedValue = isScuNet)
+        ?: 3
+    val isFp16: Boolean = inputTensor.isFloat16
+    val expectedWidth: Int? = inputTensor.width
+    val expectedHeight: Int? = inputTensor.height
     val isScuNetColor = model.name.startsWith("scunet_color")
     val isNonChunkable = model.isNonChunkable || disableChunking
-    val chunkSize = if (isScuNet) {
-        minOf(chunkSize, 256)
-    } else {
-        chunkSize
-    }
-    val minSpatialSize = getMinSpatialSize(model.name)
+
+    val minSpatialSize = spatialSizeMap.entries.find {
+        model.name.contains(it.key)
+    }?.value ?: 256
 
     val scaleFactor: Int = scaleMap.entries.find {
         model.name.contains(it.key)
     }?.value ?: 1
 
+    val tileLimit = run {
+        if (isNonChunkable) return@run Int.MAX_VALUE
+
+        val chunkSize = if (isScuNet) {
+            minOf(chunkSize, 256)
+        } else {
+            chunkSize
+        }
+
+        if (expectedWidth != null && expectedHeight != null) {
+            minOf(chunkSize, expectedWidth, expectedHeight)
+        } else {
+            chunkSize
+        }
+    }
+
+    fun tensorSizeFor(source: TensorSize): TensorSize {
+        val useMinimumSide = isScuNetColor || minSpatialSize > 256
+        val width = expectedWidth?.takeIf { it > 0 } ?: run {
+            val aligned = source.width.roundedUpTo(MODEL_ALIGNMENT)
+            if (useMinimumSide) maxOf(aligned, minSpatialSize) else aligned
+        }
+        val height = expectedHeight?.takeIf { it > 0 } ?: run {
+            val aligned = source.height.roundedUpTo(MODEL_ALIGNMENT)
+            if (useMinimumSide) maxOf(aligned, minSpatialSize) else aligned
+        }
+        return TensorSize(width, height)
+    }
+
     init {
-        "Initialized with chunkSize: $chunkSize, overlap: $overlap"
-            .makeLog("ModelInfo")
-        var foundInputName: String? = null
-        var foundInputChannels = 3
-        var foundOutputChannels = 3
-        var foundIsFp16 = false
-        var foundExpectedWidth: Int? = null
-        var foundExpectedHeight: Int? = null
+        "Model chunk=$chunkSize, overlap=$overlap, scale=$scaleFactor".makeLog("ModelInfo")
 
-        for ((key, nodeInfo) in inputInfoMap) {
-            val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
-            val shape = tensorInfo.shape
-            if ((tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) && shape.size == 4) {
-                foundInputName = key
-                foundInputChannels = if (shape[1] == 1L) 1 else 3
-                foundIsFp16 = (tensorInfo.type == OnnxJavaType.FLOAT16)
-                if (shape[2] > 0) foundExpectedHeight = shape[2].toInt()
-                if (shape[3] > 0) foundExpectedWidth = shape[3].toInt()
-                break
-            }
-        }
+        val inputType = if (isFp16) "FP16" else "FP32"
+        val widthText = expectedWidth ?: "dynamic"
+        val heightText = expectedHeight ?: "dynamic"
+        val tensorText = "Tensor input=$inputType/$inputChannels channel(s), " +
+                "output=$outputChannels channel(s), " +
+                "size=${widthText}x$heightText"
 
-        val outputInfoMap = session.outputInfo
-        for ((_, nodeInfo) in outputInfoMap) {
-            val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
-            val shape = tensorInfo.shape
-            if ((tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) && shape.size == 4) {
-                foundOutputChannels = if (isScuNet) {
-                    if (shape[1] == 1L) 1 else 3
-                } else {
-                    if (abs(shape[1]) == 1L) 1 else 3
-                }
-                break
-            }
-        }
-        inputName = foundInputName ?: throw RuntimeException("Could not find valid input tensor")
-        inputChannels = foundInputChannels
-        outputChannels = foundOutputChannels
-        isFp16 = foundIsFp16
-        expectedWidth = foundExpectedWidth
-        expectedHeight = foundExpectedHeight
-
-        "Model input type: ${if (isFp16) "FP16" else "FP32"}, input channels: $inputChannels, output channels: $outputChannels, expected dimensions: ${expectedWidth ?: "dynamic"}x${expectedHeight ?: "dynamic"}, scaleFactor: $scaleFactor"
-            .makeLog("ModelInfo")
+        tensorText.makeLog("ModelInfo")
     }
-}
-
-internal fun ModelInfo.tileLimit(): Int {
-    if (isNonChunkable) return Int.MAX_VALUE
-
-    val fixedWidth = expectedWidth
-    val fixedHeight = expectedHeight
-    return if (fixedWidth != null && fixedHeight != null) {
-        minOf(chunkSize, fixedWidth, fixedHeight)
-    } else {
-        chunkSize
-    }
-}
-
-internal fun ModelInfo.tensorSizeFor(source: TensorSize): TensorSize {
-    val useMinimumSide = isScuNetColor || minSpatialSize > 256
-    val width = expectedWidth?.takeIf { it > 0 } ?: run {
-        val aligned = source.width.roundedUpTo(MODEL_ALIGNMENT)
-        if (useMinimumSide) maxOf(aligned, minSpatialSize) else aligned
-    }
-    val height = expectedHeight?.takeIf { it > 0 } ?: run {
-        val aligned = source.height.roundedUpTo(MODEL_ALIGNMENT)
-        if (useMinimumSide) maxOf(aligned, minSpatialSize) else aligned
-    }
-    return TensorSize(width, height)
 }
 
 private val scaleMap = buildMap {
@@ -138,16 +111,6 @@ private val scaleMap = buildMap {
     }
 }
 
-private val minSpatial = mapOf(
+private val spatialSizeMap = mapOf(
     "nafnet" to 512
 )
-
-private fun getMinSpatialSize(modelName: String?): Int {
-    val normalized = modelName?.lowercase() ?: return 256
-    for ((pattern, size) in minSpatial) {
-        if (normalized.contains(pattern)) {
-            return size
-        }
-    }
-    return 256
-}
