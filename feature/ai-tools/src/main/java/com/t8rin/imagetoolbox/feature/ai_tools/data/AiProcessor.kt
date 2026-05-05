@@ -19,46 +19,53 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.data
 
-import ai.onnxruntime.OnnxJavaType
 import ai.onnxruntime.OnnxTensor
-import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
-import ai.onnxruntime.TensorInfo
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.core.utils.makeLog
-import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ChunkInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ModelInfo
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.TensorSize
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.Tile
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.TileFiles
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.TileGrid
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.tensorSizeFor
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.tileLimit
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.AiExtensions.LOG_TAG
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.AiExtensions.OPAQUE
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.appendControlInputs
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.clamp255
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.createInputTensor
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.extractOutputArray
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.fitToTensorSize
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.mixColors
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.readModelInput
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.smoothStep
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.Float.floatToIntBits
-import java.lang.Float.intBitsToFloat
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.FloatBuffer
 import javax.inject.Inject
-import kotlin.math.ceil
 
 internal class AiProcessor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val service: KeepAliveService,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager
 ) : DispatchersHolder by dispatchersHolder, ResourceManager by resourceManager {
@@ -75,20 +82,20 @@ internal class AiProcessor @Inject constructor(
     ): Bitmap? = withContext(defaultDispatcher) {
         service.track(
             onCancel = {
-                "Cancelled".makeLog("AiProcessor")
-                clearChunks()
+                "Processing was cancelled; dropping temporary tiles".makeLog(LOG_TAG)
+                chunksDir.deleteRecursively()
             },
-            onFailure = { e ->
-                listener.onError(e.extractMessage())
+            onFailure = { error ->
+                listener.onError(error.extractMessage())
             },
             action = {
-                processBitmapImpl(
+                renderBitmap(
                     session = session,
-                    inputBitmap = inputBitmap,
+                    source = inputBitmap,
                     listener = object : AiProgressListener {
                         override fun onError(error: String) {
                             listener.onError(error)
-                            stop()
+                            service.stop()
                         }
 
                         override fun onProgress(currentChunkIndex: Int, totalChunks: Int) {
@@ -98,7 +105,7 @@ internal class AiProcessor @Inject constructor(
                             )
 
                             if (totalChunks > 0) {
-                                updateProgress(
+                                service.updateProgress(
                                     done = currentChunkIndex,
                                     total = totalChunks
                                 )
@@ -118,557 +125,390 @@ internal class AiProcessor @Inject constructor(
         )
     }
 
-    private suspend fun processBitmapImpl(
+    private suspend fun renderBitmap(
         session: OrtSession,
-        inputBitmap: Bitmap,
+        source: Bitmap,
         listener: AiProgressListener,
         info: ModelInfo,
     ): Bitmap = withContext(defaultDispatcher) {
-        val width = inputBitmap.width
-        val height = inputBitmap.height
+        ensureActive()
 
-        val processingConfig = Bitmap.Config.ARGB_8888
-        // Use the smaller of chunkSize or model's fixed dimensions
-        val effectiveMaxChunkSize = if (info.isNonChunkable) {
-            Int.MAX_VALUE
-        } else {
-            if (info.expectedWidth != null && info.expectedHeight != null) {
-                minOf(info.chunkSize, info.expectedWidth, info.expectedHeight)
-            } else {
-                info.chunkSize
-            }
-        }
-
-        if (width > effectiveMaxChunkSize || height > effectiveMaxChunkSize) {
-            processTiled(
+        val tileLimit = info.tileLimit()
+        if (source.width > tileLimit || source.height > tileLimit) {
+            renderByTiles(
                 session = session,
-                inputBitmap = inputBitmap,
+                source = source,
                 listener = listener,
                 info = info,
-                config = processingConfig,
-                maxChunkSize = effectiveMaxChunkSize
+                tileLimit = tileLimit
             )
         } else {
-            processChunk(
+            renderSingleBitmap(
                 session = session,
-                chunk = inputBitmap.copy(processingConfig, true),
-                config = processingConfig,
+                source = source,
                 info = info
             )
         }
     }
 
-    private suspend fun processTiled(
+    private suspend fun renderSingleBitmap(
         session: OrtSession,
-        inputBitmap: Bitmap,
-        listener: AiProgressListener,
-        info: ModelInfo,
-        config: Bitmap.Config,
-        maxChunkSize: Int
-    ): Bitmap = withContext(defaultDispatcher) {
-        ensureActive()
-        val width = inputBitmap.width
-        val height = inputBitmap.height
-        val overlap = info.overlap
-        val stride = maxChunkSize - overlap
-        val cols =
-            if (width <= maxChunkSize) 1 else ceil((width - overlap).toFloat() / stride).toInt()
-        val rows =
-            if (height <= maxChunkSize) 1 else ceil((height - overlap).toFloat() / stride).toInt()
-        "Processing tiled: image=${width}x${height}, chunkSize=$maxChunkSize, stride=$stride, grid=${cols}x${rows}, overlap=$overlap".makeLog(
-            "AiProcessor"
-        )
-        val totalChunks = cols * rows
-
-        val chunkInfoList = mutableListOf<ChunkInfo>()
-
-        "Phase 1: Extracting $totalChunks chunks to disk".makeLog("AiProcessor")
-        var chunkIndex = 0
-        for (row in 0 until rows) {
-            for (col in 0 until cols) {
-                ensureActive()
-                val chunkX = col * stride
-                val chunkY = row * stride
-                val chunkW = minOf(chunkX + maxChunkSize, width) - chunkX
-                val chunkH = minOf(chunkY + maxChunkSize, height) - chunkY
-                if (chunkW <= 0 || chunkH <= 0) continue
-                val chunk = Bitmap.createBitmap(inputBitmap, chunkX, chunkY, chunkW, chunkH)
-                val converted = if (chunk.config != config) {
-                    val temp = chunk.copy(config, true)
-                    chunk.recycle()
-                    temp
-                } else {
-                    chunk
-                }
-
-                ensureActive()
-
-                val inputChunkFile = File(chunksDir, "chunk_${chunkIndex}.png")
-                val processedChunkFile = File(chunksDir, "chunk_${chunkIndex}_processed.png")
-                withContext(Dispatchers.IO) {
-                    FileOutputStream(inputChunkFile).use {
-                        converted.compress(Bitmap.CompressFormat.PNG, 100, it)
-                    }
-                }
-                converted.recycle()
-                chunkInfoList.add(
-                    ChunkInfo(
-                        index = chunkIndex,
-                        inputFile = inputChunkFile,
-                        processedFile = processedChunkFile,
-                        x = chunkX,
-                        y = chunkY,
-                        width = chunkW,
-                        height = chunkH,
-                        col = col,
-                        row = row
-                    )
-                )
-                chunkIndex++
-            }
-        }
-        "Saved ${chunkInfoList.size} chunks to ${chunksDir.absolutePath}".makeLog("AiProcessor")
-        "Phase 2: Processing $totalChunks chunks".makeLog("AiProcessor")
-        if (totalChunks > 1) {
-            listener.onProgress(0, totalChunks)
-        }
-        for (chunkInfo in chunkInfoList) {
-            ensureActive()
-
-            val loadedChunk = BitmapFactory.decodeFile(chunkInfo.inputFile.absolutePath)
-
-            val processed = processChunk(
+        source: Bitmap,
+        info: ModelInfo
+    ): Bitmap {
+        val workingCopy = source.copy(Bitmap.Config.ARGB_8888, true)
+        return try {
+            runModelOnBitmap(
                 session = session,
-                chunk = loadedChunk,
-                config = config,
+                bitmap = workingCopy,
                 info = info
             )
+        } finally {
+            workingCopy.recycle()
+        }
+    }
 
-            loadedChunk.recycle()
-            withContext(ioDispatcher) {
-                FileOutputStream(chunkInfo.processedFile).use {
-                    processed.compress(Bitmap.CompressFormat.PNG, 100, it)
-                }
-                chunkInfo.inputFile.delete()
-            }
+    private suspend fun renderByTiles(
+        session: OrtSession,
+        source: Bitmap,
+        listener: AiProgressListener,
+        info: ModelInfo,
+        tileLimit: Int
+    ): Bitmap = withContext(defaultDispatcher) {
+        val grid = TileGrid.from(
+            imageWidth = source.width,
+            imageHeight = source.height,
+            tileLimit = tileLimit,
+            overlap = info.overlap
+        )
 
-            ensureActive()
+        listOf(
+            "Tile mode ${source.width}x${source.height}",
+            "limit=$tileLimit",
+            "step=${grid.step}",
+            "grid=${grid.columns}x${grid.rows}",
+            "overlap=${info.overlap}"
+        ).joinToString().makeLog(LOG_TAG)
 
-            processed.recycle()
-
-            if (totalChunks > 1) {
-                val nextChunkIndex = chunkInfo.index + 1
-                listener.onProgress(nextChunkIndex, totalChunks)
-            }
+        val tiles = grid.tiles { index ->
+            TileFiles(
+                input = File(chunksDir, "ai_tile_$index.png"),
+                output = File(chunksDir, "ai_tile_${index}_out.png")
+            )
         }
 
-        val resultWidth = width * info.scaleFactor
-        val resultHeight = height * info.scaleFactor
-        val result = createBitmap(resultWidth, resultHeight, config)
-        for (chunkInfo in chunkInfoList) {
-            ensureActive()
-            val loadedProcessed = withContext(ioDispatcher) {
-                BitmapFactory.decodeFile(chunkInfo.processedFile.absolutePath)
-            } ?: throw Throwable("Failed to load processed chunk ${chunkInfo.index}")
+        try {
+            writeSourceTiles(
+                source = source,
+                tiles = tiles
+            )
 
-            mergeChunkWithBlending(
-                result = result,
-                processedChunk = loadedProcessed,
-                chunkInfo = chunkInfo,
-                overlap = overlap,
+            "Stored ${tiles.size} tile(s) for AI processing".makeLog(LOG_TAG)
+            if (tiles.size > 1) {
+                listener.onProgress(0, tiles.size)
+            }
+
+            tiles.forEach { tile ->
+                ensureActive()
+                transformStoredTile(
+                    session = session,
+                    tile = tile,
+                    info = info
+                )
+
+                if (tiles.size > 1) {
+                    listener.onProgress(tile.index + 1, tiles.size)
+                }
+            }
+
+            composeTiles(
+                tiles = tiles,
+                imageSize = TensorSize(source.width, source.height),
+                overlap = info.overlap,
                 scaleFactor = info.scaleFactor
             )
-            loadedProcessed.recycle()
+        } finally {
+            chunksDir.deleteRecursively()
         }
-        clearChunks()
+    }
+
+    private suspend fun writeSourceTiles(
+        source: Bitmap,
+        tiles: List<Tile>,
+    ) = coroutineScope {
+        tiles.forEach { tile ->
+            ensureActive()
+            val extracted = Bitmap.createBitmap(
+                source,
+                tile.area.x,
+                tile.area.y,
+                tile.area.width,
+                tile.area.height
+            )
+
+            try {
+                savePng(
+                    bitmap = extracted,
+                    file = tile.files.input
+                )
+            } finally {
+                extracted.recycle()
+            }
+        }
+    }
+
+    private suspend fun transformStoredTile(
+        session: OrtSession,
+        tile: Tile,
+        info: ModelInfo
+    ) {
+        val tileBitmap = loadBitmap(
+            file = tile.files.input,
+            label = "tile ${tile.index}"
+        )
+
+        val transformed = try {
+            runModelOnBitmap(
+                session = session,
+                bitmap = tileBitmap,
+                info = info
+            )
+        } finally {
+            tileBitmap.recycle()
+        }
+
+        try {
+            savePng(
+                bitmap = transformed,
+                file = tile.files.output
+            )
+            withContext(ioDispatcher) {
+                tile.files.input.delete()
+            }
+        } finally {
+            transformed.recycle()
+        }
+    }
+
+    private suspend fun composeTiles(
+        tiles: List<Tile>,
+        imageSize: TensorSize,
+        overlap: Int,
+        scaleFactor: Int
+    ): Bitmap = withContext(defaultDispatcher) {
+        val outputSize = imageSize.scaledBy(scaleFactor)
+        val result = createBitmap(outputSize.width, outputSize.height)
+
+        tiles.forEach { tile ->
+            ensureActive()
+            val tileBitmap = loadBitmap(
+                file = tile.files.output,
+                label = "processed tile ${tile.index}"
+            )
+
+            try {
+                drawTile(
+                    result = result,
+                    tileBitmap = tileBitmap,
+                    tile = tile,
+                    overlap = overlap,
+                    scaleFactor = scaleFactor
+                )
+            } finally {
+                tileBitmap.recycle()
+            }
+        }
 
         result
     }
 
-    private suspend fun processChunk(
+    private suspend fun runModelOnBitmap(
         session: OrtSession,
-        chunk: Bitmap,
-        config: Bitmap.Config,
+        bitmap: Bitmap,
         info: ModelInfo
     ): Bitmap = withContext(defaultDispatcher) {
         ensureActive()
 
-        val originalW = chunk.width
-        val originalH = chunk.height
-        var w: Int
-        var h: Int
-        val minModelSize = info.minSpatialSize
-
-        if (info.isScuNetColor || minModelSize > 256) {
-            w = if (info.expectedWidth != null && info.expectedWidth > 0) {
-                info.expectedWidth
-            } else {
-                val padFactor = 8
-                val paddedW = ((originalW + padFactor - 1) / padFactor) * padFactor
-                maxOf(paddedW, minModelSize)
-            }
-            h = if (info.expectedHeight != null && info.expectedHeight > 0) {
-                info.expectedHeight
-            } else {
-                val padFactor = 8
-                val paddedH = ((originalH + padFactor - 1) / padFactor) * padFactor
-                maxOf(paddedH, minModelSize)
-            }
-        } else {
-            w = if (info.expectedWidth != null && info.expectedWidth > 0) {
-                info.expectedWidth
-            } else {
-                val padFactor = 8
-                ((originalW + padFactor - 1) / padFactor) * padFactor
-            }
-            h = if (info.expectedHeight != null && info.expectedHeight > 0) {
-                info.expectedHeight
-            } else {
-                val padFactor = 8
-                ((originalH + padFactor - 1) / padFactor) * padFactor
-            }
-        }
-
-        val needsPadding = w != originalW || h != originalH
-        val paddedChunk = if (needsPadding) {
-            "Padding chunk from ${originalW}x${originalH} to ${w}x${h}".makeLog("AiProcessor")
-            val padded = createBitmap(w, h, config)
-            val canvas = Canvas(padded)
-            canvas.drawBitmap(chunk, 0f, 0f, null)
-            if (w > originalW) {
-                val rightStrip = Bitmap.createBitmap(chunk, originalW - 1, 0, 1, originalH)
-                for (x in originalW until w) {
-                    ensureActive()
-                    canvas.drawBitmap(rightStrip, x.toFloat(), 0f, null)
-                }
-                rightStrip.recycle()
-            }
-            if (h > originalH) {
-                val bottomStrip = Bitmap.createBitmap(padded, 0, originalH - 1, w, 1)
-                for (y in originalH until h) {
-                    ensureActive()
-                    canvas.drawBitmap(bottomStrip, 0f, y.toFloat(), null)
-                }
-                bottomStrip.recycle()
-            }
-            padded
-        } else {
-            chunk
-        }
-        val hasAlpha = chunk.hasAlpha()
-        val inputChannels = info.inputChannels
-        val outputChannels = info.outputChannels
-        val pixels = IntArray(w * h)
-        paddedChunk.getPixels(pixels, 0, w, 0, 0, w, h)
-        val inputArray = FloatArray(inputChannels * w * h)
-        val alphaChannel = if (hasAlpha) FloatArray(w * h) else null
-        for (i in 0 until w * h) {
-            ensureActive()
-
-            val color = pixels[i]
-            if (inputChannels == 1) {
-                val gray = (Color.red(color) + Color.green(color) + Color.blue(color)) / 3
-                inputArray[i] = gray / 255f
-            } else {
-                inputArray[i] = Color.red(color) / 255f
-                inputArray[w * h + i] = Color.green(color) / 255f
-                inputArray[2 * w * h + i] = Color.blue(color) / 255f
-            }
-            if (hasAlpha) {
-                alphaChannel!![i] = Color.alpha(color) / 255f
-            }
-        }
-        val env = OrtEnvironment.getEnvironment()
-        val inputShape = longArrayOf(1, inputChannels.toLong(), h.toLong(), w.toLong())
-        val inputs = mutableMapOf<String, OnnxTensor>()
-        val inputTensor = if (info.isFp16) {
-            val fp16Array = ShortArray(inputArray.size) { i -> floatToFloat16(inputArray[i]) }
-            val byteBuffer =
-                ByteBuffer.allocateDirect(fp16Array.size * 2).order(ByteOrder.nativeOrder())
-            val shortBuffer = byteBuffer.asShortBuffer()
-            shortBuffer.put(fp16Array)
-            byteBuffer.rewind()
-            OnnxTensor.createTensor(env, byteBuffer, inputShape, OnnxJavaType.FLOAT16)
-        } else {
-            OnnxTensor.createTensor(env, FloatBuffer.wrap(inputArray), inputShape)
-        }
-        inputs[info.inputName] = inputTensor
-        for ((key, nodeInfo) in info.inputInfoMap) {
-            ensureActive()
-            if (key == info.inputName) continue
-            val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
-            if (tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) {
-                val shape = tensorInfo.shape.clone()
-                for (i in shape.indices) {
-                    ensureActive()
-                    if (shape[i] == -1L) shape[i] = 1L
-                }
-                if (shape.size == 2 && shape[0] == 1L && shape[1] == 1L) {
-                    ensureActive()
-                    val strengthTensor = if (tensorInfo.type == OnnxJavaType.FLOAT16) {
-                        val strengthFp16 = floatToFloat16(info.strength / 100f)
-                        val byteBuffer = ByteBuffer.allocateDirect(2).order(ByteOrder.nativeOrder())
-                        byteBuffer.asShortBuffer().put(strengthFp16)
-                        byteBuffer.rewind()
-                        OnnxTensor.createTensor(env, byteBuffer, shape, OnnxJavaType.FLOAT16)
-                    } else {
-                        OnnxTensor.createTensor(
-                            env,
-                            FloatBuffer.wrap(floatArrayOf(info.strength / 100f)),
-                            shape
-                        )
-                    }
-                    inputs[key] = strengthTensor
-                }
-            }
-        }
+        val sourceSize = TensorSize(bitmap.width, bitmap.height)
+        val tensorSize = info.tensorSizeFor(sourceSize)
+        val tensorBitmap = bitmap.fitToTensorSize(target = tensorSize)
+        val hasAlpha = bitmap.hasAlpha()
+        val alpha = if (hasAlpha) FloatArray(tensorSize.pixelCount) else null
+        val inputFloats = tensorBitmap.bitmap.readModelInput(
+            channels = info.inputChannels,
+            alpha = alpha
+        )
+        val inputShape = longArrayOf(
+            1,
+            info.inputChannels.toLong(),
+            tensorSize.height.toLong(),
+            tensorSize.width.toLong()
+        )
+        val tensors = linkedMapOf<String, OnnxTensor>()
 
         try {
-            ensureActive()
-            session.run(inputs).use { sessionResult ->
-                val outputH = h * info.scaleFactor
-                val outputW = w * info.scaleFactor
-                val (outputArray, actualOutputChannels) = extractOutputArray(
-                    outputValue = sessionResult[0].value,
-                    channels = outputChannels,
-                    h = outputH,
-                    w = outputW
-                )
-                val fullResultBitmap =
-                    createBitmap(width = outputW, height = outputH, config = config)
-                val outPixels = IntArray(outputW * outputH)
+            tensors[info.inputName] = createInputTensor(
+                data = inputFloats,
+                shape = inputShape,
+                fp16 = info.isFp16
+            )
+            appendControlInputs(
+                destination = tensors,
+                info = info
+            )
 
-                for (i in 0 until outputW * outputH) {
-                    ensureActive()
-                    val alpha = if (hasAlpha) {
-                        val srcY = ((i / outputW) / info.scaleFactor).coerceIn(0, h - 1)
-                        val srcX = ((i % outputW) / info.scaleFactor).coerceIn(0, w - 1)
-                        val srcIdx = srcY * w + srcX
-                        clamp255(alphaChannel!![srcIdx] * 255f)
-                    } else {
-                        255
-                    }
-
-                    if (actualOutputChannels == 1) {
-                        val gray = clamp255(outputArray[i] * 255f)
-                        outPixels[i] = Color.argb(alpha, gray, gray, gray)
-                    } else {
-                        val r = clamp255(outputArray[i] * 255f)
-                        val g = clamp255(outputArray[outputW * outputH + i] * 255f)
-                        val b = clamp255(outputArray[2 * outputW * outputH + i] * 255f)
-                        outPixels[i] = Color.argb(alpha, r, g, b)
-                    }
+            session.run(tensors).use { result ->
+                val modelOutputSize = tensorSize.scaledBy(info.scaleFactor)
+                val (outputFloats, actualChannels) = withContext(defaultDispatcher) {
+                    extractOutputArray(
+                        outputValue = result[0].value,
+                        channels = info.outputChannels,
+                        h = modelOutputSize.height,
+                        w = modelOutputSize.width
+                    )
                 }
-                fullResultBitmap.setPixels(outPixels, 0, outputW, 0, 0, outputW, outputH)
-                if (needsPadding) {
-                    val croppedW = originalW * info.scaleFactor
-                    val croppedH = originalH * info.scaleFactor
-                    val cropped = Bitmap.createBitmap(fullResultBitmap, 0, 0, croppedW, croppedH)
-                    fullResultBitmap.recycle()
-                    cropped
+
+                val rendered = renderModelOutput(
+                    values = outputFloats,
+                    channels = actualChannels,
+                    outputSize = modelOutputSize,
+                    sourceSize = tensorSize,
+                    alpha = alpha,
+                    scaleFactor = info.scaleFactor
+                )
+
+                if (tensorSize == sourceSize) {
+                    rendered
                 } else {
-                    fullResultBitmap
+                    val cropSize = sourceSize.scaledBy(info.scaleFactor)
+                    Bitmap.createBitmap(
+                        rendered,
+                        0,
+                        0,
+                        cropSize.width,
+                        cropSize.height
+                    ).also {
+                        rendered.recycle()
+                    }
                 }
             }
         } finally {
-            inputs.values.forEach { it.close() }
-            if (needsPadding) {
-                paddedChunk.recycle()
+            tensors.values.forEach(OnnxTensor::close)
+            if (tensorBitmap.recycleAfterUse) {
+                tensorBitmap.bitmap.recycle()
             }
         }
     }
 
-    private suspend fun mergeChunkWithBlending(
+    private suspend fun renderModelOutput(
+        values: FloatArray,
+        channels: Int,
+        outputSize: TensorSize,
+        sourceSize: TensorSize,
+        alpha: FloatArray?,
+        scaleFactor: Int
+    ): Bitmap = coroutineScope {
+        val pixels = IntArray(outputSize.pixelCount)
+        val planeSize = outputSize.pixelCount
+
+        for (index in pixels.indices) {
+            ensureActive()
+            val alphaValue = alpha?.let {
+                val sourceY = ((index / outputSize.width) / scaleFactor)
+                    .coerceIn(0, sourceSize.height - 1)
+                val sourceX = ((index % outputSize.width) / scaleFactor)
+                    .coerceIn(0, sourceSize.width - 1)
+                clamp255(it[sourceY * sourceSize.width + sourceX] * OPAQUE)
+            } ?: OPAQUE
+
+            pixels[index] = if (channels == 1) {
+                val gray = clamp255(values[index] * OPAQUE)
+                Color.argb(alphaValue, gray, gray, gray)
+            } else {
+                Color.argb(
+                    alphaValue,
+                    clamp255(values[index] * OPAQUE),
+                    clamp255(values[planeSize + index] * OPAQUE),
+                    clamp255(values[planeSize * 2 + index] * OPAQUE)
+                )
+            }
+        }
+
+        createBitmap(outputSize.width, outputSize.height).apply {
+            setPixels(pixels, 0, outputSize.width, 0, 0, outputSize.width, outputSize.height)
+        }
+    }
+
+    private suspend fun drawTile(
         result: Bitmap,
-        processedChunk: Bitmap,
-        chunkInfo: ChunkInfo,
+        tileBitmap: Bitmap,
+        tile: Tile,
         overlap: Int,
         scaleFactor: Int
     ) = withContext(defaultDispatcher) {
-        val width = processedChunk.width
-        val height = processedChunk.height
-        val x = chunkInfo.x * scaleFactor
-        val y = chunkInfo.y * scaleFactor
-        val scaledOverlap = overlap * scaleFactor
-        val needsLeftBlend = chunkInfo.col > 0
-        val needsTopBlend = chunkInfo.row > 0
-        if (!needsLeftBlend && !needsTopBlend) {
-            val canvas = Canvas(result)
-            canvas.drawBitmap(processedChunk, x.toFloat(), y.toFloat(), null)
+        val targetX = tile.area.x * scaleFactor
+        val targetY = tile.area.y * scaleFactor
+        val blendWidth = overlap * scaleFactor
+        val shouldBlendLeft = tile.position.column > 0
+        val shouldBlendTop = tile.position.row > 0
+
+        if (!shouldBlendLeft && !shouldBlendTop) {
+            Canvas(result).drawBitmap(tileBitmap, targetX.toFloat(), targetY.toFloat(), null)
             return@withContext
         }
-        val existingPixels = IntArray(width * height)
+
+        val width = tileBitmap.width
+        val height = tileBitmap.height
+        val existing = IntArray(width * height)
+        val incoming = IntArray(width * height)
+
         try {
-            result.getPixels(existingPixels, 0, width, x, y, width, height)
+            result.getPixels(existing, 0, width, targetX, targetY, width, height)
         } catch (_: Throwable) {
-            val canvas = Canvas(result)
-            canvas.drawBitmap(processedChunk, x.toFloat(), y.toFloat(), null)
+            Canvas(result).drawBitmap(tileBitmap, targetX.toFloat(), targetY.toFloat(), null)
             return@withContext
         }
-        val newPixels = IntArray(width * height)
-        processedChunk.getPixels(newPixels, 0, width, 0, 0, width, height)
+
+        tileBitmap.getPixels(incoming, 0, width, 0, 0, width, height)
+
         for (localY in 0 until height) {
             for (localX in 0 until width) {
                 ensureActive()
-                val inLeftOverlap = needsLeftBlend && localX < scaledOverlap
-                val inTopOverlap = needsTopBlend && localY < scaledOverlap
-                if (!inLeftOverlap && !inTopOverlap) continue
-                val idx = localY * width + localX
-                var blendFactor = 1.0f
-                if (inLeftOverlap) {
-                    val t =
-                        (localX.toFloat() / (scaledOverlap - 1).coerceAtLeast(1)).coerceIn(0f, 1f)
-                    blendFactor = minOf(blendFactor, t * t * (3f - 2f * t))
-                }
-                if (inTopOverlap) {
-                    val t =
-                        (localY.toFloat() / (scaledOverlap - 1).coerceAtLeast(1)).coerceIn(0f, 1f)
-                    blendFactor = minOf(blendFactor, t * t * (3f - 2f * t))
-                }
-                val existingColor = existingPixels[idx]
-                val newColor = newPixels[idx]
-                val r =
-                    ((1 - blendFactor) * Color.red(existingColor) + blendFactor * Color.red(newColor)).toInt()
-                val g = ((1 - blendFactor) * Color.green(existingColor) + blendFactor * Color.green(
-                    newColor
-                )).toInt()
-                val b = ((1 - blendFactor) * Color.blue(existingColor) + blendFactor * Color.blue(
-                    newColor
-                )).toInt()
-                val a = ((1 - blendFactor) * Color.alpha(existingColor) + blendFactor * Color.alpha(
-                    newColor
-                )).toInt()
-                newPixels[idx] = Color.argb(a, r, g, b)
+
+                val mixLeft = shouldBlendLeft && localX < blendWidth
+                val mixTop = shouldBlendTop && localY < blendWidth
+                if (!mixLeft && !mixTop) continue
+
+                val blend = minOf(
+                    if (mixLeft) smoothStep(localX, blendWidth) else 1f,
+                    if (mixTop) smoothStep(localY, blendWidth) else 1f
+                )
+                val index = localY * width + localX
+                incoming[index] = mixColors(
+                    from = existing[index],
+                    to = incoming[index],
+                    amount = blend
+                )
             }
         }
-        result.setPixels(newPixels, 0, width, x, y, width, height)
+
+        result.setPixels(incoming, 0, width, targetX, targetY, width, height)
     }
 
-    private suspend fun extractOutputArray(
-        outputValue: Any,
-        channels: Int,
-        h: Int,
-        w: Int
-    ): Pair<FloatArray, Int> = withContext(defaultDispatcher) {
-        ensureActive()
-        "Output type received: ${outputValue.javaClass.name}".makeLog("AiProcessor")
-
-        when (outputValue) {
-            is FloatArray -> {
-                "Output is FloatArray (FP32 or auto-converted from FP16)".makeLog("AiProcessor")
-                outputValue to channels
-            }
-
-            is ShortArray -> {
-                "Output is ShortArray (FP16) - converting to Float32".makeLog("AiProcessor")
-                FloatArray(outputValue.size) { i -> float16ToFloat(outputValue[i]) } to channels
-            }
-
-            is Array<*> -> {
-                try {
-                    val arr = outputValue as Array<Array<Array<FloatArray>>>
-                    "Output is multi-dimensional FloatArray".makeLog("AiProcessor")
-                    val actualBatches = arr.size
-                    val actualChannels = arr[0].size
-                    val actualHeight = arr[0][0].size
-                    val actualWidth = arr[0][0][0].size
-
-                    val channelsToProcess = maxOf(channels, actualChannels)
-                    "Actual tensor shape: [$actualBatches, $actualChannels, $actualHeight, $actualWidth]".makeLog(
-                        "AiProcessor"
-                    )
-                    "Requested extraction shape: [$channelsToProcess, $h, $w]".makeLog("AiProcessor")
-
-                    val out = FloatArray(channelsToProcess * h * w)
-                    for (ch in 0 until channelsToProcess) {
-                        for (y in 0 until h) {
-                            for (x in 0 until w) {
-                                ensureActive()
-                                out[ch * h * w + y * w + x] = arr[0][ch][y][x]
-                            }
-                        }
-                    }
-                    out to channelsToProcess
-                } catch (e: Throwable) {
-                    try {
-                        val arr = outputValue as Array<Array<Array<ShortArray>>>
-                        "Output is multi-dimensional ShortArray (FP16)".makeLog("AiProcessor")
-                        val actualBatches = arr.size
-                        val actualChannels = arr[0].size
-                        val actualHeight = arr[0][0].size
-                        val actualWidth = arr[0][0][0].size
-
-                        val channelsToProcess = maxOf(channels, actualChannels)
-                        "Actual tensor shape: [$actualBatches, $actualChannels, $actualHeight, $actualWidth]".makeLog(
-                            "AiProcessor"
-                        )
-                        "Requested extraction shape: [$channelsToProcess, $h, $w]".makeLog("AiProcessor")
-
-                        val out = FloatArray(channelsToProcess * h * w)
-                        for (ch in 0 until channelsToProcess) {
-                            for (y in 0 until h) {
-                                for (x in 0 until w) {
-                                    ensureActive()
-                                    out[ch * h * w + y * w + x] = float16ToFloat(arr[0][ch][y][x])
-                                }
-                            }
-                        }
-                        out to channelsToProcess
-                    } catch (e2: Throwable) {
-                        throw RuntimeException("Failed to extract output array: ${e.message}, ${e2.message}")
-                    }
-                }
-            }
-
-            else -> throw RuntimeException("Unexpected ONNX output type: ${outputValue.javaClass}")
+    private suspend fun savePng(
+        bitmap: Bitmap,
+        file: File
+    ) = withContext(ioDispatcher) {
+        FileOutputStream(file).use { stream ->
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
         }
     }
 
-    private fun clamp255(v: Float): Int = v.toInt().coerceIn(0, 255)
+    private suspend fun loadBitmap(
+        file: File,
+        label: String
+    ): Bitmap = withContext(ioDispatcher) {
+        imageGetter.getImage(file.absolutePath)?.image
+    } ?: error("Could not read $label")
 
-    private fun floatToFloat16(value: Float): Short {
-        val bits = floatToIntBits(value)
-        val sign = (bits ushr 16) and 0x8000
-        val exponent = ((bits ushr 23) and 0xFF) - 127 + 15
-        var mantissa = bits and 0x7FFFFF
-
-        if (exponent <= 0) {
-            if (exponent < -10) {
-                return sign.toShort()
-            }
-            mantissa = mantissa or 0x800000
-            mantissa = mantissa shr (1 - exponent)
-            return (sign or (mantissa shr 13)).toShort()
-        } else if (exponent >= 0x1F) {
-            return (sign or 0x7C00).toShort()
-        }
-
-        return (sign or (exponent shl 10) or (mantissa shr 13)).toShort()
-    }
-
-    private fun float16ToFloat(fp16: Short): Float {
-        val bits = fp16.toInt() and 0xFFFF
-        val sign = (bits and 0x8000) shl 16
-        val exponent = (bits and 0x7C00) ushr 10
-        val mantissa = bits and 0x3FF
-        if (exponent == 0) {
-            if (mantissa == 0) {
-                return intBitsToFloat(sign)
-            }
-            var e = -14
-            var m = mantissa
-            while ((m and 0x400) == 0) {
-                m = m shl 1
-                e--
-            }
-            m = m and 0x3FF
-            return intBitsToFloat(sign or ((e + 127) shl 23) or (m shl 13))
-        } else if (exponent == 0x1F) {
-            return intBitsToFloat(sign or 0x7F800000 or (mantissa shl 13))
-        }
-
-        return intBitsToFloat(sign or ((exponent - 15 + 127) shl 23) or (mantissa shl 13))
-    }
-
-    private fun clearChunks() = chunksDir.deleteRecursively()
 }

@@ -22,6 +22,8 @@ import ai.onnxruntime.OnnxJavaType
 import ai.onnxruntime.OrtSession
 import ai.onnxruntime.TensorInfo
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.AiExtensions.MODEL_ALIGNMENT
+import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.roundedUpTo
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import kotlin.math.abs
 
@@ -100,6 +102,31 @@ internal class ModelInfo(
         "Model input type: ${if (isFp16) "FP16" else "FP32"}, input channels: $inputChannels, output channels: $outputChannels, expected dimensions: ${expectedWidth ?: "dynamic"}x${expectedHeight ?: "dynamic"}, scaleFactor: $scaleFactor"
             .makeLog("ModelInfo")
     }
+}
+
+internal fun ModelInfo.tileLimit(): Int {
+    if (isNonChunkable) return Int.MAX_VALUE
+
+    val fixedWidth = expectedWidth
+    val fixedHeight = expectedHeight
+    return if (fixedWidth != null && fixedHeight != null) {
+        minOf(chunkSize, fixedWidth, fixedHeight)
+    } else {
+        chunkSize
+    }
+}
+
+internal fun ModelInfo.tensorSizeFor(source: TensorSize): TensorSize {
+    val useMinimumSide = isScuNetColor || minSpatialSize > 256
+    val width = expectedWidth?.takeIf { it > 0 } ?: run {
+        val aligned = source.width.roundedUpTo(MODEL_ALIGNMENT)
+        if (useMinimumSide) maxOf(aligned, minSpatialSize) else aligned
+    }
+    val height = expectedHeight?.takeIf { it > 0 } ?: run {
+        val aligned = source.height.roundedUpTo(MODEL_ALIGNMENT)
+        if (useMinimumSide) maxOf(aligned, minSpatialSize) else aligned
+    }
+    return TensorSize(width, height)
 }
 
 private val scaleMap = buildMap {
