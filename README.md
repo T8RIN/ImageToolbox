@@ -1001,7 +1001,7 @@ or click one of the badges below.
 
 # 📚 Tech stack & Open-source libraries
 
-- Minimum SDK level 23
+- Minimum SDK level 24
 
 - [Kotlin](https://kotlinlang.org/) based
 
@@ -1018,8 +1018,6 @@ or click one of the badges below.
 
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/)
   to emit values from data layer reactively.
-
-- [Accompanist](https://github.com/google/accompanist) to expand jetpack compose opportunities.
 
 - [Decompose](https://github.com/arkivanov/Decompose) - KMP lifecycle-aware business logic
   components (aka BLoCs) with routing (navigation) and pluggable UI
@@ -1041,16 +1039,10 @@ or click one of the badges below.
     - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
       asynchronously, consistently, and transactionally.
 
-    - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe
-      Android lifecycles and handle UI states upon the lifecycle changes.
-
-    - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read
-      and write image file EXIF tags.
-
 - [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the
   images.
 
-- [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries.
+- [DeJpeg](https://github.com/jeeneo/dejpeg) for start of AI tools
 
 - [AVIF Coder](https://github.com/awxkee/avif-coder)
   and [JXL Coder](https://github.com/awxkee/jxl-coder) libraries which provide avif, heic, heif and
