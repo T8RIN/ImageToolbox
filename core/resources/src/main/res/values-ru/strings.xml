@@ -1935,6 +1935,7 @@
     <string name="merging">Слияние</string>
     <string name="chunk_size">Размер фрагмента</string>
     <string name="overlap_size">Размер перекрытия</string>
+    <string name="parallel_workers">Параллельные потоки</string>
     <string name="note_chunk_info">Изображения размером более %1$s пикселей будут разрезаны и обработаны по частям, а функция перекрытия смешивает их, чтобы предотвратить видимые швы</string>
     <string name="large_chunk_warning">Большие размеры могут вызывать нестабильность в работе устройств низкого ценового сегмента</string>
     <string name="select_one_to_start">Выберите один из вариантов для начала</string>

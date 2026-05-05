@@ -1972,6 +1972,7 @@
     <string name="merging">Merging</string>
     <string name="chunk_size">Chunk Size</string>
     <string name="overlap_size">Overlap Size</string>
+    <string name="parallel_workers">Parallel Workers</string>
     <string name="note_chunk_info">Images over %1$s px will be sliced and processed in chunks, overlap blends these to prevent visible seams.</string>
     <string name="large_chunk_warning">Large sizes can cause instability with low-end devices</string>
     <string name="select_one_to_start">Select one to start</string>

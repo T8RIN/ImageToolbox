@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,9 +35,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Exercise
+import com.t8rin.imagetoolbox.core.resources.icons.Memory
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
+import kotlinx.collections.immutable.toPersistentMap
 import kotlin.math.roundToInt
 
 @Composable
@@ -136,6 +138,47 @@ internal fun AiToolsControls(component: AiToolsComponent) {
                 allowed = overlapPowers,
                 maxAllowed = component.params.chunkSize,
                 onValueChange = { component.updateParams { copy(overlap = it) } }
+            )
+            Spacer(Modifier.height(8.dp))
+
+            val workerLimit = remember {
+                Runtime.getRuntime().availableProcessors().coerceAtLeast(1)
+            }
+            val workerOptions = remember(workerLimit) {
+                listOf(0) + (1..8)
+            }
+            val workerIndex = workerOptions.indexOf(
+                component.params.parallelWorkers.coerceIn(0, workerLimit)
+            ).coerceAtLeast(0)
+
+            val auto = stringResource(R.string.auto)
+
+            EnhancedSliderItem(
+                value = workerIndex,
+                internalStateTransformation = { it.roundToInt() },
+                onValueChange = {
+                    val index = it.roundToInt().coerceIn(workerOptions.indices)
+                    component.updateParams {
+                        copy(parallelWorkers = workerOptions[index])
+                    }
+                },
+                valueRange = 0f..workerOptions.lastIndex.toFloat(),
+                steps = (workerOptions.size - 2).coerceAtLeast(0),
+                title = stringResource(R.string.parallel_workers),
+                icon = Icons.Outlined.Memory,
+                valuesPreviewMapping = remember(workerOptions, auto) {
+                    buildMap {
+                        workerOptions.forEachIndexed { index, workers ->
+                            put(
+                                key = index.toFloat(),
+                                value = if (workers == 0) auto else workers.toString()
+                            )
+                        }
+                    }.toPersistentMap()
+                },
+                isAnimated = false,
+                canInputValue = false,
+                shape = ShapeDefaults.large
             )
         }
     }

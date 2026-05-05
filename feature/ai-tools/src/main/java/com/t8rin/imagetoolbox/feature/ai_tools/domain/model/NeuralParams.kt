@@ -21,7 +21,8 @@ data class NeuralParams(
     val strength: Float,
     val chunkSize: Int,
     val overlap: Int,
-    val enableChunking: Boolean
+    val enableChunking: Boolean,
+    val parallelWorkers: Int = 0
 ) {
     companion object {
         val Default by lazy {
@@ -29,7 +30,8 @@ data class NeuralParams(
                 strength = 65f,
                 chunkSize = 512,
                 overlap = 16,
-                enableChunking = true
+                enableChunking = true,
+                parallelWorkers = 0
             )
         }
     }

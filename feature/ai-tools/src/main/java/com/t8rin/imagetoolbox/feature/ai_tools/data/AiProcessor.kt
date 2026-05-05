@@ -53,8 +53,12 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
@@ -116,7 +120,8 @@ internal class AiProcessor @Inject constructor(
                         overlap = params.overlap,
                         model = model,
                         disableChunking = !params.enableChunking
-                    )
+                    ),
+                    parallelWorkers = params.parallelWorkers
                 )
             }
         )
@@ -127,6 +132,7 @@ internal class AiProcessor @Inject constructor(
         source: Bitmap,
         listener: AiProgressListener,
         info: ModelInfo,
+        parallelWorkers: Int,
     ): Bitmap = withContext(defaultDispatcher) {
         ensureActive()
 
@@ -138,7 +144,8 @@ internal class AiProcessor @Inject constructor(
                 source = source,
                 listener = listener,
                 info = info,
-                tileLimit = tileLimit
+                tileLimit = tileLimit,
+                requestedWorkers = parallelWorkers
             )
         } else {
             renderSingleBitmap(
@@ -171,7 +178,8 @@ internal class AiProcessor @Inject constructor(
         source: Bitmap,
         listener: AiProgressListener,
         info: ModelInfo,
-        tileLimit: Int
+        tileLimit: Int,
+        requestedWorkers: Int
     ): Bitmap = withContext(defaultDispatcher) {
         val grid = TileGrid.from(
             imageWidth = source.width,
@@ -206,18 +214,13 @@ internal class AiProcessor @Inject constructor(
                 listener.onProgress(0, tiles.size)
             }
 
-            tiles.forEach { tile ->
-                ensureActive()
-                transformStoredTile(
-                    session = session,
-                    tile = tile,
-                    info = info
-                )
-
-                if (tiles.size > 1) {
-                    listener.onProgress(tile.index + 1, tiles.size)
-                }
-            }
+            processTiles(
+                session = session,
+                tiles = tiles,
+                info = info,
+                listener = listener,
+                requestedWorkers = requestedWorkers
+            )
 
             composeTiles(
                 tiles = tiles,
@@ -227,6 +230,59 @@ internal class AiProcessor @Inject constructor(
             )
         } finally {
             chunksDir.deleteRecursively()
+        }
+    }
+
+    private suspend fun processTiles(
+        session: OrtSession,
+        tiles: List<Tile>,
+        info: ModelInfo,
+        listener: AiProgressListener,
+        requestedWorkers: Int
+    ) = coroutineScope {
+        val workers = resolveParallelWorkers(
+            requestedWorkers = requestedWorkers,
+            tileCount = tiles.size
+        )
+
+        listOf(
+            "Processing ${tiles.size} tile(s)",
+            "workers=$workers",
+            "requested=$requestedWorkers"
+        ).joinToString().makeLog(LOG_TAG)
+
+        val completedTiles = atomic(0)
+
+        suspend fun processTile(tile: Tile) {
+            ensureActive()
+            transformStoredTile(
+                session = session,
+                tile = tile,
+                info = info
+            )
+
+            if (tiles.size > 1) {
+                listener.onProgress(
+                    currentChunkIndex = completedTiles.incrementAndGet(),
+                    totalChunks = tiles.size
+                )
+            }
+        }
+
+        if (workers <= 1) {
+            tiles.forEach { tile ->
+                processTile(tile)
+            }
+        } else {
+            val gate = Semaphore(workers)
+
+            tiles.forEach { tile ->
+                launch {
+                    gate.withPermit {
+                        processTile(tile)
+                    }
+                }
+            }
         }
     }
 
@@ -491,6 +547,24 @@ internal class AiProcessor @Inject constructor(
         }
 
         result.setPixels(incoming, 0, width, targetX, targetY, width, height)
+    }
+
+    private fun resolveParallelWorkers(
+        requestedWorkers: Int,
+        tileCount: Int
+    ): Int {
+        val detectedCores = Runtime.getRuntime().availableProcessors().coerceAtLeast(1)
+        val workers = if (requestedWorkers <= 0) {
+            when {
+                detectedCores >= 8 -> 4
+                detectedCores >= 6 -> 2
+                else -> 1
+            }
+        } else {
+            requestedWorkers
+        }
+
+        return workers.coerceIn(1, minOf(detectedCores, tileCount.coerceAtLeast(1)))
     }
 
     private suspend fun savePng(
