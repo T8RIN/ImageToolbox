@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -48,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
@@ -57,10 +57,10 @@ import com.t8rin.imagetoolbox.core.resources.icons.DirectionsWalk
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.File
-import com.t8rin.imagetoolbox.core.resources.icons.HighQuality
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Manga
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
+import com.t8rin.imagetoolbox.core.resources.icons.QualityHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Rabbit
 import com.t8rin.imagetoolbox.core.resources.icons.Scanner
 import com.t8rin.imagetoolbox.core.resources.icons.Snail
@@ -98,7 +98,7 @@ fun NeuralModel.Type.icon(): ImageVector = when (this) {
     NeuralModel.Type.ENHANCE -> Icons.Rounded.AutoFixHigh
     NeuralModel.Type.ANIME -> Icons.Rounded.Manga
     NeuralModel.Type.SCANS -> Icons.Rounded.Scanner
-    NeuralModel.Type.UPSCALE -> Icons.Rounded.HighQuality
+    NeuralModel.Type.UPSCALE -> Icons.Rounded.QualityHigh
     NeuralModel.Type.REMOVE_BG -> Icons.Rounded.Eraser
 }
 

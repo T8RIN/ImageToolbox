@@ -17,55 +17,84 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
-val Icons.Outlined.FileReplace: ImageVector by lazy {
+val Icons.Outlined.FileReplace: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "FileReplace",
+        name = "Outlined.FileReplace",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
         path(fill = SolidColor(Color.Black)) {
-            moveTo(14f, 3f)
-            lineTo(12f, 1f)
-            horizontalLineTo(4f)
-            arcTo(2f, 2f, 0f, isMoreThanHalf = false, isPositiveArc = false, 2f, 3f)
-            verticalLineTo(15f)
-            arcTo(2f, 2f, 0f, isMoreThanHalf = false, isPositiveArc = false, 4f, 17f)
-            horizontalLineTo(11f)
-            verticalLineTo(19f)
-            lineTo(15f, 16f)
-            lineTo(11f, 13f)
-            verticalLineTo(15f)
-            horizontalLineTo(4f)
-            verticalLineTo(3f)
-            horizontalLineTo(14f)
-            moveTo(21f, 10f)
-            verticalLineTo(21f)
-            arcTo(2f, 2f, 0f, isMoreThanHalf = false, isPositiveArc = true, 19f, 23f)
-            horizontalLineTo(8f)
-            arcTo(2f, 2f, 0f, isMoreThanHalf = false, isPositiveArc = true, 6f, 21f)
-            verticalLineTo(19f)
-            horizontalLineTo(8f)
-            verticalLineTo(21f)
-            horizontalLineTo(19f)
-            verticalLineTo(12f)
-            horizontalLineTo(14f)
-            verticalLineTo(7f)
-            horizontalLineTo(8f)
-            verticalLineTo(13f)
-            horizontalLineTo(6f)
-            verticalLineTo(7f)
-            arcTo(2f, 2f, 0f, isMoreThanHalf = false, isPositiveArc = true, 8f, 5f)
-            horizontalLineTo(16f)
-            lineTo(21f, 10f)
+            moveTo(20.85f, 11.063f)
+            curveToRelative(-0.1f, -0.242f, -0.242f, -0.454f, -0.425f, -0.638f)
+            lineToRelative(-4.85f, -4.85f)
+            curveToRelative(-0.183f, -0.183f, -0.396f, -0.325f, -0.638f, -0.425f)
+            curveToRelative(-0.242f, -0.1f, -0.496f, -0.15f, -0.763f, -0.15f)
+            horizontalLineToRelative(-6.175f)
+            curveToRelative(-0.55f, 0f, -1.021f, 0.196f, -1.412f, 0.588f)
+            reflectiveCurveToRelative(-0.588f, 0.862f, -0.588f, 1.412f)
+            verticalLineToRelative(5f)
+            curveToRelative(0f, 0.552f, 0.448f, 1f, 1f, 1f)
+            reflectiveCurveToRelative(1f, -0.448f, 1f, -1f)
+            verticalLineToRelative(-5f)
+            horizontalLineToRelative(6f)
+            verticalLineToRelative(4f)
+            curveToRelative(0f, 0.283f, 0.096f, 0.521f, 0.287f, 0.713f)
+            curveToRelative(0.192f, 0.192f, 0.429f, 0.287f, 0.713f, 0.287f)
+            horizontalLineToRelative(4f)
+            verticalLineToRelative(9f)
+            horizontalLineTo(7.999f)
+            verticalLineToRelative(-0.999f)
+            curveToRelative(0f, -0.552f, -0.448f, -1f, -1f, -1f)
+            reflectiveCurveToRelative(-1f, 0.448f, -1f, 1f)
+            verticalLineToRelative(1f)
+            horizontalLineToRelative(0.001f)
+            curveToRelative(0f, 0.549f, 0.196f, 1.02f, 0.587f, 1.411f)
+            curveToRelative(0.392f, 0.392f, 0.862f, 0.588f, 1.412f, 0.588f)
+            horizontalLineToRelative(11f)
+            curveToRelative(0.55f, 0f, 1.021f, -0.196f, 1.412f, -0.588f)
+            reflectiveCurveToRelative(0.588f, -0.862f, 0.588f, -1.412f)
+            verticalLineToRelative(-9.175f)
+            curveToRelative(0f, -0.267f, -0.05f, -0.521f, -0.15f, -0.763f)
+            close()
+        }
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(14.634f, 15.284f)
+            lineToRelative(-2.581f, -2.581f)
+            curveToRelative(-0.2f, -0.2f, -0.436f, -0.301f, -0.707f, -0.301f)
+            reflectiveCurveToRelative(-0.507f, 0.1f, -0.707f, 0.301f)
+            curveToRelative(-0.2f, 0.2f, -0.3f, 0.436f, -0.3f, 0.707f)
+            reflectiveCurveToRelative(0.1f, 0.507f, 0.3f, 0.707f)
+            lineToRelative(0.884f, 0.884f)
+            horizontalLineToRelative(-2.851f)
+            verticalLineToRelative(-0.001f)
+            horizontalLineTo(3.999f)
+            verticalLineTo(2.99f)
+            horizontalLineToRelative(7.979f)
+            curveToRelative(0.552f, 0f, 1f, -0.448f, 1f, -1f)
+            curveToRelative(0f, -0.552f, -0.448f, -1f, -1f, -1f)
+            horizontalLineTo(3.999f)
+            verticalLineToRelative(0.01f)
+            curveToRelative(-1.104f, 0f, -1.999f, 0.895f, -1.999f, 1.999f)
+            verticalLineToRelative(12.001f)
+            curveToRelative(0f, 1.104f, 0.895f, 1.999f, 1.999f, 1.999f)
+            horizontalLineToRelative(7.506f)
+            lineToRelative(-0.866f, 0.866f)
+            curveToRelative(-0.2f, 0.2f, -0.3f, 0.436f, -0.3f, 0.707f)
+            reflectiveCurveToRelative(0.1f, 0.507f, 0.3f, 0.707f)
+            curveToRelative(0.2f, 0.2f, 0.436f, 0.301f, 0.707f, 0.301f)
+            reflectiveCurveToRelative(0.507f, -0.1f, 0.707f, -0.301f)
+            lineToRelative(2.581f, -2.581f)
+            curveToRelative(0.2f, -0.2f, 0.301f, -0.436f, 0.301f, -0.707f)
+            reflectiveCurveToRelative(-0.1f, -0.507f, -0.301f, -0.707f)
             close()
         }
     }.build()

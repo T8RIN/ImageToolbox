@@ -19,9 +19,9 @@
 
 package com.t8rin.imagetoolbox.core.settings.presentation.model
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Celebration
 import com.t8rin.imagetoolbox.core.resources.icons.ClipboardFile
@@ -32,7 +32,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.DesignServices
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Firebase
-import com.t8rin.imagetoolbox.core.resources.icons.FolderOpened
+import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.resources.icons.Glyphs
 import com.t8rin.imagetoolbox.core.resources.icons.HardDrive
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
@@ -214,7 +214,7 @@ sealed class SettingsGroup(
 
     data object Folder : SettingsGroup(
         id = 12,
-        icon = Icons.Rounded.FolderOpened,
+        icon = Icons.Rounded.FolderOpen,
         titleId = R.string.folder,
         settingsList = listOf(
             Setting.SavingFolder,

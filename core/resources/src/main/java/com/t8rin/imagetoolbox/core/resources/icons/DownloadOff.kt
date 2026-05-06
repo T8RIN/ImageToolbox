@@ -17,16 +17,16 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
-val Icons.Rounded.FileDownloadOff: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val Icons.Rounded.DownloadOff: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "Rounded.FileDownloadOff",
+        name = "Rounded.DownloadOff",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,

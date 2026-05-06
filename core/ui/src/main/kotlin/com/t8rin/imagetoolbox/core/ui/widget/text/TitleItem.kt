@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
@@ -39,7 +38,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.t8rin.imagetoolbox.core.resources.icons.Firebase
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
@@ -97,8 +95,7 @@ fun TitleItem(
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        tint = if (icon == Icons.TwoTone.Firebase) Color.Unspecified
-                        else LocalContentColor.current
+                        tint = LocalContentColor.current
                     )
                 },
                 containerColor = iconContainerColor,

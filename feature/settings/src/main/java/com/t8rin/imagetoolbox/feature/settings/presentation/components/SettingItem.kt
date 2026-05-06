@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.activity.compose.LocalActivity
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,8 +28,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.FileDownloadOff
+import com.t8rin.imagetoolbox.core.resources.icons.DownloadOff
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
@@ -186,7 +186,7 @@ internal fun SettingItem(
                     if (clicks == 1) {
                         component.tryGetUpdate(true) {
                             AppToastHost.showToast(
-                                icon = Icons.Rounded.FileDownloadOff,
+                                icon = Icons.Rounded.DownloadOff,
                                 message = getString(R.string.no_updates)
                             )
                         }
@@ -347,7 +347,7 @@ internal fun SettingItem(
                     onClick = {
                         component.tryGetUpdate(true) {
                             AppToastHost.showToast(
-                                icon = Icons.Rounded.FileDownloadOff,
+                                icon = Icons.Rounded.DownloadOff,
                                 message = getString(R.string.no_updates)
                             )
                         }

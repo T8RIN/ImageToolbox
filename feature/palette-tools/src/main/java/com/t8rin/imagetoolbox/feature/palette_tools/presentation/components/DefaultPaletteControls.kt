@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +34,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.rememberImageColorPaletteState
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileExport
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
@@ -78,7 +78,7 @@ internal fun DefaultPaletteControls(
                 }
             )
         },
-        endIcon = Icons.Outlined.FileExport,
+        endIcon = Icons.Rounded.FileExport,
         shape = ShapeDefaults.top,
         modifier = Modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.5f),

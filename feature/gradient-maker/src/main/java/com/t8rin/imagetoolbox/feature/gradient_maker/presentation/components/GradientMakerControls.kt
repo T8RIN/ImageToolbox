@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -37,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.DensitySmall
@@ -116,7 +116,7 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
             EnhancedSliderItem(
                 value = component.meshGradientState.gridSize,
                 title = stringResource(R.string.grid_size),
-                icon = Icons.Rounded.GridOn,
+                icon = Icons.Outlined.GridOn,
                 valueRange = 2f..6f,
                 internalStateTransformation = { it.roundToInt() },
                 onValueChange = { value ->

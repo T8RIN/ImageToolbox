@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,11 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Extension
 import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.Functions
 import com.t8rin.imagetoolbox.core.resources.icons.Interface
-import com.t8rin.imagetoolbox.core.resources.icons.Puzzle
 import com.t8rin.imagetoolbox.core.resources.icons.Security
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -124,7 +124,7 @@ fun CipherTipSheet(
                     ) {
                         TitleItem(
                             text = stringResource(R.string.compatibility),
-                            icon = Icons.Outlined.Puzzle
+                            icon = Icons.Outlined.Extension
                         )
                         Text(
                             text = stringResource(id = R.string.compatibility_sub),

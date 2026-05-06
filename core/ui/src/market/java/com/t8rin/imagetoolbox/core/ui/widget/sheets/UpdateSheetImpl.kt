@@ -25,7 +25,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.FileDownloadOff
+import com.t8rin.imagetoolbox.core.resources.icons.DownloadOff
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
@@ -59,14 +59,14 @@ internal fun UpdateSheetImpl(
                             )
                         } else {
                             AppToastHost.showToast(
-                                icon = Icons.Rounded.FileDownloadOff,
+                                icon = Icons.Rounded.DownloadOff,
                                 message = getString(R.string.no_updates)
                             )
                         }
                     }
                 }.onFailure {
                     AppToastHost.showToast(
-                        icon = Icons.Rounded.FileDownloadOff,
+                        icon = Icons.Rounded.DownloadOff,
                         message = getString(R.string.no_updates)
                     )
                 }

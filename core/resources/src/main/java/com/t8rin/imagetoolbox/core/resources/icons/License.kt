@@ -1,11 +1,28 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Outlined.License: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -16,58 +33,55 @@ val Icons.Outlined.License: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportHeight = 960f
     ).apply {
         path(fill = SolidColor(Color.Black)) {
-            moveTo(480f, 520f)
-            quadTo(430f, 520f, 395f, 485f)
-            quadTo(360f, 450f, 360f, 400f)
-            quadTo(360f, 350f, 395f, 315f)
-            quadTo(430f, 280f, 480f, 280f)
-            quadTo(530f, 280f, 565f, 315f)
-            quadTo(600f, 350f, 600f, 400f)
-            quadTo(600f, 450f, 565f, 485f)
-            quadTo(530f, 520f, 480f, 520f)
+            moveTo(395f, 485f)
+            quadToRelative(-35f, -35f, -35f, -85f)
+            reflectiveQuadToRelative(35f, -85f)
+            quadToRelative(35f, -35f, 85f, -35f)
+            reflectiveQuadToRelative(85f, 35f)
+            quadToRelative(35f, 35f, 35f, 85f)
+            reflectiveQuadToRelative(-35f, 85f)
+            quadToRelative(-35f, 35f, -85f, 35f)
+            reflectiveQuadToRelative(-85f, -35f)
             close()
-            moveTo(240f, 920f)
-            lineTo(240f, 611f)
-            quadTo(202f, 569f, 181f, 515f)
-            quadTo(160f, 461f, 160f, 400f)
-            quadTo(160f, 266f, 253f, 173f)
-            quadTo(346f, 80f, 480f, 80f)
-            quadTo(614f, 80f, 707f, 173f)
-            quadTo(800f, 266f, 800f, 400f)
-            quadTo(800f, 461f, 779f, 515f)
-            quadTo(758f, 569f, 720f, 611f)
-            lineTo(720f, 920f)
-            lineTo(480f, 840f)
-            lineTo(240f, 920f)
+            moveTo(480f, 840f)
+            lineTo(293f, 902f)
+            quadToRelative(-20f, 7f, -36.5f, -5f)
+            reflectiveQuadTo(240f, 865f)
+            verticalLineToRelative(-254f)
+            quadToRelative(-38f, -42f, -59f, -96f)
+            reflectiveQuadToRelative(-21f, -115f)
+            quadToRelative(0f, -134f, 93f, -227f)
+            reflectiveQuadToRelative(227f, -93f)
+            quadToRelative(134f, 0f, 227f, 93f)
+            reflectiveQuadToRelative(93f, 227f)
+            quadToRelative(0f, 61f, -21f, 115f)
+            reflectiveQuadToRelative(-59f, 96f)
+            verticalLineToRelative(254f)
+            quadToRelative(0f, 20f, -16.5f, 32f)
+            reflectiveQuadTo(667f, 902f)
+            lineToRelative(-187f, -62f)
             close()
-            moveTo(480f, 640f)
-            quadTo(580f, 640f, 650f, 570f)
-            quadTo(720f, 500f, 720f, 400f)
-            quadTo(720f, 300f, 650f, 230f)
-            quadTo(580f, 160f, 480f, 160f)
-            quadTo(380f, 160f, 310f, 230f)
-            quadTo(240f, 300f, 240f, 400f)
-            quadTo(240f, 500f, 310f, 570f)
-            quadTo(380f, 640f, 480f, 640f)
+            moveTo(650f, 570f)
+            quadToRelative(70f, -70f, 70f, -170f)
+            reflectiveQuadToRelative(-70f, -170f)
+            quadToRelative(-70f, -70f, -170f, -70f)
+            reflectiveQuadToRelative(-170f, 70f)
+            quadToRelative(-70f, 70f, -70f, 170f)
+            reflectiveQuadToRelative(70f, 170f)
+            quadToRelative(70f, 70f, 170f, 70f)
+            reflectiveQuadToRelative(170f, -70f)
             close()
             moveTo(320f, 801f)
-            lineTo(480f, 760f)
-            lineTo(640f, 801f)
-            lineTo(640f, 677f)
-            quadTo(605f, 697f, 564.5f, 708.5f)
-            quadTo(524f, 720f, 480f, 720f)
-            quadTo(436f, 720f, 395.5f, 708.5f)
-            quadTo(355f, 697f, 320f, 677f)
-            lineTo(320f, 801f)
+            lineToRelative(160f, -41f)
+            lineToRelative(160f, 41f)
+            verticalLineToRelative(-124f)
+            quadToRelative(-35f, 20f, -75.5f, 31.5f)
+            reflectiveQuadTo(480f, 720f)
+            quadToRelative(-44f, 0f, -84.5f, -11.5f)
+            reflectiveQuadTo(320f, 677f)
+            verticalLineToRelative(124f)
             close()
             moveTo(480f, 739f)
-            lineTo(480f, 739f)
-            quadTo(480f, 739f, 480f, 739f)
-            quadTo(480f, 739f, 480f, 739f)
-            quadTo(480f, 739f, 480f, 739f)
-            quadTo(480f, 739f, 480f, 739f)
-            lineTo(480f, 739f)
-            lineTo(480f, 739f)
             close()
         }
     }.build()
