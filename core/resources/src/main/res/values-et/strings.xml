@@ -309,8 +309,8 @@
     <string name="skip">Jäta vahele</string>
     <string name="copy">Kopeeri</string>
     <string name="warning_bytes">Režiimis %1$s salvestamine võib olla ebastabiilne, kuna tegemist on kadudeta vorminguga</string>
-    <string name="presets_sub">Kui olete valinud eelseadistuse 125, salvestatakse pilt 125% suurusena originaalpildist. Kui valite eelseadistuse 50, salvestatakse pilt 50% suuruses</string>
-    <string name="presets_sub_bytes">Siinne eelseadistus määrab väljundfaili %, st kui valite 5 MB pildil eelseadistuse 50, saate pärast salvestamist 2,5 MB pildi</string>
+    <string name="presets_sub" formatted="false">Kui olete valinud eelseadistuse 125, salvestatakse pilt 125% suurusena originaalpildist. Kui valite eelseadistuse 50, salvestatakse pilt 50% suuruses</string>
+    <string name="presets_sub_bytes" formatted="false">Siinne eelseadistus määrab väljundfaili %, st kui valite 5 MB pildil eelseadistuse 50, saate pärast salvestamist 2,5 MB pildi</string>
     <string name="randomize_filename">Muutke failinimi juhuslikult</string>
     <string name="randomize_filename_sub">Kui see on lubatud, on väljundfaili nimi täiesti juhuslik</string>
     <string name="saved_to">Salvestatud %1$s kausta nimega %2$s</string>

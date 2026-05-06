@@ -338,8 +338,8 @@
     <string name="skip">Praleisti</string>
     <string name="copy">Kopijuoti</string>
     <string name="warning_bytes">Įrašymas %1$s režimu gali būti nestabilus, nes tai yra be nuostolių formatas</string>
-    <string name="presets_sub">Jei pasirinkote išankstinį nustatymą 125, vaizdas bus išsaugotas kaip 125% pradinio vaizdo dydžio. Jei pasirinksite iš anksto nustatytą 50, vaizdas bus išsaugotas 50% dydžiu</string>
-    <string name="presets_sub_bytes">Iš anksto nustatytas čia nustato išvesties failo %, t. y. jei pasirinksite iš anksto nustatytą 50 5 MB vaizde, tada išsaugoję gausite 2,5 MB vaizdą</string>
+    <string name="presets_sub" formatted="false">Jei pasirinkote išankstinį nustatymą 125, vaizdas bus išsaugotas kaip 125% pradinio vaizdo dydžio. Jei pasirinksite iš anksto nustatytą 50, vaizdas bus išsaugotas 50% dydžiu</string>
+    <string name="presets_sub_bytes" formatted="false">Iš anksto nustatytas čia nustato išvesties failo %, t. y. jei pasirinksite iš anksto nustatytą 50 5 MB vaizde, tada išsaugoję gausite 2,5 MB vaizdą</string>
     <string name="randomize_filename">Atsitiktinai nustatyti failo pavadinimą</string>
     <string name="randomize_filename_sub">Jei įjungta, išvesties failo pavadinimas bus visiškai atsitiktinis</string>
     <string name="saved_to">Išsaugota %1$s aplanke pavadinimu %2$s</string>

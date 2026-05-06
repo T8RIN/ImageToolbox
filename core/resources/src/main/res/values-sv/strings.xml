@@ -365,8 +365,8 @@
     <string name="skip">Hoppa</string>
     <string name="copy">Kopiera</string>
     <string name="warning_bytes">Att spara i läget %1$s kan vara instabilt eftersom det är ett förlustfritt format</string>
-    <string name="presets_sub">Om du har valt förinställning 125, kommer bilden att sparas som 125 % av originalbilden. Om du väljer förinställning 50, kommer bilden att sparas med 50 % storlek</string>
-    <string name="presets_sub_bytes">Förinställning här bestämmer % av utdatafilen, d.v.s. om du väljer förinställning 50 på 5 MB bild så får du en 2,5 MB bild efter att du har sparat</string>
+    <string name="presets_sub" formatted="false">Om du har valt förinställning 125, kommer bilden att sparas som 125 % av originalbilden. Om du väljer förinställning 50, kommer bilden att sparas med 50 % storlek</string>
+    <string name="presets_sub_bytes" formatted="false">Förinställning här bestämmer % av utdatafilen, d.v.s. om du väljer förinställning 50 på 5 MB bild så får du en 2,5 MB bild efter att du har sparat</string>
     <string name="randomize_filename">Randomisera filnamn</string>
     <string name="randomize_filename_sub">Om det är aktiverat kommer filnamnet att vara helt slumpmässigt</string>
     <string name="saved_to">Sparad i mappen %1$s med namnet %2$s</string>
