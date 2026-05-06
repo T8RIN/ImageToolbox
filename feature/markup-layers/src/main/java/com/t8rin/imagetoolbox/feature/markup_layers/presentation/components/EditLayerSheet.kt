@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -51,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
@@ -642,16 +642,13 @@ internal fun EditLayerSheet(
                             onContinuousEditFinished = finishContinuousEdit
                         )
 
-                        val allEmojis = Emoji.allIcons()
-
                         EmojiSelectionSheet(
                             selectedEmojiIndex = null,
-                            allEmojis = allEmojis,
                             onEmojiPicked = {
                                 updateLayerWithHistory(
                                     layer.copy(
                                         type = type.copy(
-                                            imageData = allEmojis[it]
+                                            imageData = Emoji.allIcons[it]
                                         )
                                     )
                                 )

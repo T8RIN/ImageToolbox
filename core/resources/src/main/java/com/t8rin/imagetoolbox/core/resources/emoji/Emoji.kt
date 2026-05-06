@@ -17,16 +17,13 @@
 
 package com.t8rin.imagetoolbox.core.resources.emoji
 
+import android.app.Application
 import android.content.Context
-import android.content.res.Resources
 import android.net.Uri
-import com.t8rin.imagetoolbox.core.resources.Icons
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalResources
+import androidx.annotation.StringRes
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiEmotions
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiEvents
@@ -40,160 +37,79 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
 object Emoji {
-    private var Emotions: List<Uri>? = null
-    private var Food: List<Uri>? = null
-    private var Nature: List<Uri>? = null
-    private var Objects: List<Uri>? = null
-    private var Events: List<Uri>? = null
-    private var Transportation: List<Uri>? = null
-    private var Symbols: List<Uri>? = null
 
-    @Composable
-    fun allIcons(
-        context: Context = LocalContext.current
-    ): ImmutableList<Uri> = remember {
-        derivedStateOf {
-            initializeEmojis(context)
-            (Emotions!! + Food!! + Nature!! + Objects!! + Events!! + Transportation!! + Symbols!!).toPersistentList()
-        }.value
-    }
-
-    @Composable
-    fun allIconsCategorized(
-        context: Context = LocalContext.current,
-        resources: Resources = LocalResources.current
-    ): ImmutableList<EmojiData> = remember {
-        derivedStateOf {
-            initializeEmojis(context)
-            persistentListOf(
-                EmojiData(
-                    title = resources.getString(R.string.emotions),
-                    icon = Icons.Outlined.EmojiEmotions,
-                    emojis = Emotions!!
-                ),
-                EmojiData(
-                    title = resources.getString(R.string.food_and_drink),
-                    icon = Icons.Outlined.EmojiFoodBeverage,
-                    emojis = Food!!
-                ),
-                EmojiData(
-                    title = resources.getString(R.string.nature_and_animals),
-                    icon = Icons.Outlined.EmojiNature,
-                    emojis = Nature!!
-                ),
-                EmojiData(
-                    title = resources.getString(R.string.objects),
-                    icon = Icons.Outlined.EmojiObjects,
-                    emojis = Objects!!
-                ),
-                EmojiData(
-                    title = resources.getString(R.string.activities),
-                    icon = Icons.Outlined.EmojiEvents,
-                    emojis = Events!!
-                ),
-                EmojiData(
-                    title = resources.getString(R.string.travels_and_places),
-                    icon = Icons.Outlined.EmojiTransportation,
-                    emojis = Transportation!!
-                ),
-                EmojiData(
-                    title = resources.getString(R.string.symbols),
-                    icon = Icons.Rounded.EmojiSymbols,
-                    emojis = Symbols!!
-                )
-            )
-        }.value
-    }
-
-    private fun Context.listAssetFiles(
-        path: String
-    ): List<String> = assets
-        .list(path)
-        ?.toMutableList() ?: emptyList()
-
-    /**
-     * Generates Uri of the assets path.
-     */
-    private fun getFileFromAssets(
-        cat: String,
-        filename: String
-    ): Uri = "file:///android_asset/svg/$cat/$filename".toUri()
-
-    private fun initializeEmojis(context: Context) {
-        if (
-            !listOf(
-                Emotions,
-                Food,
-                Nature,
-                Objects,
-                Events,
-                Transportation,
-                Symbols
-            ).all { it != null }
-        ) {
-            Emotions = context
-                .listAssetFiles("svg/emotions")
-                .sortedWith(String.CASE_INSENSITIVE_ORDER)
-                .map {
-                    getFileFromAssets(
-                        cat = "emotions",
-                        filename = it
-                    )
-                }
-            Food = context
-                .listAssetFiles("svg/food")
-                .sortedWith(String.CASE_INSENSITIVE_ORDER)
-                .map {
-                    getFileFromAssets(
-                        cat = "food",
-                        filename = it
-                    )
-                }
-            Nature = context
-                .listAssetFiles("svg/nature")
-                .sortedWith(String.CASE_INSENSITIVE_ORDER)
-                .map {
-                    getFileFromAssets(
-                        cat = "nature",
-                        filename = it
-                    )
-                }
-            Objects = context
-                .listAssetFiles("svg/objects")
-                .sortedWith(String.CASE_INSENSITIVE_ORDER)
-                .map {
-                    getFileFromAssets(
-                        cat = "objects",
-                        filename = it
-                    )
-                }
-            Events = context
-                .listAssetFiles("svg/events")
-                .sortedWith(String.CASE_INSENSITIVE_ORDER)
-                .map {
-                    getFileFromAssets(
-                        cat = "events",
-                        filename = it
-                    )
-                }
-            Transportation = context
-                .listAssetFiles("svg/transportation")
-                .sortedWith(String.CASE_INSENSITIVE_ORDER)
-                .map {
-                    getFileFromAssets(
-                        cat = "transportation",
-                        filename = it
-                    )
-                }
-            Symbols = context
-                .listAssetFiles("svg/symbols")
-                .sortedWith(String.CASE_INSENSITIVE_ORDER)
-                .map {
-                    getFileFromAssets(
-                        cat = "symbols",
-                        filename = it
-                    )
-                }
+    @Volatile
+    private var _context: Application? = null
+    private val context: Context
+        get() = checkNotNull(_context) {
+            "Emoji.init(application) must be called before reading emoji assets."
         }
+
+    fun Application.initEmoji() {
+        _context = this
+        allIcons
     }
+
+    val allIcons: ImmutableList<Uri> by lazy {
+        allIconsCategorized
+            .flatMap(EmojiData::emojis)
+            .toPersistentList()
+    }
+
+    val allIconsCategorized: ImmutableList<EmojiData> by lazy {
+        persistentListOf(
+            emojiData(
+                title = R.string.emotions,
+                icon = Icons.Outlined.EmojiEmotions,
+                category = "emotions"
+            ),
+            emojiData(
+                title = R.string.food_and_drink,
+                icon = Icons.Outlined.EmojiFoodBeverage,
+                category = "food"
+            ),
+            emojiData(
+                title = R.string.nature_and_animals,
+                icon = Icons.Outlined.EmojiNature,
+                category = "nature"
+            ),
+            emojiData(
+                title = R.string.objects,
+                icon = Icons.Outlined.EmojiObjects,
+                category = "objects"
+            ),
+            emojiData(
+                title = R.string.activities,
+                icon = Icons.Outlined.EmojiEvents,
+                category = "events"
+            ),
+            emojiData(
+                title = R.string.travels_and_places,
+                icon = Icons.Outlined.EmojiTransportation,
+                category = "transportation"
+            ),
+            emojiData(
+                title = R.string.symbols,
+                icon = Icons.Rounded.EmojiSymbols,
+                category = "symbols"
+            )
+        )
+    }
+
+    private fun emojiData(
+        @StringRes title: Int,
+        icon: ImageVector,
+        category: String
+    ) = EmojiData(
+        title = title,
+        icon = icon,
+        emojis = context.assets
+            .list("svg/$category")?.toList().orEmpty()
+            .sortedWith(String.CASE_INSENSITIVE_ORDER)
+            .map { filename ->
+                "file:///android_asset/svg/$category/$filename".toUri()
+            }
+            .toPersistentList()
+    )
+
 }

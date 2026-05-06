@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.sheets
 
-import android.net.Uri
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -39,7 +38,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -62,9 +60,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
-import com.t8rin.imagetoolbox.core.resources.emoji.EmojiData
 import com.t8rin.imagetoolbox.core.resources.icons.Face5
 import com.t8rin.imagetoolbox.core.resources.icons.Face6
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
@@ -85,7 +83,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.GradientEdge
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -93,14 +90,14 @@ import kotlin.random.Random
 @Composable
 fun EmojiSelectionSheet(
     selectedEmojiIndex: Int?,
-    emojiWithCategories: ImmutableList<EmojiData> = Emoji.allIconsCategorized(),
-    allEmojis: ImmutableList<Uri> = Emoji.allIcons(),
     onEmojiPicked: (Int) -> Unit,
     visible: Boolean,
     icon: ImageVector = Icons.Rounded.Face5,
     onDismiss: () -> Unit
 ) {
     val state = rememberLazyGridState()
+    val emojiWithCategories = Emoji.allIconsCategorized
+    val allEmojis = Emoji.allIcons
 
     LaunchedEffect(visible) {
         delay(600)
@@ -202,8 +199,8 @@ fun EmojiSelectionSheet(
                                 if (index == selectedEmojiIndex) return@find true
                             }
                             return@find false
-                        }?.title ?: ""
-                    } else ""
+                        }?.title?.let(::listOf) ?: emptyList()
+                    } else emptyList()
                 )
             }
 
@@ -265,11 +262,11 @@ fun EmojiSelectionSheet(
                                         indication = LocalIndication.current
                                     ) {
                                         expandedCategories = if (expanded) {
-                                            expandedCategories.replace(title, "")
+                                            expandedCategories - title
                                         } else expandedCategories + title
                                     }
                                     .padding(16.dp),
-                                text = title,
+                                text = stringResource(title),
                                 icon = icon,
                                 endContent = {
                                     Icon(

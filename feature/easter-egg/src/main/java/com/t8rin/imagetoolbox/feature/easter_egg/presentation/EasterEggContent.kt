@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -70,6 +69,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
@@ -96,7 +96,7 @@ fun EasterEggContent(
     component: EasterEggComponent
 ) {
     val themeState = LocalDynamicThemeState.current
-    val allEmojis = Emoji.allIcons()
+    val allEmojis = Emoji.allIcons
     val emojiData = remember {
         mutableStateListOf<String>().apply {
             addAll(

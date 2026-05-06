@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.crash.presentation.components.applyGlobalExce
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
+import com.t8rin.imagetoolbox.core.resources.emoji.Emoji.initEmoji
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication
 import com.t8rin.imagetoolbox.core.utils.initAppContext
 import dagger.hilt.android.HiltAndroidApp
@@ -67,6 +68,7 @@ class ImageToolboxApplication : ComposeApplication() {
         if (isMain()) {
             setupFlags()
             initAppContext()
+            initEmoji()
             initOpenCV()
             initNeuralTool()
             initColorNames()

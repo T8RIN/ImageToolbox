@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.icons.AddSticky
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiSticky
@@ -204,15 +204,12 @@ internal fun MarkupLayersActions(
         }
     }
 
-    val allEmojis = Emoji.allIcons()
-
     EmojiSelectionSheet(
         selectedEmojiIndex = null,
-        allEmojis = allEmojis,
         onEmojiPicked = {
             component.addLayer(
                 UiMarkupLayer(
-                    type = LayerType.Picture.Sticker(allEmojis[it])
+                    type = LayerType.Picture.Sticker(Emoji.allIcons[it])
                 )
             )
             showEmojiPicker = false

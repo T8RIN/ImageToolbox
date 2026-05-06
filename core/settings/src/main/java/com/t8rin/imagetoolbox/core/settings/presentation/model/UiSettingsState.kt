@@ -184,7 +184,7 @@ fun UiSettingsState.isFirstLaunch(
 fun SettingsState.toUiState(
     randomEmojiKey: Any? = null,
 ): UiSettingsState {
-    val allEmojis = Emoji.allIcons()
+    val allEmojis = Emoji.allIcons
     val allIconShapes: ImmutableList<IconShape> = IconShape.entries
 
     val context = LocalContext.current
