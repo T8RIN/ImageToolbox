@@ -2233,4 +2233,5 @@
     <string name="oom_description">Onvoldoende geheugen om deze actie te voltooien. Probeer een kleinere afbeelding te gebruiken, andere apps te sluiten of de app opnieuw te starten.</string>
     <string name="parallel_workers">Parallelle werkers</string>
     <string name="skipped_images_warning">Deze afbeeldingen zijn niet opgeslagen omdat de geconverteerde bestanden groter zouden zijn dan de originelen. Controleer deze lijst voordat u originele afbeeldingen verwijdert.</string>
+    <string name="skipped_saving_count">Bestanden overgeslagen: %1$s</string>
 </resources>

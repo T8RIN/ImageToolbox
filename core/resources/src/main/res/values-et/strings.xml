@@ -2233,4 +2233,5 @@
     <string name="oom_description">Selle toimingu sooritamiseks pole piisavalt mälu. Proovige kasutada väiksemat pilti, sulgeda teised rakendused või taaskäivitada rakendus.</string>
     <string name="parallel_workers">Paralleelsed töötajad</string>
     <string name="skipped_images_warning">Neid pilte ei salvestatud, kuna teisendatud failid oleksid originaalidest suuremad. Kontrollige seda loendit enne originaalpiltide kustutamist.</string>
+    <string name="skipped_saving_count">Vahele jäetud failid: %1$s</string>
 </resources>

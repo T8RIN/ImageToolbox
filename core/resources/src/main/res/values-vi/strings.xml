@@ -2232,4 +2232,5 @@
     <string name="oom_description">Không đủ bộ nhớ để hoàn thành hành động này. Vui lòng thử sử dụng hình ảnh nhỏ hơn, đóng các ứng dụng khác hoặc khởi động lại ứng dụng.</string>
     <string name="parallel_workers">Công nhân song song</string>
     <string name="skipped_images_warning">Những hình ảnh này không được lưu vì tệp được chuyển đổi sẽ lớn hơn tệp gốc. Kiểm tra danh sách này trước khi xóa hình ảnh gốc.</string>
+    <string name="skipped_saving_count">Tệp bị bỏ qua: %1$s</string>
 </resources>

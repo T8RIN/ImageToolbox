@@ -2233,4 +2233,5 @@
     <string name="oom_description">حافظه کافی برای تکمیل این عمل وجود ندارد. لطفاً از یک تصویر کوچکتر استفاده کنید، برنامه های دیگر را ببندید یا برنامه را مجدداً راه‌اندازی کنید.</string>
     <string name="parallel_workers">کارگران موازی</string>
     <string name="skipped_images_warning">این تصاویر ذخیره نشدند زیرا فایل های تبدیل شده بزرگتر از نسخه اصلی خواهند بود. قبل از حذف تصاویر اصلی، این لیست را بررسی کنید.</string>
+    <string name="skipped_saving_count">فایل‌های حذف شده: %1$s</string>
 </resources>

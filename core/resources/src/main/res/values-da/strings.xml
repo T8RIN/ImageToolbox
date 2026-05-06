@@ -2233,4 +2233,5 @@
     <string name="oom_description">Ikke nok hukommelse til at fuldføre denne handling. Prøv at bruge et mindre billede, lukke andre apps eller genstarte appen.</string>
     <string name="parallel_workers">Parallelarbejdere</string>
     <string name="skipped_images_warning">Disse billeder blev ikke gemt, fordi de konverterede filer ville være større end originalerne. Tjek denne liste, før du sletter originalbilleder.</string>
+    <string name="skipped_saving_count">Filer sprunget over: %1$s</string>
 </resources>

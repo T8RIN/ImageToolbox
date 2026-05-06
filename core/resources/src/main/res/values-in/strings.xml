@@ -2232,4 +2232,5 @@
     <string name="oom_description">Memori tidak cukup untuk menyelesaikan tindakan ini. Silakan coba gunakan gambar yang lebih kecil, tutup aplikasi lain, atau mulai ulang aplikasi.</string>
     <string name="parallel_workers">Pekerja Paralel</string>
     <string name="skipped_images_warning">Gambar-gambar ini tidak disimpan karena file yang dikonversi akan lebih besar dari aslinya. Periksa daftar ini sebelum menghapus gambar asli.</string>
+    <string name="skipped_saving_count">File dilewati: %1$s</string>
 </resources>

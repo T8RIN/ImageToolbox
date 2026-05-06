@@ -2232,4 +2232,5 @@
     <string name="oom_description">このアクションを完了するにはメモリが不足しています。小さい画像を使用するか、他のアプリを閉じるか、アプリを再起動してみてください。</string>
     <string name="parallel_workers">パラレルワーカー</string>
     <string name="skipped_images_warning">変換されたファイルは元のファイルよりも大きくなるため、これらの画像は保存されませんでした。元の画像を削除する前にこのリストを確認してください。</string>
+    <string name="skipped_saving_count">スキップされたファイル: %1$s</string>
 </resources>

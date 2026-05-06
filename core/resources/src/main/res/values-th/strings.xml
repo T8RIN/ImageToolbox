@@ -2232,4 +2232,5 @@
     <string name="oom_description">หน่วยความจำไม่เพียงพอที่จะดำเนินการนี้ให้เสร็จสิ้น โปรดลองใช้รูปภาพที่เล็กลง ปิดแอปอื่นๆ หรือรีสตาร์ทแอป</string>
     <string name="parallel_workers">คนงานคู่ขนาน</string>
     <string name="skipped_images_warning">รูปภาพเหล่านี้ไม่ได้รับการบันทึกเนื่องจากไฟล์ที่แปลงแล้วจะมีขนาดใหญ่กว่าต้นฉบับ ตรวจสอบรายการนี้ก่อนที่จะลบภาพต้นฉบับ</string>
+    <string name="skipped_saving_count">ไฟล์ถูกข้าม: %1$s</string>
 </resources>

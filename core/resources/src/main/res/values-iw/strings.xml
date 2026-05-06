@@ -2235,4 +2235,5 @@
     <string name="oom_description">אין מספיק זיכרון להשלמת פעולה זו. נסה להשתמש בתמונה קטנה יותר, לסגור אפליקציות אחרות או להפעיל מחדש את האפליקציה.</string>
     <string name="parallel_workers">עובדים מקבילים</string>
     <string name="skipped_images_warning">תמונות אלו לא נשמרו מכיוון שהקבצים שהומרו יהיו גדולים יותר מהקבצים המקוריים. בדוק רשימה זו לפני מחיקת תמונות מקוריות.</string>
+    <string name="skipped_saving_count">קבצים שדילגו עליהם: %1$s</string>
 </resources>

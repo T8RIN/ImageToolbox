@@ -2232,4 +2232,5 @@
     <string name="oom_description">이 작업을 완료하려면 메모리가 부족합니다. 더 작은 이미지를 사용하거나, 다른 앱을 닫거나, 앱을 다시 시작해 보세요.</string>
     <string name="parallel_workers">병렬 작업자</string>
     <string name="skipped_images_warning">변환된 파일이 원본보다 크기 때문에 이러한 이미지는 저장되지 않았습니다. 원본 이미지를 삭제하기 전에 이 목록을 확인하세요.</string>
+    <string name="skipped_saving_count">건너뛴 파일: %1$s</string>
 </resources>

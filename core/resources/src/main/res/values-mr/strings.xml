@@ -2234,4 +2234,5 @@
     <string name="oom_description">ही क्रिया पूर्ण करण्यासाठी पुरेशी मेमरी नाही. कृपया लहान प्रतिमा वापरून पहा, इतर ॲप्स बंद करून किंवा ॲप रीस्टार्ट करून पहा.</string>
     <string name="parallel_workers">समांतर कामगार</string>
     <string name="skipped_images_warning">या प्रतिमा जतन केल्या गेल्या नाहीत कारण रूपांतरित केलेल्या फायली मूळपेक्षा मोठ्या असतील. मूळ प्रतिमा हटवण्यापूर्वी ही यादी तपासा.</string>
+    <string name="skipped_saving_count">फायली वगळल्या: %1$s</string>
 </resources>

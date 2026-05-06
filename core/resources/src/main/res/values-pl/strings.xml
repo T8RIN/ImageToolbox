@@ -2235,4 +2235,5 @@
     <string name="oom_description">Za mało pamięci, aby ukończyć tę czynność. Spróbuj użyć mniejszego obrazu, zamknij inne aplikacje lub uruchom ponownie aplikację.</string>
     <string name="parallel_workers">Pracownicy równoległi</string>
     <string name="skipped_images_warning">Obrazy te nie zostały zapisane, ponieważ przekonwertowane pliki byłyby większe niż oryginały. Sprawdź tę listę przed usunięciem oryginalnych obrazów.</string>
+    <string name="skipped_saving_count">Pominięte pliki: %1$s</string>
 </resources>

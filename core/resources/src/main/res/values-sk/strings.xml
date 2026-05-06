@@ -2235,4 +2235,5 @@
     <string name="oom_description">Nedostatok pamäte na dokončenie tejto akcie. Skúste použiť menší obrázok, zatvorte ostatné aplikácie alebo reštartujte aplikáciu.</string>
     <string name="parallel_workers">Paralelní pracovníci</string>
     <string name="skipped_images_warning">Tieto obrázky sa neuložili, pretože skonvertované súbory by boli väčšie ako originály. Pred odstránením originálnych obrázkov skontrolujte tento zoznam.</string>
+    <string name="skipped_saving_count">Preskočené súbory: %1$s</string>
 </resources>

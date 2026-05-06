@@ -2233,4 +2233,5 @@
     <string name="oom_description">Ez dago nahikoa memoria ekintza hau burutzeko. Mesedez, saiatu irudi txikiagoa erabiltzen, beste aplikazio batzuk ixten edo aplikazioa berrabiarazi.</string>
     <string name="parallel_workers">Langile Paraleloak</string>
     <string name="skipped_images_warning">Irudi hauek ez ziren gorde bihurtutako fitxategiak jatorrizkoak baino handiagoak izango zirelako. Egiaztatu zerrenda hau jatorrizko irudiak ezabatu aurretik.</string>
+    <string name="skipped_saving_count">Saltatu diren fitxategiak: %1$s</string>
 </resources>

@@ -2237,4 +2237,5 @@
     <string name="oom_description">لا توجد ذاكرة كافية لإكمال هذا الإجراء. يرجى محاولة استخدام صورة أصغر أو إغلاق التطبيقات الأخرى أو إعادة تشغيل التطبيق.</string>
     <string name="parallel_workers">العمال الموازيون</string>
     <string name="skipped_images_warning">لم يتم حفظ هذه الصور لأن الملفات المحولة ستكون أكبر من الملفات الأصلية. تحقق من هذه القائمة قبل حذف الصور الأصلية.</string>
+    <string name="skipped_saving_count">الملفات التي تم تخطيها: %1$s</string>
 </resources>

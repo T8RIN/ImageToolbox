@@ -2233,4 +2233,5 @@
     <string name="oom_description">Pas assez de mémoire pour terminer cette action. Veuillez essayer d\'utiliser une image plus petite, de fermer d\'autres applications ou de redémarrer l\'application.</string>
     <string name="parallel_workers">Travailleurs parallèles</string>
     <string name="skipped_images_warning">Ces images n\'ont pas été enregistrées car les fichiers convertis seraient plus volumineux que les originaux. Vérifiez cette liste avant de supprimer les images originales.</string>
+    <string name="skipped_saving_count">Fichiers ignorés : %1$s</string>
 </resources>

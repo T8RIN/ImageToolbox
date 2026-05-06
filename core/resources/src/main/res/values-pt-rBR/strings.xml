@@ -2233,4 +2233,5 @@
     <string name="oom_description">Não há memória suficiente para concluir esta ação. Tente usar uma imagem menor, fechar outros aplicativos ou reiniciar o aplicativo.</string>
     <string name="parallel_workers">Trabalhadores paralelos</string>
     <string name="skipped_images_warning">Essas imagens não foram salvas porque os arquivos convertidos seriam maiores que os originais. Verifique esta lista antes de excluir imagens originais.</string>
+    <string name="skipped_saving_count">Arquivos ignorados: %1$s</string>
 </resources>

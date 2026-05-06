@@ -2233,4 +2233,5 @@
     <string name="oom_description">Memoria insufficiente per completare questa azione. Prova a utilizzare un\'immagine più piccola, a chiudere altre app o a riavviare l\'app.</string>
     <string name="parallel_workers">Lavoratori paralleli</string>
     <string name="skipped_images_warning">Queste immagini non sono state salvate perché i file convertiti sarebbero più grandi degli originali. Controlla questo elenco prima di eliminare le immagini originali.</string>
+    <string name="skipped_saving_count">File saltati: %1$s</string>
 </resources>

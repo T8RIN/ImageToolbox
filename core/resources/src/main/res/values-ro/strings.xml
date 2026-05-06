@@ -2234,4 +2234,5 @@
     <string name="oom_description">Nu este suficientă memorie pentru a finaliza această acțiune. Încercați să utilizați o imagine mai mică, să închideți alte aplicații sau să reporniți aplicația.</string>
     <string name="parallel_workers">Muncitori paraleli</string>
     <string name="skipped_images_warning">Aceste imagini nu au fost salvate deoarece fișierele convertite ar fi mai mari decât cele originale. Verificați această listă înainte de a șterge imaginile originale.</string>
+    <string name="skipped_saving_count">Fișiere ignorate: %1$s</string>
 </resources>

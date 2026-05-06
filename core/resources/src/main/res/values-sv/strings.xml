@@ -2234,4 +2234,5 @@
     <string name="oom_description">Inte tillräckligt med minne för att slutföra den här åtgärden. Försök att använda en mindre bild, stänga andra appar eller starta om appen.</string>
     <string name="parallel_workers">Parallellarbetare</string>
     <string name="skipped_images_warning">Dessa bilder sparades inte eftersom de konverterade filerna skulle vara större än originalen. Kontrollera den här listan innan du tar bort originalbilder.</string>
+    <string name="skipped_saving_count">Överhoppade filer: %1$s</string>
 </resources>

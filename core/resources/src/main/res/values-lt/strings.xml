@@ -2236,4 +2236,5 @@
     <string name="oom_description">Nepakanka atminties šiam veiksmui atlikti. Pabandykite naudoti mažesnį vaizdą, uždaryti kitas programas arba iš naujo paleisti programą.</string>
     <string name="parallel_workers">Lygiagretūs darbuotojai</string>
     <string name="skipped_images_warning">Šie vaizdai nebuvo išsaugoti, nes konvertuoti failai būtų didesni nei originalai. Prieš ištrindami originalius vaizdus, ​​patikrinkite šį sąrašą.</string>
+    <string name="skipped_saving_count">Praleisti failai: %1$s</string>
 </resources>
