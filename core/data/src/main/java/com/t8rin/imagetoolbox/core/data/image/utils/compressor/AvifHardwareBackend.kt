@@ -44,7 +44,7 @@ internal class AvifHardwareBackend(
                 image,
                 avifQuality.qualityValue,
                 AvifSpeed.entries.firstOrNull {
-                    it.ordinal == (10 - avifQuality.effort)
+                    it.ordinal == 10 - avifQuality.effort
                 } ?: AvifSpeed.TEN,
                 if (isLossless) {
                     PreciseMode.LOSSLESS

@@ -169,7 +169,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
                     val uri = uriString.toUri()
                     if (!isSupportedInputUri(uri)) return@collect
 
-                    val updated = (_uris.value.orEmpty() + uri)
+                    val updated = _uris.value.orEmpty() + uri
                     _uris.value = updated
                     _indexedTreeFiles.value = updated.size
 
