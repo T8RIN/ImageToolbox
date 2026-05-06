@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -39,10 +38,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Beta
+import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.ReleaseAlert
-import com.t8rin.imagetoolbox.core.resources.icons.SystemSecurityUpdate
 import com.t8rin.imagetoolbox.core.resources.icons.Webhook
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -82,7 +82,7 @@ internal fun FirstLaunchSetupDialog(
         onDismissRequest = {},
         icon = {
             Icon(
-                imageVector = Icons.Rounded.SystemSecurityUpdate,
+                imageVector = Icons.Rounded.MobileArrowDown,
                 contentDescription = null
             )
         },

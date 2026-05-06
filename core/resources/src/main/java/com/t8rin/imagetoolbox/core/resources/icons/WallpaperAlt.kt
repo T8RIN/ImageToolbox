@@ -17,16 +17,16 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Outlined.WallpaperAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "Outlined.Wallpaper",
+        name = "Outlined.WallpaperAlt",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,
@@ -59,22 +59,30 @@ val Icons.Outlined.WallpaperAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
             lineTo(280f, 120f)
             verticalLineToRelative(720f)
             close()
-            moveTo(320f, 600f)
-            horizontalLineToRelative(320f)
-            lineTo(535f, 460f)
-            lineToRelative(-75f, 100f)
-            lineToRelative(-55f, -73f)
-            lineToRelative(-85f, 113f)
+            moveTo(620f, 600f)
+            quadToRelative(6f, 0f, 9f, -5.5f)
+            reflectiveQuadToRelative(-1f, -10.5f)
+            lineToRelative(-85f, -113f)
+            quadToRelative(-3f, -4f, -8f, -4f)
+            reflectiveQuadToRelative(-8f, 4f)
+            lineToRelative(-67f, 89f)
+            lineToRelative(-47f, -63f)
+            quadToRelative(-3f, -4f, -8f, -4f)
+            reflectiveQuadToRelative(-8f, 4f)
+            lineToRelative(-65f, 87f)
+            quadToRelative(-4f, 5f, -1f, 10.5f)
+            reflectiveQuadToRelative(9f, 5.5f)
+            horizontalLineToRelative(280f)
             close()
-            moveTo(600f, 400f)
-            quadToRelative(17f, 0f, 28.5f, -11.5f)
-            reflectiveQuadTo(640f, 360f)
-            quadToRelative(0f, -17f, -11.5f, -28.5f)
-            reflectiveQuadTo(600f, 320f)
-            quadToRelative(-17f, 0f, -28.5f, 11.5f)
-            reflectiveQuadTo(560f, 360f)
-            quadToRelative(0f, 17f, 11.5f, 28.5f)
-            reflectiveQuadTo(600f, 400f)
+            moveTo(628.5f, 388.5f)
+            quadTo(640f, 377f, 640f, 360f)
+            reflectiveQuadToRelative(-11.5f, -28.5f)
+            quadTo(617f, 320f, 600f, 320f)
+            reflectiveQuadToRelative(-28.5f, 11.5f)
+            quadTo(560f, 343f, 560f, 360f)
+            reflectiveQuadToRelative(11.5f, 28.5f)
+            quadTo(583f, 400f, 600f, 400f)
+            reflectiveQuadToRelative(28.5f, -11.5f)
             close()
             moveTo(280f, 840f)
             verticalLineToRelative(-720f)
