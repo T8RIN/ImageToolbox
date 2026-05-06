@@ -39,6 +39,7 @@ fun SaveExifWidget(
     backgroundColor: Color = Color.Unspecified
 ) {
     val settingsState = LocalSettingsState.current
+
     LaunchedEffect(Unit) {
         onCheckedChange(settingsState.exifWidgetInitialState)
     }
