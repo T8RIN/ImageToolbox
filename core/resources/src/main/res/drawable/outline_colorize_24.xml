@@ -1,6 +1,6 @@
 <!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,13 +14,12 @@
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M19.35,11.72L17.22,13.85L15.81,12.43L8.1,20.14L3.5,22L2,20.5L3.86,15.9L11.57,8.19L10.15,6.78L12.28,4.65L19.35,11.72M16.76,3C17.93,1.83 19.83,1.83 21,3C22.17,4.17 22.17,6.07 21,7.24L19.08,9.16L14.84,4.92L16.76,3M5.56,17.03L4.5,19.5L6.97,18.44L14.4,11L13,9.6L5.56,17.03Z" />
+        android:fillColor="#ffffff"
+        android:pathData="M20.319,3.627c-1.17,-1.17 -3.07,-1.17 -4.24,0l-1.82,1.82 -0.301,-0.301c-0.586,-0.586 -1.536,-0.586 -2.121,0 -0.586,0.586 -0.586,1.536 0,2.121l0.355,0.355 -0.71,0.71 -6.85,6.85c-0.095,0.095 -0.17,0.209 -0.221,0.334l-1.534,3.795c-0.151,0.374 -0.064,0.801 0.221,1.086l0.56,0.56c0.285,0.285 0.713,0.372 1.086,0.221l3.795,-1.534c0.125,-0.05 0.238,-0.126 0.333,-0.221l6.85,-6.85c0.01,-0.01 0.013,-0.023 0.022,-0.033l0.682,-0.682 0.36,0.36c0.586,0.586 1.536,0.586 2.121,0 0.586,-0.586 0.586,-1.536 0,-2.121l-0.408,-0.408 1.82,-1.82c1.17,-1.17 1.17,-3.07 0,-4.24ZM13.361,12.095l-5.627,5.635c-0.09,0.09 -0.197,0.163 -0.314,0.213l-2.292,0.984 0.984,-2.292c0.05,-0.117 0.123,-0.224 0.213,-0.314l5.731,-5.723 0,0 0.619,-0.619 0.227,-0.227c0,-0 0,-0.001 0.001,-0.001l0.709,-0.709 1.396,1.396 -1.651,1.651 0.006,0.006Z" />
 </vector>
