@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,9 @@ data class CipherType private constructor(
                 "1.2.840.113549.1.9.16.3.6",
                 "DESEDE/CBC/NOPADDING",
                 "CHACHA20-POLY1305",
-                "CHACHA20/POLY1305"
+                "CHACHA20/POLY1305",
+                "1.2.156.10197.1.104.11",
+                "1.2.156.10197.1.104.12"
             )
         }
 
