@@ -35,6 +35,7 @@ fun rememberTypography(
 ): Typography = remember(fontRes) {
     derivedStateOf {
         Typography(
+            fontFamily = fontRes.fontFamily,
             displayLarge = TextStyle(
                 fontFamily = fontRes.fontFamily,
                 fontWeight = FontWeight.Normal,
