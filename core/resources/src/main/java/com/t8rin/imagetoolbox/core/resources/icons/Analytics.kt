@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -27,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Rounded.Analytics: ImageVector by lazy {
     Builder(
@@ -34,7 +34,7 @@ val Icons.Rounded.Analytics: ImageVector by lazy {
         viewportWidth = 192.0f, viewportHeight = 192.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFFF9AB00)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -48,7 +48,7 @@ val Icons.Rounded.Analytics: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFFE37400)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
@@ -62,7 +62,7 @@ val Icons.Rounded.Analytics: ImageVector by lazy {
             close()
         }
         path(
-            fill = SolidColor(Color(0xFFE37400)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
