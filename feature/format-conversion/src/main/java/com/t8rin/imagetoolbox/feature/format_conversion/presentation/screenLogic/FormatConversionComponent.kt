@@ -57,6 +57,9 @@ import com.t8rin.imagetoolbox.core.utils.extension
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
@@ -302,50 +305,91 @@ class FormatConversionComponent @AssistedInject internal constructor(
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
-            uris?.forEach { uri ->
-                runSuspendCatching {
-                    imageGetter.getImage(uri.toString())?.image
-                }.getOrNull()?.let { bitmap ->
-                    imageInfo.copy(
-                        originalUri = uri.toString()
-                    ).let {
-                        imageTransformer.applyPresetBy(
-                            image = bitmap,
-                            preset = Preset.Original,
-                            currentInfo = it
-                        )
-                    }.let { imageInfo ->
-                        results.add(
-                            fileController.save(
-                                saveTarget = ImageSaveTarget(
-                                    imageInfo = imageInfo,
-                                    metadata = null,
-                                    originalUri = uri.toString(),
-                                    sequenceNumber = _done.value + 1,
-                                    data = imageCompressor.compressAndTransform(
+            val allUris = uris.orEmpty()
+            val parallelism = Runtime.getRuntime()
+                .availableProcessors()
+                .coerceAtLeast(2)
+                .coerceAtMost(8)
+            allUris
+                .withIndex()
+                .chunked(parallelism)
+                .forEach { chunk ->
+                    val preparedItems = coroutineScope {
+                        chunk.map { indexedUri ->
+                            async(defaultDispatcher) {
+                                val uri = indexedUri.value
+                                runSuspendCatching {
+                                    imageGetter.getImage(uri.toString())?.image
+                                }.getOrNull()?.let { bitmap ->
+                                    val transformedInfo = imageTransformer.applyPresetBy(
                                         image = bitmap,
-                                        imageInfo = imageInfo
-                                    ),
-                                    canSkipIfLarger = true
-                                ),
-                                keepOriginalMetadata = keepExif,
-                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
-                            )
+                                        preset = Preset.Original,
+                                        currentInfo = imageInfo.copy(originalUri = uri.toString())
+                                    )
+                                    val data = imageCompressor.compressAndTransform(
+                                        image = bitmap,
+                                        imageInfo = transformedInfo
+                                    )
+                                    PreparedItem.Success(
+                                        index = indexedUri.index,
+                                        uri = uri,
+                                        imageInfo = transformedInfo,
+                                        data = data
+                                    )
+                                } ?: PreparedItem.Error(index = indexedUri.index)
+                            }
+                        }.awaitAll()
+                    }.sortedBy { it.index }
+
+                    preparedItems.forEach { prepared ->
+                        when (prepared) {
+                            is PreparedItem.Success -> {
+                                results.add(
+                                    fileController.save(
+                                        saveTarget = ImageSaveTarget(
+                                            imageInfo = prepared.imageInfo,
+                                            metadata = null,
+                                            originalUri = prepared.uri.toString(),
+                                            sequenceNumber = _done.value + 1,
+                                            data = prepared.data,
+                                            canSkipIfLarger = true
+                                        ),
+                                        keepOriginalMetadata = keepExif,
+                                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                                    )
+                                )
+                            }
+
+                            is PreparedItem.Error -> {
+                                results.add(SaveResult.Error.Exception(Throwable()))
+                            }
+                        }
+
+                        _done.value += 1
+                        updateProgress(
+                            done = done,
+                            total = allUris.size
                         )
                     }
-                } ?: results.add(
-                    SaveResult.Error.Exception(Throwable())
-                )
-
-                _done.value += 1
-                updateProgress(
-                    done = done,
-                    total = uris.orEmpty().size
-                )
-            }
+                }
             parseSaveResults(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
+    }
+
+    private sealed interface PreparedItem {
+        val index: Int
+
+        data class Success(
+            override val index: Int,
+            val uri: Uri,
+            val imageInfo: ImageInfo,
+            val data: ByteArray
+        ) : PreparedItem
+
+        data class Error(
+            override val index: Int
+        ) : PreparedItem
     }
 
     fun updateSelectedUri(
