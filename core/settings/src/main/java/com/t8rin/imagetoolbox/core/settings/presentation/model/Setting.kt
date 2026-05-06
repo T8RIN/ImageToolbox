@@ -278,6 +278,11 @@ sealed class Setting(
         subtitle = R.string.overwrite_files_sub
     )
 
+    data object DeleteSourceAfterSuccessfulSave : Setting(
+        title = R.string.delete_source_after_successful_save,
+        subtitle = R.string.delete_source_after_successful_save_sub
+    )
+
     data object FilenameSuffix : Setting(
         title = R.string.suffix,
         subtitle = null

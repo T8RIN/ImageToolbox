@@ -239,6 +239,7 @@ sealed class SettingsGroup(
             Setting.AddPresetToFilename,
             Setting.AddImageScaleModeToFilename,
             Setting.OverwriteFiles,
+            Setting.DeleteSourceAfterSuccessfulSave,
             Setting.ChecksumAsFilename,
             Setting.RandomizeFilename
         ),

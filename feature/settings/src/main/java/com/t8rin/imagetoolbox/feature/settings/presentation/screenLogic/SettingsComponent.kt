@@ -359,6 +359,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleOverwriteFiles() = settingsScope { toggleOverwriteFiles() }
 
+    fun toggleDeleteSourceAfterSuccessfulSave() =
+        settingsScope { toggleDeleteSourceAfterSuccessfulSave() }
+
     fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) =
         settingsScope { setDefaultImageScaleMode(imageScaleMode) }
 

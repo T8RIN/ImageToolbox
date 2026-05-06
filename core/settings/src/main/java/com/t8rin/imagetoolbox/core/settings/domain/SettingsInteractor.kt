@@ -256,6 +256,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleEnableBackgroundColorForAlphaFormats()
 
+    suspend fun toggleDeleteSourceAfterSuccessfulSave()
+
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

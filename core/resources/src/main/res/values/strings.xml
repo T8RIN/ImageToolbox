@@ -547,6 +547,8 @@
     <string name="overwrite_file_requirements">In order to overwrite files you need to use \"Explorer\" image source, try repick images, we\'ve changed image source to the needed one</string>
     <string name="overwrite_files">Overwrite Files</string>
     <string name="overwrite_files_sub">Original file will be replaced with new one instead of saving in selected folder, this option need to image source be \"Explorer\" or GetContent, when toggling this, it will be set automatically</string>
+    <string name="delete_source_after_successful_save">Delete source after successful save</string>
+    <string name="delete_source_after_successful_save_sub">When enabled, saves the new file in the same folder as the source, keeps metadata, then deletes the source after successful save. Skipped saves keep the original. Not available with overwrite mode.</string>
     <string name="empty">Empty</string>
     <string name="suffix">Suffix</string>
     <string name="scale_mode">Scale mode</string>

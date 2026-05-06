@@ -41,12 +41,13 @@ internal data class SavingFolder private constructor(
         suspend fun getInstance(
             context: Context,
             treeUri: Uri?,
-            saveTarget: SaveTarget
+            saveTarget: SaveTarget,
+            relativePath: String? = null
         ): SavingFolder? = coroutineScope {
             if (treeUri == null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val type = saveTarget.mimeType.entry
-                    val path = "${Environment.DIRECTORY_DOCUMENTS}/ImageToolbox"
+                    val path = relativePath ?: "${Environment.DIRECTORY_DOCUMENTS}/ImageToolbox"
                     val contentValues = ContentValues().apply {
                         put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
                         put(

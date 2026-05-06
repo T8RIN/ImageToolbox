@@ -172,6 +172,7 @@ data class UiSettingsState(
     val hiddenForShareScreens: List<Int>,
     val keepDateTime: Boolean,
     val enableBackgroundColorForAlphaFormats: Boolean,
+    val deleteSourceAfterSuccessfulSave: Boolean,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -423,6 +424,7 @@ fun SettingsState.toUiState(
                 hiddenForShareScreens = hiddenForShareScreens,
                 keepDateTime = keepDateTime,
                 enableBackgroundColorForAlphaFormats = enableBackgroundColorForAlphaFormats,
+                deleteSourceAfterSuccessfulSave = deleteSourceAfterSuccessfulSave,
             )
         }
     }.value

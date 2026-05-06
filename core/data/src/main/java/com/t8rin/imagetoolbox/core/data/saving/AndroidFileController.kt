@@ -20,7 +20,10 @@ package com.t8rin.imagetoolbox.core.data.saving
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
@@ -140,8 +143,6 @@ internal class AndroidFileController @Inject constructor(
             saveTarget.data
         }
 
-        val savingPath = oneTimeSaveLocationUri?.getPath(context) ?: defaultSavingPath
-
         runSuspendCatching {
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
                 val clipboardManager = context.getSystemService<ClipboardManager>()
@@ -163,11 +164,24 @@ internal class AndroidFileController @Inject constructor(
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
                 return@withContext SaveResult.Success(
                     message = getString(R.string.copied),
-                    savingPath = savingPath
+                    savingPath = oneTimeSaveLocationUri?.getPath(context) ?: defaultSavingPath
                 )
             }
 
             val originalUri = saveTarget.originalUri.toUri()
+            val shouldDeleteSourceAfterSave =
+                settingsState.deleteSourceAfterSuccessfulSave &&
+                        settingsState.filenameBehavior !is FilenameBehavior.Overwrite &&
+                        originalUri != Uri.EMPTY
+            val keepMetadata = keepOriginalMetadata || shouldDeleteSourceAfterSave
+            val sourceDirectoryUri = if (shouldDeleteSourceAfterSave && oneTimeSaveLocationUri == null) {
+                originalUri.tryExtractOriginal().let {
+                    DocumentFile.fromSingleUri(context, it)?.parentFile?.uri
+                }
+            } else null
+            val sourceRelativePath = if (shouldDeleteSourceAfterSave && oneTimeSaveLocationUri == null) {
+                readMediaStoreRelativePath(originalUri)
+            } else null
 
             if (saveTarget is ImageSaveTarget && saveTarget.canSkipIfLarger && settingsState.allowSkipIfLarger) {
                 val originalSize = originalUri.fileSize()
@@ -180,7 +194,7 @@ internal class AndroidFileController @Inject constructor(
 
             if (settingsState.filenameBehavior is FilenameBehavior.Overwrite) {
                 val providedMetadata = (saveTarget as? ImageSaveTarget)?.metadata
-                val targetMetadata = if (keepOriginalMetadata) {
+                val targetMetadata = if (keepMetadata) {
                     readMetadata(originalUri.toString()) ?: providedMetadata
                 } else {
                     providedMetadata
@@ -200,7 +214,7 @@ internal class AndroidFileController @Inject constructor(
                         copyMetadata(
                             initialExif = targetMetadata,
                             fileUri = originalUri,
-                            keepOriginalMetadata = keepOriginalMetadata,
+                            keepOriginalMetadata = keepMetadata,
                             originalUri = originalUri
                         )
                     }
@@ -216,22 +230,29 @@ internal class AndroidFileController @Inject constructor(
                             originalUri.filename(context).toString()
                         ),
                         isOverwritten = true,
-                        savingPath = savingPath
+                        savingPath = oneTimeSaveLocationUri?.getPath(context) ?: defaultSavingPath
                     )
                 }
             } else {
                 val documentFile: DocumentFile?
-                val treeUri = (oneTimeSaveLocationUri ?: settingsState.saveFolderUri).takeIf {
-                    !it.isNullOrEmpty()
+                val treeUri = oneTimeSaveLocationUri?.toUri()
+                    ?: sourceDirectoryUri
+                    ?: if (shouldDeleteSourceAfterSave) {
+                        null
+                    } else {
+                        settingsState.saveFolderUri?.takeIf { it.isNotEmpty() }?.toUri()
+                    }
+                val savingPath = when {
+                    treeUri != null -> treeUri.toString().getPath(context) ?: defaultSavingPath
+                    sourceRelativePath != null -> sourceRelativePath
+                    else -> defaultSavingPath
                 }
 
                 if (treeUri != null) {
                     documentFile = runCatching {
-                        treeUri.toUri().let {
-                            if (DocumentFile.isDocumentUri(context, it)) {
-                                DocumentFile.fromSingleUri(context, it)
-                            } else DocumentFile.fromTreeUri(context, it)
-                        }
+                        if (DocumentFile.isDocumentUri(context, treeUri)) {
+                            DocumentFile.fromSingleUri(context, treeUri)
+                        } else DocumentFile.fromTreeUri(context, treeUri)
                     }.getOrNull()
 
                     if (documentFile == null || !documentFile.exists()) {
@@ -248,7 +269,7 @@ internal class AndroidFileController @Inject constructor(
                             Throwable(
                                 getString(
                                     R.string.no_such_directory,
-                                    treeUri.toUri().uiPath(treeUri)
+                                    treeUri.uiPath(treeUri.toString())
                                 )
                             )
                         )
@@ -272,8 +293,9 @@ internal class AndroidFileController @Inject constructor(
 
                 val savingFolder = SavingFolder.getInstance(
                     context = context,
-                    treeUri = treeUri?.toUri(),
-                    saveTarget = newSaveTarget
+                    treeUri = treeUri,
+                    saveTarget = newSaveTarget,
+                    relativePath = sourceRelativePath
                 ) ?: throw IllegalArgumentException(getString(R.string.error_while_saving))
 
                 savingFolder.use {
@@ -283,9 +305,32 @@ internal class AndroidFileController @Inject constructor(
                 copyMetadata(
                     initialExif = initialExif,
                     fileUri = savingFolder.fileUri,
-                    keepOriginalMetadata = keepOriginalMetadata,
+                    keepOriginalMetadata = keepMetadata,
                     originalUri = saveTarget.originalUri.toUri()
                 )
+
+                if (shouldDeleteSourceAfterSave) {
+                    val savedUri = savingFolder.fileUri
+                    val sourceNorm = originalUri.tryExtractOriginal()
+                    if (savedUri.toString() != originalUri.toString() &&
+                        savedUri.toString() != sourceNorm.toString()
+                    ) {
+                        runCatching {
+                            val deletedRows = context.contentResolver.delete(sourceNorm, null, null)
+                            if (deletedRows <= 0) {
+                                DocumentFile.fromSingleUri(context, sourceNorm)?.delete()
+                            }
+                            imageLoader.apply {
+                                memoryCache?.remove(originalUri.toString())
+                                diskCache?.remove(originalUri.toString())
+                                memoryCache?.remove(sourceNorm.toString())
+                                diskCache?.remove(sourceNorm.toString())
+                            }
+                        }.onFailure {
+                            it.makeLog("AndroidFileController deleteSourceAfterSave")
+                        }
+                    }
+                }
 
                 val filename = newSaveTarget.filename
                     ?: throw IllegalArgumentException(getString(R.string.filename_is_not_set))
@@ -551,4 +596,44 @@ internal class AndroidFileController @Inject constructor(
         uri = imageUri.tryExtractOriginal(),
         mode = FileMode.ReadWrite
     )
+
+    private fun readMediaStoreRelativePath(uri: Uri): String? {
+        if (uri.scheme != "content") return null
+        return runCatching {
+            val normalizedUri = uri.tryExtractOriginal()
+            val projection = buildList {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    add(android.provider.MediaStore.MediaColumns.RELATIVE_PATH)
+                }
+                add(android.provider.MediaStore.MediaColumns.DATA)
+            }.toTypedArray()
+            context.contentResolver.query(
+                normalizedUri,
+                projection,
+                null,
+                null,
+                null
+            )?.use { cursor: Cursor ->
+                if (cursor.moveToFirst()) {
+                    val relativePath = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        cursor.getString(0)?.takeIf { it.isNotBlank() }
+                    } else null
+
+                    relativePath ?: run {
+                        val dataColumnIndex = cursor.getColumnIndex(android.provider.MediaStore.MediaColumns.DATA)
+                        if (dataColumnIndex == -1) return@run null
+
+                        val absolutePath = cursor.getString(dataColumnIndex).orEmpty()
+                        val storageRoot = Environment.getExternalStorageDirectory().absolutePath
+                        absolutePath
+                            .substringBeforeLast("/", missingDelimiterValue = "")
+                            .removePrefix("$storageRoot/")
+                            .removePrefix("/")
+                            .takeIf { it.isNotBlank() }
+                            ?.let { "$it/" }
+                    }
+                } else null
+            }
+        }.getOrNull()
+    }
 }

@@ -135,6 +135,7 @@ data class SettingsState(
     val hiddenForShareScreens: List<Int>,
     val keepDateTime: Boolean,
     val enableBackgroundColorForAlphaFormats: Boolean,
+    val deleteSourceAfterSuccessfulSave: Boolean,
 ) {
 
     companion object {
@@ -246,6 +247,7 @@ data class SettingsState(
                 hiddenForShareScreens = emptyList(),
                 keepDateTime = false,
                 enableBackgroundColorForAlphaFormats = false,
+                deleteSourceAfterSuccessfulSave = false,
             )
         }
     }

@@ -284,6 +284,12 @@ internal fun SettingItem(
                 OverwriteFilesSettingItem(onClick = component::toggleOverwriteFiles)
             }
 
+            Setting.DeleteSourceAfterSuccessfulSave -> {
+                DeleteSourceAfterSuccessfulSaveSettingItem(
+                    onClick = component::toggleDeleteSourceAfterSuccessfulSave
+                )
+            }
+
             Setting.Reset -> {
                 ResetSettingsSettingItem(onReset = component::resetSettings)
             }

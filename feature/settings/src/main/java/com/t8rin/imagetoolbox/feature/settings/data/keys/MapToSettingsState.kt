@@ -246,7 +246,9 @@ internal fun Preferences.toSettingsState(
     } ?: default.hiddenForShareScreens,
     keepDateTime = this[KEEP_DATE_TIME] ?: default.keepDateTime,
     enableBackgroundColorForAlphaFormats = this[ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS]
-        ?: default.enableBackgroundColorForAlphaFormats
+        ?: default.enableBackgroundColorForAlphaFormats,
+    deleteSourceAfterSuccessfulSave = this[DELETE_SOURCE_AFTER_SUCCESSFUL_SAVE]
+        ?: default.deleteSourceAfterSuccessfulSave
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {
