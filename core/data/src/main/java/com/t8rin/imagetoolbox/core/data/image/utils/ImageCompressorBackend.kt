@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.data.image.utils
 import android.content.Context
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.AvifBackend
+import com.t8rin.imagetoolbox.core.data.image.utils.compressor.AvifHardwareBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.BmpBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.HeicBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.IcoBackend
@@ -79,7 +80,13 @@ internal interface ImageCompressorBackend {
             ImageFormat.Heif.Lossy -> HeicBackend(isLossless = imageFormat.isLossless)
 
             ImageFormat.Avif.Lossless,
-            ImageFormat.Avif.Lossy -> AvifBackend(isLossless = imageFormat.isLossless)
+            ImageFormat.Avif.Lossy -> {
+                if (AvifHardwareBackend.isHardwareAvifEncodingSupported()) {
+                    AvifHardwareBackend(isLossless = imageFormat.isLossless)
+                } else {
+                    AvifBackend(isLossless = imageFormat.isLossless)
+                }
+            }
 
             ImageFormat.Jpeg2000.J2k -> Jpeg2000Backend(isJ2K = true)
             ImageFormat.Jpeg2000.Jp2 -> Jpeg2000Backend(isJ2K = false)

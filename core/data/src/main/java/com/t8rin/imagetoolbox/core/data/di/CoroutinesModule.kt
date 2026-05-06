@@ -76,7 +76,9 @@ internal interface CoroutinesModule {
         @Singleton
         @Provides
         fun encodingDispatcher(): CoroutineContext = executorDispatcher {
-            Executors.newSingleThreadExecutor()
+            Executors.newFixedThreadPool(
+                Runtime.getRuntime().availableProcessors().coerceAtLeast(2).coerceAtMost(4)
+            )
         }
 
         @IoDispatcher

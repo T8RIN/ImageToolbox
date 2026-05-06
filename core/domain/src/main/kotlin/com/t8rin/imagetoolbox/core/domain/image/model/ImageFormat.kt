@@ -132,6 +132,7 @@ sealed class ImageFormat(
         extension = "avif",
         mimeType = MimeType.Avif,
         canChangeCompressionValue = true,
+        canWriteExif = true,
         compressionTypes = compressionTypes
     ) {
         data object Lossless : Avif(
