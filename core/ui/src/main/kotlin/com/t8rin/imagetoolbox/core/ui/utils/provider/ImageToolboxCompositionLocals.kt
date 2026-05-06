@@ -97,13 +97,13 @@ fun ImageToolboxCompositionLocals(
             ImageToolboxThemeSurface {
                 content()
 
-                ConfettiHost()
-
-                ToastHost()
-
                 SkippedImagesSheetHost(
                     onNavigate = onNavigate
                 )
+
+                ConfettiHost()
+
+                ToastHost()
             }
         }
     )
