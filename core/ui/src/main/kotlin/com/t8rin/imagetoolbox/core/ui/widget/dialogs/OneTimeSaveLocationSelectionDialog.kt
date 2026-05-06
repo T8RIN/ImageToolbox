@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,10 +48,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CreateNewFolder
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
-import com.t8rin.imagetoolbox.core.resources.icons.DriveFileRenameOutline
+import com.t8rin.imagetoolbox.core.resources.icons.FileRename
 import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
 import com.t8rin.imagetoolbox.core.resources.icons.Folder
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
@@ -330,7 +330,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     PreferenceItem(
                         title = stringResource(id = R.string.custom_filename),
                         subtitle = stringResource(id = R.string.custom_filename_sub),
-                        startIcon = Icons.Outlined.DriveFileRenameOutline,
+                        startIcon = Icons.Outlined.FileRename,
                         shape = ShapeDefaults.default,
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                         enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
