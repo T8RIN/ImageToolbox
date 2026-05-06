@@ -2233,4 +2233,6 @@
     <string name="add_shadow_sub">Přidejte stín rozostření za vrstvu s konfigurovatelnou barvou a posuny</string>
     <string name="distortion_filter">Content Aware Distortion</string>
     <string name="oom_description">K dokončení této akce není dostatek paměti. Zkuste použít menší obrázek, zavřete ostatní aplikace nebo aplikaci restartujte.</string>
+    <string name="parallel_workers">Paralelní pracovníci</string>
+    <string name="skipped_images_warning">Tyto obrázky nebyly uloženy, protože převedené soubory by byly větší než originály. Před odstraněním originálních snímků zkontrolujte tento seznam.</string>
 </resources>

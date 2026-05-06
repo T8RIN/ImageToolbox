@@ -27,7 +27,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
-import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.makeLog
 
@@ -157,7 +156,7 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
 
             if (skipped > 0) {
                 AppToastHost.showToast(
-                    message = getSkippedSavingMessage(skipped),
+                    message = getString(R.string.skipped_saving_count, skipped),
                     icon = Icons.Outlined.Info,
                     duration = ToastDuration.Short
                 )
@@ -194,7 +193,7 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
 
             if (skipped > 0) {
                 AppToastHost.showToast(
-                    message = getSkippedSavingMessage(skipped),
+                    message = getString(R.string.skipped_saving_count, skipped),
                     icon = Icons.Outlined.Info,
                     duration = ToastDuration.Short
                 )
@@ -205,19 +204,12 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
 
         if (skipped > 0 && done == 0 && failed == 0) {
             AppToastHost.showToast(
-                message = getSkippedSavingMessage(skipped),
+                message = getString(R.string.skipped_saving_count, skipped),
                 icon = Icons.Outlined.Info,
                 duration = ToastDuration.Short
             )
             AppSkippedImagesHost.showSkippedImages(skippedImageUris)
         }
     }
-
-    private fun getSkippedSavingMessage(count: Int): String =
-        appContext.resources.getQuantityString(
-            R.plurals.skipped_saving_count,
-            count,
-            count
-        )
 
 }

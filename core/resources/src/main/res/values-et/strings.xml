@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Lisage konfigureeritava värvi ja nihkega kihi taha hägune vari</string>
     <string name="distortion_filter">Sisu teadlik moonutamine</string>
     <string name="oom_description">Selle toimingu sooritamiseks pole piisavalt mälu. Proovige kasutada väiksemat pilti, sulgeda teised rakendused või taaskäivitada rakendus.</string>
+    <string name="parallel_workers">Paralleelsed töötajad</string>
+    <string name="skipped_images_warning">Neid pilte ei salvestatud, kuna teisendatud failid oleksid originaalidest suuremad. Kontrollige seda loendit enne originaalpiltide kustutamist.</string>
 </resources>

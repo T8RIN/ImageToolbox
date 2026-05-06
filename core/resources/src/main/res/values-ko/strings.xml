@@ -2230,4 +2230,6 @@
     <string name="add_shadow_sub">구성 가능한 색상과 오프셋을 사용하여 레이어 뒤에 흐림 그림자 추가</string>
     <string name="distortion_filter">콘텐츠 인식 왜곡</string>
     <string name="oom_description">이 작업을 완료하려면 메모리가 부족합니다. 더 작은 이미지를 사용하거나, 다른 앱을 닫거나, 앱을 다시 시작해 보세요.</string>
+    <string name="parallel_workers">병렬 작업자</string>
+    <string name="skipped_images_warning">변환된 파일이 원본보다 크기 때문에 이러한 이미지는 저장되지 않았습니다. 원본 이미지를 삭제하기 전에 이 목록을 확인하세요.</string>
 </resources>

@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Aggiungi ombra sfocata dietro il livello con colori e offset configurabili</string>
     <string name="distortion_filter">Distorsione consapevole del contenuto</string>
     <string name="oom_description">Memoria insufficiente per completare questa azione. Prova a utilizzare un\'immagine più piccola, a chiudere altre app o a riavviare l\'app.</string>
+    <string name="parallel_workers">Lavoratori paralleli</string>
+    <string name="skipped_images_warning">Queste immagini non sono state salvate perché i file convertiti sarebbero più grandi degli originali. Controlla questo elenco prima di eliminare le immagini originali.</string>
 </resources>

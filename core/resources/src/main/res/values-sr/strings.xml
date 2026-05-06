@@ -2023,7 +2023,7 @@
     <string name="slow">Споро</string>
     <string name="very_slow">Веома Споро</string>
     <string name="compute_percents">Израчунај проценте</string>
-    <string name="minimum_value_is">Минимална вредност је __ПХ_0__</string>
+    <string name="minimum_value_is">Минимална вредност је %1$s</string>
     <string name="warp_sub">Искривите слику цртањем прстима</string>
     <string name="warp">Варп</string>
     <string name="hardness">Тврдоћа</string>
@@ -2188,7 +2188,7 @@
     <string name="one_ui_sub">Стил попут Самсунг Оне УИ 7</string>
     <string name="calculate_hint">Унесите основне математичке симболе овде да бисте израчунали жељену вредност (нпр. (5+5)*10)</string>
     <string name="math_expression">Математички израз</string>
-    <string name="pick_up_to_n_collage_images">Покупите до __ПХ_0__ слика</string>
+    <string name="pick_up_to_n_collage_images">Покупите до %1$s слика</string>
     <string name="keep_date_time">Задржите датум и време</string>
     <string name="keep_date_time_sub">Увек сачувајте екиф ознаке повезане са датумом и временом, ради независно од опције Кееп екиф</string>
     <string name="background_color_for_alpha_formats">Боја позадине за алфа формате</string>
@@ -2198,7 +2198,7 @@
     <string name="markup_project_open_failed">Није могуће отворити пројекат Имаге Тоолбок</string>
     <string name="markup_project_missing_data">Пројекту Имаге Тоолбок недостају подаци о пројекту</string>
     <string name="markup_project_corrupted">Пројекат Имаге Тоолбок је оштећен</string>
-    <string name="unsupported_markup_project_version">Неподржана верзија пројекта Имаге Тоолбок: __ПХ_0__</string>
+    <string name="unsupported_markup_project_version">Неподржана верзија пројекта Имаге Тоолбок: %1$s</string>
     <string name="save_markup_project">Сачувај пројекат</string>
     <string name="save_markup_project_sub">Чувајте слојеве, позадину и историју уређивања у датотеци пројекта који се може уређивати</string>
     <string name="failed_to_open">Отварање није успело</string>
@@ -2232,4 +2232,6 @@
     <string name="add_shadow_sub">Додајте замућену сенку иза слоја са подесивом бојом и офсетима</string>
     <string name="distortion_filter">Дисторзија свесног садржаја</string>
     <string name="oom_description">Нема довољно меморије за довршетак ове радње. Покушајте да користите мању слику, затворите друге апликације или поново покренете апликацију.</string>
+    <string name="parallel_workers">Параллел Воркерс</string>
+    <string name="skipped_images_warning">Ове слике нису сачуване јер би конвертоване датотеке биле веће од оригинала. Проверите ову листу пре него што избришете оригиналне слике.</string>
 </resources>

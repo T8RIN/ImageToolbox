@@ -2232,4 +2232,6 @@
     <string name="add_shadow_sub">कॉन्फिगर करण्यायोग्य रंग आणि ऑफसेटसह लेयरच्या मागे ब्लर शॅडो जोडा</string>
     <string name="distortion_filter">सामग्री जागरूक विकृती</string>
     <string name="oom_description">ही क्रिया पूर्ण करण्यासाठी पुरेशी मेमरी नाही. कृपया लहान प्रतिमा वापरून पहा, इतर ॲप्स बंद करून किंवा ॲप रीस्टार्ट करून पहा.</string>
+    <string name="parallel_workers">समांतर कामगार</string>
+    <string name="skipped_images_warning">या प्रतिमा जतन केल्या गेल्या नाहीत कारण रूपांतरित केलेल्या फायली मूळपेक्षा मोठ्या असतील. मूळ प्रतिमा हटवण्यापूर्वी ही यादी तपासा.</string>
 </resources>

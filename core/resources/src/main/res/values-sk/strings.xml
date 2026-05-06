@@ -2233,4 +2233,6 @@
     <string name="add_shadow_sub">Pridajte tieň rozostrenia za vrstvu s konfigurovateľnou farbou a posunmi</string>
     <string name="distortion_filter">Content Aware Distortion</string>
     <string name="oom_description">Nedostatok pamäte na dokončenie tejto akcie. Skúste použiť menší obrázok, zatvorte ostatné aplikácie alebo reštartujte aplikáciu.</string>
+    <string name="parallel_workers">Paralelní pracovníci</string>
+    <string name="skipped_images_warning">Tieto obrázky sa neuložili, pretože skonvertované súbory by boli väčšie ako originály. Pred odstránením originálnych obrázkov skontrolujte tento zoznam.</string>
 </resources>

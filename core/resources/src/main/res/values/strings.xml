@@ -2254,9 +2254,6 @@
     <string name="annotations">Annotations</string>
     <string name="distortion_filter">Content Aware Distortion</string>
     <string name="oom_description">Not enough memory to complete this action. Please try using a smaller image, closing other apps, or restarting the app.</string>
-    <plurals name="skipped_saving_count">
-        <item quantity="one">%d file skipped</item>
-        <item quantity="other">%d files skipped</item>
-    </plurals>
     <string name="skipped_images_warning">These images were not saved because the converted files would be larger than the originals. Check this list before deleting original images.</string>
+    <string name="skipped_saving_count">Files skipped: %1$s</string>
 </resources>

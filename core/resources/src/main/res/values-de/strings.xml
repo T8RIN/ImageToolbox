@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Fügen Sie Unschärfeschatten hinter der Ebene mit konfigurierbaren Farben und Offsets hinzu</string>
     <string name="distortion_filter">Inhaltsbewusste Verzerrung</string>
     <string name="oom_description">Nicht genügend Arbeitsspeicher, um diese Aktion abzuschließen. Bitte versuchen Sie, ein kleineres Bild zu verwenden, andere Apps zu schließen oder die App neu zu starten.</string>
+    <string name="parallel_workers">Parallelarbeiter</string>
+    <string name="skipped_images_warning">Diese Bilder wurden nicht gespeichert, da die konvertierten Dateien größer als die Originale sein würden. Überprüfen Sie diese Liste, bevor Sie Originalbilder löschen.</string>
 </resources>

@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Gehitu lausotutako itzala geruzaren atzean, kolore eta desplazamendu konfiguragarriekin</string>
     <string name="distortion_filter">Edukiari buruzko distortsioa</string>
     <string name="oom_description">Ez dago nahikoa memoria ekintza hau burutzeko. Mesedez, saiatu irudi txikiagoa erabiltzen, beste aplikazio batzuk ixten edo aplikazioa berrabiarazi.</string>
+    <string name="parallel_workers">Langile Paraleloak</string>
+    <string name="skipped_images_warning">Irudi hauek ez ziren gorde bihurtutako fitxategiak jatorrizkoak baino handiagoak izango zirelako. Egiaztatu zerrenda hau jatorrizko irudiak ezabatu aurretik.</string>
 </resources>

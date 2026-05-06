@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">कॉन्फ़िगर करने योग्य रंग और ऑफसेट के साथ परत के पीछे धुंधली छाया जोड़ें</string>
     <string name="distortion_filter">सामग्री जागरूक विरूपण</string>
     <string name="oom_description">इस क्रिया को पूरा करने के लिए पर्याप्त मेमोरी नहीं है. कृपया छोटी छवि का उपयोग करने, अन्य ऐप्स बंद करने या ऐप को पुनः प्रारंभ करने का प्रयास करें।</string>
+    <string name="parallel_workers">समानांतर कार्यकर्ता</string>
+    <string name="skipped_images_warning">ये छवियाँ सहेजी नहीं गईं क्योंकि परिवर्तित फ़ाइलें मूल से बड़ी होंगी। मूल छवियाँ हटाने से पहले इस सूची की जाँच करें।</string>
 </resources>

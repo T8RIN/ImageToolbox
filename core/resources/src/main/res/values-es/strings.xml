@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Agregue sombra borrosa detrás de la capa con colores y compensaciones configurables</string>
     <string name="distortion_filter">Distorsión consciente del contenido</string>
     <string name="oom_description">No hay suficiente memoria para completar esta acción. Intente usar una imagen más pequeña, cerrar otras aplicaciones o reiniciar la aplicación.</string>
+    <string name="parallel_workers">Trabajadores paralelos</string>
+    <string name="skipped_images_warning">Estas imágenes no se guardaron porque los archivos convertidos serían más grandes que los originales. Consulte esta lista antes de eliminar imágenes originales.</string>
 </resources>

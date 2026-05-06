@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">ਸੰਰਚਨਾਯੋਗ ਰੰਗ ਅਤੇ ਆਫਸੈਟਾਂ ਦੇ ਨਾਲ ਪਰਤ ਦੇ ਪਿੱਛੇ ਬਲਰ ਸ਼ੈਡੋ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="distortion_filter">ਸਮਗਰੀ ਜਾਗਰੂਕ ਵਿਗਾੜ</string>
     <string name="oom_description">ਇਸ ਕਾਰਵਾਈ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਲੋੜੀਂਦੀ ਮੈਮੋਰੀ ਨਹੀਂ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਛੋਟਾ ਚਿੱਤਰ ਵਰਤ ਕੇ, ਹੋਰ ਐਪਾਂ ਨੂੰ ਬੰਦ ਕਰਨ, ਜਾਂ ਐਪ ਨੂੰ ਰੀਸਟਾਰਟ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
+    <string name="parallel_workers">ਸਮਾਨਾਂਤਰ ਵਰਕਰ</string>
+    <string name="skipped_images_warning">ਇਹ ਚਿੱਤਰ ਸੁਰੱਖਿਅਤ ਨਹੀਂ ਕੀਤੇ ਗਏ ਸਨ ਕਿਉਂਕਿ ਪਰਿਵਰਤਿਤ ਫ਼ਾਈਲਾਂ ਅਸਲ ਨਾਲੋਂ ਵੱਡੀਆਂ ਹੋਣਗੀਆਂ। ਅਸਲ ਚਿੱਤਰਾਂ ਨੂੰ ਮਿਟਾਉਣ ਤੋਂ ਪਹਿਲਾਂ ਇਸ ਸੂਚੀ ਦੀ ਜਾਂਚ ਕਰੋ।</string>
 </resources>

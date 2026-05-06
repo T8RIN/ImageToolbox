@@ -2232,4 +2232,6 @@
     <string name="add_shadow_sub">Adăugați umbră încețoșată în spatele stratului cu culori și decalaje configurabile</string>
     <string name="distortion_filter">Distorsiuni în funcție de conținut</string>
     <string name="oom_description">Nu este suficientă memorie pentru a finaliza această acțiune. Încercați să utilizați o imagine mai mică, să închideți alte aplicații sau să reporniți aplicația.</string>
+    <string name="parallel_workers">Muncitori paraleli</string>
+    <string name="skipped_images_warning">Aceste imagini nu au fost salvate deoarece fișierele convertite ar fi mai mari decât cele originale. Verificați această listă înainte de a șterge imaginile originale.</string>
 </resources>

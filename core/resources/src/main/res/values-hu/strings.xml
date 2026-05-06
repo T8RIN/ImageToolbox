@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Adjon hozzá homályos árnyékot a réteg mögé konfigurálható színekkel és eltolásokkal</string>
     <string name="distortion_filter">Tartalomtudatos torzítás</string>
     <string name="oom_description">Nincs elég memória a művelet végrehajtásához. Kérjük, próbáljon meg egy kisebb képet használni, zárjon be más alkalmazásokat, vagy indítsa újra az alkalmazást.</string>
+    <string name="parallel_workers">Párhuzamos munkások</string>
+    <string name="skipped_images_warning">Ezeket a képeket nem mentettük, mert a konvertált fájlok nagyobbak lennének, mint az eredetiek. Az eredeti képek törlése előtt ellenőrizze ezt a listát.</string>
 </resources>

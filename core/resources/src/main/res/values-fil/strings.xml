@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Magdagdag ng blur shadow sa likod ng layer na may nako-configure na kulay at mga offset</string>
     <string name="distortion_filter">Pagbaluktot ng Kamalayan sa Nilalaman</string>
     <string name="oom_description">Walang sapat na memorya upang makumpleto ang pagkilos na ito. Pakisubukang gumamit ng mas maliit na larawan, isara ang iba pang app, o i-restart ang app.</string>
+    <string name="parallel_workers">Parallel Workers</string>
+    <string name="skipped_images_warning">Ang mga larawang ito ay hindi na-save dahil ang mga na-convert na file ay mas malaki kaysa sa orihinal. Suriin ang listahang ito bago tanggalin ang mga orihinal na larawan.</string>
 </resources>

@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Adicione sombra desfocada atrás da camada com cores e deslocamentos configuráveis</string>
     <string name="distortion_filter">Distorção sensível ao conteúdo</string>
     <string name="oom_description">Não há memória suficiente para concluir esta ação. Tente usar uma imagem menor, fechar outros aplicativos ou reiniciar o aplicativo.</string>
+    <string name="parallel_workers">Trabalhadores paralelos</string>
+    <string name="skipped_images_warning">Essas imagens não foram salvas porque os arquivos convertidos seriam maiores que os originais. Verifique esta lista antes de excluir imagens originais.</string>
 </resources>

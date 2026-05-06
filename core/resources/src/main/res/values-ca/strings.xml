@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Afegeix ombra borrosa darrere de la capa amb color i desplaçaments configurables</string>
     <string name="distortion_filter">Distorsió conscient del contingut</string>
     <string name="oom_description">No hi ha prou memòria per completar aquesta acció. Prova d\'utilitzar una imatge més petita, tanca altres aplicacions o reinicia l\'aplicació.</string>
+    <string name="parallel_workers">Treballadors paral·lels</string>
+    <string name="skipped_images_warning">Aquestes imatges no es van desar perquè els fitxers convertits serien més grans que els originals. Comproveu aquesta llista abans d\'esborrar les imatges originals.</string>
 </resources>

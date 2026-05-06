@@ -2231,4 +2231,6 @@
     <string name="add_shadow_sub">Lisää sumea varjo tason taakse konfiguroitavilla väreillä ja poikkeamilla</string>
     <string name="distortion_filter">Sisältötietoinen vääristyminen</string>
     <string name="oom_description">Muisti ei riitä tämän toiminnon suorittamiseen. Yritä käyttää pienempää kuvaa, sulkea muita sovelluksia tai käynnistää sovellus uudelleen.</string>
+    <string name="parallel_workers">Rinnakkaistyöntekijät</string>
+    <string name="skipped_images_warning">Näitä kuvia ei tallennettu, koska muunnetut tiedostot olisivat suurempia kuin alkuperäiset. Tarkista tämä luettelo ennen alkuperäisten kuvien poistamista.</string>
 </resources>

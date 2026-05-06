@@ -2233,4 +2233,6 @@
     <string name="add_shadow_sub">Dodaj rozmyty cień za warstwą z konfigurowalnym kolorem i przesunięciami</string>
     <string name="distortion_filter">Zniekształcenie świadome treści</string>
     <string name="oom_description">Za mało pamięci, aby ukończyć tę czynność. Spróbuj użyć mniejszego obrazu, zamknij inne aplikacje lub uruchom ponownie aplikację.</string>
+    <string name="parallel_workers">Pracownicy równoległi</string>
+    <string name="skipped_images_warning">Obrazy te nie zostały zapisane, ponieważ przekonwertowane pliki byłyby większe niż oryginały. Sprawdź tę listę przed usunięciem oryginalnych obrazów.</string>
 </resources>

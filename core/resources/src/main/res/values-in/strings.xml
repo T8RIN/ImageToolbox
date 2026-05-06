@@ -2230,4 +2230,6 @@
     <string name="add_shadow_sub">Tambahkan bayangan buram di belakang lapisan dengan warna dan offset yang dapat dikonfigurasi</string>
     <string name="distortion_filter">Distorsi Sadar Konten</string>
     <string name="oom_description">Memori tidak cukup untuk menyelesaikan tindakan ini. Silakan coba gunakan gambar yang lebih kecil, tutup aplikasi lain, atau mulai ulang aplikasi.</string>
+    <string name="parallel_workers">Pekerja Paralel</string>
+    <string name="skipped_images_warning">Gambar-gambar ini tidak disimpan karena file yang dikonversi akan lebih besar dari aslinya. Periksa daftar ini sebelum menghapus gambar asli.</string>
 </resources>
