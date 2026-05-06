@@ -174,7 +174,7 @@ internal class AndroidFileController @Inject constructor(
                 val newSize = data.size
 
                 if (originalSize != null && newSize > originalSize) {
-                    return@withContext SaveResult.Skipped
+                    return@withContext SaveResult.Skipped(saveTarget.originalUri)
                 }
             }
 

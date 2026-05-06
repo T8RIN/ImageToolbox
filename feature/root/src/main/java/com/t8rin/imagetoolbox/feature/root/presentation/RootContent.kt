@@ -36,7 +36,8 @@ fun RootContent(
         settingsState = component.uiSettingsState(),
         filterPreviewModel = component.filterPreviewModel,
         canSetDynamicFilterPreview = component.canSetDynamicFilterPreview,
-        currentScreen = stack.items.lastOrNull()?.configuration
+        currentScreen = stack.items.lastOrNull()?.configuration,
+        onNavigate = component::navigateTo
     ) {
         ScreenSelector(component)
 

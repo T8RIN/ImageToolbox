@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberSafeUriHandler
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberEnhancedHapticFeedback
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHost
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.SkippedImagesSheetHost
 import kotlinx.coroutines.delay
 
 @Composable
@@ -54,6 +55,7 @@ fun ImageToolboxCompositionLocals(
     filterPreviewModel: ImageModel? = null,
     canSetDynamicFilterPreview: Boolean = false,
     currentScreen: Screen? = null,
+    onNavigate: (Screen) -> Unit = {},
     content: @Composable BoxScope.() -> Unit
 ) {
     val editPresetsController = rememberEditPresetsController()
@@ -98,6 +100,10 @@ fun ImageToolboxCompositionLocals(
                 ConfettiHost()
 
                 ToastHost()
+
+                SkippedImagesSheetHost(
+                    onNavigate = onNavigate
+                )
             }
         }
     )

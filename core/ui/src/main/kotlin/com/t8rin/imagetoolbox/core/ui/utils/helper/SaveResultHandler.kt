@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.makeLog
 
@@ -54,6 +55,7 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
                     icon = Icons.Outlined.Info,
                     duration = ToastDuration.Short
                 )
+                AppSkippedImagesHost.showSkippedImages(listOfNotNull(saveResult.uri))
             }
 
             is SaveResult.Success -> {
@@ -85,6 +87,7 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
                     message = getString(R.string.skipped_saving),
                     icon = Icons.Outlined.Info
                 )
+                AppSkippedImagesHost.showSkippedImages(listOfNotNull(saveResult.uri))
             }
 
             is SaveResult.Success -> {
@@ -113,6 +116,7 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
         }
 
         val skipped = results.count { it is SaveResult.Skipped }
+        val skippedImageUris = results.mapNotNull { (it as? SaveResult.Skipped)?.uri }
         val failed = results.count { it is SaveResult.Error }
         val done = results.count { it is SaveResult.Success }
 
@@ -153,10 +157,11 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
 
             if (skipped > 0) {
                 AppToastHost.showToast(
-                    message = getString(R.string.skipped_saving_multiple, skipped),
+                    message = getSkippedSavingMessage(skipped),
                     icon = Icons.Outlined.Info,
                     duration = ToastDuration.Short
                 )
+                AppSkippedImagesHost.showSkippedImages(skippedImageUris)
             }
 
             AppToastHost.showConfetti()
@@ -189,20 +194,30 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
 
             if (skipped > 0) {
                 AppToastHost.showToast(
-                    message = getString(R.string.skipped_saving_multiple, skipped),
+                    message = getSkippedSavingMessage(skipped),
                     icon = Icons.Outlined.Info,
                     duration = ToastDuration.Short
                 )
+                AppSkippedImagesHost.showSkippedImages(skippedImageUris)
             }
             return
         }
 
         if (skipped > 0 && done == 0 && failed == 0) {
             AppToastHost.showToast(
-                message = getString(R.string.skipped_saving_multiple, skipped),
+                message = getSkippedSavingMessage(skipped),
                 icon = Icons.Outlined.Info,
                 duration = ToastDuration.Short
             )
+            AppSkippedImagesHost.showSkippedImages(skippedImageUris)
         }
     }
+
+    private fun getSkippedSavingMessage(count: Int): String =
+        appContext.resources.getQuantityString(
+            R.plurals.skipped_saving_count,
+            count,
+            count
+        )
+
 }

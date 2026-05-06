@@ -204,7 +204,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
         if (alreadyDownloaded != null) {
             selectModelForced(alreadyDownloaded)
-            return@withContext SaveResult.Skipped
+            return@withContext SaveResult.Skipped()
         }
 
         fileController.transferBytes(

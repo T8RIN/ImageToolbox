@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -40,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.update
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Info
@@ -179,7 +179,7 @@ class AiToolsComponent @AssistedInject internal constructor(
             _isImageLoading.update { true }
 
             when (val result = aiToolsRepository.importModel(uri.toString())) {
-                SaveResult.Skipped -> {
+                is SaveResult.Skipped -> {
                     AppToastHost.showToast(
                         message = getString(R.string.model_already_downloaded),
                         icon = Icons.Outlined.Info
