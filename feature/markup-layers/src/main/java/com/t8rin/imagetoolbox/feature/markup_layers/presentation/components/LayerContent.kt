@@ -63,9 +63,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildComposeTextShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildPictureShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildShapeShadowRenderData
-import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildTextShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateShadowPadding
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.drawShapeLayer
@@ -75,7 +75,6 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.renderCopy
-import kotlin.math.roundToInt
 import androidx.compose.ui.text.style.TextGeometricTransform as ComposeTextGeometricTransform
 
 @Composable
@@ -411,6 +410,14 @@ private fun TextLayerContent(
     val shadowRasterScale = remember(layerScale) {
         resolveLayerShadowRasterScale(layerScale)
     }
+    var textLayoutResult by remember(
+        type,
+        textFullSize,
+        maxLines,
+        density
+    ) {
+        mutableStateOf<TextLayoutResult?>(null)
+    }
 
     Box(
         modifier = modifier,
@@ -421,22 +428,22 @@ private fun TextLayerContent(
             style = mergedStyle,
             outlineParams = outlineParams,
             maxLines = maxLines,
-            onTextLayout = onTextLayout,
+            onTextLayout = { result ->
+                textLayoutResult = result
+                onTextLayout?.invoke(result)
+            },
             modifier = Modifier
                 .drawWithCache {
                     val textLeft = textMetrics.padding.leftPx
                     val textTop = textMetrics.padding.topPx
-                    val layoutWidth =
-                        (size.width - textMetrics.padding.leftPx - textMetrics.padding.rightPx)
-                            .roundToInt()
-                            .coerceAtLeast(1)
-                    val shadow = buildTextShadowRenderData(
-                        type = type,
-                        textMetrics = textMetrics,
-                        layoutWidth = layoutWidth,
-                        maxLines = maxLines.takeIf { it != Int.MAX_VALUE },
-                        rasterScale = shadowRasterScale
-                    )
+                    val shadow = textLayoutResult?.let {
+                        buildComposeTextShadowRenderData(
+                            type = type,
+                            textMetrics = textMetrics,
+                            textLayoutResult = it,
+                            rasterScale = shadowRasterScale
+                        )
+                    }
 
                     onDrawWithContent {
                         drawRect(type.backgroundColor.toColor())
