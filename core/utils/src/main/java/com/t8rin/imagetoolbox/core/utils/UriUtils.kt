@@ -48,12 +48,13 @@ import java.util.LinkedList
 import java.util.Locale
 
 fun Uri?.uiPath(
-    default: String
+    default: String,
+    context: Context = appContext
 ): String = this?.let { uri ->
-    if (DocumentFile.isDocumentUri(appContext, uri)) {
-        DocumentFile.fromSingleUri(appContext, uri)
+    if (DocumentFile.isDocumentUri(context, uri)) {
+        DocumentFile.fromSingleUri(context, uri)
     } else {
-        DocumentFile.fromTreeUri(appContext, uri)
+        DocumentFile.fromTreeUri(context, uri)
     }?.uri?.path?.split(":")
         ?.lastOrNull()?.let { p ->
             val endPath = p.takeIf {
@@ -63,8 +64,8 @@ fun Uri?.uiPath(
                 uri.toString()
                     .split("%")[0]
                     .contains("primary")
-            ) appContext.getString(R.string.device_storage)
-            else appContext.getString(R.string.external_storage)
+            ) context.getString(R.string.device_storage)
+            else context.getString(R.string.external_storage)
 
             startPath + endPath
         }?.decodeEscaped()

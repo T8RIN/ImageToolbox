@@ -248,7 +248,7 @@ internal class AndroidFileController @Inject constructor(
                             Throwable(
                                 getString(
                                     R.string.no_such_directory,
-                                    treeUri.toUri().uiPath(treeUri)
+                                    treeUri.toUri().uiPath(treeUri, context)
                                 )
                             )
                         )
