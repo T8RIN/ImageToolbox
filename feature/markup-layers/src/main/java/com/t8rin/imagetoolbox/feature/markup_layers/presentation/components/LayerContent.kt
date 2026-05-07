@@ -63,9 +63,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildComposeTextShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildPictureShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildShapeShadowRenderData
+import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.buildTextShadowRenderData
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateShadowPadding
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.calculateTextLayerMetrics
 import com.t8rin.imagetoolbox.feature.markup_layers.data.utils.drawShapeLayer
@@ -437,7 +437,7 @@ private fun TextLayerContent(
                     val textLeft = textMetrics.padding.leftPx
                     val textTop = textMetrics.padding.topPx
                     val shadow = textLayoutResult?.let {
-                        buildComposeTextShadowRenderData(
+                        buildTextShadowRenderData(
                             type = type,
                             textMetrics = textMetrics,
                             textLayoutResult = it,

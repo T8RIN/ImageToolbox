@@ -374,7 +374,7 @@ internal class LayersRenderer @Inject constructor(
             )
         }
 
-        val shadowRenderData = buildComposeTextShadowRenderData(
+        val shadowRenderData = buildTextShadowRenderData(
             type = type,
             textMetrics = textMetrics,
             textLayoutResult = fillLayout,

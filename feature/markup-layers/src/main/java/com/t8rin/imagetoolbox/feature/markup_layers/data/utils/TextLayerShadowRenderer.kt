@@ -41,7 +41,7 @@ internal data class TextShadowRenderData(
     val rasterScale: Float
 )
 
-internal fun buildComposeTextShadowRenderData(
+internal fun buildTextShadowRenderData(
     type: LayerType.Text,
     textMetrics: TextLayerMetrics,
     textLayoutResult: TextLayoutResult,
