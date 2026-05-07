@@ -23,7 +23,8 @@ interface MarkupLayersApplier<I> {
 
     suspend fun applyToImage(
         image: I,
-        layers: List<MarkupLayer>
+        layers: List<MarkupLayer>,
+        fontScale: Float? = null
     ): I
 
     suspend fun saveProject(

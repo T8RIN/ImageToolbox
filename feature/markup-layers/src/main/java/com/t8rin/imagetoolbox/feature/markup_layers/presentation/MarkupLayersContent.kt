@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -56,6 +55,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -63,6 +63,7 @@ import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Archive
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
@@ -115,6 +116,7 @@ fun MarkupLayersContent(
     val themeState = LocalDynamicThemeState.current
 
     val appColorTuple = rememberAppColorTuple()
+    val density = LocalDensity.current
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -143,7 +145,8 @@ fun MarkupLayersContent(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmap(
-            oneTimeSaveLocationUri = it
+            oneTimeSaveLocationUri = it,
+            fontScale = density.fontScale
         )
     }
     val projectOpener = rememberFilePicker(

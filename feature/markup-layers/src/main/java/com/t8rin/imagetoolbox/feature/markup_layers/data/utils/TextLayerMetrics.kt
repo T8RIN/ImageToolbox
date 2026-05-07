@@ -60,14 +60,21 @@ internal data class TextLayerMetrics(
 
 internal fun Context.calculateTextLayerMetrics(
     type: LayerType.Text,
-    textFullSize: Int
+    textFullSize: Int,
+    fontScale: Float? = null
 ): TextLayerMetrics {
     val displayMetrics = resources.displayMetrics
     val baseTextSize = textFullSize.coerceAtLeast(1) * type.size
-    val fontSizePx = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_SP,
-        baseTextSize / 12.5f,
-        displayMetrics
+    val fontSizeSp = baseTextSize / 12.5f
+    val fontSizePx = (
+            fontScale
+                ?.takeIf { it > 0f }
+                ?.let { fontSizeSp * displayMetrics.density * it }
+                ?: TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_SP,
+                    fontSizeSp,
+                    displayMetrics
+                )
     ).coerceAtLeast(1f)
     val typeface = createTextLayerTypeface(type)
     val lineHeightPx = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {

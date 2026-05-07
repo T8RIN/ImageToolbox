@@ -23,9 +23,24 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
-import android.text.Layout
-import android.text.StaticLayout
-import android.text.TextPaint
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
+import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontSynthesis
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.createFontFamilyResolver
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.withSave
@@ -38,6 +53,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.settings.presentation.model.asUi
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
@@ -45,9 +61,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.ceil
-import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import androidx.compose.ui.graphics.Canvas as ComposeCanvas
+import androidx.compose.ui.graphics.Color as ComposeColor
+import androidx.compose.ui.graphics.drawscope.Stroke as ComposeStroke
+import androidx.compose.ui.text.style.TextGeometricTransform as ComposeTextGeometricTransform
 
 internal class LayersRenderer @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -57,7 +76,8 @@ internal class LayersRenderer @Inject constructor(
 
     suspend fun render(
         backgroundImage: Bitmap,
-        layers: List<MarkupLayer>
+        layers: List<MarkupLayer>,
+        fontScale: Float? = null
     ): Bitmap = withContext(defaultDispatcher) {
         val resultBitmap = backgroundImage.copy(Bitmap.Config.ARGB_8888, true)
 
@@ -78,6 +98,19 @@ internal class LayersRenderer @Inject constructor(
         val canvasOffsetY = (targetHeight - authorHeight * ratio) / 2f
         val textFullSize = min(authorWidth, authorHeight).roundToInt().coerceAtLeast(1)
         val shapeContentInsetPx = context.resources.displayMetrics.density * 4f
+        val textDensity = Density(
+            density = context.resources.displayMetrics.density,
+            fontScale = fontScale
+                ?.takeIf { it > 0f }
+                ?: context.resources.configuration.fontScale.takeIf { it > 0f }
+                ?: 1f
+        )
+        val textMeasurer = TextMeasurer(
+            defaultFontFamilyResolver = createFontFamilyResolver(context),
+            defaultDensity = textDensity,
+            defaultLayoutDirection = LayoutDirection.Ltr,
+            cacheSize = 0
+        )
 
         val pictureCache = mutableMapOf<Any, Bitmap?>()
         val textCache = mutableMapOf<TextLayerCacheKey, TextLayerRenderData>()
@@ -155,7 +188,9 @@ internal class LayersRenderer @Inject constructor(
                                     contentSize = layer.contentSize,
                                     fallbackMaxTextBoxWidth = authorWidth,
                                     maxLines = layer.visibleLineCount,
-                                    shadowRasterScale = shadowRasterScale
+                                    shadowRasterScale = shadowRasterScale,
+                                    density = textDensity,
+                                    textMeasurer = textMeasurer
                                 )
                             }
                             drawTextLayer(
@@ -286,115 +321,76 @@ internal class LayersRenderer @Inject constructor(
         contentSize: IntegerSize,
         fallbackMaxTextBoxWidth: Float,
         maxLines: Int?,
-        shadowRasterScale: Float
+        shadowRasterScale: Float,
+        density: Density,
+        textMeasurer: TextMeasurer
     ): TextLayerRenderData {
         val textMetrics = context.calculateTextLayerMetrics(
             type = type,
-            textFullSize = textFullSize
+            textFullSize = textFullSize,
+            fontScale = density.fontScale
         )
-        val outlineWidth = type.outline?.width ?: 0f
         val layoutText = type.text.ifEmpty { " " }
         val resolvedContentSize = contentSize.takeIf { it.width > 0 && it.height > 0 }
-        val fillPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG).apply {
-            color = type.color
-            textSize = textMetrics.fontSizePx
-            hinting = Paint.HINTING_ON
-            isLinearText = true
-            isUnderlineText = type.decorations.any { it == LayerType.Text.Decoration.Underline }
-            isStrikeThruText = type.decorations.any { it == LayerType.Text.Decoration.LineThrough }
-            typeface = textMetrics.typeface
-            textScaleX = type.geometricTransform?.scaleX?.coerceAtLeast(0.01f) ?: 1f
-            textSkewX = type.geometricTransform?.skewX ?: 0f
-        }
-
-        val desiredLayoutWidth = maxLineWidth(
-            text = layoutText,
-            paint = fillPaint
-        ).coerceAtLeast(1)
-        val availableLayoutWidth = (
+        val maxLayoutWidth = (
                 (resolvedContentSize?.width?.toFloat() ?: fallbackMaxTextBoxWidth) -
-                        textMetrics.padding.horizontalPx -
-                        outlineWidth * 2f
+                        textMetrics.padding.horizontalPx
                 ).roundToInt().coerceAtLeast(1)
-        val baseAvailableLayoutWidth = resolvedContentSize?.let {
-            (
-                    it.width.toFloat() -
-                            textMetrics.basePadding.horizontalPx
-                    ).roundToInt().coerceAtLeast(1)
-        } ?: availableLayoutWidth
-        val layoutWidthSafetyPx = (textMetrics.fontSizePx * TEXT_LAYOUT_WIDTH_SAFETY_RATIO)
-            .roundToInt()
-            .coerceAtLeast(1)
-        val layoutWidth = resolvedContentSize?.let {
-            when {
-                desiredLayoutWidth <= availableLayoutWidth + layoutWidthSafetyPx -> {
-                    max(availableLayoutWidth, desiredLayoutWidth)
-                }
+        val fillStyle = type.composeTextStyle(
+            textMetrics = textMetrics,
+            density = density
+        )
+        val fillLayout = textMeasurer.measure(
+            text = layoutText,
+            style = fillStyle,
+            overflow = TextOverflow.Clip,
+            maxLines = maxLines ?: Int.MAX_VALUE,
+            constraints = Constraints(
+                maxWidth = maxLayoutWidth
+            ),
+            density = density,
+            layoutDirection = LayoutDirection.Ltr
+        )
 
-                desiredLayoutWidth <= baseAvailableLayoutWidth + layoutWidthSafetyPx -> {
-                    max(baseAvailableLayoutWidth, desiredLayoutWidth)
-                }
-
-                else -> availableLayoutWidth
-            }
-        } ?: min(desiredLayoutWidth, availableLayoutWidth)
-        val alignment = when (type.alignment) {
-            LayerType.Text.Alignment.Start -> Layout.Alignment.ALIGN_NORMAL
-            LayerType.Text.Alignment.Center -> Layout.Alignment.ALIGN_CENTER
-            LayerType.Text.Alignment.End -> Layout.Alignment.ALIGN_OPPOSITE
+        val outlineLayout = type.outline?.takeIf { it.width > 0f }?.let { outline ->
+            textMeasurer.measure(
+                text = layoutText,
+                style = fillStyle.copy(
+                    color = ComposeColor(outline.color),
+                    textDecoration = null,
+                    drawStyle = ComposeStroke(
+                        width = outline.width,
+                        cap = androidx.compose.ui.graphics.StrokeCap.Round,
+                        join = androidx.compose.ui.graphics.StrokeJoin.Round
+                    )
+                ),
+                overflow = TextOverflow.Clip,
+                maxLines = maxLines ?: Int.MAX_VALUE,
+                constraints = Constraints(
+                    maxWidth = maxLayoutWidth
+                ),
+                density = density,
+                layoutDirection = LayoutDirection.Ltr
+            )
         }
 
-        val fillLayout = createTextStaticLayout(
-            text = layoutText,
-            paint = fillPaint,
-            width = layoutWidth,
-            alignment = alignment,
-            lineHeightPx = textMetrics.lineHeightPx,
-            maxLines = maxLines
-        )
-        val shadowRenderData = buildTextShadowRenderData(
+        val shadowRenderData = buildComposeTextShadowRenderData(
             type = type,
             textMetrics = textMetrics,
-            layoutWidth = layoutWidth,
-            maxLines = maxLines,
+            textLayoutResult = fillLayout,
             rasterScale = shadowRasterScale
         )
 
         val requiredBitmapWidth = ceil(
-            layoutWidth +
-                    textMetrics.padding.horizontalPx +
-                    outlineWidth * 2f
+            fillLayout.size.width +
+                    textMetrics.padding.horizontalPx
         ).toInt().coerceAtLeast(1)
         val requiredBitmapHeight = ceil(
-            fillLayout.height +
-                    textMetrics.padding.verticalPx +
-                    outlineWidth * 2f
+            fillLayout.size.height +
+                    textMetrics.padding.verticalPx
         ).toInt().coerceAtLeast(1)
-        val bitmapWidth = resolvedContentSize?.width
-            ?.coerceAtLeast(requiredBitmapWidth)
-            ?: requiredBitmapWidth
-        val bitmapHeight = resolvedContentSize?.height
-            ?.coerceAtLeast(requiredBitmapHeight)
-            ?: requiredBitmapHeight
-
-        val outlineLayout = type.outline?.takeIf { it.width > 0f }?.let { outline ->
-            val outlinePaint = TextPaint(fillPaint).apply {
-                color = outline.color
-                style = Paint.Style.STROKE
-                strokeWidth = outline.width
-                strokeJoin = Paint.Join.ROUND
-                strokeCap = Paint.Cap.ROUND
-                clearShadowLayer()
-            }
-            createTextStaticLayout(
-                text = layoutText,
-                paint = outlinePaint,
-                width = layoutWidth,
-                alignment = alignment,
-                lineHeightPx = textMetrics.lineHeightPx,
-                maxLines = maxLines
-            )
-        }
+        val bitmapWidth = resolvedContentSize?.width ?: requiredBitmapWidth
+        val bitmapHeight = resolvedContentSize?.height ?: requiredBitmapHeight
 
         return TextLayerRenderData(
             width = bitmapWidth.toFloat(),
@@ -404,10 +400,11 @@ internal class LayersRenderer @Inject constructor(
                     color = backgroundColor
                 }
             },
-            textLeft = outlineWidth + textMetrics.padding.leftPx,
-            textTop = outlineWidth + textMetrics.padding.topPx,
+            textLeft = textMetrics.padding.leftPx,
+            textTop = textMetrics.padding.topPx,
             shadowRenderData = shadowRenderData,
             outlineLayout = outlineLayout,
+            density = density,
             fillLayout = fillLayout
         )
     }
@@ -500,10 +497,18 @@ internal class LayersRenderer @Inject constructor(
                 }
             }
 
-            withSave {
-                translate(data.textLeft, data.textTop)
-                data.outlineLayout?.draw(this@drawTextLayerContent)
-                data.fillLayout.draw(this@drawTextLayerContent)
+            CanvasDrawScope().draw(
+                density = data.density,
+                layoutDirection = LayoutDirection.Ltr,
+                canvas = ComposeCanvas(this),
+                size = Size(data.width, data.height)
+            ) {
+                withTransform({
+                    translate(data.textLeft, data.textTop)
+                }) {
+                    data.outlineLayout?.let(::drawText)
+                    drawText(data.fillLayout)
+                }
             }
         }
     }
@@ -792,21 +797,6 @@ internal class LayersRenderer @Inject constructor(
         draw(Canvas(this))
     }
 
-    private companion object {
-        const val TEXT_LAYOUT_WIDTH_SAFETY_RATIO = 0.25f
-    }
-
-    private fun maxLineWidth(
-        text: String,
-        paint: TextPaint
-    ): Int = text
-        .split('\n')
-        .maxOfOrNull { line ->
-            ceil(Layout.getDesiredWidth(line.ifEmpty { " " }, paint).toDouble()).toInt()
-        }
-        ?.coerceAtLeast(1)
-        ?: 1
-
     private fun cornerRadiusPx(
         cornerRadiusPercent: Int,
         width: Float,
@@ -837,6 +827,48 @@ internal class LayersRenderer @Inject constructor(
     }
 }
 
+private fun LayerType.Text.composeTextStyle(
+    textMetrics: TextLayerMetrics,
+    density: Density
+): TextStyle = TextStyle(
+    color = ComposeColor(color),
+    fontSize = with(density) { textMetrics.fontSizePx.toSp() },
+    lineHeight = with(density) { textMetrics.lineHeightPx.toSp() },
+    fontFamily = font.asUi().fontFamily,
+    letterSpacing = 0.5.sp,
+    fontSynthesis = FontSynthesis.All,
+    textDecoration = TextDecoration.combine(
+        decorations.mapNotNull {
+            when (it) {
+                LayerType.Text.Decoration.LineThrough -> TextDecoration.LineThrough
+                LayerType.Text.Decoration.Underline -> TextDecoration.Underline
+                else -> null
+            }
+        }
+    ),
+    fontWeight = if (decorations.any { it == LayerType.Text.Decoration.Bold }) {
+        FontWeight.Bold
+    } else {
+        null
+    },
+    fontStyle = if (decorations.any { it == LayerType.Text.Decoration.Italic }) {
+        FontStyle.Italic
+    } else {
+        FontStyle.Normal
+    },
+    textGeometricTransform = geometricTransform?.let {
+        ComposeTextGeometricTransform(
+            scaleX = it.scaleX,
+            skewX = it.skewX
+        )
+    },
+    textAlign = when (alignment) {
+        LayerType.Text.Alignment.Start -> TextAlign.Start
+        LayerType.Text.Alignment.Center -> TextAlign.Center
+        LayerType.Text.Alignment.End -> TextAlign.End
+    }
+)
+
 private data class TextLayerRenderData(
     val width: Float,
     val height: Float,
@@ -844,8 +876,9 @@ private data class TextLayerRenderData(
     val textLeft: Float,
     val textTop: Float,
     val shadowRenderData: TextShadowRenderData?,
-    val outlineLayout: StaticLayout?,
-    val fillLayout: StaticLayout
+    val outlineLayout: TextLayoutResult?,
+    val density: Density,
+    val fillLayout: TextLayoutResult
 )
 
 private data class TextLayerCacheKey(

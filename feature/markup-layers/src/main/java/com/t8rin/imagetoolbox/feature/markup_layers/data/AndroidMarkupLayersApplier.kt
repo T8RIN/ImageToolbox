@@ -62,11 +62,13 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
 
     override suspend fun applyToImage(
         image: Bitmap,
-        layers: List<MarkupLayer>
+        layers: List<MarkupLayer>,
+        fontScale: Float?
     ): Bitmap = withContext(defaultDispatcher) {
         renderer.render(
             backgroundImage = image,
-            layers = layers
+            layers = layers,
+            fontScale = fontScale
         )
     }
 

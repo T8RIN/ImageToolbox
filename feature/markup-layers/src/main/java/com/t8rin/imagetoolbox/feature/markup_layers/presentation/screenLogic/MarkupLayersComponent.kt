@@ -492,11 +492,12 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun saveBitmap(
-        oneTimeSaveLocationUri: String?
+        oneTimeSaveLocationUri: String?,
+        fontScale: Float?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
-            renderLayers()?.let { localBitmap ->
+            renderLayers(fontScale)?.let { localBitmap ->
                 parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
@@ -634,7 +635,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
-    private suspend fun renderLayers(): Bitmap? = withContext(defaultDispatcher) {
+    private suspend fun renderLayers(
+        fontScale: Float?
+    ): Bitmap? = withContext(defaultDispatcher) {
         deactivateAllLayers()
 
         runCatching {
@@ -649,7 +652,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                             layers.firstOrNull()?.state?.canvasSize?.height?.takeIf { it > 0 } ?: 1
                         ImageBitmap(w, h).asAndroidBitmap()
                     },
-                layers = flattenLayers(layers)
+                layers = flattenLayers(layers),
+                fontScale = fontScale
             )
         }.onFailure {
             it.makeLog()
@@ -692,10 +696,12 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         registerChangesCleared()
     }
 
-    fun shareBitmap() {
+    fun shareBitmap(
+        fontScale: Float?
+    ) {
         savingJob = trackProgress {
             _isSaving.value = true
-            renderLayers()?.let {
+            renderLayers(fontScale)?.let {
                 shareProvider.shareImage(
                     image = it,
                     imageInfo = ImageInfo(
@@ -716,10 +722,13 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         _isSaving.value = false
     }
 
-    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+    fun cacheCurrentImage(
+        fontScale: Float?,
+        onComplete: (Uri) -> Unit
+    ) {
         savingJob = trackProgress {
             _isSaving.value = true
-            renderLayers()?.let { image ->
+            renderLayers(fontScale)?.let { image ->
                 shareProvider.cacheImage(
                     image = image,
                     imageInfo = ImageInfo(
