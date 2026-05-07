@@ -18,15 +18,8 @@
 package com.t8rin.imagetoolbox.feature.format_conversion.presentation
 
 import android.net.Uri
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -185,22 +178,13 @@ fun FormatConversionContent(
                     showPickImageFromUrisSheet = true
                 }
             )
-            Spacer(Modifier.size(8.dp))
-            AnimatedVisibility(
-                visible = component.uris?.size != 1,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
-            ) {
-                Column {
-                    SaveExifWidget(
-                        imageFormat = component.imageInfo.imageFormat,
-                        checked = component.keepExif,
-                        onCheckedChange = component::setKeepExif
-                    )
-                    Spacer(Modifier.size(8.dp))
-                }
-            }
             Spacer(Modifier.height(8.dp))
+            SaveExifWidget(
+                imageFormat = component.imageInfo.imageFormat,
+                checked = component.keepExif,
+                onCheckedChange = component::setKeepExif
+            )
+            Spacer(Modifier.height(16.dp))
             ImageFormatSelector(
                 value = imageInfo.imageFormat,
                 onValueChange = component::setImageFormat,
