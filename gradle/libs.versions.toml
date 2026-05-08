@@ -78,7 +78,7 @@ flinger = "2.0.2"
 zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 
-onnx = "1.25.1"
+onnx = "1.26.0"
 opencv = "4.13.0"
 
 tiffdecoder = "1.0.5"
