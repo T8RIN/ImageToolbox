@@ -88,6 +88,10 @@
 -keep class  com.t8rin.imagetoolbox.feature.markup_layers.data.project.**
 -keep class  com.t8rin.imagetoolbox.feature.markup_layers.data.project.*
 
+# coil-resvg uses JNA/Uniffi generated names at runtime.
+-keep class com.hashsequence.coilresvg.** { *; }
+-keep class com.sun.jna.** { *; }
+
 -dontwarn javax.naming.NamingEnumeration
 -dontwarn javax.naming.NamingException
 -dontwarn javax.naming.directory.Attribute

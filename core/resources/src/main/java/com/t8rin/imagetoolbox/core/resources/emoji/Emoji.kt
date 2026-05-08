@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.resources.emoji
 
-import android.app.Application
 import android.content.Context
 import android.net.Uri
 import androidx.annotation.StringRes
@@ -39,71 +38,72 @@ import kotlinx.collections.immutable.toPersistentList
 object Emoji {
 
     @Volatile
-    private var _context: Application? = null
-    private val context: Context
-        get() = checkNotNull(_context) {
-            "Emoji.init(application) must be called before reading emoji assets."
-        }
+    private var _allIconsCategorized: ImmutableList<EmojiData>? = null
 
-    fun Application.initEmoji() {
-        _context = this
-        allIcons
-    }
+    @Volatile
+    private var _allIcons: ImmutableList<Uri>? = null
 
-    val allIcons: ImmutableList<Uri> by lazy {
-        allIconsCategorized
-            .flatMap(EmojiData::emojis)
-            .toPersistentList()
-    }
+    val allIcons: ImmutableList<Uri> get() = _allIcons ?: persistentListOf()
+    val allIconsCategorized: ImmutableList<EmojiData>
+        get() = _allIconsCategorized ?: persistentListOf()
 
-    val allIconsCategorized: ImmutableList<EmojiData> by lazy {
-        persistentListOf(
-            emojiData(
-                title = R.string.emotions,
-                icon = Icons.Outlined.EmojiEmotions,
-                category = "emotions"
-            ),
-            emojiData(
-                title = R.string.food_and_drink,
-                icon = Icons.Outlined.EmojiFoodBeverage,
-                category = "food"
-            ),
-            emojiData(
-                title = R.string.nature_and_animals,
-                icon = Icons.Outlined.EmojiNature,
-                category = "nature"
-            ),
-            emojiData(
-                title = R.string.objects,
-                icon = Icons.Outlined.EmojiObjects,
-                category = "objects"
-            ),
-            emojiData(
-                title = R.string.activities,
-                icon = Icons.Outlined.EmojiEvents,
-                category = "events"
-            ),
-            emojiData(
-                title = R.string.travels_and_places,
-                icon = Icons.Outlined.EmojiTransportation,
-                category = "transportation"
-            ),
-            emojiData(
-                title = R.string.symbols,
-                icon = Icons.Rounded.EmojiSymbols,
-                category = "symbols"
+    fun Context.initEmoji() {
+        synchronized(Emoji) {
+            if (!_allIcons.isNullOrEmpty() && !_allIconsCategorized.isNullOrEmpty()) return
+
+            val categories = persistentListOf(
+                emojiData(
+                    title = R.string.emotions,
+                    icon = Icons.Outlined.EmojiEmotions,
+                    category = "emotions"
+                ),
+                emojiData(
+                    title = R.string.food_and_drink,
+                    icon = Icons.Outlined.EmojiFoodBeverage,
+                    category = "food"
+                ),
+                emojiData(
+                    title = R.string.nature_and_animals,
+                    icon = Icons.Outlined.EmojiNature,
+                    category = "nature"
+                ),
+                emojiData(
+                    title = R.string.objects,
+                    icon = Icons.Outlined.EmojiObjects,
+                    category = "objects"
+                ),
+                emojiData(
+                    title = R.string.activities,
+                    icon = Icons.Outlined.EmojiEvents,
+                    category = "events"
+                ),
+                emojiData(
+                    title = R.string.travels_and_places,
+                    icon = Icons.Outlined.EmojiTransportation,
+                    category = "transportation"
+                ),
+                emojiData(
+                    title = R.string.symbols,
+                    icon = Icons.Rounded.EmojiSymbols,
+                    category = "symbols"
+                )
             )
-        )
+
+            _allIconsCategorized = categories
+            _allIcons = categories
+                .flatMap(EmojiData::emojis)
+                .toPersistentList()
+        }
     }
 
-    private fun emojiData(
+    private fun Context.emojiData(
         @StringRes title: Int,
         icon: ImageVector,
         category: String
     ) = EmojiData(
         title = title,
         icon = icon,
-        emojis = context.assets
+        emojis = assets
             .list("svg/$category")?.toList().orEmpty()
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
             .map { filename ->
