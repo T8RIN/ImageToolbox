@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.screenLogic
+package com.t8rin.imagetoolbox.presentation.app_logs.screenLogic
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -110,9 +110,6 @@ class AppLogsComponent @AssistedInject constructor(
     }
 
     fun lineKey(index: Int): String = lineAtOrNull(index)?.key ?: index.toString()
-
-    suspend fun readLine(line: LogLineReference): String =
-        withContext(ioDispatcher) { Logger.readLogLine(line) }
 
     private fun observeLogs() {
         componentScope.launch {

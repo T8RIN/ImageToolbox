@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.components
+package com.t8rin.imagetoolbox.presentation.app_logs.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -41,16 +41,19 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.utils.LogLineReference
-import com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.screenLogic.AppLogsComponent
+import com.t8rin.imagetoolbox.core.utils.Logger
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 internal fun LogLineItem(
     line: LogLineReference,
-    query: String,
-    component: AppLogsComponent
+    query: String
 ) {
     val text by produceState<String?>(initialValue = null, line) {
-        value = component.readLine(line)
+        value = withContext(Dispatchers.IO) {
+            Logger.readLogLine(line)
+        }
     }
 
     Surface(

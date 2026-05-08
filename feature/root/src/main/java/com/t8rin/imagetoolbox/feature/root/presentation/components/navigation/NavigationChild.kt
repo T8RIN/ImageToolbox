@@ -143,8 +143,6 @@ import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.Re
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.ScanQrCodeContent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.SettingsContent
-import com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.AppLogsContent
-import com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.screenLogic.AppLogsComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.SingleEditContent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
@@ -168,6 +166,8 @@ import com.t8rin.imagetoolbox.library_details.presentation.LibraryDetailsContent
 import com.t8rin.imagetoolbox.library_details.presentation.screenLogic.LibraryDetailsComponent
 import com.t8rin.imagetoolbox.noise_generation.presentation.NoiseGenerationContent
 import com.t8rin.imagetoolbox.noise_generation.presentation.screenLogic.NoiseGenerationComponent
+import com.t8rin.imagetoolbox.presentation.app_logs.AppLogsContent
+import com.t8rin.imagetoolbox.presentation.app_logs.screenLogic.AppLogsComponent
 
 
 internal sealed interface NavigationChild {

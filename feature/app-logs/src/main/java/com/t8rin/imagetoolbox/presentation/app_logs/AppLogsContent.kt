@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.settings.presentation.app_logs
+package com.t8rin.imagetoolbox.presentation.app_logs
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -64,8 +64,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.SearchBar
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.components.LogLineItem
-import com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.screenLogic.AppLogsComponent
+import com.t8rin.imagetoolbox.presentation.app_logs.components.LogLineItem
+import com.t8rin.imagetoolbox.presentation.app_logs.screenLogic.AppLogsComponent
 
 @Composable
 fun AppLogsContent(
@@ -242,8 +242,7 @@ fun AppLogsContent(
                             component.lineAtOrNull(index)?.let { line ->
                                 LogLineItem(
                                     line = line,
-                                    query = searchQuery,
-                                    component = component
+                                    query = searchQuery
                                 )
                             }
                         }

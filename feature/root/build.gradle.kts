@@ -75,4 +75,5 @@ dependencies {
     implementation(projects.feature.asciiArt)
     implementation(projects.feature.aiTools)
     implementation(projects.feature.colorLibrary)
+    implementation(projects.feature.appLogs)
 }
