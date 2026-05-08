@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
@@ -83,7 +84,7 @@ fun ImageToolboxTheme(
             easing = FancyTransitionEasing
         ),
         content = {
-            MaterialTheme(
+            MaterialExpressiveTheme(
                 motionScheme = CustomMotionScheme,
                 colorScheme = modifiedColorScheme(),
                 shapes = modifiedShapes(),

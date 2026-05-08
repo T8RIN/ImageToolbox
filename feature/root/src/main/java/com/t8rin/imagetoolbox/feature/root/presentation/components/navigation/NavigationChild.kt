@@ -143,6 +143,8 @@ import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.Re
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.ScanQrCodeContent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.SettingsContent
+import com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.AppLogsContent
+import com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.screenLogic.AppLogsComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.SingleEditContent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
@@ -362,6 +364,11 @@ internal sealed interface NavigationChild {
     class LibrariesInfo(private val component: LibrariesInfoComponent) : NavigationChild {
         @Composable
         override fun Content() = LibrariesInfoContent(component)
+    }
+
+    class AppLogs(private val component: AppLogsComponent) : NavigationChild {
+        @Composable
+        override fun Content() = AppLogsContent(component)
     }
 
     class MarkupLayers(private val component: MarkupLayersComponent) : NavigationChild {

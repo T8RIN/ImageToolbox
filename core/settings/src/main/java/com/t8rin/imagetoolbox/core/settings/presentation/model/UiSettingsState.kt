@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
+import com.t8rin.imagetoolbox.core.resources.emoji.Emoji.initEmoji
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
@@ -184,17 +185,19 @@ fun UiSettingsState.isFirstLaunch(
 fun SettingsState.toUiState(
     randomEmojiKey: Any? = null,
 ): UiSettingsState {
+    val context = LocalContext.current
+    context.initEmoji()
+
     val allEmojis = Emoji.allIcons
     val allIconShapes: ImmutableList<IconShape> = IconShape.entries
 
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val isNightMode = nightMode.isNightMode()
 
     val selectedEmojiIndex by remember(selectedEmoji, useRandomEmojis, randomEmojiKey) {
         derivedStateOf {
-            selectedEmoji?.takeIf { it != -1 }?.let {
+            selectedEmoji?.takeIf { it != -1 && allEmojis.isNotEmpty() }?.let {
                 if (useRandomEmojis) allEmojis.indices.random()
                 else it
             }

@@ -20,10 +20,10 @@
 package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.annotation.StringRes
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
@@ -72,6 +72,13 @@ sealed class Screen(
     @Serializable
     data object LibrariesInfo : Screen(
         id = -4,
+        title = 0,
+        subtitle = 0
+    )
+
+    @Serializable
+    data object AppLogs : Screen(
+        id = -6,
         title = 0,
         subtitle = 0
     )

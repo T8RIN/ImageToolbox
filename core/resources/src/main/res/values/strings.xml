@@ -2256,4 +2256,6 @@
     <string name="oom_description">Not enough memory to complete this action. Please try using a smaller image, closing other apps, or restarting the app.</string>
     <string name="skipped_images_warning">These images were not saved because the converted files would be larger than the originals. Check this list before deleting original images.</string>
     <string name="skipped_saving_count">Files skipped: %1$s</string>
+    <string name="app_logs">App Logs</string>
+    <string name="app_logs_sub">View logs of the app to spot the issues</string>
 </resources>

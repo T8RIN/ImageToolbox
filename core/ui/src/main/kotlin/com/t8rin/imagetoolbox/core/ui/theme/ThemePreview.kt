@@ -24,6 +24,7 @@ import android.graphics.Paint
 import android.graphics.RadialGradient
 import android.graphics.Shader
 import androidx.compose.animation.core.snap
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -90,7 +91,7 @@ fun ImageToolboxThemeForPreview(
                     LocalResourceManager provides FakeRes,
                     LocalScreenSize provides rememberScreenSize()
                 ) {
-                    MaterialTheme(
+                    MaterialExpressiveTheme(
                         motionScheme = CustomMotionScheme,
                         colorScheme = modifiedColorScheme(),
                         shapes = modifiedShapes(),

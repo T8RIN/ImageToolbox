@@ -498,6 +498,11 @@ sealed class Setting(
         subtitle = R.string.send_logs_sub
     )
 
+    data object AppLogs : Setting(
+        title = R.string.app_logs,
+        subtitle = R.string.app_logs_sub
+    )
+
     data object AddPresetToFilename : Setting(
         title = R.string.add_preset_to_filename,
         subtitle = R.string.add_preset_to_filename_sub

@@ -46,6 +46,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Typography
@@ -169,7 +170,7 @@ fun DynamicTheme(
             LocalDensity provides density
         ),
         content = {
-            MaterialTheme(
+            MaterialExpressiveTheme(
                 typography = typography,
                 colorScheme = rememberColorScheme(
                     amoledMode = amoledMode,

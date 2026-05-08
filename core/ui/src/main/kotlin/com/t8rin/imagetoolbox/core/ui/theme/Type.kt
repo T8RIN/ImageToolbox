@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.theme
 
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -167,7 +167,7 @@ fun ProvideTypography(
     fontRes: UiFontFamily,
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(
+    MaterialExpressiveTheme(
         typography = rememberTypography(fontRes),
         content = content
     )

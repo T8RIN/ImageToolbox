@@ -82,6 +82,7 @@ import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.Re
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AiTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ApngTools
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AppLogs
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AsciiArt
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AudioCoverExtractor
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Base64Tools
@@ -156,6 +157,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ZipConvertPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
+import com.t8rin.imagetoolbox.feature.settings.presentation.app_logs.screenLogic.AppLogsComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
@@ -208,6 +210,7 @@ internal class ChildProvider @Inject constructor(
     private val easterEggComponentFactory: EasterEggComponent.Factory,
     private val colorToolsComponentFactory: ColorToolsComponent.Factory,
     private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
+    private val appLogsComponentFactory: AppLogsComponent.Factory,
     private val mainComponentFactory: MainComponent.Factory,
     private val markupLayersComponentFactory: MarkupLayersComponent.Factory,
     private val base64ToolsComponentFactory: Base64ToolsComponent.Factory,
@@ -580,6 +583,13 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
+            )
+        )
+
+        Screen.AppLogs -> AppLogs(
+            appLogsComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
             )
         )
 

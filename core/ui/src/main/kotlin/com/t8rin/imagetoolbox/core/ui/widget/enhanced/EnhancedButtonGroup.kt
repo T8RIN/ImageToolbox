@@ -36,6 +36,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.ProvideTextStyle
@@ -303,7 +304,7 @@ fun EnhancedButtonGroup(
             )
 
             LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
-                MaterialTheme(
+                MaterialExpressiveTheme(
                     motionScheme = object : MotionScheme by MotionScheme.expressive() {
                         override fun <T> fastSpatialSpec(): FiniteAnimationSpec<T> = tween(400)
                     }

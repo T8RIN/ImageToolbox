@@ -20,8 +20,8 @@ package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.Icon
@@ -38,6 +38,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.CancelSmall
 
 @Composable
@@ -175,25 +176,36 @@ fun EnhancedCancellableCircularProgressIndicator(
     trackColor: Color = ProgressIndicatorDefaults.circularIndeterminateTrackColor,
     strokeCap: StrokeCap = StrokeCap.Round,
     cancelIconColor: Color = MaterialTheme.colorScheme.secondary.copy(0.7f),
-    onCancel: () -> Unit,
+    onCancel: (() -> Unit)?,
     gapSize: Dp = ProgressIndicatorDefaults.CircularIndicatorTrackGapSize,
     type: EnhancedCircularProgressIndicatorType = EnhancedCircularProgressIndicatorType.Wavy()
 ) {
     Box(
         modifier = modifier
-            .pointerInput(onCancel) {
-                detectTapGestures {
-                    onCancel()
+            .then(
+                if (onCancel != null) {
+                    Modifier.pointerInput(onCancel) {
+                        detectTapGestures {
+                            onCancel()
+                        }
+                    }
+                } else {
+                    Modifier
                 }
-            },
+            ),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = Icons.Outlined.CancelSmall,
-            contentDescription = null,
-            tint = cancelIconColor,
-            modifier = Modifier.size(18.dp)
-        )
+        if (onCancel != null) {
+            Icon(
+                imageVector = Icons.Outlined.CancelSmall,
+                contentDescription = null,
+                tint = cancelIconColor,
+                modifier = Modifier.size(18.dp)
+            )
+        } else {
+            Spacer(modifier = Modifier.size(18.dp))
+        }
+
         EnhancedAutoCircularProgressIndicator(
             progress = progress,
             modifier = Modifier.matchParentSize(),

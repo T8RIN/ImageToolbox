@@ -86,6 +86,23 @@ data object Logger {
 
     fun getLogsFile(): Uri = logWriter?.logsFile?.toUri() ?: throw LogsWriterNotInitialized()
 
+    fun readLogs(maxBytes: Int = LogsWriter.PREVIEW_SIZE): String =
+        logWriter?.readLogs(maxBytes).orEmpty()
+
+    fun readLogLineReferences(
+        startOffset: Long = 0L,
+        startLineNumber: Int = 0,
+        query: String = ""
+    ): LogLinesSnapshot = logWriter?.readLogLineReferences(
+        startOffset = startOffset,
+        startLineNumber = startLineNumber,
+        query = query
+    ) ?: LogLinesSnapshot()
+
+    fun readLogLine(line: LogLineReference): String = logWriter?.readLogLine(line).orEmpty()
+
+    fun logsFileLength(): Long = logWriter?.logsFile?.takeIf { it.exists() }?.length() ?: 0L
+
     sealed interface Level {
         data class Assert(
             val priority: Int

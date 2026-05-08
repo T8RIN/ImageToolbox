@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
@@ -94,6 +95,14 @@ internal fun SettingItem(
 
             Setting.Author -> {
                 AuthorSettingItem()
+            }
+
+            Setting.AppLogs -> {
+                AppLogsSettingItem(
+                    onClick = {
+                        component.onNavigate(Screen.AppLogs)
+                    }
+                )
             }
 
             Setting.AutoCacheClear -> {

@@ -90,6 +90,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Watermark
 import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AiTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AppLogs
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AsciiArt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AudioCoverExtractor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
@@ -187,6 +188,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is WebpTools -> "WEBP_Tools"
     is NoiseGeneration -> "Noise_Generation"
     is CollageMaker -> "Collage_Maker"
+    is AppLogs -> "App_Logs"
     is LibrariesInfo -> "Libraries_Info"
     is MarkupLayers -> "Markup_Layers"
     is Base64Tools -> "Base64_Tools"
@@ -230,6 +232,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is EasterEgg,
     is Main,
     is Settings,
+    is AppLogs,
     is LibrariesInfo,
     is MeshGradients,
     is LibraryDetails -> null
@@ -308,6 +311,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is EasterEgg,
     is Main,
     is Settings,
+    is AppLogs,
     is LibrariesInfo,
     is MeshGradients,
     is LibraryDetails -> null
