@@ -91,6 +91,10 @@
 # coil-resvg uses JNA/Uniffi generated names at runtime.
 -keep class com.hashsequence.coilresvg.** { *; }
 -keep class com.sun.jna.** { *; }
+-dontwarn java.awt.Component
+-dontwarn java.awt.GraphicsEnvironment
+-dontwarn java.awt.HeadlessException
+-dontwarn java.awt.Window
 
 -dontwarn javax.naming.NamingEnumeration
 -dontwarn javax.naming.NamingException
