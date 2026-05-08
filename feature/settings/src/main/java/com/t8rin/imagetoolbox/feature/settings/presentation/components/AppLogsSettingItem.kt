@@ -26,7 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.resources.HistoryToggleOff
+import com.t8rin.imagetoolbox.core.resources.Book2
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -46,7 +46,7 @@ fun AppLogsSettingItem(
         onClick = onClick,
         startIcon = {
             Icon(
-                imageVector = Icons.Outlined.HistoryToggleOff,
+                imageVector = Icons.Outlined.Book2,
                 contentDescription = null
             )
         },
