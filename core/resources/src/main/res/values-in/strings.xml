@@ -2233,4 +2233,6 @@
     <string name="parallel_workers">Pekerja Paralel</string>
     <string name="skipped_images_warning">Gambar-gambar ini tidak disimpan karena file yang dikonversi akan lebih besar dari aslinya. Periksa daftar ini sebelum menghapus gambar asli.</string>
     <string name="skipped_saving_count">File dilewati: %1$s</string>
+    <string name="app_logs">Log Aplikasi</string>
+    <string name="app_logs_sub">Lihat log aplikasi untuk menemukan masalahnya</string>
 </resources>

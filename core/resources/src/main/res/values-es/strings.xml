@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Trabajadores paralelos</string>
     <string name="skipped_images_warning">Estas imágenes no se guardaron porque los archivos convertidos serían más grandes que los originales. Consulte esta lista antes de eliminar imágenes originales.</string>
     <string name="skipped_saving_count">Archivos omitidos: %1$s</string>
+    <string name="app_logs">Registros de aplicaciones</string>
+    <string name="app_logs_sub">Ver registros de la aplicación para detectar los problemas</string>
 </resources>

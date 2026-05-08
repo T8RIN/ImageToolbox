@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Paralleelsed töötajad</string>
     <string name="skipped_images_warning">Neid pilte ei salvestatud, kuna teisendatud failid oleksid originaalidest suuremad. Kontrollige seda loendit enne originaalpiltide kustutamist.</string>
     <string name="skipped_saving_count">Vahele jäetud failid: %1$s</string>
+    <string name="app_logs">Rakenduste logid</string>
+    <string name="app_logs_sub">Probleemide tuvastamiseks vaadake rakenduse logisid</string>
 </resources>

@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">समानांतर कार्यकर्ता</string>
     <string name="skipped_images_warning">ये छवियाँ सहेजी नहीं गईं क्योंकि परिवर्तित फ़ाइलें मूल से बड़ी होंगी। मूल छवियाँ हटाने से पहले इस सूची की जाँच करें।</string>
     <string name="skipped_saving_count">फ़ाइलें छोड़ दी गईं: %1$s</string>
+    <string name="app_logs">ऐप लॉग</string>
+    <string name="app_logs_sub">समस्याओं का पता लगाने के लिए ऐप के लॉग देखें</string>
 </resources>

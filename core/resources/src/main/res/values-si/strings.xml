@@ -2235,4 +2235,6 @@
     <string name="parallel_workers">සමාන්තර කම්කරුවන්</string>
     <string name="skipped_images_warning">පරිවර්තනය කරන ලද ගොනු මුල් පිටපත්වලට වඩා විශාල වන නිසා මෙම පින්තූර සුරැකුණේ නැත. මුල් පින්තූර මකා දැමීමට පෙර මෙම ලැයිස්තුව පරීක්ෂා කරන්න.</string>
     <string name="skipped_saving_count">ගොනු මඟ හැරිණි: %1$s</string>
+    <string name="app_logs">යෙදුම් ලොග</string>
+    <string name="app_logs_sub">ගැටළු හඳුනා ගැනීමට යෙදුමේ ලොග් බලන්න</string>
 </resources>

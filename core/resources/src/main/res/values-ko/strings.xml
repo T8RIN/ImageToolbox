@@ -2233,4 +2233,6 @@
     <string name="parallel_workers">병렬 작업자</string>
     <string name="skipped_images_warning">변환된 파일이 원본보다 크기 때문에 이러한 이미지는 저장되지 않았습니다. 원본 이미지를 삭제하기 전에 이 목록을 확인하세요.</string>
     <string name="skipped_saving_count">건너뛴 파일: %1$s</string>
+    <string name="app_logs">앱 로그</string>
+    <string name="app_logs_sub">문제를 파악하려면 앱 로그를 확인하세요.</string>
 </resources>

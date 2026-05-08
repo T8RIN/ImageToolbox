@@ -2238,4 +2238,6 @@
     <string name="parallel_workers">العمال الموازيون</string>
     <string name="skipped_images_warning">لم يتم حفظ هذه الصور لأن الملفات المحولة ستكون أكبر من الملفات الأصلية. تحقق من هذه القائمة قبل حذف الصور الأصلية.</string>
     <string name="skipped_saving_count">الملفات التي تم تخطيها: %1$s</string>
+    <string name="app_logs">سجلات التطبيقات</string>
+    <string name="app_logs_sub">عرض سجلات التطبيق لاكتشاف المشكلات</string>
 </resources>

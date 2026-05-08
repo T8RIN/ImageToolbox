@@ -2233,4 +2233,6 @@
     <string name="parallel_workers">Công nhân song song</string>
     <string name="skipped_images_warning">Những hình ảnh này không được lưu vì tệp được chuyển đổi sẽ lớn hơn tệp gốc. Kiểm tra danh sách này trước khi xóa hình ảnh gốc.</string>
     <string name="skipped_saving_count">Tệp bị bỏ qua: %1$s</string>
+    <string name="app_logs">Nhật ký ứng dụng</string>
+    <string name="app_logs_sub">Xem nhật ký của ứng dụng để phát hiện sự cố</string>
 </resources>

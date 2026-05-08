@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">సమాంతర కార్మికులు</string>
     <string name="skipped_images_warning">మార్చబడిన ఫైల్‌లు అసలైన వాటి కంటే పెద్దవిగా ఉన్నందున ఈ చిత్రాలు సేవ్ చేయబడలేదు. అసలు చిత్రాలను తొలగించే ముందు ఈ జాబితాను తనిఖీ చేయండి.</string>
     <string name="skipped_saving_count">ఫైల్‌లు దాటవేయబడ్డాయి: %1$s</string>
+    <string name="app_logs">యాప్ లాగ్‌లు</string>
+    <string name="app_logs_sub">సమస్యలను గుర్తించడానికి యాప్ లాగ్‌లను వీక్షించండి</string>
 </resources>

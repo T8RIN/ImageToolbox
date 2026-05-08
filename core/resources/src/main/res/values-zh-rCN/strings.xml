@@ -2233,4 +2233,6 @@
     <string name="parallel_workers">并行工作者</string>
     <string name="skipped_images_warning">这些图像未保存，因为转换后的文件比原始文件大。在删除原始图像之前检查此列表。</string>
     <string name="skipped_saving_count">跳过的文件：%1$s</string>
+    <string name="app_logs">应用程序日志</string>
+    <string name="app_logs_sub">查看应用程序日志以发现问题</string>
 </resources>

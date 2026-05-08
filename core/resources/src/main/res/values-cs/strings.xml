@@ -2236,4 +2236,6 @@
     <string name="parallel_workers">Paralelní pracovníci</string>
     <string name="skipped_images_warning">Tyto obrázky nebyly uloženy, protože převedené soubory by byly větší než originály. Před odstraněním originálních snímků zkontrolujte tento seznam.</string>
     <string name="skipped_saving_count">Vynechané soubory: %1$s</string>
+    <string name="app_logs">Protokoly aplikací</string>
+    <string name="app_logs_sub">Prohlédněte si protokoly aplikace, abyste zjistili problémy</string>
 </resources>

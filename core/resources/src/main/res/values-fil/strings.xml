@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Parallel Workers</string>
     <string name="skipped_images_warning">Ang mga larawang ito ay hindi na-save dahil ang mga na-convert na file ay mas malaki kaysa sa orihinal. Suriin ang listahang ito bago tanggalin ang mga orihinal na larawan.</string>
     <string name="skipped_saving_count">Nilaktawan ang mga file: %1$s</string>
+    <string name="app_logs">Mga Log ng App</string>
+    <string name="app_logs_sub">Tingnan ang mga log ng app upang makita ang mga isyu</string>
 </resources>

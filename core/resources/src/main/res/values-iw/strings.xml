@@ -2236,4 +2236,6 @@
     <string name="parallel_workers">עובדים מקבילים</string>
     <string name="skipped_images_warning">תמונות אלו לא נשמרו מכיוון שהקבצים שהומרו יהיו גדולים יותר מהקבצים המקוריים. בדוק רשימה זו לפני מחיקת תמונות מקוריות.</string>
     <string name="skipped_saving_count">קבצים שדילגו עליהם: %1$s</string>
+    <string name="app_logs">יומני אפליקציות</string>
+    <string name="app_logs_sub">צפה ביומנים של האפליקציה כדי לזהות את הבעיות</string>
 </resources>

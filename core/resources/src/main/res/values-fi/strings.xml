@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Rinnakkaistyöntekijät</string>
     <string name="skipped_images_warning">Näitä kuvia ei tallennettu, koska muunnetut tiedostot olisivat suurempia kuin alkuperäiset. Tarkista tämä luettelo ennen alkuperäisten kuvien poistamista.</string>
     <string name="skipped_saving_count">Ohitetut tiedostot: %1$s</string>
+    <string name="app_logs">Sovelluslokit</string>
+    <string name="app_logs_sub">Tarkastele sovelluksen lokeja havaitaksesi ongelmat</string>
 </resources>

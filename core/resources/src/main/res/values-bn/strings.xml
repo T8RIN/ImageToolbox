@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">সমান্তরাল শ্রমিক</string>
     <string name="skipped_images_warning">এই ছবিগুলি সংরক্ষণ করা হয়নি কারণ রূপান্তরিত ফাইলগুলি আসলগুলির চেয়ে বড় হবে৷ মূল ছবি মুছে ফেলার আগে এই তালিকা চেক করুন.</string>
     <string name="skipped_saving_count">ফাইলগুলি বাদ দেওয়া হয়েছে: %1$s</string>
+    <string name="app_logs">অ্যাপ লগ</string>
+    <string name="app_logs_sub">সমস্যাগুলি চিহ্নিত করতে অ্যাপের লগগুলি দেখুন৷</string>
 </resources>

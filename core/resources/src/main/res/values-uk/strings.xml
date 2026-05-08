@@ -2236,4 +2236,6 @@
     <string name="parallel_workers">Паралельні працівники</string>
     <string name="skipped_images_warning">Ці зображення не було збережено, оскільки конвертовані файли будуть більшими за оригінали. Перевірте цей список перед видаленням оригінальних зображень.</string>
     <string name="skipped_saving_count">Пропущено файлів: %1$s</string>
+    <string name="app_logs">Журнали програми</string>
+    <string name="app_logs_sub">Перегляньте журнали програми, щоб виявити проблеми</string>
 </resources>

@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Treballadors paral·lels</string>
     <string name="skipped_images_warning">Aquestes imatges no es van desar perquè els fitxers convertits serien més grans que els originals. Comproveu aquesta llista abans d\'esborrar les imatges originals.</string>
     <string name="skipped_saving_count">Fitxers saltats: %1$s</string>
+    <string name="app_logs">Registres d\'aplicacions</string>
+    <string name="app_logs_sub">Consulteu els registres de l\'aplicació per detectar els problemes</string>
 </resources>

@@ -2235,4 +2235,6 @@
     <string name="parallel_workers">Parallellarbetare</string>
     <string name="skipped_images_warning">Dessa bilder sparades inte eftersom de konverterade filerna skulle vara större än originalen. Kontrollera den här listan innan du tar bort originalbilder.</string>
     <string name="skipped_saving_count">Överhoppade filer: %1$s</string>
+    <string name="app_logs">Apploggar</string>
+    <string name="app_logs_sub">Visa loggar för appen för att upptäcka problemen</string>
 </resources>

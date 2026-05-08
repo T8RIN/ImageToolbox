@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">پاراللېل ئىشچىلار</string>
     <string name="skipped_images_warning">ئۆزگەرتىلگەن ھۆججەتلەر ئەسلىدىن چوڭراق بولغاچقا بۇ رەسىملەر ساقلانمىدى. ئەسلى رەسىملەرنى ئۆچۈرۈشتىن بۇرۇن بۇ تىزىملىكنى تەكشۈرۈڭ.</string>
     <string name="skipped_saving_count">ھۆججەتلەر ئاتلاپ كەتتى: %1$s</string>
+    <string name="app_logs">ئەپ خاتىرىسى</string>
+    <string name="app_logs_sub">مەسىلىلەرنى بايقاش ئۈچۈن ئەپنىڭ خاتىرىسىنى كۆرۈڭ</string>
 </resources>

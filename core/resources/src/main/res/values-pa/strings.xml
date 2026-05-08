@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">ਸਮਾਨਾਂਤਰ ਵਰਕਰ</string>
     <string name="skipped_images_warning">ਇਹ ਚਿੱਤਰ ਸੁਰੱਖਿਅਤ ਨਹੀਂ ਕੀਤੇ ਗਏ ਸਨ ਕਿਉਂਕਿ ਪਰਿਵਰਤਿਤ ਫ਼ਾਈਲਾਂ ਅਸਲ ਨਾਲੋਂ ਵੱਡੀਆਂ ਹੋਣਗੀਆਂ। ਅਸਲ ਚਿੱਤਰਾਂ ਨੂੰ ਮਿਟਾਉਣ ਤੋਂ ਪਹਿਲਾਂ ਇਸ ਸੂਚੀ ਦੀ ਜਾਂਚ ਕਰੋ।</string>
     <string name="skipped_saving_count">ਫਾਈਲਾਂ ਛੱਡੀਆਂ ਗਈਆਂ: %1$s</string>
+    <string name="app_logs">ਐਪ ਲੌਗਸ</string>
+    <string name="app_logs_sub">ਸਮੱਸਿਆਵਾਂ ਦਾ ਪਤਾ ਲਗਾਉਣ ਲਈ ਐਪ ਦੇ ਲੌਗ ਦੇਖੋ</string>
 </resources>

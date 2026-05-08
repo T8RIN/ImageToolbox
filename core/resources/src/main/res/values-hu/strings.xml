@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Párhuzamos munkások</string>
     <string name="skipped_images_warning">Ezeket a képeket nem mentettük, mert a konvertált fájlok nagyobbak lennének, mint az eredetiek. Az eredeti képek törlése előtt ellenőrizze ezt a listát.</string>
     <string name="skipped_saving_count">Kihagyott fájlok: %1$s</string>
+    <string name="app_logs">Alkalmazásnaplók</string>
+    <string name="app_logs_sub">Tekintse meg az alkalmazás naplóit a problémák észleléséhez</string>
 </resources>

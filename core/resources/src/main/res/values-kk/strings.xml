@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Параллель жұмысшылар</string>
     <string name="skipped_images_warning">Бұл кескіндер сақталмады, себебі түрлендірілген файлдар түпнұсқалардан үлкенірек болады. Түпнұсқа суреттерді жоймас бұрын осы тізімді тексеріңіз.</string>
     <string name="skipped_saving_count">Өткізілген файлдар: %1$s</string>
+    <string name="app_logs">Қолданба журналдары</string>
+    <string name="app_logs_sub">Мәселелерді анықтау үшін қолданбаның журналдарын қараңыз</string>
 </resources>

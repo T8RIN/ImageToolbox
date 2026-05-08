@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Parallelarbejdere</string>
     <string name="skipped_images_warning">Disse billeder blev ikke gemt, fordi de konverterede filer ville være større end originalerne. Tjek denne liste, før du sletter originalbilleder.</string>
     <string name="skipped_saving_count">Filer sprunget over: %1$s</string>
+    <string name="app_logs">App logs</string>
+    <string name="app_logs_sub">Se logfiler for appen for at se problemerne</string>
 </resources>

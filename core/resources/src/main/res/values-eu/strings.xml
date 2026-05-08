@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Langile Paraleloak</string>
     <string name="skipped_images_warning">Irudi hauek ez ziren gorde bihurtutako fitxategiak jatorrizkoak baino handiagoak izango zirelako. Egiaztatu zerrenda hau jatorrizko irudiak ezabatu aurretik.</string>
     <string name="skipped_saving_count">Saltatu diren fitxategiak: %1$s</string>
+    <string name="app_logs">Aplikazioen erregistroak</string>
+    <string name="app_logs_sub">Ikusi aplikazioaren erregistroak arazoak antzemateko</string>
 </resources>

@@ -2233,4 +2233,6 @@
     <string name="parallel_workers">パラレルワーカー</string>
     <string name="skipped_images_warning">変換されたファイルは元のファイルよりも大きくなるため、これらの画像は保存されませんでした。元の画像を削除する前にこのリストを確認してください。</string>
     <string name="skipped_saving_count">スキップされたファイル: %1$s</string>
+    <string name="app_logs">アプリのログ</string>
+    <string name="app_logs_sub">アプリのログを表示して問題を特定する</string>
 </resources>

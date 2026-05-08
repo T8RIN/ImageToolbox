@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">இணையான தொழிலாளர்கள்</string>
     <string name="skipped_images_warning">மாற்றப்பட்ட கோப்புகள் அசல் படங்களை விட பெரியதாக இருக்கும் என்பதால், இந்தப் படங்கள் சேமிக்கப்படவில்லை. அசல் படங்களை நீக்கும் முன் இந்தப் பட்டியலைச் சரிபார்க்கவும்.</string>
     <string name="skipped_saving_count">கோப்புகள் தவிர்க்கப்பட்டன: %1$s</string>
+    <string name="app_logs">பயன்பாட்டு பதிவுகள்</string>
+    <string name="app_logs_sub">சிக்கல்களைக் கண்டறிய, பயன்பாட்டின் பதிவுகளைப் பார்க்கவும்</string>
 </resources>

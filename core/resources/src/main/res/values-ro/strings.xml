@@ -2235,4 +2235,6 @@
     <string name="parallel_workers">Muncitori paraleli</string>
     <string name="skipped_images_warning">Aceste imagini nu au fost salvate deoarece fișierele convertite ar fi mai mari decât cele originale. Verificați această listă înainte de a șterge imaginile originale.</string>
     <string name="skipped_saving_count">Fișiere ignorate: %1$s</string>
+    <string name="app_logs">Jurnalele aplicației</string>
+    <string name="app_logs_sub">Vizualizați jurnalele aplicației pentru a identifica problemele</string>
 </resources>

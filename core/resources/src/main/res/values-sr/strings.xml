@@ -2235,4 +2235,6 @@
     <string name="parallel_workers">Параллел Воркерс</string>
     <string name="skipped_images_warning">Ове слике нису сачуване јер би конвертоване датотеке биле веће од оригинала. Проверите ову листу пре него што избришете оригиналне слике.</string>
     <string name="skipped_saving_count">Фајлови су прескочени: __ПХ_0__</string>
+    <string name="app_logs">Апп Логс</string>
+    <string name="app_logs_sub">Погледајте евиденцију апликације да бисте уочили проблеме</string>
 </resources>

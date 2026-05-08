@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">کارگران موازی</string>
     <string name="skipped_images_warning">این تصاویر ذخیره نشدند زیرا فایل های تبدیل شده بزرگتر از نسخه اصلی خواهند بود. قبل از حذف تصاویر اصلی، این لیست را بررسی کنید.</string>
     <string name="skipped_saving_count">فایل‌های حذف شده: %1$s</string>
+    <string name="app_logs">گزارش های برنامه</string>
+    <string name="app_logs_sub">گزارش های برنامه را مشاهده کنید تا مشکلات را پیدا کنید</string>
 </resources>

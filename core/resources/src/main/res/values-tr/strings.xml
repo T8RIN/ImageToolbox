@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Paralel İşçiler</string>
     <string name="skipped_images_warning">Dönüştürülen dosyalar orijinallerden daha büyük olacağından bu görüntüler kaydedilmedi. Orijinal görüntüleri silmeden önce bu listeyi kontrol edin.</string>
     <string name="skipped_saving_count">Atlanan dosyalar: %1$s</string>
+    <string name="app_logs">Uygulama Günlükleri</string>
+    <string name="app_logs_sub">Sorunları tespit etmek için uygulamanın günlüklerini görüntüleyin</string>
 </resources>

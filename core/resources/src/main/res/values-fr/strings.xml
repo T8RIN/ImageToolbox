@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Travailleurs parallèles</string>
     <string name="skipped_images_warning">Ces images n\'ont pas été enregistrées car les fichiers convertis seraient plus volumineux que les originaux. Vérifiez cette liste avant de supprimer les images originales.</string>
     <string name="skipped_saving_count">Fichiers ignorés : %1$s</string>
+    <string name="app_logs">Journaux d\'applications</string>
+    <string name="app_logs_sub">Afficher les journaux de l\'application pour repérer les problèmes</string>
 </resources>

@@ -2237,4 +2237,6 @@
     <string name="parallel_workers">Lygiagretūs darbuotojai</string>
     <string name="skipped_images_warning">Šie vaizdai nebuvo išsaugoti, nes konvertuoti failai būtų didesni nei originalai. Prieš ištrindami originalius vaizdus, ​​patikrinkite šį sąrašą.</string>
     <string name="skipped_saving_count">Praleisti failai: %1$s</string>
+    <string name="app_logs">Programų žurnalai</string>
+    <string name="app_logs_sub">Peržiūrėkite programos žurnalus, kad pastebėtumėte problemas</string>
 </resources>

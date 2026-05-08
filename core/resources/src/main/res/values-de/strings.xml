@@ -2234,4 +2234,6 @@
     <string name="parallel_workers">Parallelarbeiter</string>
     <string name="skipped_images_warning">Diese Bilder wurden nicht gespeichert, da die konvertierten Dateien größer als die Originale sein würden. Überprüfen Sie diese Liste, bevor Sie Originalbilder löschen.</string>
     <string name="skipped_saving_count">Übersprungene Dateien: %1$s</string>
+    <string name="app_logs">App-Protokolle</string>
+    <string name="app_logs_sub">Sehen Sie sich die Protokolle der App an, um die Probleme zu erkennen</string>
 </resources>
