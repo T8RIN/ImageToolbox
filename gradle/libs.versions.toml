@@ -87,7 +87,7 @@ paletteKtx = "1.0.0"
 kotlinxSerializationJson = "1.11.0"
 lifecycle = "2.11.0-beta01"
 
-firebaseBom = "34.12.0"
+firebaseBom = "34.13.0"
 firebaseCrashlyticsGradle = "3.0.7"
 junit = "4.13.2"
 coilResvg = "1.0.0"
