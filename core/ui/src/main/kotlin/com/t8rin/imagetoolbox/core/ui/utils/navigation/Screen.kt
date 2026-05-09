@@ -1042,6 +1042,7 @@ sealed class Screen(
     )
 
     companion object : ScreenConstants by ScreenConstants
+
 }
 
 data class ScreenGroup(
