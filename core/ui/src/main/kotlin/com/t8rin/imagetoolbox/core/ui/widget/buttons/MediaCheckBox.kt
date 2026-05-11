@@ -21,6 +21,8 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -78,7 +80,7 @@ fun MediaCheckBox(
             AnimatedContent(
                 targetState = image,
                 transitionSpec = {
-                    fadeIn() togetherWith fadeOut()
+                    fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut()
                 }
             ) { icon ->
                 Icon(
@@ -92,7 +94,11 @@ fun MediaCheckBox(
         AnimatedContent(
             targetState = Triple(isChecked, image, selectionIndex),
             transitionSpec = {
-                fadeIn() togetherWith fadeOut()
+                if (initialState.third >= 0 && targetState.third >= 0) {
+                    fadeIn() togetherWith fadeOut()
+                } else {
+                    fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut()
+                }
             }
         ) { (isChecked, image, selectionIndex) ->
             if (selectionIndex >= 0) {
