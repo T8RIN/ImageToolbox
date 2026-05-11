@@ -45,7 +45,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -68,6 +67,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Close
@@ -246,7 +246,7 @@ fun ProcessImagesPreferenceSheet(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         flingBehavior = enhancedFlingBehavior()
                     ) {
-                        if (extraDataType == null || extraDataType == ExtraDataType.Gif) {
+                        if (extraDataType == null || extraDataType == ExtraDataType.Gif || extraDataType == ExtraDataType.Pdf) {
                             item(
                                 span = StaggeredGridItemSpan.FullLine
                             ) {
