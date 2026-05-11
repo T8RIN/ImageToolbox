@@ -1,0 +1,25 @@
+<!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="960"
+    android:viewportHeight="960">
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M183.5,776.5Q160,753 160,720t23.5,-56.5Q207,640 240,640t56.5,23.5Q320,687 320,720t-23.5,56.5Q273,800 240,800t-56.5,-23.5ZM183.5,536.5Q160,513 160,480t23.5,-56.5Q207,400 240,400t56.5,23.5Q320,447 320,480t-23.5,56.5Q273,560 240,560t-56.5,-23.5ZM183.5,296.5Q160,273 160,240t23.5,-56.5Q207,160 240,160t56.5,23.5Q320,207 320,240t-23.5,56.5Q273,320 240,320t-56.5,-23.5ZM423.5,296.5Q400,273 400,240t23.5,-56.5Q447,160 480,160t56.5,23.5Q560,207 560,240t-23.5,56.5Q513,320 480,320t-56.5,-23.5ZM663.5,296.5Q640,273 640,240t23.5,-56.5Q687,160 720,160t56.5,23.5Q800,207 800,240t-23.5,56.5Q753,320 720,320t-56.5,-23.5ZM423.5,536.5Q400,513 400,480t23.5,-56.5Q447,400 480,400t56.5,23.5Q560,447 560,480t-23.5,56.5Q513,560 480,560t-56.5,-23.5ZM520,760v-66q0,-8 3,-15.5t9,-13.5l209,-208q9,-9 20,-13t22,-4q12,0 23,4.5t20,13.5l37,37q8,9 12.5,20t4.5,22q0,11 -4,22.5T863,580L655,788q-6,6 -13.5,9t-15.5,3h-66q-17,0 -28.5,-11.5T520,760ZM820,537 L783,500 820,537ZM580,740h38l121,-122 -18,-19 -19,-18 -122,121v38ZM721,599 L702,581 739,618 721,599Z" />
+</vector>

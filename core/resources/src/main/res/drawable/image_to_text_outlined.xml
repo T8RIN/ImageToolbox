@@ -14,14 +14,12 @@
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:viewportWidth="960"
+    android:viewportHeight="960">
     <path
-        android:fillColor="#000000"
-        android:pathData="M19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9M15.5,19C16.88,19 18,17.88 18,16.5C18,15.12 16.88,14 15.5,14C14.12,14 13,15.12 13,16.5C13,17.88 14.12,19 15.5,19M21,4V6H3V4H21M3,16V14H9V16H3M3,11V9H21V11H18.97C17.96,10.37 16.77,10 15.5,10C14.23,10 13.04,10.37 12.03,11H3Z"
-        android:strokeColor="#00000000" />
+        android:fillColor="#ffffff"
+        android:pathData="M120,760q-17,0 -28.5,-11.5T80,720q0,-17 11.5,-28.5T120,680h320q17,0 28.5,11.5T480,720q0,17 -11.5,28.5T440,760L120,760ZM120,560q-17,0 -28.5,-11.5T80,520q0,-17 11.5,-28.5T120,480h120q17,0 28.5,11.5T280,520q0,17 -11.5,28.5T240,560L120,560ZM120,360q-17,0 -28.5,-11.5T80,320q0,-17 11.5,-28.5T120,280h120q17,0 28.5,11.5T280,320q0,17 -11.5,28.5T240,360L120,360ZM560,640q-83,0 -141.5,-58.5T360,440q0,-83 58.5,-141.5T560,240q83,0 141.5,58.5T760,440q0,29 -8.5,57.5T726,550l126,126q11,11 11,28t-11,28q-11,11 -28,11t-28,-11L670,606q-24,17 -52.5,25.5T560,640ZM560,560q50,0 85,-35t35,-85q0,-50 -35,-85t-85,-35q-50,0 -85,35t-35,85q0,50 35,85t85,35Z" />
 </vector>
