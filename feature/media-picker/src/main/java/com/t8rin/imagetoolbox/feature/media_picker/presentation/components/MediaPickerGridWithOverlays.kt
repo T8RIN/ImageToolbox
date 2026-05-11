@@ -49,7 +49,6 @@ import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -71,6 +70,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Close
@@ -184,7 +184,10 @@ internal fun MediaPickerGridWithOverlays(
                                 EnhancedBadge(
                                     containerColor = MaterialTheme.colorScheme.primary
                                 ) {
-                                    Text(selectedMedia.size.toString())
+                                    Text(
+                                        text = selectedMedia.size.toString(),
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 }
                             }
                         }
