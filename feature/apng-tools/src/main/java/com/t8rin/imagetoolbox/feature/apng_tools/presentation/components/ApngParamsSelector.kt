@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectLarge
 import com.t8rin.imagetoolbox.core.resources.icons.RepeatOne
@@ -146,7 +146,7 @@ fun ApngParamsSelector(
             value = value.delay,
             icon = Icons.Outlined.Timelapse,
             title = stringResource(id = R.string.frame_delay),
-            valueRange = 1f..4000f,
+            valueRange = 1f..10_000f,
             internalStateTransformation = { it.roundToInt() },
             onValueChange = {
                 onValueChange(

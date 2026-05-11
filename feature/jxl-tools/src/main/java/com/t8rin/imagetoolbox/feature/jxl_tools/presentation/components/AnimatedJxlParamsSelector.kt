@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.EnergySavingsLeaf
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectLarge
@@ -139,7 +139,7 @@ fun AnimatedJxlParamsSelector(
             value = value.delay,
             icon = Icons.Outlined.Timelapse,
             title = stringResource(id = R.string.frame_delay),
-            valueRange = 1f..4000f,
+            valueRange = 1f..10_000f,
             internalStateTransformation = { it.roundToInt() },
             onValueChange = {
                 onValueChange(
