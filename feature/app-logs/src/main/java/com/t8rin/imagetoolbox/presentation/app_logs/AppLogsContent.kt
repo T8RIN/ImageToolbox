@@ -21,20 +21,33 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.plus
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -47,7 +60,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,15 +73,24 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Search
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
-import com.t8rin.imagetoolbox.core.ui.widget.other.SearchBar
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
+import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.presentation.app_logs.components.LogLineItem
 import com.t8rin.imagetoolbox.presentation.app_logs.screenLogic.AppLogsComponent
+import my.nanihadesuka.compose.InternalLazyColumnScrollbar
+import my.nanihadesuka.compose.ScrollbarSelectionMode
+import my.nanihadesuka.compose.ScrollbarSettings
 
 @Composable
 fun AppLogsContent(
@@ -88,38 +113,10 @@ fun AppLogsContent(
         topBar = {
             EnhancedTopAppBar(
                 title = {
-                    AnimatedContent(
-                        targetState = showSearch
-                    ) { searching ->
-                        if (!searching) {
-                            Text(
-                                text = stringResource(R.string.app_logs),
-                                modifier = Modifier.marquee()
-                            )
-                        } else {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(Modifier.weight(1f, false)) {
-                                    SearchBar(
-                                        searchString = searchQuery,
-                                        onValueChange = component::updateSearchQuery
-                                    )
-                                }
-                                AnimatedVisibility(component.isSearchLoading) {
-                                    EnhancedCancellableCircularProgressIndicator(
-                                        progress = { 0f },
-                                        onCancel = null,
-                                        modifier = Modifier
-                                            .padding(end = 8.dp)
-                                            .size(24.dp),
-                                        trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                                        strokeWidth = 3.dp,
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    Text(
+                        text = stringResource(R.string.app_logs),
+                        modifier = Modifier.marquee()
+                    )
                 },
                 navigationIcon = {
                     EnhancedIconButton(
@@ -139,29 +136,109 @@ fun AppLogsContent(
                     }
                 },
                 actions = {
-                    AnimatedContent(
-                        targetState = showSearch
-                    ) { searching ->
-                        EnhancedIconButton(
-                            onClick = {
-                                if (searching) {
-                                    component.updateSearchQuery("")
-                                    showSearch = false
-                                } else {
-                                    showSearch = true
-                                }
-                            }
+                    TopAppBarEmoji()
+                }
+            )
+        },
+        bottomBar = {
+            val insets = WindowInsets.navigationBars.union(
+                WindowInsets.displayCutout.only(
+                    WindowInsetsSides.Horizontal
+                )
+            )
+
+            AnimatedContent(
+                targetState = showSearch,
+                modifier = Modifier.fillMaxWidth()
+            ) { isSearch ->
+                if (isSearch) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawHorizontalStroke(true)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceContainer
+                            )
+                            .pointerInput(Unit) { detectTapGestures { } }
+                            .windowInsetsPadding(insets)
+                            .padding(16.dp)
+                    ) {
+                        val focus = LocalFocusManager.current
+
+                        ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                            RoundedTextField(
+                                maxLines = 1,
+                                hint = {
+                                    Text(stringResource(id = R.string.search_here))
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Search,
+                                    autoCorrectEnabled = null
+                                ),
+                                value = searchQuery,
+                                onValueChange = component::updateSearchQuery,
+                                endIcon = {
+                                    AnimatedVisibility(component.isSearchLoading) {
+                                        EnhancedCancellableCircularProgressIndicator(
+                                            progress = { 0f },
+                                            onCancel = null,
+                                            modifier = Modifier
+                                                .padding(end = 8.dp)
+                                                .size(24.dp),
+                                            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                            strokeWidth = 3.dp,
+                                        )
+                                    }
+                                    AnimatedVisibility(!component.isSearchLoading) {
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                if (component.searchQuery.isNotBlank()) {
+                                                    component.updateSearchQuery("")
+                                                } else {
+                                                    showSearch = false
+                                                    focus.clearFocus()
+                                                }
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Close,
+                                                contentDescription = stringResource(R.string.close),
+                                                tint = MaterialTheme.colorScheme.onSurface.copy(
+                                                    if (it) 1f else 0.5f
+                                                )
+                                            )
+                                        }
+                                    }
+                                },
+                                shape = ShapeDefaults.circle
+                            )
+                        }
+                    }
+                } else {
+                    val settingsState = LocalSettingsState.current
+
+                    Box(
+                        modifier = Modifier
+                            .windowInsetsPadding(insets)
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                    ) {
+                        EnhancedFloatingActionButton(
+                            onClick = { showSearch = true },
+                            modifier = Modifier.align(
+                                settingsState.fabAlignment.takeIf { it != Alignment.BottomCenter }
+                                    ?: Alignment.BottomEnd
+                            )
                         ) {
                             Icon(
-                                imageVector = if (searching) Icons.Rounded.Close else Icons.Outlined.Search,
-                                contentDescription = stringResource(
-                                    if (searching) R.string.close else R.string.search_here
-                                )
+                                imageVector = Icons.Outlined.Search,
+                                contentDescription = null
                             )
                         }
                     }
                 }
-            )
+            }
         }
     ) { contentPadding ->
         val state = rememberPullToRefreshState()
@@ -230,8 +307,11 @@ fun AppLogsContent(
                         Spacer(Modifier.weight(1f))
                     }
                 } else {
+                    val listState = rememberLazyListState()
+
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
+                        state = listState,
                         contentPadding = contentPadding + PaddingValues(12.dp),
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
@@ -247,6 +327,27 @@ fun AppLogsContent(
                             }
                         }
                     }
+
+                    InternalLazyColumnScrollbar(
+                        state = listState,
+                        settings = ScrollbarSettings(
+                            thumbUnselectedColor = MaterialTheme.colorScheme.secondary,
+                            thumbSelectedColor = MaterialTheme.colorScheme.primary,
+                            scrollbarPadding = 0.dp,
+                            thumbThickness = 10.dp,
+                            selectionMode = ScrollbarSelectionMode.Full,
+                            thumbShape = AutoCircleShape(),
+                            hideDelayMillis = 1500
+                        ),
+                        indicatorContent = { _, _ ->
+                            Spacer(
+                                Modifier
+                                    .width(64.dp)
+                                    .height(28.dp)
+                            )
+                        },
+                        modifier = Modifier.padding(contentPadding)
+                    )
                 }
             }
         }

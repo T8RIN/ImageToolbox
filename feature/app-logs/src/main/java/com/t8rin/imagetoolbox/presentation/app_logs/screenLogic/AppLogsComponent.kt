@@ -45,7 +45,7 @@ class AppLogsComponent @AssistedInject constructor(
     private val _searchQuery = mutableStateOf("")
     val searchQuery by _searchQuery
 
-    private val _isRefreshing = mutableStateOf(false)
+    private val _isRefreshing = mutableStateOf(true)
     val isRefreshing by _isRefreshing
 
     private val _isSearchLoading = mutableStateOf(false)
