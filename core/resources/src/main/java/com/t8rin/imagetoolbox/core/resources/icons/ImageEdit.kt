@@ -32,7 +32,7 @@ val Icons.Outlined.ImageEdit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(16.221f, 12.74f)
             lineToRelative(-1.153f, -1.541f)
             curveToRelative(-0.092f, -0.123f, -0.215f, -0.184f, -0.369f, -0.184f)
@@ -48,7 +48,7 @@ val Icons.Outlined.ImageEdit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(2.586f, -2.586f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(22.454f, 13.867f)
             curveToRelative(-0.075f, -0.183f, -0.179f, -0.349f, -0.312f, -0.5f)
             lineToRelative(-0.924f, -0.924f)
@@ -81,7 +81,7 @@ val Icons.Outlined.ImageEdit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(0.001f, 0.001f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19.912f, 4.088f)
             curveToRelative(-0.391f, -0.391f, -0.861f, -0.586f, -1.41f, -0.587f)
             verticalLineToRelative(-0f)
@@ -117,7 +117,7 @@ val Icons.TwoTone.ImageEdit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportHeight = 24f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF1D1D1B)),
+            fill = SolidColor(Color.Black),
             fillAlpha = 0.3f,
             strokeAlpha = 0.3f
         ) {
@@ -138,7 +138,7 @@ val Icons.TwoTone.ImageEdit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             curveToRelative(-0f, 0f, -0.001f, 0f, -0.001f, 0f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(16.221f, 12.74f)
             lineToRelative(-1.153f, -1.541f)
             curveToRelative(-0.092f, -0.123f, -0.215f, -0.184f, -0.369f, -0.184f)
@@ -154,7 +154,7 @@ val Icons.TwoTone.ImageEdit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(2.586f, -2.586f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(22.454f, 13.867f)
             curveToRelative(-0.075f, -0.183f, -0.179f, -0.349f, -0.312f, -0.5f)
             lineToRelative(-0.924f, -0.924f)
@@ -187,7 +187,7 @@ val Icons.TwoTone.ImageEdit: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(0.001f, 0.001f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+        path(fill = SolidColor(Color.Black)) {
             moveTo(19.912f, 4.088f)
             curveToRelative(-0.391f, -0.391f, -0.861f, -0.586f, -1.41f, -0.587f)
             verticalLineToRelative(-0f)
