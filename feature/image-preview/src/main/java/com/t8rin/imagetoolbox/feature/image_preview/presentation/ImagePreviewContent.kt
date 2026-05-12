@@ -319,7 +319,8 @@ fun ImagePreviewContent(
                                     initialShowImagePreviewDialog = initialShowImagePreviewDialog,
                                     onNavigate = component.onNavigate,
                                     imageFrames = component.imageFrames,
-                                    onFrameSelectionChange = component::updateImageFrames
+                                    onFrameSelectionChange = component::updateImageFrames,
+                                    isSelectable = true
                                 )
                             }
                         }

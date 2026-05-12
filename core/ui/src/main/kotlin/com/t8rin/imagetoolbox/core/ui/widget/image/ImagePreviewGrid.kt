@@ -28,10 +28,10 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -92,6 +93,14 @@ fun ImagePreviewGrid(
     var isSelectionModePrevious by rememberSaveable {
         mutableStateOf(false)
     }
+    LaunchedEffect(imageFrames, isSelectable, data?.size) {
+        val hasSelectedFrames = imageFrames
+            ?.getFramePositions(data.orEmpty().size)
+            ?.isNotEmpty() == true
+        isSelectionMode = isSelectable && hasSelectedFrames
+        isSelectionModePrevious = isSelectionMode
+    }
+
     ImagesPreviewWithSelection(
         imageUris = data.orEmpty(),
         imageFrames = imageFrames ?: ImageFrames.ManualSelection(emptyList()),
