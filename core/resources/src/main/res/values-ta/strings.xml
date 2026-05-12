@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">கோப்புகள் தவிர்க்கப்பட்டன: %1$s</string>
     <string name="app_logs">பயன்பாட்டு பதிவுகள்</string>
     <string name="app_logs_sub">சிக்கல்களைக் கண்டறிய, பயன்பாட்டின் பதிவுகளைப் பார்க்கவும்</string>
+    <string name="favorite_tools_in_grouped_mode">குழுவாக்கப்பட்ட கருவிகளில் பிடித்தவை</string>
+    <string name="favorite_tools_in_grouped_mode_sub">கருவிகள் வகையின்படி குழுவாக்கப்படும் போது பிடித்தவைகளை கடைசி தாவலாக சேர்க்கிறது</string>
 </resources>

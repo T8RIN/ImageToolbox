@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Saltatu diren fitxategiak: %1$s</string>
     <string name="app_logs">Aplikazioen erregistroak</string>
     <string name="app_logs_sub">Ikusi aplikazioaren erregistroak arazoak antzemateko</string>
+    <string name="favorite_tools_in_grouped_mode">Taldekako tresnetan gogokoak</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Gogokoak azken fitxa gisa gehitzen ditu tresnak motaren arabera taldekatzen direnean</string>
 </resources>

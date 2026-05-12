@@ -2237,4 +2237,6 @@
     <string name="skipped_saving_count">फायली वगळल्या: %1$s</string>
     <string name="app_logs">ॲप लॉग</string>
     <string name="app_logs_sub">समस्या शोधण्यासाठी ॲपचे लॉग पहा</string>
+    <string name="favorite_tools_in_grouped_mode">गटबद्ध साधनांमध्ये आवडते</string>
+    <string name="favorite_tools_in_grouped_mode_sub">जेव्हा साधने प्रकारानुसार गटबद्ध केली जातात तेव्हा शेवटचा टॅब म्हणून आवडी जोडते</string>
 </resources>

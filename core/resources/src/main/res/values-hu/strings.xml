@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Kihagyott fájlok: %1$s</string>
     <string name="app_logs">Alkalmazásnaplók</string>
     <string name="app_logs_sub">Tekintse meg az alkalmazás naplóit a problémák észleléséhez</string>
+    <string name="favorite_tools_in_grouped_mode">Kedvencek csoportosított eszközökben</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Utolsó lapként hozzáadja a kedvenceket, ha az eszközök típus szerint vannak csoportosítva</string>
 </resources>

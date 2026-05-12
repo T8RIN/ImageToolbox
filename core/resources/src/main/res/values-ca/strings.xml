@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Fitxers saltats: %1$s</string>
     <string name="app_logs">Registres d\'aplicacions</string>
     <string name="app_logs_sub">Consulteu els registres de l\'aplicació per detectar els problemes</string>
+    <string name="favorite_tools_in_grouped_mode">Preferits en eines agrupades</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Afegeix els preferits com a darrera pestanya quan les eines s\'agrupen per tipus</string>
 </resources>

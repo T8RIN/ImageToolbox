@@ -2238,4 +2238,6 @@
     <string name="skipped_saving_count">Preskočené súbory: %1$s</string>
     <string name="app_logs">Denníky aplikácií</string>
     <string name="app_logs_sub">Pozrite si denníky aplikácie, aby ste zistili problémy</string>
+    <string name="favorite_tools_in_grouped_mode">Obľúbené v zoskupených nástrojoch</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Pridá obľúbené položky ako poslednú kartu, keď sú nástroje zoskupené podľa typu</string>
 </resources>

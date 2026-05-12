@@ -2235,4 +2235,6 @@
     <string name="skipped_saving_count">건너뛴 파일: %1$s</string>
     <string name="app_logs">앱 로그</string>
     <string name="app_logs_sub">문제를 파악하려면 앱 로그를 확인하세요.</string>
+    <string name="favorite_tools_in_grouped_mode">그룹화된 도구의 즐겨찾기</string>
+    <string name="favorite_tools_in_grouped_mode_sub">도구가 유형별로 그룹화되면 즐겨찾기를 마지막 탭으로 추가합니다.</string>
 </resources>

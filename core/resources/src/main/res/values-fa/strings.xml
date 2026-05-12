@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">فایل‌های حذف شده: %1$s</string>
     <string name="app_logs">گزارش های برنامه</string>
     <string name="app_logs_sub">گزارش های برنامه را مشاهده کنید تا مشکلات را پیدا کنید</string>
+    <string name="favorite_tools_in_grouped_mode">موارد دلخواه در ابزارهای گروه بندی شده</string>
+    <string name="favorite_tools_in_grouped_mode_sub">هنگامی که ابزارها بر اساس نوع گروه بندی می شوند، موارد دلخواه را به عنوان آخرین برگه اضافه می کند</string>
 </resources>

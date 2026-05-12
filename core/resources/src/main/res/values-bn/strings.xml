@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">ফাইলগুলি বাদ দেওয়া হয়েছে: %1$s</string>
     <string name="app_logs">অ্যাপ লগ</string>
     <string name="app_logs_sub">সমস্যাগুলি চিহ্নিত করতে অ্যাপের লগগুলি দেখুন৷</string>
+    <string name="favorite_tools_in_grouped_mode">গ্রুপ করা টুলে ফেভারিট</string>
+    <string name="favorite_tools_in_grouped_mode_sub">যখন টুল টাইপ দ্বারা গোষ্ঠীবদ্ধ হয় তখন শেষ ট্যাব হিসাবে পছন্দগুলি যোগ করে৷</string>
 </resources>

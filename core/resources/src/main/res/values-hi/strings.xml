@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">फ़ाइलें छोड़ दी गईं: %1$s</string>
     <string name="app_logs">ऐप लॉग</string>
     <string name="app_logs_sub">समस्याओं का पता लगाने के लिए ऐप के लॉग देखें</string>
+    <string name="favorite_tools_in_grouped_mode">समूहीकृत टूल में पसंदीदा</string>
+    <string name="favorite_tools_in_grouped_mode_sub">जब टूल को प्रकार के आधार पर समूहीकृत किया जाता है तो पसंदीदा को अंतिम टैब के रूप में जोड़ता है</string>
 </resources>

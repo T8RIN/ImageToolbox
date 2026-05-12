@@ -2239,4 +2239,6 @@
     <string name="skipped_saving_count">Praleisti failai: %1$s</string>
     <string name="app_logs">Programų žurnalai</string>
     <string name="app_logs_sub">Peržiūrėkite programos žurnalus, kad pastebėtumėte problemas</string>
+    <string name="favorite_tools_in_grouped_mode">Mėgstamiausios sugrupuotose priemonėse</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Prideda mėgstamiausius kaip paskutinį skirtuką, kai įrankiai sugrupuojami pagal tipą</string>
 </resources>

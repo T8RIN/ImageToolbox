@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Filer sprunget over: %1$s</string>
     <string name="app_logs">App logs</string>
     <string name="app_logs_sub">Se logfiler for appen for at se problemerne</string>
+    <string name="favorite_tools_in_grouped_mode">Favoritter i grupperede værktøjer</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Tilføjer favoritter som den sidste fane, når værktøjer er grupperet efter type</string>
 </resources>

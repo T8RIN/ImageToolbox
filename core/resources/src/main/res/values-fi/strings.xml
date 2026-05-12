@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Ohitetut tiedostot: %1$s</string>
     <string name="app_logs">Sovelluslokit</string>
     <string name="app_logs_sub">Tarkastele sovelluksen lokeja havaitaksesi ongelmat</string>
+    <string name="favorite_tools_in_grouped_mode">Suosikit ryhmitellyissä työkaluissa</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Lisää suosikit viimeiseksi välilehdeksi, kun työkalut on ryhmitelty tyypin mukaan</string>
 </resources>

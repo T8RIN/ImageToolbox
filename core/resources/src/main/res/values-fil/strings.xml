@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Nilaktawan ang mga file: %1$s</string>
     <string name="app_logs">Mga Log ng App</string>
     <string name="app_logs_sub">Tingnan ang mga log ng app upang makita ang mga isyu</string>
+    <string name="favorite_tools_in_grouped_mode">Mga paborito sa mga nakagrupong tool</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Nagdaragdag ng mga paborito bilang huling tab kapag ang mga tool ay pinagsama ayon sa uri</string>
 </resources>

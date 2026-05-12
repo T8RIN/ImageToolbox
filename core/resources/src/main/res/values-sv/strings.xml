@@ -2237,4 +2237,6 @@
     <string name="skipped_saving_count">Överhoppade filer: %1$s</string>
     <string name="app_logs">Apploggar</string>
     <string name="app_logs_sub">Visa loggar för appen för att upptäcka problemen</string>
+    <string name="favorite_tools_in_grouped_mode">Favoriter i grupperade verktyg</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Lägger till favoriter som sista flik när verktyg är grupperade efter typ</string>
 </resources>

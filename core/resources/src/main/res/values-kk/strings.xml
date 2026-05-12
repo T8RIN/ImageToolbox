@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Өткізілген файлдар: %1$s</string>
     <string name="app_logs">Қолданба журналдары</string>
     <string name="app_logs_sub">Мәселелерді анықтау үшін қолданбаның журналдарын қараңыз</string>
+    <string name="favorite_tools_in_grouped_mode">Топтастырылған құралдардағы таңдаулылар</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Құралдар түрі бойынша топтастырылған кезде таңдаулыларды соңғы қойынды ретінде қосады</string>
 </resources>

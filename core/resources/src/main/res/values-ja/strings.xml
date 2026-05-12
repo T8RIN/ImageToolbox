@@ -2235,4 +2235,6 @@
     <string name="skipped_saving_count">スキップされたファイル: %1$s</string>
     <string name="app_logs">アプリのログ</string>
     <string name="app_logs_sub">アプリのログを表示して問題を特定する</string>
+    <string name="favorite_tools_in_grouped_mode">グループ化されたツールのお気に入り</string>
+    <string name="favorite_tools_in_grouped_mode_sub">ツールがタイプ別にグループ化されている場合、お気に入りを最後のタブとして追加します</string>
 </resources>

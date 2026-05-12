@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Fichiers ignorés : %1$s</string>
     <string name="app_logs">Journaux d\'applications</string>
     <string name="app_logs_sub">Afficher les journaux de l\'application pour repérer les problèmes</string>
+    <string name="favorite_tools_in_grouped_mode">Favoris dans les outils groupés</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Ajoute des favoris comme dernier onglet lorsque les outils sont regroupés par type</string>
 </resources>

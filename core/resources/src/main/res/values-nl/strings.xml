@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">Bestanden overgeslagen: %1$s</string>
     <string name="app_logs">App-logboeken</string>
     <string name="app_logs_sub">Bekijk logboeken van de app om de problemen op te sporen</string>
+    <string name="favorite_tools_in_grouped_mode">Favorieten in gegroepeerde tools</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Voegt favorieten toe als laatste tabblad wanneer tools op type zijn gegroepeerd</string>
 </resources>

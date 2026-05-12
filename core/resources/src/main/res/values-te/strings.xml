@@ -2236,4 +2236,6 @@
     <string name="skipped_saving_count">ఫైల్‌లు దాటవేయబడ్డాయి: %1$s</string>
     <string name="app_logs">యాప్ లాగ్‌లు</string>
     <string name="app_logs_sub">సమస్యలను గుర్తించడానికి యాప్ లాగ్‌లను వీక్షించండి</string>
+    <string name="favorite_tools_in_grouped_mode">సమూహ సాధనాల్లో ఇష్టమైనవి</string>
+    <string name="favorite_tools_in_grouped_mode_sub">సాధనాలు రకం ద్వారా సమూహం చేయబడినప్పుడు ఇష్టమైన వాటిని చివరి ట్యాబ్‌గా జోడిస్తుంది</string>
 </resources>
