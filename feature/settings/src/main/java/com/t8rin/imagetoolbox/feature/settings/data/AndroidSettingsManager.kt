@@ -152,6 +152,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_EMOJI_INDEX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_FONT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SETTINGS_GROUP_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPES_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SKIP_IMAGE_PICKING
@@ -323,6 +324,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleGroupOptionsByTypes() = toggle(
         key = GROUP_OPTIONS_BY_TYPE,
         defaultValue = default.groupOptionsByTypes
+    )
+
+    override suspend fun toggleShowFavoriteToolsInGroupedMode() = toggle(
+        key = SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE,
+        defaultValue = default.showFavoriteToolsInGroupedMode
     )
 
     override suspend fun toggleRandomizeFilename() = toggleFilenameBehavior(

@@ -59,6 +59,8 @@ internal fun Preferences.toSettingsState(
     emojisCount = this[EMOJI_COUNT] ?: default.emojisCount,
     clearCacheOnLaunch = this[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch,
     groupOptionsByTypes = this[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes,
+    showFavoriteToolsInGroupedMode = this[SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE]
+        ?: default.showFavoriteToolsInGroupedMode,
     addSequenceNumber = this[ADD_SEQ_NUM_TO_FILENAME] ?: default.addSequenceNumber,
     saveFolderUri = this[SAVE_FOLDER_URI],
     presets = Preset.createListFromInts(this[PRESETS]) ?: default.presets,

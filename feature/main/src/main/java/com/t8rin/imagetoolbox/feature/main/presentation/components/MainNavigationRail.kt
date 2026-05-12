@@ -51,6 +51,9 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -62,6 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 @Composable
 internal fun MainNavigationRail(
     selectedIndex: Int,
+    showFavorite: Boolean = false,
     onValueChange: (Int) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -127,6 +131,39 @@ internal fun MainNavigationRail(
                         },
                         label = {
                             Text(stringResource(group.title))
+                        }
+                    )
+                }
+                if (showFavorite) {
+                    val favoriteIndex = Screen.typedEntries.size
+                    val selected = favoriteIndex == selectedIndex
+                    val haptics = LocalHapticFeedback.current
+                    EnhancedNavigationRailItem(
+                        modifier = Modifier.width(100.dp),
+                        selected = selected,
+                        onClick = {
+                            onValueChange(favoriteIndex)
+                            haptics.longPress()
+                        },
+                        icon = {
+                            AnimatedContent(
+                                targetState = selected,
+                                transitionSpec = {
+                                    fadeIn() togetherWith fadeOut()
+                                }
+                            ) { selected ->
+                                Icon(
+                                    imageVector = if (selected) {
+                                        Icons.Rounded.Bookmark
+                                    } else {
+                                        Icons.Outlined.Bookmark
+                                    },
+                                    contentDescription = stringResource(R.string.favorite)
+                                )
+                            }
+                        },
+                        label = {
+                            Text(stringResource(R.string.favorite))
                         }
                     )
                 }

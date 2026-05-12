@@ -90,6 +90,8 @@ internal fun LauncherScreenSelector(
     onToggleFavorite: (Screen) -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
+    val showFavoriteControls =
+        !settingsState.groupOptionsByTypes || settingsState.showFavoriteToolsInGroupedMode
 
     LazyVerticalGrid(
         columns = GridCells.Adaptive(80.dp),
@@ -146,7 +148,7 @@ internal fun LauncherScreenSelector(
                     BadgedBox(
                         badge = {
                             BoxAnimatedVisibility(
-                                visible = !settingsState.groupOptionsByTypes,
+                                visible = showFavoriteControls,
                                 modifier = Modifier
                                     .size(34.dp)
                                     .offset(x = (-8).dp, y = 8.dp),

@@ -28,6 +28,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedNavigationBarItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -37,6 +40,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 @Composable
 internal fun MainNavigationBar(
     selectedIndex: Int,
+    showFavorite: Boolean = false,
     onValueChange: (Int) -> Unit
 ) {
     NavigationBar(
@@ -68,6 +72,42 @@ internal fun MainNavigationBar(
                 label = {
                     Text(
                         text = stringResource(group.title),
+                        modifier = Modifier.marquee()
+                    )
+                }
+            )
+        }
+        if (showFavorite) {
+            val favoriteIndex = Screen.typedEntries.size
+            val selected = favoriteIndex == selectedIndex
+            val haptics = LocalHapticFeedback.current
+            EnhancedNavigationBarItem(
+                modifier = Modifier.weight(1f),
+                selected = selected,
+                onClick = {
+                    onValueChange(favoriteIndex)
+                    haptics.longPress()
+                },
+                icon = {
+                    AnimatedContent(
+                        targetState = selected,
+                        transitionSpec = {
+                            fadeIn() togetherWith fadeOut()
+                        }
+                    ) { selected ->
+                        Icon(
+                            imageVector = if (selected) {
+                                Icons.Rounded.Bookmark
+                            } else {
+                                Icons.Outlined.Bookmark
+                            },
+                            contentDescription = stringResource(R.string.favorite)
+                        )
+                    }
+                },
+                label = {
+                    Text(
+                        text = stringResource(R.string.favorite),
                         modifier = Modifier.marquee()
                     )
                 }

@@ -80,6 +80,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleGroupOptionsByTypes()
 
+    suspend fun toggleShowFavoriteToolsInGroupedMode()
+
     suspend fun toggleRandomizeFilename()
 
     suspend fun createBackupFile(): ByteArray

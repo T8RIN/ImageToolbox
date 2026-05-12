@@ -76,6 +76,8 @@ internal fun MainContentImpl(
     val settingsState = LocalSettingsState.current
 
     var selectedNavigationItem by rememberSaveable { mutableIntStateOf(0) }
+    val showFavoriteTabInGroupedMode =
+        settingsState.groupOptionsByTypes && settingsState.showFavoriteToolsInGroupedMode
     val canSearchScreens = settingsState.screensSearchEnabled
     var showScreenSearch by rememberSaveable(canSearchScreens) { mutableStateOf(false) }
     var screenSearchKeyword by rememberSaveable(canSearchScreens) { mutableStateOf("") }
@@ -84,6 +86,22 @@ internal fun MainContentImpl(
         selectedNavigationItem = selectedNavigationItem,
         showScreenSearch = showScreenSearch
     )
+
+    LaunchedEffect(
+        settingsState.groupOptionsByTypes,
+        showFavoriteTabInGroupedMode,
+        selectedNavigationItem
+    ) {
+        val lastNavigationIndex = when {
+            showFavoriteTabInGroupedMode -> Screen.typedEntries.size
+            settingsState.groupOptionsByTypes -> Screen.typedEntries.lastIndex
+            else -> 1
+        }
+
+        if (selectedNavigationItem > lastNavigationIndex) {
+            selectedNavigationItem = lastNavigationIndex
+        }
+    }
 
     LocalLayoutDirection.ProvidesValue(layoutDirection) {
         val snowfallMode = settingsState.snowfallMode
@@ -160,12 +178,17 @@ internal fun MainContentImpl(
                     exit = fadeOut() + shrinkVertically()
                 ) {
                     AnimatedContent(
-                        targetState = settingsState.groupOptionsByTypes to (showScreenSearch && canSearchScreens),
+                        targetState = Triple(
+                            settingsState.groupOptionsByTypes,
+                            showFavoriteTabInGroupedMode,
+                            showScreenSearch && canSearchScreens
+                        ),
                         transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { (groupOptionsByTypes, searching) ->
+                    ) { (groupOptionsByTypes, showFavorite, searching) ->
                         if (groupOptionsByTypes && !searching) {
                             MainNavigationBar(
                                 selectedIndex = selectedNavigationItem,
+                                showFavorite = showFavorite,
                                 onValueChange = { selectedNavigationItem = it }
                             )
                         } else if (!searching) {
@@ -205,20 +228,26 @@ internal fun MainContentImpl(
                     enter = fadeIn() + expandHorizontally(),
                     exit = fadeOut() + shrinkHorizontally()
                 ) {
-                    if (settingsState.groupOptionsByTypes) {
-                        MainNavigationRail(
-                            selectedIndex = selectedNavigationItem,
-                            onValueChange = {
-                                selectedNavigationItem = it
-                            }
-                        )
-                    } else {
-                        MainNavigationRailForFavorites(
-                            selectedIndex = selectedNavigationItem,
-                            onValueChange = {
-                                selectedNavigationItem = it
-                            }
-                        )
+                    AnimatedContent(
+                        targetState = settingsState.groupOptionsByTypes to showFavoriteTabInGroupedMode,
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }
+                    ) { (groupOptionsByTypes, showFavorite) ->
+                        if (groupOptionsByTypes) {
+                            MainNavigationRail(
+                                selectedIndex = selectedNavigationItem,
+                                showFavorite = showFavorite,
+                                onValueChange = {
+                                    selectedNavigationItem = it
+                                }
+                            )
+                        } else {
+                            MainNavigationRailForFavorites(
+                                selectedIndex = selectedNavigationItem,
+                                onValueChange = {
+                                    selectedNavigationItem = it
+                                }
+                            )
+                        }
                     }
                 }
 

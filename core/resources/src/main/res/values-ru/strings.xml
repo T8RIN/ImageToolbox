@@ -1385,6 +1385,8 @@
     <string name="tools_arrangement">Расположение инструментов</string>
     <string name="group_tools_by_type">Группировать инструменты по типу</string>
     <string name="group_tools_by_type_sub">Группирует инструменты на главном экране на основе их типа вместо пользовательского расположения</string>
+    <string name="favorite_tools_in_grouped_mode">Избранное при группировке</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Добавляет избранное последней вкладкой, когда инструменты сгруппированы по типу</string>
     <string name="default_values">Значения по умолчанию</string>
     <string name="system_bars_visibility">Видимость системных панелей</string>
     <string name="show_system_bars_by_swipe">Показывать системные панели по свайпу</string>

@@ -157,7 +157,8 @@ sealed class SettingsGroup(
             Setting.ScreenOrder,
             Setting.ScreenSearch,
             Setting.EnableLauncherMode,
-            Setting.GroupOptions
+            Setting.GroupOptions,
+            Setting.FavoriteToolsInGroupedMode
         ),
         initialState = false
     )

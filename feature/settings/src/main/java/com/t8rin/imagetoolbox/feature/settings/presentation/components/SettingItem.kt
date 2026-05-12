@@ -254,6 +254,12 @@ internal fun SettingItem(
                 GroupOptionsSettingItem(onClick = component::toggleGroupOptionsByType)
             }
 
+            Setting.FavoriteToolsInGroupedMode -> {
+                FavoriteToolsInGroupedModeSettingItem(
+                    onClick = component::toggleFavoriteToolsInGroupedMode
+                )
+            }
+
             Setting.HelpTranslate -> {
                 HelpTranslateSettingItem()
             }

@@ -115,6 +115,8 @@ internal fun RowScope.ScreenPreferenceSelection(
     val isSearching =
         showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens
     val isScreenSelectionLauncherMode = settingsState.isScreenSelectionLauncherMode
+    val showFavoriteControls =
+        !settingsState.groupOptionsByTypes || settingsState.showFavoriteToolsInGroupedMode
 
     AnimatedContent(
         modifier = Modifier
@@ -246,7 +248,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                                 verticalAlignment = Alignment.CenterVertically,
                                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                                             ) {
-                                                if (!settingsState.groupOptionsByTypes) {
+                                                if (showFavoriteControls) {
                                                     EnhancedIconButton(
                                                         onClick = {
                                                             onToggleFavorite(screen)
@@ -428,7 +430,9 @@ internal fun RowScope.ScreenPreferenceSelection(
                     Spacer(Modifier.height(16.dp))
                     EnhancedButton(
                         onClick = {
-                            onNavigationBarItemChange(1)
+                            onNavigationBarItemChange(
+                                if (settingsState.groupOptionsByTypes) 0 else 1
+                            )
                         }
                     ) {
                         Text(stringResource(R.string.add_favorites))

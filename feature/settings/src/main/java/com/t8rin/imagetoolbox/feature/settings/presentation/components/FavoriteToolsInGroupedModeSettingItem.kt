@@ -25,25 +25,27 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.BatchPrediction
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun GroupOptionsSettingItem(
+fun FavoriteToolsInGroupedModeSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.center,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        startIcon = Icons.Outlined.BatchPrediction,
-        title = stringResource(R.string.group_tools_by_type),
-        subtitle = stringResource(R.string.group_tools_by_type_sub),
-        checked = settingsState.groupOptionsByTypes,
+        enabled = settingsState.groupOptionsByTypes,
+        startIcon = Icons.Outlined.Bookmark,
+        title = stringResource(R.string.favorite_tools_in_grouped_mode),
+        subtitle = stringResource(R.string.favorite_tools_in_grouped_mode_sub),
+        checked = settingsState.showFavoriteToolsInGroupedMode,
         onClick = {
             onClick()
         }

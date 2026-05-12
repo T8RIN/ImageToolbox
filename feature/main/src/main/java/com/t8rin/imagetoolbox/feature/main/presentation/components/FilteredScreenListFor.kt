@@ -47,6 +47,7 @@ internal fun filteredScreenListFor(
 
     return remember(
         settingsState.groupOptionsByTypes,
+        settingsState.showFavoriteToolsInGroupedMode,
         settingsState.favoriteScreenList,
         screenSearchKeyword,
         screenList,
@@ -56,7 +57,16 @@ internal fun filteredScreenListFor(
         derivedStateOf {
             when {
                 settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch) -> {
-                    Screen.typedEntries[selectedNavigationItem].entries
+                    if (
+                        settingsState.showFavoriteToolsInGroupedMode &&
+                        selectedNavigationItem == Screen.typedEntries.size
+                    ) {
+                        screenList.filter {
+                            it.id in settingsState.favoriteScreenList
+                        }
+                    } else {
+                        Screen.typedEntries.getOrNull(selectedNavigationItem)?.entries.orEmpty()
+                    }
                 }
 
                 !settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch) -> {
