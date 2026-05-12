@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import dagger.assisted.AssistedInject
 
 class MainComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    @Assisted private val onTryGetUpdate: (Boolean, () -> Unit) -> Unit,
+    @Assisted private val onTryGetUpdate: (Boolean) -> Unit,
     @Assisted private val onGetClipList: (List<Uri>) -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     @Assisted val isUpdateAvailable: Value<Boolean>,
@@ -50,10 +50,7 @@ class MainComponent @AssistedInject internal constructor(
         initialSearchQuery = ""
     )
 
-    fun tryGetUpdate(
-        isNewRequest: Boolean = false,
-        onNoUpdates: () -> Unit = {}
-    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
+    fun tryGetUpdate(isNewRequest: Boolean = false) = onTryGetUpdate(isNewRequest)
 
     fun toggleFavoriteScreen(screen: Screen) {
         componentScope.launch {
@@ -69,7 +66,7 @@ class MainComponent @AssistedInject internal constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
-            onTryGetUpdate: (Boolean, () -> Unit) -> Unit,
+            onTryGetUpdate: (Boolean) -> Unit,
             onGetClipList: (List<Uri>) -> Unit,
             onNavigate: (Screen) -> Unit,
             isUpdateAvailable: Value<Boolean>,

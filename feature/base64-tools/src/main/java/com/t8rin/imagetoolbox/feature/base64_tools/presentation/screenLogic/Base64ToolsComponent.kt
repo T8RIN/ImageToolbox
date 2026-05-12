@@ -37,10 +37,14 @@ import com.t8rin.imagetoolbox.core.domain.utils.isBase64
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.domain.utils.trimToBase64
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.base64_tools.domain.Base64Converter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -241,16 +245,16 @@ class Base64ToolsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun setBase64FromUri(
-        uri: Uri,
-        onFailure: () -> Unit
-    ) {
+    fun setBase64FromUri(uri: Uri) {
         componentScope.launch {
             val text = fileController.readBytes(uri.toString()).decodeToString().trimToBase64()
             if (text.isBase64()) {
                 setBase64(text)
             } else {
-                onFailure()
+                AppToastHost.showToast(
+                    message = getString(R.string.not_a_valid_base_64),
+                    icon = Icons.Rounded.Base64
+                )
             }
         }
     }

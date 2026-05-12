@@ -64,18 +64,15 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
-import com.t8rin.imagetoolbox.core.resources.icons.DownloadOff
 import com.t8rin.imagetoolbox.core.resources.icons.MenuOpen
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
-import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.main.presentation.components.MainContentImpl
 import com.t8rin.imagetoolbox.feature.main.presentation.components.MainDrawerContent
 import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponent
@@ -160,13 +157,7 @@ fun MainContent(
                 onGetClipList = component::parseClipList,
                 onTryGetUpdate = {
                     component.tryGetUpdate(
-                        isNewRequest = true,
-                        onNoUpdates = {
-                            AppToastHost.showToast(
-                                icon = Icons.Rounded.DownloadOff,
-                                message = getString(R.string.no_updates)
-                            )
-                        }
+                        isNewRequest = true
                     )
                 },
                 isUpdateAvailable = isUpdateAvailable,

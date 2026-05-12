@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
@@ -47,7 +48,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
+import com.t8rin.imagetoolbox.core.resources.icons.QrCodeScanner
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -68,6 +72,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     private val favoriteInteractor: FilterParamsInteractor,
     private val imageGetter: ImageGetter<Bitmap>,
     private val remoteResourcesStore: RemoteResourcesStore,
+    private val resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -290,30 +295,50 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         templateFilter: TemplateFilter
     ): String = favoriteInteractor.convertTemplateFilterToString(templateFilter)
 
-    fun addTemplateFilterFromString(
-        string: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onFailure: suspend () -> Unit
-    ) {
+    fun addTemplateFilterFromString(string: String) {
         componentScope.launch {
             favoriteInteractor.addTemplateFilterFromString(
                 string = string,
-                onSuccess = onSuccess,
-                onFailure = onFailure
+                onSuccess = { filterName, filtersCount ->
+                    AppToastHost.showToast(
+                        message = resourceManager.getString(
+                            R.string.added_filter_template,
+                            filterName,
+                            filtersCount
+                        ),
+                        icon = Icons.Outlined.AutoFixHigh
+                    )
+                },
+                onFailure = {
+                    AppToastHost.showToast(
+                        message = resourceManager.getString(R.string.scanned_qr_code_isnt_filter_template),
+                        icon = Icons.Rounded.QrCodeScanner
+                    )
+                }
             )
         }
     }
 
-    fun addTemplateFilterFromUri(
-        uri: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onFailure: suspend () -> Unit
-    ) {
+    fun addTemplateFilterFromUri(uri: String) {
         componentScope.launch {
             favoriteInteractor.addTemplateFilterFromUri(
                 uri = uri,
-                onSuccess = onSuccess,
-                onFailure = onFailure
+                onSuccess = { filterName, filtersCount ->
+                    AppToastHost.showToast(
+                        message = resourceManager.getString(
+                            R.string.added_filter_template,
+                            filterName,
+                            filtersCount
+                        ),
+                        icon = Icons.Outlined.AutoFixHigh
+                    )
+                },
+                onFailure = {
+                    AppToastHost.showToast(
+                        message = resourceManager.getString(R.string.opened_file_have_no_filter_template),
+                        icon = Icons.Outlined.AutoFixHigh
+                    )
+                }
             )
         }
     }

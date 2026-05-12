@@ -30,7 +30,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.DownloadOff
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
@@ -193,12 +192,7 @@ internal fun SettingItem(
 
                     AppToastHost.dismissToasts()
                     if (clicks == 1) {
-                        component.tryGetUpdate(true) {
-                            AppToastHost.showToast(
-                                icon = Icons.Rounded.DownloadOff,
-                                message = getString(R.string.no_updates)
-                            )
-                        }
+                        component.tryGetUpdate(true)
                     }
                 }
 
@@ -360,12 +354,7 @@ internal fun SettingItem(
             Setting.CheckUpdatesButton -> {
                 CheckUpdatesButtonSettingItem(
                     onClick = {
-                        component.tryGetUpdate(true) {
-                            AppToastHost.showToast(
-                                icon = Icons.Rounded.DownloadOff,
-                                message = getString(R.string.no_updates)
-                            )
-                        }
+                        component.tryGetUpdate(true)
                     }
                 )
             }

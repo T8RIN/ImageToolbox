@@ -25,8 +25,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.QrCodeScanner
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,13 +37,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
+import com.t8rin.imagetoolbox.core.resources.icons.QrCodeScanner
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberBarcodeScanner
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
-import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 
@@ -53,73 +50,15 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 @Composable
 internal fun FilterTemplateAddingGroup(
     component: FilterTemplateCreationSheetComponent,
-    onAddTemplateFilterFromString: (
-        string: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onFailure: suspend () -> Unit
-    ) -> Unit,
-    onAddTemplateFilterFromUri: (
-        uri: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onFailure: suspend () -> Unit
-    ) -> Unit
+    onAddTemplateFilterFromString: (string: String) -> Unit,
+    onAddTemplateFilterFromUri: (uri: String) -> Unit
 ) {
-    val context = LocalResourceManager.current
-
-    fun addTemplateFilterFromString(
-        string: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onFailure: suspend () -> Unit
-    ) = onAddTemplateFilterFromString(string, onSuccess, onFailure)
-
-    fun addTemplateFilterFromUri(
-        uri: String,
-        onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
-        onFailure: suspend () -> Unit
-    ) = onAddTemplateFilterFromUri(uri, onSuccess, onFailure)
-
     val scanner = rememberBarcodeScanner {
-        addTemplateFilterFromString(
-            string = it.raw,
-            onSuccess = { filterName, filtersCount ->
-                AppToastHost.showToast(
-                    message = context.getString(
-                        R.string.added_filter_template,
-                        filterName,
-                        filtersCount
-                    ),
-                    icon = Icons.Outlined.AutoFixHigh
-                )
-            },
-            onFailure = {
-                AppToastHost.showToast(
-                    message = context.getString(R.string.scanned_qr_code_isnt_filter_template),
-                    icon = Icons.Rounded.QrCodeScanner
-                )
-            }
-        )
+        onAddTemplateFilterFromString(it.raw)
     }
 
     val importFromFileLauncher = rememberFilePicker { uri: Uri ->
-        addTemplateFilterFromUri(
-            uri = uri.toString(),
-            onSuccess = { filterName, filtersCount ->
-                AppToastHost.showToast(
-                    message = context.getString(
-                        R.string.added_filter_template,
-                        filterName,
-                        filtersCount
-                    ),
-                    icon = Icons.Outlined.AutoFixHigh
-                )
-            },
-            onFailure = {
-                AppToastHost.showToast(
-                    message = context.getString(R.string.opened_file_have_no_filter_template),
-                    icon = Icons.Outlined.AutoFixHigh
-                )
-            }
-        )
+        onAddTemplateFilterFromUri(uri.toString())
     }
 
     var showFilterTemplateCreationSheet by rememberSaveable {

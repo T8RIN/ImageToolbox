@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
+import com.t8rin.imagetoolbox.core.resources.icons.DownloadOff
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -232,7 +233,12 @@ class RootComponent @AssistedInject internal constructor(
 
     fun tryGetUpdate(
         isNewRequest: Boolean = false,
-        onNoUpdates: () -> Unit = {}
+        onNoUpdates: (() -> Unit)? = {
+            AppToastHost.showToast(
+                icon = Icons.Rounded.DownloadOff,
+                message = getString(R.string.no_updates)
+            )
+        }
     ) {
         if (settingsState.appOpenCount < 2 && !isNewRequest) return
         val isInstalledFromMarket = settingsManager.isInstalledFromPlayStore()
@@ -247,7 +253,7 @@ class RootComponent @AssistedInject internal constructor(
                 updatesJob = componentScope.launch {
                     checkForUpdates(
                         showDialog = showDialog,
-                        onNoUpdates = onNoUpdates
+                        onNoUpdates = onNoUpdates ?: {}
                     )
                 }
             }
@@ -414,7 +420,7 @@ class RootComponent @AssistedInject internal constructor(
                 transformer = { stack ->
                     stack.dropLastWhile { it !is Screen.PdfTools } + screen
                 }
-            )   
+            )
             hideSelectDialog()
         }
     }

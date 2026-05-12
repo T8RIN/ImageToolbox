@@ -39,6 +39,8 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -89,16 +91,20 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     private val _left: MutableState<Int> = mutableIntStateOf(-1)
     val left by _left
 
-    fun updateTargetUrl(
-        newUrl: String,
-        onFailure: (String) -> Unit = {}
-    ) {
+    fun updateTargetUrl(newUrl: String) {
         _targetUrl.update(
             onValueChanged = {
                 debouncedImageCalculation {
                     val newImages = htmlImageParser.parseImagesSrc(
                         url = newUrl,
-                        onFailure = onFailure
+                        onFailure = {
+                            if (newUrl.isNotBlank()) {
+                                AppToastHost.showToast(
+                                    message = it,
+                                    icon = Icons.Rounded.WifiTetheringError
+                                )
+                            }
+                        }
                     )
 
                     newImages.firstOrNull().let { src ->

@@ -72,7 +72,7 @@ import java.util.Locale
 
 class SettingsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    @Assisted private val onTryGetUpdate: (Boolean, () -> Unit) -> Unit,
+    @Assisted private val onTryGetUpdate: (Boolean) -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     @Assisted val isUpdateAvailable: Value<Boolean>,
     @Assisted val onGoBack: (() -> Unit)?,
@@ -159,10 +159,7 @@ class SettingsComponent @AssistedInject internal constructor(
         filterSettings()
     }
 
-    fun tryGetUpdate(
-        isNewRequest: Boolean = false,
-        onNoUpdates: () -> Unit = {}
-    ) = onTryGetUpdate(isNewRequest, onNoUpdates)
+    fun tryGetUpdate(isNewRequest: Boolean = false) = onTryGetUpdate(isNewRequest)
 
     init {
         settingsScope {
@@ -529,7 +526,7 @@ class SettingsComponent @AssistedInject internal constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
-            onTryGetUpdate: (Boolean, () -> Unit) -> Unit,
+            onTryGetUpdate: (Boolean) -> Unit,
             onNavigate: (Screen) -> Unit,
             isUpdateAvailable: Value<Boolean>,
             onGoBack: (() -> Unit)?,

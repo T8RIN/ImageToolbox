@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
@@ -53,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.utils.isBase64
 import com.t8rin.imagetoolbox.core.domain.utils.trimToBase64
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
@@ -100,17 +100,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
         val pickLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.OpenDocument()
         ) { uri ->
-            uri?.let {
-                component.setBase64FromUri(
-                    uri = uri,
-                    onFailure = {
-                        AppToastHost.showToast(
-                            message = getString(R.string.not_a_valid_base_64),
-                            icon = Icons.Rounded.Base64
-                        )
-                    }
-                )
-            }
+            uri?.let(component::setBase64FromUri)
         }
 
         Tile(
