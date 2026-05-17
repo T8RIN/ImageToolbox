@@ -29,7 +29,6 @@ import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.roundToInt
 
 object SeamCarver : OpenCV() {
@@ -78,8 +77,8 @@ object SeamCarver : OpenCV() {
     /**
      * Main entry:
      * input: bitmap, desiredWidth, desiredHeight
-     * returns: processed Bitmap (content-aware reduced). If desired dimensions are larger than source,
-     * result will be upscaled with normal resizing after seam carving.
+     * returns: processed Bitmap. Smaller dimensions are reached by removing seams, larger dimensions
+     * by inserting seams.
      */
     fun carve(bitmap: Bitmap, desiredWidth: Int, desiredHeight: Int): Bitmap = carveMat(
         mat = bitmap.toMat(),
@@ -92,27 +91,22 @@ object SeamCarver : OpenCV() {
         val targetW = desiredWidth.coerceAtLeast(1)
         val targetH = desiredHeight.coerceAtLeast(1)
 
-        // If target dims are bigger than current, we will only seam-carve to min(current, target) and then resize up.
-        val targetWClamp = min(targetW, current.cols())
-        val targetHClamp = min(targetH, current.rows())
+        current = resizeWidthWithSeams(current, targetW)
 
-        // reduce width
-        while (current.cols() > targetWClamp) {
-            val energy = computeEnergy(current)
-            val seam = findVerticalSeam(energy)
-            energy.release()
-
-            val previous = current
-            current = removeVerticalSeam(current, seam)
-            previous.release()
-        }
-
-        // reduce height via transpose trick
         var transposed = transposeMat(current)
         current.release()
-        current = transposed
 
-        while (current.cols() > targetHClamp) {
+        current = resizeWidthWithSeams(transposed, targetH)
+        transposed = transposeMat(current)
+        current.release()
+
+        return transposed
+    }
+
+    private fun resizeWidthWithSeams(src: Mat, targetWidth: Int): Mat {
+        var current = src
+
+        while (current.cols() > targetWidth) {
             val energy = computeEnergy(current)
             val seam = findVerticalSeam(energy)
             energy.release()
@@ -121,26 +115,18 @@ object SeamCarver : OpenCV() {
             current = removeVerticalSeam(current, seam)
             previous.release()
         }
-        transposed = transposeMat(current)
-        current.release()
-        current = transposed
 
-        // If the user requested larger dimensions than we could seam-carve to, upscale with interpolation.
-        return if (current.cols() != targetW || current.rows() != targetH) {
-            val dst = Mat()
-            Imgproc.resize(
-                current,
-                dst,
-                Size(targetW.toDouble(), targetH.toDouble()),
-                0.0,
-                0.0,
-                Imgproc.INTER_CUBIC
-            )
-            current.release()
-            dst
-        } else {
-            current
+        while (current.cols() < targetWidth) {
+            val energy = computeEnergy(current)
+            val seam = findVerticalSeam(energy)
+            energy.release()
+
+            val previous = current
+            current = insertVerticalSeam(current, seam)
+            previous.release()
         }
+
+        return current
     }
 
     private fun Mat.resizeToFit(maxSide: Int): Mat {
@@ -289,5 +275,54 @@ object SeamCarver : OpenCV() {
             dst.put(r, 0, outBuf)
         }
         return dst
+    }
+
+    /**
+     * Insert a vertical seam into src and return a new Mat with cols+1.
+     */
+    private fun insertVerticalSeam(src: Mat, seam: IntArray): Mat {
+        val rows = src.rows()
+        val cols = src.cols()
+        val dst = Mat(rows, cols + 1, src.type())
+
+        val channels = src.channels()
+        val rowBuf = ByteArray(cols * channels)
+        val outBuf = ByteArray((cols + 1) * channels)
+
+        for (r in 0 until rows) {
+            src.get(r, 0, rowBuf)
+            val insertCol = seam[r].coerceIn(0, cols - 1)
+            var dstIdx = 0
+
+            for (c in 0 until cols) {
+                val srcIdx = c * channels
+
+                for (ch in 0 until channels) {
+                    outBuf[dstIdx++] = rowBuf[srcIdx + ch]
+                }
+
+                if (c == insertCol) {
+                    val neighborCol = if (c < cols - 1) c + 1 else (c - 1).coerceAtLeast(0)
+                    val neighborIdx = neighborCol * channels
+
+                    for (ch in 0 until channels) {
+                        outBuf[dstIdx++] = averageByte(
+                            first = rowBuf[srcIdx + ch],
+                            second = rowBuf[neighborIdx + ch]
+                        )
+                    }
+                }
+            }
+
+            dst.put(r, 0, outBuf)
+        }
+        return dst
+    }
+
+    private fun averageByte(first: Byte, second: Byte): Byte {
+        val firstValue = first.toInt() and 0xFF
+        val secondValue = second.toInt() and 0xFF
+
+        return ((firstValue + secondValue) / 2).toByte()
     }
 }
