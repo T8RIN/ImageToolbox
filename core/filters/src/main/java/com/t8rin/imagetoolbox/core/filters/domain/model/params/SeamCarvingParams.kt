@@ -22,5 +22,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 
 data class SeamCarvingParams(
     val size: IntegerSize = IntegerSize.Zero,
-    val maskFile: FileModel = FileModel("")
+    val maskFile: FileModel = FileModel(""),
+    val useBackwardEnergy: Boolean = true,
+    val useMaskAsRemoval: Boolean = false,
 )

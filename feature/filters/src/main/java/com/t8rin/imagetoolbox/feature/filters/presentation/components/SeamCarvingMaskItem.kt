@@ -42,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -58,10 +59,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
 internal fun SeamCarvingMaskItem(
     maskUri: String,
+    useMaskAsRemoval: Boolean,
+    onUseMaskAsRemovalChange: (Boolean) -> Unit,
     onAddMask: () -> Unit,
     onRemoveMask: () -> Unit
 ) {
@@ -117,6 +121,18 @@ internal fun SeamCarvingMaskItem(
                 )
             }
         }
+        PreferenceRowSwitch(
+            title = stringResource(R.string.seam_carving_mask_as_removal),
+            subtitle = stringResource(R.string.seam_carving_mask_as_removal_sub),
+            checked = useMaskAsRemoval,
+            onClick = onUseMaskAsRemovalChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .padding(bottom = 8.dp),
+            containerColor = Color.Unspecified,
+            shape = ShapeDefaults.extraLarge
+        )
 
         EnhancedAlertDialog(
             visible = showMaskRemoveDialog,

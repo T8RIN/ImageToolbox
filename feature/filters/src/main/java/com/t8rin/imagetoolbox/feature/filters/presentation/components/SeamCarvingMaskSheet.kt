@@ -20,8 +20,11 @@ package com.t8rin.imagetoolbox.feature.filters.presentation.components
 import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -399,16 +402,23 @@ private fun SeamCarvingMaskSheetControls(
         onValueChange = onDrawPathModeChange,
         drawMode = DrawMode.Pen
     )
-    LineWidthSelector(
-        modifier = Modifier.padding(
-            start = 16.dp,
-            end = 16.dp,
-            top = 8.dp
-        ),
-        color = Color.Unspecified,
-        value = strokeWidth.value,
-        onValueChange = onStrokeWidthChange
-    )
+    AnimatedVisibility(
+        visible = drawPathMode.canChangeStrokeWidth,
+        enter = fadeIn() + expandVertically(),
+        exit = fadeOut() + shrinkVertically(),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        LineWidthSelector(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 8.dp
+            ),
+            color = Color.Unspecified,
+            value = strokeWidth.value,
+            onValueChange = onStrokeWidthChange
+        )
+    }
     BrushSoftnessSelector(
         modifier = Modifier.padding(
             start = 16.dp,

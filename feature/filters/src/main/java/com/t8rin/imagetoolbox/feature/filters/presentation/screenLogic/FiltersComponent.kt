@@ -424,7 +424,10 @@ class FiltersComponent @AssistedInject internal constructor(
         val params = filter.value as? SeamCarvingParams ?: return
 
         updateFilter(
-            value = params.copy(maskFile = FileModel("")),
+            value = params.copy(
+                maskFile = FileModel(""),
+                useMaskAsRemoval = false,
+            ),
             index = filterIndex
         )
     }

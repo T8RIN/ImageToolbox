@@ -17,9 +17,17 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
 internal fun SeamCarvingParamsItem(
@@ -35,5 +43,19 @@ internal fun SeamCarvingParamsItem(
             onFilterChange(value.copy(size = size))
         },
         previewOnly = previewOnly
+    )
+    PreferenceRowSwitch(
+        title = stringResource(R.string.seam_carving_backward_energy),
+        subtitle = stringResource(R.string.seam_carving_backward_energy_sub),
+        checked = value.useBackwardEnergy,
+        onClick = {
+            onFilterChange(value.copy(useBackwardEnergy = it))
+        },
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .padding(bottom = 8.dp),
+        containerColor = Color.Unspecified,
+        shape = ShapeDefaults.extraLarge,
+        enabled = !previewOnly
     )
 }

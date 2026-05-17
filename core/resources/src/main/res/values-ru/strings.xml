@@ -2240,4 +2240,8 @@
     <string name="skipped_saving_count">Пропущено файлов: %1$s</string>
     <string name="app_logs">Логи приложения</string>
     <string name="app_logs_sub">Просмотрите логи приложения, чтобы выявить проблемы.</string>
+    <string name="seam_carving_backward_energy">Обратная энергия</string>
+    <string name="seam_carving_backward_energy_sub">Использовать простую карту энергии на основе градиента вместо алгоритма прямой энергии</string>
+    <string name="seam_carving_mask_as_removal">Удалить выделенную область</string>
+    <string name="seam_carving_mask_as_removal_sub">Швы будут проходить через замаскированную область, удаляя только выделенное вместо защиты</string>
 </resources>

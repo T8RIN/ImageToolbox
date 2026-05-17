@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -58,6 +57,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterReorderSheet
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheet
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheet
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.resources.icons.Redo
@@ -253,16 +253,23 @@ internal fun AddEditMaskSheetControls(
             onValueChange = component::setDrawPathMode,
             drawMode = DrawMode.Pen
         )
-        LineWidthSelector(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 8.dp
-            ),
-            color = Color.Unspecified,
-            value = strokeWidth.value,
-            onValueChange = { onStrokeWidthChange(it.pt) }
-        )
+        AnimatedVisibility(
+            visible = component.drawPathMode.canChangeStrokeWidth,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            LineWidthSelector(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp
+                ),
+                color = Color.Unspecified,
+                value = strokeWidth.value,
+                onValueChange = { onStrokeWidthChange(it.pt) }
+            )
+        }
         BrushSoftnessSelector(
             modifier = Modifier
                 .padding(top = 8.dp, end = 16.dp, start = 16.dp),

@@ -26,14 +26,17 @@ import com.t8rin.opencv_tools.utils.toMat
 import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.Mat
+import org.opencv.core.Scalar
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
 
 object SeamCarver : OpenCV() {
 
     private const val PROTECTED_MASK_ENERGY = 1_000_000.0
+    private const val REMOVAL_MASK_ENERGY = -100_000_000.0
 
     fun distort(
         bitmap: Bitmap,
@@ -86,7 +89,9 @@ object SeamCarver : OpenCV() {
         bitmap: Bitmap,
         desiredWidth: Int,
         desiredHeight: Int,
-        protectionMask: Bitmap? = null
+        protectionMask: Bitmap? = null,
+        useBackwardEnergy: Boolean = false,
+        useMaskAsRemoval: Boolean = false,
     ): Bitmap {
         val mat = bitmap.toMat()
         val maskMat = protectionMask?.toMat()?.resizeTo(
@@ -98,7 +103,9 @@ object SeamCarver : OpenCV() {
             mat = mat,
             desiredWidth = desiredWidth,
             desiredHeight = desiredHeight,
-            protectionMask = maskMat
+            protectionMask = maskMat,
+            useBackwardEnergy = useBackwardEnergy,
+            useMaskAsRemoval = useMaskAsRemoval,
         ).toBitmap()
     }
 
@@ -106,14 +113,22 @@ object SeamCarver : OpenCV() {
         mat: Mat,
         desiredWidth: Int,
         desiredHeight: Int,
-        protectionMask: Mat? = null
+        protectionMask: Mat? = null,
+        useBackwardEnergy: Boolean = false,
+        useMaskAsRemoval: Boolean = false,
     ): Mat {
         var current = mat
         var currentMask = protectionMask
         val targetW = desiredWidth.coerceAtLeast(1)
         val targetH = desiredHeight.coerceAtLeast(1)
 
-        resizeWidthWithSeams(current, targetW, currentMask).let {
+        resizeWidthWithSeams(
+            src = current,
+            targetWidth = targetW,
+            mask = currentMask,
+            useBackwardEnergy = useBackwardEnergy,
+            useMaskAsRemoval = useMaskAsRemoval,
+        ).let {
             current = it.image
             currentMask = it.mask
         }
@@ -128,7 +143,13 @@ object SeamCarver : OpenCV() {
             transposedMask
         }
 
-        resizeWidthWithSeams(current, targetH, currentMask).let {
+        resizeWidthWithSeams(
+            src = current,
+            targetWidth = targetH,
+            mask = currentMask,
+            useBackwardEnergy = useBackwardEnergy,
+            useMaskAsRemoval = useMaskAsRemoval,
+        ).let {
             current = it.image
             currentMask = it.mask
         }
@@ -142,13 +163,20 @@ object SeamCarver : OpenCV() {
     private fun resizeWidthWithSeams(
         src: Mat,
         targetWidth: Int,
-        mask: Mat?
+        mask: Mat?,
+        useBackwardEnergy: Boolean,
+        useMaskAsRemoval: Boolean,
     ): SeamResizeResult {
         var current = src
         var currentMask = mask
 
         while (current.cols() > targetWidth) {
-            val energy = computeEnergy(current, currentMask)
+            val energy = computeEnergy(
+                src = current,
+                protectionMask = currentMask,
+                useBackwardEnergy = useBackwardEnergy,
+                useMaskAsRemoval = useMaskAsRemoval,
+            )
             val seam = findVerticalSeam(energy)
             energy.release()
 
@@ -165,7 +193,12 @@ object SeamCarver : OpenCV() {
         }
 
         while (current.cols() < targetWidth) {
-            val energy = computeEnergy(current, currentMask)
+            val energy = computeEnergy(
+                src = current,
+                protectionMask = currentMask,
+                useBackwardEnergy = useBackwardEnergy,
+                useMaskAsRemoval = useMaskAsRemoval,
+            )
             val seam = findVerticalSeam(energy)
             energy.release()
 
@@ -229,11 +262,33 @@ object SeamCarver : OpenCV() {
         return dst
     }
 
+    private fun computeEnergy(
+        src: Mat,
+        protectionMask: Mat?,
+        useBackwardEnergy: Boolean,
+        useMaskAsRemoval: Boolean,
+    ): Mat {
+        val energy = if (useBackwardEnergy) {
+            computeBackwardEnergy(src)
+        } else {
+            computeForwardEnergy(src)
+        }
+
+        protectionMask?.let { mask ->
+            if (useMaskAsRemoval) {
+                applyRemovalMaskEnergy(energy, mask)
+            } else {
+                addProtectionMaskEnergy(energy, mask)
+            }
+        }
+
+        return energy
+    }
+
     /**
-     * Compute energy map using gradient magnitude (Sobel)
-     * returns Mat of type CV_64F with shape rows x cols
+     * Backward energy map using gradient magnitude (Sobel).
      */
-    private fun computeEnergy(src: Mat, protectionMask: Mat? = null): Mat {
+    private fun computeBackwardEnergy(src: Mat): Mat {
         val gray = Mat()
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_RGB2GRAY)
         gray.convertTo(gray, CvType.CV_64F)
@@ -250,10 +305,7 @@ object SeamCarver : OpenCV() {
 
         val energy = Mat()
         Core.add(gradXSq, gradYSq, energy)
-        Core.sqrt(energy, energy) // sqrt(gx^2 + gy^2)
-        protectionMask?.let {
-            addProtectionMaskEnergy(energy, it)
-        }
+        Core.sqrt(energy, energy)
 
         gray.release()
         gradX.release()
@@ -264,19 +316,124 @@ object SeamCarver : OpenCV() {
         return energy
     }
 
-    private fun addProtectionMaskEnergy(energy: Mat, protectionMask: Mat) {
-        val grayMask = Mat()
-        when (protectionMask.channels()) {
-            1 -> protectionMask.copyTo(grayMask)
-            3 -> Imgproc.cvtColor(protectionMask, grayMask, Imgproc.COLOR_RGB2GRAY)
-            else -> Imgproc.cvtColor(protectionMask, grayMask, Imgproc.COLOR_RGBA2GRAY)
+    /**
+     * Forward energy algorithm from "Improved Seam Carving for Video Retargeting".
+     */
+    private fun computeForwardEnergy(src: Mat): Mat {
+        val gray = Mat()
+        Imgproc.cvtColor(src, gray, Imgproc.COLOR_RGB2GRAY)
+        gray.convertTo(gray, CvType.CV_64F)
+
+        val rows = gray.rows()
+        val cols = gray.cols()
+        val pixels = DoubleArray(rows * cols)
+        gray.get(0, 0, pixels)
+        gray.release()
+
+        val cumulative = DoubleArray(rows * cols)
+        val energy = DoubleArray(rows * cols)
+
+        fun pixelAt(row: Int, col: Int): Double {
+            val wrappedCol = (col + cols) % cols
+            val wrappedRow = (row + rows) % rows
+            return pixels[wrappedRow * cols + wrappedCol]
         }
 
-        Imgproc.threshold(grayMask, grayMask, 0.0, 255.0, Imgproc.THRESH_BINARY)
+        for (row in 1 until rows) {
+            for (col in 0 until cols) {
+                val up = pixelAt(row - 1, col)
+                val left = pixelAt(row, col - 1)
+                val right = pixelAt(row, col + 1)
+
+                val costUp = abs(right - left)
+                val costLeft = abs(up - left) + costUp
+                val costRight = abs(up - right) + costUp
+
+                val prevRow = row - 1
+                val prevUp = cumulative[prevRow * cols + col]
+                val prevLeft = cumulative[prevRow * cols + ((col - 1 + cols) % cols)]
+                val prevRight = cumulative[prevRow * cols + ((col + 1) % cols)]
+
+                val upTotal = prevUp + costUp
+                val leftTotal = prevLeft + costLeft
+                val rightTotal = prevRight + costRight
+
+                when {
+                    upTotal <= leftTotal && upTotal <= rightTotal -> {
+                        cumulative[row * cols + col] = upTotal
+                        energy[row * cols + col] = costUp
+                    }
+
+                    leftTotal <= rightTotal -> {
+                        cumulative[row * cols + col] = leftTotal
+                        energy[row * cols + col] = costLeft
+                    }
+
+                    else -> {
+                        cumulative[row * cols + col] = rightTotal
+                        energy[row * cols + col] = costRight
+                    }
+                }
+            }
+        }
+
+        return energy.toMat(rows, cols)
+    }
+
+    private fun addProtectionMaskEnergy(energy: Mat, protectionMask: Mat) {
+        val grayMask = toBinaryMask(protectionMask)
         grayMask.convertTo(grayMask, CvType.CV_64F, PROTECTED_MASK_ENERGY / 255.0)
         Core.add(energy, grayMask, energy)
+        grayMask.release()
+    }
+
+    private fun applyRemovalMaskEnergy(energy: Mat, removalMask: Mat) {
+        val grayMask = toBinaryMask(removalMask)
+        val selector = Mat()
+        grayMask.convertTo(selector, CvType.CV_64F, 1.0 / 255.0)
+
+        val removalValues = Mat()
+        selector.convertTo(removalValues, CvType.CV_64F, REMOVAL_MASK_ENERGY)
+
+        val ones = Mat(energy.size(), CvType.CV_64F, Scalar(1.0))
+        val inverseSelector = Mat()
+        Core.subtract(ones, selector, inverseSelector)
+
+        val keptEnergy = Mat()
+        Core.multiply(energy, inverseSelector, keptEnergy)
+        Core.add(keptEnergy, removalValues, energy)
 
         grayMask.release()
+        selector.release()
+        removalValues.release()
+        ones.release()
+        inverseSelector.release()
+        keptEnergy.release()
+    }
+
+    private fun DoubleArray.writeToMat(mat: Mat) {
+        val cols = mat.cols()
+        for (row in 0 until mat.rows()) {
+            val offset = row * cols
+            mat.put(row, 0, *copyOfRange(offset, offset + cols))
+        }
+    }
+
+    private fun DoubleArray.toMat(rows: Int, cols: Int): Mat {
+        val mat = Mat(rows, cols, CvType.CV_64F)
+        writeToMat(mat)
+        return mat
+    }
+
+    private fun toBinaryMask(mask: Mat): Mat {
+        val grayMask = Mat()
+        when (mask.channels()) {
+            1 -> mask.copyTo(grayMask)
+            3 -> Imgproc.cvtColor(mask, grayMask, Imgproc.COLOR_RGB2GRAY)
+            else -> Imgproc.cvtColor(mask, grayMask, Imgproc.COLOR_RGBA2GRAY)
+        }
+        Imgproc.threshold(grayMask, grayMask, 0.0, 255.0, Imgproc.THRESH_BINARY)
+        return grayMask
     }
 
     /**

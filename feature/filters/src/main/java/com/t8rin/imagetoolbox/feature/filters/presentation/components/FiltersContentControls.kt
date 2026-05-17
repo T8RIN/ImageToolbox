@@ -163,6 +163,15 @@ internal fun FiltersContentControls(
                                             {
                                                 SeamCarvingMaskItem(
                                                     maskUri = params.maskFile.uri,
+                                                    useMaskAsRemoval = params.useMaskAsRemoval,
+                                                    onUseMaskAsRemovalChange = { useMaskAsRemoval ->
+                                                        component.updateFilter(
+                                                            value = params.copy(
+                                                                useMaskAsRemoval = useMaskAsRemoval
+                                                            ),
+                                                            index = index
+                                                        )
+                                                    },
                                                     onAddMask = {
                                                         seamMaskFilterIndex = index
                                                     },

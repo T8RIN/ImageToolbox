@@ -60,7 +60,9 @@ internal class SeamCarvingFilter(
             bitmap = input,
             desiredWidth = value.size.width,
             desiredHeight = value.size.height,
-            protectionMask = mask
+            protectionMask = mask,
+            useBackwardEnergy = value.useBackwardEnergy,
+            useMaskAsRemoval = value.useMaskAsRemoval,
         )
     }
 
