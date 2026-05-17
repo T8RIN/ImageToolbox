@@ -63,6 +63,7 @@ internal fun TemplatesContent(
     filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent,
     onVisibleChange: (Boolean) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
+    showPreviewImages: Boolean
 ) {
     val templateFilters by component.templatesFlow.collectAsStateWithLifecycle()
     val onRequestFilterMapping = component::filterToTransformation
@@ -129,6 +130,7 @@ internal fun TemplatesContent(
                             showFilterTemplateInfoSheet = true
                         },
                         onRequestFilterMapping = onRequestFilterMapping,
+                        showPreviewImage = showPreviewImages,
                         shape = ShapeDefaults.byIndex(
                             index = index,
                             size = templateFilters.size

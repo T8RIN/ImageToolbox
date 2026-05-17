@@ -29,11 +29,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import coil3.request.ImageRequest
 import coil3.request.error
 import coil3.request.transformations
-import coil3.toBitmap
 import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
@@ -63,10 +58,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.utils.appContext
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun TemplateFilterSelectionItem(
@@ -75,64 +68,51 @@ internal fun TemplateFilterSelectionItem(
     onLongClick: () -> Unit,
     onRequestFilterMapping: (UiFilter<*>) -> Transformation,
     onInfoClick: () -> Unit,
+    showPreviewImage: Boolean,
     shape: Shape,
     modifier: Modifier
 ) {
     val previewModel = LocalFilterPreviewModelProvider.current.preview
-    var loading by remember {
-        mutableStateOf(false)
-    }
-    var isBitmapDark by remember {
-        mutableStateOf(true)
-    }
-    val scope = rememberCoroutineScope()
 
     PreferenceItemOverload(
         title = templateFilter.name,
         startIcon = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(contentAlignment = Alignment.Center) {
-                    Picture(
-                        model = remember(templateFilter, previewModel) {
-                            ImageRequest.Builder(appContext)
-                                .data(previewModel.data)
-                                .error(R.drawable.filter_preview_source)
-                                .transformations(
-                                    templateFilter.filters.map {
-                                        onRequestFilterMapping(
-                                            it.toUiFilter()
-                                        )
-                                    }
-                                )
-                                .diskCacheKey(templateFilter.toString() + previewModel.data.hashCode())
-                                .memoryCacheKey(templateFilter.toString() + previewModel.data.hashCode())
-                                .size(160, 160)
-                                .build()
-                        },
-                        onLoading = {
-                            loading = true
-                        },
-                        onSuccess = {
-                            loading = false
-                            scope.launch {
-                                isBitmapDark = calculateBrightnessEstimate(
-                                    bitmap = it.result.image.toBitmap(64, 64),
-                                    pixelSpacing = 2
-                                ) < 110
-                            }
-                        },
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(48.dp)
-                            .scale(1.2f)
-                            .clip(MaterialTheme.shapes.medium)
-                            .transparencyChecker()
-                            .shimmer(loading),
-                        shimmerEnabled = false,
-                        crossfadeEnabled = false,
-                        showTransparencyChecker = false
-                    )
+                    if (showPreviewImage) {
+                        Picture(
+                            model = remember(templateFilter, previewModel) {
+                                ImageRequest.Builder(appContext)
+                                    .data(previewModel.data)
+                                    .error(R.drawable.filter_preview_source)
+                                    .transformations(
+                                        templateFilter.filters.map {
+                                            onRequestFilterMapping(
+                                                it.toUiFilter()
+                                            )
+                                        }
+                                    )
+                                    .diskCacheKey(templateFilter.toString() + previewModel.data.hashCode())
+                                    .memoryCacheKey(templateFilter.toString() + previewModel.data.hashCode())
+                                    .size(160, 160)
+                                    .build()
+                            },
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(48.dp)
+                                .scale(1.2f),
+                            shape = MaterialTheme.shapes.medium
+                        )
+                    } else {
+                        Spacer(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .scale(1.2f)
+                                .clip(MaterialTheme.shapes.medium)
+                                .shimmer(true)
+                        )
+                    }
                     Box(
                         modifier = Modifier
                             .size(36.dp)
@@ -143,13 +123,13 @@ internal fun TemplateFilterSelectionItem(
                         Icon(
                             imageVector = Icons.Outlined.Slideshow,
                             contentDescription = stringResource(R.string.image_preview),
-                            tint = if (isBitmapDark) StrongBlack else White,
+                            tint = StrongBlack,
                             modifier = Modifier.scale(1.2f)
                         )
                         Icon(
                             imageVector = Icons.Outlined.Slideshow,
                             contentDescription = stringResource(R.string.image_preview),
-                            tint = if (isBitmapDark) White else StrongBlack
+                            tint = White
                         )
                     }
                 }

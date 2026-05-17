@@ -38,7 +38,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -52,7 +51,6 @@ import androidx.compose.ui.unit.dp
 import coil3.request.ImageRequest
 import coil3.request.error
 import coil3.request.transformations
-import coil3.toBitmap
 import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
@@ -73,17 +71,18 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.getString
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun FilterSelectionItem(
     filter: UiFilter<*>,
     isFavoritePage: Boolean,
     canOpenPreview: Boolean,
+    showPreviewImage: Boolean,
     isInFavorite: Boolean,
     onLongClick: (() -> Unit)?,
     onOpenPreview: () -> Unit,
@@ -97,10 +96,6 @@ internal fun FilterSelectionItem(
     onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> }
 ) {
     val previewModel = LocalFilterPreviewModelProvider.current.preview
-
-    var isBitmapDark by remember {
-        mutableStateOf(true)
-    }
 
     var showDownloadDialog by rememberSaveable {
         mutableStateOf(false)
@@ -117,35 +112,36 @@ internal fun FilterSelectionItem(
     PreferenceItemOverload(
         title = stringResource(filter.title),
         startIcon = {
-            val scope = rememberCoroutineScope()
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(contentAlignment = Alignment.Center) {
-                    Picture(
-                        model = remember(filter, previewModel) {
-                            ImageRequest.Builder(appContext)
-                                .data(previewModel.data)
-                                .error(R.drawable.filter_preview_source)
-                                .transformations(onRequestFilterMapping(filter))
-                                .diskCacheKey(filter::class.simpleName + previewModel.data.hashCode())
-                                .memoryCacheKey(filter::class.simpleName + previewModel.data.hashCode())
-                                .size(160, 160)
-                                .build()
-                        },
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null,
-                        onSuccess = {
-                            scope.launch {
-                                isBitmapDark = calculateBrightnessEstimate(
-                                    bitmap = it.result.image.toBitmap(64, 64),
-                                    pixelSpacing = 2
-                                ) < 110
-                            }
-                        },
-                        modifier = Modifier
-                            .size(48.dp)
-                            .scale(1.2f),
-                        shape = MaterialTheme.shapes.medium,
-                    )
+                    if (showPreviewImage) {
+                        Picture(
+                            model = remember(filter, previewModel) {
+                                ImageRequest.Builder(appContext)
+                                    .data(previewModel.data)
+                                    .error(R.drawable.filter_preview_source)
+                                    .transformations(onRequestFilterMapping(filter))
+                                    .diskCacheKey(filter::class.simpleName + previewModel.data.hashCode())
+                                    .memoryCacheKey(filter::class.simpleName + previewModel.data.hashCode())
+                                    .size(160, 160)
+                                    .build()
+                            },
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(48.dp)
+                                .scale(1.2f),
+                            shape = MaterialTheme.shapes.medium
+                        )
+                    } else {
+                        Spacer(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .scale(1.2f)
+                                .clip(MaterialTheme.shapes.medium)
+                                .shimmer(true)
+                        )
+                    }
                     if (canOpenPreview) {
                         Box(
                             modifier = Modifier
@@ -157,13 +153,13 @@ internal fun FilterSelectionItem(
                             Icon(
                                 imageVector = Icons.Outlined.Slideshow,
                                 contentDescription = stringResource(R.string.image_preview),
-                                tint = if (isBitmapDark) StrongBlack else White,
+                                tint = StrongBlack,
                                 modifier = Modifier.scale(1.2f)
                             )
                             Icon(
                                 imageVector = Icons.Outlined.Slideshow,
                                 contentDescription = stringResource(R.string.image_preview),
-                                tint = if (isBitmapDark) White else StrongBlack
+                                tint = White
                             )
                         }
                     }

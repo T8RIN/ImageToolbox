@@ -277,6 +277,7 @@ fun AddFiltersSheet(
                                         filter = filter,
                                         isFavoritePage = false,
                                         canOpenPreview = previewBitmap != null,
+                                        showPreviewImage = true,
                                         isInFavorite = filter::class.java.name in favoriteFilterKeys,
                                         onLongClick = {
                                             component.setPreviewData(filter)
@@ -335,15 +336,18 @@ fun AddFiltersSheet(
                 } else {
                     HorizontalPager(
                         state = pagerState,
-                        beyondViewportPageCount = 0
+                        beyondViewportPageCount = 2
                     ) { page ->
+                        val showPreviewImages = page == pagerState.settledPage
+
                         when (val group = tabs[page]) {
                             is UiFilter.Group.Template -> {
                                 TemplatesContent(
                                     component = component,
                                     filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent,
                                     onVisibleChange = onVisibleChange,
-                                    onFilterPickedWithParams = onFilterPickedWithParams
+                                    onFilterPickedWithParams = onFilterPickedWithParams,
+                                    showPreviewImages = showPreviewImages
                                 )
                             }
 
@@ -355,7 +359,8 @@ fun AddFiltersSheet(
                                     onVisibleChange = onVisibleChange,
                                     onFilterPickedWithParams = onFilterPickedWithParams,
                                     onFilterPicked = onFilterPicked,
-                                    previewBitmap = previewBitmap
+                                    previewBitmap = previewBitmap,
+                                    showPreviewImages = showPreviewImages
                                 )
                             }
 
@@ -371,7 +376,8 @@ fun AddFiltersSheet(
                                     onVisibleChange = onVisibleChange,
                                     onFilterPickedWithParams = onFilterPickedWithParams,
                                     onFilterPicked = onFilterPicked,
-                                    previewBitmap = previewBitmap
+                                    previewBitmap = previewBitmap,
+                                    showPreviewImages = showPreviewImages
                                 )
                             }
                         }

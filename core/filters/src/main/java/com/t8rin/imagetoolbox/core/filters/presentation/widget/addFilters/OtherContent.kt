@@ -83,6 +83,7 @@ internal fun OtherContent(
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
     onFilterPicked: (UiFilter<*>) -> Unit,
     previewBitmap: Bitmap?,
+    showPreviewImages: Boolean
 ) {
     val onRequestFilterMapping = component::filterToTransformation
 
@@ -102,6 +103,7 @@ internal fun OtherContent(
             FilterSelectionItem(
                 filter = filter,
                 canOpenPreview = previewBitmap != null,
+                showPreviewImage = showPreviewImages,
                 isInFavorite = filter::class.java.name in favoriteFilterKeys,
                 onLongClick = {
                     component.setPreviewData(filter)

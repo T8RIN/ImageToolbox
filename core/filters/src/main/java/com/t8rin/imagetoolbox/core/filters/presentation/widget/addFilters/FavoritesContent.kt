@@ -68,7 +68,8 @@ internal fun FavoritesContent(
     onVisibleChange: (Boolean) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
     onFilterPicked: (UiFilter<*>) -> Unit,
-    previewBitmap: Bitmap?
+    previewBitmap: Bitmap?,
+    showPreviewImages: Boolean
 ) {
     val onRequestFilterMapping = component::filterToTransformation
 
@@ -148,6 +149,7 @@ internal fun FavoritesContent(
                             filter = filter,
                             isFavoritePage = true,
                             canOpenPreview = previewBitmap != null,
+                            showPreviewImage = showPreviewImages,
                             isInFavorite = filter::class.java.name in favoriteFilterKeys,
                             onLongClick = null,
                             onOpenPreview = {
