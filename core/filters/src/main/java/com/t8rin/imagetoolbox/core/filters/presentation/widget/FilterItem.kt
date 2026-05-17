@@ -97,6 +97,8 @@ fun <T : Any> FilterItem(
         mutableStateOf(true)
     }
 
+    val onCreateTemplateSafe = onCreateTemplate?.takeIf { filter.canUseTemplate }
+
     val isVisible = filter.isVisible
 
     if (!canHide && !isVisible) {
@@ -197,7 +199,7 @@ fun <T : Any> FilterItem(
                                                 onFilterChange(filter.value as Any)
                                                 showPopup = false
                                             },
-                                            shape = onCreateTemplate?.let {
+                                            shape = onCreateTemplateSafe?.let {
                                                 ShapeDefaults.center
                                             } ?: ShapeDefaults.bottom,
                                             containerColor = MaterialTheme.colorScheme.primary
@@ -218,12 +220,12 @@ fun <T : Any> FilterItem(
                                                 )
                                             )
                                         }
-                                        onCreateTemplate?.let {
+                                        onCreateTemplateSafe?.let {
                                             Spacer(Modifier.height(4.dp))
                                             EnhancedButton(
                                                 modifier = Modifier.fillMaxWidth(),
                                                 onClick = {
-                                                    onCreateTemplate()
+                                                    onCreateTemplateSafe()
                                                     showPopup = false
                                                 },
                                                 shape = ShapeDefaults.bottom,

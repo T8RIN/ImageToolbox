@@ -18,9 +18,6 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import androidx.annotation.StringRes
-import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.FilterHdr
-import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -40,14 +37,17 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.mapFilte
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.newUiFilterInstance
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.pixelationGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.simpleGroupFilters
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
+import com.t8rin.imagetoolbox.core.resources.icons.FilterHdr
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.Gradient
+import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
 import com.t8rin.imagetoolbox.core.resources.icons.Speed
 import com.t8rin.imagetoolbox.core.resources.icons.TableEye
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -59,6 +59,10 @@ sealed class UiFilter<T : Any>(
 ) : Filter<T> {
 
     override var isVisible: Boolean by mutableStateOf(true)
+
+    val canUseTemplate by lazy {
+        listOf(this).filterCanUseTemplate().isNotEmpty()
+    }
 
     constructor(
         @StringRes title: Int,
@@ -94,13 +98,7 @@ sealed class UiFilter<T : Any>(
         }
 
         private val filtersForTemplateCreation: List<UiFilter<*>> by lazy {
-            filters.filterIsNotInstance(
-                Filter.PaletteTransfer::class,
-                Filter.LUT512x512::class,
-                Filter.PaletteTransferVariant::class,
-                Filter.CubeLut::class,
-                Filter.LensCorrection::class
-            )
+            filters.filterCanUseTemplate()
         }
 
         fun filters(canAddTemplates: Boolean) =
@@ -178,6 +176,15 @@ sealed class UiFilter<T : Any>(
     }
 
     companion object {
+        internal fun <T : Filter<*>> List<T>.filterCanUseTemplate() = filterIsNotInstance(
+            Filter.PaletteTransfer::class,
+            Filter.LUT512x512::class,
+            Filter.PaletteTransferVariant::class,
+            Filter.CubeLut::class,
+            Filter.LensCorrection::class,
+            Filter.SeamCarving::class
+        )
+
         val groups: List<Group> by lazy {
             listOf(
                 Group.Simple,
