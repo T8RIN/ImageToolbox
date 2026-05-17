@@ -34,6 +34,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -133,52 +134,63 @@ internal fun FilterPreviewPicture(
                     style = dashedStroke
                 )
 
-                val center = Offset(
-                    x = size.width / 2f,
-                    y = size.height / 2f
-                )
-                val arrow = playArrowPath(
-                    center = center,
-                    width = size.width * 0.3f,
-                    height = size.height * 0.35f
-                )
+                val arrowWidth = size.width * 0.3f
+                val arrowHeight = size.height * 0.35f
+                val arrowBorderWidth = strokeWidth * 1.5f
 
-                drawPath(
-                    path = arrow,
-                    color = black,
-                    style = Stroke(strokeWidth * 1.5f)
-                )
-                drawPath(
-                    path = arrow,
-                    color = white
-                )
+                withTransform(
+                    transformBlock = {
+                        translate(
+                            left = size.width / 2f,
+                            top = size.height / 2f
+                        )
+                        scale(
+                            scaleX = arrowWidth + arrowBorderWidth,
+                            scaleY = arrowHeight + arrowBorderWidth,
+                            pivot = Offset.Zero
+                        )
+                    }
+                ) {
+                    drawPath(
+                        path = PlayArrowPath,
+                        color = black
+                    )
+                }
+                withTransform(
+                    transformBlock = {
+                        translate(
+                            left = size.width / 2f,
+                            top = size.height / 2f
+                        )
+                        scale(
+                            scaleX = arrowWidth,
+                            scaleY = arrowHeight,
+                            pivot = Offset.Zero
+                        )
+                    }
+                ) {
+                    drawPath(
+                        path = PlayArrowPath,
+                        color = white
+                    )
+                }
             }
         }
     }
 }
 
-private fun playArrowPath(
-    center: Offset,
-    width: Float,
-    height: Float
-): Path {
-    val left = center.x - width / 2f
-    val top = center.y - height / 2f
-
-    fun x(value: Float): Float = left + width * ((value - 380f) / 255f)
-    fun y(value: Float): Float = top + height * ((value - 320f) / 320f)
-
-    return Path().apply {
-        moveTo(x(426f), y(630f))
-        lineTo(x(621f), y(505f))
-        quadraticTo(x(635f), y(496f), x(635f), y(480f))
-        quadraticTo(x(635f), y(464f), x(621f), y(455f))
-        lineTo(x(426f), y(330f))
-        quadraticTo(x(411f), y(320f), x(395.5f), y(328.5f))
-        quadraticTo(x(380f), y(337f), x(380f), y(355f))
-        lineTo(x(380f), y(605f))
-        quadraticTo(x(380f), y(623f), x(395.5f), y(631.5f))
-        quadraticTo(x(411f), y(640f), x(426f), y(630f))
+private val PlayArrowPath: Path by lazy(LazyThreadSafetyMode.NONE) {
+    Path().apply {
+        moveTo(-0.32f, 0.47f)
+        lineTo(0.45f, 0.08f)
+        quadraticTo(0.5f, 0.05f, 0.5f, 0f)
+        quadraticTo(0.5f, -0.05f, 0.45f, -0.08f)
+        lineTo(-0.32f, -0.47f)
+        quadraticTo(-0.38f, -0.5f, -0.44f, -0.47f)
+        quadraticTo(-0.5f, -0.45f, -0.5f, -0.39f)
+        lineTo(-0.5f, 0.39f)
+        quadraticTo(-0.5f, 0.45f, -0.44f, 0.47f)
+        quadraticTo(-0.38f, 0.5f, -0.32f, 0.47f)
         close()
     }
 }
