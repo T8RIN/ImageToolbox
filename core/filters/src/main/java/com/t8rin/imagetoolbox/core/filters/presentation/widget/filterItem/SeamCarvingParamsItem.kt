@@ -15,22 +15,25 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.presentation.model
+package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem
 
-import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import androidx.compose.runtime.Composable
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
-import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 
-@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
-class UiSeamCarvingFilter(
-    override val value: SeamCarvingParams = SeamCarvingParams()
-) : UiFilter<SeamCarvingParams>(
-    title = R.string.seam_carving,
-    paramsInfo = listOf(
-        FilterParam(R.string.width, 0f..0f),
-        FilterParam(R.string.height, 0f..0f),
-    ),
-    value = value
-), Filter.SeamCarving
+@Composable
+internal fun SeamCarvingParamsItem(
+    value: SeamCarvingParams,
+    filter: UiFilter<SeamCarvingParams>,
+    onFilterChange: (value: SeamCarvingParams) -> Unit,
+    previewOnly: Boolean
+) {
+    IntegerSizeParamsItem(
+        value = value.size,
+        filter = filter,
+        onFilterChange = { size ->
+            onFilterChange(value.copy(size = size))
+        },
+        previewOnly = previewOnly
+    )
+}

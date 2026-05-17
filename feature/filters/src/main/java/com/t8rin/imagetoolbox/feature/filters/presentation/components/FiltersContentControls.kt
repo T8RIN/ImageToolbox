@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,10 +46,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.AddFilterButton
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheet
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Texture
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
@@ -77,6 +78,9 @@ internal fun FiltersContentControls(
 
     var showTemplateCreationSheet by rememberSaveable(filterType) {
         mutableStateOf(false)
+    }
+    var seamMaskFilterIndex by rememberSaveable(filterType) {
+        mutableStateOf<Int?>(null)
     }
 
     val histogramItem = @Composable {
@@ -154,6 +158,19 @@ internal fun FiltersContentControls(
                                                     filters = listOf(filter)
                                                 )
                                             )
+                                        },
+                                        additionalContent = (filter.value as? SeamCarvingParams)?.let { params ->
+                                            {
+                                                SeamCarvingMaskItem(
+                                                    maskUri = params.maskFile.uri,
+                                                    onAddMask = {
+                                                        seamMaskFilterIndex = index
+                                                    },
+                                                    onRemoveMask = {
+                                                        component.removeSeamCarvingMask(index)
+                                                    }
+                                                )
+                                            }
                                         }
                                     )
                                 }
@@ -327,6 +344,27 @@ internal fun FiltersContentControls(
         }
 
         else -> Unit
+    }
+
+    seamMaskFilterIndex?.let { index ->
+        val params = component.basicFilterState.filters
+            .getOrNull(index)
+            ?.value as? SeamCarvingParams
+
+        if (params?.maskFile?.uri?.isEmpty() == true) {
+            SeamCarvingMaskSheet(
+                visible = true,
+                bitmap = component.bitmap,
+                onDismiss = { seamMaskFilterIndex = null },
+                onSave = { paths ->
+                    component.updateSeamCarvingMask(
+                        filterIndex = index,
+                        paths = paths,
+                        onComplete = {}
+                    )
+                }
+            )
+        }
     }
 
     FilterTemplateCreationSheet(

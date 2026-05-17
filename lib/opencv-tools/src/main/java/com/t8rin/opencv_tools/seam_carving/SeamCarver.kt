@@ -33,6 +33,8 @@ import kotlin.math.roundToInt
 
 object SeamCarver : OpenCV() {
 
+    private const val PROTECTED_MASK_ENERGY = 1_000_000.0
+
     fun distort(
         bitmap: Bitmap,
         distortionPercent: Float,
@@ -80,53 +82,125 @@ object SeamCarver : OpenCV() {
      * returns: processed Bitmap. Smaller dimensions are reached by removing seams, larger dimensions
      * by inserting seams.
      */
-    fun carve(bitmap: Bitmap, desiredWidth: Int, desiredHeight: Int): Bitmap = carveMat(
-        mat = bitmap.toMat(),
-        desiredWidth = desiredWidth,
-        desiredHeight = desiredHeight
-    ).toBitmap()
+    fun carve(
+        bitmap: Bitmap,
+        desiredWidth: Int,
+        desiredHeight: Int,
+        protectionMask: Bitmap? = null
+    ): Bitmap {
+        val mat = bitmap.toMat()
+        val maskMat = protectionMask?.toMat()?.resizeTo(
+            width = mat.cols(),
+            height = mat.rows()
+        )
 
-    private fun carveMat(mat: Mat, desiredWidth: Int, desiredHeight: Int): Mat {
+        return carveMat(
+            mat = mat,
+            desiredWidth = desiredWidth,
+            desiredHeight = desiredHeight,
+            protectionMask = maskMat
+        ).toBitmap()
+    }
+
+    private fun carveMat(
+        mat: Mat,
+        desiredWidth: Int,
+        desiredHeight: Int,
+        protectionMask: Mat? = null
+    ): Mat {
         var current = mat
+        var currentMask = protectionMask
         val targetW = desiredWidth.coerceAtLeast(1)
         val targetH = desiredHeight.coerceAtLeast(1)
 
-        current = resizeWidthWithSeams(current, targetW)
+        resizeWidthWithSeams(current, targetW, currentMask).let {
+            current = it.image
+            currentMask = it.mask
+        }
 
         var transposed = transposeMat(current)
         current.release()
+        current = transposed
 
-        current = resizeWidthWithSeams(transposed, targetH)
+        currentMask = currentMask?.let {
+            val transposedMask = transposeMat(it)
+            it.release()
+            transposedMask
+        }
+
+        resizeWidthWithSeams(current, targetH, currentMask).let {
+            current = it.image
+            currentMask = it.mask
+        }
         transposed = transposeMat(current)
         current.release()
+        currentMask?.release()
 
         return transposed
     }
 
-    private fun resizeWidthWithSeams(src: Mat, targetWidth: Int): Mat {
+    private fun resizeWidthWithSeams(
+        src: Mat,
+        targetWidth: Int,
+        mask: Mat?
+    ): SeamResizeResult {
         var current = src
+        var currentMask = mask
 
         while (current.cols() > targetWidth) {
-            val energy = computeEnergy(current)
+            val energy = computeEnergy(current, currentMask)
             val seam = findVerticalSeam(energy)
             energy.release()
 
             val previous = current
             current = removeVerticalSeam(current, seam)
             previous.release()
+
+            currentMask = currentMask?.let {
+                val previousMask = it
+                val resizedMask = removeVerticalSeam(previousMask, seam)
+                previousMask.release()
+                resizedMask
+            }
         }
 
         while (current.cols() < targetWidth) {
-            val energy = computeEnergy(current)
+            val energy = computeEnergy(current, currentMask)
             val seam = findVerticalSeam(energy)
             energy.release()
 
             val previous = current
             current = insertVerticalSeam(current, seam)
             previous.release()
+
+            currentMask = currentMask?.let {
+                val previousMask = it
+                val resizedMask = insertVerticalSeam(previousMask, seam)
+                previousMask.release()
+                resizedMask
+            }
         }
 
-        return current
+        return SeamResizeResult(
+            image = current,
+            mask = currentMask
+        )
+    }
+
+    private fun Mat.resizeTo(width: Int, height: Int): Mat {
+        if (cols() == width && rows() == height) return this
+
+        val resized = Mat()
+        Imgproc.resize(
+            this,
+            resized,
+            Size(width.toDouble(), height.toDouble()),
+            0.0,
+            0.0,
+            Imgproc.INTER_NEAREST
+        )
+        release()
+        return resized
     }
 
     private fun Mat.resizeToFit(maxSide: Int): Mat {
@@ -159,7 +233,7 @@ object SeamCarver : OpenCV() {
      * Compute energy map using gradient magnitude (Sobel)
      * returns Mat of type CV_64F with shape rows x cols
      */
-    private fun computeEnergy(src: Mat): Mat {
+    private fun computeEnergy(src: Mat, protectionMask: Mat? = null): Mat {
         val gray = Mat()
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_RGB2GRAY)
         gray.convertTo(gray, CvType.CV_64F)
@@ -177,6 +251,9 @@ object SeamCarver : OpenCV() {
         val energy = Mat()
         Core.add(gradXSq, gradYSq, energy)
         Core.sqrt(energy, energy) // sqrt(gx^2 + gy^2)
+        protectionMask?.let {
+            addProtectionMaskEnergy(energy, it)
+        }
 
         gray.release()
         gradX.release()
@@ -185,6 +262,21 @@ object SeamCarver : OpenCV() {
         gradYSq.release()
 
         return energy
+    }
+
+    private fun addProtectionMaskEnergy(energy: Mat, protectionMask: Mat) {
+        val grayMask = Mat()
+        when (protectionMask.channels()) {
+            1 -> protectionMask.copyTo(grayMask)
+            3 -> Imgproc.cvtColor(protectionMask, grayMask, Imgproc.COLOR_RGB2GRAY)
+            else -> Imgproc.cvtColor(protectionMask, grayMask, Imgproc.COLOR_RGBA2GRAY)
+        }
+
+        Imgproc.threshold(grayMask, grayMask, 0.0, 255.0, Imgproc.THRESH_BINARY)
+        grayMask.convertTo(grayMask, CvType.CV_64F, PROTECTED_MASK_ENERGY / 255.0)
+        Core.add(energy, grayMask, energy)
+
+        grayMask.release()
     }
 
     /**
@@ -325,4 +417,9 @@ object SeamCarver : OpenCV() {
 
         return ((firstValue + secondValue) / 2).toByte()
     }
+
+    private data class SeamResizeResult(
+        val image: Mat,
+        val mask: Mat?
+    )
 }

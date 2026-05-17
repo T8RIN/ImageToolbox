@@ -18,6 +18,9 @@
 package com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic
 
 import android.graphics.Bitmap
+import android.graphics.BlurMaskFilter
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -25,6 +28,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
@@ -38,6 +45,8 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.FileModel
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -48,14 +57,17 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.BasicFilterState
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.MaskingFilterState
@@ -66,6 +78,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
+import android.graphics.Color as NativeColor
+import android.graphics.Paint as NativePaint
 
 class FiltersComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -367,6 +382,97 @@ class FiltersComponent @AssistedInject internal constructor(
         }
         updateCanSave()
         updatePreview()
+    }
+
+    fun updateSeamCarvingMask(
+        filterIndex: Int,
+        paths: List<UiPathPaint>,
+        onComplete: () -> Unit
+    ) {
+        val bitmap = bitmap ?: return
+        val filter = basicFilterState.filters.getOrNull(filterIndex) ?: return
+        val params = filter.value as? SeamCarvingParams ?: return
+
+        componentScope.launch {
+            val uri = withContext(defaultDispatcher) {
+                val mask = renderSeamCarvingMask(
+                    paths = paths,
+                    width = bitmap.width,
+                    height = bitmap.height
+                )
+                shareProvider.cacheImage(
+                    image = mask,
+                    imageInfo = ImageInfo(
+                        width = mask.width,
+                        height = mask.height,
+                        imageFormat = ImageFormat.Png.Lossless
+                    ),
+                    filename = "seam_carving_mask.png"
+                )
+            } ?: return@launch
+
+            updateFilter(
+                value = params.copy(maskFile = FileModel(uri)),
+                index = filterIndex
+            )
+            onComplete()
+        }
+    }
+
+    fun removeSeamCarvingMask(filterIndex: Int) {
+        val filter = basicFilterState.filters.getOrNull(filterIndex) ?: return
+        val params = filter.value as? SeamCarvingParams ?: return
+
+        updateFilter(
+            value = params.copy(maskFile = FileModel("")),
+            index = filterIndex
+        )
+    }
+
+    private fun renderSeamCarvingMask(
+        paths: List<UiPathPaint>,
+        width: Int,
+        height: Int
+    ): Bitmap = createBitmap(width, height).applyCanvas {
+        val canvasSize = IntegerSize(width, height)
+        drawColor(NativeColor.BLACK)
+
+        paths.forEach { pathPaint ->
+            val path = pathPaint.path.scaleToFitCanvas(
+                currentSize = canvasSize,
+                oldSize = pathPaint.canvasSize
+            ).asAndroidPath()
+            val drawPathMode = pathPaint.drawPathMode
+
+            drawPath(
+                path,
+                NativePaint(NativePaint.ANTI_ALIAS_FLAG).apply {
+                    color = Color.White.toArgb()
+                    style = if (!pathPaint.isErasing && drawPathMode.isFilled) {
+                        NativePaint.Style.FILL
+                    } else {
+                        NativePaint.Style.STROKE
+                    }
+                    strokeWidth = pathPaint.strokeWidth.toPx(canvasSize)
+                    strokeCap = if (drawPathMode.isSharpEdge && !pathPaint.isErasing) {
+                        NativePaint.Cap.SQUARE
+                    } else {
+                        NativePaint.Cap.ROUND
+                    }
+                    strokeJoin = NativePaint.Join.ROUND
+
+                    if (pathPaint.isErasing) {
+                        xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                    }
+                    if (pathPaint.brushSoftness.value > 0f) {
+                        maskFilter = BlurMaskFilter(
+                            pathPaint.brushSoftness.toPx(canvasSize),
+                            BlurMaskFilter.Blur.NORMAL
+                        )
+                    }
+                }
+            )
+        }
     }
 
     fun updateFiltersOrder(value: List<UiFilter<*>>) {

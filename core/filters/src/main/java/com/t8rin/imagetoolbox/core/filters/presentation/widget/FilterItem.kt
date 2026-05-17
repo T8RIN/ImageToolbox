@@ -33,9 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
-import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -60,9 +57,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
@@ -90,7 +90,8 @@ fun <T : Any> FilterItem(
     onCreateTemplate: (() -> Unit)?,
     backgroundColor: Color = Color.Unspecified,
     shape: Shape = MaterialTheme.shapes.extraLarge,
-    canHide: Boolean = true
+    canHide: Boolean = true,
+    additionalContent: @Composable (() -> Unit)? = null
 ) {
     var isControlsExpanded by rememberSaveable {
         mutableStateOf(true)
@@ -313,11 +314,14 @@ fun <T : Any> FilterItem(
                 AnimatedVisibility(
                     visible = isControlsExpanded || filter.value.isSingle() || previewOnly
                 ) {
-                    FilterItemContent(
-                        filter = filter,
-                        onFilterChange = onFilterChange,
-                        previewOnly = previewOnly
-                    )
+                    Column {
+                        FilterItemContent(
+                            filter = filter,
+                            onFilterChange = onFilterChange,
+                            previewOnly = previewOnly
+                        )
+                        additionalContent?.invoke()
+                    }
                 }
             }
             if (showDragHandle) {

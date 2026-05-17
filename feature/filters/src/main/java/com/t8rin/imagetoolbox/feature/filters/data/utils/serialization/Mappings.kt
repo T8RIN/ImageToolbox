@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.toColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component6
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftPa
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
@@ -329,6 +331,14 @@ internal fun Any.toPair(): Pair<String, String>? {
             IntegerSize::class.simpleName!! to listOf(
                 width,
                 height
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is SeamCarvingParams -> {
+            SeamCarvingParams::class.simpleName!! to listOf(
+                size.width,
+                size.height,
+                Base64.encode(maskFile.uri.toByteArray(Charsets.UTF_8))
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -684,6 +694,23 @@ internal fun Pair<String, String>.fromPair(): Any? {
             IntegerSize(
                 width = width.toInt(),
                 height = height.toInt()
+            )
+        }
+
+        name == SeamCarvingParams::class.simpleName -> {
+            val values = value.split(PROPERTIES_SEPARATOR)
+            val width = values.getOrNull(0).orEmpty()
+            val height = values.getOrNull(1).orEmpty()
+            val maskUri = values.getOrNull(2).orEmpty()
+
+            SeamCarvingParams(
+                size = IntegerSize(
+                    width = width.toInt(),
+                    height = height.toInt()
+                ),
+                maskFile = FileModel(
+                    uri = Base64.decode(maskUri).toString(Charsets.UTF_8)
+                )
             )
         }
 
