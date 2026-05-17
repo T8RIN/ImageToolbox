@@ -17,24 +17,29 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Slideshow
-import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
-import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -72,25 +77,108 @@ internal fun FilterPreviewPicture(
             )
         }
         if (canOpenPreview) {
-            Box(
+            val previewContentDescription = stringResource(R.string.image_preview)
+            val white = MaterialTheme.colorScheme.secondaryFixed
+            val black = MaterialTheme.colorScheme.onSecondaryFixed
+
+            Canvas(
                 modifier = Modifier
                     .size(36.dp)
-                    .clip(ShapeDefaults.circle)
-                    .hapticsClickable(onClick = onOpenPreview),
-                contentAlignment = Alignment.Center
+                    .clip(ShapeDefaults.small)
+                    .hapticsClickable(onClick = onOpenPreview)
+                    .semantics {
+                        contentDescription = previewContentDescription
+                    }
+                    .padding(4.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Slideshow,
-                    contentDescription = stringResource(R.string.image_preview),
-                    tint = StrongBlack,
-                    modifier = Modifier.scale(1.2f)
+                val strokeWidth = 2.dp.toPx()
+                val stroke = Stroke(
+                    width = strokeWidth
                 )
-                Icon(
-                    imageVector = Icons.Outlined.Slideshow,
-                    contentDescription = stringResource(R.string.image_preview),
-                    tint = White
+                val dashedStroke = Stroke(
+                    width = strokeWidth,
+                    pathEffect = PathEffect.dashPathEffect(
+                        intervals = floatArrayOf(
+                            3.dp.toPx(),
+                            3.dp.toPx()
+                        )
+                    )
+                )
+                val cornerRadius = CornerRadius(8.dp.toPx())
+                val borderTopLeft = Offset(strokeWidth / 2f, strokeWidth / 2f)
+
+                val borderSize = Size(
+                    width = size.width - strokeWidth,
+                    height = size.height - strokeWidth
+                )
+
+                drawRoundRect(
+                    color = black,
+                    topLeft = borderTopLeft,
+                    size = borderSize,
+                    cornerRadius = cornerRadius,
+                    style = stroke
+                )
+                drawRoundRect(
+                    color = black.copy(0.3f),
+                    topLeft = borderTopLeft,
+                    size = borderSize,
+                    cornerRadius = cornerRadius
+                )
+                drawRoundRect(
+                    color = white,
+                    topLeft = borderTopLeft,
+                    size = borderSize,
+                    cornerRadius = cornerRadius,
+                    style = dashedStroke
+                )
+
+                val center = Offset(
+                    x = size.width / 2f,
+                    y = size.height / 2f
+                )
+                val arrow = playArrowPath(
+                    center = center,
+                    width = size.width * 0.3f,
+                    height = size.height * 0.35f
+                )
+
+                drawPath(
+                    path = arrow,
+                    color = black,
+                    style = Stroke(strokeWidth * 1.5f)
+                )
+                drawPath(
+                    path = arrow,
+                    color = white
                 )
             }
         }
+    }
+}
+
+private fun playArrowPath(
+    center: Offset,
+    width: Float,
+    height: Float
+): Path {
+    val left = center.x - width / 2f
+    val top = center.y - height / 2f
+
+    fun x(value: Float): Float = left + width * ((value - 380f) / 255f)
+    fun y(value: Float): Float = top + height * ((value - 320f) / 320f)
+
+    return Path().apply {
+        moveTo(x(426f), y(630f))
+        lineTo(x(621f), y(505f))
+        quadraticTo(x(635f), y(496f), x(635f), y(480f))
+        quadraticTo(x(635f), y(464f), x(621f), y(455f))
+        lineTo(x(426f), y(330f))
+        quadraticTo(x(411f), y(320f), x(395.5f), y(328.5f))
+        quadraticTo(x(380f), y(337f), x(380f), y(355f))
+        lineTo(x(380f), y(605f))
+        quadraticTo(x(380f), y(623f), x(395.5f), y(631.5f))
+        quadraticTo(x(411f), y(640f), x(426f), y(630f))
+        close()
     }
 }
