@@ -21,7 +21,8 @@ import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 
 data class CombiningParams(
     val stitchMode: StitchMode = StitchMode.Horizontal,
-    val spacing: Int = 0,
+    val horizontalSpacing: Int = 0,
+    val verticalSpacing: Int = 0,
     val scaleSmallImagesToLarge: Boolean = false,
     val backgroundColor: Int = 0x00000000,
     val fadingEdgesMode: StitchFadeSide = StitchFadeSide.Start,
@@ -29,4 +30,10 @@ data class CombiningParams(
     val outputScale: Float = 0.5f,
     val blendingMode: BlendingMode = BlendingMode.SrcOver,
     val fadeStrength: Float = 1f
-)
+) {
+    fun spacingFor(
+        isHorizontal: Boolean
+    ): Int = if (isHorizontal) horizontalSpacing else verticalSpacing
+
+    fun hasNegativeSpacing(): Boolean = horizontalSpacing < 0 || verticalSpacing < 0
+}

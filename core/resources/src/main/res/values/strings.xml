@@ -2260,4 +2260,6 @@
     <string name="skipped_saving_count">Files skipped: %1$s</string>
     <string name="app_logs">App Logs</string>
     <string name="app_logs_sub">View logs of the app to spot the issues</string>
+    <string name="horizontal_spacing">Horizontal spacing</string>
+    <string name="vertical_spacing">Vertical spacing</string>
 </resources>

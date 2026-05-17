@@ -263,7 +263,24 @@ class ImageStitchingComponent @AssistedInject internal constructor(
 
     fun updateImageSpacing(spacing: Int) {
         updateCombiningParams(
-            combiningParams.copy(spacing = spacing)
+            combiningParams.copy(
+                horizontalSpacing = spacing,
+                verticalSpacing = spacing
+            )
+        )
+        calculatePreview()
+    }
+
+    fun updateHorizontalImageSpacing(spacing: Int) {
+        updateCombiningParams(
+            combiningParams.copy(horizontalSpacing = spacing)
+        )
+        calculatePreview()
+    }
+
+    fun updateVerticalImageSpacing(spacing: Int) {
+        updateCombiningParams(
+            combiningParams.copy(verticalSpacing = spacing)
         )
         calculatePreview()
     }

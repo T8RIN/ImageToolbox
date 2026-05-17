@@ -89,11 +89,12 @@ internal class AndroidImageCombiner @Inject constructor(
             imagesUris: List<String>,
             isHorizontal: Boolean
         ): Pair<Bitmap, ImageInfo> {
+            val imageSpacing = combiningParams.spacingFor(isHorizontal)
             val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
                 imageUris = imagesUris,
                 isHorizontal = isHorizontal,
                 scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                imageSpacing = combiningParams.spacing,
+                imageSpacing = imageSpacing,
                 imageScale = combiningParams.outputScale
             )
 
@@ -118,14 +119,14 @@ internal class AndroidImageCombiner @Inject constructor(
 
                 var pos = 0
 
-                val fullSpace = combiningParams.spacing.absoluteValue
+                val fullSpace = imageSpacing.absoluteValue
                 val halfSpace = fullSpace / 2
                 val strength = combiningParams.fadeStrength
 
                 for (i in imagesUris.indices) {
                     var bmp = bitmaps[i]
 
-                    combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != StitchFadeSide.None }
+                    imageSpacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != StitchFadeSide.None }
                         ?.let {
                             val filters = when (combiningParams.fadingEdgesMode) {
                                 StitchFadeSide.Start -> {
@@ -232,8 +233,8 @@ internal class AndroidImageCombiner @Inject constructor(
                         )
                     }
                     pos += if (isHorizontal) {
-                        (bmp.width + combiningParams.spacing).coerceAtLeast(1)
-                    } else (bmp.height + combiningParams.spacing).coerceAtLeast(1)
+                        (bmp.width + imageSpacing).coerceAtLeast(1)
+                    } else (bmp.height + imageSpacing).coerceAtLeast(1)
 
                     onProgress(i + 1)
                 }
@@ -268,7 +269,8 @@ internal class AndroidImageCombiner @Inject constructor(
                     stitchMode = when (combiningParams.stitchMode) {
                         is StitchMode.Grid.Horizontal -> StitchMode.Vertical
                         else -> StitchMode.Horizontal
-                    }
+                    },
+                    outputScale = 1f
                 ),
                 onProgress = onProgress
             )
@@ -284,39 +286,43 @@ internal class AndroidImageCombiner @Inject constructor(
         imageUris: List<String>,
         combiningParams: CombiningParams
     ): IntegerSize {
+        val isHorizontal = combiningParams.stitchMode.isHorizontal()
         return if (combiningParams.stitchMode.gridCellsCount()
                 .let { it == 0 || it > imageUris.size }
         ) {
             calculateCombinedImageDimensionsAndBitmaps(
                 imageUris = imageUris,
-                isHorizontal = combiningParams.stitchMode.isHorizontal(),
+                isHorizontal = isHorizontal,
                 scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                imageSpacing = combiningParams.spacing,
+                imageSpacing = combiningParams.spacingFor(isHorizontal),
                 imageScale = combiningParams.outputScale
             ).first
         } else {
-            val isHorizontalGrid = combiningParams.stitchMode.isHorizontal()
+            val outerIsHorizontal = !isHorizontal
+            val outerSpacing = combiningParams.spacingFor(outerIsHorizontal)
             var size = IntegerSize(0, 0)
-            distributeImages(
+            val gridImages = distributeImages(
                 images = imageUris,
                 cellCount = combiningParams.stitchMode.gridCellsCount()
-            ).forEach { images ->
+            )
+            gridImages.forEachIndexed { index, images ->
                 calculateCombinedImageDimensionsAndBitmaps(
                     imageUris = images,
-                    isHorizontal = !isHorizontalGrid,
+                    isHorizontal = isHorizontal,
                     scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                    imageSpacing = combiningParams.spacing,
+                    imageSpacing = combiningParams.spacingFor(isHorizontal),
                     imageScale = combiningParams.outputScale
                 ).first.let { newSize ->
-                    size = if (isHorizontalGrid) {
+                    val spacing = if (index != gridImages.lastIndex) outerSpacing else 0
+                    size = if (outerIsHorizontal) {
                         size.copy(
-                            height = size.height + newSize.height,
-                            width = max(newSize.width, size.width)
+                            width = size.width + (newSize.width + spacing).coerceAtLeast(1),
+                            height = max(newSize.height, size.height)
                         )
                     } else {
                         size.copy(
-                            height = max(newSize.height, size.height),
-                            width = size.width + newSize.width,
+                            width = max(newSize.width, size.width),
+                            height = size.height + (newSize.height + spacing).coerceAtLeast(1)
                         )
                     }
                 }

@@ -22,7 +22,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
 
 data class SavableCombiningParams(
     val stitchMode: String,
-    val spacing: Int,
+    val horizontalSpacing: Int,
+    val verticalSpacing: Int,
     val scaleSmallImagesToLarge: Boolean,
     val backgroundColor: Int,
     val fadingEdgesMode: StitchFadeSide,
@@ -36,7 +37,8 @@ fun CombiningParams.toSavable() = SavableCombiningParams(
     stitchMode = "${stitchMode.ordinal}_${stitchMode.gridCellsCount()}_${
         stitchMode.drops().joinToString(separator = "_")
     }",
-    spacing = spacing,
+    horizontalSpacing = horizontalSpacing,
+    verticalSpacing = verticalSpacing,
     scaleSmallImagesToLarge = scaleSmallImagesToLarge,
     backgroundColor = backgroundColor,
     fadingEdgesMode = fadingEdgesMode,
@@ -62,7 +64,8 @@ fun SavableCombiningParams.toParams() = CombiningParams(
             }
         }
     },
-    spacing = spacing,
+    horizontalSpacing = horizontalSpacing,
+    verticalSpacing = verticalSpacing,
     scaleSmallImagesToLarge = scaleSmallImagesToLarge,
     backgroundColor = backgroundColor,
     fadingEdgesMode = fadingEdgesMode,

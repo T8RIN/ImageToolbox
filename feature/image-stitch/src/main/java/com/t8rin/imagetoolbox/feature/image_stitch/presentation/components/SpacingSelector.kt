@@ -17,12 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.image_stitch.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FormatLineSpacing
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -33,12 +36,14 @@ import kotlin.math.roundToInt
 fun SpacingSelector(
     modifier: Modifier = Modifier,
     value: Int,
-    onValueChange: (Int) -> Unit
+    onValueChange: (Int) -> Unit,
+    title: String? = null,
+    shape: Shape? = null
 ) {
     EnhancedSliderItem(
         modifier = modifier,
         value = value,
-        title = stringResource(R.string.spacing),
+        title = title ?: stringResource(R.string.spacing),
         valueRange = -512f..256f,
         internalStateTransformation = {
             it.roundToInt()
@@ -54,6 +59,33 @@ fun SpacingSelector(
                 bottom = 10.dp
             ),
         icon = Icons.Rounded.FormatLineSpacing,
-        shape = ShapeDefaults.extraLarge
+        shape = shape ?: ShapeDefaults.extraLarge
     )
+}
+
+@Composable
+fun GridSpacingSelector(
+    modifier: Modifier = Modifier,
+    horizontalValue: Int,
+    verticalValue: Int,
+    onHorizontalValueChange: (Int) -> Unit,
+    onVerticalValueChange: (Int) -> Unit
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        SpacingSelector(
+            value = horizontalValue,
+            onValueChange = onHorizontalValueChange,
+            title = stringResource(R.string.horizontal_spacing),
+            shape = ShapeDefaults.top
+        )
+        SpacingSelector(
+            value = verticalValue,
+            onValueChange = onVerticalValueChange,
+            title = stringResource(R.string.vertical_spacing),
+            shape = ShapeDefaults.bottom
+        )
+    }
 }
