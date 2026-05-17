@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,10 +41,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.request.ImageRequest
@@ -59,19 +55,12 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
-import com.t8rin.imagetoolbox.core.resources.icons.Slideshow
 import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
-import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
-import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -113,57 +102,21 @@ internal fun FilterSelectionItem(
         title = stringResource(filter.title),
         startIcon = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(contentAlignment = Alignment.Center) {
-                    if (showPreviewImage) {
-                        Picture(
-                            model = remember(filter, previewModel) {
-                                ImageRequest.Builder(appContext)
-                                    .data(previewModel.data)
-                                    .error(R.drawable.filter_preview_source)
-                                    .transformations(onRequestFilterMapping(filter))
-                                    .diskCacheKey(filter::class.simpleName + previewModel.data.hashCode())
-                                    .memoryCacheKey(filter::class.simpleName + previewModel.data.hashCode())
-                                    .size(160, 160)
-                                    .build()
-                            },
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(48.dp)
-                                .scale(1.2f),
-                            shape = MaterialTheme.shapes.medium
-                        )
-                    } else {
-                        Spacer(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .scale(1.2f)
-                                .clip(MaterialTheme.shapes.medium)
-                                .shimmer(true)
-                        )
-                    }
-                    if (canOpenPreview) {
-                        Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(ShapeDefaults.circle)
-                                .hapticsClickable(onClick = onOpenPreview),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Slideshow,
-                                contentDescription = stringResource(R.string.image_preview),
-                                tint = StrongBlack,
-                                modifier = Modifier.scale(1.2f)
-                            )
-                            Icon(
-                                imageVector = Icons.Outlined.Slideshow,
-                                contentDescription = stringResource(R.string.image_preview),
-                                tint = White
-                            )
-                        }
-                    }
-                }
+                FilterPreviewPicture(
+                    model = remember(filter, previewModel) {
+                        ImageRequest.Builder(appContext)
+                            .data(previewModel.data)
+                            .error(R.drawable.filter_preview_source)
+                            .transformations(onRequestFilterMapping(filter))
+                            .diskCacheKey(filter::class.simpleName + previewModel.data.hashCode())
+                            .memoryCacheKey(filter::class.simpleName + previewModel.data.hashCode())
+                            .size(160, 160)
+                            .build()
+                    },
+                    canShowImage = showPreviewImage,
+                    canOpenPreview = canOpenPreview,
+                    onOpenPreview = onOpenPreview
+                )
                 Spacer(Modifier.width(16.dp))
                 Box(
                     modifier = Modifier
