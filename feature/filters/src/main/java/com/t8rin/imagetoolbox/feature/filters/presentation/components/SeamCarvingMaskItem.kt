@@ -97,7 +97,7 @@ internal fun SeamCarvingMaskItem(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(Modifier.width(8.dp))
+            Spacer(Modifier.width(4.dp))
             SeamCarvingMaskPreview(
                 maskUri = maskUri,
                 modifier = Modifier.size(42.dp)
