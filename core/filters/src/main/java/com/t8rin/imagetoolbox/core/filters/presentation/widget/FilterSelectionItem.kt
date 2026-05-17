@@ -32,11 +32,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,6 +57,7 @@ import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
@@ -74,8 +73,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -87,7 +84,7 @@ internal fun FilterSelectionItem(
     filter: UiFilter<*>,
     isFavoritePage: Boolean,
     canOpenPreview: Boolean,
-    favoriteFilters: List<UiFilter<*>>,
+    isInFavorite: Boolean,
     onLongClick: (() -> Unit)?,
     onOpenPreview: () -> Unit,
     onClick: (UiFilter<*>?) -> Unit,
@@ -103,9 +100,6 @@ internal fun FilterSelectionItem(
 
     var isBitmapDark by remember {
         mutableStateOf(true)
-    }
-    var loading by remember {
-        mutableStateOf(false)
     }
 
     var showDownloadDialog by rememberSaveable {
@@ -134,27 +128,23 @@ internal fun FilterSelectionItem(
                                 .transformations(onRequestFilterMapping(filter))
                                 .diskCacheKey(filter::class.simpleName + previewModel.data.hashCode())
                                 .memoryCacheKey(filter::class.simpleName + previewModel.data.hashCode())
-                                .size(300, 300)
+                                .size(160, 160)
                                 .build()
                         },
                         contentScale = ContentScale.Crop,
                         contentDescription = null,
-                        onLoading = {
-                            loading = true
-                        },
                         onSuccess = {
-                            loading = false
                             scope.launch {
-                                isBitmapDark =
-                                    calculateBrightnessEstimate(it.result.image.toBitmap()) < 110
+                                isBitmapDark = calculateBrightnessEstimate(
+                                    bitmap = it.result.image.toBitmap(64, 64),
+                                    pixelSpacing = 2
+                                ) < 110
                             }
                         },
                         modifier = Modifier
                             .size(48.dp)
-                            .scale(1.2f)
-                            .clip(MaterialTheme.shapes.medium)
-                            .transparencyChecker()
-                            .shimmer(loading)
+                            .scale(1.2f),
+                        shape = MaterialTheme.shapes.medium,
                     )
                     if (canOpenPreview) {
                         Box(
@@ -192,25 +182,18 @@ internal fun FilterSelectionItem(
                 onClick = onToggleFavorite,
                 modifier = Modifier.offset(8.dp)
             ) {
-                val inFavorite by remember(favoriteFilters, filter) {
-                    derivedStateOf {
-                        favoriteFilters.filterIsInstance(filter::class.java).isNotEmpty()
-                    }
-                }
                 AnimatedContent(
-                    targetState = inFavorite to isFavoritePage,
+                    targetState = isInFavorite to isFavoritePage,
                     transitionSpec = {
                         (fadeIn() + scaleIn(initialScale = 0.85f))
                             .togetherWith(fadeOut() + scaleOut(targetScale = 0.85f))
                     }
                 ) { (isInFavorite, isFavPage) ->
-                    val icon by remember(isInFavorite, isFavPage) {
-                        derivedStateOf {
-                            when {
-                                isFavPage && isInFavorite -> Icons.Rounded.BookmarkRemove
-                                isInFavorite -> Icons.Rounded.Bookmark
-                                else -> Icons.Outlined.Bookmark
-                            }
+                    val icon = remember(isInFavorite, isFavPage) {
+                        when {
+                            isFavPage && isInFavorite -> Icons.Rounded.BookmarkRemove
+                            isInFavorite -> Icons.Rounded.Bookmark
+                            else -> Icons.Outlined.Bookmark
                         }
                     }
                     Icon(

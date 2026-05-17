@@ -60,7 +60,10 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class AddFiltersSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -273,11 +276,25 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         }
     }
 
-    val favoritesFlow: Flow<List<Filter<*>>>
-        get() = favoriteInteractor.getFavoriteFilters()
+    val favoritesFlow: StateFlow<List<UiFilter<*>>> = favoriteInteractor.getFavoriteFilters()
+        .map { list ->
+            list.map {
+                it.toUiFilter()
+            }
+        }.stateIn(
+            scope = componentScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
 
-    val templatesFlow: Flow<List<TemplateFilter>>
-        get() = favoriteInteractor.getTemplateFilters()
+    val templatesFlow: StateFlow<List<TemplateFilter>> = favoriteInteractor.getTemplateFilters()
+        .map { list ->
+            list.sortedBy { it.name }
+        }.stateIn(
+            scope = componentScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
 
     fun toggleFavorite(filter: UiFilter<*>) {
         componentScope.launch {

@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,13 +42,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.utils.collectAsUiState
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateAddingGroup
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateInfoSheet
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.TemplateFilterSelectionItem
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ExtensionOff
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -64,11 +64,12 @@ internal fun TemplatesContent(
     onVisibleChange: (Boolean) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
 ) {
-    val templateFilters by component.templatesFlow.collectAsUiState()
+    val templateFilters by component.templatesFlow.collectAsStateWithLifecycle()
     val onRequestFilterMapping = component::filterToTransformation
 
     AnimatedContent(
-        targetState = templateFilters.isEmpty()
+        targetState = templateFilters.isEmpty(),
+        modifier = Modifier.fillMaxSize()
     ) { noTemplates ->
         if (noTemplates) {
             Column(
@@ -102,7 +103,7 @@ internal fun TemplatesContent(
             LazyColumn(
                 state = rememberRetainedLazyListState("templates"),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
                 contentPadding = PaddingValues(16.dp),
                 flingBehavior = enhancedFlingBehavior()
             ) {

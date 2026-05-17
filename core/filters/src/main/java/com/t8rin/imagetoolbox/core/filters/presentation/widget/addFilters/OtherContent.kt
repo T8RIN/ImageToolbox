@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -53,8 +52,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCubeLutFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.utils.collectAsUiState
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Save
@@ -79,12 +78,12 @@ internal fun OtherContent(
     component: AddFiltersSheetComponent,
     currentGroup: UiFilter.Group,
     filters: List<UiFilter<*>>,
+    favoriteFilterKeys: Set<String>,
     onVisibleChange: (Boolean) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
     onFilterPicked: (UiFilter<*>) -> Unit,
     previewBitmap: Bitmap?,
 ) {
-    val favoriteFilters by component.favoritesFlow.collectAsUiState()
     val onRequestFilterMapping = component::filterToTransformation
 
     LazyColumn(
@@ -103,7 +102,7 @@ internal fun OtherContent(
             FilterSelectionItem(
                 filter = filter,
                 canOpenPreview = previewBitmap != null,
-                favoriteFilters = favoriteFilters,
+                isInFavorite = filter::class.java.name in favoriteFilterKeys,
                 onLongClick = {
                     component.setPreviewData(filter)
                 },

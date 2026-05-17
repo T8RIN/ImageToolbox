@@ -19,11 +19,15 @@ package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
 import android.graphics.Bitmap
 import com.t8rin.trickle.TrickleUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-internal fun calculateBrightnessEstimate(
+internal suspend fun calculateBrightnessEstimate(
     bitmap: Bitmap,
     pixelSpacing: Int = 1
-): Int = TrickleUtils.calculateBrightness(
-    bitmap = bitmap,
-    pixelSpacing = pixelSpacing
-)
+): Int = withContext(Dispatchers.Default) {
+    TrickleUtils.calculateBrightness(
+        bitmap = bitmap,
+        pixelSpacing = pixelSpacing
+    )
+}

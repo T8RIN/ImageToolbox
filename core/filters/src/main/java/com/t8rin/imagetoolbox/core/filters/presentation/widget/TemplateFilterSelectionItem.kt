@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -51,6 +50,7 @@ import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.Slideshow
@@ -106,7 +106,7 @@ internal fun TemplateFilterSelectionItem(
                                 )
                                 .diskCacheKey(templateFilter.toString() + previewModel.data.hashCode())
                                 .memoryCacheKey(templateFilter.toString() + previewModel.data.hashCode())
-                                .size(300, 300)
+                                .size(160, 160)
                                 .build()
                         },
                         onLoading = {
@@ -115,8 +115,10 @@ internal fun TemplateFilterSelectionItem(
                         onSuccess = {
                             loading = false
                             scope.launch {
-                                isBitmapDark =
-                                    calculateBrightnessEstimate(it.result.image.toBitmap()) < 110
+                                isBitmapDark = calculateBrightnessEstimate(
+                                    bitmap = it.result.image.toBitmap(64, 64),
+                                    pixelSpacing = 2
+                                ) < 110
                             }
                         },
                         contentScale = ContentScale.Crop,
@@ -126,7 +128,10 @@ internal fun TemplateFilterSelectionItem(
                             .scale(1.2f)
                             .clip(MaterialTheme.shapes.medium)
                             .transparencyChecker()
-                            .shimmer(loading)
+                            .shimmer(loading),
+                        shimmerEnabled = false,
+                        crossfadeEnabled = false,
+                        showTransparencyChecker = false
                     )
                     Box(
                         modifier = Modifier

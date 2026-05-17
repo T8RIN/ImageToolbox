@@ -32,12 +32,10 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -50,8 +48,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCubeLutFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.utils.collectAsUiState
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -65,16 +63,18 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 internal fun FavoritesContent(
     component: AddFiltersSheetComponent,
+    favoriteFilters: List<UiFilter<*>>,
+    favoriteFilterKeys: Set<String>,
     onVisibleChange: (Boolean) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
     onFilterPicked: (UiFilter<*>) -> Unit,
     previewBitmap: Bitmap?
 ) {
     val onRequestFilterMapping = component::filterToTransformation
-    val favoriteFilters by component.favoritesFlow.collectAsUiState()
 
     AnimatedContent(
-        targetState = favoriteFilters.isEmpty()
+        targetState = favoriteFilters.isEmpty(),
+        modifier = Modifier.fillMaxSize()
     ) { noFav ->
         if (noFav) {
             Column(
@@ -148,7 +148,7 @@ internal fun FavoritesContent(
                             filter = filter,
                             isFavoritePage = true,
                             canOpenPreview = previewBitmap != null,
-                            favoriteFilters = favoriteFilters,
+                            isInFavorite = filter::class.java.name in favoriteFilterKeys,
                             onLongClick = null,
                             onOpenPreview = {
                                 component.setPreviewData(filter)
