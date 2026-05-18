@@ -2241,5 +2241,13 @@
     <string name="app_logs">سجلات التطبيقات</string>
     <string name="app_logs_sub">عرض سجلات التطبيق لاكتشاف المشكلات</string>
     <string name="favorite_tools_in_grouped_mode">المفضلة في الأدوات المجمعة</string>
-    <string name="favorite_tools_in_grouped_mode_sub">إضافة المفضلة باعتبارها علامة التبويب الأخيرة عندما يتم تجميع الأدوات حسب النوع</string>
+    <string name="favorite_tools_in_grouped_mode_sub">إضافة المفضلة كعلامة تبويب عندما يتم تجميع الأدوات حسب النوع</string>
+    <string name="show_favorite_as_last">إظهار المفضلة كآخر</string>
+    <string name="show_favorite_as_last_sub">ينقل علامة تبويب الأدوات المفضلة إلى النهاية</string>
+    <string name="horizontal_spacing">التباعد الأفقي</string>
+    <string name="vertical_spacing">تباعد عمودي</string>
+    <string name="seam_carving_backward_energy">طاقة متخلفة</string>
+    <string name="seam_carving_backward_energy_sub">استخدم خريطة طاقة بسيطة ذات حجم متدرج بدلاً من خوارزمية الطاقة الأمامية</string>
+    <string name="seam_carving_mask_as_removal">إزالة المنطقة المقنعة</string>
+    <string name="seam_carving_mask_as_removal_sub">سوف تمر الطبقات عبر المنطقة المقنعة، مما يؤدي إلى إزالة المنطقة المحددة فقط بدلاً من حمايتها</string>
 </resources>

@@ -2236,5 +2236,13 @@
     <string name="app_logs">บันทึกแอป</string>
     <string name="app_logs_sub">ดูบันทึกของแอปเพื่อระบุปัญหา</string>
     <string name="favorite_tools_in_grouped_mode">รายการโปรดในเครื่องมือที่จัดกลุ่ม</string>
-    <string name="favorite_tools_in_grouped_mode_sub">เพิ่มรายการโปรดเป็นแท็บสุดท้ายเมื่อมีการจัดกลุ่มเครื่องมือตามประเภท</string>
+    <string name="favorite_tools_in_grouped_mode_sub">เพิ่มรายการโปรดเป็นแท็บเมื่อมีการจัดกลุ่มเครื่องมือตามประเภท</string>
+    <string name="show_favorite_as_last">แสดงรายการโปรดเป็นครั้งสุดท้าย</string>
+    <string name="show_favorite_as_last_sub">ย้ายแท็บเครื่องมือโปรดไปจนสุด</string>
+    <string name="horizontal_spacing">ระยะห่างแนวนอน</string>
+    <string name="vertical_spacing">ระยะห่างแนวตั้ง</string>
+    <string name="seam_carving_backward_energy">พลังงานถอยหลัง</string>
+    <string name="seam_carving_backward_energy_sub">ใช้แผนที่พลังงานขนาดไล่ระดับสีอย่างง่ายแทนอัลกอริธึมพลังงานไปข้างหน้า</string>
+    <string name="seam_carving_mask_as_removal">ลบพื้นที่ที่ปิดบัง</string>
+    <string name="seam_carving_mask_as_removal_sub">ตะเข็บจะทะลุผ่านบริเวณที่มาสก์ โดยเอาเฉพาะบริเวณที่เลือกออกแทนที่จะปกป้อง</string>
 </resources>

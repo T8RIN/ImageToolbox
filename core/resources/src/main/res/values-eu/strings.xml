@@ -2237,5 +2237,13 @@
     <string name="app_logs">Aplikazioen erregistroak</string>
     <string name="app_logs_sub">Ikusi aplikazioaren erregistroak arazoak antzemateko</string>
     <string name="favorite_tools_in_grouped_mode">Taldekako tresnetan gogokoak</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Gogokoak azken fitxa gisa gehitzen ditu tresnak motaren arabera taldekatzen direnean</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Gogokoak fitxa gisa gehitzen ditu tresnak motaren arabera taldekatzen direnean</string>
+    <string name="show_favorite_as_last">Erakutsi gogokoena azken gisa</string>
+    <string name="show_favorite_as_last_sub">Gogoko tresnen fitxa amaierara eramaten du</string>
+    <string name="horizontal_spacing">Tarte horizontala</string>
+    <string name="vertical_spacing">Tarte bertikala</string>
+    <string name="seam_carving_backward_energy">Atzerako energia</string>
+    <string name="seam_carving_backward_energy_sub">Erabili gradiente-magnitudearen energia-mapa sinplea aurrerako energia-algoritmoaren ordez</string>
+    <string name="seam_carving_mask_as_removal">Kendu maskaratutako eremua</string>
+    <string name="seam_carving_mask_as_removal_sub">Josturak maskaratutako eskualdetik igaroko dira, hautatutako eremua bakarrik kenduz babestu beharrean</string>
 </resources>

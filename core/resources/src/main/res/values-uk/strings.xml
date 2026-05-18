@@ -2239,5 +2239,13 @@
     <string name="app_logs">Журнали програми</string>
     <string name="app_logs_sub">Перегляньте журнали програми, щоб виявити проблеми</string>
     <string name="favorite_tools_in_grouped_mode">Вибране в згрупованих інструментах</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Додає вибране як останню вкладку, коли інструменти групуються за типом</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Додає вибране як вкладку, коли інструменти згруповано за типом</string>
+    <string name="show_favorite_as_last">Показати улюблене як останнє</string>
+    <string name="show_favorite_as_last_sub">Переміщує вкладку улюблених інструментів у кінець</string>
+    <string name="horizontal_spacing">Горизонтальний інтервал</string>
+    <string name="vertical_spacing">Вертикальний інтервал</string>
+    <string name="seam_carving_backward_energy">Зворотна енергія</string>
+    <string name="seam_carving_backward_energy_sub">Використовуйте просту енергетичну карту градієнтної величини замість прямого енергетичного алгоритму</string>
+    <string name="seam_carving_mask_as_removal">Видалити замасковану область</string>
+    <string name="seam_carving_mask_as_removal_sub">Шви проходитимуть через замасковану область, видаляючи лише вибрану ділянку замість того, щоб захищати її</string>
 </resources>

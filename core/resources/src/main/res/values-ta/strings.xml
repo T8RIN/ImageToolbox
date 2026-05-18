@@ -2237,5 +2237,13 @@
     <string name="app_logs">பயன்பாட்டு பதிவுகள்</string>
     <string name="app_logs_sub">சிக்கல்களைக் கண்டறிய, பயன்பாட்டின் பதிவுகளைப் பார்க்கவும்</string>
     <string name="favorite_tools_in_grouped_mode">குழுவாக்கப்பட்ட கருவிகளில் பிடித்தவை</string>
-    <string name="favorite_tools_in_grouped_mode_sub">கருவிகள் வகையின்படி குழுவாக்கப்படும் போது பிடித்தவைகளை கடைசி தாவலாக சேர்க்கிறது</string>
+    <string name="favorite_tools_in_grouped_mode_sub">கருவிகள் வகையின்படி குழுவாக்கப்படும் போது பிடித்தவைகளை தாவலாக சேர்க்கிறது</string>
+    <string name="show_favorite_as_last">பிடித்ததை கடைசியாகக் காட்டு</string>
+    <string name="show_favorite_as_last_sub">பிடித்த கருவிகள் தாவலை இறுதிவரை நகர்த்துகிறது</string>
+    <string name="horizontal_spacing">கிடைமட்ட இடைவெளி</string>
+    <string name="vertical_spacing">செங்குத்து இடைவெளி</string>
+    <string name="seam_carving_backward_energy">பின்தங்கிய ஆற்றல்</string>
+    <string name="seam_carving_backward_energy_sub">முன்னோக்கி ஆற்றல் அல்காரிதத்திற்குப் பதிலாக எளிய சாய்வு அளவு ஆற்றல் வரைபடத்தைப் பயன்படுத்தவும்</string>
+    <string name="seam_carving_mask_as_removal">முகமூடியை அகற்றவும்</string>
+    <string name="seam_carving_mask_as_removal_sub">முகமூடி அணிந்த பகுதி வழியாக சீம்கள் கடந்து செல்லும், அதை பாதுகாப்பதற்கு பதிலாக தேர்ந்தெடுக்கப்பட்ட பகுதியை மட்டும் அகற்றும்</string>
 </resources>

@@ -2237,5 +2237,13 @@
     <string name="app_logs">Uygulama Günlükleri</string>
     <string name="app_logs_sub">Sorunları tespit etmek için uygulamanın günlüklerini görüntüleyin</string>
     <string name="favorite_tools_in_grouped_mode">Gruplandırılmış araçlardaki favoriler</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Araçlar türe göre gruplandırıldığında favorileri son sekme olarak ekler</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Araçlar türe göre gruplandırıldığında favorileri sekme olarak ekler</string>
+    <string name="show_favorite_as_last">Favoriyi son olarak göster</string>
+    <string name="show_favorite_as_last_sub">Favori araçlar sekmesini sonuna taşır</string>
+    <string name="horizontal_spacing">Yatay aralık</string>
+    <string name="vertical_spacing">Dikey aralık</string>
+    <string name="seam_carving_backward_energy">Geriye doğru enerji</string>
+    <string name="seam_carving_backward_energy_sub">İleri enerji algoritması yerine basit gradyan büyüklüğü enerji haritasını kullanın</string>
+    <string name="seam_carving_mask_as_removal">Maskelenmiş alanı kaldır</string>
+    <string name="seam_carving_mask_as_removal_sub">Dikişler maskelenen bölgeden geçecek ve seçilen alanı korumak yerine yalnızca kaldırılacaktır</string>
 </resources>

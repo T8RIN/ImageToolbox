@@ -2236,5 +2236,13 @@
     <string name="app_logs">应用程序日志</string>
     <string name="app_logs_sub">查看应用程序日志以发现问题</string>
     <string name="favorite_tools_in_grouped_mode">分组工具中的收藏夹</string>
-    <string name="favorite_tools_in_grouped_mode_sub">当工具按类型分组时，将收藏夹添加为最后一个选项卡</string>
+    <string name="favorite_tools_in_grouped_mode_sub">当工具按类型分组时，将收藏夹添加为选项卡</string>
+    <string name="show_favorite_as_last">将最爱显示为最后</string>
+    <string name="show_favorite_as_last_sub">将最喜爱的工具选项卡移至末尾</string>
+    <string name="horizontal_spacing">水平间距</string>
+    <string name="vertical_spacing">垂直间距</string>
+    <string name="seam_carving_backward_energy">落后能源</string>
+    <string name="seam_carving_backward_energy_sub">使用简单的梯度幅度能量图代替前向能量算法</string>
+    <string name="seam_carving_mask_as_removal">删除遮罩区域</string>
+    <string name="seam_carving_mask_as_removal_sub">接缝将穿过遮罩区域，仅移除选定区域而不是保护它</string>
 </resources>

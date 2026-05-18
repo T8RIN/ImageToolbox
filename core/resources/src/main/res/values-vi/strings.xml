@@ -2236,5 +2236,13 @@
     <string name="app_logs">Nhật ký ứng dụng</string>
     <string name="app_logs_sub">Xem nhật ký của ứng dụng để phát hiện sự cố</string>
     <string name="favorite_tools_in_grouped_mode">Mục yêu thích trong các công cụ được nhóm</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Thêm mục yêu thích làm tab cuối cùng khi các công cụ được nhóm theo loại</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Thêm mục yêu thích dưới dạng tab khi các công cụ được nhóm theo loại</string>
+    <string name="show_favorite_as_last">Hiển thị mục yêu thích cuối cùng</string>
+    <string name="show_favorite_as_last_sub">Di chuyển tab công cụ yêu thích xuống cuối</string>
+    <string name="horizontal_spacing">Khoảng cách ngang</string>
+    <string name="vertical_spacing">Khoảng cách dọc</string>
+    <string name="seam_carving_backward_energy">Năng lượng ngược</string>
+    <string name="seam_carving_backward_energy_sub">Sử dụng bản đồ năng lượng cường độ gradient đơn giản thay vì thuật toán năng lượng chuyển tiếp</string>
+    <string name="seam_carving_mask_as_removal">Loại bỏ vùng bị che</string>
+    <string name="seam_carving_mask_as_removal_sub">Các đường nối sẽ đi qua vùng bị che, chỉ loại bỏ vùng được chọn thay vì bảo vệ nó</string>
 </resources>

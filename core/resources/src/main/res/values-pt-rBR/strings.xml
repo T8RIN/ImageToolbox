@@ -2237,5 +2237,13 @@
     <string name="app_logs">Registros de aplicativos</string>
     <string name="app_logs_sub">Veja os registros do aplicativo para identificar os problemas</string>
     <string name="favorite_tools_in_grouped_mode">Favoritos em ferramentas agrupadas</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Adiciona favoritos como última guia quando as ferramentas são agrupadas por tipo</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Adiciona favoritos como uma guia quando as ferramentas são agrupadas por tipo</string>
+    <string name="show_favorite_as_last">Mostrar favorito como último</string>
+    <string name="show_favorite_as_last_sub">Move a aba de ferramentas favoritas para o final</string>
+    <string name="horizontal_spacing">Espaçamento horizontal</string>
+    <string name="vertical_spacing">Espaçamento vertical</string>
+    <string name="seam_carving_backward_energy">Energia retrógrada</string>
+    <string name="seam_carving_backward_energy_sub">Use mapa de energia de magnitude de gradiente simples em vez de algoritmo de energia direta</string>
+    <string name="seam_carving_mask_as_removal">Remover área mascarada</string>
+    <string name="seam_carving_mask_as_removal_sub">As costuras passarão pela região mascarada, removendo apenas a área selecionada em vez de protegê-la</string>
 </resources>

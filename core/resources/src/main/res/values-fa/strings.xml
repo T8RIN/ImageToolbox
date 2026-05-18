@@ -2237,5 +2237,13 @@
     <string name="app_logs">گزارش های برنامه</string>
     <string name="app_logs_sub">گزارش های برنامه را مشاهده کنید تا مشکلات را پیدا کنید</string>
     <string name="favorite_tools_in_grouped_mode">موارد دلخواه در ابزارهای گروه بندی شده</string>
-    <string name="favorite_tools_in_grouped_mode_sub">هنگامی که ابزارها بر اساس نوع گروه بندی می شوند، موارد دلخواه را به عنوان آخرین برگه اضافه می کند</string>
+    <string name="favorite_tools_in_grouped_mode_sub">هنگامی که ابزارها بر اساس نوع گروه بندی می شوند، موارد دلخواه را به عنوان یک برگه اضافه می کند</string>
+    <string name="show_favorite_as_last">نمایش مورد علاقه به عنوان آخرین</string>
+    <string name="show_favorite_as_last_sub">برگه ابزار مورد علاقه را به انتها منتقل می کند</string>
+    <string name="horizontal_spacing">فاصله افقی</string>
+    <string name="vertical_spacing">فاصله عمودی</string>
+    <string name="seam_carving_backward_energy">انرژی عقب مانده</string>
+    <string name="seam_carving_backward_energy_sub">به جای الگوریتم انرژی رو به جلو، از نقشه انرژی قدر گرادیان ساده استفاده کنید</string>
+    <string name="seam_carving_mask_as_removal">ناحیه نقاب دار را بردارید</string>
+    <string name="seam_carving_mask_as_removal_sub">درزها از ناحیه نقاب دار عبور می کنند و به جای محافظت از آن، فقط ناحیه انتخاب شده را حذف می کنند</string>
 </resources>

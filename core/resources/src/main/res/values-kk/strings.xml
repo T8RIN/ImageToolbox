@@ -2237,5 +2237,13 @@
     <string name="app_logs">Қолданба журналдары</string>
     <string name="app_logs_sub">Мәселелерді анықтау үшін қолданбаның журналдарын қараңыз</string>
     <string name="favorite_tools_in_grouped_mode">Топтастырылған құралдардағы таңдаулылар</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Құралдар түрі бойынша топтастырылған кезде таңдаулыларды соңғы қойынды ретінде қосады</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Құралдар түрі бойынша топтастырылған кезде таңдаулыларды қойынды ретінде қосады</string>
+    <string name="show_favorite_as_last">Таңдаулыны соңғы ретінде көрсету</string>
+    <string name="show_favorite_as_last_sub">Таңдаулы құралдар қойындысын соңына дейін жылжытады</string>
+    <string name="horizontal_spacing">Көлденең аралық</string>
+    <string name="vertical_spacing">Тік аралық</string>
+    <string name="seam_carving_backward_energy">Кері энергия</string>
+    <string name="seam_carving_backward_energy_sub">Алға энергия алгоритмінің орнына қарапайым градиент шамасының энергия картасын пайдаланыңыз</string>
+    <string name="seam_carving_mask_as_removal">Маскаланған аймақты алып тастаңыз</string>
+    <string name="seam_carving_mask_as_removal_sub">Тігістер маскаланған аймақ арқылы өтіп, оны қорғаудың орнына тек таңдалған аумақты алып тастайды</string>
 </resources>

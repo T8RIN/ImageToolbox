@@ -2237,5 +2237,13 @@
     <string name="app_logs">Sovelluslokit</string>
     <string name="app_logs_sub">Tarkastele sovelluksen lokeja havaitaksesi ongelmat</string>
     <string name="favorite_tools_in_grouped_mode">Suosikit ryhmitellyissä työkaluissa</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Lisää suosikit viimeiseksi välilehdeksi, kun työkalut on ryhmitelty tyypin mukaan</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Lisää suosikit välilehdeksi, kun työkalut on ryhmitelty tyypin mukaan</string>
+    <string name="show_favorite_as_last">Näytä suosikki viimeisenä</string>
+    <string name="show_favorite_as_last_sub">Siirtää suosikkityökalut-välilehden loppuun</string>
+    <string name="horizontal_spacing">Vaakavälit</string>
+    <string name="vertical_spacing">Pystysuuntainen etäisyys</string>
+    <string name="seam_carving_backward_energy">Energiaa taaksepäin</string>
+    <string name="seam_carving_backward_energy_sub">Käytä yksinkertaista gradientin magnitudienergiakarttaa eteenpäin suunnatun energian algoritmin sijaan</string>
+    <string name="seam_carving_mask_as_removal">Poista peitetty alue</string>
+    <string name="seam_carving_mask_as_removal_sub">Saumat kulkevat peitetyn alueen läpi poistaen vain valitun alueen sen suojaamisen sijaan</string>
 </resources>

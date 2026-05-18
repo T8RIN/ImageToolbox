@@ -2237,5 +2237,13 @@
     <string name="app_logs">App-Protokolle</string>
     <string name="app_logs_sub">Sehen Sie sich die Protokolle der App an, um die Probleme zu erkennen</string>
     <string name="favorite_tools_in_grouped_mode">Favoriten in gruppierten Werkzeugen</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Fügt Favoriten als letzte Registerkarte hinzu, wenn Werkzeuge nach Typ gruppiert werden</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Fügt Favoriten als Registerkarte hinzu, wenn Werkzeuge nach Typ gruppiert werden</string>
+    <string name="show_favorite_as_last">Favorit als letztes anzeigen</string>
+    <string name="show_favorite_as_last_sub">Verschiebt die Registerkarte „Favoriten-Tools“ ans Ende</string>
+    <string name="horizontal_spacing">Horizontaler Abstand</string>
+    <string name="vertical_spacing">Vertikaler Abstand</string>
+    <string name="seam_carving_backward_energy">Rückwärts gerichtete Energie</string>
+    <string name="seam_carving_backward_energy_sub">Verwenden Sie anstelle des Vorwärtsenergiealgorithmus eine einfache Gradienten-Magnituden-Energiekarte</string>
+    <string name="seam_carving_mask_as_removal">Maskierten Bereich entfernen</string>
+    <string name="seam_carving_mask_as_removal_sub">Nähte verlaufen durch den maskierten Bereich und entfernen nur den ausgewählten Bereich, anstatt ihn zu schützen</string>
 </resources>

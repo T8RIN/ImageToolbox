@@ -2237,5 +2237,13 @@
     <string name="app_logs">ਐਪ ਲੌਗਸ</string>
     <string name="app_logs_sub">ਸਮੱਸਿਆਵਾਂ ਦਾ ਪਤਾ ਲਗਾਉਣ ਲਈ ਐਪ ਦੇ ਲੌਗ ਦੇਖੋ</string>
     <string name="favorite_tools_in_grouped_mode">ਸਮੂਹਬੱਧ ਟੂਲਸ ਵਿੱਚ ਮਨਪਸੰਦ</string>
-    <string name="favorite_tools_in_grouped_mode_sub">ਜਦੋਂ ਟੂਲਾਂ ਨੂੰ ਕਿਸਮ ਅਨੁਸਾਰ ਸਮੂਹਬੱਧ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਤਾਂ ਆਖਰੀ ਟੈਬ ਵਜੋਂ ਮਨਪਸੰਦ ਜੋੜਦਾ ਹੈ</string>
+    <string name="favorite_tools_in_grouped_mode_sub">ਜਦੋਂ ਟੂਲਾਂ ਨੂੰ ਕਿਸਮ ਅਨੁਸਾਰ ਸਮੂਹਬੱਧ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਤਾਂ ਇੱਕ ਟੈਬ ਵਜੋਂ ਮਨਪਸੰਦ ਜੋੜਦਾ ਹੈ</string>
+    <string name="show_favorite_as_last">ਆਖਰੀ ਵਾਂਗ ਮਨਪਸੰਦ ਦਿਖਾਓ</string>
+    <string name="show_favorite_as_last_sub">ਮਨਪਸੰਦ ਟੂਲ ਟੈਬ ਨੂੰ ਅੰਤ ਵਿੱਚ ਭੇਜਦਾ ਹੈ</string>
+    <string name="horizontal_spacing">ਹਰੀਜੱਟਲ ਵਿੱਥ</string>
+    <string name="vertical_spacing">ਲੰਬਕਾਰੀ ਵਿੱਥ</string>
+    <string name="seam_carving_backward_energy">ਪਿਛਾਖੜੀ ਊਰਜਾ</string>
+    <string name="seam_carving_backward_energy_sub">ਫਾਰਵਰਡ ਐਨਰਜੀ ਐਲਗੋਰਿਦਮ ਦੀ ਬਜਾਏ ਸਧਾਰਨ ਗਰੇਡੀਐਂਟ ਮੈਗਨੀਟਿਊਡ ਐਨਰਜੀ ਮੈਪ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="seam_carving_mask_as_removal">ਨਕਾਬਪੋਸ਼ ਖੇਤਰ ਨੂੰ ਹਟਾਓ</string>
+    <string name="seam_carving_mask_as_removal_sub">ਸੀਮਾਂ ਨਕਾਬਪੋਸ਼ ਖੇਤਰ ਵਿੱਚੋਂ ਲੰਘਣਗੀਆਂ, ਇਸਦੀ ਸੁਰੱਖਿਆ ਕਰਨ ਦੀ ਬਜਾਏ ਸਿਰਫ ਚੁਣੇ ਹੋਏ ਖੇਤਰ ਨੂੰ ਹਟਾਉਂਦੀਆਂ ਹਨ</string>
 </resources>

@@ -2239,5 +2239,13 @@
     <string name="app_logs">Denníky aplikácií</string>
     <string name="app_logs_sub">Pozrite si denníky aplikácie, aby ste zistili problémy</string>
     <string name="favorite_tools_in_grouped_mode">Obľúbené v zoskupených nástrojoch</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Pridá obľúbené položky ako poslednú kartu, keď sú nástroje zoskupené podľa typu</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Pridá obľúbené položky ako kartu, keď sú nástroje zoskupené podľa typu</string>
+    <string name="show_favorite_as_last">Zobraziť obľúbené ako posledné</string>
+    <string name="show_favorite_as_last_sub">Presunie kartu obľúbených nástrojov na koniec</string>
+    <string name="horizontal_spacing">Horizontálne rozostupy</string>
+    <string name="vertical_spacing">Vertikálne rozostupy</string>
+    <string name="seam_carving_backward_energy">Spätná energia</string>
+    <string name="seam_carving_backward_energy_sub">Namiesto dopredného energetického algoritmu použite jednoduchú energetickú mapu gradientu</string>
+    <string name="seam_carving_mask_as_removal">Odstráňte maskovanú oblasť</string>
+    <string name="seam_carving_mask_as_removal_sub">Švy budú prechádzať cez maskovanú oblasť, pričom odstránia iba vybranú oblasť namiesto jej ochrany</string>
 </resources>

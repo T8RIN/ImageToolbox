@@ -2236,5 +2236,13 @@
     <string name="app_logs">Log Aplikasi</string>
     <string name="app_logs_sub">Lihat log aplikasi untuk menemukan masalahnya</string>
     <string name="favorite_tools_in_grouped_mode">Favorit dalam alat yang dikelompokkan</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Menambahkan favorit sebagai tab terakhir ketika alat dikelompokkan berdasarkan jenis</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Menambahkan favorit sebagai tab ketika alat dikelompokkan berdasarkan jenis</string>
+    <string name="show_favorite_as_last">Tampilkan favorit sebagai yang terakhir</string>
+    <string name="show_favorite_as_last_sub">Memindahkan tab alat favorit ke bagian akhir</string>
+    <string name="horizontal_spacing">Jarak horizontal</string>
+    <string name="vertical_spacing">Jarak vertikal</string>
+    <string name="seam_carving_backward_energy">Energi mundur</string>
+    <string name="seam_carving_backward_energy_sub">Gunakan peta energi besaran gradien sederhana alih-alih algoritma energi maju</string>
+    <string name="seam_carving_mask_as_removal">Hapus area bertopeng</string>
+    <string name="seam_carving_mask_as_removal_sub">Jahitan akan melewati area yang ditutupi, hanya menghilangkan area yang dipilih dan bukan melindunginya</string>
 </resources>

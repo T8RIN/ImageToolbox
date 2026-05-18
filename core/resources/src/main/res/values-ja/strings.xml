@@ -2236,5 +2236,13 @@
     <string name="app_logs">アプリのログ</string>
     <string name="app_logs_sub">アプリのログを表示して問題を特定する</string>
     <string name="favorite_tools_in_grouped_mode">グループ化されたツールのお気に入り</string>
-    <string name="favorite_tools_in_grouped_mode_sub">ツールがタイプ別にグループ化されている場合、お気に入りを最後のタブとして追加します</string>
+    <string name="favorite_tools_in_grouped_mode_sub">ツールがタイプ別にグループ化されている場合に、お気に入りをタブとして追加します</string>
+    <string name="show_favorite_as_last">お気に入りを最後に表示</string>
+    <string name="show_favorite_as_last_sub">お気に入りツールタブを最後に移動します</string>
+    <string name="horizontal_spacing">水平方向の間隔</string>
+    <string name="vertical_spacing">垂直方向の間隔</string>
+    <string name="seam_carving_backward_energy">逆方向エネルギー</string>
+    <string name="seam_carving_backward_energy_sub">順方向エネルギー アルゴリズムの代わりに単純な勾配振幅エネルギー マップを使用する</string>
+    <string name="seam_carving_mask_as_removal">マスクされた領域を削除する</string>
+    <string name="seam_carving_mask_as_removal_sub">縫い目はマスクされた領域を通過し、選択した領域のみが保護されずに削除されます。</string>
 </resources>

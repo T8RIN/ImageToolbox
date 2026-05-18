@@ -2238,5 +2238,13 @@
     <string name="app_logs">Апп Логс</string>
     <string name="app_logs_sub">Погледајте евиденцију апликације да бисте уочили проблеме</string>
     <string name="favorite_tools_in_grouped_mode">Фаворити у груписаним алатима</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Додаје фаворите као последњу картицу када су алати груписани по типу</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Додаје фаворите као картицу када су алати груписани по типу</string>
+    <string name="show_favorite_as_last">Прикажи омиљене као последње</string>
+    <string name="show_favorite_as_last_sub">Помера картицу омиљених алатки до краја</string>
+    <string name="horizontal_spacing">Хоризонтални размак</string>
+    <string name="vertical_spacing">Вертикални размак</string>
+    <string name="seam_carving_backward_energy">Заостала енергија</string>
+    <string name="seam_carving_backward_energy_sub">Користите једноставну енергетску мапу магнитуде градијента уместо алгоритма напредне енергије</string>
+    <string name="seam_carving_mask_as_removal">Уклоните маскирано подручје</string>
+    <string name="seam_carving_mask_as_removal_sub">Шавови ће проћи кроз маскирани регион, уклањајући само изабрану област уместо да је штите</string>
 </resources>

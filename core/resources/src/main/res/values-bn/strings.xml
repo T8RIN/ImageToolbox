@@ -2237,5 +2237,13 @@
     <string name="app_logs">অ্যাপ লগ</string>
     <string name="app_logs_sub">সমস্যাগুলি চিহ্নিত করতে অ্যাপের লগগুলি দেখুন৷</string>
     <string name="favorite_tools_in_grouped_mode">গ্রুপ করা টুলে ফেভারিট</string>
-    <string name="favorite_tools_in_grouped_mode_sub">যখন টুল টাইপ দ্বারা গোষ্ঠীবদ্ধ হয় তখন শেষ ট্যাব হিসাবে পছন্দগুলি যোগ করে৷</string>
+    <string name="favorite_tools_in_grouped_mode_sub">যখন টুল টাইপ দ্বারা গোষ্ঠীবদ্ধ হয় তখন একটি ট্যাব হিসাবে পছন্দসই যোগ করে</string>
+    <string name="show_favorite_as_last">শেষ হিসাবে প্রিয় দেখান</string>
+    <string name="show_favorite_as_last_sub">প্রিয় টুল ট্যাবটি শেষ পর্যন্ত সরান</string>
+    <string name="horizontal_spacing">অনুভূমিক ব্যবধান</string>
+    <string name="vertical_spacing">উল্লম্ব ব্যবধান</string>
+    <string name="seam_carving_backward_energy">পশ্চাৎপদ শক্তি</string>
+    <string name="seam_carving_backward_energy_sub">ফরোয়ার্ড এনার্জি অ্যালগরিদমের পরিবর্তে সাধারণ গ্রেডিয়েন্ট ম্যাগনিটিউড এনার্জি ম্যাপ ব্যবহার করুন</string>
+    <string name="seam_carving_mask_as_removal">মুখোশযুক্ত এলাকা সরান</string>
+    <string name="seam_carving_mask_as_removal_sub">Seams মুখোশযুক্ত অঞ্চলের মধ্য দিয়ে যাবে, এটি রক্ষা করার পরিবর্তে শুধুমাত্র নির্বাচিত এলাকাটি সরিয়ে দেবে</string>
 </resources>

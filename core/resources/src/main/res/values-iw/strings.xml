@@ -2239,5 +2239,13 @@
     <string name="app_logs">יומני אפליקציות</string>
     <string name="app_logs_sub">צפה ביומנים של האפליקציה כדי לזהות את הבעיות</string>
     <string name="favorite_tools_in_grouped_mode">מועדפים בכלים מקובצים</string>
-    <string name="favorite_tools_in_grouped_mode_sub">מוסיף מועדפים ככרטיסייה האחרונה כאשר הכלים מקובצים לפי סוג</string>
+    <string name="favorite_tools_in_grouped_mode_sub">מוסיף מועדפים כלשונית כאשר הכלים מקובצים לפי סוג</string>
+    <string name="show_favorite_as_last">הצג את המועדף כאחרון</string>
+    <string name="show_favorite_as_last_sub">מעביר את כרטיסיית הכלים המועדפים לסוף</string>
+    <string name="horizontal_spacing">מרווח אופקי</string>
+    <string name="vertical_spacing">מרווח אנכי</string>
+    <string name="seam_carving_backward_energy">אנרגיה לאחור</string>
+    <string name="seam_carving_backward_energy_sub">השתמש במפת אנרגיה פשוטה של ​​גודל שיפוע במקום באלגוריתם אנרגיה קדימה</string>
+    <string name="seam_carving_mask_as_removal">הסר אזור עם מסכה</string>
+    <string name="seam_carving_mask_as_removal_sub">תפרים יעברו באזור המסוכה, ויסירו רק את האזור הנבחר במקום להגן עליו</string>
 </resources>

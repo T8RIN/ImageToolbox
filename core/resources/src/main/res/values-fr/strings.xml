@@ -2237,5 +2237,13 @@
     <string name="app_logs">Journaux d\'applications</string>
     <string name="app_logs_sub">Afficher les journaux de l\'application pour repérer les problèmes</string>
     <string name="favorite_tools_in_grouped_mode">Favoris dans les outils groupés</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Ajoute des favoris comme dernier onglet lorsque les outils sont regroupés par type</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Ajoute des favoris sous forme d\'onglet lorsque les outils sont regroupés par type</string>
+    <string name="show_favorite_as_last">Afficher le favori en dernier</string>
+    <string name="show_favorite_as_last_sub">Déplace l\'onglet des outils favoris vers la fin</string>
+    <string name="horizontal_spacing">Espacement horizontal</string>
+    <string name="vertical_spacing">Espacement vertical</string>
+    <string name="seam_carving_backward_energy">Énergie en arrière</string>
+    <string name="seam_carving_backward_energy_sub">Utilisez une simple carte d\'énergie de magnitude de gradient au lieu d\'un algorithme d\'énergie directe</string>
+    <string name="seam_carving_mask_as_removal">Supprimer la zone masquée</string>
+    <string name="seam_carving_mask_as_removal_sub">Les coutures traverseront la région masquée, supprimant uniquement la zone sélectionnée au lieu de la protéger</string>
 </resources>

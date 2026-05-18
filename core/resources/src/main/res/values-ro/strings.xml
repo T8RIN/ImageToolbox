@@ -2238,5 +2238,13 @@
     <string name="app_logs">Jurnalele aplicației</string>
     <string name="app_logs_sub">Vizualizați jurnalele aplicației pentru a identifica problemele</string>
     <string name="favorite_tools_in_grouped_mode">Favorite în instrumente grupate</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Adaugă favorite ca ultima filă atunci când instrumentele sunt grupate după tip</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Adaugă favorite ca filă atunci când instrumentele sunt grupate după tip</string>
+    <string name="show_favorite_as_last">Afișează preferatul ca ultimul</string>
+    <string name="show_favorite_as_last_sub">Mută ​​fila instrumente preferate până la sfârșit</string>
+    <string name="horizontal_spacing">Spațiere orizontală</string>
+    <string name="vertical_spacing">Spațiere verticală</string>
+    <string name="seam_carving_backward_energy">Energie înapoi</string>
+    <string name="seam_carving_backward_energy_sub">Utilizați o hartă simplă a energiei cu magnitudinea gradientului în loc de algoritmul de energie directă</string>
+    <string name="seam_carving_mask_as_removal">Îndepărtați zona mascată</string>
+    <string name="seam_carving_mask_as_removal_sub">Cusăturile vor trece prin regiunea mascată, eliminând doar zona selectată în loc să o protejeze</string>
 </resources>

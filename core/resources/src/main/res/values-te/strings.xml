@@ -2237,5 +2237,13 @@
     <string name="app_logs">యాప్ లాగ్‌లు</string>
     <string name="app_logs_sub">సమస్యలను గుర్తించడానికి యాప్ లాగ్‌లను వీక్షించండి</string>
     <string name="favorite_tools_in_grouped_mode">సమూహ సాధనాల్లో ఇష్టమైనవి</string>
-    <string name="favorite_tools_in_grouped_mode_sub">సాధనాలు రకం ద్వారా సమూహం చేయబడినప్పుడు ఇష్టమైన వాటిని చివరి ట్యాబ్‌గా జోడిస్తుంది</string>
+    <string name="favorite_tools_in_grouped_mode_sub">సాధనాలు రకం ఆధారంగా సమూహం చేయబడినప్పుడు ఇష్టమైన వాటిని ట్యాబ్‌గా జోడిస్తుంది</string>
+    <string name="show_favorite_as_last">చివరిగా ఇష్టమైనదాన్ని చూపించు</string>
+    <string name="show_favorite_as_last_sub">ఇష్టమైన సాధనాల ట్యాబ్‌ను చివరి వరకు తరలిస్తుంది</string>
+    <string name="horizontal_spacing">క్షితిజ సమాంతర అంతరం</string>
+    <string name="vertical_spacing">నిలువు అంతరం</string>
+    <string name="seam_carving_backward_energy">వెనుకబడిన శక్తి</string>
+    <string name="seam_carving_backward_energy_sub">ఫార్వర్డ్ ఎనర్జీ అల్గారిథమ్‌కు బదులుగా సాధారణ గ్రేడియంట్ మాగ్నిట్యూడ్ ఎనర్జీ మ్యాప్‌ని ఉపయోగించండి</string>
+    <string name="seam_carving_mask_as_removal">ముసుగు వేసిన ప్రాంతాన్ని తొలగించండి</string>
+    <string name="seam_carving_mask_as_removal_sub">అతుకులు ముసుగు చేయబడిన ప్రాంతం గుండా వెళతాయి, దానిని రక్షించడానికి బదులుగా ఎంచుకున్న ప్రాంతాన్ని మాత్రమే తొలగిస్తుంది</string>
 </resources>

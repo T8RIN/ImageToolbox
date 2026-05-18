@@ -2237,5 +2237,13 @@
     <string name="app_logs">ئەپ خاتىرىسى</string>
     <string name="app_logs_sub">مەسىلىلەرنى بايقاش ئۈچۈن ئەپنىڭ خاتىرىسىنى كۆرۈڭ</string>
     <string name="favorite_tools_in_grouped_mode">گۇرۇپپا قوراللىرىدىكى ئامراقلار</string>
-    <string name="favorite_tools_in_grouped_mode_sub">قوراللار تۈرلەرگە ئايرىغاندا ئەڭ ئاخىرقى بەتكۈچ سۈپىتىدە ئامراقلارنى قوشىدۇ</string>
+    <string name="favorite_tools_in_grouped_mode_sub">قوراللار تۈرگە ئايرىغاندا ئامراقلارنى بەتكۈچ قىلىپ قوشىدۇ</string>
+    <string name="show_favorite_as_last">ئەڭ ئاخىرقىسىنى ياخشى كۆرۈڭ</string>
+    <string name="show_favorite_as_last_sub">ياقتۇرىدىغان قوراللار بەتكۈچىنى ئاخىرىغا يۆتكەيدۇ</string>
+    <string name="horizontal_spacing">گورىزونتال ئارىلىقى</string>
+    <string name="vertical_spacing">تىك بوشلۇق</string>
+    <string name="seam_carving_backward_energy">قالاق ئېنېرگىيە</string>
+    <string name="seam_carving_backward_energy_sub">ئالغا ئىلگىرىلەش ئالگورىزىمنىڭ ئورنىغا ئاددىي دەرىجىدىكى چوڭلۇقتىكى ئېنېرگىيە خەرىتىسىنى ئىشلىتىڭ</string>
+    <string name="seam_carving_mask_as_removal">نىقابلانغان رايوننى ئېلىۋېتىڭ</string>
+    <string name="seam_carving_mask_as_removal_sub">تاملار نىقابلانغان رايوندىن ئۆتىدۇ ، ئۇنى قوغداشنىڭ ئورنىغا تاللانغان رايوننىلا ئېلىۋېتىدۇ</string>
 </resources>

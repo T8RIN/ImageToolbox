@@ -2238,5 +2238,13 @@
     <string name="app_logs">යෙදුම් ලොග</string>
     <string name="app_logs_sub">ගැටළු හඳුනා ගැනීමට යෙදුමේ ලොග් බලන්න</string>
     <string name="favorite_tools_in_grouped_mode">සමූහගත මෙවලම්වල ප්‍රියතමයන්</string>
-    <string name="favorite_tools_in_grouped_mode_sub">මෙවලම් වර්ගය අනුව කාණ්ඩ කළ විට අවසාන ටැබය ලෙස ප්‍රියතමයන් එක් කරයි</string>
+    <string name="favorite_tools_in_grouped_mode_sub">මෙවලම් වර්ගය අනුව කාණ්ඩ කළ විට ටැබ් එකක් ලෙස ප්‍රියතමයන් එක් කරයි</string>
+    <string name="show_favorite_as_last">අන්තිම ලෙස ප්රියතම පෙන්වන්න</string>
+    <string name="show_favorite_as_last_sub">ප්‍රියතම මෙවලම් පටිත්ත අවසානය දක්වා ගෙන යයි</string>
+    <string name="horizontal_spacing">තිරස් පරතරය</string>
+    <string name="vertical_spacing">සිරස් පරතරය</string>
+    <string name="seam_carving_backward_energy">පසුගාමී ශක්තිය</string>
+    <string name="seam_carving_backward_energy_sub">ඉදිරි ශක්ති ඇල්ගොරිතම වෙනුවට සරල ශ්‍රේණියේ විශාලත්වය බලශක්ති සිතියම භාවිතා කරන්න</string>
+    <string name="seam_carving_mask_as_removal">ආවරණ සහිත ප්රදේශය ඉවත් කරන්න</string>
+    <string name="seam_carving_mask_as_removal_sub">මැහුම් ආවරණ කලාපය හරහා ගමන් කරනු ඇත, එය ආරක්ෂා කිරීම වෙනුවට තෝරාගත් ප්රදේශය පමණක් ඉවත් කරනු ඇත</string>
 </resources>

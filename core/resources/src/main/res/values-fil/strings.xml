@@ -2237,5 +2237,13 @@
     <string name="app_logs">Mga Log ng App</string>
     <string name="app_logs_sub">Tingnan ang mga log ng app upang makita ang mga isyu</string>
     <string name="favorite_tools_in_grouped_mode">Mga paborito sa mga nakagrupong tool</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Nagdaragdag ng mga paborito bilang huling tab kapag ang mga tool ay pinagsama ayon sa uri</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Nagdaragdag ng mga paborito bilang tab kapag ang mga tool ay pinagsama-sama ayon sa uri</string>
+    <string name="show_favorite_as_last">Ipakita ang paborito bilang huli</string>
+    <string name="show_favorite_as_last_sub">Inilipat ang tab ng mga paboritong tool hanggang sa dulo</string>
+    <string name="horizontal_spacing">Pahalang na espasyo</string>
+    <string name="vertical_spacing">Vertical spacing</string>
+    <string name="seam_carving_backward_energy">Paatras na enerhiya</string>
+    <string name="seam_carving_backward_energy_sub">Gumamit ng simpleng gradient magnitude na mapa ng enerhiya sa halip na pasulong na algorithm ng enerhiya</string>
+    <string name="seam_carving_mask_as_removal">Alisin ang masked area</string>
+    <string name="seam_carving_mask_as_removal_sub">Ang mga tahi ay dadaan sa nakamaskara na rehiyon, na aalisin lamang ang napiling lugar sa halip na protektahan ito</string>
 </resources>

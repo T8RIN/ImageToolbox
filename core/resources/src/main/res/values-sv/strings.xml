@@ -2238,5 +2238,13 @@
     <string name="app_logs">Apploggar</string>
     <string name="app_logs_sub">Visa loggar för appen för att upptäcka problemen</string>
     <string name="favorite_tools_in_grouped_mode">Favoriter i grupperade verktyg</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Lägger till favoriter som sista flik när verktyg är grupperade efter typ</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Lägger till favoriter som en flik när verktyg är grupperade efter typ</string>
+    <string name="show_favorite_as_last">Visa favorit som sist</string>
+    <string name="show_favorite_as_last_sub">Flyttar fliken favoritverktyg till slutet</string>
+    <string name="horizontal_spacing">Horisontellt avstånd</string>
+    <string name="vertical_spacing">Vertikalt avstånd</string>
+    <string name="seam_carving_backward_energy">Bakåt energi</string>
+    <string name="seam_carving_backward_energy_sub">Använd enkel gradient magnitud energikarta istället för framåt energialgoritm</string>
+    <string name="seam_carving_mask_as_removal">Ta bort det maskerade området</string>
+    <string name="seam_carving_mask_as_removal_sub">Sömmar kommer att passera genom det maskerade området och tar bara bort det valda området istället för att skydda det</string>
 </resources>

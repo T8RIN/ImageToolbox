@@ -2237,5 +2237,13 @@
     <string name="app_logs">Registres d\'aplicacions</string>
     <string name="app_logs_sub">Consulteu els registres de l\'aplicació per detectar els problemes</string>
     <string name="favorite_tools_in_grouped_mode">Preferits en eines agrupades</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Afegeix els preferits com a darrera pestanya quan les eines s\'agrupen per tipus</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Afegeix els preferits com a pestanya quan les eines s\'agrupen per tipus</string>
+    <string name="show_favorite_as_last">Mostra el favorit com a últim</string>
+    <string name="show_favorite_as_last_sub">Mou la pestanya d\'eines preferides fins al final</string>
+    <string name="horizontal_spacing">Espaiat horitzontal</string>
+    <string name="vertical_spacing">Espaiat vertical</string>
+    <string name="seam_carving_backward_energy">Energia endarrerida</string>
+    <string name="seam_carving_backward_energy_sub">Utilitzeu un mapa d\'energia de magnitud de gradient senzill en lloc d\'un algorisme d\'energia directa</string>
+    <string name="seam_carving_mask_as_removal">Traieu la zona emmascarada</string>
+    <string name="seam_carving_mask_as_removal_sub">Les costures passaran per la regió emmascarada, eliminant només l\'àrea seleccionada en lloc de protegir-la</string>
 </resources>

@@ -2240,5 +2240,13 @@
     <string name="app_logs">Programų žurnalai</string>
     <string name="app_logs_sub">Peržiūrėkite programos žurnalus, kad pastebėtumėte problemas</string>
     <string name="favorite_tools_in_grouped_mode">Mėgstamiausios sugrupuotose priemonėse</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Prideda mėgstamiausius kaip paskutinį skirtuką, kai įrankiai sugrupuojami pagal tipą</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Prideda parankinius kaip skirtuką, kai įrankiai sugrupuojami pagal tipą</string>
+    <string name="show_favorite_as_last">Rodyti mėgstamiausią kaip paskutinį</string>
+    <string name="show_favorite_as_last_sub">Perkelia mėgstamiausių įrankių skirtuką į pabaigą</string>
+    <string name="horizontal_spacing">Horizontalus atstumas</string>
+    <string name="vertical_spacing">Vertikalus tarpas</string>
+    <string name="seam_carving_backward_energy">Atgalinė energija</string>
+    <string name="seam_carving_backward_energy_sub">Naudokite paprastą gradiento dydžio energijos žemėlapį, o ne tiesioginės energijos algoritmą</string>
+    <string name="seam_carving_mask_as_removal">Pašalinkite užmaskuotą vietą</string>
+    <string name="seam_carving_mask_as_removal_sub">Siūlės praeis per užmaskuotą sritį, pašalindamos tik pasirinktą sritį, o ne ją apsaugodamos</string>
 </resources>

@@ -2237,5 +2237,13 @@
     <string name="app_logs">App logs</string>
     <string name="app_logs_sub">Se logfiler for appen for at se problemerne</string>
     <string name="favorite_tools_in_grouped_mode">Favoritter i grupperede værktøjer</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Tilføjer favoritter som den sidste fane, når værktøjer er grupperet efter type</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Tilføjer favoritter som en fane, når værktøjer er grupperet efter type</string>
+    <string name="show_favorite_as_last">Vis favorit som sidst</string>
+    <string name="show_favorite_as_last_sub">Flytter fanen favoritværktøjer til slutningen</string>
+    <string name="horizontal_spacing">Vandret afstand</string>
+    <string name="vertical_spacing">Lodret mellemrum</string>
+    <string name="seam_carving_backward_energy">Baglæns energi</string>
+    <string name="seam_carving_backward_energy_sub">Brug simpel gradientstørrelse energikort i stedet for fremadgående energialgoritme</string>
+    <string name="seam_carving_mask_as_removal">Fjern det maskerede område</string>
+    <string name="seam_carving_mask_as_removal_sub">Sømme vil passere gennem det maskerede område og fjerner kun det valgte område i stedet for at beskytte det</string>
 </resources>

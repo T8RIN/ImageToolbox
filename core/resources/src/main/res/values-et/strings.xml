@@ -2237,5 +2237,13 @@
     <string name="app_logs">Rakenduste logid</string>
     <string name="app_logs_sub">Probleemide tuvastamiseks vaadake rakenduse logisid</string>
     <string name="favorite_tools_in_grouped_mode">Lemmikud rühmitatud tööriistades</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Lisab lemmikud viimase vahekaardina, kui tööriistad on tüübi järgi rühmitatud</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Lisab lemmikud vahekaardina, kui tööriistad on tüübi järgi rühmitatud</string>
+    <string name="show_favorite_as_last">Näita lemmikut viimasena</string>
+    <string name="show_favorite_as_last_sub">Liigutab lemmiktööriistade vahekaardi lõppu</string>
+    <string name="horizontal_spacing">Horisontaalne vahekaugus</string>
+    <string name="vertical_spacing">Vertikaalne vahekaugus</string>
+    <string name="seam_carving_backward_energy">Tagurpidi energia</string>
+    <string name="seam_carving_backward_energy_sub">Kasutage edasisuunalise energia algoritmi asemel lihtsat gradiendi suurusjärgu energiakaarti</string>
+    <string name="seam_carving_mask_as_removal">Eemaldage maskeeritud ala</string>
+    <string name="seam_carving_mask_as_removal_sub">Õmblused läbivad maskeeritud ala, eemaldades selle kaitsmise asemel ainult valitud ala</string>
 </resources>

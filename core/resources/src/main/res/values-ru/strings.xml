@@ -1386,7 +1386,6 @@
     <string name="group_tools_by_type">Группировать инструменты по типу</string>
     <string name="group_tools_by_type_sub">Группирует инструменты на главном экране на основе их типа вместо пользовательского расположения</string>
     <string name="favorite_tools_in_grouped_mode">Избранное при группировке</string>
-    <string name="favorite_tools_in_grouped_mode_sub">Добавляет избранное отдельной вкладкой, когда инструменты сгруппированы по типу</string>
     <string name="show_favorite_as_last">Show favorite as last</string>
     <string name="show_favorite_as_last_sub">Перемещает вкладку избранных инструментов в конец</string>
     <string name="default_values">Значения по умолчанию</string>
@@ -2246,4 +2245,7 @@
     <string name="seam_carving_backward_energy_sub">Использовать простую карту энергии на основе градиента вместо алгоритма прямой энергии</string>
     <string name="seam_carving_mask_as_removal">Удалить выделенную область</string>
     <string name="seam_carving_mask_as_removal_sub">Швы будут проходить через замаскированную область, удаляя только выделенное вместо защиты</string>
+    <string name="favorite_tools_in_grouped_mode_sub">Добавляет избранное в виде вкладки, когда инструменты сгруппированы по типу.</string>
+    <string name="horizontal_spacing">Горизонтальный интервал</string>
+    <string name="vertical_spacing">Вертикальный интервал</string>
 </resources>
