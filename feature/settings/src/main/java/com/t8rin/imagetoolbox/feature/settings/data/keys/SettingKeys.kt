@@ -47,6 +47,7 @@ internal val AUTO_CACHE_CLEAR = booleanPreferencesKey("auto_clear")
 internal val GROUP_OPTIONS_BY_TYPE = booleanPreferencesKey("group_options")
 internal val SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE =
     booleanPreferencesKey("SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE")
+internal val SHOW_FAVORITE_AS_LAST = booleanPreferencesKey("SHOW_FAVORITE_AS_LAST")
 internal val SELECTED_FONT = stringPreferencesKey("SELECTED_FONT")
 internal val FONT_SCALE = floatPreferencesKey("font_scale")
 internal val ALLOW_CRASHLYTICS = booleanPreferencesKey("allow_crashlytics")

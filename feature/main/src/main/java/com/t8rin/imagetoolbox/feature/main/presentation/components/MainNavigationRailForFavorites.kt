@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +52,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
@@ -66,6 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 @Composable
 internal fun MainNavigationRailForFavorites(
     selectedIndex: Int,
+    showFavoriteAsLast: Boolean = false,
     onValueChange: (Int) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -106,66 +107,30 @@ internal fun MainNavigationRailForFavorites(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(Modifier.height(8.dp))
-                val haptics = LocalHapticFeedback.current
-                NavigationRailItem(
-                    modifier = Modifier
-                        .height(height = 56.dp)
-                        .width(100.dp),
-                    selected = selectedIndex == 0,
-                    onClick = {
-                        onValueChange(0)
-                        haptics.longPress()
-                    },
-                    icon = {
-                        AnimatedContent(
-                            targetState = selectedIndex == 0,
-                            transitionSpec = {
-                                fadeIn() togetherWith fadeOut()
-                            }
-                        ) { selected ->
-                            Icon(
-                                imageVector = if (selected) Icons.Rounded.Bookmark else Icons.Outlined.Bookmark,
-                                contentDescription = null
-                            )
-                        }
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.favorite),
-                            modifier = Modifier.marquee()
-                        )
-                    }
+                val favoriteIndex = if (showFavoriteAsLast) 1 else 0
+                val toolsIndex = if (showFavoriteAsLast) 0 else 1
+
+                if (!showFavoriteAsLast) {
+                    FavoriteNavigationRailItem(
+                        selected = selectedIndex == favoriteIndex,
+                        favoriteIndex = favoriteIndex,
+                        onValueChange = onValueChange
+                    )
+                }
+
+                ToolsNavigationRailItem(
+                    selected = selectedIndex == toolsIndex,
+                    toolsIndex = toolsIndex,
+                    onValueChange = onValueChange
                 )
 
-                NavigationRailItem(
-                    modifier = Modifier
-                        .height(height = 56.dp)
-                        .width(100.dp),
-                    selected = selectedIndex == 1,
-                    onClick = {
-                        onValueChange(1)
-                        haptics.longPress()
-                    },
-                    icon = {
-                        AnimatedContent(
-                            targetState = selectedIndex == 1,
-                            transitionSpec = {
-                                fadeIn() togetherWith fadeOut()
-                            }
-                        ) { selected ->
-                            Icon(
-                                imageVector = if (selected) Icons.Rounded.ServiceToolbox else Icons.Outlined.ServiceToolbox,
-                                contentDescription = null
-                            )
-                        }
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.tools),
-                            modifier = Modifier.marquee()
-                        )
-                    }
-                )
+                if (showFavoriteAsLast) {
+                    FavoriteNavigationRailItem(
+                        selected = selectedIndex == favoriteIndex,
+                        favoriteIndex = favoriteIndex,
+                        onValueChange = onValueChange
+                    )
+                }
                 Spacer(Modifier.height(8.dp))
             }
         }
@@ -181,4 +146,84 @@ internal fun MainNavigationRailForFavorites(
                 )
         )
     }
+}
+
+@Composable
+private fun FavoriteNavigationRailItem(
+    selected: Boolean,
+    favoriteIndex: Int,
+    onValueChange: (Int) -> Unit
+) {
+    val haptics = LocalHapticFeedback.current
+    NavigationRailItem(
+        modifier = Modifier
+            .height(height = 56.dp)
+            .width(100.dp),
+        selected = selected,
+        onClick = {
+            onValueChange(favoriteIndex)
+            haptics.longPress()
+        },
+        icon = {
+            AnimatedContent(
+                targetState = selected,
+                transitionSpec = {
+                    fadeIn() togetherWith fadeOut()
+                }
+            ) { selected ->
+                Icon(
+                    imageVector = if (selected) Icons.Rounded.Bookmark else Icons.Outlined.Bookmark,
+                    contentDescription = null
+                )
+            }
+        },
+        label = {
+            Text(
+                text = stringResource(R.string.favorite),
+                modifier = Modifier.marquee()
+            )
+        }
+    )
+}
+
+@Composable
+private fun ToolsNavigationRailItem(
+    selected: Boolean,
+    toolsIndex: Int,
+    onValueChange: (Int) -> Unit
+) {
+    val haptics = LocalHapticFeedback.current
+    NavigationRailItem(
+        modifier = Modifier
+            .height(height = 56.dp)
+            .width(100.dp),
+        selected = selected,
+        onClick = {
+            onValueChange(toolsIndex)
+            haptics.longPress()
+        },
+        icon = {
+            AnimatedContent(
+                targetState = selected,
+                transitionSpec = {
+                    fadeIn() togetherWith fadeOut()
+                }
+            ) { selected ->
+                Icon(
+                    imageVector = if (selected) {
+                        Icons.Rounded.ServiceToolbox
+                    } else {
+                        Icons.Outlined.ServiceToolbox
+                    },
+                    contentDescription = null
+                )
+            }
+        },
+        label = {
+            Text(
+                text = stringResource(R.string.tools),
+                modifier = Modifier.marquee()
+            )
+        }
+    )
 }

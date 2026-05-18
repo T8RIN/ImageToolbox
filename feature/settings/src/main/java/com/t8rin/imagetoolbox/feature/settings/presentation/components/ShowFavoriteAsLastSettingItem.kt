@@ -25,26 +25,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
+import com.t8rin.imagetoolbox.core.resources.icons.LastPage
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun FavoriteToolsInGroupedModeSettingItem(
+fun ShowFavoriteAsLastSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.center,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        enabled = settingsState.groupOptionsByTypes,
-        startIcon = Icons.Outlined.Bookmark,
-        title = stringResource(R.string.favorite_tools_in_grouped_mode),
-        subtitle = stringResource(R.string.favorite_tools_in_grouped_mode_sub),
-        checked = settingsState.showFavoriteToolsInGroupedMode,
+        enabled = settingsState.showFavoriteToolsInGroupedMode || !settingsState.groupOptionsByTypes,
+        startIcon = Icons.Outlined.LastPage,
+        title = stringResource(R.string.show_favorite_as_last),
+        subtitle = stringResource(R.string.show_favorite_as_last_sub),
+        checked = settingsState.showFavoriteAsLast,
         onClick = {
             onClick()
         }

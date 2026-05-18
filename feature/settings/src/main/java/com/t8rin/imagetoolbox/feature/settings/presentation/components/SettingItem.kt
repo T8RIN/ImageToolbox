@@ -254,6 +254,10 @@ internal fun SettingItem(
                 )
             }
 
+            Setting.ShowFavoriteAsLast -> {
+                ShowFavoriteAsLastSettingItem(onClick = component::toggleFavoriteAsLast)
+            }
+
             Setting.HelpTranslate -> {
                 HelpTranslateSettingItem()
             }

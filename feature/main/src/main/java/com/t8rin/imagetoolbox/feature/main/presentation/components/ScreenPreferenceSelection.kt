@@ -53,7 +53,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -71,6 +70,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.getSystemService
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
@@ -431,7 +431,12 @@ internal fun RowScope.ScreenPreferenceSelection(
                     EnhancedButton(
                         onClick = {
                             onNavigationBarItemChange(
-                                if (settingsState.groupOptionsByTypes) 0 else 1
+                                when {
+                                    settingsState.groupOptionsByTypes && !settingsState.showFavoriteAsLast -> 1
+                                    settingsState.groupOptionsByTypes -> 0
+                                    settingsState.showFavoriteAsLast -> 0
+                                    else -> 1
+                                }
                             )
                         }
                     ) {

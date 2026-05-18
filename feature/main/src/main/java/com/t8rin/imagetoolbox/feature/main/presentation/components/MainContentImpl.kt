@@ -90,6 +90,7 @@ internal fun MainContentImpl(
     LaunchedEffect(
         settingsState.groupOptionsByTypes,
         showFavoriteTabInGroupedMode,
+        settingsState.showFavoriteAsLast,
         selectedNavigationItem
     ) {
         val lastNavigationIndex = when {
@@ -179,21 +180,28 @@ internal fun MainContentImpl(
                 ) {
                     AnimatedContent(
                         targetState = Triple(
-                            settingsState.groupOptionsByTypes,
-                            showFavoriteTabInGroupedMode,
-                            showScreenSearch && canSearchScreens
+                            first = settingsState.groupOptionsByTypes,
+                            second = showFavoriteTabInGroupedMode,
+                            third = Pair(
+                                settingsState.showFavoriteAsLast,
+                                showScreenSearch && canSearchScreens
+                            )
                         ),
                         transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { (groupOptionsByTypes, showFavorite, searching) ->
+                    ) { (groupOptionsByTypes, showFavorite, favoriteState) ->
+                        val (showFavoriteAsLast, searching) = favoriteState
+
                         if (groupOptionsByTypes && !searching) {
                             MainNavigationBar(
                                 selectedIndex = selectedNavigationItem,
                                 showFavorite = showFavorite,
+                                showFavoriteAsLast = showFavoriteAsLast,
                                 onValueChange = { selectedNavigationItem = it }
                             )
                         } else if (!searching) {
                             MainNavigationBarForFavorites(
                                 selectedIndex = selectedNavigationItem,
+                                showFavoriteAsLast = showFavoriteAsLast,
                                 onValueChange = { selectedNavigationItem = it }
                             )
                         } else {
@@ -229,13 +237,18 @@ internal fun MainContentImpl(
                     exit = fadeOut() + shrinkHorizontally()
                 ) {
                     AnimatedContent(
-                        targetState = settingsState.groupOptionsByTypes to showFavoriteTabInGroupedMode,
+                        targetState = Triple(
+                            first = settingsState.groupOptionsByTypes,
+                            second = showFavoriteTabInGroupedMode,
+                            third = settingsState.showFavoriteAsLast
+                        ),
                         transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { (groupOptionsByTypes, showFavorite) ->
+                    ) { (groupOptionsByTypes, showFavorite, showFavoriteAsLast) ->
                         if (groupOptionsByTypes) {
                             MainNavigationRail(
                                 selectedIndex = selectedNavigationItem,
                                 showFavorite = showFavorite,
+                                showFavoriteAsLast = showFavoriteAsLast,
                                 onValueChange = {
                                     selectedNavigationItem = it
                                 }
@@ -243,6 +256,7 @@ internal fun MainContentImpl(
                         } else {
                             MainNavigationRailForFavorites(
                                 selectedIndex = selectedNavigationItem,
+                                showFavoriteAsLast = showFavoriteAsLast,
                                 onValueChange = {
                                     selectedNavigationItem = it
                                 }

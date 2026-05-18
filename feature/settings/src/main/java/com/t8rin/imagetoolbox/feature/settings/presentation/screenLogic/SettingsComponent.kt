@@ -238,6 +238,8 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleFavoriteToolsInGroupedMode() =
         settingsScope { toggleShowFavoriteToolsInGroupedMode() }
 
+    fun toggleFavoriteAsLast() = settingsScope { toggleShowFavoriteAsLast() }
+
     fun toggleRandomizeFilename() = settingsScope { toggleRandomizeFilename() }
 
     fun createBackup(

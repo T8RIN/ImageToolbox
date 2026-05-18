@@ -48,6 +48,7 @@ internal fun filteredScreenListFor(
     return remember(
         settingsState.groupOptionsByTypes,
         settingsState.showFavoriteToolsInGroupedMode,
+        settingsState.showFavoriteAsLast,
         settingsState.favoriteScreenList,
         screenSearchKeyword,
         screenList,
@@ -57,20 +58,35 @@ internal fun filteredScreenListFor(
         derivedStateOf {
             when {
                 settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch) -> {
+                    val favoriteIndex = if (settingsState.showFavoriteAsLast) {
+                        Screen.typedEntries.size
+                    } else {
+                        0
+                    }
+                    val screenGroupIndex = if (
+                        settingsState.showFavoriteToolsInGroupedMode &&
+                        !settingsState.showFavoriteAsLast
+                    ) {
+                        selectedNavigationItem - 1
+                    } else {
+                        selectedNavigationItem
+                    }
+
                     if (
                         settingsState.showFavoriteToolsInGroupedMode &&
-                        selectedNavigationItem == Screen.typedEntries.size
+                        selectedNavigationItem == favoriteIndex
                     ) {
                         screenList.filter {
                             it.id in settingsState.favoriteScreenList
                         }
                     } else {
-                        Screen.typedEntries.getOrNull(selectedNavigationItem)?.entries.orEmpty()
+                        Screen.typedEntries.getOrNull(screenGroupIndex)?.entries.orEmpty()
                     }
                 }
 
                 !settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch) -> {
-                    if (selectedNavigationItem == 0) {
+                    val favoriteIndex = if (settingsState.showFavoriteAsLast) 1 else 0
+                    if (selectedNavigationItem == favoriteIndex) {
                         screenList.filter {
                             it.id in settingsState.favoriteScreenList
                         }

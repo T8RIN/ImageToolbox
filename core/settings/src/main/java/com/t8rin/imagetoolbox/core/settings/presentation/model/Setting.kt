@@ -188,6 +188,11 @@ sealed class Setting(
         subtitle = R.string.favorite_tools_in_grouped_mode_sub
     )
 
+    data object ShowFavoriteAsLast : Setting(
+        title = R.string.show_favorite_as_last,
+        subtitle = R.string.show_favorite_as_last_sub
+    )
+
     data object HelpTranslate : Setting(
         title = R.string.help_translate,
         subtitle = R.string.help_translate_sub

@@ -61,6 +61,7 @@ internal fun Preferences.toSettingsState(
     groupOptionsByTypes = this[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes,
     showFavoriteToolsInGroupedMode = this[SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE]
         ?: default.showFavoriteToolsInGroupedMode,
+    showFavoriteAsLast = this[SHOW_FAVORITE_AS_LAST] ?: default.showFavoriteAsLast,
     addSequenceNumber = this[ADD_SEQ_NUM_TO_FILENAME] ?: default.addSequenceNumber,
     saveFolderUri = this[SAVE_FOLDER_URI],
     presets = Preset.createListFromInts(this[PRESETS]) ?: default.presets,

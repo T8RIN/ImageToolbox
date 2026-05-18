@@ -66,6 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 internal fun MainNavigationRail(
     selectedIndex: Int,
     showFavorite: Boolean = false,
+    showFavoriteAsLast: Boolean = false,
     onValueChange: (Int) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -106,14 +107,24 @@ internal fun MainNavigationRail(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(Modifier.height(8.dp))
+                if (showFavorite && !showFavoriteAsLast) {
+                    FavoriteNavigationRailItem(
+                        selected = selectedIndex == 0,
+                        favoriteIndex = 0,
+                        onValueChange = onValueChange
+                    )
+                }
+
                 Screen.typedEntries.forEachIndexed { index, group ->
-                    val selected = index == selectedIndex
+                    val navigationIndex =
+                        if (showFavorite && !showFavoriteAsLast) index + 1 else index
+                    val selected = navigationIndex == selectedIndex
                     val haptics = LocalHapticFeedback.current
                     EnhancedNavigationRailItem(
                         modifier = Modifier.width(100.dp),
                         selected = selected,
                         onClick = {
-                            onValueChange(index)
+                            onValueChange(navigationIndex)
                             haptics.longPress()
                         },
                         icon = {
@@ -134,37 +145,12 @@ internal fun MainNavigationRail(
                         }
                     )
                 }
-                if (showFavorite) {
+                if (showFavorite && showFavoriteAsLast) {
                     val favoriteIndex = Screen.typedEntries.size
-                    val selected = favoriteIndex == selectedIndex
-                    val haptics = LocalHapticFeedback.current
-                    EnhancedNavigationRailItem(
-                        modifier = Modifier.width(100.dp),
-                        selected = selected,
-                        onClick = {
-                            onValueChange(favoriteIndex)
-                            haptics.longPress()
-                        },
-                        icon = {
-                            AnimatedContent(
-                                targetState = selected,
-                                transitionSpec = {
-                                    fadeIn() togetherWith fadeOut()
-                                }
-                            ) { selected ->
-                                Icon(
-                                    imageVector = if (selected) {
-                                        Icons.Rounded.Bookmark
-                                    } else {
-                                        Icons.Outlined.Bookmark
-                                    },
-                                    contentDescription = stringResource(R.string.favorite)
-                                )
-                            }
-                        },
-                        label = {
-                            Text(stringResource(R.string.favorite))
-                        }
+                    FavoriteNavigationRailItem(
+                        selected = favoriteIndex == selectedIndex,
+                        favoriteIndex = favoriteIndex,
+                        onValueChange = onValueChange
                     )
                 }
                 Spacer(Modifier.height(8.dp))
@@ -182,4 +168,41 @@ internal fun MainNavigationRail(
                 )
         )
     }
+}
+
+@Composable
+private fun FavoriteNavigationRailItem(
+    selected: Boolean,
+    favoriteIndex: Int,
+    onValueChange: (Int) -> Unit
+) {
+    val haptics = LocalHapticFeedback.current
+    EnhancedNavigationRailItem(
+        modifier = Modifier.width(100.dp),
+        selected = selected,
+        onClick = {
+            onValueChange(favoriteIndex)
+            haptics.longPress()
+        },
+        icon = {
+            AnimatedContent(
+                targetState = selected,
+                transitionSpec = {
+                    fadeIn() togetherWith fadeOut()
+                }
+            ) { selected ->
+                Icon(
+                    imageVector = if (selected) {
+                        Icons.Rounded.Bookmark
+                    } else {
+                        Icons.Outlined.Bookmark
+                    },
+                    contentDescription = stringResource(R.string.favorite)
+                )
+            }
+        },
+        label = {
+            Text(stringResource(R.string.favorite))
+        }
+    )
 }
