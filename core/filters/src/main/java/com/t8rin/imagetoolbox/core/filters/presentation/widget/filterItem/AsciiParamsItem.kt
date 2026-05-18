@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -53,6 +52,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asUi
@@ -280,10 +280,7 @@ internal fun AsciiParamsItem(
                         ),
                         applyHorizontalPadding = false,
                         startContent = {},
-                        resultModifier = Modifier.padding(
-                            horizontal = 16.dp,
-                            vertical = 8.dp
-                        ),
+                        resultModifier = Modifier.padding(16.dp),
                         enabled = !previewOnly
                     )
                 }

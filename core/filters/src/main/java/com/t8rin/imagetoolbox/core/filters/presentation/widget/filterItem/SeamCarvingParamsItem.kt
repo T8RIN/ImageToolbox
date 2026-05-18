@@ -56,6 +56,9 @@ internal fun SeamCarvingParamsItem(
             .padding(bottom = 8.dp),
         containerColor = Color.Unspecified,
         shape = ShapeDefaults.extraLarge,
-        enabled = !previewOnly
+        enabled = !previewOnly,
+        applyHorizontalPadding = false,
+        startContent = {},
+        resultModifier = Modifier.padding(16.dp),
     )
 }

@@ -89,6 +89,22 @@ internal fun SeamCarvingMaskItem(
     } else {
         var showMaskRemoveDialog by rememberSaveable { mutableStateOf(false) }
 
+        PreferenceRowSwitch(
+            title = stringResource(R.string.seam_carving_mask_as_removal),
+            subtitle = stringResource(R.string.seam_carving_mask_as_removal_sub),
+            checked = useMaskAsRemoval,
+            onClick = onUseMaskAsRemovalChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .padding(bottom = 8.dp),
+            applyHorizontalPadding = false,
+            startContent = {},
+            resultModifier = Modifier.padding(16.dp),
+            containerColor = Color.Unspecified,
+            shape = ShapeDefaults.extraLarge
+        )
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -121,18 +137,6 @@ internal fun SeamCarvingMaskItem(
                 )
             }
         }
-        PreferenceRowSwitch(
-            title = stringResource(R.string.seam_carving_mask_as_removal),
-            subtitle = stringResource(R.string.seam_carving_mask_as_removal_sub),
-            checked = useMaskAsRemoval,
-            onClick = onUseMaskAsRemovalChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-                .padding(bottom = 8.dp),
-            containerColor = Color.Unspecified,
-            shape = ShapeDefaults.extraLarge
-        )
 
         EnhancedAlertDialog(
             visible = showMaskRemoveDialog,
