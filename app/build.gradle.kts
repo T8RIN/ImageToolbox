@@ -157,6 +157,13 @@ dependencies {
     "fossImplementation"(libs.quickie.foss)
 }
 
+dependencySubstitution {
+    substitute(
+        dependency = "com.caverock:androidsvg-aar:1.4",
+        using = "com.github.deckerst:androidsvg:cc9d59a88f"
+    )
+}
+
 androidComponents {
     beforeVariants(selector().all()) { variantBuilder ->
         val flavorName = variantBuilder.productFlavors.firstOrNull()?.second.orEmpty()
@@ -177,4 +184,19 @@ androidComponents {
             }
         }
     }
+}
+
+fun Project.dependencySubstitution(action: DependencySubstitutions.() -> Unit) {
+    allprojects {
+        configurations.all {
+            resolutionStrategy.dependencySubstitution(action)
+        }
+    }
+}
+
+fun DependencySubstitutions.substitute(
+    dependency: String,
+    using: String
+) {
+    substitute(module(dependency)).using(module(using))
 }

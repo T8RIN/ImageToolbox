@@ -28,6 +28,7 @@ dependencies {
     api(libs.ktor)
     api(libs.ktor.logging)
     implementation(libs.coilGif)
+    implementation(libs.coilSvg)
     implementation(libs.coil.resvg)
     implementation(libs.trickle)
 
