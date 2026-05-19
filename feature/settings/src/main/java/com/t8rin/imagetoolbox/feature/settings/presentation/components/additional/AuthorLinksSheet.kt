@@ -50,9 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContentColor
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.bottom
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.center
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.top
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -104,7 +102,7 @@ fun AuthorLinksSheet(
                                 linkHandler.openUri(AUTHOR_TELEGRAM)
                             },
                             endIcon = Icons.Rounded.Link,
-                            shape = top,
+                            shape = ShapeDefaults.top,
                             title = stringResource(R.string.telegram),
                             startIcon = Icons.Rounded.Telegram,
                             subtitle = stringResource(R.string.app_developer_nick),
@@ -125,7 +123,7 @@ fun AuthorLinksSheet(
                                 appContext.shareText(AUTHOR_EMAIL)
                             }
                         },
-                        shape = center,
+                        shape = ShapeDefaults.center,
                         endIcon = Icons.Rounded.Link,
                         title = stringResource(R.string.email),
                         startIcon = Icons.Rounded.AlternateEmail,
@@ -138,7 +136,7 @@ fun AuthorLinksSheet(
                             linkHandler.openUri(AUTHOR_GITHUB)
                         },
                         endIcon = Icons.Rounded.Link,
-                        shape = bottom,
+                        shape = ShapeDefaults.bottom,
                         title = stringResource(R.string.github),
                         startIcon = Icons.Rounded.Github,
                         subtitle = stringResource(R.string.app_developer_nick)
