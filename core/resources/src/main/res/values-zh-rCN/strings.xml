@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -67,7 +65,7 @@
     <string name="remove">移除</string>
     <string name="palette_sub">生成指定图片的颜色风格</string>
     <string name="generate_palette">生成调色板</string>
-    <string name="palette">颜色风格</string>
+    <string name="palette">调色板</string>
     <string name="update">更新</string>
     <string name="new_version">新版本%1$s</string>
     <string name="unsupported_type">不支持的类型：%1$s</string>
@@ -526,12 +524,12 @@
     <string name="suffix">后缀</string>
     <string name="auto_pin">自动复制</string>
     <string name="scale_mode">缩放模式</string>
-    <string name="bilinear">双线性</string>
+    <string name="bilinear">Bilinear</string>
     <string name="hermite">Hermite</string>
     <string name="lanczos">Lanczos</string>
-    <string name="nearest">近似像素式</string>
-    <string name="spline">花键式</string>
-    <string name="basic">基本式</string>
+    <string name="nearest">Nearest</string>
+    <string name="spline">Spline</string>
+    <string name="basic">Basic</string>
     <string name="default_value">默认值</string>
     <string name="hann">Hann</string>
     <string name="mitchell">Mitchell</string>
@@ -675,7 +673,7 @@
     <string name="sigma">Sigma</string>
     <string name="spatial_sigma">空间 Sigma</string>
     <string name="median_blur">中值模糊</string>
-    <string name="b_spline">B 样条</string>
+    <string name="b_spline">B Spline</string>
     <string name="b_spline_sub">利用片断定义的双三次多项式函数平滑插值和近似曲线或曲面，灵活且连续地表示形状</string>
     <string name="native_stack_blur">原生堆栈模糊</string>
     <string name="tilt_shift">倾斜移位</string>
@@ -1132,16 +1130,16 @@
     <string name="min">最小</string>
     <string name="grant_camera_permission_to_scan_qr_code">在设置中授予相机扫描二维码的权限</string>
     <string name="grant_camera_permission_to_scan_document_scanner">在设置中授予相机文档扫描器的权限</string>
-    <string name="cubic">立方体</string>
-    <string name="gaussian">高斯型</string>
-    <string name="sphinx">斯芬克斯</string>
+    <string name="cubic">Cubic</string>
+    <string name="gaussian">Gaussian</string>
+    <string name="sphinx">Sphinx</string>
     <string name="robidoux">Robidoux</string>
     <string name="robidoux_sharp">Robidoux Sharp</string>
-    <string name="spline16">样条16</string>
-    <string name="spline36">样条36</string>
-    <string name="spline64">样条64</string>
+    <string name="spline16">Spline 16</string>
+    <string name="spline36">Spline 36</string>
+    <string name="spline64">Spline 64</string>
     <string name="kaiser">Kaiser</string>
-    <string name="box">盒</string>
+    <string name="box">Box</string>
     <string name="bohman">Bohman</string>
     <string name="lanczos2">Lanczos 2</string>
     <string name="lanczos3">Lanczos 3</string>
@@ -1171,12 +1169,12 @@
     <string name="ewa_hanning_sub">Hanning 滤镜的椭圆加权平均 (EWA) 变体，用于平滑插值和重采样</string>
     <string name="ginseng">Ginseng</string>
     <string name="bartlett">Bartlett</string>
-    <string name="bspline">B样条</string>
+    <string name="bspline">B-Spline</string>
     <string name="hamming">Hamming</string>
     <string name="blackman">Blackman</string>
     <string name="hanning">Hanning</string>
     <string name="welch">Welch</string>
-    <string name="quadric">四面体</string>
+    <string name="quadric">Quadric</string>
     <string name="bartlett_hann">Bartlett-Hann</string>
     <string name="lanczos4">Lanczos 4</string>
     <string name="lanczos2_jinc">Lanczos 2 Jinc</string>
@@ -1225,10 +1223,10 @@
     <string name="protanomaly_sub">难以区分红色和绿色色调</string>
     <string name="deuteranomaly_sub">难以区分绿色和红色色调</string>
     <string name="tritanomaly_sub">难以区分蓝色和黄色色调</string>
-    <string name="lagrange_2">拉格朗日 2</string>
+    <string name="lagrange_2">Lagrange 2</string>
     <string name="lanczos_6_jinc">Lanczos 6 Jinc</string>
     <string name="lagrange_2_sub">阶数为 2 的拉格朗日插值滤波器，适用于平滑过渡的高质量图片缩放</string>
-    <string name="lagrange_3">拉格朗日 3</string>
+    <string name="lagrange_3">Lagrange 3</string>
     <string name="lanczos_6_sub">阶数为 6 的 Lanczos 重采样滤波器，可提供更清晰、更准确的图片缩放效果</string>
     <string name="lanczos_6">Lanczos 6</string>
     <string name="lanczos_6_jinc_sub">使用 Jinc 函数改进图片重采样质量的Lanczos 6 滤波器变体</string>
@@ -2241,8 +2239,8 @@
     <string name="show_favorite_as_last_sub">将最喜爱的工具选项卡移至末尾</string>
     <string name="horizontal_spacing">水平间距</string>
     <string name="vertical_spacing">垂直间距</string>
-    <string name="seam_carving_backward_energy">落后能源</string>
+    <string name="seam_carving_backward_energy">反向能量</string>
     <string name="seam_carving_backward_energy_sub">使用简单的梯度幅度能量图代替前向能量算法</string>
     <string name="seam_carving_mask_as_removal">删除遮罩区域</string>
-    <string name="seam_carving_mask_as_removal_sub">接缝将穿过遮罩区域，仅移除选定区域而不是保护它</string>
+    <string name="seam_carving_mask_as_removal_sub">能量缝将穿过蒙版区域，仅移除所选区域，而不是保护它</string>
 </resources>
