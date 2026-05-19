@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components.addition
 
 import android.content.Intent
 import androidx.activity.compose.LocalActivity
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -85,64 +84,61 @@ fun AuthorLinksSheet(
             val linkHandler = LocalUriHandler.current
             val settingsState = LocalSettingsState.current
 
-
-            Box {
-                Column(Modifier.enhancedVerticalScroll(rememberScrollState())) {
-                    Spacer(Modifier.height(16.dp))
-                    CompositionLocalProvider(
-                        LocalIconShapeContentColor provides MaterialTheme.colorScheme.onTertiaryContainer,
-                        LocalIconShapeContainerColor provides MaterialTheme.colorScheme.tertiaryContainer.blend(
-                            color = MaterialTheme.colorScheme.tertiary,
-                            fraction = if (settingsState.isNightMode) 0.2f else 0.1f
-                        )
-                    ) {
-                        PreferenceItem(
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            onClick = {
-                                linkHandler.openUri(AUTHOR_TELEGRAM)
-                            },
-                            endIcon = Icons.Rounded.Link,
-                            shape = ShapeDefaults.top,
-                            title = stringResource(R.string.telegram),
-                            startIcon = Icons.Rounded.Telegram,
-                            subtitle = stringResource(R.string.app_developer_nick),
-                            overrideIconShapeContentColor = true
-                        )
-                    }
-                    Spacer(Modifier.height(4.dp))
-                    PreferenceItem(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = {
-                            runCatching {
-                                activity!!.startActivity(
-                                    Intent(Intent.ACTION_SENDTO).apply {
-                                        data = "mailto:$AUTHOR_EMAIL".toUri()
-                                    }
-                                )
-                            }.onFailure {
-                                appContext.shareText(AUTHOR_EMAIL)
-                            }
-                        },
-                        shape = ShapeDefaults.center,
-                        endIcon = Icons.Rounded.Link,
-                        title = stringResource(R.string.email),
-                        startIcon = Icons.Rounded.AlternateEmail,
-                        subtitle = AUTHOR_EMAIL
+            Column(Modifier.enhancedVerticalScroll(rememberScrollState())) {
+                Spacer(Modifier.height(16.dp))
+                CompositionLocalProvider(
+                    LocalIconShapeContentColor provides MaterialTheme.colorScheme.onTertiaryContainer,
+                    LocalIconShapeContainerColor provides MaterialTheme.colorScheme.tertiaryContainer.blend(
+                        color = MaterialTheme.colorScheme.tertiary,
+                        fraction = if (settingsState.isNightMode) 0.2f else 0.1f
                     )
-                    Spacer(Modifier.height(4.dp))
+                ) {
                     PreferenceItem(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         onClick = {
-                            linkHandler.openUri(AUTHOR_GITHUB)
+                            linkHandler.openUri(AUTHOR_TELEGRAM)
                         },
                         endIcon = Icons.Rounded.Link,
-                        shape = ShapeDefaults.bottom,
-                        title = stringResource(R.string.github),
-                        startIcon = Icons.Rounded.Github,
-                        subtitle = stringResource(R.string.app_developer_nick)
+                        shape = ShapeDefaults.top,
+                        title = stringResource(R.string.telegram),
+                        startIcon = Icons.Rounded.Telegram,
+                        subtitle = stringResource(R.string.app_developer_nick),
+                        overrideIconShapeContentColor = true
                     )
-                    Spacer(Modifier.height(16.dp))
                 }
+                Spacer(Modifier.height(4.dp))
+                PreferenceItem(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    onClick = {
+                        runCatching {
+                            activity!!.startActivity(
+                                Intent(Intent.ACTION_SENDTO).apply {
+                                    data = "mailto:$AUTHOR_EMAIL".toUri()
+                                }
+                            )
+                        }.onFailure {
+                            appContext.shareText(AUTHOR_EMAIL)
+                        }
+                    },
+                    shape = ShapeDefaults.center,
+                    endIcon = Icons.Rounded.Link,
+                    title = stringResource(R.string.email),
+                    startIcon = Icons.Rounded.AlternateEmail,
+                    subtitle = AUTHOR_EMAIL
+                )
+                Spacer(Modifier.height(4.dp))
+                PreferenceItem(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    onClick = {
+                        linkHandler.openUri(AUTHOR_GITHUB)
+                    },
+                    endIcon = Icons.Rounded.Link,
+                    shape = ShapeDefaults.bottom,
+                    title = stringResource(R.string.github),
+                    startIcon = Icons.Rounded.Github,
+                    subtitle = stringResource(R.string.app_developer_nick)
+                )
+                Spacer(Modifier.height(16.dp))
             }
         }
     )
