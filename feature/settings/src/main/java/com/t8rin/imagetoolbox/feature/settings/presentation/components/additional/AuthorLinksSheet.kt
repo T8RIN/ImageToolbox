@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -33,8 +32,10 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.domain.AUTHOR_EMAIL
 import com.t8rin.imagetoolbox.core.domain.AUTHOR_GITHUB
 import com.t8rin.imagetoolbox.core.domain.AUTHOR_TELEGRAM
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AlternateEmail
 import com.t8rin.imagetoolbox.core.resources.icons.Forum
@@ -56,7 +57,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 fun AuthorLinksSheet(
@@ -115,23 +115,21 @@ fun AuthorLinksSheet(
                     PreferenceItem(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
-                            val mail = getString(R.string.developer_email)
-
                             runCatching {
                                 activity!!.startActivity(
                                     Intent(Intent.ACTION_SENDTO).apply {
-                                        data = "mailto:$mail".toUri()
+                                        data = "mailto:$AUTHOR_EMAIL".toUri()
                                     }
                                 )
                             }.onFailure {
-                                appContext.shareText(mail)
+                                appContext.shareText(AUTHOR_EMAIL)
                             }
                         },
                         shape = center,
                         endIcon = Icons.Rounded.Link,
                         title = stringResource(R.string.email),
                         startIcon = Icons.Rounded.AlternateEmail,
-                        subtitle = stringResource(R.string.developer_email)
+                        subtitle = AUTHOR_EMAIL
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
