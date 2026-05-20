@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
@@ -370,6 +371,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface PixelMelt : PairFloatFilter
     interface Bloom : Filter<BloomParams>
     interface Distortion : FloatFilter
+    interface VHSNtsc : Filter<NtscParams>
 }
 
 interface SimpleFilter : Filter<Unit>

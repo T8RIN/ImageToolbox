@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
@@ -312,6 +313,22 @@ internal fun Any.toPair(): Pair<String, String>? {
                 softKnee,
                 exposure,
                 gamma
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is NtscParams -> {
+            NtscParams::class.simpleName!! to listOf(
+                amount,
+                chromaBleed,
+                tapeWear,
+                noise,
+                tracking,
+                seed,
+                lumaSmear,
+                compositeSharpening,
+                ringing,
+                snow,
+                processingDownscale
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -661,6 +678,24 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 softKnee = softKnee.toFloat(),
                 exposure = exposure.toFloat(),
                 gamma = gamma.toFloat()
+            )
+        }
+
+        name == NtscParams::class.simpleName -> {
+            val parts = value.split(PROPERTIES_SEPARATOR)
+
+            NtscParams(
+                amount = parts[0].toFloat(),
+                chromaBleed = parts[1].toFloat(),
+                tapeWear = parts[2].toFloat(),
+                noise = parts[3].toFloat(),
+                tracking = parts[4].toFloat(),
+                seed = parts[5].toInt(),
+                lumaSmear = parts[6].toFloat(),
+                compositeSharpening = parts[7].toFloat(),
+                ringing = parts[8].toFloat(),
+                snow = parts[9].toFloat(),
+                processingDownscale = parts[10].toInt()
             )
         }
 

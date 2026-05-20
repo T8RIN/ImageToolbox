@@ -2267,4 +2267,14 @@
     <string name="seam_carving_backward_energy_sub">Use simple gradient magnitude energy map instead of forward energy algorithm</string>
     <string name="seam_carving_mask_as_removal">Remove masked area</string>
     <string name="seam_carving_mask_as_removal_sub">Seams will pass through the masked region, removing only the selected area instead of protecting it</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Advanced NTSC settings</string>
+    <string name="ntsc_advanced_settings_sub">Extra analog tuning for stronger VHS and broadcast artifacts</string>
+    <string name="chroma_bleed">Chroma bleed</string>
+    <string name="tape_wear">Tape wear</string>
+    <string name="tracking">Tracking</string>
+    <string name="luma_smear">Luma smear</string>
+    <string name="ringing">Ringing</string>
+    <string name="snow">Snow</string>
+    <string name="processing_downscale">Processing downscale</string>
 </resources>

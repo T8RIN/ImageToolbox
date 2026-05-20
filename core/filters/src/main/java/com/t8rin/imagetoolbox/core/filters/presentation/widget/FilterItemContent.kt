@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
@@ -67,6 +68,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Intege
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.KaleidoscopeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearGaussianParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearTiltShiftParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.NtscParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PairItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PinchParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.QuadItem
@@ -367,6 +369,15 @@ internal fun <T : Any> FilterItemContent(
 
             is BloomParams -> {
                 BloomParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is NtscParams -> {
+                NtscParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,
