@@ -491,6 +491,8 @@ or click one of the badges below.
     - [x] Crt Curvature
     - [x] Pixel Melt
     - [x] Bloom
+    - [x] Distortion
+    - [x] VHS NTSC
 
 
   </details>
