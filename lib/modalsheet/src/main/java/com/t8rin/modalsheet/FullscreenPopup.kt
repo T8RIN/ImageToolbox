@@ -45,9 +45,7 @@ import androidx.compose.ui.semantics.popup
 import androidx.compose.ui.semantics.semantics
 import androidx.core.view.children
 import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.lifecycle.setViewTreeLifecycleOwner
-import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.findViewTreeSavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import java.util.UUID
@@ -121,8 +119,6 @@ private class PopupLayout(
     private var placeAboveAll: Boolean
 ) : AbstractComposeView(composeView.context), ViewRootForInspector {
 
-    private val ABOVE_ALL_Z = Float.MAX_VALUE
-
     private val decorView = findOwner<Activity>(composeView.context)?.window?.decorView as ViewGroup
 
     override val subCompositionView: AbstractComposeView get() = this
@@ -130,7 +126,6 @@ private class PopupLayout(
     init {
         id = android.R.id.content
         setViewTreeLifecycleOwner(composeView.findViewTreeLifecycleOwner())
-        setViewTreeViewModelStoreOwner(composeView.findViewTreeViewModelStoreOwner())
         setViewTreeSavedStateRegistryOwner(composeView.findViewTreeSavedStateRegistryOwner())
         // Set unique id for AbstractComposeView. This allows state restoration for the state
         // defined inside the Popup via rememberSaveable()
@@ -224,3 +219,5 @@ private inline fun <reified T> findOwner(context: Context): T? {
     }
     return null
 }
+
+private const val ABOVE_ALL_Z = Float.MAX_VALUE

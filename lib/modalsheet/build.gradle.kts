@@ -21,7 +21,3 @@ plugins {
 }
 
 android.namespace = "com.t8rin.modalsheet"
-
-dependencies {
-    implementation(libs.lifecycle.viewmodel)
-}

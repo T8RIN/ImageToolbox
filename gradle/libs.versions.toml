@@ -4,8 +4,8 @@ androidTargetSdk = "37"
 androidCompileSdk = "37"
 androidCompileSdkExtension = "-"
 
-versionName = "3.9.1-alpha01"
-versionCode = "233"
+versionName = "3.9.1-alpha02"
+versionCode = "234"
 
 jvmTarget = "21"
 
@@ -23,8 +23,8 @@ jxlCoderCoil = "2.6.1"
 jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
-material3 = "1.5.0-alpha19"
-composeVersion = "1.12.0-alpha02"
+material3 = "1.5.0-alpha20"
+composeVersion = "1.12.0-alpha03"
 dataStore = "1.3.0-alpha09"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
@@ -85,7 +85,6 @@ tiffdecoder = "1.0.5"
 materialKolor = "5.0.0-alpha07"
 paletteKtx = "1.0.0"
 kotlinxSerializationJson = "1.11.0"
-lifecycle = "2.11.0-beta01"
 
 firebaseBom = "34.13.0"
 firebaseCrashlyticsGradle = "3.0.7"
@@ -98,7 +97,6 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 junit = { module = "junit:junit", version.ref = "junit" }
-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
