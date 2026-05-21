@@ -2231,7 +2231,7 @@
     <string name="favorite_tools_in_grouped_mode_sub">Добавляет избранное в виде вкладки, когда инструменты сгруппированы по типу.</string>
     <string name="horizontal_spacing">Горизонтальный интервал</string>
     <string name="vertical_spacing">Вертикальный интервал</string>
-    <string name="vhs_ntsc">Видеокассета NTSC</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
     <string name="ntsc_advanced_settings">Расширенные настройки NTSC</string>
     <string name="ntsc_advanced_settings_sub">Дополнительная аналоговая настройка для более сильного VHS и артефактов вещания</string>
     <string name="chroma_bleed">Цветность кровотечение</string>
