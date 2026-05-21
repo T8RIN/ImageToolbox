@@ -328,7 +328,6 @@ internal fun Any.toPair(): Pair<String, String>? {
                 compositeSharpening,
                 ringing,
                 snow,
-                processingDownscale,
                 useField,
                 filterType,
                 inputLumaFilter,
@@ -374,8 +373,8 @@ internal fun Any.toPair(): Pair<String, String>? {
                 chromaLowpassOut,
                 scaleHorizontal,
                 scaleVertical,
-                resizeRatio,
-                outputScale,
+                scaleFactorX,
+                scaleFactorY,
                 headSwitchingEnabled,
                 trackingNoiseEnabled,
                 compositeNoiseEnabled,
@@ -739,7 +738,6 @@ internal fun Pair<String, String>.fromPair(): Any? {
         name == NtscParams::class.simpleName -> {
             val parts = value.split(PROPERTIES_SEPARATOR)
             val default = NtscParams()
-            val hasNullableGroupFlags = parts.size >= 66
 
             fun floatAt(index: Int, fallback: Float): Float {
                 return parts.getOrNull(index)?.toFloatOrNull() ?: fallback
@@ -757,13 +755,6 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 }
             }
 
-            fun oldOrNewIndex(
-                newIndex: Int,
-                oldIndex: Int
-            ): Int {
-                return if (hasNullableGroupFlags) newIndex else oldIndex
-            }
-
             NtscParams(
                 amount = floatAt(0, default.amount),
                 chromaBleed = floatAt(1, default.chromaBleed),
@@ -775,104 +766,61 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 compositeSharpening = floatAt(7, default.compositeSharpening),
                 ringing = floatAt(8, default.ringing),
                 snow = floatAt(9, default.snow),
-                processingDownscale = intAt(10, default.processingDownscale),
-                useField = intAt(11, default.useField),
-                filterType = intAt(12, default.filterType),
-                inputLumaFilter = intAt(13, default.inputLumaFilter),
-                chromaLowpassIn = intAt(14, default.chromaLowpassIn),
-                chromaDemodulation = intAt(15, default.chromaDemodulation),
-                videoScanlinePhaseShift = intAt(16, default.videoScanlinePhaseShift),
-                videoScanlinePhaseShiftOffset = intAt(
-                    17,
-                    default.videoScanlinePhaseShiftOffset
-                ),
-                headSwitchingEnabled = booleanAt(58, default.headSwitchingEnabled),
-                headSwitchingHeight = intAt(18, default.headSwitchingHeight),
-                headSwitchingOffset = intAt(19, default.headSwitchingOffset),
-                headSwitchingHorizontalShift = floatAt(
-                    20,
-                    default.headSwitchingHorizontalShift
-                ),
-                headSwitchingMidLinePosition = floatAt(
-                    21,
-                    default.headSwitchingMidLinePosition
-                ),
-                headSwitchingMidLineJitter = floatAt(
-                    22,
-                    default.headSwitchingMidLineJitter
-                ),
-                trackingNoiseEnabled = booleanAt(59, default.trackingNoiseEnabled),
-                trackingNoiseHeight = intAt(23, default.trackingNoiseHeight),
-                trackingNoiseWaveIntensity = floatAt(
-                    24,
-                    default.trackingNoiseWaveIntensity
-                ),
-                trackingNoiseSnowIntensity = floatAt(
-                    25,
-                    default.trackingNoiseSnowIntensity
-                ),
-                trackingNoiseSnowAnisotropy = floatAt(
-                    26,
-                    default.trackingNoiseSnowAnisotropy
-                ),
-                trackingNoiseNoiseIntensity = floatAt(
-                    27,
-                    default.trackingNoiseNoiseIntensity
-                ),
-                compositeNoiseEnabled = booleanAt(60, default.compositeNoiseEnabled),
-                compositeNoiseFrequency = floatAt(28, default.compositeNoiseFrequency),
-                compositeNoiseIntensity = floatAt(29, default.compositeNoiseIntensity),
-                compositeNoiseDetail = intAt(30, default.compositeNoiseDetail),
-                ringingEnabled = booleanAt(61, default.ringingEnabled),
-                ringingFrequency = floatAt(31, default.ringingFrequency),
-                ringingPower = floatAt(32, default.ringingPower),
-                lumaNoiseEnabled = booleanAt(62, default.lumaNoiseEnabled),
-                lumaNoiseFrequency = floatAt(33, default.lumaNoiseFrequency),
-                lumaNoiseIntensity = floatAt(34, default.lumaNoiseIntensity),
-                lumaNoiseDetail = intAt(35, default.lumaNoiseDetail),
-                chromaNoiseEnabled = booleanAt(63, default.chromaNoiseEnabled),
-                chromaNoiseFrequency = floatAt(36, default.chromaNoiseFrequency),
-                chromaNoiseIntensity = floatAt(37, default.chromaNoiseIntensity),
-                chromaNoiseDetail = intAt(38, default.chromaNoiseDetail),
-                snowIntensity = floatAt(39, default.snowIntensity),
-                snowAnisotropy = floatAt(40, default.snowAnisotropy),
-                chromaPhaseNoiseIntensity = floatAt(
-                    41,
-                    default.chromaPhaseNoiseIntensity
-                ),
-                chromaPhaseError = floatAt(42, default.chromaPhaseError),
-                chromaDelayHorizontal = floatAt(43, default.chromaDelayHorizontal),
-                chromaDelayVertical = intAt(44, default.chromaDelayVertical),
-                vhsEnabled = booleanAt(64, default.vhsEnabled),
-                vhsTapeSpeed = intAt(45, default.vhsTapeSpeed),
-                vhsChromaLoss = floatAt(46, default.vhsChromaLoss),
-                vhsSharpenIntensity = floatAt(47, default.vhsSharpenIntensity),
-                vhsSharpenFrequency = floatAt(48, default.vhsSharpenFrequency),
-                vhsEdgeWaveIntensity = floatAt(49, default.vhsEdgeWaveIntensity),
-                vhsEdgeWaveSpeed = floatAt(50, default.vhsEdgeWaveSpeed),
-                vhsEdgeWaveFrequency = floatAt(51, default.vhsEdgeWaveFrequency),
-                vhsEdgeWaveDetail = intAt(52, default.vhsEdgeWaveDetail),
-                chromaLowpassOut = intAt(
-                    oldOrNewIndex(newIndex = 53, oldIndex = 54),
-                    default.chromaLowpassOut
-                ),
-                scaleEnabled = booleanAt(65, default.scaleEnabled),
-                scaleHorizontal = floatAt(
-                    oldOrNewIndex(newIndex = 54, oldIndex = 55),
-                    default.scaleHorizontal
-                ),
-                scaleVertical = floatAt(
-                    oldOrNewIndex(newIndex = 55, oldIndex = 56),
-                    default.scaleVertical
-                ),
-                resizeRatio = floatAt(
-                    oldOrNewIndex(newIndex = 56, oldIndex = 58),
-                    default.resizeRatio
-                ),
-                outputScale = floatAt(
-                    oldOrNewIndex(newIndex = 57, oldIndex = 59),
-                    default.outputScale
-                )
+                useField = intAt(10, default.useField),
+                filterType = intAt(11, default.filterType),
+                inputLumaFilter = intAt(12, default.inputLumaFilter),
+                chromaLowpassIn = intAt(13, default.chromaLowpassIn),
+                chromaDemodulation = intAt(14, default.chromaDemodulation),
+                videoScanlinePhaseShift = intAt(15, default.videoScanlinePhaseShift),
+                videoScanlinePhaseShiftOffset = intAt(16, default.videoScanlinePhaseShiftOffset),
+                headSwitchingEnabled = booleanAt(57, default.headSwitchingEnabled),
+                headSwitchingHeight = intAt(17, default.headSwitchingHeight),
+                headSwitchingOffset = intAt(18, default.headSwitchingOffset),
+                headSwitchingHorizontalShift = floatAt(19, default.headSwitchingHorizontalShift),
+                headSwitchingMidLinePosition = floatAt(20, default.headSwitchingMidLinePosition),
+                headSwitchingMidLineJitter = floatAt(21, default.headSwitchingMidLineJitter),
+                trackingNoiseEnabled = booleanAt(58, default.trackingNoiseEnabled),
+                trackingNoiseHeight = intAt(22, default.trackingNoiseHeight),
+                trackingNoiseWaveIntensity = floatAt(23, default.trackingNoiseWaveIntensity),
+                trackingNoiseSnowIntensity = floatAt(24, default.trackingNoiseSnowIntensity),
+                trackingNoiseSnowAnisotropy = floatAt(25, default.trackingNoiseSnowAnisotropy),
+                trackingNoiseNoiseIntensity = floatAt(26, default.trackingNoiseNoiseIntensity),
+                compositeNoiseEnabled = booleanAt(59, default.compositeNoiseEnabled),
+                compositeNoiseFrequency = floatAt(27, default.compositeNoiseFrequency),
+                compositeNoiseIntensity = floatAt(28, default.compositeNoiseIntensity),
+                compositeNoiseDetail = intAt(29, default.compositeNoiseDetail),
+                ringingEnabled = booleanAt(60, default.ringingEnabled),
+                ringingFrequency = floatAt(30, default.ringingFrequency),
+                ringingPower = floatAt(31, default.ringingPower),
+                lumaNoiseEnabled = booleanAt(61, default.lumaNoiseEnabled),
+                lumaNoiseFrequency = floatAt(32, default.lumaNoiseFrequency),
+                lumaNoiseIntensity = floatAt(33, default.lumaNoiseIntensity),
+                lumaNoiseDetail = intAt(34, default.lumaNoiseDetail),
+                chromaNoiseEnabled = booleanAt(62, default.chromaNoiseEnabled),
+                chromaNoiseFrequency = floatAt(35, default.chromaNoiseFrequency),
+                chromaNoiseIntensity = floatAt(36, default.chromaNoiseIntensity),
+                chromaNoiseDetail = intAt(37, default.chromaNoiseDetail),
+                snowIntensity = floatAt(38, default.snowIntensity),
+                snowAnisotropy = floatAt(39, default.snowAnisotropy),
+                chromaPhaseNoiseIntensity = floatAt(40, default.chromaPhaseNoiseIntensity),
+                chromaPhaseError = floatAt(41, default.chromaPhaseError),
+                chromaDelayHorizontal = floatAt(42, default.chromaDelayHorizontal),
+                chromaDelayVertical = intAt(43, default.chromaDelayVertical),
+                vhsEnabled = booleanAt(63, default.vhsEnabled),
+                vhsTapeSpeed = intAt(44, default.vhsTapeSpeed),
+                vhsChromaLoss = floatAt(45, default.vhsChromaLoss),
+                vhsSharpenIntensity = floatAt(46, default.vhsSharpenIntensity),
+                vhsSharpenFrequency = floatAt(47, default.vhsSharpenFrequency),
+                vhsEdgeWaveIntensity = floatAt(48, default.vhsEdgeWaveIntensity),
+                vhsEdgeWaveSpeed = floatAt(49, default.vhsEdgeWaveSpeed),
+                vhsEdgeWaveFrequency = floatAt(50, default.vhsEdgeWaveFrequency),
+                vhsEdgeWaveDetail = intAt(51, default.vhsEdgeWaveDetail),
+                chromaLowpassOut = intAt(52, default.chromaLowpassOut),
+                scaleEnabled = booleanAt(64, default.scaleEnabled),
+                scaleHorizontal = floatAt(53, default.scaleHorizontal),
+                scaleVertical = floatAt(54, default.scaleVertical),
+                scaleFactorX = floatAt(55, default.scaleFactorX),
+                scaleFactorY = floatAt(56, default.scaleFactorY)
             )
         }
 
