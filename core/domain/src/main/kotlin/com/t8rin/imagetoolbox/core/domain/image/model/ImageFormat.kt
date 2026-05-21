@@ -61,6 +61,14 @@ sealed class ImageFormat(
             ),
             canChangeCompressionValue = true
         )
+
+        data object ImageQuant : Png(
+            title = "ImageQuant",
+            compressionTypes = listOf(
+                CompressionType.Quality(0..100)
+            ),
+            canChangeCompressionValue = true
+        )
     }
 
     data object Jpg : ImageFormat(
@@ -331,6 +339,7 @@ sealed class ImageFormat(
                 Jpegli,
                 Png.Lossless,
                 Png.Lossy,
+                Png.ImageQuant,
                 Bmp,
                 Webp.Lossless,
                 Webp.Lossy,

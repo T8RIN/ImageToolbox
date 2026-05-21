@@ -36,7 +36,8 @@ sealed class ImageFormatGroup(
         formats = listOf(
             ImageFormat.Png.Lossless,
             ImageFormat.Png.Lossy,
-            ImageFormat.Png.OxiPNG
+            ImageFormat.Png.OxiPNG,
+            ImageFormat.Png.ImageQuant
         )
     )
 
@@ -140,10 +141,6 @@ sealed class ImageFormatGroup(
                 Ico,
                 Gif
             )
-
-        fun fromFormat(
-            imageFormat: ImageFormat
-        ): ImageFormatGroup = entries.first { imageFormat in it.formats }
     }
 }
 

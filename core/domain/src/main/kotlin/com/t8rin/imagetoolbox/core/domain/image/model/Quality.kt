@@ -44,6 +44,16 @@ sealed interface Quality {
                 )
             }
 
+            is ImageFormat.Png.ImageQuant -> {
+                val value = this as? PngQuant
+                    ?: return PngQuant()
+                value.copy(
+                    maxColors = value.maxColors.coerceIn(2..1024),
+                    quality = value.quality.coerceIn(0..100),
+                    speed = value.speed.coerceIn(1..10)
+                )
+            }
+
             is ImageFormat.Avif -> {
                 val value = this as? Avif
                     ?: return Avif()
@@ -80,6 +90,7 @@ sealed interface Quality {
         is Jxl -> this == Jxl()
         is PngLossy -> this == PngLossy()
         is Tiff -> this == Tiff()
+        is PngQuant -> this == PngQuant()
     }
 
     data class Jxl(
@@ -106,6 +117,17 @@ sealed interface Quality {
         val compressionLevel: Int = 7,
     ) : Quality {
         override val qualityValue: Int = compressionLevel
+    }
+
+    data class PngQuant(
+        @IntRange(from = 0, to = 100)
+        val quality: Int = 85,
+        @IntRange(from = 1, to = 10)
+        val speed: Int = 3,
+        @IntRange(from = 2)
+        val maxColors: Int = 512
+    ) : Quality {
+        override val qualityValue: Int = quality
     }
 
     data class Tiff(

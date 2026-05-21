@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.compressor.JpgBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.JxlBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.MozJpegBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.OxiPngBackend
+import com.t8rin.imagetoolbox.core.data.image.utils.compressor.PngImageQuantBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.PngLosslessBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.PngLossyBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.QoiBackend
@@ -63,6 +64,7 @@ internal interface ImageCompressorBackend {
             ImageFormat.Png.Lossless -> PngLosslessBackend
             ImageFormat.Png.Lossy -> PngLossyBackend
             ImageFormat.Png.OxiPNG -> OxiPngBackend
+            ImageFormat.Png.ImageQuant -> PngImageQuantBackend
 
             ImageFormat.Webp.Lossless,
             ImageFormat.Webp.Lossy -> WebpBackend(isLossless = imageFormat.isLossless)
