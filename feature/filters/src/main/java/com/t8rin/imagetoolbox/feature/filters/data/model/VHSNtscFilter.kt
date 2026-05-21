@@ -42,103 +42,110 @@ internal class VHSNtscFilter(
         if (value.amount <= 0f) return input
 
         return Trickle.ntsc(
-            input,
-            value.toNtscSettings(),
-            value.processingDownscale.coerceIn(0, 4) + 1,
-            1f,
-            1f
+            src = input,
+            settings = value.toNtscSettings(),
+            frame = value.processingDownscale.coerceIn(0, 4) + 1,
+            scaleFactorX = value.resizeRatio.coerceIn(0.25f, 2f),
+            scaleFactorY = value.outputScale.coerceIn(0.25f, 2f)
         )
     }
 
 }
 
 private fun NtscParams.toNtscSettings(): NtscSettings {
-    val amount = amount.coerceIn(0f, 1f)
-    val chromaBleed = chromaBleed.coerceIn(0f, 1f) * amount
-    val tapeWear = tapeWear.coerceIn(0f, 1f) * amount
-    val noise = noise.coerceIn(0f, 1f) * amount
-    val tracking = tracking.coerceIn(0f, 1f) * amount
-    val lumaSmear = lumaSmear.coerceIn(0f, 1f) * amount
-    val sharpening = compositeSharpening.coerceIn(0f, 1f)
-    val ringing = ringing.coerceIn(0f, 1f) * amount
-    val snow = snow.coerceIn(0f, 1f) * amount
+    val amount = amount.coerceIn(0f, 2f)
+    val chromaBleed = chromaBleed.coerceIn(0f, 2f) * amount
+    val tapeWear = tapeWear.coerceIn(0f, 2f) * amount
+    val noise = noise.coerceIn(0f, 2f) * amount
+    val tracking = tracking.coerceIn(0f, 2f) * amount
+    val snow = snow.coerceIn(0f, 2f) * amount
+    val ringing = ringing.coerceIn(0f, 8f) * amount
+    val selectedTapeSpeed = NtscSettings.VHSTapeSpeed.entries.safeGet(vhsTapeSpeed)
 
     return NtscSettings(
         randomSeed = seed,
-        useField = NtscSettings.UseField.INTERLEAVED_UPPER,
-        filterType = NtscSettings.FilterType.BUTTERWORTH,
-        inputLumaFilter = NtscSettings.LumaLowpass.NOTCH,
-        chromaLowpassIn = NtscSettings.ChromaLowpass.FULL,
-        chromaDemodulation = NtscSettings.ChromaDemodulationFilter.NOTCH,
-        lumaSmear = lumaSmear,
-        compositeSharpening = 0.5f + sharpening * amount * 1.5f,
-        videoScanlinePhaseShift = NtscSettings.PhaseShift.DEGREES_180,
-        videoScanlinePhaseShiftOffset = 0,
-        headSwitching = NtscSettings.HeadSwitching(
-            height = ((tracking * 12f) + (tapeWear * 6f)).roundToInt(),
-            offset = (tracking * 4f).roundToInt(),
-            horizontalShift = tracking * 80f + tapeWear * 24f,
+        useField = NtscSettings.UseField.entries.safeGet(useField),
+        filterType = NtscSettings.FilterType.entries.safeGet(filterType),
+        inputLumaFilter = NtscSettings.LumaLowpass.entries.safeGet(inputLumaFilter),
+        chromaLowpassIn = NtscSettings.ChromaLowpass.entries.safeGet(chromaLowpassIn),
+        chromaDemodulation = NtscSettings.ChromaDemodulationFilter.entries.safeGet(
+            chromaDemodulation
+        ),
+        lumaSmear = lumaSmear.coerceIn(0f, 4f) * amount,
+        compositeSharpening = compositeSharpening.coerceIn(0f, 4f) * amount,
+        videoScanlinePhaseShift = NtscSettings.PhaseShift.entries.safeGet(videoScanlinePhaseShift),
+        videoScanlinePhaseShiftOffset = videoScanlinePhaseShiftOffset.coerceIn(-8, 8),
+        headSwitching = if (headSwitchingEnabled) NtscSettings.HeadSwitching(
+            height = (headSwitchingHeight.coerceIn(0, 80) * maxOf(tracking, tapeWear * 0.7f))
+                .roundToInt(),
+            offset = (headSwitchingOffset.coerceIn(-30, 30) * tracking).roundToInt(),
+            horizontalShift = headSwitchingHorizontalShift.coerceIn(-300f, 300f) *
+                    maxOf(tracking, tapeWear * 0.7f),
             midLine = NtscSettings.HeadSwitchingMidLine(
-                position = 0.30f + tracking * 0.40f,
-                jitter = tracking * 0.25f
+                position = headSwitchingMidLinePosition.coerceIn(0f, 1f),
+                jitter = headSwitchingMidLineJitter.coerceIn(0f, 1f) * tracking
             )
-        ),
-        trackingNoise = NtscSettings.TrackingNoise(
-            height = if (tracking > 0.01f) 4 + (tracking * 20f).roundToInt() else 0,
-            waveIntensity = tracking * 24f,
-            snowIntensity = tracking * 0.035f,
-            snowAnisotropy = 0.30f,
-            noiseIntensity = tracking * 0.25f
-        ),
-        compositeNoise = NtscSettings.FbmNoise(
-            frequency = 0.50f,
-            intensity = noise * 0.16f,
-            detail = 2
-        ),
-        ringing = NtscSettings.Ringing(
-            frequency = 0.35f + ringing * 0.75f,
-            power = 1f + ringing * 2f,
-            intensity = ringing * 0.28f
-        ),
-        lumaNoise = NtscSettings.FbmNoise(
-            frequency = 0.50f,
-            intensity = noise * 0.05f,
-            detail = 1 + (noise * 2f).roundToInt()
-        ),
-        chromaNoise = NtscSettings.FbmNoise(
-            frequency = 0.05f,
-            intensity = chromaBleed * 0.18f,
-            detail = 2
-        ),
-        snowIntensity = snow * 0.0015f,
-        snowAnisotropy = 0.45f,
-        chromaPhaseNoiseIntensity = chromaBleed * 0.008f,
-        chromaPhaseError = chromaBleed * 0.08f,
-        chromaDelayHorizontal = chromaBleed * 5f,
-        chromaDelayVertical = (chromaBleed * 2f).roundToInt(),
-        vhs = NtscSettings.VHS(
-            tapeSpeed = tapeWear.toTapeSpeed(),
-            chromaLoss = tapeWear * 0.00008f,
+        ) else null,
+        trackingNoise = if (trackingNoiseEnabled) NtscSettings.TrackingNoise(
+            height = (trackingNoiseHeight.coerceIn(0, 80) * tracking).roundToInt(),
+            waveIntensity = trackingNoiseWaveIntensity.coerceIn(0f, 80f) * tracking,
+            snowIntensity = trackingNoiseSnowIntensity.coerceIn(0f, 0.25f) * tracking,
+            snowAnisotropy = trackingNoiseSnowAnisotropy.coerceIn(0f, 1f),
+            noiseIntensity = trackingNoiseNoiseIntensity.coerceIn(0f, 1f) * tracking
+        ) else null,
+        compositeNoise = if (compositeNoiseEnabled) NtscSettings.FbmNoise(
+            frequency = compositeNoiseFrequency.coerceIn(0f, 3f),
+            intensity = compositeNoiseIntensity.coerceIn(0f, 1f) * noise,
+            detail = compositeNoiseDetail.coerceIn(0, 8)
+        ) else null,
+        ringing = if (ringingEnabled) NtscSettings.Ringing(
+            frequency = ringingFrequency.coerceIn(0f, 3f),
+            power = ringingPower.coerceIn(0f, 10f),
+            intensity = ringing
+        ) else null,
+        lumaNoise = if (lumaNoiseEnabled) NtscSettings.FbmNoise(
+            frequency = lumaNoiseFrequency.coerceIn(0f, 3f),
+            intensity = lumaNoiseIntensity.coerceIn(0f, 1f) * noise,
+            detail = lumaNoiseDetail.coerceIn(0, 8)
+        ) else null,
+        chromaNoise = if (chromaNoiseEnabled) NtscSettings.FbmNoise(
+            frequency = chromaNoiseFrequency.coerceIn(0f, 3f),
+            intensity = chromaNoiseIntensity.coerceIn(0f, 1f) * chromaBleed,
+            detail = chromaNoiseDetail.coerceIn(0, 8)
+        ) else null,
+        snowIntensity = snowIntensity.coerceIn(0f, 0.02f) * snow,
+        snowAnisotropy = snowAnisotropy.coerceIn(0f, 1f),
+        chromaPhaseNoiseIntensity = chromaPhaseNoiseIntensity.coerceIn(0f, 0.08f) *
+                chromaBleed,
+        chromaPhaseError = chromaPhaseError.coerceIn(0f, 0.6f) * chromaBleed,
+        chromaDelayHorizontal = chromaDelayHorizontal.coerceIn(-25f, 25f) * chromaBleed,
+        chromaDelayVertical = (chromaDelayVertical.coerceIn(-10, 10) * chromaBleed).roundToInt(),
+        vhs = if (vhsEnabled) NtscSettings.VHS(
+            tapeSpeed = if (tapeWear > 0.03f) {
+                selectedTapeSpeed
+            } else {
+                NtscSettings.VHSTapeSpeed.NONE
+            },
+            chromaLoss = vhsChromaLoss.coerceIn(0f, 0.001f) * tapeWear,
             sharpen = NtscSettings.VHSSharpen(
-                intensity = sharpening * amount * 0.35f,
-                frequency = 1f + sharpening
+                intensity = vhsSharpenIntensity.coerceIn(0f, 2f) * amount,
+                frequency = vhsSharpenFrequency.coerceIn(0f, 6f)
             ),
             edgeWave = NtscSettings.VHSEdgeWave(
-                intensity = tapeWear * 0.65f,
-                speed = 3.0f + tapeWear * 3f,
-                frequency = 0.03f + tapeWear * 0.07f,
-                detail = 2 + (tapeWear * 3f).roundToInt()
+                intensity = vhsEdgeWaveIntensity.coerceIn(0f, 3f) * tapeWear,
+                speed = vhsEdgeWaveSpeed.coerceIn(0f, 12f),
+                frequency = vhsEdgeWaveFrequency.coerceIn(0f, 0.3f),
+                detail = vhsEdgeWaveDetail.coerceIn(0, 8)
             )
-        ),
-        chromaVertBlend = true,
-        chromaLowpassOut = NtscSettings.ChromaLowpass.FULL,
-        scale = NtscSettings.Scale()
+        ) else null,
+        chromaLowpassOut = NtscSettings.ChromaLowpass.entries.safeGet(chromaLowpassOut),
+        scale = if (scaleEnabled) NtscSettings.Scale(
+            horizontal = scaleHorizontal.coerceIn(0.5f, 2f),
+            vertical = scaleVertical.coerceIn(0.5f, 2f)
+        ) else null
     )
 }
 
-private fun Float.toTapeSpeed(): NtscSettings.VHSTapeSpeed = when {
-    this <= 0.03f -> NtscSettings.VHSTapeSpeed.NONE
-    this < 0.28f -> NtscSettings.VHSTapeSpeed.SP
-    this < 0.58f -> NtscSettings.VHSTapeSpeed.LP
-    else -> NtscSettings.VHSTapeSpeed.EP
+private fun <T> List<T>.safeGet(index: Int): T {
+    return this[index.coerceIn(indices)]
 }

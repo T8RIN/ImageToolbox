@@ -32,27 +32,47 @@ class UiVHSNtscFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.amount,
-            valueRange = 0f..1f,
-            roundTo = 2
-        ),
-        FilterParam(
-            title = R.string.chroma_bleed,
-            valueRange = 0f..1f,
+            valueRange = 0f..2f,
             roundTo = 2
         ),
         FilterParam(
             title = R.string.tape_wear,
-            valueRange = 0f..1f,
+            valueRange = 0f..2f,
             roundTo = 2
         ),
         FilterParam(
-            title = R.string.noise,
-            valueRange = 0f..1f,
+            title = R.string.chroma_bleed,
+            valueRange = 0f..2f,
             roundTo = 2
         ),
         FilterParam(
             title = R.string.tracking,
-            valueRange = 0f..1f,
+            valueRange = 0f..2f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.noise,
+            valueRange = 0f..2f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.snow,
+            valueRange = 0f..2f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.luma_smear,
+            valueRange = 0f..4f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.sharpen,
+            valueRange = 0f..4f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ringing,
+            valueRange = 0f..8f,
             roundTo = 2
         ),
         FilterParam(
@@ -61,29 +81,204 @@ class UiVHSNtscFilter(
             roundTo = 0
         ),
         FilterParam(
-            title = R.string.luma_smear,
-            valueRange = 0f..1f,
-            roundTo = 2
-        ),
-        FilterParam(
-            title = R.string.sharpen,
-            valueRange = 0f..1f,
-            roundTo = 2
-        ),
-        FilterParam(
-            title = R.string.ringing,
-            valueRange = 0f..1f,
-            roundTo = 2
-        ),
-        FilterParam(
-            title = R.string.snow,
-            valueRange = 0f..1f,
-            roundTo = 2
-        ),
-        FilterParam(
             title = R.string.processing_downscale,
             valueRange = 0f..4f,
             roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_phase_offset,
+            valueRange = -8f..8f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_head_switching_height,
+            valueRange = 0f..80f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_head_switching_offset,
+            valueRange = -30f..30f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_head_switching_shift,
+            valueRange = -300f..300f,
+            roundTo = 1
+        ),
+        FilterParam(
+            title = R.string.ntsc_midline_position,
+            valueRange = 0f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_midline_jitter,
+            valueRange = 0f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_tracking_noise_height,
+            valueRange = 0f..80f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_tracking_wave,
+            valueRange = 0f..80f,
+            roundTo = 1
+        ),
+        FilterParam(
+            title = R.string.ntsc_tracking_snow,
+            valueRange = 0f..0.25f,
+            roundTo = 3
+        ),
+        FilterParam(
+            title = R.string.ntsc_tracking_snow_anisotropy,
+            valueRange = 0f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_tracking_noise,
+            valueRange = 0f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_composite_noise_frequency,
+            valueRange = 0f..3f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_composite_noise_intensity,
+            valueRange = 0f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_composite_noise_detail,
+            valueRange = 0f..8f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_ringing_frequency,
+            valueRange = 0f..3f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_ringing_power,
+            valueRange = 0f..10f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_luma_noise_frequency,
+            valueRange = 0f..3f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_luma_noise_intensity,
+            valueRange = 0f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_luma_noise_detail,
+            valueRange = 0f..8f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_chroma_noise_frequency,
+            valueRange = 0f..3f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_chroma_noise_intensity,
+            valueRange = 0f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_chroma_noise_detail,
+            valueRange = 0f..8f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_snow_intensity,
+            valueRange = 0f..0.02f,
+            roundTo = 4
+        ),
+        FilterParam(
+            title = R.string.ntsc_snow_anisotropy,
+            valueRange = 0f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_chroma_phase_noise,
+            valueRange = 0f..0.08f,
+            roundTo = 4
+        ),
+        FilterParam(
+            title = R.string.ntsc_chroma_phase_error,
+            valueRange = 0f..0.6f,
+            roundTo = 3
+        ),
+        FilterParam(
+            title = R.string.ntsc_chroma_delay_horizontal,
+            valueRange = -25f..25f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_chroma_delay_vertical,
+            valueRange = -10f..10f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_vhs_chroma_loss,
+            valueRange = 0f..0.001f,
+            roundTo = 5
+        ),
+        FilterParam(
+            title = R.string.ntsc_vhs_sharpen_intensity,
+            valueRange = 0f..2f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_vhs_sharpen_frequency,
+            valueRange = 0f..6f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_vhs_edge_wave_intensity,
+            valueRange = 0f..3f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_vhs_edge_wave_speed,
+            valueRange = 0f..12f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_vhs_edge_wave_frequency,
+            valueRange = 0f..0.3f,
+            roundTo = 3
+        ),
+        FilterParam(
+            title = R.string.ntsc_vhs_edge_wave_detail,
+            valueRange = 0f..8f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.ntsc_scale_horizontal,
+            valueRange = 0.5f..2f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_scale_vertical,
+            valueRange = 0.5f..2f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_resize_ratio,
+            valueRange = 0.25f..2f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.ntsc_output_scale,
+            valueRange = 0.25f..2f,
+            roundTo = 2
         )
     )
 ), Filter.VHSNtsc
