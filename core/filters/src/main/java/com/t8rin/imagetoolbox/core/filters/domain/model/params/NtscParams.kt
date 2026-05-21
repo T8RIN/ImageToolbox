@@ -28,7 +28,6 @@ data class NtscParams(
     val compositeSharpening: Float = 1f,
     val ringing: Float = 4f,
     val snow: Float = 1f,
-    val processingDownscale: Int = 0,
     val useField: Int = 4,
     val filterType: Int = 1,
     val inputLumaFilter: Int = 2,
@@ -82,6 +81,6 @@ data class NtscParams(
     val scaleEnabled: Boolean = true,
     val scaleHorizontal: Float = 1f,
     val scaleVertical: Float = 1f,
-    val resizeRatio: Float = 1f,
-    val outputScale: Float = 1f
+    val scaleFactorX: Float = 1f,
+    val scaleFactorY: Float = 1f
 )

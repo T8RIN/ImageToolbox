@@ -2276,7 +2276,6 @@
     <string name="luma_smear">Luma smear</string>
     <string name="ringing">Ringing</string>
     <string name="snow">Snow</string>
-    <string name="processing_downscale">Processing downscale</string>
     <string name="ntsc_use_field">Use field</string>
     <string name="ntsc_filter_type">Filter type</string>
     <string name="ntsc_input_luma_filter">Input luma filter</string>
@@ -2288,7 +2287,6 @@
     <string name="ntsc_head_switching_height">Head switching height</string>
     <string name="ntsc_head_switching_offset">Head switching offset</string>
     <string name="ntsc_head_switching_shift">Head switching shift</string>
-    <string name="ntsc_tracking_noise_group">Tracking noise</string>
     <string name="ntsc_midline_position">Mid-line position</string>
     <string name="ntsc_midline_jitter">Mid-line jitter</string>
     <string name="ntsc_tracking_noise_height">Tracking noise height</string>
@@ -2296,6 +2294,7 @@
     <string name="ntsc_tracking_snow">Tracking snow</string>
     <string name="ntsc_tracking_snow_anisotropy">Tracking snow anisotropy</string>
     <string name="ntsc_tracking_noise">Tracking noise</string>
+    <string name="ntsc_tracking_noise_intensity">Tracking noise intensity</string>
     <string name="ntsc_composite_noise">Composite noise</string>
     <string name="ntsc_composite_noise_frequency">Composite noise frequency</string>
     <string name="ntsc_composite_noise_intensity">Composite noise intensity</string>
@@ -2327,6 +2326,6 @@
     <string name="ntsc_chroma_lowpass_out">Output chroma lowpass</string>
     <string name="ntsc_scale_horizontal">Scale horizontal</string>
     <string name="ntsc_scale_vertical">Scale vertical</string>
-    <string name="ntsc_resize_ratio">Resize ratio</string>
-    <string name="ntsc_output_scale">Output scale</string>
+    <string name="ntsc_scale_factor_x">Scale factor X</string>
+    <string name="ntsc_scale_factor_y">Scale factor Y</string>
 </resources>

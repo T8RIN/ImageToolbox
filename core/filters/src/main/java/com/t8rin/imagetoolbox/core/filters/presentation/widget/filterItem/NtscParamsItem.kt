@@ -80,30 +80,70 @@ internal fun NtscParamsItem(
                 params = params.copy(amount = it)
             }
         )
-        NtscParamSlider(params.tapeWear, filter.paramsInfo[1], previewOnly) {
-            params = params.copy(tapeWear = it)
-        }
-        NtscParamSlider(params.chromaBleed, filter.paramsInfo[2], previewOnly) {
-            params = params.copy(chromaBleed = it)
-        }
-        NtscParamSlider(params.tracking, filter.paramsInfo[3], previewOnly) {
-            params = params.copy(tracking = it)
-        }
-        NtscParamSlider(params.noise, filter.paramsInfo[4], previewOnly) {
-            params = params.copy(noise = it)
-        }
-        NtscParamSlider(params.snow, filter.paramsInfo[5], previewOnly) {
-            params = params.copy(snow = it)
-        }
-        NtscParamSlider(params.lumaSmear, filter.paramsInfo[6], previewOnly) {
-            params = params.copy(lumaSmear = it)
-        }
-        NtscParamSlider(params.compositeSharpening, filter.paramsInfo[7], previewOnly) {
-            params = params.copy(compositeSharpening = it)
-        }
-        NtscParamSlider(params.ringing, filter.paramsInfo[8], previewOnly) {
-            params = params.copy(ringing = it)
-        }
+        NtscParamSlider(
+            value = params.tapeWear,
+            info = filter.paramsInfo[1],
+            previewOnly = previewOnly,
+            onValueChange = {
+                params = params.copy(tapeWear = it)
+            }
+        )
+        NtscParamSlider(
+            value = params.chromaBleed,
+            info = filter.paramsInfo[2],
+            previewOnly = previewOnly,
+            onValueChange = {
+                params = params.copy(chromaBleed = it)
+            }
+        )
+        NtscParamSlider(
+            value = params.tracking,
+            info = filter.paramsInfo[3],
+            previewOnly = previewOnly,
+            onValueChange = {
+                params = params.copy(tracking = it)
+            }
+        )
+        NtscParamSlider(
+            value = params.noise,
+            info = filter.paramsInfo[4],
+            previewOnly = previewOnly,
+            onValueChange = {
+                params = params.copy(noise = it)
+            }
+        )
+        NtscParamSlider(
+            value = params.snow,
+            info = filter.paramsInfo[5],
+            previewOnly = previewOnly,
+            onValueChange = {
+                params = params.copy(snow = it)
+            }
+        )
+        NtscParamSlider(
+            value = params.lumaSmear,
+            info = filter.paramsInfo[6],
+            previewOnly = previewOnly,
+            onValueChange = {
+                params = params.copy(lumaSmear = it)
+            }
+        )
+        NtscParamSlider(
+            value = params.compositeSharpening,
+            info = filter.paramsInfo[7],
+            previewOnly = previewOnly,
+            onValueChange = {
+                params = params.copy(compositeSharpening = it)
+            }
+        )
+        NtscParamSlider(
+            value = params.ringing,
+            info = filter.paramsInfo[8],
+            previewOnly = previewOnly,
+            onValueChange = {
+                params = params.copy(ringing = it)
+            }
+        )
 
         ExpandableItem(
             modifier = Modifier.padding(top = 4.dp),
@@ -121,459 +161,540 @@ internal fun NtscParamsItem(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    NtscIntSlider(params.seed, filter.paramsInfo[9], previewOnly) {
-                        params = params.copy(seed = it)
-                    }
-                    NtscIntSlider(params.processingDownscale, filter.paramsInfo[10], previewOnly) {
-                        params = params.copy(processingDownscale = it)
-                    }
+                    NtscIntSlider(
+                        value = params.seed,
+                        info = filter.paramsInfo[9],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(seed = it)
+                        }
+                    )
                     NtscEnumSelector(
                         title = R.string.ntsc_use_field,
                         entries = NtscSettings.UseField.entries,
                         selectedIndex = params.useField,
-                        previewOnly = previewOnly
-                    ) {
-                        params = params.copy(useField = it)
-                    }
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(useField = it)
+                        }
+                    )
                     NtscEnumSelector(
                         title = R.string.ntsc_filter_type,
                         entries = NtscSettings.FilterType.entries,
                         selectedIndex = params.filterType,
-                        previewOnly = previewOnly
-                    ) {
-                        params = params.copy(filterType = it)
-                    }
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(filterType = it)
+                        }
+                    )
                     NtscEnumSelector(
                         title = R.string.ntsc_input_luma_filter,
                         entries = NtscSettings.LumaLowpass.entries,
                         selectedIndex = params.inputLumaFilter,
-                        previewOnly = previewOnly
-                    ) {
-                        params = params.copy(inputLumaFilter = it)
-                    }
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(inputLumaFilter = it)
+                        }
+                    )
                     NtscEnumSelector(
                         title = R.string.ntsc_chroma_lowpass_in,
                         entries = NtscSettings.ChromaLowpass.entries,
                         selectedIndex = params.chromaLowpassIn,
-                        previewOnly = previewOnly
-                    ) {
-                        params = params.copy(chromaLowpassIn = it)
-                    }
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(chromaLowpassIn = it)
+                        }
+                    )
                     NtscEnumSelector(
                         title = R.string.ntsc_chroma_demodulation,
                         entries = NtscSettings.ChromaDemodulationFilter.entries,
                         selectedIndex = params.chromaDemodulation,
-                        previewOnly = previewOnly
-                    ) {
-                        params = params.copy(chromaDemodulation = it)
-                    }
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(chromaDemodulation = it)
+                        }
+                    )
                     NtscEnumSelector(
                         title = R.string.ntsc_phase_shift,
                         entries = NtscSettings.PhaseShift.entries,
                         selectedIndex = params.videoScanlinePhaseShift,
-                        previewOnly = previewOnly
-                    ) {
-                        params = params.copy(videoScanlinePhaseShift = it)
-                    }
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(videoScanlinePhaseShift = it)
+                        }
+                    )
                     NtscEnumSelector(
                         title = R.string.ntsc_chroma_lowpass_out,
                         entries = NtscSettings.ChromaLowpass.entries,
                         selectedIndex = params.chromaLowpassOut,
-                        previewOnly = previewOnly
-                    ) {
-                        params = params.copy(chromaLowpassOut = it)
-                    }
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(chromaLowpassOut = it)
+                        }
+                    )
                     NtscIntSlider(
-                        params.videoScanlinePhaseShiftOffset,
-                        filter.paramsInfo[11],
-                        previewOnly
-                    ) {
-                        params = params.copy(videoScanlinePhaseShiftOffset = it)
-                    }
+                        value = params.videoScanlinePhaseShiftOffset,
+                        info = filter.paramsInfo[10],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(videoScanlinePhaseShiftOffset = it)
+                        }
+                    )
                     NtscToggleGroup(
                         title = R.string.ntsc_head_switching,
                         checked = params.headSwitchingEnabled,
                         previewOnly = previewOnly,
                         onCheckedChange = {
                             params = params.copy(headSwitchingEnabled = it)
+                        },
+                        content = {
+                            NtscIntSlider(
+                                value = params.headSwitchingHeight,
+                                info = filter.paramsInfo[11],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.top,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(headSwitchingHeight = it)
+                                }
+                            )
+                            NtscIntSlider(
+                                value = params.headSwitchingOffset,
+                                info = filter.paramsInfo[12],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(headSwitchingOffset = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.headSwitchingHorizontalShift,
+                                info = filter.paramsInfo[13],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(headSwitchingHorizontalShift = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.headSwitchingMidLinePosition,
+                                info = filter.paramsInfo[14],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(headSwitchingMidLinePosition = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.headSwitchingMidLineJitter,
+                                info = filter.paramsInfo[15],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.bottom,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(headSwitchingMidLineJitter = it)
+                                }
+                            )
                         }
-                    ) {
-                        NtscIntSlider(
-                            params.headSwitchingHeight,
-                            filter.paramsInfo[12],
-                            previewOnly,
-                            shape = ShapeDefaults.top,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(headSwitchingHeight = it)
-                        }
-                        NtscIntSlider(
-                            params.headSwitchingOffset,
-                            filter.paramsInfo[13],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(headSwitchingOffset = it)
-                        }
-                        NtscParamSlider(
-                            params.headSwitchingHorizontalShift,
-                            filter.paramsInfo[14],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(headSwitchingHorizontalShift = it)
-                        }
-                        NtscParamSlider(
-                            params.headSwitchingMidLinePosition,
-                            filter.paramsInfo[15],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(headSwitchingMidLinePosition = it)
-                        }
-                        NtscParamSlider(
-                            params.headSwitchingMidLineJitter,
-                            filter.paramsInfo[16],
-                            previewOnly,
-                            shape = ShapeDefaults.bottom,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(headSwitchingMidLineJitter = it)
-                        }
-                    }
+                    )
                     NtscToggleGroup(
-                        title = R.string.ntsc_tracking_noise_group,
+                        title = R.string.ntsc_tracking_noise,
                         checked = params.trackingNoiseEnabled,
                         previewOnly = previewOnly,
                         onCheckedChange = {
                             params = params.copy(trackingNoiseEnabled = it)
+                        },
+                        content = {
+                            NtscIntSlider(
+                                value = params.trackingNoiseHeight,
+                                info = filter.paramsInfo[16],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.top,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(trackingNoiseHeight = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.trackingNoiseWaveIntensity,
+                                info = filter.paramsInfo[17],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(trackingNoiseWaveIntensity = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.trackingNoiseSnowIntensity,
+                                info = filter.paramsInfo[18],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(trackingNoiseSnowIntensity = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.trackingNoiseSnowAnisotropy,
+                                info = filter.paramsInfo[19],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(trackingNoiseSnowAnisotropy = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.trackingNoiseNoiseIntensity,
+                                info = filter.paramsInfo[20],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.bottom,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(trackingNoiseNoiseIntensity = it)
+                                }
+                            )
                         }
-                    ) {
-                        NtscIntSlider(
-                            params.trackingNoiseHeight,
-                            filter.paramsInfo[17],
-                            previewOnly,
-                            shape = ShapeDefaults.top,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(trackingNoiseHeight = it)
-                        }
-                        NtscParamSlider(
-                            params.trackingNoiseWaveIntensity,
-                            filter.paramsInfo[18],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(trackingNoiseWaveIntensity = it)
-                        }
-                        NtscParamSlider(
-                            params.trackingNoiseSnowIntensity,
-                            filter.paramsInfo[19],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(trackingNoiseSnowIntensity = it)
-                        }
-                        NtscParamSlider(
-                            params.trackingNoiseSnowAnisotropy,
-                            filter.paramsInfo[20],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(trackingNoiseSnowAnisotropy = it)
-                        }
-                        NtscParamSlider(
-                            params.trackingNoiseNoiseIntensity,
-                            filter.paramsInfo[21],
-                            previewOnly,
-                            shape = ShapeDefaults.bottom,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(trackingNoiseNoiseIntensity = it)
-                        }
-                    }
+                    )
                     NtscToggleGroup(
                         title = R.string.ntsc_composite_noise,
                         checked = params.compositeNoiseEnabled,
                         previewOnly = previewOnly,
                         onCheckedChange = {
                             params = params.copy(compositeNoiseEnabled = it)
+                        },
+                        content = {
+                            NtscParamSlider(
+                                value = params.compositeNoiseFrequency,
+                                info = filter.paramsInfo[21],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.top,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(compositeNoiseFrequency = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.compositeNoiseIntensity,
+                                info = filter.paramsInfo[22],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(compositeNoiseIntensity = it)
+                                }
+                            )
+                            NtscIntSlider(
+                                value = params.compositeNoiseDetail,
+                                info = filter.paramsInfo[23],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.bottom,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(compositeNoiseDetail = it)
+                                }
+                            )
                         }
-                    ) {
-                        NtscParamSlider(
-                            params.compositeNoiseFrequency,
-                            filter.paramsInfo[22],
-                            previewOnly,
-                            shape = ShapeDefaults.top,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(compositeNoiseFrequency = it)
-                        }
-                        NtscParamSlider(
-                            params.compositeNoiseIntensity,
-                            filter.paramsInfo[23],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(compositeNoiseIntensity = it)
-                        }
-                        NtscIntSlider(
-                            params.compositeNoiseDetail,
-                            filter.paramsInfo[24],
-                            previewOnly,
-                            shape = ShapeDefaults.bottom,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(compositeNoiseDetail = it)
-                        }
-                    }
+                    )
                     NtscToggleGroup(
                         title = R.string.ringing,
                         checked = params.ringingEnabled,
                         previewOnly = previewOnly,
                         onCheckedChange = {
                             params = params.copy(ringingEnabled = it)
+                        },
+                        content = {
+                            NtscParamSlider(
+                                value = params.ringingFrequency,
+                                info = filter.paramsInfo[24],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.top,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(ringingFrequency = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.ringingPower,
+                                info = filter.paramsInfo[25],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.bottom,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(ringingPower = it)
+                                }
+                            )
                         }
-                    ) {
-                        NtscParamSlider(
-                            params.ringingFrequency,
-                            filter.paramsInfo[25],
-                            previewOnly,
-                            shape = ShapeDefaults.top,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(ringingFrequency = it)
-                        }
-                        NtscParamSlider(
-                            params.ringingPower,
-                            filter.paramsInfo[26],
-                            previewOnly,
-                            shape = ShapeDefaults.bottom,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(ringingPower = it)
-                        }
-                    }
+                    )
                     NtscToggleGroup(
                         title = R.string.ntsc_luma_noise,
                         checked = params.lumaNoiseEnabled,
                         previewOnly = previewOnly,
                         onCheckedChange = {
                             params = params.copy(lumaNoiseEnabled = it)
+                        },
+                        content = {
+                            NtscParamSlider(
+                                value = params.lumaNoiseFrequency,
+                                info = filter.paramsInfo[26],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.top,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(lumaNoiseFrequency = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.lumaNoiseIntensity,
+                                info = filter.paramsInfo[27],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(lumaNoiseIntensity = it)
+                                }
+                            )
+                            NtscIntSlider(
+                                value = params.lumaNoiseDetail,
+                                info = filter.paramsInfo[28],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.bottom,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(lumaNoiseDetail = it)
+                                }
+                            )
                         }
-                    ) {
-                        NtscParamSlider(
-                            params.lumaNoiseFrequency,
-                            filter.paramsInfo[27],
-                            previewOnly,
-                            shape = ShapeDefaults.top,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(lumaNoiseFrequency = it)
-                        }
-                        NtscParamSlider(
-                            params.lumaNoiseIntensity,
-                            filter.paramsInfo[28],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(lumaNoiseIntensity = it)
-                        }
-                        NtscIntSlider(
-                            params.lumaNoiseDetail,
-                            filter.paramsInfo[29],
-                            previewOnly,
-                            shape = ShapeDefaults.bottom,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(lumaNoiseDetail = it)
-                        }
-                    }
+                    )
                     NtscToggleGroup(
                         title = R.string.ntsc_chroma_noise,
                         checked = params.chromaNoiseEnabled,
                         previewOnly = previewOnly,
                         onCheckedChange = {
                             params = params.copy(chromaNoiseEnabled = it)
+                        },
+                        content = {
+                            NtscParamSlider(
+                                value = params.chromaNoiseFrequency,
+                                info = filter.paramsInfo[29],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.top,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(chromaNoiseFrequency = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.chromaNoiseIntensity,
+                                info = filter.paramsInfo[30],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(chromaNoiseIntensity = it)
+                                }
+                            )
+                            NtscIntSlider(
+                                value = params.chromaNoiseDetail,
+                                info = filter.paramsInfo[31],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.bottom,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(chromaNoiseDetail = it)
+                                }
+                            )
                         }
-                    ) {
-                        NtscParamSlider(
-                            params.chromaNoiseFrequency,
-                            filter.paramsInfo[30],
-                            previewOnly,
-                            shape = ShapeDefaults.top,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(chromaNoiseFrequency = it)
-                        }
-                        NtscParamSlider(
-                            params.chromaNoiseIntensity,
-                            filter.paramsInfo[31],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(chromaNoiseIntensity = it)
-                        }
-                        NtscIntSlider(
-                            params.chromaNoiseDetail,
-                            filter.paramsInfo[32],
-                            previewOnly,
-                            shape = ShapeDefaults.bottom,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(chromaNoiseDetail = it)
-                        }
-                    }
-                    NtscParamSlider(params.snowIntensity, filter.paramsInfo[33], previewOnly) {
-                        params = params.copy(snowIntensity = it)
-                    }
-                    NtscParamSlider(params.snowAnisotropy, filter.paramsInfo[34], previewOnly) {
-                        params = params.copy(snowAnisotropy = it)
-                    }
+                    )
                     NtscParamSlider(
-                        params.chromaPhaseNoiseIntensity,
-                        filter.paramsInfo[35],
-                        previewOnly
-                    ) {
-                        params = params.copy(chromaPhaseNoiseIntensity = it)
-                    }
-                    NtscParamSlider(params.chromaPhaseError, filter.paramsInfo[36], previewOnly) {
-                        params = params.copy(chromaPhaseError = it)
-                    }
+                        value = params.snowIntensity,
+                        info = filter.paramsInfo[32],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(snowIntensity = it)
+                        }
+                    )
                     NtscParamSlider(
-                        params.chromaDelayHorizontal,
-                        filter.paramsInfo[37],
-                        previewOnly
-                    ) {
-                        params = params.copy(chromaDelayHorizontal = it)
-                    }
-                    NtscIntSlider(params.chromaDelayVertical, filter.paramsInfo[38], previewOnly) {
-                        params = params.copy(chromaDelayVertical = it)
-                    }
+                        value = params.snowAnisotropy,
+                        info = filter.paramsInfo[33],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(snowAnisotropy = it)
+                        }
+                    )
+                    NtscParamSlider(
+                        value = params.chromaPhaseNoiseIntensity,
+                        info = filter.paramsInfo[34],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(chromaPhaseNoiseIntensity = it)
+                        }
+                    )
+                    NtscParamSlider(
+                        value = params.chromaPhaseError,
+                        info = filter.paramsInfo[35],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(chromaPhaseError = it)
+                        }
+                    )
+                    NtscParamSlider(
+                        value = params.chromaDelayHorizontal,
+                        info = filter.paramsInfo[36],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(chromaDelayHorizontal = it)
+                        }
+                    )
+                    NtscIntSlider(
+                        value = params.chromaDelayVertical,
+                        info = filter.paramsInfo[37],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(chromaDelayVertical = it)
+                        }
+                    )
                     NtscToggleGroup(
                         title = R.string.vhs,
                         checked = params.vhsEnabled,
                         previewOnly = previewOnly,
                         onCheckedChange = {
                             params = params.copy(vhsEnabled = it)
+                        },
+                        content = {
+                            NtscEnumSelector(
+                                title = R.string.ntsc_vhs_tape_speed,
+                                entries = NtscSettings.VHSTapeSpeed.entries,
+                                selectedIndex = params.vhsTapeSpeed,
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.top,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(vhsTapeSpeed = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.vhsChromaLoss,
+                                info = filter.paramsInfo[38],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(vhsChromaLoss = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.vhsSharpenIntensity,
+                                info = filter.paramsInfo[39],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(vhsSharpenIntensity = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.vhsSharpenFrequency,
+                                info = filter.paramsInfo[40],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(vhsSharpenFrequency = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.vhsEdgeWaveIntensity,
+                                info = filter.paramsInfo[41],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(vhsEdgeWaveIntensity = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.vhsEdgeWaveSpeed,
+                                info = filter.paramsInfo[42],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(vhsEdgeWaveSpeed = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.vhsEdgeWaveFrequency,
+                                info = filter.paramsInfo[43],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.center,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(vhsEdgeWaveFrequency = it)
+                                }
+                            )
+                            NtscIntSlider(
+                                value = params.vhsEdgeWaveDetail,
+                                info = filter.paramsInfo[44],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.bottom,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(vhsEdgeWaveDetail = it)
+                                }
+                            )
                         }
-                    ) {
-                        NtscEnumSelector(
-                            title = R.string.ntsc_vhs_tape_speed,
-                            entries = NtscSettings.VHSTapeSpeed.entries,
-                            selectedIndex = params.vhsTapeSpeed,
-                            previewOnly = previewOnly,
-                            shape = ShapeDefaults.top,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(vhsTapeSpeed = it)
-                        }
-                        NtscParamSlider(
-                            params.vhsChromaLoss,
-                            filter.paramsInfo[39],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(vhsChromaLoss = it)
-                        }
-                        NtscParamSlider(
-                            params.vhsSharpenIntensity,
-                            filter.paramsInfo[40],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(vhsSharpenIntensity = it)
-                        }
-                        NtscParamSlider(
-                            params.vhsSharpenFrequency,
-                            filter.paramsInfo[41],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(vhsSharpenFrequency = it)
-                        }
-                        NtscParamSlider(
-                            params.vhsEdgeWaveIntensity,
-                            filter.paramsInfo[42],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(vhsEdgeWaveIntensity = it)
-                        }
-                        NtscParamSlider(
-                            params.vhsEdgeWaveSpeed,
-                            filter.paramsInfo[43],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(vhsEdgeWaveSpeed = it)
-                        }
-                        NtscParamSlider(
-                            params.vhsEdgeWaveFrequency,
-                            filter.paramsInfo[44],
-                            previewOnly,
-                            shape = ShapeDefaults.center,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(vhsEdgeWaveFrequency = it)
-                        }
-                        NtscIntSlider(
-                            params.vhsEdgeWaveDetail,
-                            filter.paramsInfo[45],
-                            previewOnly,
-                            shape = ShapeDefaults.bottom,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(vhsEdgeWaveDetail = it)
-                        }
-                    }
+                    )
                     NtscToggleGroup(
                         title = R.string.scale,
                         checked = params.scaleEnabled,
                         previewOnly = previewOnly,
                         onCheckedChange = {
                             params = params.copy(scaleEnabled = it)
+                        },
+                        content = {
+                            NtscParamSlider(
+                                value = params.scaleHorizontal,
+                                info = filter.paramsInfo[45],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.top,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(scaleHorizontal = it)
+                                }
+                            )
+                            NtscParamSlider(
+                                value = params.scaleVertical,
+                                info = filter.paramsInfo[46],
+                                previewOnly = previewOnly,
+                                shape = ShapeDefaults.bottom,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                onValueChange = {
+                                    params = params.copy(scaleVertical = it)
+                                }
+                            )
                         }
-                    ) {
-                        NtscParamSlider(
-                            params.scaleHorizontal,
-                            filter.paramsInfo[46],
-                            previewOnly,
-                            shape = ShapeDefaults.top,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(scaleHorizontal = it)
+                    )
+                    NtscParamSlider(
+                        value = params.scaleFactorX,
+                        info = filter.paramsInfo[47],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(scaleFactorX = it)
                         }
-                        NtscParamSlider(
-                            params.scaleVertical,
-                            filter.paramsInfo[47],
-                            previewOnly,
-                            shape = ShapeDefaults.bottom,
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            params = params.copy(scaleVertical = it)
+                    )
+                    NtscParamSlider(
+                        value = params.scaleFactorY,
+                        info = filter.paramsInfo[48],
+                        previewOnly = previewOnly,
+                        onValueChange = {
+                            params = params.copy(scaleFactorY = it)
                         }
-                    }
-                    NtscParamSlider(params.resizeRatio, filter.paramsInfo[48], previewOnly) {
-                        params = params.copy(resizeRatio = it)
-                    }
-                    NtscParamSlider(params.outputScale, filter.paramsInfo[49], previewOnly) {
-                        params = params.copy(outputScale = it)
-                    }
+                    )
                 }
             }
         )
