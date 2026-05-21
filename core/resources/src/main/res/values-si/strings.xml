@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
@@ -2247,4 +2230,65 @@
     <string name="seam_carving_backward_energy_sub">ඉදිරි ශක්ති ඇල්ගොරිතම වෙනුවට සරල ශ්‍රේණියේ විශාලත්වය බලශක්ති සිතියම භාවිතා කරන්න</string>
     <string name="seam_carving_mask_as_removal">ආවරණ සහිත ප්රදේශය ඉවත් කරන්න</string>
     <string name="seam_carving_mask_as_removal_sub">මැහුම් ආවරණ කලාපය හරහා ගමන් කරනු ඇත, එය ආරක්ෂා කිරීම වෙනුවට තෝරාගත් ප්රදේශය පමණක් ඉවත් කරනු ඇත</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">උසස් NTSC සැකසුම්</string>
+    <string name="ntsc_advanced_settings_sub">ශක්තිමත් VHS සහ විකාශන පුරාවස්තු සඳහා අමතර ඇනලොග් සුසර කිරීම</string>
+    <string name="chroma_bleed">ක්රෝමා ලේ ගැලීම</string>
+    <string name="tape_wear">ටේප් ඇඳීම</string>
+    <string name="tracking">ලුහුබැඳීම</string>
+    <string name="luma_smear">ලුමා ස්මියර්</string>
+    <string name="ringing">නාද වෙනවා</string>
+    <string name="snow">හිම</string>
+    <string name="ntsc_use_field">ක්ෂේත්‍රය භාවිතා කරන්න</string>
+    <string name="ntsc_filter_type">පෙරහන් වර්ගය</string>
+    <string name="ntsc_input_luma_filter">ලුමා පෙරහන ඇතුල් කරන්න</string>
+    <string name="ntsc_chroma_lowpass_in">ක්‍රෝමා ලෝපාස් ආදානය කරන්න</string>
+    <string name="ntsc_chroma_demodulation">ක්‍රෝමා ඩිමොඩියුලේෂන්</string>
+    <string name="ntsc_phase_shift">අදියර මාරුව</string>
+    <string name="ntsc_phase_offset">අදියර ඕෆ්සෙට්</string>
+    <string name="ntsc_head_switching">හිස මාරු කිරීම</string>
+    <string name="ntsc_head_switching_height">හිස මාරු කිරීමේ උස</string>
+    <string name="ntsc_head_switching_offset">හිස මාරු කිරීම ඕෆ්සෙට්</string>
+    <string name="ntsc_head_switching_shift">හිස මාරු කිරීමේ මාරුව</string>
+    <string name="ntsc_midline_position">මැද රේඛාවේ පිහිටීම</string>
+    <string name="ntsc_midline_jitter">මැද පේළියේ කම්පනය</string>
+    <string name="ntsc_tracking_noise_height">ශබ්ද උස නිරීක්ෂණය කිරීම</string>
+    <string name="ntsc_tracking_wave">ලුහුබැඳීමේ තරංගය</string>
+    <string name="ntsc_tracking_snow">හිම ලුහුබැඳීම</string>
+    <string name="ntsc_tracking_snow_anisotropy">හිම ඇනිසොට්‍රොපි නිරීක්ෂණය කිරීම</string>
+    <string name="ntsc_tracking_noise">ලුහුබැඳීමේ ශබ්දය</string>
+    <string name="ntsc_tracking_noise_intensity">ශබ්ද තීව්‍රතාව නිරීක්ෂණය කිරීම</string>
+    <string name="ntsc_composite_noise">සංයුක්ත ශබ්දය</string>
+    <string name="ntsc_composite_noise_frequency">සංයුක්ත ශබ්ද සංඛ්යාතය</string>
+    <string name="ntsc_composite_noise_intensity">සංයුක්ත ශබ්ද තීව්රතාව</string>
+    <string name="ntsc_composite_noise_detail">සංයුක්ත ශබ්ද විස්තරය</string>
+    <string name="ntsc_ringing_frequency">නාද කිරීමේ වාර ගණන</string>
+    <string name="ntsc_ringing_power">නාද බලය</string>
+    <string name="ntsc_luma_noise">ලුමා ශබ්දය</string>
+    <string name="ntsc_luma_noise_frequency">ලුමා ශබ්ද සංඛ්යාතය</string>
+    <string name="ntsc_luma_noise_intensity">ලුමා ශබ්ද තීව්රතාව</string>
+    <string name="ntsc_luma_noise_detail">ලුමා ශබ්ද විස්තරය</string>
+    <string name="ntsc_chroma_noise">ක්‍රෝමා ශබ්දය</string>
+    <string name="ntsc_chroma_noise_frequency">ක්‍රෝමා ශබ්ද සංඛ්‍යාතය</string>
+    <string name="ntsc_chroma_noise_intensity">ක්‍රෝමා ශබ්ද තීව්‍රතාවය</string>
+    <string name="ntsc_chroma_noise_detail">ක්‍රෝමා ශබ්ද විස්තරය</string>
+    <string name="ntsc_snow_intensity">හිම තීව්රතාවය</string>
+    <string name="ntsc_snow_anisotropy">හිම ඇනිසොට්‍රොපි</string>
+    <string name="ntsc_chroma_phase_noise">ක්‍රෝමා ෆේස් ශබ්දය</string>
+    <string name="ntsc_chroma_phase_error">ක්‍රෝමා ෆේස් දෝෂය</string>
+    <string name="ntsc_chroma_delay_horizontal">ක්‍රෝමා ප්‍රමාදය තිරස්</string>
+    <string name="ntsc_chroma_delay_vertical">ක්‍රෝමා ප්‍රමාදය සිරස් අතට</string>
+    <string name="ntsc_vhs_tape_speed">VHS ටේප් වේගය</string>
+    <string name="ntsc_vhs_chroma_loss">VHS ක්‍රෝමා අලාභය</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS තීව්‍රතාවය තියුණු කරයි</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS තියුනු සංඛ්යාතය</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS දාර තරංග තීව්‍රතාවය</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS දාර තරංග වේගය</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS දාර තරංග සංඛ්යාතය</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS එජ් තරංග විස්තරය</string>
+    <string name="ntsc_chroma_lowpass_out">ප්‍රතිදානය ක්‍රෝමා ලෝපාස්</string>
+    <string name="ntsc_scale_horizontal">තිරස් පරිමාණය</string>
+    <string name="ntsc_scale_vertical">පරිමාණය සිරස් අතට</string>
+    <string name="ntsc_scale_factor_x">පරිමාණ සාධකය X</string>
+    <string name="ntsc_scale_factor_y">පරිමාණ සාධකය Y</string>
 </resources>

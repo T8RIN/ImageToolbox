@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
@@ -2250,4 +2233,65 @@
     <string name="seam_carving_backward_energy_sub">استخدم خريطة طاقة بسيطة ذات حجم متدرج بدلاً من خوارزمية الطاقة الأمامية</string>
     <string name="seam_carving_mask_as_removal">إزالة المنطقة المقنعة</string>
     <string name="seam_carving_mask_as_removal_sub">سوف تمر الطبقات عبر المنطقة المقنعة، مما يؤدي إلى إزالة المنطقة المحددة فقط بدلاً من حمايتها</string>
+    <string name="vhs_ntsc">في إتش إس إن تي إس سي</string>
+    <string name="ntsc_advanced_settings">إعدادات NTSC المتقدمة</string>
+    <string name="ntsc_advanced_settings_sub">ضبط تناظري إضافي لمقاطع الفيديو VHS والبث الفني الأقوى</string>
+    <string name="chroma_bleed">نزيف كروما</string>
+    <string name="tape_wear">ارتداء الشريط</string>
+    <string name="tracking">تتبع</string>
+    <string name="luma_smear">مسحة لوما</string>
+    <string name="ringing">رنين</string>
+    <string name="snow">ثلج</string>
+    <string name="ntsc_use_field">استخدم الحقل</string>
+    <string name="ntsc_filter_type">نوع الفلتر</string>
+    <string name="ntsc_input_luma_filter">إدخال مرشح لمى</string>
+    <string name="ntsc_chroma_lowpass_in">إدخال صفاء Lowpass</string>
+    <string name="ntsc_chroma_demodulation">إزالة التشكيل الكروما</string>
+    <string name="ntsc_phase_shift">تحول المرحلة</string>
+    <string name="ntsc_phase_offset">إزاحة المرحلة</string>
+    <string name="ntsc_head_switching">تبديل الرأس</string>
+    <string name="ntsc_head_switching_height">ارتفاع تبديل الرأس</string>
+    <string name="ntsc_head_switching_offset">إزاحة تبديل الرأس</string>
+    <string name="ntsc_head_switching_shift">تحول تبديل الرأس</string>
+    <string name="ntsc_midline_position">موقف خط الوسط</string>
+    <string name="ntsc_midline_jitter">غضب منتصف الخط</string>
+    <string name="ntsc_tracking_noise_height">تتبع ارتفاع الضوضاء</string>
+    <string name="ntsc_tracking_wave">موجة التتبع</string>
+    <string name="ntsc_tracking_snow">تتبع الثلوج</string>
+    <string name="ntsc_tracking_snow_anisotropy">تتبع تباين الثلوج</string>
+    <string name="ntsc_tracking_noise">تتبع الضوضاء</string>
+    <string name="ntsc_tracking_noise_intensity">تتبع شدة الضوضاء</string>
+    <string name="ntsc_composite_noise">الضوضاء المركبة</string>
+    <string name="ntsc_composite_noise_frequency">تردد الضوضاء المركب</string>
+    <string name="ntsc_composite_noise_intensity">شدة الضوضاء المركبة</string>
+    <string name="ntsc_composite_noise_detail">تفاصيل الضوضاء المركبة</string>
+    <string name="ntsc_ringing_frequency">تردد الرنين</string>
+    <string name="ntsc_ringing_power">قوة الرنين</string>
+    <string name="ntsc_luma_noise">ضجيج لوما</string>
+    <string name="ntsc_luma_noise_frequency">تردد الضوضاء لوما</string>
+    <string name="ntsc_luma_noise_intensity">شدة الضوضاء لوما</string>
+    <string name="ntsc_luma_noise_detail">تفاصيل الضوضاء لوما</string>
+    <string name="ntsc_chroma_noise">ضجيج كروما</string>
+    <string name="ntsc_chroma_noise_frequency">تردد الضوضاء كروما</string>
+    <string name="ntsc_chroma_noise_intensity">شدة الضوضاء كروما</string>
+    <string name="ntsc_chroma_noise_detail">تفاصيل الضوضاء كروما</string>
+    <string name="ntsc_snow_intensity">شدة الثلوج</string>
+    <string name="ntsc_snow_anisotropy">تباين الثلوج</string>
+    <string name="ntsc_chroma_phase_noise">ضجيج مرحلة الكروما</string>
+    <string name="ntsc_chroma_phase_error">خطأ في مرحلة الكروما</string>
+    <string name="ntsc_chroma_delay_horizontal">تأخير الصفاء الأفقي</string>
+    <string name="ntsc_chroma_delay_vertical">تأخير صفاء عمودي</string>
+    <string name="ntsc_vhs_tape_speed">سرعة شريط VHS</string>
+    <string name="ntsc_vhs_chroma_loss">فقدان صفاء VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS شحذ شدة</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS شحذ التردد</string>
+    <string name="ntsc_vhs_edge_wave_intensity">شدة موجة حافة VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">سرعة موجة حافة VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">تردد موجة حافة VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">تفاصيل موجة حافة VHS</string>
+    <string name="ntsc_chroma_lowpass_out">صفاء الإخراج lowpass</string>
+    <string name="ntsc_scale_horizontal">مقياس أفقي</string>
+    <string name="ntsc_scale_vertical">مقياس عمودي</string>
+    <string name="ntsc_scale_factor_x">عامل القياس X</string>
+    <string name="ntsc_scale_factor_y">عامل القياس Y</string>
 </resources>

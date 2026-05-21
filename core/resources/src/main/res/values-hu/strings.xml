@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">Használjon egyszerű gradiens nagyságrendű energiatérképet az előremenő energia algoritmus helyett</string>
     <string name="seam_carving_mask_as_removal">Távolítsa el a maszkolt területet</string>
     <string name="seam_carving_mask_as_removal_sub">A varratok áthaladnak a maszkolt területen, és csak a kiválasztott területet távolítják el, ahelyett, hogy megvédenék</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Speciális NTSC beállítások</string>
+    <string name="ntsc_advanced_settings_sub">Extra analóg hangolás az erősebb VHS és sugárzott műtermékek érdekében</string>
+    <string name="chroma_bleed">Chroma vérzés</string>
+    <string name="tape_wear">Szalagkopás</string>
+    <string name="tracking">Követés</string>
+    <string name="luma_smear">Luma kenet</string>
+    <string name="ringing">Csengetés</string>
+    <string name="snow">Hó</string>
+    <string name="ntsc_use_field">Mező használata</string>
+    <string name="ntsc_filter_type">Szűrő típusa</string>
+    <string name="ntsc_input_luma_filter">Bemeneti luma szűrő</string>
+    <string name="ntsc_chroma_lowpass_in">Bemeneti chroma aluláteresztő</string>
+    <string name="ntsc_chroma_demodulation">Króma demoduláció</string>
+    <string name="ntsc_phase_shift">Fázisváltás</string>
+    <string name="ntsc_phase_offset">Fáziseltolás</string>
+    <string name="ntsc_head_switching">Fejváltás</string>
+    <string name="ntsc_head_switching_height">Fej kapcsolási magassága</string>
+    <string name="ntsc_head_switching_offset">Fej kapcsolási eltolás</string>
+    <string name="ntsc_head_switching_shift">Fejváltó váltás</string>
+    <string name="ntsc_midline_position">Középvonali pozíció</string>
+    <string name="ntsc_midline_jitter">Középvonali jitter</string>
+    <string name="ntsc_tracking_noise_height">Zajmagasság követése</string>
+    <string name="ntsc_tracking_wave">Követési hullám</string>
+    <string name="ntsc_tracking_snow">A hókövetés</string>
+    <string name="ntsc_tracking_snow_anisotropy">A hó anizotrópia követése</string>
+    <string name="ntsc_tracking_noise">Követési zaj</string>
+    <string name="ntsc_tracking_noise_intensity">A zaj intenzitásának követése</string>
+    <string name="ntsc_composite_noise">Kompozit zaj</string>
+    <string name="ntsc_composite_noise_frequency">Kompozit zajfrekvencia</string>
+    <string name="ntsc_composite_noise_intensity">Kompozit zajintenzitás</string>
+    <string name="ntsc_composite_noise_detail">Kompozit zajrészlet</string>
+    <string name="ntsc_ringing_frequency">Csengetési gyakoriság</string>
+    <string name="ntsc_ringing_power">Csengetési erő</string>
+    <string name="ntsc_luma_noise">Luma zaj</string>
+    <string name="ntsc_luma_noise_frequency">Luma zajfrekvencia</string>
+    <string name="ntsc_luma_noise_intensity">Luma zaj intenzitása</string>
+    <string name="ntsc_luma_noise_detail">Luma zaj részlet</string>
+    <string name="ntsc_chroma_noise">Chroma zaj</string>
+    <string name="ntsc_chroma_noise_frequency">Chroma zaj frekvencia</string>
+    <string name="ntsc_chroma_noise_intensity">Króma zaj intenzitása</string>
+    <string name="ntsc_chroma_noise_detail">Króma zajrészlet</string>
+    <string name="ntsc_snow_intensity">A hó intenzitása</string>
+    <string name="ntsc_snow_anisotropy">Havas anizotrópia</string>
+    <string name="ntsc_chroma_phase_noise">Krómfázis zaj</string>
+    <string name="ntsc_chroma_phase_error">Krómfázis hiba</string>
+    <string name="ntsc_chroma_delay_horizontal">Vízszintes színkésleltetés</string>
+    <string name="ntsc_chroma_delay_vertical">Chroma késleltetés függőleges</string>
+    <string name="ntsc_vhs_tape_speed">VHS szalag sebesség</string>
+    <string name="ntsc_vhs_chroma_loss">VHS színvesztés</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS élesítés intenzitása</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS élesítési frekvencia</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS élhullám intenzitása</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS élhullám sebesség</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS élhullám frekvencia</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS élhullám részlet</string>
+    <string name="ntsc_chroma_lowpass_out">Kimeneti chroma aluláteresztő</string>
+    <string name="ntsc_scale_horizontal">Vízszintes lépték</string>
+    <string name="ntsc_scale_vertical">Függőleges lépték</string>
+    <string name="ntsc_scale_factor_x">X léptéktényező</string>
+    <string name="ntsc_scale_factor_y">Y léptéktényező</string>
 </resources>

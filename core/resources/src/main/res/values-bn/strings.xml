@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">ফরোয়ার্ড এনার্জি অ্যালগরিদমের পরিবর্তে সাধারণ গ্রেডিয়েন্ট ম্যাগনিটিউড এনার্জি ম্যাপ ব্যবহার করুন</string>
     <string name="seam_carving_mask_as_removal">মুখোশযুক্ত এলাকা সরান</string>
     <string name="seam_carving_mask_as_removal_sub">Seams মুখোশযুক্ত অঞ্চলের মধ্য দিয়ে যাবে, এটি রক্ষা করার পরিবর্তে শুধুমাত্র নির্বাচিত এলাকাটি সরিয়ে দেবে</string>
+    <string name="vhs_ntsc">ভিএইচএস এনটিএসসি</string>
+    <string name="ntsc_advanced_settings">উন্নত NTSC সেটিংস</string>
+    <string name="ntsc_advanced_settings_sub">শক্তিশালী ভিএইচএস এবং সম্প্রচারিত শিল্পকর্মের জন্য অতিরিক্ত অ্যানালগ টিউনিং</string>
+    <string name="chroma_bleed">ক্রোমা রক্তপাত</string>
+    <string name="tape_wear">টেপ পরিধান</string>
+    <string name="tracking">ট্র্যাকিং</string>
+    <string name="luma_smear">লুমা স্মিয়ার</string>
+    <string name="ringing">রিং হচ্ছে</string>
+    <string name="snow">তুষার</string>
+    <string name="ntsc_use_field">ক্ষেত্র ব্যবহার করুন</string>
+    <string name="ntsc_filter_type">ফিল্টার প্রকার</string>
+    <string name="ntsc_input_luma_filter">ইনপুট লুমা ফিল্টার</string>
+    <string name="ntsc_chroma_lowpass_in">ইনপুট ক্রোমা লোপাস</string>
+    <string name="ntsc_chroma_demodulation">ক্রোমা ডিমোডুলেশন</string>
+    <string name="ntsc_phase_shift">ফেজ শিফট</string>
+    <string name="ntsc_phase_offset">ফেজ অফসেট</string>
+    <string name="ntsc_head_switching">হেড সুইচিং</string>
+    <string name="ntsc_head_switching_height">মাথা সুইচিং উচ্চতা</string>
+    <string name="ntsc_head_switching_offset">হেড সুইচিং অফসেট</string>
+    <string name="ntsc_head_switching_shift">হেড সুইচিং শিফট</string>
+    <string name="ntsc_midline_position">মাঝামাঝি অবস্থান</string>
+    <string name="ntsc_midline_jitter">মিড-লাইন জিটার</string>
+    <string name="ntsc_tracking_noise_height">ট্র্যাকিং শব্দ উচ্চতা</string>
+    <string name="ntsc_tracking_wave">ট্র্যাকিং তরঙ্গ</string>
+    <string name="ntsc_tracking_snow">তুষার ট্র্যাকিং</string>
+    <string name="ntsc_tracking_snow_anisotropy">তুষার অ্যানিসোট্রপি ট্র্যাকিং</string>
+    <string name="ntsc_tracking_noise">ট্র্যাকিং গোলমাল</string>
+    <string name="ntsc_tracking_noise_intensity">ট্র্যাকিং শব্দের তীব্রতা</string>
+    <string name="ntsc_composite_noise">যৌগিক শব্দ</string>
+    <string name="ntsc_composite_noise_frequency">যৌগিক শব্দ ফ্রিকোয়েন্সি</string>
+    <string name="ntsc_composite_noise_intensity">যৌগিক শব্দের তীব্রতা</string>
+    <string name="ntsc_composite_noise_detail">যৌগিক গোলমাল বিস্তারিত</string>
+    <string name="ntsc_ringing_frequency">রিং ফ্রিকোয়েন্সি</string>
+    <string name="ntsc_ringing_power">রিং পাওয়ার</string>
+    <string name="ntsc_luma_noise">লুমার আওয়াজ</string>
+    <string name="ntsc_luma_noise_frequency">লুমা শব্দ ফ্রিকোয়েন্সি</string>
+    <string name="ntsc_luma_noise_intensity">লুমা শব্দের তীব্রতা</string>
+    <string name="ntsc_luma_noise_detail">লুমা গোলমাল বিস্তারিত</string>
+    <string name="ntsc_chroma_noise">ক্রোমা শব্দ</string>
+    <string name="ntsc_chroma_noise_frequency">ক্রোমা শব্দ ফ্রিকোয়েন্সি</string>
+    <string name="ntsc_chroma_noise_intensity">ক্রোমা শব্দের তীব্রতা</string>
+    <string name="ntsc_chroma_noise_detail">Chroma গোলমাল বিস্তারিত</string>
+    <string name="ntsc_snow_intensity">তুষার তীব্রতা</string>
+    <string name="ntsc_snow_anisotropy">স্নো অ্যানিসোট্রপি</string>
+    <string name="ntsc_chroma_phase_noise">ক্রোমা ফেজ শব্দ</string>
+    <string name="ntsc_chroma_phase_error">ক্রোমা ফেজ ত্রুটি</string>
+    <string name="ntsc_chroma_delay_horizontal">Chroma বিলম্ব অনুভূমিক</string>
+    <string name="ntsc_chroma_delay_vertical">Chroma বিলম্ব উল্লম্ব</string>
+    <string name="ntsc_vhs_tape_speed">ভিএইচএস টেপের গতি</string>
+    <string name="ntsc_vhs_chroma_loss">ভিএইচএস ক্রোমা ক্ষতি</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS তীক্ষ্ণতা তীব্রতা</string>
+    <string name="ntsc_vhs_sharpen_frequency">ভিএইচএস ধারালো ফ্রিকোয়েন্সি</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS প্রান্ত তরঙ্গ তীব্রতা</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS প্রান্ত তরঙ্গ গতি</string>
+    <string name="ntsc_vhs_edge_wave_frequency">ভিএইচএস প্রান্ত তরঙ্গ ফ্রিকোয়েন্সি</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS প্রান্ত তরঙ্গ বিস্তারিত</string>
+    <string name="ntsc_chroma_lowpass_out">আউটপুট ক্রোমা লোপাস</string>
+    <string name="ntsc_scale_horizontal">স্কেল অনুভূমিক</string>
+    <string name="ntsc_scale_vertical">স্কেল উল্লম্ব</string>
+    <string name="ntsc_scale_factor_x">স্কেল ফ্যাক্টর এক্স</string>
+    <string name="ntsc_scale_factor_y">স্কেল ফ্যাক্টর Y</string>
 </resources>

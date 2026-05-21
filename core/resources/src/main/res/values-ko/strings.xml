@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
@@ -2245,4 +2228,65 @@
     <string name="seam_carving_backward_energy_sub">순방향 에너지 알고리즘 대신 간단한 그래디언트 크기 에너지 맵을 사용합니다.</string>
     <string name="seam_carving_mask_as_removal">마스크된 영역 제거</string>
     <string name="seam_carving_mask_as_removal_sub">솔기는 마스크된 영역을 통과하여 보호하는 대신 선택한 영역만 제거합니다.</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">고급 NTSC 설정</string>
+    <string name="ntsc_advanced_settings_sub">더욱 강력한 VHS 및 방송 아티팩트를 위한 추가 아날로그 튜닝</string>
+    <string name="chroma_bleed">크로마 블리드</string>
+    <string name="tape_wear">테이프 마모</string>
+    <string name="tracking">추적</string>
+    <string name="luma_smear">루마 스미어</string>
+    <string name="ringing">울리는</string>
+    <string name="snow">눈</string>
+    <string name="ntsc_use_field">필드 사용</string>
+    <string name="ntsc_filter_type">필터 유형</string>
+    <string name="ntsc_input_luma_filter">입력 루마 필터</string>
+    <string name="ntsc_chroma_lowpass_in">입력 크로마 로우패스</string>
+    <string name="ntsc_chroma_demodulation">크로마 복조</string>
+    <string name="ntsc_phase_shift">위상 변화</string>
+    <string name="ntsc_phase_offset">위상 오프셋</string>
+    <string name="ntsc_head_switching">헤드 스위칭</string>
+    <string name="ntsc_head_switching_height">헤드 전환 높이</string>
+    <string name="ntsc_head_switching_offset">헤드 스위칭 오프셋</string>
+    <string name="ntsc_head_switching_shift">헤드 스위칭 시프트</string>
+    <string name="ntsc_midline_position">미드라인 위치</string>
+    <string name="ntsc_midline_jitter">미드라인 지터</string>
+    <string name="ntsc_tracking_noise_height">추적 소음 높이</string>
+    <string name="ntsc_tracking_wave">추적파</string>
+    <string name="ntsc_tracking_snow">눈 추적</string>
+    <string name="ntsc_tracking_snow_anisotropy">눈 이방성 추적</string>
+    <string name="ntsc_tracking_noise">소음 추적</string>
+    <string name="ntsc_tracking_noise_intensity">소음 강도 추적</string>
+    <string name="ntsc_composite_noise">복합 소음</string>
+    <string name="ntsc_composite_noise_frequency">복합 소음 주파수</string>
+    <string name="ntsc_composite_noise_intensity">복합 소음 강도</string>
+    <string name="ntsc_composite_noise_detail">복합 소음 세부 사항</string>
+    <string name="ntsc_ringing_frequency">울리는 주파수</string>
+    <string name="ntsc_ringing_power">울리는 힘</string>
+    <string name="ntsc_luma_noise">루마 노이즈</string>
+    <string name="ntsc_luma_noise_frequency">루마 노이즈 주파수</string>
+    <string name="ntsc_luma_noise_intensity">루마 노이즈 강도</string>
+    <string name="ntsc_luma_noise_detail">루마 노이즈 세부정보</string>
+    <string name="ntsc_chroma_noise">크로마 노이즈</string>
+    <string name="ntsc_chroma_noise_frequency">크로마 노이즈 주파수</string>
+    <string name="ntsc_chroma_noise_intensity">크로마 노이즈 강도</string>
+    <string name="ntsc_chroma_noise_detail">크로마 노이즈 세부정보</string>
+    <string name="ntsc_snow_intensity">눈의 강도</string>
+    <string name="ntsc_snow_anisotropy">눈 이방성</string>
+    <string name="ntsc_chroma_phase_noise">크로마 위상 노이즈</string>
+    <string name="ntsc_chroma_phase_error">크로마 위상 오류</string>
+    <string name="ntsc_chroma_delay_horizontal">수평 크로마 지연</string>
+    <string name="ntsc_chroma_delay_vertical">크로마 지연 수직</string>
+    <string name="ntsc_vhs_tape_speed">VHS 테이프 속도</string>
+    <string name="ntsc_vhs_chroma_loss">VHS 크로마 손실</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS 선명도</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS 선명 주파수</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS 가장자리 파동 강도</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS 가장자리 파동 속도</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS 에지파 주파수</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS 에지 웨이브 디테일</string>
+    <string name="ntsc_chroma_lowpass_out">출력 크로마 로우패스</string>
+    <string name="ntsc_scale_horizontal">수평으로 확장</string>
+    <string name="ntsc_scale_vertical">수직으로 확장</string>
+    <string name="ntsc_scale_factor_x">배율 X</string>
+    <string name="ntsc_scale_factor_y">스케일 팩터 Y</string>
 </resources>

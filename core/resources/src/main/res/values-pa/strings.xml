@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">ਫਾਰਵਰਡ ਐਨਰਜੀ ਐਲਗੋਰਿਦਮ ਦੀ ਬਜਾਏ ਸਧਾਰਨ ਗਰੇਡੀਐਂਟ ਮੈਗਨੀਟਿਊਡ ਐਨਰਜੀ ਮੈਪ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
     <string name="seam_carving_mask_as_removal">ਨਕਾਬਪੋਸ਼ ਖੇਤਰ ਨੂੰ ਹਟਾਓ</string>
     <string name="seam_carving_mask_as_removal_sub">ਸੀਮਾਂ ਨਕਾਬਪੋਸ਼ ਖੇਤਰ ਵਿੱਚੋਂ ਲੰਘਣਗੀਆਂ, ਇਸਦੀ ਸੁਰੱਖਿਆ ਕਰਨ ਦੀ ਬਜਾਏ ਸਿਰਫ ਚੁਣੇ ਹੋਏ ਖੇਤਰ ਨੂੰ ਹਟਾਉਂਦੀਆਂ ਹਨ</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">ਉੱਨਤ NTSC ਸੈਟਿੰਗਾਂ</string>
+    <string name="ntsc_advanced_settings_sub">ਮਜ਼ਬੂਤ ​​VHS ਅਤੇ ਪ੍ਰਸਾਰਣ ਕਲਾਤਮਕ ਚੀਜ਼ਾਂ ਲਈ ਵਾਧੂ ਐਨਾਲਾਗ ਟਿਊਨਿੰਗ</string>
+    <string name="chroma_bleed">ਕ੍ਰੋਮਾ ਖੂਨ ਨਿਕਲਣਾ</string>
+    <string name="tape_wear">ਟੇਪ ਪਹਿਨਣ</string>
+    <string name="tracking">ਟਰੈਕਿੰਗ</string>
+    <string name="luma_smear">ਲੂਮਾ ਸਮੀਅਰ</string>
+    <string name="ringing">ਘੰਟੀ ਵੱਜ ਰਹੀ ਹੈ</string>
+    <string name="snow">ਬਰਫ਼</string>
+    <string name="ntsc_use_field">ਖੇਤਰ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="ntsc_filter_type">ਫਿਲਟਰ ਦੀ ਕਿਸਮ</string>
+    <string name="ntsc_input_luma_filter">ਲੂਮਾ ਫਿਲਟਰ ਇਨਪੁਟ ਕਰੋ</string>
+    <string name="ntsc_chroma_lowpass_in">ਇਨਪੁਟ ਕਰੋਮਾ ਲੋਪਾਸ</string>
+    <string name="ntsc_chroma_demodulation">ਕ੍ਰੋਮਾ ਡੀਮੋਡੂਲੇਸ਼ਨ</string>
+    <string name="ntsc_phase_shift">ਪੜਾਅ ਸ਼ਿਫਟ</string>
+    <string name="ntsc_phase_offset">ਪੜਾਅ ਆਫਸੈੱਟ</string>
+    <string name="ntsc_head_switching">ਸਿਰ ਬਦਲਣਾ</string>
+    <string name="ntsc_head_switching_height">ਸਿਰ ਬਦਲਣ ਦੀ ਉਚਾਈ</string>
+    <string name="ntsc_head_switching_offset">ਹੈੱਡ ਸਵਿਚਿੰਗ ਆਫਸੈੱਟ</string>
+    <string name="ntsc_head_switching_shift">ਹੈੱਡ ਸਵਿਚਿੰਗ ਸ਼ਿਫਟ</string>
+    <string name="ntsc_midline_position">ਮੱਧ-ਲਾਈਨ ਸਥਿਤੀ</string>
+    <string name="ntsc_midline_jitter">ਮਿਡ-ਲਾਈਨ ਝਟਕਾ</string>
+    <string name="ntsc_tracking_noise_height">ਸ਼ੋਰ ਦੀ ਉਚਾਈ ਨੂੰ ਟਰੈਕ ਕਰਨਾ</string>
+    <string name="ntsc_tracking_wave">ਟਰੈਕਿੰਗ ਵੇਵ</string>
+    <string name="ntsc_tracking_snow">ਬਰਫ਼ ਨੂੰ ਟਰੈਕ ਕਰਨਾ</string>
+    <string name="ntsc_tracking_snow_anisotropy">ਬਰਫ ਦੀ ਐਨੀਸੋਟ੍ਰੋਪੀ ਨੂੰ ਟਰੈਕ ਕਰਨਾ</string>
+    <string name="ntsc_tracking_noise">ਟਰੈਕਿੰਗ ਸ਼ੋਰ</string>
+    <string name="ntsc_tracking_noise_intensity">ਸ਼ੋਰ ਦੀ ਤੀਬਰਤਾ ਨੂੰ ਟਰੈਕ ਕਰਨਾ</string>
+    <string name="ntsc_composite_noise">ਸੰਯੁਕਤ ਸ਼ੋਰ</string>
+    <string name="ntsc_composite_noise_frequency">ਸੰਯੁਕਤ ਸ਼ੋਰ ਬਾਰੰਬਾਰਤਾ</string>
+    <string name="ntsc_composite_noise_intensity">ਮਿਸ਼ਰਿਤ ਸ਼ੋਰ ਦੀ ਤੀਬਰਤਾ</string>
+    <string name="ntsc_composite_noise_detail">ਸੰਯੁਕਤ ਸ਼ੋਰ ਵੇਰਵੇ</string>
+    <string name="ntsc_ringing_frequency">ਘੰਟੀ ਵੱਜਣ ਦੀ ਬਾਰੰਬਾਰਤਾ</string>
+    <string name="ntsc_ringing_power">ਰਿੰਗਿੰਗ ਪਾਵਰ</string>
+    <string name="ntsc_luma_noise">ਲੂਮਾ ਰੌਲਾ</string>
+    <string name="ntsc_luma_noise_frequency">ਲੂਮਾ ਸ਼ੋਰ ਬਾਰੰਬਾਰਤਾ</string>
+    <string name="ntsc_luma_noise_intensity">ਲੂਮਾ ਸ਼ੋਰ ਦੀ ਤੀਬਰਤਾ</string>
+    <string name="ntsc_luma_noise_detail">Luma ਸ਼ੋਰ ਵੇਰਵੇ</string>
+    <string name="ntsc_chroma_noise">ਕ੍ਰੋਮਾ ਰੌਲਾ</string>
+    <string name="ntsc_chroma_noise_frequency">ਕ੍ਰੋਮਾ ਸ਼ੋਰ ਬਾਰੰਬਾਰਤਾ</string>
+    <string name="ntsc_chroma_noise_intensity">ਕ੍ਰੋਮਾ ਸ਼ੋਰ ਦੀ ਤੀਬਰਤਾ</string>
+    <string name="ntsc_chroma_noise_detail">ਕ੍ਰੋਮਾ ਸ਼ੋਰ ਵੇਰਵੇ</string>
+    <string name="ntsc_snow_intensity">ਬਰਫ਼ ਦੀ ਤੀਬਰਤਾ</string>
+    <string name="ntsc_snow_anisotropy">ਬਰਫ਼ ਐਨੀਸੋਟ੍ਰੋਪੀ</string>
+    <string name="ntsc_chroma_phase_noise">Chroma ਪੜਾਅ ਸ਼ੋਰ</string>
+    <string name="ntsc_chroma_phase_error">ਕ੍ਰੋਮਾ ਪੜਾਅ ਗੜਬੜ</string>
+    <string name="ntsc_chroma_delay_horizontal">ਕ੍ਰੋਮਾ ਦੇਰੀ ਹਰੀਜੱਟਲ</string>
+    <string name="ntsc_chroma_delay_vertical">ਕ੍ਰੋਮਾ ਦੇਰੀ ਲੰਬਕਾਰੀ</string>
+    <string name="ntsc_vhs_tape_speed">VHS ਟੇਪ ਦੀ ਗਤੀ</string>
+    <string name="ntsc_vhs_chroma_loss">VHS ਕ੍ਰੋਮਾ ਦਾ ਨੁਕਸਾਨ</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS ਤਿੱਖੀ ਤੀਬਰਤਾ</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS ਸ਼ਾਰਪਨ ਬਾਰੰਬਾਰਤਾ</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS ਕਿਨਾਰੇ ਦੀ ਲਹਿਰ ਦੀ ਤੀਬਰਤਾ</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS ਕਿਨਾਰੇ ਵੇਵ ਸਪੀਡ</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS ਕਿਨਾਰੇ ਵੇਵ ਬਾਰੰਬਾਰਤਾ</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS ਕਿਨਾਰੇ ਵੇਵ ਵੇਰਵੇ</string>
+    <string name="ntsc_chroma_lowpass_out">ਆਉਟਪੁੱਟ ਕ੍ਰੋਮਾ ਲੋਪਾਸ</string>
+    <string name="ntsc_scale_horizontal">ਖਿਤਿਜੀ ਸਕੇਲ</string>
+    <string name="ntsc_scale_vertical">ਲੰਬਕਾਰੀ ਸਕੇਲ</string>
+    <string name="ntsc_scale_factor_x">ਸਕੇਲ ਫੈਕਟਰ ਐਕਸ</string>
+    <string name="ntsc_scale_factor_y">ਸਕੇਲ ਫੈਕਟਰ Y</string>
 </resources>

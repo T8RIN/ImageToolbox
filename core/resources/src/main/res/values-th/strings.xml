@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
@@ -2245,4 +2228,65 @@
     <string name="seam_carving_backward_energy_sub">ใช้แผนที่พลังงานขนาดไล่ระดับสีอย่างง่ายแทนอัลกอริธึมพลังงานไปข้างหน้า</string>
     <string name="seam_carving_mask_as_removal">ลบพื้นที่ที่ปิดบัง</string>
     <string name="seam_carving_mask_as_removal_sub">ตะเข็บจะทะลุผ่านบริเวณที่มาสก์ โดยเอาเฉพาะบริเวณที่เลือกออกแทนที่จะปกป้อง</string>
+    <string name="vhs_ntsc">วีเอชเอส เอ็นทีเอสซี</string>
+    <string name="ntsc_advanced_settings">การตั้งค่า NTSC ขั้นสูง</string>
+    <string name="ntsc_advanced_settings_sub">การปรับแต่งแบบอะนาล็อกเพิ่มเติมเพื่อ VHS ที่แข็งแกร่งขึ้นและสิ่งประดิษฐ์ในการออกอากาศ</string>
+    <string name="chroma_bleed">โครมาเลือดออก</string>
+    <string name="tape_wear">การสึกหรอของเทป</string>
+    <string name="tracking">การติดตาม</string>
+    <string name="luma_smear">ลูม่าสเมียร์</string>
+    <string name="ringing">เสียงเรียกเข้า</string>
+    <string name="snow">หิมะ</string>
+    <string name="ntsc_use_field">ใช้สนาม</string>
+    <string name="ntsc_filter_type">ประเภทตัวกรอง</string>
+    <string name="ntsc_input_luma_filter">อินพุตตัวกรองลูม่า</string>
+    <string name="ntsc_chroma_lowpass_in">อินพุตโครมาโลว์พาส</string>
+    <string name="ntsc_chroma_demodulation">โครมาดีโมดูเลชั่น</string>
+    <string name="ntsc_phase_shift">การเปลี่ยนเฟส</string>
+    <string name="ntsc_phase_offset">การชดเชยเฟส</string>
+    <string name="ntsc_head_switching">การสลับหัว</string>
+    <string name="ntsc_head_switching_height">ความสูงของการสลับหัว</string>
+    <string name="ntsc_head_switching_offset">การชดเชยการสลับหัว</string>
+    <string name="ntsc_head_switching_shift">การเปลี่ยนการเปลี่ยนหัว</string>
+    <string name="ntsc_midline_position">ตำแหน่งกึ่งกลาง</string>
+    <string name="ntsc_midline_jitter">กระวนกระวายใจกลางสาย</string>
+    <string name="ntsc_tracking_noise_height">ติดตามความสูงของเสียงรบกวน</string>
+    <string name="ntsc_tracking_wave">ติดตามคลื่น</string>
+    <string name="ntsc_tracking_snow">ติดตามหิมะ</string>
+    <string name="ntsc_tracking_snow_anisotropy">การติดตามแอนไอโซโทรปีของหิมะ</string>
+    <string name="ntsc_tracking_noise">ติดตามเสียงรบกวน</string>
+    <string name="ntsc_tracking_noise_intensity">ติดตามความเข้มของเสียงรบกวน</string>
+    <string name="ntsc_composite_noise">สัญญาณรบกวนคอมโพสิต</string>
+    <string name="ntsc_composite_noise_frequency">ความถี่เสียงคอมโพสิต</string>
+    <string name="ntsc_composite_noise_intensity">ความเข้มของเสียงคอมโพสิต</string>
+    <string name="ntsc_composite_noise_detail">รายละเอียดสัญญาณรบกวนคอมโพสิต</string>
+    <string name="ntsc_ringing_frequency">ความถี่เสียงเรียกเข้า</string>
+    <string name="ntsc_ringing_power">พลังเสียงเรียกเข้า</string>
+    <string name="ntsc_luma_noise">เสียงลูม่า</string>
+    <string name="ntsc_luma_noise_frequency">ความถี่เสียงลูม่า</string>
+    <string name="ntsc_luma_noise_intensity">ความเข้มของเสียงลูมา</string>
+    <string name="ntsc_luma_noise_detail">รายละเอียดเสียงรบกวนของ Luma</string>
+    <string name="ntsc_chroma_noise">เสียงโครมา</string>
+    <string name="ntsc_chroma_noise_frequency">ความถี่สัญญาณรบกวนโครมา</string>
+    <string name="ntsc_chroma_noise_intensity">ความเข้มของสัญญาณรบกวนของโครมา</string>
+    <string name="ntsc_chroma_noise_detail">รายละเอียดสัญญาณรบกวนของโครมา</string>
+    <string name="ntsc_snow_intensity">ความรุนแรงของหิมะ</string>
+    <string name="ntsc_snow_anisotropy">แอนไอโซโทรปีของหิมะ</string>
+    <string name="ntsc_chroma_phase_noise">สัญญาณรบกวนเฟสโครมา</string>
+    <string name="ntsc_chroma_phase_error">ข้อผิดพลาดเฟสโครมา</string>
+    <string name="ntsc_chroma_delay_horizontal">Chroma ล่าช้าในแนวนอน</string>
+    <string name="ntsc_chroma_delay_vertical">โครมาดีเลย์แนวตั้ง</string>
+    <string name="ntsc_vhs_tape_speed">ความเร็วเทป VHS</string>
+    <string name="ntsc_vhs_chroma_loss">การสูญเสียโครมา VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS เพิ่มความคมชัด</string>
+    <string name="ntsc_vhs_sharpen_frequency">ความถี่ความคมชัดของ VHS</string>
+    <string name="ntsc_vhs_edge_wave_intensity">ความเข้มของคลื่นขอบ VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">ความเร็วคลื่นขอบ VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">ความถี่คลื่นขอบ VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">รายละเอียดคลื่นขอบ VHS</string>
+    <string name="ntsc_chroma_lowpass_out">เอาท์พุตโครมาโลว์พาส</string>
+    <string name="ntsc_scale_horizontal">สเกลแนวนอน</string>
+    <string name="ntsc_scale_vertical">มาตราส่วนแนวตั้ง</string>
+    <string name="ntsc_scale_factor_x">สเกลแฟคเตอร์ X</string>
+    <string name="ntsc_scale_factor_y">สเกลแฟคเตอร์ Y</string>
 </resources>

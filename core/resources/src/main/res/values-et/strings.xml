@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
     <string name="size">Suurus %1$s</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">Kasutage edasisuunalise energia algoritmi asemel lihtsat gradiendi suurusjärgu energiakaarti</string>
     <string name="seam_carving_mask_as_removal">Eemaldage maskeeritud ala</string>
     <string name="seam_carving_mask_as_removal_sub">Õmblused läbivad maskeeritud ala, eemaldades selle kaitsmise asemel ainult valitud ala</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">NTSC täpsemad sätted</string>
+    <string name="ntsc_advanced_settings_sub">Täiendav analooghäälestus tugevama VHS-i ja ülekandeartefaktide jaoks</string>
+    <string name="chroma_bleed">Kroomiline verejooks</string>
+    <string name="tape_wear">Teibi kulumine</string>
+    <string name="tracking">Jälgimine</string>
+    <string name="luma_smear">Luma määrimine</string>
+    <string name="ringing">Helin</string>
+    <string name="snow">Lumi</string>
+    <string name="ntsc_use_field">Kasutage välja</string>
+    <string name="ntsc_filter_type">Filtri tüüp</string>
+    <string name="ntsc_input_luma_filter">Sisend luma filter</string>
+    <string name="ntsc_chroma_lowpass_in">Sisend chroma lowpass</string>
+    <string name="ntsc_chroma_demodulation">Kroomi demodulatsioon</string>
+    <string name="ntsc_phase_shift">Faasi nihe</string>
+    <string name="ntsc_phase_offset">Faasi nihe</string>
+    <string name="ntsc_head_switching">Pea ümberlülitamine</string>
+    <string name="ntsc_head_switching_height">Pea lülituskõrgus</string>
+    <string name="ntsc_head_switching_offset">Pea lülitamise nihe</string>
+    <string name="ntsc_head_switching_shift">Pea ümberlülitamise vahetus</string>
+    <string name="ntsc_midline_position">Keskjoone asend</string>
+    <string name="ntsc_midline_jitter">Keskjoone värin</string>
+    <string name="ntsc_tracking_noise_height">Müra kõrguse jälgimine</string>
+    <string name="ntsc_tracking_wave">Jälgimislaine</string>
+    <string name="ntsc_tracking_snow">Lume jälgimine</string>
+    <string name="ntsc_tracking_snow_anisotropy">Lume anisotroopia jälgimine</string>
+    <string name="ntsc_tracking_noise">Jälgimismüra</string>
+    <string name="ntsc_tracking_noise_intensity">Müra intensiivsuse jälgimine</string>
+    <string name="ntsc_composite_noise">Komposiitmüra</string>
+    <string name="ntsc_composite_noise_frequency">Komposiitmüra sagedus</string>
+    <string name="ntsc_composite_noise_intensity">Komposiitmüra intensiivsus</string>
+    <string name="ntsc_composite_noise_detail">Komposiitmüra detail</string>
+    <string name="ntsc_ringing_frequency">Helina sagedus</string>
+    <string name="ntsc_ringing_power">Helina võimsus</string>
+    <string name="ntsc_luma_noise">Luma müra</string>
+    <string name="ntsc_luma_noise_frequency">Luma müra sagedus</string>
+    <string name="ntsc_luma_noise_intensity">Luma müra intensiivsus</string>
+    <string name="ntsc_luma_noise_detail">Luma müra detail</string>
+    <string name="ntsc_chroma_noise">Kroomiline müra</string>
+    <string name="ntsc_chroma_noise_frequency">Kroomi müra sagedus</string>
+    <string name="ntsc_chroma_noise_intensity">Kroomi müra intensiivsus</string>
+    <string name="ntsc_chroma_noise_detail">Kroomi müra detail</string>
+    <string name="ntsc_snow_intensity">Lume intensiivsus</string>
+    <string name="ntsc_snow_anisotropy">Lume anisotroopia</string>
+    <string name="ntsc_chroma_phase_noise">Kroomifaasi müra</string>
+    <string name="ntsc_chroma_phase_error">Kroomifaasi viga</string>
+    <string name="ntsc_chroma_delay_horizontal">Kroomi viivitus horisontaalne</string>
+    <string name="ntsc_chroma_delay_vertical">Kroomi viivitus vertikaalne</string>
+    <string name="ntsc_vhs_tape_speed">VHS lindi kiirus</string>
+    <string name="ntsc_vhs_chroma_loss">VHS-i värvikadu</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS-i teravustamise intensiivsus</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS-i teravussagedus</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS-i serva laine intensiivsus</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS servalaine kiirus</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS servalaine sagedus</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS servalaine detail</string>
+    <string name="ntsc_chroma_lowpass_out">Väljundi kroma madalpääs</string>
+    <string name="ntsc_scale_horizontal">Skaala horisontaalselt</string>
+    <string name="ntsc_scale_vertical">Skaala vertikaalne</string>
+    <string name="ntsc_scale_factor_x">Skaalategur X</string>
+    <string name="ntsc_scale_factor_y">Skaalategur Y</string>
 </resources>

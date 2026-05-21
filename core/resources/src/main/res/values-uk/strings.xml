@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
@@ -2248,4 +2231,65 @@
     <string name="seam_carving_backward_energy_sub">Використовуйте просту енергетичну карту градієнтної величини замість прямого енергетичного алгоритму</string>
     <string name="seam_carving_mask_as_removal">Видалити замасковану область</string>
     <string name="seam_carving_mask_as_removal_sub">Шви проходитимуть через замасковану область, видаляючи лише вибрану ділянку замість того, щоб захищати її</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Розширені налаштування NTSC</string>
+    <string name="ntsc_advanced_settings_sub">Додаткове аналогове налаштування для посилення VHS і артефактів трансляції</string>
+    <string name="chroma_bleed">Кровотеча кольоровості</string>
+    <string name="tape_wear">Знос стрічки</string>
+    <string name="tracking">Відстеження</string>
+    <string name="luma_smear">Мазок Luma</string>
+    <string name="ringing">Дзвінок</string>
+    <string name="snow">сніг</string>
+    <string name="ntsc_use_field">Використання поля</string>
+    <string name="ntsc_filter_type">Тип фільтра</string>
+    <string name="ntsc_input_luma_filter">Вхідний фільтр яскравості</string>
+    <string name="ntsc_chroma_lowpass_in">Низькочастотність вхідної кольоровості</string>
+    <string name="ntsc_chroma_demodulation">Демодуляція кольоровості</string>
+    <string name="ntsc_phase_shift">Фазовий зсув</string>
+    <string name="ntsc_phase_offset">Зсув фази</string>
+    <string name="ntsc_head_switching">Перемикання голови</string>
+    <string name="ntsc_head_switching_height">Висота перемикання голови</string>
+    <string name="ntsc_head_switching_offset">Зсув перемикання головки</string>
+    <string name="ntsc_head_switching_shift">Перемикання голови</string>
+    <string name="ntsc_midline_position">Положення по середній лінії</string>
+    <string name="ntsc_midline_jitter">Тремтіння середньої лінії</string>
+    <string name="ntsc_tracking_noise_height">Відстеження висоти шуму</string>
+    <string name="ntsc_tracking_wave">Відстеження хвилі</string>
+    <string name="ntsc_tracking_snow">Відстеження снігу</string>
+    <string name="ntsc_tracking_snow_anisotropy">Відстеження анізотропії снігу</string>
+    <string name="ntsc_tracking_noise">Відстеження шуму</string>
+    <string name="ntsc_tracking_noise_intensity">Відстеження інтенсивності шуму</string>
+    <string name="ntsc_composite_noise">Композитний шум</string>
+    <string name="ntsc_composite_noise_frequency">Композитна шумова частота</string>
+    <string name="ntsc_composite_noise_intensity">Композитна інтенсивність шуму</string>
+    <string name="ntsc_composite_noise_detail">Композитна шумова деталь</string>
+    <string name="ntsc_ringing_frequency">Частота дзвінків</string>
+    <string name="ntsc_ringing_power">Сила дзвінка</string>
+    <string name="ntsc_luma_noise">Шум яскравості</string>
+    <string name="ntsc_luma_noise_frequency">Частота шуму Luma</string>
+    <string name="ntsc_luma_noise_intensity">Інтенсивність шуму Luma</string>
+    <string name="ntsc_luma_noise_detail">Деталі шуму яскравості</string>
+    <string name="ntsc_chroma_noise">Кольоровий шум</string>
+    <string name="ntsc_chroma_noise_frequency">Частота кольорового шуму</string>
+    <string name="ntsc_chroma_noise_intensity">Інтенсивність кольорового шуму</string>
+    <string name="ntsc_chroma_noise_detail">Деталі кольорового шуму</string>
+    <string name="ntsc_snow_intensity">Інтенсивність снігу</string>
+    <string name="ntsc_snow_anisotropy">Анізотропія снігу</string>
+    <string name="ntsc_chroma_phase_noise">Фазовий шум кольоровості</string>
+    <string name="ntsc_chroma_phase_error">Помилка фази кольоровості</string>
+    <string name="ntsc_chroma_delay_horizontal">Затримка кольоровості по горизонталі</string>
+    <string name="ntsc_chroma_delay_vertical">Затримка кольоровості по вертикалі</string>
+    <string name="ntsc_vhs_tape_speed">Швидкість стрічки VHS</string>
+    <string name="ntsc_vhs_chroma_loss">Втрата кольоровості VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">Інтенсивність різкості VHS</string>
+    <string name="ntsc_vhs_sharpen_frequency">Частота різкості VHS</string>
+    <string name="ntsc_vhs_edge_wave_intensity">Інтенсивність крайової хвилі VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">Швидкість крайової хвилі VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">Частота крайової хвилі VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">Деталі краю хвилі VHS</string>
+    <string name="ntsc_chroma_lowpass_out">Вихідна кольоровість низьких частот</string>
+    <string name="ntsc_scale_horizontal">Горизонтальний масштаб</string>
+    <string name="ntsc_scale_vertical">Масштаб вертикальний</string>
+    <string name="ntsc_scale_factor_x">Масштабний коефіцієнт X</string>
+    <string name="ntsc_scale_factor_y">Коефіцієнт масштабу Y</string>
 </resources>

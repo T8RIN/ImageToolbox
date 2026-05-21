@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">ఫార్వర్డ్ ఎనర్జీ అల్గారిథమ్‌కు బదులుగా సాధారణ గ్రేడియంట్ మాగ్నిట్యూడ్ ఎనర్జీ మ్యాప్‌ని ఉపయోగించండి</string>
     <string name="seam_carving_mask_as_removal">ముసుగు వేసిన ప్రాంతాన్ని తొలగించండి</string>
     <string name="seam_carving_mask_as_removal_sub">అతుకులు ముసుగు చేయబడిన ప్రాంతం గుండా వెళతాయి, దానిని రక్షించడానికి బదులుగా ఎంచుకున్న ప్రాంతాన్ని మాత్రమే తొలగిస్తుంది</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">అధునాతన NTSC సెట్టింగ్‌లు</string>
+    <string name="ntsc_advanced_settings_sub">బలమైన VHS మరియు ప్రసార కళాఖండాల కోసం అదనపు అనలాగ్ ట్యూనింగ్</string>
+    <string name="chroma_bleed">క్రోమా రక్తస్రావం</string>
+    <string name="tape_wear">టేప్ దుస్తులు</string>
+    <string name="tracking">ట్రాకింగ్</string>
+    <string name="luma_smear">లూమా స్మెర్</string>
+    <string name="ringing">రింగింగ్</string>
+    <string name="snow">మంచు</string>
+    <string name="ntsc_use_field">ఫీల్డ్ ఉపయోగించండి</string>
+    <string name="ntsc_filter_type">ఫిల్టర్ రకం</string>
+    <string name="ntsc_input_luma_filter">ఇన్‌పుట్ లూమా ఫిల్టర్</string>
+    <string name="ntsc_chroma_lowpass_in">ఇన్‌పుట్ క్రోమా లోపాస్</string>
+    <string name="ntsc_chroma_demodulation">క్రోమా డీమోడ్యులేషన్</string>
+    <string name="ntsc_phase_shift">దశ షిఫ్ట్</string>
+    <string name="ntsc_phase_offset">దశ ఆఫ్‌సెట్</string>
+    <string name="ntsc_head_switching">తల మారడం</string>
+    <string name="ntsc_head_switching_height">తల మారే ఎత్తు</string>
+    <string name="ntsc_head_switching_offset">హెడ్ ​​స్విచ్చింగ్ ఆఫ్‌సెట్</string>
+    <string name="ntsc_head_switching_shift">తల మారడం షిఫ్ట్</string>
+    <string name="ntsc_midline_position">మధ్య లైన్ స్థానం</string>
+    <string name="ntsc_midline_jitter">మిడ్-లైన్ జిట్టర్</string>
+    <string name="ntsc_tracking_noise_height">శబ్దం ఎత్తును ట్రాక్ చేస్తోంది</string>
+    <string name="ntsc_tracking_wave">ట్రాకింగ్ వేవ్</string>
+    <string name="ntsc_tracking_snow">మంచును ట్రాక్ చేస్తోంది</string>
+    <string name="ntsc_tracking_snow_anisotropy">మంచు అనిసోట్రోపిని ట్రాక్ చేస్తోంది</string>
+    <string name="ntsc_tracking_noise">ట్రాకింగ్ శబ్దం</string>
+    <string name="ntsc_tracking_noise_intensity">శబ్దం తీవ్రతను ట్రాక్ చేస్తోంది</string>
+    <string name="ntsc_composite_noise">మిశ్రమ శబ్దం</string>
+    <string name="ntsc_composite_noise_frequency">మిశ్రమ శబ్దం ఫ్రీక్వెన్సీ</string>
+    <string name="ntsc_composite_noise_intensity">మిశ్రమ శబ్దం తీవ్రత</string>
+    <string name="ntsc_composite_noise_detail">మిశ్రమ శబ్దం వివరాలు</string>
+    <string name="ntsc_ringing_frequency">రింగింగ్ ఫ్రీక్వెన్సీ</string>
+    <string name="ntsc_ringing_power">రింగింగ్ పవర్</string>
+    <string name="ntsc_luma_noise">లూమా శబ్దం</string>
+    <string name="ntsc_luma_noise_frequency">లూమా శబ్దం ఫ్రీక్వెన్సీ</string>
+    <string name="ntsc_luma_noise_intensity">లూమా శబ్దం తీవ్రత</string>
+    <string name="ntsc_luma_noise_detail">లూమా శబ్దం వివరాలు</string>
+    <string name="ntsc_chroma_noise">క్రోమా శబ్దం</string>
+    <string name="ntsc_chroma_noise_frequency">క్రోమా నాయిస్ ఫ్రీక్వెన్సీ</string>
+    <string name="ntsc_chroma_noise_intensity">క్రోమా శబ్దం తీవ్రత</string>
+    <string name="ntsc_chroma_noise_detail">క్రోమా నాయిస్ వివరాలు</string>
+    <string name="ntsc_snow_intensity">మంచు తీవ్రత</string>
+    <string name="ntsc_snow_anisotropy">మంచు అనిసోట్రోపి</string>
+    <string name="ntsc_chroma_phase_noise">క్రోమా ఫేజ్ శబ్దం</string>
+    <string name="ntsc_chroma_phase_error">క్రోమా దశ లోపం</string>
+    <string name="ntsc_chroma_delay_horizontal">క్రోమా ఆలస్యం క్షితిజ సమాంతర</string>
+    <string name="ntsc_chroma_delay_vertical">క్రోమా ఆలస్యం నిలువు</string>
+    <string name="ntsc_vhs_tape_speed">VHS టేప్ వేగం</string>
+    <string name="ntsc_vhs_chroma_loss">VHS క్రోమా నష్టం</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS తీవ్రతను పదును పెడుతుంది</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS పదునుపెట్టే ఫ్రీక్వెన్సీ</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS అంచు తరంగ తీవ్రత</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS అంచు తరంగ వేగం</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS ఎడ్జ్ వేవ్ ఫ్రీక్వెన్సీ</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS ఎడ్జ్ వేవ్ వివరాలు</string>
+    <string name="ntsc_chroma_lowpass_out">అవుట్‌పుట్ క్రోమా లోపాస్</string>
+    <string name="ntsc_scale_horizontal">స్కేల్ క్షితిజ సమాంతర</string>
+    <string name="ntsc_scale_vertical">నిలువుగా స్కేల్ చేయండి</string>
+    <string name="ntsc_scale_factor_x">స్కేల్ ఫ్యాక్టర్ X</string>
+    <string name="ntsc_scale_factor_y">స్కేల్ ఫ్యాక్టర్ Y</string>
 </resources>

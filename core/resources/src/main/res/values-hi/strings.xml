@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">फॉरवर्ड एनर्जी एल्गोरिदम के बजाय सरल ग्रेडिएंट परिमाण ऊर्जा मानचित्र का उपयोग करें</string>
     <string name="seam_carving_mask_as_removal">नकाबपोश क्षेत्र को हटा दें</string>
     <string name="seam_carving_mask_as_removal_sub">सीम नकाबपोश क्षेत्र से होकर गुजरेंगी, और इसे सुरक्षित करने के बजाय केवल चयनित क्षेत्र को हटा देंगी</string>
+    <string name="vhs_ntsc">वीएचएस एनटीएससी</string>
+    <string name="ntsc_advanced_settings">उन्नत एनटीएससी सेटिंग्स</string>
+    <string name="ntsc_advanced_settings_sub">मजबूत वीएचएस और प्रसारण कलाकृतियों के लिए अतिरिक्त एनालॉग ट्यूनिंग</string>
+    <string name="chroma_bleed">क्रोमा ब्लीड</string>
+    <string name="tape_wear">टेप पहनना</string>
+    <string name="tracking">ट्रैकिंग</string>
+    <string name="luma_smear">लूमा धब्बा</string>
+    <string name="ringing">बज</string>
+    <string name="snow">बर्फ</string>
+    <string name="ntsc_use_field">फ़ील्ड का उपयोग करें</string>
+    <string name="ntsc_filter_type">फ़िल्टर प्रकार</string>
+    <string name="ntsc_input_luma_filter">इनपुट लूमा फ़िल्टर</string>
+    <string name="ntsc_chroma_lowpass_in">इनपुट क्रोमा लोपास</string>
+    <string name="ntsc_chroma_demodulation">क्रोमा डिमोड्यूलेशन</string>
+    <string name="ntsc_phase_shift">चरण में बदलाव</string>
+    <string name="ntsc_phase_offset">चरण ऑफसेट</string>
+    <string name="ntsc_head_switching">सिर बदलना</string>
+    <string name="ntsc_head_switching_height">सिर बदलने की ऊंचाई</string>
+    <string name="ntsc_head_switching_offset">हेड स्विचिंग ऑफसेट</string>
+    <string name="ntsc_head_switching_shift">हेड स्विचिंग शिफ्ट</string>
+    <string name="ntsc_midline_position">मध्य रेखा की स्थिति</string>
+    <string name="ntsc_midline_jitter">मध्य-रेखा घबराना</string>
+    <string name="ntsc_tracking_noise_height">शोर की ऊँचाई पर नज़र रखना</string>
+    <string name="ntsc_tracking_wave">ट्रैकिंग तरंग</string>
+    <string name="ntsc_tracking_snow">बर्फ़ पर नज़र रखना</string>
+    <string name="ntsc_tracking_snow_anisotropy">हिम अनिसोट्रॉपी पर नज़र रखना</string>
+    <string name="ntsc_tracking_noise">ट्रैकिंग शोर</string>
+    <string name="ntsc_tracking_noise_intensity">शोर की तीव्रता पर नज़र रखना</string>
+    <string name="ntsc_composite_noise">समग्र शोर</string>
+    <string name="ntsc_composite_noise_frequency">समग्र शोर आवृत्ति</string>
+    <string name="ntsc_composite_noise_intensity">समग्र शोर तीव्रता</string>
+    <string name="ntsc_composite_noise_detail">समग्र शोर विवरण</string>
+    <string name="ntsc_ringing_frequency">बजने की आवृत्ति</string>
+    <string name="ntsc_ringing_power">बजने की शक्ति</string>
+    <string name="ntsc_luma_noise">लूमा शोर</string>
+    <string name="ntsc_luma_noise_frequency">लूमा शोर आवृत्ति</string>
+    <string name="ntsc_luma_noise_intensity">लूमा शोर की तीव्रता</string>
+    <string name="ntsc_luma_noise_detail">लूमा शोर विवरण</string>
+    <string name="ntsc_chroma_noise">क्रोमा शोर</string>
+    <string name="ntsc_chroma_noise_frequency">क्रोमा शोर आवृत्ति</string>
+    <string name="ntsc_chroma_noise_intensity">क्रोमा शोर तीव्रता</string>
+    <string name="ntsc_chroma_noise_detail">क्रोमा शोर विवरण</string>
+    <string name="ntsc_snow_intensity">हिमपात की तीव्रता</string>
+    <string name="ntsc_snow_anisotropy">हिम अनिसोट्रॉपी</string>
+    <string name="ntsc_chroma_phase_noise">क्रोमा चरण शोर</string>
+    <string name="ntsc_chroma_phase_error">क्रोमा चरण त्रुटि</string>
+    <string name="ntsc_chroma_delay_horizontal">क्रोमा विलंब क्षैतिज</string>
+    <string name="ntsc_chroma_delay_vertical">क्रोमा विलंब लंबवत</string>
+    <string name="ntsc_vhs_tape_speed">वीएचएस टेप की गति</string>
+    <string name="ntsc_vhs_chroma_loss">वीएचएस क्रोमा हानि</string>
+    <string name="ntsc_vhs_sharpen_intensity">वीएचएस तीव्रता को तेज करता है</string>
+    <string name="ntsc_vhs_sharpen_frequency">वीएचएस पैनापन आवृत्ति</string>
+    <string name="ntsc_vhs_edge_wave_intensity">वीएचएस एज वेव तीव्रता</string>
+    <string name="ntsc_vhs_edge_wave_speed">वीएचएस एज तरंग गति</string>
+    <string name="ntsc_vhs_edge_wave_frequency">वीएचएस एज तरंग आवृत्ति</string>
+    <string name="ntsc_vhs_edge_wave_detail">वीएचएस एज वेव विवरण</string>
+    <string name="ntsc_chroma_lowpass_out">आउटपुट क्रोमा लोपास</string>
+    <string name="ntsc_scale_horizontal">क्षैतिज स्केल</string>
+    <string name="ntsc_scale_vertical">ऊर्ध्वाधर स्केल</string>
+    <string name="ntsc_scale_factor_x">स्केल फ़ैक्टर X</string>
+    <string name="ntsc_scale_factor_y">स्केल फ़ैक्टर Y</string>
 </resources>

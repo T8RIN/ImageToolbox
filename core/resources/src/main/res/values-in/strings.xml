@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
@@ -2245,4 +2228,65 @@
     <string name="seam_carving_backward_energy_sub">Gunakan peta energi besaran gradien sederhana alih-alih algoritma energi maju</string>
     <string name="seam_carving_mask_as_removal">Hapus area bertopeng</string>
     <string name="seam_carving_mask_as_removal_sub">Jahitan akan melewati area yang ditutupi, hanya menghilangkan area yang dipilih dan bukan melindunginya</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Pengaturan NTSC tingkat lanjut</string>
+    <string name="ntsc_advanced_settings_sub">Penyetelan analog ekstra untuk VHS dan artefak siaran yang lebih kuat</string>
+    <string name="chroma_bleed">Pendarahan kroma</string>
+    <string name="tape_wear">Keausan pita</string>
+    <string name="tracking">Pelacakan</string>
+    <string name="luma_smear">Luma mengoles</string>
+    <string name="ringing">Berdering</string>
+    <string name="snow">Salju</string>
+    <string name="ntsc_use_field">Gunakan bidang</string>
+    <string name="ntsc_filter_type">Jenis penyaring</string>
+    <string name="ntsc_input_luma_filter">Masukkan filter luma</string>
+    <string name="ntsc_chroma_lowpass_in">Masukkan lowpass kroma</string>
+    <string name="ntsc_chroma_demodulation">Demodulasi kroma</string>
+    <string name="ntsc_phase_shift">Pergeseran fase</string>
+    <string name="ntsc_phase_offset">Pergeseran fase</string>
+    <string name="ntsc_head_switching">Pergantian kepala</string>
+    <string name="ntsc_head_switching_height">Ketinggian peralihan kepala</string>
+    <string name="ntsc_head_switching_offset">Offset peralihan kepala</string>
+    <string name="ntsc_head_switching_shift">Pergeseran pergantian kepala</string>
+    <string name="ntsc_midline_position">Posisi garis tengah</string>
+    <string name="ntsc_midline_jitter">Kegelisahan garis tengah</string>
+    <string name="ntsc_tracking_noise_height">Melacak ketinggian kebisingan</string>
+    <string name="ntsc_tracking_wave">Gelombang pelacakan</string>
+    <string name="ntsc_tracking_snow">Melacak salju</string>
+    <string name="ntsc_tracking_snow_anisotropy">Melacak anisotropi salju</string>
+    <string name="ntsc_tracking_noise">Melacak kebisingan</string>
+    <string name="ntsc_tracking_noise_intensity">Melacak intensitas kebisingan</string>
+    <string name="ntsc_composite_noise">Kebisingan komposit</string>
+    <string name="ntsc_composite_noise_frequency">Frekuensi kebisingan komposit</string>
+    <string name="ntsc_composite_noise_intensity">Intensitas kebisingan komposit</string>
+    <string name="ntsc_composite_noise_detail">Detail kebisingan komposit</string>
+    <string name="ntsc_ringing_frequency">Frekuensi dering</string>
+    <string name="ntsc_ringing_power">Kekuatan dering</string>
+    <string name="ntsc_luma_noise">Kebisingan Luma</string>
+    <string name="ntsc_luma_noise_frequency">Frekuensi kebisingan Luma</string>
+    <string name="ntsc_luma_noise_intensity">Intensitas kebisingan Luma</string>
+    <string name="ntsc_luma_noise_detail">Detail kebisingan Luma</string>
+    <string name="ntsc_chroma_noise">Kebisingan kroma</string>
+    <string name="ntsc_chroma_noise_frequency">Frekuensi kebisingan kroma</string>
+    <string name="ntsc_chroma_noise_intensity">Intensitas kebisingan kroma</string>
+    <string name="ntsc_chroma_noise_detail">Detail kebisingan kroma</string>
+    <string name="ntsc_snow_intensity">Intensitas salju</string>
+    <string name="ntsc_snow_anisotropy">Anisotropi salju</string>
+    <string name="ntsc_chroma_phase_noise">Kebisingan fase kroma</string>
+    <string name="ntsc_chroma_phase_error">Kesalahan fase kroma</string>
+    <string name="ntsc_chroma_delay_horizontal">Penundaan kroma horizontal</string>
+    <string name="ntsc_chroma_delay_vertical">Penundaan kroma vertikal</string>
+    <string name="ntsc_vhs_tape_speed">Kecepatan kaset VHS</string>
+    <string name="ntsc_vhs_chroma_loss">Hilangnya kroma VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS mempertajam intensitas</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS mempertajam frekuensi</string>
+    <string name="ntsc_vhs_edge_wave_intensity">Intensitas gelombang tepi VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">Kecepatan gelombang tepi VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">Frekuensi gelombang tepi VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">Detail gelombang tepi VHS</string>
+    <string name="ntsc_chroma_lowpass_out">Lowpass kroma keluaran</string>
+    <string name="ntsc_scale_horizontal">Skala horizontal</string>
+    <string name="ntsc_scale_vertical">Skala vertikal</string>
+    <string name="ntsc_scale_factor_x">Faktor skala X</string>
+    <string name="ntsc_scale_factor_y">Faktor skala Y</string>
 </resources>

@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
@@ -2245,4 +2228,65 @@
     <string name="seam_carving_backward_energy_sub">使用简单的梯度幅度能量图代替前向能量算法</string>
     <string name="seam_carving_mask_as_removal">删除遮罩区域</string>
     <string name="seam_carving_mask_as_removal_sub">接缝将穿过遮罩区域，仅移除选定区域而不是保护它</string>
+    <string name="vhs_ntsc">录像带NTSC</string>
+    <string name="ntsc_advanced_settings">高级 NTSC 设置</string>
+    <string name="ntsc_advanced_settings_sub">额外的模拟调谐可提供更强的 VHS 和广播伪影</string>
+    <string name="chroma_bleed">色度溢出</string>
+    <string name="tape_wear">胶带磨损</string>
+    <string name="tracking">追踪</string>
+    <string name="luma_smear">亮度涂片</string>
+    <string name="ringing">铃声</string>
+    <string name="snow">雪</string>
+    <string name="ntsc_use_field">使用领域</string>
+    <string name="ntsc_filter_type">过滤器类型</string>
+    <string name="ntsc_input_luma_filter">输入亮度滤波器</string>
+    <string name="ntsc_chroma_lowpass_in">输入色度低通</string>
+    <string name="ntsc_chroma_demodulation">色度解调</string>
+    <string name="ntsc_phase_shift">相移</string>
+    <string name="ntsc_phase_offset">相位偏移</string>
+    <string name="ntsc_head_switching">头部切换</string>
+    <string name="ntsc_head_switching_height">机头切换高度</string>
+    <string name="ntsc_head_switching_offset">头部切换偏移</string>
+    <string name="ntsc_head_switching_shift">头部切换换档</string>
+    <string name="ntsc_midline_position">中线位置</string>
+    <string name="ntsc_midline_jitter">中线抖动</string>
+    <string name="ntsc_tracking_noise_height">跟踪噪声高度</string>
+    <string name="ntsc_tracking_wave">跟踪波</string>
+    <string name="ntsc_tracking_snow">追踪雪</string>
+    <string name="ntsc_tracking_snow_anisotropy">追踪雪的各向异性</string>
+    <string name="ntsc_tracking_noise">追踪噪音</string>
+    <string name="ntsc_tracking_noise_intensity">跟踪噪音强度</string>
+    <string name="ntsc_composite_noise">复合噪声</string>
+    <string name="ntsc_composite_noise_frequency">复合噪声频率</string>
+    <string name="ntsc_composite_noise_intensity">复合噪声强度</string>
+    <string name="ntsc_composite_noise_detail">复合噪声细节</string>
+    <string name="ntsc_ringing_frequency">振铃频率</string>
+    <string name="ntsc_ringing_power">振铃功率</string>
+    <string name="ntsc_luma_noise">亮度噪声</string>
+    <string name="ntsc_luma_noise_frequency">亮度噪声频率</string>
+    <string name="ntsc_luma_noise_intensity">亮度噪声强度</string>
+    <string name="ntsc_luma_noise_detail">亮度噪点细节</string>
+    <string name="ntsc_chroma_noise">色度噪声</string>
+    <string name="ntsc_chroma_noise_frequency">色度噪声频率</string>
+    <string name="ntsc_chroma_noise_intensity">色度噪声强度</string>
+    <string name="ntsc_chroma_noise_detail">色度噪点细节</string>
+    <string name="ntsc_snow_intensity">降雪强度</string>
+    <string name="ntsc_snow_anisotropy">雪各向异性</string>
+    <string name="ntsc_chroma_phase_noise">色度相位噪声</string>
+    <string name="ntsc_chroma_phase_error">色度相位误差</string>
+    <string name="ntsc_chroma_delay_horizontal">水平色度延迟</string>
+    <string name="ntsc_chroma_delay_vertical">垂直色度延迟</string>
+    <string name="ntsc_vhs_tape_speed">VHS 磁带速度</string>
+    <string name="ntsc_vhs_chroma_loss">VHS 色度损失</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS 锐化强度</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS 锐化频率</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS 边波强度</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS 边波速度</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS边波频率</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS 边缘波细节</string>
+    <string name="ntsc_chroma_lowpass_out">输出色度低通</string>
+    <string name="ntsc_scale_horizontal">水平缩放</string>
+    <string name="ntsc_scale_vertical">垂直缩放</string>
+    <string name="ntsc_scale_factor_x">比例因子 X</string>
+    <string name="ntsc_scale_factor_y">比例因子Y</string>
 </resources>

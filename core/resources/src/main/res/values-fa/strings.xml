@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">به جای الگوریتم انرژی رو به جلو، از نقشه انرژی قدر گرادیان ساده استفاده کنید</string>
     <string name="seam_carving_mask_as_removal">ناحیه نقاب دار را بردارید</string>
     <string name="seam_carving_mask_as_removal_sub">درزها از ناحیه نقاب دار عبور می کنند و به جای محافظت از آن، فقط ناحیه انتخاب شده را حذف می کنند</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">تنظیمات پیشرفته NTSC</string>
+    <string name="ntsc_advanced_settings_sub">تنظیم آنالوگ اضافی برای VHS قوی تر و مصنوعات پخش</string>
+    <string name="chroma_bleed">خونریزی کروما</string>
+    <string name="tape_wear">پوشیدن نوار</string>
+    <string name="tracking">ردیابی</string>
+    <string name="luma_smear">لوما اسمیر</string>
+    <string name="ringing">زنگ زدن</string>
+    <string name="snow">برف</string>
+    <string name="ntsc_use_field">استفاده از فیلد</string>
+    <string name="ntsc_filter_type">نوع فیلتر</string>
+    <string name="ntsc_input_luma_filter">فیلتر لوما ورودی</string>
+    <string name="ntsc_chroma_lowpass_in">ورودی کروما پایین گذر</string>
+    <string name="ntsc_chroma_demodulation">دمدولاسیون کروما</string>
+    <string name="ntsc_phase_shift">تغییر فاز</string>
+    <string name="ntsc_phase_offset">افست فاز</string>
+    <string name="ntsc_head_switching">تعویض سر</string>
+    <string name="ntsc_head_switching_height">ارتفاع تعویض سر</string>
+    <string name="ntsc_head_switching_offset">افست سوئیچینگ سر</string>
+    <string name="ntsc_head_switching_shift">تعویض سر</string>
+    <string name="ntsc_midline_position">موقعیت خط وسط</string>
+    <string name="ntsc_midline_jitter">جیتر خط وسط</string>
+    <string name="ntsc_tracking_noise_height">ردیابی ارتفاع نویز</string>
+    <string name="ntsc_tracking_wave">موج ردیابی</string>
+    <string name="ntsc_tracking_snow">ردیابی برف</string>
+    <string name="ntsc_tracking_snow_anisotropy">ردیابی ناهمسانگردی برف</string>
+    <string name="ntsc_tracking_noise">نویز ردیابی</string>
+    <string name="ntsc_tracking_noise_intensity">ردیابی شدت نویز</string>
+    <string name="ntsc_composite_noise">نویز ترکیبی</string>
+    <string name="ntsc_composite_noise_frequency">فرکانس نویز مرکب</string>
+    <string name="ntsc_composite_noise_intensity">شدت نویز مرکب</string>
+    <string name="ntsc_composite_noise_detail">جزئیات نویز مرکب</string>
+    <string name="ntsc_ringing_frequency">فرکانس زنگ</string>
+    <string name="ntsc_ringing_power">قدرت زنگ</string>
+    <string name="ntsc_luma_noise">نویز لوما</string>
+    <string name="ntsc_luma_noise_frequency">فرکانس نویز لوما</string>
+    <string name="ntsc_luma_noise_intensity">شدت نویز لوما</string>
+    <string name="ntsc_luma_noise_detail">جزئیات نویز لوما</string>
+    <string name="ntsc_chroma_noise">نویز کروما</string>
+    <string name="ntsc_chroma_noise_frequency">فرکانس نویز کروما</string>
+    <string name="ntsc_chroma_noise_intensity">شدت نویز کروما</string>
+    <string name="ntsc_chroma_noise_detail">جزئیات نویز کروما</string>
+    <string name="ntsc_snow_intensity">شدت برف</string>
+    <string name="ntsc_snow_anisotropy">ناهمسانگردی برف</string>
+    <string name="ntsc_chroma_phase_noise">نویز فاز کروما</string>
+    <string name="ntsc_chroma_phase_error">خطای فاز کروما</string>
+    <string name="ntsc_chroma_delay_horizontal">تاخیر کروما افقی</string>
+    <string name="ntsc_chroma_delay_vertical">تاخیر کروما عمودی</string>
+    <string name="ntsc_vhs_tape_speed">سرعت نوار VHS</string>
+    <string name="ntsc_vhs_chroma_loss">از دست دادن کروم VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">شدت تیز کردن VHS</string>
+    <string name="ntsc_vhs_sharpen_frequency">فرکانس شارپ VHS</string>
+    <string name="ntsc_vhs_edge_wave_intensity">شدت موج لبه VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">سرعت موج لبه VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">فرکانس موج لبه VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">جزئیات موج لبه VHS</string>
+    <string name="ntsc_chroma_lowpass_out">کروما پایین گذر خروجی</string>
+    <string name="ntsc_scale_horizontal">مقیاس افقی</string>
+    <string name="ntsc_scale_vertical">مقیاس عمودی</string>
+    <string name="ntsc_scale_factor_x">ضریب مقیاس X</string>
+    <string name="ntsc_scale_factor_y">ضریب مقیاس Y</string>
 </resources>

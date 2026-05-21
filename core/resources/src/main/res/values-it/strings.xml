@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">Utilizzare una semplice mappa energetica della magnitudo del gradiente invece dell\'algoritmo dell\'energia diretta</string>
     <string name="seam_carving_mask_as_removal">Rimuovi l\'area mascherata</string>
     <string name="seam_carving_mask_as_removal_sub">Le cuciture passeranno attraverso la regione mascherata, rimuovendo solo l\'area selezionata invece di proteggerla</string>
+    <string name="vhs_ntsc">VHSNTSC</string>
+    <string name="ntsc_advanced_settings">Impostazioni NTSC avanzate</string>
+    <string name="ntsc_advanced_settings_sub">Sintonizzazione analogica extra per VHS più potenti e artefatti di trasmissione</string>
+    <string name="chroma_bleed">Spurgo cromatico</string>
+    <string name="tape_wear">Usura del nastro</string>
+    <string name="tracking">Monitoraggio</string>
+    <string name="luma_smear">Striscio di luminanza</string>
+    <string name="ringing">Squillo</string>
+    <string name="snow">Nevicare</string>
+    <string name="ntsc_use_field">Usa il campo</string>
+    <string name="ntsc_filter_type">Tipo di filtro</string>
+    <string name="ntsc_input_luma_filter">Filtro luminanza in ingresso</string>
+    <string name="ntsc_chroma_lowpass_in">Ingresso passa-basso della crominanza</string>
+    <string name="ntsc_chroma_demodulation">Demodulazione della crominanza</string>
+    <string name="ntsc_phase_shift">Sfasamento</string>
+    <string name="ntsc_phase_offset">Sfasamento</string>
+    <string name="ntsc_head_switching">Cambio di testa</string>
+    <string name="ntsc_head_switching_height">Altezza di cambio testa</string>
+    <string name="ntsc_head_switching_offset">Offset cambio testa</string>
+    <string name="ntsc_head_switching_shift">Cambio di testa</string>
+    <string name="ntsc_midline_position">Posizione sulla linea mediana</string>
+    <string name="ntsc_midline_jitter">Jitter a metà linea</string>
+    <string name="ntsc_tracking_noise_height">Monitoraggio dell\'altezza del rumore</string>
+    <string name="ntsc_tracking_wave">Monitoraggio dell\'onda</string>
+    <string name="ntsc_tracking_snow">Monitoraggio della neve</string>
+    <string name="ntsc_tracking_snow_anisotropy">Monitoraggio dell\'anisotropia della neve</string>
+    <string name="ntsc_tracking_noise">Tracciamento del rumore</string>
+    <string name="ntsc_tracking_noise_intensity">Monitoraggio dell\'intensità del rumore</string>
+    <string name="ntsc_composite_noise">Rumore composito</string>
+    <string name="ntsc_composite_noise_frequency">Frequenza del rumore composito</string>
+    <string name="ntsc_composite_noise_intensity">Intensità del rumore composito</string>
+    <string name="ntsc_composite_noise_detail">Dettaglio del rumore composito</string>
+    <string name="ntsc_ringing_frequency">Frequenza di chiamata</string>
+    <string name="ntsc_ringing_power">Potenza di chiamata</string>
+    <string name="ntsc_luma_noise">Rumore luminoso</string>
+    <string name="ntsc_luma_noise_frequency">Frequenza del rumore luminanza</string>
+    <string name="ntsc_luma_noise_intensity">Intensità del rumore luminanza</string>
+    <string name="ntsc_luma_noise_detail">Dettaglio del rumore luminanza</string>
+    <string name="ntsc_chroma_noise">Rumore cromatico</string>
+    <string name="ntsc_chroma_noise_frequency">Frequenza del rumore cromatico</string>
+    <string name="ntsc_chroma_noise_intensity">Intensità del rumore cromatico</string>
+    <string name="ntsc_chroma_noise_detail">Dettaglio del rumore cromatico</string>
+    <string name="ntsc_snow_intensity">Intensità della neve</string>
+    <string name="ntsc_snow_anisotropy">Anisotropia della neve</string>
+    <string name="ntsc_chroma_phase_noise">Rumore di fase cromatica</string>
+    <string name="ntsc_chroma_phase_error">Errore di fase cromatica</string>
+    <string name="ntsc_chroma_delay_horizontal">Ritardo cromatico orizzontale</string>
+    <string name="ntsc_chroma_delay_vertical">Ritardo cromatico verticale</string>
+    <string name="ntsc_vhs_tape_speed">Velocità del nastro VHS</string>
+    <string name="ntsc_vhs_chroma_loss">Perdita di crominanza VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS aumenta l\'intensità</string>
+    <string name="ntsc_vhs_sharpen_frequency">Frequenza di affilatura VHS</string>
+    <string name="ntsc_vhs_edge_wave_intensity">Intensità dell\'onda del bordo VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">Velocità dell\'onda del bordo VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">Frequenza dell\'onda del bordo VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">Dettaglio dell\'onda del bordo VHS</string>
+    <string name="ntsc_chroma_lowpass_out">Passa-basso della crominanza in uscita</string>
+    <string name="ntsc_scale_horizontal">Scala orizzontale</string>
+    <string name="ntsc_scale_vertical">Scala verticale</string>
+    <string name="ntsc_scale_factor_x">Fattore di scala X</string>
+    <string name="ntsc_scale_factor_y">Fattore di scala Y</string>
 </resources>

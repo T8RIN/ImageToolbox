@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">முன்னோக்கி ஆற்றல் அல்காரிதத்திற்குப் பதிலாக எளிய சாய்வு அளவு ஆற்றல் வரைபடத்தைப் பயன்படுத்தவும்</string>
     <string name="seam_carving_mask_as_removal">முகமூடியை அகற்றவும்</string>
     <string name="seam_carving_mask_as_removal_sub">முகமூடி அணிந்த பகுதி வழியாக சீம்கள் கடந்து செல்லும், அதை பாதுகாப்பதற்கு பதிலாக தேர்ந்தெடுக்கப்பட்ட பகுதியை மட்டும் அகற்றும்</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">மேம்பட்ட NTSC அமைப்புகள்</string>
+    <string name="ntsc_advanced_settings_sub">வலுவான VHS மற்றும் ஒளிபரப்பு கலைப்பொருட்களுக்கான கூடுதல் அனலாக் டியூனிங்</string>
+    <string name="chroma_bleed">குரோமா இரத்தப்போக்கு</string>
+    <string name="tape_wear">டேப் உடைகள்</string>
+    <string name="tracking">கண்காணிப்பு</string>
+    <string name="luma_smear">லுமா ஸ்மியர்</string>
+    <string name="ringing">ஒலிக்கிறது</string>
+    <string name="snow">பனி</string>
+    <string name="ntsc_use_field">புலத்தைப் பயன்படுத்தவும்</string>
+    <string name="ntsc_filter_type">வடிகட்டி வகை</string>
+    <string name="ntsc_input_luma_filter">உள்ளீடு லுமா வடிகட்டி</string>
+    <string name="ntsc_chroma_lowpass_in">குரோமா லோபாஸ் உள்ளீடு</string>
+    <string name="ntsc_chroma_demodulation">குரோமா டிமாடுலேஷன்</string>
+    <string name="ntsc_phase_shift">கட்ட மாற்றம்</string>
+    <string name="ntsc_phase_offset">கட்டம் ஆஃப்செட்</string>
+    <string name="ntsc_head_switching">தலை மாறுதல்</string>
+    <string name="ntsc_head_switching_height">தலை மாறுதல் உயரம்</string>
+    <string name="ntsc_head_switching_offset">தலை மாறுதல் ஆஃப்செட்</string>
+    <string name="ntsc_head_switching_shift">தலை மாறுதல்</string>
+    <string name="ntsc_midline_position">நடு வரி நிலை</string>
+    <string name="ntsc_midline_jitter">நடு வரி நடுக்கம்</string>
+    <string name="ntsc_tracking_noise_height">சத்தத்தின் உயரத்தைக் கண்காணித்தல்</string>
+    <string name="ntsc_tracking_wave">கண்காணிப்பு அலை</string>
+    <string name="ntsc_tracking_snow">பனி கண்காணிப்பு</string>
+    <string name="ntsc_tracking_snow_anisotropy">பனி அனிசோட்ரோபியைக் கண்காணித்தல்</string>
+    <string name="ntsc_tracking_noise">கண்காணிப்பு சத்தம்</string>
+    <string name="ntsc_tracking_noise_intensity">இரைச்சல் தீவிரத்தை கண்காணித்தல்</string>
+    <string name="ntsc_composite_noise">கூட்டு சத்தம்</string>
+    <string name="ntsc_composite_noise_frequency">கூட்டு இரைச்சல் அதிர்வெண்</string>
+    <string name="ntsc_composite_noise_intensity">கூட்டு இரைச்சல் தீவிரம்</string>
+    <string name="ntsc_composite_noise_detail">கூட்டு இரைச்சல் விவரம்</string>
+    <string name="ntsc_ringing_frequency">ஒலிக்கும் அதிர்வெண்</string>
+    <string name="ntsc_ringing_power">ஒலிக்கும் சக்தி</string>
+    <string name="ntsc_luma_noise">லூமா சத்தம்</string>
+    <string name="ntsc_luma_noise_frequency">லூமா இரைச்சல் அதிர்வெண்</string>
+    <string name="ntsc_luma_noise_intensity">லூமா இரைச்சல் தீவிரம்</string>
+    <string name="ntsc_luma_noise_detail">லுமா சத்தம் விவரம்</string>
+    <string name="ntsc_chroma_noise">குரோமா சத்தம்</string>
+    <string name="ntsc_chroma_noise_frequency">குரோமா இரைச்சல் அதிர்வெண்</string>
+    <string name="ntsc_chroma_noise_intensity">குரோமா இரைச்சல் தீவிரம்</string>
+    <string name="ntsc_chroma_noise_detail">குரோமா இரைச்சல் விவரம்</string>
+    <string name="ntsc_snow_intensity">பனி தீவிரம்</string>
+    <string name="ntsc_snow_anisotropy">பனி அனிசோட்ரோபி</string>
+    <string name="ntsc_chroma_phase_noise">குரோமா கட்ட இரைச்சல்</string>
+    <string name="ntsc_chroma_phase_error">குரோமா கட்டப் பிழை</string>
+    <string name="ntsc_chroma_delay_horizontal">குரோமா தாமதம் கிடைமட்டமானது</string>
+    <string name="ntsc_chroma_delay_vertical">குரோமா தாமதம் செங்குத்து</string>
+    <string name="ntsc_vhs_tape_speed">VHS டேப் வேகம்</string>
+    <string name="ntsc_vhs_chroma_loss">VHS குரோமா இழப்பு</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS தீவிரத்தை கூர்மைப்படுத்துகிறது</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS அதிர்வெண்ணைக் கூர்மைப்படுத்துகிறது</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS விளிம்பு அலை தீவிரம்</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS விளிம்பு அலை வேகம்</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS விளிம்பு அலை அதிர்வெண்</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS விளிம்பு அலை விவரம்</string>
+    <string name="ntsc_chroma_lowpass_out">வெளியீடு குரோமா லோபாஸ்</string>
+    <string name="ntsc_scale_horizontal">கிடைமட்ட அளவு</string>
+    <string name="ntsc_scale_vertical">செங்குத்து அளவு</string>
+    <string name="ntsc_scale_factor_x">அளவு காரணி X</string>
+    <string name="ntsc_scale_factor_y">அளவு காரணி ஒய்</string>
 </resources>

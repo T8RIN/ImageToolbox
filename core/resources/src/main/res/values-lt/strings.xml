@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
@@ -2249,4 +2232,65 @@
     <string name="seam_carving_backward_energy_sub">Naudokite paprastą gradiento dydžio energijos žemėlapį, o ne tiesioginės energijos algoritmą</string>
     <string name="seam_carving_mask_as_removal">Pašalinkite užmaskuotą vietą</string>
     <string name="seam_carving_mask_as_removal_sub">Siūlės praeis per užmaskuotą sritį, pašalindamos tik pasirinktą sritį, o ne ją apsaugodamos</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Išplėstiniai NTSC nustatymai</string>
+    <string name="ntsc_advanced_settings_sub">Papildomas analoginis derinimas stipresniam VHS ir transliacijos artefaktams</string>
+    <string name="chroma_bleed">Chrominis kraujavimas</string>
+    <string name="tape_wear">Juostos nusidėvėjimas</string>
+    <string name="tracking">Stebėjimas</string>
+    <string name="luma_smear">Luma tepinėlis</string>
+    <string name="ringing">Skambėjimas</string>
+    <string name="snow">Sniegas</string>
+    <string name="ntsc_use_field">Naudokite lauką</string>
+    <string name="ntsc_filter_type">Filtro tipas</string>
+    <string name="ntsc_input_luma_filter">Įvesties luma filtras</string>
+    <string name="ntsc_chroma_lowpass_in">Įvesties chroma žemo dažnio dažnis</string>
+    <string name="ntsc_chroma_demodulation">Chroma demoduliacija</string>
+    <string name="ntsc_phase_shift">Fazės poslinkis</string>
+    <string name="ntsc_phase_offset">Fazės poslinkis</string>
+    <string name="ntsc_head_switching">Galvos perjungimas</string>
+    <string name="ntsc_head_switching_height">Galvos perjungimo aukštis</string>
+    <string name="ntsc_head_switching_offset">Galvutės perjungimo poslinkis</string>
+    <string name="ntsc_head_switching_shift">Galvos perjungimas</string>
+    <string name="ntsc_midline_position">Vidurinės linijos padėtis</string>
+    <string name="ntsc_midline_jitter">Vidurinės linijos virpėjimas</string>
+    <string name="ntsc_tracking_noise_height">Triukšmo aukščio stebėjimas</string>
+    <string name="ntsc_tracking_wave">Stebėjimo banga</string>
+    <string name="ntsc_tracking_snow">Sniego sekimas</string>
+    <string name="ntsc_tracking_snow_anisotropy">Sniego anizotropijos stebėjimas</string>
+    <string name="ntsc_tracking_noise">Stebėjimo triukšmas</string>
+    <string name="ntsc_tracking_noise_intensity">Triukšmo intensyvumo stebėjimas</string>
+    <string name="ntsc_composite_noise">Sudėtinis triukšmas</string>
+    <string name="ntsc_composite_noise_frequency">Sudėtinis triukšmo dažnis</string>
+    <string name="ntsc_composite_noise_intensity">Sudėtinis triukšmo intensyvumas</string>
+    <string name="ntsc_composite_noise_detail">Sudėtinė triukšmo detalė</string>
+    <string name="ntsc_ringing_frequency">Skambėjimo dažnis</string>
+    <string name="ntsc_ringing_power">Skambėjimo galia</string>
+    <string name="ntsc_luma_noise">Luma triukšmas</string>
+    <string name="ntsc_luma_noise_frequency">Luma triukšmo dažnis</string>
+    <string name="ntsc_luma_noise_intensity">Luma triukšmo intensyvumas</string>
+    <string name="ntsc_luma_noise_detail">Luma triukšmo detalė</string>
+    <string name="ntsc_chroma_noise">Chrominis triukšmas</string>
+    <string name="ntsc_chroma_noise_frequency">Chromato triukšmo dažnis</string>
+    <string name="ntsc_chroma_noise_intensity">Chromato triukšmo intensyvumas</string>
+    <string name="ntsc_chroma_noise_detail">Chroma triukšmo detalė</string>
+    <string name="ntsc_snow_intensity">Sniego intensyvumas</string>
+    <string name="ntsc_snow_anisotropy">Sniego anizotropija</string>
+    <string name="ntsc_chroma_phase_noise">Chromos fazės triukšmas</string>
+    <string name="ntsc_chroma_phase_error">Chroma fazės klaida</string>
+    <string name="ntsc_chroma_delay_horizontal">Chroma delsa horizontaliai</string>
+    <string name="ntsc_chroma_delay_vertical">Chromo delsa vertikali</string>
+    <string name="ntsc_vhs_tape_speed">VHS juostos greitis</string>
+    <string name="ntsc_vhs_chroma_loss">VHS chromos praradimas</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS aštrinimo intensyvumas</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS aštrinimo dažnis</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS kraštinės bangos intensyvumas</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS kraštinės bangos greitis</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS kraštinių bangų dažnis</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS krašto bangos detalė</string>
+    <string name="ntsc_chroma_lowpass_out">Išvesties chroma žemo dažnio pralaidumas</string>
+    <string name="ntsc_scale_horizontal">Skalė horizontaliai</string>
+    <string name="ntsc_scale_vertical">Vertikalus mastelis</string>
+    <string name="ntsc_scale_factor_x">X mastelio koeficientas</string>
+    <string name="ntsc_scale_factor_y">Mastelio koeficientas Y</string>
 </resources>

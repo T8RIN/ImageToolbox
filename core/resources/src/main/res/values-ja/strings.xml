@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
@@ -2245,4 +2228,65 @@
     <string name="seam_carving_backward_energy_sub">順方向エネルギー アルゴリズムの代わりに単純な勾配振幅エネルギー マップを使用する</string>
     <string name="seam_carving_mask_as_removal">マスクされた領域を削除する</string>
     <string name="seam_carving_mask_as_removal_sub">縫い目はマスクされた領域を通過し、選択した領域のみが保護されずに削除されます。</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">高度なNTSC設定</string>
+    <string name="ntsc_advanced_settings_sub">より強力な VHS および放送アーティファクトのための追加のアナログ調整</string>
+    <string name="chroma_bleed">クロマブリード</string>
+    <string name="tape_wear">テープの摩耗</string>
+    <string name="tracking">トラッキング</string>
+    <string name="luma_smear">輝度スミア</string>
+    <string name="ringing">鳴っている</string>
+    <string name="snow">雪</string>
+    <string name="ntsc_use_field">使用フィールド</string>
+    <string name="ntsc_filter_type">フィルターの種類</string>
+    <string name="ntsc_input_luma_filter">入力輝度フィルター</string>
+    <string name="ntsc_chroma_lowpass_in">入力クロマローパス</string>
+    <string name="ntsc_chroma_demodulation">クロマ復調</string>
+    <string name="ntsc_phase_shift">位相シフト</string>
+    <string name="ntsc_phase_offset">位相オフセット</string>
+    <string name="ntsc_head_switching">ヘッドスイッチング</string>
+    <string name="ntsc_head_switching_height">ヘッド切り替え高さ</string>
+    <string name="ntsc_head_switching_offset">ヘッド切り替えオフセット</string>
+    <string name="ntsc_head_switching_shift">ヘッド切り替えシフト</string>
+    <string name="ntsc_midline_position">正中位置</string>
+    <string name="ntsc_midline_jitter">ミッドラインジッター</string>
+    <string name="ntsc_tracking_noise_height">トラッキングノイズの高さ</string>
+    <string name="ntsc_tracking_wave">追跡波</string>
+    <string name="ntsc_tracking_snow">雪の追跡</string>
+    <string name="ntsc_tracking_snow_anisotropy">雪の異方性の追跡</string>
+    <string name="ntsc_tracking_noise">トラッキングノイズ</string>
+    <string name="ntsc_tracking_noise_intensity">トラッキングノイズ強度</string>
+    <string name="ntsc_composite_noise">複合ノイズ</string>
+    <string name="ntsc_composite_noise_frequency">複合ノイズ周波数</string>
+    <string name="ntsc_composite_noise_intensity">複合ノイズ強度</string>
+    <string name="ntsc_composite_noise_detail">複合ノイズの詳細</string>
+    <string name="ntsc_ringing_frequency">呼び出し周波数</string>
+    <string name="ntsc_ringing_power">鳴動電力</string>
+    <string name="ntsc_luma_noise">ルマノイズ</string>
+    <string name="ntsc_luma_noise_frequency">ルマノイズ周波数</string>
+    <string name="ntsc_luma_noise_intensity">ルマノイズ強度</string>
+    <string name="ntsc_luma_noise_detail">ルマノイズの詳細</string>
+    <string name="ntsc_chroma_noise">クロマノイズ</string>
+    <string name="ntsc_chroma_noise_frequency">クロマノイズ周波数</string>
+    <string name="ntsc_chroma_noise_intensity">クロマノイズ強度</string>
+    <string name="ntsc_chroma_noise_detail">クロマノイズの詳細</string>
+    <string name="ntsc_snow_intensity">雪の強さ</string>
+    <string name="ntsc_snow_anisotropy">雪の異方性</string>
+    <string name="ntsc_chroma_phase_noise">クロマ位相ノイズ</string>
+    <string name="ntsc_chroma_phase_error">クロマ位相エラー</string>
+    <string name="ntsc_chroma_delay_horizontal">クロマディレイ水平</string>
+    <string name="ntsc_chroma_delay_vertical">垂直方向のクロマディレイ</string>
+    <string name="ntsc_vhs_tape_speed">VHSテープ速度</string>
+    <string name="ntsc_vhs_chroma_loss">VHSの彩度の低下</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS シャープ強度</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS シャープ周波数</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHSエッジウェーブ強度</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHSエッジウェーブスピード</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHSエッジウェーブ周波数</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHSエッジウェーブ詳細</string>
+    <string name="ntsc_chroma_lowpass_out">出力クロマローパス</string>
+    <string name="ntsc_scale_horizontal">水平スケール</string>
+    <string name="ntsc_scale_vertical">垂直スケール</string>
+    <string name="ntsc_scale_factor_x">スケールファクターX</string>
+    <string name="ntsc_scale_factor_y">スケール係数 Y</string>
 </resources>

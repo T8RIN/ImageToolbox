@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
@@ -2247,4 +2230,65 @@
     <string name="seam_carving_backward_energy_sub">Använd enkel gradient magnitud energikarta istället för framåt energialgoritm</string>
     <string name="seam_carving_mask_as_removal">Ta bort det maskerade området</string>
     <string name="seam_carving_mask_as_removal_sub">Sömmar kommer att passera genom det maskerade området och tar bara bort det valda området istället för att skydda det</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Avancerade NTSC-inställningar</string>
+    <string name="ntsc_advanced_settings_sub">Extra analog inställning för starkare VHS och sändningsartefakter</string>
+    <string name="chroma_bleed">Kromblödning</string>
+    <string name="tape_wear">Tejp slitage</string>
+    <string name="tracking">Spårning</string>
+    <string name="luma_smear">Luma utstryk</string>
+    <string name="ringing">Ringande</string>
+    <string name="snow">Snö</string>
+    <string name="ntsc_use_field">Använd fält</string>
+    <string name="ntsc_filter_type">Filtertyp</string>
+    <string name="ntsc_input_luma_filter">Ingång luma filter</string>
+    <string name="ntsc_chroma_lowpass_in">Ingång kroma lågpass</string>
+    <string name="ntsc_chroma_demodulation">Kromademodulering</string>
+    <string name="ntsc_phase_shift">Fasförskjutning</string>
+    <string name="ntsc_phase_offset">Fasförskjutning</string>
+    <string name="ntsc_head_switching">Huvudbyte</string>
+    <string name="ntsc_head_switching_height">Huvudbytehöjd</string>
+    <string name="ntsc_head_switching_offset">Huvudomkopplingsförskjutning</string>
+    <string name="ntsc_head_switching_shift">Huvudväxling</string>
+    <string name="ntsc_midline_position">Mittlinjeläge</string>
+    <string name="ntsc_midline_jitter">Mittlinjejitter</string>
+    <string name="ntsc_tracking_noise_height">Spårning av bullerhöjd</string>
+    <string name="ntsc_tracking_wave">Spårningsvåg</string>
+    <string name="ntsc_tracking_snow">Spåra snö</string>
+    <string name="ntsc_tracking_snow_anisotropy">Spåra snöanisotropi</string>
+    <string name="ntsc_tracking_noise">Spårningsljud</string>
+    <string name="ntsc_tracking_noise_intensity">Spåra brusintensitet</string>
+    <string name="ntsc_composite_noise">Kompositbrus</string>
+    <string name="ntsc_composite_noise_frequency">Kompositbrusfrekvens</string>
+    <string name="ntsc_composite_noise_intensity">Kompositbrusintensitet</string>
+    <string name="ntsc_composite_noise_detail">Kompositbrusdetalj</string>
+    <string name="ntsc_ringing_frequency">Ringningsfrekvens</string>
+    <string name="ntsc_ringing_power">Ringande kraft</string>
+    <string name="ntsc_luma_noise">Luma brus</string>
+    <string name="ntsc_luma_noise_frequency">Luma brusfrekvens</string>
+    <string name="ntsc_luma_noise_intensity">Luma brusintensitet</string>
+    <string name="ntsc_luma_noise_detail">Luma brusdetalj</string>
+    <string name="ntsc_chroma_noise">Chroma brus</string>
+    <string name="ntsc_chroma_noise_frequency">Chroma brus frekvens</string>
+    <string name="ntsc_chroma_noise_intensity">Chroma brusintensitet</string>
+    <string name="ntsc_chroma_noise_detail">Chroma brusdetalj</string>
+    <string name="ntsc_snow_intensity">Snöintensitet</string>
+    <string name="ntsc_snow_anisotropy">Snönisotropi</string>
+    <string name="ntsc_chroma_phase_noise">Kromfasbrus</string>
+    <string name="ntsc_chroma_phase_error">Chroma-fasfel</string>
+    <string name="ntsc_chroma_delay_horizontal">Chroma delay horisontell</string>
+    <string name="ntsc_chroma_delay_vertical">Chroma delay vertikal</string>
+    <string name="ntsc_vhs_tape_speed">VHS-bandhastighet</string>
+    <string name="ntsc_vhs_chroma_loss">VHS-kromförlust</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS skärpa intensitet</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS skärpa frekvens</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS-kantvågsintensitet</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS kantvågshastighet</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS kantvågsfrekvens</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS-kantvågsdetalj</string>
+    <string name="ntsc_chroma_lowpass_out">Utgång kroma lågpass</string>
+    <string name="ntsc_scale_horizontal">Skala horisontellt</string>
+    <string name="ntsc_scale_vertical">Skala vertikalt</string>
+    <string name="ntsc_scale_factor_x">Skalfaktor X</string>
+    <string name="ntsc_scale_factor_y">Skalfaktor Y</string>
 </resources>

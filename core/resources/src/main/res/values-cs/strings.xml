@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
@@ -2248,4 +2231,65 @@
     <string name="seam_carving_backward_energy_sub">Místo dopředného energetického algoritmu použijte jednoduchou energetickou mapu gradientu</string>
     <string name="seam_carving_mask_as_removal">Odstraňte maskovanou oblast</string>
     <string name="seam_carving_mask_as_removal_sub">Švy projdou maskovanou oblastí a odstraní pouze vybranou oblast místo její ochrany</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Pokročilé nastavení NTSC</string>
+    <string name="ntsc_advanced_settings_sub">Extra analogové ladění pro silnější VHS a vysílací artefakty</string>
+    <string name="chroma_bleed">Chroma krvácení</string>
+    <string name="tape_wear">Opotřebení pásky</string>
+    <string name="tracking">Sledování</string>
+    <string name="luma_smear">Luma stěr</string>
+    <string name="ringing">Zvonění</string>
+    <string name="snow">Sněžení</string>
+    <string name="ntsc_use_field">Použít pole</string>
+    <string name="ntsc_filter_type">Typ filtru</string>
+    <string name="ntsc_input_luma_filter">Vstupní luma filtr</string>
+    <string name="ntsc_chroma_lowpass_in">Vstupní chroma lowpass</string>
+    <string name="ntsc_chroma_demodulation">Chroma demodulace</string>
+    <string name="ntsc_phase_shift">Fázový posun</string>
+    <string name="ntsc_phase_offset">Fázový posun</string>
+    <string name="ntsc_head_switching">Přepínání hlavy</string>
+    <string name="ntsc_head_switching_height">Výška přepínání hlavy</string>
+    <string name="ntsc_head_switching_offset">Offset spínání hlavy</string>
+    <string name="ntsc_head_switching_shift">Směna hlavy</string>
+    <string name="ntsc_midline_position">Poloha uprostřed</string>
+    <string name="ntsc_midline_jitter">Jitter ve střední linii</string>
+    <string name="ntsc_tracking_noise_height">Sledování výšky hluku</string>
+    <string name="ntsc_tracking_wave">Sledování vlny</string>
+    <string name="ntsc_tracking_snow">Sledování sněhu</string>
+    <string name="ntsc_tracking_snow_anisotropy">Sledování anizotropie sněhu</string>
+    <string name="ntsc_tracking_noise">Hluk sledování</string>
+    <string name="ntsc_tracking_noise_intensity">Sledování intenzity hluku</string>
+    <string name="ntsc_composite_noise">Složený hluk</string>
+    <string name="ntsc_composite_noise_frequency">Frekvence kompozitního šumu</string>
+    <string name="ntsc_composite_noise_intensity">Intenzita kompozitního hluku</string>
+    <string name="ntsc_composite_noise_detail">Detail kompozitního šumu</string>
+    <string name="ntsc_ringing_frequency">Frekvence vyzvánění</string>
+    <string name="ntsc_ringing_power">Síla zvonění</string>
+    <string name="ntsc_luma_noise">Luma hluk</string>
+    <string name="ntsc_luma_noise_frequency">Luma frekvence šumu</string>
+    <string name="ntsc_luma_noise_intensity">Intenzita hluku Luma</string>
+    <string name="ntsc_luma_noise_detail">Detail šumu Luma</string>
+    <string name="ntsc_chroma_noise">Chroma šum</string>
+    <string name="ntsc_chroma_noise_frequency">Frekvence chroma šumu</string>
+    <string name="ntsc_chroma_noise_intensity">Intenzita chroma šumu</string>
+    <string name="ntsc_chroma_noise_detail">Detail chroma šumu</string>
+    <string name="ntsc_snow_intensity">Intenzita sněhu</string>
+    <string name="ntsc_snow_anisotropy">Anizotropie sněhu</string>
+    <string name="ntsc_chroma_phase_noise">Chroma fázový šum</string>
+    <string name="ntsc_chroma_phase_error">Chyba fáze chroma</string>
+    <string name="ntsc_chroma_delay_horizontal">Chroma delay horizontální</string>
+    <string name="ntsc_chroma_delay_vertical">Vertikální zpoždění barevnosti</string>
+    <string name="ntsc_vhs_tape_speed">Rychlost kazety VHS</string>
+    <string name="ntsc_vhs_chroma_loss">Ztráta barevnosti VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS zostřuje intenzitu</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS zostření frekvence</string>
+    <string name="ntsc_vhs_edge_wave_intensity">Intenzita okrajové vlny VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">Rychlost okrajové vlny VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">Frekvence okrajových vln VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">Detail VHS okrajové vlny</string>
+    <string name="ntsc_chroma_lowpass_out">Výstupní chroma lowpass</string>
+    <string name="ntsc_scale_horizontal">Měřítko horizontální</string>
+    <string name="ntsc_scale_vertical">Vertikální měřítko</string>
+    <string name="ntsc_scale_factor_x">Měřítko X</string>
+    <string name="ntsc_scale_factor_y">Měřítko Y</string>
 </resources>

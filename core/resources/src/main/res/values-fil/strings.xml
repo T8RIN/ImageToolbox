@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">Gumamit ng simpleng gradient magnitude na mapa ng enerhiya sa halip na pasulong na algorithm ng enerhiya</string>
     <string name="seam_carving_mask_as_removal">Alisin ang masked area</string>
     <string name="seam_carving_mask_as_removal_sub">Ang mga tahi ay dadaan sa nakamaskara na rehiyon, na aalisin lamang ang napiling lugar sa halip na protektahan ito</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Mga advanced na setting ng NTSC</string>
+    <string name="ntsc_advanced_settings_sub">Extra analog tuning para sa mas malakas na VHS at broadcast artifact</string>
+    <string name="chroma_bleed">Nagdugo ang Chroma</string>
+    <string name="tape_wear">Pagsuot ng tape</string>
+    <string name="tracking">Pagsubaybay</string>
+    <string name="luma_smear">Luma smear</string>
+    <string name="ringing">Nagri-ring</string>
+    <string name="snow">niyebe</string>
+    <string name="ntsc_use_field">Gamitin ang field</string>
+    <string name="ntsc_filter_type">Uri ng filter</string>
+    <string name="ntsc_input_luma_filter">Ipasok ang luma filter</string>
+    <string name="ntsc_chroma_lowpass_in">Input ang chroma lowpass</string>
+    <string name="ntsc_chroma_demodulation">Demodulasyon ng Chroma</string>
+    <string name="ntsc_phase_shift">Paglipat ng yugto</string>
+    <string name="ntsc_phase_offset">Phase offset</string>
+    <string name="ntsc_head_switching">Paglipat ng ulo</string>
+    <string name="ntsc_head_switching_height">Taas ng pagpapalit ng ulo</string>
+    <string name="ntsc_head_switching_offset">Head switching offset</string>
+    <string name="ntsc_head_switching_shift">Paglipat ng ulo</string>
+    <string name="ntsc_midline_position">Posisyon sa gitnang linya</string>
+    <string name="ntsc_midline_jitter">Jitter sa kalagitnaan ng linya</string>
+    <string name="ntsc_tracking_noise_height">Pagsubaybay sa taas ng ingay</string>
+    <string name="ntsc_tracking_wave">Pagsubaybay sa alon</string>
+    <string name="ntsc_tracking_snow">Pagsubaybay sa niyebe</string>
+    <string name="ntsc_tracking_snow_anisotropy">Pagsubaybay sa snow anisotropy</string>
+    <string name="ntsc_tracking_noise">Ingay sa pagsubaybay</string>
+    <string name="ntsc_tracking_noise_intensity">Pagsubaybay sa intensity ng ingay</string>
+    <string name="ntsc_composite_noise">Pinagsama-samang ingay</string>
+    <string name="ntsc_composite_noise_frequency">Pinagsama-samang dalas ng ingay</string>
+    <string name="ntsc_composite_noise_intensity">Pinagsamang intensity ng ingay</string>
+    <string name="ntsc_composite_noise_detail">Composite na detalye ng ingay</string>
+    <string name="ntsc_ringing_frequency">Dalas ng pag-ring</string>
+    <string name="ntsc_ringing_power">Lakas ng ring</string>
+    <string name="ntsc_luma_noise">Luma ingay</string>
+    <string name="ntsc_luma_noise_frequency">Luma dalas ng ingay</string>
+    <string name="ntsc_luma_noise_intensity">Luma intensity ng ingay</string>
+    <string name="ntsc_luma_noise_detail">Luma ingay detalye</string>
+    <string name="ntsc_chroma_noise">Chroma ingay</string>
+    <string name="ntsc_chroma_noise_frequency">Dalas ng ingay ng Chroma</string>
+    <string name="ntsc_chroma_noise_intensity">Sidhi ng ingay ng Chroma</string>
+    <string name="ntsc_chroma_noise_detail">Detalye ng ingay ng Chroma</string>
+    <string name="ntsc_snow_intensity">Tindi ng niyebe</string>
+    <string name="ntsc_snow_anisotropy">Anisotropy ng niyebe</string>
+    <string name="ntsc_chroma_phase_noise">Chroma phase ingay</string>
+    <string name="ntsc_chroma_phase_error">Error sa yugto ng Chroma</string>
+    <string name="ntsc_chroma_delay_horizontal">Pahalang na pagkaantala ng Chroma</string>
+    <string name="ntsc_chroma_delay_vertical">Vertical ang pagkaantala ng Chroma</string>
+    <string name="ntsc_vhs_tape_speed">Bilis ng VHS tape</string>
+    <string name="ntsc_vhs_chroma_loss">Pagkawala ng chroma ng VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">Patalasin ng VHS ang intensity</string>
+    <string name="ntsc_vhs_sharpen_frequency">Ang dalas ng pagpapatalas ng VHS</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS edge wave intensity</string>
+    <string name="ntsc_vhs_edge_wave_speed">Bilis ng wave ng gilid ng VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS edge wave frequency</string>
+    <string name="ntsc_vhs_edge_wave_detail">Detalye ng wave ng gilid ng VHS</string>
+    <string name="ntsc_chroma_lowpass_out">Output chroma lowpass</string>
+    <string name="ntsc_scale_horizontal">I-scale nang pahalang</string>
+    <string name="ntsc_scale_vertical">I-scale patayo</string>
+    <string name="ntsc_scale_factor_x">Scale factor X</string>
+    <string name="ntsc_scale_factor_y">Scale factor Y</string>
 </resources>

@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
@@ -2247,4 +2230,65 @@
     <string name="seam_carving_backward_energy_sub">Користите једноставну енергетску мапу магнитуде градијента уместо алгоритма напредне енергије</string>
     <string name="seam_carving_mask_as_removal">Уклоните маскирано подручје</string>
     <string name="seam_carving_mask_as_removal_sub">Шавови ће проћи кроз маскирани регион, уклањајући само изабрану област уместо да је штите</string>
+    <string name="vhs_ntsc">ВХС НТСЦ</string>
+    <string name="ntsc_advanced_settings">Напредна НТСЦ подешавања</string>
+    <string name="ntsc_advanced_settings_sub">Додатно аналогно подешавање за јачи ВХС и артефакте емитовања</string>
+    <string name="chroma_bleed">Цхрома блеед</string>
+    <string name="tape_wear">Ношење траке</string>
+    <string name="tracking">Праћење</string>
+    <string name="luma_smear">Лума размаз</string>
+    <string name="ringing">Звоно</string>
+    <string name="snow">Снег</string>
+    <string name="ntsc_use_field">Користи поље</string>
+    <string name="ntsc_filter_type">Тип филтера</string>
+    <string name="ntsc_input_luma_filter">Филтер улазне светлости</string>
+    <string name="ntsc_chroma_lowpass_in">Инпут цхрома ловпасс</string>
+    <string name="ntsc_chroma_demodulation">Цхрома демодулатион</string>
+    <string name="ntsc_phase_shift">Фазни помак</string>
+    <string name="ntsc_phase_offset">Пхасе оффсет</string>
+    <string name="ntsc_head_switching">Пребацивање главе</string>
+    <string name="ntsc_head_switching_height">Висина пребацивања главе</string>
+    <string name="ntsc_head_switching_offset">Оффсет преклапања главе</string>
+    <string name="ntsc_head_switching_shift">Промена главе</string>
+    <string name="ntsc_midline_position">Положај средње линије</string>
+    <string name="ntsc_midline_jitter">Треперење средње линије</string>
+    <string name="ntsc_tracking_noise_height">Праћење висине буке</string>
+    <string name="ntsc_tracking_wave">Праћење таласа</string>
+    <string name="ntsc_tracking_snow">Праћење снега</string>
+    <string name="ntsc_tracking_snow_anisotropy">Праћење анизотропије снега</string>
+    <string name="ntsc_tracking_noise">Праћење буке</string>
+    <string name="ntsc_tracking_noise_intensity">Праћење интензитета буке</string>
+    <string name="ntsc_composite_noise">Композитни шум</string>
+    <string name="ntsc_composite_noise_frequency">Композитна фреквенција шума</string>
+    <string name="ntsc_composite_noise_intensity">Интензитет композитног шума</string>
+    <string name="ntsc_composite_noise_detail">Детаљ композитног шума</string>
+    <string name="ntsc_ringing_frequency">Фреквенција звона</string>
+    <string name="ntsc_ringing_power">Снага звона</string>
+    <string name="ntsc_luma_noise">Лума бука</string>
+    <string name="ntsc_luma_noise_frequency">Фреквенција лума шума</string>
+    <string name="ntsc_luma_noise_intensity">Интензитет лума буке</string>
+    <string name="ntsc_luma_noise_detail">Лума буке детаљ</string>
+    <string name="ntsc_chroma_noise">Цхрома ноисе</string>
+    <string name="ntsc_chroma_noise_frequency">Фреквенција шума боје</string>
+    <string name="ntsc_chroma_noise_intensity">Интензитет шума боје</string>
+    <string name="ntsc_chroma_noise_detail">Детаљ Цхрома буке</string>
+    <string name="ntsc_snow_intensity">Интензитет снега</string>
+    <string name="ntsc_snow_anisotropy">Анизотропија снега</string>
+    <string name="ntsc_chroma_phase_noise">Шум хроматске фазе</string>
+    <string name="ntsc_chroma_phase_error">Грешка у фази боје</string>
+    <string name="ntsc_chroma_delay_horizontal">Хоризонтално кашњење боје</string>
+    <string name="ntsc_chroma_delay_vertical">Вертикално кашњење боје</string>
+    <string name="ntsc_vhs_tape_speed">Брзина ВХС траке</string>
+    <string name="ntsc_vhs_chroma_loss">ВХС губитак боје</string>
+    <string name="ntsc_vhs_sharpen_intensity">Интензитет изоштравања ВХС-а</string>
+    <string name="ntsc_vhs_sharpen_frequency">ВХС фреквенција изоштравања</string>
+    <string name="ntsc_vhs_edge_wave_intensity">Интензитет ивичног таласа ВХС</string>
+    <string name="ntsc_vhs_edge_wave_speed">ВХС ивична брзина таласа</string>
+    <string name="ntsc_vhs_edge_wave_frequency">ВХС ивична таласна фреквенција</string>
+    <string name="ntsc_vhs_edge_wave_detail">ВХС ивични таласни детаљ</string>
+    <string name="ntsc_chroma_lowpass_out">Излазни хрома нископропусни</string>
+    <string name="ntsc_scale_horizontal">Хоризонтална скала</string>
+    <string name="ntsc_scale_vertical">Скала вертикала</string>
+    <string name="ntsc_scale_factor_x">Фактор скале Кс</string>
+    <string name="ntsc_scale_factor_y">Фактор скале И</string>
 </resources>

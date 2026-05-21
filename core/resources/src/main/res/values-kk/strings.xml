@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">Алға энергия алгоритмінің орнына қарапайым градиент шамасының энергия картасын пайдаланыңыз</string>
     <string name="seam_carving_mask_as_removal">Маскаланған аймақты алып тастаңыз</string>
     <string name="seam_carving_mask_as_removal_sub">Тігістер маскаланған аймақ арқылы өтіп, оны қорғаудың орнына тек таңдалған аумақты алып тастайды</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Қосымша NTSC параметрлері</string>
+    <string name="ntsc_advanced_settings_sub">Күшті VHS және хабар тарату артефактілері үшін қосымша аналогтық баптау</string>
+    <string name="chroma_bleed">Хромадан қан кету</string>
+    <string name="tape_wear">Таспа тозуы</string>
+    <string name="tracking">Бақылау</string>
+    <string name="luma_smear">Люма жағындысы</string>
+    <string name="ringing">Қоңырау</string>
+    <string name="snow">Қар</string>
+    <string name="ntsc_use_field">Қолдану өрісі</string>
+    <string name="ntsc_filter_type">Сүзгі түрі</string>
+    <string name="ntsc_input_luma_filter">Люма сүзгісін енгізу</string>
+    <string name="ntsc_chroma_lowpass_in">Кіріс хромасының төмен өтуі</string>
+    <string name="ntsc_chroma_demodulation">Хром демодуляциясы</string>
+    <string name="ntsc_phase_shift">Фазалық жылжу</string>
+    <string name="ntsc_phase_offset">Фазалық ауытқу</string>
+    <string name="ntsc_head_switching">Басты ауыстыру</string>
+    <string name="ntsc_head_switching_height">Басын ауыстыру биіктігі</string>
+    <string name="ntsc_head_switching_offset">Басты ауыстыру офсетін</string>
+    <string name="ntsc_head_switching_shift">Бастың ауысуы</string>
+    <string name="ntsc_midline_position">Ортаңғы сызық позициясы</string>
+    <string name="ntsc_midline_jitter">Ортаңғы сызық діріл</string>
+    <string name="ntsc_tracking_noise_height">Шудың биіктігін бақылау</string>
+    <string name="ntsc_tracking_wave">Бақылау толқыны</string>
+    <string name="ntsc_tracking_snow">Қарды қадағалау</string>
+    <string name="ntsc_tracking_snow_anisotropy">Қар анизотропиясын қадағалау</string>
+    <string name="ntsc_tracking_noise">Шуды бақылау</string>
+    <string name="ntsc_tracking_noise_intensity">Шу қарқындылығын қадағалау</string>
+    <string name="ntsc_composite_noise">Композиттік шу</string>
+    <string name="ntsc_composite_noise_frequency">Композиттік шу жиілігі</string>
+    <string name="ntsc_composite_noise_intensity">Композиттік шудың қарқындылығы</string>
+    <string name="ntsc_composite_noise_detail">Композиттік шу детальдары</string>
+    <string name="ntsc_ringing_frequency">Қоңырау жиілігі</string>
+    <string name="ntsc_ringing_power">Қоңырау қуаты</string>
+    <string name="ntsc_luma_noise">Люма шуы</string>
+    <string name="ntsc_luma_noise_frequency">Luma шуының жиілігі</string>
+    <string name="ntsc_luma_noise_intensity">Люма шуының қарқындылығы</string>
+    <string name="ntsc_luma_noise_detail">Люма шуының егжей-тегжейі</string>
+    <string name="ntsc_chroma_noise">Хрома шуы</string>
+    <string name="ntsc_chroma_noise_frequency">Хрома шуының жиілігі</string>
+    <string name="ntsc_chroma_noise_intensity">Хрома шуының қарқындылығы</string>
+    <string name="ntsc_chroma_noise_detail">Хрома шуының мәліметтері</string>
+    <string name="ntsc_snow_intensity">Қардың қарқындылығы</string>
+    <string name="ntsc_snow_anisotropy">Қар анизотропиясы</string>
+    <string name="ntsc_chroma_phase_noise">Хрома фазасының шуы</string>
+    <string name="ntsc_chroma_phase_error">Хрома фазасының қатесі</string>
+    <string name="ntsc_chroma_delay_horizontal">Көлденең түсті кідіріс</string>
+    <string name="ntsc_chroma_delay_vertical">Chroma кідірісі тік</string>
+    <string name="ntsc_vhs_tape_speed">VHS таспа жылдамдығы</string>
+    <string name="ntsc_vhs_chroma_loss">VHS хромының жоғалуы</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS қарқындылығы</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS айқындау жиілігі</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS жиек толқынының қарқындылығы</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS шеткі толқын жылдамдығы</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS шеткі толқын жиілігі</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS жиегі толқынының егжей-тегжейі</string>
+    <string name="ntsc_chroma_lowpass_out">Шығару хромының төмен өтуі</string>
+    <string name="ntsc_scale_horizontal">Көлденең масштабта</string>
+    <string name="ntsc_scale_vertical">Масштаб тік</string>
+    <string name="ntsc_scale_factor_x">X шкала коэффициенті</string>
+    <string name="ntsc_scale_factor_y">Масштаб коэффициенті Y</string>
 </resources>

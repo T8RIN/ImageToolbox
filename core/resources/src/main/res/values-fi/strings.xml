@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">Käytä yksinkertaista gradientin magnitudienergiakarttaa eteenpäin suunnatun energian algoritmin sijaan</string>
     <string name="seam_carving_mask_as_removal">Poista peitetty alue</string>
     <string name="seam_carving_mask_as_removal_sub">Saumat kulkevat peitetyn alueen läpi poistaen vain valitun alueen sen suojaamisen sijaan</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">NTSC:n lisäasetukset</string>
+    <string name="ntsc_advanced_settings_sub">Ylimääräinen analoginen viritys vahvempaan VHS:ään ja lähetysartefakteihin</string>
+    <string name="chroma_bleed">Kroma verenvuoto</string>
+    <string name="tape_wear">Nauha kuluma</string>
+    <string name="tracking">Seuranta</string>
+    <string name="luma_smear">Luma sively</string>
+    <string name="ringing">Soitto</string>
+    <string name="snow">Lumi</string>
+    <string name="ntsc_use_field">Käytä kenttää</string>
+    <string name="ntsc_filter_type">Suodattimen tyyppi</string>
+    <string name="ntsc_input_luma_filter">Sisääntulo luma-suodatin</string>
+    <string name="ntsc_chroma_lowpass_in">Syöttö chroma alipäästö</string>
+    <string name="ntsc_chroma_demodulation">Kromademodulaatio</string>
+    <string name="ntsc_phase_shift">Vaiheen siirto</string>
+    <string name="ntsc_phase_offset">Vaihepoikkeama</string>
+    <string name="ntsc_head_switching">Pään vaihto</string>
+    <string name="ntsc_head_switching_height">Pään vaihtokorkeus</string>
+    <string name="ntsc_head_switching_offset">Pään kytkentäpoikkeama</string>
+    <string name="ntsc_head_switching_shift">Pään vaihto</string>
+    <string name="ntsc_midline_position">Keskilinjan asento</string>
+    <string name="ntsc_midline_jitter">Keskilinjan värinää</string>
+    <string name="ntsc_tracking_noise_height">Melun korkeuden seuranta</string>
+    <string name="ntsc_tracking_wave">Seurantaaalto</string>
+    <string name="ntsc_tracking_snow">Lumen seuranta</string>
+    <string name="ntsc_tracking_snow_anisotropy">Lumen anisotropian seuranta</string>
+    <string name="ntsc_tracking_noise">Seurantamelu</string>
+    <string name="ntsc_tracking_noise_intensity">Melun voimakkuuden seuranta</string>
+    <string name="ntsc_composite_noise">Komposiittikohina</string>
+    <string name="ntsc_composite_noise_frequency">Komposiittikohinataajuus</string>
+    <string name="ntsc_composite_noise_intensity">Komposiittimelun voimakkuus</string>
+    <string name="ntsc_composite_noise_detail">Komposiittimelun yksityiskohta</string>
+    <string name="ntsc_ringing_frequency">Soittotaajuus</string>
+    <string name="ntsc_ringing_power">Soittovoima</string>
+    <string name="ntsc_luma_noise">Luma melua</string>
+    <string name="ntsc_luma_noise_frequency">Luma melun taajuus</string>
+    <string name="ntsc_luma_noise_intensity">Luma melun voimakkuus</string>
+    <string name="ntsc_luma_noise_detail">Luma melun yksityiskohta</string>
+    <string name="ntsc_chroma_noise">Kroma kohina</string>
+    <string name="ntsc_chroma_noise_frequency">Kromakohinataajuus</string>
+    <string name="ntsc_chroma_noise_intensity">Kromakohinan intensiteetti</string>
+    <string name="ntsc_chroma_noise_detail">Kromameluyksityiskohdat</string>
+    <string name="ntsc_snow_intensity">Lumen intensiteetti</string>
+    <string name="ntsc_snow_anisotropy">Lumen anisotropia</string>
+    <string name="ntsc_chroma_phase_noise">Kromafaasikohina</string>
+    <string name="ntsc_chroma_phase_error">Kromafaasivirhe</string>
+    <string name="ntsc_chroma_delay_horizontal">Kromaviive vaakasuunnassa</string>
+    <string name="ntsc_chroma_delay_vertical">Väriviive pystysuorassa</string>
+    <string name="ntsc_vhs_tape_speed">VHS-nauhan nopeus</string>
+    <string name="ntsc_vhs_chroma_loss">VHS-kromahäviö</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS-terävyyden intensiteetti</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS-terävöintitaajuus</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS-reunaaallon intensiteetti</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS reunaaallon nopeus</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS-reuna-aaltotaajuus</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS reunaaallon yksityiskohta</string>
+    <string name="ntsc_chroma_lowpass_out">Ulostulon kroma-alipäästö</string>
+    <string name="ntsc_scale_horizontal">Mittakaava vaakatasossa</string>
+    <string name="ntsc_scale_vertical">Mittakaava pystysuoraan</string>
+    <string name="ntsc_scale_factor_x">Skaalaustekijä X</string>
+    <string name="ntsc_scale_factor_y">Skaalauskerroin Y</string>
 </resources>

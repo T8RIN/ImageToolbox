@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">Utilitzeu un mapa d\'energia de magnitud de gradient senzill en lloc d\'un algorisme d\'energia directa</string>
     <string name="seam_carving_mask_as_removal">Traieu la zona emmascarada</string>
     <string name="seam_carving_mask_as_removal_sub">Les costures passaran per la regió emmascarada, eliminant només l\'àrea seleccionada en lloc de protegir-la</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Configuració avançada de NTSC</string>
+    <string name="ntsc_advanced_settings_sub">Sintonització analògica addicional per a VHS i artefactes de transmissió més forts</string>
+    <string name="chroma_bleed">Sagnat de croma</string>
+    <string name="tape_wear">Desgast de la cinta</string>
+    <string name="tracking">Seguiment</string>
+    <string name="luma_smear">Frotis de llum</string>
+    <string name="ringing">Sonant</string>
+    <string name="snow">Neu</string>
+    <string name="ntsc_use_field">Utilitza el camp</string>
+    <string name="ntsc_filter_type">Tipus de filtre</string>
+    <string name="ntsc_input_luma_filter">Filtre de llum d\'entrada</string>
+    <string name="ntsc_chroma_lowpass_in">Passa baix de croma d\'entrada</string>
+    <string name="ntsc_chroma_demodulation">Demodulació cromàtica</string>
+    <string name="ntsc_phase_shift">Canvi de fase</string>
+    <string name="ntsc_phase_offset">Desplaçament de fase</string>
+    <string name="ntsc_head_switching">Canvi de cap</string>
+    <string name="ntsc_head_switching_height">Alçada de canvi del cap</string>
+    <string name="ntsc_head_switching_offset">Compensació del capçal</string>
+    <string name="ntsc_head_switching_shift">Canvi de capçal</string>
+    <string name="ntsc_midline_position">Posició de la línia mitjana</string>
+    <string name="ntsc_midline_jitter">Tremolar a la línia mitjana</string>
+    <string name="ntsc_tracking_noise_height">Seguiment de l\'alçada del soroll</string>
+    <string name="ntsc_tracking_wave">Onada de seguiment</string>
+    <string name="ntsc_tracking_snow">Seguiment de la neu</string>
+    <string name="ntsc_tracking_snow_anisotropy">Seguiment de l\'anisotropia de la neu</string>
+    <string name="ntsc_tracking_noise">Seguiment del soroll</string>
+    <string name="ntsc_tracking_noise_intensity">Seguiment de la intensitat del soroll</string>
+    <string name="ntsc_composite_noise">Soroll compost</string>
+    <string name="ntsc_composite_noise_frequency">Freqüència de soroll composta</string>
+    <string name="ntsc_composite_noise_intensity">Intensitat de soroll composta</string>
+    <string name="ntsc_composite_noise_detail">Detall de soroll compost</string>
+    <string name="ntsc_ringing_frequency">Freqüència de trucada</string>
+    <string name="ntsc_ringing_power">Potència de trucada</string>
+    <string name="ntsc_luma_noise">Soroll Luma</string>
+    <string name="ntsc_luma_noise_frequency">Freqüència del soroll Luma</string>
+    <string name="ntsc_luma_noise_intensity">Intensitat del soroll Luma</string>
+    <string name="ntsc_luma_noise_detail">Detall del soroll Luma</string>
+    <string name="ntsc_chroma_noise">Soroll cromàtic</string>
+    <string name="ntsc_chroma_noise_frequency">Freqüència del soroll cromàtic</string>
+    <string name="ntsc_chroma_noise_intensity">Intensitat del soroll cromàtic</string>
+    <string name="ntsc_chroma_noise_detail">Detall del soroll cromàtic</string>
+    <string name="ntsc_snow_intensity">Intensitat de la neu</string>
+    <string name="ntsc_snow_anisotropy">Anisotropia de la neu</string>
+    <string name="ntsc_chroma_phase_noise">Soroll de fase cromàtica</string>
+    <string name="ntsc_chroma_phase_error">Error de fase cromàtica</string>
+    <string name="ntsc_chroma_delay_horizontal">Retard de croma horitzontal</string>
+    <string name="ntsc_chroma_delay_vertical">Retard de croma vertical</string>
+    <string name="ntsc_vhs_tape_speed">Velocitat de la cinta VHS</string>
+    <string name="ntsc_vhs_chroma_loss">Pèrdua de croma VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS intensifica la intensitat</string>
+    <string name="ntsc_vhs_sharpen_frequency">Freqüència d\'afinació VHS</string>
+    <string name="ntsc_vhs_edge_wave_intensity">Intensitat d\'ona de vora VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">Velocitat d\'ona de vora VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">Freqüència d\'ona de vora VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">Detall de l\'ona de vora VHS</string>
+    <string name="ntsc_chroma_lowpass_out">Passa baix cromàtica de sortida</string>
+    <string name="ntsc_scale_horizontal">Escala horitzontal</string>
+    <string name="ntsc_scale_vertical">Escala vertical</string>
+    <string name="ntsc_scale_factor_x">Factor d\'escala X</string>
+    <string name="ntsc_scale_factor_y">Factor d\'escala Y</string>
 </resources>

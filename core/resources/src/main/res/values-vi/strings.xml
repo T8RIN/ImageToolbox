@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
@@ -2245,4 +2228,65 @@
     <string name="seam_carving_backward_energy_sub">Sử dụng bản đồ năng lượng cường độ gradient đơn giản thay vì thuật toán năng lượng chuyển tiếp</string>
     <string name="seam_carving_mask_as_removal">Loại bỏ vùng bị che</string>
     <string name="seam_carving_mask_as_removal_sub">Các đường nối sẽ đi qua vùng bị che, chỉ loại bỏ vùng được chọn thay vì bảo vệ nó</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Cài đặt NTSC nâng cao</string>
+    <string name="ntsc_advanced_settings_sub">Điều chỉnh tương tự bổ sung cho các tạo phẩm phát sóng và VHS mạnh hơn</string>
+    <string name="chroma_bleed">Chảy máu màu</string>
+    <string name="tape_wear">Độ mòn băng</string>
+    <string name="tracking">Theo dõi</string>
+    <string name="luma_smear">vết mờ Luma</string>
+    <string name="ringing">Đổ chuông</string>
+    <string name="snow">Tuyết</string>
+    <string name="ntsc_use_field">Trường sử dụng</string>
+    <string name="ntsc_filter_type">Loại bộ lọc</string>
+    <string name="ntsc_input_luma_filter">Bộ lọc luma đầu vào</string>
+    <string name="ntsc_chroma_lowpass_in">Đường thông thấp sắc độ đầu vào</string>
+    <string name="ntsc_chroma_demodulation">Giải điều chế sắc độ</string>
+    <string name="ntsc_phase_shift">Chuyển pha</string>
+    <string name="ntsc_phase_offset">Độ lệch pha</string>
+    <string name="ntsc_head_switching">Chuyển đổi đầu</string>
+    <string name="ntsc_head_switching_height">Chiều cao chuyển đổi đầu</string>
+    <string name="ntsc_head_switching_offset">Phần bù chuyển đổi đầu</string>
+    <string name="ntsc_head_switching_shift">Chuyển đổi đầu</string>
+    <string name="ntsc_midline_position">Vị trí đường giữa</string>
+    <string name="ntsc_midline_jitter">Giật giật giữa dòng</string>
+    <string name="ntsc_tracking_noise_height">Theo dõi độ cao tiếng ồn</string>
+    <string name="ntsc_tracking_wave">Theo dõi sóng</string>
+    <string name="ntsc_tracking_snow">Theo dõi tuyết</string>
+    <string name="ntsc_tracking_snow_anisotropy">Theo dõi tính bất đẳng hướng của tuyết</string>
+    <string name="ntsc_tracking_noise">Theo dõi tiếng ồn</string>
+    <string name="ntsc_tracking_noise_intensity">Theo dõi cường độ tiếng ồn</string>
+    <string name="ntsc_composite_noise">Tiếng ồn tổng hợp</string>
+    <string name="ntsc_composite_noise_frequency">Tần số tiếng ồn tổng hợp</string>
+    <string name="ntsc_composite_noise_intensity">Cường độ tiếng ồn tổng hợp</string>
+    <string name="ntsc_composite_noise_detail">Chi tiết tiếng ồn tổng hợp</string>
+    <string name="ntsc_ringing_frequency">Tần số đổ chuông</string>
+    <string name="ntsc_ringing_power">Điện chuông</string>
+    <string name="ntsc_luma_noise">Tiếng ồn Luma</string>
+    <string name="ntsc_luma_noise_frequency">Tần số tiếng ồn Luma</string>
+    <string name="ntsc_luma_noise_intensity">Cường độ tiếng ồn Luma</string>
+    <string name="ntsc_luma_noise_detail">Chi tiết tiếng ồn Luma</string>
+    <string name="ntsc_chroma_noise">Nhiễu sắc độ</string>
+    <string name="ntsc_chroma_noise_frequency">Tần số nhiễu sắc độ</string>
+    <string name="ntsc_chroma_noise_intensity">Cường độ nhiễu sắc độ</string>
+    <string name="ntsc_chroma_noise_detail">Chi tiết nhiễu sắc độ</string>
+    <string name="ntsc_snow_intensity">Cường độ tuyết</string>
+    <string name="ntsc_snow_anisotropy">Bất đẳng hướng tuyết</string>
+    <string name="ntsc_chroma_phase_noise">Nhiễu pha sắc độ</string>
+    <string name="ntsc_chroma_phase_error">Lỗi pha sắc độ</string>
+    <string name="ntsc_chroma_delay_horizontal">Độ trễ màu theo chiều ngang</string>
+    <string name="ntsc_chroma_delay_vertical">Độ trễ màu dọc</string>
+    <string name="ntsc_vhs_tape_speed">Tốc độ băng VHS</string>
+    <string name="ntsc_vhs_chroma_loss">Mất sắc độ VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">Cường độ làm sắc nét VHS</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS làm sắc nét tần số</string>
+    <string name="ntsc_vhs_edge_wave_intensity">Cường độ sóng biên VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">Tốc độ sóng biên VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">Tần số sóng biên VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">Chi tiết sóng biên VHS</string>
+    <string name="ntsc_chroma_lowpass_out">Đường thông thấp sắc độ đầu ra</string>
+    <string name="ntsc_scale_horizontal">Tỉ lệ ngang</string>
+    <string name="ntsc_scale_vertical">Chia tỷ lệ theo chiều dọc</string>
+    <string name="ntsc_scale_factor_x">Hệ số tỷ lệ X</string>
+    <string name="ntsc_scale_factor_y">Hệ số tỷ lệ Y</string>
 </resources>

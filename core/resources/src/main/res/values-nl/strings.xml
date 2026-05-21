@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">Gebruik een eenvoudige energiekaart met gradiëntgrootte in plaats van een voorwaarts energiealgoritme</string>
     <string name="seam_carving_mask_as_removal">Verwijder het gemaskeerde gebied</string>
     <string name="seam_carving_mask_as_removal_sub">De naden gaan door het gemaskeerde gebied en verwijderen alleen het geselecteerde gebied in plaats van het te beschermen</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Geavanceerde NTSC-instellingen</string>
+    <string name="ntsc_advanced_settings_sub">Extra analoge afstemming voor sterkere VHS- en uitzendartefacten</string>
+    <string name="chroma_bleed">Chroma-bloeding</string>
+    <string name="tape_wear">Slijtage van tape</string>
+    <string name="tracking">Volgen</string>
+    <string name="luma_smear">Luma-uitstrijkje</string>
+    <string name="ringing">Bellen</string>
+    <string name="snow">Sneeuw</string>
+    <string name="ntsc_use_field">Gebruik veld</string>
+    <string name="ntsc_filter_type">Filtertype</string>
+    <string name="ntsc_input_luma_filter">Invoer lumafilter</string>
+    <string name="ntsc_chroma_lowpass_in">Ingangschroma laagdoorlaat</string>
+    <string name="ntsc_chroma_demodulation">Chroma-demodulatie</string>
+    <string name="ntsc_phase_shift">Faseverschuiving</string>
+    <string name="ntsc_phase_offset">Fase-offset</string>
+    <string name="ntsc_head_switching">Hoofd wisselen</string>
+    <string name="ntsc_head_switching_height">Hoofdschakelhoogte</string>
+    <string name="ntsc_head_switching_offset">Offset kopschakeling</string>
+    <string name="ntsc_head_switching_shift">Hoofdwisseling</string>
+    <string name="ntsc_midline_position">Middenlijn positie</string>
+    <string name="ntsc_midline_jitter">Jitter in de middenlijn</string>
+    <string name="ntsc_tracking_noise_height">Geluidshoogte volgen</string>
+    <string name="ntsc_tracking_wave">Golf volgen</string>
+    <string name="ntsc_tracking_snow">Sneeuw volgen</string>
+    <string name="ntsc_tracking_snow_anisotropy">Sneeuwanisotropie volgen</string>
+    <string name="ntsc_tracking_noise">Volggeluid</string>
+    <string name="ntsc_tracking_noise_intensity">Geluidsintensiteit volgen</string>
+    <string name="ntsc_composite_noise">Samengesteld geluid</string>
+    <string name="ntsc_composite_noise_frequency">Samengestelde geluidsfrequentie</string>
+    <string name="ntsc_composite_noise_intensity">Samengestelde geluidsintensiteit</string>
+    <string name="ntsc_composite_noise_detail">Samengesteld geluidsdetail</string>
+    <string name="ntsc_ringing_frequency">Belfrequentie</string>
+    <string name="ntsc_ringing_power">Bellende kracht</string>
+    <string name="ntsc_luma_noise">Luma-geluid</string>
+    <string name="ntsc_luma_noise_frequency">Luma-ruisfrequentie</string>
+    <string name="ntsc_luma_noise_intensity">Intensiteit van Luma-geluid</string>
+    <string name="ntsc_luma_noise_detail">Detail van Luma-ruis</string>
+    <string name="ntsc_chroma_noise">Chroma-ruis</string>
+    <string name="ntsc_chroma_noise_frequency">Chroma-ruisfrequentie</string>
+    <string name="ntsc_chroma_noise_intensity">Intensiteit van chromaruis</string>
+    <string name="ntsc_chroma_noise_detail">Chromaruisdetail</string>
+    <string name="ntsc_snow_intensity">Sneeuwintensiteit</string>
+    <string name="ntsc_snow_anisotropy">Sneeuwanisotropie</string>
+    <string name="ntsc_chroma_phase_noise">Chromafaseruis</string>
+    <string name="ntsc_chroma_phase_error">Chromafasefout</string>
+    <string name="ntsc_chroma_delay_horizontal">Chromavertraging horizontaal</string>
+    <string name="ntsc_chroma_delay_vertical">Chromavertraging verticaal</string>
+    <string name="ntsc_vhs_tape_speed">VHS-bandsnelheid</string>
+    <string name="ntsc_vhs_chroma_loss">VHS-chromaverlies</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS verscherpt de intensiteit</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS verscherpt frequentie</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS-randgolfintensiteit</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS-randgolfsnelheid</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS-randgolffrequentie</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS-randgolfdetail</string>
+    <string name="ntsc_chroma_lowpass_out">Uitgangschroma laagdoorlaat</string>
+    <string name="ntsc_scale_horizontal">Schaal horizontaal</string>
+    <string name="ntsc_scale_vertical">Schaal verticaal</string>
+    <string name="ntsc_scale_factor_x">Schaalfactor X</string>
+    <string name="ntsc_scale_factor_y">Schaalfactor Y</string>
 </resources>

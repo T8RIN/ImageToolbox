@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">سۈرەت بەك چوڭ، ئالدىن كۆرگىلى بولمايدۇ، لېكىن يەنىلا ساقلاشنى سىناپ باقىمىز</string>
     <string name="pick_image">رەسىمنى تاللاپ باشلاڭ</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">ئالغا ئىلگىرىلەش ئالگورىزىمنىڭ ئورنىغا ئاددىي دەرىجىدىكى چوڭلۇقتىكى ئېنېرگىيە خەرىتىسىنى ئىشلىتىڭ</string>
     <string name="seam_carving_mask_as_removal">نىقابلانغان رايوننى ئېلىۋېتىڭ</string>
     <string name="seam_carving_mask_as_removal_sub">تاملار نىقابلانغان رايوندىن ئۆتىدۇ ، ئۇنى قوغداشنىڭ ئورنىغا تاللانغان رايوننىلا ئېلىۋېتىدۇ</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">ئىلغار NTSC تەڭشىكى</string>
+    <string name="ntsc_advanced_settings_sub">تېخىمۇ كۈچلۈك VHS ۋە تارقىتىش بۇيۇملىرى ئۈچۈن قوشۇمچە ئوخشىتىش تەڭشەش</string>
+    <string name="chroma_bleed">خىرومنىڭ قېنى</string>
+    <string name="tape_wear">لېنتا كىيىش</string>
+    <string name="tracking">ئىز قوغلاش</string>
+    <string name="luma_smear">Luma smear</string>
+    <string name="ringing">قوڭغۇراق</string>
+    <string name="snow">قار</string>
+    <string name="ntsc_use_field">مەيدان ئىشلىتىڭ</string>
+    <string name="ntsc_filter_type">سۈزگۈچ تىپى</string>
+    <string name="ntsc_input_luma_filter">Luma سۈزگۈچ كىرگۈزۈڭ</string>
+    <string name="ntsc_chroma_lowpass_in">خروم تۆۋەن ئېغىزى</string>
+    <string name="ntsc_chroma_demodulation">Chroma demodulation</string>
+    <string name="ntsc_phase_shift">باسقۇچ ئۆزگەرتىش</string>
+    <string name="ntsc_phase_offset">باسقۇچ باسقۇچى</string>
+    <string name="ntsc_head_switching">باش ئالماشتۇرۇش</string>
+    <string name="ntsc_head_switching_height">باش ئالماشتۇرۇش ئېگىزلىكى</string>
+    <string name="ntsc_head_switching_offset">باش ئالماشتۇرۇش</string>
+    <string name="ntsc_head_switching_shift">باش ئالماشتۇرۇش</string>
+    <string name="ntsc_midline_position">ئوتتۇرا سىزىق ئورنى</string>
+    <string name="ntsc_midline_jitter">Mid-line jitter</string>
+    <string name="ntsc_tracking_noise_height">شاۋقۇن ئېگىزلىكىنى ئىز قوغلاش</string>
+    <string name="ntsc_tracking_wave">ئىز قوغلاش دولقۇنى</string>
+    <string name="ntsc_tracking_snow">قارنى ئىز قوغلاش</string>
+    <string name="ntsc_tracking_snow_anisotropy">قار ئانانىزىمنى ئىز قوغلاش</string>
+    <string name="ntsc_tracking_noise">ئىز قوغلاش شاۋقۇنى</string>
+    <string name="ntsc_tracking_noise_intensity">شاۋقۇننىڭ كۈچلۈكلۈكىنى ئىز قوغلاش</string>
+    <string name="ntsc_composite_noise">بىرىكمە شاۋقۇن</string>
+    <string name="ntsc_composite_noise_frequency">بىرىكمە شاۋقۇن چاستوتىسى</string>
+    <string name="ntsc_composite_noise_intensity">بىرىكمە شاۋقۇن</string>
+    <string name="ntsc_composite_noise_detail">بىرىكمە شاۋقۇن تەپسىلاتلىرى</string>
+    <string name="ntsc_ringing_frequency">ئۈزۈك چاستوتىسى</string>
+    <string name="ntsc_ringing_power">قوڭغۇراق كۈچى</string>
+    <string name="ntsc_luma_noise">Luma شاۋقۇنى</string>
+    <string name="ntsc_luma_noise_frequency">Luma شاۋقۇن چاستوتىسى</string>
+    <string name="ntsc_luma_noise_intensity">Luma شاۋقۇنىنىڭ كۈچلۈكلۈكى</string>
+    <string name="ntsc_luma_noise_detail">Luma شاۋقۇن تەپسىلاتلىرى</string>
+    <string name="ntsc_chroma_noise">خىروم شاۋقۇنى</string>
+    <string name="ntsc_chroma_noise_frequency">خىرومنىڭ ئاۋاز چاستوتىسى</string>
+    <string name="ntsc_chroma_noise_intensity">خىرومنىڭ شاۋقۇن ئاۋازى</string>
+    <string name="ntsc_chroma_noise_detail">خىرومنىڭ شاۋقۇن تەپسىلاتلىرى</string>
+    <string name="ntsc_snow_intensity">قارنىڭ كۈچلۈكلۈكى</string>
+    <string name="ntsc_snow_anisotropy">قار ئانسوتروپى</string>
+    <string name="ntsc_chroma_phase_noise">خروم فازا شاۋقۇنى</string>
+    <string name="ntsc_chroma_phase_error">خىروم باسقۇچىدىكى خاتالىق</string>
+    <string name="ntsc_chroma_delay_horizontal">خىروم توغرىسىغا كېچىكىدۇ</string>
+    <string name="ntsc_chroma_delay_vertical">خىروم تىك ھالەتتە</string>
+    <string name="ntsc_vhs_tape_speed">VHS لېنتا سۈرئىتى</string>
+    <string name="ntsc_vhs_chroma_loss">VHS خروم يوقىتىش</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS كۈچلۈكلۈكنى ئۆتكۈرلەشتۈرىدۇ</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS چاستوتىنى ئۆتكۈرلەشتۈرىدۇ</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS قىر دولقۇن كۈچلۈكلىكى</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS قىر دولقۇن تېزلىكى</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS قىر دولقۇن چاستوتىسى</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS قىر دولقۇن تەپسىلاتلىرى</string>
+    <string name="ntsc_chroma_lowpass_out">چىقىرىش خروم تۆۋەن ئېغىزى</string>
+    <string name="ntsc_scale_horizontal">كىچىك گورىزونتال</string>
+    <string name="ntsc_scale_vertical">تارازىسى تىك</string>
+    <string name="ntsc_scale_factor_x">تارازا ئامىلى X.</string>
+    <string name="ntsc_scale_factor_y">تارازا ئامىلى Y.</string>
 </resources>

@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
@@ -2248,4 +2231,65 @@
     <string name="seam_carving_backward_energy_sub">השתמש במפת אנרגיה פשוטה של ​​גודל שיפוע במקום באלגוריתם אנרגיה קדימה</string>
     <string name="seam_carving_mask_as_removal">הסר אזור עם מסכה</string>
     <string name="seam_carving_mask_as_removal_sub">תפרים יעברו באזור המסוכה, ויסירו רק את האזור הנבחר במקום להגן עליו</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">הגדרות NTSC מתקדמות</string>
+    <string name="ntsc_advanced_settings_sub">כוונון אנלוגי נוסף עבור VHS וחפצי שידור חזקים יותר</string>
+    <string name="chroma_bleed">דימום כרומה</string>
+    <string name="tape_wear">בלאי סרט</string>
+    <string name="tracking">מַעֲקָב</string>
+    <string name="luma_smear">מריחת לומה</string>
+    <string name="ringing">צִלצוּל</string>
+    <string name="snow">שֶׁלֶג</string>
+    <string name="ntsc_use_field">השתמש בשדה</string>
+    <string name="ntsc_filter_type">סוג מסנן</string>
+    <string name="ntsc_input_luma_filter">מסנן לומה קלט</string>
+    <string name="ntsc_chroma_lowpass_in">קלט chroma lowpass</string>
+    <string name="ntsc_chroma_demodulation">דמודולציה של כרומה</string>
+    <string name="ntsc_phase_shift">שינוי שלבים</string>
+    <string name="ntsc_phase_offset">קיזוז שלבים</string>
+    <string name="ntsc_head_switching">החלפת ראש</string>
+    <string name="ntsc_head_switching_height">גובה החלפת ראש</string>
+    <string name="ntsc_head_switching_offset">היסט החלפת ראש</string>
+    <string name="ntsc_head_switching_shift">החלפת ראש</string>
+    <string name="ntsc_midline_position">מיקום קו אמצע</string>
+    <string name="ntsc_midline_jitter">ריצוד קו אמצע</string>
+    <string name="ntsc_tracking_noise_height">מעקב אחר גובה הרעש</string>
+    <string name="ntsc_tracking_wave">גל מעקב</string>
+    <string name="ntsc_tracking_snow">מעקב אחר שלג</string>
+    <string name="ntsc_tracking_snow_anisotropy">מעקב אחר אניזוטרופיה של שלג</string>
+    <string name="ntsc_tracking_noise">רעש מעקב</string>
+    <string name="ntsc_tracking_noise_intensity">מעקב אחר עוצמת הרעש</string>
+    <string name="ntsc_composite_noise">רעש מורכב</string>
+    <string name="ntsc_composite_noise_frequency">תדר רעש מורכב</string>
+    <string name="ntsc_composite_noise_intensity">עוצמת רעש מורכב</string>
+    <string name="ntsc_composite_noise_detail">פרט רעש מורכב</string>
+    <string name="ntsc_ringing_frequency">תדירות הצלצול</string>
+    <string name="ntsc_ringing_power">כוח מצלצל</string>
+    <string name="ntsc_luma_noise">רעש לומה</string>
+    <string name="ntsc_luma_noise_frequency">תדר רעש Luma</string>
+    <string name="ntsc_luma_noise_intensity">עוצמת הרעש של Luma</string>
+    <string name="ntsc_luma_noise_detail">פירוט רעש Luma</string>
+    <string name="ntsc_chroma_noise">רעש כרומה</string>
+    <string name="ntsc_chroma_noise_frequency">תדר רעש Chroma</string>
+    <string name="ntsc_chroma_noise_intensity">עוצמת רעש הכרומה</string>
+    <string name="ntsc_chroma_noise_detail">פירוט רעש כרומה</string>
+    <string name="ntsc_snow_intensity">עוצמת שלג</string>
+    <string name="ntsc_snow_anisotropy">אניזוטרופיה של שלג</string>
+    <string name="ntsc_chroma_phase_noise">רעש פאזה Chroma</string>
+    <string name="ntsc_chroma_phase_error">שגיאת שלב Chroma</string>
+    <string name="ntsc_chroma_delay_horizontal">השהיית Chroma אופקית</string>
+    <string name="ntsc_chroma_delay_vertical">השהיית Chroma אנכית</string>
+    <string name="ntsc_vhs_tape_speed">מהירות קלטת VHS</string>
+    <string name="ntsc_vhs_chroma_loss">אובדן כרומה של VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">עוצמת חידוד VHS</string>
+    <string name="ntsc_vhs_sharpen_frequency">תדר חידוד VHS</string>
+    <string name="ntsc_vhs_edge_wave_intensity">עוצמת גל קצה VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">מהירות גלי קצה VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">תדר גלי קצה VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">פירוט גלי קצה של VHS</string>
+    <string name="ntsc_chroma_lowpass_out">פלט chroma lowpass</string>
+    <string name="ntsc_scale_horizontal">קנה מידה אופקי</string>
+    <string name="ntsc_scale_vertical">קנה מידה אנכי</string>
+    <string name="ntsc_scale_factor_x">גורם קנה מידה X</string>
+    <string name="ntsc_scale_factor_y">גורם קנה מידה Y</string>
 </resources>

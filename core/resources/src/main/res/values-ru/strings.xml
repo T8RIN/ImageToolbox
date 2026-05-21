@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
@@ -2248,4 +2231,65 @@
     <string name="favorite_tools_in_grouped_mode_sub">Добавляет избранное в виде вкладки, когда инструменты сгруппированы по типу.</string>
     <string name="horizontal_spacing">Горизонтальный интервал</string>
     <string name="vertical_spacing">Вертикальный интервал</string>
+    <string name="vhs_ntsc">Видеокассета NTSC</string>
+    <string name="ntsc_advanced_settings">Расширенные настройки NTSC</string>
+    <string name="ntsc_advanced_settings_sub">Дополнительная аналоговая настройка для более сильного VHS и артефактов вещания</string>
+    <string name="chroma_bleed">Цветность кровотечение</string>
+    <string name="tape_wear">Лента износа</string>
+    <string name="tracking">Отслеживание</string>
+    <string name="luma_smear">мазок Люмы</string>
+    <string name="ringing">Звонок</string>
+    <string name="snow">Снег</string>
+    <string name="ntsc_use_field">Использовать поле</string>
+    <string name="ntsc_filter_type">Тип фильтра</string>
+    <string name="ntsc_input_luma_filter">Входной фильтр яркости</string>
+    <string name="ntsc_chroma_lowpass_in">Входной фильтр нижних частот цветности</string>
+    <string name="ntsc_chroma_demodulation">Демодуляция цветности</string>
+    <string name="ntsc_phase_shift">Фазовый сдвиг</string>
+    <string name="ntsc_phase_offset">Смещение фазы</string>
+    <string name="ntsc_head_switching">Переключение головы</string>
+    <string name="ntsc_head_switching_height">Высота переключения головки</string>
+    <string name="ntsc_head_switching_offset">Смещение переключения головки</string>
+    <string name="ntsc_head_switching_shift">Переключение головы</string>
+    <string name="ntsc_midline_position">Положение средней линии</string>
+    <string name="ntsc_midline_jitter">Джиттер средней линии</string>
+    <string name="ntsc_tracking_noise_height">Отслеживание высоты шума</string>
+    <string name="ntsc_tracking_wave">Отслеживание волны</string>
+    <string name="ntsc_tracking_snow">Отслеживание снега</string>
+    <string name="ntsc_tracking_snow_anisotropy">Отслеживание анизотропии снега</string>
+    <string name="ntsc_tracking_noise">Отслеживание шума</string>
+    <string name="ntsc_tracking_noise_intensity">Отслеживание интенсивности шума</string>
+    <string name="ntsc_composite_noise">Композитный шум</string>
+    <string name="ntsc_composite_noise_frequency">Частота составного шума</string>
+    <string name="ntsc_composite_noise_intensity">Интенсивность совокупного шума</string>
+    <string name="ntsc_composite_noise_detail">Детализация составного шума</string>
+    <string name="ntsc_ringing_frequency">Частота звонка</string>
+    <string name="ntsc_ringing_power">Мощность звонка</string>
+    <string name="ntsc_luma_noise">Яркостный шум</string>
+    <string name="ntsc_luma_noise_frequency">Частота шума яркости</string>
+    <string name="ntsc_luma_noise_intensity">Интенсивность шума яркости</string>
+    <string name="ntsc_luma_noise_detail">Детализация шума яркости</string>
+    <string name="ntsc_chroma_noise">Цветовой шум</string>
+    <string name="ntsc_chroma_noise_frequency">Частота цветного шума</string>
+    <string name="ntsc_chroma_noise_intensity">Интенсивность цветного шума</string>
+    <string name="ntsc_chroma_noise_detail">Детализация цветного шума</string>
+    <string name="ntsc_snow_intensity">Интенсивность снега</string>
+    <string name="ntsc_snow_anisotropy">Анизотропия снега</string>
+    <string name="ntsc_chroma_phase_noise">Фазовый шум цветности</string>
+    <string name="ntsc_chroma_phase_error">Ошибка фазы цветности</string>
+    <string name="ntsc_chroma_delay_horizontal">Задержка цветности по горизонтали</string>
+    <string name="ntsc_chroma_delay_vertical">Задержка цветности по вертикали</string>
+    <string name="ntsc_vhs_tape_speed">Скорость ленты VHS</string>
+    <string name="ntsc_vhs_chroma_loss">Потеря цветности VHS</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS резкость интенсивности</string>
+    <string name="ntsc_vhs_sharpen_frequency">Частота резкости VHS</string>
+    <string name="ntsc_vhs_edge_wave_intensity">Интенсивность краевой волны VHS</string>
+    <string name="ntsc_vhs_edge_wave_speed">Скорость краевой волны VHS</string>
+    <string name="ntsc_vhs_edge_wave_frequency">Частота краевой волны VHS</string>
+    <string name="ntsc_vhs_edge_wave_detail">Детали краевой волны VHS</string>
+    <string name="ntsc_chroma_lowpass_out">Выходная цветность нижних частот</string>
+    <string name="ntsc_scale_horizontal">Масштабировать по горизонтали</string>
+    <string name="ntsc_scale_vertical">Масштабировать по вертикали</string>
+    <string name="ntsc_scale_factor_x">Масштабный коэффициент X</string>
+    <string name="ntsc_scale_factor_y">Масштабный коэффициент Y</string>
 </resources>

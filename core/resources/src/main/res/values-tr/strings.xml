@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
@@ -2246,4 +2229,65 @@
     <string name="seam_carving_backward_energy_sub">İleri enerji algoritması yerine basit gradyan büyüklüğü enerji haritasını kullanın</string>
     <string name="seam_carving_mask_as_removal">Maskelenmiş alanı kaldır</string>
     <string name="seam_carving_mask_as_removal_sub">Dikişler maskelenen bölgeden geçecek ve seçilen alanı korumak yerine yalnızca kaldırılacaktır</string>
+    <string name="vhs_ntsc">VHS NTSC</string>
+    <string name="ntsc_advanced_settings">Gelişmiş NTSC ayarları</string>
+    <string name="ntsc_advanced_settings_sub">Daha güçlü VHS ve yayın eserleri için ekstra analog ayarlama</string>
+    <string name="chroma_bleed">Renk kanaması</string>
+    <string name="tape_wear">Bant aşınması</string>
+    <string name="tracking">Takip</string>
+    <string name="luma_smear">Luma yayması</string>
+    <string name="ringing">Zil sesi</string>
+    <string name="snow">Kar</string>
+    <string name="ntsc_use_field">Alanı kullan</string>
+    <string name="ntsc_filter_type">Filtre türü</string>
+    <string name="ntsc_input_luma_filter">Giriş luma filtresi</string>
+    <string name="ntsc_chroma_lowpass_in">Giriş kroma düşük geçişi</string>
+    <string name="ntsc_chroma_demodulation">Renk demodülasyonu</string>
+    <string name="ntsc_phase_shift">Faz kayması</string>
+    <string name="ntsc_phase_offset">Faz ofseti</string>
+    <string name="ntsc_head_switching">Kafa değiştirme</string>
+    <string name="ntsc_head_switching_height">Kafa değiştirme yüksekliği</string>
+    <string name="ntsc_head_switching_offset">Kafa değiştirme ofseti</string>
+    <string name="ntsc_head_switching_shift">Kafa değiştirme değişimi</string>
+    <string name="ntsc_midline_position">Orta hat konumu</string>
+    <string name="ntsc_midline_jitter">Orta hat titreşimi</string>
+    <string name="ntsc_tracking_noise_height">Gürültü yüksekliğini izleme</string>
+    <string name="ntsc_tracking_wave">İzleme dalgası</string>
+    <string name="ntsc_tracking_snow">Kar takibi</string>
+    <string name="ntsc_tracking_snow_anisotropy">Kar anizotropisinin izlenmesi</string>
+    <string name="ntsc_tracking_noise">İzleme gürültüsü</string>
+    <string name="ntsc_tracking_noise_intensity">Gürültü yoğunluğunun izlenmesi</string>
+    <string name="ntsc_composite_noise">Bileşik gürültü</string>
+    <string name="ntsc_composite_noise_frequency">Bileşik gürültü frekansı</string>
+    <string name="ntsc_composite_noise_intensity">Bileşik gürültü yoğunluğu</string>
+    <string name="ntsc_composite_noise_detail">Bileşik gürültü detayı</string>
+    <string name="ntsc_ringing_frequency">Zil frekansı</string>
+    <string name="ntsc_ringing_power">Zil gücü</string>
+    <string name="ntsc_luma_noise">Luma gürültüsü</string>
+    <string name="ntsc_luma_noise_frequency">Luma gürültü frekansı</string>
+    <string name="ntsc_luma_noise_intensity">Luma gürültü yoğunluğu</string>
+    <string name="ntsc_luma_noise_detail">Luma gürültü detayı</string>
+    <string name="ntsc_chroma_noise">Renk gürültüsü</string>
+    <string name="ntsc_chroma_noise_frequency">Kroma gürültü frekansı</string>
+    <string name="ntsc_chroma_noise_intensity">Kroma gürültü yoğunluğu</string>
+    <string name="ntsc_chroma_noise_detail">Renk gürültüsü detayı</string>
+    <string name="ntsc_snow_intensity">Kar yoğunluğu</string>
+    <string name="ntsc_snow_anisotropy">Kar anizotropisi</string>
+    <string name="ntsc_chroma_phase_noise">Renk fazı gürültüsü</string>
+    <string name="ntsc_chroma_phase_error">Renk fazı hatası</string>
+    <string name="ntsc_chroma_delay_horizontal">Renk gecikmesi yatay</string>
+    <string name="ntsc_chroma_delay_vertical">Kroma gecikmesi dikey</string>
+    <string name="ntsc_vhs_tape_speed">VHS bant hızı</string>
+    <string name="ntsc_vhs_chroma_loss">VHS kroma kaybı</string>
+    <string name="ntsc_vhs_sharpen_intensity">VHS yoğunluğu keskinleştirir</string>
+    <string name="ntsc_vhs_sharpen_frequency">VHS frekansı keskinleştirir</string>
+    <string name="ntsc_vhs_edge_wave_intensity">VHS kenar dalga yoğunluğu</string>
+    <string name="ntsc_vhs_edge_wave_speed">VHS kenar dalga hızı</string>
+    <string name="ntsc_vhs_edge_wave_frequency">VHS kenar dalga frekansı</string>
+    <string name="ntsc_vhs_edge_wave_detail">VHS kenar dalgası detayı</string>
+    <string name="ntsc_chroma_lowpass_out">Çıkış kroma düşük geçişi</string>
+    <string name="ntsc_scale_horizontal">Yatay ölçeklendir</string>
+    <string name="ntsc_scale_vertical">Dikey ölçeklendir</string>
+    <string name="ntsc_scale_factor_x">Ölçek faktörü X</string>
+    <string name="ntsc_scale_factor_y">Ölçek faktörü Y</string>
 </resources>
