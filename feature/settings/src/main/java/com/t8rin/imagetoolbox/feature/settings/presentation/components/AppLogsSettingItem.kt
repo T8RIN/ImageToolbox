@@ -19,10 +19,8 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,11 +35,8 @@ fun AppLogsSettingItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ShapeDefaults.center,
-    color: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     PreferenceItemOverload(
-        contentColor = contentColor,
         shape = shape,
         onClick = onClick,
         startIcon = {
@@ -52,7 +47,6 @@ fun AppLogsSettingItem(
         },
         title = stringResource(R.string.app_logs),
         subtitle = stringResource(R.string.app_logs_sub),
-        containerColor = color,
         modifier = modifier
     )
 }
