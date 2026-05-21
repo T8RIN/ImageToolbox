@@ -33,6 +33,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.ContentScale
@@ -135,7 +136,6 @@ internal fun FilterPreviewPicture(
                 )
 
                 val arrowWidth = size.width * 0.3f
-                val arrowHeight = size.height * 0.35f
                 val arrowBorderWidth = strokeWidth * 1.5f
 
                 withTransform(
@@ -145,30 +145,20 @@ internal fun FilterPreviewPicture(
                             top = size.height / 2f
                         )
                         scale(
-                            scaleX = arrowWidth + arrowBorderWidth,
-                            scaleY = arrowHeight + arrowBorderWidth,
+                            scaleX = arrowWidth,
+                            scaleY = arrowWidth,
                             pivot = Offset.Zero
                         )
                     }
                 ) {
                     drawPath(
                         path = PlayArrowPath,
-                        color = black
+                        color = black,
+                        style = Stroke(
+                            width = arrowBorderWidth / arrowWidth,
+                            join = StrokeJoin.Round
+                        )
                     )
-                }
-                withTransform(
-                    transformBlock = {
-                        translate(
-                            left = size.width / 2f,
-                            top = size.height / 2f
-                        )
-                        scale(
-                            scaleX = arrowWidth,
-                            scaleY = arrowHeight,
-                            pivot = Offset.Zero
-                        )
-                    }
-                ) {
                     drawPath(
                         path = PlayArrowPath,
                         color = white
@@ -180,17 +170,19 @@ internal fun FilterPreviewPicture(
 }
 
 private val PlayArrowPath: Path by lazy(LazyThreadSafetyMode.NONE) {
+    fun y(value: Float) = value * 1.1666666f
+
     Path().apply {
-        moveTo(-0.32f, 0.47f)
-        lineTo(0.45f, 0.08f)
-        quadraticTo(0.5f, 0.05f, 0.5f, 0f)
-        quadraticTo(0.5f, -0.05f, 0.45f, -0.08f)
-        lineTo(-0.32f, -0.47f)
-        quadraticTo(-0.38f, -0.5f, -0.44f, -0.47f)
-        quadraticTo(-0.5f, -0.45f, -0.5f, -0.39f)
-        lineTo(-0.5f, 0.39f)
-        quadraticTo(-0.5f, 0.45f, -0.44f, 0.47f)
-        quadraticTo(-0.38f, 0.5f, -0.32f, 0.47f)
+        moveTo(-0.32f, y(0.47f))
+        lineTo(0.45f, y(0.08f))
+        quadraticTo(0.5f, y(0.05f), 0.5f, y(0f))
+        quadraticTo(0.5f, y(-0.05f), 0.45f, y(-0.08f))
+        lineTo(-0.32f, y(-0.47f))
+        quadraticTo(-0.38f, y(-0.5f), -0.44f, y(-0.47f))
+        quadraticTo(-0.5f, y(-0.45f), -0.5f, y(-0.39f))
+        lineTo(-0.5f, y(0.39f))
+        quadraticTo(-0.5f, y(0.45f), -0.44f, y(0.47f))
+        quadraticTo(-0.38f, y(0.5f), -0.32f, y(0.47f))
         close()
     }
 }
