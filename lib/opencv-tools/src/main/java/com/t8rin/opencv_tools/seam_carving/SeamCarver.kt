@@ -135,16 +135,6 @@ object SeamCarver : OpenCV() {
             }
         }
 
-        if (targetW > current.cols() || targetH > current.rows()) {
-            return resizeWithAspectRetargeting(
-                src = current,
-                targetWidth = targetW,
-                targetHeight = targetH,
-                mask = currentMask,
-                useBackwardEnergy = useBackwardEnergy
-            )
-        }
-
         resizeWidthWithSeams(
             src = current,
             targetWidth = targetW,
@@ -174,110 +164,12 @@ object SeamCarver : OpenCV() {
             current = it.image
             currentMask = it.mask
         }
+
         transposed = transposeMat(current)
         current.release()
         currentMask?.release()
 
         return transposed
-    }
-
-    private fun resizeWithAspectRetargeting(
-        src: Mat,
-        targetWidth: Int,
-        targetHeight: Int,
-        mask: Mat?,
-        useBackwardEnergy: Boolean
-    ): Mat {
-        var current = src
-        var currentMask = mask
-        val intermediateSize = chooseAspectRetargetSize(
-            src = current,
-            targetWidth = targetWidth,
-            targetHeight = targetHeight,
-            mask = currentMask
-        )
-
-        resizeWidthWithSeams(
-            src = current,
-            targetWidth = intermediateSize.width,
-            mask = currentMask,
-            useBackwardEnergy = useBackwardEnergy
-        ).let {
-            current = it.image
-            currentMask = it.mask
-        }
-
-        var transposed = transposeMat(current)
-        current.release()
-        current = transposed
-
-        currentMask = currentMask?.let {
-            val transposedMask = transposeMat(it)
-            it.release()
-            transposedMask
-        }
-
-        resizeWidthWithSeams(
-            src = current,
-            targetWidth = intermediateSize.height,
-            mask = currentMask,
-            useBackwardEnergy = useBackwardEnergy
-        ).let {
-            current = it.image
-            currentMask = it.mask
-        }
-
-        transposed = transposeMat(current)
-        current.release()
-        currentMask?.release()
-
-        if (transposed.cols() == targetWidth && transposed.rows() == targetHeight) {
-            return transposed
-        }
-
-        val scaled = Mat()
-        Imgproc.resize(
-            transposed,
-            scaled,
-            Size(targetWidth.toDouble(), targetHeight.toDouble()),
-            0.0,
-            0.0,
-            Imgproc.INTER_CUBIC
-        )
-        transposed.release()
-
-        return scaled
-    }
-
-    private fun chooseAspectRetargetSize(
-        src: Mat,
-        targetWidth: Int,
-        targetHeight: Int,
-        mask: Mat?
-    ): RetargetSize {
-        val targetAspectRatio = targetWidth.toDouble() / targetHeight
-        val widthForCurrentHeight = (src.rows() * targetAspectRatio)
-            .roundToInt()
-            .coerceAtLeast(1)
-        val heightForCurrentWidth = (src.cols() / targetAspectRatio)
-            .roundToInt()
-            .coerceAtLeast(1)
-        val maskBounds = mask?.let(::findMaskBounds)
-        val candidates = listOf(
-            RetargetSize(
-                width = widthForCurrentHeight,
-                height = src.rows()
-            ),
-            RetargetSize(
-                width = src.cols(),
-                height = heightForCurrentWidth
-            )
-        )
-
-        return candidates
-            .filter { it.canKeepMask(src, maskBounds) }
-            .minByOrNull { it.scoreAgainst(src) }
-            ?: candidates.minBy { it.scoreAgainst(src) }
     }
 
     private fun resizeWidthWithSeams(
@@ -518,16 +410,24 @@ object SeamCarver : OpenCV() {
 
         return if (useBackwardEnergy) {
             val energy = computeBackwardEnergy(src)
-            protectionMask?.let { mask ->
-                if (useMaskAsRemoval) {
-                    applyRemovalMaskEnergy(energy, mask)
-                } else {
-                    addProtectionMaskEnergy(energy, mask)
+
+            val seam = if (useMaskAsRemoval) {
+                protectionMask?.let { applyRemovalMaskEnergy(energy, it) }
+                findLowestEnergyVerticalSeam(energy)
+            } else {
+                protectionMask?.let {
+                    findLowestEnergyVerticalSeamAvoidingMask(
+                        energy = energy,
+                        protectionMask = it
+                    )
+                } ?: run {
+                    protectionMask?.let { addProtectionMaskEnergy(energy, it) }
+                    findLowestEnergyVerticalSeam(energy)
                 }
             }
-            findLowestEnergyVerticalSeam(energy).also {
-                energy.release()
-            }
+
+            energy.release()
+            seam
         } else {
             findForwardVerticalSeam(
                 src = src,
@@ -535,6 +435,92 @@ object SeamCarver : OpenCV() {
                 useMaskAsRemoval = useMaskAsRemoval
             )
         }
+    }
+
+    private fun findLowestEnergyVerticalSeamAvoidingMask(
+        energy: Mat,
+        protectionMask: Mat
+    ): IntArray? {
+        val rows = energy.rows()
+        val cols = energy.cols()
+        val protectedPixels = protectionMask.toBinaryMaskPixels()
+
+        fun isProtected(row: Int, col: Int): Boolean {
+            return (protectedPixels[row * cols + col].toInt() and 0xFF) > 0
+        }
+
+        var previous = DoubleArray(cols)
+        var current = DoubleArray(cols)
+        val rowEnergy = DoubleArray(cols)
+        val backtrack = Array(rows) { IntArray(cols) }
+
+        energy.get(0, 0, rowEnergy)
+        for (col in 0 until cols) {
+            previous[col] = if (isProtected(0, col)) {
+                Double.POSITIVE_INFINITY
+            } else {
+                rowEnergy[col]
+            }
+        }
+
+        for (row in 1 until rows) {
+            energy.get(row, 0, rowEnergy)
+
+            for (col in 0 until cols) {
+                if (isProtected(row, col)) {
+                    current[col] = Double.POSITIVE_INFINITY
+                    backtrack[row][col] = col
+                    continue
+                }
+
+                var minPrev = previous[col]
+                var bestColumn = col
+
+                if (col > 0 && previous[col - 1] < minPrev) {
+                    minPrev = previous[col - 1]
+                    bestColumn = col - 1
+                }
+
+                if (col < cols - 1 && previous[col + 1] < minPrev) {
+                    minPrev = previous[col + 1]
+                    bestColumn = col + 1
+                }
+
+                current[col] = if (minPrev.isInfinite()) {
+                    Double.POSITIVE_INFINITY
+                } else {
+                    rowEnergy[col] + minPrev
+                }
+
+                backtrack[row][col] = bestColumn
+            }
+
+            val swap = previous
+            previous = current
+            current = swap
+        }
+
+        var minCol = -1
+        var minVal = Double.POSITIVE_INFINITY
+
+        for (col in 0 until cols) {
+            if (previous[col] < minVal) {
+                minVal = previous[col]
+                minCol = col
+            }
+        }
+
+        if (minCol < 0 || minVal.isInfinite()) return null
+
+        val seam = IntArray(rows)
+        var column = minCol
+
+        for (row in rows - 1 downTo 0) {
+            seam[row] = column
+            if (row > 0) column = backtrack[row][column]
+        }
+
+        return seam
     }
 
     /**
@@ -572,6 +558,31 @@ object SeamCarver : OpenCV() {
         protectionMask: Mat?,
         useMaskAsRemoval: Boolean,
     ): IntArray {
+        val hardProtectedSeam = if (!useMaskAsRemoval && protectionMask != null) {
+            findForwardVerticalSeamInternal(
+                src = src,
+                protectionMask = protectionMask,
+                useMaskAsRemoval = false,
+                forbidProtectionMask = true
+            )
+        } else {
+            null
+        }
+
+        return hardProtectedSeam ?: findForwardVerticalSeamInternal(
+            src = src,
+            protectionMask = protectionMask,
+            useMaskAsRemoval = useMaskAsRemoval,
+            forbidProtectionMask = false
+        ) ?: IntArray(src.rows())
+    }
+
+    private fun findForwardVerticalSeamInternal(
+        src: Mat,
+        protectionMask: Mat?,
+        useMaskAsRemoval: Boolean,
+        forbidProtectionMask: Boolean,
+    ): IntArray? {
         val gray = src.toGray()
         gray.convertTo(gray, CvType.CV_64F)
 
@@ -582,11 +593,11 @@ object SeamCarver : OpenCV() {
         gray.release()
 
         val maskEnergy = protectionMask?.createMaskEnergy(useMaskAsRemoval)
-        var previous = DoubleArray(cols) { col ->
-            maskEnergy?.get(col) ?: 0.0
+        val protectedPixels = if (forbidProtectionMask) {
+            protectionMask?.toBinaryMaskPixels()
+        } else {
+            null
         }
-        var current = DoubleArray(cols)
-        val backtrack = Array(rows) { IntArray(cols) }
 
         fun pixelAt(row: Int, col: Int): Double {
             val safeRow = row.coerceIn(0, rows - 1)
@@ -594,8 +605,31 @@ object SeamCarver : OpenCV() {
             return pixels[safeRow * cols + safeCol]
         }
 
+        fun isProtected(row: Int, col: Int): Boolean {
+            return protectedPixels?.let {
+                (it[row * cols + col].toInt() and 0xFF) > 0
+            } ?: false
+        }
+
+        var previous = DoubleArray(cols) { col ->
+            if (isProtected(0, col)) {
+                Double.POSITIVE_INFINITY
+            } else {
+                maskEnergy?.get(col) ?: 0.0
+            }
+        }
+
+        var current = DoubleArray(cols)
+        val backtrack = Array(rows) { IntArray(cols) }
+
         for (row in 1 until rows) {
             for (col in 0 until cols) {
+                if (isProtected(row, col)) {
+                    current[col] = Double.POSITIVE_INFINITY
+                    backtrack[row][col] = col
+                    continue
+                }
+
                 val up = pixelAt(row - 1, col)
                 val left = pixelAt(row, col - 1)
                 val right = pixelAt(row, col + 1)
@@ -623,31 +657,57 @@ object SeamCarver : OpenCV() {
                     }
                 }
 
-                current[col] = best + (maskEnergy?.get(row * cols + col) ?: 0.0)
+                current[col] = if (best.isInfinite()) {
+                    Double.POSITIVE_INFINITY
+                } else {
+                    best + (maskEnergy?.get(row * cols + col) ?: 0.0)
+                }
+
                 backtrack[row][col] = bestColumn
             }
+
             val swap = previous
             previous = current
             current = swap
         }
 
-        var minCol = 0
-        var minVal = previous[0]
-        for (col in 1 until cols) {
+        var minCol = -1
+        var minVal = Double.POSITIVE_INFINITY
+
+        for (col in 0 until cols) {
             if (previous[col] < minVal) {
                 minVal = previous[col]
                 minCol = col
             }
         }
 
+        if (minCol < 0 || minVal.isInfinite()) return null
+
         val seam = IntArray(rows)
         var column = minCol
+
         for (row in rows - 1 downTo 0) {
             seam[row] = column
             if (row > 0) column = backtrack[row][column]
         }
 
         return seam
+    }
+
+    private fun Mat.toBinaryMaskPixels(): ByteArray {
+        val binaryMask = toBinaryMask(this)
+        val rows = binaryMask.rows()
+        val cols = binaryMask.cols()
+        val pixels = ByteArray(rows * cols)
+        val rowPixels = ByteArray(cols)
+
+        for (row in 0 until rows) {
+            binaryMask.get(row, 0, rowPixels)
+            System.arraycopy(rowPixels, 0, pixels, row * cols, cols)
+        }
+
+        binaryMask.release()
+        return pixels
     }
 
     private fun addProtectionMaskEnergy(energy: Mat, protectionMask: Mat) {
@@ -927,27 +987,4 @@ object SeamCarver : OpenCV() {
         val height: Int
     )
 
-    private data class RetargetSize(
-        val width: Int,
-        val height: Int
-    ) {
-        fun scoreAgainst(src: Mat): Double {
-            val removed = (src.cols() - width).coerceAtLeast(0) +
-                    (src.rows() - height).coerceAtLeast(0)
-            val inserted = (width - src.cols()).coerceAtLeast(0) +
-                    (height - src.rows()).coerceAtLeast(0)
-
-            return removed + inserted * 2.0
-        }
-
-        fun canKeepMask(src: Mat, maskBounds: MaskBounds?): Boolean {
-            if (maskBounds == null) return true
-
-            val minProtectedWidth = (maskBounds.width * 1.1).roundToInt().coerceAtLeast(1)
-            val minProtectedHeight = (maskBounds.height * 1.1).roundToInt().coerceAtLeast(1)
-
-            return (width >= src.cols() || width >= minProtectedWidth) &&
-                    (height >= src.rows() || height >= minProtectedHeight)
-        }
-    }
 }
