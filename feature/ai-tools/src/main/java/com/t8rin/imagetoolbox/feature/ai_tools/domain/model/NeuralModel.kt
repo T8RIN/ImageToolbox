@@ -34,7 +34,10 @@ data class NeuralModel(
 ) {
     val supportsStrength = name.contains("fbcnn_", true)
     val isImported = downloadLink == "imported"
-    val isNonChunkable = name.contains("ddcolor") || type == Type.REMOVE_BG
+
+    val isWatermarkRemover = name == WATERMARK_REMOVER_MODEL_NAME
+
+    val isNonChunkable = name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 
@@ -73,6 +76,8 @@ data class NeuralModel(
     }
 
     companion object {
+        private const val WATERMARK_REMOVER_MODEL_NAME = "watermark_mit_b5_sigmoid.onnx"
+
         val entries: List<NeuralModel> by lazy {
             listOf(
                 NeuralModel(
@@ -803,6 +808,15 @@ data class NeuralModel(
                     downloadSize = 178647984,
                     speed = Speed.Normal(0.573f),
                     checksum = "4fcc3f7f7af1d16565dd7ec767e6e2500565ed6ba76c5c30b9934116ca32153e"
+                ),
+                NeuralModel(
+                    downloadLink = res(WATERMARK_REMOVER_MODEL_NAME),
+                    title = "Watermark Remover",
+                    description = R.string.model_watermark_remover,
+                    type = Type.ARTIFACTS,
+                    downloadSize = 340_590_653,
+                    speed = Speed.Normal(8.324f),
+                    checksum = ""
                 ),
                 NeuralModel(
                     downloadLink = res("upscalers/1x-Fatality-DeBlur.onnx"),

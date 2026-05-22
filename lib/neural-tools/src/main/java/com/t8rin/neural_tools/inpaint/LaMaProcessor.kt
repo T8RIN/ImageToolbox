@@ -113,7 +113,7 @@ object LaMaProcessor : NeuralTool() {
                             trySend(
                                 DownloadProgress(
                                     currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
-                                    currentTotalSize = downloaded
+                                    currentTotalSize = total
                                 )
                             )
                         }

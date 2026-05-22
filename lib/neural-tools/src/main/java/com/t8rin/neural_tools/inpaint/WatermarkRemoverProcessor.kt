@@ -49,25 +49,27 @@ import java.nio.FloatBuffer
 
 object WatermarkRemoverProcessor : NeuralTool() {
 
+    const val WATERMARK_MODEL_NAME = "watermark_mit_b5_sigmoid.onnx"
+
     private const val TAG = "WatermarkRemoverProcessor"
 
     private const val TRAINED_SIZE = 512
 
     private const val THRESHOLD = 0.18f
 
-    private const val MODEL_DOWNLOAD_LINK =
-        "https://huggingface.co/T8RIN/imagetoolbox-models/resolve/main/watermark_mit_b5_sigmoid.onnx?download=true"
+    private val MODEL_DOWNLOAD_LINK
+        get() = baseUrl.replace(
+            oldValue = "*",
+            newValue = WATERMARK_MODEL_NAME
+        )
 
     private val directory: File
         get() = File(context.filesDir, "onnx").apply {
             mkdirs()
         }
 
-    private val modelFile: File
-        get() = File(
-            directory,
-            "watermark_mit_b5_sigmoid.onnx"
-        )
+    val modelFile: File
+        get() = File(directory, WATERMARK_MODEL_NAME)
 
     private var sessionHolder: OrtSession? = null
 
@@ -154,16 +156,15 @@ object WatermarkRemoverProcessor : NeuralTool() {
                                     } else {
                                         0f
                                     },
-                                    currentTotalSize = downloaded
+                                    currentTotalSize = total
                                 )
                             )
                         }
                     }
 
                     tmp.renameTo(modelFile)
-                    _isDownloaded.update { true }
+                    _isDownloaded.update { modelFile.exists() }
 
-                    close()
                     close()
                 } catch (e: Throwable) {
                     tmp.delete()
@@ -174,10 +175,13 @@ object WatermarkRemoverProcessor : NeuralTool() {
     }.flowOn(Dispatchers.IO)
 
     fun removeWatermark(
-        image: Bitmap
+        image: Bitmap,
+        onMaskFound: () -> Unit = {}
     ): Bitmap? {
         val mask = findWatermarkMask(image = image)
             ?: return null
+
+        onMaskFound()
 
         return LaMaProcessor.inpaint(
             image = image,
@@ -321,6 +325,12 @@ object WatermarkRemoverProcessor : NeuralTool() {
             height,
             Bitmap.Config.ARGB_8888
         )
+    }
+
+    fun deleteDownloadedModels() {
+        modelFile.delete()
+        close()
+        _isDownloaded.update { false }
     }
 
     fun close() {
