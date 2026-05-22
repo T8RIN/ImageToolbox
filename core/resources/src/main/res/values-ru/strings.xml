@@ -2292,5 +2292,5 @@
     <string name="ntsc_scale_vertical">Масштабировать по вертикали</string>
     <string name="ntsc_scale_factor_x">Масштабный коэффициент X</string>
     <string name="ntsc_scale_factor_y">Масштабный коэффициент Y</string>
-    <string name="model_watermark_remover">Обнаруживает распространенные водяные знаки изображений и закрашивает их с помощью LaMa. Автоматически загружает обнаружение и раскрашивание моделей.</string>
+    <string name="model_watermark_remover">Обнаруживает распространенные водяные знаки изображений и закрашивает их с помощью LaMa. Автоматически загружает модели обнаружения и удаления</string>
 </resources>

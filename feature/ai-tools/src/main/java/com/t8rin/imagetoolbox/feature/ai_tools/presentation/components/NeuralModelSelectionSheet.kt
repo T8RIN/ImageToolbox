@@ -21,12 +21,12 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FilterAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
@@ -141,18 +142,20 @@ internal fun NeuralModelSelectionSheet(
                 keywordFilter = keywordFilter
             ).value
 
-            NeuralModelsColumn(
-                selectedModel = selectedModel,
-                downloadedModels = filteredDownloadedModels,
-                notDownloadedModels = filteredNotDownloadedModels,
-                onSelectModel = onSelectModel,
-                onDownloadModel = onDownloadModel,
-                onDeleteModel = onDeleteModel,
-                onImportModel = onImportModel,
-                downloadProgresses = downloadProgresses,
-                occupiedStorageSize = occupiedStorageSize,
-                onCancelDownload = onCancelDownload
-            )
+            key(typeFilters, speedFilters, keywordFilter) {
+                NeuralModelsColumn(
+                    selectedModel = selectedModel,
+                    downloadedModels = filteredDownloadedModels,
+                    notDownloadedModels = filteredNotDownloadedModels,
+                    onSelectModel = onSelectModel,
+                    onDownloadModel = onDownloadModel,
+                    onDeleteModel = onDeleteModel,
+                    onImportModel = onImportModel,
+                    downloadProgresses = downloadProgresses,
+                    occupiedStorageSize = occupiedStorageSize,
+                    onCancelDownload = onCancelDownload
+                )
+            }
         }
     )
 }
