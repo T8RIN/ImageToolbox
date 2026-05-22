@@ -59,6 +59,9 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.hasSameState
+import com.t8rin.imagetoolbox.core.filters.presentation.model.hasSameValue
+import com.t8rin.imagetoolbox.core.filters.presentation.model.previewKey
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
@@ -70,7 +73,11 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.BasicFilterState
+import com.t8rin.imagetoolbox.feature.filters.presentation.components.BasicPreviewState
+import com.t8rin.imagetoolbox.feature.filters.presentation.components.MaskPreviewState
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.MaskingFilterState
+import com.t8rin.imagetoolbox.feature.filters.presentation.components.MaskingPreviewState
+import com.t8rin.imagetoolbox.feature.filters.presentation.components.PreviewRequest
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.UiFilterMask
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.addEditMaskSheet.AddMaskSheetComponent
 import dagger.assisted.Assisted
@@ -216,6 +223,7 @@ class FiltersComponent @AssistedInject internal constructor(
     val filterType: Screen.Filter.Type? by _filterType
 
     fun setImageFormat(imageFormat: ImageFormat) {
+        if (_imageInfo.value.imageFormat == imageFormat) return
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
         updatePreview()
         registerChanges()
@@ -265,6 +273,7 @@ class FiltersComponent @AssistedInject internal constructor(
     }
 
     fun setKeepExif(boolean: Boolean) {
+        if (_keepExif.value == boolean) return
         _keepExif.value = boolean
         registerChanges()
     }
@@ -346,10 +355,10 @@ class FiltersComponent @AssistedInject internal constructor(
                         imageFormat = req?.imageInfo?.imageFormat ?: ImageFormat.Default
                     )
                 }
-                updatePreview()
                 _basicFilterState.update {
                     it.copy(selectedUri = uri)
                 }
+                updatePreview()
                 _isImageLoading.update { false }
             }
         }.onFailure(onFailure)
@@ -363,13 +372,28 @@ class FiltersComponent @AssistedInject internal constructor(
 
     private var filterJob: Job? by smartJob()
 
+    private var lastPreviewRequest: PreviewRequest? = null
+
     fun <T : Any> updateFilter(
         value: T,
         index: Int
     ) {
         val list = _basicFilterState.value.filters.toMutableList()
         runCatching {
-            list[index] = list[index].copy(value)
+            val current = list[index]
+            val previewRequest = currentPreviewRequest()
+
+            if (current.hasSameValue(value) && previewRequest == lastPreviewRequest) {
+                return@updateFilter
+            }
+
+            val new = current.copy(value)
+
+            if (current.hasSameState(new) && previewRequest == lastPreviewRequest) {
+                return@updateFilter
+            }
+
+            list[index] = new
             _basicFilterState.update {
                 it.copy(filters = list)
             }
@@ -600,6 +624,10 @@ class FiltersComponent @AssistedInject internal constructor(
 
     private fun updatePreview() {
         _bitmap.value?.let { bitmap ->
+            val previewRequest = currentPreviewRequest(bitmap)
+            if (_previewBitmap.value != null && previewRequest == lastPreviewRequest) return
+
+            lastPreviewRequest = previewRequest
             filterJob = componentScope.launch {
                 delay(200L)
                 _isImageLoading.value = true
@@ -934,6 +962,40 @@ class FiltersComponent @AssistedInject internal constructor(
         maskingFilterState.uri != null -> imageInfo.imageFormat
         else -> null
     }
+
+    private fun currentPreviewRequest(): PreviewRequest? =
+        _bitmap.value?.let(::currentPreviewRequest)
+
+    private fun currentPreviewRequest(bitmap: Bitmap): PreviewRequest = PreviewRequest(
+        bitmapId = System.identityHashCode(bitmap),
+        imageInfo = imageInfo.copy(sizeInBytes = 0),
+        filterType = filterType?.let { it::class.simpleName },
+        basicState = (filterType as? Screen.Filter.Type.Basic)?.let {
+            BasicPreviewState(
+                uris = basicFilterState.uris,
+                selectedUri = basicFilterState.selectedUri,
+                filters = basicFilterState.filters.map { filter ->
+                    filter.previewKey()
+                }
+            )
+        },
+        maskingState = (filterType as? Screen.Filter.Type.Masking)?.let {
+            MaskingPreviewState(
+                uri = maskingFilterState.uri,
+                masks = maskingFilterState.masks.map { mask ->
+                    mask.previewKey()
+                }
+            )
+        }
+    )
+
+    private fun UiFilterMask.previewKey(): MaskPreviewState = MaskPreviewState(
+        filters = filters.map { filter ->
+            filter.previewKey()
+        },
+        maskPaints = maskPaints,
+        isInverseFillType = isInverseFillType
+    )
 
     @AssistedFactory
     fun interface Factory {
