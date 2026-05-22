@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">I-scale patayo</string>
     <string name="ntsc_scale_factor_x">Scale factor X</string>
     <string name="ntsc_scale_factor_y">Scale factor Y</string>
+    <string name="model_watermark_remover">Nakikita ang mga karaniwang watermark ng imahe at pinipintura ang mga ito gamit ang LaMa. Awtomatikong nagda-download ng detection at inpainting na mga modelo</string>
 </resources>

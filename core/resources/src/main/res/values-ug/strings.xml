@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">تارازىسى تىك</string>
     <string name="ntsc_scale_factor_x">تارازا ئامىلى X.</string>
     <string name="ntsc_scale_factor_y">تارازا ئامىلى Y.</string>
+    <string name="model_watermark_remover">كۆپ ئۇچرايدىغان رەسىم سۇ بەلگىسىنى بايقايدۇ ۋە ئۇلارنى LaMa بىلەن سىرلايدۇ. بايقاش ۋە سىزىش مودېللىرىنى ئاپتوماتىك چۈشۈرىدۇ</string>
 </resources>

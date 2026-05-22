@@ -2291,4 +2291,5 @@
     <string name="ntsc_scale_vertical">Скала вертикала</string>
     <string name="ntsc_scale_factor_x">Фактор скале Кс</string>
     <string name="ntsc_scale_factor_y">Фактор скале И</string>
+    <string name="model_watermark_remover">Детектује уобичајене водене жигове на слици и осликава их ЛаМа. Аутоматски преузима моделе за откривање и сликање</string>
 </resources>

@@ -2292,4 +2292,5 @@
     <string name="ntsc_scale_vertical">Маштаб вертыкальны</string>
     <string name="ntsc_scale_factor_x">Маштабны каэфіцыент X</string>
     <string name="ntsc_scale_factor_y">Маштабны каэфіцыент Y</string>
+    <string name="model_watermark_remover">Выяўляе агульныя вадзяныя знакі малюнкаў і зафарбоўвае іх з дапамогай LaMa. Аўтаматычна спампоўвае мадэлі выяўлення і замалёўкі</string>
 </resources>

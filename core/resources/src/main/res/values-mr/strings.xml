@@ -2291,4 +2291,5 @@
     <string name="ntsc_scale_vertical">स्केल अनुलंब</string>
     <string name="ntsc_scale_factor_x">स्केल फॅक्टर X</string>
     <string name="ntsc_scale_factor_y">स्केल फॅक्टर Y</string>
+    <string name="model_watermark_remover">सामान्य प्रतिमा वॉटरमार्क शोधते आणि त्यांना LaMa सह रंगवते. डिटेक्शन आणि इनपेंटिंग मॉडेल स्वयंचलितपणे डाउनलोड करते</string>
 </resources>

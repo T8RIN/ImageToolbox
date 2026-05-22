@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">నిలువుగా స్కేల్ చేయండి</string>
     <string name="ntsc_scale_factor_x">స్కేల్ ఫ్యాక్టర్ X</string>
     <string name="ntsc_scale_factor_y">స్కేల్ ఫ్యాక్టర్ Y</string>
+    <string name="model_watermark_remover">సాధారణ చిత్ర వాటర్‌మార్క్‌లను గుర్తించి, వాటిని లామాతో పెయింట్ చేస్తుంది. స్వయంచాలకంగా గుర్తింపు మరియు పెయింటింగ్ నమూనాలను డౌన్‌లోడ్ చేస్తుంది</string>
 </resources>

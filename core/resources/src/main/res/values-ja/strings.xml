@@ -2289,4 +2289,5 @@
     <string name="ntsc_scale_vertical">垂直スケール</string>
     <string name="ntsc_scale_factor_x">スケールファクターX</string>
     <string name="ntsc_scale_factor_y">スケール係数 Y</string>
+    <string name="model_watermark_remover">一般的な画像の透かしを検出し、LaMa で修復します。検出および修復モデルを自動的にダウンロードします</string>
 </resources>

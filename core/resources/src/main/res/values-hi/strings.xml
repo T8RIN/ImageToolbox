@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">ऊर्ध्वाधर स्केल</string>
     <string name="ntsc_scale_factor_x">स्केल फ़ैक्टर X</string>
     <string name="ntsc_scale_factor_y">स्केल फ़ैक्टर Y</string>
+    <string name="model_watermark_remover">सामान्य छवि वॉटरमार्क का पता लगाता है और उन्हें लामा से रंग देता है। स्वचालित रूप से डिटेक्शन और इनपेंटिंग मॉडल डाउनलोड करता है</string>
 </resources>

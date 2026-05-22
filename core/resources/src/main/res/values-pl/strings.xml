@@ -2292,4 +2292,5 @@
     <string name="ntsc_scale_vertical">Skala pionowa</string>
     <string name="ntsc_scale_factor_x">Współczynnik skali X</string>
     <string name="ntsc_scale_factor_y">Współczynnik skali Y</string>
+    <string name="model_watermark_remover">Wykrywa popularne znaki wodne w obrazach i maluje je za pomocą LaMa. Automatyczne pobieranie modeli wykrywania i malowania</string>
 </resources>

@@ -2291,4 +2291,5 @@
     <string name="ntsc_scale_vertical">Scară verticală</string>
     <string name="ntsc_scale_factor_x">Factorul de scară X</string>
     <string name="ntsc_scale_factor_y">Factorul de scară Y</string>
+    <string name="model_watermark_remover">Detectează filigranele comune ale imaginii și le pictează cu LaMa. Descărcă automat modelele de detectare și de inpainting</string>
 </resources>

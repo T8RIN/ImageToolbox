@@ -2289,4 +2289,5 @@
     <string name="ntsc_scale_vertical">มาตราส่วนแนวตั้ง</string>
     <string name="ntsc_scale_factor_x">สเกลแฟคเตอร์ X</string>
     <string name="ntsc_scale_factor_y">สเกลแฟคเตอร์ Y</string>
+    <string name="model_watermark_remover">ตรวจจับลายน้ำทั่วไปของภาพและระบายสีด้วย LaMa ดาวน์โหลดโมเดลการตรวจจับและลงสีโดยอัตโนมัติ</string>
 </resources>

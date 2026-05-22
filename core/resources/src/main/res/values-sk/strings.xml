@@ -2292,4 +2292,5 @@
     <string name="ntsc_scale_vertical">Vertikálna mierka</string>
     <string name="ntsc_scale_factor_x">Mierkový faktor X</string>
     <string name="ntsc_scale_factor_y">Mierkový faktor Y</string>
+    <string name="model_watermark_remover">Detekuje bežné vodoznaky obrázkov a vyfarbuje ich pomocou LaMa. Automaticky stiahne modely detekcie a maľovania</string>
 </resources>

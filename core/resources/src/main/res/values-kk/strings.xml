@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">Масштаб тік</string>
     <string name="ntsc_scale_factor_x">X шкала коэффициенті</string>
     <string name="ntsc_scale_factor_y">Масштаб коэффициенті Y</string>
+    <string name="model_watermark_remover">Кескіннің жалпы су белгілерін анықтайды және оларды LaMa көмегімен бояйды. Анықтау және бояу үлгілерін автоматты түрде жүктеп алады</string>
 </resources>

@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">স্কেল উল্লম্ব</string>
     <string name="ntsc_scale_factor_x">স্কেল ফ্যাক্টর এক্স</string>
     <string name="ntsc_scale_factor_y">স্কেল ফ্যাক্টর Y</string>
+    <string name="model_watermark_remover">সাধারণ ইমেজ ওয়াটারমার্ক সনাক্ত করে এবং LaMa দিয়ে রং করে। স্বয়ংক্রিয়ভাবে সনাক্তকরণ এবং ইনপেইন্টিং মডেল ডাউনলোড করে</string>
 </resources>

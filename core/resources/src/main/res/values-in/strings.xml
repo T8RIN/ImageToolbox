@@ -2289,4 +2289,5 @@
     <string name="ntsc_scale_vertical">Skala vertikal</string>
     <string name="ntsc_scale_factor_x">Faktor skala X</string>
     <string name="ntsc_scale_factor_y">Faktor skala Y</string>
+    <string name="model_watermark_remover">Mendeteksi tanda air gambar umum dan mengecatnya dengan LaMa. Mengunduh model deteksi dan pengecatan secara otomatis</string>
 </resources>

@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">Scala verticale</string>
     <string name="ntsc_scale_factor_x">Fattore di scala X</string>
     <string name="ntsc_scale_factor_y">Fattore di scala Y</string>
+    <string name="model_watermark_remover">Rileva filigrane di immagini comuni e le colora con LaMa. Scarica automaticamente i modelli di rilevamento e repainting</string>
 </resources>

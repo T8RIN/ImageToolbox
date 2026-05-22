@@ -2289,4 +2289,5 @@
     <string name="ntsc_scale_vertical">수직으로 확장</string>
     <string name="ntsc_scale_factor_x">배율 X</string>
     <string name="ntsc_scale_factor_y">스케일 팩터 Y</string>
+    <string name="model_watermark_remover">일반적인 이미지 워터마크를 감지하고 이를 LaMa로 인페인팅합니다. 감지 및 인페인팅 모델을 자동으로 다운로드합니다.</string>
 </resources>

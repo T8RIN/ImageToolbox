@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">Függőleges lépték</string>
     <string name="ntsc_scale_factor_x">X léptéktényező</string>
     <string name="ntsc_scale_factor_y">Y léptéktényező</string>
+    <string name="model_watermark_remover">Érzékeli a gyakori képi vízjeleket, és LaMa-val befesti őket. Automatikusan letölti az észlelési és festési modelleket</string>
 </resources>

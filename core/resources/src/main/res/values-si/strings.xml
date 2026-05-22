@@ -2291,4 +2291,5 @@
     <string name="ntsc_scale_vertical">පරිමාණය සිරස් අතට</string>
     <string name="ntsc_scale_factor_x">පරිමාණ සාධකය X</string>
     <string name="ntsc_scale_factor_y">පරිමාණ සාධකය Y</string>
+    <string name="model_watermark_remover">පොදු රූප ජල සලකුණු හඳුනාගෙන ඒවා ලාමා සමඟ තීන්ත ආලේප කරයි. හඳුනාගැනීම් සහ පින්තාරු කිරීමේ ආකෘති ස්වයංක්‍රීයව බාගත කරයි</string>
 </resources>

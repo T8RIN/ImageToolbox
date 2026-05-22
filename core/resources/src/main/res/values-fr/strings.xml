@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">Échelle verticale</string>
     <string name="ntsc_scale_factor_x">Facteur d\'échelle X</string>
     <string name="ntsc_scale_factor_y">Facteur d\'échelle Y</string>
+    <string name="model_watermark_remover">Détecte les filigranes d’image courants et les peint avec LaMa. Télécharge automatiquement les modèles de détection et d’inpainting</string>
 </resources>

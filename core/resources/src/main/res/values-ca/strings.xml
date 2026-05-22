@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">Escala vertical</string>
     <string name="ntsc_scale_factor_x">Factor d\'escala X</string>
     <string name="ntsc_scale_factor_y">Factor d\'escala Y</string>
+    <string name="model_watermark_remover">Detecta filigranes d\'imatge habituals i les pinta amb LaMa. Descàrregues de detecció i pintar models automàticament</string>
 </resources>

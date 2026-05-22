@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">செங்குத்து அளவு</string>
     <string name="ntsc_scale_factor_x">அளவு காரணி X</string>
     <string name="ntsc_scale_factor_y">அளவு காரணி ஒய்</string>
+    <string name="model_watermark_remover">பொதுவான பட வாட்டர்மார்க்ஸைக் கண்டறிந்து, அவற்றை லாமாவுடன் பூசுகிறது. கண்டறிதல் மற்றும் வண்ணப்பூச்சு மாதிரிகளை தானாக பதிவிறக்குகிறது</string>
 </resources>

@@ -2289,4 +2289,5 @@
     <string name="ntsc_scale_vertical">Chia tỷ lệ theo chiều dọc</string>
     <string name="ntsc_scale_factor_x">Hệ số tỷ lệ X</string>
     <string name="ntsc_scale_factor_y">Hệ số tỷ lệ Y</string>
+    <string name="model_watermark_remover">Phát hiện các hình mờ hình ảnh phổ biến và khắc chúng bằng LaMa. Tự động tải xuống các mô hình phát hiện và inpainting</string>
 </resources>

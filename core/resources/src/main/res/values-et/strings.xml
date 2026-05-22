@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">Skaala vertikaalne</string>
     <string name="ntsc_scale_factor_x">Skaalategur X</string>
     <string name="ntsc_scale_factor_y">Skaalategur Y</string>
+    <string name="model_watermark_remover">Tuvastab tavalised piltide vesimärgid ja värvib need LaMa abil. Laadib tuvastamis- ja värvimismudelid automaatselt alla</string>
 </resources>

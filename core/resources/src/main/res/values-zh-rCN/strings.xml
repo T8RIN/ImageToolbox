@@ -2289,4 +2289,5 @@
     <string name="ntsc_scale_vertical">垂直缩放</string>
     <string name="ntsc_scale_factor_x">比例因子 X</string>
     <string name="ntsc_scale_factor_y">比例因子Y</string>
+    <string name="model_watermark_remover">检测常见图像水印并使用 LaMa 修复它们。自动下载检测和修复模型</string>
 </resources>

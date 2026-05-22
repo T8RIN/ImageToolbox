@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">Schaal verticaal</string>
     <string name="ntsc_scale_factor_x">Schaalfactor X</string>
     <string name="ntsc_scale_factor_y">Schaalfactor Y</string>
+    <string name="model_watermark_remover">Detecteert veelvoorkomende afbeeldingswatermerken en kleurt deze in met LaMa. Downloadt automatisch detectie- en inpainting-modellen</string>
 </resources>

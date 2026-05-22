@@ -2292,4 +2292,5 @@
     <string name="ntsc_scale_vertical">קנה מידה אנכי</string>
     <string name="ntsc_scale_factor_x">גורם קנה מידה X</string>
     <string name="ntsc_scale_factor_y">גורם קנה מידה Y</string>
+    <string name="model_watermark_remover">מזהה סימני מים נפוצים של תמונה וצובעת אותם עם LaMa. מוריד דגמי איתור וצביעה אוטומטית</string>
 </resources>

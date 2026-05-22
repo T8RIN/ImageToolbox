@@ -2294,4 +2294,5 @@
     <string name="ntsc_scale_vertical">مقياس عمودي</string>
     <string name="ntsc_scale_factor_x">عامل القياس X</string>
     <string name="ntsc_scale_factor_y">عامل القياس Y</string>
+    <string name="model_watermark_remover">يكتشف العلامات المائية الشائعة للصور ويرسمها باستخدام LaMa. يقوم بتنزيل نماذج الكشف والرسم تلقائيًا</string>
 </resources>

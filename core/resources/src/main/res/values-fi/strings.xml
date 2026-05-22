@@ -2290,4 +2290,5 @@
     <string name="ntsc_scale_vertical">Mittakaava pystysuoraan</string>
     <string name="ntsc_scale_factor_x">Skaalaustekijä X</string>
     <string name="ntsc_scale_factor_y">Skaalauskerroin Y</string>
+    <string name="model_watermark_remover">Tunnistaa yleiset kuvavesileimat ja maalaa ne LaMalla. Lataa tunnistus- ja maalausmallit automaattisesti</string>
 </resources>
