@@ -33,6 +33,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.asCoil
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import kotlin.math.roundToInt
 import coil3.transform.Transformation as CoilTransformation
 
@@ -57,13 +59,15 @@ class ImageInfoTransformation @AssistedInject internal constructor(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap {
+    ): Bitmap = coroutineScope {
+        ensureActive()
         val transformedInput = imageScaler.scaleImage(
             image = input,
             width = size.width.pxOrElse { imageInfo.width },
             height = size.height.pxOrElse { imageInfo.height },
             resizeType = ResizeType.Flexible
         )
+        ensureActive()
 
         val originalUri = shareProvider.cacheImage(
             image = input,
@@ -72,6 +76,7 @@ class ImageInfoTransformation @AssistedInject internal constructor(
                 height = input.height
             )
         )
+        ensureActive()
 
         val presetValue = preset.value()
         val presetInfo = imageTransformer.applyPresetBy(
@@ -102,8 +107,9 @@ class ImageInfoTransformation @AssistedInject internal constructor(
                 }
             )
         )
+        ensureActive()
 
-        return imagePreviewCreator.createPreview(
+        imagePreviewCreator.createPreview(
             image = transformedInput,
             imageInfo = info,
             transformations = transformations,

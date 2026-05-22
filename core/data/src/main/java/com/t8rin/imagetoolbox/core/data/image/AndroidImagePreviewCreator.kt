@@ -29,9 +29,9 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -55,7 +55,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
     ): Bitmap? = withContext(defaultDispatcher) {
         launch(encodingDispatcher) {
             onGetByteCount(0)
-            yield()
+            ensureActive()
             onGetByteCount(
                 imageCompressor.calculateImageSize(
                     image = image,
@@ -67,9 +67,8 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         if (!settingsState.generatePreviews) return@withContext null
 
         if (imageInfo.height == 0 || imageInfo.width == 0) return@withContext image
-        val targetImage: Bitmap
 
-        yield()
+        ensureActive()
         val shouldTransform = transformations.isNotEmpty()
                 || (imageInfo.width != image.width)
                 || (imageInfo.height != image.height)
@@ -77,7 +76,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                 || (imageInfo.rotationDegrees != 0f)
                 || imageInfo.isFlipped
 
-        if (shouldTransform) {
+        val targetImage = if (shouldTransform) {
             var width = imageInfo.width
             var height = imageInfo.height
 
@@ -87,7 +86,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                 width = (width * 0.85f).roundToInt()
                 scaleFactor *= 0.85f
             }
-            yield()
+            ensureActive()
             val bytes = imageCompressor.compressAndTransform(
                 image = image,
                 imageInfo = imageInfo.copy(
@@ -98,7 +97,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                     } else imageInfo.resizeType
                 ),
                 onImageReadyToCompressInterceptor = {
-                    yield()
+                    ensureActive()
                     imageTransformer.transform(
                         image = it,
                         transformations = transformations
@@ -106,11 +105,13 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                 }
             )
 
-            targetImage = imageGetter.getImage(bytes) ?: image
+            ensureActive()
+            imageGetter.getImage(bytes) ?: image
         } else {
-            targetImage = image
+            image
         }
-        yield()
+
+        ensureActive()
         imageScaler.scaleUntilCanShow(targetImage)
     }
 

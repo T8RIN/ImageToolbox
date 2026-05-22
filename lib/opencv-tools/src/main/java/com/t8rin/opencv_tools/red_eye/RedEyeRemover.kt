@@ -23,6 +23,8 @@ import android.graphics.Bitmap
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -38,11 +40,12 @@ import java.io.FileOutputStream
 
 object RedEyeRemover : OpenCV() {
 
-    fun removeRedEyes(
+    suspend fun removeRedEyes(
         bitmap: Bitmap,
         minEyeSize: Double = 50.0,
         redThreshold: Double = 150.0
-    ): Bitmap {
+    ): Bitmap = coroutineScope {
+        ensureActive()
         val srcMat = bitmap.toMat()
 
         Imgproc.cvtColor(srcMat, srcMat, Imgproc.COLOR_RGBA2BGR)
@@ -60,6 +63,7 @@ object RedEyeRemover : OpenCV() {
         )
 
         for (rect in eyes.toArray()) {
+            ensureActive()
             val roi = Rect(rect.x, rect.y, rect.width, rect.height)
             val eyeMat = srcMat.submat(roi).clone()
 
@@ -99,7 +103,7 @@ object RedEyeRemover : OpenCV() {
 
         Imgproc.cvtColor(resultMat, resultMat, Imgproc.COLOR_BGR2RGBA)
 
-        return resultMat.toBitmap()
+        resultMat.toBitmap()
     }
 
     private fun fillHoles(mask: Mat): Mat {

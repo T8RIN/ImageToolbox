@@ -31,6 +31,8 @@ import com.t8rin.opencv_tools.lens_correction.model.LensProfile
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import org.json.JSONArray
 import org.json.JSONObject
 import org.opencv.calib3d.Calib3d
@@ -43,7 +45,7 @@ import kotlin.contracts.contract
 
 object LensCorrection : OpenCV() {
 
-    fun undistort(
+    suspend fun undistort(
         bitmap: Bitmap,
         lensDataUri: Uri,
         intensity: Double = 1.0
@@ -53,7 +55,7 @@ object LensCorrection : OpenCV() {
         intensity = intensity
     )
 
-    fun undistort(
+    suspend fun undistort(
         bitmap: Bitmap,
         lensData: InputStream,
         intensity: Double = 1.0
@@ -63,7 +65,7 @@ object LensCorrection : OpenCV() {
         intensity = intensity
     )
 
-    fun undistort(
+    suspend fun undistort(
         bitmap: Bitmap,
         lensDataJson: String,
         intensity: Double = 1.0
@@ -72,7 +74,7 @@ object LensCorrection : OpenCV() {
         lensProfile = LensProfile.fromJson(lensDataJson).withIntensity(intensity)
     )
 
-    fun undistort(
+    suspend fun undistort(
         bitmap: Bitmap,
         lensProfile: LensProfile
     ): Bitmap = undistortImpl(
@@ -84,13 +86,14 @@ object LensCorrection : OpenCV() {
     )
 
 
-    private fun undistortImpl(
+    private suspend fun undistortImpl(
         bitmap: Bitmap,
         cameraMatrix: List<List<Double>>,
         distortionCoeffs: List<Double>,
         calibWidth: Int,
         calibHeight: Int
-    ): Bitmap {
+    ): Bitmap = coroutineScope {
+        ensureActive()
         lcCheck(
             value = distortionCoeffs.size == 4,
             message = InvalidDistortionCoeffs()
@@ -105,17 +108,22 @@ object LensCorrection : OpenCV() {
             Imgproc.cvtColor(rgbaMat, rgbaMat, Imgproc.COLOR_RGBA2RGB)
 
             cameraMatrix.forEachIndexed { i, row ->
+                ensureActive()
                 lcCheck(
                     value = row.size == 3,
                     message = InvalidMatrixSize()
                 )
 
                 row.forEachIndexed { j, value ->
+                    ensureActive()
                     K.put(i, j, value)
                 }
             }
 
-            distortionCoeffs.forEachIndexed { i, v -> D.put(i, 0, -v) }
+            distortionCoeffs.forEachIndexed { i, v ->
+                ensureActive()
+                D.put(i, 0, -v)
+            }
 
             val scaleX = bitmap.width.toDouble() / calibWidth
             val scaleY = bitmap.height.toDouble() / calibHeight
@@ -126,10 +134,11 @@ object LensCorrection : OpenCV() {
             K.put(1, 2, K.get(1, 2)[0] * scaleY) // cy
 
             Calib3d.fisheye_undistortImage(rgbaMat, undistorted, K, D, K, rgbaMat.size())
+            ensureActive()
 
             Imgproc.cvtColor(undistorted, undistorted, Imgproc.COLOR_RGB2RGBA)
 
-            return undistorted.toBitmap()
+            undistorted.toBitmap()
         } finally {
             rgbaMat.release()
             K.release()

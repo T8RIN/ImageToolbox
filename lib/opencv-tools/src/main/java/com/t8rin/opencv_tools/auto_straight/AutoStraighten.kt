@@ -25,6 +25,8 @@ import com.t8rin.opencv_tools.free_corners_crop.FreeCrop
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import org.opencv.core.Core
 import org.opencv.core.Mat
 import org.opencv.core.MatOfPoint
@@ -43,7 +45,7 @@ import kotlin.math.sqrt
 
 object AutoStraighten : OpenCV() {
 
-    fun process(
+    suspend fun process(
         input: Bitmap,
         mode: StraightenMode
     ): Bitmap = when (mode) {
@@ -58,7 +60,12 @@ object AutoStraighten : OpenCV() {
         is StraightenMode.Manual -> perspectiveFromPoints(input = input, corners = mode.corners)
     }
 
-    private fun autoDeskew(input: Bitmap, maxSkew: Int, allowCrop: Boolean): Bitmap {
+    private suspend fun autoDeskew(
+        input: Bitmap,
+        maxSkew: Int,
+        allowCrop: Boolean
+    ): Bitmap = coroutineScope {
+        ensureActive()
         val srcMat = input.toMat()
         val gray = Mat()
         Imgproc.cvtColor(srcMat, gray, Imgproc.COLOR_BGR2GRAY)
@@ -81,10 +88,11 @@ object AutoStraighten : OpenCV() {
             srcMat.width() / 150.0
         )
 
-        if (lines.rows() == 0) return input
+        if (lines.rows() == 0) return@coroutineScope input
 
         val angles = mutableListOf<Double>()
         for (i in 0 until lines.rows()) {
+            ensureActive()
             val l = lines.get(i, 0)
             val x1 = l[0]
             val y1 = l[1]
@@ -104,7 +112,7 @@ object AutoStraighten : OpenCV() {
             angles.filter { abs(Math.toDegrees(it)) < maxSkew }
         }
 
-        if (filtered.size < 5) return input
+        if (filtered.size < 5) return@coroutineScope input
 
         var angleDeg = Math.toDegrees(filtered.median())
 
@@ -135,6 +143,7 @@ object AutoStraighten : OpenCV() {
         rotMat.put(1, 2, rotMat.get(1, 2)[0] + (newHeight / 2.0 - center.y))
 
         val rotatedFull = Mat()
+        ensureActive()
         Imgproc.warpAffine(
             rotated,
             rotatedFull,
@@ -144,7 +153,7 @@ object AutoStraighten : OpenCV() {
             Core.BORDER_REPLICATE,
         )
 
-        return if (allowCrop) {
+        if (allowCrop) {
             val cropRect = getLargestRotatedRect(
                 width = rotated.width(),
                 height = rotated.height(),
@@ -157,7 +166,8 @@ object AutoStraighten : OpenCV() {
         }.toBitmap()
     }
 
-    private fun autoPerspective(input: Bitmap): Bitmap {
+    private suspend fun autoPerspective(input: Bitmap): Bitmap = coroutineScope {
+        ensureActive()
         val srcMat = input.toMat()
         val gray = Mat()
         Imgproc.cvtColor(srcMat, gray, Imgproc.COLOR_BGR2GRAY)
@@ -177,9 +187,11 @@ object AutoStraighten : OpenCV() {
             Imgproc.RETR_EXTERNAL,
             Imgproc.CHAIN_APPROX_SIMPLE
         )
+        ensureActive()
 
         val biggest = contours
             .mapNotNull { contour ->
+                ensureActive()
                 val approx = MatOfPoint2f()
                 val c2f = MatOfPoint2f(*contour.toArray())
                 Imgproc.approxPolyDP(c2f, approx, Imgproc.arcLength(c2f, true) * 0.02, true)
@@ -188,7 +200,7 @@ object AutoStraighten : OpenCV() {
                 else null
             }
             .maxByOrNull { Imgproc.contourArea(MatOfPoint(*it.toArray())) }
-            ?: return input
+            ?: return@coroutineScope input
 
         val sorted = sortCorners(biggest.toArray())
         val widthA = distance(sorted[0], sorted[1])
@@ -208,6 +220,7 @@ object AutoStraighten : OpenCV() {
 
         val transform = Imgproc.getPerspectiveTransform(MatOfPoint2f(*sorted), dst)
         val out = Mat()
+        ensureActive()
         Imgproc.warpPerspective(
             srcMat,
             out,
@@ -215,15 +228,20 @@ object AutoStraighten : OpenCV() {
             Size(maxWidth.toDouble(), maxHeight.toDouble())
         )
 
-        return out.toBitmap()
+        out.toBitmap()
     }
 
-    private fun perspectiveFromPoints(input: Bitmap, corners: Corners): Bitmap {
+    private suspend fun perspectiveFromPoints(
+        input: Bitmap,
+        corners: Corners
+    ): Bitmap = coroutineScope {
+        ensureActive()
         val width = input.width
         val height = input.height
 
         val absPoints = if (corners.isAbsolute) {
             corners.points.map {
+                ensureActive()
                 Offset(
                     x = it.x.toFloat(),
                     y = it.y.toFloat()
@@ -231,6 +249,7 @@ object AutoStraighten : OpenCV() {
             }
         } else {
             corners.points.map {
+                ensureActive()
                 Offset(
                     x = (it.x * width).toFloat(),
                     y = (it.y * height).toFloat()
@@ -238,7 +257,7 @@ object AutoStraighten : OpenCV() {
             }
         }
 
-        return FreeCrop.crop(
+        FreeCrop.crop(
             bitmap = input,
             points = absPoints
         )

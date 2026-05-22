@@ -22,6 +22,8 @@ import coil3.size.Size
 import coil3.size.pxOrElse
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import coil3.transform.Transformation as CoilTransformation
 
 fun Size.asDomain(): IntegerSize = if (this == Size.ORIGINAL) IntegerSize.Undefined
@@ -39,7 +41,10 @@ fun Transformation<Bitmap>.toCoil(): CoilTransformation = object : CoilTransform
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = this@toCoil.transform(input, size.asDomain())
+    ): Bitmap = coroutineScope {
+        ensureActive()
+        this@toCoil.transform(input, size.asDomain())
+    }
 
 }
 
@@ -50,5 +55,8 @@ fun CoilTransformation.asDomain(): Transformation<Bitmap> = object : Transformat
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = this@asDomain.transform(input, size.asCoil())
+    ): Bitmap = coroutineScope {
+        ensureActive()
+        this@asDomain.transform(input, size.asCoil())
+    }
 }

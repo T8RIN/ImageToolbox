@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -248,6 +249,8 @@ internal class AndroidImageGetter @Inject constructor(
                 }
             }
             .build()
+
+        ensureActive()
 
         runSuspendCatching {
             imageLoader.execute(request).image?.toBitmap()

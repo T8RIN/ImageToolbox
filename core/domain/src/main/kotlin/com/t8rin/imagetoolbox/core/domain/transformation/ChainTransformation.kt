@@ -18,6 +18,8 @@
 package com.t8rin.imagetoolbox.core.domain.transformation
 
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 
 interface ChainTransformation<T> : Transformation<T> {
 
@@ -26,8 +28,11 @@ interface ChainTransformation<T> : Transformation<T> {
     override suspend fun transform(
         input: T,
         size: IntegerSize
-    ): T = getTransformations().fold(input) { acc, filter ->
-        filter.transform(acc, size)
+    ): T = coroutineScope {
+        getTransformations().fold(input) { acc, filter ->
+            ensureActive()
+            filter.transform(acc, size)
+        }
     }
 
 }

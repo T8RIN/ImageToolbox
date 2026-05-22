@@ -25,6 +25,8 @@ import com.t8rin.opencv_tools.moire.model.MoireType
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -39,16 +41,18 @@ import kotlin.math.sqrt
 
 object Moire : OpenCV() {
 
-    fun remove(
+    suspend fun remove(
         bitmap: Bitmap,
         type: MoireType = MoireType.AUTO
-    ): Bitmap {
+    ): Bitmap = coroutineScope {
+        ensureActive()
         val rgba = bitmap.toMat()
 
         val channels = mutableListOf<Mat>()
         Core.split(rgba, channels)
 
         val filteredChannels = channels.take(3).map { channel ->
+            ensureActive()
             val floatMat = Mat()
             channel.convertTo(floatMat, CvType.CV_32F)
 
@@ -89,10 +93,10 @@ object Moire : OpenCV() {
         val merged = Mat()
         Core.merge(outputChannels, merged)
 
-        return merged.toBitmap()
+        merged.toBitmap()
     }
 
-    private fun detectNoiseType(dftMat: Mat): MoireType? {
+    private suspend fun detectNoiseType(dftMat: Mat): MoireType? = coroutineScope {
         val planes = mutableListOf<Mat>()
         Core.split(dftMat, planes)
         val mag = Mat()
@@ -110,6 +114,7 @@ object Moire : OpenCV() {
         val peaks = mutableListOf<Point>()
 
         for (y in 0 until mag.rows()) {
+            ensureActive()
             for (x in 0 until mag.cols()) {
                 val value = mag.get(y, x)[0]
                 if (value > threshold) {
@@ -123,10 +128,11 @@ object Moire : OpenCV() {
         }
 
         Log.d("Moire", "Detected peaks: ${peaks.size}")
-        if (peaks.size < 2) return null
+        if (peaks.size < 2) return@coroutineScope null
 
         val dataPts = Mat(peaks.size, 2, CvType.CV_64F)
         for (i in peaks.indices) {
+            ensureActive()
             dataPts.put(i, 0, peaks[i].x)
             dataPts.put(i, 1, peaks[i].y)
         }
@@ -141,7 +147,7 @@ object Moire : OpenCV() {
         val angle = atan2(vy, vx) * 180.0 / Math.PI
         Log.d("Moire", "Angle: $angle")
 
-        return when {
+        when {
             abs(angle) < 15 -> MoireType.VERTICAL
             abs(angle) > 70 && abs(angle) < 110 -> MoireType.HORIZONTAL
             angle in 15.0..60.0 -> MoireType.RIGHT_DIAGONAL
@@ -150,7 +156,7 @@ object Moire : OpenCV() {
         }
     }
 
-    private fun butterworthLP(size: Size, d0: Double, n: Int): Mat {
+    private suspend fun butterworthLP(size: Size, d0: Double, n: Int): Mat = coroutineScope {
         val rows = size.height.toInt()
         val cols = size.width.toInt()
         val centerX = rows / 2.0
@@ -158,17 +164,23 @@ object Moire : OpenCV() {
 
         val filter = Mat(rows, cols, CvType.CV_32F)
         for (i in 0 until rows) {
+            ensureActive()
             for (j in 0 until cols) {
+                ensureActive()
                 val d = sqrt((i - centerX).pow(2) + (j - centerY).pow(2))
                 val value = 1.0 / (1.0 + (d / d0).pow(2.0 * n))
                 filter.put(i, j, value)
             }
         }
-        return filter
+
+        filter
     }
 
-    private fun applyMask(dftMat: Mat, type: MoireType?) {
-        if (type == null || type == MoireType.AUTO) return
+    private suspend fun applyMask(
+        dftMat: Mat,
+        type: MoireType?
+    ) = coroutineScope {
+        if (type == null || type == MoireType.AUTO) return@coroutineScope
 
         val rows = dftMat.rows()
         val cols = dftMat.cols()
@@ -179,7 +191,9 @@ object Moire : OpenCV() {
 
         fun suppressCircle(cx: Int, cy: Int) {
             for (y in -radius..radius) {
+                ensureActive()
                 for (x in -radius..radius) {
+                    ensureActive()
                     val dx = cx + x
                     val dy = cy + y
                     if (dx in 0 until cols && dy in 0 until rows) {
@@ -206,7 +220,9 @@ object Moire : OpenCV() {
         val peaks = mutableListOf<Point>()
 
         for (y in 0 until rows) {
+            ensureActive()
             for (x in 0 until cols) {
+                ensureActive()
                 val value = mag.get(y, x)[0]
                 if (value > threshold) {
                     val dx = x - center.x
@@ -221,6 +237,7 @@ object Moire : OpenCV() {
         Log.d("Moire", "Masking ${peaks.size} peaks for $type")
 
         for (peak in peaks) {
+            ensureActive()
             val dx = peak.x - center.x
             val dy = peak.y - center.y
             val angle = atan2(dy, dx) * 180.0 / Math.PI

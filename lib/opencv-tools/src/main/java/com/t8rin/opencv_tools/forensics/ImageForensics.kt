@@ -23,6 +23,8 @@ import android.graphics.Bitmap
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import org.opencv.android.Utils
 import org.opencv.core.Core
 import org.opencv.core.CvType
@@ -43,10 +45,11 @@ import kotlin.math.sin
 
 object ImageForensics : OpenCV() {
 
-    fun errorLevelAnalysis(
+    suspend fun errorLevelAnalysis(
         input: Bitmap,
         quality: Int = 90
-    ): Bitmap {
+    ): Bitmap = coroutineScope {
+        ensureActive()
         val src = input.toMat()
         Utils.bitmapToMat(input, src)
         Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
@@ -54,6 +57,7 @@ object ImageForensics : OpenCV() {
         val buf = MatOfByte()
         val params = MatOfInt(Imgcodecs.IMWRITE_JPEG_QUALITY, quality)
         Imgcodecs.imencode(".jpg", src, buf, params)
+        ensureActive()
 
         val resaved = Imgcodecs.imdecode(buf, Imgcodecs.IMREAD_COLOR)
 
@@ -66,6 +70,7 @@ object ImageForensics : OpenCV() {
 
         Imgproc.cvtColor(dst, dst, Imgproc.COLOR_BGR2RGBA)
         val outBmp = dst.toBitmap()
+        ensureActive()
 
         src.release()
         resaved.release()
@@ -73,10 +78,11 @@ object ImageForensics : OpenCV() {
         dst.release()
         buf.release()
 
-        return outBmp
+        outBmp
     }
 
-    fun luminanceGradient(input: Bitmap): Bitmap {
+    suspend fun luminanceGradient(input: Bitmap): Bitmap = coroutineScope {
+        ensureActive()
         val src = input.toMat()
         Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
 
@@ -102,11 +108,13 @@ object ImageForensics : OpenCV() {
         val magRow = FloatArray(cols)
 
         for (r in 0 until rows) {
+            ensureActive()
             sobelX.get(r, 0, sxRow)
             sobelY.get(r, 0, syRow)
             magnitude.get(r, 0, magRow)
             val outRow = FloatArray(cols * 3)
             for (c in 0 until cols) {
+                ensureActive()
                 val angle = atan2(sxRow[c].toDouble(), syRow[c].toDouble()).toFloat()
                 val mag = magRow[c]
                 val g = (-sin(angle.toDouble()) / 2.0 + 0.5).toFloat()
@@ -120,6 +128,7 @@ object ImageForensics : OpenCV() {
 
         val channels = ArrayList<Mat>(3)
         Core.split(dst, channels)
+        ensureActive()
         Core.normalize(channels[0], channels[0], 0.0, 1.0, Core.NORM_MINMAX)
         Core.merge(channels, dst)
 
@@ -137,10 +146,11 @@ object ImageForensics : OpenCV() {
         dst.release()
         src.release()
 
-        return outBmp
+        outBmp
     }
 
-    fun averageDistance(input: Bitmap): Bitmap {
+    suspend fun averageDistance(input: Bitmap): Bitmap = coroutineScope {
+        ensureActive()
         val src = input.toMat()
         Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
 
@@ -154,6 +164,7 @@ object ImageForensics : OpenCV() {
 
         val filtered = Mat()
         Imgproc.filter2D(src32, filtered, -1, kernel)
+        ensureActive()
 
         val diff = Mat()
         Core.absdiff(src32, filtered, diff)
@@ -162,6 +173,7 @@ object ImageForensics : OpenCV() {
         diff.convertTo(diff, CvType.CV_8UC3, 255.0)
         Imgproc.cvtColor(diff, diff, Imgproc.COLOR_BGR2RGBA)
         val outBmp = diff.toBitmap()
+        ensureActive()
 
         src.release()
         src32.release()
@@ -169,14 +181,16 @@ object ImageForensics : OpenCV() {
         filtered.release()
 
         diff.release()
-        return outBmp
+
+        outBmp
     }
 
-    fun detectCopyMove(
+    suspend fun detectCopyMove(
         input: Bitmap,
         retain: Int = 4,
         qCoefficent: Double = 1.0
-    ): Bitmap {
+    ): Bitmap = coroutineScope {
+        ensureActive()
         val srcColor = input.toMat()
         val srcGray = Mat()
         Imgproc.cvtColor(srcColor, srcGray, Imgproc.COLOR_BGR2GRAY)
@@ -190,7 +204,9 @@ object ImageForensics : OpenCV() {
         val tmp = Mat()
 
         for (y in 0 until blocksHeight) {
+            ensureActive()
             for (x in 0 until blocksWidth) {
+                ensureActive()
                 val roi = srcGray.submat(y, y + blockSize, x, x + blockSize)
                 Core.dct(roi, tmp)
                 Core.divide(tmp, Scalar(qCoefficent), tmp)
@@ -199,8 +215,10 @@ object ImageForensics : OpenCV() {
             }
         }
 
+        ensureActive()
         val index = Array(totalBlocks) { it }
         index.sortWith { a, b ->
+            ensureActive()
             val aBytes = ByteArray(retain * retain)
             val bBytes = ByteArray(retain * retain)
             blocks[a].get(0, 0, aBytes)
@@ -216,6 +234,7 @@ object ImageForensics : OpenCV() {
         val rectBuffer = srcColor.clone()
 
         for (i in 0 until totalBlocks - 1) {
+            ensureActive()
             val aBytes = ByteArray(retain * retain)
             val bBytes = ByteArray(retain * retain)
             blocks[index[i]].get(0, 0, aBytes)
@@ -234,6 +253,7 @@ object ImageForensics : OpenCV() {
         }
 
         for (i in 0 until totalBlocks - 1) {
+            ensureActive()
             val aBytes = ByteArray(retain * retain)
             val bBytes = ByteArray(retain * retain)
             blocks[index[i]].get(0, 0, aBytes)
@@ -255,6 +275,7 @@ object ImageForensics : OpenCV() {
                         rng.nextInt(256).toDouble()
                     )
                     for (ii in 0 until blockSize) {
+                        ensureActive()
                         for (jj in 0 until blockSize) {
                             rectBuffer.put(curY + ii, curX + jj, *color.`val`)
                             rectBuffer.put(nextY + ii, nextX + jj, *color.`val`)
@@ -266,7 +287,8 @@ object ImageForensics : OpenCV() {
 
         val dst = Mat()
         Core.addWeighted(srcColor, 0.2, rectBuffer, 0.8, 0.0, dst)
-        return dst.toBitmap()
+
+        dst.toBitmap()
     }
 
 }
