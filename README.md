@@ -793,6 +793,7 @@ or click one of the badges below.
     - PNG Lossless
     - PNG Lossy
     - OxiPNG
+    - ImageQuant
     - MozJpeg
     - Jpegli
     - JXL
