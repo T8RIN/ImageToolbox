@@ -291,7 +291,7 @@ or click one of the badges below.
     - [x] CodaChrome
     - [x] Cool
     - [x] Deutaromaly
-    - [x] Deutaronotopia
+    - [x] Deuteranopia
     - [x] Night Vision
     - [x] Polaroid
     - [x] Protanopia
