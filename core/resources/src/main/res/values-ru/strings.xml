@@ -717,7 +717,6 @@
     <string name="browni">Брауни</string>
     <string name="cool">Холод</string>
     <string name="tritanopia">Тританопия</string>
-    <string name="deutaronotopia">Дейтаронотопия</string>
     <string name="protanopia">Протанопия</string>
     <string name="achromatomaly">Ахроматомалия</string>
     <string name="color_matrix_3x3">Цветовая матрица 3x3</string>
@@ -2293,4 +2292,5 @@
     <string name="ntsc_scale_factor_x">Масштабный коэффициент X</string>
     <string name="ntsc_scale_factor_y">Масштабный коэффициент Y</string>
     <string name="model_watermark_remover">Обнаруживает распространенные водяные знаки изображений и закрашивает их с помощью LaMa. Автоматически загружает модели обнаружения и удаления</string>
+    <string name="deuteranopia">Дейтеранопия</string>
 </resources>

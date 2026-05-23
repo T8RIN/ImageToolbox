@@ -25,9 +25,9 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
 @FilterInject
-internal class DeutaronotopiaFilter(
+internal class DeuteranopiaFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Deutaronotopia {
+) : Transformation<Bitmap>, Filter.Deuteranopia {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

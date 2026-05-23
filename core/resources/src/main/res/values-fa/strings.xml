@@ -724,7 +724,6 @@
     <string name="warm">گرم</string>
     <string name="cool">خنک</string>
     <string name="tritanopia">آبی‌ کوری</string>
-    <string name="deutaronotopia">سبزکوری</string>
     <string name="protanopia">سرخ کوری</string>
     <string name="achromatomaly">شبه کور رنگی</string>
     <string name="achromatopsia">کور رنگی</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">ضریب مقیاس X</string>
     <string name="ntsc_scale_factor_y">ضریب مقیاس Y</string>
     <string name="model_watermark_remover">واترمارک های رایج تصویر را تشخیص می دهد و آنها را با LaMa رنگ آمیزی می کند. شناسایی و رنگ آمیزی مدل ها را به صورت خودکار دانلود می کند</string>
+    <string name="deuteranopia">دوترانوپیا</string>
 </resources>

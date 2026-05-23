@@ -605,7 +605,6 @@
     <string name="rate">Рате</string>
     <string name="rate_app_sub">Ова апликација је потпуно бесплатна, ако желите да постане већа, означите пројекат на Гитхуб-у 😄</string>
     <string name="browni">Бровни</string>
-    <string name="deutaronotopia">Деутаронотопиа</string>
     <string name="protanopia">Протанопија</string>
     <string name="achromatomaly">Ахроматомалија</string>
     <string name="achromatopsia">Ахроматопсија</string>
@@ -2292,4 +2291,5 @@
     <string name="ntsc_scale_factor_x">Фактор скале Кс</string>
     <string name="ntsc_scale_factor_y">Фактор скале И</string>
     <string name="model_watermark_remover">Детектује уобичајене водене жигове на слици и осликава их ЛаМа. Аутоматски преузима моделе за откривање и сликање</string>
+    <string name="deuteranopia">Деутеранопиа</string>
 </resources>

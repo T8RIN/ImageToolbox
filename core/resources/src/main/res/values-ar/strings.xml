@@ -521,7 +521,6 @@
     <string name="warm">دافيء</string>
     <string name="cool">رائع</string>
     <string name="tritanopia">تريتانوبيا</string>
-    <string name="deutaronotopia">ديوتارونوتوبيا</string>
     <string name="achromatomaly">شلل لوني</string>
     <string name="achromatopsia">الأكروماتوبسيا</string>
     <string name="golden_hour">الساعة الذهبية</string>
@@ -2295,4 +2294,5 @@
     <string name="ntsc_scale_factor_x">عامل القياس X</string>
     <string name="ntsc_scale_factor_y">عامل القياس Y</string>
     <string name="model_watermark_remover">يكتشف العلامات المائية الشائعة للصور ويرسمها باستخدام LaMa. يقوم بتنزيل نماذج الكشف والرسم تلقائيًا</string>
+    <string name="deuteranopia">عمى مزدوج</string>
 </resources>

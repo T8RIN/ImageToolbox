@@ -724,7 +724,6 @@
     <string name="warm">ਗਰਮ</string>
     <string name="cool">ਠੰਡਾ</string>
     <string name="tritanopia">ਤ੍ਰਿਟਾਨੋਪੀਆ</string>
-    <string name="deutaronotopia">ਡਿਊਟਾਰੋਨੋਟੋਪੀਆ</string>
     <string name="protanopia">ਪ੍ਰੋਟਾਨੋਪੀਆ</string>
     <string name="achromatomaly">ਐਕਰੋਮੈਟੋਮਾਲੀ</string>
     <string name="achromatopsia">ਐਕਰੋਮੈਟੋਪਸੀਆ</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">ਸਕੇਲ ਫੈਕਟਰ ਐਕਸ</string>
     <string name="ntsc_scale_factor_y">ਸਕੇਲ ਫੈਕਟਰ Y</string>
     <string name="model_watermark_remover">ਆਮ ਚਿੱਤਰ ਵਾਟਰਮਾਰਕਸ ਨੂੰ ਖੋਜਦਾ ਹੈ ਅਤੇ ਉਹਨਾਂ ਨੂੰ LaMa ਨਾਲ ਪੇਂਟ ਕਰਦਾ ਹੈ। ਖੋਜ ਅਤੇ ਪੇਂਟਿੰਗ ਮਾਡਲਾਂ ਨੂੰ ਸਵੈਚਲਿਤ ਤੌਰ \'ਤੇ ਡਾਊਨਲੋਡ ਕਰਦਾ ਹੈ</string>
+    <string name="deuteranopia">ਡਿਊਟਰਾਨੋਪੀਆ</string>
 </resources>

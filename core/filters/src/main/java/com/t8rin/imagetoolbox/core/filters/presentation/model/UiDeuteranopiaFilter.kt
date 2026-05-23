@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
 @UiFilterInject(group = UiFilterInject.Groups.SIMPLE)
-class UiDeutaronotopiaFilter : UiFilter<Unit>(
-    title = R.string.deutaronotopia,
+class UiDeuteranopiaFilter : UiFilter<Unit>(
+    title = R.string.deuteranopia,
     value = Unit
-), Filter.Deutaronotopia
+), Filter.Deuteranopia

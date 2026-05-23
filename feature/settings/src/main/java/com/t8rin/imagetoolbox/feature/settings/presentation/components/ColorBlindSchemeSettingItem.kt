@@ -163,7 +163,7 @@ private val ColorBlindType.localizedTitle: String
             ColorBlindType.Deuteranomaly -> R.string.deutaromaly
             ColorBlindType.Tritanomaly -> R.string.tritonomaly
             ColorBlindType.Protanopia -> R.string.protanopia
-            ColorBlindType.Deuteranopia -> R.string.deutaronotopia
+            ColorBlindType.Deuteranopia -> R.string.deuteranopia
             ColorBlindType.Tritanopia -> R.string.tritanopia
             ColorBlindType.Achromatomaly -> R.string.achromatomaly
             ColorBlindType.Achromatopsia -> R.string.achromatopsia

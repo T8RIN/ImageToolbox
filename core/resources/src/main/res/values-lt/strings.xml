@@ -739,7 +739,6 @@
     <string name="warm">Šiltas</string>
     <string name="cool">Kietas</string>
     <string name="tritanopia">Tritanopija</string>
-    <string name="deutaronotopia">Deutaronotopija</string>
     <string name="protanopia">Protanopija</string>
     <string name="achromatomaly">Achromatomalija</string>
     <string name="achromatopsia">Achromatopsija</string>
@@ -2294,4 +2293,5 @@
     <string name="ntsc_scale_factor_x">X mastelio koeficientas</string>
     <string name="ntsc_scale_factor_y">Mastelio koeficientas Y</string>
     <string name="model_watermark_remover">Aptinka įprastus vaizdo vandens ženklus ir nudažo juos LaMa. Automatiškai atsisiunčia aptikimo ir dažymo modelius</string>
+    <string name="deuteranopia">Deuteranopija</string>
 </resources>

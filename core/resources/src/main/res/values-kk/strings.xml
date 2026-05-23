@@ -374,7 +374,6 @@
     <string name="coda_chrome">Coda Chrome</string>
     <string name="cool">Керемет</string>
     <string name="tritanopia">Тританопия</string>
-    <string name="deutaronotopia">Дейтаронотопия</string>
     <string name="achromatopsia">Ахроматопсия</string>
     <string name="orange_haze">Қызғылт сары тұман</string>
     <string name="pink_dream">Қызғылт арман</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">X шкала коэффициенті</string>
     <string name="ntsc_scale_factor_y">Масштаб коэффициенті Y</string>
     <string name="model_watermark_remover">Кескіннің жалпы су белгілерін анықтайды және оларды LaMa көмегімен бояйды. Анықтау және бояу үлгілерін автоматты түрде жүктеп алады</string>
+    <string name="deuteranopia">Дейтеранопия</string>
 </resources>

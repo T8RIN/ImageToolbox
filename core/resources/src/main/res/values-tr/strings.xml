@@ -724,7 +724,6 @@
     <string name="warm">Sıcak</string>
     <string name="cool">Soğuk</string>
     <string name="tritanopia">Tritanopi</string>
-    <string name="deutaronotopia">Döteranotopi</string>
     <string name="protanopia">Protanopi</string>
     <string name="achromatomaly">Akromatopsi Anomalisi</string>
     <string name="achromatopsia">Akromatopsi</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">Ölçek faktörü X</string>
     <string name="ntsc_scale_factor_y">Ölçek faktörü Y</string>
     <string name="model_watermark_remover">Yaygın görüntü filigranlarını algılar ve bunları LaMa ile yeniden boyar. Algılama ve iç boyama modellerini otomatik olarak indirir</string>
+    <string name="deuteranopia">Döteranopi</string>
 </resources>

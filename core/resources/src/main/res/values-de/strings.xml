@@ -599,7 +599,6 @@
     <string name="browni">Browni</string>
     <string name="cool">Cool</string>
     <string name="tritanopia">Tritanopie</string>
-    <string name="deutaronotopia">Deuteranopie</string>
     <string name="protanopia">Protanopie</string>
     <string name="achromatomaly">Achromatomalie</string>
     <string name="achromatopsia">Achromatopsie</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">Skalierungsfaktor X</string>
     <string name="ntsc_scale_factor_y">Skalierungsfaktor Y</string>
     <string name="model_watermark_remover">Erkennt gängige Bildwasserzeichen und malt sie mit LaMa ein. Lädt Erkennungs- und Inpainting-Modelle automatisch herunter</string>
+    <string name="deuteranopia">Deuteranopie</string>
 </resources>

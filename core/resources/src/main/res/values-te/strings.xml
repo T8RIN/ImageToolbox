@@ -501,7 +501,6 @@
     <string name="warm">వెచ్చగా</string>
     <string name="cool">కూల్</string>
     <string name="tritanopia">ట్రిటానోపియా</string>
-    <string name="deutaronotopia">డ్యూటారోనోటోపియా</string>
     <string name="protanopia">ప్రొటానోపియా</string>
     <string name="achromatomaly">అక్రోమటోమలీ</string>
     <string name="achromatopsia">అక్రోమాటోప్సియా</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">స్కేల్ ఫ్యాక్టర్ X</string>
     <string name="ntsc_scale_factor_y">స్కేల్ ఫ్యాక్టర్ Y</string>
     <string name="model_watermark_remover">సాధారణ చిత్ర వాటర్‌మార్క్‌లను గుర్తించి, వాటిని లామాతో పెయింట్ చేస్తుంది. స్వయంచాలకంగా గుర్తింపు మరియు పెయింటింగ్ నమూనాలను డౌన్‌లోడ్ చేస్తుంది</string>
+    <string name="deuteranopia">డ్యూటెరానోపియా</string>
 </resources>

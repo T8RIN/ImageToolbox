@@ -548,7 +548,6 @@
     <string name="warm">Cald</string>
     <string name="cool">Misto</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deuteranopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Acromatomalie</string>
     <string name="achromatopsia">Acromatopsie</string>
@@ -2292,4 +2291,5 @@
     <string name="ntsc_scale_factor_x">Factorul de scară X</string>
     <string name="ntsc_scale_factor_y">Factorul de scară Y</string>
     <string name="model_watermark_remover">Detectează filigranele comune ale imaginii și le pictează cu LaMa. Descărcă automat modelele de detectare și de inpainting</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>

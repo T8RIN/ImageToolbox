@@ -457,7 +457,6 @@
     <string name="warm">Meleg</string>
     <string name="cool">Menő</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Achromatomaly</string>
     <string name="hot_summer">Forró nyári</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">X léptéktényező</string>
     <string name="ntsc_scale_factor_y">Y léptéktényező</string>
     <string name="model_watermark_remover">Érzékeli a gyakori képi vízjeleket, és LaMa-val befesti őket. Automatikusan letölti az észlelési és festési modelleket</string>
+    <string name="deuteranopia">Deuteranópia</string>
 </resources>

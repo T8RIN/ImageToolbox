@@ -724,7 +724,6 @@
     <string name="warm">溫暖</string>
     <string name="cool">涼爽</string>
     <string name="pink_dream">粉紅夢</string>
-    <string name="deutaronotopia">綠色盲</string>
     <string name="protanopia">紅色盲</string>
     <string name="achromatomaly">不全色盲</string>
     <string name="hot_summer">炎熱的夏天</string>
@@ -2290,4 +2289,5 @@
     <string name="ntsc_scale_factor_x">比例因子 X</string>
     <string name="ntsc_scale_factor_y">比例因子Y</string>
     <string name="model_watermark_remover">检测常见图像水印并使用 LaMa 修复它们。自动下载检测和修复模型</string>
+    <string name="deuteranopia">绿盲</string>
 </resources>

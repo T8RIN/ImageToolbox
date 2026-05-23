@@ -724,7 +724,6 @@
     <string name="warm">উষ্ণ</string>
     <string name="cool">কুল</string>
     <string name="tritanopia">ট্রাইটানোপিয়া</string>
-    <string name="deutaronotopia">ডিউটারোনোটোপিয়া</string>
     <string name="protanopia">প্রোটানোপিয়া</string>
     <string name="achromatomaly">আক্রোমাটোমালি</string>
     <string name="achromatopsia">অ্যাক্রোমাটোপসিয়া</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">স্কেল ফ্যাক্টর এক্স</string>
     <string name="ntsc_scale_factor_y">স্কেল ফ্যাক্টর Y</string>
     <string name="model_watermark_remover">সাধারণ ইমেজ ওয়াটারমার্ক সনাক্ত করে এবং LaMa দিয়ে রং করে। স্বয়ংক্রিয়ভাবে সনাক্তকরণ এবং ইনপেইন্টিং মডেল ডাউনলোড করে</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>

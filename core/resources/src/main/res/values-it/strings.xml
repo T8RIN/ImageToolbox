@@ -577,7 +577,6 @@
     <string name="warm">Caldo</string>
     <string name="cool">Freddo</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deuteranopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Acromatomalia</string>
     <string name="orange_haze">Foschia arancione</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">Fattore di scala X</string>
     <string name="ntsc_scale_factor_y">Fattore di scala Y</string>
     <string name="model_watermark_remover">Rileva filigrane di immagini comuni e le colora con LaMa. Scarica automaticamente i modelli di rilevamento e repainting</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>

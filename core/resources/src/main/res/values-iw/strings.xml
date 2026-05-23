@@ -548,7 +548,6 @@
     <string name="polaroid">פולארויד</string>
     <string name="tritonomaly">טריטנומליה</string>
     <string name="tritanopia">טריטנופיה</string>
-    <string name="deutaronotopia">דאוטרנופיה</string>
     <string name="achromatopsia">אכרומטופיה</string>
     <string name="gradient_type_linear">ליניארי</string>
     <string name="gradient_type_radial">רדיאלי</string>
@@ -2293,4 +2292,5 @@
     <string name="ntsc_scale_factor_x">גורם קנה מידה X</string>
     <string name="ntsc_scale_factor_y">גורם קנה מידה Y</string>
     <string name="model_watermark_remover">מזהה סימני מים נפוצים של תמונה וצובעת אותם עם LaMa. מוריד דגמי איתור וצביעה אוטומטית</string>
+    <string name="deuteranopia">דוטרנופיה</string>
 </resources>

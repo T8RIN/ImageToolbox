@@ -508,7 +508,6 @@
     <string name="warm">Mainit</string>
     <string name="cool">Malamig</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="pastel">Pastel</string>
     <string name="orange_haze">Orange Haze</string>
     <string name="pink_dream">Rosas na Panaginip</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">Scale factor X</string>
     <string name="ntsc_scale_factor_y">Scale factor Y</string>
     <string name="model_watermark_remover">Nakikita ang mga karaniwang watermark ng imahe at pinipintura ang mga ito gamit ang LaMa. Awtomatikong nagda-download ng detection at inpainting na mga modelo</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>

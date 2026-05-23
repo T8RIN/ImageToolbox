@@ -482,7 +482,6 @@
     <string name="warm">อบอุ่น</string>
     <string name="cool">เย็น</string>
     <string name="tritanopia">ทริตาโนเปีย</string>
-    <string name="deutaronotopia">ดิวตาโรโนโทเปีย</string>
     <string name="achromatopsia">อาการอะโครมาโทเซีย</string>
     <string name="autumn_tones">โทนสีฤดูใบไม้ร่วง</string>
     <string name="cyberpunk">ไซเบอร์พังค์</string>
@@ -2290,4 +2289,5 @@
     <string name="ntsc_scale_factor_x">สเกลแฟคเตอร์ X</string>
     <string name="ntsc_scale_factor_y">สเกลแฟคเตอร์ Y</string>
     <string name="model_watermark_remover">ตรวจจับลายน้ำทั่วไปของภาพและระบายสีด้วย LaMa ดาวน์โหลดโมเดลการตรวจจับและลงสีโดยอัตโนมัติ</string>
+    <string name="deuteranopia">ดิวเทอเรโนเปีย</string>
 </resources>

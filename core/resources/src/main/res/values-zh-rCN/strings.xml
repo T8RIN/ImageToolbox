@@ -728,7 +728,6 @@
     <string name="deutaromaly">绿色弱</string>
     <string name="vintage">复古</string>
     <string name="warm">温暖</string>
-    <string name="deutaronotopia">绿色盲</string>
     <string name="achromatomaly">不全色盲</string>
     <string name="grain">微粒</string>
     <string name="fantasy_landscape">奇幻风景</string>
@@ -2290,4 +2289,5 @@
     <string name="ntsc_scale_factor_x">比例因子 X</string>
     <string name="ntsc_scale_factor_y">比例因子Y</string>
     <string name="model_watermark_remover">检测常见图像水印并使用 LaMa 修复它们。自动下载检测和修复模型</string>
+    <string name="deuteranopia">绿盲</string>
 </resources>

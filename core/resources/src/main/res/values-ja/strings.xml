@@ -541,7 +541,6 @@
     <string name="warm">暖色</string>
     <string name="cool">寒色</string>
     <string name="tritanopia">トリタノピア</string>
-    <string name="deutaronotopia">デューテラノピア</string>
     <string name="protanopia">プロタノピア</string>
     <string name="achromatomaly">アクロマトマリー</string>
     <string name="achromatopsia">アクロマトプシア</string>
@@ -2290,4 +2289,5 @@
     <string name="ntsc_scale_factor_x">スケールファクターX</string>
     <string name="ntsc_scale_factor_y">スケール係数 Y</string>
     <string name="model_watermark_remover">一般的な画像の透かしを検出し、LaMa で修復します。検出および修復モデルを自動的にダウンロードします</string>
+    <string name="deuteranopia">第二盲</string>
 </resources>

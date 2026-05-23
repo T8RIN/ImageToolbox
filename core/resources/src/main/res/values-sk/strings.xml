@@ -556,7 +556,6 @@
     <string name="tritonomaly">Tritanomália</string>
     <string name="deutaromaly">Deuteranomália</string>
     <string name="protonomaly">Protanomália</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Achromatomaly</string>
     <string name="achromatopsia">Achromatopsia</string>
@@ -2293,4 +2292,5 @@
     <string name="ntsc_scale_factor_x">Mierkový faktor X</string>
     <string name="ntsc_scale_factor_y">Mierkový faktor Y</string>
     <string name="model_watermark_remover">Detekuje bežné vodoznaky obrázkov a vyfarbuje ich pomocou LaMa. Automaticky stiahne modely detekcie a maľovania</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>

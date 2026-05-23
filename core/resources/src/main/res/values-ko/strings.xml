@@ -524,7 +524,6 @@
     <string name="night_vision">나이트 비전</string>
     <string name="cool">시원한</string>
     <string name="tritanopia">삼변맹</string>
-    <string name="deutaronotopia">듀타로노토피아</string>
     <string name="protanopia">백색맹</string>
     <string name="achromatomaly">색종종</string>
     <string name="achromatopsia">색맹</string>
@@ -2290,4 +2289,5 @@
     <string name="ntsc_scale_factor_x">배율 X</string>
     <string name="ntsc_scale_factor_y">스케일 팩터 Y</string>
     <string name="model_watermark_remover">일반적인 이미지 워터마크를 감지하고 이를 LaMa로 인페인팅합니다. 감지 및 인페인팅 모델을 자동으로 다운로드합니다.</string>
+    <string name="deuteranopia">중수소맹</string>
 </resources>

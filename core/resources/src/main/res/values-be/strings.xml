@@ -461,7 +461,6 @@
     <string name="color_matrix_3x3">Каляровая матрыца 3х3</string>
     <string name="polaroid">Паляроід</string>
     <string name="browni">Браўні</string>
-    <string name="deutaronotopia">Дэўтаронатапія</string>
     <string name="protanopia">Пратанопія</string>
     <string name="gradient_type_linear">Лінейны</string>
     <string name="gradient_type_radial">Радыяльны</string>
@@ -2293,4 +2292,5 @@
     <string name="ntsc_scale_factor_x">Маштабны каэфіцыент X</string>
     <string name="ntsc_scale_factor_y">Маштабны каэфіцыент Y</string>
     <string name="model_watermark_remover">Выяўляе агульныя вадзяныя знакі малюнкаў і зафарбоўвае іх з дапамогай LaMa. Аўтаматычна спампоўвае мадэлі выяўлення і замалёўкі</string>
+    <string name="deuteranopia">Дэйтэранапія</string>
 </resources>

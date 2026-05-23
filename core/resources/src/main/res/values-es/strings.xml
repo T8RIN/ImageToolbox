@@ -528,7 +528,6 @@
     <string name="warm">Cálido</string>
     <string name="cool">Fresco</string>
     <string name="tritanopia">Tritanopía</string>
-    <string name="deutaronotopia">Deuteranopía</string>
     <string name="protanopia">Protanopía</string>
     <string name="achromatomaly">Acromatomalia</string>
     <string name="achromatopsia">Acromatopsia</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">Factor de escala X</string>
     <string name="ntsc_scale_factor_y">Factor de escala Y</string>
     <string name="model_watermark_remover">Detecta marcas de agua de imágenes comunes y las pinta con LaMa. Descarga modelos de detección y pintura automáticamente.</string>
+    <string name="deuteranopia">Deuteranopía</string>
 </resources>

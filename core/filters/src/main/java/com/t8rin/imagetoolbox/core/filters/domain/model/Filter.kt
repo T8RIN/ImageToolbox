@@ -171,7 +171,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface Deutaromaly : SimpleFilter
     interface Tritonomaly : SimpleFilter
     interface Protanopia : SimpleFilter
-    interface Deutaronotopia : SimpleFilter
+    interface Deuteranopia : SimpleFilter
     interface Tritanopia : SimpleFilter
     interface Achromatopsia : SimpleFilter
     interface Achromatomaly : SimpleFilter

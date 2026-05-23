@@ -727,7 +727,6 @@
     <string name="warm">càlid</string>
     <string name="cool">Collonut</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Acromatomalia</string>
     <string name="achromatopsia">Acromatòpsia</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">Factor d\'escala X</string>
     <string name="ntsc_scale_factor_y">Factor d\'escala Y</string>
     <string name="model_watermark_remover">Detecta filigranes d\'imatge habituals i les pinta amb LaMa. Descàrregues de detecció i pintar models automàticament</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>

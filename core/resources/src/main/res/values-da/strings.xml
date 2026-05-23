@@ -594,7 +594,6 @@
     <string name="browni">Browni</string>
     <string name="warm">Varm</string>
     <string name="cool">Fedt nok</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="tile_mode_repeated">Gentaget</string>
     <string name="tile_mode_mirror">Spejl</string>
     <string name="tile_mode_clamp">Klemme</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">Skalafaktor X</string>
     <string name="ntsc_scale_factor_y">Skalafaktor Y</string>
     <string name="model_watermark_remover">Registrerer almindelige billedvandmærker og maler dem med LaMa. Downloader detekterings- og indmalingsmodeller automatisk</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>

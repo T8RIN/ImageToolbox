@@ -582,7 +582,6 @@
     <string name="warm">சூடான</string>
     <string name="cool">குளிர்</string>
     <string name="tritanopia">டிரிடானோபியா</string>
-    <string name="deutaronotopia">டியூட்டரனோபியா</string>
     <string name="protanopia">புரோட்டானோபியா</string>
     <string name="achromatomaly">அக்ரோமடோமலி</string>
     <string name="achromatopsia">அக்ரோமடோப்சியா</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">அளவு காரணி X</string>
     <string name="ntsc_scale_factor_y">அளவு காரணி ஒய்</string>
     <string name="model_watermark_remover">பொதுவான பட வாட்டர்மார்க்ஸைக் கண்டறிந்து, அவற்றை லாமாவுடன் பூசுகிறது. கண்டறிதல் மற்றும் வண்ணப்பூச்சு மாதிரிகளை தானாக பதிவிறக்குகிறது</string>
+    <string name="deuteranopia">டியூட்டரனோபியா</string>
 </resources>

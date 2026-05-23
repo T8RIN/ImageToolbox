@@ -599,7 +599,6 @@
     <string name="omega">Omega</string>
     <string name="rate_app">Tarifa aplikazioa</string>
     <string name="rate">Tarifa</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Akromatomalia</string>
     <string name="achromatopsia">Akromatopsia</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">X eskala-faktorea</string>
     <string name="ntsc_scale_factor_y">Y eskala-faktorea</string>
     <string name="model_watermark_remover">Ohiko irudien ur-markak detektatzen ditu eta LaMa-rekin margotzen ditu. Automatikoki deskargatzen ditu detektatzeko eta margotzeko ereduak</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>

@@ -470,7 +470,6 @@
     <string name="protonomaly">Protonomálie</string>
     <string name="browni">Browni</string>
     <string name="coda_chrome">Coda Chrome</string>
-    <string name="deutaronotopia">Deutaronotopie</string>
     <string name="protanopia">Protanopie</string>
     <string name="achromatomaly">Achromatomálie</string>
     <string name="achromatopsia">Achromatopsie</string>
@@ -2293,4 +2292,5 @@
     <string name="ntsc_scale_factor_x">Měřítko X</string>
     <string name="ntsc_scale_factor_y">Měřítko Y</string>
     <string name="model_watermark_remover">Detekuje běžné obrazové vodoznaky a vybarvuje je pomocí LaMa. Automaticky stahuje modely detekce a malování</string>
+    <string name="deuteranopia">Deuteranopie</string>
 </resources>

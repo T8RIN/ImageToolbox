@@ -725,7 +725,6 @@
     <string name="warm">උණුසුම්</string>
     <string name="cool">සිසිල්</string>
     <string name="tritanopia">ට්රයිටනෝපියාව</string>
-    <string name="deutaronotopia">ඩියුටරොනොටෝපියාව</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">වර්ණදේහ</string>
     <string name="achromatopsia">ඇක්රොමැටොප්සියාව</string>
@@ -2292,4 +2291,5 @@
     <string name="ntsc_scale_factor_x">පරිමාණ සාධකය X</string>
     <string name="ntsc_scale_factor_y">පරිමාණ සාධකය Y</string>
     <string name="model_watermark_remover">පොදු රූප ජල සලකුණු හඳුනාගෙන ඒවා ලාමා සමඟ තීන්ත ආලේප කරයි. හඳුනාගැනීම් සහ පින්තාරු කිරීමේ ආකෘති ස්වයංක්‍රීයව බාගත කරයි</string>
+    <string name="deuteranopia">ඩියුටරනෝපියාව</string>
 </resources>

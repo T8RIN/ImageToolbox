@@ -704,7 +704,6 @@
     <string name="warm">ئىللىق</string>
     <string name="cool">Cool</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="grain">دان</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Achromatomaly</string>
@@ -2291,4 +2290,5 @@
     <string name="ntsc_scale_factor_x">تارازا ئامىلى X.</string>
     <string name="ntsc_scale_factor_y">تارازا ئامىلى Y.</string>
     <string name="model_watermark_remover">كۆپ ئۇچرايدىغان رەسىم سۇ بەلگىسىنى بايقايدۇ ۋە ئۇلارنى LaMa بىلەن سىرلايدۇ. بايقاش ۋە سىزىش مودېللىرىنى ئاپتوماتىك چۈشۈرىدۇ</string>
+    <string name="deuteranopia">Deuteranopia</string>
 </resources>
