@@ -16,6 +16,7 @@
  */
 
 import com.t8rin.imagetoolbox.implementation
+import org.gradle.kotlin.dsl.implementation
 
 /*
  * ImageToolbox is an image editor for android
@@ -48,6 +49,8 @@ dependencies {
     api(projects.core.utils)
     implementation(projects.core.di)
     implementation(projects.core.settings)
+
+    implementation(libs.dotlottie.android)
 
     // Navigation
     api(libs.decompose)

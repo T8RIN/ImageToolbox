@@ -30,7 +30,6 @@ dependencies {
     implementation(libs.coilGif)
     implementation(libs.coilSvg)
     implementation(libs.coil.resvg)
-    implementation(libs.dotlottie.android)
     implementation(libs.trickle)
 
     implementation(libs.androidx.compose.ui.graphics)

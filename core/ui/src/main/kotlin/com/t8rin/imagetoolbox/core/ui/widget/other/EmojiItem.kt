@@ -46,10 +46,15 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
 import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.lottiefiles.dotlottie.core.compose.runtime.DotLottieController
+import com.lottiefiles.dotlottie.core.compose.runtime.DotLottiePlayerState
+import com.lottiefiles.dotlottie.core.compose.ui.DotLottieAnimation
+import com.lottiefiles.dotlottie.core.util.DotLottieSource
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -82,33 +87,6 @@ fun EmojiItem(
         }
 
         var shimmering by rememberSaveable { mutableStateOf(true) }
-        val animatedPainter = animatedEmoji?.let {
-            rememberAsyncImagePainter(
-                model = remember(animatedEmoji, size) {
-                    derivedStateOf {
-                        ImageRequest.Builder(appContext)
-                            .data(animatedEmoji)
-                            .memoryCacheKey(animatedEmoji)
-                            .diskCacheKey(animatedEmoji)
-                            .size(
-                                with(density) { size.roundToPx() }
-                            )
-                            .listener(
-                                onStart = {
-                                    shimmering = true
-                                },
-                                onSuccess = { _, _ ->
-                                    shimmering = false
-                                }
-                            )
-                            .crossfade(true)
-                            .build()
-                    }
-                }.value,
-                imageLoader = appContext.imageLoader,
-                filterQuality = FilterQuality.High
-            )
-        }
         val painter = rememberAsyncImagePainter(
             model = remember(emoji) {
                 derivedStateOf {
@@ -144,7 +122,7 @@ fun EmojiItem(
         ) { emoji ->
             emoji?.let {
                 Box {
-                    if (animatedPainter == null) {
+                    if (animatedEmoji == null) {
                         Icon(
                             painter = painter,
                             contentDescription = emoji,
@@ -157,18 +135,40 @@ fun EmojiItem(
                             tint = Color(0, 0, 0, 40)
                         )
                     }
-                    Icon(
-                        painter = animatedPainter ?: painter,
-                        contentDescription = emoji,
-                        modifier = remember(size, shimmering) {
-                            Modifier
+
+                    if (animatedEmoji != null) {
+                        val controller = remember { DotLottieController() }
+                        val state by controller.currentState.collectAsStateWithLifecycle(
+                            initialValue = DotLottiePlayerState.PLAYING
+                        )
+
+                        DotLottieAnimation(
+                            source = remember(animatedEmoji) {
+                                DotLottieSource.Asset(animatedEmoji.removePrefix("file:///android_asset/"))
+                            },
+                            loop = true,
+                            autoplay = true,
+                            controller = controller,
+                            modifier = Modifier
                                 .size(size + 4.dp)
                                 .clip(CloverShape)
-                                .shimmer(shimmering)
+                                .shimmer(state != DotLottiePlayerState.PLAYING)
                                 .padding(2.dp)
-                        },
-                        tint = Color.Unspecified
-                    )
+                        )
+                    } else {
+                        Icon(
+                            painter = painter,
+                            contentDescription = emoji,
+                            modifier = remember(size, shimmering) {
+                                Modifier
+                                    .size(size + 4.dp)
+                                    .clip(CloverShape)
+                                    .shimmer(shimmering)
+                                    .padding(2.dp)
+                            },
+                            tint = Color.Unspecified
+                        )
+                    }
                 }
             } ?: onNoEmoji(size)
         }

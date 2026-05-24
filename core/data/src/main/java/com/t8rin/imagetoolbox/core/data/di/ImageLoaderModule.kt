@@ -112,7 +112,6 @@ internal object ImageLoaderModule {
                 )
             )
             add(AnimatedPngDecoder.Factory())
-            add(DotLottieDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 28) add(AnimatedImageDecoder.Factory())
             else {
                 add(GifDecoder.Factory())
