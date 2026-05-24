@@ -65,10 +65,10 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
-import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.Face5
 import com.t8rin.imagetoolbox.core.resources.icons.Face6
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.MotionMode
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -328,28 +328,28 @@ fun EmojiSelectionSheet(
                                             },
                                         contentAlignment = Alignment.Center
                                     ) {
-                                        val animatedEmoji by remember(emoji, useAnimatedEmojis) {
+                                        val animatedEmoji by remember(emoji) {
                                             derivedStateOf {
-                                                Emoji.animatedIconFor(emoji)
-                                                    ?.takeIf { useAnimatedEmojis }
-                                                    ?.toString()
+                                                Emoji.animatedIconFor(emoji)?.toString()
                                             }
                                         }
                                         EmojiItem(
                                             emoji = emoji.toString(),
-                                            animatedEmoji = animatedEmoji,
+                                            animatedEmoji = animatedEmoji.takeIf {
+                                                useAnimatedEmojis && emojiEnabled
+                                            },
                                             fontSize = MaterialTheme.typography.headlineLarge.fontSize,
                                             fontScale = 1f
                                         )
-                                        if (useAnimatedEmojis && Emoji.hasAnimatedIcon(emoji)) {
+                                        if (useAnimatedEmojis && animatedEmoji != null) {
                                             Icon(
-                                                imageVector = Icons.Rounded.Animation,
+                                                imageVector = Icons.Outlined.MotionMode,
                                                 contentDescription = null,
-                                                tint = MaterialTheme.colorScheme.primary,
+                                                tint = MaterialTheme.colorScheme.primary.copy(0.8f),
                                                 modifier = Modifier
                                                     .align(Alignment.TopEnd)
                                                     .offset((-4).dp, 4.dp)
-                                                    .size(16.dp)
+                                                    .size(12.dp)
                                             )
                                         }
                                     }

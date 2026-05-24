@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Animation
+import com.t8rin.imagetoolbox.core.resources.icons.MotionMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -48,6 +48,6 @@ fun UseAnimatedEmojisSettingItem(
         onClick = {
             onClick()
         },
-        startIcon = Icons.Rounded.Animation
+        startIcon = Icons.Outlined.MotionMode
     )
 }

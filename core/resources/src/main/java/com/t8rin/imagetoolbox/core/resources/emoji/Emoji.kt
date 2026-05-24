@@ -52,8 +52,6 @@ object Emoji {
 
     fun animatedIconFor(icon: Uri): Uri? = _animatedIcons?.get(icon)
 
-    fun hasAnimatedIcon(icon: Uri): Boolean = animatedIconFor(icon) != null
-
     fun Context.initEmoji() {
         synchronized(Emoji) {
             if (!_allIcons.isNullOrEmpty() && !_allIconsCategorized.isNullOrEmpty()) return
