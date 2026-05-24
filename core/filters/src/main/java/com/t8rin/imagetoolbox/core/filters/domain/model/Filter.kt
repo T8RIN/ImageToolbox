@@ -372,6 +372,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface Bloom : Filter<BloomParams>
     interface Distortion : FloatFilter
     interface VHSNtsc : Filter<NtscParams>
+    interface ExpandImage : QuadFloatFilter
 }
 
 interface SimpleFilter : Filter<Unit>
