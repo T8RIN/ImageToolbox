@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -2302,7 +2301,7 @@
     <string name="ntsc_chroma_lowpass_out">输出色度低通</string>
     <string name="ntsc_scale_horizontal">水平缩放</string>
     <string name="ntsc_scale_vertical">垂直缩放</string>
-    <string name="ntsc_scale_factor_x">比例因子 X</string>
+    <string name="ntsc_scale_factor_x">比例因子X</string>
     <string name="ntsc_scale_factor_y">比例因子Y</string>
     <string name="model_watermark_remover">检测常见图像水印并使用 LaMa 修复它们。自动下载检测和修复模型</string>
     <string name="deuteranopia">绿盲</string>
