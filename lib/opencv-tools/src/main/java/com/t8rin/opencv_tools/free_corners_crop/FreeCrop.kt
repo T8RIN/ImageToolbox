@@ -26,6 +26,7 @@ import com.t8rin.opencv_tools.free_corners_crop.model.toOpenCVPoint
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
+import kotlinx.coroutines.coroutineScope
 import org.opencv.core.Mat
 import org.opencv.core.MatOfPoint2f
 import org.opencv.core.Point
@@ -35,10 +36,10 @@ import kotlin.math.min
 
 object FreeCrop : OpenCV() {
 
-    fun crop(
+    suspend fun crop(
         bitmap: Bitmap,
         points: List<Offset>
-    ): Bitmap {
+    ): Bitmap = coroutineScope {
         val corners = Quad(
             topLeftCorner = PointF(points[0].x, points[0].y),
             topRightCorner = PointF(points[1].x, points[1].y),
@@ -77,7 +78,7 @@ object FreeCrop : OpenCV() {
             Size(width, height)
         )
 
-        return output.toBitmap()
+        output.toBitmap()
     }
 
 }
