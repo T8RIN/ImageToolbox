@@ -348,7 +348,7 @@ fun EmojiSelectionSheet(
                                                 tint = MaterialTheme.colorScheme.primary.copy(0.8f),
                                                 modifier = Modifier
                                                     .align(Alignment.TopEnd)
-                                                    .offset((-4).dp, 4.dp)
+                                                    .offset((-2).dp, 2.dp)
                                                     .size(12.dp)
                                             )
                                         }
