@@ -493,6 +493,7 @@ or click one of the badges below.
     - [x] Bloom
     - [x] Distortion
     - [x] VHS NTSC
+    - [x] Expand Image
 
 
   </details>
