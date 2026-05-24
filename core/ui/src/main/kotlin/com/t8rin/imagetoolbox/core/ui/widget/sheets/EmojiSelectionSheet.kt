@@ -345,10 +345,10 @@ fun EmojiSelectionSheet(
                                             Icon(
                                                 imageVector = Icons.Outlined.MotionMode,
                                                 contentDescription = null,
-                                                tint = MaterialTheme.colorScheme.primary.copy(0.8f),
+                                                tint = MaterialTheme.colorScheme.primary.copy(0.6f),
                                                 modifier = Modifier
                                                     .align(Alignment.TopEnd)
-                                                    .offset((-2).dp, 2.dp)
+                                                    .offset((-6).dp, 6.dp)
                                                     .size(12.dp)
                                             )
                                         }
