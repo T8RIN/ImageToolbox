@@ -520,8 +520,16 @@ or click one of the badges below.
 - Image Stacking
 - Image Splitting
 - Background Removal
-    - By drawing
-  - Automatically (MlKit, U2NetP, U2Net, RMBG, InSPyReNet, BiRefNet, ISNet)
+  - By drawing
+  - Automatically
+    - MlKit
+    - U2NetP
+    - U2Net
+    - RMBG
+    - InSPyReNet
+    - BiRefNet
+    - ISNet
+    - YOLO
 - Watermarking
     - Repeating Text
     - Image
