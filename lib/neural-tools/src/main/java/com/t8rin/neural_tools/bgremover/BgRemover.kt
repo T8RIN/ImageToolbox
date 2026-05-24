@@ -41,7 +41,8 @@ object BgRemover : NeuralTool() {
         U2Net,
         BiRefNet,
         BiRefNetTiny,
-        ISNet
+        ISNet,
+        YOLO
     }
 
     val downloadedModels: StateFlow<List<Type>> = channelFlow {
@@ -91,6 +92,7 @@ object BgRemover : NeuralTool() {
         Type.BiRefNet -> BiRefNetBackgroundRemover
         Type.BiRefNetTiny -> BiRefNetTinyBackgroundRemover
         Type.ISNet -> ISNetBackgroundRemover
+        Type.YOLO -> YoloSegRemover
     }
 
 }

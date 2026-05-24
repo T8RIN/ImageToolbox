@@ -953,6 +953,15 @@ data class NeuralModel(
                     speed = Speed.VeryFast(0.437f),
                     checksum = "3d2dc0af5e2cdf3a31655c4c673df9ad74f14775d74237bd0dc68fc885bd6841"
                 ),
+                NeuralModel(
+                    downloadLink = res("yolo11x-seg.onnx"),
+                    title = "YOLO v11",
+                    description = R.string.model_yolo,
+                    type = Type.REMOVE_BG,
+                    downloadSize = 249033763,
+                    speed = Speed.Normal(1.260f),
+                    checksum = "ef451889f4744d3d5ab47b82c16b7ffe3f15d2233c7aa77dfd4773fd8221b508"
+                )
             ).sortedBy { it.type?.ordinal }
         }
 

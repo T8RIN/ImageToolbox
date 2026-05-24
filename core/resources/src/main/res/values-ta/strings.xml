@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
@@ -2291,4 +2307,6 @@
     <string name="ntsc_scale_factor_y">அளவு காரணி ஒய்</string>
     <string name="model_watermark_remover">பொதுவான பட வாட்டர்மார்க்ஸைக் கண்டறிந்து, அவற்றை லாமாவுடன் பூசுகிறது. கண்டறிதல் மற்றும் வண்ணப்பூச்சு மாதிரிகளை தானாக பதிவிறக்குகிறது</string>
     <string name="deuteranopia">டியூட்டரனோபியா</string>
+    <string name="expand_image">படத்தை விரிவாக்கு</string>
+    <string name="model_yolo">YOLO v11 பிரிவைப் பயன்படுத்தி ஆப்ஜெக்ட் பிரிவு அடிப்படையிலான பின்னணி நீக்கி</string>
 </resources>

@@ -50,7 +50,7 @@ import kotlin.math.roundToInt
 
 abstract class GenericBackgroundRemover(
     path: String,
-    val trainedSize: Int?
+    open val trainedSize: Int?
 ) : NeuralTool() {
 
     private val downloadLink = baseUrl.replace(

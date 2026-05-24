@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
@@ -2291,4 +2307,6 @@
     <string name="ntsc_scale_factor_y">স্কেল ফ্যাক্টর Y</string>
     <string name="model_watermark_remover">সাধারণ ইমেজ ওয়াটারমার্ক সনাক্ত করে এবং LaMa দিয়ে রং করে। স্বয়ংক্রিয়ভাবে সনাক্তকরণ এবং ইনপেইন্টিং মডেল ডাউনলোড করে</string>
     <string name="deuteranopia">Deuteranopia</string>
+    <string name="expand_image">ছবি প্রসারিত করুন</string>
+    <string name="model_yolo">YOLO v11 সেগমেন্টেশন ব্যবহার করে অবজেক্ট সেগমেন্টেশন ভিত্তিক ব্যাকগ্রাউন্ড রিমুভার</string>
 </resources>

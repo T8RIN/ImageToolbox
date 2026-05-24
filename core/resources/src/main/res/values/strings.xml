@@ -2330,4 +2330,5 @@
     <string name="ntsc_scale_factor_y">Scale factor Y</string>
     <string name="model_watermark_remover">Detects common image watermarks and inpaints them with LaMa. Downloads detection and inpainting models automatically</string>
     <string name="expand_image">Expand Image</string>
+    <string name="model_yolo">Object segmentation based background remover using YOLO v11 Segmentation</string>
 </resources>

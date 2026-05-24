@@ -28,7 +28,8 @@ enum class BgModelType(
     RMBG("RMBG"),
     InSPyReNet("InSPyReNet"),
     BiRefNetTiny("BiRefNet"),
-    ISNet("ISNet");
+    ISNet("ISNet"),
+    YOLO("YOLO");
 
     companion object {
         val Default = if (Flavor.isFoss()) U2NetP else MlKit

@@ -466,6 +466,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 name.startsWith("RMBG_1.4") -> BgRemover.Type.RMBG1_4
                 name.startsWith("birefnet_swin_tiny") -> BgRemover.Type.BiRefNetTiny
                 name.startsWith("isnet") -> BgRemover.Type.ISNet
+                name.startsWith("yolo") -> BgRemover.Type.YOLO
                 else -> return null
             }
         )

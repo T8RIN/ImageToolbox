@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -55,6 +54,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadForOffline
@@ -289,6 +289,7 @@ private fun BgModelType.toLib(): BgRemover.Type = when (this) {
     BgModelType.InSPyReNet -> BgRemover.Type.InSPyReNet
     BgModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
     BgModelType.ISNet -> BgRemover.Type.ISNet
+    BgModelType.YOLO -> BgRemover.Type.YOLO
 }
 
 private fun BgRemover.Type.toDomain(): BgModelType? = when (this) {
@@ -299,4 +300,5 @@ private fun BgRemover.Type.toDomain(): BgModelType? = when (this) {
     BgRemover.Type.BiRefNetTiny -> BgModelType.BiRefNetTiny
     BgRemover.Type.BiRefNet -> null
     BgRemover.Type.ISNet -> BgModelType.ISNet
+    BgRemover.Type.YOLO -> BgModelType.YOLO
 }
