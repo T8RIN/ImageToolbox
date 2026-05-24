@@ -43,73 +43,105 @@ object Emoji {
     @Volatile
     private var _allIcons: ImmutableList<Uri>? = null
 
+    @Volatile
+    private var _animatedIcons: Map<Uri, Uri>? = null
+
     val allIcons: ImmutableList<Uri> get() = _allIcons ?: persistentListOf()
     val allIconsCategorized: ImmutableList<EmojiData>
         get() = _allIconsCategorized ?: persistentListOf()
+
+    fun animatedIconFor(icon: Uri): Uri? = _animatedIcons?.get(icon)
+
+    fun hasAnimatedIcon(icon: Uri): Boolean = animatedIconFor(icon) != null
 
     fun Context.initEmoji() {
         synchronized(Emoji) {
             if (!_allIcons.isNullOrEmpty() && !_allIconsCategorized.isNullOrEmpty()) return
 
-            val categories = persistentListOf(
-                emojiData(
+            val animatedIcons = mutableMapOf<Uri, Uri>()
+            val categories = listOf(
+                EmojiCategory(
                     title = R.string.emotions,
                     icon = Icons.Outlined.EmojiEmotions,
                     category = "emotions"
                 ),
-                emojiData(
+                EmojiCategory(
                     title = R.string.food_and_drink,
                     icon = Icons.Outlined.EmojiFoodBeverage,
                     category = "food"
                 ),
-                emojiData(
+                EmojiCategory(
                     title = R.string.nature_and_animals,
                     icon = Icons.Outlined.EmojiNature,
                     category = "nature"
                 ),
-                emojiData(
+                EmojiCategory(
                     title = R.string.objects,
                     icon = Icons.Outlined.EmojiObjects,
                     category = "objects"
                 ),
-                emojiData(
+                EmojiCategory(
                     title = R.string.activities,
                     icon = Icons.Outlined.EmojiEvents,
                     category = "events"
                 ),
-                emojiData(
+                EmojiCategory(
                     title = R.string.travels_and_places,
                     icon = Icons.Outlined.EmojiTransportation,
                     category = "transportation"
                 ),
-                emojiData(
+                EmojiCategory(
                     title = R.string.symbols,
                     icon = Icons.Rounded.EmojiSymbols,
                     category = "symbols"
                 )
-            )
+            ).map { category ->
+                emojiData(
+                    title = category.title,
+                    icon = category.icon,
+                    category = category.category,
+                    animatedIcons = animatedIcons
+                )
+            }.toPersistentList()
 
             _allIconsCategorized = categories
             _allIcons = categories
                 .flatMap(EmojiData::emojis)
                 .toPersistentList()
+            _animatedIcons = animatedIcons
         }
     }
 
     private fun Context.emojiData(
         @StringRes title: Int,
         icon: ImageVector,
-        category: String
+        category: String,
+        animatedIcons: MutableMap<Uri, Uri>
     ) = EmojiData(
         title = title,
         icon = icon,
-        emojis = assets
-            .list("svg/$category")?.toList().orEmpty()
-            .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { filename ->
-                "file:///android_asset/svg/$category/$filename".toUri()
-            }
-            .toPersistentList()
+        emojis = assets.list("lottie/$category")?.toSet().orEmpty().let { animatedFiles ->
+            assets.list("svg/$category")?.toList().orEmpty()
+                .sortedWith(String.CASE_INSENSITIVE_ORDER)
+                .map { filename ->
+                    val iconUri = "file:///android_asset/svg/$category/$filename".toUri()
+                    val animatedFilename = filename.replaceAfterLast(".", "lottie")
+
+                    if (animatedFilename in animatedFiles) {
+                        animatedIcons[iconUri] =
+                            "file:///android_asset/lottie/$category/$animatedFilename".toUri()
+                    }
+
+                    iconUri
+                }
+                .toPersistentList()
+        }
+    )
+
+    private data class EmojiCategory(
+        @StringRes val title: Int,
+        val icon: ImageVector,
+        val category: String
     )
 
 }

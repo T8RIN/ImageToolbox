@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,7 +34,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.icons.Block
 import com.t8rin.imagetoolbox.core.resources.icons.Casino
 import com.t8rin.imagetoolbox.core.resources.icons.Cool
@@ -84,6 +85,7 @@ fun EmojiSettingItem(
         },
         endContent = {
             val emoji = LocalSettingsState.current.selectedEmoji
+            val settings = LocalSettingsState.current
             Box(
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -101,6 +103,10 @@ fun EmojiSettingItem(
             ) {
                 EmojiItem(
                     emoji = emoji?.toString(),
+                    animatedEmoji = emoji
+                        ?.takeIf { settings.useAnimatedEmojis }
+                        ?.let(Emoji::animatedIconFor)
+                        ?.toString(),
                     modifier = Modifier.then(
                         if (emoji != null) {
                             Modifier.scaleOnTap(

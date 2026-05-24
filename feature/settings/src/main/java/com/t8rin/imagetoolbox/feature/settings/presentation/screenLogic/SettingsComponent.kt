@@ -386,6 +386,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleUseRandomEmojis() = settingsScope { toggleUseRandomEmojis() }
 
+    fun toggleUseAnimatedEmojis() = settingsScope { toggleUseAnimatedEmojis() }
+
     fun setIconShape(iconShape: Int) = settingsScope { setIconShape(iconShape) }
 
     fun setDragHandleWidth(width: Int) = settingsScope { setDragHandleWidth(width) }

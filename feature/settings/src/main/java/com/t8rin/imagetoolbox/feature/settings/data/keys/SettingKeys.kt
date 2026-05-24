@@ -77,6 +77,7 @@ internal val SCREENS_WITH_BRIGHTNESS_ENFORCEMENT =
 internal val CONFETTI_ENABLED = booleanPreferencesKey("CONFETTI_ENABLED")
 internal val SECURE_MODE = booleanPreferencesKey("SECURE_MODE")
 internal val USE_RANDOM_EMOJIS = booleanPreferencesKey("USE_RANDOM_EMOJIS")
+internal val USE_ANIMATED_EMOJIS = booleanPreferencesKey("USE_ANIMATED_EMOJIS")
 internal val ICON_SHAPE = intPreferencesKey("ICON_SHAPE")
 internal val USE_EMOJI_AS_PRIMARY_COLOR = booleanPreferencesKey("USE_EMOJI_AS_PRIMARY_COLOR")
 internal val DRAG_HANDLE_WIDTH = intPreferencesKey("DRAG_HANDLE_WIDTH")

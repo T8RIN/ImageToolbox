@@ -33,7 +33,9 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -63,11 +65,13 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
+import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.Face5
 import com.t8rin.imagetoolbox.core.resources.icons.Face6
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -98,6 +102,7 @@ fun EmojiSelectionSheet(
     val state = rememberLazyGridState()
     val emojiWithCategories = Emoji.allIconsCategorized
     val allEmojis = Emoji.allIcons
+    val useAnimatedEmojis = LocalSettingsState.current.useAnimatedEmojis
 
     LaunchedEffect(visible) {
         delay(600)
@@ -323,11 +328,30 @@ fun EmojiSelectionSheet(
                                             },
                                         contentAlignment = Alignment.Center
                                     ) {
+                                        val animatedEmoji by remember(emoji, useAnimatedEmojis) {
+                                            derivedStateOf {
+                                                Emoji.animatedIconFor(emoji)
+                                                    ?.takeIf { useAnimatedEmojis }
+                                                    ?.toString()
+                                            }
+                                        }
                                         EmojiItem(
                                             emoji = emoji.toString(),
+                                            animatedEmoji = animatedEmoji,
                                             fontSize = MaterialTheme.typography.headlineLarge.fontSize,
                                             fontScale = 1f
                                         )
+                                        if (useAnimatedEmojis && Emoji.hasAnimatedIcon(emoji)) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Animation,
+                                                contentDescription = null,
+                                                tint = MaterialTheme.colorScheme.primary,
+                                                modifier = Modifier
+                                                    .align(Alignment.TopEnd)
+                                                    .offset((-4).dp, 4.dp)
+                                                    .size(16.dp)
+                                            )
+                                        }
                                     }
                                 }
                             }

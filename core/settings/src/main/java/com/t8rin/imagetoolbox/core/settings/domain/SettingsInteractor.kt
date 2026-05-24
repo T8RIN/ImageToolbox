@@ -150,6 +150,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleUseRandomEmojis()
 
+    suspend fun toggleUseAnimatedEmojis()
+
     suspend fun setIconShape(iconShape: Int)
 
     suspend fun toggleUseEmojiAsPrimaryColor()

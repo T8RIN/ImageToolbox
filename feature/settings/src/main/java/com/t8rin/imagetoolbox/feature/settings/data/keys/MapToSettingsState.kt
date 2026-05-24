@@ -115,6 +115,7 @@ internal fun Preferences.toSettingsState(
     isConfettiEnabled = this[CONFETTI_ENABLED] ?: default.isConfettiEnabled,
     isSecureMode = this[SECURE_MODE] ?: default.isSecureMode,
     useRandomEmojis = this[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis,
+    useAnimatedEmojis = this[USE_ANIMATED_EMOJIS] ?: default.useAnimatedEmojis,
     iconShape = (this[ICON_SHAPE] ?: default.iconShape)?.takeIf { it >= 0 },
     useEmojiAsPrimaryColor = this[USE_EMOJI_AS_PRIMARY_COLOR]
         ?: default.useEmojiAsPrimaryColor,

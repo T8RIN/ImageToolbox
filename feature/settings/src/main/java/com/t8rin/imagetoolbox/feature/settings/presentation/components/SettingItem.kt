@@ -435,6 +435,10 @@ internal fun SettingItem(
                 UseRandomEmojisSettingItem(onClick = component::toggleUseRandomEmojis)
             }
 
+            Setting.UseAnimatedEmojis -> {
+                UseAnimatedEmojisSettingItem(onClick = component::toggleUseAnimatedEmojis)
+            }
+
             Setting.IconShape -> {
                 IconShapeSettingItem(
                     value = component.settingsState.iconShape,

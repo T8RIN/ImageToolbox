@@ -776,6 +776,8 @@
     <string name="random_emojis_sub">Эмодзи будет постоянно меняться случайным образом, а не использовать выбранный</string>
     <string name="random_emojis">Случайные эмодзи</string>
     <string name="random_emojis_error">Невозможно использовать случайный выбор эмодзи, пока они отключены</string>
+    <string name="animated_emojis">Анимированные эмодзи</string>
+    <string name="animated_emojis_sub">Показывать доступные эмодзи как анимации</string>
     <string name="old_tv">Старый телевизор</string>
     <string name="shuffle_blur">Размытие перемешиванием</string>
     <string name="no_favorite_filters">Избранные фильтры пока не добавлены</string>

@@ -164,6 +164,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SWITCH_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SYSTEM_BARS_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_CONTRAST_LEVEL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_STYLE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_ANIMATED_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_COMPACT_SELECTORS_LAYOUT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_EMOJI_AS_PRIMARY_COLOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
@@ -554,6 +555,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleUseRandomEmojis() = toggle(
         key = USE_RANDOM_EMOJIS,
         defaultValue = default.useRandomEmojis
+    )
+
+    override suspend fun toggleUseAnimatedEmojis() = toggle(
+        key = USE_ANIMATED_EMOJIS,
+        defaultValue = default.useAnimatedEmojis
     )
 
     override suspend fun setIconShape(iconShape: Int) = edit {

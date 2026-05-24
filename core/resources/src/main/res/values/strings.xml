@@ -800,6 +800,8 @@
     <string name="random_emojis_sub">The app bar emoji will change randomly</string>
     <string name="random_emojis">Random Emojis</string>
     <string name="random_emojis_error">You cannot use random emojis while emojis are disabled</string>
+    <string name="animated_emojis">Animated Emojis</string>
+    <string name="animated_emojis_sub">Show available emoji as animations</string>
     <string name="emoji_selection_error">You cannot select an emoji while random emojis are enabled</string>
     <string name="old_tv">Old Tv</string>
     <string name="shuffle_blur">Shuffle Blur</string>

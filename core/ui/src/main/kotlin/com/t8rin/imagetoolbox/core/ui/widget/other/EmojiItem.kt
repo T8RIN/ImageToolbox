@@ -32,6 +32,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -56,52 +57,22 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 @Composable
 fun EmojiItem(
     emoji: String?,
+    animatedEmoji: String? = null,
     modifier: Modifier = Modifier,
     fontSize: TextUnit = LocalTextStyle.current.fontSize,
     fontScale: Float,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
-    val dens = LocalDensity.current
-    val density by remember(dens, fontScale) {
-        derivedStateOf {
-            Density(
-                density = dens.density,
-                fontScale = fontScale
-            )
-        }
-    }
-    var shimmering by rememberSaveable { mutableStateOf(true) }
-    val painter = rememberAsyncImagePainter(
-        model = remember(emoji) {
+    key(animatedEmoji) {
+        val dens = LocalDensity.current
+        val density by remember(dens, fontScale) {
             derivedStateOf {
-                ImageRequest.Builder(appContext)
-                    .data(emoji)
-                    .memoryCacheKey(emoji)
-                    .diskCacheKey(emoji)
-                    .size(512)
-                    .listener(
-                        onStart = {
-                            shimmering = true
-                        },
-                        onSuccess = { _, _ ->
-                            shimmering = false
-                        }
-                    )
-                    .crossfade(true)
-                    .build()
+                Density(
+                    density = dens.density,
+                    fontScale = fontScale
+                )
             }
-        }.value,
-        imageLoader = appContext.imageLoader,
-        filterQuality = FilterQuality.High
-    )
-
-    AnimatedContent(
-        targetState = emoji to fontSize,
-        modifier = modifier,
-        transitionSpec = {
-            fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(targetScale = 0.85f)
         }
-    ) { (emoji, fontSize) ->
         val size by remember(fontSize, density) {
             derivedStateOf {
                 with(density) {
@@ -109,32 +80,97 @@ fun EmojiItem(
                 }
             }
         }
-        emoji?.let {
-            Box {
-                Icon(
-                    painter = painter,
-                    contentDescription = emoji,
-                    modifier = remember(size) {
-                        Modifier
-                            .size(size + 4.dp)
-                            .offset(1.dp, 1.dp)
-                            .padding(2.dp)
-                    },
-                    tint = Color(0, 0, 0, 40)
-                )
-                Icon(
-                    painter = painter,
-                    contentDescription = emoji,
-                    modifier = remember(size, shimmering) {
-                        Modifier
-                            .size(size + 4.dp)
-                            .clip(CloverShape)
-                            .shimmer(shimmering)
-                            .padding(2.dp)
-                    },
-                    tint = Color.Unspecified
+
+        var shimmering by rememberSaveable { mutableStateOf(true) }
+        val animatedPainter = animatedEmoji?.let {
+            rememberAsyncImagePainter(
+                model = remember(animatedEmoji, size) {
+                    derivedStateOf {
+                        ImageRequest.Builder(appContext)
+                            .data(animatedEmoji)
+                            .memoryCacheKey(animatedEmoji)
+                            .diskCacheKey(animatedEmoji)
+                            .size(
+                                with(density) { size.roundToPx() }
+                            )
+                            .listener(
+                                onStart = {
+                                    shimmering = true
+                                },
+                                onSuccess = { _, _ ->
+                                    shimmering = false
+                                }
+                            )
+                            .crossfade(true)
+                            .build()
+                    }
+                }.value,
+                imageLoader = appContext.imageLoader,
+                filterQuality = FilterQuality.High
+            )
+        }
+        val painter = rememberAsyncImagePainter(
+            model = remember(emoji) {
+                derivedStateOf {
+                    ImageRequest.Builder(appContext)
+                        .data(emoji)
+                        .memoryCacheKey(emoji)
+                        .diskCacheKey(emoji)
+                        .size(512)
+                        .listener(
+                            onStart = {
+                                shimmering = true
+                            },
+                            onSuccess = { _, _ ->
+                                shimmering = false
+                            }
+                        )
+                        .crossfade(true)
+                        .build()
+                }
+            }.value,
+            imageLoader = appContext.imageLoader,
+            filterQuality = FilterQuality.High
+        )
+
+        AnimatedContent(
+            targetState = emoji,
+            modifier = modifier,
+            transitionSpec = {
+                fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(
+                    targetScale = 0.85f
                 )
             }
-        } ?: onNoEmoji(size)
+        ) { emoji ->
+            emoji?.let {
+                Box {
+                    if (animatedPainter == null) {
+                        Icon(
+                            painter = painter,
+                            contentDescription = emoji,
+                            modifier = remember(size) {
+                                Modifier
+                                    .size(size + 4.dp)
+                                    .offset(1.dp, 1.dp)
+                                    .padding(2.dp)
+                            },
+                            tint = Color(0, 0, 0, 40)
+                        )
+                    }
+                    Icon(
+                        painter = animatedPainter ?: painter,
+                        contentDescription = emoji,
+                        modifier = remember(size, shimmering) {
+                            Modifier
+                                .size(size + 4.dp)
+                                .clip(CloverShape)
+                                .shimmer(shimmering)
+                                .padding(2.dp)
+                        },
+                        tint = Color.Unspecified
+                    )
+                }
+            } ?: onNoEmoji(size)
+        }
     }
 }

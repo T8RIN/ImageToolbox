@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
@@ -57,6 +58,10 @@ fun TopAppBarEmoji() {
                         fontScale = LocalSettingsState.current.fontScale
                             ?: LocalDensity.current.fontScale,
                         emoji = settingsState.selectedEmoji?.toString(),
+                        animatedEmoji = settingsState.selectedEmoji
+                            ?.takeIf { settingsState.useAnimatedEmojis }
+                            ?.let(Emoji::animatedIconFor)
+                            ?.toString(),
                         fontSize = MaterialTheme.typography.headlineMedium.fontSize
                     )
                 }

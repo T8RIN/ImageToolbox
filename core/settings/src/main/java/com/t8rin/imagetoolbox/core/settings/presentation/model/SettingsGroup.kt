@@ -363,6 +363,7 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.Emoji,
             Setting.EmojisCount,
+            Setting.UseAnimatedEmojis,
             Setting.UseRandomEmojis
         ),
         initialState = false

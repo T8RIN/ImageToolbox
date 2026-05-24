@@ -338,6 +338,11 @@ sealed class Setting(
         subtitle = R.string.random_emojis_sub
     )
 
+    data object UseAnimatedEmojis : Setting(
+        title = R.string.animated_emojis,
+        subtitle = R.string.animated_emojis_sub
+    )
+
     data object IconShape : Setting(
         title = R.string.icon_shape,
         subtitle = R.string.icon_shape_sub

@@ -44,6 +44,7 @@ gms = "4.4.4"
 
 ktor = "3.5.0"
 coil = "3.4.0"
+dotlottieAndroid = "0.13.7"
 appCompat = "1.8.0-alpha01"
 androidxCore = "1.18.0"
 desugaring = "2.1.5"
@@ -161,6 +162,7 @@ coilCompose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coilGif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coil" }
 coilSvg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+dotlottie-android = { module = "com.github.LottieFiles:dotlottie-android", version.ref = "dotlottieAndroid" }
 
 jxl-coder-coil = { module = "io.github.awxkee:jxl-coder-coil", version.ref = "jxlCoderCoil" }
 jxl-coder = { module = "io.github.awxkee:jxl-coder", version.ref = "jxlCoder" }

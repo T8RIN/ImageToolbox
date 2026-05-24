@@ -41,6 +41,7 @@ import com.t8rin.awebp.coil.AnimatedWebPDecoder
 import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.imagetoolbox.core.data.coil.Base64Fetcher
 import com.t8rin.imagetoolbox.core.data.coil.CoilLogger
+import com.t8rin.imagetoolbox.core.data.coil.DotLottieDecoder
 import com.t8rin.imagetoolbox.core.data.coil.NefDecoder
 import com.t8rin.imagetoolbox.core.data.coil.PdfDecoder
 import com.t8rin.imagetoolbox.core.data.coil.SvgDecoderCompat
@@ -111,6 +112,7 @@ internal object ImageLoaderModule {
                 )
             )
             add(AnimatedPngDecoder.Factory())
+            add(DotLottieDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 28) add(AnimatedImageDecoder.Factory())
             else {
                 add(GifDecoder.Factory())
