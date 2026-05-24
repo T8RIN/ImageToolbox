@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
@@ -133,6 +134,9 @@ fun EasterEggContent(
                         emojiData.forEach { emoji ->
                             EmojiItem(
                                 emoji = emoji,
+                                animatedEmoji = remember(emoji) {
+                                    Emoji.animatedIconFor(emoji.toUri())
+                                }?.toString(),
                                 fontScale = 1f
                             )
                         }
