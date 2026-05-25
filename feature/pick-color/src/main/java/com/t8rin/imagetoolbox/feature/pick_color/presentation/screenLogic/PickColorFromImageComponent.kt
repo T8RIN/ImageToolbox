@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -70,7 +71,7 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
     }
 
     fun updateColor(color: Color) {
-        _color.value = color
+        _color.value = color.takeOrElse { _color.value }
     }
 
     @AssistedFactory

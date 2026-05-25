@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,9 +37,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.ZoomIn
@@ -75,6 +77,7 @@ fun PickColorFromImageContent(
 
     AutoContentBasedColors(component.bitmap)
     AutoContentBasedColors(component.color)
+    val displayColor = component.color.takeOrElse { Color.Transparent }
 
     val imagePicker = rememberImagePicker { uri: Uri ->
         component.setUri(
@@ -144,7 +147,7 @@ fun PickColorFromImageContent(
                     onGoBack = component.onGoBack,
                     isPortrait = isPortrait,
                     magnifierButton = magnifierButton,
-                    color = component.color
+                    color = displayColor
                 )
             },
             bottomBar = {
@@ -152,7 +155,7 @@ fun PickColorFromImageContent(
                     bitmap = component.bitmap,
                     isPortrait = isPortrait,
                     switch = switch,
-                    color = component.color,
+                    color = displayColor,
                     onPickImage = pickImage,
                     onOneTimePickImage = { showOneTimeImagePickingDialog = true },
                 )
@@ -168,7 +171,7 @@ fun PickColorFromImageContent(
                 onOneTimePickImage = { showOneTimeImagePickingDialog = true },
                 magnifierButton = magnifierButton,
                 switch = switch,
-                color = component.color,
+                color = displayColor,
                 contentPadding = contentPadding
             )
         }

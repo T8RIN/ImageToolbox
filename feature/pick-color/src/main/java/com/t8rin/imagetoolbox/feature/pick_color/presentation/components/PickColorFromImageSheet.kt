@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -46,10 +45,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.ImageColorDetector
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -76,6 +77,7 @@ fun PickColorFromImageSheet(
 ) {
     val settingsState = LocalSettingsState.current
     var panEnabled by rememberSaveable { mutableStateOf(false) }
+    val displayColor = color.takeOrElse { Color.Transparent }
 
     EnhancedModalBottomSheet(
         sheetContent = {
@@ -85,7 +87,7 @@ fun PickColorFromImageSheet(
                 remember(bitmap) { bitmap?.asImageBitmap() }?.let {
                     ImageColorDetector(
                         panEnabled = panEnabled,
-                        color = color,
+                        color = displayColor,
                         imageBitmap = it,
                         onColorChange = onColorChange,
                         isMagnifierEnabled = settingsState.magnifierEnabled,
@@ -137,21 +139,21 @@ fun PickColorFromImageSheet(
                                 modifier = Modifier
                                     .padding(end = 16.dp)
                                     .background(
-                                        color = animateColorAsState(color).value,
+                                        color = animateColorAsState(displayColor).value,
                                         shape = ShapeDefaults.small
                                     )
                                     .size(40.dp)
                                     .border(
                                         width = settingsState.borderWidth,
                                         color = MaterialTheme.colorScheme.outlineVariant(
-                                            onTopOf = animateColorAsState(color).value
+                                            onTopOf = animateColorAsState(displayColor).value
                                         ),
                                         shape = ShapeDefaults.small
                                     )
                                     .clip(ShapeDefaults.small)
                                     .hapticsClickable {
                                         Clipboard.copy(
-                                            text = color.toHex(),
+                                            text = displayColor.toHex(),
                                             message = R.string.color_copied
                                         )
                                     },
@@ -161,12 +163,12 @@ fun PickColorFromImageSheet(
                                     imageVector = Icons.Rounded.ContentCopy,
                                     contentDescription = stringResource(R.string.copy),
                                     tint = animateColorAsState(
-                                        color.inverse(
+                                        displayColor.inverse(
                                             fraction = { cond ->
                                                 if (cond) 0.8f
                                                 else 0.5f
                                             },
-                                            darkMode = color.luminance() < 0.3f
+                                            darkMode = displayColor.luminance() < 0.3f
                                         )
                                     ).value,
                                     modifier = Modifier.size(20.dp)
@@ -178,7 +180,7 @@ fun PickColorFromImageSheet(
                                     .clip(ShapeDefaults.mini)
                                     .hapticsClickable {
                                         Clipboard.copy(
-                                            text = color.toHex(),
+                                            text = displayColor.toHex(),
                                             message = R.string.color_copied
                                         )
                                     }
@@ -191,7 +193,7 @@ fun PickColorFromImageSheet(
                                         shape = ShapeDefaults.mini
                                     )
                                     .padding(horizontal = 8.dp),
-                                text = color.toHex(),
+                                text = displayColor.toHex(),
                                 style = LocalTextStyle.current.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSecondaryContainer
