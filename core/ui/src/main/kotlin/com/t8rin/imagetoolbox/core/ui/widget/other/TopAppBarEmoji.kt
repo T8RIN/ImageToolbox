@@ -62,7 +62,7 @@ fun TopAppBarEmoji() {
                             ?.takeIf { settingsState.useAnimatedEmojis }
                             ?.let(Emoji::animatedIconFor)
                             ?.toString(),
-                        fontSize = MaterialTheme.typography.headlineMedium.fontSize
+                        fontSize = MaterialTheme.typography.headlineLarge.fontSize
                     )
                 }
             }
