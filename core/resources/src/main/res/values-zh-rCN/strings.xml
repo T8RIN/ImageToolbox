@@ -2307,4 +2307,6 @@
     <string name="deuteranopia">绿盲</string>
     <string name="expand_image">展开图片</string>
     <string name="model_yolo">使用 YOLO v11 分割的基于对象分割的背景去除器</string>
+    <string name="animated_emojis">动态表情</string>
+    <string name="animated_emojis_sub">展示可用的动态表情</string>
 </resources>
