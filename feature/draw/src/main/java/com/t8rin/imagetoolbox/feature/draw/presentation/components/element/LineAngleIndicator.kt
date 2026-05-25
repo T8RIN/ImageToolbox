@@ -26,12 +26,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.RotateRight
@@ -48,25 +55,45 @@ internal fun LineAngleIndicator(
     modifier: Modifier = Modifier
 ) {
     val density = LocalDensity.current
-    val offset = with(density) {
-        val indicatorWidth = 96.dp.roundToPx()
-        val indicatorHeight = 40.dp.roundToPx()
-
-        val verticalGap = 108.dp.roundToPx()
-        val horizontalGap = -indicatorWidth / 2
-
-        IntOffset(
-            x = (currentDrawPosition.x.roundToInt() + horizontalGap)
-                .coerceIn(0, (imageWidth - indicatorWidth).coerceAtLeast(0)),
-            y = (currentDrawPosition.y.roundToInt() - verticalGap)
-                .coerceIn(0, (imageHeight - indicatorHeight).coerceAtLeast(0))
+    var size by remember {
+        mutableStateOf(
+            with(density) {
+                IntSize(
+                    width = 96.dp.roundToPx(),
+                    height = 40.dp.roundToPx()
+                )
+            }
         )
+    }
+    val (indicatorWidth, indicatorHeight) = size
+
+    val offset by remember(
+        density,
+        indicatorWidth,
+        indicatorHeight,
+        currentDrawPosition,
+        imageWidth
+    ) {
+        derivedStateOf {
+            with(density) {
+                val verticalGap = 108.dp.roundToPx()
+                val horizontalGap = -indicatorWidth / 2
+
+                IntOffset(
+                    x = (currentDrawPosition.x.roundToInt() + horizontalGap)
+                        .coerceIn(0, (imageWidth - indicatorWidth).coerceAtLeast(0)),
+                    y = (currentDrawPosition.y.roundToInt() - verticalGap)
+                        .coerceIn(0, (imageHeight - indicatorHeight).coerceAtLeast(0))
+                )
+            }
+        }
     }
 
     Surface(
         modifier = modifier
             .offset { offset }
-            .defaultMinSize(minHeight = 40.dp),
+            .defaultMinSize(minHeight = 40.dp)
+            .onSizeChanged { size = it },
         shape = ShapeDefaults.extraLarge,
         color = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -82,8 +109,13 @@ internal fun LineAngleIndicator(
                 contentDescription = null,
                 modifier = Modifier.padding(end = 6.dp)
             )
+            val degrees by remember(drawDownPosition, currentDrawPosition) {
+                derivedStateOf {
+                    drawDownPosition.angleDegreesTo(currentDrawPosition)
+                }
+            }
             Text(
-                text = "${drawDownPosition.angleDegreesTo(currentDrawPosition)}°",
+                text = "${degrees}°",
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold
             )
