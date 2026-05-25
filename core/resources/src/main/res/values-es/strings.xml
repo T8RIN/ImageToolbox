@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -2311,4 +2313,5 @@
     <string name="show_line_angle">Mostrar ángulo de línea</string>
     <string name="animated_emojis">Emojis animados</string>
     <string name="animated_emojis_sub">Mostrar emoji disponibles como animaciones</string>
+    <string name="show_line_angle_sub">Muestra la rotación de la línea actual en grados mientras dibuja</string>
 </resources>
