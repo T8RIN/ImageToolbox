@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.domain.model.coerceIn
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
@@ -144,6 +144,8 @@ fun DrawContent(
     ) { mutableStateOf(settingsState.defaultDrawColor) }
 
     var isEraserOn by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
+
+    var showLineAngle by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
 
     val drawMode = component.drawMode
 
@@ -294,7 +296,8 @@ fun DrawContent(
                     drawPathMode = drawPathMode,
                     backgroundColor = component.backgroundColor,
                     drawLineStyle = drawLineStyle,
-                    helperGridParams = component.helperGridParams
+                    helperGridParams = component.helperGridParams,
+                    showLineAngle = showLineAngle
                 )
             }
         },
@@ -309,7 +312,9 @@ fun DrawContent(
                 brushSoftness = brushSoftness,
                 onBrushSoftnessChange = { brushSoftness = it },
                 alpha = alpha,
-                onAlphaChange = { alpha = it }
+                onAlphaChange = { alpha = it },
+                showLineAngle = showLineAngle,
+                onShowLineAngleChange = { showLineAngle = it }
             )
         },
         buttons = {

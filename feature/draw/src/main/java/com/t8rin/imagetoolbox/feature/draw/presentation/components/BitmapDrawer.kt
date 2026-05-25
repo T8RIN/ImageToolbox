@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.WarpStroke
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.LineAngleIndicator
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.BitmapDrawerPreview
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawPathEffectPreview
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionEvent
@@ -109,6 +110,7 @@ fun BitmapDrawer(
     drawColor: Color,
     drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
+    showLineAngle: Boolean = false,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -666,6 +668,15 @@ fun BitmapDrawer(
                 drawEnabled = !panEnabled && !isWarpInputLocked,
                 helperGridParams = helperGridParams
             )
+
+            if (showLineAngle && drawPathMode.canShowLineAngle() && drawDownPosition.isSpecified && currentDrawPosition.isSpecified) {
+                LineAngleIndicator(
+                    drawDownPosition = drawDownPosition,
+                    currentDrawPosition = currentDrawPosition,
+                    imageWidth = imageWidth,
+                    imageHeight = imageHeight
+                )
+            }
         }
     }
 }

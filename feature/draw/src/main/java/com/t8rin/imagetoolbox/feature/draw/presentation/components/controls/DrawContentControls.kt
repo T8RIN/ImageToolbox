@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -43,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -61,11 +61,13 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BrushSoftnessSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawColorSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawLineAngleSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawLineStyleSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawModeSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawPathModeSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.OpenColorPickerCard
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.canShowLineAngle
 import com.t8rin.imagetoolbox.feature.draw.presentation.screenLogic.DrawComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageSheet
 
@@ -80,7 +82,9 @@ internal fun DrawContentControls(
     brushSoftness: Pt,
     onBrushSoftnessChange: (Pt) -> Unit,
     alpha: Float,
-    onAlphaChange: (Float) -> Unit
+    onAlphaChange: (Float) -> Unit,
+    showLineAngle: Boolean,
+    onShowLineAngleChange: (Boolean) -> Unit
 ) {
     var showPickColorSheet by rememberSaveable { mutableStateOf(false) }
 
@@ -244,6 +248,18 @@ internal fun DrawContentControls(
                     }
                 }.value,
                 drawMode = drawMode
+            )
+        }
+        AnimatedVisibility(
+            visible = drawPathMode.canShowLineAngle() && drawMode !is DrawMode.Warp,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            DrawLineAngleSelector(
+                modifier = Modifier.fillMaxWidth(),
+                checked = showLineAngle,
+                onCheckedChange = onShowLineAngleChange
             )
         }
         AnimatedVisibility(
