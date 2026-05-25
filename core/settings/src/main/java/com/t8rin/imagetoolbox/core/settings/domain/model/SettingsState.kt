@@ -195,7 +195,7 @@ data class SettingsState(
                 isConfettiEnabled = true,
                 isSecureMode = false,
                 useRandomEmojis = false,
-                useAnimatedEmojis = false,
+                useAnimatedEmojis = true,
                 iconShape = 0,
                 useEmojiAsPrimaryColor = false,
                 dragHandleWidth = 64,

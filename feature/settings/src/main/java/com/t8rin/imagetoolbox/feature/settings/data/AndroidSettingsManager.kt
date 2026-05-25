@@ -141,6 +141,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.MAIN_SCREEN_TITLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.NIGHT_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ONE_TIME_SAVE_LOCATIONS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.OPEN_EDIT_INSTEAD_OF_PREVIEW
+import com.t8rin.imagetoolbox.feature.settings.data.keys.PERFORMANCE_VERSION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PRESETS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
@@ -675,8 +676,17 @@ internal class AndroidSettingsManager @Inject constructor(
     )
 
     override suspend fun adjustPerformance(performanceClass: PerformanceClass) = edit {
+        performanceClass.makeLog("adjustPerformance")
+
+        val performanceVersion = it[PERFORMANCE_VERSION] ?: 0
+
+        if (performanceVersion >= TARGET_PERFORMANCE_VERSION) return@edit
+
+        it[PERFORMANCE_VERSION] = TARGET_PERFORMANCE_VERSION
+
         when (performanceClass) {
             PerformanceClass.Low -> {
+                it[USE_ANIMATED_EMOJIS] = false
                 it[CONFETTI_ENABLED] = false
                 it[DRAW_BUTTON_SHADOWS] = false
                 it[DRAW_SWITCH_SHADOWS] = false
@@ -686,6 +696,7 @@ internal class AndroidSettingsManager @Inject constructor(
             }
 
             PerformanceClass.Average -> {
+                it[USE_ANIMATED_EMOJIS] = false
                 it[CONFETTI_ENABLED] = true
                 it[DRAW_BUTTON_SHADOWS] = false
                 it[DRAW_SWITCH_SHADOWS] = true
@@ -695,6 +706,7 @@ internal class AndroidSettingsManager @Inject constructor(
             }
 
             PerformanceClass.High -> {
+                it[USE_ANIMATED_EMOJIS] = true
                 it[CONFETTI_ENABLED] = true
                 it[DRAW_BUTTON_SHADOWS] = true
                 it[DRAW_SWITCH_SHADOWS] = true
@@ -1005,3 +1017,5 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
 }
+
+private const val TARGET_PERFORMANCE_VERSION = 1

@@ -71,10 +71,7 @@ internal fun FirstLaunchSetupDialog(
 
     OneTimeEffect {
         updateOnFirstOpen = settingsState.isFirstLaunch(false)
-
-        if (updateOnFirstOpen) {
-            adjustPerformance(appContext.performanceClass)
-        }
+        adjustPerformance(appContext.performanceClass)
     }
 
     EnhancedAlertDialog(
