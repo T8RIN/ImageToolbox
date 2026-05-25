@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="flexible">Fleksibel</string>
     <string name="ok">OK</string>
     <string name="crop">Beskær</string>
@@ -2309,7 +2308,6 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">Udvid billede</string>
     <string name="model_yolo">Objektsegmenteringsbaseret baggrundsfjerner ved hjælp af YOLO v11 Segmentation</string>
-    <string name="show_line_angle" />
     <string name="show_line_angle_sub">Viser den aktuelle linjerotation i grader under tegning</string>
     <string name="animated_emojis">Animerede emojis</string>
     <string name="animated_emojis_sub">Vis tilgængelige emoji som animationer</string>
