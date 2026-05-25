@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deuteranópia</string>
     <string name="expand_image">Kép kibontása</string>
     <string name="model_yolo">Objektumszegmentáción alapuló háttéreltávolító a YOLO v11 szegmentáció segítségével</string>
+    <string name="show_line_angle">Vonalszög megjelenítése</string>
+    <string name="show_line_angle_sub">Rajzolás közben az aktuális vonalelforgatást mutatja fokban</string>
+    <string name="animated_emojis">Animált hangulatjelek</string>
+    <string name="animated_emojis_sub">Az elérhető hangulatjelek megjelenítése animációként</string>
 </resources>

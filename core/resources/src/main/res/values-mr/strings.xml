@@ -2310,4 +2310,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">प्रतिमा विस्तृत करा</string>
     <string name="model_yolo">YOLO v11 सेगमेंटेशन वापरून ऑब्जेक्ट सेगमेंटेशन आधारित बॅकग्राउंड रिमूव्हर</string>
+    <string name="show_line_angle">रेषा कोन दाखवा</string>
+    <string name="show_line_angle_sub">रेखाचित्र काढताना वर्तमान रेषा रोटेशन अंशांमध्ये दाखवते</string>
+    <string name="animated_emojis">ॲनिमेटेड इमोजी</string>
+    <string name="animated_emojis_sub">उपलब्ध इमोजी ॲनिमेशन म्हणून दाखवा</string>
 </resources>

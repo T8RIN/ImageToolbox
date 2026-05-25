@@ -2311,4 +2311,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">Rozwiń obraz</string>
     <string name="model_yolo">Narzędzie do usuwania tła oparte na segmentacji obiektów przy użyciu segmentacji YOLO v11</string>
+    <string name="show_line_angle">Pokaż kąt linii</string>
+    <string name="show_line_angle_sub">Pokazuje bieżący obrót linii w stopniach podczas rysowania</string>
+    <string name="animated_emojis">Animowane emotikony</string>
+    <string name="animated_emojis_sub">Pokaż dostępne emoji jako animacje</string>
 </resources>

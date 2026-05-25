@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -2311,4 +2313,6 @@
     <string name="model_yolo">Objektsegmenteringsbaserad bakgrundsborttagning med YOLO v11 Segmentation</string>
     <string name="animated_emojis">Animerade emojis</string>
     <string name="animated_emojis_sub">Visa tillgängliga emoji som animationer</string>
+    <string name="show_line_angle">Visa linjevinkel</string>
+    <string name="show_line_angle_sub">Visar den aktuella linjens rotation i grader medan du ritar</string>
 </resources>

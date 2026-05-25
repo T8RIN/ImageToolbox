@@ -2308,4 +2308,8 @@
     <string name="deuteranopia">绿盲</string>
     <string name="expand_image">展开图片</string>
     <string name="model_yolo">使用 YOLO v11 分割的基于对象分割的背景去除器</string>
+    <string name="show_line_angle">显示线角度</string>
+    <string name="show_line_angle_sub">绘图时显示当前线旋转角度（以度为单位）</string>
+    <string name="animated_emojis">动画表情符号</string>
+    <string name="animated_emojis_sub">将可用的表情符号显示为动画</string>
 </resources>

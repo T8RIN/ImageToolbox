@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deuteranoopia</string>
     <string name="expand_image">Laienda pilti</string>
     <string name="model_yolo">Objekti segmenteerimisel põhinev tausta eemaldaja YOLO v11 segmenteerimise abil</string>
+    <string name="show_line_angle">Näita joone nurka</string>
+    <string name="show_line_angle_sub">Näitab joonistamise ajal praegust joone pööramist kraadides</string>
+    <string name="animated_emojis">Animeeritud emotikonid</string>
+    <string name="animated_emojis_sub">Kuva saadaolevad emotikonid animatsioonidena</string>
 </resources>

@@ -2308,4 +2308,8 @@
     <string name="deuteranopia">第二盲</string>
     <string name="expand_image">画像を拡大する</string>
     <string name="model_yolo">YOLO v11 セグメンテーションを使用したオブジェクト セグメンテーション ベースの背景リムーバー</string>
+    <string name="show_line_angle">線の角度を表示</string>
+    <string name="show_line_angle_sub">描画中の現在のラインの回転を度単位で表示します。</string>
+    <string name="animated_emojis">アニメーション絵文字</string>
+    <string name="animated_emojis_sub">利用可能な絵文字をアニメーションとして表示する</string>
 </resources>

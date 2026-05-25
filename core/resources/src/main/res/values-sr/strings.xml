@@ -2310,4 +2310,8 @@
     <string name="deuteranopia">Деутеранопиа</string>
     <string name="expand_image">Прошири слику</string>
     <string name="model_yolo">Уклањање позадине засновано на сегментацији објеката помоћу ИОЛО в11 сегментације</string>
+    <string name="show_line_angle">Прикажи угао линије</string>
+    <string name="show_line_angle_sub">Приказује тренутну ротацију линије у степенима током цртања</string>
+    <string name="animated_emojis">Анимирани емоџији</string>
+    <string name="animated_emojis_sub">Прикажи доступне емоџије као анимације</string>
 </resources>

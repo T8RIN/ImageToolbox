@@ -2311,4 +2311,8 @@
     <string name="deuteranopia">דוטרנופיה</string>
     <string name="expand_image">הרחב את התמונה</string>
     <string name="model_yolo">מסיר רקע מבוסס פילוח אובייקטים באמצעות YOLO v11 Segmentation</string>
+    <string name="show_line_angle">הצג זווית קו</string>
+    <string name="show_line_angle_sub">מציג את סיבוב הקו הנוכחי במעלות בזמן הציור</string>
+    <string name="animated_emojis">אמוג\'י מונפש</string>
+    <string name="animated_emojis_sub">הצג אמוג\'י זמין כהנפשות</string>
 </resources>

@@ -2313,4 +2313,6 @@
     <string name="deuteranopia">Дейтеранопия</string>
     <string name="expand_image">Развернуть изображение</string>
     <string name="model_yolo">Удаление фона на основе сегментации объектов с использованием сегментации YOLO v11</string>
+    <string name="show_line_angle">Показать угол линии</string>
+    <string name="show_line_angle_sub">Показывает текущий поворот линии в градусах во время рисования.</string>
 </resources>

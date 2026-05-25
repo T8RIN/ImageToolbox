@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deuteranopie</string>
     <string name="expand_image">Bild erweitern</string>
     <string name="model_yolo">Objektsegmentierungsbasierter Hintergrundentferner mit YOLO v11-Segmentierung</string>
+    <string name="show_line_angle">Linienwinkel anzeigen</string>
+    <string name="show_line_angle_sub">Zeigt beim Zeichnen die aktuelle Liniendrehung in Grad an</string>
+    <string name="animated_emojis">Animierte Emojis</string>
+    <string name="animated_emojis_sub">Verfügbare Emojis als Animationen anzeigen</string>
 </resources>

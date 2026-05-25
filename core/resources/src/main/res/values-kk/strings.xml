@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Дейтеранопия</string>
     <string name="expand_image">Кескінді кеңейту</string>
     <string name="model_yolo">YOLO v11 Segmentation көмегімен нысан сегментациясына негізделген фондық жою құралы</string>
+    <string name="show_line_angle">Сызық бұрышын көрсетіңіз</string>
+    <string name="show_line_angle_sub">Сурет салу кезінде сызықтың ағымдағы айналуын градуспен көрсетеді</string>
+    <string name="animated_emojis">Анимациялық эмодзилер</string>
+    <string name="animated_emojis_sub">Қолжетімді эмодзилерді анимациялар ретінде көрсету</string>
 </resources>

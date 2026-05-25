@@ -2308,4 +2308,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">Perluas Gambar</string>
     <string name="model_yolo">Penghilang latar belakang berbasis segmentasi objek menggunakan YOLO v11 Segmentation</string>
+    <string name="show_line_angle">Tampilkan sudut garis</string>
+    <string name="show_line_angle_sub">Menunjukkan rotasi garis saat ini dalam derajat saat menggambar</string>
+    <string name="animated_emojis">Emoji Animasi</string>
+    <string name="animated_emojis_sub">Tampilkan emoji yang tersedia sebagai animasi</string>
 </resources>

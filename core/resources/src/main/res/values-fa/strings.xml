@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">دوترانوپیا</string>
     <string name="expand_image">تصویر را بزرگ کنید</string>
     <string name="model_yolo">پاک کننده پس زمینه مبتنی بر تقسیم بندی اشیاء با استفاده از تقسیم بندی YOLO v11</string>
+    <string name="show_line_angle">نمایش زاویه خط</string>
+    <string name="show_line_angle_sub">چرخش خط فعلی را در حین ترسیم بر حسب درجه نشان می دهد</string>
+    <string name="animated_emojis">ایموجی های متحرک</string>
+    <string name="animated_emojis_sub">ایموجی های موجود را به عنوان انیمیشن نمایش دهید</string>
 </resources>

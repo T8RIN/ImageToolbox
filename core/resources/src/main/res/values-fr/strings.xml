@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deutéranopie</string>
     <string name="expand_image">Agrandir l\'image</string>
     <string name="model_yolo">Suppresseur d\'arrière-plan basé sur la segmentation d\'objets à l\'aide de la segmentation YOLO v11</string>
+    <string name="show_line_angle">Afficher l\'angle de la ligne</string>
+    <string name="show_line_angle_sub">Affiche la rotation actuelle de la ligne en degrés pendant le dessin</string>
+    <string name="animated_emojis">Émojis animés</string>
+    <string name="animated_emojis_sub">Afficher les emoji disponibles sous forme d\'animations</string>
 </resources>

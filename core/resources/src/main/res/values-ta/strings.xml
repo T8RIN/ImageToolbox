@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">டியூட்டரனோபியா</string>
     <string name="expand_image">படத்தை விரிவாக்கு</string>
     <string name="model_yolo">YOLO v11 பிரிவைப் பயன்படுத்தி ஆப்ஜெக்ட் பிரிவு அடிப்படையிலான பின்னணி நீக்கி</string>
+    <string name="show_line_angle">கோடு கோணத்தைக் காட்டு</string>
+    <string name="show_line_angle_sub">வரையும்போது தற்போதைய வரி சுழற்சியை டிகிரிகளில் காட்டுகிறது</string>
+    <string name="animated_emojis">அனிமேஷன் செய்யப்பட்ட எமோஜிகள்</string>
+    <string name="animated_emojis_sub">கிடைக்கும் ஈமோஜியை அனிமேஷன்களாகக் காட்டு</string>
 </resources>

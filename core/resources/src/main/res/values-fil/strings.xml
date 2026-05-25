@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">Palawakin ang Larawan</string>
     <string name="model_yolo">Pag-alis ng background batay sa segmentation ng object gamit ang YOLO v11 Segmentation</string>
+    <string name="show_line_angle">Ipakita ang anggulo ng linya</string>
+    <string name="show_line_angle_sub">Ipinapakita ang kasalukuyang pag-ikot ng linya sa mga degree habang gumuhit</string>
+    <string name="animated_emojis">Mga animated na Emoji</string>
+    <string name="animated_emojis_sub">Ipakita ang available na emoji bilang mga animation</string>
 </resources>

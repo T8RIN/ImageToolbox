@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Döteranopi</string>
     <string name="expand_image">Resmi Genişlet</string>
     <string name="model_yolo">YOLO v11 Segmentasyonunu kullanan nesne segmentasyonu tabanlı arka plan sökücü</string>
+    <string name="show_line_angle">Çizgi açısını göster</string>
+    <string name="show_line_angle_sub">Çizim sırasında geçerli çizgi dönüşünü derece cinsinden gösterir</string>
+    <string name="animated_emojis">Hareketli Emojiler</string>
+    <string name="animated_emojis_sub">Mevcut emojileri animasyon olarak göster</string>
 </resources>

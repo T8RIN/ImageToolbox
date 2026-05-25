@@ -2308,4 +2308,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">Mở rộng hình ảnh</string>
     <string name="model_yolo">Loại bỏ nền dựa trên phân đoạn đối tượng bằng cách sử dụng Phân đoạn YOLO v11</string>
+    <string name="show_line_angle">Hiển thị góc đường</string>
+    <string name="show_line_angle_sub">Hiển thị góc xoay dòng hiện tại theo độ trong khi vẽ</string>
+    <string name="animated_emojis">Biểu tượng cảm xúc hoạt hình</string>
+    <string name="animated_emojis_sub">Hiển thị biểu tượng cảm xúc có sẵn dưới dạng hình động</string>
 </resources>

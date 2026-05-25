@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">deuteranopia</string>
     <string name="expand_image">छवि का विस्तार करें</string>
     <string name="model_yolo">YOLO v11 सेगमेंटेशन का उपयोग करके ऑब्जेक्ट सेगमेंटेशन आधारित बैकग्राउंड रिमूवर</string>
+    <string name="show_line_angle">रेखा कोण दिखाएँ</string>
+    <string name="show_line_angle_sub">ड्राइंग करते समय वर्तमान रेखा का घुमाव डिग्री में दिखाता है</string>
+    <string name="animated_emojis">एनिमेटेड इमोजी</string>
+    <string name="animated_emojis_sub">उपलब्ध इमोजी को एनिमेशन के रूप में दिखाएं</string>
 </resources>
