@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +50,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import kotlinx.coroutines.delay
@@ -62,7 +64,6 @@ fun EnhancedToggleButton(
     enabled: Boolean = true,
     shapes: ToggleButtonShapes = ToggleButtonDefaults.shapesFor(ButtonDefaults.MinHeight),
     colors: ToggleButtonColors = ToggleButtonDefaults.toggleButtonColors(),
-    elevation: Dp = 0.dp,
     border: BorderStroke? = null,
     contentPadding: PaddingValues = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight),
     interactionSource: MutableInteractionSource? = null,
@@ -80,6 +81,7 @@ fun EnhancedToggleButton(
 
     val haptics = LocalHapticFeedback.current
     val focus = LocalFocusManager.current
+    val settingsState = LocalSettingsState.current
 
     val scope = rememberCoroutineScope()
 
@@ -100,7 +102,9 @@ fun EnhancedToggleButton(
             shape = buttonShape,
             color = containerColor,
             contentColor = contentColor,
-            shadowElevation = elevation,
+            shadowElevation = animateDpAsState(
+                if (settingsState.borderWidth > 0.dp || !enabled || !settingsState.drawButtonShadows) 0.dp else 0.5.dp
+            ).value,
             border = border,
             interactionSource = realInteractionSource
         ) {

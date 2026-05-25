@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 
 import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -299,9 +298,6 @@ fun EnhancedButtonGroup(
                 content = title
             )
             val scrollState = rememberScrollState()
-            val elevation by animateDpAsState(
-                if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
-            )
 
             LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
                 MaterialExpressiveTheme(
@@ -333,8 +329,6 @@ fun EnhancedButtonGroup(
 
                             val disableSmoothness =
                                 !selected && index == 0 || index == itemCount - 1
-
-                            val settingsState = LocalSettingsState.current
 
                             LocalSettingsState.ProvidesValue(
                                 if (disableSmoothness && settingsState.shapesType is ShapeType.Smooth) {
@@ -393,7 +387,6 @@ fun EnhancedButtonGroup(
                                             checkedShape = AutoCircleShape()
                                         )
                                     },
-                                    elevation = elevation,
                                     modifier = Modifier.then(
                                         if (isScrollable) Modifier
                                         else Modifier.weight(1f)

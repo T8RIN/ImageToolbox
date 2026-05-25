@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -104,8 +105,24 @@ fun EmojiSelectionSheet(
     val allEmojis = Emoji.allIcons
     val useAnimatedEmojis = LocalSettingsState.current.useAnimatedEmojis
 
+    var expandedCategories by rememberSaveable(visible) {
+        mutableStateOf(emptyList<Int>())
+    }
+
     LaunchedEffect(visible) {
-        delay(600)
+        delay(300)
+
+        expandedCategories = if ((selectedEmojiIndex ?: -1) >= 0) {
+            emojiWithCategories.find { (_, _, emojis) ->
+                emojis.forEach { emoji ->
+                    val index = allEmojis.indexOf(emoji)
+                    if (index == selectedEmojiIndex) return@find true
+                }
+                return@find false
+            }?.title?.let(::listOf) ?: emptyList()
+        } else emptyList()
+
+        delay(300)
         if ((selectedEmojiIndex ?: -1) >= 0) {
             var count = 0
             val item = emojiWithCategories.find { (_, _, emojis) ->
@@ -126,11 +143,7 @@ fun EmojiSelectionSheet(
         }
     }
 
-    val emojiEnabled by remember(selectedEmojiIndex) {
-        derivedStateOf {
-            selectedEmojiIndex != -1
-        }
-    }
+    val emojiEnabled = selectedEmojiIndex != -1
     val scope = rememberCoroutineScope()
 
     EnhancedModalBottomSheet(
@@ -194,19 +207,6 @@ fun EmojiSelectionSheet(
                         top = topPadding
                     )
                 }
-            }
-            var expandedCategories by rememberSaveable(visible) {
-                mutableStateOf(
-                    if ((selectedEmojiIndex ?: -1) >= 0) {
-                        emojiWithCategories.find { (_, _, emojis) ->
-                            emojis.forEach { emoji ->
-                                val index = allEmojis.indexOf(emoji)
-                                if (index == selectedEmojiIndex) return@find true
-                            }
-                            return@find false
-                        }?.title?.let(::listOf) ?: emptyList()
-                    } else emptyList()
-                )
             }
 
             Column(
@@ -288,70 +288,66 @@ fun EmojiSelectionSheet(
                             )
                         }
                         if (title in expandedCategories) {
-                            emojis.forEach { emoji ->
-                                item(
-                                    key = emoji
+                            items(
+                                items = emojis,
+                                key = { it }
+                            ) { emoji ->
+                                val index by remember(allEmojis, emoji) {
+                                    derivedStateOf {
+                                        allEmojis.indexOf(emoji)
+                                    }
+                                }
+                                val selected = index == selectedEmojiIndex
+
+                                val color by animateColorAsState(
+                                    if (selected) MaterialTheme.colorScheme.primaryContainer
+                                    else SafeLocalContainerColor
+                                )
+                                val borderColor by animateColorAsState(
+                                    if (selected) {
+                                        MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f)
+                                    } else MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                        alpha = 0.1f
+                                    )
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .animateItem()
+                                        .aspectRatio(1f)
+                                        .container(
+                                            color = color,
+                                            shape = CloverShape,
+                                            borderColor = borderColor,
+                                            resultPadding = 0.dp
+                                        )
+                                        .hapticsClickable {
+                                            onEmojiPicked(index)
+                                        },
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    val index by remember(allEmojis, emoji) {
+                                    val animatedEmoji by remember(emoji) {
                                         derivedStateOf {
-                                            allEmojis.indexOf(emoji)
+                                            Emoji.animatedIconFor(emoji)?.toString()
                                         }
                                     }
-                                    val selected by remember(index, selectedEmojiIndex) {
-                                        derivedStateOf {
-                                            index == selectedEmojiIndex
-                                        }
-                                    }
-                                    val color by animateColorAsState(
-                                        if (selected) MaterialTheme.colorScheme.primaryContainer
-                                        else SafeLocalContainerColor
+                                    EmojiItem(
+                                        emoji = emoji.toString(),
+                                        animatedEmoji = animatedEmoji.takeIf {
+                                            useAnimatedEmojis && emojiEnabled
+                                        },
+                                        fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                        fontScale = 1f
                                     )
-                                    val borderColor by animateColorAsState(
-                                        if (selected) {
-                                            MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f)
-                                        } else MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                            alpha = 0.1f
+                                    if (useAnimatedEmojis && animatedEmoji != null) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.MotionMode,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary.copy(0.6f),
+                                            modifier = Modifier
+                                                .align(Alignment.TopEnd)
+                                                .offset((-6).dp, 6.dp)
+                                                .size(12.dp)
                                         )
-                                    )
-                                    Box(
-                                        modifier = Modifier
-                                            .animateItem()
-                                            .aspectRatio(1f)
-                                            .container(
-                                                color = color,
-                                                shape = CloverShape,
-                                                borderColor = borderColor,
-                                                resultPadding = 0.dp
-                                            )
-                                            .hapticsClickable {
-                                                onEmojiPicked(index)
-                                            },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        val animatedEmoji by remember(emoji) {
-                                            derivedStateOf {
-                                                Emoji.animatedIconFor(emoji)?.toString()
-                                            }
-                                        }
-                                        EmojiItem(
-                                            emoji = emoji.toString(),
-                                            animatedEmoji = animatedEmoji.takeIf {
-                                                useAnimatedEmojis && emojiEnabled
-                                            },
-                                            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                            fontScale = 1f
-                                        )
-                                        if (useAnimatedEmojis && animatedEmoji != null) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.MotionMode,
-                                                contentDescription = null,
-                                                tint = MaterialTheme.colorScheme.primary.copy(0.6f),
-                                                modifier = Modifier
-                                                    .align(Alignment.TopEnd)
-                                                    .offset((-6).dp, 6.dp)
-                                                    .size(12.dp)
-                                            )
-                                        }
                                     }
                                 }
                             }

@@ -777,9 +777,7 @@ private fun <T : Enum<T>> NtscEnumSelector(
         val shouldScroll = labels.estimatedWidth() > maxWidth.value
 
         EnhancedButtonGroup(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+            modifier = Modifier.fillMaxWidth(),
             enabled = !previewOnly,
             entries = labels,
             value = labels[safeIndex],
@@ -797,9 +795,9 @@ private fun <T : Enum<T>> NtscEnumSelector(
             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             isScrollable = shouldScroll,
             contentPadding = if (containerColor != Color.Unspecified) {
-                PaddingValues(horizontal = 8.dp)
+                PaddingValues(horizontal = 8.dp, vertical = 4.dp)
             } else {
-                PaddingValues(0.dp)
+                PaddingValues(vertical = 4.dp)
             }
         )
     }
