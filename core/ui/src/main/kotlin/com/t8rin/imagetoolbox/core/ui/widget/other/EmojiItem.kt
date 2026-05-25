@@ -23,6 +23,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -30,6 +31,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -40,12 +42,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
 import coil3.imageLoader
 import coil3.request.ImageRequest
@@ -68,6 +71,8 @@ fun EmojiItem(
     filterQuality: FilterQuality = FilterQuality.High,
     crossfade: Boolean = true,
     animateEmojiChange: Boolean = true,
+    containerColor: Color = Color.Unspecified,
+    shape: Shape? = null,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
     key(animatedEmoji) {
@@ -90,12 +95,33 @@ fun EmojiItem(
 
         val content: @Composable (emoji: String?) -> Unit = { currentEmoji ->
             currentEmoji?.let {
+                var shimmering by remember(currentEmoji) {
+                    mutableStateOf(true)
+                }
+                val emojiModifier = remember(size, shimmering) {
+                    Modifier
+                        .size(size + 4.dp)
+                        .clip(shape ?: CloverShape)
+                        .then(
+                            if (containerColor.isSpecified) {
+                                Modifier.background(containerColor)
+                            } else {
+                                Modifier
+                            }
+                        )
+                        .shimmer(shimmering)
+                        .padding(2.dp)
+                }
+
                 Box {
                     if (animatedEmoji != null) {
                         val controller = remember { DotLottieController() }
-                        val state by controller.currentState.collectAsStateWithLifecycle(
-                            initialValue = DotLottiePlayerState.PLAYING
-                        )
+
+                        LaunchedEffect(controller) {
+                            controller.currentState.collect {
+                                shimmering = it != DotLottiePlayerState.PLAYING
+                            }
+                        }
 
                         DotLottieAnimation(
                             source = remember(animatedEmoji) {
@@ -104,16 +130,9 @@ fun EmojiItem(
                             loop = true,
                             autoplay = true,
                             controller = controller,
-                            modifier = Modifier
-                                .size(size + 4.dp)
-                                .clip(CloverShape)
-                                .shimmer(state != DotLottiePlayerState.PLAYING)
-                                .padding(2.dp)
+                            modifier = emojiModifier
                         )
                     } else {
-                        var shimmering by remember(currentEmoji) {
-                            mutableStateOf(true)
-                        }
                         val requestSize = remember(size, density) {
                             with(density) {
                                 (size + 4.dp).roundToPx().coerceAtLeast(1)
@@ -155,13 +174,7 @@ fun EmojiItem(
                         Icon(
                             painter = painter,
                             contentDescription = currentEmoji,
-                            modifier = remember(size, shimmering) {
-                                Modifier
-                                    .size(size + 4.dp)
-                                    .clip(CloverShape)
-                                    .shimmer(shimmering)
-                                    .padding(2.dp)
-                            },
+                            modifier = emojiModifier,
                             tint = Color.Unspecified
                         )
                     }

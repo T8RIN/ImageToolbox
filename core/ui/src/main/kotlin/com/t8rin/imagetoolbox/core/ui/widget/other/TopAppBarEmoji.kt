@@ -22,13 +22,14 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
@@ -37,7 +38,11 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 
 @Composable
-fun TopAppBarEmoji() {
+fun TopAppBarEmoji(
+    allowMultiple: Boolean = true,
+    containerColor: Color = Color.Unspecified,
+    shape: Shape? = null
+) {
     val settingsState = LocalSettingsState.current
 
     Box(
@@ -47,10 +52,12 @@ fun TopAppBarEmoji() {
                 AppToastHost.showConfetti()
             }
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            repeat(5) {
+        Row {
+            val count = if (allowMultiple) 5 else 1
+
+            repeat(count) { index ->
                 AnimatedVisibility(
-                    visible = settingsState.emojisCount > it,
+                    visible = settingsState.emojisCount > index,
                     enter = fadeIn() + slideInHorizontally(),
                     exit = fadeOut() + slideOutHorizontally()
                 ) {
@@ -62,7 +69,14 @@ fun TopAppBarEmoji() {
                             ?.takeIf { settingsState.useAnimatedEmojis }
                             ?.let(Emoji::animatedIconFor)
                             ?.toString(),
-                        fontSize = MaterialTheme.typography.headlineLarge.fontSize
+                        fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                        modifier = if (index != count - 1) {
+                            Modifier.padding(end = 2.dp)
+                        } else {
+                            Modifier
+                        },
+                        containerColor = containerColor,
+                        shape = shape
                     )
                 }
             }

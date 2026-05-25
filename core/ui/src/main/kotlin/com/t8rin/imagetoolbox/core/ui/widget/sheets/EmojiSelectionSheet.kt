@@ -41,8 +41,10 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -86,6 +88,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.other.EmojiItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.GradientEdge
+import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -186,10 +190,31 @@ fun EmojiSelectionSheet(
             }
         },
         title = {
-            TitleItem(
-                text = stringResource(R.string.emoji),
-                icon = icon
-            )
+            if (emojiEnabled) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(
+                        horizontal = 16.dp,
+                        vertical = 14.dp
+                    )
+                ) {
+                    TopAppBarEmoji(
+                        allowMultiple = false,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.emoji),
+                        style = PreferenceItemDefaults.TitleFontStyle,
+                        modifier = Modifier.offset(x = (-8).dp)
+                    )
+                }
+            } else {
+                TitleItem(
+                    text = stringResource(R.string.emoji),
+                    icon = icon
+                )
+            }
         },
         visible = visible,
         onDismiss = {
