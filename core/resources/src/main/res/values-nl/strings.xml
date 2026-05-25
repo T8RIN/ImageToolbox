@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deuteranopie</string>
     <string name="expand_image">Vouw afbeelding uit</string>
     <string name="model_yolo">Op objectsegmentatie gebaseerde achtergrondverwijderaar met behulp van YOLO v11-segmentatie</string>
+    <string name="show_line_angle">Toon lijnhoek</string>
+    <string name="show_line_angle_sub">Toont de huidige lijnrotatie in graden tijdens het tekenen</string>
+    <string name="animated_emojis">Geanimeerde emoji\'s</string>
+    <string name="animated_emojis_sub">Toon beschikbare emoji als animaties</string>
 </resources>

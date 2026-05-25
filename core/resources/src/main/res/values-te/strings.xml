@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">డ్యూటెరానోపియా</string>
     <string name="expand_image">చిత్రాన్ని విస్తరించండి</string>
     <string name="model_yolo">YOLO v11 సెగ్మెంటేషన్‌ని ఉపయోగించి ఆబ్జెక్ట్ సెగ్మెంటేషన్ ఆధారిత బ్యాక్‌గ్రౌండ్ రిమూవర్</string>
+    <string name="show_line_angle">లైన్ కోణాన్ని చూపించు</string>
+    <string name="show_line_angle_sub">డ్రాయింగ్ చేస్తున్నప్పుడు ప్రస్తుత రేఖ భ్రమణాన్ని డిగ్రీలలో చూపుతుంది</string>
+    <string name="animated_emojis">యానిమేటెడ్ ఎమోజీలు</string>
+    <string name="animated_emojis_sub">అందుబాటులో ఉన్న ఎమోజీలను యానిమేషన్‌లుగా చూపండి</string>
 </resources>

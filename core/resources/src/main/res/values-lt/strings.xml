@@ -2312,4 +2312,8 @@
     <string name="deuteranopia">Deuteranopija</string>
     <string name="expand_image">Išskleisti vaizdą</string>
     <string name="model_yolo">Objektų segmentavimu pagrįstas fono šalinimo įrankis, naudojant YOLO v11 segmentavimą</string>
+    <string name="show_line_angle">Rodyti linijos kampą</string>
+    <string name="show_line_angle_sub">Piešimo metu rodomas dabartinis linijos pasukimas laipsniais</string>
+    <string name="animated_emojis">Animuoti jaustukai</string>
+    <string name="animated_emojis_sub">Rodyti galimus jaustukus kaip animacijas</string>
 </resources>

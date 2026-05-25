@@ -2308,4 +2308,8 @@
     <string name="deuteranopia">ดิวเทอเรโนเปีย</string>
     <string name="expand_image">ขยายรูปภาพ</string>
     <string name="model_yolo">เครื่องมือลบพื้นหลังตามการแบ่งส่วนวัตถุโดยใช้ YOLO v11 Segmentation</string>
+    <string name="show_line_angle">แสดงมุมของเส้น</string>
+    <string name="show_line_angle_sub">แสดงการหมุนเส้นปัจจุบันเป็นองศาขณะวาด</string>
+    <string name="animated_emojis">อิโมจิแบบเคลื่อนไหว</string>
+    <string name="animated_emojis_sub">แสดงอิโมจิที่มีอยู่เป็นภาพเคลื่อนไหว</string>
 </resources>

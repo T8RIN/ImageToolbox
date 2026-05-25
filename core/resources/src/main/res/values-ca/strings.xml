@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">Amplia la imatge</string>
     <string name="model_yolo">Eliminador de fons basat en la segmentació d\'objectes mitjançant la segmentació YOLO v11</string>
+    <string name="show_line_angle">Mostra l\'angle de la línia</string>
+    <string name="show_line_angle_sub">Mostra la rotació actual de la línia en graus mentre dibuixa</string>
+    <string name="animated_emojis">Emojis animats</string>
+    <string name="animated_emojis_sub">Mostra els emojis disponibles com a animacions</string>
 </resources>

@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">رەسىمنى كېڭەيتىش</string>
     <string name="model_yolo">YOLO v11 بۆلەك ئارقىلىق ئوبيېكت بۆلەكلىرىنى ئاساس قىلغان تەگلىك ئېلىۋېتىش</string>
+    <string name="show_line_angle">قۇر بۇلۇڭىنى كۆرسەت</string>
+    <string name="show_line_angle_sub">رەسىم سىزىۋاتقاندا نۆۋەتتىكى سىزىقنىڭ ئايلىنىشىنى كۆرسىتىدۇ</string>
+    <string name="animated_emojis">Animated Emojis</string>
+    <string name="animated_emojis_sub">ئىشلەتكىلى بولىدىغان emoji نى كارتون قىلىپ كۆرسىتىڭ</string>
 </resources>

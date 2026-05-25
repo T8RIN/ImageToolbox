@@ -2309,4 +2309,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">Udvid billede</string>
     <string name="model_yolo">Objektsegmenteringsbaseret baggrundsfjerner ved hjælp af YOLO v11 Segmentation</string>
+    <string name="show_line_angle" />
+    <string name="show_line_angle_sub">Viser den aktuelle linjerotation i grader under tegning</string>
+    <string name="animated_emojis">Animerede emojis</string>
+    <string name="animated_emojis_sub">Vis tilgængelige emoji som animationer</string>
 </resources>

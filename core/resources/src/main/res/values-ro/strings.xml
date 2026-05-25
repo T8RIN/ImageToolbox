@@ -2310,4 +2310,8 @@
     <string name="deuteranopia">Deuteranopia</string>
     <string name="expand_image">Extinde imaginea</string>
     <string name="model_yolo">Eliminator de fundal bazat pe segmentarea obiectelor folosind YOLO v11 Segmentation</string>
+    <string name="show_line_angle">Arată unghiul liniei</string>
+    <string name="show_line_angle_sub">Afișează rotația curentă a liniei în grade în timpul desenului</string>
+    <string name="animated_emojis">Emoji animate</string>
+    <string name="animated_emojis_sub">Afișați emoji-urile disponibile ca animații</string>
 </resources>

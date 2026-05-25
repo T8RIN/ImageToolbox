@@ -2311,4 +2311,8 @@
     <string name="deuteranopia">Deuteranopie</string>
     <string name="expand_image">Rozbalte obrázek</string>
     <string name="model_yolo">Odstraňovač pozadí založený na segmentaci objektů pomocí YOLO v11 Segmentation</string>
+    <string name="show_line_angle">Zobrazit úhel čáry</string>
+    <string name="show_line_angle_sub">Zobrazuje aktuální natočení čáry ve stupních při kreslení</string>
+    <string name="animated_emojis">Animované emotikony</string>
+    <string name="animated_emojis_sub">Zobrazit dostupné emotikony jako animace</string>
 </resources>

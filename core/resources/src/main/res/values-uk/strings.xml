@@ -2311,4 +2311,8 @@
     <string name="deuteranopia">Дейтеранопія</string>
     <string name="expand_image">Розгорнути зображення</string>
     <string name="model_yolo">Засіб видалення фону на основі сегментації об’єктів за допомогою сегментації YOLO v11</string>
+    <string name="show_line_angle">Показати кут лінії</string>
+    <string name="show_line_angle_sub">Показує поточний поворот лінії в градусах під час малювання</string>
+    <string name="animated_emojis">Анімовані емодзі</string>
+    <string name="animated_emojis_sub">Показувати доступні емодзі як анімацію</string>
 </resources>
