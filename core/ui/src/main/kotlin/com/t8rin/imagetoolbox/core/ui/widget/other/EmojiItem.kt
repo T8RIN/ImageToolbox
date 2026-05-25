@@ -35,7 +35,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -66,6 +65,9 @@ fun EmojiItem(
     modifier: Modifier = Modifier,
     fontSize: TextUnit = LocalTextStyle.current.fontSize,
     fontScale: Float,
+    filterQuality: FilterQuality = FilterQuality.High,
+    crossfade: Boolean = true,
+    animateEmojiChange: Boolean = true,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
     key(animatedEmoji) {
@@ -86,56 +88,9 @@ fun EmojiItem(
             }
         }
 
-        var shimmering by rememberSaveable { mutableStateOf(true) }
-        val painter = rememberAsyncImagePainter(
-            model = remember(emoji) {
-                derivedStateOf {
-                    ImageRequest.Builder(appContext)
-                        .data(emoji)
-                        .memoryCacheKey(emoji)
-                        .diskCacheKey(emoji)
-                        .size(512)
-                        .listener(
-                            onStart = {
-                                shimmering = true
-                            },
-                            onSuccess = { _, _ ->
-                                shimmering = false
-                            }
-                        )
-                        .crossfade(true)
-                        .build()
-                }
-            }.value,
-            imageLoader = appContext.imageLoader,
-            filterQuality = FilterQuality.High
-        )
-
-        AnimatedContent(
-            targetState = emoji,
-            modifier = modifier,
-            transitionSpec = {
-                fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(
-                    targetScale = 0.85f
-                )
-            }
-        ) { emoji ->
-            emoji?.let {
+        val content: @Composable (emoji: String?) -> Unit = { currentEmoji ->
+            currentEmoji?.let {
                 Box {
-                    if (animatedEmoji == null) {
-                        Icon(
-                            painter = painter,
-                            contentDescription = emoji,
-                            modifier = remember(size) {
-                                Modifier
-                                    .size(size + 4.dp)
-                                    .offset(1.dp, 1.dp)
-                                    .padding(2.dp)
-                            },
-                            tint = Color(0, 0, 0, 40)
-                        )
-                    }
-
                     if (animatedEmoji != null) {
                         val controller = remember { DotLottieController() }
                         val state by controller.currentState.collectAsStateWithLifecycle(
@@ -156,9 +111,50 @@ fun EmojiItem(
                                 .padding(2.dp)
                         )
                     } else {
+                        var shimmering by remember(currentEmoji) {
+                            mutableStateOf(true)
+                        }
+                        val requestSize = remember(size, density) {
+                            with(density) {
+                                (size + 4.dp).roundToPx().coerceAtLeast(1)
+                            }
+                        }
+                        val painter = rememberAsyncImagePainter(
+                            model = remember(currentEmoji, requestSize, crossfade) {
+                                ImageRequest.Builder(appContext)
+                                    .data(currentEmoji)
+                                    .memoryCacheKey(currentEmoji)
+                                    .diskCacheKey(currentEmoji)
+                                    .size(requestSize)
+                                    .crossfade(crossfade)
+                                    .listener(
+                                        onStart = {
+                                            shimmering = true
+                                        },
+                                        onSuccess = { _, _ ->
+                                            shimmering = false
+                                        }
+                                    )
+                                    .build()
+                            },
+                            imageLoader = appContext.imageLoader,
+                            filterQuality = filterQuality
+                        )
+
                         Icon(
                             painter = painter,
-                            contentDescription = emoji,
+                            contentDescription = currentEmoji,
+                            modifier = remember(size) {
+                                Modifier
+                                    .size(size + 4.dp)
+                                    .offset(1.dp, 1.dp)
+                                    .padding(2.dp)
+                            },
+                            tint = Color(0, 0, 0, 40)
+                        )
+                        Icon(
+                            painter = painter,
+                            contentDescription = currentEmoji,
                             modifier = remember(size, shimmering) {
                                 Modifier
                                     .size(size + 4.dp)
@@ -171,6 +167,24 @@ fun EmojiItem(
                     }
                 }
             } ?: onNoEmoji(size)
+        }
+
+        if (animateEmojiChange) {
+            AnimatedContent(
+                targetState = emoji,
+                modifier = modifier,
+                transitionSpec = {
+                    fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(
+                        targetScale = 0.85f
+                    )
+                }
+            ) { currentEmoji ->
+                content(currentEmoji)
+            }
+        } else {
+            Box(modifier) {
+                content(emoji)
+            }
         }
     }
 }

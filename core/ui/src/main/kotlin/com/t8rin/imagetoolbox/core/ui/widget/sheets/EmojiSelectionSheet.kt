@@ -58,6 +58,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -103,6 +104,16 @@ fun EmojiSelectionSheet(
     val state = rememberLazyGridState()
     val emojiWithCategories = Emoji.allIconsCategorized
     val allEmojis = Emoji.allIcons
+    val emojiIndices = remember(allEmojis) {
+        allEmojis.withIndex().associate { (index, emoji) ->
+            emoji to index
+        }
+    }
+    val animatedEmojiPaths = remember(allEmojis) {
+        allEmojis.associateWith { emoji ->
+            Emoji.animatedIconFor(emoji)?.toString()
+        }
+    }
     val useAnimatedEmojis = LocalSettingsState.current.useAnimatedEmojis
 
     var expandedCategories by rememberSaveable(visible) {
@@ -114,11 +125,9 @@ fun EmojiSelectionSheet(
 
         expandedCategories = if ((selectedEmojiIndex ?: -1) >= 0) {
             emojiWithCategories.find { (_, _, emojis) ->
-                emojis.forEach { emoji ->
-                    val index = allEmojis.indexOf(emoji)
-                    if (index == selectedEmojiIndex) return@find true
+                emojis.any { emoji ->
+                    emojiIndices[emoji] == selectedEmojiIndex
                 }
-                return@find false
             }?.title?.let(::listOf) ?: emptyList()
         } else emptyList()
 
@@ -126,13 +135,13 @@ fun EmojiSelectionSheet(
         if ((selectedEmojiIndex ?: -1) >= 0) {
             var count = 0
             val item = emojiWithCategories.find { (_, _, emojis) ->
-                count = 0
-                emojis.forEach { emoji ->
-                    count++
-                    val index = allEmojis.indexOf(emoji)
-                    if (index == selectedEmojiIndex) return@find true
+                val index = emojis.indexOfFirst { emoji ->
+                    emojiIndices[emoji] == selectedEmojiIndex
                 }
-                return@find false
+                if (index >= 0) {
+                    count = index + 1
+                    true
+                } else false
             } ?: return@LaunchedEffect
             val index = emojiWithCategories.indexOf(item)
 
@@ -187,11 +196,7 @@ fun EmojiSelectionSheet(
             if (!it) onDismiss()
         }
     ) {
-        val alphaState by remember(emojiEnabled) {
-            derivedStateOf {
-                if (emojiEnabled) 1f else 0.4f
-            }
-        }
+        val alphaState = if (emojiEnabled) 1f else 0.4f
 
         Box {
             val density = LocalDensity.current
@@ -263,6 +268,7 @@ fun EmojiSelectionSheet(
                                         )
                                     )
                                     .hapticsClickable(
+                                        enabled = emojiEnabled,
                                         interactionSource = interactionSource,
                                         indication = LocalIndication.current
                                     ) {
@@ -292,11 +298,7 @@ fun EmojiSelectionSheet(
                                 items = emojis,
                                 key = { it }
                             ) { emoji ->
-                                val index by remember(allEmojis, emoji) {
-                                    derivedStateOf {
-                                        allEmojis.indexOf(emoji)
-                                    }
-                                }
+                                val index = emojiIndices[emoji] ?: -1
                                 val selected = index == selectedEmojiIndex
 
                                 val color by animateColorAsState(
@@ -320,23 +322,22 @@ fun EmojiSelectionSheet(
                                             borderColor = borderColor,
                                             resultPadding = 0.dp
                                         )
-                                        .hapticsClickable {
+                                        .hapticsClickable(enabled = emojiEnabled) {
                                             onEmojiPicked(index)
                                         },
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    val animatedEmoji by remember(emoji) {
-                                        derivedStateOf {
-                                            Emoji.animatedIconFor(emoji)?.toString()
-                                        }
-                                    }
+                                    val animatedEmoji = animatedEmojiPaths[emoji]
                                     EmojiItem(
                                         emoji = emoji.toString(),
                                         animatedEmoji = animatedEmoji.takeIf {
                                             useAnimatedEmojis && emojiEnabled
                                         },
                                         fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                        fontScale = 1f
+                                        fontScale = 1f,
+                                        filterQuality = FilterQuality.Medium,
+                                        crossfade = false,
+                                        animateEmojiChange = false
                                     )
                                     if (useAnimatedEmojis && animatedEmoji != null) {
                                         Icon(
