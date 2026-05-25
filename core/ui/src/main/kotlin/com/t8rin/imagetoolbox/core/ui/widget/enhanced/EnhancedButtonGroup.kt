@@ -55,6 +55,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
@@ -387,10 +388,12 @@ fun EnhancedButtonGroup(
                                             checkedShape = AutoCircleShape()
                                         )
                                     },
-                                    modifier = Modifier.then(
-                                        if (isScrollable) Modifier
-                                        else Modifier.weight(1f)
-                                    )
+                                    modifier = Modifier
+                                        .then(
+                                            if (isScrollable) Modifier
+                                            else Modifier.weight(1f)
+                                        )
+                                        .zIndex(if (selected) 1f else 0f)
                                 ) {
                                     if (!isScrollable) {
                                         Row(

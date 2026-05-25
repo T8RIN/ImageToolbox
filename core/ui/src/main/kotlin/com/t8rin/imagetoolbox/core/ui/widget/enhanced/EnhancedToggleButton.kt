@@ -42,7 +42,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativePaint
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
@@ -85,6 +93,14 @@ fun EnhancedToggleButton(
 
     val scope = rememberCoroutineScope()
 
+    val shadowElevation = animateDpAsState(
+        if (settingsState.borderWidth > 0.dp || !enabled || !settingsState.drawButtonShadows) {
+            0.dp
+        } else {
+            0.5.dp
+        }
+    ).value
+
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         Surface(
             checked = checked,
@@ -97,14 +113,17 @@ fun EnhancedToggleButton(
                     focus.clearFocus()
                 }
             },
-            modifier = modifier.semantics { role = Role.Checkbox },
+            modifier = modifier
+                .toggleButtonShadow(
+                    shape = buttonShape,
+                    elevation = shadowElevation
+                )
+                .semantics { role = Role.Checkbox },
             enabled = enabled,
             shape = buttonShape,
             color = containerColor,
             contentColor = contentColor,
-            shadowElevation = animateDpAsState(
-                if (settingsState.borderWidth > 0.dp || !enabled || !settingsState.drawButtonShadows) 0.dp else 0.5.dp
-            ).value,
+            shadowElevation = 0.dp,
             border = border,
             interactionSource = realInteractionSource
         ) {
@@ -124,6 +143,37 @@ fun EnhancedToggleButton(
                 )
             }
         }
+    }
+}
+
+private fun Modifier.toggleButtonShadow(
+    shape: Shape,
+    elevation: Dp
+) = drawBehind {
+    if (elevation <= 0.dp) return@drawBehind
+
+    val shadowColor = Color.Black.copy(alpha = 0.24f).toArgb()
+    val transparentColor = Color.Transparent.toArgb()
+    val outline = shape.createOutline(size, layoutDirection, this)
+    val path = Path().apply {
+        when (outline) {
+            is Outline.Rectangle -> addRect(outline.rect)
+            is Outline.Rounded -> addRoundRect(outline.roundRect)
+            is Outline.Generic -> addPath(outline.path)
+        }
+    }
+
+    drawIntoCanvas {
+        val paint = Paint()
+        val frameworkPaint = paint.nativePaint
+        frameworkPaint.color = transparentColor
+        frameworkPaint.setShadowLayer(
+            elevation.toPx() * 3f,
+            0f,
+            elevation.toPx(),
+            shadowColor
+        )
+        it.drawPath(path, paint)
     }
 }
 
