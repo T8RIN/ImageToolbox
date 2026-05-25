@@ -57,9 +57,11 @@ import com.lottiefiles.dotlottie.core.compose.runtime.DotLottieController
 import com.lottiefiles.dotlottie.core.compose.runtime.DotLottiePlayerState
 import com.lottiefiles.dotlottie.core.compose.ui.DotLottieAnimation
 import com.lottiefiles.dotlottie.core.util.DotLottieSource
+import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.utils.appContext
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EmojiItem(
@@ -118,7 +120,7 @@ fun EmojiItem(
                         val controller = remember { DotLottieController() }
 
                         LaunchedEffect(controller) {
-                            controller.currentState.collect {
+                            controller.currentState.throttleLatest(100).collectLatest {
                                 shimmering = it != DotLottiePlayerState.PLAYING
                             }
                         }
