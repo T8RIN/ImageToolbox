@@ -248,6 +248,11 @@ sealed class Setting(
         subtitle = null
     )
 
+    data object SaveToOriginalFolder : Setting(
+        title = R.string.save_to_original_folder,
+        subtitle = R.string.save_to_original_folder_sub
+    )
+
     data object ScreenOrder : Setting(
         title = R.string.order,
         subtitle = R.string.order_sub

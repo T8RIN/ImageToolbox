@@ -135,8 +135,6 @@ internal class AndroidFileController @Inject constructor(
             return@withContext SaveResult.Error.MissingPermissions
         }
 
-        val saveToOriginalFolder = true //TODO: потом брать из настроек
-
         val data = if (saveTarget is ImageSaveTarget && saveTarget.readFromUriInsteadOfData) {
             readBytes(saveTarget.originalUri)
         } else {
@@ -280,7 +278,7 @@ internal class AndroidFileController @Inject constructor(
                     context = context,
                     treeUri = treeUri?.toUri(),
                     saveTarget = newSaveTarget,
-                    saveToOriginalFolder = saveToOriginalFolder
+                    saveToOriginalFolder = settingsState.saveToOriginalFolder
                 ) ?: throw IllegalArgumentException(getString(R.string.error_while_saving))
 
                 savingFolder.use {
