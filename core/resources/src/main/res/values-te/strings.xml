@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">డ్రాయింగ్ చేస్తున్నప్పుడు ప్రస్తుత రేఖ భ్రమణాన్ని డిగ్రీలలో చూపుతుంది</string>
     <string name="animated_emojis">యానిమేటెడ్ ఎమోజీలు</string>
     <string name="animated_emojis_sub">అందుబాటులో ఉన్న ఎమోజీలను యానిమేషన్‌లుగా చూపండి</string>
+    <string name="save_to_original_folder">ఒరిజినల్ ఫోల్డర్‌కి సేవ్ చేయండి</string>
+    <string name="save_to_original_folder_sub">ఎంచుకున్న ఫోల్డర్‌కు బదులుగా అసలు ఫైల్ పక్కన కొత్త ఫైల్‌లను సేవ్ చేయండి</string>
 </resources>

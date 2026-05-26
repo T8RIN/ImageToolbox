@@ -2316,4 +2316,6 @@
     <string name="animated_emojis_sub">أظهر الرموز التعبيرية المتاحة كرسوم متحركة</string>
     <string name="show_line_angle">عرض زاوية الخط</string>
     <string name="show_line_angle_sub">يظهر دوران الخط الحالي بالدرجات أثناء الرسم</string>
+    <string name="save_to_original_folder">حفظ إلى المجلد الأصلي</string>
+    <string name="save_to_original_folder_sub">احفظ الملفات الجديدة بجوار الملف الأصلي بدلاً من المجلد المحدد</string>
 </resources>

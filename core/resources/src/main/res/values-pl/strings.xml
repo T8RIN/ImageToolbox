@@ -2316,4 +2316,6 @@
     <string name="animated_emojis_sub">Pokazuj dostępne emotikonki jako animacje</string>
     <string name="show_line_angle">Pokaż kąt linii</string>
     <string name="show_line_angle_sub">Pokazuje bieżący obrót linii w stopniach podczas rysowania</string>
+    <string name="save_to_original_folder">Zapisz w oryginalnym folderze</string>
+    <string name="save_to_original_folder_sub">Zapisz nowe pliki obok oryginalnego pliku zamiast w wybranym folderze</string>
 </resources>

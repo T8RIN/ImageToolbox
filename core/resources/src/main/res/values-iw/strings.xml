@@ -2315,4 +2315,6 @@
     <string name="show_line_angle_sub">מציג את סיבוב הקו הנוכחי במעלות בזמן הציור</string>
     <string name="animated_emojis">אמוג\'י מונפש</string>
     <string name="animated_emojis_sub">הצג אמוג\'י זמין כהנפשות</string>
+    <string name="save_to_original_folder">שמור בתיקייה המקורית</string>
+    <string name="save_to_original_folder_sub">שמור קבצים חדשים ליד הקובץ המקורי במקום התיקיה שנבחרה</string>
 </resources>

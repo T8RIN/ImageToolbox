@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">Toont de huidige lijnrotatie in graden tijdens het tekenen</string>
     <string name="animated_emojis">Geanimeerde emoji\'s</string>
     <string name="animated_emojis_sub">Toon beschikbare emoji als animaties</string>
+    <string name="save_to_original_folder">Opslaan in originele map</string>
+    <string name="save_to_original_folder_sub">Sla nieuwe bestanden op naast het originele bestand in plaats van de geselecteerde map</string>
 </resources>

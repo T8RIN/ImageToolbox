@@ -2315,4 +2315,6 @@
     <string name="model_yolo">Удаление фона на основе сегментации объектов с использованием сегментации YOLO v11</string>
     <string name="show_line_angle">Показать угол линии</string>
     <string name="show_line_angle_sub">Показывает текущий поворот линии в градусах во время рисования.</string>
+    <string name="save_to_original_folder">Сохранить в исходную папку</string>
+    <string name="save_to_original_folder_sub">Сохраняйте новые файлы рядом с исходным файлом вместо выбранной папки.</string>
 </resources>

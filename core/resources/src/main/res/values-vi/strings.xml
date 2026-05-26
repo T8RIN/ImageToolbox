@@ -2312,4 +2312,6 @@
     <string name="show_line_angle_sub">Hiển thị góc xoay dòng hiện tại theo độ trong khi vẽ</string>
     <string name="animated_emojis">Biểu tượng cảm xúc hoạt hình</string>
     <string name="animated_emojis_sub">Hiển thị biểu tượng cảm xúc có sẵn dưới dạng hình động</string>
+    <string name="save_to_original_folder">Lưu vào thư mục gốc</string>
+    <string name="save_to_original_folder_sub">Lưu tệp mới bên cạnh tệp gốc thay vì thư mục đã chọn</string>
 </resources>

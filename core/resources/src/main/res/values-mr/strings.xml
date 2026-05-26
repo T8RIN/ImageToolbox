@@ -2314,4 +2314,6 @@
     <string name="show_line_angle_sub">रेखाचित्र काढताना वर्तमान रेषा रोटेशन अंशांमध्ये दाखवते</string>
     <string name="animated_emojis">ॲनिमेटेड इमोजी</string>
     <string name="animated_emojis_sub">उपलब्ध इमोजी ॲनिमेशन म्हणून दाखवा</string>
+    <string name="save_to_original_folder">मूळ फोल्डरमध्ये सेव्ह करा</string>
+    <string name="save_to_original_folder_sub">निवडलेल्या फोल्डरऐवजी मूळ फाइलच्या पुढे नवीन फाइल्स सेव्ह करा</string>
 </resources>

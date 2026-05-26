@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">Näitab joonistamise ajal praegust joone pööramist kraadides</string>
     <string name="animated_emojis">Animeeritud emotikonid</string>
     <string name="animated_emojis_sub">Kuva saadaolevad emotikonid animatsioonidena</string>
+    <string name="save_to_original_folder">Salvesta originaalkausta</string>
+    <string name="save_to_original_folder_sub">Salvestage uued failid valitud kausta asemel algse faili kõrvale</string>
 </resources>

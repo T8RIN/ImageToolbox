@@ -220,6 +220,7 @@ sealed class SettingsGroup(
         titleId = R.string.folder,
         settingsList = listOf(
             Setting.SavingFolder,
+            Setting.SaveToOriginalFolder,
             Setting.OneTimeSaveLocation
         ),
         initialState = false

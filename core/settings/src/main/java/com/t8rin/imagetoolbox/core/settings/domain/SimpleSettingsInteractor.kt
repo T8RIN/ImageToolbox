@@ -57,6 +57,8 @@ interface SimpleSettingsInteractor {
 
     suspend fun toggleOverwriteFiles()
 
+    suspend fun toggleSaveToOriginalFolder()
+
     suspend fun setSpotHealMode(mode: Int)
 
     suspend fun setBorderWidth(width: Float)

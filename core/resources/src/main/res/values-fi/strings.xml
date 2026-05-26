@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">Näyttää nykyisen viivan kierron asteina piirtämisen aikana</string>
     <string name="animated_emojis">Animoidut emojit</string>
     <string name="animated_emojis_sub">Näytä saatavilla olevat emojit animaatioina</string>
+    <string name="save_to_original_folder">Tallenna alkuperäiseen kansioon</string>
+    <string name="save_to_original_folder_sub">Tallenna uudet tiedostot alkuperäisen tiedoston viereen valitun kansion sijaan</string>
 </resources>

@@ -331,6 +331,10 @@ internal fun SettingItem(
                 SavingFolderSettingItemGroup(onValueChange = component::setSaveFolderUri)
             }
 
+            Setting.SaveToOriginalFolder -> {
+                SaveToOriginalFolderSettingItem(onClick = component::toggleSaveToOriginalFolder)
+            }
+
             Setting.ScreenOrder -> {
                 ScreenOrderSettingItem(onValueChange = component::setScreenOrder)
             }
