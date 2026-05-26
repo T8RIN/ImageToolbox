@@ -57,7 +57,7 @@ internal data class SavingFolder private constructor(
             val originalFolder = if (saveToOriginalFolder) {
                 runCatching {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()) {
-                        context.createLegacyFile(
+                        createLegacyFile(
                             saveTarget = saveTarget,
                             parent = saveTarget.originalParentFile(context)
                         )
@@ -69,7 +69,7 @@ internal data class SavingFolder private constructor(
                             )
                         }
                     } else {
-                        context.createLegacyFile(
+                        createLegacyFile(
                             saveTarget = saveTarget,
                             parent = saveTarget.originalParentFile(context)
                         )
@@ -84,7 +84,7 @@ internal data class SavingFolder private constructor(
                         relativePath = null
                     )
                 } else {
-                    context.createDefaultFolderFile(saveTarget)
+                    createDefaultFolderFile(saveTarget)
                 }
             } else if (DocumentFile.isDocumentUri(context, treeUri)) {
                 SavingFolder(
@@ -148,7 +148,7 @@ internal data class SavingFolder private constructor(
             )
         }
 
-        private fun Context.createDefaultFolderFile(
+        private fun createDefaultFolderFile(
             saveTarget: SaveTarget
         ): SavingFolder? = createLegacyFile(
             saveTarget = saveTarget,
@@ -160,7 +160,7 @@ internal data class SavingFolder private constructor(
             )
         )
 
-        private fun Context.createLegacyFile(
+        private fun createLegacyFile(
             saveTarget: SaveTarget,
             parent: File?
         ): SavingFolder? {
