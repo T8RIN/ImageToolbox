@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -75,6 +74,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.MotionMode
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
+import com.t8rin.imagetoolbox.core.resources.shapes.SquircleShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -201,7 +201,8 @@ fun EmojiSelectionSheet(
                     TopAppBarEmoji(
                         allowMultiple = false,
                         containerColor = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(4.dp)
+                        shape = SquircleShape,
+                        contentPadding = 4.dp
                     )
                     Text(
                         text = stringResource(R.string.emoji),

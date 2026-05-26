@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -40,8 +41,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 @Composable
 fun TopAppBarEmoji(
     allowMultiple: Boolean = true,
-    containerColor: Color = Color.Unspecified,
-    shape: Shape? = null
+    containerColor: Color? = null,
+    shape: Shape? = null,
+    contentPadding: Dp? = null
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -76,7 +78,8 @@ fun TopAppBarEmoji(
                             Modifier
                         },
                         containerColor = containerColor,
-                        shape = shape
+                        shape = shape,
+                        contentPadding = contentPadding
                     )
                 }
             }

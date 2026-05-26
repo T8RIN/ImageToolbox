@@ -43,7 +43,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -73,8 +72,9 @@ fun EmojiItem(
     filterQuality: FilterQuality = FilterQuality.High,
     crossfade: Boolean = true,
     animateEmojiChange: Boolean = true,
-    containerColor: Color = Color.Unspecified,
+    containerColor: Color? = null,
     shape: Shape? = null,
+    contentPadding: Dp? = null,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
     key(animatedEmoji) {
@@ -105,14 +105,14 @@ fun EmojiItem(
                         .size(size + 4.dp)
                         .clip(shape ?: CloverShape)
                         .then(
-                            if (containerColor.isSpecified) {
+                            if (containerColor != null) {
                                 Modifier.background(containerColor)
                             } else {
                                 Modifier
                             }
                         )
                         .shimmer(shimmering)
-                        .padding(2.dp)
+                        .padding(2.dp + (contentPadding ?: 0.dp))
                 }
 
                 Box {
