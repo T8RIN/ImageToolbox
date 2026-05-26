@@ -2314,4 +2314,6 @@
     <string name="show_line_angle_sub">Приказује тренутну ротацију линије у степенима током цртања</string>
     <string name="animated_emojis">Анимирани емоџији</string>
     <string name="animated_emojis_sub">Прикажи доступне емоџије као анимације</string>
+    <string name="save_to_original_folder">Сачувај у оригиналну фасциклу</string>
+    <string name="save_to_original_folder_sub">Сачувајте нове датотеке поред оригиналне датотеке уместо изабране фасцикле</string>
 </resources>

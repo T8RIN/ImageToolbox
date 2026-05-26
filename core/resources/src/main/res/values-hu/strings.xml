@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">Rajzolás közben az aktuális vonalelforgatást mutatja fokban</string>
     <string name="animated_emojis">Animált hangulatjelek</string>
     <string name="animated_emojis_sub">Az elérhető hangulatjelek megjelenítése animációként</string>
+    <string name="save_to_original_folder">Mentés az eredeti mappába</string>
+    <string name="save_to_original_folder_sub">Mentse az új fájlokat az eredeti fájl mellé a kiválasztott mappa helyett</string>
 </resources>

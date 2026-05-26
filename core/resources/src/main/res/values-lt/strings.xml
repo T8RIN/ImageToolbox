@@ -2316,4 +2316,6 @@
     <string name="show_line_angle_sub">Piešimo metu rodomas dabartinis linijos pasukimas laipsniais</string>
     <string name="animated_emojis">Animuoti jaustukai</string>
     <string name="animated_emojis_sub">Rodyti galimus jaustukus kaip animacijas</string>
+    <string name="save_to_original_folder">Išsaugoti originaliame aplanke</string>
+    <string name="save_to_original_folder_sub">Išsaugokite naujus failus šalia pradinio failo, o ne pasirinkto aplanko</string>
 </resources>

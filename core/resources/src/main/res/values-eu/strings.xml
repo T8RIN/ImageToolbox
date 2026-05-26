@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">Uneko lerroaren biraketa gradutan erakusten du marrazten ari zaren bitartean</string>
     <string name="animated_emojis">Animaziozko emojiak</string>
     <string name="animated_emojis_sub">Erakutsi erabilgarri dauden emojiak animazio gisa</string>
+    <string name="save_to_original_folder">Gorde jatorrizko karpetan</string>
+    <string name="save_to_original_folder_sub">Gorde fitxategi berriak hautatutako karpetaren ordez jatorrizko fitxategiaren ondoan</string>
 </resources>

@@ -2314,4 +2314,6 @@
     <string name="animated_emojis">Emojis animados</string>
     <string name="animated_emojis_sub">Mostrar emoji disponibles como animaciones</string>
     <string name="show_line_angle_sub">Muestra la rotación de la línea actual en grados mientras dibuja</string>
+    <string name="save_to_original_folder">Guardar en la carpeta original</string>
+    <string name="save_to_original_folder_sub">Guarde archivos nuevos junto al archivo original en lugar de la carpeta seleccionada</string>
 </resources>

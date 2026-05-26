@@ -2313,4 +2313,6 @@
     <string name="animated_emojis_sub">展示可用的动态表情</string>
     <string name="show_line_angle">显示线角度</string>
     <string name="show_line_angle_sub">绘图时显示当前线旋转角度（以度为单位）</string>
+    <string name="save_to_original_folder">保存到原始文件夹</string>
+    <string name="save_to_original_folder_sub">将新文件保存在原始文件旁边，而不是所选文件夹</string>
 </resources>

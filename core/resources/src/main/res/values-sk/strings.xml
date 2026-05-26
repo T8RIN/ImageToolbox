@@ -2315,4 +2315,6 @@
     <string name="show_line_angle_sub">Počas kreslenia zobrazuje aktuálne otočenie čiary v stupňoch</string>
     <string name="animated_emojis">Animované emotikony</string>
     <string name="animated_emojis_sub">Zobraziť dostupné emotikony ako animácie</string>
+    <string name="save_to_original_folder">Uložiť do pôvodného priečinka</string>
+    <string name="save_to_original_folder_sub">Uložte nové súbory vedľa pôvodného súboru namiesto vybratého priečinka</string>
 </resources>

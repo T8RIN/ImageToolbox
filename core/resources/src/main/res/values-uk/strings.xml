@@ -2315,4 +2315,6 @@
     <string name="show_line_angle_sub">Показує поточний поворот лінії в градусах під час малювання</string>
     <string name="animated_emojis">Анімовані емодзі</string>
     <string name="animated_emojis_sub">Показувати доступні емодзі як анімацію</string>
+    <string name="save_to_original_folder">Зберегти в оригінальну папку</string>
+    <string name="save_to_original_folder_sub">Зберігайте нові файли поруч із вихідним файлом замість вибраної папки</string>
 </resources>

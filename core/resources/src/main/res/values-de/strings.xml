@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">Zeigt beim Zeichnen die aktuelle Liniendrehung in Grad an</string>
     <string name="animated_emojis">Animierte Emojis</string>
     <string name="animated_emojis_sub">Verfügbare Emojis als Animationen anzeigen</string>
+    <string name="save_to_original_folder">Im Originalordner speichern</string>
+    <string name="save_to_original_folder_sub">Speichern Sie neue Dateien neben der Originaldatei statt im ausgewählten Ordner</string>
 </resources>
