@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">Сурет салу кезінде сызықтың ағымдағы айналуын градуспен көрсетеді</string>
     <string name="animated_emojis">Анимациялық эмодзилер</string>
     <string name="animated_emojis_sub">Қолжетімді эмодзилерді анимациялар ретінде көрсету</string>
+    <string name="save_to_original_folder">Түпнұсқа қалтаға сақтау</string>
+    <string name="save_to_original_folder_sub">Таңдалған қалтаның орнына жаңа файлдарды бастапқы файлдың жанына сақтаңыз</string>
 </resources>

@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">வரையும்போது தற்போதைய வரி சுழற்சியை டிகிரிகளில் காட்டுகிறது</string>
     <string name="animated_emojis">அனிமேஷன் செய்யப்பட்ட எமோஜிகள்</string>
     <string name="animated_emojis_sub">கிடைக்கும் ஈமோஜியை அனிமேஷன்களாகக் காட்டு</string>
+    <string name="save_to_original_folder">அசல் கோப்புறையில் சேமிக்கவும்</string>
+    <string name="save_to_original_folder_sub">தேர்ந்தெடுக்கப்பட்ட கோப்புறைக்குப் பதிலாக அசல் கோப்பின் அடுத்த புதிய கோப்புகளைச் சேமிக்கவும்</string>
 </resources>

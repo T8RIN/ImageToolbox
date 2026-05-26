@@ -253,6 +253,8 @@ private val FakeSettings = object : SimpleSettingsInteractor {
 
     override suspend fun toggleOverwriteFiles() = Unit
 
+    override suspend fun toggleSaveToOriginalFolder() = Unit
+
     override suspend fun setSpotHealMode(mode: Int) = Unit
     override suspend fun setBorderWidth(width: Float) = Unit
 }

@@ -2314,4 +2314,6 @@
     <string name="animated_emojis">Animerede emojis</string>
     <string name="animated_emojis_sub">Vis tilgængelige emoji som animationer</string>
     <string name="show_line_angle">Vis linievinkel</string>
+    <string name="save_to_original_folder">Gem i original mappe</string>
+    <string name="save_to_original_folder_sub">Gem nye filer ved siden af ​​den originale fil i stedet for den valgte mappe</string>
 </resources>

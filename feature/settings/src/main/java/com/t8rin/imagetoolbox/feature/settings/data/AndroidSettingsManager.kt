@@ -145,6 +145,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.PERFORMANCE_VERSION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PRESETS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_TO_ORIGINAL_FOLDER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SCREENS_WITH_BRIGHTNESS_ENFORCEMENT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SCREEN_ORDER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SCREEN_SEARCH_ENABLED
@@ -465,6 +466,12 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun toggleOverwriteFiles() = toggleFilenameBehavior(
         behavior = FilenameBehavior.Overwrite()
+    )
+
+    override suspend fun toggleSaveToOriginalFolder() = toggle(
+        key = SAVE_TO_ORIGINAL_FOLDER,
+        defaultValue = default.saveToOriginalFolder,
+        predicate = { it.filenameBehavior !is FilenameBehavior.Overwrite }
     )
 
     override suspend fun setSpotHealMode(mode: Int) = edit {
@@ -981,6 +988,8 @@ internal class AndroidSettingsManager @Inject constructor(
     private suspend fun toggleFilenameBehavior(
         behavior: FilenameBehavior
     ) = edit {
+        if (behavior is FilenameBehavior.Overwrite && currentSettings.saveToOriginalFolder) return@edit
+
         val useToggle = behavior is FilenameBehavior.Checksum
                 || !currentSettings.filenameBehavior::class.isInstance(behavior)
 
@@ -1003,7 +1012,10 @@ internal class AndroidSettingsManager @Inject constructor(
     private suspend fun toggle(
         key: Preferences.Key<Boolean>,
         defaultValue: Boolean,
+        predicate: (SettingsState) -> Boolean = { true }
     ) = edit {
+        if (!predicate(currentSettings)) return@edit
+
         it.toggle(
             key = key,
             defaultValue = defaultValue

@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">ड्राइंग करते समय वर्तमान रेखा का घुमाव डिग्री में दिखाता है</string>
     <string name="animated_emojis">एनिमेटेड इमोजी</string>
     <string name="animated_emojis_sub">उपलब्ध इमोजी को एनिमेशन के रूप में दिखाएं</string>
+    <string name="save_to_original_folder">मूल फ़ोल्डर में सहेजें</string>
+    <string name="save_to_original_folder_sub">चयनित फ़ोल्डर के बजाय मूल फ़ाइल के बगल में नई फ़ाइलें सहेजें</string>
 </resources>

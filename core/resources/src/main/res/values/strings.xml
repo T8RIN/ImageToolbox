@@ -2335,4 +2335,6 @@
     <string name="model_watermark_remover">Detects common image watermarks and inpaints them with LaMa. Downloads detection and inpainting models automatically</string>
     <string name="expand_image">Expand Image</string>
     <string name="model_yolo">Object segmentation based background remover using YOLO v11 Segmentation</string>
+    <string name="save_to_original_folder">Save to Original Folder</string>
+    <string name="save_to_original_folder_sub">Save new files next to the original file instead of the selected folder</string>
 </resources>

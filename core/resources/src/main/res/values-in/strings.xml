@@ -2312,4 +2312,6 @@
     <string name="show_line_angle_sub">Menunjukkan rotasi garis saat ini dalam derajat saat menggambar</string>
     <string name="animated_emojis">Emoji Animasi</string>
     <string name="animated_emojis_sub">Tampilkan emoji yang tersedia sebagai animasi</string>
+    <string name="save_to_original_folder">Simpan ke Folder Asli</string>
+    <string name="save_to_original_folder_sub">Simpan file baru di sebelah file asli, bukan di folder yang dipilih</string>
 </resources>

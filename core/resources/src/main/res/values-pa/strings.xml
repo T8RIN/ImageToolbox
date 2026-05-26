@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">ਡਰਾਇੰਗ ਦੌਰਾਨ ਡਿਗਰੀ ਵਿੱਚ ਮੌਜੂਦਾ ਲਾਈਨ ਰੋਟੇਸ਼ਨ ਦਿਖਾਉਂਦਾ ਹੈ</string>
     <string name="animated_emojis">ਐਨੀਮੇਟਡ ਇਮੋਜੀ</string>
     <string name="animated_emojis_sub">ਉਪਲਬਧ ਇਮੋਜੀ ਨੂੰ ਐਨੀਮੇਸ਼ਨ ਵਜੋਂ ਦਿਖਾਓ</string>
+    <string name="save_to_original_folder">ਮੂਲ ਫੋਲਡਰ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
+    <string name="save_to_original_folder_sub">ਚੁਣੇ ਗਏ ਫੋਲਡਰ ਦੀ ਬਜਾਏ ਮੂਲ ਫਾਈਲ ਦੇ ਅੱਗੇ ਨਵੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
 </resources>

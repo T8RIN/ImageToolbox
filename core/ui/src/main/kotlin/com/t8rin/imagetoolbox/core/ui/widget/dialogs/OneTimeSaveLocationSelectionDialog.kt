@@ -157,6 +157,9 @@ fun OneTimeSaveLocationSelectionDialog(
             }
 
             val scope = rememberCoroutineScope()
+            val canChooseSaveLocation =
+                settingsState.filenameBehavior !is FilenameBehavior.Overwrite &&
+                        !settingsState.saveToOriginalFolder
 
             val scrollState = rememberScrollState()
             Column(
@@ -268,7 +271,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                         }
                                     }
                                 } else null,
-                                enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+                                enabled = canChooseSaveLocation,
                                 startIconTransitionSpec = {
                                     fadeIn() togetherWith fadeOut()
                                 },
@@ -284,7 +287,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                 }
                             )
                         },
-                        enableSwipe = canDeleteItem && settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+                        enableSwipe = canDeleteItem && canChooseSaveLocation,
                         interactionSource = interactionSource,
                         modifier = Modifier
                             .fadingEdges(
@@ -310,7 +313,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     onClick = {
                         launcher.pickFolder(currentFolderUri)
                     },
-                    enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+                    enabled = canChooseSaveLocation,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 4.dp, vertical = 2.dp),
@@ -333,7 +336,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         startIcon = Icons.Outlined.FileRename,
                         shape = ShapeDefaults.default,
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
-                        enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+                        enabled = canChooseSaveLocation,
                         onClick = {
                             createLauncher.make("$imageString.${formatForFilenameSelection.extension}")
                         },
@@ -348,12 +351,30 @@ fun OneTimeSaveLocationSelectionDialog(
                     title = stringResource(id = R.string.overwrite_files),
                     subtitle = stringResource(id = R.string.overwrite_files_sub_short),
                     startIcon = Icons.Outlined.FileReplace,
-                    enabled = settingsState.filenameBehavior is FilenameBehavior.Overwrite || settingsState.filenameBehavior is FilenameBehavior.None,
+                    enabled = !settingsState.saveToOriginalFolder &&
+                            (settingsState.filenameBehavior is FilenameBehavior.Overwrite || settingsState.filenameBehavior is FilenameBehavior.None),
                     shape = ShapeDefaults.default,
                     titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                     checked = settingsState.filenameBehavior is FilenameBehavior.Overwrite,
                     onClick = {
                         scope.launch { settingsInteractor.toggleOverwriteFiles() }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer
+                )
+
+                PreferenceRowSwitch(
+                    title = stringResource(id = R.string.save_to_original_folder),
+                    subtitle = stringResource(id = R.string.save_to_original_folder_sub),
+                    startIcon = Icons.Outlined.FolderOpen,
+                    enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+                    shape = ShapeDefaults.default,
+                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+                    checked = settingsState.saveToOriginalFolder,
+                    onClick = {
+                        scope.launch { settingsInteractor.toggleSaveToOriginalFolder() }
                     },
                     modifier = Modifier
                         .fillMaxWidth()

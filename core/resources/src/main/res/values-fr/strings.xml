@@ -2313,4 +2313,6 @@
     <string name="show_line_angle_sub">Affiche la rotation actuelle de la ligne en degrés pendant le dessin</string>
     <string name="animated_emojis">Émojis animés</string>
     <string name="animated_emojis_sub">Afficher les emoji disponibles sous forme d\'animations</string>
+    <string name="save_to_original_folder">Enregistrer dans le dossier d\'origine</string>
+    <string name="save_to_original_folder_sub">Enregistrez les nouveaux fichiers à côté du fichier d\'origine au lieu du dossier sélectionné</string>
 </resources>

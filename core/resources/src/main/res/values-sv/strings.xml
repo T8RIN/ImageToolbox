@@ -2315,4 +2315,6 @@
     <string name="animated_emojis_sub">Visa tillgängliga emoji som animationer</string>
     <string name="show_line_angle">Visa linjevinkel</string>
     <string name="show_line_angle_sub">Visar den aktuella linjens rotation i grader medan du ritar</string>
+    <string name="save_to_original_folder">Spara i originalmapp</string>
+    <string name="save_to_original_folder_sub">Spara nya filer bredvid originalfilen istället för den valda mappen</string>
 </resources>

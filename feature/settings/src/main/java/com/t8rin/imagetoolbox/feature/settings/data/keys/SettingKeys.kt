@@ -25,6 +25,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 
 internal val SAVE_FOLDER_URI = stringPreferencesKey("saveFolder")
+internal val SAVE_TO_ORIGINAL_FOLDER = booleanPreferencesKey("SAVE_TO_ORIGINAL_FOLDER")
 internal val NIGHT_MODE = intPreferencesKey("nightMode")
 internal val DYNAMIC_COLORS = booleanPreferencesKey("dynamicColors")
 internal val ALLOW_IMAGE_MONET = booleanPreferencesKey("imageMonet")

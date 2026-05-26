@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.data.saving
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.media.MediaScannerConnection
 import android.net.Uri
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -270,10 +271,14 @@ internal class AndroidFileController @Inject constructor(
                     )
                 } else saveTarget
 
+                val filename = newSaveTarget.filename
+                    ?: throw IllegalArgumentException(getString(R.string.filename_is_not_set))
+
                 val savingFolder = SavingFolder.getInstance(
                     context = context,
                     treeUri = treeUri?.toUri(),
-                    saveTarget = newSaveTarget
+                    saveTarget = newSaveTarget,
+                    saveToOriginalFolder = settingsState.saveToOriginalFolder
                 ) ?: throw IllegalArgumentException(getString(R.string.error_while_saving))
 
                 savingFolder.use {
@@ -287,8 +292,18 @@ internal class AndroidFileController @Inject constructor(
                     originalUri = saveTarget.originalUri.toUri()
                 )
 
-                val filename = newSaveTarget.filename
-                    ?: throw IllegalArgumentException(getString(R.string.filename_is_not_set))
+                savingFolder.fileUri.path?.takeIf {
+                    savingFolder.fileUri.scheme == "file"
+                }?.let { path ->
+                    MediaScannerConnection.scanFile(
+                        context,
+                        arrayOf(path),
+                        arrayOf(newSaveTarget.mimeType.entry),
+                        null
+                    )
+                }
+
+                val actualSavingPath = savingFolder.normalizedSavingPath ?: savingPath
 
                 oneTimeSaveLocationUri?.let {
                     if (documentFile?.isDirectory == true) {
@@ -319,7 +334,7 @@ internal class AndroidFileController @Inject constructor(
                 }
 
                 return@withContext SaveResult.Success(
-                    message = if (savingPath.isNotEmpty()) {
+                    message = if (actualSavingPath.isNotEmpty()) {
                         val isFile =
                             (documentFile?.isDirectory != true && oneTimeSaveLocationUri != null)
                         if (isFile) {
@@ -327,17 +342,17 @@ internal class AndroidFileController @Inject constructor(
                         } else if (filename.isNotEmpty()) {
                             getString(
                                 R.string.saved_to,
-                                savingPath,
+                                actualSavingPath,
                                 filename
                             )
                         } else {
                             getString(
                                 R.string.saved_to_without_filename,
-                                savingPath
+                                actualSavingPath
                             )
                         }
                     } else null,
-                    savingPath = savingPath
+                    savingPath = actualSavingPath
                 )
             }
         }.onFailure {
