@@ -44,7 +44,7 @@ gms = "4.4.4"
 
 ktor = "3.5.0"
 coil = "3.4.0"
-dotlottieAndroid = "0.13.7"
+dotlottieAndroid = "0.13.8"
 appCompat = "1.8.0-alpha01"
 androidxCore = "1.18.0"
 desugaring = "2.1.5"
