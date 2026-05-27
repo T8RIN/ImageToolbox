@@ -17,7 +17,6 @@
 
 package com.t8rin.snowfall
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,9 +28,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.Lifecycle
 import com.t8rin.snowfall.Constants.defaultAlpha
@@ -51,7 +48,7 @@ import kotlin.time.Duration.Companion.nanoseconds
  *
  */
 fun Modifier.snowfall(
-    type: FlakeType = FlakeType.Snowflakes,
+    type: FlakeType,
     colors: List<Color>,
     density: Double = snowflakeDensity,
     alpha: Float = defaultAlpha,
@@ -72,7 +69,7 @@ fun Modifier.snowfall(
  *
  */
 fun Modifier.snowfall(
-    type: FlakeType = FlakeType.Snowflakes,
+    type: FlakeType,
     color: Color = Color.Unspecified,
     density: Double = snowflakeDensity,
     alpha: Float = defaultAlpha,
@@ -92,7 +89,7 @@ fun Modifier.snowfall(
  *
  */
 fun Modifier.snowmelt(
-    type: FlakeType = FlakeType.Snowflakes,
+    type: FlakeType,
     colors: List<Color>,
     density: Double = snowflakeDensity,
 ): Modifier =
@@ -106,7 +103,7 @@ fun Modifier.snowmelt(
  *
  */
 fun Modifier.snowmelt(
-    type: FlakeType = FlakeType.Snowflakes,
+    type: FlakeType,
     color: Color = Color.Unspecified,
     density: Double = snowflakeDensity,
 ): Modifier =
@@ -122,7 +119,6 @@ private fun Modifier.letItSnow(
 ) = composed {
     val flakes = when (flakeType) {
         is FlakeType.Custom -> flakeType.data
-        is FlakeType.Snowflakes -> getDefaultFlakes()
     }
     var snowAnimState by remember {
         mutableStateOf(
@@ -170,17 +166,3 @@ private fun Modifier.letItSnow(
             snowAnimState.draw(this)
         }
 }
-
-@Composable
-private fun getDefaultFlakes(): List<Painter> = listOf(
-    painterResource(id = R.drawable.ic_flake_1),
-    painterResource(id = R.drawable.ic_flake_2),
-    painterResource(id = R.drawable.ic_flake_3),
-    painterResource(id = R.drawable.ic_flake_4),
-    painterResource(id = R.drawable.ic_flake_5),
-    painterResource(id = R.drawable.ic_flake_6),
-    painterResource(id = R.drawable.ic_flake_7),
-    painterResource(id = R.drawable.ic_flake_8),
-    painterResource(id = R.drawable.ic_flake_9),
-    painterResource(id = R.drawable.ic_flake_10),
-)
