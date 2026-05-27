@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.svg_maker.presentation
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -107,7 +107,7 @@ fun SvgMakerContent(
         },
         imagePreview = {
             UrisPreview(
-                modifier = Modifier.urisPreview(),
+                modifier = Modifier.urisPreview(isPortrait = isPortrait),
                 uris = component.uris,
                 isPortrait = true,
                 onRemoveUri = component::removeUri,

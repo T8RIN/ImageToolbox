@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -63,6 +62,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
 import com.t8rin.imagetoolbox.core.resources.icons.Close
@@ -298,7 +298,7 @@ fun ApngToolsContent(
 
                             is Screen.ApngTools.Type.ApngToJxl -> {
                                 UrisPreview(
-                                    modifier = Modifier.urisPreview(),
+                                    modifier = Modifier.urisPreview(isPortrait = isPortrait),
                                     uris = type.apngUris ?: emptyList(),
                                     isPortrait = true,
                                     onRemoveUri = {

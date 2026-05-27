@@ -151,7 +151,7 @@ fun AiToolsContent(
         showImagePreviewAsStickyHeader = false,
         imagePreview = {
             UrisPreview(
-                modifier = Modifier.urisPreview(),
+                modifier = Modifier.urisPreview(isPortrait = isPortrait),
                 uris = component.uris.orEmpty(),
                 isPortrait = true,
                 onRemoveUri = component::removeUri,

@@ -66,7 +66,7 @@ internal fun GifToolsImagePreview(
 
                     is Screen.GifTools.Type.GifToJxl -> {
                         UrisPreview(
-                            modifier = Modifier.urisPreview(),
+                            modifier = Modifier.urisPreview(isPortrait = isPortrait),
                             uris = type.gifUris ?: emptyList(),
                             isPortrait = true,
                             onRemoveUri = {
@@ -80,7 +80,7 @@ internal fun GifToolsImagePreview(
 
                     is Screen.GifTools.Type.GifToWebp -> {
                         UrisPreview(
-                            modifier = Modifier.urisPreview(),
+                            modifier = Modifier.urisPreview(isPortrait = isPortrait),
                             uris = type.gifUris ?: emptyList(),
                             isPortrait = true,
                             onRemoveUri = {
