@@ -20,6 +20,7 @@
 package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerColors
@@ -72,6 +72,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirst
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Keyboard
 import com.t8rin.imagetoolbox.core.resources.icons.Schedule
@@ -336,7 +337,14 @@ private fun EnhancedDatePickerDialogContainer(
     ) {
         Surface(
             modifier = Modifier
-                .alertDialogBorder()
+                .alertDialogBorder(
+                    colorScheme = MaterialTheme.colorScheme,
+                    shape = shape,
+                    autoElevation = animateDpAsState(
+                        if (LocalSettingsState.current.drawContainerShadows) 16.dp
+                        else 0.dp
+                    ).value
+                )
                 .then(
                     if (showButtons) Modifier.requiredWidth(ContainerWidth)
                     else Modifier
@@ -480,16 +488,14 @@ private fun TimePickerCustomLayout(
                     }
 
                 titlePlaceable.place(x = landTitleTopPadding, y = landTitleTopPadding)
-                val timePickerContentX = contentPadding
                 val timePickerContentY = landContentTopPadding + remainingSpace / 2
-                contentPlaceable.place(x = timePickerContentX, y = timePickerContentY)
+                contentPlaceable.place(x = contentPadding, y = timePickerContentY)
                 val actionsY =
                     timePickerContentY + contentPlaceable.height + landContentActionsPadding -
                             adjustedActionsBottomPadding + remainingSpace / 2
-                actionsPlaceable.place(x = timePickerContentX, y = actionsY)
+                actionsPlaceable.place(x = contentPadding, y = actionsY)
             } else {
-                val titleX = landTitleTopPadding
-                titlePlaceable.place(x = titleX, y = portTitleTopPadding)
+                titlePlaceable.place(x = landTitleTopPadding, y = portTitleTopPadding)
 
                 val contentX = (dialogWidth - contentPlaceable.width) / 2
                 val contentY = portTitleTopPadding + titlePlaceable.height

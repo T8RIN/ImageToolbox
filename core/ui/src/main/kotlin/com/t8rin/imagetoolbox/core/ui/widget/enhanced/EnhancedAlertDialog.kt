@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -136,7 +137,14 @@ fun EnhancedAlertDialog(
                 titleContentColor = titleContentColor,
                 textContentColor = textContentColor,
                 modifier = modifier
-                    .alertDialogBorder()
+                    .alertDialogBorder(
+                        colorScheme = MaterialTheme.colorScheme,
+                        shape = shape,
+                        autoElevation = animateDpAsState(
+                            if (LocalSettingsState.current.drawContainerShadows) 16.dp
+                            else 0.dp
+                        ).value
+                    )
                     .sizeIn(
                         minWidth = DialogMinWidth,
                         maxWidth = DialogMaxWidth

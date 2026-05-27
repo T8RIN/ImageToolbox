@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,26 +17,21 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 
-fun Modifier.alertDialogBorder() = this.composed {
-    Modifier
-        .autoElevatedBorder(
-            color = MaterialTheme.colorScheme.outlineVariant(
-                luminance = 0.15f,
-                onTopOf = MaterialTheme.colorScheme.surfaceContainerHigh
-            ),
-            shape = AlertDialogDefaults.shape,
-            autoElevation = animateDpAsState(
-                if (LocalSettingsState.current.drawContainerShadows) 16.dp
-                else 0.dp
-            ).value
-        )
-}
+fun Modifier.alertDialogBorder(
+    colorScheme: ColorScheme,
+    shape: Shape,
+    autoElevation: Dp
+) = autoElevatedBorder(
+    color = colorScheme.outlineVariant(
+        luminance = 0.15f,
+        onTopOf = colorScheme.surfaceContainerHigh
+    ),
+    shape = shape,
+    autoElevation = autoElevation
+)
