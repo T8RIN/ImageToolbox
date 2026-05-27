@@ -219,7 +219,7 @@ private fun EnhancedModalSheetImpl(
                 containerColor = containerColor,
                 contentColor = contentColor,
                 shape = shape,
-                sheetState = androidx.compose.material3.rememberModalBottomSheetState(
+                sheetState = @Suppress("DEPRECATION") androidx.compose.material3.rememberModalBottomSheetState(
                     skipPartiallyExpanded = skipHalfExpanded
                 ),
                 dragHandle = { Column(content = dragHandle) },

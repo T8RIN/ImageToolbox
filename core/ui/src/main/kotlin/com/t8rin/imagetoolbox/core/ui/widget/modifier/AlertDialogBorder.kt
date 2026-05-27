@@ -18,11 +18,13 @@
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 
+@Composable
 fun Modifier.alertDialogBorder(
     colorScheme: ColorScheme,
     shape: Shape,

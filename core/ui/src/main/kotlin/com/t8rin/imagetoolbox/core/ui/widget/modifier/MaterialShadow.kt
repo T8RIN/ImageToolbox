@@ -19,12 +19,11 @@ package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
 import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -38,44 +37,52 @@ import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.zedalpha.shadowgadgets.compose.clippedShadow
 
+@Composable
 fun Modifier.materialShadow(
     shape: Shape,
     elevation: Dp,
     enabled: Boolean = true,
     isClipped: Boolean = true,
     color: Color = Color.Black
-) = composed {
-    val elev = animateDpAsState(if (enabled) elevation else 0.dp).value
+): Modifier = materialShadow(
+    shape = shape,
+    elevation = animateDpAsState(if (enabled) elevation else 0.dp),
+    isClipped = isClipped,
+    color = color
+)
 
-    if (elev > 0.dp) {
-        val shape by remember(shape) {
-            derivedStateOf {
-                if ((shape is AnimatedShape && shape.shapesType is ShapeType.Smooth)) {
-                    @Stable
-                    object : Shape by shape {
-                        override fun createOutline(
-                            size: Size,
-                            layoutDirection: LayoutDirection,
-                            density: Density
-                        ): Outline = shape.createOutline(
-                            size = size,
-                            layoutDirection = layoutDirection,
-                            density = density,
-                            shapesType = ShapeType.Rounded()
-                        )
-                    }
-                } else shape
-            }
-        }
-        val isConcavePath by remember(shape) {
-            derivedStateOf {
-                shape.createOutline(
-                    size = Size(1f, 1f),
-                    layoutDirection = LayoutDirection.Ltr,
-                    density = Density(1f)
-                ).let {
-                    it is Outline.Generic && !it.path.isConvex
+@Composable
+fun Modifier.materialShadow(
+    shape: Shape,
+    elevation: State<Dp>,
+    isClipped: Boolean = true,
+    color: Color = Color.Black
+): Modifier {
+    return this then if (elevation.value > 0.dp) {
+        val shape = remember(shape) {
+            if ((shape is AnimatedShape && shape.shapesType is ShapeType.Smooth)) {
+                @Stable
+                object : Shape by shape {
+                    override fun createOutline(
+                        size: Size,
+                        layoutDirection: LayoutDirection,
+                        density: Density
+                    ): Outline = shape.createOutline(
+                        size = size,
+                        layoutDirection = layoutDirection,
+                        density = density,
+                        shapesType = ShapeType.Rounded()
+                    )
                 }
+            } else shape
+        }
+        val isConcavePath = remember(shape) {
+            shape.createOutline(
+                size = Size(1f, 1f),
+                layoutDirection = LayoutDirection.Ltr,
+                density = Density(1f)
+            ).let {
+                it is Outline.Generic && !it.path.isConvex
             }
         }
 
@@ -83,7 +90,7 @@ fun Modifier.materialShadow(
             isConcavePath && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
                 val api21Shadow = Modifier.rsBlurShadow(
                     shape = shape,
-                    radius = elev,
+                    radius = elevation.value,
                     isAlphaContentClip = isClipped,
                     color = color
                 )
@@ -95,14 +102,14 @@ fun Modifier.materialShadow(
                 val api29Shadow = if (isClipped) {
                     Modifier.clippedShadow(
                         shape = shape,
-                        elevation = elev,
+                        elevation = elevation.value,
                         ambientColor = color,
                         spotColor = color
                     )
                 } else {
                     Modifier.shadow(
                         shape = shape,
-                        elevation = elev,
+                        elevation = elevation.value,
                         ambientColor = color,
                         spotColor = color
                     )
