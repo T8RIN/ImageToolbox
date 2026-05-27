@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Icon
@@ -46,7 +45,7 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -59,6 +58,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -105,7 +105,12 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     else TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
+        bottomSheetState = rememberBottomSheetState(
+            initialValue = SheetValue.PartiallyExpanded,
+            enabledValues = setOf(
+                SheetValue.PartiallyExpanded,
+                SheetValue.Expanded
+            ),
             confirmValueChange = {
                 when (it) {
                     SheetValue.Hidden -> false
