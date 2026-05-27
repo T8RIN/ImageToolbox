@@ -24,7 +24,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import io.iamjosephmj.flinger.adaptive.AdaptiveMode
@@ -48,62 +47,58 @@ fun enhancedFlingBehavior(
     FlingType.REDUCED_MOTION -> FlingPresets.reducedMotion()
 }
 
+@Composable
 fun Modifier.enhancedVerticalScroll(
     state: ScrollState,
     enabled: Boolean = true,
     flingBehavior: FlingBehavior? = null,
     reverseScrolling: Boolean = false,
-) = this.composed {
-    Modifier.verticalScroll(
-        state = state,
-        enabled = enabled,
-        flingBehavior = flingBehavior ?: enhancedFlingBehavior(),
-        reverseScrolling = reverseScrolling,
-    )
-}
+) = verticalScroll(
+    state = state,
+    enabled = enabled,
+    flingBehavior = flingBehavior ?: enhancedFlingBehavior(),
+    reverseScrolling = reverseScrolling,
+)
 
+@Composable
 fun Modifier.enhancedVerticalScroll(
     state: ScrollState,
     overscrollEffect: OverscrollEffect?,
     enabled: Boolean = true,
     flingBehavior: FlingBehavior? = null,
     reverseScrolling: Boolean = false,
-) = this.composed {
-    Modifier.verticalScroll(
-        state = state,
-        enabled = enabled,
-        flingBehavior = flingBehavior ?: enhancedFlingBehavior(),
-        reverseScrolling = reverseScrolling,
-        overscrollEffect = overscrollEffect
-    )
-}
+) = verticalScroll(
+    state = state,
+    enabled = enabled,
+    flingBehavior = flingBehavior ?: enhancedFlingBehavior(),
+    reverseScrolling = reverseScrolling,
+    overscrollEffect = overscrollEffect
+)
 
+@Composable
 fun Modifier.enhancedHorizontalScroll(
     state: ScrollState,
     enabled: Boolean = true,
     flingBehavior: FlingBehavior? = null,
     reverseScrolling: Boolean = false,
-) = this.composed {
-    Modifier.horizontalScroll(
-        state = state,
-        enabled = enabled,
-        flingBehavior = flingBehavior ?: enhancedFlingBehavior(),
-        reverseScrolling = reverseScrolling,
-    )
-}
+) = horizontalScroll(
+    state = state,
+    enabled = enabled,
+    flingBehavior = flingBehavior ?: enhancedFlingBehavior(),
+    reverseScrolling = reverseScrolling,
+)
 
+@Composable
 fun Modifier.enhancedHorizontalScroll(
     state: ScrollState,
     overscrollEffect: OverscrollEffect?,
     enabled: Boolean = true,
     flingBehavior: FlingBehavior? = null,
     reverseScrolling: Boolean = false,
-) = this.composed {
-    Modifier.horizontalScroll(
-        state = state,
-        enabled = enabled,
-        flingBehavior = flingBehavior ?: enhancedFlingBehavior(),
-        reverseScrolling = reverseScrolling,
-        overscrollEffect = overscrollEffect
-    )
-}
+) = horizontalScroll(
+    state = state,
+    enabled = enabled,
+    flingBehavior = flingBehavior ?: enhancedFlingBehavior(),
+    reverseScrolling = reverseScrolling,
+    overscrollEffect = overscrollEffect
+)
