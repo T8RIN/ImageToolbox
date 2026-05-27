@@ -22,35 +22,66 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.SuspendingPointerInputModifierNode
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.node.CompositionLocalConsumerModifierNode
+import androidx.compose.ui.node.DelegatingNode
+import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.node.currentValueOf
+import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.LocalFocusManager
+
+fun Modifier.clearFocusOnTap(
+    enabled: Boolean = true
+): Modifier {
+    if (!enabled) return this
+
+    return this.then(ClearFocusOnTapElement)
+}
+
+private data object ClearFocusOnTapElement : ModifierNodeElement<ClearFocusOnTapNode>() {
+
+    override fun create(): ClearFocusOnTapNode {
+        return ClearFocusOnTapNode()
+    }
+
+    override fun update(node: ClearFocusOnTapNode) {
+        node.resetPointerInput()
+    }
+
+    override fun InspectorInfo.inspectableProperties() {
+        name = "clearFocusOnTap"
+        properties["enabled"] = true
+    }
+}
+
+private class ClearFocusOnTapNode : DelegatingNode(),
+    CompositionLocalConsumerModifierNode {
+
+    private val pointerInputNode = delegate(
+        SuspendingPointerInputModifierNode {
+            detectTapGestures(
+                onTap = {
+                    currentValueOf(LocalFocusManager).clearFocus()
+                }
+            )
+        }
+    )
+
+    fun resetPointerInput() {
+        pointerInputNode.resetPointerInputHandler()
+    }
+}
 
 fun Modifier.tappable(
     key1: Any? = Unit,
     onTap: PointerInputScope.(Offset) -> Unit
 ): Modifier = pointerInput(key1) {
     detectTapGestures { onTap(it) }
-}
-
-fun Modifier.clearFocusOnTap(enabled: Boolean = true) = composed {
-    val focus = LocalFocusManager.current
-
-    if (enabled) {
-        Modifier.pointerInput(focus) {
-            detectTapGestures(
-                onTap = {
-                    focus.clearFocus()
-                }
-            )
-        }
-    } else {
-        Modifier
-    }
 }
 
 @Composable
