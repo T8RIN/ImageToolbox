@@ -143,6 +143,7 @@ internal fun MainContentImpl(
                     EnhancedTopAppBarType.Large
                 },
                 modifier = Modifier.realisticSnowfall(
+                    color = MaterialTheme.colorScheme.primary,
                     enabled = showSnowfall
                 )
             )

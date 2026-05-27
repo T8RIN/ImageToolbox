@@ -18,9 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
 import android.annotation.SuppressLint
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -32,15 +30,14 @@ import kotlin.random.Random
 
 @SuppressLint("UnnecessaryComposedModifier")
 fun Modifier.realisticSnowfall(
-    enabled: Boolean = true
-): Modifier = this.composed {
-    if (enabled) {
-        Modifier.snowfall(
-            type = FlakeType.Custom(flakes),
-            color = MaterialTheme.colorScheme.primary
-        )
-    } else Modifier
-}
+    color: Color,
+    enabled: Boolean = true,
+): Modifier = this then if (enabled) {
+    Modifier.snowfall(
+        type = FlakeType.Custom(flakes),
+        color = color
+    )
+} else Modifier
 
 private val flakes = List(100) {
     val size = (40 * Random.nextDouble(0.3, 1.0)).toFloat()
