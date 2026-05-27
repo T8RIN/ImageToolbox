@@ -87,6 +87,7 @@ fun EmojiItem(
                 )
             }
         }
+
         val size by remember(fontSize, density) {
             derivedStateOf {
                 with(density) {
