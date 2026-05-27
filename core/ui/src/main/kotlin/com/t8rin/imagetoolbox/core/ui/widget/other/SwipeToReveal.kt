@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -121,7 +120,8 @@ fun SwipeToReveal(
                             .revealSwipeable(
                                 state = state,
                                 maxRevealPx = maxRevealPx,
-                                maxAmountOfOverflow = maxAmountOfOverflow,
+                                maxAmountOfOverflowPx = with(LocalDensity.current) { maxAmountOfOverflow.toPx() },
+                                layoutDirection = LocalLayoutDirection.current,
                                 directions = directions,
                                 interactionSource = interactionSource
                             )
@@ -136,16 +136,14 @@ fun SwipeToReveal(
 
 fun Modifier.revealSwipeable(
     maxRevealPx: Float,
-    maxAmountOfOverflow: Dp,
+    maxAmountOfOverflowPx: Float,
+    layoutDirection: LayoutDirection,
     directions: Set<RevealDirection>,
     state: RevealState,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource
-) = this.composed {
-
-    val maxAmountOfOverflowPx = with(LocalDensity.current) { maxAmountOfOverflow.toPx() }
-
-    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+): Modifier {
+    val isRtl = layoutDirection == LayoutDirection.Rtl
 
     val anchors = mutableMapOf(0f to RevealValue.Default)
 
@@ -161,7 +159,7 @@ fun Modifier.revealSwipeable(
     val maxFactor =
         if (RevealDirection.StartToEnd in directions) SwipeableDefaults.StandardResistanceFactor else SwipeableDefaults.StiffResistanceFactor
 
-    Modifier.swipeable(
+    return swipeable(
         state = state,
         anchors = anchors,
         thresholds = thresholds,
