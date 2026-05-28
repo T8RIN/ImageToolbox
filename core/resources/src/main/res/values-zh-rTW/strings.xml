@@ -2314,4 +2314,5 @@
     <string name="animated_emojis_sub">将可用的表情符号显示为动画</string>
     <string name="save_to_original_folder">保存到原始文件夹</string>
     <string name="save_to_original_folder_sub">将新文件保存在原始文件旁边，而不是所选文件夹</string>
+    <string name="watermark_pdf">水印PDF</string>
 </resources>

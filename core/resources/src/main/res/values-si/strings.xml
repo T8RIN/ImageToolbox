@@ -2316,4 +2316,5 @@
     <string name="animated_emojis_sub">පවතින ඉමොජි සජීවිකරණ ලෙස පෙන්වන්න</string>
     <string name="save_to_original_folder">මුල් ෆෝල්ඩරයට සුරකින්න</string>
     <string name="save_to_original_folder_sub">තෝරාගත් ෆෝල්ඩරය වෙනුවට මුල් ගොනුව අසල නව ගොනු සුරකින්න</string>
+    <string name="watermark_pdf">ජල සලකුණ PDF</string>
 </resources>

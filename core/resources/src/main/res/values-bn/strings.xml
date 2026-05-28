@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">অ্যানিমেশন হিসাবে উপলব্ধ ইমোজি দেখান</string>
     <string name="save_to_original_folder">অরিজিনাল ফোল্ডারে সেভ করুন</string>
     <string name="save_to_original_folder_sub">নির্বাচিত ফোল্ডারের পরিবর্তে আসল ফাইলের পাশে নতুন ফাইল সংরক্ষণ করুন</string>
+    <string name="watermark_pdf">ওয়াটারমার্ক পিডিএফ</string>
 </resources>

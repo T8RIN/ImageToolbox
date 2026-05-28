@@ -2314,4 +2314,5 @@
     <string name="animated_emojis_sub">Hiển thị biểu tượng cảm xúc có sẵn dưới dạng hình động</string>
     <string name="save_to_original_folder">Lưu vào thư mục gốc</string>
     <string name="save_to_original_folder_sub">Lưu tệp mới bên cạnh tệp gốc thay vì thư mục đã chọn</string>
+    <string name="watermark_pdf">Hình mờ PDF</string>
 </resources>

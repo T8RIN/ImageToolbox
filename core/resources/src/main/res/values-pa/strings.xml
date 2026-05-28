@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">ਉਪਲਬਧ ਇਮੋਜੀ ਨੂੰ ਐਨੀਮੇਸ਼ਨ ਵਜੋਂ ਦਿਖਾਓ</string>
     <string name="save_to_original_folder">ਮੂਲ ਫੋਲਡਰ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="save_to_original_folder_sub">ਚੁਣੇ ਗਏ ਫੋਲਡਰ ਦੀ ਬਜਾਏ ਮੂਲ ਫਾਈਲ ਦੇ ਅੱਗੇ ਨਵੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
+    <string name="watermark_pdf">ਵਾਟਰਮਾਰਕ PDF</string>
 </resources>

@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">Ipakita ang available na emoji bilang mga animation</string>
     <string name="save_to_original_folder">I-save sa Orihinal na Folder</string>
     <string name="save_to_original_folder_sub">I-save ang mga bagong file sa tabi ng orihinal na file sa halip na ang napiling folder</string>
+    <string name="watermark_pdf">Watermark PDF</string>
 </resources>

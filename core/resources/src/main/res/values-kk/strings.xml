@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">Қолжетімді эмодзилерді анимациялар ретінде көрсету</string>
     <string name="save_to_original_folder">Түпнұсқа қалтаға сақтау</string>
     <string name="save_to_original_folder_sub">Таңдалған қалтаның орнына жаңа файлдарды бастапқы файлдың жанына сақтаңыз</string>
+    <string name="watermark_pdf">Су таңбасы PDF</string>
 </resources>

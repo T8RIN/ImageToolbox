@@ -2314,4 +2314,5 @@
     <string name="animated_emojis_sub">แสดงอิโมจิที่มีอยู่เป็นภาพเคลื่อนไหว</string>
     <string name="save_to_original_folder">บันทึกลงในโฟลเดอร์ต้นฉบับ</string>
     <string name="save_to_original_folder_sub">บันทึกไฟล์ใหม่ถัดจากไฟล์ต้นฉบับแทนโฟลเดอร์ที่เลือก</string>
+    <string name="watermark_pdf">ลายน้ำ PDF</string>
 </resources>

@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">Mostra le emoji disponibili come animazioni</string>
     <string name="save_to_original_folder">Salva nella cartella originale</string>
     <string name="save_to_original_folder_sub">Salva i nuovi file accanto al file originale anziché nella cartella selezionata</string>
+    <string name="watermark_pdf">PDF con filigrana</string>
 </resources>

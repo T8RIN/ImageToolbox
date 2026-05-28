@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">Mostra els emojis disponibles com a animacions</string>
     <string name="save_to_original_folder">Desa a la carpeta original</string>
     <string name="save_to_original_folder_sub">Deseu fitxers nous al costat del fitxer original en lloc de la carpeta seleccionada</string>
+    <string name="watermark_pdf">Filigrana PDF</string>
 </resources>

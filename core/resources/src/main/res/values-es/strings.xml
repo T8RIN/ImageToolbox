@@ -2316,4 +2316,5 @@
     <string name="show_line_angle_sub">Muestra la rotación de la línea actual en grados mientras dibuja</string>
     <string name="save_to_original_folder">Guardar en la carpeta original</string>
     <string name="save_to_original_folder_sub">Guarde archivos nuevos junto al archivo original en lugar de la carpeta seleccionada</string>
+    <string name="watermark_pdf">PDF de marca de agua</string>
 </resources>

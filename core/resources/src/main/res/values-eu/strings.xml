@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">Erakutsi erabilgarri dauden emojiak animazio gisa</string>
     <string name="save_to_original_folder">Gorde jatorrizko karpetan</string>
     <string name="save_to_original_folder_sub">Gorde fitxategi berriak hautatutako karpetaren ordez jatorrizko fitxategiaren ondoan</string>
+    <string name="watermark_pdf">Ur-marka PDFa</string>
 </resources>

@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">అందుబాటులో ఉన్న ఎమోజీలను యానిమేషన్‌లుగా చూపండి</string>
     <string name="save_to_original_folder">ఒరిజినల్ ఫోల్డర్‌కి సేవ్ చేయండి</string>
     <string name="save_to_original_folder_sub">ఎంచుకున్న ఫోల్డర్‌కు బదులుగా అసలు ఫైల్ పక్కన కొత్త ఫైల్‌లను సేవ్ చేయండి</string>
+    <string name="watermark_pdf">వాటర్‌మార్క్ PDF</string>
 </resources>

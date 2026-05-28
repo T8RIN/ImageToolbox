@@ -2316,4 +2316,5 @@
     <string name="show_line_angle">Vis linievinkel</string>
     <string name="save_to_original_folder">Gem i original mappe</string>
     <string name="save_to_original_folder_sub">Gem nye filer ved siden af ​​den originale fil i stedet for den valgte mappe</string>
+    <string name="watermark_pdf">Vandmærke pdf</string>
 </resources>

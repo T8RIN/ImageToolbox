@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">Verfügbare Emojis als Animationen anzeigen</string>
     <string name="save_to_original_folder">Im Originalordner speichern</string>
     <string name="save_to_original_folder_sub">Speichern Sie neue Dateien neben der Originaldatei statt im ausgewählten Ordner</string>
+    <string name="watermark_pdf">Wasserzeichen-PDF</string>
 </resources>

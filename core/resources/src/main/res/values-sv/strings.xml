@@ -2317,4 +2317,5 @@
     <string name="show_line_angle_sub">Visar den aktuella linjens rotation i grader medan du ritar</string>
     <string name="save_to_original_folder">Spara i originalmapp</string>
     <string name="save_to_original_folder_sub">Spara nya filer bredvid originalfilen istället för den valda mappen</string>
+    <string name="watermark_pdf">Vattenstämpel pdf</string>
 </resources>

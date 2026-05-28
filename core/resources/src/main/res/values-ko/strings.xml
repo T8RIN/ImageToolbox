@@ -2314,4 +2314,5 @@
     <string name="animated_emojis_sub">사용 가능한 이모티콘을 애니메이션으로 표시</string>
     <string name="save_to_original_folder">원본 폴더에 저장</string>
     <string name="save_to_original_folder_sub">선택한 폴더 대신 원본 파일 옆에 새 파일을 저장합니다.</string>
+    <string name="watermark_pdf">워터마크 PDF</string>
 </resources>

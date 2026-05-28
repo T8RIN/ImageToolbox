@@ -2317,4 +2317,5 @@
     <string name="animated_emojis_sub">הצג אמוג\'י זמין כהנפשות</string>
     <string name="save_to_original_folder">שמור בתיקייה המקורית</string>
     <string name="save_to_original_folder_sub">שמור קבצים חדשים ליד הקובץ המקורי במקום התיקיה שנבחרה</string>
+    <string name="watermark_pdf">סימן מים PDF</string>
 </resources>

@@ -2315,4 +2315,5 @@
     <string name="animated_emojis_sub">கிடைக்கும் ஈமோஜியை அனிமேஷன்களாகக் காட்டு</string>
     <string name="save_to_original_folder">அசல் கோப்புறையில் சேமிக்கவும்</string>
     <string name="save_to_original_folder_sub">தேர்ந்தெடுக்கப்பட்ட கோப்புறைக்குப் பதிலாக அசல் கோப்பின் அடுத்த புதிய கோப்புகளைச் சேமிக்கவும்</string>
+    <string name="watermark_pdf">வாட்டர்மார்க் PDF</string>
 </resources>
