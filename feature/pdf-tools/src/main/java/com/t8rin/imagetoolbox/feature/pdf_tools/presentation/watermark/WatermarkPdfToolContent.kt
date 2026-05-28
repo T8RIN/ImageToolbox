@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +33,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.TextRotationAngleup
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
@@ -77,7 +77,7 @@ fun WatermarkPdfToolContent(
         ),
         isPickedAlready = component.initialUri != null,
         canShowScreenData = component.uri != null,
-        title = stringResource(R.string.watermarking),
+        title = stringResource(R.string.watermark_pdf),
         actions = {},
         imagePreview = {
             WatermarkPreview(
