@@ -25,14 +25,9 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -43,24 +38,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
-import coil3.imageLoader
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import com.lottiefiles.dotlottie.core.compose.runtime.DotLottieController
+import coil3.compose.AsyncImage
 import com.lottiefiles.dotlottie.core.compose.runtime.DotLottiePlayerState
-import com.lottiefiles.dotlottie.core.compose.ui.DotLottieAnimation
 import com.lottiefiles.dotlottie.core.util.DotLottieSource
-import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
-import com.t8rin.imagetoolbox.core.utils.appContext
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EmojiItem(
@@ -68,42 +54,36 @@ fun EmojiItem(
     animatedEmoji: String? = null,
     modifier: Modifier = Modifier,
     fontSize: TextUnit = LocalTextStyle.current.fontSize,
-    fontScale: Float,
     filterQuality: FilterQuality = FilterQuality.High,
-    crossfade: Boolean = true,
     animateEmojiChange: Boolean = true,
     containerColor: Color? = null,
     shape: Shape? = null,
     contentPadding: Dp? = null,
-    onNoEmoji: @Composable (size: Dp) -> Unit = {}
+    onNoEmoji: (@Composable () -> Unit)? = null
 ) {
     key(animatedEmoji) {
-        val dens = LocalDensity.current
-        val density by remember(dens, fontScale) {
-            derivedStateOf {
-                Density(
-                    density = dens.density,
-                    fontScale = fontScale
-                )
-            }
-        }
-
-        val size by remember(fontSize, density) {
-            derivedStateOf {
-                with(density) {
-                    fontSize.toDp()
-                }
-            }
-        }
-
         val content: @Composable (emoji: String?) -> Unit = { currentEmoji ->
             currentEmoji?.let {
                 var shimmering by remember(currentEmoji) {
                     mutableStateOf(true)
                 }
-                val emojiModifier = remember(size, shimmering) {
+
+                val emojiModifier = remember(shimmering) {
                     Modifier
-                        .size(size + 4.dp)
+                        .layout { measurable, constraints ->
+                            val size = fontSize.roundToPx() + 4.dp.roundToPx()
+
+                            val placeable = measurable.measure(
+                                constraints.copy(
+                                    maxWidth = size,
+                                    maxHeight = size
+                                )
+                            )
+
+                            layout(size, size) {
+                                placeable.place(0, 0)
+                            }
+                        }
                         .clip(shape ?: CloverShape)
                         .then(
                             if (containerColor != null) {
@@ -116,73 +96,29 @@ fun EmojiItem(
                         .padding(2.dp + (contentPadding ?: 0.dp))
                 }
 
-                Box {
-                    if (animatedEmoji != null) {
-                        val controller = remember { DotLottieController() }
-
-                        LaunchedEffect(controller) {
-                            controller.currentState.throttleLatest(100).collectLatest {
-                                shimmering = it != DotLottiePlayerState.PLAYING
-                            }
-                        }
-
-                        DotLottieAnimation(
-                            source = remember(animatedEmoji) {
-                                DotLottieSource.Asset(animatedEmoji.removePrefix("file:///android_asset/"))
-                            },
-                            loop = true,
-                            autoplay = true,
-                            controller = controller,
-                            modifier = emojiModifier
-                        )
-                    } else {
-                        val requestSize = remember(size, density) {
-                            with(density) {
-                                (size + 4.dp).roundToPx().coerceAtLeast(1)
-                            }
-                        }
-                        val painter = rememberAsyncImagePainter(
-                            model = remember(currentEmoji, requestSize, crossfade) {
-                                ImageRequest.Builder(appContext)
-                                    .data(currentEmoji)
-                                    .memoryCacheKey(currentEmoji)
-                                    .diskCacheKey(currentEmoji)
-                                    .size(requestSize)
-                                    .crossfade(crossfade)
-                                    .listener(
-                                        onStart = {
-                                            shimmering = true
-                                        },
-                                        onSuccess = { _, _ ->
-                                            shimmering = false
-                                        }
-                                    )
-                                    .build()
-                            },
-                            imageLoader = appContext.imageLoader,
-                            filterQuality = filterQuality
-                        )
-
-                        Icon(
-                            painter = painter,
-                            contentDescription = currentEmoji,
-                            modifier = remember(size) {
-                                Modifier
-                                    .size(size + 4.dp)
-                                    .offset(1.dp, 1.dp)
-                                    .padding(2.dp)
-                            },
-                            tint = Color(0, 0, 0, 40)
-                        )
-                        Icon(
-                            painter = painter,
-                            contentDescription = currentEmoji,
-                            modifier = emojiModifier,
-                            tint = Color.Unspecified
-                        )
-                    }
+                if (animatedEmoji != null) {
+                    CustomDotLottieAnimation(
+                        source = remember(animatedEmoji) {
+                            DotLottieSource.Asset(animatedEmoji.removePrefix("file:///android_asset/"))
+                        },
+                        onState = { shimmering = it != DotLottiePlayerState.PLAYING },
+                        modifier = emojiModifier
+                    )
+                } else {
+                    AsyncImage(
+                        model = currentEmoji,
+                        onLoading = {
+                            shimmering = true
+                        },
+                        onSuccess = {
+                            shimmering = false
+                        },
+                        filterQuality = filterQuality,
+                        contentDescription = null,
+                        modifier = emojiModifier
+                    )
                 }
-            } ?: onNoEmoji(size)
+            } ?: onNoEmoji?.invoke()
         }
 
         if (animateEmojiChange) {

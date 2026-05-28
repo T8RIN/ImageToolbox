@@ -360,9 +360,7 @@ fun EmojiSelectionSheet(
                                             useAnimatedEmojis && emojiEnabled
                                         },
                                         fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                        fontScale = 1f,
                                         filterQuality = FilterQuality.Medium,
-                                        crossfade = false,
                                         animateEmojiChange = false
                                     )
                                     if (useAnimatedEmojis && animatedEmoji != null) {

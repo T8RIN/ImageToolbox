@@ -27,10 +27,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
@@ -57,6 +57,17 @@ fun TopAppBarEmoji(
         Row {
             val count = if (allowMultiple) 5 else 1
 
+            val emoji = remember(settingsState.selectedEmoji) {
+                settingsState.selectedEmoji?.toString()
+            }
+            val animatedEmoji =
+                remember(settingsState.selectedEmoji, settingsState.useAnimatedEmojis) {
+                    settingsState.selectedEmoji
+                        ?.takeIf { settingsState.useAnimatedEmojis }
+                        ?.let(Emoji::animatedIconFor)
+                        ?.toString()
+                }
+
             repeat(count) { index ->
                 AnimatedVisibility(
                     visible = settingsState.emojisCount > index,
@@ -64,13 +75,8 @@ fun TopAppBarEmoji(
                     exit = fadeOut() + slideOutHorizontally()
                 ) {
                     EmojiItem(
-                        fontScale = LocalSettingsState.current.fontScale
-                            ?: LocalDensity.current.fontScale,
-                        emoji = settingsState.selectedEmoji?.toString(),
-                        animatedEmoji = settingsState.selectedEmoji
-                            ?.takeIf { settingsState.useAnimatedEmojis }
-                            ?.let(Emoji::animatedIconFor)
-                            ?.toString(),
+                        emoji = emoji,
+                        animatedEmoji = animatedEmoji,
                         fontSize = MaterialTheme.typography.headlineLarge.fontSize,
                         modifier = if (index != count - 1) {
                             Modifier.padding(end = 2.dp)

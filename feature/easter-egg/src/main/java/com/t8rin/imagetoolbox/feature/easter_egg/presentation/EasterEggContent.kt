@@ -136,8 +136,7 @@ fun EasterEggContent(
                                 emoji = emoji,
                                 animatedEmoji = remember(emoji) {
                                     Emoji.animatedIconFor(emoji.toUri())
-                                }?.toString(),
-                                fontScale = 1f
+                                }?.toString()
                             )
                         }
                     }

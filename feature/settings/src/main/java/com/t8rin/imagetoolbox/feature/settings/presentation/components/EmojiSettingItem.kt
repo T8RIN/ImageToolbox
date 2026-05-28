@@ -123,13 +123,12 @@ fun EmojiSettingItem(
                             )
                         } else Modifier
                     ),
-                    fontScale = 1f,
                     fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                    onNoEmoji = { size ->
+                    onNoEmoji = {
                         Icon(
                             imageVector = Icons.Rounded.Block,
                             contentDescription = null,
-                            modifier = Modifier.size(size)
+                            modifier = Modifier.size(32.dp)
                         )
                     }
                 )
@@ -150,7 +149,6 @@ fun EmojiSettingItem(
         icon = {
             EmojiItem(
                 emoji = showShoeDescriptionDialog,
-                fontScale = 1f,
                 fontSize = MaterialTheme.typography.headlineLarge.fontSize,
             )
         },
@@ -178,7 +176,6 @@ fun EmojiSettingItem(
         icon = {
             EmojiItem(
                 emoji = showSecretDescriptionDialog,
-                fontScale = 1f,
                 fontSize = MaterialTheme.typography.headlineLarge.fontSize,
             )
         },
