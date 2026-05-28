@@ -2338,4 +2338,6 @@
     <string name="save_to_original_folder">Save to Original Folder</string>
     <string name="save_to_original_folder_sub">Save new files next to the original file instead of the selected folder</string>
     <string name="watermark_pdf">Watermark PDF</string>
+    <string name="crash_oom_title">Not enough memory</string>
+    <string name="crash_oom_description">The image is likely too large to process on this device, or the system has run out of available memory. Try reducing the image resolution, closing other apps, or choosing a smaller file.</string>
 </resources>

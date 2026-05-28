@@ -30,8 +30,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.crash.presentation.screenLogic.CrashComponent
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppActivityClass
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -62,20 +64,32 @@ internal fun CrashRootContent(component: CrashComponent) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CrashAttentionCard()
-            Spacer(modifier = Modifier.height(24.dp))
-            CrashActionButtons(
-                onCopyCrashInfo = copyCrashInfo,
-                onShareLogs = component::shareLogs,
-                githubLink = crashInfo.githubLink
-            )
+            if (crashInfo.isOutOfMemory) {
+                CrashAttentionCard(
+                    title = stringResource(R.string.crash_oom_title),
+                    description = stringResource(R.string.crash_oom_description),
+                    emoji = crashInfo.emoji
+                )
+            } else {
+                CrashAttentionCard(
+                    title = stringResource(R.string.crash_title),
+                    description = stringResource(R.string.crash_subtitle),
+                    emoji = crashInfo.emoji
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                CrashActionButtons(
+                    onCopyCrashInfo = copyCrashInfo,
+                    onShareLogs = component::shareLogs,
+                    githubLink = crashInfo.githubLink
+                )
+            }
             Spacer(modifier = Modifier.height(24.dp))
             CrashInfoCard(crashInfo = crashInfo)
         }
 
         CrashBottomButtons(
             modifier = Modifier.align(Alignment.BottomCenter),
-            onCopy = copyCrashInfo,
+            onCopy = copyCrashInfo.takeIf { !crashInfo.isOutOfMemory },
             onRestartApp = {
                 context.startActivity(
                     Intent(context, AppActivityClass)

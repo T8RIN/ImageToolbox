@@ -25,6 +25,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
@@ -43,6 +44,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.lottiefiles.dotlottie.core.compose.runtime.DotLottieController
 import com.lottiefiles.dotlottie.core.compose.runtime.DotLottiePlayerState
@@ -77,20 +79,28 @@ fun EmojiItem(
 
                 val emojiModifier = remember(shimmering) {
                     Modifier
-                        .layout { measurable, constraints ->
-                            val size = fontSize.roundToPx() + 4.dp.roundToPx()
+                        .then(
+                            if (fontSize > 0.sp) {
+                                Modifier.layout { measurable, constraints ->
+                                    val size = fontSize.roundToPx() + 4.dp.roundToPx()
 
-                            val placeable = measurable.measure(
-                                constraints.copy(
-                                    maxWidth = size,
-                                    maxHeight = size
-                                )
-                            )
+                                    val placeable = measurable.measure(
+                                        constraints.copy(
+                                            minWidth = size,
+                                            minHeight = size,
+                                            maxWidth = size,
+                                            maxHeight = size
+                                        )
+                                    )
 
-                            layout(size, size) {
-                                placeable.place(0, 0)
+                                    layout(size, size) {
+                                        placeable.place(0, 0)
+                                    }
+                                }
+                            } else {
+                                Modifier.fillMaxSize()
                             }
-                        }
+                        )
                         .clip(shape ?: CloverShape)
                         .then(
                             if (containerColor != null) {
