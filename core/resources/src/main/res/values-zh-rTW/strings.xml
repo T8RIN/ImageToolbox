@@ -2315,4 +2315,6 @@
     <string name="save_to_original_folder">保存到原始文件夹</string>
     <string name="save_to_original_folder_sub">将新文件保存在原始文件旁边，而不是所选文件夹</string>
     <string name="watermark_pdf">水印PDF</string>
+    <string name="crash_oom_title">内存不足</string>
+    <string name="crash_oom_description">图像可能太大而无法在此设备上处理，或者系统已耗尽可用内存。尝试降低图像分辨率、关闭其他应用程序或选择较小的文件。</string>
 </resources>

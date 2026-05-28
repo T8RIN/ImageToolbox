@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Salva nella cartella originale</string>
     <string name="save_to_original_folder_sub">Salva i nuovi file accanto al file originale anziché nella cartella selezionata</string>
     <string name="watermark_pdf">PDF con filigrana</string>
+    <string name="crash_oom_title">Memoria insufficiente</string>
+    <string name="crash_oom_description">Probabilmente l\'immagine è troppo grande per essere elaborata su questo dispositivo oppure il sistema ha esaurito la memoria disponibile. Prova a ridurre la risoluzione dell\'immagine, a chiudere altre app o a scegliere un file più piccolo.</string>
 </resources>

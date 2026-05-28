@@ -2318,4 +2318,6 @@
     <string name="save_to_original_folder">Spara i originalmapp</string>
     <string name="save_to_original_folder_sub">Spara nya filer bredvid originalfilen istället för den valda mappen</string>
     <string name="watermark_pdf">Vattenstämpel pdf</string>
+    <string name="crash_oom_title">Inte tillräckligt med minne</string>
+    <string name="crash_oom_description">Bilden är sannolikt för stor för att bearbetas på den här enheten, eller så har systemet slut på tillgängligt minne. Försök att minska bildupplösningen, stänga andra appar eller välja en mindre fil.</string>
 </resources>

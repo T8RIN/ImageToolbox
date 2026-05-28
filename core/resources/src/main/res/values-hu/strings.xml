@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Mentés az eredeti mappába</string>
     <string name="save_to_original_folder_sub">Mentse az új fájlokat az eredeti fájl mellé a kiválasztott mappa helyett</string>
     <string name="watermark_pdf">Vízjel PDF</string>
+    <string name="crash_oom_title">Nincs elég memória</string>
+    <string name="crash_oom_description">A kép valószínűleg túl nagy ahhoz, hogy feldolgozzuk ezen az eszközön, vagy a rendszerben elfogyott a szabad memória. Csökkentse a képfelbontást, zárjon be más alkalmazásokat, vagy válasszon kisebb fájlt.</string>
 </resources>

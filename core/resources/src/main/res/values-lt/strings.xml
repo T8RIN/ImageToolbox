@@ -2319,4 +2319,6 @@
     <string name="save_to_original_folder">Išsaugoti originaliame aplanke</string>
     <string name="save_to_original_folder_sub">Išsaugokite naujus failus šalia pradinio failo, o ne pasirinkto aplanko</string>
     <string name="watermark_pdf">Vandens ženklas PDF</string>
+    <string name="crash_oom_title">Nepakanka atminties</string>
+    <string name="crash_oom_description">Tikėtina, kad vaizdas per didelis, kad jį būtų galima apdoroti šiame įrenginyje, arba sistemoje baigėsi laisvos atminties kiekis. Pabandykite sumažinti vaizdo skyrą, uždaryti kitas programas arba pasirinkti mažesnį failą.</string>
 </resources>

@@ -2315,4 +2315,6 @@
     <string name="save_to_original_folder">บันทึกลงในโฟลเดอร์ต้นฉบับ</string>
     <string name="save_to_original_folder_sub">บันทึกไฟล์ใหม่ถัดจากไฟล์ต้นฉบับแทนโฟลเดอร์ที่เลือก</string>
     <string name="watermark_pdf">ลายน้ำ PDF</string>
+    <string name="crash_oom_title">หน่วยความจำไม่เพียงพอ</string>
+    <string name="crash_oom_description">รูปภาพอาจมีขนาดใหญ่เกินกว่าจะประมวลผลบนอุปกรณ์นี้ได้ หรือระบบมีหน่วยความจำเหลือไม่เพียงพอ ลองลดความละเอียดของภาพ ปิดแอปอื่นๆ หรือเลือกไฟล์ที่เล็กลง</string>
 </resources>

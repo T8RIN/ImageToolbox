@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">मूल फ़ोल्डर में सहेजें</string>
     <string name="save_to_original_folder_sub">चयनित फ़ोल्डर के बजाय मूल फ़ाइल के बगल में नई फ़ाइलें सहेजें</string>
     <string name="watermark_pdf">वॉटरमार्क पीडीएफ</string>
+    <string name="crash_oom_title">पर्याप्त स्मृति नहीं</string>
+    <string name="crash_oom_description">इस उपकरण पर संसाधित करने के लिए छवि संभवतः बहुत बड़ी है, या सिस्टम में उपलब्ध मेमोरी समाप्त हो गई है। छवि रिज़ॉल्यूशन को कम करने, अन्य ऐप्स बंद करने या छोटी फ़ाइल चुनने का प्रयास करें।</string>
 </resources>

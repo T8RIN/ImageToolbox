@@ -2318,4 +2318,6 @@
     <string name="save_to_original_folder">Зберегти в оригінальну папку</string>
     <string name="save_to_original_folder_sub">Зберігайте нові файли поруч із вихідним файлом замість вибраної папки</string>
     <string name="watermark_pdf">Водяний знак PDF</string>
+    <string name="crash_oom_title">Недостатньо пам\'яті</string>
+    <string name="crash_oom_description">Імовірно, зображення завелике для обробки на цьому пристрої або в системі вичерпано доступну пам’ять. Спробуйте зменшити роздільну здатність зображення, закрити інші програми або вибрати файл меншого розміру.</string>
 </resources>

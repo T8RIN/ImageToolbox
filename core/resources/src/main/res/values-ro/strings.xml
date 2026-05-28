@@ -2317,4 +2317,6 @@
     <string name="save_to_original_folder">Salvați în dosarul original</string>
     <string name="save_to_original_folder_sub">Salvați fișierele noi lângă fișierul original în loc de folderul selectat</string>
     <string name="watermark_pdf">Filigran PDF</string>
+    <string name="crash_oom_title">Nu este suficientă memorie</string>
+    <string name="crash_oom_description">Imaginea este probabil prea mare pentru a fi procesată pe acest dispozitiv sau sistemul a rămas fără memorie disponibilă. Încercați să reduceți rezoluția imaginii, să închideți alte aplicații sau să alegeți un fișier mai mic.</string>
 </resources>

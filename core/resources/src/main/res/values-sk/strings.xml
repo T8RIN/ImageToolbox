@@ -2318,4 +2318,6 @@
     <string name="save_to_original_folder">Uložiť do pôvodného priečinka</string>
     <string name="save_to_original_folder_sub">Uložte nové súbory vedľa pôvodného súboru namiesto vybratého priečinka</string>
     <string name="watermark_pdf">Vodoznak vo formáte PDF</string>
+    <string name="crash_oom_title">Nedostatok pamäte</string>
+    <string name="crash_oom_description">Obraz je pravdepodobne príliš veľký na spracovanie na tomto zariadení, alebo sa v systéme minula dostupná pamäť. Skúste znížiť rozlíšenie obrázka, zatvorte ostatné aplikácie alebo vyberte menší súbor.</string>
 </resources>

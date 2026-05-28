@@ -2317,4 +2317,6 @@
     <string name="save_to_original_folder">Gem i original mappe</string>
     <string name="save_to_original_folder_sub">Gem nye filer ved siden af ​​den originale fil i stedet for den valgte mappe</string>
     <string name="watermark_pdf">Vandmærke pdf</string>
+    <string name="crash_oom_title">Ikke nok hukommelse</string>
+    <string name="crash_oom_description">Billedet er sandsynligvis for stort til at behandle på denne enhed, eller systemet er løbet tør for tilgængelig hukommelse. Prøv at reducere billedopløsningen, lukke andre apps, eller vælg en mindre fil.</string>
 </resources>

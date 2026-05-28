@@ -2315,4 +2315,6 @@
     <string name="save_to_original_folder">元のフォルダーに保存</string>
     <string name="save_to_original_folder_sub">選択したフォルダーではなく、元のファイルの隣に新しいファイルを保存します</string>
     <string name="watermark_pdf">透かしPDF</string>
+    <string name="crash_oom_title">メモリが足りません</string>
+    <string name="crash_oom_description">画像が大きすぎてこのデバイスで処理できないか、システムの使用可能なメモリが不足している可能性があります。画像の解像度を下げるか、他のアプリを閉じるか、より小さいファイルを選択してみてください。</string>
 </resources>

@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Gorde jatorrizko karpetan</string>
     <string name="save_to_original_folder_sub">Gorde fitxategi berriak hautatutako karpetaren ordez jatorrizko fitxategiaren ondoan</string>
     <string name="watermark_pdf">Ur-marka PDFa</string>
+    <string name="crash_oom_title">Memoria nahikoa ez</string>
+    <string name="crash_oom_description">Litekeena da irudia handiegia izatea gailu honetan prozesatzeko, edo sistema memoria erabilgarririk gabe geratu da. Saiatu irudiaren bereizmena murrizten, beste aplikazio batzuk ixten edo fitxategi txikiagoa aukeratzen.</string>
 </resources>

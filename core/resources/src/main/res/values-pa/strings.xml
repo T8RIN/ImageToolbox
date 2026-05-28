@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">ਮੂਲ ਫੋਲਡਰ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="save_to_original_folder_sub">ਚੁਣੇ ਗਏ ਫੋਲਡਰ ਦੀ ਬਜਾਏ ਮੂਲ ਫਾਈਲ ਦੇ ਅੱਗੇ ਨਵੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="watermark_pdf">ਵਾਟਰਮਾਰਕ PDF</string>
+    <string name="crash_oom_title">ਕਾਫ਼ੀ ਮੈਮੋਰੀ ਨਹੀਂ ਹੈ</string>
+    <string name="crash_oom_description">ਚਿੱਤਰ ਸੰਭਾਵਤ ਤੌਰ \'ਤੇ ਇਸ ਡਿਵਾਈਸ \'ਤੇ ਪ੍ਰਕਿਰਿਆ ਕਰਨ ਲਈ ਬਹੁਤ ਵੱਡਾ ਹੈ, ਜਾਂ ਸਿਸਟਮ ਦੀ ਉਪਲਬਧ ਮੈਮੋਰੀ ਖਤਮ ਹੋ ਗਈ ਹੈ। ਚਿੱਤਰ ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਨੂੰ ਘਟਾਉਣ, ਹੋਰ ਐਪਾਂ ਨੂੰ ਬੰਦ ਕਰਨ, ਜਾਂ ਇੱਕ ਛੋਟੀ ਫ਼ਾਈਲ ਚੁਣਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
 </resources>

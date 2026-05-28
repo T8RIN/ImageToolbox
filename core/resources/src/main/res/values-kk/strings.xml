@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Түпнұсқа қалтаға сақтау</string>
     <string name="save_to_original_folder_sub">Таңдалған қалтаның орнына жаңа файлдарды бастапқы файлдың жанына сақтаңыз</string>
     <string name="watermark_pdf">Су таңбасы PDF</string>
+    <string name="crash_oom_title">Жад жеткіліксіз</string>
+    <string name="crash_oom_description">Кескін бұл құрылғыда өңдеу үшін тым үлкен болуы мүмкін немесе жүйеде бос жад таусылған. Кескін ажыратымдылығын азайтып, басқа қолданбаларды жауып немесе кішірек файлды таңдап көріңіз.</string>
 </resources>

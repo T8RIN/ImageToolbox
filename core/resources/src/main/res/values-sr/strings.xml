@@ -2317,4 +2317,6 @@
     <string name="save_to_original_folder">Сачувај у оригиналну фасциклу</string>
     <string name="save_to_original_folder_sub">Сачувајте нове датотеке поред оригиналне датотеке уместо изабране фасцикле</string>
     <string name="watermark_pdf">Водени жиг ПДФ</string>
+    <string name="crash_oom_title">Нема довољно меморије</string>
+    <string name="crash_oom_description">Слика је вероватно превелика за обраду на овом уређају или је систему понестало доступне меморије. Покушајте да смањите резолуцију слике, затворите друге апликације или одаберете мању датотеку.</string>
 </resources>

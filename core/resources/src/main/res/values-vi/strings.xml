@@ -2315,4 +2315,6 @@
     <string name="save_to_original_folder">Lưu vào thư mục gốc</string>
     <string name="save_to_original_folder_sub">Lưu tệp mới bên cạnh tệp gốc thay vì thư mục đã chọn</string>
     <string name="watermark_pdf">Hình mờ PDF</string>
+    <string name="crash_oom_title">Không đủ bộ nhớ</string>
+    <string name="crash_oom_description">Hình ảnh có thể quá lớn để xử lý trên thiết bị này hoặc hệ thống đã hết bộ nhớ khả dụng. Hãy thử giảm độ phân giải hình ảnh, đóng các ứng dụng khác hoặc chọn tệp nhỏ hơn.</string>
 </resources>

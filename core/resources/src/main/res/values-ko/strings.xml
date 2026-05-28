@@ -2315,4 +2315,6 @@
     <string name="save_to_original_folder">원본 폴더에 저장</string>
     <string name="save_to_original_folder_sub">선택한 폴더 대신 원본 파일 옆에 새 파일을 저장합니다.</string>
     <string name="watermark_pdf">워터마크 PDF</string>
+    <string name="crash_oom_title">메모리가 부족합니다</string>
+    <string name="crash_oom_description">이미지가 너무 커서 이 장치에서 처리할 수 없거나 시스템에 사용 가능한 메모리가 부족합니다. 이미지 해상도를 낮추거나, 다른 앱을 닫거나, 더 작은 파일을 선택해 보세요.</string>
 </resources>

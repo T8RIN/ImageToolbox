@@ -2318,4 +2318,6 @@
     <string name="save_to_original_folder">שמור בתיקייה המקורית</string>
     <string name="save_to_original_folder_sub">שמור קבצים חדשים ליד הקובץ המקורי במקום התיקיה שנבחרה</string>
     <string name="watermark_pdf">סימן מים PDF</string>
+    <string name="crash_oom_title">אין מספיק זיכרון</string>
+    <string name="crash_oom_description">סביר להניח שהתמונה גדולה מדי לעיבוד במכשיר זה, או שהזיכרון הפנוי נגמר למערכת. נסה להפחית את רזולוציית התמונה, לסגור אפליקציות אחרות או לבחור קובץ קטן יותר.</string>
 </resources>

@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Opslaan in originele map</string>
     <string name="save_to_original_folder_sub">Sla nieuwe bestanden op naast het originele bestand in plaats van de geselecteerde map</string>
     <string name="watermark_pdf">Watermerk-pdf</string>
+    <string name="crash_oom_title">Niet genoeg geheugen</string>
+    <string name="crash_oom_description">De afbeelding is waarschijnlijk te groot om op dit apparaat te verwerken, of het systeem heeft onvoldoende beschikbaar geheugen. Probeer de beeldresolutie te verlagen, andere apps te sluiten of een kleiner bestand te kiezen.</string>
 </resources>

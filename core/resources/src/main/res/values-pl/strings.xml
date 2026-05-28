@@ -2319,4 +2319,6 @@
     <string name="save_to_original_folder">Zapisz w oryginalnym folderze</string>
     <string name="save_to_original_folder_sub">Zapisz nowe pliki obok oryginalnego pliku zamiast w wybranym folderze</string>
     <string name="watermark_pdf">Znak wodny w formacie PDF</string>
+    <string name="crash_oom_title">Za mało pamięci</string>
+    <string name="crash_oom_description">Obraz jest prawdopodobnie zbyt duży, aby go przetworzyć na tym urządzeniu lub w systemie zabrakło dostępnej pamięci. Spróbuj zmniejszyć rozdzielczość obrazu, zamknij inne aplikacje lub wybierz mniejszy plik.</string>
 </resources>

@@ -2318,4 +2318,6 @@
     <string name="save_to_original_folder">Захаваць у зыходную тэчку</string>
     <string name="save_to_original_folder_sub">Захоўвайце новыя файлы побач з зыходным файлам замест выбранай папкі</string>
     <string name="watermark_pdf">Вадзяны знак PDF</string>
+    <string name="crash_oom_title">Не хапае памяці</string>
+    <string name="crash_oom_description">Відарыс, верагодна, занадта вялікі для апрацоўкі на гэтай прыладзе, або ў сістэме скончылася даступная памяць. Паспрабуйце паменшыць раздзяленне выявы, закрыць іншыя прыкладанні або выбраць файл меншага памеру.</string>
 </resources>

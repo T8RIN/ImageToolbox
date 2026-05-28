@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Tallenna alkuperäiseen kansioon</string>
     <string name="save_to_original_folder_sub">Tallenna uudet tiedostot alkuperäisen tiedoston viereen valitun kansion sijaan</string>
     <string name="watermark_pdf">Vesileima PDF</string>
+    <string name="crash_oom_title">Muisti ei riitä</string>
+    <string name="crash_oom_description">Kuva on todennäköisesti liian suuri käsiteltäväksi tällä laitteella tai järjestelmän vapaa muisti on loppunut. Kokeile pienentää kuvan resoluutiota, sulkea muita sovelluksia tai valita pienempi tiedosto.</string>
 </resources>

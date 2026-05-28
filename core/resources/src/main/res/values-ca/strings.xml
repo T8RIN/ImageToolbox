@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Desa a la carpeta original</string>
     <string name="save_to_original_folder_sub">Deseu fitxers nous al costat del fitxer original en lloc de la carpeta seleccionada</string>
     <string name="watermark_pdf">Filigrana PDF</string>
+    <string name="crash_oom_title">No hi ha prou memòria</string>
+    <string name="crash_oom_description">És probable que la imatge sigui massa gran per processar-la en aquest dispositiu o que el sistema s\'hagi quedat sense memòria disponible. Proveu de reduir la resolució de la imatge, tanqueu altres aplicacions o trieu un fitxer més petit.</string>
 </resources>

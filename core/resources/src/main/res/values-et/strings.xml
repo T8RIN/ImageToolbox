@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Salvesta originaalkausta</string>
     <string name="save_to_original_folder_sub">Salvestage uued failid valitud kausta asemel algse faili kõrvale</string>
     <string name="watermark_pdf">Vesimärgi PDF</string>
+    <string name="crash_oom_title">Pole piisavalt mälu</string>
+    <string name="crash_oom_description">Tõenäoliselt on pilt selles seadmes töötlemiseks liiga suur või süsteemi vaba mälumaht on otsa saanud. Proovige vähendada pildi eraldusvõimet, sulgeda teised rakendused või valida väiksem fail.</string>
 </resources>

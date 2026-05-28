@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">অরিজিনাল ফোল্ডারে সেভ করুন</string>
     <string name="save_to_original_folder_sub">নির্বাচিত ফোল্ডারের পরিবর্তে আসল ফাইলের পাশে নতুন ফাইল সংরক্ষণ করুন</string>
     <string name="watermark_pdf">ওয়াটারমার্ক পিডিএফ</string>
+    <string name="crash_oom_title">যথেষ্ট মেমরি নেই</string>
+    <string name="crash_oom_description">এই ডিভাইসে প্রক্রিয়া করার জন্য চিত্রটি সম্ভবত খুব বড়, বা সিস্টেমের উপলব্ধ মেমরি ফুরিয়ে গেছে৷ ইমেজ রেজোলিউশন কমানোর চেষ্টা করুন, অন্যান্য অ্যাপ বন্ধ করুন বা একটি ছোট ফাইল বেছে নিন।</string>
 </resources>

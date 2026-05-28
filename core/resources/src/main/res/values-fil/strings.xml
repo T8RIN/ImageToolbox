@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">I-save sa Orihinal na Folder</string>
     <string name="save_to_original_folder_sub">I-save ang mga bagong file sa tabi ng orihinal na file sa halip na ang napiling folder</string>
     <string name="watermark_pdf">Watermark PDF</string>
+    <string name="crash_oom_title">Hindi sapat ang memorya</string>
+    <string name="crash_oom_description">Ang imahe ay malamang na masyadong malaki upang iproseso sa device na ito, o ang system ay naubusan ng magagamit na memorya. Subukang bawasan ang resolution ng larawan, isara ang iba pang app, o pumili ng mas maliit na file.</string>
 </resources>

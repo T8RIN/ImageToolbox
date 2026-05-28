@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Orijinal Klasöre Kaydet</string>
     <string name="save_to_original_folder_sub">Yeni dosyaları seçilen klasör yerine orijinal dosyanın yanına kaydedin</string>
     <string name="watermark_pdf">Filigran PDF</string>
+    <string name="crash_oom_title">Yeterli hafıza yok</string>
+    <string name="crash_oom_description">Resim muhtemelen bu cihazda işlenemeyecek kadar büyük veya sistemin kullanılabilir belleği tükendi. Görüntü çözünürlüğünü azaltmayı, diğer uygulamaları kapatmayı veya daha küçük bir dosya seçmeyi deneyin.</string>
 </resources>

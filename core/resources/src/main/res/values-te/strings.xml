@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">ఒరిజినల్ ఫోల్డర్‌కి సేవ్ చేయండి</string>
     <string name="save_to_original_folder_sub">ఎంచుకున్న ఫోల్డర్‌కు బదులుగా అసలు ఫైల్ పక్కన కొత్త ఫైల్‌లను సేవ్ చేయండి</string>
     <string name="watermark_pdf">వాటర్‌మార్క్ PDF</string>
+    <string name="crash_oom_title">తగినంత జ్ఞాపకశక్తి లేదు</string>
+    <string name="crash_oom_description">చిత్రం ఈ పరికరంలో ప్రాసెస్ చేయడానికి చాలా పెద్దది కావచ్చు లేదా సిస్టమ్ అందుబాటులో ఉన్న మెమరీ అయిపోయింది. ఇమేజ్ రిజల్యూషన్‌ని తగ్గించడం, ఇతర యాప్‌లను మూసివేయడం లేదా చిన్న ఫైల్‌ని ఎంచుకోవడం ప్రయత్నించండి.</string>
 </resources>

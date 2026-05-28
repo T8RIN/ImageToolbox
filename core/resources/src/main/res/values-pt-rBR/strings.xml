@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Salvar na pasta original</string>
     <string name="save_to_original_folder_sub">Salve novos arquivos ao lado do arquivo original em vez da pasta selecionada</string>
     <string name="watermark_pdf">PDF de marca d’água</string>
+    <string name="crash_oom_title">Memória insuficiente</string>
+    <string name="crash_oom_description">A imagem provavelmente é muito grande para ser processada neste dispositivo ou o sistema ficou sem memória disponível. Tente reduzir a resolução da imagem, fechar outros aplicativos ou escolher um arquivo menor.</string>
 </resources>

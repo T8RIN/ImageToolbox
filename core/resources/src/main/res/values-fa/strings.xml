@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">در پوشه اصلی ذخیره کنید</string>
     <string name="save_to_original_folder_sub">فایل های جدید را به جای پوشه انتخاب شده در کنار فایل اصلی ذخیره کنید</string>
     <string name="watermark_pdf">واترمارک PDF</string>
+    <string name="crash_oom_title">حافظه کافی نیست</string>
+    <string name="crash_oom_description">تصویر احتمالاً برای پردازش در این دستگاه بسیار بزرگ است یا حافظه موجود سیستم تمام شده است. سعی کنید وضوح تصویر را کاهش دهید، برنامه های دیگر را ببندید یا یک فایل کوچکتر انتخاب کنید.</string>
 </resources>

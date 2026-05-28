@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">Im Originalordner speichern</string>
     <string name="save_to_original_folder_sub">Speichern Sie neue Dateien neben der Originaldatei statt im ausgewählten Ordner</string>
     <string name="watermark_pdf">Wasserzeichen-PDF</string>
+    <string name="crash_oom_title">Nicht genügend Speicher</string>
+    <string name="crash_oom_description">Das Bild ist wahrscheinlich zu groß, um es auf diesem Gerät zu verarbeiten, oder das System verfügt nicht über genügend Speicher. Versuchen Sie, die Bildauflösung zu reduzieren, andere Apps zu schließen oder eine kleinere Datei auszuwählen.</string>
 </resources>

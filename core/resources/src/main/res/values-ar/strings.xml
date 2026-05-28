@@ -2321,4 +2321,6 @@
     <string name="save_to_original_folder">حفظ إلى المجلد الأصلي</string>
     <string name="save_to_original_folder_sub">احفظ الملفات الجديدة بجوار الملف الأصلي بدلاً من المجلد المحدد</string>
     <string name="watermark_pdf">العلامة المائية PDF</string>
+    <string name="crash_oom_title">لا توجد ذاكرة كافية</string>
+    <string name="crash_oom_description">من المحتمل أن تكون الصورة كبيرة جدًا بحيث لا يمكن معالجتها على هذا الجهاز، أو أن الذاكرة المتوفرة بالنظام نفدت. حاول تقليل دقة الصورة أو إغلاق التطبيقات الأخرى أو اختيار ملف أصغر.</string>
 </resources>

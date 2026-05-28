@@ -2317,4 +2317,6 @@
     <string name="save_to_original_folder">Guardar en la carpeta original</string>
     <string name="save_to_original_folder_sub">Guarde archivos nuevos junto al archivo original en lugar de la carpeta seleccionada</string>
     <string name="watermark_pdf">PDF de marca de agua</string>
+    <string name="crash_oom_title">Hace falta memoria</string>
+    <string name="crash_oom_description">Es probable que la imagen sea demasiado grande para procesarla en este dispositivo o que el sistema se haya quedado sin memoria disponible. Intente reducir la resolución de la imagen, cerrar otras aplicaciones o elegir un archivo más pequeño.</string>
 </resources>

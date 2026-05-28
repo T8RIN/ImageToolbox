@@ -2316,4 +2316,6 @@
     <string name="save_to_original_folder">ئەسلى ھۆججەت قىسقۇچقا ساقلاڭ</string>
     <string name="save_to_original_folder_sub">تاللانغان ھۆججەت قىسقۇچنىڭ ئورنىغا يېڭى ھۆججەتلەرنى ئەسلى ھۆججەتنىڭ يېنىغا ساقلاڭ</string>
     <string name="watermark_pdf">Watermark PDF</string>
+    <string name="crash_oom_title">ئىچكى ساقلىغۇچ يېتەرلىك ئەمەس</string>
+    <string name="crash_oom_description">بۇ ئۈسكۈنىدە رەسىم بەك چوڭ بولۇپ كېتىشى مۇمكىن ، ياكى سىستېمىنىڭ ئىچكى ساقلىغۇچلىرى تۈگەپ كەتتى. رەسىمنىڭ ئېنىقلىق دەرىجىسىنى تۆۋەنلىتىش ، باشقا ئەپلەرنى تاقاش ياكى كىچىكرەك ھۆججەتنى تاللاڭ.</string>
 </resources>
