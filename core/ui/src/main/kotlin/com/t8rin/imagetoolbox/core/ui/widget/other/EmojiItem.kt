@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -43,10 +44,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.lottiefiles.dotlottie.core.compose.runtime.DotLottieController
 import com.lottiefiles.dotlottie.core.compose.runtime.DotLottiePlayerState
+import com.lottiefiles.dotlottie.core.compose.ui.DotLottieAnimation
 import com.lottiefiles.dotlottie.core.util.DotLottieSource
+import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.withContext
 
 @Composable
 fun EmojiItem(
@@ -97,11 +104,23 @@ fun EmojiItem(
                 }
 
                 if (animatedEmoji != null) {
-                    CustomDotLottieAnimation(
+                    val controller = remember { DotLottieController() }
+
+                    LaunchedEffect(controller) {
+                        withContext(Dispatchers.Default) {
+                            controller.currentState.throttleLatest(100).collectLatest {
+                                shimmering = it != DotLottiePlayerState.PLAYING
+                            }
+                        }
+                    }
+
+                    DotLottieAnimation(
                         source = remember(animatedEmoji) {
                             DotLottieSource.Asset(animatedEmoji.removePrefix("file:///android_asset/"))
                         },
-                        onState = { shimmering = it != DotLottiePlayerState.PLAYING },
+                        loop = true,
+                        autoplay = true,
+                        controller = controller,
                         modifier = emojiModifier
                     )
                 } else {
