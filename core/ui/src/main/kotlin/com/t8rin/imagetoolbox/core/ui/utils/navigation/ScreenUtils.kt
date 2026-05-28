@@ -87,6 +87,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.resources.icons.WandShine
 import com.t8rin.imagetoolbox.core.resources.icons.Watermark
+import com.t8rin.imagetoolbox.core.resources.icons.WatermarkAlt
 import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AiTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
@@ -287,7 +288,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Rearrange -> Icons.Outlined.SwapVerticalCircle
     is PdfTools.PageNumbers -> Icons.Outlined.Counter
     is PdfTools.OCR -> Icons.Outlined.FindInPage
-    is PdfTools.Watermark -> Icons.Outlined.Watermark
+    is PdfTools.Watermark -> Icons.Outlined.WatermarkAlt
     is PdfTools.Signature -> Icons.Outlined.Stylus
     is PdfTools.Protect -> Icons.Outlined.ShieldLock
     is PdfTools.Unlock -> Icons.Outlined.KeyVariant
@@ -366,7 +367,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Rearrange -> Icons.TwoTone.SwapVerticalCircle
     is PdfTools.PageNumbers -> Icons.TwoTone.Counter
     is PdfTools.OCR -> Icons.TwoTone.FindInPage
-    is PdfTools.Watermark -> Icons.TwoTone.Watermark
+    is PdfTools.Watermark -> Icons.TwoTone.WatermarkAlt
     is PdfTools.Signature -> Icons.TwoTone.Stylus
     is PdfTools.Protect -> Icons.TwoTone.ShieldLock
     is PdfTools.Unlock -> Icons.TwoTone.KeyVariant

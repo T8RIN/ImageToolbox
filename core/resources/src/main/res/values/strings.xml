@@ -2337,4 +2337,5 @@
     <string name="model_yolo">Object segmentation based background remover using YOLO v11 Segmentation</string>
     <string name="save_to_original_folder">Save to Original Folder</string>
     <string name="save_to_original_folder_sub">Save new files next to the original file instead of the selected folder</string>
+    <string name="watermark_pdf">Watermark PDF</string>
 </resources>

@@ -382,7 +382,7 @@ sealed class Screen(
             val uri: Uri? = null
         ) : Screen(
             id = 50,
-            title = R.string.watermarking,
+            title = R.string.watermark_pdf,
             subtitle = R.string.watermark_pdf_sub
         )
 
