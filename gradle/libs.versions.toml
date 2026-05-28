@@ -87,7 +87,7 @@ materialKolor = "5.0.0-alpha07"
 paletteKtx = "1.0.0"
 kotlinxSerializationJson = "1.11.0"
 
-firebaseBom = "34.13.0"
+firebaseBom = "34.14.0"
 firebaseCrashlyticsGradle = "3.0.7"
 junit = "4.13.2"
 coilResvg = "1.0.0"
