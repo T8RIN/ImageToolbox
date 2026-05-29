@@ -198,9 +198,10 @@ fun LiquidGlassSwitch(
                 onCheckedChange = null,
                 modifier = internalModifier,
                 colors = CupertinoSwitchDefaults.transparentColors(),
-                interactionSource = realInteractionSource
+                interactionSource = remember { MutableInteractionSource() }
             )
 
+            //TODO: needs fix
             LiquidToggle(
                 checked = { checked },
                 onCheckedChange = onCheckedChange,
