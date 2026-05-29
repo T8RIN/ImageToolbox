@@ -201,7 +201,6 @@ fun LiquidGlassSwitch(
                 interactionSource = remember { MutableInteractionSource() }
             )
 
-            //TODO: needs fix
             LiquidToggle(
                 checked = { checked },
                 onCheckedChange = onCheckedChange,
