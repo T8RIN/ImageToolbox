@@ -65,7 +65,7 @@ androidxMacroBenchmark = "1.5.0-alpha06"
 
 material = "1.14.0"
 jsoup = "1.22.2"
-androidliquidglass = "1.0.6"
+backdrop = "2.0.0"
 capsule = "2.1.3"
 squircle-shape = "5.2.1"
 
@@ -108,7 +108,7 @@ zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
 flinger = { module = "com.github.iamjosephmj.flinger:flinger", version.ref = "flinger" }
 squircle-shape = { group = "com.stoyanvuchev", name = "squircle-shape-android", version.ref = "squircle-shape" }
 capsule = { module = "io.github.kyant0:capsule", version.ref = "capsule" }
-androidliquidglass = { module = "io.github.kyant0:backdrop", version.ref = "androidliquidglass" }
+backdrop = { module = "io.github.kyant0:backdrop", version.ref = "backdrop" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 androidx-pdfviewer-fragment = { module = "androidx.pdf:pdf-viewer-fragment", version.ref = "pdfviewer" }
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }

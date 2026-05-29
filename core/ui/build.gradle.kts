@@ -16,7 +16,6 @@
  */
 
 import com.t8rin.imagetoolbox.implementation
-import org.gradle.kotlin.dsl.implementation
 
 /*
  * ImageToolbox is an image editor for android
@@ -112,7 +111,7 @@ dependencies {
 
     implementation(libs.jsoup)
 
-    api(libs.androidliquidglass)
+    api(libs.backdrop)
     api(libs.capsule)
     api(libs.squircle.shape)
 
