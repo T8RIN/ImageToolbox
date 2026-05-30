@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,3 +30,5 @@ val FastInvokeEasing = CubicBezierEasing(0f, 0f, 0f, 1f)
 val OverslideEasing = CubicBezierEasing(0.5f, 0.5f, 1.0f, 0.25f)
 
 val RotationEasing = CubicBezierEasing(0.46f, 0.03f, 0.52f, 0.96f)
+
+val SoftEasing = CubicBezierEasing(0.46f, 0.41f, 0.29f, 0.92f)

@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components.additional
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -39,6 +38,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.onSizeChanged
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.animation.AlphaEasing
+import com.t8rin.imagetoolbox.core.ui.utils.animation.SoftEasing
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import kotlinx.coroutines.isActive
 import kotlin.math.hypot
@@ -74,7 +74,7 @@ internal fun AnimatedGradientBox(
                     durationMillis = distance
                         .coerceIn(500f, 1800f)
                         .toInt() + 1200,
-                    easing = FastOutSlowInEasing
+                    easing = SoftEasing
                 )
             )
 
