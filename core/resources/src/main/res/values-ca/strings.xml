@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">Filigrana PDF</string>
     <string name="crash_oom_title">No hi ha prou memòria</string>
     <string name="crash_oom_description">És probable que la imatge sigui massa gran per processar-la en aquest dispositiu o que el sistema s\'hagi quedat sense memòria disponible. Proveu de reduir la resolució de la imatge, tanqueu altres aplicacions o trieu un fitxer més petit.</string>
+    <string name="debug_menu">Menú depuració</string>
+    <string name="debug_menu_sub">Menú per provar les funcions de l\'aplicació, no està pensat que es mostri a la versió de producció</string>
 </resources>

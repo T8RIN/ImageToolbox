@@ -2319,4 +2319,6 @@
     <string name="watermark_pdf">Filigran PDF</string>
     <string name="crash_oom_title">Nu este suficientă memorie</string>
     <string name="crash_oom_description">Imaginea este probabil prea mare pentru a fi procesată pe acest dispozitiv sau sistemul a rămas fără memorie disponibilă. Încercați să reduceți rezoluția imaginii, să închideți alte aplicații sau să alegeți un fișier mai mic.</string>
+    <string name="debug_menu">Meniul Depanare</string>
+    <string name="debug_menu_sub">Meniu pentru a testa funcțiile aplicației, acesta nu este destinat să apară în versiunea de producție</string>
 </resources>

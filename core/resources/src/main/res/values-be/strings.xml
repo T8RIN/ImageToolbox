@@ -2320,4 +2320,6 @@
     <string name="watermark_pdf">Вадзяны знак PDF</string>
     <string name="crash_oom_title">Не хапае памяці</string>
     <string name="crash_oom_description">Відарыс, верагодна, занадта вялікі для апрацоўкі на гэтай прыладзе, або ў сістэме скончылася даступная памяць. Паспрабуйце паменшыць раздзяленне выявы, закрыць іншыя прыкладанні або выбраць файл меншага памеру.</string>
+    <string name="debug_menu">Меню адладкі</string>
+    <string name="debug_menu_sub">Меню для тэсціравання функцый праграмы, гэта не прызначана для паказу ў вытворчасці</string>
 </resources>

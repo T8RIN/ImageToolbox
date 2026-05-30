@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">ਵਾਟਰਮਾਰਕ PDF</string>
     <string name="crash_oom_title">ਕਾਫ਼ੀ ਮੈਮੋਰੀ ਨਹੀਂ ਹੈ</string>
     <string name="crash_oom_description">ਚਿੱਤਰ ਸੰਭਾਵਤ ਤੌਰ \'ਤੇ ਇਸ ਡਿਵਾਈਸ \'ਤੇ ਪ੍ਰਕਿਰਿਆ ਕਰਨ ਲਈ ਬਹੁਤ ਵੱਡਾ ਹੈ, ਜਾਂ ਸਿਸਟਮ ਦੀ ਉਪਲਬਧ ਮੈਮੋਰੀ ਖਤਮ ਹੋ ਗਈ ਹੈ। ਚਿੱਤਰ ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਨੂੰ ਘਟਾਉਣ, ਹੋਰ ਐਪਾਂ ਨੂੰ ਬੰਦ ਕਰਨ, ਜਾਂ ਇੱਕ ਛੋਟੀ ਫ਼ਾਈਲ ਚੁਣਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
+    <string name="debug_menu">ਡੀਬੱਗ ਮੀਨੂ</string>
+    <string name="debug_menu_sub">ਐਪ ਫੰਕਸ਼ਨਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਲਈ ਮੀਨੂ, ਇਹ ਉਤਪਾਦਨ ਰੀਲੀਜ਼ ਵਿੱਚ ਦਿਖਾਉਣ ਦਾ ਇਰਾਦਾ ਨਹੀਂ ਹੈ</string>
 </resources>

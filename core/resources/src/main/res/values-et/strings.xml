@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">Vesimärgi PDF</string>
     <string name="crash_oom_title">Pole piisavalt mälu</string>
     <string name="crash_oom_description">Tõenäoliselt on pilt selles seadmes töötlemiseks liiga suur või süsteemi vaba mälumaht on otsa saanud. Proovige vähendada pildi eraldusvõimet, sulgeda teised rakendused või valida väiksem fail.</string>
+    <string name="debug_menu">Silumismenüü</string>
+    <string name="debug_menu_sub">Menüü rakenduse funktsioonide testimiseks, see ei ole mõeldud tootmisväljaandes kuvamiseks</string>
 </resources>

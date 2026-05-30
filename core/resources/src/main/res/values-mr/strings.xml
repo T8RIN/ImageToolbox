@@ -2319,4 +2319,6 @@
     <string name="watermark_pdf">वॉटरमार्क पीडीएफ</string>
     <string name="crash_oom_title">पुरेशी मेमरी नाही</string>
     <string name="crash_oom_description">या डिव्हाइसवर प्रक्रिया करण्यासाठी इमेज खूप मोठी असल्याची किंवा सिस्टीमची उपलब्ध मेमरी संपली असल्याची शक्यता आहे. इमेज रिझोल्यूशन कमी करून, इतर ॲप्स बंद करून किंवा छोटी फाइल निवडून पहा.</string>
+    <string name="debug_menu">डीबग मेनू</string>
+    <string name="debug_menu_sub">ॲप फंक्शन्सची चाचणी घेण्यासाठी मेनू, हे उत्पादन रिलीझमध्ये दर्शविण्याचा हेतू नाही</string>
 </resources>

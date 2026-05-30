@@ -2317,4 +2317,6 @@
     <string name="watermark_pdf">PDF tanda air</string>
     <string name="crash_oom_title">Memori tidak cukup</string>
     <string name="crash_oom_description">Gambar mungkin terlalu besar untuk diproses pada perangkat ini, atau sistem kehabisan memori yang tersedia. Coba kurangi resolusi gambar, tutup aplikasi lain, atau pilih file yang lebih kecil.</string>
+    <string name="debug_menu">Menu Debug</string>
+    <string name="debug_menu_sub">Menu untuk menguji fungsi aplikasi, ini tidak dimaksudkan untuk muncul dalam rilis produksi</string>
 </resources>

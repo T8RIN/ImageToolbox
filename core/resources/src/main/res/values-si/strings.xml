@@ -2319,4 +2319,6 @@
     <string name="watermark_pdf">ජල සලකුණ PDF</string>
     <string name="crash_oom_title">මතකය මදි</string>
     <string name="crash_oom_description">මෙම උපාංගයේ සැකසීමට රූපය විශාල වැඩිය, නැතහොත් පද්ධතිය පවතින මතකය අවසන් වී ඇත. පින්තූර විභේදනය අඩු කිරීමට, වෙනත් යෙදුම් වැසීමට හෝ කුඩා ගොනුවක් තෝරා ගැනීමට උත්සාහ කරන්න.</string>
+    <string name="debug_menu">දෝශ නිරාකරණ මෙනුව</string>
+    <string name="debug_menu_sub">යෙදුම් කාර්යයන් පරීක්ෂා කිරීමට මෙනුව, මෙය නිෂ්පාදන නිකුතුවේ පෙන්වීමට අදහස් නොකෙරේ</string>
 </resources>

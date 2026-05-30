@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">Filigran PDF</string>
     <string name="crash_oom_title">Yeterli hafıza yok</string>
     <string name="crash_oom_description">Resim muhtemelen bu cihazda işlenemeyecek kadar büyük veya sistemin kullanılabilir belleği tükendi. Görüntü çözünürlüğünü azaltmayı, diğer uygulamaları kapatmayı veya daha küçük bir dosya seçmeyi deneyin.</string>
+    <string name="debug_menu">Hata Ayıklama Menüsü</string>
+    <string name="debug_menu_sub">Uygulama işlevlerini test etmeye yönelik menü; bunun üretim sürümünde gösterilmesi amaçlanmamıştır.</string>
 </resources>

@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">Watermerk-pdf</string>
     <string name="crash_oom_title">Niet genoeg geheugen</string>
     <string name="crash_oom_description">De afbeelding is waarschijnlijk te groot om op dit apparaat te verwerken, of het systeem heeft onvoldoende beschikbaar geheugen. Probeer de beeldresolutie te verlagen, andere apps te sluiten of een kleiner bestand te kiezen.</string>
+    <string name="debug_menu">Foutopsporingsmenu</string>
+    <string name="debug_menu_sub">Menu om app-functies te testen, dit is niet bedoeld om te verschijnen in de productierelease</string>
 </resources>

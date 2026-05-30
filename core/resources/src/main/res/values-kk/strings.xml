@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">Су таңбасы PDF</string>
     <string name="crash_oom_title">Жад жеткіліксіз</string>
     <string name="crash_oom_description">Кескін бұл құрылғыда өңдеу үшін тым үлкен болуы мүмкін немесе жүйеде бос жад таусылған. Кескін ажыратымдылығын азайтып, басқа қолданбаларды жауып немесе кішірек файлды таңдап көріңіз.</string>
+    <string name="debug_menu">Түзету мәзірі</string>
+    <string name="debug_menu_sub">Қолданба функцияларын тексеруге арналған мәзір, бұл өндіріс шығарылымында көрсетуге арналмаған</string>
 </resources>

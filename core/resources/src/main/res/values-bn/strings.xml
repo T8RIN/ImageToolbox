@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">ওয়াটারমার্ক পিডিএফ</string>
     <string name="crash_oom_title">যথেষ্ট মেমরি নেই</string>
     <string name="crash_oom_description">এই ডিভাইসে প্রক্রিয়া করার জন্য চিত্রটি সম্ভবত খুব বড়, বা সিস্টেমের উপলব্ধ মেমরি ফুরিয়ে গেছে৷ ইমেজ রেজোলিউশন কমানোর চেষ্টা করুন, অন্যান্য অ্যাপ বন্ধ করুন বা একটি ছোট ফাইল বেছে নিন।</string>
+    <string name="debug_menu">ডিবাগ মেনু</string>
+    <string name="debug_menu_sub">অ্যাপ ফাংশন পরীক্ষা করার জন্য মেনু, এটি প্রোডাকশন রিলিজে দেখানোর উদ্দেশ্যে নয়</string>
 </resources>

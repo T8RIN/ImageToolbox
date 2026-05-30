@@ -2317,4 +2317,6 @@
     <string name="watermark_pdf">透かしPDF</string>
     <string name="crash_oom_title">メモリが足りません</string>
     <string name="crash_oom_description">画像が大きすぎてこのデバイスで処理できないか、システムの使用可能なメモリが不足している可能性があります。画像の解像度を下げるか、他のアプリを閉じるか、より小さいファイルを選択してみてください。</string>
+    <string name="debug_menu">デバッグメニュー</string>
+    <string name="debug_menu_sub">アプリの機能をテストするためのメニュー。これは製品リリースでは表示されません。</string>
 </resources>

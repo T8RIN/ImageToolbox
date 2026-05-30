@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">PDF con filigrana</string>
     <string name="crash_oom_title">Memoria insufficiente</string>
     <string name="crash_oom_description">Probabilmente l\'immagine è troppo grande per essere elaborata su questo dispositivo oppure il sistema ha esaurito la memoria disponibile. Prova a ridurre la risoluzione dell\'immagine, a chiudere altre app o a scegliere un file più piccolo.</string>
+    <string name="debug_menu">Menù Debug</string>
+    <string name="debug_menu_sub">Menu per testare le funzioni dell\'app, non è previsto che venga visualizzato nella versione di produzione</string>
 </resources>

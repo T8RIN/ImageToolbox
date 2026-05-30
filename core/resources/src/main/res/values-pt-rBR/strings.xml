@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">PDF de marca d’água</string>
     <string name="crash_oom_title">Memória insuficiente</string>
     <string name="crash_oom_description">A imagem provavelmente é muito grande para ser processada neste dispositivo ou o sistema ficou sem memória disponível. Tente reduzir a resolução da imagem, fechar outros aplicativos ou escolher um arquivo menor.</string>
+    <string name="debug_menu">Menu de depuração</string>
+    <string name="debug_menu_sub">Menu para testar funções do aplicativo. Não se destina a aparecer na versão de produção</string>
 </resources>

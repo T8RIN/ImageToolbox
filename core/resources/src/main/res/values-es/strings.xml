@@ -2319,4 +2319,6 @@
     <string name="watermark_pdf">PDF de marca de agua</string>
     <string name="crash_oom_title">Hace falta memoria</string>
     <string name="crash_oom_description">Es probable que la imagen sea demasiado grande para procesarla en este dispositivo o que el sistema se haya quedado sin memoria disponible. Intente reducir la resolución de la imagen, cerrar otras aplicaciones o elegir un archivo más pequeño.</string>
+    <string name="debug_menu">Menú de depuración</string>
+    <string name="debug_menu_sub">Menú para probar las funciones de la aplicación; no está previsto que aparezca en la versión de producción.</string>
 </resources>
