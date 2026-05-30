@@ -2320,4 +2320,6 @@
     <string name="watermark_pdf">סימן מים PDF</string>
     <string name="crash_oom_title">אין מספיק זיכרון</string>
     <string name="crash_oom_description">סביר להניח שהתמונה גדולה מדי לעיבוד במכשיר זה, או שהזיכרון הפנוי נגמר למערכת. נסה להפחית את רזולוציית התמונה, לסגור אפליקציות אחרות או לבחור קובץ קטן יותר.</string>
+    <string name="debug_menu">תפריט ניפוי באגים</string>
+    <string name="debug_menu_sub">תפריט לבדיקת פונקציות האפליקציה, זה לא נועד להופיע במהדורת הייצור</string>
 </resources>

@@ -2320,4 +2320,6 @@
     <string name="watermark_pdf">Vodoznak PDF</string>
     <string name="crash_oom_title">Nedostatek paměti</string>
     <string name="crash_oom_description">Obraz je pravděpodobně příliš velký pro zpracování na tomto zařízení, nebo systému došla dostupná paměť. Zkuste snížit rozlišení obrázku, zavřete ostatní aplikace nebo vyberte menší soubor.</string>
+    <string name="debug_menu">Nabídka ladění</string>
+    <string name="debug_menu_sub">Nabídka pro testování funkcí aplikace, toto není určeno k zobrazení v produkčním vydání</string>
 </resources>

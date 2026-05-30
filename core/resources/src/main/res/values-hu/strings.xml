@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">Vízjel PDF</string>
     <string name="crash_oom_title">Nincs elég memória</string>
     <string name="crash_oom_description">A kép valószínűleg túl nagy ahhoz, hogy feldolgozzuk ezen az eszközön, vagy a rendszerben elfogyott a szabad memória. Csökkentse a képfelbontást, zárjon be más alkalmazásokat, vagy válasszon kisebb fájlt.</string>
+    <string name="debug_menu">Hibakeresés menü</string>
+    <string name="debug_menu_sub">Az alkalmazás funkcióinak tesztelésére szolgáló menü, ennek nem célja, hogy megjelenjen az éles kiadásban</string>
 </resources>

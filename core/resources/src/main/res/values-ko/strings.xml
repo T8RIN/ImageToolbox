@@ -2317,4 +2317,6 @@
     <string name="watermark_pdf">워터마크 PDF</string>
     <string name="crash_oom_title">메모리가 부족합니다</string>
     <string name="crash_oom_description">이미지가 너무 커서 이 장치에서 처리할 수 없거나 시스템에 사용 가능한 메모리가 부족합니다. 이미지 해상도를 낮추거나, 다른 앱을 닫거나, 더 작은 파일을 선택해 보세요.</string>
+    <string name="debug_menu">디버그 메뉴</string>
+    <string name="debug_menu_sub">앱 기능을 테스트하기 위한 메뉴입니다. 이는 프로덕션 릴리스에 표시되지 않습니다.</string>
 </resources>

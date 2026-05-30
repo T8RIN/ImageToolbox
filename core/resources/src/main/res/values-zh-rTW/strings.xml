@@ -2317,4 +2317,6 @@
     <string name="watermark_pdf">水印PDF</string>
     <string name="crash_oom_title">内存不足</string>
     <string name="crash_oom_description">图像可能太大而无法在此设备上处理，或者系统已耗尽可用内存。尝试降低图像分辨率、关闭其他应用程序或选择较小的文件。</string>
+    <string name="debug_menu">调试菜单</string>
+    <string name="debug_menu_sub">用于测试应用程序功能的菜单，这不打算出现在生产版本中</string>
 </resources>

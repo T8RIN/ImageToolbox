@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">Vesileima PDF</string>
     <string name="crash_oom_title">Muisti ei riitä</string>
     <string name="crash_oom_description">Kuva on todennäköisesti liian suuri käsiteltäväksi tällä laitteella tai järjestelmän vapaa muisti on loppunut. Kokeile pienentää kuvan resoluutiota, sulkea muita sovelluksia tai valita pienempi tiedosto.</string>
+    <string name="debug_menu">Debug-valikko</string>
+    <string name="debug_menu_sub">Sovelluksen toimintojen testausvalikko, tämän ei ole tarkoitus näkyä tuotantojulkaisussa</string>
 </resources>

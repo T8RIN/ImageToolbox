@@ -2318,4 +2318,6 @@
     <string name="watermark_pdf">Filigrane PDF</string>
     <string name="crash_oom_title">Pas assez de mémoire</string>
     <string name="crash_oom_description">L\'image est probablement trop volumineuse pour être traitée sur cet appareil, ou le système n\'a plus de mémoire disponible. Essayez de réduire la résolution de l\'image, de fermer d\'autres applications ou de choisir un fichier plus petit.</string>
+    <string name="debug_menu">Menu de débogage</string>
+    <string name="debug_menu_sub">Menu permettant de tester les fonctions de l\'application. Il n\'est pas destiné à apparaître dans la version de production.</string>
 </resources>
