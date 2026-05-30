@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
@@ -65,6 +64,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
@@ -106,7 +106,7 @@ fun FullscreenEditOption(
 
     LaunchedEffect(predictiveBackProgress, visible) {
         if (!visible && predictiveBackProgress != 0f) {
-            delay(600)
+            delay(400)
             predictiveBackProgress = 0f
         }
     }
@@ -114,8 +114,8 @@ fun FullscreenEditOption(
     AnimatedVisibility(
         visible = visible,
         modifier = Modifier.fillMaxSize(),
-        enter = fadeIn(tween(600)),
-        exit = fadeOut(tween(600))
+        enter = fadeIn(tween(400)),
+        exit = fadeOut(tween(400))
     ) {
         var showExitDialog by remember(visible) { mutableStateOf(false) }
         val internalOnDismiss = {

@@ -2340,4 +2340,6 @@
     <string name="watermark_pdf">Watermark PDF</string>
     <string name="crash_oom_title">Not enough memory</string>
     <string name="crash_oom_description">The image is likely too large to process on this device, or the system has run out of available memory. Try reducing the image resolution, closing other apps, or choosing a smaller file.</string>
+    <string name="debug_menu">Debug Menu</string>
+    <string name="debug_menu_sub">Menu to test app functions, this is not intended to show up in production release</string>
 </resources>

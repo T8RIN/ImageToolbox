@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
@@ -28,6 +29,8 @@ import androidx.compose.ui.graphics.takeOrElse
 val LocalContainerShape = compositionLocalOf<Shape?> { null }
 
 val LocalContainerColor = compositionLocalOf<Color?> { null }
+
+val LocalContainerBrush = compositionLocalOf<Brush?> { null }
 
 val SafeLocalContainerColor
     @Composable
@@ -39,11 +42,13 @@ val SafeLocalContainerColor
 fun ProvideContainerDefaults(
     shape: Shape? = null,
     color: Color? = null,
+    brush: Brush? = null,
     content: @Composable () -> Unit
 ) = CompositionLocalProvider(
     values = arrayOf(
         LocalContainerShape provides shape,
-        LocalContainerColor provides color
+        LocalContainerColor provides color,
+        LocalContainerBrush provides brush
     ),
     content = content
 )

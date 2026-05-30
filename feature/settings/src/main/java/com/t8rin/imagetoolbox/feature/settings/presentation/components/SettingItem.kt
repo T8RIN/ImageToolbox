@@ -635,6 +635,10 @@ internal fun SettingItem(
             Setting.EnableBackgroundColorForAlphaFormats -> {
                 EnableBackgroundColorForAlphaFormatsSettingItem(onClick = component::toggleEnableBackgroundColorForAlphaFormats)
             }
+
+            Setting.DebugMenu -> {
+                DebugMenuSettingItem()
+            }
         }
     }
 }

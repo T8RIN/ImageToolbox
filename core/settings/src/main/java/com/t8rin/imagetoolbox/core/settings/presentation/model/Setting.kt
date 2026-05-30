@@ -593,4 +593,9 @@ sealed class Setting(
         subtitle = R.string.background_color_for_alpha_formats_sub
     )
 
+    data object DebugMenu : Setting(
+        title = R.string.debug_menu,
+        subtitle = R.string.debug_menu_sub
+    )
+
 }

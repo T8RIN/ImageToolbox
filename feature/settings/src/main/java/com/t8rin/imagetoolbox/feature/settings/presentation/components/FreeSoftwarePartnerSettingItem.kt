@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,20 +27,17 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.PARTNER_FREE_SOFTWARE
-import com.t8rin.imagetoolbox.core.domain.utils.Flavor
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.HandshakeAlt
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
-import java.util.Locale
 
 @Composable
 fun FreeSoftwarePartnerSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    if (Flavor.isFoss() || Locale.getDefault().language != "ru") return
-
     val linkHandler = LocalUriHandler.current
     PreferenceRow(
         shape = shape,

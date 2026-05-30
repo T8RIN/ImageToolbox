@@ -113,6 +113,7 @@ fun PreferenceItemOverload(
                     shape = animatedShape,
                     resultPadding = 0.dp,
                     color = containerColor,
+                    composeColorOnTopOfBackground = containerColor != Color.Transparent,
                     autoShadowElevation = autoShadowElevation
                 )
                 .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),

@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.takeOrElse
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerBrush
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 
@@ -82,6 +83,8 @@ fun Modifier.container(
         )
     }
 
+    val brush = LocalContainerBrush.current
+
     return this
         .materialShadow(
             shape = resultShape,
@@ -96,9 +99,16 @@ fun Modifier.container(
         .then(
             if (resultShape is CornerBasedShape) {
                 Modifier
-                    .background(
-                        color = containerColor,
-                        shape = resultShape
+                    .then(
+                        brush?.let {
+                            Modifier.background(
+                                brush = brush,
+                                shape = resultShape
+                            )
+                        } ?: Modifier.background(
+                            color = containerColor,
+                            shape = resultShape
+                        )
                     )
                     .then(
                         if (targetBorderWidth > 0.dp) {
@@ -125,10 +135,16 @@ fun Modifier.container(
                     }
 
                     onDrawWithContent {
-                        drawOutline(
+                        brush?.let {
+                            drawOutline(
+                                outline = outline,
+                                brush = brush
+                            )
+                        } ?: drawOutline(
                             outline = outline,
                             color = containerColor
                         )
+
                         stroke?.let {
                             drawOutline(
                                 outline = outline,

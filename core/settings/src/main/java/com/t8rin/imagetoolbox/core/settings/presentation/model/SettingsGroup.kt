@@ -21,6 +21,7 @@ package com.t8rin.imagetoolbox.core.settings.presentation.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
+import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Celebration
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ResponsiveLayout
 import com.t8rin.imagetoolbox.core.resources.icons.Routine
 import com.t8rin.imagetoolbox.core.resources.icons.Shadow
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
+import java.util.Locale
 
 sealed class SettingsGroup(
     val id: Int,
@@ -308,16 +310,17 @@ sealed class SettingsGroup(
         id = 19,
         icon = Icons.Rounded.Info,
         titleId = R.string.about_app,
-        settingsList = listOf(
+        settingsList = listOfNotNull(
             Setting.CurrentVersionCode,
             Setting.AppLogs,
             Setting.OpenSourceLicenses,
             Setting.HelpTranslate,
             Setting.IssueTracker,
-            Setting.FreeSoftwarePartner,
+            Setting.FreeSoftwarePartner.takeIf { !Flavor.isFoss() && Locale.getDefault().language == "ru" },
             Setting.TelegramGroup,
             Setting.TelegramChannel,
-            Setting.SourceCode
+            Setting.SourceCode,
+            Setting.DebugMenu.takeIf { BuildConfig.DEBUG }
         ),
         initialState = true
     )
@@ -406,7 +409,7 @@ sealed class SettingsGroup(
 
     companion object {
         val entries: List<SettingsGroup> by lazy {
-            listOf(
+            listOfNotNull(
                 ContactMe,
                 PrimaryCustomization,
                 SecondaryCustomization,
@@ -430,12 +433,10 @@ sealed class SettingsGroup(
                 Cache,
                 ImageSource,
                 BackupRestore,
-                Firebase,
+                Firebase.takeIf { !Flavor.isFoss() },
                 Updates,
                 AboutApp
-            ).filter {
-                !(it is Firebase && Flavor.isFoss())
-            }
+            )
         }
     }
 }
