@@ -40,6 +40,7 @@ class ShaderValidator @Inject constructor() {
         if (preset.shader.isBlank()) {
             add("Shader source must not be blank.")
         }
+        validateShaderSourceCharacters(preset.shader)
 
         validateParams(preset.params)
 
@@ -50,6 +51,17 @@ class ShaderValidator @Inject constructor() {
             validateSingleInputTexture(shaderSignature.samplerUniforms)
             validateUnsupportedShaderFeatures(shaderSource)
             validateUniforms(shaderSignature.uniformTypes, preset.params)
+        }
+    }
+
+    private fun MutableList<String>.validateShaderSourceCharacters(shader: String) {
+        val unsafeCharacters = shader.glslUnsafeCharacters()
+        if (unsafeCharacters.isNotEmpty()) {
+            add(
+                "Shader source contains unsupported characters: " +
+                        unsafeCharacters.joinToString { it.readableName() } +
+                        ". Use ASCII GLSL source only."
+            )
         }
     }
 
@@ -403,6 +415,13 @@ class ShaderValidator @Inject constructor() {
 
     private fun Char?.isGlslIdentifierPart(): Boolean =
         this != null && (isLetterOrDigit() || this == '_')
+
+    private fun Char.readableName(): String =
+        if (isISOControl()) {
+            "U+${code.toString(16).uppercase().padStart(4, '0')}"
+        } else {
+            "'$this'"
+        }
 
     private data class ShaderSignature(
         val uniformTypes: Map<String, String>,

@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.DocumentScanner
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Encrypted
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
+import com.t8rin.imagetoolbox.core.resources.icons.EvShadow
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
@@ -284,7 +285,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.Outlined.Neurology
     is ColorLibrary -> Icons.Outlined.FormatPaintVariant
-    is ShaderStudio -> Icons.Outlined.AutoFixHigh
+    is ShaderStudio -> Icons.Rounded.EvShadow
     is PdfTools.Merge -> Icons.Rounded.ImageCombine
     is PdfTools.Split -> Icons.Outlined.SplitAlt
     is PdfTools.Rotate -> Icons.Outlined.Rotate90Cw
@@ -364,7 +365,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.TwoTone.Neurology
     is ColorLibrary -> Icons.Outlined.FormatPaintVariant
-    is ShaderStudio -> Icons.Outlined.AutoFixHigh
+    is ShaderStudio -> Icons.TwoTone.EvShadow
     is PdfTools.Merge -> Icons.TwoTone.ImageCombine
     is PdfTools.Split -> Icons.TwoTone.SplitAlt
     is PdfTools.Rotate -> Icons.TwoTone.Rotate90Cw

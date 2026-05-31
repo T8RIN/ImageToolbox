@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.isGlslSourceSafe
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderGpuImageFilter
@@ -44,7 +45,8 @@ internal class ShaderFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        if (value.preset == null) return input
+        val preset = value.preset ?: return input
+        if (!preset.shader.isGlslSourceSafe()) return input
 
         return runCatching { super.transform(input, size) }.getOrElse { input }
     }
