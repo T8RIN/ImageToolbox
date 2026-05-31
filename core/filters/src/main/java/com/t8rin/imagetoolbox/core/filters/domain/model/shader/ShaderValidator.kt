@@ -17,19 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.filters.domain.model.shader
 
-import javax.inject.Inject
-
-class ShaderValidator @Inject constructor() {
-    fun validate(preset: ShaderPreset): Result<ShaderPreset> {
-        val errors = validateErrors(preset)
-
-        return if (errors.isEmpty()) {
-            Result.success(preset)
-        } else {
-            Result.failure(ShaderValidationException(errors))
-        }
-    }
-
+data object ShaderValidator {
     fun validateErrors(preset: ShaderPreset): List<String> = buildList {
         if (preset.version != SUPPORTED_VERSION) {
             add("Unsupported shader version ${preset.version}. Supported version: $SUPPORTED_VERSION.")
@@ -431,31 +419,25 @@ class ShaderValidator @Inject constructor() {
         val hasFragmentColorOutput: Boolean
     )
 
-    companion object {
-        const val SUPPORTED_VERSION = 1
+    const val SUPPORTED_VERSION = 1
 
-        val RESERVED_NAMES: Set<String> = setOf(
-            "inputImageTexture",
-            "textureCoordinate",
-            "inputImageSize",
-            "outputImageSize"
-        )
+    val RESERVED_NAMES: Set<String> = setOf(
+        "inputImageTexture",
+        "textureCoordinate",
+        "inputImageSize",
+        "outputImageSize"
+    )
 
-        private const val INPUT_TEXTURE_NAME = "inputImageTexture"
-        private const val TEXTURE_COORDINATE_NAME = "textureCoordinate"
+    private const val INPUT_TEXTURE_NAME = "inputImageTexture"
+    private const val TEXTURE_COORDINATE_NAME = "textureCoordinate"
 
-        private val GLSL_IDENTIFIER = Regex("""[A-Za-z_][A-Za-z0-9_]*""")
-        private val PRECISION_QUALIFIERS = setOf("lowp", "mediump", "highp")
-        private val SAMPLER_TYPES = setOf("sampler2D", "samplerCube", "samplerExternalOES")
-        private val WHITESPACE = Regex("""\s+""")
-        private val IDENTIFIER_PREFIX = Regex("""^[A-Za-z_][A-Za-z0-9_]*""")
-        private val MAIN_FUNCTION = Regex(
-            pattern = """\bvoid\s+main\s*\(\s*\)""",
-            option = RegexOption.MULTILINE
-        )
-    }
+    private val GLSL_IDENTIFIER = Regex("""[A-Za-z_][A-Za-z0-9_]*""")
+    private val PRECISION_QUALIFIERS = setOf("lowp", "mediump", "highp")
+    private val SAMPLER_TYPES = setOf("sampler2D", "samplerCube", "samplerExternalOES")
+    private val WHITESPACE = Regex("""\s+""")
+    private val IDENTIFIER_PREFIX = Regex("""^[A-Za-z_][A-Za-z0-9_]*""")
+    private val MAIN_FUNCTION = Regex(
+        pattern = """\bvoid\s+main\s*\(\s*\)""",
+        option = RegexOption.MULTILINE
+    )
 }
-
-class ShaderValidationException(
-    val errors: List<String>
-) : IllegalArgumentException(errors.joinToString(separator = "\n"))

@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParamType
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiShaderFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -81,7 +82,7 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     private val _params = mutableStateOf(emptyList<ShaderParam>())
     val params: List<ShaderParam> by _params
 
-    private val _validationErrors = mutableStateOf(INITIAL_VALIDATION_ERRORS)
+    private val _validationErrors = mutableStateOf(listOf(SHADER_SOURCE_BLANK_ERROR))
     val validationErrors: List<String> by _validationErrors
 
     private val _previewModel: MutableState<ImageModel> = mutableStateOf(
@@ -163,12 +164,11 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     fun savePreset() {
         componentScope.launch {
             val snapshot = buildDraftSnapshot()
-            val errors = snapshot.validateDraftErrors()
+            val preset = snapshot.toPreset()
+            val errors = validateSnapshot(snapshot)
 
             _validationErrors.update { errors }
             if (errors.isNotEmpty()) return@launch
-
-            val preset = snapshot.toPreset()
 
             shaderPresetRepository.savePreset(
                 preset = preset,
@@ -252,19 +252,20 @@ class ShaderStudioComponent @AssistedInject internal constructor(
 
     fun getPreviewTransformations(): List<Transformation> {
         val snapshot = buildDraftSnapshot()
-        val previewErrors = snapshot.validateDraftErrors()
-
-        if (previewErrors.isNotEmpty() || snapshot.shaderSource.isBlank()) return emptyList()
-
-        val preset = snapshot.toPreset().copy(
+        val previewPreset = snapshot.toPreset().copy(
             name = snapshot.name
         )
+        val previewErrors = validateSnapshot(
+            snapshot = snapshot
+        )
+
+        if (previewErrors.isNotEmpty() || snapshot.shaderSource.isBlank()) return emptyList()
 
         return listOf(
             UiShaderFilter(
                 ShaderParams(
-                    preset = preset,
-                    values = preset.defaultValues
+                    preset = previewPreset,
+                    values = previewPreset.defaultValues
                 )
             )
         ).map {
@@ -281,8 +282,21 @@ class ShaderStudioComponent @AssistedInject internal constructor(
 
     private fun updateBasicValidationErrors() {
         _validationErrors.update {
-            buildDraftSnapshot().validateDraftErrors()
+            validateSnapshot(buildDraftSnapshot())
         }
+    }
+
+    private fun validateSnapshot(
+        snapshot: ShaderDraftSnapshot
+    ): List<String> {
+        val preset = snapshot.toPreset()
+
+        return buildList {
+            if (snapshot.shaderSource.isBlank()) {
+                add(SHADER_SOURCE_BLANK_ERROR)
+            }
+            addAll(ShaderValidator.validateErrors(preset))
+        }.distinct()
     }
 
     private fun showError(throwable: Throwable) {
@@ -300,9 +314,6 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     }
 
     private companion object {
-        val INITIAL_VALIDATION_ERRORS = listOf(
-            "Shader name must not be blank.",
-            "Shader source must not be blank."
-        )
+        const val SHADER_SOURCE_BLANK_ERROR = "Shader source must not be blank."
     }
 }

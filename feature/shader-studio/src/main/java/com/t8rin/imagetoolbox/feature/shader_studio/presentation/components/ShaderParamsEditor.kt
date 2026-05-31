@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.shader_studio.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -50,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -118,7 +121,10 @@ private fun ShaderParamEditor(
             .container(shape)
             .padding(12.dp)
     ) {
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             RoundedTextField(
                 value = param.name,
                 onValueChange = { onParamChange(param.copy(name = it)) },
@@ -126,7 +132,11 @@ private fun ShaderParamEditor(
                 shape = ShapeDefaults.large,
                 modifier = Modifier.weight(1f)
             )
-            EnhancedIconButton(onClick = onRemove) {
+            EnhancedIconButton(
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                onClick = onRemove
+            ) {
                 Icon(
                     imageVector = Icons.Rounded.Delete,
                     contentDescription = stringResource(R.string.delete)
@@ -146,18 +156,31 @@ private fun ShaderParamEditor(
                         maxValue = null
                     )
                 )
-            }
+            },
+            isScrollable = false,
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(),
+            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )
-        ShaderValueEditor(
-            title = stringResource(R.string.default_value),
-            value = param.defaultValue,
-            onValueChange = { onParamChange(param.copy(defaultValue = it)) }
-        )
-        if (param.type != ShaderParamType.Bool) {
-            ShaderOptionalBoundsEditor(
-                param = param,
-                onParamChange = onParamChange
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            val settingsCount = if (param.type == ShaderParamType.Bool) 1 else 3
+
+            ShaderValueEditor(
+                title = stringResource(R.string.default_value),
+                value = param.defaultValue,
+                shape = ShapeDefaults.byIndex(0, settingsCount),
+                onValueChange = { onParamChange(param.copy(defaultValue = it)) }
             )
+            if (param.type != ShaderParamType.Bool) {
+                ShaderOptionalBoundsEditor(
+                    param = param,
+                    totalSize = settingsCount,
+                    onParamChange = onParamChange
+                )
+            }
         }
     }
 }
@@ -165,12 +188,14 @@ private fun ShaderParamEditor(
 @Composable
 private fun ShaderOptionalBoundsEditor(
     param: ShaderParam,
+    totalSize: Int,
     onParamChange: (ShaderParam) -> Unit
 ) {
     ShaderValueEditor(
         title = stringResource(R.string.min),
         value = param.minValue ?: param.type.defaultValue(),
         enabled = param.minValue != null,
+        shape = ShapeDefaults.byIndex(1, totalSize),
         onEnabledChange = {
             onParamChange(param.copy(minValue = if (it) param.type.defaultValue() else null))
         },
@@ -180,6 +205,7 @@ private fun ShaderOptionalBoundsEditor(
         title = stringResource(R.string.max),
         value = param.maxValue ?: param.type.defaultValue(),
         enabled = param.maxValue != null,
+        shape = ShapeDefaults.byIndex(2, totalSize),
         onEnabledChange = {
             onParamChange(param.copy(maxValue = if (it) param.type.defaultValue() else null))
         },
@@ -192,43 +218,90 @@ private fun ShaderValueEditor(
     title: String,
     value: ShaderValue,
     enabled: Boolean = true,
+    shape: Shape,
     onEnabledChange: ((Boolean) -> Unit)? = null,
     onValueChange: (ShaderValue) -> Unit
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        if (onEnabledChange != null) {
-            PreferenceRowSwitch(
-                title = title,
-                checked = enabled,
-                drawContainer = false,
-                onClick = onEnabledChange
-            )
-        } else {
+    if (onEnabledChange != null) {
+        PreferenceRowSwitch(
+            title = title,
+            checked = enabled,
+            shape = shape,
+            containerColor = MaterialTheme.colorScheme.surface,
+            applyHorizontalPadding = false,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onEnabledChange,
+            resultModifier = Modifier.padding(16.dp),
+            additionalContent = {
+                AnimatedVisibility(
+                    visible = enabled,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    ShaderValueContent(
+                        value = value,
+                        onValueChange = onValueChange,
+                        modifier = Modifier.padding(top = 12.dp)
+                    )
+                }
+            }
+        )
+    } else if (value is ShaderValue.BoolValue) {
+        PreferenceRowSwitch(
+            title = title,
+            checked = value.value,
+            shape = shape,
+            containerColor = MaterialTheme.colorScheme.surface,
+            applyHorizontalPadding = false,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onValueChange(ShaderValue.BoolValue(it)) }
+        )
+    } else {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .container(
+                    shape = shape,
+                    color = MaterialTheme.colorScheme.surface,
+                    autoShadowElevation = 0.dp,
+                    isStandaloneContainer = false
+                )
+                .padding(12.dp)
+        ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelLarge
+                style = PreferenceItemDefaults.TitleFontStyle
+            )
+            ShaderValueContent(
+                value = value,
+                onValueChange = onValueChange
             )
         }
-        if (enabled) {
-            when (value) {
-                is ShaderValue.FloatValue -> FloatValueField(value, title, onValueChange)
-                is ShaderValue.IntValue -> IntValueField(value, title, onValueChange)
-                is ShaderValue.BoolValue -> PreferenceRowSwitch(
-                    title = title,
-                    checked = value.value,
-                    drawContainer = false,
-                    onClick = { onValueChange(ShaderValue.BoolValue(it)) }
-                )
+    }
+}
 
-                is ShaderValue.ColorValue -> ColorSelectionRow(
-                    value = value.toComposeColor(),
-                    allowAlpha = true,
-                    contentPadding = PaddingValues(0.dp),
-                    onValueChange = { onValueChange(it.toShaderColorValue()) }
-                )
+@Composable
+private fun ShaderValueContent(
+    value: ShaderValue,
+    modifier: Modifier = Modifier,
+    onValueChange: (ShaderValue) -> Unit
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        when (value) {
+            is ShaderValue.FloatValue -> FloatValueField(value, onValueChange)
+            is ShaderValue.IntValue -> IntValueField(value, onValueChange)
+            is ShaderValue.BoolValue -> Unit
+            is ShaderValue.ColorValue -> ColorSelectionRow(
+                value = value.toComposeColor(),
+                allowAlpha = true,
+                contentPadding = PaddingValues(0.dp),
+                onValueChange = { onValueChange(it.toShaderColorValue()) }
+            )
 
-                is ShaderValue.Vec2Value -> Vec2ValueFields(value, title, onValueChange)
-            }
+            is ShaderValue.Vec2Value -> Vec2ValueFields(value, onValueChange)
         }
     }
 }
@@ -236,7 +309,6 @@ private fun ShaderValueEditor(
 @Composable
 private fun FloatValueField(
     value: ShaderValue.FloatValue,
-    title: String,
     onValueChange: (ShaderValue) -> Unit
 ) {
     var text by remember(value.value) { mutableStateOf(value.value.toString()) }
@@ -246,7 +318,7 @@ private fun FloatValueField(
             text = it
             it.toFloatOrNull()?.let { parsed -> onValueChange(ShaderValue.FloatValue(parsed)) }
         },
-        label = title,
+        label = "",
         shape = ShapeDefaults.large,
         modifier = Modifier.fillMaxWidth()
     )
@@ -255,7 +327,6 @@ private fun FloatValueField(
 @Composable
 private fun IntValueField(
     value: ShaderValue.IntValue,
-    title: String,
     onValueChange: (ShaderValue) -> Unit
 ) {
     var text by remember(value.value) { mutableStateOf(value.value.toString()) }
@@ -265,7 +336,7 @@ private fun IntValueField(
             text = it
             it.toIntOrNull()?.let { parsed -> onValueChange(ShaderValue.IntValue(parsed)) }
         },
-        label = title,
+        label = "",
         shape = ShapeDefaults.large,
         modifier = Modifier.fillMaxWidth()
     )
@@ -274,10 +345,12 @@ private fun IntValueField(
 @Composable
 private fun Vec2ValueFields(
     value: ShaderValue.Vec2Value,
-    title: String,
     onValueChange: (ShaderValue) -> Unit
 ) {
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
         var x by remember(value.x) { mutableStateOf(value.x.toString()) }
         var y by remember(value.y) { mutableStateOf(value.y.toString()) }
         RoundedTextField(
@@ -287,7 +360,7 @@ private fun Vec2ValueFields(
                 it.toFloatOrNull()
                     ?.let { parsed -> onValueChange(ShaderValue.Vec2Value(parsed, value.y)) }
             },
-            label = "$title X",
+            label = "X",
             shape = ShapeDefaults.large,
             modifier = Modifier.weight(1f)
         )
@@ -298,7 +371,7 @@ private fun Vec2ValueFields(
                 it.toFloatOrNull()
                     ?.let { parsed -> onValueChange(ShaderValue.Vec2Value(value.x, parsed)) }
             },
-            label = "$title Y",
+            label = "Y",
             shape = ShapeDefaults.large,
             modifier = Modifier.weight(1f)
         )

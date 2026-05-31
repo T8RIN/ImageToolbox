@@ -77,6 +77,8 @@ fun EnhancedButtonGroup(
     selectedIndex: Int,
     title: String? = null,
     onIndexChange: (Int) -> Unit,
+    isScrollable: Boolean = true,
+    contentPadding: PaddingValues = DefaultContentPadding,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
     EnhancedButtonGroup(
@@ -95,6 +97,8 @@ fun EnhancedButtonGroup(
                 )
             }
         },
+        isScrollable = isScrollable,
+        contentPadding = contentPadding,
         inactiveButtonColor = inactiveButtonColor
     )
 }
@@ -107,6 +111,8 @@ fun EnhancedButtonGroup(
     selectedIndex: Int,
     title: @Composable RowScope.() -> Unit = {},
     onIndexChange: (Int) -> Unit,
+    isScrollable: Boolean = true,
+    contentPadding: PaddingValues = DefaultContentPadding,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
     EnhancedButtonGroup(
@@ -125,6 +131,8 @@ fun EnhancedButtonGroup(
         },
         onIndexChange = onIndexChange,
         title = title,
+        isScrollable = isScrollable,
+        contentPadding = contentPadding,
         inactiveButtonColor = inactiveButtonColor
     )
 }

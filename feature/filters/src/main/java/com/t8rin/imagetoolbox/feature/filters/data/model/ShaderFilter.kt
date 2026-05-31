@@ -21,7 +21,8 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
-import com.t8rin.imagetoolbox.core.filters.domain.model.shader.isGlslSourceSafe
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderGpuImageFilter
@@ -35,19 +36,27 @@ internal class ShaderFilter(
     override val cacheKey: String
         get() = value.hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter =
-        ShaderGpuImageFilter(
-            preset = requireNotNull(value.preset),
+    override fun createFilter(): GPUImageFilter {
+        val preset = value.preset
+        if (preset == null || !preset.isValidShaderPreset()) return GPUImageFilter()
+
+        return ShaderGpuImageFilter(
+            preset = preset,
             values = value.resolvedValues
         )
+    }
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
         val preset = value.preset ?: return input
-        if (!preset.shader.isGlslSourceSafe()) return input
+        if (!preset.isValidShaderPreset()) return input
 
         return runCatching { super.transform(input, size) }.getOrElse { input }
     }
+
+    private fun ShaderPreset.isValidShaderPreset(): Boolean =
+        ShaderValidator.validateErrors(this).isEmpty()
+
 }
