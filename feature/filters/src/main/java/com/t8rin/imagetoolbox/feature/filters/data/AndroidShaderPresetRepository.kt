@@ -25,7 +25,6 @@ import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.filters.domain.ShaderPresetRepository
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParser
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
-import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderSamplePresets
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.toItShaderJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -43,7 +42,7 @@ internal class AndroidShaderPresetRepository @Inject constructor(
     private val parser = ShaderParser(jsonParser)
 
     override fun getPresets(): Flow<List<ShaderPreset>> = dataStore.data.map { prefs ->
-        val rawPresets = prefs[SHADER_PRESETS] ?: ShaderSamplePresets.All
+        val rawPresets = prefs[SHADER_PRESETS].orEmpty()
         val parsedPresets = rawPresets.mapNotNull { json ->
             parsePresetOrNull(json)?.let { preset -> json to preset }
         }
