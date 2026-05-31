@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.shader_studio.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -286,22 +287,39 @@ private fun ShaderValueContent(
     modifier: Modifier = Modifier,
     onValueChange: (ShaderValue) -> Unit
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        when (value) {
-            is ShaderValue.FloatValue -> FloatValueField(value, onValueChange)
-            is ShaderValue.IntValue -> IntValueField(value, onValueChange)
-            is ShaderValue.BoolValue -> Unit
-            is ShaderValue.ColorValue -> ColorSelectionRow(
-                value = value.toComposeColor(),
-                allowAlpha = true,
-                contentPadding = PaddingValues(0.dp),
-                onValueChange = { onValueChange(it.toShaderColorValue()) }
-            )
+    AnimatedContent(
+        targetState = value,
+        modifier = Modifier.fillMaxWidth()
+    ) { state ->
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            when (state) {
+                is ShaderValue.FloatValue -> FloatValueField(
+                    value = state,
+                    onValueChange = onValueChange
+                )
 
-            is ShaderValue.Vec2Value -> Vec2ValueFields(value, onValueChange)
+                is ShaderValue.IntValue -> IntValueField(
+                    value = state,
+                    onValueChange = onValueChange
+                )
+
+                is ShaderValue.ColorValue -> ColorSelectionRow(
+                    value = state.toComposeColor(),
+                    allowAlpha = true,
+                    contentPadding = PaddingValues(0.dp),
+                    onValueChange = { onValueChange(it.toShaderColorValue()) }
+                )
+
+                is ShaderValue.Vec2Value -> Vec2ValueFields(
+                    value = state,
+                    onValueChange = onValueChange
+                )
+
+                is ShaderValue.BoolValue -> Unit
+            }
         }
     }
 }
