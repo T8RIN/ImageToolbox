@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -43,12 +44,14 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.translatedName
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ArcParamsItem
@@ -75,6 +78,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.QuadIt
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RadialTiltShiftParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RubberStampParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SeamCarvingParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ShaderParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SmearParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SparkleParamsItem
@@ -89,6 +93,8 @@ internal fun <T : Any> FilterItemContent(
     filter: UiFilter<T>,
     onFilterChange: (value: Any) -> Unit,
     modifier: Modifier = Modifier,
+    shaderPresets: List<ShaderPreset> = emptyList(),
+    onImportShaderPreset: ((Uri, (ShaderPreset) -> Unit) -> Unit)? = null,
     previewOnly: Boolean = false,
 ) {
     Column(
@@ -100,6 +106,16 @@ internal fun <T : Any> FilterItemContent(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is ShaderParams -> {
+                ShaderParamsItem(
+                    value = value,
+                    presets = shaderPresets,
+                    onValueChange = onFilterChange,
+                    onImportPreset = onImportShaderPreset,
                     previewOnly = previewOnly
                 )
             }

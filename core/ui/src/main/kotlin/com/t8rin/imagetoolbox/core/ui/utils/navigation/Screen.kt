@@ -1041,6 +1041,13 @@ sealed class Screen(
         subtitle = R.string.color_library_sub
     )
 
+    @Serializable
+    data object ShaderStudio : Screen(
+        id = 83,
+        title = R.string.shader_studio,
+        subtitle = R.string.shader_studio_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

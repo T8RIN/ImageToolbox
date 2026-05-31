@@ -181,6 +181,7 @@ sealed class UiFilter<T : Any>(
             Filter.LUT512x512::class,
             Filter.PaletteTransferVariant::class,
             Filter.CubeLut::class,
+            Filter.Shader::class,
             Filter.LensCorrection::class,
             Filter.SeamCarving::class
         )

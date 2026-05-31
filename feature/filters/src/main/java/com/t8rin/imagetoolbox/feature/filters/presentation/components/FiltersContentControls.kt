@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
@@ -82,6 +83,7 @@ internal fun FiltersContentControls(
     var seamMaskFilterIndex by rememberSaveable(filterType) {
         mutableStateOf<Int?>(null)
     }
+    val shaderPresets by component.addFiltersSheetComponent.shaderPresets.collectAsStateWithLifecycle()
 
     val histogramItem = @Composable {
         PreferenceItemOverload(
@@ -147,6 +149,8 @@ internal fun FiltersContentControls(
                                         },
                                         onLongPress = component::showReorderSheet,
                                         showDragHandle = false,
+                                        shaderPresets = shaderPresets,
+                                        onImportShaderPreset = component.addFiltersSheetComponent::importShaderPreset,
                                         onRemove = {
                                             component.removeFilterAtIndex(index)
                                         },

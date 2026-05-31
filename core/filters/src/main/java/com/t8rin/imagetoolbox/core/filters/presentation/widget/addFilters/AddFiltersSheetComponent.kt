@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
+import com.t8rin.imagetoolbox.core.filters.domain.ShaderPresetRepository
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
@@ -73,6 +74,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val favoriteInteractor: FilterParamsInteractor,
+    private val shaderPresetRepository: ShaderPresetRepository,
     private val imageGetter: ImageGetter<Bitmap>,
     private val remoteResourcesStore: RemoteResourcesStore,
     private val resourceManager: ResourceManager,
@@ -286,6 +288,29 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
+
+    val shaderPresets = shaderPresetRepository.getPresets()
+        .stateIn(
+            scope = componentScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
+
+    fun importShaderPreset(
+        uri: Uri,
+        onPresetImported: (com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset) -> Unit
+    ) {
+        componentScope.launch {
+            runCatching {
+                fileController.readBytes(uri.toString()).decodeToString()
+            }.mapCatching {
+                shaderPresetRepository.importPreset(it).getOrThrow()
+            }.onSuccess { preset ->
+                onPresetImported(preset)
+                AppToastHost.showConfetti()
+            }.onFailure(AppToastHost::showFailureToast)
+        }
+    }
 
     val templatesFlow: StateFlow<List<TemplateFilter>> = favoriteInteractor.getTemplateFilters()
         .map { list ->

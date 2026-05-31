@@ -143,6 +143,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RotatePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScanQrCode
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Settings
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ShaderStudio
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SignaturePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SingleEdit
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SplitPdfTool
@@ -158,6 +159,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
+import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
@@ -201,6 +203,7 @@ internal class ChildProvider @Inject constructor(
     private val resizeAndConvertComponentFactory: ResizeAndConvertComponent.Factory,
     private val scanQrCodeComponentFactory: ScanQrCodeComponent.Factory,
     private val settingsComponentFactory: SettingsComponent.Factory,
+    private val shaderStudioComponentFactory: ShaderStudioComponent.Factory,
     private val singleEditComponentFactory: SingleEditComponent.Factory,
     private val svgMakerComponentFactory: SvgMakerComponent.Factory,
     private val watermarkingComponentFactory: WatermarkingComponent.Factory,
@@ -523,6 +526,13 @@ internal class ChildProvider @Inject constructor(
                 isUpdateAvailable = isUpdateAvailable,
                 onGoBack = ::navigateBack,
                 initialSearchQuery = config.searchQuery
+            )
+        )
+
+        Screen.ShaderStudio -> ShaderStudio(
+            shaderStudioComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
             )
         )
 

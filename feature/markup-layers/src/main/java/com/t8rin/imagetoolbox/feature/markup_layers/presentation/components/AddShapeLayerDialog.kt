@@ -22,8 +22,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,12 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StarSticky
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.defaultMode
@@ -87,9 +86,8 @@ internal fun AddShapeLayerDialog(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .verticalScroll(
-                        state = state,
-                        flingBehavior = enhancedFlingBehavior()
+                    .enhancedVerticalScroll(
+                        state = state
                     )
                     .fadingEdges(
                         scrollableState = state,

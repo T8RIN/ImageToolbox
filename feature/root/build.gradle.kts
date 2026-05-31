@@ -76,4 +76,5 @@ dependencies {
     implementation(projects.feature.aiTools)
     implementation(projects.feature.colorLibrary)
     implementation(projects.feature.appLogs)
+    implementation(projects.feature.shaderStudio)
 }

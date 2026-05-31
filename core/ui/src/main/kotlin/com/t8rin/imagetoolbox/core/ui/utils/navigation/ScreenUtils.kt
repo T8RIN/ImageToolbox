@@ -133,6 +133,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.RecognizeText
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScanQrCode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WallpapersExport
@@ -203,6 +204,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is AsciiArt -> "Ascii_Art"
     is AiTools -> "Ai_Tools"
     is ColorLibrary -> "ColorLibrary"
+    is ShaderStudio -> "Shader_Studio"
     is PdfTools.Merge -> "PdfTools_Merge"
     is PdfTools.Split -> "PdfTools_Split"
     is PdfTools.Rotate -> "PdfTools_Rotate"
@@ -282,6 +284,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.Outlined.Neurology
     is ColorLibrary -> Icons.Outlined.FormatPaintVariant
+    is ShaderStudio -> Icons.Outlined.AutoFixHigh
     is PdfTools.Merge -> Icons.Rounded.ImageCombine
     is PdfTools.Split -> Icons.Outlined.SplitAlt
     is PdfTools.Rotate -> Icons.Outlined.Rotate90Cw
@@ -361,6 +364,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.TwoTone.Neurology
     is ColorLibrary -> Icons.Outlined.FormatPaintVariant
+    is ShaderStudio -> Icons.Outlined.AutoFixHigh
     is PdfTools.Merge -> Icons.TwoTone.ImageCombine
     is PdfTools.Split -> Icons.TwoTone.SplitAlt
     is PdfTools.Rotate -> Icons.TwoTone.Rotate90Cw
@@ -444,6 +448,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     ImageSplitting(),
                     Watermarking(),
                     GradientMaker(),
+                    ShaderStudio,
                     NoiseGeneration,
                 ),
                 title = R.string.create,
@@ -497,5 +502,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 82 + PdfTools.options.size
+    override val FEATURES_COUNT = 83 + PdfTools.options.size
 }

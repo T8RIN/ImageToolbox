@@ -2342,4 +2342,19 @@
     <string name="crash_oom_description">The image is likely too large to process on this device, or the system has run out of available memory. Try reducing the image resolution, closing other apps, or choosing a smaller file.</string>
     <string name="debug_menu">Debug Menu</string>
     <string name="debug_menu_sub">Menu to test app functions, this is not intended to show up in production release</string>
+    <string name="shader">Shader</string>
+    <string name="shader_preset">Shader preset</string>
+    <string name="no_shader_selected">No shader selected</string>
+    <string name="shader_studio">Shader Studio</string>
+    <string name="shader_studio_sub">Create, edit, validate, import, and export custom fragment shaders</string>
+    <string name="saved_shaders">Saved shaders</string>
+    <string name="shader_library_sub">Open saved shaders, duplicate, export, share, or delete</string>
+    <string name="new_shader">New shader</string>
+    <string name="shader_file">Shader file</string>
+    <string name="itshader_json">.itshader JSON</string>
+    <string name="shader_params_count">%1$d params</string>
+    <string name="shader_source">Shader source</string>
+    <string name="shader_main_body_info">Write only the body of void main(). Use textureCoordinate for UV coordinates and inputImageTexture as the source sampler.</string>
+    <string name="shader_no_parameters">Add uniforms here when the shader needs editable values.</string>
+    <string name="duplicate">Duplicate</string>
 </resources>

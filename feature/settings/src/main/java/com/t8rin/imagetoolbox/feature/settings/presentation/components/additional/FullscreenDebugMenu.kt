@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -56,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -152,7 +152,7 @@ internal fun FullscreenDebugMenu(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
+                                .enhancedVerticalScroll(rememberScrollState())
                                 .padding(contentPadding)
                                 .padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),

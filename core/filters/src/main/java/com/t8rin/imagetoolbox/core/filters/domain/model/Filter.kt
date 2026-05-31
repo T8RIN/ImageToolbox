@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
@@ -270,6 +271,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface SoftEleganceVariant : FloatFilter
     interface PaletteTransferVariant : TripleFilter<Float, PaletteTransferSpace, Image>
     interface CubeLut : FileFilter
+    interface Shader : Filter<ShaderParams>
     interface BleachBypass : FloatFilter
     interface Candlelight : FloatFilter
     interface DropBlues : FloatFilter

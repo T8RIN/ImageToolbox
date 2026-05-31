@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -51,10 +50,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.AddFilterButton
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheet
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
@@ -92,6 +93,14 @@ fun MaskItem(
     var showMaskRemoveDialog by rememberSaveable { mutableStateOf(false) }
     var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
     var showEditMaskSheet by rememberSaveable { mutableStateOf(false) }
+    val shaderPresets by addMaskSheetComponent
+        ?.addFiltersSheetComponent
+        ?.shaderPresets
+        ?.collectAsStateWithLifecycle()
+        ?: remember { mutableStateOf(emptyList()) }
+    val importShaderPreset = addMaskSheetComponent
+        ?.addFiltersSheetComponent
+        ?.let { it::importShaderPreset }
     val settingsState = LocalSettingsState.current
     Box {
         Row(
@@ -241,6 +250,8 @@ fun MaskItem(
                                         backgroundColor = MaterialTheme.colorScheme.surface,
                                         filter = uiFilter,
                                         showDragHandle = false,
+                                        shaderPresets = shaderPresets,
+                                        onImportShaderPreset = importShaderPreset,
                                         onRemove = {
                                             onMaskChange(
                                                 mask.copy(filters = mask.filters - filter)
