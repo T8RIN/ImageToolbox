@@ -723,7 +723,6 @@ private fun ShaderStudioButtons(
         secondaryButtonText = stringResource(R.string.import_word),
         onPrimaryButtonClick = onSave,
         primaryButtonIcon = Icons.Rounded.Save,
-        primaryButtonText = stringResource(R.string.save),
         isPrimaryButtonVisible = canSave,
         actions = {
             if (isPortrait) actions()
