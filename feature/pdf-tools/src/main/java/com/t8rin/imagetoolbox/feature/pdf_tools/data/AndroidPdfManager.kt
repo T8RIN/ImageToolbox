@@ -172,6 +172,7 @@ internal class AndroidPdfManager @Inject constructor(
                 val sourcePageHeight = hocrData.pageBox?.height?.takeIf { it > 0f } ?: pageHeight
                 val scaleX = (pageWidth / sourcePageWidth).coerceAtLeast(0.0001f)
                 val scaleY = (pageHeight / sourcePageHeight).coerceAtLeast(0.0001f)
+                val font = document.defaultFont
 
                 val words = hocrData.words
                     .ifEmpty {
@@ -193,7 +194,7 @@ internal class AndroidPdfManager @Inject constructor(
                     }
 
                 words.forEach { word ->
-                    val text = word.text.cleanPdfText()
+                    val text = word.text.cleanPdfText(font)
                     if (text.isBlank()) return@forEach
 
                     val left = word.left * scaleX
@@ -205,7 +206,7 @@ internal class AndroidPdfManager @Inject constructor(
                     val targetWidth = (right - left).coerceAtLeast(1f)
                     val x = left.coerceIn(0f, pageWidth - 1f)
 
-                    val glyphWidthEm = (document.defaultFont.getStringWidth(text) / 1000f)
+                    val glyphWidthEm = (font.getStringWidth(text) / 1000f)
                         .coerceAtLeast(0.001f)
 
                     val fontByHeight = (boxHeight * 0.84f).coerceAtLeast(1f)
@@ -223,7 +224,7 @@ internal class AndroidPdfManager @Inject constructor(
 
                     beginText()
                     setRenderingMode(RenderingMode.NEITHER)
-                    setFont(document.defaultFont, fontSize)
+                    setFont(font, fontSize)
                     setHorizontalScaling(horizontalScale)
                     newLineAtOffset(x, y)
                     showText(text)

@@ -76,6 +76,7 @@ import com.t8rin.imagetoolbox.feature.recognize.text.domain.DownloadData
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.ImageTextReader
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OCRLanguage
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OcrEngineMode
+import com.t8rin.imagetoolbox.feature.recognize.text.domain.PaddleOCRModel
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionData
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionEngine
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionType
@@ -84,7 +85,6 @@ import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessParams
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TextRecognitionResult
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.components.UiDownloadData
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.components.toUi
-import com.t8rin.neural_tools.ocr.PaddleOCR
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -129,9 +129,12 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         mutableStateOf(RecognitionEngine.Tesseract)
     val recognitionEngine by _recognitionEngine
 
-    private val _paddleOCRModel: MutableState<PaddleOCR.Model> =
-        mutableStateOf(PaddleOCR.Model.CJK)
+    private val _paddleOCRModel: MutableState<PaddleOCRModel> =
+        mutableStateOf(PaddleOCRModel.CJK)
     val paddleOCRModel by _paddleOCRModel
+
+    private val _paddleOCRModelsUpdateKey = mutableIntStateOf(0)
+    val paddleOCRModelsUpdateKey by _paddleOCRModelsUpdateKey
 
     private val _params: MutableState<TessParams> = mutableStateOf(TessParams.Default)
     val params by _params
@@ -305,10 +308,10 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                 }
             }
             _paddleOCRModel.update {
-                PaddleOCR.Model.entries.getOrElse(
+                PaddleOCRModel.entries.getOrElse(
                     index = settingsManager.getSettingsState().initialPaddleOcrModel
                 ) {
-                    PaddleOCR.Model.CJK
+                    PaddleOCRModel.CJK
                 }
             }
             val languageCodes = settingsManager
@@ -564,7 +567,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         startRecognition()
     }
 
-    fun setPaddleOCRModel(model: PaddleOCR.Model) {
+    fun setPaddleOCRModel(model: PaddleOCRModel) {
         _paddleOCRModel.update { model }
         componentScope.launch {
             settingsManager.setInitialPaddleOcrModel(model.ordinal)
@@ -574,12 +577,24 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         startRecognition()
     }
 
+    fun isPaddleOCRModelDownloaded(model: PaddleOCRModel): Boolean =
+        imageTextReader.isPaddleOCRModelDownloaded(model)
+
+    fun deletePaddleOCRModel(model: PaddleOCRModel) {
+        imageTextReader.deletePaddleOCRModel(model)
+        _paddleOCRModelsUpdateKey.update { it + 1 }
+        if (model == paddleOCRModel) {
+            _recognitionData.update { null }
+            _editedText.update { null }
+        }
+    }
+
     fun downloadPaddleData(
         onProgress: (DownloadProgress) -> Unit,
         onComplete: () -> Unit
     ) {
         componentScope.launch {
-            PaddleOCR.startDownload(paddleOCRModel).collect { progress ->
+            imageTextReader.downloadPaddleOCRModel(paddleOCRModel).collect { progress ->
                 onProgress(
                     DownloadProgress(
                         currentPercent = progress.currentPercent,
@@ -587,6 +602,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     )
                 )
             }
+            _paddleOCRModelsUpdateKey.update { it + 1 }
             clearPaddleDownloadDialog()
             onComplete()
         }

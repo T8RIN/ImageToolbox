@@ -144,7 +144,10 @@ internal fun RecognizeTextControls(
             Spacer(modifier = Modifier.height(8.dp))
             PaddleOCRModelSelector(
                 value = component.paddleOCRModel,
-                onValueChange = component::setPaddleOCRModel
+                updateKey = component.paddleOCRModelsUpdateKey,
+                isDownloaded = component::isPaddleOCRModelDownloaded,
+                onValueChange = component::setPaddleOCRModel,
+                onDeleteModel = component::deletePaddleOCRModel
             )
         }
     }

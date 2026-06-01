@@ -139,10 +139,18 @@ object PaddleOCR : NeuralTool() {
     private val _isDownloaded = MutableStateFlow(modelFiles(Model.CJK) != null)
     val isDownloaded: StateFlow<Boolean> = _isDownloaded
 
+    fun isModelDownloaded(model: Model = Model.CJK): Boolean = modelFiles(model) != null
+
     fun checkModel(model: Model = Model.CJK): Boolean =
         (modelFiles(model) != null).also { downloaded ->
-        _isDownloaded.update { downloaded }
-        if (!downloaded) close()
+            _isDownloaded.update { downloaded }
+            if (!downloaded) close()
+        }
+
+    fun deleteModel(model: Model) {
+        if (processorModel == model) close()
+        modelDirectory(model).deleteRecursively()
+        _isDownloaded.update { isModelDownloaded(Model.CJK) }
     }
 
     fun startDownload(

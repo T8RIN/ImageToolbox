@@ -61,6 +61,7 @@ import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
+import com.tom_roush.pdfbox.pdmodel.font.PDFont
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -350,7 +351,22 @@ internal class AndroidPdfHelper @Inject constructor(
         )
     }
 
-    internal fun String.cleanPdfText(): String = replace(PDF_CONTROL_REGEX, "").take(2000)
+    internal fun String.cleanPdfText(font: PDFont): String {
+        return replace(PDF_CONTROL_REGEX, "")
+            .take(2000)
+            .mapNotNull { char ->
+                char.takeIf {
+                    font.hasGlyph(it)
+                }
+            }
+            .joinToString("")
+    }
+
+    private fun PDFont.hasGlyph(char: Char): Boolean {
+        return runCatching {
+            encode(char.toString())
+        }.isSuccess
+    }
 
     internal suspend fun prepareImagesForPdf(
         imageUris: List<String>,
