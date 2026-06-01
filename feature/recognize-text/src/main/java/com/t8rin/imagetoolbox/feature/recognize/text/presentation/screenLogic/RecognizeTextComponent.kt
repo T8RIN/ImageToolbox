@@ -368,11 +368,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
                     uris.forEach { uri ->
                         if (!uri.readText().appendToStringBuilder(
-                            builder = txtString,
-                            uri = uri,
-                            onRequestDownload = { data ->
-                                _downloadDialogData.update { data.map(DownloadData::toUi) }
-                            }
+                                builder = txtString,
+                                uri = uri,
+                                onRequestDownload = { data ->
+                                    _downloadDialogData.update { data.map(DownloadData::toUi) }
+                                }
                             )
                         ) return@launch
                         _done.update { it + 1 }
@@ -558,6 +558,8 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     fun setRecognitionEngine(recognitionEngine: RecognitionEngine) {
+        if (_recognitionEngine.value == recognitionEngine) return
+
         _recognitionEngine.update { recognitionEngine }
         componentScope.launch {
             settingsManager.setInitialOcrEngine(recognitionEngine.ordinal)
@@ -780,11 +782,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     uris.forEach { uri ->
                         uri.readText().also { result ->
                             if (!result.appendToStringBuilder(
-                                builder = txtString,
-                                uri = uri,
-                                onRequestDownload = { data ->
-                                    _downloadDialogData.update { data.map(DownloadData::toUi) }
-                                }
+                                    builder = txtString,
+                                    uri = uri,
+                                    onRequestDownload = { data ->
+                                        _downloadDialogData.update { data.map(DownloadData::toUi) }
+                                    }
                                 )
                             ) return@launch
                             _done.update { it + 1 }
