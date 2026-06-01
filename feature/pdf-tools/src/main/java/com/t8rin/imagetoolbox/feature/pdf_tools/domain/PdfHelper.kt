@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
 import kotlinx.coroutines.flow.StateFlow
 
@@ -41,13 +40,5 @@ interface PdfHelper {
     suspend fun checkPdf(
         uri: String
     ): PdfCheckResult
-
-    suspend fun getPdfPages(
-        uri: String
-    ): List<Int>
-
-    suspend fun getPdfPageSizes(
-        uri: String
-    ): List<IntegerSize>
 
 }

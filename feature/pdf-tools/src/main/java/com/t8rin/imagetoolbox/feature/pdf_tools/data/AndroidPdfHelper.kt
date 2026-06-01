@@ -46,11 +46,9 @@ import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.HocrData
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.HocrPageBox
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.HocrWord
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPage
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdf
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.pageIndices
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.safeOpenPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.save
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setMetadata
@@ -111,8 +109,6 @@ internal class AndroidPdfHelper @Inject constructor(
         val HOCR_TAG_REGEX = Regex("<[^>]+>")
         val PDF_CONTROL_REGEX = Regex("[\\p{Cntrl}&&[^\\n\\r\\t]]")
     }
-
-    private val pagesCache = hashMapOf<String, List<IntegerSize>>()
 
     private val signaturesDir: File get() = File(context.filesDir, "signatures").apply(File::mkdirs)
 
@@ -205,41 +201,6 @@ internal class AndroidPdfHelper @Inject constructor(
             ensureActive()
             PdfCheckResult.Failure(t)
         }.makeLog("checkPdf")
-    }
-
-    override suspend fun getPdfPages(
-        uri: String
-    ): List<Int> = withContext(decodingDispatcher) {
-        try {
-            usePdf(
-                uri = uri,
-                password = masterPassword,
-                action = PDDocument::pageIndices
-            )
-        } catch (_: Throwable) {
-            emptyList()
-        }
-    }
-
-    override suspend fun getPdfPageSizes(
-        uri: String
-    ): List<IntegerSize> = withContext(decodingDispatcher) {
-        pagesCache[uri]?.takeIf { it.isNotEmpty() }?.let { return@withContext it }
-
-        try {
-            PdfRenderer(
-                uri = uri,
-                password = masterPassword
-            )?.use { renderer ->
-                List(renderer.pageCount) {
-                    renderer.openPage(it).run {
-                        IntegerSize(width, height)
-                    }
-                }
-            }.orEmpty()
-        } catch (_: Throwable) {
-            emptyList()
-        }.also { pagesCache[uri] = it }
     }
 
     internal fun tempName(
