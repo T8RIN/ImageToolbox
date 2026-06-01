@@ -297,7 +297,9 @@ fun DrawContent(
                     backgroundColor = component.backgroundColor,
                     drawLineStyle = drawLineStyle,
                     helperGridParams = component.helperGridParams,
-                    showLineAngle = showLineAngle
+                    showLineAngle = showLineAngle,
+                    spotHealCache = component.spotHealCache,
+                    onCacheSpotHealPathResult = component::cacheSpotHealPathResult
                 )
             }
         },

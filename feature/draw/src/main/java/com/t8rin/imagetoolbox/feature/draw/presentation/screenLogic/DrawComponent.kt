@@ -22,6 +22,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -142,6 +143,9 @@ class DrawComponent @AssistedInject internal constructor(
     private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
     val undonePaths: List<UiPathPaint> by _undonePaths
 
+    private val _spotHealCache = mutableStateMapOf<Int, Bitmap>()
+    val spotHealCache: Map<Int, Bitmap> = _spotHealCache
+
     val havePaths: Boolean
         get() = paths.isNotEmpty() || lastPaths.isNotEmpty() || undonePaths.isNotEmpty()
 
@@ -242,6 +246,7 @@ class DrawComponent @AssistedInject internal constructor(
             _paths.value = listOf()
             _lastPaths.value = listOf()
             _undonePaths.value = listOf()
+            _spotHealCache.clear()
             _isImageLoading.value = true
 
             _uri.value = uri
@@ -282,6 +287,7 @@ class DrawComponent @AssistedInject internal constructor(
         _paths.value = listOf()
         _lastPaths.value = listOf()
         _undonePaths.value = listOf()
+        _spotHealCache.clear()
         _bitmap.value = null
         _drawBehavior.update {
             DrawBehavior.None
@@ -313,6 +319,7 @@ class DrawComponent @AssistedInject internal constructor(
             )
         }
         _backgroundColor.value = color
+        _spotHealCache.clear()
 
         componentScope.launch {
             val newValue = DrawOnBackgroundParams(
@@ -346,6 +353,7 @@ class DrawComponent @AssistedInject internal constructor(
 
     fun updateBackgroundColor(color: Color) {
         _backgroundColor.value = color
+        _spotHealCache.clear()
         registerChanges()
     }
 
@@ -354,6 +362,7 @@ class DrawComponent @AssistedInject internal constructor(
             _lastPaths.value = paths
             _paths.value = listOf()
             _undonePaths.value = listOf()
+            _spotHealCache.clear()
             registerChanges()
         }
     }
@@ -386,6 +395,13 @@ class DrawComponent @AssistedInject internal constructor(
         _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
         registerChanges()
+    }
+
+    fun cacheSpotHealPathResult(
+        key: Int,
+        bitmap: Bitmap
+    ) {
+        _spotHealCache[key] = bitmap
     }
 
     fun cancelSaving() {
