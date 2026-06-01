@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -80,8 +81,10 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.remembe
 import com.t8rin.trickle.WarpBrush
 import com.t8rin.trickle.WarpEngine
 import com.t8rin.trickle.WarpMode
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
 import kotlin.math.roundToInt
@@ -145,8 +148,15 @@ fun BitmapDrawer(
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
 
-            val drawImageBitmap by remember(imageWidth, imageHeight, backgroundColor) {
-                derivedStateOf {
+            val drawImageBitmap by produceState<ImageBitmap?>(
+                initialValue = null,
+                imageBitmap,
+                imageWidth,
+                imageHeight,
+                backgroundColor
+            ) {
+                value = null
+                value = withContext(Dispatchers.Default) {
                     imageBitmap.asAndroidBitmap().createScaledBitmap(
                         width = imageWidth,
                         height = imageHeight
@@ -202,7 +212,7 @@ fun BitmapDrawer(
 
             val outputImage by remember(invalidations) {
                 derivedStateOf {
-                    drawImageBitmap.overlay(drawBitmap)
+                    drawImageBitmap?.overlay(drawBitmap) ?: imageBitmap
                 }
             }
 
@@ -300,7 +310,7 @@ fun BitmapDrawer(
                             onInvalidate = { invalidations++ },
                             pathsCount = paths.size,
                             backgroundColor = backgroundColor,
-                            drawImageBitmap = drawImageBitmap,
+                            drawImageBitmap = drawImageBitmap ?: imageBitmap,
                             drawBitmap = drawBitmap,
                             onClearDrawPath = {
                                 drawPath = Path()
@@ -688,7 +698,7 @@ fun BitmapDrawer(
                 onInvalidate = { invalidations++ },
                 onUpdateCurrentDrawPosition = { currentDrawPosition = it },
                 onUpdateDrawDownPosition = { drawDownPosition = it },
-                drawEnabled = !panEnabled && !isWarpInputLocked,
+                drawEnabled = !panEnabled && !isWarpInputLocked && drawImageBitmap != null,
                 helperGridParams = helperGridParams
             )
 
