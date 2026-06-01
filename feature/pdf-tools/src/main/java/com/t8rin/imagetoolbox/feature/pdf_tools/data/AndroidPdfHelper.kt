@@ -19,6 +19,8 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color.WHITE
+import androidx.core.graphics.createBitmap
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
@@ -37,7 +39,9 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.HocrData
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.HocrPageBox
@@ -75,9 +79,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
+import kotlin.io.deleteRecursively
+import kotlin.io.outputStream
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import kotlin.use
+import android.graphics.Matrix as AndroidMatrix
+import android.graphics.pdf.PdfRenderer as AndroidPdfRenderer
 
 internal class AndroidPdfHelper @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -263,15 +272,61 @@ internal class AndroidPdfHelper @Inject constructor(
         password = password
     )
 
-    internal inline fun <T> useRenderer(
+    inline fun <T> useAndroidPdfRenderer(
         uri: String,
-        password: String? = masterPassword,
-        action: (PdfRenderer) -> T
-    ) = PdfRenderer(
-        uri = uri,
-        password = password,
-        onFailure = { throw it }
-    )?.use(action)
+        action: (AndroidPdfRenderer) -> T
+    ): T = context.contentResolver.openFileDescriptor(
+        uri.toUri(),
+        "r"
+    )?.use { fileDescriptor ->
+        AndroidPdfRenderer(fileDescriptor).use(action)
+    } ?: error(getString(R.string.something_went_wrong))
+
+    fun AndroidPdfRenderer.safeRenderDpi(
+        pageIndex: Int,
+        dpi: Float
+    ): Bitmap {
+        val scale = dpi / 72f
+
+        return try {
+            renderPage(pageIndex, scale)
+        } catch (t1: Throwable) {
+            t1.makeLog("safeRenderDpi")
+            System.gc()
+            try {
+                renderPage(pageIndex, 1f)
+            } catch (t2: Throwable) {
+                t2.makeLog("safeRenderDpi")
+                System.gc()
+                renderPage(pageIndex, 0.5f)
+            }
+        } finally {
+            System.gc()
+        }
+    }
+
+    private fun AndroidPdfRenderer.renderPage(
+        pageIndex: Int,
+        scale: Float
+    ): Bitmap = openPage(pageIndex).use { page ->
+        createBitmap(
+            (page.width * scale).toInt().coerceAtLeast(1),
+            (page.height * scale).toInt().coerceAtLeast(1)
+        ).apply {
+            eraseColor(WHITE)
+            page.render(
+                this,
+                null,
+                AndroidMatrix().apply { setScale(scale, scale) },
+                AndroidPdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
+            )
+        }
+    }
+
+    val AndroidPdfRenderer.pageIndices: List<Int>
+        get() = List(pageCount) { it }
+
+    fun List<Int>?.orAll(renderer: AndroidPdfRenderer) = orEmpty().ifEmpty { renderer.pageIndices }
 
     internal suspend fun PDDocument.save(
         filename: String,

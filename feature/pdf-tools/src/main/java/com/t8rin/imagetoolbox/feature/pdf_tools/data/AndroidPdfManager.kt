@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.data.saving.io.ByteArrayReadable
@@ -46,7 +45,6 @@ import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.putEntry
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.BaseMemoryConfig
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.HocrWord
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPage
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdf
@@ -76,7 +74,6 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.SearchablePdfPage
-import com.t8rin.trickle.Trickle
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
@@ -120,8 +117,8 @@ internal class AndroidPdfManager @Inject constructor(
         val dpi = 72f * scale
 
         catchPdf {
-            useRenderer(uri) { renderer ->
-                params.pages.orAll(renderer.pDocument).also {
+            useAndroidPdfRenderer(uri) { renderer ->
+                params.pages.orAll(renderer).also {
                     send(ExtractPagesAction.PagesCount(it.size))
                 }.forEach { pageIndex ->
                     send(
@@ -130,7 +127,7 @@ internal class AndroidPdfManager @Inject constructor(
                             image = renderer.safeRenderDpi(
                                 pageIndex = pageIndex,
                                 dpi = dpi
-                            ).whiteBg()
+                            )
                         )
                     )
                 }
@@ -568,12 +565,12 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
-        useRenderer(uri) { renderer ->
+        useAndroidPdfRenderer(uri) { renderer ->
             renderer.pageIndices.mapNotNull { pageIndex ->
                 val bitmap = renderer.safeRenderDpi(
                     pageIndex = pageIndex,
                     dpi = 72f
-                ).whiteBg()
+                )
 
                 shareProvider.cacheImage(
                     image = bitmap,
@@ -584,7 +581,7 @@ internal class AndroidPdfManager @Inject constructor(
                     )
                 )
             }
-        } ?: emptyList()
+        }
     }
 
     override suspend fun compressPdf(
@@ -701,34 +698,33 @@ internal class AndroidPdfManager @Inject constructor(
         val dpi = 72f + (228f * quality)
 
         usePdf(uri) { document ->
-            val renderer = PdfRenderer(document)
+            useAndroidPdfRenderer(uri) { renderer ->
+                createPdf { newDoc ->
+                    document.pages.forEachIndexed { index, page ->
+                        val cropBox = page.cropBox
 
-            createPdf { newDoc ->
-                document.pages.forEachIndexed { index, page ->
-                    val cropBox = page.cropBox
+                        val pdImage = renderer
+                            .safeRenderDpi(index, dpi)
+                            .asXObject(newDoc, quality)
 
-                    val pdImage = renderer
-                        .safeRenderDpi(index, dpi)
-                        .whiteBg()
-                        .asXObject(newDoc, quality)
-
-                    newDoc.createPage(PDPage(cropBox)) {
-                        drawImage(
-                            pdImage,
-                            0f,
-                            0f,
-                            cropBox.width,
-                            cropBox.height
-                        )
+                        newDoc.createPage(PDPage(cropBox)) {
+                            drawImage(
+                                pdImage,
+                                0f,
+                                0f,
+                                cropBox.width,
+                                cropBox.height
+                            )
+                        }
                     }
-                }
 
-                newDoc.save(
-                    filename = createTempName(
-                        key = "flattened",
-                        uri = uri
+                    newDoc.save(
+                        filename = createTempName(
+                            key = "flattened",
+                            uri = uri
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -851,107 +847,104 @@ internal class AndroidPdfManager @Inject constructor(
         val dpi = 72f + (228f * params.quality)
 
         usePdf(uri) { document ->
-            val renderer = PdfRenderer(document)
+            useAndroidPdfRenderer(uri) { renderer ->
+                createPdf { newDoc ->
+                    val pagesPerSheet = params.pagesPerSheet.coerceIn(PrintPdfParams.pageRange)
 
-            createPdf { newDoc ->
-                val pagesPerSheet = params.pagesPerSheet.coerceIn(PrintPdfParams.pageRange)
+                    val gridSize = params.gridSize
 
-                val gridSize = params.gridSize
+                    val totalPages = document.numberOfPages
+                    val sheetsNeeded = (totalPages + pagesPerSheet - 1) / pagesPerSheet
 
-                val totalPages = document.numberOfPages
-                val sheetsNeeded = (totalPages + pagesPerSheet - 1) / pagesPerSheet
+                    for (sheetIndex in 0 until sheetsNeeded) {
+                        val startPageIndex = sheetIndex * pagesPerSheet
+                        val firstPageOnSheet = document.getPage(startPageIndex)
 
-                for (sheetIndex in 0 until sheetsNeeded) {
-                    val startPageIndex = sheetIndex * pagesPerSheet
-                    val firstPageOnSheet = document.getPage(startPageIndex)
+                        val cropBox = params.calculatePageSize(firstPageOnSheet)?.let { size ->
+                            PDRectangle(size.width.toFloat(), size.height.toFloat())
+                        } ?: firstPageOnSheet.cropBox
 
-                    val cropBox = params.calculatePageSize(firstPageOnSheet)?.let { size ->
-                        PDRectangle(size.width.toFloat(), size.height.toFloat())
-                    } ?: firstPageOnSheet.cropBox
+                        newDoc.createPage(PDPage(cropBox)) {
+                            val pageWidth = cropBox.width
+                            val pageHeight = cropBox.height
 
-                    newDoc.createPage(PDPage(cropBox)) {
-                        val pageWidth = cropBox.width
-                        val pageHeight = cropBox.height
+                            val rows = gridSize.first
+                            val cols = gridSize.second
 
-                        val rows = gridSize.first
-                        val cols = gridSize.second
+                            val cellWidth = pageWidth / cols
+                            val cellHeight = pageHeight / rows
 
-                        val cellWidth = pageWidth / cols
-                        val cellHeight = pageHeight / rows
+                            val margin = if (params.marginPercent > 0) {
+                                (minOf(
+                                    pageWidth,
+                                    pageHeight
+                                ) * params.marginPercent / 100f).coerceAtLeast(0f)
+                            } else 0f
 
-                        val margin = if (params.marginPercent > 0) {
-                            (minOf(
-                                pageWidth,
-                                pageHeight
-                            ) * params.marginPercent / 100f).coerceAtLeast(0f)
-                        } else 0f
+                            val availableContentWidth = if (margin > 0) {
+                                (pageWidth - (cols + 1) * margin) / cols
+                            } else cellWidth
 
-                        val availableContentWidth = if (margin > 0) {
-                            (pageWidth - (cols + 1) * margin) / cols
-                        } else cellWidth
+                            val availableContentHeight = if (margin > 0) {
+                                (pageHeight - (rows + 1) * margin) / rows
+                            } else cellHeight
 
-                        val availableContentHeight = if (margin > 0) {
-                            (pageHeight - (rows + 1) * margin) / rows
-                        } else cellHeight
+                            for (i in 0 until pagesPerSheet) {
+                                val pageIndex = startPageIndex + i
+                                if (pageIndex >= totalPages) break
 
-                        for (i in 0 until pagesPerSheet) {
-                            val pageIndex = startPageIndex + i
-                            if (pageIndex >= totalPages) break
+                                val sourcePage = document.getPage(pageIndex)
+                                val sourceWidth = sourcePage.cropBox.width
+                                val sourceHeight = sourcePage.cropBox.height
 
-                            val sourcePage = document.getPage(pageIndex)
-                            val sourceWidth = sourcePage.cropBox.width
-                            val sourceHeight = sourcePage.cropBox.height
+                                val scale = minOf(
+                                    availableContentWidth / sourceWidth,
+                                    availableContentHeight / sourceHeight
+                                ).coerceAtMost(1f)
 
-                            val scale = minOf(
-                                availableContentWidth / sourceWidth,
-                                availableContentHeight / sourceHeight
-                            ).coerceAtMost(1f)
+                                val scaledWidth = sourceWidth * scale
+                                val scaledHeight = sourceHeight * scale
 
-                            val scaledWidth = sourceWidth * scale
-                            val scaledHeight = sourceHeight * scale
+                                val col = i % cols
+                                val row = i / cols
 
-                            val col = i % cols
-                            val row = i / cols
+                                val cellLeft = col * cellWidth
+                                val cellBottom = pageHeight - (row + 1) * cellHeight
 
-                            val cellLeft = col * cellWidth
-                            val cellBottom = pageHeight - (row + 1) * cellHeight
+                                val x: Float
+                                val y: Float
 
-                            val x: Float
-                            val y: Float
+                                if (margin > 0) {
+                                    val contentLeft = cellLeft + margin
+                                    val contentBottom = cellBottom + margin
+                                    val contentCenterX = contentLeft + availableContentWidth / 2
+                                    val contentCenterY = contentBottom + availableContentHeight / 2
+                                    x = contentCenterX - scaledWidth / 2
+                                    y = contentCenterY - scaledHeight / 2
+                                } else {
+                                    x = cellLeft + (cellWidth - scaledWidth) / 2
+                                    y = cellBottom + (cellHeight - scaledHeight) / 2
+                                }
 
-                            if (margin > 0) {
-                                val contentLeft = cellLeft + margin
-                                val contentBottom = cellBottom + margin
-                                val contentCenterX = contentLeft + availableContentWidth / 2
-                                val contentCenterY = contentBottom + availableContentHeight / 2
-                                x = contentCenterX - scaledWidth / 2
-                                y = contentCenterY - scaledHeight / 2
-                            } else {
-                                x = cellLeft + (cellWidth - scaledWidth) / 2
-                                y = cellBottom + (cellHeight - scaledHeight) / 2
+                                val pdImage = renderer
+                                    .safeRenderDpi(pageIndex, dpi)
+                                    .asXObject(
+                                        document = newDoc,
+                                        quality = params.quality
+                                    )
+
+                                drawImage(pdImage, x, y, scaledWidth, scaledHeight)
                             }
-
-                            val pdImage = Trickle
-                                .drawColorBehind(
-                                    input = renderer.safeRenderDpi(pageIndex, dpi),
-                                    color = Color.White.toArgb()
-                                )
-                                .asXObject(
-                                    document = newDoc,
-                                    quality = params.quality
-                                )
-
-                            drawImage(pdImage, x, y, scaledWidth, scaledHeight)
                         }
                     }
-                }
 
-                newDoc.save(
-                    filename = createTempName(
-                        key = "printed",
-                        uri = uri
+                    newDoc.save(
+                        filename = createTempName(
+                            key = "printed",
+                            uri = uri
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -1010,10 +1003,5 @@ internal class AndroidPdfManager @Inject constructor(
             throw e
         }
     }
-
-    private fun Bitmap.whiteBg(): Bitmap = Trickle.drawColorBehind(
-        input = this,
-        color = Color.White.toArgb()
-    )
 
 }
