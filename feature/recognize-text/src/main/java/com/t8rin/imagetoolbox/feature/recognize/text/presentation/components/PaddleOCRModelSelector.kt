@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -86,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.PaddleOCRModel
 import kotlinx.coroutines.delay
 
@@ -104,7 +106,7 @@ fun PaddleOCRModelSelector(
     PreferenceItem(
         modifier = Modifier.fillMaxWidth(),
         title = stringResource(id = R.string.language),
-        subtitle = value.localizedName(),
+        subtitle = stringResource(id = value.localizedName),
         onClick = {
             showSelectionSheet = true
         },
@@ -165,7 +167,7 @@ fun PaddleOCRModelSelector(
                                 }
                             },
                             endIcon = {
-                                androidx.compose.animation.AnimatedVisibility(
+                                AnimatedVisibility(
                                     visible = searchKeyword.isNotEmpty(),
                                     enter = fadeIn() + scaleIn(),
                                     exit = fadeOut() + scaleOut()
@@ -265,7 +267,7 @@ private fun PaddleOCRModelSelectorSheetContent(
         } else {
             allModels.filter {
                 it.englishName.contains(searchKeyword, ignoreCase = true) ||
-                        it.localizedName().contains(searchKeyword, ignoreCase = true)
+                        getString(it.localizedName).contains(searchKeyword, ignoreCase = true)
             }.sortedBy(PaddleOCRModel::englishName)
         }
     }
@@ -381,7 +383,7 @@ private fun LazyItemScope.PaddleOCRModelItem(
     val item = @Composable {
         PreferenceItem(
             title = model.englishName,
-            subtitle = model.localizedName().takeIf { it != model.englishName },
+            subtitle = stringResource(id = model.localizedName).takeIf { it != model.englishName },
             onClick = {
                 onValueChange(model)
             },
@@ -464,7 +466,7 @@ private fun DeletePaddleOCRModelDialog(
             Text(
                 stringResource(
                     id = R.string.delete_model_sub,
-                    modelToDelete?.localizedName() ?: ""
+                    modelToDelete?.let { stringResource(id = it.localizedName) } ?: ""
                 )
             )
         },
@@ -491,4 +493,18 @@ private fun DeletePaddleOCRModelDialog(
     )
 }
 
-private fun PaddleOCRModel.localizedName(): String = englishName
+private val PaddleOCRModel.localizedName: Int
+    get() = when (this) {
+        PaddleOCRModel.CJK -> R.string.paddle_ocr_model_universal
+        PaddleOCRModel.Korean -> R.string.paddle_ocr_model_korean
+        PaddleOCRModel.Latin -> R.string.paddle_ocr_model_latin
+        PaddleOCRModel.EastSlavic -> R.string.paddle_ocr_model_east_slavic
+        PaddleOCRModel.Thai -> R.string.paddle_ocr_model_thai
+        PaddleOCRModel.Greek -> R.string.paddle_ocr_model_greek
+        PaddleOCRModel.English -> R.string.paddle_ocr_model_english
+        PaddleOCRModel.Cyrillic -> R.string.paddle_ocr_model_cyrillic
+        PaddleOCRModel.Arabic -> R.string.paddle_ocr_model_arabic
+        PaddleOCRModel.Devanagari -> R.string.paddle_ocr_model_devanagari
+        PaddleOCRModel.Tamil -> R.string.paddle_ocr_model_tamil
+        PaddleOCRModel.Telugu -> R.string.paddle_ocr_model_telugu
+    }
