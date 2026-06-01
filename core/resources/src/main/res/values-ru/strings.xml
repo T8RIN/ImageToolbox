@@ -2386,4 +2386,19 @@
     <string name="shader_parse_error_color_channel_range_expected">%1$s должно быть между 0 и 255.</string>
     <string name="shader_parse_error_vec2_expected">%1$s должно быть массивом из двух чисел или объектом с x и y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s должно содержать ровно 2 числа.</string>
+    <string name="provider">Поставщик</string>
+    <string name="download_paddle_ocr_description">PaddleOCR требует наличия на вашем устройстве дополнительных моделей ONNX. Вы хотите загрузить данные %1$s?</string>
+    <string name="paddle_ocr_model_universal">Универсальный</string>
+    <string name="paddle_ocr_model_korean">корейский</string>
+    <string name="paddle_ocr_model_latin">латинский</string>
+    <string name="paddle_ocr_model_east_slavic">Восточнославянский</string>
+    <string name="paddle_ocr_model_thai">тайский</string>
+    <string name="paddle_ocr_model_greek">Греческий</string>
+    <string name="paddle_ocr_model_english">Английский</string>
+    <string name="paddle_ocr_model_cyrillic">кириллица</string>
+    <string name="paddle_ocr_model_arabic">арабский</string>
+    <string name="paddle_ocr_model_devanagari">Деванагари</string>
+    <string name="paddle_ocr_model_tamil">тамильский</string>
+    <string name="paddle_ocr_model_telugu">телугу</string>
+    <string name="duplicate">Дублировать</string>
 </resources>

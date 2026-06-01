@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -2319,4 +2321,82 @@
     <string name="debug_menu">调试菜单</string>
     <string name="debug_menu_sub">用于测试应用程序功能的菜单，这不打算出现在生产版本中</string>
     <string name="duplicate">复制</string>
+    <string name="provider">提供者</string>
+    <string name="download_paddle_ocr_description">PaddleOCR 需要您的设备上有其他 ONNX 模型。您想下载 %1$s 数据吗？</string>
+    <string name="paddle_ocr_model_universal">普遍的</string>
+    <string name="paddle_ocr_model_korean">韩国人</string>
+    <string name="paddle_ocr_model_latin">拉丁</string>
+    <string name="paddle_ocr_model_east_slavic">东斯拉夫语</string>
+    <string name="paddle_ocr_model_thai">泰国</string>
+    <string name="paddle_ocr_model_greek">希腊语</string>
+    <string name="paddle_ocr_model_english">英语</string>
+    <string name="paddle_ocr_model_cyrillic">西里尔</string>
+    <string name="paddle_ocr_model_arabic">阿拉伯</string>
+    <string name="paddle_ocr_model_devanagari">梵文</string>
+    <string name="paddle_ocr_model_tamil">泰米尔语</string>
+    <string name="paddle_ocr_model_telugu">泰卢固语</string>
+    <string name="shader">着色器</string>
+    <string name="shader_preset">着色器预设</string>
+    <string name="no_shader_selected">未选择着色器</string>
+    <string name="shader_studio">着色器工作室</string>
+    <string name="shader_studio_sub">创建、编辑、验证、导入和导出自定义片段着色器</string>
+    <string name="saved_shaders">保存的着色器</string>
+    <string name="shader_library_sub">打开保存的着色器，复制、导出、共享或删除</string>
+    <string name="new_shader">新着色器</string>
+    <string name="shader_file">着色器文件</string>
+    <string name="itshader_json">.itshader JSON</string>
+    <string name="shader_params_count">%1$d 参数</string>
+    <string name="shader_source">着色器源码</string>
+    <string name="shader_main_body_info">只写 void main() 的主体。使用纹理坐标作为 UV 坐标，使用 inputImageTexture 作为源采样器。</string>
+    <string name="shader_helper_code">功能</string>
+    <string name="shader_helper_code_info">在 void main() 之前插入可选的辅助函数、常量和结构。制服是从参数生成的。</string>
+    <string name="shader_no_parameters">当着色器需要可编辑值时，在此处添加制服。</string>
+    <string name="reset_shader">重置着色器</string>
+    <string name="reset_shader_sub">当前的着色器草稿将被清除</string>
+    <string name="invalid_shader">着色器无效</string>
+    <string name="shader_error_unsupported_version">不受支持的着色器版本 %1$d。支持的版本：%2$d。</string>
+    <string name="shader_error_blank_name">着色器名称不能为空。</string>
+    <string name="shader_error_blank_source">着色器源不能为空。</string>
+    <string name="shader_error_unsupported_characters">着色器源包含不受支持的字符：%1$s。仅使用 ASCII GLSL 源。</string>
+    <string name="shader_error_duplicate_parameter">参数“%1$s”被声明多次。</string>
+    <string name="shader_error_blank_parameter_name">参数名称不能为空。</string>
+    <string name="shader_error_reserved_parameter_name">参数“%1$s”使用保留的 GPUImage 名称。</string>
+    <string name="shader_error_invalid_parameter_name">参数“%1$s”必须是有效的 GLSL 标识符。</string>
+    <string name="shader_error_invalid_value_type">参数“%1$s”具有 %2$s 值类型“%3$s”，应为“%4$s”。</string>
+    <string name="shader_error_bool_bounds">参数“%1$s”无法定义布尔值的最小值或最大值。</string>
+    <string name="shader_error_min_greater_than_max">参数“%1$s”的最小值大于最大值。</string>
+    <string name="shader_error_default_lower_than_min">参数“%1$s”默认低于最小值。</string>
+    <string name="shader_error_default_greater_than_max">参数“%1$s”默认大于最大值。</string>
+    <string name="shader_error_missing_input_texture">着色器必须声明“uniform Sampler2D %1$s;”。</string>
+    <string name="shader_error_missing_texture_coordinate">着色器必须声明“variing vec2 %1$s;”。</string>
+    <string name="shader_error_missing_main_function">着色器必须定义“void main()”。</string>
+    <string name="shader_error_missing_fragment_color">着色器必须将颜色写入gl_FragColor。</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage 着色器不受支持。使用 GPUImage 的 void main() 合约。</string>
+    <string name="shader_error_shadertoy_i_time">不支持动画 ShaderToy 统一“iTime”。</string>
+    <string name="shader_error_shadertoy_i_frame">不支持动画 ShaderToy 统一“iFrame”。</string>
+    <string name="shader_error_shadertoy_i_resolution">不支持 ShaderToy 统一“iResolution”。</string>
+    <string name="shader_error_shadertoy_i_channel">不支持 ShaderToy iChannel 纹理。</string>
+    <string name="shader_error_external_textures">不支持外部纹理。</string>
+    <string name="shader_error_external_texture_extensions">不支持外部纹理扩展。</string>
+    <string name="shader_error_libretro_parameters">不支持 Libretro 着色器参数。</string>
+    <string name="shader_error_extra_input_texture">仅支持一种输入纹理。删除“uniform %1$s %2$s;”。</string>
+    <string name="shader_error_missing_uniform">参数“%1$s”必须声明为“uniform %2$s %1$s;”。</string>
+    <string name="shader_error_wrong_uniform_type">参数“%1$s”声明为“uniform %2$s %1$s;”，预期为“uniform %3$s %1$s;”。</string>
+    <string name="shader_parse_error_empty_file">着色器文件为空。</string>
+    <string name="shader_parse_error_not_itshader_json">着色器文件必须是包含版本、名称和着色器字段的 .itshader JSON 对象。</string>
+    <string name="shader_parse_error_invalid_json">着色器文件不是有效的 JSON 或与 .itshader 格式不匹配。</string>
+    <string name="shader_parse_error_missing_field">字段“%1$s”为必填项。</string>
+    <string name="shader_parse_error_missing_param_field">%1$s 为必填项。</string>
+    <string name="shader_parse_error_unsupported_param_type">不支持 %1$s \\"%2$s\\"。支持的类型：%3$s。</string>
+    <string name="shader_parse_error_missing_value">“%2$s”参数需要 %1$s。</string>
+    <string name="shader_parse_error_finite_number_expected">%1$s 必须是有限数。</string>
+    <string name="shader_parse_error_integer_expected">%1$s 必须是整数。</string>
+    <string name="shader_parse_error_bool_expected">%1$s 必须是 true 或 false。</string>
+    <string name="shader_parse_error_color_expected">%1$s 必须是颜色字符串、RGB/RGBA 数组或颜色对象。</string>
+    <string name="shader_parse_error_color_format_expected">%1$s 必须使用#RRGGBB 或#RRGGBBAA 格式。</string>
+    <string name="shader_parse_error_hex_color_expected">%1$s 必须包含有效的十六进制颜色通道。</string>
+    <string name="shader_parse_error_color_channel_count_expected">%1$s 必须包含 3 或 4 个颜色通道。</string>
+    <string name="shader_parse_error_color_channel_range_expected">%1$s 必须介于 0 到 255 之间。</string>
+    <string name="shader_parse_error_vec2_expected">%1$s 必须是两个数字的数组或具有 x 和 y 的对象。</string>
+    <string name="shader_parse_error_vec2_component_count_expected">%1$s 必须恰好包含 2 个数字。</string>
 </resources>
