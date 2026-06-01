@@ -120,20 +120,25 @@ fun ShaderParamsItem(
 
         if (preset.params.isEmpty()) return@Column
 
-        preset.params.forEachIndexed { index, param ->
-            ShaderParamItem(
-                param = param,
-                value = value.resolvedValues[param.name] ?: param.defaultValue,
-                enabled = !previewOnly,
-                shape = ShapeDefaults.byIndex(index, preset.params.size),
-                onValueChange = { shaderValue ->
-                    onValueChange(
-                        value.copy(
-                            values = value.resolvedValues + (param.name to shaderValue)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.padding(bottom = 8.dp)
+        ) {
+            preset.params.forEachIndexed { index, param ->
+                ShaderParamItem(
+                    param = param,
+                    value = value.resolvedValues[param.name] ?: param.defaultValue,
+                    enabled = !previewOnly,
+                    shape = ShapeDefaults.byIndex(index, preset.params.size),
+                    onValueChange = { shaderValue ->
+                        onValueChange(
+                            value.copy(
+                                values = value.resolvedValues + (param.name to shaderValue)
+                            )
                         )
-                    )
-                }
-            )
+                    }
+                )
+            }
         }
     }
 }
@@ -242,12 +247,7 @@ private fun ShaderParamItem(
     onValueChange: (ShaderValue) -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .container(
-                shape = shape,
-                resultPadding = 0.dp
-            )
+        modifier = Modifier.padding(horizontal = 8.dp)
     ) {
         when (param.type) {
             ShaderParamType.Float -> FloatShaderParamItem(
@@ -255,6 +255,7 @@ private fun ShaderParamItem(
                 value = value as? ShaderValue.FloatValue
                     ?: param.defaultValue as ShaderValue.FloatValue,
                 enabled = enabled,
+                shape = shape,
                 onValueChange = onValueChange
             )
 
@@ -263,6 +264,7 @@ private fun ShaderParamItem(
                 value = value as? ShaderValue.IntValue
                     ?: param.defaultValue as ShaderValue.IntValue,
                 enabled = enabled,
+                shape = shape,
                 onValueChange = onValueChange
             )
 
@@ -271,6 +273,7 @@ private fun ShaderParamItem(
                 value = value as? ShaderValue.BoolValue
                     ?: param.defaultValue as ShaderValue.BoolValue,
                 enabled = enabled,
+                shape = shape,
                 onValueChange = onValueChange
             )
 
@@ -279,6 +282,7 @@ private fun ShaderParamItem(
                 value = value as? ShaderValue.ColorValue
                     ?: param.defaultValue as ShaderValue.ColorValue,
                 enabled = enabled,
+                shape = shape,
                 onValueChange = onValueChange
             )
 
@@ -287,6 +291,7 @@ private fun ShaderParamItem(
                 value = value as? ShaderValue.Vec2Value
                     ?: param.defaultValue as ShaderValue.Vec2Value,
                 enabled = enabled,
+                shape = shape,
                 onValueChange = onValueChange
             )
         }
@@ -298,6 +303,7 @@ private fun FloatShaderParamItem(
     param: ShaderParam,
     value: ShaderValue.FloatValue,
     enabled: Boolean,
+    shape: Shape,
     onValueChange: (ShaderValue) -> Unit
 ) {
     var sliderState by remember(param.name, value.value) {
@@ -309,13 +315,12 @@ private fun FloatShaderParamItem(
         title = param.name,
         valueRange = param.floatRange(value.value),
         enabled = enabled,
+        shape = shape,
         onValueChange = {
             sliderState = it
             onValueChange(ShaderValue.FloatValue(it.roundTo(3)))
         },
-        internalStateTransformation = { it.roundTo(3) },
-        behaveAsContainer = false,
-        modifier = Modifier.padding(horizontal = 8.dp)
+        internalStateTransformation = { it.roundTo(3) }
     )
 }
 
@@ -324,6 +329,7 @@ private fun IntShaderParamItem(
     param: ShaderParam,
     value: ShaderValue.IntValue,
     enabled: Boolean,
+    shape: Shape,
     onValueChange: (ShaderValue) -> Unit
 ) {
     var sliderState by remember(param.name, value.value) {
@@ -336,14 +342,13 @@ private fun IntShaderParamItem(
         title = param.name,
         valueRange = range.first.toFloat()..range.last.toFloat(),
         enabled = enabled,
+        shape = shape,
         steps = (range.last - range.first - 1).coerceIn(0, MAX_INT_STEPS),
         onValueChange = {
             sliderState = it
             onValueChange(ShaderValue.IntValue(it.toInt()))
         },
-        internalStateTransformation = { it.toInt() },
-        behaveAsContainer = false,
-        modifier = Modifier.padding(horizontal = 8.dp)
+        internalStateTransformation = { it.toInt() }
     )
 }
 
@@ -352,15 +357,17 @@ private fun BoolShaderParamItem(
     param: ShaderParam,
     value: ShaderValue.BoolValue,
     enabled: Boolean,
+    shape: Shape,
     onValueChange: (ShaderValue) -> Unit
 ) {
     PreferenceRowSwitch(
         title = param.name,
         checked = value.value,
         enabled = enabled,
+        shape = shape,
         onClick = { onValueChange(ShaderValue.BoolValue(it)) },
-        drawContainer = false,
-        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        applyHorizontalPadding = false,
+        resultModifier = Modifier.padding(16.dp)
     )
 }
 
@@ -369,15 +376,21 @@ private fun ColorShaderParamItem(
     param: ShaderParam,
     value: ShaderValue.ColorValue,
     enabled: Boolean,
+    shape: Shape,
     onValueChange: (ShaderValue) -> Unit
 ) {
     PreferenceRow(
         title = param.name,
-        subtitle = "#${value.alpha.hex()}${value.red.hex()}${value.green.hex()}${value.blue.hex()}",
         enabled = enabled,
-        drawContainer = false,
-        resultModifier = Modifier.padding(8.dp),
+        resultModifier = Modifier.padding(
+            start = 16.dp,
+            end = 16.dp,
+            top = 12.dp,
+            bottom = 8.dp
+        ),
+        shape = shape,
         onClick = null,
+        applyHorizontalPadding = false,
         additionalContent = {
             ColorSelectionRow(
                 value = value.toComposeColor(),
@@ -395,6 +408,7 @@ private fun Vec2ShaderParamItem(
     param: ShaderParam,
     value: ShaderValue.Vec2Value,
     enabled: Boolean,
+    shape: Shape,
     onValueChange: (ShaderValue) -> Unit
 ) {
     val min = param.minValue as? ShaderValue.Vec2Value
@@ -407,32 +421,42 @@ private fun Vec2ShaderParamItem(
         mutableFloatStateOf(value.y)
     }
 
-    EnhancedSliderItem(
-        value = xState,
-        title = "${param.name}.x",
-        valueRange = rangeFor(value.x, min?.x, max?.x),
-        enabled = enabled,
-        onValueChange = {
-            xState = it
-            onValueChange(ShaderValue.Vec2Value(it.roundTo(3), yState))
-        },
-        internalStateTransformation = { it.roundTo(3) },
-        behaveAsContainer = false,
-        modifier = Modifier.padding(horizontal = 8.dp)
-    )
-    EnhancedSliderItem(
-        value = yState,
-        title = "${param.name}.y",
-        valueRange = rangeFor(value.y, min?.y, max?.y),
-        enabled = enabled,
-        onValueChange = {
-            yState = it
-            onValueChange(ShaderValue.Vec2Value(xState, it.roundTo(3)))
-        },
-        internalStateTransformation = { it.roundTo(3) },
-        behaveAsContainer = false,
-        modifier = Modifier.padding(horizontal = 8.dp)
-    )
+    Column(
+        modifier = Modifier
+            .container(
+                shape = shape,
+                resultPadding = 0.dp
+            )
+            .padding(
+                horizontal = 8.dp,
+                vertical = 4.dp
+            )
+    ) {
+        EnhancedSliderItem(
+            value = xState,
+            title = "${param.name}.x",
+            valueRange = rangeFor(value.x, min?.x, max?.x),
+            enabled = enabled,
+            onValueChange = {
+                xState = it
+                onValueChange(ShaderValue.Vec2Value(it.roundTo(3), yState))
+            },
+            internalStateTransformation = { it.roundTo(3) },
+            behaveAsContainer = false
+        )
+        EnhancedSliderItem(
+            value = yState,
+            title = "${param.name}.y",
+            valueRange = rangeFor(value.y, min?.y, max?.y),
+            enabled = enabled,
+            onValueChange = {
+                yState = it
+                onValueChange(ShaderValue.Vec2Value(xState, it.roundTo(3)))
+            },
+            internalStateTransformation = { it.roundTo(3) },
+            behaveAsContainer = false
+        )
+    }
 }
 
 private fun ShaderParam.floatRange(defaultValue: Float): ClosedFloatingPointRange<Float> {
@@ -470,17 +494,9 @@ private fun Color.toShaderColorValue(): ShaderValue.ColorValue {
     )
 }
 
-private fun Int.hex(): String = coerceIn(COLOR_MIN, COLOR_MAX)
-    .toString(HEX_RADIX)
-    .padStart(HEX_CHANNEL_LENGTH, '0')
-
 private const val DEFAULT_FLOAT_SPREAD = 1f
 private const val DEFAULT_INT_SPREAD = 10
 private const val MAX_INT_STEPS = 100
-private const val HEX_RADIX = 16
-private const val HEX_CHANNEL_LENGTH = 2
-private const val COLOR_MIN = 0
-private const val COLOR_MAX = 255
 private const val COLOR_MASK = 0xFF
 private const val ALPHA_SHIFT = 24
 private const val RED_SHIFT = 16
