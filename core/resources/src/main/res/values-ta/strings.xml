@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s இரண்டு-எண் அணிவரிசையாக இருக்க வேண்டும் அல்லது x மற்றும் y கொண்ட ஒரு பொருளாக இருக்க வேண்டும்.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s சரியாக 2 எண்களைக் கொண்டிருக்க வேண்டும்.</string>
     <string name="duplicate">நகல்</string>
+    <string name="always_clear_exif">எப்பொழுதும் EXIFஐ அழிக்கவும்</string>
+    <string name="always_clear_exif_sub">ஒரு கருவி மெட்டாடேட்டாவை வைத்திருக்கும் போது கூட, பட EXIF ​​தரவை சேமிப்பதில் அகற்றவும்</string>
 </resources>

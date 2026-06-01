@@ -2402,4 +2402,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s turi būti dviejų skaičių masyvas arba objektas su x ir y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s turi būti tiksliai 2 skaičiai.</string>
     <string name="duplicate">Pasikartoti</string>
+    <string name="always_clear_exif">Visada išvalykite EXIF</string>
+    <string name="always_clear_exif_sub">Išsaugodami pašalinkite vaizdo EXIF ​​duomenis, net kai įrankis prašo išsaugoti metaduomenis</string>
 </resources>

@@ -2401,4 +2401,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s måste vara en tvåsiffrig matris eller ett objekt med x och y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s måste innehålla exakt två siffror.</string>
     <string name="duplicate">Duplicera</string>
+    <string name="always_clear_exif">Rensa alltid EXIF</string>
+    <string name="always_clear_exif_sub">Ta bort bild EXIF-data vid lagring, även när ett verktyg begär att behålla metadata</string>
 </resources>

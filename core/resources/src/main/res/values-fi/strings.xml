@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s on oltava kahden numeron taulukko tai objekti, jossa on x ja y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s sisältää täsmälleen 2 numeroa.</string>
     <string name="duplicate">Kopioi</string>
+    <string name="always_clear_exif">Tyhjennä aina EXIF</string>
+    <string name="always_clear_exif_sub">Poista kuvan EXIF-tiedot tallennuksen yhteydessä, vaikka työkalu pyytää säilyttämään metatiedot</string>
 </resources>

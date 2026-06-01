@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s چوقۇم ئىككى خانىلىق سانلار گۇرپىسى ياكى x ۋە y بولغان جىسىم بولۇشى كېرەك.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s چوقۇم 2 سان بولۇشى كېرەك.</string>
     <string name="duplicate">كۆپەيتىلگەن</string>
+    <string name="always_clear_exif">ھەمىشە EXIF ​​نى تازىلاڭ</string>
+    <string name="always_clear_exif_sub">قورال مېتا سانلىق مەلۇمات ساقلاشنى تەلەپ قىلسىمۇ ، ساقلاشتىكى رەسىم EXIF ​​سانلىق مەلۇماتلىرىنى ئۆچۈرۈڭ</string>
 </resources>

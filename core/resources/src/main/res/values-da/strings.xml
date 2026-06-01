@@ -2400,4 +2400,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s skal være en matrix med to tal eller et objekt med x og y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s skal indeholde præcis 2 tal.</string>
     <string name="duplicate">Duplikere</string>
+    <string name="always_clear_exif">Ryd altid EXIF</string>
+    <string name="always_clear_exif_sub">Fjern billed-EXIF-data ved lagring, selv når et værktøj anmoder om at beholde metadata</string>
 </resources>

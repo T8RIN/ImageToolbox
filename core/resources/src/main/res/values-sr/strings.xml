@@ -2400,4 +2400,6 @@
     <string name="shader_parse_error_vec2_expected">__ПХ_0__ мора бити низ од два броја или објекат са к и и.</string>
     <string name="shader_parse_error_vec2_component_count_expected">__ПХ_0__ мора да садржи тачно 2 броја.</string>
     <string name="duplicate">Дупликат</string>
+    <string name="always_clear_exif">Увек обришите ЕКСИФ</string>
+    <string name="always_clear_exif_sub">Уклоните ЕКСИФ податке слике приликом чувања, чак и када алатка захтева чување метаподатака</string>
 </resources>

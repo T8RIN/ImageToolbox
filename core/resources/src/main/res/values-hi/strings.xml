@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s दो-संख्या वाली सरणी या x और y वाला ऑब्जेक्ट होना चाहिए।</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s में बिल्कुल 2 संख्याएँ होनी चाहिए।</string>
     <string name="duplicate">डुप्लिकेट</string>
+    <string name="always_clear_exif">EXIF को हमेशा साफ़ करें</string>
+    <string name="always_clear_exif_sub">सहेजने पर छवि EXIF ​​डेटा हटाएं, तब भी जब कोई टूल मेटाडेटा रखने का अनुरोध करता है</string>
 </resources>

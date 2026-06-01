@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">Ang %1$s ay dapat na isang array na may dalawang numero o isang bagay na may x at y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">Ang %1$s ay dapat maglaman ng eksaktong 2 numero.</string>
     <string name="duplicate">Duplicate</string>
+    <string name="always_clear_exif">Laging malinaw ang EXIF</string>
+    <string name="always_clear_exif_sub">Alisin ang data ng EXIF ​​na larawan sa pag-save, kahit na humiling ang isang tool na panatilihin ang metadata</string>
 </resources>

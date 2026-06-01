@@ -2398,4 +2398,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s は、2 つの数値の配列、または x と y を含むオブジェクトでなければなりません。</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s には正確に 2 つの数字が含まれている必要があります。</string>
     <string name="duplicate">重複</string>
+    <string name="always_clear_exif">EXIFを常にクリアする</string>
+    <string name="always_clear_exif_sub">ツールがメタデータの保持を要求した場合でも、保存時に画像の EXIF データを削除します</string>
 </resources>

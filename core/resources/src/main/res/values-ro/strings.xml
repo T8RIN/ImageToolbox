@@ -2400,4 +2400,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s trebuie să fie o matrice cu două numere sau un obiect cu x și y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s trebuie să conțină exact 2 numere.</string>
     <string name="duplicate">Duplicat</string>
+    <string name="always_clear_exif">Ștergeți întotdeauna EXIF</string>
+    <string name="always_clear_exif_sub">Eliminați datele EXIF ​​ale imaginii la salvare, chiar și atunci când un instrument solicită păstrarea metadatelor</string>
 </resources>

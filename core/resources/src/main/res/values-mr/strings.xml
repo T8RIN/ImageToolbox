@@ -2400,4 +2400,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s हा दोन-संख्या ॲरे किंवा x आणि y असलेली ऑब्जेक्ट असणे आवश्यक आहे.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s मध्ये अगदी 2 संख्या असणे आवश्यक आहे.</string>
     <string name="duplicate">डुप्लिकेट</string>
+    <string name="always_clear_exif">नेहमी EXIF ​​साफ करा</string>
+    <string name="always_clear_exif_sub">सेव्ह करताना इमेज EXIF ​​डेटा काढून टाका, जरी एखादे साधन मेटाडेटा ठेवण्याची विनंती करते</string>
 </resources>

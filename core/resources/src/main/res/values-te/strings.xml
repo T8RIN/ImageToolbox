@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s తప్పనిసరిగా రెండు-సంఖ్యల శ్రేణి లేదా x మరియు y ఉన్న వస్తువు అయి ఉండాలి.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s ఖచ్చితంగా 2 సంఖ్యలను కలిగి ఉండాలి.</string>
     <string name="duplicate">నకిలీ</string>
+    <string name="always_clear_exif">ఎల్లప్పుడూ EXIF ​​ని క్లియర్ చేయండి</string>
+    <string name="always_clear_exif_sub">మెటాడేటాను ఉంచాలని సాధనం అభ్యర్థించినప్పటికీ, సేవ్‌లో ఇమేజ్ EXIF ​​డేటాను తీసివేయండి</string>
 </resources>

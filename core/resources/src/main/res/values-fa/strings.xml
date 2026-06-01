@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s باید یک آرایه دو عددی یا یک شی با x و y باشد.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s باید دقیقاً 2 عدد داشته باشد.</string>
     <string name="duplicate">تکراری</string>
+    <string name="always_clear_exif">همیشه EXIF ​​را پاک کنید</string>
+    <string name="always_clear_exif_sub">داده های EXIF ​​تصویر را در ذخیره حذف کنید، حتی زمانی که ابزاری درخواست نگه داشتن ابرداده را دارد</string>
 </resources>

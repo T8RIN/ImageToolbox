@@ -2401,4 +2401,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s павінен быць масівам з двух лікаў або аб\'ектам з x і y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s павінен змяшчаць роўна 2 лічбы.</string>
     <string name="duplicate">Дублікат</string>
+    <string name="always_clear_exif">Заўсёды ачышчайце EXIF</string>
+    <string name="always_clear_exif_sub">Выдаліць EXIF-дадзеныя выявы пры захаванні, нават калі інструмент запытвае захаванне метададзеных</string>
 </resources>

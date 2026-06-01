@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s muss ein Array mit zwei Zahlen oder ein Objekt mit x und y sein.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s muss genau 2 Zahlen enthalten.</string>
     <string name="duplicate">Duplikat</string>
+    <string name="always_clear_exif">EXIF immer löschen</string>
+    <string name="always_clear_exif_sub">Entfernen Sie die EXIF-Daten des Bildes beim Speichern, auch wenn ein Tool die Beibehaltung von Metadaten anfordert</string>
 </resources>

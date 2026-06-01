@@ -2400,4 +2400,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s ඉලක්කම් දෙකක අරාවක් හෝ x සහ y සහිත වස්තුවක් විය යුතුය.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s හි හරියටම අංක 2ක් අඩංගු විය යුතුය.</string>
     <string name="duplicate">අනුපිටපත් කරන්න</string>
+    <string name="always_clear_exif">සෑම විටම EXIF ​​ඉවත් කරන්න</string>
+    <string name="always_clear_exif_sub">මෙවලමක් පාර-දත්ත තබා ගැනීමට ඉල්ලා සිටින විට පවා, සුරැකීමේදී රූප EXIF ​​දත්ත ඉවත් කරන්න</string>
 </resources>

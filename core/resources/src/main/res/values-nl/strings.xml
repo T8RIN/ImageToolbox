@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s moet een array met twee getallen zijn of een object met x en y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s moet exact 2 cijfers bevatten.</string>
     <string name="duplicate">Duplicaat</string>
+    <string name="always_clear_exif">Wis EXIF ​​altijd</string>
+    <string name="always_clear_exif_sub">Verwijder EXIF-gegevens van afbeeldingen bij het opslaan, zelfs wanneer een tool vraagt ​​om het bewaren van metagegevens</string>
 </resources>

@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s ha de ser una matriu de dos números o un objecte amb x i y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s ha de contenir exactament 2 números.</string>
     <string name="duplicate">Duplicat</string>
+    <string name="always_clear_exif">Netegeu sempre EXIF</string>
+    <string name="always_clear_exif_sub">Elimineu les dades EXIF ​​d\'imatge en desar, fins i tot quan una eina sol·liciti conservar les metadades</string>
 </resources>

@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">A %1$s egy kétszámú tömbnek vagy egy x-et és y-t tartalmazó objektumnak kell lennie.</string>
     <string name="shader_parse_error_vec2_component_count_expected">A %1$s pontnak pontosan 2 számot kell tartalmaznia.</string>
     <string name="duplicate">Másolat</string>
+    <string name="always_clear_exif">Mindig törölje az EXIF-et</string>
+    <string name="always_clear_exif_sub">Mentéskor távolítsa el a kép EXIF-adatait, még akkor is, ha egy eszköz a metaadatok megtartását kéri</string>
 </resources>

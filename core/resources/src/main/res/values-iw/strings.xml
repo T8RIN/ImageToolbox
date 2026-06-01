@@ -2401,4 +2401,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s חייב להיות מערך של שני מספרים או אובייקט עם x ו-y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s חייב להכיל בדיוק 2 מספרים.</string>
     <string name="duplicate">לְשַׁכְפֵּל</string>
+    <string name="always_clear_exif">נקה תמיד EXIF</string>
+    <string name="always_clear_exif_sub">הסר נתוני EXIF ​​של תמונה בשמירה, גם כאשר כלי מבקש לשמור מטא נתונים</string>
 </resources>

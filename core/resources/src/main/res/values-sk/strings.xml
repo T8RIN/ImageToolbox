@@ -2401,4 +2401,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s musí byť pole dvoch čísel alebo objekt s x a y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s musí obsahovať presne 2 čísla.</string>
     <string name="duplicate">Duplicitné</string>
+    <string name="always_clear_exif">Vždy vymažte EXIF</string>
+    <string name="always_clear_exif_sub">Odstráňte EXIF ​​údaje obrázka pri uložení, aj keď nástroj vyžaduje uchovanie metadát</string>
 </resources>

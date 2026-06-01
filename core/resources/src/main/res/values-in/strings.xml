@@ -2398,4 +2398,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s harus berupa array dua angka atau objek dengan x dan y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s harus berisi tepat 2 angka.</string>
     <string name="duplicate">Duplikat</string>
+    <string name="always_clear_exif">Selalu hapus EXIF</string>
+    <string name="always_clear_exif_sub">Hapus data EXIF ​​gambar saat disimpan, bahkan ketika alat meminta penyimpanan metadata</string>
 </resources>

@@ -2404,4 +2404,6 @@
     <string name="shader_parse_error_vec2_expected">يجب أن يكون %1$s عبارة عن مصفوفة مكونة من رقمين أو كائن يحتوي على x وy.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s يجب أن يحتوي على رقمين بالضبط.</string>
     <string name="duplicate">ينسخ</string>
+    <string name="always_clear_exif">امسح ملف EXIF ​​دائمًا</string>
+    <string name="always_clear_exif_sub">قم بإزالة بيانات EXIF ​​الخاصة بالصورة عند الحفظ، حتى عندما تطلب الأداة الاحتفاظ بالبيانات التعريفية</string>
 </resources>

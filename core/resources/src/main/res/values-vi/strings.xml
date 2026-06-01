@@ -2398,4 +2398,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s phải là mảng hai số hoặc một đối tượng có x và y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s phải chứa đúng 2 số.</string>
     <string name="duplicate">Nhân bản</string>
+    <string name="always_clear_exif">Luôn xóa EXIF</string>
+    <string name="always_clear_exif_sub">Xóa dữ liệu EXIF ​​​​hình ảnh khi lưu, ngay cả khi công cụ yêu cầu giữ lại siêu dữ liệu</string>
 </resources>

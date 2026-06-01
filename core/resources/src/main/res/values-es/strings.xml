@@ -2400,4 +2400,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s debe ser una matriz de dos números o un objeto con xey.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s debe contener exactamente 2 números.</string>
     <string name="duplicate">Duplicado</string>
+    <string name="always_clear_exif">Siempre borrar EXIF</string>
+    <string name="always_clear_exif_sub">Elimine los datos EXIF ​​de la imagen al guardar, incluso cuando una herramienta solicite mantener los metadatos</string>
 </resources>

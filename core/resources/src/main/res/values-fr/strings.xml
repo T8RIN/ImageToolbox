@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s doit être un tableau à deux nombres ou un objet avec x et y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s doit contenir exactement 2 chiffres.</string>
     <string name="duplicate">Double</string>
+    <string name="always_clear_exif">Toujours effacer EXIF</string>
+    <string name="always_clear_exif_sub">Supprimez les données EXIF ​​​​de l\'image lors de l\'enregistrement, même lorsqu\'un outil demande de conserver les métadonnées</string>
 </resources>

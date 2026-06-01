@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s ਇੱਕ ਦੋ-ਨੰਬਰ ਐਰੇ ਜਾਂ x ਅਤੇ y ਵਾਲੀ ਵਸਤੂ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ।</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s ਵਿੱਚ ਬਿਲਕੁਲ 2 ਨੰਬਰ ਹੋਣੇ ਚਾਹੀਦੇ ਹਨ।</string>
     <string name="duplicate">ਡੁਪਲੀਕੇਟ</string>
+    <string name="always_clear_exif">ਹਮੇਸ਼ਾ EXIF ​​ਸਾਫ਼ ਕਰੋ</string>
+    <string name="always_clear_exif_sub">ਸੇਵ \'ਤੇ ਚਿੱਤਰ EXIF ​​ਡੇਟਾ ਨੂੰ ਹਟਾਓ, ਭਾਵੇਂ ਕੋਈ ਟੂਲ ਮੈਟਾਡੇਟਾ ਰੱਖਣ ਦੀ ਬੇਨਤੀ ਕਰਦਾ ਹੈ</string>
 </resources>

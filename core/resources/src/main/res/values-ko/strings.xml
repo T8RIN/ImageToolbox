@@ -2398,4 +2398,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s은(는) 두 개의 숫자 배열이거나 x와 y가 포함된 객체여야 합니다.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s에는 정확히 2개의 숫자가 포함되어야 합니다.</string>
     <string name="duplicate">복제하다</string>
+    <string name="always_clear_exif">항상 EXIF ​​지우기</string>
+    <string name="always_clear_exif_sub">도구가 메타데이터 유지를 요청하는 경우에도 저장 시 이미지 EXIF ​​데이터 제거</string>
 </resources>

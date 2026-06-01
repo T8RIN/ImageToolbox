@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s peab olema kahenumbriline massiiv või objekt, millel on x ja y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s peab sisaldama täpselt 2 numbrit.</string>
     <string name="duplicate">Duplikaat</string>
+    <string name="always_clear_exif">Tühjendage alati EXIF</string>
+    <string name="always_clear_exif_sub">Eemaldage pildi EXIF-andmed salvestamisel, isegi kui tööriist nõuab metaandmete säilitamist</string>
 </resources>

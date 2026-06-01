@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s bi zenbakiko matrizea edo x eta y dituen objektua izan behar du.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s 2 zenbaki izan behar ditu zehazki.</string>
     <string name="duplicate">Bikoiztu</string>
+    <string name="always_clear_exif">Garbitu beti EXIF</string>
+    <string name="always_clear_exif_sub">Kendu irudiaren EXIF ​​datuak gordetzean, tresna batek metadatuak mantentzea eskatzen duenean ere</string>
 </resources>

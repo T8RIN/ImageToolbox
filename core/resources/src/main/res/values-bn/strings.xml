@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s একটি দ্বি-সংখ্যার অ্যারে বা x এবং y সহ একটি বস্তু হতে হবে৷</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s-এ অবশ্যই 2টি সংখ্যা থাকতে হবে।</string>
     <string name="duplicate">ডুপ্লিকেট</string>
+    <string name="always_clear_exif">সর্বদা EXIF ​​পরিষ্কার করুন</string>
+    <string name="always_clear_exif_sub">সেভ করার সময় ইমেজ EXIF ​​ডেটা মুছে ফেলুন, এমনকি যখন একটি টুল মেটাডেটা রাখার অনুরোধ করে</string>
 </resources>

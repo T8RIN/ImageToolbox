@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s deve ser uma matriz de dois números ou um objeto com x e y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s deve conter exatamente 2 números.</string>
     <string name="duplicate">Duplicado</string>
+    <string name="always_clear_exif">Sempre limpar EXIF</string>
+    <string name="always_clear_exif_sub">Remova os dados EXIF ​​da imagem ao salvar, mesmo quando uma ferramenta solicitar a manutenção de metadados</string>
 </resources>

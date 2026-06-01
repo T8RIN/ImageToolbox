@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s iki sayılı bir dizi veya x ve y\'den oluşan bir nesne olmalıdır.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s tam olarak 2 sayı içermelidir.</string>
     <string name="duplicate">Kopyalamak</string>
+    <string name="always_clear_exif">EXIF\'i her zaman temizle</string>
+    <string name="always_clear_exif_sub">Bir araç meta verileri saklamayı talep ettiğinde bile kaydetme sırasında görüntü EXIF ​​verilerini kaldırın</string>
 </resources>

@@ -2399,4 +2399,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s екі санды массив немесе x және y мәндері бар нысан болуы керек.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s дәл 2 саннан тұруы керек.</string>
     <string name="duplicate">Көшірме</string>
+    <string name="always_clear_exif">Әрқашан EXIF ​​файлын тазалаңыз</string>
+    <string name="always_clear_exif_sub">Құрал метадеректерді сақтауды сұраса да, суреттің EXIF ​​деректерін сақтау кезінде жойыңыз</string>
 </resources>

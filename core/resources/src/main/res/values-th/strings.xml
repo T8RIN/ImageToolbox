@@ -2398,4 +2398,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s ต้องเป็นอาร์เรย์สองตัวเลขหรือวัตถุที่มี x และ y</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s ต้องมีตัวเลข 2 ตัวพอดี</string>
     <string name="duplicate">ทำซ้ำ</string>
+    <string name="always_clear_exif">ล้าง EXIF ​​เสมอ</string>
+    <string name="always_clear_exif_sub">ลบข้อมูล EXIF ​​​​ของรูปภาพเมื่อบันทึก แม้ว่าเครื่องมือจะร้องขอให้เก็บข้อมูลเมตาก็ตาม</string>
 </resources>
