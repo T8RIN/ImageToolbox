@@ -33,6 +33,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -40,14 +41,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParam
@@ -58,13 +57,11 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValue
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Code
-import com.t8rin.imagetoolbox.core.resources.icons.UploadFile
 import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
-import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRow
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FileSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -81,7 +78,7 @@ fun ShaderParamsItem(
     value: ShaderParams,
     presets: List<ShaderPreset>,
     onValueChange: (ShaderParams) -> Unit,
-    onImportPreset: ((Uri, (ShaderPreset) -> Unit) -> Unit)? = null,
+    onImportPreset: ((Uri) -> Unit)? = null,
     modifier: Modifier = Modifier,
     previewOnly: Boolean = false,
     showPresetSelector: Boolean = true
@@ -147,17 +144,9 @@ private fun ShaderPresetSelector(
     presets: List<ShaderPreset>,
     enabled: Boolean,
     onPresetSelected: (ShaderPreset?) -> Unit,
-    onImportPreset: ((Uri, (ShaderPreset) -> Unit) -> Unit)?
+    onImportPreset: ((Uri) -> Unit)?
 ) {
     var showSheet by rememberSaveable { mutableStateOf(false) }
-    val importPicker = rememberFilePicker(
-        mimeType = MimeType.All,
-        onSuccess = { uri: Uri ->
-            onImportPreset?.invoke(uri) { preset ->
-                onPresetSelected(preset)
-            }
-        }
-    )
 
     Box(
         modifier = Modifier
@@ -170,21 +159,22 @@ private fun ShaderPresetSelector(
                 .fillMaxWidth()
                 .height(intrinsicSize = IntrinsicSize.Max)
         ) {
+            val hasPresets = presets.isNotEmpty() && onImportPreset != null
+
             FileSelector(
                 value = null,
                 title = stringResource(R.string.shader_file),
                 subtitle = selectedPreset?.name ?: stringResource(R.string.no_shader_selected),
                 onValueChange = { uri ->
-                    onImportPreset?.invoke(uri) { preset ->
-                        onPresetSelected(preset)
-                    }
+                    onImportPreset?.invoke(uri)
                 },
-                shape = ShapeDefaults.start,
+                shape = if (hasPresets) ShapeDefaults.start else ShapeDefaults.default,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
             )
-            if (onImportPreset != null) {
+
+            if (hasPresets) {
                 EnhancedIconButton(
                     enabled = enabled,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -205,67 +195,39 @@ private fun ShaderPresetSelector(
     EnhancedModalBottomSheet(
         visible = showSheet,
         onDismiss = { showSheet = it },
-        confirmButton = {},
-        enableBottomContentWeight = false,
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+        confirmButton = {
+            EnhancedButton(
+                onClick = { showSheet = false }
             ) {
-                TitleItem(
-                    text = stringResource(R.string.saved_shaders),
-                    icon = Icons.Rounded.Code
-                )
-                Spacer(Modifier.weight(1f))
-                if (onImportPreset != null) {
-                    EnhancedIconButton(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = importPicker::pickFile
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.UploadFile,
-                            contentDescription = stringResource(R.string.import_word)
-                        )
-                    }
-                }
+                Text(stringResource(R.string.close))
             }
+        },
+        title = {
+            TitleItem(
+                text = stringResource(R.string.saved_shaders),
+                icon = Icons.Rounded.Code
+            )
         }
     ) {
-        if (presets.isEmpty()) {
-            PreferenceItemOverload(
-                title = stringResource(R.string.no_shader_selected),
-                subtitle = stringResource(R.string.import_word),
-                startIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.AddCircle,
-                        contentDescription = null
-                    )
-                },
-                onClick = importPicker::pickFile,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            )
-        } else {
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                flingBehavior = enhancedFlingBehavior(),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                itemsIndexed(
-                    items = presets,
-                    key = { _, preset -> preset.name }
-                ) { index, preset ->
-                    PreferenceItemOverload(
-                        title = preset.name,
-                        subtitle = stringResource(R.string.shader_params_count, preset.params.size),
-                        onClick = {
-                            showSheet = false
-                            onPresetSelected(preset)
-                        },
-                        shape = ShapeDefaults.byIndex(index, presets.size),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            flingBehavior = enhancedFlingBehavior(),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            itemsIndexed(
+                items = presets,
+                key = { _, preset -> preset.name }
+            ) { index, preset ->
+                PreferenceItemOverload(
+                    title = preset.name,
+                    subtitle = stringResource(R.string.shader_params_count, preset.params.size),
+                    onClick = {
+                        showSheet = false
+                        onPresetSelected(preset)
+                    },
+                    shape = ShapeDefaults.byIndex(index, presets.size),
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }
