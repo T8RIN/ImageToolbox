@@ -18,11 +18,14 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -57,7 +60,6 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Code
-import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.UploadFile
 import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
@@ -121,29 +123,12 @@ fun ShaderParamsItem(
 
         if (preset.params.isEmpty()) return@Column
 
-        Column(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-        ) {
-            PreferenceItemOverload(
-                title = stringResource(R.string.params),
-                subtitle = stringResource(R.string.shader_params_count, preset.params.size),
-                startIcon = {
-                    Icon(
-                        imageVector = Icons.Rounded.HashTag,
-                        contentDescription = null
-                    )
-                },
-                shape = ShapeDefaults.top,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-
         preset.params.forEachIndexed { index, param ->
             ShaderParamItem(
                 param = param,
                 value = value.resolvedValues[param.name] ?: param.defaultValue,
                 enabled = !previewOnly,
-                shape = ShapeDefaults.byIndex(index + 1, preset.params.size + 1),
+                shape = ShapeDefaults.byIndex(index, preset.params.size),
                 onValueChange = { shaderValue ->
                     onValueChange(
                         value.copy(
@@ -179,38 +164,34 @@ private fun ShaderPresetSelector(
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
-        Row {
-            if (onImportPreset != null && enabled) {
-                FileSelector(
-                    value = null,
-                    title = stringResource(R.string.shader_file),
-                    subtitle = selectedPreset?.name ?: stringResource(R.string.no_shader_selected),
-                    onValueChange = { uri ->
-                        onImportPreset.invoke(uri) { preset ->
-                            onPresetSelected(preset)
-                        }
-                    },
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    shape = ShapeDefaults.start,
-                    modifier = Modifier.weight(1f)
-                )
-            } else {
-                PreferenceRow(
-                    title = stringResource(R.string.shader_file),
-                    subtitle = selectedPreset?.name ?: stringResource(R.string.no_shader_selected),
-                    enabled = enabled,
-                    shape = if (onImportPreset != null) ShapeDefaults.start else ShapeDefaults.large,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    onClick = { showSheet = true },
-                    modifier = Modifier.weight(1f)
-                )
-            }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(intrinsicSize = IntrinsicSize.Max)
+        ) {
+            FileSelector(
+                value = null,
+                title = stringResource(R.string.shader_file),
+                subtitle = selectedPreset?.name ?: stringResource(R.string.no_shader_selected),
+                onValueChange = { uri ->
+                    onImportPreset?.invoke(uri) { preset ->
+                        onPresetSelected(preset)
+                    }
+                },
+                shape = ShapeDefaults.start,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
+            )
             if (onImportPreset != null) {
                 EnhancedIconButton(
                     enabled = enabled,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = { showSheet = true },
-                    modifier = Modifier.height(64.dp)
+                    shape = ShapeDefaults.end,
+                    modifier = Modifier.fillMaxHeight(),
+                    forceMinimumInteractiveComponentSize = false
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Code,
@@ -305,9 +286,11 @@ private fun ShaderParamItem(
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .container(shape = shape)
-            .padding(vertical = 8.dp)
+            .padding(8.dp)
+            .container(
+                shape = shape,
+                resultPadding = 0.dp
+            )
     ) {
         when (param.type) {
             ShaderParamType.Float -> FloatShaderParamItem(
