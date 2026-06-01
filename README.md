@@ -494,6 +494,7 @@ or click one of the badges below.
     - [x] Distortion
     - [x] VHS NTSC
     - [x] Expand Image
+    - [x] Shader
 
 
   </details>
