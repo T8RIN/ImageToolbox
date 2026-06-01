@@ -117,14 +117,6 @@ private fun HelpScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             flingBehavior = enhancedFlingBehavior()
         ) {
-            item {
-                Text(
-                    text = stringResource(R.string.help_tips_sub),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
-                )
-            }
             items(
                 items = categories,
                 key = { it.key }

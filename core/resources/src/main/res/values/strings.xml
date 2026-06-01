@@ -121,7 +121,6 @@
     <string name="help_translate">Help translate</string>
     <string name="help_translate_sub">Correct translation mistakes or localize project to another languages</string>
     <string name="help_tips">Help &amp; Tips</string>
-    <string name="help_tips_sub">Short guides for common Image Toolbox workflows</string>
     <string name="tutorials_count">%1$d tutorials</string>
     <string name="open_tool">Open tool</string>
     <string name="help_tips_settings_sub">Learn the main tools, export options, PDF flows, color utilities, and fixes for common problems</string>
