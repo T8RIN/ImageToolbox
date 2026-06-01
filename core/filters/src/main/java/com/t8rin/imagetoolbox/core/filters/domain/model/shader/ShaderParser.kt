@@ -207,7 +207,7 @@ class ShaderParser @Inject constructor(
         value: Any?,
         path: String,
         errors: MutableList<ShaderParseError>
-    ): Boolean? = (value as? Boolean) ?: run {
+    ): Boolean? = value as? Boolean ?: run {
         errors += ShaderParseError.BoolExpected(path)
         null
     }
