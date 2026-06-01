@@ -51,6 +51,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.AddFilterButton
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterItem
@@ -98,9 +99,11 @@ fun MaskItem(
         ?.shaderPresets
         ?.collectAsStateWithLifecycle()
         ?: remember { mutableStateOf(emptyList()) }
-    val importShaderPreset = addMaskSheetComponent
+    val importShaderPreset: (suspend (Uri) -> ShaderPreset?)? = addMaskSheetComponent
         ?.addFiltersSheetComponent
-        ?.let { it::importShaderPreset }
+        ?.let { component ->
+            { uri: Uri -> component.importShaderPreset(uri) }
+        }
     val settingsState = LocalSettingsState.current
     Box {
         Row(

@@ -94,7 +94,7 @@ internal fun <T : Any> FilterItemContent(
     onFilterChange: (value: Any) -> Unit,
     modifier: Modifier = Modifier,
     shaderPresets: List<ShaderPreset> = emptyList(),
-    onImportShaderPreset: ((Uri, (ShaderPreset) -> Unit) -> Unit)? = null,
+    onImportShaderPreset: (suspend (Uri) -> ShaderPreset?)? = null,
     previewOnly: Boolean = false,
 ) {
     Column(

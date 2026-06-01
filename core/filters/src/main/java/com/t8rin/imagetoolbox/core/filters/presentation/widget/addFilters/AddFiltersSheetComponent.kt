@@ -298,27 +298,17 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             initialValue = emptyList()
         )
 
-    fun importShaderPreset(
-        uri: Uri,
-        onPresetImported: (com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset) -> Unit
-    ) {
-        componentScope.launch {
-            runCatching {
-                fileController.readBytes(uri.toString()).decodeToString()
-            }.mapCatching {
-                shaderPresetRepository.importPreset(it).getOrThrow()
-            }.onSuccess { preset ->
-                onPresetImported(preset)
-                AppToastHost.showConfetti()
-            }.onFailure { throwable ->
-                if (throwable is ShaderParseException) {
-                    AppToastHost.showFailureToast(throwable.localizedMessage())
-                } else {
-                    AppToastHost.showFailureToast(throwable)
-                }
-            }
+    suspend fun importShaderPreset(uri: Uri) = runCatching {
+        fileController.readBytes(uri.toString()).decodeToString()
+    }.mapCatching {
+        shaderPresetRepository.importPreset(it).getOrThrow()
+    }.onFailure { throwable ->
+        if (throwable is ShaderParseException) {
+            AppToastHost.showFailureToast(throwable.localizedMessage())
+        } else {
+            AppToastHost.showFailureToast(throwable)
         }
-    }
+    }.getOrNull()
 
     val templatesFlow: StateFlow<List<TemplateFilter>> = favoriteInteractor.getTemplateFilters()
         .map { list ->

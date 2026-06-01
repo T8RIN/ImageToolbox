@@ -39,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -46,19 +47,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParamType
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
-import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValue
-import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Code
-import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRow
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FileSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -72,13 +71,14 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import kotlinx.coroutines.launch
 
 @Composable
 fun ShaderParamsItem(
     value: ShaderParams,
     presets: List<ShaderPreset>,
     onValueChange: (ShaderParams) -> Unit,
-    onImportPreset: ((Uri) -> Unit)? = null,
+    onImportPreset: (suspend (Uri) -> ShaderPreset?)? = null,
     modifier: Modifier = Modifier,
     previewOnly: Boolean = false,
     showPresetSelector: Boolean = true
@@ -96,29 +96,9 @@ fun ShaderParamsItem(
             )
         }
 
-        val preset = value.preset ?: return@Column
-        val errors = ShaderValidator.validate(preset)
-
         Spacer(Modifier.height(4.dp))
 
-        if (errors.isNotEmpty()) {
-            PreferenceItemOverload(
-                title = stringResource(R.string.invalid_shader),
-                subtitle = errors.joinToString("\n") { it.localizedMessage() },
-                startIcon = {
-                    Icon(
-                        imageVector = Icons.Rounded.WarningAmber,
-                        contentDescription = null
-                    )
-                },
-                shape = ShapeDefaults.large,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-            )
-        }
-
-        if (preset.params.isEmpty()) return@Column
+        val preset = value.preset?.takeIf { it.params.isNotEmpty() } ?: return@Column
 
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -149,9 +129,15 @@ private fun ShaderPresetSelector(
     presets: List<ShaderPreset>,
     enabled: Boolean,
     onPresetSelected: (ShaderPreset?) -> Unit,
-    onImportPreset: ((Uri) -> Unit)?
+    onImportPreset: (suspend (Uri) -> ShaderPreset?)?
 ) {
     var showSheet by rememberSaveable { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val importPreset: (Uri) -> Unit = { uri ->
+        scope.launch {
+            onImportPreset?.invoke(uri)?.let(onPresetSelected)
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -170,9 +156,7 @@ private fun ShaderPresetSelector(
                 value = null,
                 title = stringResource(R.string.shader_file),
                 subtitle = selectedPreset?.name ?: stringResource(R.string.no_shader_selected),
-                onValueChange = { uri ->
-                    onImportPreset?.invoke(uri)
-                },
+                onValueChange = importPreset,
                 shape = if (hasPresets) ShapeDefaults.start else ShapeDefaults.default,
                 modifier = Modifier
                     .weight(1f)
@@ -442,7 +426,8 @@ private fun Vec2ShaderParamItem(
                 onValueChange(ShaderValue.Vec2Value(it.roundTo(3), yState))
             },
             internalStateTransformation = { it.roundTo(3) },
-            behaveAsContainer = false
+            behaveAsContainer = false,
+            titleFontWeight = FontWeight.Medium
         )
         EnhancedSliderItem(
             value = yState,
@@ -454,35 +439,48 @@ private fun Vec2ShaderParamItem(
                 onValueChange(ShaderValue.Vec2Value(xState, it.roundTo(3)))
             },
             internalStateTransformation = { it.roundTo(3) },
-            behaveAsContainer = false
+            behaveAsContainer = false,
+            titleFontWeight = FontWeight.Medium
         )
     }
 }
 
-private fun ShaderParam.floatRange(defaultValue: Float): ClosedFloatingPointRange<Float> {
+@Composable
+private fun ShaderParam.floatRange(
+    defaultValue: Float
+): ClosedFloatingPointRange<Float> {
     val min = (minValue as? ShaderValue.FloatValue)?.value
     val max = (maxValue as? ShaderValue.FloatValue)?.value
+
     return rangeFor(defaultValue, min, max)
 }
 
-private fun ShaderParam.intRange(defaultValue: Int): IntRange {
+@Composable
+private fun ShaderParam.intRange(
+    defaultValue: Int
+): IntRange = remember(minValue, maxValue, defaultValue) {
     val min = (minValue as? ShaderValue.IntValue)?.value ?: (defaultValue - DEFAULT_INT_SPREAD)
     val max = (maxValue as? ShaderValue.IntValue)?.value ?: (defaultValue + DEFAULT_INT_SPREAD)
-    return min.coerceAtMost(defaultValue)..max.coerceAtLeast(defaultValue)
+
+    min.coerceAtMost(defaultValue)..max.coerceAtLeast(defaultValue)
 }
 
+@Composable
 private fun rangeFor(
     defaultValue: Float,
     minValue: Float?,
     maxValue: Float?
-): ClosedFloatingPointRange<Float> {
+): ClosedFloatingPointRange<Float> = remember(minValue, maxValue, defaultValue) {
     val min = minValue ?: (defaultValue - DEFAULT_FLOAT_SPREAD)
     val max = maxValue ?: (defaultValue + DEFAULT_FLOAT_SPREAD)
-    return min.coerceAtMost(defaultValue)..max.coerceAtLeast(defaultValue)
+
+    min.coerceAtMost(defaultValue)..max.coerceAtLeast(defaultValue)
 }
 
-private fun ShaderValue.ColorValue.toComposeColor(): Color =
+@Composable
+private fun ShaderValue.ColorValue.toComposeColor(): Color = remember(this) {
     Color(red = red, green = green, blue = blue, alpha = alpha)
+}
 
 private fun Color.toShaderColorValue(): ShaderValue.ColorValue {
     val argb = toArgb()

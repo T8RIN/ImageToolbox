@@ -94,7 +94,7 @@ fun <T : Any> FilterItem(
     shape: Shape = MaterialTheme.shapes.extraLarge,
     canHide: Boolean = true,
     shaderPresets: List<ShaderPreset> = emptyList(),
-    onImportShaderPreset: ((Uri, (ShaderPreset) -> Unit) -> Unit)? = null,
+    onImportShaderPreset: (suspend (Uri) -> ShaderPreset?)? = null,
     additionalContent: @Composable (() -> Unit)? = null
 ) {
     var isControlsExpanded by rememberSaveable {
