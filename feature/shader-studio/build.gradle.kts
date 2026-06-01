@@ -26,4 +26,5 @@ android.namespace = "com.t8rin.imagetoolbox.feature.shader_studio"
 
 dependencies {
     implementation(projects.core.filters)
+    implementation(libs.compose.highlight)
 }

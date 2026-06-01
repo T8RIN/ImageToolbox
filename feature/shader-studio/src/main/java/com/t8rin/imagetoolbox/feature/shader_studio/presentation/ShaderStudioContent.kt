@@ -50,6 +50,9 @@ import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.Shad
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.ShaderPreviewSourceSelector
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.ShaderStudioButtons
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
+import dev.hossain.highlight.ui.HighlightThemeProvider
+import dev.hossain.highlight.ui.rememberTomorrowNightTheme
+import dev.hossain.highlight.ui.rememberTomorrowTheme
 
 @Composable
 fun ShaderStudioContent(
@@ -64,62 +67,67 @@ fun ShaderStudioContent(
         onSuccess = component::importPreset
     )
 
-    AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !component.haveChanges,
-        title = {
-            Text(
-                text = stringResource(R.string.shader_studio),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.marquee()
-            )
-        },
-        onGoBack = {
-            if (component.haveChanges) {
-                showExitDialog = true
-            } else {
-                component.onGoBack()
-            }
-        },
-        actions = {
-            EnhancedIconButton(
-                onClick = { showResetDialog = true }
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.ImageReset,
-                    contentDescription = stringResource(R.string.reset)
+    HighlightThemeProvider(
+        lightHighlightTheme = rememberTomorrowTheme(),
+        darkHighlightTheme = rememberTomorrowNightTheme()
+    ) {
+        AdaptiveLayoutScreen(
+            shouldDisableBackHandler = !component.haveChanges,
+            title = {
+                Text(
+                    text = stringResource(R.string.shader_studio),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.marquee()
                 )
-            }
-        },
-        topAppBarPersistentActions = {
-            TopAppBarEmoji()
-        },
-        imagePreview = {
-            ShaderPreview(component)
-        },
-        controls = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                ShaderPreviewSourceSelector(component)
-                ShaderPresetEditor(component)
-                ShaderParamsEditor(component)
-                SavedShadersButton(
-                    component = component,
-                    onClick = { showShaderLibrary = true }
+            },
+            onGoBack = {
+                if (component.haveChanges) {
+                    showExitDialog = true
+                } else {
+                    component.onGoBack()
+                }
+            },
+            actions = {
+                EnhancedIconButton(
+                    onClick = { showResetDialog = true }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.ImageReset,
+                        contentDescription = stringResource(R.string.reset)
+                    )
+                }
+            },
+            topAppBarPersistentActions = {
+                TopAppBarEmoji()
+            },
+            imagePreview = {
+                ShaderPreview(component)
+            },
+            controls = {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    ShaderPreviewSourceSelector(component)
+                    ShaderPresetEditor(component)
+                    ShaderParamsEditor(component)
+                    SavedShadersButton(
+                        component = component,
+                        onClick = { showShaderLibrary = true }
+                    )
+                }
+            },
+            buttons = { actions ->
+                ShaderStudioButtons(
+                    actions = actions,
+                    onImport = importPicker::pickFile,
+                    onSave = component::savePreset,
+                    canSave = component.canSave
                 )
-            }
-        },
-        buttons = { actions ->
-            ShaderStudioButtons(
-                actions = actions,
-                onImport = importPicker::pickFile,
-                onSave = component::savePreset,
-                canSave = component.canSave
-            )
-        },
-        canShowScreenData = true
-    )
+            },
+            canShowScreenData = true
+        )
+    }
 
     ShaderLibrarySheet(
         visible = showShaderLibrary,

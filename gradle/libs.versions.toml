@@ -14,6 +14,7 @@ trickle = "1.8.1"
 evaluator = "1.0.0"
 quickie = "1.18.1"
 fadingEdges = "1.0.4"
+composeHighlight = "0.25.0"
 
 avifCoder = "2.2.1"
 avifCoderCoil = "2.2.1"
@@ -150,6 +151,7 @@ shadowGadgets = { module = "com.github.zed-alpha.shadow-gadgets:compose", versio
 datastore-preferences-android = { module = "androidx.datastore:datastore-preferences-android", version.ref = "dataStore" }
 datastore-core-android = { module = "androidx.datastore:datastore-core-android", version.ref = "dataStore" }
 fadingEdges = { module = "com.github.t8rin:ComposeFadingEdges", version.ref = "fadingEdges" }
+compose-highlight = { module = "dev.hossain:compose-highlight", version.ref = "composeHighlight" }
 konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "konfettiCompose" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decomposeExtensions = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
