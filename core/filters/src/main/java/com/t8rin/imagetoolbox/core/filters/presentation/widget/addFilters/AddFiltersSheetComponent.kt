@@ -44,10 +44,13 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
+import com.t8rin.imagetoolbox.core.filters.domain.ShaderPresetRepository
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParseException
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
@@ -73,6 +76,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val favoriteInteractor: FilterParamsInteractor,
+    private val shaderPresetRepository: ShaderPresetRepository,
     private val imageGetter: ImageGetter<Bitmap>,
     private val remoteResourcesStore: RemoteResourcesStore,
     private val resourceManager: ResourceManager,
@@ -286,6 +290,25 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
+
+    val shaderPresets = shaderPresetRepository.getPresets()
+        .stateIn(
+            scope = componentScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
+
+    suspend fun importShaderPreset(uri: Uri) = runCatching {
+        fileController.readBytes(uri.toString()).decodeToString()
+    }.mapCatching {
+        shaderPresetRepository.importPreset(it).getOrThrow()
+    }.onFailure { throwable ->
+        if (throwable is ShaderParseException) {
+            AppToastHost.showFailureToast(throwable.localizedMessage())
+        } else {
+            AppToastHost.showFailureToast(throwable)
+        }
+    }.getOrNull()
 
     val templatesFlow: StateFlow<List<TemplateFilter>> = favoriteInteractor.getTemplateFilters()
         .map { list ->

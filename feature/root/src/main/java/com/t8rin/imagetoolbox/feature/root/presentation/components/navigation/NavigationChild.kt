@@ -144,6 +144,8 @@ import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.ScanQrCodeConten
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.SettingsContent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
+import com.t8rin.imagetoolbox.feature.shader_studio.presentation.ShaderStudioContent
+import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.SingleEditContent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.SvgMakerContent
@@ -329,6 +331,11 @@ internal sealed interface NavigationChild {
     class Settings(private val component: SettingsComponent) : NavigationChild {
         @Composable
         override fun Content() = SettingsContent(component)
+    }
+
+    class ShaderStudio(private val component: ShaderStudioComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ShaderStudioContent(component)
     }
 
     class SingleEdit(private val component: SingleEditComponent) : NavigationChild {

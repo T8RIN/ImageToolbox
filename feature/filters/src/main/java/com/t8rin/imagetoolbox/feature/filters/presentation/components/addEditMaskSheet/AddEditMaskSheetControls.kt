@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
@@ -101,6 +102,7 @@ internal fun AddEditMaskSheetControls(
     var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
     var showReorderSheet by rememberSaveable { mutableStateOf(false) }
+    val shaderPresets by component.addFiltersSheetComponent.shaderPresets.collectAsStateWithLifecycle()
 
     val isPortrait by isPortraitOrientationAsState()
     val canSave = component.paths.isNotEmpty() && component.filterList.isNotEmpty()
@@ -332,6 +334,8 @@ internal fun AddEditMaskSheetControls(
                                 showReorderSheet = true
                             },
                             showDragHandle = false,
+                            shaderPresets = shaderPresets,
+                            onImportShaderPreset = component.addFiltersSheetComponent::importShaderPreset,
                             onRemove = {
                                 component.removeFilterAtIndex(index)
                             },

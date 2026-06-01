@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -56,6 +57,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -91,6 +93,8 @@ fun <T : Any> FilterItem(
     backgroundColor: Color = Color.Unspecified,
     shape: Shape = MaterialTheme.shapes.extraLarge,
     canHide: Boolean = true,
+    shaderPresets: List<ShaderPreset> = emptyList(),
+    onImportShaderPreset: (suspend (Uri) -> ShaderPreset?)? = null,
     additionalContent: @Composable (() -> Unit)? = null
 ) {
     var isControlsExpanded by rememberSaveable {
@@ -320,6 +324,8 @@ fun <T : Any> FilterItem(
                         FilterItemContent(
                             filter = filter,
                             onFilterChange = onFilterChange,
+                            shaderPresets = shaderPresets,
+                            onImportShaderPreset = onImportShaderPreset,
                             previewOnly = previewOnly
                         )
                         additionalContent?.invoke()

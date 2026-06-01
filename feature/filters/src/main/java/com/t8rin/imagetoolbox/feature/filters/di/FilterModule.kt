@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
+import com.t8rin.imagetoolbox.core.filters.domain.ShaderPresetRepository
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterMaskApplier
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterParamsInteractor
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
+import com.t8rin.imagetoolbox.feature.filters.data.AndroidShaderPresetRepository
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
 import dagger.Binds
 import dagger.Module
@@ -54,5 +56,11 @@ internal interface FilterModule {
     fun favoriteFiltersInteractor(
         interactor: AndroidFilterParamsInteractor
     ): FilterParamsInteractor
+
+    @Singleton
+    @Binds
+    fun shaderPresetRepository(
+        repository: AndroidShaderPresetRepository
+    ): ShaderPresetRepository
 
 }
