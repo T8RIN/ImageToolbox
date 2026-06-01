@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.putEntry
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.BaseMemoryConfig
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.HocrWord
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
@@ -76,7 +77,6 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.SearchablePdfPage
 import com.t8rin.trickle.Trickle
-import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
@@ -241,7 +241,7 @@ internal class AndroidPdfManager @Inject constructor(
             }
             shareProvider.cacheDataOrThrow(filename = tempName("merged")) { output ->
                 destinationStream = output.outputStream()
-                mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly())
+                mergeDocuments(BaseMemoryConfig)
             }
         }
     }

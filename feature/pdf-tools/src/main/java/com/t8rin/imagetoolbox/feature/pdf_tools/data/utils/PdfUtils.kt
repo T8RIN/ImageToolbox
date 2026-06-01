@@ -50,6 +50,10 @@ import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import java.util.Calendar
 import kotlin.math.roundToInt
 
+private const val PDF_MAIN_MEMORY_LIMIT_BYTES = 16L * 1024L * 1024L
+
+internal val BaseMemoryConfig = MemoryUsageSetting.setupMixed(PDF_MAIN_MEMORY_LIMIT_BYTES)
+
 internal fun PDDocument.save(
     writeable: Writeable,
     password: String? = null
@@ -174,7 +178,8 @@ internal fun safeOpenPdf(
     return try {
         PDDocument.load(
             stream,
-            password.orEmpty()
+            password.orEmpty(),
+            BaseMemoryConfig,
         )
     } catch (t: Throwable) {
         if (t is InvalidPasswordException) throw t
@@ -201,7 +206,8 @@ internal fun Bitmap.asXObject(
 internal fun PDDocument.getAllImages(): List<PDImageXObject> =
     pages.flatMap { it.getResources().getImages() }
 
-internal inline fun <T> createPdf(action: (PDDocument) -> T) = PDDocument().use(action)
+internal inline fun <T> createPdf(action: (PDDocument) -> T) =
+    PDDocument(BaseMemoryConfig).use(action)
 
 internal fun List<Int>?.orAll(document: PDDocument) = orEmpty().ifEmpty { document.pageIndices }
 
