@@ -247,8 +247,9 @@ private fun ShaderPresetSelector(
             )
         } else {
             LazyColumn(
-                contentPadding = PaddingValues(8.dp),
-                flingBehavior = enhancedFlingBehavior()
+                contentPadding = PaddingValues(16.dp),
+                flingBehavior = enhancedFlingBehavior(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 itemsIndexed(
                     items = presets,
@@ -257,12 +258,6 @@ private fun ShaderPresetSelector(
                     PreferenceItemOverload(
                         title = preset.name,
                         subtitle = stringResource(R.string.shader_params_count, preset.params.size),
-                        startIcon = {
-                            Icon(
-                                imageVector = Icons.Rounded.Code,
-                                contentDescription = null
-                            )
-                        },
                         onClick = {
                             showSheet = false
                             onPresetSelected(preset)
@@ -416,9 +411,10 @@ private fun ColorShaderParamItem(
 ) {
     PreferenceRow(
         title = param.name,
-        subtitle = "#${value.red.hex()}${value.green.hex()}${value.blue.hex()}${value.alpha.hex()}",
+        subtitle = "#${value.alpha.hex()}${value.red.hex()}${value.green.hex()}${value.blue.hex()}",
         enabled = enabled,
         drawContainer = false,
+        resultModifier = Modifier.padding(8.dp),
         onClick = null,
         additionalContent = {
             ColorSelectionRow(
@@ -426,8 +422,7 @@ private fun ColorShaderParamItem(
                 onValueChange = { color ->
                     onValueChange(color.toShaderColorValue())
                 },
-                allowAlpha = true,
-                contentPadding = PaddingValues(horizontal = 16.dp)
+                allowAlpha = true
             )
         }
     )
