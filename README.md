@@ -515,6 +515,7 @@ or click one of the badges below.
     - Reading from batch of images to file
     - Placing in EXIF metadata of batch images
     - Creating searchable PDF with recognized text behind images
+    - Tesseract or PaddleOCR
 - EXIF metadata editing/deleting
 - Loading images from internet
 - Image Stitching
