@@ -18,15 +18,15 @@
 package com.t8rin.imagetoolbox.core.filters.domain.model.shader
 
 data object ShaderValidator {
-    fun validateErrors(preset: ShaderPreset): List<String> = buildList {
+    fun validate(preset: ShaderPreset): List<ShaderValidationError> = buildList {
         if (preset.version != SUPPORTED_VERSION) {
-            add("Unsupported shader version ${preset.version}. Supported version: $SUPPORTED_VERSION.")
+            add(ShaderValidationError.UnsupportedVersion(preset.version, SUPPORTED_VERSION))
         }
         if (preset.name.isBlank()) {
-            add("Shader name must not be blank.")
+            add(ShaderValidationError.BlankName)
         }
         if (preset.shader.isBlank()) {
-            add("Shader source must not be blank.")
+            add(ShaderValidationError.BlankSource)
         }
         validateShaderSourceCharacters(preset.shader)
 
@@ -42,32 +42,35 @@ data object ShaderValidator {
         }
     }
 
-    private fun MutableList<String>.validateShaderSourceCharacters(shader: String) {
+    fun validateErrors(preset: ShaderPreset): List<String> =
+        validate(preset).map(ShaderValidationError::englishMessage)
+
+    private fun MutableList<ShaderValidationError>.validateShaderSourceCharacters(shader: String) {
         val unsafeCharacters = shader.glslUnsafeCharacters()
         if (unsafeCharacters.isNotEmpty()) {
             add(
-                "Shader source contains unsupported characters: " +
-                        unsafeCharacters.joinToString { it.readableName() } +
-                        ". Use ASCII GLSL source only."
+                ShaderValidationError.UnsupportedCharacters(
+                    unsafeCharacters.joinToString { it.readableName() }
+                )
             )
         }
     }
 
-    private fun MutableList<String>.validateParams(params: List<ShaderParam>) {
+    private fun MutableList<ShaderValidationError>.validateParams(params: List<ShaderParam>) {
         params.groupBy { it.name }
             .filterValues { it.size > 1 }
             .keys
-            .forEach { add("Parameter '$it' is declared more than once.") }
+            .forEach { add(ShaderValidationError.DuplicateParameter(it)) }
 
         params.forEach { param ->
             if (param.name.isBlank()) {
-                add("Parameter names must not be blank.")
+                add(ShaderValidationError.BlankParameterName)
             }
             if (param.name in RESERVED_NAMES) {
-                add("Parameter '${param.name}' uses a reserved GPUImage name.")
+                add(ShaderValidationError.ReservedParameterName(param.name))
             }
             if (param.name.isNotBlank() && !GLSL_IDENTIFIER.matches(param.name)) {
-                add("Parameter '${param.name}' must be a valid GLSL identifier.")
+                add(ShaderValidationError.InvalidParameterName(param.name))
             }
             validateValueType(param, param.defaultValue, "default")
             param.minValue?.let { validateValueType(param, it, "min") }
@@ -76,20 +79,24 @@ data object ShaderValidator {
         }
     }
 
-    private fun MutableList<String>.validateValueType(
+    private fun MutableList<ShaderValidationError>.validateValueType(
         param: ShaderParam,
         value: ShaderValue,
         fieldName: String
     ) {
         if (value.type != param.type) {
             add(
-                "Parameter '${param.name}' has $fieldName value type " +
-                        "'${value.type.serialName}', expected '${param.type.serialName}'."
+                ShaderValidationError.InvalidValueType(
+                    name = param.name,
+                    fieldName = fieldName,
+                    actualType = value.type.serialName,
+                    expectedType = param.type.serialName
+                )
             )
         }
     }
 
-    private fun MutableList<String>.validateBounds(param: ShaderParam) {
+    private fun MutableList<ShaderValidationError>.validateBounds(param: ShaderParam) {
         val minValue = param.minValue
         val maxValue = param.maxValue
         if (minValue == null && maxValue == null) return
@@ -126,46 +133,46 @@ data object ShaderValidator {
             )
 
             ShaderParamType.Bool -> {
-                add("Parameter '${param.name}' cannot define min or max for bool values.")
+                add(ShaderValidationError.BoolBounds(param.name))
             }
         }
     }
 
-    private fun MutableList<String>.validateFloatBounds(
+    private fun MutableList<ShaderValidationError>.validateFloatBounds(
         name: String,
         defaultValue: Float?,
         minValue: Float?,
         maxValue: Float?
     ) {
         if (minValue != null && maxValue != null && minValue > maxValue) {
-            add("Parameter '$name' has min greater than max.")
+            add(ShaderValidationError.MinGreaterThanMax(name))
         }
         if (defaultValue != null && minValue != null && defaultValue < minValue) {
-            add("Parameter '$name' default is lower than min.")
+            add(ShaderValidationError.DefaultLowerThanMin(name))
         }
         if (defaultValue != null && maxValue != null && defaultValue > maxValue) {
-            add("Parameter '$name' default is greater than max.")
+            add(ShaderValidationError.DefaultGreaterThanMax(name))
         }
     }
 
-    private fun MutableList<String>.validateIntBounds(
+    private fun MutableList<ShaderValidationError>.validateIntBounds(
         name: String,
         defaultValue: Int?,
         minValue: Int?,
         maxValue: Int?
     ) {
         if (minValue != null && maxValue != null && minValue > maxValue) {
-            add("Parameter '$name' has min greater than max.")
+            add(ShaderValidationError.MinGreaterThanMax(name))
         }
         if (defaultValue != null && minValue != null && defaultValue < minValue) {
-            add("Parameter '$name' default is lower than min.")
+            add(ShaderValidationError.DefaultLowerThanMin(name))
         }
         if (defaultValue != null && maxValue != null && defaultValue > maxValue) {
-            add("Parameter '$name' default is greater than max.")
+            add(ShaderValidationError.DefaultGreaterThanMax(name))
         }
     }
 
-    private fun MutableList<String>.validateVec2Bounds(
+    private fun MutableList<ShaderValidationError>.validateVec2Bounds(
         name: String,
         defaultValue: ShaderValue.Vec2Value?,
         minValue: ShaderValue.Vec2Value?,
@@ -185,7 +192,7 @@ data object ShaderValidator {
         )
     }
 
-    private fun MutableList<String>.validateColorBounds(
+    private fun MutableList<ShaderValidationError>.validateColorBounds(
         name: String,
         defaultValue: ShaderValue.ColorValue?,
         minValue: ShaderValue.ColorValue?,
@@ -217,62 +224,61 @@ data object ShaderValidator {
         )
     }
 
-    private fun MutableList<String>.validateShaderContract(shaderSignature: ShaderSignature) {
+    private fun MutableList<ShaderValidationError>.validateShaderContract(shaderSignature: ShaderSignature) {
         if (shaderSignature.uniformTypes[INPUT_TEXTURE_NAME] != "sampler2D") {
-            add("Shader must declare 'uniform sampler2D $INPUT_TEXTURE_NAME;'.")
+            add(ShaderValidationError.MissingInputTexture(INPUT_TEXTURE_NAME))
         }
         if (!shaderSignature.hasTextureCoordinateVarying) {
-            add("Shader must declare 'varying vec2 $TEXTURE_COORDINATE_NAME;'.")
+            add(ShaderValidationError.MissingTextureCoordinate(TEXTURE_COORDINATE_NAME))
         }
         if (!shaderSignature.hasMainFunction) {
-            add("Shader must define 'void main()'.")
+            add(ShaderValidationError.MissingMainFunction)
         }
         if (!shaderSignature.hasFragmentColorOutput) {
-            add("Shader must write a color to gl_FragColor.")
+            add(ShaderValidationError.MissingFragmentColor)
         }
     }
 
-    private fun MutableList<String>.validateUnsupportedShaderFeatures(shaderSource: String) {
+    private fun MutableList<ShaderValidationError>.validateUnsupportedShaderFeatures(shaderSource: String) {
         if (shaderSource.hasIdentifier("mainImage")) {
-            add("ShaderToy mainImage shaders are not supported. Use GPUImage's void main() contract.")
+            add(ShaderValidationError.ShaderToyMainImage)
         }
         if (shaderSource.hasIdentifier("iTime")) {
-            add("Animated ShaderToy uniform 'iTime' is not supported.")
+            add(ShaderValidationError.ShaderToyITime)
         }
         if (shaderSource.hasIdentifier("iFrame")) {
-            add("Animated ShaderToy uniform 'iFrame' is not supported.")
+            add(ShaderValidationError.ShaderToyIFrame)
         }
         if (shaderSource.hasIdentifier("iResolution")) {
-            add("ShaderToy uniform 'iResolution' is not supported.")
+            add(ShaderValidationError.ShaderToyIResolution)
         }
         if (shaderSource.hasIdentifierWithPrefix("iChannel")) {
-            add("ShaderToy iChannel textures are not supported.")
+            add(ShaderValidationError.ShaderToyIChannel)
         }
         if (shaderSource.hasIdentifier("samplerExternalOES")) {
-            add("External textures are not supported.")
+            add(ShaderValidationError.ExternalTextures)
         }
         if (shaderSource.hasIdentifier("GL_OES_EGL_image_external")) {
-            add("External texture extensions are not supported.")
+            add(ShaderValidationError.ExternalTextureExtensions)
         }
         if (shaderSource.lineSequence().any { it.trimStart().startsWith("#pragma parameter") }) {
-            add("Libretro shader parameters are not supported.")
+            add(ShaderValidationError.LibretroParameters)
         }
     }
 
-    private fun MutableList<String>.validateSingleInputTexture(
+    private fun MutableList<ShaderValidationError>.validateSingleInputTexture(
         samplerUniforms: List<Pair<String, String>>
     ) {
         samplerUniforms
             .filterNot { (_, samplerName) -> samplerName == INPUT_TEXTURE_NAME }
             .forEach { (samplerType, samplerName) ->
                 add(
-                    "Only one input texture is supported. Remove " +
-                            "'uniform $samplerType $samplerName;'."
+                    ShaderValidationError.ExtraInputTexture(samplerType, samplerName)
                 )
             }
     }
 
-    private fun MutableList<String>.validateUniforms(
+    private fun MutableList<ShaderValidationError>.validateUniforms(
         uniformTypes: Map<String, String>,
         params: List<ShaderParam>
     ) {
@@ -280,13 +286,18 @@ data object ShaderValidator {
             val uniformType = uniformTypes[param.name]
             when {
                 uniformType == null -> add(
-                    "Parameter '${param.name}' must be declared as " +
-                            "'uniform ${param.type.uniformType} ${param.name};'."
+                    ShaderValidationError.MissingUniform(
+                        name = param.name,
+                        expectedType = param.type.uniformType
+                    )
                 )
 
                 uniformType != param.type.uniformType -> add(
-                    "Parameter '${param.name}' is declared as 'uniform $uniformType ${param.name};', " +
-                            "expected 'uniform ${param.type.uniformType} ${param.name};'."
+                    ShaderValidationError.WrongUniformType(
+                        name = param.name,
+                        actualType = uniformType,
+                        expectedType = param.type.uniformType
+                    )
                 )
             }
         }
@@ -440,4 +451,97 @@ data object ShaderValidator {
         pattern = """\bvoid\s+main\s*\(\s*\)""",
         option = RegexOption.MULTILINE
     )
+}
+
+sealed interface ShaderValidationError {
+    data class UnsupportedVersion(val version: Int, val supportedVersion: Int) :
+        ShaderValidationError
+
+    data object BlankName : ShaderValidationError
+    data object BlankSource : ShaderValidationError
+    data class UnsupportedCharacters(val characters: String) : ShaderValidationError
+    data class DuplicateParameter(val name: String) : ShaderValidationError
+    data object BlankParameterName : ShaderValidationError
+    data class ReservedParameterName(val name: String) : ShaderValidationError
+    data class InvalidParameterName(val name: String) : ShaderValidationError
+    data class InvalidValueType(
+        val name: String,
+        val fieldName: String,
+        val actualType: String,
+        val expectedType: String
+    ) : ShaderValidationError
+
+    data class BoolBounds(val name: String) : ShaderValidationError
+    data class MinGreaterThanMax(val name: String) : ShaderValidationError
+    data class DefaultLowerThanMin(val name: String) : ShaderValidationError
+    data class DefaultGreaterThanMax(val name: String) : ShaderValidationError
+    data class MissingInputTexture(val name: String) : ShaderValidationError
+    data class MissingTextureCoordinate(val name: String) : ShaderValidationError
+    data object MissingMainFunction : ShaderValidationError
+    data object MissingFragmentColor : ShaderValidationError
+    data object ShaderToyMainImage : ShaderValidationError
+    data object ShaderToyITime : ShaderValidationError
+    data object ShaderToyIFrame : ShaderValidationError
+    data object ShaderToyIResolution : ShaderValidationError
+    data object ShaderToyIChannel : ShaderValidationError
+    data object ExternalTextures : ShaderValidationError
+    data object ExternalTextureExtensions : ShaderValidationError
+    data object LibretroParameters : ShaderValidationError
+    data class ExtraInputTexture(val samplerType: String, val samplerName: String) :
+        ShaderValidationError
+
+    data class MissingUniform(val name: String, val expectedType: String) : ShaderValidationError
+    data class WrongUniformType(
+        val name: String,
+        val actualType: String,
+        val expectedType: String
+    ) : ShaderValidationError
+}
+
+fun ShaderValidationError.englishMessage(): String = when (this) {
+    is ShaderValidationError.UnsupportedVersion ->
+        "Unsupported shader version $version. Supported version: $supportedVersion."
+
+    ShaderValidationError.BlankName -> "Shader name must not be blank."
+    ShaderValidationError.BlankSource -> "Shader source must not be blank."
+    is ShaderValidationError.UnsupportedCharacters ->
+        "Shader source contains unsupported characters: $characters. Use ASCII GLSL source only."
+
+    is ShaderValidationError.DuplicateParameter -> "Parameter '$name' is declared more than once."
+    ShaderValidationError.BlankParameterName -> "Parameter names must not be blank."
+    is ShaderValidationError.ReservedParameterName -> "Parameter '$name' uses a reserved GPUImage name."
+    is ShaderValidationError.InvalidParameterName -> "Parameter '$name' must be a valid GLSL identifier."
+    is ShaderValidationError.InvalidValueType ->
+        "Parameter '$name' has $fieldName value type '$actualType', expected '$expectedType'."
+
+    is ShaderValidationError.BoolBounds -> "Parameter '$name' cannot define min or max for bool values."
+    is ShaderValidationError.MinGreaterThanMax -> "Parameter '$name' has min greater than max."
+    is ShaderValidationError.DefaultLowerThanMin -> "Parameter '$name' default is lower than min."
+    is ShaderValidationError.DefaultGreaterThanMax -> "Parameter '$name' default is greater than max."
+    is ShaderValidationError.MissingInputTexture ->
+        "Shader must declare 'uniform sampler2D $name;'."
+
+    is ShaderValidationError.MissingTextureCoordinate ->
+        "Shader must declare 'varying vec2 $name;'."
+
+    ShaderValidationError.MissingMainFunction -> "Shader must define 'void main()'."
+    ShaderValidationError.MissingFragmentColor -> "Shader must write a color to gl_FragColor."
+    ShaderValidationError.ShaderToyMainImage ->
+        "ShaderToy mainImage shaders are not supported. Use GPUImage's void main() contract."
+
+    ShaderValidationError.ShaderToyITime -> "Animated ShaderToy uniform 'iTime' is not supported."
+    ShaderValidationError.ShaderToyIFrame -> "Animated ShaderToy uniform 'iFrame' is not supported."
+    ShaderValidationError.ShaderToyIResolution -> "ShaderToy uniform 'iResolution' is not supported."
+    ShaderValidationError.ShaderToyIChannel -> "ShaderToy iChannel textures are not supported."
+    ShaderValidationError.ExternalTextures -> "External textures are not supported."
+    ShaderValidationError.ExternalTextureExtensions -> "External texture extensions are not supported."
+    ShaderValidationError.LibretroParameters -> "Libretro shader parameters are not supported."
+    is ShaderValidationError.ExtraInputTexture ->
+        "Only one input texture is supported. Remove 'uniform $samplerType $samplerName;'."
+
+    is ShaderValidationError.MissingUniform ->
+        "Parameter '$name' must be declared as 'uniform $expectedType $name;'."
+
+    is ShaderValidationError.WrongUniformType ->
+        "Parameter '$name' is declared as 'uniform $actualType $name;', expected 'uniform $expectedType $name;'."
 }

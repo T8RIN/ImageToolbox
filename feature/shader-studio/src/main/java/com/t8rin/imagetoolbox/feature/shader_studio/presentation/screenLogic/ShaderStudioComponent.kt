@@ -36,9 +36,12 @@ import com.t8rin.imagetoolbox.core.filters.domain.ShaderPresetRepository
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParamType
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParseException
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidationError
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiShaderFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -80,8 +83,10 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     private val _params = mutableStateOf(emptyList<ShaderParam>())
     val params: List<ShaderParam> by _params
 
-    private val _validationErrors = mutableStateOf(listOf(SHADER_SOURCE_BLANK_ERROR))
-    val validationErrors: List<String> by _validationErrors
+    private val _validationErrors = mutableStateOf<List<ShaderValidationError>>(
+        listOf(ShaderValidationError.BlankSource)
+    )
+    val validationErrors: List<ShaderValidationError> by _validationErrors
 
     private val _previewModel: MutableState<ImageModel> = mutableStateOf(
         R.drawable.filter_preview_source.toImageModel()
@@ -273,14 +278,14 @@ class ShaderStudioComponent @AssistedInject internal constructor(
 
     private fun validateSnapshot(
         snapshot: ShaderDraftSnapshot
-    ): List<String> {
+    ): List<ShaderValidationError> {
         val preset = snapshot.toPreset()
 
         return buildList {
             if (snapshot.shaderSource.isBlank()) {
-                add(SHADER_SOURCE_BLANK_ERROR)
+                add(ShaderValidationError.BlankSource)
             }
-            addAll(ShaderValidator.validateErrors(preset))
+            addAll(ShaderValidator.validate(preset))
         }.distinct()
     }
 
@@ -300,8 +305,11 @@ class ShaderStudioComponent @AssistedInject internal constructor(
 
     private fun showError(throwable: Throwable) {
         _isImageLoading.update { false }
-        _validationErrors.update { throwable.message?.lines().orEmpty() }
-        AppToastHost.showFailureToast(throwable)
+        if (throwable is ShaderParseException) {
+            AppToastHost.showFailureToast(throwable.localizedMessage())
+        } else {
+            AppToastHost.showFailureToast(throwable)
+        }
     }
 
     @AssistedFactory
@@ -312,7 +320,4 @@ class ShaderStudioComponent @AssistedInject internal constructor(
         ): ShaderStudioComponent
     }
 
-    private companion object {
-        const val SHADER_SOURCE_BLANK_ERROR = "Shader source must not be blank."
-    }
 }

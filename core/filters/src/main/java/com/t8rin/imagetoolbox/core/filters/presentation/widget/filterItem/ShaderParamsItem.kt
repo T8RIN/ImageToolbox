@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,12 +50,16 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParamType
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValue
+import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Code
+import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.UploadFile
+import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRow
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FileSelector
@@ -63,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -92,16 +98,52 @@ fun ShaderParamsItem(
         }
 
         val preset = value.preset ?: return@Column
+        val errors = ShaderValidator.validate(preset)
 
-        if (preset.params.isNotEmpty()) {
-            Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(4.dp))
+
+        if (errors.isNotEmpty()) {
+            PreferenceItemOverload(
+                title = stringResource(R.string.invalid_shader),
+                subtitle = errors.joinToString("\n") { it.localizedMessage() },
+                startIcon = {
+                    Icon(
+                        imageVector = Icons.Rounded.WarningAmber,
+                        contentDescription = null
+                    )
+                },
+                shape = ShapeDefaults.large,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            )
         }
 
-        preset.params.forEach { param ->
+        if (preset.params.isEmpty()) return@Column
+
+        Column(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        ) {
+            PreferenceItemOverload(
+                title = stringResource(R.string.params),
+                subtitle = stringResource(R.string.shader_params_count, preset.params.size),
+                startIcon = {
+                    Icon(
+                        imageVector = Icons.Rounded.HashTag,
+                        contentDescription = null
+                    )
+                },
+                shape = ShapeDefaults.top,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        preset.params.forEachIndexed { index, param ->
             ShaderParamItem(
                 param = param,
                 value = value.resolvedValues[param.name] ?: param.defaultValue,
                 enabled = !previewOnly,
+                shape = ShapeDefaults.byIndex(index + 1, preset.params.size + 1),
                 onValueChange = { shaderValue ->
                     onValueChange(
                         value.copy(
@@ -258,45 +300,56 @@ private fun ShaderParamItem(
     param: ShaderParam,
     value: ShaderValue,
     enabled: Boolean,
+    shape: Shape,
     onValueChange: (ShaderValue) -> Unit
 ) {
-    when (param.type) {
-        ShaderParamType.Float -> FloatShaderParamItem(
-            param = param,
-            value = value as? ShaderValue.FloatValue
-                ?: param.defaultValue as ShaderValue.FloatValue,
-            enabled = enabled,
-            onValueChange = onValueChange
-        )
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .container(shape = shape)
+            .padding(vertical = 8.dp)
+    ) {
+        when (param.type) {
+            ShaderParamType.Float -> FloatShaderParamItem(
+                param = param,
+                value = value as? ShaderValue.FloatValue
+                    ?: param.defaultValue as ShaderValue.FloatValue,
+                enabled = enabled,
+                onValueChange = onValueChange
+            )
 
-        ShaderParamType.Int -> IntShaderParamItem(
-            param = param,
-            value = value as? ShaderValue.IntValue ?: param.defaultValue as ShaderValue.IntValue,
-            enabled = enabled,
-            onValueChange = onValueChange
-        )
+            ShaderParamType.Int -> IntShaderParamItem(
+                param = param,
+                value = value as? ShaderValue.IntValue
+                    ?: param.defaultValue as ShaderValue.IntValue,
+                enabled = enabled,
+                onValueChange = onValueChange
+            )
 
-        ShaderParamType.Bool -> BoolShaderParamItem(
-            param = param,
-            value = value as? ShaderValue.BoolValue ?: param.defaultValue as ShaderValue.BoolValue,
-            enabled = enabled,
-            onValueChange = onValueChange
-        )
+            ShaderParamType.Bool -> BoolShaderParamItem(
+                param = param,
+                value = value as? ShaderValue.BoolValue
+                    ?: param.defaultValue as ShaderValue.BoolValue,
+                enabled = enabled,
+                onValueChange = onValueChange
+            )
 
-        ShaderParamType.Color -> ColorShaderParamItem(
-            param = param,
-            value = value as? ShaderValue.ColorValue
-                ?: param.defaultValue as ShaderValue.ColorValue,
-            enabled = enabled,
-            onValueChange = onValueChange
-        )
+            ShaderParamType.Color -> ColorShaderParamItem(
+                param = param,
+                value = value as? ShaderValue.ColorValue
+                    ?: param.defaultValue as ShaderValue.ColorValue,
+                enabled = enabled,
+                onValueChange = onValueChange
+            )
 
-        ShaderParamType.Vec2 -> Vec2ShaderParamItem(
-            param = param,
-            value = value as? ShaderValue.Vec2Value ?: param.defaultValue as ShaderValue.Vec2Value,
-            enabled = enabled,
-            onValueChange = onValueChange
-        )
+            ShaderParamType.Vec2 -> Vec2ShaderParamItem(
+                param = param,
+                value = value as? ShaderValue.Vec2Value
+                    ?: param.defaultValue as ShaderValue.Vec2Value,
+                enabled = enabled,
+                onValueChange = onValueChange
+            )
+        }
     }
 }
 

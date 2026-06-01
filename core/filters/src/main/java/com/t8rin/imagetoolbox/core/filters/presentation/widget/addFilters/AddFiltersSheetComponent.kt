@@ -47,8 +47,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.ShaderPresetRepository
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParseException
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
@@ -308,7 +310,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             }.onSuccess { preset ->
                 onPresetImported(preset)
                 AppToastHost.showConfetti()
-            }.onFailure(AppToastHost::showFailureToast)
+            }.onFailure { throwable ->
+                if (throwable is ShaderParseException) {
+                    AppToastHost.showFailureToast(throwable.localizedMessage())
+                } else {
+                    AppToastHost.showFailureToast(throwable)
+                }
+            }
         }
     }
 

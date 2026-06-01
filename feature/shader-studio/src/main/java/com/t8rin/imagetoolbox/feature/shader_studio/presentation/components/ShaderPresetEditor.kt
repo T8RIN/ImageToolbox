@@ -25,6 +25,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.EvShadow
@@ -81,7 +83,9 @@ internal fun ShaderPresetEditor(component: ShaderStudioComponent) {
             supportingText = component.validationErrors.takeIf { it.isNotEmpty() }?.let {
                 {
                     Text(
-                        text = component.validationErrors.joinToString("\n"),
+                        text = remember(component.validationErrors) {
+                            component.validationErrors.joinToString("\n") { it.localizedMessage() }
+                        },
                         color = MaterialTheme.colorScheme.error
                     )
                 }

@@ -27,26 +27,22 @@ class ShaderParser @Inject constructor(
         val trimmedJson = json.trim()
 
         if (trimmedJson.isBlank()) {
-            throw ShaderParseException("Shader file is empty.")
+            throw ShaderParseException(ShaderParseError.EmptyFile)
         }
         if (!trimmedJson.isLikelyShaderPresetJson()) {
-            throw ShaderParseException(
-                "Shader file must be a .itshader JSON object with version, name, and shader fields."
-            )
+            throw ShaderParseException(ShaderParseError.NotItShaderJson)
         }
 
         val rawPreset = jsonParser.fromJson<ShaderPresetJson>(
             json = trimmedJson,
             type = ShaderPresetJson::class.java
-        ) ?: throw ShaderParseException(
-            "Shader file is not valid JSON or does not match the .itshader format."
-        )
+        ) ?: throw ShaderParseException(ShaderParseError.InvalidJson)
 
         rawPreset.toShaderPreset()
     }
 
     private fun ShaderPresetJson.toShaderPreset(): ShaderPreset {
-        val errors = mutableListOf<String>()
+        val errors = mutableListOf<ShaderParseError>()
         val parsedParams = params.orEmpty().mapIndexedNotNull { index, param ->
             param.toShaderParam(index, errors)
         }
@@ -59,17 +55,17 @@ class ShaderParser @Inject constructor(
         )
 
         if (version == null) {
-            errors += "Field 'version' is required."
+            errors += ShaderParseError.MissingField("version")
         }
         if (name == null) {
-            errors += "Field 'name' is required."
+            errors += ShaderParseError.MissingField("name")
         }
         if (shader == null) {
-            errors += "Field 'shader' is required."
+            errors += ShaderParseError.MissingField("shader")
         }
 
         if (errors.isNotEmpty()) {
-            throw ShaderParseException(errors.joinToString(separator = "\n"))
+            throw ShaderParseException(errors)
         }
 
         return preset
@@ -77,7 +73,7 @@ class ShaderParser @Inject constructor(
 
     private fun ShaderParamJson.toShaderParam(
         index: Int,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderParam? {
         val startErrorCount = errors.size
         val path = "params[$index]"
@@ -86,12 +82,16 @@ class ShaderParser @Inject constructor(
             ?.let(ShaderParamType::fromSerialName)
 
         if (name == null) {
-            errors += "$path.name is required."
+            errors += ShaderParseError.MissingParamField("$path.name")
         }
         if (type == null) {
-            errors += "$path.type is required."
+            errors += ShaderParseError.MissingParamField("$path.type")
         } else if (parsedType == null) {
-            errors += "$path.type '$type' is not supported. Supported types: ${supportedTypes()}."
+            errors += ShaderParseError.UnsupportedParamType(
+                path = "$path.type",
+                type = type,
+                supportedTypes = supportedTypes()
+            )
         }
 
         val defaultValue = parsedType?.let {
@@ -144,11 +144,11 @@ class ShaderParser @Inject constructor(
         type: ShaderParamType,
         path: String,
         isRequired: Boolean,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderValue? {
         if (value == null) {
             if (isRequired) {
-                errors += "$path is required for '${type.serialName}' parameters."
+                errors += ShaderParseError.MissingValue(path, type.serialName)
             }
             return null
         }
@@ -171,13 +171,13 @@ class ShaderParser @Inject constructor(
     private fun parseFloat(
         value: Any?,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): Float? {
         val parsed = (value as? Number)?.toFloat()
         return if (parsed != null && parsed.isFinite()) {
             parsed
         } else {
-            errors += "$path must be a finite number."
+            errors += ShaderParseError.FiniteNumberExpected(path)
             null
         }
     }
@@ -185,7 +185,7 @@ class ShaderParser @Inject constructor(
     private fun parseInt(
         value: Any?,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): Int? {
         val number = value as? Number
         val parsed = number?.toDouble()
@@ -198,7 +198,7 @@ class ShaderParser @Inject constructor(
         ) {
             parsed.toInt()
         } else {
-            errors += "$path must be an integer."
+            errors += ShaderParseError.IntegerExpected(path)
             null
         }
     }
@@ -206,22 +206,22 @@ class ShaderParser @Inject constructor(
     private fun parseBool(
         value: Any?,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): Boolean? = (value as? Boolean) ?: run {
-        errors += "$path must be true or false."
+        errors += ShaderParseError.BoolExpected(path)
         null
     }
 
     private fun parseColor(
         value: Any,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderValue.ColorValue? = when (value) {
         is String -> parseColorString(value, path, errors)
         is List<*> -> parseColorList(value, path, errors)
         is Map<*, *> -> parseColorMap(value, path, errors)
         else -> {
-            errors += "$path must be a color string, RGB/RGBA array, or color object."
+            errors += ShaderParseError.ColorExpected(path)
             null
         }
     }
@@ -229,11 +229,11 @@ class ShaderParser @Inject constructor(
     private fun parseColorString(
         value: String,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderValue.ColorValue? {
         val hex = value.removePrefix("#")
         if (hex.length != RGB_HEX_LENGTH && hex.length != RGBA_HEX_LENGTH) {
-            errors += "$path must use #RRGGBB or #RRGGBBAA format."
+            errors += ShaderParseError.ColorFormatExpected(path)
             return null
         }
 
@@ -248,7 +248,7 @@ class ShaderParser @Inject constructor(
             }
             ShaderValue.ColorValue(red, green, blue, alpha)
         }.getOrElse {
-            errors += "$path must contain valid hexadecimal color channels."
+            errors += ShaderParseError.HexColorExpected(path)
             null
         }
     }
@@ -256,10 +256,10 @@ class ShaderParser @Inject constructor(
     private fun parseColorList(
         value: List<*>,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderValue.ColorValue? {
         if (value.size !in RGB_CHANNEL_COUNT..RGBA_CHANNEL_COUNT) {
-            errors += "$path must contain 3 or 4 color channels."
+            errors += ShaderParseError.ColorChannelCountExpected(path)
             return null
         }
 
@@ -286,7 +286,7 @@ class ShaderParser @Inject constructor(
     private fun parseColorMap(
         value: Map<*, *>,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderValue.ColorValue? {
         val red = parseColorChannel(value["r"] ?: value["red"], "$path.r", errors)
         val green = parseColorChannel(value["g"] ?: value["green"], "$path.g", errors)
@@ -305,14 +305,14 @@ class ShaderParser @Inject constructor(
     private fun parseColorChannel(
         value: Any?,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): Int? {
         val parsed = parseInt(value, path, errors)
         return if (parsed != null && parsed in CHANNEL_RANGE) {
             parsed
         } else {
             if (parsed != null) {
-                errors += "$path must be between 0 and 255."
+                errors += ShaderParseError.ColorChannelRangeExpected(path)
             }
             null
         }
@@ -321,12 +321,12 @@ class ShaderParser @Inject constructor(
     private fun parseVec2(
         value: Any,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderValue.Vec2Value? = when (value) {
         is List<*> -> parseVec2List(value, path, errors)
         is Map<*, *> -> parseVec2Map(value, path, errors)
         else -> {
-            errors += "$path must be a two-number array or an object with x and y."
+            errors += ShaderParseError.Vec2Expected(path)
             null
         }
     }
@@ -334,10 +334,10 @@ class ShaderParser @Inject constructor(
     private fun parseVec2List(
         value: List<*>,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderValue.Vec2Value? {
         if (value.size != VEC2_COMPONENT_COUNT) {
-            errors += "$path must contain exactly 2 numbers."
+            errors += ShaderParseError.Vec2ComponentCountExpected(path)
             return null
         }
 
@@ -354,7 +354,7 @@ class ShaderParser @Inject constructor(
     private fun parseVec2Map(
         value: Map<*, *>,
         path: String,
-        errors: MutableList<String>
+        errors: MutableList<ShaderParseError>
     ): ShaderValue.Vec2Value? {
         val x = parseFloat(value["x"], "$path.x", errors)
         val y = parseFloat(value["y"], "$path.y", errors)
@@ -389,8 +389,68 @@ class ShaderParser @Inject constructor(
 }
 
 class ShaderParseException(
-    message: String
-) : IllegalArgumentException(message)
+    val errors: List<ShaderParseError>
+) : IllegalArgumentException(
+    errors.joinToString(
+        separator = "\n",
+        transform = ShaderParseError::englishMessage
+    )
+) {
+    constructor(error: ShaderParseError) : this(listOf(error))
+}
+
+sealed interface ShaderParseError {
+    data object EmptyFile : ShaderParseError
+    data object NotItShaderJson : ShaderParseError
+    data object InvalidJson : ShaderParseError
+    data class MissingField(val field: String) : ShaderParseError
+    data class MissingParamField(val path: String) : ShaderParseError
+    data class UnsupportedParamType(
+        val path: String,
+        val type: String,
+        val supportedTypes: String
+    ) : ShaderParseError
+
+    data class MissingValue(val path: String, val type: String) : ShaderParseError
+    data class FiniteNumberExpected(val path: String) : ShaderParseError
+    data class IntegerExpected(val path: String) : ShaderParseError
+    data class BoolExpected(val path: String) : ShaderParseError
+    data class ColorExpected(val path: String) : ShaderParseError
+    data class ColorFormatExpected(val path: String) : ShaderParseError
+    data class HexColorExpected(val path: String) : ShaderParseError
+    data class ColorChannelCountExpected(val path: String) : ShaderParseError
+    data class ColorChannelRangeExpected(val path: String) : ShaderParseError
+    data class Vec2Expected(val path: String) : ShaderParseError
+    data class Vec2ComponentCountExpected(val path: String) : ShaderParseError
+}
+
+fun ShaderParseError.englishMessage(): String = when (this) {
+    ShaderParseError.EmptyFile -> "Shader file is empty."
+    ShaderParseError.NotItShaderJson ->
+        "Shader file must be a .itshader JSON object with version, name, and shader fields."
+
+    ShaderParseError.InvalidJson ->
+        "Shader file is not valid JSON or does not match the .itshader format."
+
+    is ShaderParseError.MissingField -> "Field '$field' is required."
+    is ShaderParseError.MissingParamField -> "$path is required."
+    is ShaderParseError.UnsupportedParamType ->
+        "$path '$type' is not supported. Supported types: $supportedTypes."
+
+    is ShaderParseError.MissingValue -> "$path is required for '$type' parameters."
+    is ShaderParseError.FiniteNumberExpected -> "$path must be a finite number."
+    is ShaderParseError.IntegerExpected -> "$path must be an integer."
+    is ShaderParseError.BoolExpected -> "$path must be true or false."
+    is ShaderParseError.ColorExpected ->
+        "$path must be a color string, RGB/RGBA array, or color object."
+
+    is ShaderParseError.ColorFormatExpected -> "$path must use #RRGGBB or #RRGGBBAA format."
+    is ShaderParseError.HexColorExpected -> "$path must contain valid hexadecimal color channels."
+    is ShaderParseError.ColorChannelCountExpected -> "$path must contain 3 or 4 color channels."
+    is ShaderParseError.ColorChannelRangeExpected -> "$path must be between 0 and 255."
+    is ShaderParseError.Vec2Expected -> "$path must be a two-number array or an object with x and y."
+    is ShaderParseError.Vec2ComponentCountExpected -> "$path must contain exactly 2 numbers."
+}
 
 private data class ShaderPresetJson(
     val version: Int? = null,
