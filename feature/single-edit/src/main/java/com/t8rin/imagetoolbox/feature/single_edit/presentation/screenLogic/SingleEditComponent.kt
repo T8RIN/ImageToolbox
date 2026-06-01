@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
@@ -146,6 +147,9 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     private val _drawUndonePaths = mutableStateOf(listOf<UiPathPaint>())
     val drawUndonePaths: List<UiPathPaint> by _drawUndonePaths
+
+    private val _drawSpotHealCache = mutableStateMapOf<Int, Bitmap>()
+    val drawSpotHealCache: Map<Int, Bitmap> = _drawSpotHealCache
 
     private val _filterList =
         mutableStateOf(listOf<UiFilter<*>>())
@@ -338,6 +342,7 @@ class SingleEditComponent @AssistedInject internal constructor(
                     size?.run { IntegerSize(width = first, height = second) }
                 }
             }
+            _drawSpotHealCache.clear()
             _bitmap.update {
                 imageScaler.scaleUntilCanShow(bitmap)
             }
@@ -501,6 +506,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             _originalSize.update {
                 size.run { IntegerSize(width = first, height = second) }
             }
+            _drawSpotHealCache.clear()
             _bitmap.update {
                 _internalBitmap.update {
                     imageScaler.scaleUntilCanShow(bitmap)
@@ -659,6 +665,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             _drawLastPaths.update { if (canUndo) drawPaths else listOf() }
             _drawPaths.update { listOf() }
             _drawUndonePaths.update { listOf() }
+            _drawSpotHealCache.clear()
             _drawMode.update { DrawMode.Pen }
             _drawPathMode.update { DrawPathMode.Free }
         }
@@ -689,6 +696,13 @@ class SingleEditComponent @AssistedInject internal constructor(
     fun addPathToDrawList(pathPaint: UiPathPaint) {
         _drawPaths.update { it + pathPaint }
         _drawUndonePaths.update { listOf() }
+    }
+
+    fun cacheDrawSpotHealPathResult(
+        key: Int,
+        bitmap: Bitmap
+    ) {
+        _drawSpotHealCache[key] = bitmap
     }
 
     fun clearErasing(canUndo: Boolean = false) {

@@ -124,6 +124,8 @@ fun DrawEditOption(
     lastPaths: List<UiPathPaint>,
     undonePaths: List<UiPathPaint>,
     addPath: (UiPathPaint) -> Unit,
+    spotHealCache: Map<Int, Bitmap>,
+    onCacheSpotHealPathResult: (Int, Bitmap) -> Unit,
     helperGridParams: HelperGridParams,
     onUpdateHelperGridParams: (HelperGridParams) -> Unit,
     addFiltersSheetComponent: AddFiltersSheetComponent,
@@ -483,7 +485,9 @@ fun DrawEditOption(
                         backgroundColor = Color.Transparent,
                         drawLineStyle = drawLineStyle,
                         helperGridParams = helperGridParams,
-                        showLineAngle = showLineAngle
+                        showLineAngle = showLineAngle,
+                        spotHealCache = spotHealCache,
+                        onCacheSpotHealPathResult = onCacheSpotHealPathResult
                     )
                 }
             }
