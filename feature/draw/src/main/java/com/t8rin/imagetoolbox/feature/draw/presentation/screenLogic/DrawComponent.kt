@@ -25,7 +25,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
@@ -110,8 +112,8 @@ class DrawComponent @AssistedInject internal constructor(
     )
     val drawOnBackgroundParams: DrawOnBackgroundParams by _drawOnBackgroundParams
 
-    private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
-    val bitmap: Bitmap? by _bitmap
+    private val _imageBitmap: MutableState<ImageBitmap?> = mutableStateOf(null)
+    val imageBitmap: ImageBitmap? by _imageBitmap
 
     private val _backgroundColor: MutableState<Color> = mutableStateOf(Color.Transparent)
     val backgroundColor by _backgroundColor
@@ -211,9 +213,8 @@ class DrawComponent @AssistedInject internal constructor(
         }
     }
 
-    private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
-        val bmp = imageGetter.getImage(uri = uri.toString(), originalSize = false)?.image
-        val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
+    private fun calculateScreenOrientationBasedOnBitmap(bitmap: Bitmap): Int {
+        val imageRatio = bitmap.width / bitmap.height.toFloat()
         return if (imageRatio <= 1.05f) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         } else {
@@ -234,7 +235,13 @@ class DrawComponent @AssistedInject internal constructor(
     private fun updateBitmap(bitmap: Bitmap?) {
         componentScope.launch {
             _isImageLoading.value = true
-            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
+            val scaledBitmap = imageScaler.scaleUntilCanShow(bitmap)
+            val scaledImageBitmap = scaledBitmap?.let {
+                withContext(defaultDispatcher) {
+                    it.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
+                }
+            }
+            _imageBitmap.value = scaledImageBitmap
             _isImageLoading.value = false
         }
     }
@@ -247,21 +254,24 @@ class DrawComponent @AssistedInject internal constructor(
             _lastPaths.value = listOf()
             _undonePaths.value = listOf()
             _spotHealCache.clear()
+            _imageBitmap.value = null
             _isImageLoading.value = true
 
             _uri.value = uri
-            if (drawBehavior !is DrawBehavior.Image) {
-                _drawBehavior.update {
-                    DrawBehavior.Image(calculateScreenOrientationBasedOnUri(uri))
-                }
-            }
             imageGetter.getImageData(
                 uri = uri.toString(),
                 size = 2500,
                 onFailure = AppToastHost::showFailureToast
             )?.let { data ->
+                if (drawBehavior !is DrawBehavior.Background) {
+                    _drawBehavior.update {
+                        DrawBehavior.Image(calculateScreenOrientationBasedOnBitmap(data.image))
+                    }
+                }
                 updateBitmap(data.image)
                 _imageFormat.update { data.imageInfo.imageFormat }
+            } ?: run {
+                _isImageLoading.value = false
             }
         }
     }
@@ -288,7 +298,7 @@ class DrawComponent @AssistedInject internal constructor(
         _lastPaths.value = listOf()
         _undonePaths.value = listOf()
         _spotHealCache.clear()
-        _bitmap.value = null
+        _imageBitmap.value = null
         _drawBehavior.update {
             DrawBehavior.None
         }

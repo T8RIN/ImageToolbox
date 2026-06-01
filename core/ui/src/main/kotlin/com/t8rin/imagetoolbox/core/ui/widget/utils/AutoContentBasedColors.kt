@@ -21,6 +21,8 @@ import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.isSpecified
 import coil3.imageLoader
 import coil3.request.ImageRequest
@@ -39,7 +41,7 @@ fun <T : Any> AutoContentBasedColors(
         model = model,
         selector = {
             appContext.imageLoader.execute(
-                ImageRequest.Builder(appContext).data(model).build()
+                ImageRequest.Builder(appContext).data(it).build()
             ).image?.toBitmap()
         },
         allowChangeColor = allowChangeColor
@@ -60,7 +62,11 @@ fun <T : Any> AutoContentBasedColors(
     LaunchedEffect(model, appColorTuple, internalAllowChangeColor) {
         internalAllowChangeColor.takeIf { it }
             ?.let {
-                model?.let { selector(it) }
+                when (model) {
+                    is Bitmap -> model
+                    is ImageBitmap -> model.asAndroidBitmap()
+                    else -> model?.let { selector(it) }
+                }
             }?.let {
                 themeState.updateColorByImage(it)
             } ?: themeState.updateColorTuple(appColorTuple)

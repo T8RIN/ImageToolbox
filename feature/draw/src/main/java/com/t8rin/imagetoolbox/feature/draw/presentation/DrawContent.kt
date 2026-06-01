@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation
 
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -35,7 +34,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,8 +43,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -114,7 +110,7 @@ fun DrawContent(
         }
     }
 
-    AutoContentBasedColors(component.bitmap)
+    AutoContentBasedColors(component.imageBitmap)
 
     val imagePicker = rememberImagePicker { uri: Uri ->
         component.setUri(uri)
@@ -179,13 +175,14 @@ fun DrawContent(
         )
     }
 
-    val bitmap = component.bitmap ?: (component.drawBehavior as? DrawBehavior.Background)?.run {
-        remember { ImageBitmap(width, height).asAndroidBitmap() }
+    val imageBitmap =
+        component.imageBitmap ?: (component.drawBehavior as? DrawBehavior.Background)?.run {
+            remember(width, height) { ImageBitmap(width, height) }
     } ?: remember {
         ImageBitmap(
             screenSize.widthPx,
             screenSize.heightPx
-        ).asAndroidBitmap()
+        )
     }
 
     var showOneTimeImagePickingDialog by rememberSaveable {
@@ -263,11 +260,7 @@ fun DrawContent(
         },
         mainContent = {
             AnimatedContent(
-                targetState = remember(bitmap) {
-                    derivedStateOf {
-                        bitmap.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
-                    }
-                }.value,
+                targetState = imageBitmap,
                 transitionSpec = { fadeIn() togetherWith fadeOut() }
             ) { imageBitmap ->
                 val direction = LocalLayoutDirection.current
