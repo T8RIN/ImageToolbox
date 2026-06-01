@@ -270,7 +270,18 @@ private fun ShaderValueEditor(
                     autoShadowElevation = 0.dp,
                     isStandaloneContainer = false
                 )
-                .padding(12.dp)
+                .then(
+                    if (value is ShaderValue.ColorValue) {
+                        Modifier.padding(
+                            top = 12.dp,
+                            start = 12.dp,
+                            end = 12.dp,
+                            bottom = 8.dp
+                        )
+                    } else {
+                        Modifier.padding(12.dp)
+                    }
+                )
         ) {
             Text(
                 text = title,
@@ -292,6 +303,7 @@ private fun ShaderValueContent(
 ) {
     AnimatedContent(
         targetState = value,
+        contentKey = { it::class.simpleName },
         modifier = Modifier.fillMaxWidth()
     ) { state ->
         Column(
