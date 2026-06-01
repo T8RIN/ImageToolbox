@@ -84,6 +84,10 @@
 -keepattributes *Annotation*
 -keep class kotlin.Metadata { *; }
 
+-keep class com.t8rin.imagetoolbox.core.filters.domain.model.shader.** { *; }
+-keep class  com.t8rin.imagetoolbox.core.filters.domain.model.shader.**
+-keep class  com.t8rin.imagetoolbox.core.filters.domain.model.shader.*
+
 -keep class com.t8rin.imagetoolbox.feature.markup_layers.data.project.** { *; }
 -keep class  com.t8rin.imagetoolbox.feature.markup_layers.data.project.**
 -keep class  com.t8rin.imagetoolbox.feature.markup_layers.data.project.*
