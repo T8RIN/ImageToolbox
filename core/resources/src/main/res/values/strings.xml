@@ -934,10 +934,9 @@
     <string name="default_line_width">Default Line Width</string>
     <string name="engine_mode">Engine Mode</string>
     <string name="ocr_engine">OCR Engine</string>
-    <string name="tesseract">Tesseract</string>
-    <string name="paddle_ocr">PaddleOCR</string>
-    <string name="download_paddle_ocr_description">PaddleOCR requires additional ONNX models on your device. Download PaddleOCR data?</string>
-    <string name="paddle_ocr_model">PaddleOCR Model</string>
+    <string name="tesseract" translatable="false">Tesseract</string>
+    <string name="paddle_ocr" translatable="false">PaddleOCR</string>
+    <string name="download_paddle_ocr_description">PaddleOCR requires additional ONNX models on your device. Do you want to download %1$s data?</string>
     <string name="paddle_ocr_model_universal">Universal</string>
     <string name="paddle_ocr_model_korean">Korean</string>
     <string name="paddle_ocr_model_latin">Latin</string>

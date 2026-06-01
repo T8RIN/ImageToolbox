@@ -47,6 +47,7 @@ internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) 
         DownloadLanguageDialog(
             title = R.string.paddle_ocr,
             description = R.string.download_paddle_ocr_description,
+            descriptionArgs = arrayOf(component.paddleOCRModel.englishName),
             onDownloadRequest = {
                 component.downloadPaddleData(
                     onProgress = { (p, size) ->
