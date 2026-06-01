@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.recognize.text.domain
 
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
+import com.t8rin.neural_tools.ocr.PaddleOCR
 
 interface ImageTextReader {
 
@@ -25,6 +26,7 @@ interface ImageTextReader {
         type: RecognitionType,
         languageCode: String,
         recognitionEngine: RecognitionEngine,
+        paddleOCRModel: PaddleOCR.Model,
         segmentationMode: SegmentationMode,
         ocrEngineMode: OcrEngineMode,
         parameters: TessParams,

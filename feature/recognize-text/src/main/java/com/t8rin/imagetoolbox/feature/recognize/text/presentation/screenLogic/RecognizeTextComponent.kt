@@ -129,6 +129,10 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         mutableStateOf(RecognitionEngine.Tesseract)
     val recognitionEngine by _recognitionEngine
 
+    private val _paddleOCRModel: MutableState<PaddleOCR.Model> =
+        mutableStateOf(PaddleOCR.Model.CJK)
+    val paddleOCRModel by _paddleOCRModel
+
     private val _params: MutableState<TessParams> = mutableStateOf(TessParams.Default)
     val params by _params
 
@@ -298,6 +302,13 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     index = settingsManager.getSettingsState().initialOcrEngine
                 ) {
                     RecognitionEngine.Tesseract
+                }
+            }
+            _paddleOCRModel.update {
+                PaddleOCR.Model.entries.getOrElse(
+                    index = settingsManager.getSettingsState().initialPaddleOcrModel
+                ) {
+                    PaddleOCR.Model.CJK
                 }
             }
             val languageCodes = settingsManager
@@ -553,12 +564,22 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         startRecognition()
     }
 
+    fun setPaddleOCRModel(model: PaddleOCR.Model) {
+        _paddleOCRModel.update { model }
+        componentScope.launch {
+            settingsManager.setInitialPaddleOcrModel(model.ordinal)
+        }
+        _recognitionData.update { null }
+        _editedText.update { null }
+        startRecognition()
+    }
+
     fun downloadPaddleData(
         onProgress: (DownloadProgress) -> Unit,
         onComplete: () -> Unit
     ) {
         componentScope.launch {
-            PaddleOCR.startDownload().collect { progress ->
+            PaddleOCR.startDownload(paddleOCRModel).collect { progress ->
                 onProgress(
                     DownloadProgress(
                         currentPercent = progress.currentPercent,
@@ -1026,6 +1047,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             type = recognitionType,
             languageCode = selectedLanguages.joinToString("+") { it.code },
             recognitionEngine = recognitionEngine,
+            paddleOCRModel = paddleOCRModel,
             segmentationMode = segmentationMode,
             model = imageGetter.getImage(this)?.let { bitmap ->
                 imageTransformer.transform(

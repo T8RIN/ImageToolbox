@@ -81,6 +81,7 @@ internal class AndroidImageTextReader @Inject constructor(
         type: RecognitionType,
         languageCode: String,
         recognitionEngine: RecognitionEngine,
+        paddleOCRModel: PaddleOCR.Model,
         segmentationMode: SegmentationMode,
         ocrEngineMode: OcrEngineMode,
         parameters: TessParams,
@@ -95,12 +96,15 @@ internal class AndroidImageTextReader @Inject constructor(
 
         if (recognitionEngine == RecognitionEngine.PaddleOCR) {
             return@withContext runCatching {
-                PaddleOCR.recognize(image)?.let { result ->
+                PaddleOCR.recognize(
+                    image = image,
+                    model = paddleOCRModel
+                )?.let { result ->
                     TextRecognitionResult.Success(
                         RecognitionData(
                             text = result.text,
                             accuracy = result.accuracy,
-                            hocr = ""
+                            hocr = result.hocr
                         )
                     )
                 } ?: TextRecognitionResult.NoPaddleData

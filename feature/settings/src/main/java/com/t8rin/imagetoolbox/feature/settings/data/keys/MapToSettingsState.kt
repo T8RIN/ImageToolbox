@@ -214,6 +214,7 @@ internal fun Preferences.toSettingsState(
     isTelegramGroupOpened = this[IS_TELEGRAM_GROUP_OPENED] ?: default.isTelegramGroupOpened,
     initialOcrMode = this[INITIAL_OCR_MODE] ?: default.initialOcrMode,
     initialOcrEngine = this[INITIAL_OCR_ENGINE] ?: default.initialOcrEngine,
+    initialPaddleOcrModel = this[INITIAL_PADDLE_OCR_MODEL] ?: default.initialPaddleOcrModel,
     spotHealMode = this[SPOT_HEAL_MODE] ?: default.spotHealMode,
     snowfallMode = this[SNOWFALL_MODE]?.let { SnowfallMode.entries[it] } ?: default.snowfallMode,
     defaultImageFormat = this[DEFAULT_IMAGE_FORMAT].let { title ->

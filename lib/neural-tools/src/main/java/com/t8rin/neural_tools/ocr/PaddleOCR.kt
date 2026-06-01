@@ -59,18 +59,39 @@ import kotlin.math.sqrt
 
 object PaddleOCR : NeuralTool() {
 
-    private const val MODEL_URL =
-        "https://huggingface.co/T8RIN/imagetoolbox-models/resolve/main/paddleocr_v5.zip?download=true"
+    enum class Model(
+        val title: String,
+        val fileName: String
+    ) {
+        CJK("CJK", "paddleocr_v5.zip"),
+        Korean("Korean", "paddleocr_v5_korean.zip"),
+        Latin("Latin", "paddleocr_v5_latin.zip"),
+        EastSlavic("East Slavic", "paddleocr_v5_eslav.zip"),
+        Thai("Thai", "paddleocr_v5_th.zip"),
+        Greek("Greek", "paddleocr_v5_el.zip"),
+        English("English", "paddleocr_v5_en.zip"),
+        Cyrillic("Cyrillic", "paddleocr_v5_cyrillic.zip"),
+        Arabic("Arabic", "paddleocr_v5_arabic.zip"),
+        Devanagari("Devanagari", "paddleocr_v5_devanagari.zip"),
+        Tamil("Tamil", "paddleocr_v5_ta.zip"),
+        Telugu("Telugu", "paddleocr_v5_te.zip")
+    }
 
     private val env: OrtEnvironment by lazy { OrtEnvironment.getEnvironment() }
     private var processor: OcrProcessor? = null
+    private var processorModel: Model? = null
 
     private val directory: File
         get() = File(context.filesDir, "ai_models/paddleocr").apply(File::mkdirs)
 
-    private val modelFiles: ModelFiles?
-        get() {
-            val files = directory.walkTopDown().filter(File::isFile).toList()
+    private fun modelDirectory(model: Model): File = File(directory, model.name).apply(File::mkdirs)
+
+    private fun modelUrl(model: Model): String =
+        "https://huggingface.co/T8RIN/imagetoolbox-models/resolve/main/paddleocr/${model.fileName}?download=true"
+
+    private fun modelFiles(model: Model): ModelFiles? {
+        fun resolveFrom(folder: File): ModelFiles? {
+            val files = folder.walkTopDown().filter(File::isFile).toList()
             val det = files.firstOrNull {
                 it.name == "det.onnx" || it.name.contains(
                     "det",
@@ -108,23 +129,35 @@ object PaddleOCR : NeuralTool() {
             }
         }
 
-    private val _isDownloaded = MutableStateFlow(modelFiles != null)
+        return resolveFrom(modelDirectory(model)) ?: if (model == Model.CJK) {
+            resolveFrom(directory)
+        } else {
+            null
+        }
+    }
+
+    private val _isDownloaded = MutableStateFlow(modelFiles(Model.CJK) != null)
     val isDownloaded: StateFlow<Boolean> = _isDownloaded
 
-    fun checkModel(): Boolean = (modelFiles != null).also { downloaded ->
+    fun checkModel(model: Model = Model.CJK): Boolean =
+        (modelFiles(model) != null).also { downloaded ->
         _isDownloaded.update { downloaded }
         if (!downloaded) close()
     }
 
-    fun startDownload(forced: Boolean = false): Flow<DownloadProgress> = callbackFlow {
-        if (!forced && checkModel()) {
+    fun startDownload(
+        model: Model = Model.CJK,
+        forced: Boolean = false
+    ): Flow<DownloadProgress> = callbackFlow {
+        if (!forced && checkModel(model)) {
             trySend(DownloadProgress(currentPercent = 1f, currentTotalSize = 0L))
             close()
             return@callbackFlow
         }
 
-        val zipFile = File(directory, "paddleocr_v5.zip.tmp")
-        httpClient.prepareGet(MODEL_URL).execute { response ->
+        val targetDirectory = modelDirectory(model)
+        val zipFile = File(targetDirectory, "${model.fileName}.tmp")
+        httpClient.prepareGet(modelUrl(model)).execute { response ->
             val total = response.contentLength() ?: -1L
             val channel = response.bodyAsChannel()
             var downloaded = 0L
@@ -146,8 +179,8 @@ object PaddleOCR : NeuralTool() {
                         }
                     }
 
-                    unzipModels(zipFile)
-                    _isDownloaded.update { checkModel() }
+                    unzipModels(zipFile, targetDirectory)
+                    _isDownloaded.update { checkModel(model) }
                     close()
                 } catch (e: Throwable) {
                     close(e)
@@ -158,32 +191,44 @@ object PaddleOCR : NeuralTool() {
         }
     }.flowOn(Dispatchers.IO)
 
-    fun recognize(image: Bitmap): PaddleOCRResult? {
-        if (!checkModel()) return null
+    fun recognize(
+        image: Bitmap,
+        model: Model = Model.CJK
+    ): PaddleOCRResult? {
+        if (!checkModel(model)) return null
 
-        val files = modelFiles ?: return null
-        val ocrProcessor = processor ?: OcrProcessor(
+        val files = modelFiles(model) ?: return null
+        val ocrProcessor = processor?.takeIf { processorModel == model } ?: OcrProcessor(
             modelFiles = files,
             ortEnv = env
-        ).also { processor = it }
+        ).also {
+            close()
+            processor = it
+            processorModel = model
+        }
 
         val result = ocrProcessor.processImage(image)
         return PaddleOCRResult(
             text = result.texts.joinToString(separator = "\n"),
-            accuracy = if (result.scores.isEmpty()) 0 else (result.scores.average() * 100).roundToInt()
+            accuracy = if (result.scores.isEmpty()) 0 else (result.scores.average() * 100).roundToInt(),
+            hocr = result.toHocr(image.width, image.height)
         )
     }
 
     fun close() {
         processor?.close()
         processor = null
+        processorModel = null
     }
 
-    private fun unzipModels(zipFile: File) {
+    private fun unzipModels(
+        zipFile: File,
+        targetDirectory: File
+    ) {
         ZipInputStream(zipFile.inputStream()).use { zip ->
             generateSequence { zip.nextEntry }.forEach { entry ->
                 if (!entry.isDirectory) {
-                    val outFile = File(directory, entry.name.substringAfterLast('/'))
+                    val outFile = File(targetDirectory, entry.name.substringAfterLast('/'))
                     outFile.parentFile?.mkdirs()
                     FileOutputStream(outFile).use { output ->
                         zip.copyTo(output)
@@ -197,7 +242,8 @@ object PaddleOCR : NeuralTool() {
 
 data class PaddleOCRResult(
     val text: String,
-    val accuracy: Int
+    val accuracy: Int,
+    val hocr: String
 )
 
 private data class ModelFiles(
@@ -211,11 +257,66 @@ private data class OcrResult(
     val boxes: List<TextBox>,
     val texts: List<String>,
     val scores: List<Float>
-)
+) {
+    fun toHocr(
+        imageWidth: Int,
+        imageHeight: Int
+    ): String = buildString {
+        append("""<div class="ocr_page" id="page_1" title="bbox 0 0 $imageWidth $imageHeight">""")
+        append('\n')
+        boxes.forEachIndexed { index, box ->
+            val rect = box.boundingRect()
+            val text = texts.getOrNull(index).orEmpty().escapeHocr()
+            append(
+                """  <span class="ocr_line" id="line_${index + 1}" title="bbox ${rect.left} ${rect.top} ${rect.right} ${rect.bottom}">"""
+            )
+            append(
+                """<span class="ocrx_word" id="word_${index + 1}" title="bbox ${rect.left} ${rect.top} ${rect.right} ${rect.bottom}">$text</span>"""
+            )
+            append("</span>")
+            append('\n')
+        }
+        append("</div>")
+    }
+}
 
 private data class TextBox(
     val points: List<PointF>
+) {
+    fun boundingRect(): BoundingRect {
+        val minX = points.minOfOrNull { it.x }?.floorToInt() ?: 0
+        val minY = points.minOfOrNull { it.y }?.floorToInt() ?: 0
+        val maxX = points.maxOfOrNull { it.x }?.ceilToInt() ?: 0
+        val maxY = points.maxOfOrNull { it.y }?.ceilToInt() ?: 0
+        return BoundingRect(minX, minY, maxX, maxY)
+    }
+}
+
+private data class BoundingRect(
+    val left: Int,
+    val top: Int,
+    val right: Int,
+    val bottom: Int
 )
+
+private fun Float.floorToInt(): Int = floor(toDouble()).toInt()
+
+private fun Float.ceilToInt(): Int = ceil(toDouble()).toInt()
+
+private fun String.escapeHocr(): String = buildString {
+    this@escapeHocr.forEach { char ->
+        append(
+            when (char) {
+                '&' -> "&amp;"
+                '<' -> "&lt;"
+                '>' -> "&gt;"
+                '"' -> "&quot;"
+                '\'' -> "&#39;"
+                else -> char
+            }
+        )
+    }
+}
 
 private class OcrProcessor(
     private val modelFiles: ModelFiles,

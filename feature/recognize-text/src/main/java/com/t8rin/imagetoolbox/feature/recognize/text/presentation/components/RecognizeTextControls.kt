@@ -135,6 +135,20 @@ internal fun RecognizeTextControls(
         onValueChange = component::setRecognitionEngine
     )
     AnimatedVisibility(
+        visible = component.recognitionEngine == RecognitionEngine.PaddleOCR,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Spacer(modifier = Modifier.height(8.dp))
+            PaddleOCRModelSelector(
+                value = component.paddleOCRModel,
+                onValueChange = component::setPaddleOCRModel
+            )
+        }
+    }
+    AnimatedVisibility(
         visible = component.recognitionEngine == RecognitionEngine.Tesseract,
         modifier = Modifier.fillMaxWidth()
     ) {
