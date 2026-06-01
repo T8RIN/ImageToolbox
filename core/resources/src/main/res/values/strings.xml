@@ -2255,6 +2255,8 @@
     <string name="pick_up_to_n_collage_images">Pick up to %1$s images</string>
     <string name="keep_date_time">Keep Date Time</string>
     <string name="keep_date_time_sub">Always preserve exif tags related to date and time, works independently of keep exif option</string>
+    <string name="always_clear_exif">Always clear EXIF</string>
+    <string name="always_clear_exif_sub">Remove image EXIF data on save, even when a tool requests keeping metadata</string>
     <string name="background_color_for_alpha_formats">Background Color For Alpha Formats</string>
     <string name="background_color_for_alpha_formats_sub">Adds ability to set background color for every image format with alpha support, when disabled this available for non alpha ones only</string>
     <string name="failed_to_open">Failed to open</string>

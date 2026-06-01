@@ -25,28 +25,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.DataSaverOff
+import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun ExifWidgetInitialStateSettingItem(
+fun AlwaysClearExifSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.center,
+    shape: Shape = ShapeDefaults.top,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.force_exif_widget_initial_value),
-        subtitle = stringResource(R.string.force_exif_widget_initial_value_sub),
-        checked = settingsState.exifWidgetInitialState,
-        enabled = !settingsState.isAlwaysClearExif,
+        title = stringResource(R.string.always_clear_exif),
+        subtitle = stringResource(R.string.always_clear_exif_sub),
+        checked = settingsState.isAlwaysClearExif,
         onClick = {
             onClick()
         },
-        startIcon = Icons.Rounded.DataSaverOff
+        startIcon = Icons.Outlined.DeleteSweep
     )
 }

@@ -218,6 +218,8 @@ class SingleEditComponent @AssistedInject internal constructor(
     )
     val helperGridParams: HelperGridParams by _helperGridParams
 
+    private val isAlwaysClearExif: Boolean get() = settingsProvider.settingsState.value.isAlwaysClearExif
+
     init {
         componentScope.launch {
             val settingsState = settingsProvider.getSettingsState()
@@ -493,7 +495,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     private fun setImageData(imageData: ImageData<Bitmap>) {
         job = componentScope.launch {
             _isImageLoading.update { true }
-            _exif.update { imageData.metadata }
+            _exif.update { imageData.metadata.takeIf { !isAlwaysClearExif } }
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
             _originalSize.update {

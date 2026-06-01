@@ -516,6 +516,9 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleKeepDateTime() =
         settingsScope { toggleKeepDateTime() }
 
+    fun toggleAlwaysClearExif() =
+        settingsScope { toggleAlwaysClearExif() }
+
     fun toggleEnableBackgroundColorForAlphaFormats() =
         settingsScope { toggleEnableBackgroundColorForAlphaFormats() }
 

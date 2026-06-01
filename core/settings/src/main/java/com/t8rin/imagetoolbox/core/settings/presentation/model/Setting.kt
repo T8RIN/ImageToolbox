@@ -588,6 +588,11 @@ sealed class Setting(
         subtitle = R.string.keep_date_time_sub
     )
 
+    data object AlwaysClearExif : Setting(
+        title = R.string.always_clear_exif,
+        subtitle = R.string.always_clear_exif_sub
+    )
+
     data object EnableBackgroundColorForAlphaFormats : Setting(
         title = R.string.background_color_for_alpha_formats,
         subtitle = R.string.background_color_for_alpha_formats_sub

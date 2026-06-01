@@ -632,6 +632,10 @@ internal fun SettingItem(
                 KeepDateTimeSettingItem(onClick = component::toggleKeepDateTime)
             }
 
+            Setting.AlwaysClearExif -> {
+                AlwaysClearExifSettingItem(onClick = component::toggleAlwaysClearExif)
+            }
+
             Setting.EnableBackgroundColorForAlphaFormats -> {
                 EnableBackgroundColorForAlphaFormatsSettingItem(onClick = component::toggleEnableBackgroundColorForAlphaFormats)
             }

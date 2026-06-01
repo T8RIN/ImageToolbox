@@ -210,6 +210,7 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.Exif,
         titleId = R.string.exif,
         settingsList = listOf(
+            Setting.AlwaysClearExif,
             Setting.ExifWidgetInitialState,
             Setting.KeepDateTime
         ),

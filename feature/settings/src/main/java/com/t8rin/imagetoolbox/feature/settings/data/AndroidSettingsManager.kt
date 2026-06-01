@@ -74,6 +74,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_BETAS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_CRASHLYTICS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_IMAGE_MONET
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_SKIP_IF_LARGER
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ALWAYS_CLEAR_EXIF
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AMOLED_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_COLOR_TUPLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_OPEN_COUNT
@@ -988,6 +989,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleKeepDateTime() = toggle(
         key = KEEP_DATE_TIME,
         defaultValue = default.keepDateTime
+    )
+
+    override suspend fun toggleAlwaysClearExif() = toggle(
+        key = ALWAYS_CLEAR_EXIF,
+        defaultValue = default.isAlwaysClearExif
     )
 
     override suspend fun toggleEnableBackgroundColorForAlphaFormats() = toggle(

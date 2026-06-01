@@ -264,6 +264,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleKeepDateTime()
 
+    suspend fun toggleAlwaysClearExif()
+
     suspend fun toggleEnableBackgroundColorForAlphaFormats()
 
 }

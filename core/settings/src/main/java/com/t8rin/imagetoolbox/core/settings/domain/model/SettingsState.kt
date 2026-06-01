@@ -140,6 +140,7 @@ data class SettingsState(
     val flingType: FlingType,
     val hiddenForShareScreens: List<Int>,
     val keepDateTime: Boolean,
+    val isAlwaysClearExif: Boolean,
     val enableBackgroundColorForAlphaFormats: Boolean,
 ) {
 
@@ -257,6 +258,7 @@ data class SettingsState(
                 flingType = FlingType.DEFAULT,
                 hiddenForShareScreens = emptyList(),
                 keepDateTime = false,
+                isAlwaysClearExif = false,
                 enableBackgroundColorForAlphaFormats = false,
             )
         }

@@ -78,7 +78,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
-    settingsProvider: SettingsProvider,
+    private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -126,6 +126,8 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
+
+    private val isAlwaysClearExif: Boolean get() = settingsProvider.settingsState.value.isAlwaysClearExif
 
     init {
         componentScope.launch {
@@ -248,7 +250,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private fun setImageData(imageData: ImageData<Bitmap>) {
         job = componentScope.launch {
             _isImageLoading.update { true }
-            _exif.update { imageData.metadata }
+            _exif.update { imageData.metadata.takeIf { !isAlwaysClearExif } }
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
             _originalSize.update { size.run { IntegerSize(width = first, height = second) } }

@@ -135,6 +135,7 @@ internal class AndroidFileController @Inject constructor(
             return@withContext SaveResult.Error.MissingPermissions
         }
 
+        val shouldKeepMetadata = keepOriginalMetadata && !settingsState.isAlwaysClearExif
         val data = if (saveTarget is ImageSaveTarget && saveTarget.readFromUriInsteadOfData) {
             readBytes(saveTarget.originalUri)
         } else {
@@ -180,8 +181,10 @@ internal class AndroidFileController @Inject constructor(
             }
 
             if (settingsState.filenameBehavior is FilenameBehavior.Overwrite) {
-                val providedMetadata = (saveTarget as? ImageSaveTarget)?.metadata
-                val targetMetadata = if (keepOriginalMetadata) {
+                val providedMetadata = (saveTarget as? ImageSaveTarget)
+                    ?.metadata
+                    ?.takeUnless { settingsState.isAlwaysClearExif }
+                val targetMetadata = if (shouldKeepMetadata) {
                     readMetadata(originalUri.toString()) ?: providedMetadata
                 } else {
                     providedMetadata
@@ -201,7 +204,7 @@ internal class AndroidFileController @Inject constructor(
                         copyMetadata(
                             initialExif = targetMetadata,
                             fileUri = originalUri,
-                            keepOriginalMetadata = keepOriginalMetadata,
+                            keepOriginalMetadata = shouldKeepMetadata,
                             originalUri = originalUri
                         )
                     }
@@ -261,7 +264,7 @@ internal class AndroidFileController @Inject constructor(
                 var initialExif: Metadata? = null
 
                 val newSaveTarget = if (saveTarget is ImageSaveTarget) {
-                    initialExif = saveTarget.metadata
+                    initialExif = saveTarget.metadata.takeUnless { settingsState.isAlwaysClearExif }
 
                     saveTarget.copy(
                         filename = filenameCreator.constructImageFilename(
@@ -288,7 +291,7 @@ internal class AndroidFileController @Inject constructor(
                 copyMetadata(
                     initialExif = initialExif,
                     fileUri = savingFolder.fileUri,
-                    keepOriginalMetadata = keepOriginalMetadata,
+                    keepOriginalMetadata = shouldKeepMetadata,
                     originalUri = saveTarget.originalUri.toUri()
                 )
 
@@ -546,7 +549,7 @@ internal class AndroidFileController @Inject constructor(
                 it.fileDescriptor.toMetadata().apply {
                     clearAllAttributes()
 
-                    if (settingsState.keepDateTime) {
+                    if (settingsState.keepDateTime && !settingsState.isAlwaysClearExif) {
                         readMetadata(originalUri.toString()).makeLog("srcMetadata")
                             ?.copyTo(
                                 metadata = this,

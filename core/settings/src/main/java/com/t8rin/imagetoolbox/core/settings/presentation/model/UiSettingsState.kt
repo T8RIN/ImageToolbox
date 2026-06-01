@@ -176,6 +176,7 @@ data class UiSettingsState(
     val flingType: FlingType,
     val hiddenForShareScreens: List<Int>,
     val keepDateTime: Boolean,
+    val isAlwaysClearExif: Boolean,
     val enableBackgroundColorForAlphaFormats: Boolean,
 )
 
@@ -433,6 +434,7 @@ fun SettingsState.toUiState(
                 flingType = flingType,
                 hiddenForShareScreens = hiddenForShareScreens,
                 keepDateTime = keepDateTime,
+                isAlwaysClearExif = isAlwaysClearExif,
                 enableBackgroundColorForAlphaFormats = enableBackgroundColorForAlphaFormats,
             )
         }
