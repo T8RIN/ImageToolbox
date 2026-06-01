@@ -25,6 +25,7 @@ import android.graphics.PorterDuff
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -169,9 +170,22 @@ fun BitmapDrawer(
                 mutableIntStateOf(0)
             }
 
-            val drawPathBitmap: ImageBitmap by remember(imageWidth, imageHeight, invalidations) {
+            val needsDrawPathBitmap = !isEraserOn && (
+                    drawMode is DrawMode.PathEffect
+                            || drawMode is DrawMode.SpotHeal
+                            || drawMode is DrawMode.Warp
+                    )
+
+            val drawPathBitmap: ImageBitmap? by remember(
+                imageWidth,
+                imageHeight,
+                invalidations,
+                needsDrawPathBitmap
+            ) {
                 derivedStateOf {
-                    createBitmap(imageWidth, imageHeight).asImageBitmap()
+                    if (needsDrawPathBitmap) {
+                        createBitmap(imageWidth, imageHeight).asImageBitmap()
+                    } else null
                 }
             }
 
@@ -192,16 +206,12 @@ fun BitmapDrawer(
                 }
             }
 
-            val canvas: Canvas by remember(drawBitmap, imageHeight, imageWidth) {
-                derivedStateOf {
-                    Canvas(drawBitmap)
-                }
+            val canvas: Canvas = remember(drawBitmap, imageHeight, imageWidth) {
+                Canvas(drawBitmap)
             }
 
-            val drawPathCanvas: Canvas by remember(drawPathBitmap, imageWidth, imageHeight) {
-                derivedStateOf {
-                    Canvas(drawPathBitmap)
-                }
+            val drawPathCanvas = remember(drawPathBitmap, imageWidth, imageHeight) {
+                drawPathBitmap?.let(::Canvas)
             }
 
             val canvasSize by remember(canvas.nativeCanvas) {
@@ -339,12 +349,14 @@ fun BitmapDrawer(
                                 invalidations = invalidations
                             )
                         } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
-                            with(drawPathCanvas.nativeCanvas) {
-                                drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-                                drawPath(
-                                    androidPath,
-                                    drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
-                                )
+                            drawPathCanvas?.nativeCanvas?.let {
+                                with(it) {
+                                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+                                    drawPath(
+                                        androidPath,
+                                        drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
+                                    )
+                                }
                             }
                         } else if (drawPathMode is DrawPathMode.Outlined) {
                             drawPathMode.fillColor?.let { fillColor ->
@@ -580,7 +592,7 @@ fun BitmapDrawer(
                 )
             }
 
-            if (drawMode is DrawMode.PathEffect && !isEraserOn) {
+            if (drawMode is DrawMode.PathEffect && !isEraserOn && drawPathCanvas != null) {
                 DrawPathEffectPreview(
                     drawPathCanvas = drawPathCanvas,
                     drawMode = drawMode,
@@ -598,51 +610,58 @@ fun BitmapDrawer(
             }
 
             var warpEngine by remember {
-                mutableStateOf(
-                    WarpEngine(
-                        src = outputImage.asAndroidBitmap()
-                    )
-                )
+                mutableStateOf<WarpEngine?>(null)
             }
 
             LaunchedEffect(warpClearTrigger, drawMode) {
-                warpEngine.release()
-                warpEngine = WarpEngine(
-                    src = outputImage.asAndroidBitmap()
-                )
+                if (drawMode is DrawMode.Warp && !isEraserOn) {
+                    warpEngine?.release()
+                    warpEngine = WarpEngine(
+                        src = outputImage.asAndroidBitmap()
+                    )
+                } else {
+                    warpEngine?.release()
+                    warpEngine = null
+                }
+            }
+
+            DisposableEffect(Unit) {
+                onDispose {
+                    warpEngine?.release()
+                    warpEngine = null
+                }
             }
 
             LaunchedEffect(warpEngine) {
                 snapshotFlow { warpRuntimeStrokes.lastOrNull() }
                     .filterNotNull()
                     .collect {
-                        if (drawMode is DrawMode.Warp) {
-                            warpEngine.applyStroke(
-                                fromX = it.fromX,
-                                fromY = it.fromY,
-                                toX = it.toX,
-                                toY = it.toY,
-                                brush = WarpBrush(
-                                    radius = strokeWidth.toPx(canvasSize),
-                                    strength = drawMode.strength,
-                                    hardness = drawMode.hardness
-                                ),
-                                mode = WarpMode.valueOf(drawMode.warpMode.name)
-                            )
-                            invalidations++
-                        }
+                        val engine = warpEngine ?: return@collect
+                        val warpMode = drawMode as? DrawMode.Warp ?: return@collect
+
+                        engine.applyStroke(
+                            fromX = it.fromX,
+                            fromY = it.fromY,
+                            toX = it.toX,
+                            toY = it.toY,
+                            brush = WarpBrush(
+                                radius = strokeWidth.toPx(canvasSize),
+                                strength = warpMode.strength,
+                                hardness = warpMode.hardness
+                            ),
+                            mode = WarpMode.valueOf(warpMode.warpMode.name)
+                        )
+                        invalidations++
                     }
             }
 
             val warpedImage by remember(invalidations, warpEngine) {
                 derivedStateOf {
-                    if (warpRuntimeStrokes.isNotEmpty()) {
-                        warpEngine.render().asImageBitmap().also {
+                    warpEngine?.takeIf { warpRuntimeStrokes.isNotEmpty() }?.let { engine ->
+                        engine.render().asImageBitmap().also {
                             it.prepareToDraw()
                         }
-                    } else {
-                        outputImage.overlay(drawPathBitmap)
-                    }
+                    } ?: drawPathBitmap?.let(outputImage::overlay) ?: outputImage
                 }
             }
 
@@ -651,7 +670,7 @@ fun BitmapDrawer(
                     if (drawMode is DrawMode.Warp) {
                         warpedImage
                     } else {
-                        outputImage.overlay(drawPathBitmap)
+                        drawPathBitmap?.let(outputImage::overlay) ?: outputImage
                     }
                 }
             }
