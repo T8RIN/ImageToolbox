@@ -65,7 +65,7 @@ fun ShaderStudioContent(
     )
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = component.haveChanges,
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             Text(
                 text = stringResource(R.string.shader_studio),
