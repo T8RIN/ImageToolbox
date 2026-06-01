@@ -321,6 +321,7 @@ sealed class SettingsGroup(
             Setting.TelegramGroup,
             Setting.TelegramChannel,
             Setting.SourceCode,
+            Setting.HelpTips,
             Setting.DebugMenu.takeIf { BuildConfig.DEBUG }
         ),
         initialState = true

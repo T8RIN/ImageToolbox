@@ -53,6 +53,7 @@ internal fun SettingItem(
     onNavigateToEasterEgg: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToLibrariesInfo: () -> Unit,
+    onNavigateToHelp: () -> Unit,
     isUpdateAvailable: Boolean,
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
@@ -260,6 +261,10 @@ internal fun SettingItem(
 
             Setting.HelpTranslate -> {
                 HelpTranslateSettingItem()
+            }
+
+            Setting.HelpTips -> {
+                HelpTipsSettingItem(onClick = onNavigateToHelp)
             }
 
             Setting.ImagePickerMode -> {

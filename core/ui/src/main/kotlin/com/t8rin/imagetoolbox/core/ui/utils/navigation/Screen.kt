@@ -84,6 +84,16 @@ sealed class Screen(
     )
 
     @Serializable
+    data class Help(
+        val categoryName: String? = null,
+        val tipId: String? = null
+    ) : Screen(
+        id = -7,
+        title = R.string.help_tips,
+        subtitle = R.string.help_tips_sub
+    )
+
+    @Serializable
     data class Settings(
         val searchQuery: String = ""
     ) : Screen(

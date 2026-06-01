@@ -113,6 +113,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Filter
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FormatConversion
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GifTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GradientMaker
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Help
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ImageCutter
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ImagePreview
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ImageSplitting
@@ -206,6 +207,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is AiTools -> "Ai_Tools"
     is ColorLibrary -> "ColorLibrary"
     is ShaderStudio -> "Shader_Studio"
+    is Help -> "Help_Tips"
     is PdfTools.Merge -> "PdfTools_Merge"
     is PdfTools.Split -> "PdfTools_Split"
     is PdfTools.Rotate -> "PdfTools_Rotate"
@@ -239,7 +241,8 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is AppLogs,
     is LibrariesInfo,
     is MeshGradients,
-    is LibraryDetails -> null
+    is LibraryDetails,
+    is Help -> null
 
     is SingleEdit -> Icons.Outlined.ImageEdit
     is ApngTools -> Icons.Outlined.ApngBox
@@ -319,7 +322,8 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is AppLogs,
     is LibrariesInfo,
     is MeshGradients,
-    is LibraryDetails -> null
+    is LibraryDetails,
+    is Help -> null
 
     is SingleEdit -> Icons.TwoTone.ImageEdit
     is ApngTools -> Icons.TwoTone.ApngBox
