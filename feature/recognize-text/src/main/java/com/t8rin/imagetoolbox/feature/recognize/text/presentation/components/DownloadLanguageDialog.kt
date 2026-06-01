@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Download
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isNetworkAvailable
@@ -54,8 +54,36 @@ fun DownloadLanguageDialog(
     onNoConnection: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    DownloadLanguageDialog(
+        title = R.string.no_data,
+        description = R.string.download_description,
+        onDownloadRequest = {
+            onDownloadRequest(downloadDialogData)
+        },
+        downloadProgress = downloadProgress,
+        dataRemaining = dataRemaining,
+        onNoConnection = onNoConnection,
+        onDismiss = onDismiss,
+        descriptionArgs = arrayOf(
+            downloadDialogData.firstOrNull()?.type?.displayName ?: "",
+            downloadDialogData.joinToString(separator = ", ") { it.localizedName }
+        )
+    )
+}
+
+@Composable
+fun DownloadLanguageDialog(
+    title: Int,
+    description: Int,
+    onDownloadRequest: () -> Unit,
+    downloadProgress: Float,
+    dataRemaining: String,
+    onNoConnection: () -> Unit,
+    onDismiss: () -> Unit,
+    descriptionArgs: Array<Any> = emptyArray()
+) {
     val context = LocalContext.current
-    var downloadStarted by rememberSaveable(downloadDialogData) {
+    var downloadStarted by rememberSaveable(title, description) {
         mutableStateOf(false)
     }
 
@@ -67,14 +95,14 @@ fun DownloadLanguageDialog(
                 contentDescription = null
             )
         },
-        title = { Text(stringResource(id = R.string.no_data)) },
+        title = { Text(stringResource(id = title)) },
         text = {
             Text(
-                stringResource(
-                    id = R.string.download_description,
-                    downloadDialogData.firstOrNull()?.type?.displayName ?: "",
-                    downloadDialogData.joinToString(separator = ", ") { it.localizedName }
-                )
+                if (descriptionArgs.isEmpty()) {
+                    stringResource(id = description)
+                } else {
+                    stringResource(id = description, *descriptionArgs)
+                }
             )
         },
         onDismissRequest = {},
@@ -82,10 +110,8 @@ fun DownloadLanguageDialog(
             EnhancedButton(
                 onClick = {
                     if (context.isNetworkAvailable()) {
-                        downloadDialogData.let { downloadData ->
-                            onDownloadRequest(downloadData)
-                            downloadStarted = true
-                        }
+                        onDownloadRequest()
+                        downloadStarted = true
                     } else onNoConnection()
                 }
             ) {

@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -25,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -36,6 +36,42 @@ import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.Re
 @Composable
 internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) {
     val downloadDialogData = component.downloadDialogData
+
+    if (component.showPaddleDownloadDialog) {
+        var progress by rememberSaveable(Unit) {
+            mutableFloatStateOf(0f)
+        }
+        var dataRemaining by rememberSaveable(Unit) {
+            mutableStateOf("")
+        }
+        DownloadLanguageDialog(
+            title = R.string.paddle_ocr,
+            description = R.string.download_paddle_ocr_description,
+            onDownloadRequest = {
+                component.downloadPaddleData(
+                    onProgress = { (p, size) ->
+                        dataRemaining = humanFileSize(size)
+                        progress = p
+                    },
+                    onComplete = {
+                        AppToastHost.showConfetti()
+                        component.startRecognition()
+                    }
+                )
+            },
+            downloadProgress = progress,
+            dataRemaining = dataRemaining,
+            onNoConnection = {
+                component.clearPaddleDownloadDialog()
+                AppToastHost.showToast(
+                    message = getString(R.string.no_connection),
+                    icon = Icons.Rounded.WifiTetheringError,
+                    duration = ToastDuration.Long
+                )
+            },
+            onDismiss = component::clearPaddleDownloadDialog
+        )
+    }
 
     if (downloadDialogData.isNotEmpty()) {
         var progress by rememberSaveable(downloadDialogData) {

@@ -79,7 +79,8 @@ fun EnhancedButtonGroup(
     onIndexChange: (Int) -> Unit,
     isScrollable: Boolean = true,
     contentPadding: PaddingValues = DefaultContentPadding,
-    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
+    activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
 ) {
     EnhancedButtonGroup(
         enabled = enabled,
@@ -99,7 +100,8 @@ fun EnhancedButtonGroup(
         },
         isScrollable = isScrollable,
         contentPadding = contentPadding,
-        inactiveButtonColor = inactiveButtonColor
+        inactiveButtonColor = inactiveButtonColor,
+        activeButtonColor = activeButtonColor,
     )
 }
 
@@ -113,7 +115,8 @@ fun EnhancedButtonGroup(
     onIndexChange: (Int) -> Unit,
     isScrollable: Boolean = true,
     contentPadding: PaddingValues = DefaultContentPadding,
-    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
+    activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
 ) {
     EnhancedButtonGroup(
         modifier = modifier,
@@ -133,7 +136,8 @@ fun EnhancedButtonGroup(
         title = title,
         isScrollable = isScrollable,
         contentPadding = contentPadding,
-        inactiveButtonColor = inactiveButtonColor
+        inactiveButtonColor = inactiveButtonColor,
+        activeButtonColor = activeButtonColor,
     )
 }
 

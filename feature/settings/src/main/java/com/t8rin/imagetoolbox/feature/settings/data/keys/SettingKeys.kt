@@ -110,6 +110,7 @@ internal val SYSTEM_BARS_VISIBILITY = intPreferencesKey("SYSTEM_BARS_VISIBILITY"
 internal val IS_SYSTEM_BARS_VISIBLE_BY_SWIPE =
     booleanPreferencesKey("IS_SYSTEM_BARS_VISIBLE_BY_SWIPE")
 internal val INITIAL_OCR_MODE = intPreferencesKey("INITIAL_OCR_MODE")
+internal val INITIAL_OCR_ENGINE = intPreferencesKey("INITIAL_OCR_ENGINE")
 internal val USE_COMPACT_SELECTORS_LAYOUT = booleanPreferencesKey("USE_COMPACT_SELECTORS_LAYOUT")
 internal val MAIN_SCREEN_TITLE = stringPreferencesKey("MAIN_SCREEN_TITLE")
 internal val SLIDER_TYPE = intPreferencesKey("SLIDER_TYPE")

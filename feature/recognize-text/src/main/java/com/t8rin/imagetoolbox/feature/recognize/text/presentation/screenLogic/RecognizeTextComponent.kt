@@ -21,7 +21,6 @@ package com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -62,6 +61,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiContrastFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiSharpenFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiThresholdFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Language
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
@@ -77,12 +77,14 @@ import com.t8rin.imagetoolbox.feature.recognize.text.domain.ImageTextReader
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OCRLanguage
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OcrEngineMode
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionData
+import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionEngine
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionType
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.SegmentationMode
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessParams
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TextRecognitionResult
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.components.UiDownloadData
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.components.toUi
+import com.t8rin.neural_tools.ocr.PaddleOCR
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -122,6 +124,10 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     private val _ocrEngineMode: MutableState<OcrEngineMode> = mutableStateOf(OcrEngineMode.DEFAULT)
     val ocrEngineMode by _ocrEngineMode
+
+    private val _recognitionEngine: MutableState<RecognitionEngine> =
+        mutableStateOf(RecognitionEngine.Tesseract)
+    val recognitionEngine by _recognitionEngine
 
     private val _params: MutableState<TessParams> = mutableStateOf(TessParams.Default)
     val params by _params
@@ -235,8 +241,15 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     private val _downloadDialogData = mutableStateOf<List<UiDownloadData>>(emptyList())
     val downloadDialogData by _downloadDialogData
 
+    private val _showPaddleDownloadDialog = mutableStateOf(false)
+    val showPaddleDownloadDialog by _showPaddleDownloadDialog
+
     fun clearDownloadDialogData() {
         _downloadDialogData.update { emptyList() }
+    }
+
+    fun clearPaddleDownloadDialog() {
+        _showPaddleDownloadDialog.update { false }
     }
 
     fun showSelectionTypeSheet(uris: List<Uri>) {
@@ -280,6 +293,13 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     init {
         loadLanguages()
         componentScope.launch {
+            _recognitionEngine.update {
+                RecognitionEngine.entries.getOrElse(
+                    index = settingsManager.getSettingsState().initialOcrEngine
+                ) {
+                    RecognitionEngine.Tesseract
+                }
+            }
             val languageCodes = settingsManager
                 .getSettingsState()
                 .initialOcrCodes
@@ -333,14 +353,14 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     _left.update { uris.size }
 
                     uris.forEach { uri ->
-                        uri.readText().appendToStringBuilder(
+                        if (!uri.readText().appendToStringBuilder(
                             builder = txtString,
                             uri = uri,
                             onRequestDownload = { data ->
                                 _downloadDialogData.update { data.map(DownloadData::toUi) }
-                                return@launch
                             }
-                        )
+                            )
+                        ) return@launch
                         _done.update { it + 1 }
                     }
 
@@ -373,6 +393,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
                                 is TextRecognitionResult.NoData -> {
                                     _downloadDialogData.update { result.data.map(DownloadData::toUi) }
+                                    return@launch
+                                }
+
+                                is TextRecognitionResult.NoPaddleData -> {
+                                    _showPaddleDownloadDialog.update { true }
                                     return@launch
                                 }
 
@@ -495,6 +520,10 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                         _downloadDialogData.update { result.data.map(DownloadData::toUi) }
                     }
 
+                    is TextRecognitionResult.NoPaddleData -> {
+                        _showPaddleDownloadDialog.update { true }
+                    }
+
                     is TextRecognitionResult.Success -> {
                         _recognitionData.update { result.data }
                         _editedText.update { text }
@@ -512,6 +541,34 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         }
         loadLanguages()
         startRecognition()
+    }
+
+    fun setRecognitionEngine(recognitionEngine: RecognitionEngine) {
+        _recognitionEngine.update { recognitionEngine }
+        componentScope.launch {
+            settingsManager.setInitialOcrEngine(recognitionEngine.ordinal)
+        }
+        _recognitionData.update { null }
+        _editedText.update { null }
+        startRecognition()
+    }
+
+    fun downloadPaddleData(
+        onProgress: (DownloadProgress) -> Unit,
+        onComplete: () -> Unit
+    ) {
+        componentScope.launch {
+            PaddleOCR.startDownload().collect { progress ->
+                onProgress(
+                    DownloadProgress(
+                        currentPercent = progress.currentPercent,
+                        currentTotalSize = progress.currentTotalSize
+                    )
+                )
+            }
+            clearPaddleDownloadDialog()
+            onComplete()
+        }
     }
 
     private val downloadMutex = Mutex()
@@ -685,14 +742,14 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
                     uris.forEach { uri ->
                         uri.readText().also { result ->
-                            result.appendToStringBuilder(
+                            if (!result.appendToStringBuilder(
                                 builder = txtString,
                                 uri = uri,
                                 onRequestDownload = { data ->
                                     _downloadDialogData.update { data.map(DownloadData::toUi) }
-                                    return@launch
                                 }
-                            )
+                                )
+                            ) return@launch
                             _done.update { it + 1 }
                         }
                     }
@@ -725,6 +782,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
                                     is TextRecognitionResult.NoData -> {
                                         _downloadDialogData.update { result.data.map(DownloadData::toUi) }
+                                        return@launch
+                                    }
+
+                                    is TextRecognitionResult.NoPaddleData -> {
+                                        _showPaddleDownloadDialog.update { true }
                                         return@launch
                                     }
 
@@ -799,7 +861,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         builder: StringBuilder,
         uri: Uri,
         onRequestDownload: (List<DownloadData>) -> Unit
-    ) {
+    ): Boolean {
         when (this) {
             is TextRecognitionResult.Error -> {
                 builder.apply {
@@ -809,9 +871,18 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     append(throwable.message)
                     append("\n\n")
                 }
+                return true
             }
 
-            is TextRecognitionResult.NoData -> onRequestDownload(data)
+            is TextRecognitionResult.NoData -> {
+                onRequestDownload(data)
+                return false
+            }
+
+            is TextRecognitionResult.NoPaddleData -> {
+                _showPaddleDownloadDialog.update { true }
+                return false
+            }
 
             is TextRecognitionResult.Success -> {
                 builder.apply {
@@ -823,6 +894,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     append(data.text.ifEmpty { getString(R.string.picture_has_no_text) })
                     append("\n\n")
                 }
+                return true
             }
         }
     }
@@ -927,6 +999,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     return null
                 }
 
+                is TextRecognitionResult.NoPaddleData -> {
+                    _showPaddleDownloadDialog.update { true }
+                    return null
+                }
+
                 is TextRecognitionResult.Success -> result.data
             }
             pages.add(
@@ -948,6 +1025,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         return imageTextReader.getTextFromImage(
             type = recognitionType,
             languageCode = selectedLanguages.joinToString("+") { it.code },
+            recognitionEngine = recognitionEngine,
             segmentationMode = segmentationMode,
             model = imageGetter.getImage(this)?.let { bitmap ->
                 imageTransformer.transform(

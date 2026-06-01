@@ -18,11 +18,12 @@
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CameraAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
@@ -46,6 +48,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageTransformBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.LinkPreviewList
+import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionEngine
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 
 @Composable
@@ -127,24 +130,38 @@ internal fun RecognizeTextControls(
         onSharpnessClick = component::toggleSharpnessFilter
     )
     Spacer(modifier = Modifier.height(16.dp))
-    RecognizeLanguageSelector(
-        currentRecognitionType = component.recognitionType,
-        value = component.selectedLanguages,
-        availableLanguages = component.languages,
-        onValueChange = { codeList, recognitionType ->
-            component.onLanguagesSelected(codeList)
-            component.setRecognitionType(recognitionType)
-            component.startRecognition()
-        },
-        onDeleteLanguage = { language, types ->
-            component.deleteLanguage(
-                language = language,
-                types = types
-            )
-        },
-        onImportLanguages = onImportLanguages,
-        onExportLanguages = onExportLanguages
+    RecognitionEngineSelector(
+        value = component.recognitionEngine,
+        onValueChange = component::setRecognitionEngine
     )
+    AnimatedVisibility(
+        visible = component.recognitionEngine == RecognitionEngine.Tesseract,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Spacer(modifier = Modifier.height(8.dp))
+            RecognizeLanguageSelector(
+                currentRecognitionType = component.recognitionType,
+                value = component.selectedLanguages,
+                availableLanguages = component.languages,
+                onValueChange = { codeList, recognitionType ->
+                    component.onLanguagesSelected(codeList)
+                    component.setRecognitionType(recognitionType)
+                    component.startRecognition()
+                },
+                onDeleteLanguage = { language, types ->
+                    component.deleteLanguage(
+                        language = language,
+                        types = types
+                    )
+                },
+                onImportLanguages = onImportLanguages,
+                onExportLanguages = onExportLanguages
+            )
+        }
+    }
     if (isExtraction) {
         LinkPreviewList(
             text = editedText ?: "",
@@ -166,24 +183,33 @@ internal fun RecognizeTextControls(
         )
     }
     Spacer(modifier = Modifier.height(8.dp))
-    RecognitionTypeSelector(
-        value = component.recognitionType,
-        onValueChange = component::setRecognitionType
-    )
-    Spacer(modifier = Modifier.height(8.dp))
-    ModelTypeSelector(
-        value = component.segmentationMode,
-        onValueChange = component::setSegmentationMode
-    )
-    Spacer(modifier = Modifier.height(8.dp))
-    OcrEngineModeSelector(
-        value = component.ocrEngineMode,
-        onValueChange = component::setOcrEngineMode
-    )
-    Spacer(modifier = Modifier.height(8.dp))
-    TessParamsSelector(
-        value = component.params,
-        onValueChange = component::updateParams,
+    AnimatedVisibility(
+        visible = component.recognitionEngine == RecognitionEngine.Tesseract,
         modifier = Modifier.fillMaxWidth()
-    )
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            RecognitionTypeSelector(
+                value = component.recognitionType,
+                onValueChange = component::setRecognitionType
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            ModelTypeSelector(
+                value = component.segmentationMode,
+                onValueChange = component::setSegmentationMode
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            OcrEngineModeSelector(
+                value = component.ocrEngineMode,
+                onValueChange = component::setOcrEngineMode
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            TessParamsSelector(
+                value = component.params,
+                onValueChange = component::updateParams,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
 }

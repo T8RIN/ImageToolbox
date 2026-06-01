@@ -24,6 +24,7 @@ interface ImageTextReader {
     suspend fun getTextFromImage(
         type: RecognitionType,
         languageCode: String,
+        recognitionEngine: RecognitionEngine,
         segmentationMode: SegmentationMode,
         ocrEngineMode: OcrEngineMode,
         parameters: TessParams,

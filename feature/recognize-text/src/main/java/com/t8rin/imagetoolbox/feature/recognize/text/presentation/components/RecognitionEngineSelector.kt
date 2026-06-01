@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,31 +26,30 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionType
+import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionEngine
 
 @Composable
-fun RecognitionTypeSelector(
-    value: RecognitionType,
-    onValueChange: (RecognitionType) -> Unit,
-    modifier: Modifier = Modifier
+fun RecognitionEngineSelector(
+    value: RecognitionEngine,
+    onValueChange: (RecognitionEngine) -> Unit
 ) {
     EnhancedButtonGroup(
-        modifier = modifier
+        modifier = Modifier
+            .fillMaxWidth()
             .container(shape = ShapeDefaults.extraLarge),
-        items = RecognitionType.entries.map { it.translatedName },
-        selectedIndex = RecognitionType.entries.indexOf(value),
-        title = stringResource(id = R.string.recognition_type),
-        isScrollable = false,
+        items = RecognitionEngine.entries.map { stringResource(it.title) },
+        selectedIndex = RecognitionEngine.entries.indexOf(value),
+        title = stringResource(id = R.string.ocr_engine),
         onIndexChange = {
-            onValueChange(RecognitionType.entries[it])
-        }
+            onValueChange(RecognitionEngine.entries[it])
+        },
+        activeButtonColor = MaterialTheme.colorScheme.tertiaryContainer,
+        isScrollable = false
     )
 }
 
-private val RecognitionType.translatedName: String
-    @Composable
+private inline val RecognitionEngine.title: Int
     get() = when (this) {
-        RecognitionType.Best -> stringResource(id = R.string.best)
-        RecognitionType.Fast -> stringResource(id = R.string.fast)
-        RecognitionType.Standard -> stringResource(id = R.string.standard)
+        RecognitionEngine.Tesseract -> R.string.tesseract
+        RecognitionEngine.PaddleOCR -> R.string.paddle_ocr
     }

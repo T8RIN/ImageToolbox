@@ -28,6 +28,7 @@ dependencies {
     implementation(projects.core.filters)
     implementation(projects.feature.pdfTools)
     implementation(projects.feature.singleEdit)
+    implementation(projects.lib.neuralTools)
     implementation(libs.tesseract)
     implementation(projects.lib.cropper)
 }

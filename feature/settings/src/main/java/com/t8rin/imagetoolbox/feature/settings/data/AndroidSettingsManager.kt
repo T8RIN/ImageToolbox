@@ -128,6 +128,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_PICKER_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_COLOR_SPACE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.INITIAL_OCR_CODES
+import com.t8rin.imagetoolbox.feature.settings.data.keys.INITIAL_OCR_ENGINE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.INITIAL_OCR_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.INVERT_THEME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_LAUNCHER_MODE
@@ -797,6 +798,10 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setInitialOcrMode(mode: Int) = edit {
         it[INITIAL_OCR_MODE] = mode
+    }
+
+    override suspend fun setInitialOcrEngine(engine: Int) = edit {
+        it[INITIAL_OCR_ENGINE] = engine
     }
 
     override suspend fun toggleUseCompactSelectorsLayout() = toggle(

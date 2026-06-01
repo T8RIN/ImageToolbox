@@ -212,6 +212,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setInitialOcrMode(mode: Int)
 
+    suspend fun setInitialOcrEngine(engine: Int)
+
     suspend fun toggleUseCompactSelectorsLayout()
 
     suspend fun setMainScreenTitle(title: String)

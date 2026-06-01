@@ -36,11 +36,13 @@ import com.t8rin.imagetoolbox.feature.recognize.text.domain.ImageTextReader
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OCRLanguage
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OcrEngineMode
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionData
+import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionEngine
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionType
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.SegmentationMode
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessConstants
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessParams
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TextRecognitionResult
+import com.t8rin.neural_tools.ocr.PaddleOCR
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.isActive
@@ -78,6 +80,7 @@ internal class AndroidImageTextReader @Inject constructor(
     override suspend fun getTextFromImage(
         type: RecognitionType,
         languageCode: String,
+        recognitionEngine: RecognitionEngine,
         segmentationMode: SegmentationMode,
         ocrEngineMode: OcrEngineMode,
         parameters: TessParams,
@@ -89,6 +92,22 @@ internal class AndroidImageTextReader @Inject constructor(
         if (model == null) return@withContext empty
 
         val image = model as? Bitmap ?: (imageGetter.getImage(model) ?: return@withContext empty)
+
+        if (recognitionEngine == RecognitionEngine.PaddleOCR) {
+            return@withContext runCatching {
+                PaddleOCR.recognize(image)?.let { result ->
+                    TextRecognitionResult.Success(
+                        RecognitionData(
+                            text = result.text,
+                            accuracy = result.accuracy,
+                            hocr = ""
+                        )
+                    )
+                } ?: TextRecognitionResult.NoPaddleData
+            }.getOrElse {
+                TextRecognitionResult.Error(it)
+            }
+        }
 
         val needToDownload = getNeedToDownloadLanguages(type, languageCode)
 
