@@ -80,6 +80,9 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     private val _shaderSource = mutableStateOf("")
     val shaderSource: String by _shaderSource
 
+    private val _helperSource = mutableStateOf("")
+    val helperSource: String by _helperSource
+
     private val _params = mutableStateOf(emptyList<ShaderParam>())
     val params: List<ShaderParam> by _params
 
@@ -99,6 +102,7 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     fun createPreset() {
         _name.update { "" }
         _shaderSource.update { "" }
+        _helperSource.update { "" }
         _params.update { emptyList() }
         registerChanges()
         updateBasicValidationErrors()
@@ -106,17 +110,13 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     }
 
     fun editPreset(preset: ShaderPreset) {
+        val draft = preset.toDraftSnapshot()
         _name.update { preset.name }
-        _shaderSource.update { "" }
+        _shaderSource.update { draft.shaderSource }
+        _helperSource.update { draft.helperSource }
         _params.update { preset.params }
         registerChangesCleared()
-        _validationErrors.update { emptyList() }
-
-        componentScope.launch {
-            val shaderBody = preset.shader.mainBody()
-            _shaderSource.update { shaderBody }
-            updateBasicValidationErrors()
-        }
+        updateBasicValidationErrors()
     }
 
     fun updateName(value: String) {
@@ -127,6 +127,12 @@ class ShaderStudioComponent @AssistedInject internal constructor(
 
     fun updateShaderSource(value: String) {
         _shaderSource.update { value }
+        registerChanges()
+        updateBasicValidationErrors()
+    }
+
+    fun updateHelperSource(value: String) {
+        _helperSource.update { value }
         registerChanges()
         updateBasicValidationErrors()
     }
@@ -267,6 +273,7 @@ class ShaderStudioComponent @AssistedInject internal constructor(
         ShaderDraftSnapshot(
             name = name,
             shaderSource = shaderSource,
+            helperSource = helperSource,
             params = params
         )
 

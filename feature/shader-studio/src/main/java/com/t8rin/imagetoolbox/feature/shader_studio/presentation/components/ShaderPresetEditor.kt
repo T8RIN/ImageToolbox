@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.EvShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
@@ -90,6 +91,34 @@ internal fun ShaderPresetEditor(component: ShaderStudioComponent) {
                     )
                 }
             }
+        )
+        ExpandableItem(
+            initialState = component.helperSource.isNotBlank(),
+            visibleContent = {
+                TitleItem(text = stringResource(R.string.shader_helper_code))
+            },
+            expandableContent = {
+                RoundedTextField(
+                    value = component.helperSource,
+                    onValueChange = component::updateHelperSource,
+                    hint = stringResource(R.string.shader_helper_code_info),
+                    shape = ShapeDefaults.large,
+                    singleLine = false,
+                    textStyle = TextStyle(
+                        fontFamily = FontFamily.Monospace,
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.None,
+                        autoCorrectEnabled = false,
+                        imeAction = ImeAction.Default
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            },
+            color = MaterialTheme.colorScheme.surface
         )
     }
 }

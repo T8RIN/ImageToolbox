@@ -2335,6 +2335,8 @@
     <string name="shader_params_count">Параметров: %1$d</string>
     <string name="shader_source">Исходный код шейдера</string>
     <string name="shader_main_body_info">Пишите только тело void main(). Используйте textureCoordinate для UV-координат и inputImageTexture как исходный sampler.</string>
+    <string name="shader_helper_code">Функции</string>
+    <string name="shader_helper_code_info">Необязательные helper-функции, константы и structs, которые вставляются перед void main(). Uniforms генерируются из параметров.</string>
     <string name="shader_no_parameters">Добавьте uniforms здесь, если шейдеру нужны настраиваемые значения.</string>
     <string name="reset_shader">Сбросить шейдер</string>
     <string name="reset_shader_sub">Текущий черновик шейдера будет очищен</string>

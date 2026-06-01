@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -56,6 +57,7 @@ fun ShaderStudioContent(
 ) {
     var showShaderLibrary by rememberSaveable { mutableStateOf(false) }
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val importPicker = rememberFilePicker(
         mimeType = MimeType.All,
@@ -63,7 +65,7 @@ fun ShaderStudioContent(
     )
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = true,
+        shouldDisableBackHandler = component.haveChanges,
         title = {
             Text(
                 text = stringResource(R.string.shader_studio),
@@ -71,7 +73,13 @@ fun ShaderStudioContent(
                 modifier = Modifier.marquee()
             )
         },
-        onGoBack = component.onGoBack,
+        onGoBack = {
+            if (component.haveChanges) {
+                showExitDialog = true
+            } else {
+                component.onGoBack()
+            }
+        },
         actions = {
             EnhancedIconButton(
                 onClick = { showResetDialog = true }
@@ -125,5 +133,11 @@ fun ShaderStudioContent(
         onReset = component::createPreset,
         title = stringResource(R.string.reset_shader),
         text = stringResource(R.string.reset_shader_sub)
+    )
+
+    ExitWithoutSavingDialog(
+        onExit = component.onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
     )
 }

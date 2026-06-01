@@ -31,9 +31,19 @@ internal fun ShaderDraftSnapshot.toPreset(): ShaderPreset =
             version = SUPPORTED_SHADER_VERSION,
             name = name.trim(),
             params = params,
-            shader = shaderSource.toFragmentShader(params)
+            shader = toFragmentShader(params)
         )
     }
+
+internal fun ShaderPreset.toDraftSnapshot(): ShaderDraftSnapshot {
+    val parts = shader.toShaderSourceParts(params)
+    return ShaderDraftSnapshot(
+        name = name,
+        shaderSource = parts.mainBody,
+        helperSource = parts.helperSource,
+        params = params
+    )
+}
 
 internal fun ShaderParamType.defaultValue(): ShaderValue = when (this) {
     ShaderParamType.Float -> ShaderValue.FloatValue(0f)
@@ -63,7 +73,7 @@ private fun List<ShaderParam>.sanitizeForShaderPreset(): List<ShaderParam> =
         }
     }
 
-internal fun String.toFragmentShader(params: List<ShaderParam>): String = buildString {
+private fun ShaderDraftSnapshot.toFragmentShader(params: List<ShaderParam>): String = buildString {
     appendLine("precision mediump float;")
     appendLine("varying highp vec2 textureCoordinate;")
     appendLine("uniform sampler2D inputImageTexture;")
@@ -71,8 +81,12 @@ internal fun String.toFragmentShader(params: List<ShaderParam>): String = buildS
         appendLine("uniform ${param.type.glslType()} ${param.name};")
     }
     appendLine()
+    helperSource.trim().takeIf(String::isNotEmpty)?.let { helpers ->
+        appendLine(helpers)
+        appendLine()
+    }
     appendLine("void main() {")
-    this@toFragmentShader.lineSequence()
+    shaderSource.lineSequence()
         .map { it.trimEnd() }
         .forEach { line ->
             append("    ")
@@ -81,9 +95,14 @@ internal fun String.toFragmentShader(params: List<ShaderParam>): String = buildS
     append("}")
 }
 
-internal fun String.mainBody(): String {
-    val mainStart = MAIN_PATTERN.find(this)?.range?.last?.plus(1) ?: return this
-    val bodyStart = indexOf('{', startIndex = mainStart).takeIf { it >= 0 } ?: return this
+private fun String.toShaderSourceParts(params: List<ShaderParam>): ShaderSourceParts {
+    val mainMatch = MAIN_PATTERN.find(this) ?: return ShaderSourceParts(
+        mainBody = this,
+        helperSource = ""
+    )
+    val bodyStart = indexOf('{', startIndex = mainMatch.range.last + 1)
+        .takeIf { it >= 0 }
+        ?: return ShaderSourceParts(mainBody = this, helperSource = "")
     var depth = 0
 
     for (index in bodyStart until length) {
@@ -92,16 +111,49 @@ internal fun String.mainBody(): String {
             '}' -> {
                 depth -= 1
                 if (depth == 0) {
-                    return substring(bodyStart + 1, index)
-                        .trim('\n', '\r')
-                        .lines()
-                        .joinToString("\n") { it.removePrefix("    ") }
+                    val prefix = substring(0, mainMatch.range.first)
+                    val body = substring(bodyStart + 1, index)
+                    val suffix = substring(index + 1)
+                    return ShaderSourceParts(
+                        mainBody = body.toEditableMainBody(),
+                        helperSource = listOf(prefix, suffix)
+                            .joinToString("\n")
+                            .withoutStudioWrapper(params)
+                    )
                 }
             }
         }
     }
 
-    return this
+    return ShaderSourceParts(mainBody = this, helperSource = "")
+}
+
+private fun String.toEditableMainBody(): String =
+    trim('\n', '\r')
+        .lines()
+        .joinToString("\n") { it.removePrefix("    ") }
+
+private fun String.withoutStudioWrapper(params: List<ShaderParam>): String {
+    val paramUniforms = params.associate { param ->
+        param.name to param.type.glslType()
+    }
+    return lineSequence()
+        .filterNot { line -> line.isStudioWrapperDeclaration(paramUniforms) }
+        .joinToString("\n")
+        .trim()
+}
+
+private fun String.isStudioWrapperDeclaration(paramUniforms: Map<String, String>): Boolean {
+    val trimmed = trim()
+    if (trimmed.isEmpty()) return false
+    if (PRECISION_DECLARATION.matches(trimmed)) return true
+    if (TEXTURE_COORDINATE_DECLARATION.matches(trimmed)) return true
+    if (INPUT_TEXTURE_DECLARATION.matches(trimmed)) return true
+
+    val uniform = UNIFORM_DECLARATION.matchEntire(trimmed) ?: return false
+    val type = uniform.groupValues[1]
+    val name = uniform.groupValues[2]
+    return paramUniforms[name] == type
 }
 
 internal fun String.sanitizedFileName(): String =
@@ -121,5 +173,17 @@ private fun ShaderParamType.glslType(): String = when (this) {
     ShaderParamType.Vec2 -> "vec2"
 }
 
+private data class ShaderSourceParts(
+    val mainBody: String,
+    val helperSource: String
+)
+
 private const val SUPPORTED_SHADER_VERSION = 1
 private val MAIN_PATTERN = Regex("""void\s+main\s*\(\s*\)""")
+private val PRECISION_DECLARATION = Regex("""precision\s+\w+\s+\w+\s*;""")
+private val TEXTURE_COORDINATE_DECLARATION =
+    Regex("""varying\s+(?:lowp|mediump|highp)?\s*vec2\s+textureCoordinate\s*;""")
+private val INPUT_TEXTURE_DECLARATION =
+    Regex("""uniform\s+(?:lowp|mediump|highp)?\s*sampler2D\s+inputImageTexture\s*;""")
+private val UNIFORM_DECLARATION =
+    Regex("""uniform\s+(?:lowp|mediump|highp)?\s*(\w+)\s+([A-Za-z_][A-Za-z0-9_]*)\s*;""")

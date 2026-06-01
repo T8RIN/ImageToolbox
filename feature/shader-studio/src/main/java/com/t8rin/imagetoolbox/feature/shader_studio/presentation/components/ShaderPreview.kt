@@ -74,7 +74,11 @@ internal fun ShaderPreview(component: ShaderStudioComponent) {
             isLoadingFromDifferentPlace = component.isImageLoading,
             shape = MaterialTheme.shapes.medium,
             contentScale = ContentScale.FillBounds,
-            transformations = remember(component.shaderSource, component.params) {
+            transformations = remember(
+                component.shaderSource,
+                component.helperSource,
+                component.params
+            ) {
                 component.getPreviewTransformations()
             }
         )

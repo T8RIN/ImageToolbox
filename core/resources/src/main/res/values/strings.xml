@@ -2355,6 +2355,8 @@
     <string name="shader_params_count">%1$d params</string>
     <string name="shader_source">Shader source</string>
     <string name="shader_main_body_info">Write only the body of void main(). Use textureCoordinate for UV coordinates and inputImageTexture as the source sampler.</string>
+    <string name="shader_helper_code">Functions</string>
+    <string name="shader_helper_code_info">Optional helper functions, constants, and structs inserted before void main(). Uniforms are generated from params.</string>
     <string name="shader_no_parameters">Add uniforms here when the shader needs editable values.</string>
     <string name="reset_shader">Reset shader</string>
     <string name="reset_shader_sub">Current shader draft will be cleared</string>

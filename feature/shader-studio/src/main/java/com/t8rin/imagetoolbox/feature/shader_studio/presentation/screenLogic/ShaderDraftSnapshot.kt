@@ -22,5 +22,6 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParam
 internal data class ShaderDraftSnapshot(
     val name: String,
     val shaderSource: String,
+    val helperSource: String,
     val params: List<ShaderParam>
 )
