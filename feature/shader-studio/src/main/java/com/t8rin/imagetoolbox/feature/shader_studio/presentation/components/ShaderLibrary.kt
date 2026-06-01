@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.shader_studio.presentation.components
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,16 +38,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.t8rin.imagetoolbox.core.domain.SHADER_EXT
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Code
-import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadFile
-import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
-import com.t8rin.imagetoolbox.core.resources.icons.IosShare
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
+import com.t8rin.imagetoolbox.core.resources.icons.Share
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -84,8 +87,7 @@ internal fun SavedShadersButton(
 internal fun ShaderLibrarySheet(
     visible: Boolean,
     component: ShaderStudioComponent,
-    onDismiss: () -> Unit,
-    onExportPreset: (ShaderPreset) -> Unit
+    onDismiss: () -> Unit
 ) {
     val presets by component.presets.collectAsStateWithLifecycle()
 
@@ -116,10 +118,9 @@ internal fun ShaderLibrarySheet(
                 component.editPreset(it)
                 onDismiss()
             },
-            onDuplicate = component::duplicatePreset,
             onDelete = component::deletePreset,
             onShare = component::sharePreset,
-            onExport = onExportPreset
+            onExport = component::exportPreset
         )
     }
 }
@@ -128,10 +129,9 @@ internal fun ShaderLibrarySheet(
 private fun ShaderLibrary(
     presets: List<ShaderPreset>,
     onEdit: (ShaderPreset) -> Unit,
-    onDuplicate: (ShaderPreset) -> Unit,
     onDelete: (ShaderPreset) -> Unit,
     onShare: (ShaderPreset) -> Unit,
-    onExport: (ShaderPreset) -> Unit
+    onExport: (ShaderPreset, Uri) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -142,6 +142,13 @@ private fun ShaderLibrary(
     ) {
         presets.forEachIndexed { index, preset ->
             var showMenu by rememberSaveable(preset.name) { mutableStateOf(false) }
+
+            val exportPicker = rememberFileCreator(
+                mimeType = MimeType.All,
+                onSuccess = { uri: Uri ->
+                    onExport(preset, uri)
+                }
+            )
 
             PreferenceItemOverload(
                 title = preset.name,
@@ -158,26 +165,38 @@ private fun ShaderLibrary(
                             expanded = showMenu,
                             onDismissRequest = { showMenu = false }
                         ) {
-                            ShaderMenuAction(R.string.edit, Icons.Rounded.EditAlt) {
-                                showMenu = false
-                                onEdit(preset)
-                            }
-                            ShaderMenuAction(R.string.duplicate, Icons.Rounded.ContentCopy) {
-                                showMenu = false
-                                onDuplicate(preset)
-                            }
-                            ShaderMenuAction(R.string.export, Icons.Outlined.DownloadFile) {
-                                showMenu = false
-                                onExport(preset)
-                            }
-                            ShaderMenuAction(R.string.share, Icons.Rounded.IosShare) {
-                                showMenu = false
-                                onShare(preset)
-                            }
-                            ShaderMenuAction(R.string.delete, Icons.Rounded.Delete) {
-                                showMenu = false
-                                onDelete(preset)
-                            }
+                            ShaderMenuAction(
+                                title = R.string.edit,
+                                icon = Icons.Rounded.MiniEdit,
+                                onClick = {
+                                    showMenu = false
+                                    onEdit(preset)
+                                }
+                            )
+                            ShaderMenuAction(
+                                title = R.string.export,
+                                icon = Icons.Outlined.DownloadFile,
+                                onClick = {
+                                    showMenu = false
+                                    exportPicker.make("${preset.name}.$SHADER_EXT")
+                                }
+                            )
+                            ShaderMenuAction(
+                                title = R.string.share,
+                                icon = Icons.Rounded.Share,
+                                onClick = {
+                                    showMenu = false
+                                    onShare(preset)
+                                }
+                            )
+                            ShaderMenuAction(
+                                title = R.string.delete,
+                                icon = Icons.Rounded.Delete,
+                                onClick = {
+                                    showMenu = false
+                                    onDelete(preset)
+                                }
+                            )
                         }
                     }
                 },

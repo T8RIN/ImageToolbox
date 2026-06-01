@@ -33,8 +33,6 @@ interface ShaderPresetRepository {
 
     suspend fun deletePreset(preset: ShaderPreset)
 
-    suspend fun duplicatePreset(preset: ShaderPreset): Result<ShaderPreset>
-
     fun exportPreset(preset: ShaderPreset): String
 
 }

@@ -169,7 +169,8 @@ private fun ShaderParamEditor(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.animateContentSizeNoClip()
         ) {
-            val settingsCount = if (param.type == ShaderParamType.Bool) 1 else 3
+            val hasBounds = param.type.supportsBounds()
+            val settingsCount = if (hasBounds) 3 else 1
 
             ShaderValueEditor(
                 title = stringResource(R.string.default_value),
@@ -177,7 +178,7 @@ private fun ShaderParamEditor(
                 shape = ShapeDefaults.byIndex(0, settingsCount),
                 onValueChange = { onParamChange(param.copy(defaultValue = it)) }
             )
-            if (param.type != ShaderParamType.Bool) {
+            if (hasBounds) {
                 ShaderOptionalBoundsEditor(
                     param = param,
                     totalSize = settingsCount,
@@ -405,6 +406,9 @@ private fun ShaderParamType.defaultValue(): ShaderValue = when (this) {
     ShaderParamType.Color -> ShaderValue.ColorValue(255, 255, 255, 255)
     ShaderParamType.Vec2 -> ShaderValue.Vec2Value(0f, 0f)
 }
+
+private fun ShaderParamType.supportsBounds(): Boolean =
+    this != ShaderParamType.Bool && this != ShaderParamType.Color
 
 private fun ShaderValue.ColorValue.toComposeColor(): Color =
     Color(red = red, green = green, blue = blue, alpha = alpha)

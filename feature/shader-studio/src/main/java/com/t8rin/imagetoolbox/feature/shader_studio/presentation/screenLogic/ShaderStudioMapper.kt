@@ -26,12 +26,14 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.toImageModel
 
 internal fun ShaderDraftSnapshot.toPreset(): ShaderPreset =
-    ShaderPreset(
-        version = SUPPORTED_SHADER_VERSION,
-        name = name.trim(),
-        params = params,
-        shader = shaderSource.toFragmentShader(params)
-    )
+    params.sanitizeForShaderPreset().let { params ->
+        ShaderPreset(
+            version = SUPPORTED_SHADER_VERSION,
+            name = name.trim(),
+            params = params,
+            shader = shaderSource.toFragmentShader(params)
+        )
+    }
 
 internal fun ShaderParamType.defaultValue(): ShaderValue = when (this) {
     ShaderParamType.Float -> ShaderValue.FloatValue(0f)
@@ -51,6 +53,15 @@ internal fun List<ShaderParam>.nextParamName(): String {
     }
     return candidate
 }
+
+private fun List<ShaderParam>.sanitizeForShaderPreset(): List<ShaderParam> =
+    map { param ->
+        if (param.type == ShaderParamType.Bool || param.type == ShaderParamType.Color) {
+            param.copy(minValue = null, maxValue = null)
+        } else {
+            param
+        }
+    }
 
 internal fun String.toFragmentShader(params: List<ShaderParam>): String = buildString {
     appendLine("precision mediump float;")

@@ -90,28 +90,12 @@ internal class AndroidShaderPresetRepository @Inject constructor(
         }
     }
 
-    override suspend fun duplicatePreset(preset: ShaderPreset): Result<ShaderPreset> = runCatching {
-        val names = getPresets().first().mapTo(mutableSetOf()) { it.name }
-        val duplicated = preset.copy(name = preset.name.uniqueCopyName(names))
-        savePreset(duplicated).getOrThrow()
-        duplicated
-    }
-
     override fun exportPreset(preset: ShaderPreset): String = preset.toItShaderJson()
 
     private fun parsePresetOrNull(json: String): ShaderPreset? =
         json.takeIf(String::isLikelyShaderPresetJson)
             ?.let { parser.parse(it).getOrNull() }
 
-    private fun String.uniqueCopyName(existingNames: Set<String>): String {
-        var index = 1
-        var candidate = "$this Copy"
-        while (candidate in existingNames) {
-            index += 1
-            candidate = "$this Copy $index"
-        }
-        return candidate
-    }
 }
 
 private data class ParsedShaderPresets(

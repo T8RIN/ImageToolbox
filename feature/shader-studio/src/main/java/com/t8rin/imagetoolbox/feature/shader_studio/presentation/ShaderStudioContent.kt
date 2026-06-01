@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.shader_studio.presentation
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,11 +32,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
-import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
-import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
@@ -58,20 +54,12 @@ import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.Sha
 fun ShaderStudioContent(
     component: ShaderStudioComponent
 ) {
-    var exportingPreset by remember { mutableStateOf<ShaderPreset?>(null) }
     var showShaderLibrary by rememberSaveable { mutableStateOf(false) }
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
 
     val importPicker = rememberFilePicker(
         mimeType = MimeType.All,
         onSuccess = component::importPreset
-    )
-    val exportPicker = rememberFileCreator(
-        mimeType = MimeType.Txt,
-        onSuccess = { uri: Uri ->
-            exportingPreset?.let { component.exportPreset(it, uri) }
-            exportingPreset = null
-        }
     )
 
     AdaptiveLayoutScreen(
@@ -128,11 +116,7 @@ fun ShaderStudioContent(
     ShaderLibrarySheet(
         visible = showShaderLibrary,
         component = component,
-        onDismiss = { showShaderLibrary = false },
-        onExportPreset = {
-            exportingPreset = it
-            exportPicker.make("${it.name}.itshader")
-        }
+        onDismiss = { showShaderLibrary = false }
     )
 
     ResetDialog(

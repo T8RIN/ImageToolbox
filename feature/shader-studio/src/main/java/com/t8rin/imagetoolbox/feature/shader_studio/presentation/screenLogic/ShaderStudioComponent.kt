@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.imagetoolbox.core.domain.SHADER_EXT
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
@@ -70,9 +71,6 @@ class ShaderStudioComponent @AssistedInject internal constructor(
             initialValue = emptyList()
         )
 
-    private val _editingOriginalName = mutableStateOf<String?>(null)
-    val editingOriginalName: String? by _editingOriginalName
-
     private val _name = mutableStateOf("")
     val name: String by _name
 
@@ -94,7 +92,6 @@ class ShaderStudioComponent @AssistedInject internal constructor(
         get() = validationErrors.isEmpty()
 
     fun createPreset() {
-        _editingOriginalName.update { null }
         _name.update { "" }
         _shaderSource.update { "" }
         _params.update { emptyList() }
@@ -104,7 +101,6 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     }
 
     fun editPreset(preset: ShaderPreset) {
-        _editingOriginalName.update { preset.name }
         _name.update { preset.name }
         _shaderSource.update { "" }
         _params.update { preset.params }
@@ -164,17 +160,18 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     fun savePreset() {
         componentScope.launch {
             val snapshot = buildDraftSnapshot()
-            val preset = snapshot.toPreset()
             val errors = validateSnapshot(snapshot)
 
             _validationErrors.update { errors }
             if (errors.isNotEmpty()) return@launch
 
+            val preset = snapshot.toPreset().withUniqueName()
+
             shaderPresetRepository.savePreset(
                 preset = preset,
-                replacingName = editingOriginalName
+                replacingName = null
             ).onSuccess {
-                _editingOriginalName.update { preset.name }
+                _name.update { preset.name }
                 registerChangesCleared()
                 AppToastHost.showConfetti()
             }.onFailure(::showError)
@@ -226,7 +223,7 @@ class ShaderStudioComponent @AssistedInject internal constructor(
                         shaderPresetRepository.exportPreset(preset).encodeToByteArray()
                     )
                 },
-                filename = "${preset.name.sanitizedFileName()}.itshader",
+                filename = "${preset.name.sanitizedFileName()}.$SHADER_EXT",
                 onComplete = AppToastHost::showConfetti
             )
         }
@@ -235,18 +232,6 @@ class ShaderStudioComponent @AssistedInject internal constructor(
     fun deletePreset(preset: ShaderPreset) {
         componentScope.launch {
             shaderPresetRepository.deletePreset(preset)
-            if (editingOriginalName == preset.name) {
-                createPreset()
-                registerChangesCleared()
-            }
-        }
-    }
-
-    fun duplicatePreset(preset: ShaderPreset) {
-        componentScope.launch {
-            shaderPresetRepository.duplicatePreset(preset)
-                .onSuccess(::editPreset)
-                .onFailure(::showError)
         }
     }
 
@@ -297,6 +282,20 @@ class ShaderStudioComponent @AssistedInject internal constructor(
             }
             addAll(ShaderValidator.validateErrors(preset))
         }.distinct()
+    }
+
+    private fun ShaderPreset.withUniqueName(): ShaderPreset {
+        val existingNames = presets.value.mapTo(mutableSetOf()) { it.name }
+        if (name !in existingNames) return this
+
+        var index = 1
+        var candidate = "$name Copy"
+        while (candidate in existingNames) {
+            index += 1
+            candidate = "$name Copy $index"
+        }
+
+        return copy(name = candidate)
     }
 
     private fun showError(throwable: Throwable) {
