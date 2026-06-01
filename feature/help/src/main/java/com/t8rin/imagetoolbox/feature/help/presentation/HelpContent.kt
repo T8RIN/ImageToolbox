@@ -130,7 +130,6 @@ private fun HelpScreen(
                         categoryTips.size
                     ),
                     startIcon = category.icon,
-                    endIcon = Icons.Rounded.ArrowForwardIos,
                     onClick = { onOpenCategory(category) }
                 )
             }

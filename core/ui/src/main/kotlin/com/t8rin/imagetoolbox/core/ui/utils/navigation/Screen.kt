@@ -89,8 +89,8 @@ sealed class Screen(
         val tipId: String? = null
     ) : Screen(
         id = -7,
-        title = R.string.help_tips,
-        subtitle = R.string.help_tips_sub
+        title = 0,
+        subtitle = 0
     )
 
     @Serializable
