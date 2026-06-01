@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,9 +45,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.domain.image.Metadata
+import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.toMap
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
@@ -69,8 +72,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.utils.dateAdded
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.lastModified
 import com.t8rin.imagetoolbox.core.utils.path
+import java.util.Locale
 
 @Composable
 fun MetadataPreviewButton(
@@ -79,7 +84,8 @@ fun MetadataPreviewButton(
     dateAdded: (Uri) -> Long? = { it.dateAdded() },
     path: (Uri) -> String? = { it.path() },
     name: (Uri) -> String? = { it.filename() },
-    fileSize: (Uri) -> String? = { humanFileSize(it.fileSize() ?: 0L) }
+    fileSize: (Uri) -> String? = { humanFileSize(it.fileSize() ?: 0L) },
+    imageSize: (Uri) -> IntegerSize? = { it.imageSize() }
 ) {
     AnimatedContent(
         targetState = uri
@@ -93,14 +99,29 @@ fun MetadataPreviewButton(
                     .filter { it.second.isNotBlank() }
             }
         }
-        val info by remember(uri, dateModified, dateAdded, path, name, fileSize) {
+        val metadataImageSize by remember(metadata) {
+            derivedStateOf {
+                metadata?.imageSize
+            }
+        }
+        val info by remember(
+            uri,
+            dateModified,
+            dateAdded,
+            path,
+            name,
+            fileSize,
+            imageSize,
+            metadataImageSize
+        ) {
             derivedStateOf {
                 UriInfo(
                     dateModified = dateModified(uri),
                     dateAdded = dateAdded(uri),
                     path = path(uri),
                     name = name(uri),
-                    fileSize = fileSize(uri)
+                    fileSize = fileSize(uri),
+                    imageSize = metadataImageSize ?: imageSize(uri)
                 )
             }
         }
@@ -212,7 +233,8 @@ private data class UriInfo(
     val dateAdded: Long?,
     val path: String?,
     val name: String?,
-    val fileSize: String?
+    val fileSize: String?,
+    val imageSize: IntegerSize?
 ) {
     val data: List<Pair<Int, String>> = buildList {
         name?.takeIf { it.isNotBlank() }?.let {
@@ -221,6 +243,10 @@ private data class UriInfo(
 
         fileSize?.takeIf { it.isNotBlank() }?.let {
             add(R.string.file_size to it)
+        }
+
+        imageSize?.formatResolution()?.let {
+            add(R.string.resolution to it)
         }
 
         val dateAddedFormatted = dateAdded?.takeIf { it > 0 }?.let {
@@ -254,4 +280,18 @@ private data class UriInfo(
                 add(R.string.path to it)
             }
     }
+}
+
+private val Metadata.imageSize: IntegerSize?
+    get() {
+        val width = getAttribute(MetadataTag.PixelXDimension)?.toIntOrNull()
+        val height = getAttribute(MetadataTag.PixelYDimension)?.toIntOrNull()
+        return IntegerSize(width ?: 0, height ?: 0).takeIf { it.width > 0 && it.height > 0 }
+    }
+
+private fun IntegerSize.formatResolution(): String? = takeIf {
+    it.width > 0 && it.height > 0
+}?.run {
+    val megapixels = width.toLong() * height / 1_000_000f
+    "$width × $height • ${String.format(Locale.US, "%.1f", megapixels)} MP"
 }

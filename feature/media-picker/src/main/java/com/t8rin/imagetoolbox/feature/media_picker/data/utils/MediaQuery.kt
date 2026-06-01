@@ -49,7 +49,9 @@ sealed class Query(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 MediaStore.MediaColumns.DURATION
             } else null,
-            MediaStore.MediaColumns.MIME_TYPE
+            MediaStore.MediaColumns.MIME_TYPE,
+            MediaStore.MediaColumns.WIDTH,
+            MediaStore.MediaColumns.HEIGHT
         ).toTypedArray(),
     )
 
@@ -68,7 +70,9 @@ sealed class Query(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 MediaStore.MediaColumns.DURATION
             } else null,
-            MediaStore.MediaColumns.MIME_TYPE
+            MediaStore.MediaColumns.MIME_TYPE,
+            MediaStore.MediaColumns.WIDTH,
+            MediaStore.MediaColumns.HEIGHT
         ).toTypedArray(),
         bundle = defaultBundle.apply {
             putString(
@@ -97,7 +101,9 @@ sealed class Query(
                 MediaStore.MediaColumns.DURATION
             } else null,
             MediaStore.MediaColumns.MIME_TYPE,
-            MediaStore.MediaColumns.ORIENTATION
+            MediaStore.MediaColumns.ORIENTATION,
+            MediaStore.MediaColumns.WIDTH,
+            MediaStore.MediaColumns.HEIGHT
         ).toTypedArray(),
         bundle = defaultBundle.apply {
             putString(
@@ -142,7 +148,9 @@ sealed class Query(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 MediaStore.MediaColumns.DURATION
             } else null,
-            MediaStore.MediaColumns.MIME_TYPE
+            MediaStore.MediaColumns.MIME_TYPE,
+            MediaStore.MediaColumns.WIDTH,
+            MediaStore.MediaColumns.HEIGHT
         ).toTypedArray(),
         bundle = defaultBundle.deepCopy().apply {
             putString(

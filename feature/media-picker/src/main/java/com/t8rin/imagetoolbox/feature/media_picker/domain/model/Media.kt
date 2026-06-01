@@ -20,6 +20,7 @@
 package com.t8rin.imagetoolbox.feature.media_picker.domain.model
 
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.utils.fileSize
 
@@ -38,10 +39,15 @@ data class Media(
     val fullDate: String,
     val mimeType: String,
     val duration: String? = null,
+    val width: Int? = null,
+    val height: Int? = null,
 ) {
     val fileSize: Long by lazy { uri.toUri().fileSize() ?: 0 }
 
     val humanFileSize: String by lazy { humanFileSize(fileSize) }
+
+    val imageSize: IntegerSize? = IntegerSize(width ?: 0, height ?: 0)
+        .takeIf { it.width > 0 && it.height > 0 }
 
     val isVideo: Boolean = mimeType.startsWith("video/") && duration != null
 

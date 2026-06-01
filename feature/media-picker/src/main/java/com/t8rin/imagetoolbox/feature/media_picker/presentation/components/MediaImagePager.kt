@@ -54,7 +54,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -82,6 +81,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
@@ -428,7 +428,8 @@ internal fun MediaImagePager(
                                 dateModified = { currentMedia?.timestamp?.times(1000) },
                                 path = { currentMedia?.path },
                                 name = { currentMedia?.label },
-                                fileSize = { currentMedia?.humanFileSize }
+                                fileSize = { currentMedia?.humanFileSize },
+                                imageSize = { currentMedia?.takeIf { it.isImage }?.imageSize }
                             )
                         }
                         Spacer(Modifier.width(16.dp))

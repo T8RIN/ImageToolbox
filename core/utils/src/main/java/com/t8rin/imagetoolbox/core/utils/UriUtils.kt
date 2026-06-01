@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.utils
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
@@ -31,6 +32,7 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.SortType
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.sortedByKey
 import com.t8rin.imagetoolbox.core.resources.R
@@ -175,6 +177,49 @@ fun Uri.fileSize(): Long? = tryExtractOriginal().run {
     }
     return null
 }
+
+fun Uri.imageSize(): IntegerSize? = tryExtractOriginal().run {
+    val mediaStoreSize = if (scheme == ContentResolver.SCHEME_CONTENT) {
+        runCatching {
+            appContext.contentResolver.query(
+                this,
+                arrayOf(MediaStore.MediaColumns.WIDTH, MediaStore.MediaColumns.HEIGHT),
+                null,
+                null,
+                null
+            )?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val widthIndex = cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH)
+                    val heightIndex = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT)
+                    val width = widthIndex
+                        .takeIf { it != -1 && !cursor.isNull(it) }
+                        ?.let(cursor::getInt)
+                    val height = heightIndex
+                        .takeIf { it != -1 && !cursor.isNull(it) }
+                        ?.let(cursor::getInt)
+
+                    IntegerSize(width ?: 0, height ?: 0).takeIf { it.isValidImageSize() }
+                } else null
+            }
+        }.getOrNull()
+    } else null
+
+    mediaStoreSize ?: runCatching {
+        val options = BitmapFactory.Options().apply {
+            inJustDecodeBounds = true
+        }
+        if (scheme == ContentResolver.SCHEME_CONTENT) {
+            appContext.contentResolver.openInputStream(this)?.use {
+                BitmapFactory.decodeStream(it, null, options)
+            }
+        } else {
+            BitmapFactory.decodeFile(toFile().absolutePath, options)
+        }
+        IntegerSize(options.outWidth, options.outHeight).takeIf { it.isValidImageSize() }
+    }.getOrNull()
+}
+
+private fun IntegerSize.isValidImageSize(): Boolean = width > 0 && height > 0
 
 fun Uri.tryExtractOriginal(): Uri = try {
     if ("com.android.externalstorage.documents" in this.toString()) {
