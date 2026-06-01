@@ -39,7 +39,7 @@ fun RecognitionEngineSelector(
             .container(shape = ShapeDefaults.extraLarge),
         items = RecognitionEngine.entries.map { stringResource(it.title) },
         selectedIndex = RecognitionEngine.entries.indexOf(value),
-        title = stringResource(id = R.string.ocr_engine),
+        title = stringResource(id = R.string.provider),
         onIndexChange = {
             onValueChange(RecognitionEngine.entries[it])
         },
