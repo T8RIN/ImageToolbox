@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
+import com.t8rin.imagetoolbox.core.resources.icons.AspectRatio
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
@@ -31,6 +32,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleDelete
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Compare
+import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.Description
 import com.t8rin.imagetoolbox.core.resources.icons.DocumentScanner
@@ -59,6 +61,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectLarge
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.resources.icons.QrCode
 import com.t8rin.imagetoolbox.core.resources.icons.QualityHigh
@@ -74,6 +78,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
+import com.t8rin.imagetoolbox.core.resources.icons.Watermark
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
@@ -101,20 +106,33 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val ResizeConvert = "resize-convert"
         const val ResizeByFileSize = "resize-by-file-size"
         const val LimitResize = "limit-resize"
+        const val ResizeType = "resize-type"
+        const val ImageScaleMode = "image-scale-mode"
+        const val ScaleColorSpace = "scale-color-space"
+        const val LimitResizeModes = "limit-resize-modes"
+        const val AspectRatioTargets = "aspect-ratio-targets"
+        const val UpscaleVsResize = "upscale-vs-resize"
         const val CropStraighten = "crop-straighten"
         const val Filters = "filters"
+        const val FilterOrder = "filter-order"
         const val PreviewBeforeEditing = "preview-before-editing"
         const val BackgroundRemover = "background-remover"
+        const val BackgroundEdges = "background-edges"
         const val DrawWatermark = "draw-watermark"
+        const val WatermarkReadability = "watermark-readability"
         const val DrawDefaults = "draw-defaults"
         const val CollageStitchStack = "collage-stitch-stack"
         const val FormatConversion = "format-conversion"
+        const val FormatChoice = "format-choice"
         const val ExifPrivacy = "exif-privacy"
+        const val MetadataDatesLocation = "metadata-dates-location"
         const val AutomaticExifCleanup = "automatic-exif-cleanup"
         const val Filenames = "filenames"
+        const val FilenameCollisionSafety = "filename-collision-safety"
         const val OverwriteFiles = "overwrite-files"
         const val FilenamePatterns = "filename-patterns"
         const val SaveLocation = "save-location"
+        const val SaveVsShare = "save-vs-share"
         const val SaveOriginalFolder = "save-original-folder"
         const val OneTimeSaveLocation = "one-time-save-location"
         const val SkipLargerOutputs = "skip-larger-outputs"
@@ -123,20 +141,27 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val ComparePreview = "compare-preview"
         const val PdfHub = "pdf-hub"
         const val ImagesToPdf = "images-to-pdf"
+        const val PdfPageSizeMargins = "pdf-page-size-margins"
         const val DocumentScanner = "document-scanner"
+        const val ScanCleanup = "scan-cleanup"
         const val PdfProtection = "pdf-protection"
         const val PdfPageOrganization = "pdf-page-organization"
         const val PdfAnnotations = "pdf-annotations"
         const val Ocr = "ocr"
+        const val OcrPreprocessing = "ocr-preprocessing"
         const val OcrLanguageData = "ocr-language-data"
         const val SearchablePdf = "searchable-pdf"
         const val QrCode = "qr-code"
+        const val QrContentSafety = "qr-content-safety"
         const val Base64Checksum = "base64-checksum"
         const val CipherZip = "cipher-zip"
         const val ChecksumsForNames = "checksums-for-names"
         const val ClipboardAndLinks = "clipboard-and-links"
+        const val ClipboardPrivacy = "clipboard-privacy"
         const val PickColor = "pick-color"
+        const val ColorFormats = "color-formats"
         const val PaletteLibrary = "palette-library"
+        const val PaletteConsistency = "palette-consistency"
         const val Gradients = "gradients"
         const val ColorAccessibility = "color-accessibility"
         const val AlphaBackgroundColor = "alpha-background-color"
@@ -146,6 +171,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val ShaderStudio = "shader-studio"
         const val SvgAscii = "svg-ascii"
         const val NoiseGeneration = "noise-generation"
+        const val GeneratedAssetResolution = "generated-asset-resolution"
         const val WallpaperExport = "wallpaper-export"
         const val MarkupProjects = "markup-projects"
         const val EncryptionWorkflow = "encryption-workflow"
@@ -482,6 +508,96 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.ResizeType,
+            title = R.string.help_tip_resize_type_title,
+            subtitle = R.string.help_tip_resize_type_subtitle,
+            icon = Icons.Outlined.PhotoSizeSelectLarge,
+            category = imageEditing,
+            deepLink = Screen.Settings(targetSetting = Setting.DefaultResizeType),
+            pageTitle = R.string.help_tip_resize_type_page_title,
+            description = R.string.help_tip_resize_type_description,
+            steps = listOf(
+                R.string.help_tip_resize_type_step_1,
+                R.string.help_tip_resize_type_step_2,
+                R.string.help_tip_resize_type_step_3
+            )
+        ),
+        tip(
+            id = TipIds.ImageScaleMode,
+            title = R.string.help_tip_image_scale_mode_title,
+            subtitle = R.string.help_tip_image_scale_mode_subtitle,
+            icon = Icons.Outlined.QualityHigh,
+            category = imageEditing,
+            deepLink = Screen.Settings(targetSetting = Setting.DefaultScaleMode),
+            pageTitle = R.string.help_tip_image_scale_mode_page_title,
+            description = R.string.help_tip_image_scale_mode_description,
+            steps = listOf(
+                R.string.help_tip_image_scale_mode_step_1,
+                R.string.help_tip_image_scale_mode_step_2,
+                R.string.help_tip_image_scale_mode_step_3
+            )
+        ),
+        tip(
+            id = TipIds.ScaleColorSpace,
+            title = R.string.help_tip_scale_color_space_title,
+            subtitle = R.string.help_tip_scale_color_space_subtitle,
+            icon = Icons.Outlined.Palette,
+            category = imageEditing,
+            deepLink = Screen.Settings(targetSetting = Setting.DefaultColorSpace),
+            pageTitle = R.string.help_tip_scale_color_space_page_title,
+            description = R.string.help_tip_scale_color_space_description,
+            steps = listOf(
+                R.string.help_tip_scale_color_space_step_1,
+                R.string.help_tip_scale_color_space_step_2,
+                R.string.help_tip_scale_color_space_step_3
+            )
+        ),
+        tip(
+            id = TipIds.LimitResizeModes,
+            title = R.string.help_tip_limit_resize_modes_title,
+            subtitle = R.string.help_tip_limit_resize_modes_subtitle,
+            icon = Icons.Outlined.ImageWeight,
+            category = imageEditing,
+            deepLink = Screen.LimitResize(),
+            pageTitle = R.string.help_tip_limit_resize_modes_page_title,
+            description = R.string.help_tip_limit_resize_modes_description,
+            steps = listOf(
+                R.string.help_tip_limit_resize_modes_step_1,
+                R.string.help_tip_limit_resize_modes_step_2,
+                R.string.help_tip_limit_resize_modes_step_3
+            )
+        ),
+        tip(
+            id = TipIds.AspectRatioTargets,
+            title = R.string.help_tip_aspect_ratio_targets_title,
+            subtitle = R.string.help_tip_aspect_ratio_targets_subtitle,
+            icon = Icons.Outlined.AspectRatio,
+            category = imageEditing,
+            deepLink = Screen.ResizeAndConvert(),
+            pageTitle = R.string.help_tip_aspect_ratio_targets_page_title,
+            description = R.string.help_tip_aspect_ratio_targets_description,
+            steps = listOf(
+                R.string.help_tip_aspect_ratio_targets_step_1,
+                R.string.help_tip_aspect_ratio_targets_step_2,
+                R.string.help_tip_aspect_ratio_targets_step_3
+            )
+        ),
+        tip(
+            id = TipIds.UpscaleVsResize,
+            title = R.string.help_tip_upscale_vs_resize_title,
+            subtitle = R.string.help_tip_upscale_vs_resize_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = imageEditing,
+            deepLink = Screen.ResizeAndConvert(),
+            pageTitle = R.string.help_tip_upscale_vs_resize_page_title,
+            description = R.string.help_tip_upscale_vs_resize_description,
+            steps = listOf(
+                R.string.help_tip_upscale_vs_resize_step_1,
+                R.string.help_tip_upscale_vs_resize_step_2,
+                R.string.help_tip_upscale_vs_resize_step_3
+            )
+        ),
+        tip(
             id = TipIds.CropStraighten,
             title = R.string.help_tip_crop_straighten_title,
             subtitle = R.string.help_tip_crop_straighten_subtitle,
@@ -509,6 +625,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_filters_step_1,
                 R.string.help_tip_filters_step_2,
                 R.string.help_tip_filters_step_3
+            )
+        ),
+        tip(
+            id = TipIds.FilterOrder,
+            title = R.string.help_tip_filter_order_title,
+            subtitle = R.string.help_tip_filter_order_subtitle,
+            icon = Icons.Outlined.AutoFixHigh,
+            category = imageEditing,
+            deepLink = Screen.Filter(),
+            pageTitle = R.string.help_tip_filter_order_page_title,
+            description = R.string.help_tip_filter_order_description,
+            steps = listOf(
+                R.string.help_tip_filter_order_step_1,
+                R.string.help_tip_filter_order_step_2,
+                R.string.help_tip_filter_order_step_3
             )
         ),
         tip(
@@ -542,6 +673,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.BackgroundEdges,
+            title = R.string.help_tip_background_edges_title,
+            subtitle = R.string.help_tip_background_edges_subtitle,
+            icon = Icons.Rounded.Eraser,
+            category = imageEditing,
+            deepLink = Screen.EraseBackground(),
+            pageTitle = R.string.help_tip_background_edges_page_title,
+            description = R.string.help_tip_background_edges_description,
+            steps = listOf(
+                R.string.help_tip_background_edges_step_1,
+                R.string.help_tip_background_edges_step_2,
+                R.string.help_tip_background_edges_step_3
+            )
+        ),
+        tip(
             id = TipIds.DrawWatermark,
             title = R.string.help_tip_draw_watermark_title,
             subtitle = R.string.help_tip_draw_watermark_subtitle,
@@ -554,6 +700,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_draw_watermark_step_1,
                 R.string.help_tip_draw_watermark_step_2,
                 R.string.help_tip_draw_watermark_step_3
+            )
+        ),
+        tip(
+            id = TipIds.WatermarkReadability,
+            title = R.string.help_tip_watermark_readability_title,
+            subtitle = R.string.help_tip_watermark_readability_subtitle,
+            icon = Icons.Outlined.Watermark,
+            category = imageEditing,
+            deepLink = Screen.Watermarking(),
+            pageTitle = R.string.help_tip_watermark_readability_page_title,
+            description = R.string.help_tip_watermark_readability_description,
+            steps = listOf(
+                R.string.help_tip_watermark_readability_step_1,
+                R.string.help_tip_watermark_readability_step_2,
+                R.string.help_tip_watermark_readability_step_3
             )
         ),
         tip(
@@ -602,6 +763,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.FormatChoice,
+            title = R.string.help_tip_format_choice_title,
+            subtitle = R.string.help_tip_format_choice_subtitle,
+            icon = Icons.Outlined.ImageConvert,
+            category = filesAndMetadata,
+            deepLink = Screen.FormatConversion(),
+            pageTitle = R.string.help_tip_format_choice_page_title,
+            description = R.string.help_tip_format_choice_description,
+            steps = listOf(
+                R.string.help_tip_format_choice_step_1,
+                R.string.help_tip_format_choice_step_2,
+                R.string.help_tip_format_choice_step_3
+            )
+        ),
+        tip(
             id = TipIds.ExifPrivacy,
             title = R.string.help_tip_exif_privacy_title,
             subtitle = R.string.help_tip_exif_privacy_subtitle,
@@ -614,6 +790,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_exif_privacy_step_1,
                 R.string.help_tip_exif_privacy_step_2,
                 R.string.help_tip_exif_privacy_step_3
+            )
+        ),
+        tip(
+            id = TipIds.MetadataDatesLocation,
+            title = R.string.help_tip_metadata_dates_location_title,
+            subtitle = R.string.help_tip_metadata_dates_location_subtitle,
+            icon = Icons.Outlined.ExifEdit,
+            category = filesAndMetadata,
+            deepLink = Screen.EditExif(),
+            pageTitle = R.string.help_tip_metadata_dates_location_page_title,
+            description = R.string.help_tip_metadata_dates_location_description,
+            steps = listOf(
+                R.string.help_tip_metadata_dates_location_step_1,
+                R.string.help_tip_metadata_dates_location_step_2,
+                R.string.help_tip_metadata_dates_location_step_3
             )
         ),
         tip(
@@ -643,6 +834,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_filenames_step_1,
                 R.string.help_tip_filenames_step_2,
                 R.string.help_tip_filenames_step_3
+            )
+        ),
+        tip(
+            id = TipIds.FilenameCollisionSafety,
+            title = R.string.help_tip_filename_collision_safety_title,
+            subtitle = R.string.help_tip_filename_collision_safety_subtitle,
+            icon = Icons.Outlined.File,
+            category = filesAndMetadata,
+            deepLink = Screen.Settings(targetSetting = Setting.FilenamePattern),
+            pageTitle = R.string.help_tip_filename_collision_safety_page_title,
+            description = R.string.help_tip_filename_collision_safety_description,
+            steps = listOf(
+                R.string.help_tip_filename_collision_safety_step_1,
+                R.string.help_tip_filename_collision_safety_step_2,
+                R.string.help_tip_filename_collision_safety_step_3
             )
         ),
         tip(
@@ -688,6 +894,20 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_save_location_step_1,
                 R.string.help_tip_save_location_step_2,
                 R.string.help_tip_save_location_step_3
+            )
+        ),
+        tip(
+            id = TipIds.SaveVsShare,
+            title = R.string.help_tip_save_vs_share_title,
+            subtitle = R.string.help_tip_save_vs_share_subtitle,
+            icon = Icons.Outlined.Share,
+            category = filesAndMetadata,
+            pageTitle = R.string.help_tip_save_vs_share_page_title,
+            description = R.string.help_tip_save_vs_share_description,
+            steps = listOf(
+                R.string.help_tip_save_vs_share_step_1,
+                R.string.help_tip_save_vs_share_step_2,
+                R.string.help_tip_save_vs_share_step_3
             )
         ),
         tip(
@@ -801,13 +1021,28 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_images_to_pdf_subtitle,
             icon = Icons.Outlined.Scanner,
             category = pdfAndDocuments,
-            deepLink = Screen.PdfTools,
+            deepLink = Screen.PdfTools.ImagesToPdf(),
             pageTitle = R.string.help_tip_images_to_pdf_page_title,
             description = R.string.help_tip_images_to_pdf_description,
             steps = listOf(
                 R.string.help_tip_images_to_pdf_step_1,
                 R.string.help_tip_images_to_pdf_step_2,
                 R.string.help_tip_images_to_pdf_step_3
+            )
+        ),
+        tip(
+            id = TipIds.PdfPageSizeMargins,
+            title = R.string.help_tip_pdf_page_size_margins_title,
+            subtitle = R.string.help_tip_pdf_page_size_margins_subtitle,
+            icon = Icons.Outlined.Pdf,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools,
+            pageTitle = R.string.help_tip_pdf_page_size_margins_page_title,
+            description = R.string.help_tip_pdf_page_size_margins_description,
+            steps = listOf(
+                R.string.help_tip_pdf_page_size_margins_step_1,
+                R.string.help_tip_pdf_page_size_margins_step_2,
+                R.string.help_tip_pdf_page_size_margins_step_3
             )
         ),
         tip(
@@ -823,6 +1058,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_document_scanner_step_1,
                 R.string.help_tip_document_scanner_step_2,
                 R.string.help_tip_document_scanner_step_3
+            )
+        ),
+        tip(
+            id = TipIds.ScanCleanup,
+            title = R.string.help_tip_scan_cleanup_title,
+            subtitle = R.string.help_tip_scan_cleanup_subtitle,
+            icon = Icons.Outlined.DocumentScanner,
+            category = pdfAndDocuments,
+            deepLink = Screen.DocumentScanner,
+            pageTitle = R.string.help_tip_scan_cleanup_page_title,
+            description = R.string.help_tip_scan_cleanup_description,
+            steps = listOf(
+                R.string.help_tip_scan_cleanup_step_1,
+                R.string.help_tip_scan_cleanup_step_2,
+                R.string.help_tip_scan_cleanup_step_3
             )
         ),
         tip(
@@ -886,6 +1136,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.OcrPreprocessing,
+            title = R.string.help_tip_ocr_preprocessing_title,
+            subtitle = R.string.help_tip_ocr_preprocessing_subtitle,
+            icon = Icons.Outlined.TextSearch,
+            category = textAndData,
+            deepLink = Screen.RecognizeText(),
+            pageTitle = R.string.help_tip_ocr_preprocessing_page_title,
+            description = R.string.help_tip_ocr_preprocessing_description,
+            steps = listOf(
+                R.string.help_tip_ocr_preprocessing_step_1,
+                R.string.help_tip_ocr_preprocessing_step_2,
+                R.string.help_tip_ocr_preprocessing_step_3
+            )
+        ),
+        tip(
             id = TipIds.OcrLanguageData,
             title = R.string.help_tip_ocr_language_data_title,
             subtitle = R.string.help_tip_ocr_language_data_subtitle,
@@ -928,6 +1193,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_qr_code_step_1,
                 R.string.help_tip_qr_code_step_2,
                 R.string.help_tip_qr_code_step_3
+            )
+        ),
+        tip(
+            id = TipIds.QrContentSafety,
+            title = R.string.help_tip_qr_content_safety_title,
+            subtitle = R.string.help_tip_qr_content_safety_subtitle,
+            icon = Icons.Outlined.QrCode,
+            category = textAndData,
+            deepLink = Screen.ScanQrCode(),
+            pageTitle = R.string.help_tip_qr_content_safety_page_title,
+            description = R.string.help_tip_qr_content_safety_description,
+            steps = listOf(
+                R.string.help_tip_qr_content_safety_step_1,
+                R.string.help_tip_qr_content_safety_step_2,
+                R.string.help_tip_qr_content_safety_step_3
             )
         ),
         tip(
@@ -991,6 +1271,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.ClipboardPrivacy,
+            title = R.string.help_tip_clipboard_privacy_title,
+            subtitle = R.string.help_tip_clipboard_privacy_subtitle,
+            icon = Icons.Rounded.ContentPaste,
+            category = textAndData,
+            deepLink = Screen.Settings(targetSetting = Setting.AutoPinClipboard),
+            pageTitle = R.string.help_tip_clipboard_privacy_page_title,
+            description = R.string.help_tip_clipboard_privacy_description,
+            steps = listOf(
+                R.string.help_tip_clipboard_privacy_step_1,
+                R.string.help_tip_clipboard_privacy_step_2,
+                R.string.help_tip_clipboard_privacy_step_3
+            )
+        ),
+        tip(
             id = TipIds.PickColor,
             title = R.string.help_tip_pick_color_title,
             subtitle = R.string.help_tip_pick_color_subtitle,
@@ -1006,6 +1301,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.ColorFormats,
+            title = R.string.help_tip_color_formats_title,
+            subtitle = R.string.help_tip_color_formats_subtitle,
+            icon = Icons.Outlined.Eyedropper,
+            category = colorTools,
+            deepLink = Screen.PickColorFromImage(),
+            pageTitle = R.string.help_tip_color_formats_page_title,
+            description = R.string.help_tip_color_formats_description,
+            steps = listOf(
+                R.string.help_tip_color_formats_step_1,
+                R.string.help_tip_color_formats_step_2,
+                R.string.help_tip_color_formats_step_3
+            )
+        ),
+        tip(
             id = TipIds.PaletteLibrary,
             title = R.string.help_tip_palette_library_title,
             subtitle = R.string.help_tip_palette_library_subtitle,
@@ -1018,6 +1328,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_palette_library_step_1,
                 R.string.help_tip_palette_library_step_2,
                 R.string.help_tip_palette_library_step_3
+            )
+        ),
+        tip(
+            id = TipIds.PaletteConsistency,
+            title = R.string.help_tip_palette_consistency_title,
+            subtitle = R.string.help_tip_palette_consistency_subtitle,
+            icon = Icons.Outlined.PaletteSwatch,
+            category = colorTools,
+            deepLink = Screen.PaletteTools(),
+            pageTitle = R.string.help_tip_palette_consistency_page_title,
+            description = R.string.help_tip_palette_consistency_description,
+            steps = listOf(
+                R.string.help_tip_palette_consistency_step_1,
+                R.string.help_tip_palette_consistency_step_2,
+                R.string.help_tip_palette_consistency_step_3
             )
         ),
         tip(
@@ -1192,6 +1517,20 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_noise_generation_step_1,
                 R.string.help_tip_noise_generation_step_2,
                 R.string.help_tip_noise_generation_step_3
+            )
+        ),
+        tip(
+            id = TipIds.GeneratedAssetResolution,
+            title = R.string.help_tip_generated_asset_resolution_title,
+            subtitle = R.string.help_tip_generated_asset_resolution_subtitle,
+            icon = Icons.Outlined.PhotoSizeSelectSmall,
+            category = creativeTools,
+            pageTitle = R.string.help_tip_generated_asset_resolution_page_title,
+            description = R.string.help_tip_generated_asset_resolution_description,
+            steps = listOf(
+                R.string.help_tip_generated_asset_resolution_step_1,
+                R.string.help_tip_generated_asset_resolution_step_2,
+                R.string.help_tip_generated_asset_resolution_step_3
             )
         ),
         tip(
