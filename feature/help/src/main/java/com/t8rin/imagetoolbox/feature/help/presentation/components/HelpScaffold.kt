@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 
 @Composable
 internal fun HelpScaffold(
@@ -54,7 +55,10 @@ internal fun HelpScaffold(
             EnhancedTopAppBar(
                 type = EnhancedTopAppBarType.Large,
                 title = {
-                    Text(text = title)
+                    Text(
+                        text = title,
+                        modifier = Modifier.marquee()
+                    )
                 },
                 scrollBehavior = scrollBehavior,
                 navigationIcon = {
