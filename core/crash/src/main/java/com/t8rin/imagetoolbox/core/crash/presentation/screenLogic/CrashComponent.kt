@@ -23,9 +23,11 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.crash.presentation.components.CrashInfo
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -45,6 +47,9 @@ class CrashComponent @AssistedInject internal constructor(
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
 
+    private val _isSendingLogs = mutableStateOf(false)
+    val isSendingLogs by _isSendingLogs
+
     init {
         runBlocking {
             _settingsState.value = settingsManager.getSettingsState()
@@ -58,10 +63,14 @@ class CrashComponent @AssistedInject internal constructor(
 
     fun shareLogs() {
         componentScope.launch {
-            shareProvider.shareUri(
-                uri = settingsManager.createLogsExport(),
-                onComplete = {}
-            )
+            _isSendingLogs.update { true }
+            runSuspendCatching {
+                shareProvider.shareUri(
+                    uri = settingsManager.createLogsExport(),
+                    onComplete = {}
+                )
+            }
+            _isSendingLogs.update { false }
         }
     }
 

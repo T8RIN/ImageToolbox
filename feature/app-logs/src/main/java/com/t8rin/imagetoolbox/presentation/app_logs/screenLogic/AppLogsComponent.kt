@@ -22,7 +22,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.LogLineReference
@@ -36,7 +39,9 @@ import kotlinx.coroutines.withContext
 class AppLogsComponent @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
+    private val shareProvider: ShareProvider,
+    private val settingsManager: SettingsManager
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     private val allLines = mutableStateListOf<LogLineReference>()
@@ -50,6 +55,9 @@ class AppLogsComponent @AssistedInject constructor(
 
     private val _isSearchLoading = mutableStateOf(false)
     val isSearchLoading by _isSearchLoading
+
+    private val _isSendingLogs = mutableStateOf(false)
+    val isSendingLogs by _isSendingLogs
 
     private var refreshJob by smartJob()
     private var searchJob by smartJob()
@@ -110,6 +118,19 @@ class AppLogsComponent @AssistedInject constructor(
     }
 
     fun lineKey(index: Int): String = lineAtOrNull(index)?.key ?: index.toString()
+
+    fun shareLogs() {
+        componentScope.launch {
+            _isSendingLogs.update { true }
+            runSuspendCatching {
+                shareProvider.shareUri(
+                    uri = settingsManager.createLogsExport(),
+                    onComplete = {}
+                )
+            }
+            _isSendingLogs.update { false }
+        }
+    }
 
     private fun observeLogs() {
         componentScope.launch {

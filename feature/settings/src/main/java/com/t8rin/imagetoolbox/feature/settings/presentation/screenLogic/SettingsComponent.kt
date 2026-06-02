@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -99,6 +100,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     private val _isFilteringSettings = mutableStateOf(false)
     val isFilteringSettings by _isFilteringSettings
+
+    private val _isSendingLogs = mutableStateOf(false)
+    val isSendingLogs by _isSendingLogs
 
     private var filterJob by smartJob()
     private fun filterSettings() {
@@ -474,11 +478,15 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleEnableToolExitConfirmation() = settingsScope { toggleEnableToolExitConfirmation() }
 
-    fun shareLogs(onComplete: () -> Unit) = settingsScope {
-        shareProvider.shareUri(
-            uri = settingsManager.createLogsExport(),
-            onComplete = onComplete
-        )
+    fun shareLogs() = settingsScope {
+        _isSendingLogs.update { true }
+        runSuspendCatching {
+            shareProvider.shareUri(
+                uri = settingsManager.createLogsExport(),
+                onComplete = {}
+            )
+        }
+        _isSendingLogs.update { false }
     }
 
     fun toggleAddPresetInfoToFilename() = settingsScope { toggleAddPresetInfoToFilename() }

@@ -20,12 +20,15 @@ package com.t8rin.imagetoolbox.presentation.app_logs
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -54,8 +57,10 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -73,9 +78,13 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Search
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
+import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -88,6 +97,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.presentation.app_logs.components.LogLineItem
 import com.t8rin.imagetoolbox.presentation.app_logs.screenLogic.AppLogsComponent
+import kotlinx.coroutines.delay
 import my.nanihadesuka.compose.InternalLazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSelectionMode
 import my.nanihadesuka.compose.ScrollbarSettings
@@ -98,6 +108,7 @@ fun AppLogsContent(
 ) {
     val lineCount = component.linesCount
     val searchQuery = component.searchQuery
+    val isSendingLogs = component.isSendingLogs
     var showSearch by rememberSaveable { mutableStateOf(false) }
 
     BackHandler(enabled = showSearch) {
@@ -224,17 +235,58 @@ fun AppLogsContent(
                             .padding(16.dp)
                             .fillMaxWidth()
                     ) {
-                        EnhancedFloatingActionButton(
-                            onClick = { showSearch = true },
+                        Row(
                             modifier = Modifier.align(
                                 settingsState.fabAlignment.takeIf { it != Alignment.BottomCenter }
                                     ?: Alignment.BottomEnd
                             )
                         ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = null
-                            )
+                            val progressAnimatable =
+                                remember { Animatable(if (isSendingLogs) 1f else 0f) }
+                            val progress = progressAnimatable.value
+
+                            LaunchedEffect(isSendingLogs) {
+                                delay(400)
+                                if (isSendingLogs) {
+                                    progressAnimatable.animateTo(
+                                        targetValue = 1f,
+                                        animationSpec = springySpec()
+                                    )
+                                } else {
+                                    progressAnimatable.animateTo(
+                                        targetValue = 0f,
+                                        animationSpec = tween(200)
+                                    )
+                                }
+                            }
+
+                            EnhancedFloatingActionButton(
+                                onClick = component::shareLogs,
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                type = EnhancedFloatingActionButtonType.SecondaryHorizontal
+                            ) {
+                                if (progress > 0f) {
+                                    EnhancedCircularProgressIndicator(
+                                        modifier = Modifier.size(24.dp * progress),
+                                        trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                        strokeWidth = 3.dp
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Share,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.width(8.dp))
+                            EnhancedFloatingActionButton(
+                                onClick = { showSearch = true }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Search,
+                                    contentDescription = null
+                                )
+                            }
                         }
                     }
                 }

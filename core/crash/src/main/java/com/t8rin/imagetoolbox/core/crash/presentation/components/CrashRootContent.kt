@@ -91,6 +91,7 @@ internal fun CrashRootContent(component: CrashComponent) {
                     CrashActionButtons(
                         onCopyCrashInfo = copyCrashInfo,
                         onShareLogs = component::shareLogs,
+                        isSendingLogs = component.isSendingLogs,
                         githubLink = crashInfo.githubLink
                     )
                 }

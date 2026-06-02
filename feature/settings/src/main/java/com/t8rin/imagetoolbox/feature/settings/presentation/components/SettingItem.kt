@@ -579,7 +579,10 @@ internal fun SettingItem(
             }
 
             Setting.SendLogs -> {
-                SendLogsSettingItem(onClick = component::shareLogs)
+                SendLogsSettingItem(
+                    onClick = component::shareLogs,
+                    isSendingLogs = component.isSendingLogs
+                )
             }
 
             Setting.AddPresetToFilename -> {
