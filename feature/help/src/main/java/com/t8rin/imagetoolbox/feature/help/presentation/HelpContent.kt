@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.help.presentation
 
 import androidx.compose.runtime.Composable
 import com.t8rin.imagetoolbox.feature.help.presentation.components.HelpListContent
+import com.t8rin.imagetoolbox.feature.help.presentation.components.HelpState
 import com.t8rin.imagetoolbox.feature.help.presentation.components.TutorialCategoryContent
 import com.t8rin.imagetoolbox.feature.help.presentation.components.TutorialDetailContent
 import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponent
@@ -27,27 +28,30 @@ import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponen
 fun HelpContent(
     component: HelpComponent
 ) {
-    val selectedCategory = component.selectedCategory
-    val selectedTip = component.selectedTip
+    when (val state = component.state) {
+        is HelpState.Categories -> {
+            HelpListContent(
+                categories = state.categories,
+                onOpenCategory = component::openCategory,
+                onGoBack = component.onGoBack
+            )
+        }
 
-    when {
-        selectedTip != null -> TutorialDetailContent(
-            tip = selectedTip,
-            onGoBack = component.onGoBack,
-            onNavigate = component.onNavigate
-        )
+        is HelpState.TutorialCategory -> {
+            TutorialCategoryContent(
+                category = state.category,
+                tips = state.tips,
+                onOpenTip = component::openTip,
+                onGoBack = component.onGoBack
+            )
+        }
 
-        selectedCategory != null -> TutorialCategoryContent(
-            category = selectedCategory,
-            tips = component.tipsFor(selectedCategory),
-            onOpenTip = component::openTip,
-            onGoBack = component.onGoBack
-        )
-
-        else -> HelpListContent(
-            categories = component.categories,
-            onOpenCategory = component::openCategory,
-            onGoBack = component.onGoBack
-        )
+        is HelpState.TutorialDetails -> {
+            TutorialDetailContent(
+                tip = state.tip,
+                onGoBack = component.onGoBack,
+                onNavigate = component.onNavigate
+            )
+        }
     }
 }

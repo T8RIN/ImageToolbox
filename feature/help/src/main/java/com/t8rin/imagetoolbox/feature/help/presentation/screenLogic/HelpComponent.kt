@@ -22,6 +22,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.help.data.HelpCategory
 import com.t8rin.imagetoolbox.feature.help.data.HelpRepository
 import com.t8rin.imagetoolbox.feature.help.data.HelpTip
+import com.t8rin.imagetoolbox.feature.help.presentation.components.HelpState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -34,15 +35,20 @@ class HelpComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit
 ) : ComponentContext by componentContext {
 
-    val selectedTip: HelpTip? = initialTipId?.let(HelpRepository::getTip)
+    val state: HelpState = run {
+        initialTipId?.let(HelpRepository::getTip)?.let {
+            return@run HelpState.TutorialDetails(it)
+        }
 
-    val selectedCategory: HelpCategory? = selectedTip?.category
-        ?: initialCategory?.let(HelpRepository::getCategory)
+        initialCategory?.let(HelpRepository::getCategory)?.let {
+            return@run HelpState.TutorialCategory(
+                category = it,
+                tips = HelpRepository.getTipsForCategory(it)
+            )
+        }
 
-    val categories: List<HelpCategory> get() = HelpRepository.categories
-    val tips: List<HelpTip> get() = HelpRepository.tips
-
-    fun tipsFor(category: HelpCategory) = HelpRepository.getTipsForCategory(category)
+        HelpState.Categories(HelpRepository.categories)
+    }
 
     fun openCategory(category: HelpCategory) {
         onNavigate(
