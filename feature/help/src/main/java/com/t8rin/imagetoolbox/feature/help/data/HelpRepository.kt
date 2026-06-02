@@ -23,21 +23,57 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
+import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
+import com.t8rin.imagetoolbox.core.resources.icons.BubbleDelete
+import com.t8rin.imagetoolbox.core.resources.icons.Collage
+import com.t8rin.imagetoolbox.core.resources.icons.Compare
+import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
+import com.t8rin.imagetoolbox.core.resources.icons.Description
+import com.t8rin.imagetoolbox.core.resources.icons.DocumentScanner
+import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Encrypted
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.EvShadow
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
+import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
+import com.t8rin.imagetoolbox.core.resources.icons.File
+import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
+import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
+import com.t8rin.imagetoolbox.core.resources.icons.Gradient
+import com.t8rin.imagetoolbox.core.resources.icons.HardDrive
 import com.t8rin.imagetoolbox.core.resources.icons.Help
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
+import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
+import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
+import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
+import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
+import com.t8rin.imagetoolbox.core.resources.icons.LabelPercent
 import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
+import com.t8rin.imagetoolbox.core.resources.icons.Palette
+import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
+import com.t8rin.imagetoolbox.core.resources.icons.Preview
+import com.t8rin.imagetoolbox.core.resources.icons.QrCode
+import com.t8rin.imagetoolbox.core.resources.icons.QualityHigh
+import com.t8rin.imagetoolbox.core.resources.icons.Save
+import com.t8rin.imagetoolbox.core.resources.icons.SaveAs
+import com.t8rin.imagetoolbox.core.resources.icons.SaveConfirm
+import com.t8rin.imagetoolbox.core.resources.icons.Scanner
+import com.t8rin.imagetoolbox.core.resources.icons.Share
+import com.t8rin.imagetoolbox.core.resources.icons.ShieldLock
+import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
+import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
+import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
+import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 
 data class HelpCategory(
@@ -173,7 +209,7 @@ object HelpRepository {
         key = "color-tools",
         title = R.string.help_category_color_tools,
         subtitle = R.string.help_category_color_tools_sub,
-        icon = Icons.Outlined.AutoFixHigh
+        icon = Icons.Outlined.Palette
     )
 
     private val creativeTools = HelpCategory(
@@ -250,7 +286,7 @@ object HelpRepository {
             id = TipIds.SingleEdit,
             title = R.string.help_tip_single_edit_title,
             subtitle = R.string.help_tip_single_edit_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.ImageEdit,
             category = gettingStarted,
             deepLink = Screen.SingleEdit(),
             pageTitle = R.string.help_tip_single_edit_page_title,
@@ -265,7 +301,7 @@ object HelpRepository {
             id = TipIds.PresetsSettings,
             title = R.string.help_tip_presets_settings_title,
             subtitle = R.string.help_tip_presets_settings_subtitle,
-            icon = Icons.Outlined.Lightbulb,
+            icon = Icons.Outlined.LabelPercent,
             category = gettingStarted,
             pageTitle = R.string.help_tip_presets_settings_page_title,
             description = R.string.help_tip_presets_settings_description,
@@ -279,7 +315,7 @@ object HelpRepository {
             id = TipIds.DefaultValues,
             title = R.string.help_tip_default_values_title,
             subtitle = R.string.help_tip_default_values_subtitle,
-            icon = Icons.Outlined.Lightbulb,
+            icon = Icons.Rounded.SquareFoot,
             category = gettingStarted,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_default_values_page_title,
@@ -309,7 +345,7 @@ object HelpRepository {
             id = TipIds.ImageSource,
             title = R.string.help_tip_image_source_title,
             subtitle = R.string.help_tip_image_source_subtitle,
-            icon = Icons.Outlined.Lightbulb,
+            icon = Icons.Outlined.ImageSearch,
             category = gettingStarted,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_image_source_page_title,
@@ -324,7 +360,7 @@ object HelpRepository {
             id = TipIds.FavoritesShareTools,
             title = R.string.help_tip_favorites_share_tools_title,
             subtitle = R.string.help_tip_favorites_share_tools_subtitle,
-            icon = Icons.Outlined.Lightbulb,
+            icon = Icons.Outlined.Bookmark,
             category = gettingStarted,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_favorites_share_tools_page_title,
@@ -354,7 +390,7 @@ object HelpRepository {
             id = TipIds.BackupRestoreSettings,
             title = R.string.help_tip_backup_restore_settings_title,
             subtitle = R.string.help_tip_backup_restore_settings_subtitle,
-            icon = Icons.Outlined.Lightbulb,
+            icon = Icons.Outlined.HardDrive,
             category = gettingStarted,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_backup_restore_settings_page_title,
@@ -384,7 +420,7 @@ object HelpRepository {
             id = TipIds.ResizeByFileSize,
             title = R.string.help_tip_resize_by_file_size_title,
             subtitle = R.string.help_tip_resize_by_file_size_subtitle,
-            icon = Icons.Outlined.MultipleImageEdit,
+            icon = Icons.Outlined.ImageWeight,
             category = imageEditing,
             deepLink = Screen.WeightResize(),
             pageTitle = R.string.help_tip_resize_by_file_size_page_title,
@@ -399,7 +435,7 @@ object HelpRepository {
             id = TipIds.LimitResize,
             title = R.string.help_tip_limit_resize_title,
             subtitle = R.string.help_tip_limit_resize_subtitle,
-            icon = Icons.Outlined.MultipleImageEdit,
+            icon = Icons.Outlined.ImageResize,
             category = imageEditing,
             deepLink = Screen.LimitResize(),
             pageTitle = R.string.help_tip_limit_resize_page_title,
@@ -414,7 +450,7 @@ object HelpRepository {
             id = TipIds.CropStraighten,
             title = R.string.help_tip_crop_straighten_title,
             subtitle = R.string.help_tip_crop_straighten_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Rounded.CropSmall,
             category = imageEditing,
             deepLink = Screen.Crop(),
             pageTitle = R.string.help_tip_crop_straighten_page_title,
@@ -444,7 +480,7 @@ object HelpRepository {
             id = TipIds.PreviewBeforeEditing,
             title = R.string.help_tip_preview_before_editing_title,
             subtitle = R.string.help_tip_preview_before_editing_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.Preview,
             category = imageEditing,
             deepLink = Screen.ImagePreview(),
             pageTitle = R.string.help_tip_preview_before_editing_page_title,
@@ -474,7 +510,7 @@ object HelpRepository {
             id = TipIds.DrawWatermark,
             title = R.string.help_tip_draw_watermark_title,
             subtitle = R.string.help_tip_draw_watermark_subtitle,
-            icon = Icons.Outlined.AutoFixHigh,
+            icon = Icons.Outlined.Draw,
             category = imageEditing,
             deepLink = Screen.Watermarking(),
             pageTitle = R.string.help_tip_draw_watermark_page_title,
@@ -504,7 +540,7 @@ object HelpRepository {
             id = TipIds.CollageStitchStack,
             title = R.string.help_tip_collage_stitch_stack_title,
             subtitle = R.string.help_tip_collage_stitch_stack_subtitle,
-            icon = Icons.Outlined.MultipleImageEdit,
+            icon = Icons.Outlined.Collage,
             category = imageEditing,
             deepLink = Screen.CollageMaker(),
             pageTitle = R.string.help_tip_collage_stitch_stack_page_title,
@@ -564,7 +600,7 @@ object HelpRepository {
             id = TipIds.Filenames,
             title = R.string.help_tip_filenames_title,
             subtitle = R.string.help_tip_filenames_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.File,
             category = filesAndMetadata,
             pageTitle = R.string.help_tip_filenames_page_title,
             description = R.string.help_tip_filenames_description,
@@ -578,7 +614,7 @@ object HelpRepository {
             id = TipIds.OverwriteFiles,
             title = R.string.help_tip_overwrite_files_title,
             subtitle = R.string.help_tip_overwrite_files_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.FileReplace,
             category = filesAndMetadata,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_overwrite_files_page_title,
@@ -593,7 +629,7 @@ object HelpRepository {
             id = TipIds.FilenamePatterns,
             title = R.string.help_tip_filename_patterns_title,
             subtitle = R.string.help_tip_filename_patterns_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.Description,
             category = filesAndMetadata,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_filename_patterns_page_title,
@@ -608,7 +644,7 @@ object HelpRepository {
             id = TipIds.SaveLocation,
             title = R.string.help_tip_save_location_title,
             subtitle = R.string.help_tip_save_location_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.SaveAs,
             category = filesAndMetadata,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_save_location_page_title,
@@ -623,7 +659,7 @@ object HelpRepository {
             id = TipIds.OneTimeSaveLocation,
             title = R.string.help_tip_one_time_save_location_title,
             subtitle = R.string.help_tip_one_time_save_location_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.Save,
             category = filesAndMetadata,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_one_time_save_location_page_title,
@@ -638,7 +674,7 @@ object HelpRepository {
             id = TipIds.QualityVsSize,
             title = R.string.help_tip_quality_vs_size_title,
             subtitle = R.string.help_tip_quality_vs_size_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.QualityHigh,
             category = filesAndMetadata,
             deepLink = Screen.ResizeAndConvert(),
             pageTitle = R.string.help_tip_quality_vs_size_page_title,
@@ -653,7 +689,7 @@ object HelpRepository {
             id = TipIds.AnimatedFormats,
             title = R.string.help_tip_animated_formats_title,
             subtitle = R.string.help_tip_animated_formats_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Rounded.Animation,
             category = filesAndMetadata,
             deepLink = Screen.WebpTools(),
             pageTitle = R.string.help_tip_animated_formats_page_title,
@@ -668,7 +704,7 @@ object HelpRepository {
             id = TipIds.ComparePreview,
             title = R.string.help_tip_compare_preview_title,
             subtitle = R.string.help_tip_compare_preview_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.Compare,
             category = filesAndMetadata,
             deepLink = Screen.Compare(),
             pageTitle = R.string.help_tip_compare_preview_page_title,
@@ -698,7 +734,7 @@ object HelpRepository {
             id = TipIds.ImagesToPdf,
             title = R.string.help_tip_images_to_pdf_title,
             subtitle = R.string.help_tip_images_to_pdf_subtitle,
-            icon = Icons.Outlined.Pdf,
+            icon = Icons.Outlined.Scanner,
             category = pdfAndDocuments,
             deepLink = Screen.PdfTools,
             pageTitle = R.string.help_tip_images_to_pdf_page_title,
@@ -713,7 +749,7 @@ object HelpRepository {
             id = TipIds.DocumentScanner,
             title = R.string.help_tip_document_scanner_title,
             subtitle = R.string.help_tip_document_scanner_subtitle,
-            icon = Icons.Outlined.Pdf,
+            icon = Icons.Outlined.DocumentScanner,
             category = pdfAndDocuments,
             deepLink = Screen.DocumentScanner,
             pageTitle = R.string.help_tip_document_scanner_page_title,
@@ -728,7 +764,7 @@ object HelpRepository {
             id = TipIds.PdfProtection,
             title = R.string.help_tip_pdf_protection_title,
             subtitle = R.string.help_tip_pdf_protection_subtitle,
-            icon = Icons.Outlined.Pdf,
+            icon = Icons.Outlined.ShieldLock,
             category = pdfAndDocuments,
             deepLink = Screen.PdfTools,
             pageTitle = R.string.help_tip_pdf_protection_page_title,
@@ -743,7 +779,7 @@ object HelpRepository {
             id = TipIds.PdfPageOrganization,
             title = R.string.help_tip_pdf_page_organization_title,
             subtitle = R.string.help_tip_pdf_page_organization_subtitle,
-            icon = Icons.Outlined.Pdf,
+            icon = Icons.Outlined.SwapVerticalCircle,
             category = pdfAndDocuments,
             deepLink = Screen.PdfTools,
             pageTitle = R.string.help_tip_pdf_page_organization_page_title,
@@ -758,7 +794,7 @@ object HelpRepository {
             id = TipIds.PdfAnnotations,
             title = R.string.help_tip_pdf_annotations_title,
             subtitle = R.string.help_tip_pdf_annotations_subtitle,
-            icon = Icons.Outlined.Pdf,
+            icon = Icons.Outlined.BubbleDelete,
             category = pdfAndDocuments,
             deepLink = Screen.PdfTools,
             pageTitle = R.string.help_tip_pdf_annotations_page_title,
@@ -803,7 +839,7 @@ object HelpRepository {
             id = TipIds.SearchablePdf,
             title = R.string.help_tip_searchable_pdf_title,
             subtitle = R.string.help_tip_searchable_pdf_subtitle,
-            icon = Icons.Outlined.TextSearch,
+            icon = Icons.Outlined.Pdf,
             category = textAndData,
             deepLink = Screen.RecognizeText(),
             pageTitle = R.string.help_tip_searchable_pdf_page_title,
@@ -818,7 +854,7 @@ object HelpRepository {
             id = TipIds.QrCode,
             title = R.string.help_tip_qr_code_title,
             subtitle = R.string.help_tip_qr_code_subtitle,
-            icon = Icons.Outlined.TextSearch,
+            icon = Icons.Outlined.QrCode,
             category = textAndData,
             deepLink = Screen.ScanQrCode(),
             pageTitle = R.string.help_tip_qr_code_page_title,
@@ -848,7 +884,7 @@ object HelpRepository {
             id = TipIds.CipherZip,
             title = R.string.help_tip_cipher_zip_title,
             subtitle = R.string.help_tip_cipher_zip_subtitle,
-            icon = Icons.Outlined.Base64,
+            icon = Icons.Outlined.FolderZip,
             category = textAndData,
             deepLink = Screen.Zip(),
             pageTitle = R.string.help_tip_cipher_zip_page_title,
@@ -878,7 +914,7 @@ object HelpRepository {
             id = TipIds.PickColor,
             title = R.string.help_tip_pick_color_title,
             subtitle = R.string.help_tip_pick_color_subtitle,
-            icon = Icons.Outlined.AutoFixHigh,
+            icon = Icons.Outlined.Eyedropper,
             category = colorTools,
             deepLink = Screen.PickColorFromImage(),
             pageTitle = R.string.help_tip_pick_color_page_title,
@@ -893,7 +929,7 @@ object HelpRepository {
             id = TipIds.PaletteLibrary,
             title = R.string.help_tip_palette_library_title,
             subtitle = R.string.help_tip_palette_library_subtitle,
-            icon = Icons.Outlined.AutoFixHigh,
+            icon = Icons.Outlined.PaletteSwatch,
             category = colorTools,
             deepLink = Screen.PaletteTools(),
             pageTitle = R.string.help_tip_palette_library_page_title,
@@ -908,7 +944,7 @@ object HelpRepository {
             id = TipIds.Gradients,
             title = R.string.help_tip_gradients_title,
             subtitle = R.string.help_tip_gradients_subtitle,
-            icon = Icons.Outlined.AutoFixHigh,
+            icon = Icons.Outlined.Gradient,
             category = colorTools,
             deepLink = Screen.GradientMaker(),
             pageTitle = R.string.help_tip_gradients_page_title,
@@ -923,7 +959,7 @@ object HelpRepository {
             id = TipIds.ColorAccessibility,
             title = R.string.help_tip_color_accessibility_title,
             subtitle = R.string.help_tip_color_accessibility_subtitle,
-            icon = Icons.Outlined.AutoFixHigh,
+            icon = Icons.Outlined.Palette,
             category = colorTools,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_color_accessibility_page_title,
@@ -938,7 +974,7 @@ object HelpRepository {
             id = TipIds.AlphaBackgroundColor,
             title = R.string.help_tip_alpha_background_color_title,
             subtitle = R.string.help_tip_alpha_background_color_subtitle,
-            icon = Icons.Outlined.AutoFixHigh,
+            icon = Icons.Outlined.BackgroundColor,
             category = colorTools,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_alpha_background_color_page_title,
@@ -1052,7 +1088,7 @@ object HelpRepository {
             id = TipIds.SvgAscii,
             title = R.string.help_tip_svg_ascii_title,
             subtitle = R.string.help_tip_svg_ascii_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.VectorPolyline,
             category = creativeTools,
             deepLink = Screen.SvgMaker(),
             pageTitle = R.string.help_tip_svg_ascii_page_title,
@@ -1082,7 +1118,7 @@ object HelpRepository {
             id = TipIds.WallpaperExport,
             title = R.string.help_tip_wallpaper_export_title,
             subtitle = R.string.help_tip_wallpaper_export_subtitle,
-            icon = Icons.Outlined.ImageConvert,
+            icon = Icons.Outlined.WallpaperAlt,
             category = creativeTools,
             deepLink = Screen.WallpapersExport,
             pageTitle = R.string.help_tip_wallpaper_export_page_title,
@@ -1186,7 +1222,7 @@ object HelpRepository {
             id = TipIds.SharingImport,
             title = R.string.help_tip_sharing_import_title,
             subtitle = R.string.help_tip_sharing_import_subtitle,
-            icon = Icons.Outlined.Help,
+            icon = Icons.Outlined.Share,
             category = troubleshooting,
             pageTitle = R.string.help_tip_sharing_import_page_title,
             description = R.string.help_tip_sharing_import_description,
@@ -1200,7 +1236,7 @@ object HelpRepository {
             id = TipIds.ExitConfirmation,
             title = R.string.help_tip_exit_confirmation_title,
             subtitle = R.string.help_tip_exit_confirmation_subtitle,
-            icon = Icons.Outlined.Help,
+            icon = Icons.Outlined.SaveConfirm,
             category = troubleshooting,
             deepLink = Screen.Settings(),
             pageTitle = R.string.help_tip_exit_confirmation_page_title,
