@@ -57,7 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Download
 import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
-import com.t8rin.imagetoolbox.core.resources.icons.HelpOutline
+import com.t8rin.imagetoolbox.core.resources.icons.Help
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -125,7 +125,7 @@ internal fun CipherControls(component: CipherComponent) {
                 onClick = component::showTip
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.HelpOutline,
+                    imageVector = Icons.Outlined.Help,
                     contentDescription = "Info"
                 )
             }
