@@ -88,8 +88,26 @@ data class CrashInfo(
         )
     }
 
-    val emoji: String = if (isOutOfMemory) {
-        "file:///android_asset/lottie/transportation/construction.lottie"
+    val isForegroundServiceDidNotStartInTime: Boolean = listOf(
+        title,
+        body,
+        exceptionName,
+        stackTrace
+    ).any { text ->
+        text.contains(
+            other = "ForegroundServiceDidNotStartInTimeException",
+            ignoreCase = true
+        )
+    }
+
+    val isNonReportable: Boolean = isOutOfMemory || isForegroundServiceDidNotStartInTime
+
+    val emoji: String = if (isNonReportable) {
+        if (isOutOfMemory) {
+            "file:///android_asset/lottie/transportation/construction.lottie"
+        } else {
+            "file:///android_asset/lottie/objects/bomb.lottie"
+        }
     } else {
         "file:///android_asset/lottie/objects/siren.lottie"
     }

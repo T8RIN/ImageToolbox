@@ -64,24 +64,36 @@ internal fun CrashRootContent(component: CrashComponent) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (crashInfo.isOutOfMemory) {
-                CrashAttentionCard(
-                    title = stringResource(R.string.crash_oom_title),
-                    description = stringResource(R.string.crash_oom_description),
-                    emoji = crashInfo.emoji
-                )
-            } else {
-                CrashAttentionCard(
-                    title = stringResource(R.string.crash_title),
-                    description = stringResource(R.string.crash_subtitle),
-                    emoji = crashInfo.emoji
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-                CrashActionButtons(
-                    onCopyCrashInfo = copyCrashInfo,
-                    onShareLogs = component::shareLogs,
-                    githubLink = crashInfo.githubLink
-                )
+            when {
+                crashInfo.isOutOfMemory -> {
+                    CrashAttentionCard(
+                        title = stringResource(R.string.crash_oom_title),
+                        description = stringResource(R.string.crash_oom_description),
+                        emoji = crashInfo.emoji
+                    )
+                }
+
+                crashInfo.isForegroundServiceDidNotStartInTime -> {
+                    CrashAttentionCard(
+                        title = stringResource(R.string.crash_foreground_service_timeout_title),
+                        description = stringResource(R.string.crash_foreground_service_timeout_description),
+                        emoji = crashInfo.emoji
+                    )
+                }
+
+                else -> {
+                    CrashAttentionCard(
+                        title = stringResource(R.string.crash_title),
+                        description = stringResource(R.string.crash_subtitle),
+                        emoji = crashInfo.emoji
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    CrashActionButtons(
+                        onCopyCrashInfo = copyCrashInfo,
+                        onShareLogs = component::shareLogs,
+                        githubLink = crashInfo.githubLink
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(24.dp))
             CrashInfoCard(crashInfo = crashInfo)
@@ -89,7 +101,7 @@ internal fun CrashRootContent(component: CrashComponent) {
 
         CrashBottomButtons(
             modifier = Modifier.align(Alignment.BottomCenter),
-            onCopy = copyCrashInfo.takeIf { !crashInfo.isOutOfMemory },
+            onCopy = copyCrashInfo.takeIf { !crashInfo.isNonReportable },
             onRestartApp = {
                 context.startActivity(
                     Intent(context, AppActivityClass)

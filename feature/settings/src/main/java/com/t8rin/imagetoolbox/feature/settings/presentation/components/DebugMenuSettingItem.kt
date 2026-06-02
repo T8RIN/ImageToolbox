@@ -80,6 +80,14 @@ fun DebugMenuSettingItem(
         }
         EnhancedButton(
             onClick = {
+                throw Throwable("ForegroundServiceDidNotStartInTimeException")
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Trigger ForegroundServiceDidNotStartInTimeException")
+        }
+        EnhancedButton(
+            onClick = {
                 throw Throwable("TEST")
             },
             modifier = Modifier.fillMaxWidth()
