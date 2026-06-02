@@ -2820,13 +2820,6 @@
     <string name="help_tip_noise_generation_step_1">細部を調整する前に、ノイズのタイプと出力サイズを選択してください。</string>
     <string name="help_tip_noise_generation_step_2">パターンが目的の用途に適合するまで、スケール、強度、色、またはシードを調整します。</string>
     <string name="help_tip_noise_generation_step_3">後でテクスチャを再作成する必要がある場合は、有用な結果を保存し、パラメータを書き留めます。</string>
-    <string name="help_tip_wallpaper_export_title">壁紙のエクスポート</string>
-    <string name="help_tip_wallpaper_export_subtitle">ホーム画面、ロック画面、ディスプレイ固有のクロップ用の画像を準備する</string>
-    <string name="help_tip_wallpaper_export_page_title">使用する画面用にエクスポートします</string>
-    <string name="help_tip_wallpaper_export_description">壁紙のエクスポートは、通常のトリミングが Android のホーム画面およびロック画面の画像の適用方法と一致しない場合に便利です。ターゲット画面用に画像を準備すると、予期しないズーム、中心からずれた被写体、またはソフトな結果を避けることができます。</string>
-    <string name="help_tip_wallpaper_export_step_1">デバイスの画面と予想されるトリミング領域に十分な解像度を持つ画像から開始します。</string>
-    <string name="help_tip_wallpaper_export_step_2">重要な被写体は、ランチャー、時計、またはジェスチャーによって覆われる可能性がある端から遠ざけてください。</string>
-    <string name="help_tip_wallpaper_export_step_3">可能であればターゲット画面でプレビューし、最終コピーを保存する前にトリミングまたはエクスポート サイズを調整します。</string>
     <string name="help_tip_markup_projects_title">マークアッププロジェクト</string>
     <string name="help_tip_markup_projects_subtitle">アプリを閉じた後も注釈を編集可能な状態にしておく必要がある場合は、プロジェクト ファイルを使用します。</string>
     <string name="help_tip_markup_projects_page_title">レイヤー編集を再利用可能に保つ</string>

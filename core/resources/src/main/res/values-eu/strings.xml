@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">Aukeratu zarata-mota eta irteera-tamaina xehetasunak doitzeko aurretik.</string>
     <string name="help_tip_noise_generation_step_2">Doitu eskala, intentsitatea, koloreak edo hazia eredua xede erabilerara egokitzen den arte.</string>
     <string name="help_tip_noise_generation_step_3">Gorde emaitza erabilgarriak eta idatzi parametroak geroago testura birsortu behar baduzu.</string>
-    <string name="help_tip_wallpaper_export_title">Horma-paperen esportazioa</string>
-    <string name="help_tip_wallpaper_export_subtitle">Prestatu irudiak hasierako pantailetarako, blokeo-pantailetarako eta pantailarako mozketetarako</string>
-    <string name="help_tip_wallpaper_export_page_title">Esportatu erabiliko duen pantailarako</string>
-    <string name="help_tip_wallpaper_export_description">Horma-paperen esportazioa erabilgarria da mozketa arrunt bat Android-ek hasierako eta blokeo pantailako irudiak aplikatzeko moduarekin bat ez datorrenean. Xede-pantailarako irudia prestatzeak ustekabeko zooma, zentroz kanpoko gaiak edo emaitza bigunak saihesten laguntzen du.</string>
-    <string name="help_tip_wallpaper_export_step_1">Hasi gailuaren pantailarako eta espero den mozteko eremurako bereizmen nahikoa duen irudi batetik.</string>
-    <string name="help_tip_wallpaper_export_step_2">Mantendu gai garrantzitsuak abiarazleak, erlojuak edo keinuak estal ditzaketen ertzetatik.</string>
-    <string name="help_tip_wallpaper_export_step_3">Aurreikusi xede-pantailan ahal izanez gero, gero egokitu moztu edo esportatu tamaina azken kopia gorde aurretik.</string>
     <string name="help_tip_markup_projects_title">Markatu proiektuak</string>
     <string name="help_tip_markup_projects_subtitle">Erabili proiektu-fitxategiak oharrak aplikazioa itxi ondoren editagarriak izan behar direnean</string>
     <string name="help_tip_markup_projects_page_title">Mantendu geruzatutako aldaketak berrerabili</string>

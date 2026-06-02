@@ -2824,13 +2824,6 @@
     <string name="help_tip_noise_generation_step_1">בחר סוג רעש וגודל פלט לפני כוונון פרטים עדינים.</string>
     <string name="help_tip_noise_generation_step_2">התאם את קנה המידה, העוצמה, הצבעים או הזרעים עד שהדפוס מתאים לשימוש היעד.</string>
     <string name="help_tip_noise_generation_step_3">שמור תוצאות שימושיות ורשום את הפרמטרים אם תצטרך לשחזר את המרקם מאוחר יותר.</string>
-    <string name="help_tip_wallpaper_export_title">ייצוא טפטים</string>
-    <string name="help_tip_wallpaper_export_subtitle">הכן תמונות למסכי בית, מסכי נעילה וחתכים ספציפיים לתצוגה</string>
-    <string name="help_tip_wallpaper_export_page_title">ייצא עבור המסך שישתמש בו</string>
-    <string name="help_tip_wallpaper_export_description">ייצוא טפטים שימושי כאשר חיתוך רגיל אינו תואם לאופן שבו אנדרואיד מחיל תמונות בית ומסך נעילה. הכנת התמונה למסך היעד עוזרת להימנע מהתקרבות בלתי צפויה, נושאים מחוץ למרכז או תוצאות רכות.</string>
-    <string name="help_tip_wallpaper_export_step_1">התחל מתמונה בעלת רזולוציה מספקת עבור מסך המכשיר ואזור החיתוך הצפוי.</string>
-    <string name="help_tip_wallpaper_export_step_2">הרחק נושאים חשובים מקצוות שבהם משגרים, שעונים או מחוות עשויים לכסות אותם.</string>
-    <string name="help_tip_wallpaper_export_step_3">תצוגה מקדימה במסך היעד אם אפשר, ולאחר מכן התאם את גודל החיתוך או הייצוא לפני שמירת העותק הסופי.</string>
     <string name="help_tip_markup_projects_title">פרויקטי סימון</string>
     <string name="help_tip_markup_projects_subtitle">השתמש בקבצי פרויקט כאשר ההערות צריכות להישאר ניתנות לעריכה לאחר סגירת האפליקציה</string>
     <string name="help_tip_markup_projects_page_title">שמור על עריכות שכבות לשימוש חוזר</string>

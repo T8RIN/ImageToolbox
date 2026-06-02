@@ -2824,13 +2824,6 @@
     <string name="help_tip_noise_generation_step_1">Prieš derindami smulkias detales, pasirinkite triukšmo tipą ir išvesties dydį.</string>
     <string name="help_tip_noise_generation_step_2">Koreguokite mastelį, intensyvumą, spalvas arba sėklas, kol modelis atitiks tikslinę paskirtį.</string>
     <string name="help_tip_noise_generation_step_3">Išsaugokite naudingus rezultatus ir užsirašykite parametrus, jei vėliau reikės atkurti tekstūrą.</string>
-    <string name="help_tip_wallpaper_export_title">Tapetų eksportas</string>
-    <string name="help_tip_wallpaper_export_subtitle">Paruoškite vaizdus pagrindiniams ekranams, užrakinimo ekranams ir konkrečiam ekranui apkarpyti</string>
-    <string name="help_tip_wallpaper_export_page_title">Eksportuokite į ekraną, kuriame jis bus naudojamas</string>
-    <string name="help_tip_wallpaper_export_description">Ekrano užsklandos eksportavimas naudingas, kai įprastas apkarpymas neatitinka būdo, kaip „Android“ taiko pagrindinio ir užrakinimo ekrano vaizdus. Paruošus vaizdą tiksliniame ekrane išvengiama netikėto mastelio keitimo, objektų, nukrypusių nuo centro, ar švelnių rezultatų.</string>
-    <string name="help_tip_wallpaper_export_step_1">Pradėkite nuo vaizdo, kurio skiriamoji geba yra pakankama įrenginio ekranui ir numatomam apkarpymo plotui.</string>
-    <string name="help_tip_wallpaper_export_step_2">Svarbius objektus laikykite toliau nuo kraštų, kur juos gali uždengti paleidimo priemonės, laikrodžiai ar gestai.</string>
-    <string name="help_tip_wallpaper_export_step_3">Jei įmanoma, peržiūrėkite tiksliniame ekrane, tada sureguliuokite apkarpymo arba eksporto dydį prieš palikdami galutinę kopiją.</string>
     <string name="help_tip_markup_projects_title">Žymėjimo projektai</string>
     <string name="help_tip_markup_projects_subtitle">Naudokite projekto failus, kai uždarius programą komentarus reikia redaguoti</string>
     <string name="help_tip_markup_projects_page_title">Sluoksniuotus pakeitimus laikykite pakartotinai naudojamus</string>

@@ -2823,13 +2823,6 @@
     <string name="help_tip_noise_generation_step_1">Před doladěním jemných detailů zvolte typ šumu a výstupní velikost.</string>
     <string name="help_tip_noise_generation_step_2">Upravte měřítko, intenzitu, barvy nebo semena, dokud vzor nebude odpovídat cílovému použití.</string>
     <string name="help_tip_noise_generation_step_3">Uložte si užitečné výsledky a zapište si parametry, pokud budete potřebovat texturu později znovu vytvořit.</string>
-    <string name="help_tip_wallpaper_export_title">Export tapety</string>
-    <string name="help_tip_wallpaper_export_subtitle">Připravte obrázky pro domovské obrazovky, zamykací obrazovky a oříznutí specifické pro zobrazení</string>
-    <string name="help_tip_wallpaper_export_page_title">Export pro obrazovku, která jej bude používat</string>
-    <string name="help_tip_wallpaper_export_description">Export tapety je užitečný, když normální oříznutí neodpovídá způsobu, jakým Android aplikuje obrázky domovské a zamykací obrazovky. Příprava obrazu pro cílovou obrazovku pomáhá vyhnout se neočekávanému přiblížení, objektům mimo střed nebo měkkým výsledkům.</string>
-    <string name="help_tip_wallpaper_export_step_1">Začněte od obrázku s dostatečným rozlišením pro obrazovku zařízení a očekávanou oblast oříznutí.</string>
-    <string name="help_tip_wallpaper_export_step_2">Udržujte důležité předměty mimo okraje, kde je mohou zakrývat spouštěče, hodiny nebo gesta.</string>
-    <string name="help_tip_wallpaper_export_step_3">Je-li to možné, zobrazte náhled na cílové obrazovce a před uložením konečné kopie upravte velikost oříznutí nebo exportu.</string>
     <string name="help_tip_markup_projects_title">Značkovací projekty</string>
     <string name="help_tip_markup_projects_subtitle">Použijte soubory projektu, když je třeba, aby poznámky po zavření aplikace zůstaly upravitelné</string>
     <string name="help_tip_markup_projects_page_title">Udržujte vrstvené úpravy znovu použitelné</string>

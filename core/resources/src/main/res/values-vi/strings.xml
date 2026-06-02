@@ -2820,13 +2820,6 @@
     <string name="help_tip_noise_generation_step_1">Chọn loại nhiễu và kích thước đầu ra trước khi tinh chỉnh các chi tiết.</string>
     <string name="help_tip_noise_generation_step_2">Điều chỉnh tỷ lệ, cường độ, màu sắc hoặc hạt giống cho đến khi mẫu phù hợp với mục đích sử dụng.</string>
     <string name="help_tip_noise_generation_step_3">Lưu kết quả hữu ích và ghi lại các tham số nếu bạn cần tạo lại kết cấu sau này.</string>
-    <string name="help_tip_wallpaper_export_title">Xuất hình nền</string>
-    <string name="help_tip_wallpaper_export_subtitle">Chuẩn bị hình ảnh cho màn hình chính, màn hình khóa và các phần cắt dành riêng cho màn hình</string>
-    <string name="help_tip_wallpaper_export_page_title">Xuất cho màn hình sẽ sử dụng nó</string>
-    <string name="help_tip_wallpaper_export_description">Xuất hình nền rất hữu ích khi việc cắt xén thông thường không khớp với cách Android áp dụng hình ảnh màn hình chính và màn hình khóa. Việc chuẩn bị hình ảnh cho màn hình mục tiêu giúp tránh tình trạng thu phóng bất ngờ, chủ thể lệch tâm hoặc kết quả mờ.</string>
-    <string name="help_tip_wallpaper_export_step_1">Bắt đầu từ một hình ảnh có độ phân giải đủ cho màn hình thiết bị và vùng cắt dự kiến.</string>
-    <string name="help_tip_wallpaper_export_step_2">Giữ các đối tượng quan trọng tránh xa các cạnh nơi trình khởi chạy, đồng hồ hoặc cử chỉ có thể che khuất chúng.</string>
-    <string name="help_tip_wallpaper_export_step_3">Xem trước trên màn hình đích nếu có thể, sau đó điều chỉnh kích thước cắt hoặc xuất trước khi giữ bản sao cuối cùng.</string>
     <string name="help_tip_markup_projects_title">Dự án đánh dấu</string>
     <string name="help_tip_markup_projects_subtitle">Sử dụng tệp dự án khi chú thích cần được chỉnh sửa sau khi đóng ứng dụng</string>
     <string name="help_tip_markup_projects_page_title">Giữ các chỉnh sửa theo lớp có thể tái sử dụng</string>

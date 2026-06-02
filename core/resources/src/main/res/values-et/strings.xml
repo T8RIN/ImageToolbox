@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">Valige enne peente detailide häälestamist müra tüüp ja väljundi suurus.</string>
     <string name="help_tip_noise_generation_step_2">Reguleerige skaalat, intensiivsust, värve või seemet, kuni muster sobib sihtotstarbega.</string>
     <string name="help_tip_noise_generation_step_3">Salvestage kasulikud tulemused ja kirjutage parameetrid üles, kui peate tekstuuri hiljem uuesti looma.</string>
-    <string name="help_tip_wallpaper_export_title">Taustapildi eksport</string>
-    <string name="help_tip_wallpaper_export_subtitle">Valmistage ette pildid avakuvade, lukustuskuvade ja kuvaspetsiifiliste kärpimiste jaoks</string>
-    <string name="help_tip_wallpaper_export_page_title">Ekspordi ekraani jaoks, mis seda kasutab</string>
-    <string name="help_tip_wallpaper_export_description">Taustapildi eksport on kasulik, kui tavaline kärpimine ei vasta sellele, kuidas Android rakendab kodu- ja lukustuskuva pilte. Kujutise ettevalmistamine sihtkuva jaoks aitab vältida ootamatut suumimist, keskmest väljas olevaid objekte või pehmeid tulemusi.</string>
-    <string name="help_tip_wallpaper_export_step_1">Alustage pildist, mille eraldusvõime on seadme ekraani ja eeldatava kärpimisala jaoks piisav.</string>
-    <string name="help_tip_wallpaper_export_step_2">Hoidke olulised objektid eemal servadest, kus kanderaketid, kellad või žestid võivad neid katta.</string>
-    <string name="help_tip_wallpaper_export_step_3">Võimaluse korral vaadake eelvaadet sihtekraanil, seejärel kohandage enne lõpliku koopia säilitamist kärpimise või ekspordi suurust.</string>
     <string name="help_tip_markup_projects_title">Märgistusprojektid</string>
     <string name="help_tip_markup_projects_subtitle">Kasutage projektifaile, kui märkused peavad pärast rakenduse sulgemist olema muudetavad</string>
     <string name="help_tip_markup_projects_page_title">Hoidke kihilised muudatused korduvkasutatavad</string>

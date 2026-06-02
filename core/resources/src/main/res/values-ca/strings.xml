@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">Trieu un tipus de soroll i una mida de sortida abans d\'ajustar els detalls.</string>
     <string name="help_tip_noise_generation_step_2">Ajusteu l\'escala, la intensitat, els colors o la llavor fins que el patró s\'ajusti a l\'ús objectiu.</string>
     <string name="help_tip_noise_generation_step_3">Deseu resultats útils i anoteu els paràmetres si necessiteu recrear la textura més tard.</string>
-    <string name="help_tip_wallpaper_export_title">Exportació de fons de pantalla</string>
-    <string name="help_tip_wallpaper_export_subtitle">Prepareu imatges per a pantalles d\'inici, pantalles de bloqueig i retalls específics de visualització</string>
-    <string name="help_tip_wallpaper_export_page_title">Exporta per a la pantalla que l\'utilitzarà</string>
-    <string name="help_tip_wallpaper_export_description">L\'exportació de fons de pantalla és útil quan un retall normal no coincideix amb la forma en què Android aplica les imatges de la pantalla d\'inici i de bloqueig. Preparar la imatge per a la pantalla de destinació ajuda a evitar zooms inesperats, subjectes descentrats o resultats suaus.</string>
-    <string name="help_tip_wallpaper_export_step_1">Comenceu des d\'una imatge amb prou resolució per a la pantalla del dispositiu i l\'àrea de retallada esperada.</string>
-    <string name="help_tip_wallpaper_export_step_2">Manteniu els subjectes importants allunyats de les vores on els llançadors, els rellotges o els gestos els puguin cobrir.</string>
-    <string name="help_tip_wallpaper_export_step_3">Previsualitza a la pantalla de destinació si és possible i, a continuació, ajusteu la mida de retall o exportació abans de conservar la còpia final.</string>
     <string name="help_tip_markup_projects_title">Projectes de marcatge</string>
     <string name="help_tip_markup_projects_subtitle">Utilitzeu fitxers de projecte quan les anotacions s\'hagin de poder editar després de tancar l\'aplicació</string>
     <string name="help_tip_markup_projects_page_title">Mantingueu les edicions en capes reutilitzables</string>

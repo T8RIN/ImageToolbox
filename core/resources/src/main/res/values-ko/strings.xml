@@ -2820,13 +2820,6 @@
     <string name="help_tip_noise_generation_step_1">미세한 세부 사항을 조정하기 전에 노이즈 유형과 출력 크기를 선택하십시오.</string>
     <string name="help_tip_noise_generation_step_2">패턴이 대상 용도에 맞을 때까지 규모, 강도, 색상 또는 시드를 조정합니다.</string>
     <string name="help_tip_noise_generation_step_3">나중에 텍스처를 다시 생성해야 하는 경우 유용한 결과를 저장하고 매개변수를 적어 두십시오.</string>
-    <string name="help_tip_wallpaper_export_title">배경화면 내보내기</string>
-    <string name="help_tip_wallpaper_export_subtitle">홈 화면, 잠금 화면, 디스플레이별 자르기용 이미지 준비</string>
-    <string name="help_tip_wallpaper_export_page_title">사용할 화면으로 내보내기</string>
-    <string name="help_tip_wallpaper_export_description">배경 화면 내보내기는 일반적인 자르기가 Android가 홈 및 잠금 화면 이미지를 적용하는 방식과 일치하지 않을 때 유용합니다. 대상 화면에 맞게 이미지를 준비하면 예기치 않은 확대/축소, 중심에서 벗어난 피사체 또는 부드러운 결과를 방지하는 데 도움이 됩니다.</string>
-    <string name="help_tip_wallpaper_export_step_1">장치 화면과 예상 자르기 영역에 충분한 해상도를 갖춘 이미지에서 시작합니다.</string>
-    <string name="help_tip_wallpaper_export_step_2">중요한 피사체를 발사 장치, 시계 또는 동작으로 덮을 수 있는 가장자리에서 멀리 두십시오.</string>
-    <string name="help_tip_wallpaper_export_step_3">가능하면 대상 화면에서 미리 본 다음 최종 복사본을 보관하기 전에 자르기 또는 내보내기 크기를 조정하세요.</string>
     <string name="help_tip_markup_projects_title">마크업 프로젝트</string>
     <string name="help_tip_markup_projects_subtitle">앱을 닫은 후에도 주석을 편집 가능한 상태로 유지해야 하는 경우 프로젝트 파일을 사용하세요.</string>
     <string name="help_tip_markup_projects_page_title">계층화된 편집 내용을 재사용 가능하게 유지</string>

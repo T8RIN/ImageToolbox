@@ -2822,13 +2822,6 @@
     <string name="help_tip_noise_generation_step_1">Одаберите врсту шума и излазну величину пре подешавања финих детаља.</string>
     <string name="help_tip_noise_generation_step_2">Подесите размеру, интензитет, боје или семе све док узорак не одговара циљној употреби.</string>
     <string name="help_tip_noise_generation_step_3">Сачувајте корисне резултате и запишите параметре ако касније треба да поново направите текстуру.</string>
-    <string name="help_tip_wallpaper_export_title">Извоз тапета</string>
-    <string name="help_tip_wallpaper_export_subtitle">Припремите слике за почетне екране, закључане екране и усеве специфичне за приказ</string>
-    <string name="help_tip_wallpaper_export_page_title">Извезите за екран који ће га користити</string>
-    <string name="help_tip_wallpaper_export_description">Извоз позадине је користан када се нормално обрезивање не поклапа са начином на који Андроид примењује слике почетног и закључаног екрана. Припрема слике за циљни екран помаже да се избегну неочекивано зумирање, субјекти ван центра или меки резултати.</string>
-    <string name="help_tip_wallpaper_export_step_1">Почните од слике са довољном резолуцијом за екран уређаја и очекивану површину за изрезивање.</string>
-    <string name="help_tip_wallpaper_export_step_2">Држите важне предмете даље од ивица где их лансери, сатови или покрети могу прекрити.</string>
-    <string name="help_tip_wallpaper_export_step_3">Прегледајте на циљном екрану ако је могуће, а затим прилагодите величину исецања или извоза пре него што задржите коначну копију.</string>
     <string name="help_tip_markup_projects_title">Пројекти за означавање</string>
     <string name="help_tip_markup_projects_subtitle">Користите датотеке пројекта када напомене треба да остану уређиване након затварања апликације</string>
     <string name="help_tip_markup_projects_page_title">Нека слојевите измене буду вишекратне</string>

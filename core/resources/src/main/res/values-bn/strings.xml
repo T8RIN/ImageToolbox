@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">সূক্ষ্ম বিবরণ টিউন করার আগে একটি শব্দের ধরন এবং আউটপুট আকার চয়ন করুন।</string>
     <string name="help_tip_noise_generation_step_2">প্যাটার্ন টার্গেট ব্যবহার ফিট না হওয়া পর্যন্ত স্কেল, তীব্রতা, রং, বা বীজ সামঞ্জস্য করুন।</string>
     <string name="help_tip_noise_generation_step_3">দরকারী ফলাফলগুলি সংরক্ষণ করুন এবং পরামিতিগুলি লিখুন যদি আপনি পরে টেক্সচারটি পুনরায় তৈরি করতে চান।</string>
-    <string name="help_tip_wallpaper_export_title">ওয়ালপেপার রপ্তানি</string>
-    <string name="help_tip_wallpaper_export_subtitle">হোম স্ক্রীন, লক স্ক্রীন এবং প্রদর্শন-নির্দিষ্ট ফসলের জন্য ছবি প্রস্তুত করুন</string>
-    <string name="help_tip_wallpaper_export_page_title">স্ক্রীনের জন্য রপ্তানি করুন যা এটি ব্যবহার করবে</string>
-    <string name="help_tip_wallpaper_export_description">ওয়ালপেপার রপ্তানি উপযোগী হয় যখন একটি সাধারণ ক্রপ যেভাবে Android হোম এবং লক স্ক্রীন চিত্রগুলি প্রয়োগ করে তার সাথে মেলে না৷ টার্গেট স্ক্রিনের জন্য ইমেজ প্রস্তুত করা অপ্রত্যাশিত জুমিং, অফ-সেন্টার বিষয় বা নরম ফলাফল এড়াতে সাহায্য করে।</string>
-    <string name="help_tip_wallpaper_export_step_1">ডিভাইস স্ক্রীন এবং প্রত্যাশিত ক্রপ এলাকার জন্য যথেষ্ট রেজোলিউশন সহ একটি ছবি থেকে শুরু করুন।</string>
-    <string name="help_tip_wallpaper_export_step_2">গুরুত্বপূর্ণ বিষয়গুলিকে প্রান্ত থেকে দূরে রাখুন যেখানে লঞ্চার, ঘড়ি বা অঙ্গভঙ্গিগুলি সেগুলিকে আবৃত করতে পারে৷</string>
-    <string name="help_tip_wallpaper_export_step_3">যদি সম্ভব হয় টার্গেট স্ক্রিনে পূর্বরূপ দেখুন, তারপর চূড়ান্ত অনুলিপি রাখার আগে ক্রপ বা এক্সপোর্ট আকার সামঞ্জস্য করুন।</string>
     <string name="help_tip_markup_projects_title">মার্কআপ প্রকল্প</string>
     <string name="help_tip_markup_projects_subtitle">অ্যাপটি বন্ধ করার পরে যখন টীকাগুলি সম্পাদনাযোগ্য থাকতে হবে তখন প্রকল্প ফাইলগুলি ব্যবহার করুন৷</string>
     <string name="help_tip_markup_projects_page_title">স্তরযুক্ত সম্পাদনাগুলি পুনরায় ব্যবহারযোগ্য রাখুন</string>

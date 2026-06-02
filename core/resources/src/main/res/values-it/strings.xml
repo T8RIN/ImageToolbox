@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">Scegli un tipo di rumore e una dimensione di output prima di regolare i dettagli più fini.</string>
     <string name="help_tip_noise_generation_step_2">Regola la scala, l\'intensità, i colori o il seme finché il modello non si adatta all\'uso target.</string>
     <string name="help_tip_noise_generation_step_3">Salva i risultati utili e annota i parametri se hai bisogno di ricreare la texture in un secondo momento.</string>
-    <string name="help_tip_wallpaper_export_title">Esportazione di sfondi</string>
-    <string name="help_tip_wallpaper_export_subtitle">Prepara immagini per schermate Home, schermate di blocco e ritagli specifici per il display</string>
-    <string name="help_tip_wallpaper_export_page_title">Esporta per lo schermo che lo utilizzerà</string>
-    <string name="help_tip_wallpaper_export_description">L\'esportazione dello sfondo è utile quando un ritaglio normale non corrisponde al modo in cui Android applica le immagini della schermata iniziale e di blocco. Preparare l\'immagine per lo schermo di destinazione aiuta a evitare zoom imprevisti, soggetti decentrati o risultati sfumati.</string>
-    <string name="help_tip_wallpaper_export_step_1">Inizia da un\'immagine con una risoluzione sufficiente per lo schermo del dispositivo e l\'area di ritaglio prevista.</string>
-    <string name="help_tip_wallpaper_export_step_2">Tieni i soggetti importanti lontani dai bordi dove i launcher, gli orologi o i gesti potrebbero coprirli.</string>
-    <string name="help_tip_wallpaper_export_step_3">Se possibile, visualizza l\'anteprima sulla schermata di destinazione, quindi regola le dimensioni del ritaglio o dell\'esportazione prima di conservare la copia finale.</string>
     <string name="help_tip_markup_projects_title">Progetti di markup</string>
     <string name="help_tip_markup_projects_subtitle">Utilizza i file di progetto quando le annotazioni devono rimanere modificabili dopo aver chiuso l\'app</string>
     <string name="help_tip_markup_projects_page_title">Mantieni riutilizzabili le modifiche a più livelli</string>

@@ -2811,13 +2811,6 @@
     <string name="help_tip_noise_generation_step_1">在調整精細細節之前選擇雜訊類型和輸出大小。</string>
     <string name="help_tip_noise_generation_step_2">調整比例、強度、顏色或種子，直到圖案適合目標用途。</string>
     <string name="help_tip_noise_generation_step_3">如果稍後需要重新建立紋理，請儲存有用的結果並記下參數。</string>
-    <string name="help_tip_wallpaper_export_title">壁紙導出</string>
-    <string name="help_tip_wallpaper_export_subtitle">為主螢幕、鎖定螢幕和特定於顯示的作物準備圖像</string>
-    <string name="help_tip_wallpaper_export_page_title">匯出到將使用它的螢幕</string>
-    <string name="help_tip_wallpaper_export_description">當正常裁剪與 Android 應用主螢幕和鎖定螢幕圖像的方式不匹配時，壁紙匯出非常有用。為目標螢幕準備影像有助於避免意外縮放、主體偏離中心或模糊結果。</string>
-    <string name="help_tip_wallpaper_export_step_1">從具有足夠設備螢幕和預期裁剪區域解析度的影像開始。</string>
-    <string name="help_tip_wallpaper_export_step_2">讓重要主題遠離啟動器、時鐘或手勢可能覆蓋的邊緣。</string>
-    <string name="help_tip_wallpaper_export_step_3">如果可能，請在目標畫面上預覽，然後在保留最終副本之前調整裁剪或匯出大小。</string>
     <string name="help_tip_markup_projects_title">標記項目</string>
     <string name="help_tip_markup_projects_subtitle">當註釋需要在關閉應用程式後保持可編輯狀態時，請使用專案文件</string>
     <string name="help_tip_markup_projects_page_title">保持分層編輯可重複使用</string>

@@ -2823,13 +2823,6 @@
     <string name="help_tip_noise_generation_step_1">Виберіть тип шуму та вихідний розмір перед налаштуванням дрібних деталей.</string>
     <string name="help_tip_noise_generation_step_2">Відрегулюйте масштаб, інтенсивність, кольори або початкові значення, доки візерунок не відповідатиме цільовому використанню.</string>
     <string name="help_tip_noise_generation_step_3">Збережіть корисні результати та запишіть параметри, якщо вам знадобиться відтворити текстуру пізніше.</string>
-    <string name="help_tip_wallpaper_export_title">Експорт шпалер</string>
-    <string name="help_tip_wallpaper_export_subtitle">Підготуйте зображення для головних екранів, екранів блокування та кадрування для окремих дисплеїв</string>
-    <string name="help_tip_wallpaper_export_page_title">Експортуйте для екрана, який його використовуватиме</string>
-    <string name="help_tip_wallpaper_export_description">Експорт шпалер корисний, коли звичайне кадрування не відповідає тому, як Android застосовує зображення головного екрана та екрана блокування. Підготовка зображення для цільового екрана допомагає уникнути неочікуваного масштабування, нецентральних об’єктів або м’яких результатів.</string>
-    <string name="help_tip_wallpaper_export_step_1">Почніть із зображення з достатньою роздільною здатністю для екрана пристрою та очікуваної області кадрування.</string>
-    <string name="help_tip_wallpaper_export_step_2">Тримайте важливі об’єкти подалі від країв, де їх можуть закривати панелі запуску, годинники чи жести.</string>
-    <string name="help_tip_wallpaper_export_step_3">Попередньо перегляньте на цільовому екрані, якщо це можливо, потім налаштуйте обрізання або розмір експорту перед збереженням остаточної копії.</string>
     <string name="help_tip_markup_projects_title">Проекти розмітки</string>
     <string name="help_tip_markup_projects_subtitle">Використовуйте файли проекту, коли анотації потрібно залишати доступними для редагування після закриття програми</string>
     <string name="help_tip_markup_projects_page_title">Зберігайте багатошарові редагування для повторного використання</string>

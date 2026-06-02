@@ -2822,13 +2822,6 @@
     <string name="help_tip_noise_generation_step_1">සියුම් විස්තර සුසර කිරීමට පෙර ශබ්ද වර්ගය සහ ප්‍රතිදාන ප්‍රමාණය තෝරන්න.</string>
     <string name="help_tip_noise_generation_step_2">රටාව ඉලක්ක භාවිතයට ගැලපෙන තෙක් පරිමාණය, තීව්‍රතාවය, වර්ණ හෝ බීජ සකසන්න.</string>
     <string name="help_tip_noise_generation_step_3">ඔබට පසුව වයනය නැවත නිර්මාණය කිරීමට අවශ්‍ය නම් ප්‍රයෝජනවත් ප්‍රතිඵල සුරකින්න සහ පරාමිති ලියන්න.</string>
-    <string name="help_tip_wallpaper_export_title">වෝල්පේපර් අපනයනය</string>
-    <string name="help_tip_wallpaper_export_subtitle">මුල් තිර, අගුළු තිර සහ සංදර්ශක-විශේෂිත භෝග සඳහා රූප සූදානම් කරන්න</string>
-    <string name="help_tip_wallpaper_export_page_title">එය භාවිතා කරන තිරය සඳහා අපනයනය කරන්න</string>
-    <string name="help_tip_wallpaper_export_description">සාමාන්‍ය බෝගයක් Android මුල් පිටුව සහ අගුළු තිර රූප යොදන ආකාරයට නොගැලපෙන විට වෝල්පේපර් අපනයනය ප්‍රයෝජනවත් වේ. ඉලක්ක තිරය සඳහා රූපය සූදානම් කිරීම අනපේක්ෂිත විශාලනය, මධ්‍යයෙන් පිටත විෂයයන් හෝ මෘදු ප්‍රතිඵල වළක්වා ගැනීමට උපකාරී වේ.</string>
-    <string name="help_tip_wallpaper_export_step_1">උපාංග තිරය සහ අපේක්ෂිත බෝග ප්‍රදේශය සඳහා ප්‍රමාණවත් විභේදනයක් සහිත රූපයකින් ආරම්භ කරන්න.</string>
-    <string name="help_tip_wallpaper_export_step_2">වැදගත් විෂයයන් දියත් කිරීම්, ඔරලෝසු හෝ අභිනයන් ආවරණය කළ හැකි දාරවලින් ඈත් කරන්න.</string>
-    <string name="help_tip_wallpaper_export_step_3">හැකි නම් ඉලක්ක තිරය මත පෙරදසුන් කරන්න, අවසාන පිටපත තබා ගැනීමට පෙර බෝග හෝ අපනයන ප්‍රමාණය සීරුමාරු කරන්න.</string>
     <string name="help_tip_markup_projects_title">සලකුණු කිරීමේ ව්යාපෘති</string>
     <string name="help_tip_markup_projects_subtitle">යෙදුම වැසීමෙන් පසු විවරණ සංස්කරණය කළ හැකිව තිබිය යුතු විට ව්‍යාපෘති ගොනු භාවිත කරන්න</string>
     <string name="help_tip_markup_projects_page_title">ස්ථර සංස්කරණ නැවත භාවිත කළ හැකි ලෙස තබා ගන්න</string>

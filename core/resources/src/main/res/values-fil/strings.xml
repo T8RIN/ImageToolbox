@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">Pumili ng uri ng ingay at laki ng output bago i-tune ang mga pinong detalye.</string>
     <string name="help_tip_noise_generation_step_2">Ayusin ang sukat, intensity, mga kulay, o buto hanggang sa magkasya ang pattern sa target na paggamit.</string>
     <string name="help_tip_noise_generation_step_3">I-save ang mga kapaki-pakinabang na resulta at isulat ang mga parameter kung kailangan mong muling likhain ang texture sa ibang pagkakataon.</string>
-    <string name="help_tip_wallpaper_export_title">Pag-export ng wallpaper</string>
-    <string name="help_tip_wallpaper_export_subtitle">Maghanda ng mga larawan para sa mga home screen, lock screen, at mga pananim na partikular sa display</string>
-    <string name="help_tip_wallpaper_export_page_title">I-export para sa screen na gagamit nito</string>
-    <string name="help_tip_wallpaper_export_description">Ang pag-export ng wallpaper ay kapaki-pakinabang kapag ang isang normal na pag-crop ay hindi tumutugma sa paraan ng paglalapat ng Android ng mga larawan sa bahay at lock screen. Ang paghahanda ng larawan para sa target na screen ay nakakatulong na maiwasan ang hindi inaasahang pag-zoom, off-center na mga paksa, o malambot na resulta.</string>
-    <string name="help_tip_wallpaper_export_step_1">Magsimula sa isang larawang may sapat na resolution para sa screen ng device at inaasahang lugar ng pag-crop.</string>
-    <string name="help_tip_wallpaper_export_step_2">Ilayo ang mahahalagang paksa sa mga gilid kung saan maaaring takpan ng mga launcher, orasan, o kilos ang mga ito.</string>
-    <string name="help_tip_wallpaper_export_step_3">I-preview sa target na screen kung maaari, pagkatapos ay ayusin ang crop o laki ng pag-export bago panatilihin ang huling kopya.</string>
     <string name="help_tip_markup_projects_title">Mga proyekto ng markup</string>
     <string name="help_tip_markup_projects_subtitle">Gumamit ng mga file ng proyekto kapag kailangang manatiling nae-edit ang mga anotasyon pagkatapos isara ang app</string>
     <string name="help_tip_markup_projects_page_title">Panatilihing magagamit muli ang mga layered na pag-edit</string>

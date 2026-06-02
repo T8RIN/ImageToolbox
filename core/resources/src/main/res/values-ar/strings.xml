@@ -2826,13 +2826,6 @@
     <string name="help_tip_noise_generation_step_1">اختر نوع الضوضاء وحجم الإخراج قبل ضبط التفاصيل الدقيقة.</string>
     <string name="help_tip_noise_generation_step_2">اضبط الحجم أو الكثافة أو الألوان أو البذرة حتى يناسب النمط الاستخدام المستهدف.</string>
     <string name="help_tip_noise_generation_step_3">احفظ النتائج المفيدة واكتب المعلمات إذا كنت بحاجة إلى إعادة إنشاء النسيج لاحقًا.</string>
-    <string name="help_tip_wallpaper_export_title">تصدير ورق الجدران</string>
-    <string name="help_tip_wallpaper_export_subtitle">قم بإعداد الصور للشاشات الرئيسية وشاشات القفل والمحاصيل الخاصة بالعرض</string>
-    <string name="help_tip_wallpaper_export_page_title">تصدير للشاشة التي ستستخدمها</string>
-    <string name="help_tip_wallpaper_export_description">يكون تصدير الخلفية مفيدًا عندما لا يتطابق الاقتصاص العادي مع الطريقة التي يطبق بها Android صور الشاشة الرئيسية وشاشة القفل. يساعد إعداد الصورة للشاشة المستهدفة على تجنب التكبير/التصغير غير المتوقع أو الأهداف البعيدة عن المركز أو النتائج البسيطة.</string>
-    <string name="help_tip_wallpaper_export_step_1">ابدأ من صورة ذات دقة كافية لشاشة الجهاز ومساحة الاقتصاص المتوقعة.</string>
-    <string name="help_tip_wallpaper_export_step_2">احتفظ بالموضوعات المهمة بعيدًا عن الحواف حيث قد تغطيها قاذفات أو ساعات أو إيماءات.</string>
-    <string name="help_tip_wallpaper_export_step_3">قم بالمعاينة على الشاشة المستهدفة إن أمكن، ثم اضبط حجم الاقتصاص أو التصدير قبل الاحتفاظ بالنسخة النهائية.</string>
     <string name="help_tip_markup_projects_title">مشاريع العلامات</string>
     <string name="help_tip_markup_projects_subtitle">استخدم ملفات المشروع عندما تحتاج التعليقات التوضيحية إلى أن تظل قابلة للتحرير بعد إغلاق التطبيق</string>
     <string name="help_tip_markup_projects_page_title">اجعل تعديلات الطبقات قابلة لإعادة الاستخدام</string>

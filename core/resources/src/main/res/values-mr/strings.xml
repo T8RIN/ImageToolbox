@@ -2822,13 +2822,6 @@
     <string name="help_tip_noise_generation_step_1">सूक्ष्म तपशील ट्यून करण्यापूर्वी आवाज प्रकार आणि आउटपुट आकार निवडा.</string>
     <string name="help_tip_noise_generation_step_2">पॅटर्न लक्ष्यित वापराशी जुळत नाही तोपर्यंत स्केल, तीव्रता, रंग किंवा बिया समायोजित करा.</string>
     <string name="help_tip_noise_generation_step_3">उपयुक्त परिणाम जतन करा आणि आपल्याला नंतर पोत पुन्हा तयार करण्याची आवश्यकता असल्यास पॅरामीटर्स लिहा.</string>
-    <string name="help_tip_wallpaper_export_title">वॉलपेपर निर्यात</string>
-    <string name="help_tip_wallpaper_export_subtitle">होम स्क्रीन, लॉक स्क्रीन आणि डिस्प्ले-विशिष्ट पिकांसाठी प्रतिमा तयार करा</string>
-    <string name="help_tip_wallpaper_export_page_title">त्याचा वापर करणाऱ्या स्क्रीनसाठी निर्यात करा</string>
-    <string name="help_tip_wallpaper_export_description">जेव्हा सामान्य क्रॉप Android होम आणि लॉक स्क्रीन प्रतिमा लागू करते त्याप्रमाणे जुळत नाही तेव्हा वॉलपेपर निर्यात उपयुक्त आहे. लक्ष्य स्क्रीनसाठी प्रतिमा तयार केल्याने अनपेक्षित झूमिंग, केंद्राबाहेरील विषय किंवा सॉफ्ट परिणाम टाळण्यास मदत होते.</string>
-    <string name="help_tip_wallpaper_export_step_1">डिव्हाइस स्क्रीन आणि अपेक्षित क्रॉप क्षेत्रासाठी पुरेसे रिझोल्यूशन असलेल्या प्रतिमेपासून प्रारंभ करा.</string>
-    <string name="help_tip_wallpaper_export_step_2">महत्त्वाच्या विषयांना किनार्यापासून दूर ठेवा जेथे लाँचर, घड्याळे किंवा जेश्चर त्यांना कव्हर करू शकतात.</string>
-    <string name="help_tip_wallpaper_export_step_3">शक्य असल्यास लक्ष्य स्क्रीनवर पूर्वावलोकन करा, नंतर अंतिम प्रत ठेवण्यापूर्वी क्रॉप किंवा निर्यात आकार समायोजित करा.</string>
     <string name="help_tip_markup_projects_title">मार्कअप प्रकल्प</string>
     <string name="help_tip_markup_projects_subtitle">ॲप बंद केल्यानंतर भाष्ये संपादन करण्यायोग्य राहणे आवश्यक असताना प्रकल्प फाइल्स वापरा</string>
     <string name="help_tip_markup_projects_page_title">स्तरित संपादने पुन्हा वापरण्यायोग्य ठेवा</string>

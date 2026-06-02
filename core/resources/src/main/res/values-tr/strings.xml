@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">İnce ayrıntıları ayarlamadan önce bir gürültü türü ve çıkış boyutu seçin.</string>
     <string name="help_tip_noise_generation_step_2">Desen hedef kullanıma uygun olana kadar ölçeği, yoğunluğu, renkleri veya tohumu ayarlayın.</string>
     <string name="help_tip_noise_generation_step_3">Yararlı sonuçları kaydedin ve dokuyu daha sonra yeniden oluşturmanız gerekirse parametreleri yazın.</string>
-    <string name="help_tip_wallpaper_export_title">Duvar kağıdını dışa aktarma</string>
-    <string name="help_tip_wallpaper_export_subtitle">Ana ekranlar, kilit ekranları ve ekrana özel kırpmalar için görseller hazırlayın</string>
-    <string name="help_tip_wallpaper_export_page_title">Kullanılacak ekran için dışa aktar</string>
-    <string name="help_tip_wallpaper_export_description">Duvar kağıdını dışa aktarma, normal bir kırpmanın Android\'in ev ve kilit ekranı görüntülerini uygulama şekliyle eşleşmediği durumlarda kullanışlıdır. Görüntünün hedef ekran için hazırlanması beklenmedik yakınlaştırmaların, nesnelerin merkezin dışında kalmasının veya yumuşak sonuçların önlenmesine yardımcı olur.</string>
-    <string name="help_tip_wallpaper_export_step_1">Cihaz ekranı ve beklenen kırpma alanı için yeterli çözünürlüğe sahip bir görüntüden başlayın.</string>
-    <string name="help_tip_wallpaper_export_step_2">Önemli konuları başlatıcıların, saatlerin veya hareketlerin onları kapatabileceği kenarlardan uzak tutun.</string>
-    <string name="help_tip_wallpaper_export_step_3">Mümkünse hedef ekranda ön izleme yapın, ardından son kopyayı saklamadan önce kırpma veya dışa aktarma boyutunu ayarlayın.</string>
     <string name="help_tip_markup_projects_title">İşaretleme projeleri</string>
     <string name="help_tip_markup_projects_subtitle">Uygulamayı kapattıktan sonra ek açıklamaların düzenlenebilir kalması gerektiğinde proje dosyalarını kullanın</string>
     <string name="help_tip_markup_projects_page_title">Katmanlı düzenlemeleri yeniden kullanılabilir durumda tutun</string>

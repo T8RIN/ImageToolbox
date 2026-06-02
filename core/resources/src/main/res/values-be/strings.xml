@@ -2823,13 +2823,6 @@
     <string name="help_tip_noise_generation_step_1">Выберыце тып шуму і выхадны памер, перш чым наладжваць дробныя дэталі.</string>
     <string name="help_tip_noise_generation_step_2">Адрэгулюйце маштаб, інтэнсіўнасць, колеры або зерне, пакуль узор не будзе адпавядаць мэты выкарыстання.</string>
     <string name="help_tip_noise_generation_step_3">Захавайце карысныя вынікі і запішыце параметры, калі пазней спатрэбіцца ўзнавіць тэкстуру.</string>
-    <string name="help_tip_wallpaper_export_title">Экспарт шпалер</string>
-    <string name="help_tip_wallpaper_export_subtitle">Падрыхтуйце выявы для галоўных экранаў, экранаў блакіроўкі і кадравання для дысплея</string>
-    <string name="help_tip_wallpaper_export_page_title">Экспарт для экрана, які будзе выкарыстоўваць яго</string>
-    <string name="help_tip_wallpaper_export_description">Экспарт шпалер карысны, калі звычайная абрэзка не адпавядае таму, як Android прымяняе выявы хатняга экрана і экрана блакіроўкі. Падрыхтоўка выявы для мэтавага экрана дапамагае пазбегнуць нечаканага маштабавання, нецэнтральных аб\'ектаў або плыўных вынікаў.</string>
-    <string name="help_tip_wallpaper_export_step_1">Пачніце з выявы з дастатковай разрознасцю для экрана прылады і чаканай вобласці абрэзкі.</string>
-    <string name="help_tip_wallpaper_export_step_2">Трымайце важныя аб\'екты далей ад краёў, дзе іх могуць закрыць пускавыя прылады, гадзіннікі або жэсты.</string>
-    <string name="help_tip_wallpaper_export_step_3">Папярэдні прагляд на мэтавым экране, калі гэта магчыма, затым адрэгулюйце кадраванне або памер экспарту перад захаваннем канчатковай копіі.</string>
     <string name="help_tip_markup_projects_title">Праекты разметкі</string>
     <string name="help_tip_markup_projects_subtitle">Выкарыстоўвайце файлы праекта, калі анатацыі павінны заставацца даступнымі для рэдагавання пасля закрыцця праграмы</string>
     <string name="help_tip_markup_projects_page_title">Захоўвайце шматслойныя праўкі шматразовымі</string>

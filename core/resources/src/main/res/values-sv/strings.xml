@@ -2823,13 +2823,6 @@
     <string name="help_tip_noise_generation_step_1">Välj en brustyp och utdatastorlek innan du ställer in fina detaljer.</string>
     <string name="help_tip_noise_generation_step_2">Justera skala, intensitet, färger eller frö tills mönstret passar målanvändningen.</string>
     <string name="help_tip_noise_generation_step_3">Spara användbara resultat och skriv ner parametrarna om du behöver återskapa texturen senare.</string>
-    <string name="help_tip_wallpaper_export_title">Tapet export</string>
-    <string name="help_tip_wallpaper_export_subtitle">Förbered bilder för hemskärmar, låsskärmar och skärmspecifika beskärningar</string>
-    <string name="help_tip_wallpaper_export_page_title">Exportera för skärmen som kommer att använda den</string>
-    <string name="help_tip_wallpaper_export_description">Tapetexport är användbart när en normal beskärning inte matchar hur Android applicerar hem- och låsskärmsbilder. Att förbereda bilden för målskärmen hjälper till att undvika oväntad zoomning, motiv utanför mitten eller mjuka resultat.</string>
-    <string name="help_tip_wallpaper_export_step_1">Börja från en bild med tillräcklig upplösning för enhetens skärm och förväntade beskärningsyta.</string>
-    <string name="help_tip_wallpaper_export_step_2">Håll viktiga ämnen borta från kanter där bärraketer, klockor eller gester kan täcka dem.</string>
-    <string name="help_tip_wallpaper_export_step_3">Förhandsgranska på målskärmen om möjligt, justera sedan beskärnings- eller exportstorleken innan du behåller den slutliga kopian.</string>
     <string name="help_tip_markup_projects_title">Markup-projekt</string>
     <string name="help_tip_markup_projects_subtitle">Använd projektfiler när kommentarer behöver förbli redigerbara efter att du har stängt appen</string>
     <string name="help_tip_markup_projects_page_title">Håll lagerredigeringar återanvändbara</string>

@@ -2822,13 +2822,6 @@
     <string name="help_tip_noise_generation_step_1">Elija un tipo de ruido y un tamaño de salida antes de ajustar los detalles finos.</string>
     <string name="help_tip_noise_generation_step_2">Ajuste la escala, la intensidad, los colores o la semilla hasta que el patrón se ajuste al uso objetivo.</string>
     <string name="help_tip_noise_generation_step_3">Guarde los resultados útiles y anote los parámetros si necesita recrear la textura más adelante.</string>
-    <string name="help_tip_wallpaper_export_title">Exportación de papel tapiz</string>
-    <string name="help_tip_wallpaper_export_subtitle">Prepare imágenes para pantallas de inicio, pantallas de bloqueo y cultivos específicos de pantalla</string>
-    <string name="help_tip_wallpaper_export_page_title">Exportar para la pantalla que lo usará.</string>
-    <string name="help_tip_wallpaper_export_description">La exportación de fondos de pantalla es útil cuando un recorte normal no coincide con la forma en que Android aplica las imágenes de la pantalla de inicio y de bloqueo. Preparar la imagen para la pantalla de destino ayuda a evitar zooms inesperados, sujetos descentrados o resultados suaves.</string>
-    <string name="help_tip_wallpaper_export_step_1">Comience desde una imagen con suficiente resolución para la pantalla del dispositivo y el área de recorte esperada.</string>
-    <string name="help_tip_wallpaper_export_step_2">Mantenga los objetos importantes alejados de los bordes donde los lanzadores, relojes o gestos puedan cubrirlos.</string>
-    <string name="help_tip_wallpaper_export_step_3">Obtenga una vista previa en la pantalla de destino si es posible, luego ajuste el tamaño de recorte o exportación antes de conservar la copia final.</string>
     <string name="help_tip_markup_projects_title">Proyectos de marcado</string>
     <string name="help_tip_markup_projects_subtitle">Utilice archivos de proyecto cuando las anotaciones necesiten seguir siendo editables después de cerrar la aplicación</string>
     <string name="help_tip_markup_projects_page_title">Mantenga las ediciones en capas reutilizables</string>

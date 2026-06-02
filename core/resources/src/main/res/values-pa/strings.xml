@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">ਵਧੀਆ ਵੇਰਵਿਆਂ ਨੂੰ ਟਿਊਨ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਸ਼ੋਰ ਦੀ ਕਿਸਮ ਅਤੇ ਆਉਟਪੁੱਟ ਆਕਾਰ ਚੁਣੋ।</string>
     <string name="help_tip_noise_generation_step_2">ਪੈਟਰਨ ਟੀਚੇ ਦੀ ਵਰਤੋਂ ਲਈ ਫਿੱਟ ਹੋਣ ਤੱਕ ਪੈਮਾਨੇ, ਤੀਬਰਤਾ, ​​ਰੰਗ ਜਾਂ ਬੀਜ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰੋ।</string>
     <string name="help_tip_noise_generation_step_3">ਲਾਭਦਾਇਕ ਨਤੀਜਿਆਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ ਅਤੇ ਪੈਰਾਮੀਟਰਾਂ ਨੂੰ ਲਿਖੋ ਜੇਕਰ ਤੁਹਾਨੂੰ ਬਾਅਦ ਵਿੱਚ ਟੈਕਸਟ ਨੂੰ ਦੁਬਾਰਾ ਬਣਾਉਣ ਦੀ ਲੋੜ ਹੈ।</string>
-    <string name="help_tip_wallpaper_export_title">ਵਾਲਪੇਪਰ ਨਿਰਯਾਤ</string>
-    <string name="help_tip_wallpaper_export_subtitle">ਹੋਮ ਸਕ੍ਰੀਨਾਂ, ਲੌਕ ਸਕ੍ਰੀਨਾਂ, ਅਤੇ ਡਿਸਪਲੇ-ਵਿਸ਼ੇਸ਼ ਫਸਲਾਂ ਲਈ ਚਿੱਤਰ ਤਿਆਰ ਕਰੋ</string>
-    <string name="help_tip_wallpaper_export_page_title">ਸਕ੍ਰੀਨ ਲਈ ਨਿਰਯਾਤ ਕਰੋ ਜੋ ਇਸਦੀ ਵਰਤੋਂ ਕਰੇਗੀ</string>
-    <string name="help_tip_wallpaper_export_description">ਵਾਲਪੇਪਰ ਨਿਰਯਾਤ ਲਾਭਦਾਇਕ ਹੁੰਦਾ ਹੈ ਜਦੋਂ ਇੱਕ ਸਧਾਰਨ ਫਸਲ Android ਘਰ ਅਤੇ ਲੌਕ ਸਕ੍ਰੀਨ ਚਿੱਤਰਾਂ ਨੂੰ ਲਾਗੂ ਕਰਨ ਦੇ ਤਰੀਕੇ ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦੀ ਹੈ। ਨਿਸ਼ਾਨਾ ਸਕ੍ਰੀਨ ਲਈ ਚਿੱਤਰ ਨੂੰ ਤਿਆਰ ਕਰਨਾ ਅਚਾਨਕ ਜ਼ੂਮਿੰਗ, ਆਫ-ਸੈਂਟਰ ਵਿਸ਼ਿਆਂ, ਜਾਂ ਨਰਮ ਨਤੀਜਿਆਂ ਤੋਂ ਬਚਣ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ।</string>
-    <string name="help_tip_wallpaper_export_step_1">ਡਿਵਾਈਸ ਸਕ੍ਰੀਨ ਅਤੇ ਸੰਭਾਵਿਤ ਫਸਲ ਖੇਤਰ ਲਈ ਕਾਫ਼ੀ ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਵਾਲੇ ਚਿੱਤਰ ਤੋਂ ਸ਼ੁਰੂ ਕਰੋ।</string>
-    <string name="help_tip_wallpaper_export_step_2">ਮਹੱਤਵਪੂਰਨ ਵਿਸ਼ਿਆਂ ਨੂੰ ਉਹਨਾਂ ਕਿਨਾਰਿਆਂ ਤੋਂ ਦੂਰ ਰੱਖੋ ਜਿੱਥੇ ਲਾਂਚਰ, ਘੜੀਆਂ ਜਾਂ ਸੰਕੇਤ ਉਹਨਾਂ ਨੂੰ ਢੱਕ ਸਕਦੇ ਹਨ।</string>
-    <string name="help_tip_wallpaper_export_step_3">ਜੇਕਰ ਸੰਭਵ ਹੋਵੇ ਤਾਂ ਟਾਰਗੇਟ ਸਕ੍ਰੀਨ \'ਤੇ ਪੂਰਵਦਰਸ਼ਨ ਕਰੋ, ਫਿਰ ਅੰਤਿਮ ਕਾਪੀ ਰੱਖਣ ਤੋਂ ਪਹਿਲਾਂ ਫਸਲ ਜਾਂ ਨਿਰਯਾਤ ਆਕਾਰ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰੋ।</string>
     <string name="help_tip_markup_projects_title">ਮਾਰਕਅੱਪ ਪ੍ਰੋਜੈਕਟ</string>
     <string name="help_tip_markup_projects_subtitle">ਜਦੋਂ ਐਪ ਨੂੰ ਬੰਦ ਕਰਨ ਤੋਂ ਬਾਅਦ ਐਨੋਟੇਸ਼ਨਾਂ ਨੂੰ ਸੰਪਾਦਨਯੋਗ ਰਹਿਣ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ ਤਾਂ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
     <string name="help_tip_markup_projects_page_title">ਪੱਧਰੀ ਸੰਪਾਦਨਾਂ ਨੂੰ ਮੁੜ ਵਰਤੋਂ ਯੋਗ ਰੱਖੋ</string>

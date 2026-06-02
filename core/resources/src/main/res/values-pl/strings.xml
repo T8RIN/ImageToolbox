@@ -2824,13 +2824,6 @@
     <string name="help_tip_noise_generation_step_1">Wybierz typ szumu i rozmiar wyjściowy przed dostrojeniem drobnych szczegółów.</string>
     <string name="help_tip_noise_generation_step_2">Dostosuj skalę, intensywność, kolory lub materiał siewny, aż wzór będzie pasował do docelowego zastosowania.</string>
     <string name="help_tip_noise_generation_step_3">Zapisz przydatne wyniki i zapisz parametry, jeśli chcesz później odtworzyć teksturę.</string>
-    <string name="help_tip_wallpaper_export_title">Eksport tapet</string>
-    <string name="help_tip_wallpaper_export_subtitle">Przygotuj obrazy na ekrany główne, ekrany blokady i przycięcia specyficzne dla wyświetlacza</string>
-    <string name="help_tip_wallpaper_export_page_title">Eksportuj do ekranu, który będzie z niego korzystał</string>
-    <string name="help_tip_wallpaper_export_description">Eksport tapety jest przydatny, gdy normalne przycięcie nie odpowiada sposobowi, w jaki Android stosuje obrazy na ekranie głównym i ekranie blokady. Przygotowanie obrazu na ekran docelowy pomaga uniknąć nieoczekiwanego powiększenia, obiektów znajdujących się poza środkiem lub miękkich rezultatów.</string>
-    <string name="help_tip_wallpaper_export_step_1">Zacznij od obrazu o rozdzielczości wystarczającej do ekranu urządzenia i oczekiwanego obszaru przycięcia.</string>
-    <string name="help_tip_wallpaper_export_step_2">Trzymaj ważne obiekty z dala od krawędzi, gdzie mogłyby je zasłonić wyrzutnie, zegary lub gesty.</string>
-    <string name="help_tip_wallpaper_export_step_3">Jeśli to możliwe, wyświetl podgląd na ekranie docelowym, a następnie dostosuj rozmiar przycięcia lub eksportu przed zachowaniem ostatecznej kopii.</string>
     <string name="help_tip_markup_projects_title">Projekty znaczników</string>
     <string name="help_tip_markup_projects_subtitle">Użyj plików projektu, jeśli adnotacje muszą pozostać edytowalne po zamknięciu aplikacji</string>
     <string name="help_tip_markup_projects_page_title">Zachowaj możliwość wielokrotnego wykorzystania warstwowych edycji</string>

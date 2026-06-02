@@ -2822,13 +2822,6 @@
     <string name="help_tip_noise_generation_step_1">Alegeți un tip de zgomot și o dimensiune de ieșire înainte de a regla detaliile fine.</string>
     <string name="help_tip_noise_generation_step_2">Reglați scara, intensitatea, culorile sau semințele până când modelul se potrivește utilizării țintă.</string>
     <string name="help_tip_noise_generation_step_3">Salvați rezultatele utile și notați parametrii dacă trebuie să recreați textura mai târziu.</string>
-    <string name="help_tip_wallpaper_export_title">Export de imagini de fundal</string>
-    <string name="help_tip_wallpaper_export_subtitle">Pregătiți imagini pentru ecranele de start, ecranele de blocare și decupările specifice afișajului</string>
-    <string name="help_tip_wallpaper_export_page_title">Exportați pentru ecranul care îl va folosi</string>
-    <string name="help_tip_wallpaper_export_description">Exportul imaginii de fundal este util atunci când o decupare normală nu se potrivește cu modul în care Android aplică imaginile ecranului de pornire și de blocare. Pregătirea imaginii pentru ecranul țintă ajută la evitarea măririi neașteptate, a subiectelor decentrate sau a rezultatelor slabe.</string>
-    <string name="help_tip_wallpaper_export_step_1">Începeți de la o imagine cu rezoluție suficientă pentru ecranul dispozitivului și zona de decupare așteptată.</string>
-    <string name="help_tip_wallpaper_export_step_2">Țineți subiectele importante departe de marginile unde lansatoarele, ceasurile sau gesturile le pot acoperi.</string>
-    <string name="help_tip_wallpaper_export_step_3">Previzualizați pe ecranul țintă, dacă este posibil, apoi ajustați dimensiunea de decupare sau export înainte de a păstra copia finală.</string>
     <string name="help_tip_markup_projects_title">Proiecte de markup</string>
     <string name="help_tip_markup_projects_subtitle">Utilizați fișierele de proiect atunci când adnotările trebuie să rămână editabile după închiderea aplicației</string>
     <string name="help_tip_markup_projects_page_title">Păstrați editările stratificate reutilizabile</string>

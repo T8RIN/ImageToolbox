@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">قبل از تنظیم جزئیات دقیق، نوع نویز و اندازه خروجی را انتخاب کنید.</string>
     <string name="help_tip_noise_generation_step_2">مقیاس، شدت، رنگ‌ها یا دانه را تا زمانی تنظیم کنید که الگوی مورد نظر متناسب باشد.</string>
     <string name="help_tip_noise_generation_step_3">نتایج مفید را ذخیره کنید و در صورت نیاز به ایجاد مجدد بافت، پارامترها را یادداشت کنید.</string>
-    <string name="help_tip_wallpaper_export_title">صادرات کاغذ دیواری</string>
-    <string name="help_tip_wallpaper_export_subtitle">تصاویر را برای صفحه‌های اصلی، صفحه‌های قفل، و برش‌های مخصوص نمایشگر آماده کنید</string>
-    <string name="help_tip_wallpaper_export_page_title">برای صفحه ای که از آن استفاده می کند صادر کنید</string>
-    <string name="help_tip_wallpaper_export_description">صادرات کاغذ دیواری زمانی مفید است که یک برش معمولی با روشی که Android تصاویر صفحه اصلی و صفحه قفل را اعمال می کند مطابقت نداشته باشد. آماده سازی تصویر برای صفحه هدف به جلوگیری از بزرگنمایی غیرمنتظره، سوژه های خارج از مرکز یا نتایج نرم کمک می کند.</string>
-    <string name="help_tip_wallpaper_export_step_1">از تصویری با وضوح کافی برای صفحه نمایش دستگاه و ناحیه برش مورد انتظار شروع کنید.</string>
-    <string name="help_tip_wallpaper_export_step_2">سوژه‌های مهم را از لبه‌هایی که پرتاب‌کننده‌ها، ساعت‌ها یا ژست‌ها ممکن است آنها را پوشش دهند، دور نگه دارید.</string>
-    <string name="help_tip_wallpaper_export_step_3">در صورت امکان روی صفحه مورد نظر پیش نمایش را مشاهده کنید، سپس اندازه برش یا صادرات را قبل از نگهداری نسخه نهایی تنظیم کنید.</string>
     <string name="help_tip_markup_projects_title">پروژه های نشانه گذاری</string>
     <string name="help_tip_markup_projects_subtitle">زمانی از فایل های پروژه استفاده کنید که پس از بستن برنامه، حاشیه نویسی ها باید قابل ویرایش باشند</string>
     <string name="help_tip_markup_projects_page_title">ویرایش های لایه ای را قابل استفاده مجدد نگه دارید</string>

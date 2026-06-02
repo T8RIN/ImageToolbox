@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">ئىنچىكە تەپسىلاتلارنى تەڭشەشتىن بۇرۇن شاۋقۇن تىپى ۋە چىقىرىش چوڭلۇقىنى تاللاڭ.</string>
     <string name="help_tip_noise_generation_step_2">ئەندىزە نىشانغا ماس كەلگۈچە كۆلەم ، كۈچلۈكلۈك ، رەڭ ياكى ئۇرۇقنى تەڭشەڭ.</string>
     <string name="help_tip_noise_generation_step_3">كېيىنچە قايتا ھاسىل قىلىشقا توغرا كەلسە ، پايدىلىق نەتىجىنى تېجەڭ ۋە پارامېتىرلارنى يېزىڭ.</string>
-    <string name="help_tip_wallpaper_export_title">تام قەغەز ئېكسپورتى</string>
-    <string name="help_tip_wallpaper_export_subtitle">ئائىلە ئېكرانى ، قۇلۇپ ئېكرانى ۋە ئالاھىدە زىرائەتلەرگە رەسىم تەييارلاڭ</string>
-    <string name="help_tip_wallpaper_export_page_title">ئۇنى ئىشلىتىدىغان ئېكرانغا چىقىرىش</string>
-    <string name="help_tip_wallpaper_export_description">تام قەغىزى ئېكسپورتى نورمال زىرائەت ئاندىرويىدنىڭ ئائىلە ۋە ئېكران رەسىملىرىنى قۇلۇپلاش ئۇسۇلىغا ماس كەلمىسە پايدىلىق. نىشان ئېكرانغا رەسىم تەييارلاش ئويلىمىغان يەردىن چوڭايتىش ، مەركەز سىرتىدىكى تېما ياكى يۇمشاق نەتىجىدىن ساقلىنىشقا ياردەم بېرىدۇ.</string>
-    <string name="help_tip_wallpaper_export_step_1">ئۈسكۈنىنىڭ ئېكرانى ۋە مۆلچەرلەنگەن زىرائەت رايونىغا يېتەرلىك ئېنىقلىقتىكى رەسىمدىن باشلاڭ.</string>
-    <string name="help_tip_wallpaper_export_step_2">مۇھىم سۇبيېكتلارنى قويۇپ بەرگۈچىلەر ، سائەت ياكى ئىشارەتلەر يېپىپ تۇرىدىغان قىرلاردىن يىراقلاشتۇرۇڭ.</string>
-    <string name="help_tip_wallpaper_export_step_3">مۇمكىن بولسا نىشان ئېكراندا ئالدىن كۆرۈڭ ، ئاندىن ئاخىرقى كۆپەيتىلگەن نۇسخىسىنى ساقلاشتىن بۇرۇن زىرائەت ياكى ئېكسپورت كۆلىمىنى تەڭشەڭ.</string>
     <string name="help_tip_markup_projects_title">Markup projects</string>
     <string name="help_tip_markup_projects_subtitle">ئىزاھلار ئەپنى تاقىغاندىن كېيىن تەھرىرلەشكە ئېھتىياجلىق بولغاندا تۈر ھۆججىتىنى ئىشلىتىڭ</string>
     <string name="help_tip_markup_projects_page_title">قاتلاملىق تەھرىرلەشنى قايتا ئىشلىتىڭ</string>

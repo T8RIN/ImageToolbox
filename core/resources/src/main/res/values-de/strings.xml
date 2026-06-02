@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">Wählen Sie einen Rauschtyp und eine Ausgabegröße, bevor Sie feine Details anpassen.</string>
     <string name="help_tip_noise_generation_step_2">Passen Sie Maßstab, Intensität, Farben oder Saatgut an, bis das Muster zur Zielverwendung passt.</string>
     <string name="help_tip_noise_generation_step_3">Speichern Sie nützliche Ergebnisse und notieren Sie die Parameter, wenn Sie die Textur später neu erstellen müssen.</string>
-    <string name="help_tip_wallpaper_export_title">Hintergrundbildexport</string>
-    <string name="help_tip_wallpaper_export_subtitle">Bereiten Sie Bilder für Startbildschirme, Sperrbildschirme und anzeigespezifische Ausschnitte vor</string>
-    <string name="help_tip_wallpaper_export_page_title">Export für den Bildschirm, der es verwenden wird</string>
-    <string name="help_tip_wallpaper_export_description">Der Hintergrundexport ist nützlich, wenn ein normaler Zuschnitt nicht mit der Art und Weise übereinstimmt, wie Android Home- und Sperrbildschirmbilder anwendet. Durch die Vorbereitung des Bildes für den Zielbildschirm können unerwartetes Zoomen, außermittige Motive oder weiche Ergebnisse vermieden werden.</string>
-    <string name="help_tip_wallpaper_export_step_1">Beginnen Sie mit einem Bild mit ausreichender Auflösung für den Gerätebildschirm und den erwarteten Zuschneidebereich.</string>
-    <string name="help_tip_wallpaper_export_step_2">Halten Sie wichtige Motive von Kanten fern, wo sie durch Raketenwerfer, Uhren oder Gesten verdeckt werden könnten.</string>
-    <string name="help_tip_wallpaper_export_step_3">Wenn möglich, zeigen Sie eine Vorschau auf dem Zielbildschirm an und passen Sie dann die Zuschnitt- oder Exportgröße an, bevor Sie die endgültige Kopie behalten.</string>
     <string name="help_tip_markup_projects_title">Markup-Projekte</string>
     <string name="help_tip_markup_projects_subtitle">Verwenden Sie Projektdateien, wenn Anmerkungen nach dem Schließen der App bearbeitbar bleiben müssen</string>
     <string name="help_tip_markup_projects_page_title">Halten Sie geschichtete Bearbeitungen wiederverwendbar</string>

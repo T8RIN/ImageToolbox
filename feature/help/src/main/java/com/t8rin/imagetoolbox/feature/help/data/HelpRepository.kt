@@ -161,7 +161,6 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val PickColor = "pick-color"
         const val ColorFormats = "color-formats"
         const val PaletteLibrary = "palette-library"
-        const val PaletteConsistency = "palette-consistency"
         const val Gradients = "gradients"
         const val ColorAccessibility = "color-accessibility"
         const val AlphaBackgroundColor = "alpha-background-color"
@@ -1328,21 +1327,6 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_palette_library_step_1,
                 R.string.help_tip_palette_library_step_2,
                 R.string.help_tip_palette_library_step_3
-            )
-        ),
-        tip(
-            id = TipIds.PaletteConsistency,
-            title = R.string.help_tip_palette_consistency_title,
-            subtitle = R.string.help_tip_palette_consistency_subtitle,
-            icon = Icons.Outlined.PaletteSwatch,
-            category = colorTools,
-            deepLink = Screen.PaletteTools(),
-            pageTitle = R.string.help_tip_palette_consistency_page_title,
-            description = R.string.help_tip_palette_consistency_description,
-            steps = listOf(
-                R.string.help_tip_palette_consistency_step_1,
-                R.string.help_tip_palette_consistency_step_2,
-                R.string.help_tip_palette_consistency_step_3
             )
         ),
         tip(

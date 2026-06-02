@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">在调整精细细节之前选择噪声类型和输出大小。</string>
     <string name="help_tip_noise_generation_step_2">调整比例、强度、颜色或种子，直到图案适合目标用途。</string>
     <string name="help_tip_noise_generation_step_3">如果稍后需要重新创建纹理，请保存有用的结果并记下参数。</string>
-    <string name="help_tip_wallpaper_export_title">壁纸导出</string>
-    <string name="help_tip_wallpaper_export_subtitle">为主屏幕、锁定屏幕和特定于显示的作物准备图像</string>
-    <string name="help_tip_wallpaper_export_page_title">导出到将使用它的屏幕</string>
-    <string name="help_tip_wallpaper_export_description">当正常裁剪与 Android 应用主屏幕和锁定屏幕图像的方式不匹配时，壁纸导出非常有用。为目标屏幕准备图像有助于避免意外缩放、主题偏离中心或模糊结果。</string>
-    <string name="help_tip_wallpaper_export_step_1">从具有足够设备屏幕和预期裁剪区域分辨率的图像开始。</string>
-    <string name="help_tip_wallpaper_export_step_2">让重要主题远离启动器、时钟或手势可能覆盖的边缘。</string>
-    <string name="help_tip_wallpaper_export_step_3">如果可能，在目标屏幕上预览，然后在保留最终副本之前调整裁剪或导出大小。</string>
     <string name="help_tip_markup_projects_title">标记项目</string>
     <string name="help_tip_markup_projects_subtitle">当注释需要在关闭应用程序后保持可编辑状态时，请使用项目文件</string>
     <string name="help_tip_markup_projects_page_title">保持分层编辑可重复使用</string>

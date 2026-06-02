@@ -2820,13 +2820,6 @@
     <string name="help_tip_noise_generation_step_1">เลือกประเภทสัญญาณรบกวนและขนาดเอาต์พุตก่อนปรับรายละเอียดอย่างละเอียด</string>
     <string name="help_tip_noise_generation_step_2">ปรับขนาด ความเข้ม สี หรือเมล็ดจนกว่ารูปแบบจะเหมาะกับเป้าหมายการใช้งาน</string>
     <string name="help_tip_noise_generation_step_3">บันทึกผลลัพธ์ที่เป็นประโยชน์และจดบันทึกพารามิเตอร์หากคุณต้องการสร้างพื้นผิวใหม่ในภายหลัง</string>
-    <string name="help_tip_wallpaper_export_title">ส่งออกวอลเปเปอร์</string>
-    <string name="help_tip_wallpaper_export_subtitle">เตรียมรูปภาพสำหรับหน้าจอหลัก หน้าจอล็อค และการครอบตัดการแสดงผลเฉพาะ</string>
-    <string name="help_tip_wallpaper_export_page_title">ส่งออกหน้าจอที่จะใช้</string>
-    <string name="help_tip_wallpaper_export_description">การส่งออกวอลเปเปอร์มีประโยชน์เมื่อการครอบตัดแบบปกติไม่ตรงกับวิธีที่ Android ใช้รูปภาพหน้าจอหลักและหน้าจอล็อก การเตรียมภาพสำหรับหน้าจอเป้าหมายช่วยหลีกเลี่ยงการซูมโดยไม่คาดคิด วัตถุที่อยู่ตรงกลาง หรือผลลัพธ์ที่นุ่มนวล</string>
-    <string name="help_tip_wallpaper_export_step_1">เริ่มจากรูปภาพที่มีความละเอียดเพียงพอสำหรับหน้าจออุปกรณ์และพื้นที่ครอบตัดที่คาดหวัง</string>
-    <string name="help_tip_wallpaper_export_step_2">เก็บวัตถุที่สำคัญให้ห่างจากขอบซึ่งตัวเรียกใช้งาน นาฬิกา หรือท่าทางอาจบังไว้</string>
-    <string name="help_tip_wallpaper_export_step_3">ดูตัวอย่างบนหน้าจอเป้าหมายหากเป็นไปได้ จากนั้นปรับขนาดการครอบตัดหรือส่งออกก่อนที่จะเก็บสำเนาขั้นสุดท้าย</string>
     <string name="help_tip_markup_projects_title">โครงการมาร์กอัป</string>
     <string name="help_tip_markup_projects_subtitle">ใช้ไฟล์โปรเจ็กต์เมื่อคำอธิบายประกอบจำเป็นต้องแก้ไขได้หลังจากปิดแอป</string>
     <string name="help_tip_markup_projects_page_title">ทำให้การแก้ไขแบบเลเยอร์สามารถนำมาใช้ซ้ำได้</string>

@@ -2821,13 +2821,6 @@
     <string name="help_tip_noise_generation_step_1">Escolha um tipo de ruído e tamanho de saída antes de ajustar os detalhes.</string>
     <string name="help_tip_noise_generation_step_2">Ajuste a escala, a intensidade, as cores ou a semente até que o padrão se ajuste ao uso pretendido.</string>
     <string name="help_tip_noise_generation_step_3">Salve resultados úteis e anote os parâmetros se precisar recriar a textura posteriormente.</string>
-    <string name="help_tip_wallpaper_export_title">Exportação de papel de parede</string>
-    <string name="help_tip_wallpaper_export_subtitle">Prepare imagens para telas iniciais, telas de bloqueio e recortes específicos de exibição</string>
-    <string name="help_tip_wallpaper_export_page_title">Exportar para a tela que irá utilizá-lo</string>
-    <string name="help_tip_wallpaper_export_description">A exportação de papel de parede é útil quando um corte normal não corresponde à forma como o Android aplica as imagens da tela inicial e de bloqueio. Preparar a imagem para a tela de destino ajuda a evitar zoom inesperado, assuntos descentralizados ou resultados suaves.</string>
-    <string name="help_tip_wallpaper_export_step_1">Comece com uma imagem com resolução suficiente para a tela do dispositivo e a área de corte esperada.</string>
-    <string name="help_tip_wallpaper_export_step_2">Mantenha assuntos importantes longe das bordas onde lançadores, relógios ou gestos possam cobri-los.</string>
-    <string name="help_tip_wallpaper_export_step_3">Visualize na tela de destino, se possível, e ajuste o tamanho do corte ou exportação antes de manter a cópia final.</string>
     <string name="help_tip_markup_projects_title">Projetos de marcação</string>
     <string name="help_tip_markup_projects_subtitle">Use arquivos de projeto quando as anotações precisarem permanecer editáveis ​​após fechar o aplicativo</string>
     <string name="help_tip_markup_projects_page_title">Mantenha as edições em camadas reutilizáveis</string>

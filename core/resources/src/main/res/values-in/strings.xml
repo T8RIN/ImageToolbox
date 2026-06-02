@@ -2820,13 +2820,6 @@
     <string name="help_tip_noise_generation_step_1">Pilih jenis noise dan ukuran output sebelum menyetel detail halus.</string>
     <string name="help_tip_noise_generation_step_2">Sesuaikan skala, intensitas, warna, atau benih hingga polanya sesuai dengan target penggunaan.</string>
     <string name="help_tip_noise_generation_step_3">Simpan hasil yang berguna dan tuliskan parameternya jika Anda perlu membuat ulang teksturnya nanti.</string>
-    <string name="help_tip_wallpaper_export_title">Ekspor kertas dinding</string>
-    <string name="help_tip_wallpaper_export_subtitle">Siapkan gambar untuk layar beranda, layar kunci, dan potongan khusus tampilan</string>
-    <string name="help_tip_wallpaper_export_page_title">Ekspor untuk layar yang akan menggunakannya</string>
-    <string name="help_tip_wallpaper_export_description">Ekspor wallpaper berguna ketika pemotongan normal tidak sesuai dengan cara Android menerapkan gambar layar utama dan layar kunci. Mempersiapkan gambar untuk layar target membantu menghindari zoom yang tidak diharapkan, subjek yang tidak berada di tengah, atau hasil yang lembut.</string>
-    <string name="help_tip_wallpaper_export_step_1">Mulai dari gambar dengan resolusi yang cukup untuk layar perangkat dan area pemotongan yang diharapkan.</string>
-    <string name="help_tip_wallpaper_export_step_2">Jauhkan subjek penting dari tepi tempat peluncur, jam, atau gerakan dapat menutupinya.</string>
-    <string name="help_tip_wallpaper_export_step_3">Pratinjau di layar target jika memungkinkan, lalu sesuaikan ukuran potong atau ekspor sebelum menyimpan salinan akhir.</string>
     <string name="help_tip_markup_projects_title">Proyek penandaan</string>
     <string name="help_tip_markup_projects_subtitle">Gunakan file proyek ketika anotasi harus tetap dapat diedit setelah menutup aplikasi</string>
     <string name="help_tip_markup_projects_page_title">Jaga agar hasil edit berlapis dapat digunakan kembali</string>
