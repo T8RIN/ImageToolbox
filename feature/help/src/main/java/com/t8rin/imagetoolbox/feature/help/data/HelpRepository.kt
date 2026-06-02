@@ -23,6 +23,7 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Album
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.AspectRatio
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
@@ -45,16 +46,20 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
 import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
+import com.t8rin.imagetoolbox.core.resources.icons.FormatPaintVariant
 import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.resources.icons.HardDrive
+import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Help
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
+import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.LabelPercent
 import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
+import com.t8rin.imagetoolbox.core.resources.icons.MeshGradient
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
@@ -70,12 +75,16 @@ import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.SaveAs
 import com.t8rin.imagetoolbox.core.resources.icons.SaveConfirm
 import com.t8rin.imagetoolbox.core.resources.icons.Scanner
+import com.t8rin.imagetoolbox.core.resources.icons.Scissors
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.resources.icons.ShieldLock
+import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
+import com.t8rin.imagetoolbox.core.resources.icons.TagText
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
+import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Watermark
@@ -103,6 +112,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val FavoritesShareTools = "favorites-share-tools"
         const val BackupRestoreSettings = "backup-restore-settings"
         const val PresetTextEntry = "preset-text-entry"
+        const val LoadNetImage = "load-net-image"
         const val ResizeConvert = "resize-convert"
         const val ResizeByFileSize = "resize-by-file-size"
         const val LimitResize = "limit-resize"
@@ -122,8 +132,11 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val WatermarkReadability = "watermark-readability"
         const val DrawDefaults = "draw-defaults"
         const val CollageStitchStack = "collage-stitch-stack"
+        const val ImageSplitting = "image-splitting"
+        const val ImageCutting = "image-cutting"
         const val FormatConversion = "format-conversion"
         const val FormatChoice = "format-choice"
+        const val AudioCoverExtractor = "audio-cover-extractor"
         const val ExifPrivacy = "exif-privacy"
         const val MetadataDatesLocation = "metadata-dates-location"
         const val AutomaticExifCleanup = "automatic-exif-cleanup"
@@ -147,21 +160,28 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val PdfProtection = "pdf-protection"
         const val PdfPageOrganization = "pdf-page-organization"
         const val PdfAnnotations = "pdf-annotations"
+        const val PdfOptimizeRepair = "pdf-optimize-repair"
+        const val PdfExtractImages = "pdf-extract-images"
+        const val PdfMetadataFlattenPrint = "pdf-metadata-flatten-print"
         const val Ocr = "ocr"
         const val OcrPreprocessing = "ocr-preprocessing"
         const val OcrLanguageData = "ocr-language-data"
         const val SearchablePdf = "searchable-pdf"
         const val QrCode = "qr-code"
         const val QrContentSafety = "qr-content-safety"
+        const val QrGeneration = "qr-generation"
         const val Base64Checksum = "base64-checksum"
         const val CipherZip = "cipher-zip"
         const val ChecksumsForNames = "checksums-for-names"
+        const val ChecksumToolTabs = "checksum-tool-tabs"
         const val ClipboardAndLinks = "clipboard-and-links"
         const val ClipboardPrivacy = "clipboard-privacy"
         const val PickColor = "pick-color"
         const val ColorFormats = "color-formats"
         const val PaletteLibrary = "palette-library"
         const val Gradients = "gradients"
+        const val ColorLibrarySearch = "color-library-search"
+        const val MeshGradientsCollection = "mesh-gradients-collection"
         const val ColorAccessibility = "color-accessibility"
         const val AlphaBackgroundColor = "alpha-background-color"
         const val AiModels = "ai-models"
@@ -462,6 +482,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.LoadNetImage,
+            title = R.string.help_tip_load_net_image_title,
+            subtitle = R.string.help_tip_load_net_image_subtitle,
+            icon = Icons.Outlined.ImageDownload,
+            category = gettingStarted,
+            deepLink = Screen.LoadNetImage(),
+            pageTitle = R.string.help_tip_load_net_image_page_title,
+            description = R.string.help_tip_load_net_image_description,
+            steps = listOf(
+                R.string.help_tip_load_net_image_step_1,
+                R.string.help_tip_load_net_image_step_2,
+                R.string.help_tip_load_net_image_step_3
+            )
+        ),
+        tip(
             id = TipIds.ResizeConvert,
             title = R.string.help_tip_resize_convert_title,
             subtitle = R.string.help_tip_resize_convert_subtitle,
@@ -747,6 +782,36 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.ImageSplitting,
+            title = R.string.help_tip_image_splitting_title,
+            subtitle = R.string.help_tip_image_splitting_subtitle,
+            icon = Icons.Outlined.SplitAlt,
+            category = imageEditing,
+            deepLink = Screen.ImageSplitting(),
+            pageTitle = R.string.help_tip_image_splitting_page_title,
+            description = R.string.help_tip_image_splitting_description,
+            steps = listOf(
+                R.string.help_tip_image_splitting_step_1,
+                R.string.help_tip_image_splitting_step_2,
+                R.string.help_tip_image_splitting_step_3
+            )
+        ),
+        tip(
+            id = TipIds.ImageCutting,
+            title = R.string.help_tip_image_cutting_title,
+            subtitle = R.string.help_tip_image_cutting_subtitle,
+            icon = Icons.Rounded.Scissors,
+            category = imageEditing,
+            deepLink = Screen.ImageCutter(),
+            pageTitle = R.string.help_tip_image_cutting_page_title,
+            description = R.string.help_tip_image_cutting_description,
+            steps = listOf(
+                R.string.help_tip_image_cutting_step_1,
+                R.string.help_tip_image_cutting_step_2,
+                R.string.help_tip_image_cutting_step_3
+            )
+        ),
+        tip(
             id = TipIds.FormatConversion,
             title = R.string.help_tip_format_conversion_title,
             subtitle = R.string.help_tip_format_conversion_subtitle,
@@ -774,6 +839,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_format_choice_step_1,
                 R.string.help_tip_format_choice_step_2,
                 R.string.help_tip_format_choice_step_3
+            )
+        ),
+        tip(
+            id = TipIds.AudioCoverExtractor,
+            title = R.string.help_tip_audio_cover_extractor_title,
+            subtitle = R.string.help_tip_audio_cover_extractor_subtitle,
+            icon = Icons.Outlined.Album,
+            category = filesAndMetadata,
+            deepLink = Screen.AudioCoverExtractor(),
+            pageTitle = R.string.help_tip_audio_cover_extractor_page_title,
+            description = R.string.help_tip_audio_cover_extractor_description,
+            steps = listOf(
+                R.string.help_tip_audio_cover_extractor_step_1,
+                R.string.help_tip_audio_cover_extractor_step_2,
+                R.string.help_tip_audio_cover_extractor_step_3
             )
         ),
         tip(
@@ -1120,6 +1200,51 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.PdfOptimizeRepair,
+            title = R.string.help_tip_pdf_optimize_repair_title,
+            subtitle = R.string.help_tip_pdf_optimize_repair_subtitle,
+            icon = Icons.Outlined.Pdf,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools,
+            pageTitle = R.string.help_tip_pdf_optimize_repair_page_title,
+            description = R.string.help_tip_pdf_optimize_repair_description,
+            steps = listOf(
+                R.string.help_tip_pdf_optimize_repair_step_1,
+                R.string.help_tip_pdf_optimize_repair_step_2,
+                R.string.help_tip_pdf_optimize_repair_step_3
+            )
+        ),
+        tip(
+            id = TipIds.PdfExtractImages,
+            title = R.string.help_tip_pdf_extract_images_title,
+            subtitle = R.string.help_tip_pdf_extract_images_subtitle,
+            icon = Icons.Outlined.Unarchive,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.ExtractImages(),
+            pageTitle = R.string.help_tip_pdf_extract_images_page_title,
+            description = R.string.help_tip_pdf_extract_images_description,
+            steps = listOf(
+                R.string.help_tip_pdf_extract_images_step_1,
+                R.string.help_tip_pdf_extract_images_step_2,
+                R.string.help_tip_pdf_extract_images_step_3
+            )
+        ),
+        tip(
+            id = TipIds.PdfMetadataFlattenPrint,
+            title = R.string.help_tip_pdf_metadata_flatten_print_title,
+            subtitle = R.string.help_tip_pdf_metadata_flatten_print_subtitle,
+            icon = Icons.Outlined.TagText,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.Metadata(),
+            pageTitle = R.string.help_tip_pdf_metadata_flatten_print_page_title,
+            description = R.string.help_tip_pdf_metadata_flatten_print_description,
+            steps = listOf(
+                R.string.help_tip_pdf_metadata_flatten_print_step_1,
+                R.string.help_tip_pdf_metadata_flatten_print_step_2,
+                R.string.help_tip_pdf_metadata_flatten_print_step_3
+            )
+        ),
+        tip(
             id = TipIds.Ocr,
             title = R.string.help_tip_ocr_title,
             subtitle = R.string.help_tip_ocr_subtitle,
@@ -1210,6 +1335,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.QrGeneration,
+            title = R.string.help_tip_qr_generation_title,
+            subtitle = R.string.help_tip_qr_generation_subtitle,
+            icon = Icons.Outlined.QrCode,
+            category = textAndData,
+            deepLink = Screen.ScanQrCode(),
+            pageTitle = R.string.help_tip_qr_generation_page_title,
+            description = R.string.help_tip_qr_generation_description,
+            steps = listOf(
+                R.string.help_tip_qr_generation_step_1,
+                R.string.help_tip_qr_generation_step_2,
+                R.string.help_tip_qr_generation_step_3
+            )
+        ),
+        tip(
             id = TipIds.Base64Checksum,
             title = R.string.help_tip_base64_checksum_title,
             subtitle = R.string.help_tip_base64_checksum_subtitle,
@@ -1252,6 +1392,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_checksums_for_names_step_1,
                 R.string.help_tip_checksums_for_names_step_2,
                 R.string.help_tip_checksums_for_names_step_3
+            )
+        ),
+        tip(
+            id = TipIds.ChecksumToolTabs,
+            title = R.string.help_tip_checksum_tool_tabs_title,
+            subtitle = R.string.help_tip_checksum_tool_tabs_subtitle,
+            icon = Icons.Rounded.HashTag,
+            category = textAndData,
+            deepLink = Screen.ChecksumTools(),
+            pageTitle = R.string.help_tip_checksum_tool_tabs_page_title,
+            description = R.string.help_tip_checksum_tool_tabs_description,
+            steps = listOf(
+                R.string.help_tip_checksum_tool_tabs_step_1,
+                R.string.help_tip_checksum_tool_tabs_step_2,
+                R.string.help_tip_checksum_tool_tabs_step_3
             )
         ),
         tip(
@@ -1330,6 +1485,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.ColorLibrarySearch,
+            title = R.string.help_tip_color_library_search_title,
+            subtitle = R.string.help_tip_color_library_search_subtitle,
+            icon = Icons.Outlined.FormatPaintVariant,
+            category = colorTools,
+            deepLink = Screen.ColorLibrary,
+            pageTitle = R.string.help_tip_color_library_search_page_title,
+            description = R.string.help_tip_color_library_search_description,
+            steps = listOf(
+                R.string.help_tip_color_library_search_step_1,
+                R.string.help_tip_color_library_search_step_2,
+                R.string.help_tip_color_library_search_step_3
+            )
+        ),
+        tip(
             id = TipIds.Gradients,
             title = R.string.help_tip_gradients_title,
             subtitle = R.string.help_tip_gradients_subtitle,
@@ -1342,6 +1512,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_gradients_step_1,
                 R.string.help_tip_gradients_step_2,
                 R.string.help_tip_gradients_step_3
+            )
+        ),
+        tip(
+            id = TipIds.MeshGradientsCollection,
+            title = R.string.help_tip_mesh_gradients_collection_title,
+            subtitle = R.string.help_tip_mesh_gradients_collection_subtitle,
+            icon = Icons.Outlined.MeshGradient,
+            category = colorTools,
+            deepLink = Screen.MeshGradients,
+            pageTitle = R.string.help_tip_mesh_gradients_collection_page_title,
+            description = R.string.help_tip_mesh_gradients_collection_description,
+            steps = listOf(
+                R.string.help_tip_mesh_gradients_collection_step_1,
+                R.string.help_tip_mesh_gradients_collection_step_2,
+                R.string.help_tip_mesh_gradients_collection_step_3
             )
         ),
         tip(
