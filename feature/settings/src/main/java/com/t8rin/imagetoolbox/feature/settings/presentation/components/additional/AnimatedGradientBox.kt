@@ -38,7 +38,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
-import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.animation.AlphaEasing
 import com.t8rin.imagetoolbox.core.ui.utils.animation.SoftEasing
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
@@ -49,19 +48,7 @@ import kotlin.random.Random
 
 @Composable
 internal fun AnimatedGradientBox(
-    colors: ColorScheme.() -> List<Color> = {
-        listOf(
-            errorContainer.blend(
-                color = error,
-                fraction = 0.6f
-            ),
-            primary.blend(
-                color = error,
-                fraction = 0.4f
-            ),
-            tertiary,
-        )
-    },
+    colors: ColorScheme.() -> List<Color>,
     content: @Composable () -> Unit = {}
 ) {
     var size by remember { mutableStateOf(Size.Zero) }

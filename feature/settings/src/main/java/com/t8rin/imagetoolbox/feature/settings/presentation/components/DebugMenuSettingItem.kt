@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BugReport
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -51,7 +52,21 @@ fun DebugMenuSettingItem(
         mutableStateOf(false)
     }
 
-    AnimatedGradientBox {
+    AnimatedGradientBox(
+        colors = {
+            listOf(
+                errorContainer.blend(
+                    color = error,
+                    fraction = 0.6f
+                ),
+                primary.blend(
+                    color = error,
+                    fraction = 0.4f
+                ),
+                error,
+            )
+        }
+    ) {
         PreferenceItem(
             onClick = {
                 showMenu.value = true
