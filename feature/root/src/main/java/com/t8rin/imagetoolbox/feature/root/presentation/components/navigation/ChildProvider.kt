@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersCo
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
+import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponent
 import com.t8rin.imagetoolbox.feature.image_preview.presentation.screenLogic.ImagePreviewComponent
 import com.t8rin.imagetoolbox.feature.image_stacking.presentation.screenLogic.ImageStackingComponent
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.screenLogic.ImageStitchingComponent
@@ -109,6 +110,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GifTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GradientMaker
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GrayscalePdfTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Help
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImageCutter
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImagePreview
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImageSplitting
@@ -251,6 +253,7 @@ internal class ChildProvider @Inject constructor(
     private val imagesToPdfToolComponentFactory: ImagesToPdfToolComponent.Factory,
     private val extractPagesPdfToolComponentFactory: ExtractPagesPdfToolComponent.Factory,
     private val removeAnnotationsPdfToolComponentFactory: RemoveAnnotationsPdfToolComponent.Factory,
+    private val helpComponentFactory: HelpComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -533,6 +536,16 @@ internal class ChildProvider @Inject constructor(
             shaderStudioComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack
+            )
+        )
+
+        is Screen.Help -> Help(
+            helpComponentFactory(
+                componentContext = componentContext,
+                initialCategory = config.categoryName,
+                initialTipId = config.tipId,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 

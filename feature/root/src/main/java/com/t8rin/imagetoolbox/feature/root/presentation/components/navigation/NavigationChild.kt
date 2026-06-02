@@ -62,6 +62,8 @@ import com.t8rin.imagetoolbox.feature.gif_tools.presentation.GifToolsContent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.GradientMakerContent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
+import com.t8rin.imagetoolbox.feature.help.presentation.HelpContent
+import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponent
 import com.t8rin.imagetoolbox.feature.image_preview.presentation.ImagePreviewContent
 import com.t8rin.imagetoolbox.feature.image_preview.presentation.screenLogic.ImagePreviewComponent
 import com.t8rin.imagetoolbox.feature.image_stacking.presentation.ImageStackingContent
@@ -336,6 +338,11 @@ internal sealed interface NavigationChild {
     class ShaderStudio(private val component: ShaderStudioComponent) : NavigationChild {
         @Composable
         override fun Content() = ShaderStudioContent(component)
+    }
+
+    class Help(private val component: HelpComponent) : NavigationChild {
+        @Composable
+        override fun Content() = HelpContent(component)
     }
 
     class SingleEdit(private val component: SingleEditComponent) : NavigationChild {

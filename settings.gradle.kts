@@ -117,6 +117,7 @@ include(":feature:ai-tools")
 include(":feature:color-library")
 include(":feature:app-logs")
 include(":feature:shader-studio")
+include(":feature:help")
 
 include(":feature:root")
 

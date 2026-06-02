@@ -77,4 +77,5 @@ dependencies {
     implementation(projects.feature.colorLibrary)
     implementation(projects.feature.appLogs)
     implementation(projects.feature.shaderStudio)
+    implementation(projects.feature.help)
 }

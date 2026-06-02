@@ -198,6 +198,11 @@ sealed class Setting(
         subtitle = R.string.help_translate_sub
     )
 
+    data object HelpTips : Setting(
+        title = R.string.help_tips,
+        subtitle = R.string.help_tips_settings_sub
+    )
+
     data object ImagePickerMode : Setting(
         title = R.string.photo_picker,
         subtitle = R.string.photo_picker_sub

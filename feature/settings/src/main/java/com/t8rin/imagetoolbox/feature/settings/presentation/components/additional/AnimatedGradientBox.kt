@@ -24,6 +24,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,10 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
-import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.animation.AlphaEasing
 import com.t8rin.imagetoolbox.core.ui.utils.animation.SoftEasing
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import kotlinx.coroutines.isActive
 import kotlin.math.hypot
@@ -46,6 +48,7 @@ import kotlin.random.Random
 
 @Composable
 internal fun AnimatedGradientBox(
+    colors: ColorScheme.() -> List<Color>,
     content: @Composable () -> Unit = {}
 ) {
     var size by remember { mutableStateOf(Size.Zero) }
@@ -119,21 +122,12 @@ internal fun AnimatedGradientBox(
         ProvideContainerDefaults(
             brush = Brush.radialGradient(
                 colors = remember(colorScheme) {
-                    listOf(
-                        colorScheme.errorContainer.blend(
-                            color = colorScheme.error,
-                            fraction = 0.6f
-                        ),
-                        colorScheme.primary.blend(
-                            color = colorScheme.error,
-                            fraction = 0.4f
-                        ),
-                        colorScheme.tertiary,
-                    )
+                    colors(colorScheme)
                 },
                 center = center,
                 radius = radius
             ),
+            shape = LocalContainerShape.current,
             content = content
         )
     }
