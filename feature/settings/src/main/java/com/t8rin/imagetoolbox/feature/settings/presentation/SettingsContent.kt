@@ -21,6 +21,11 @@ package com.t8rin.imagetoolbox.feature.settings.presentation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -106,6 +111,7 @@ import com.t8rin.imagetoolbox.feature.settings.presentation.components.Searchabl
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingGroupItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -128,11 +134,31 @@ fun SettingsContent(
     val settings = component.filteredSettings
     val loading = component.isFilteringSettings
     val targetSetting = component.targetSetting
+
     val gridState = rememberLazyStaggeredGridState()
-    val highlightedContainerColor = MaterialTheme.colorScheme.primaryContainer.blend(
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        fraction = 0.35f
-    )
+
+    var showTargetHighlight by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val highlightedContainerColor = if (showTargetHighlight) {
+        val highlightTransition = rememberInfiniteTransition()
+        val fraction by highlightTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 0.75f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 500),
+                repeatMode = RepeatMode.Reverse
+            )
+        )
+
+        MaterialTheme.colorScheme.surfaceContainerLow.blend(
+            color = MaterialTheme.colorScheme.primaryContainer,
+            fraction = fraction
+        )
+    } else {
+        MaterialTheme.colorScheme.surfaceContainerLow
+    }
 
     val padding = WindowInsets.navigationBars
         .union(WindowInsets.displayCutout)
@@ -179,6 +205,14 @@ fun SettingsContent(
 
         if (index >= 0) {
             gridState.scrollToItem(index)
+        }
+    }
+
+    LaunchedEffect(targetSetting) {
+        if (targetSetting != null && !showTargetHighlight) {
+            showTargetHighlight = true
+            delay(3_000L)
+            showTargetHighlight = false
         }
     }
 
@@ -373,12 +407,11 @@ fun SettingsContent(
                                             modifier = Modifier.padding(bottom = 8.dp)
                                         ) {
                                             group.settingsList.forEach { setting ->
-                                                val isHighlighted = setting == targetSetting
                                                 SettingItem(
                                                     setting = setting,
                                                     component = component,
                                                     isUpdateAvailable = isUpdateAvailable,
-                                                    containerColor = if (isHighlighted) {
+                                                    containerColor = if (showTargetHighlight && setting == targetSetting) {
                                                         highlightedContainerColor
                                                     } else {
                                                         MaterialTheme.colorScheme.surfaceContainerLow
@@ -411,12 +444,11 @@ fun SettingsContent(
                                             verticalArrangement = Arrangement.spacedBy(4.dp)
                                         ) {
                                             group.settingsList.forEach { setting ->
-                                                val isHighlighted = setting == targetSetting
                                                 SettingItem(
                                                     setting = setting,
                                                     component = component,
                                                     isUpdateAvailable = isUpdateAvailable,
-                                                    containerColor = if (isHighlighted) {
+                                                    containerColor = if (showTargetHighlight && setting == targetSetting) {
                                                         highlightedContainerColor
                                                     } else {
                                                         MaterialTheme.colorScheme.surface
