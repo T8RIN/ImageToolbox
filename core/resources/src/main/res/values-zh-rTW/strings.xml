@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2888,4 +2890,14 @@
     <string name="help_tip_logs_feedback_step_3">僅當螢幕截圖或範例文件不包含私人資訊時才附上它們。</string>
     <string name="crash_foreground_service_timeout_title">後台處理已停止</string>
     <string name="crash_foreground_service_timeout_description">Android沒有讓後台處理通知及時啟動。這是無法可靠修復的系統計時限制。重新啟動應用程式並重試；保持應用程式開啟並允許通知或後台工作可能會有所幫助。</string>
+    <string name="help_category_text_data">文字、二維碼和數據</string>
+    <string name="help_tip_import_save_share_title">導入、儲存和分享結果</string>
+    <string name="help_tip_import_save_share_page_title">遵循常見的編輯流程</string>
+    <string name="help_tip_single_edit_page_title">無需跳刀即可完成一幅圖像</string>
+    <string name="help_tip_presets_settings_page_title">避免重複相同的設置</string>
+    <string name="help_tip_default_values_page_title">讓新工具更接近您的目標</string>
+    <string name="help_tip_picker_launcher_page_title">讓開啟檔案符合您的習慣</string>
+    <string name="help_tip_image_source_page_title">從正確的來源選擇文件</string>
+    <string name="help_tip_favorites_share_tools_page_title">減少工具清單噪音</string>
+    <string name="help_tip_backup_restore_settings_page_title">讓您的設置保持便攜</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -2895,4 +2897,10 @@
     <string name="help_tip_logs_feedback_step_2">פתח את יומני האפליקציה לאחר שחזור הבעיה ושתף את פלט היומן הרלוונטי במידת האפשר.</string>
     <string name="crash_foreground_service_timeout_title">עיבוד הרקע הופסק</string>
     <string name="crash_foreground_service_timeout_description">אנדרואיד לא נתנה להתראת עיבוד הרקע להתחיל בזמן. זוהי מגבלת תזמון מערכת שלא ניתן לתקן בצורה מהימנה. הפעל מחדש את האפליקציה ונסה שוב; שמירה על האפליקציה פתוחה ומתן התראות או עבודת רקע עשויה לעזור.</string>
+    <string name="help_tip_sharing_import_description">בעיות בייבוא ​​נגרמות לרוב מהרשאות ספק, פורמטים לא נתמכים או התנהגות בוחר. קבצים ששותפו מיישומי ענן ומשליחים עשויים להיות זמניים, כך שבחירה במקור מתמשך יכולה להיות אמינה יותר עבור עריכות ארוכות יותר.</string>
+    <string name="help_tip_sharing_import_step_3">סקור את הגדרות בוחר התמונות והמפעיל אם זרימות שיתוף או פתיחת כלים ישירה מתנהגים בצורה שונה מהצפוי.</string>
+    <string name="help_tip_exit_confirmation_description">אישור יציאה מהכלי מועיל כאשר אתה משתמש בניווט מחוות, עורך קבצים גדולים או עובר לעתים קרובות בין אפליקציות. הוא מוסיף הפסקה קטנה לפני עזיבת כלי כך שהגדרות ותצוגות מקדימות לא גמורים לא יאבדו בטעות.</string>
+    <string name="help_tip_exit_confirmation_step_2">השאר אותו מושבת אם אתה מבצע המרות מהירות בשלב אחד ומעדיף ניווט מהיר יותר.</string>
+    <string name="help_tip_logs_feedback_subtitle">אסוף פרטים שימושיים לפני פתיחת בעיה או יצירת קשר עם המפתח</string>
+    <string name="help_tip_logs_feedback_step_3">צרף צילומי מסך או קבצים לדוגמה רק כאשר הם אינם מכילים מידע פרטי.</string>
 </resources>
