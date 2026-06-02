@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -2187,7 +2185,7 @@
     <string name="math_expression">数学表达式</string>
     <string name="pick_up_to_n_collage_images">选取最多 %1$s 张图片</string>
     <string name="keep_date_time">保留日期时间</string>
-    <string name="keep_date_time_sub">始终保留与日期和时间相关的 exif 标签，独立于 keep exif 选项</string>
+    <string name="keep_date_time_sub">始终保留与日期和时间相关的exif标签，独立于 keep exif 选项</string>
     <string name="background_color_for_alpha_formats">Alpha 格式的背景颜色</string>
     <string name="background_color_for_alpha_formats_sub">增加了为每种具有 Alpha 支持的图像格式设置背景颜色的功能，禁用后，此功能仅适用于非 Alpha 格式</string>
     <string name="open_markup_project">打开项目</string>
@@ -2399,8 +2397,8 @@
     <string name="shader_parse_error_color_channel_range_expected">%1$s 必须介于 0 到 255 之间。</string>
     <string name="shader_parse_error_vec2_expected">%1$s 必须是两个数字的数组或具有 x 和 y 的对象。</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s 必须恰好包含 2 个数字。</string>
-    <string name="always_clear_exif">始终清除 EXIF</string>
-    <string name="always_clear_exif_sub">即使工具请求保留元数据，在保存时也会删除图像 EXIF 数据</string>
+    <string name="always_clear_exif">始终清除EXIF</string>
+    <string name="always_clear_exif_sub">即使工具请求保留元数据，在保存时也会删除图像EXIF数据</string>
     <string name="help_tips">帮助和提示</string>
     <string name="tutorials_count">%1$d 教程</string>
     <string name="open_tool">打开工具</string>
@@ -2568,20 +2566,20 @@
     <string name="help_tip_format_conversion_step_1">使用 JPEG 来兼容照片，使用 PNG 来表示无损图像和 Alpha，使用 WebP 来进行紧凑共享。</string>
     <string name="help_tip_format_conversion_step_2">当格式支持时调整质量；较低的值会减小尺寸，但会增加伪影。</string>
     <string name="help_tip_format_conversion_step_3">保留原始文件，直到您验证转换后的文件在目标应用程序中正确打开。</string>
-    <string name="help_tip_exif_privacy_title">检查 EXIF 和隐私</string>
+    <string name="help_tip_exif_privacy_title">检查EXIF和隐私</string>
     <string name="help_tip_exif_privacy_subtitle">在共享敏感照片之前查看、编辑或删除元数据</string>
     <string name="help_tip_exif_privacy_page_title">控制隐藏图像数据</string>
-    <string name="help_tip_exif_privacy_description">EXIF 可以包含相机数据、日期、位置、方向以及图像中不可见的其他详细信息。在公开分享、支持报告、市场列表或任何可能泄露私人场所的照片之前，值得检查。</string>
-    <string name="help_tip_exif_privacy_step_1">在共享可能包含位置或私人设备信息的照片之前，请打开 EXIF 工具。</string>
+    <string name="help_tip_exif_privacy_description">EXIF可以包含相机数据、日期、位置、方向以及图像中不可见的其他详细信息。在公开分享、支持报告、市场列表或任何可能泄露私人场所的照片之前，值得检查。</string>
+    <string name="help_tip_exif_privacy_step_1">在共享可能包含位置或私人设备信息的照片之前，请打开EXIF工具。</string>
     <string name="help_tip_exif_privacy_step_2">删除敏感字段或编辑不正确的标签，例如日期、方向、作者或相机数据。</string>
     <string name="help_tip_exif_privacy_step_3">当隐私很重要时，保存新副本并共享该副本而不是原始副本。</string>
-    <string name="help_tip_automatic_exif_cleanup_title">自动 EXIF 清理</string>
+    <string name="help_tip_automatic_exif_cleanup_title">自动EXIF清理</string>
     <string name="help_tip_automatic_exif_cleanup_subtitle">默认删除元数据，同时决定是否应保留日期</string>
     <string name="help_tip_automatic_exif_cleanup_page_title">将隐私设置为默认设置</string>
-    <string name="help_tip_automatic_exif_cleanup_description">当您希望自动进行隐私清理而不是每次导出时都记住它时，EXIF 设置组非常有用。保留日期时间是一个单独的决定，因为日期对于排序很有用，但对于共享很敏感。</string>
-    <string name="help_tip_automatic_exif_cleanup_step_1">当您的大部分导出内容用于公开或半公开共享时，请启用始终清晰的 EXIF。</string>
+    <string name="help_tip_automatic_exif_cleanup_description">当您希望自动进行隐私清理而不是每次导出时都记住它时，EXIF设置组非常有用。保留日期时间是一个单独的决定，因为日期对于排序很有用，但对于共享很敏感。</string>
+    <string name="help_tip_automatic_exif_cleanup_step_1">当您的大部分导出内容用于公开或半公开共享时，请启用始终清晰的EXIF。</string>
     <string name="help_tip_automatic_exif_cleanup_step_2">仅当保留捕获时间比删除每个时间戳更重要时才启用保留日期时间。</string>
-    <string name="help_tip_automatic_exif_cleanup_step_3">对需要保留某些字段并删除其他字段的一次性文件使用手动 EXIF 编辑。</string>
+    <string name="help_tip_automatic_exif_cleanup_step_3">对需要保留某些字段并删除其他字段的一次性文件使用手动EXIF编辑。</string>
     <string name="help_tip_filenames_title">控制文件名</string>
     <string name="help_tip_filenames_subtitle">使用前缀、后缀、时间戳、预设、校验和和序列号</string>
     <string name="help_tip_filenames_page_title">让出口更容易找到</string>
