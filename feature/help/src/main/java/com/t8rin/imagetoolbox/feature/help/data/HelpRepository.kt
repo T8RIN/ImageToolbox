@@ -74,6 +74,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
+import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
@@ -92,8 +93,11 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val DefaultValues = "default-values"
         const val PickerLauncher = "picker-launcher"
         const val ImageSource = "image-source"
+        const val SkipFilePicking = "skip-file-picking"
+        const val OpenEditDirectly = "open-edit-directly"
         const val FavoritesShareTools = "favorites-share-tools"
         const val BackupRestoreSettings = "backup-restore-settings"
+        const val PresetTextEntry = "preset-text-entry"
         const val ResizeConvert = "resize-convert"
         const val ResizeByFileSize = "resize-by-file-size"
         const val LimitResize = "limit-resize"
@@ -111,7 +115,9 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val OverwriteFiles = "overwrite-files"
         const val FilenamePatterns = "filename-patterns"
         const val SaveLocation = "save-location"
+        const val SaveOriginalFolder = "save-original-folder"
         const val OneTimeSaveLocation = "one-time-save-location"
+        const val SkipLargerOutputs = "skip-larger-outputs"
         const val QualityVsSize = "quality-vs-size"
         const val AnimatedFormats = "animated-formats"
         const val ComparePreview = "compare-preview"
@@ -128,6 +134,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val Base64Checksum = "base64-checksum"
         const val CipherZip = "cipher-zip"
         const val ChecksumsForNames = "checksums-for-names"
+        const val ClipboardAndLinks = "clipboard-and-links"
         const val PickColor = "pick-color"
         const val PaletteLibrary = "palette-library"
         const val Gradients = "gradients"
@@ -146,6 +153,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val LargeFiles = "large-files"
         const val CacheAndPreviews = "cache-and-previews"
         const val ScreenBehavior = "screen-behavior"
+        const val CompactControls = "compact-controls"
         const val TransparentOutput = "transparent-output"
         const val SharingImport = "sharing-import"
         const val ExitConfirmation = "exit-confirmation"
@@ -299,7 +307,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_default_values_subtitle,
             icon = Icons.Rounded.SquareFoot,
             category = gettingStarted,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.DefaultImageFormat),
             pageTitle = R.string.help_tip_default_values_page_title,
             description = R.string.help_tip_default_values_description,
             steps = listOf(
@@ -314,7 +322,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_picker_launcher_subtitle,
             icon = Icons.Outlined.Lightbulb,
             category = gettingStarted,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.EnableLauncherMode),
             pageTitle = R.string.help_tip_picker_launcher_page_title,
             description = R.string.help_tip_picker_launcher_description,
             steps = listOf(
@@ -329,7 +337,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_image_source_subtitle,
             icon = Icons.Outlined.ImageSearch,
             category = gettingStarted,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.ImagePickerMode),
             pageTitle = R.string.help_tip_image_source_page_title,
             description = R.string.help_tip_image_source_description,
             steps = listOf(
@@ -339,12 +347,42 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.SkipFilePicking,
+            title = R.string.help_tip_skip_file_picking_title,
+            subtitle = R.string.help_tip_skip_file_picking_subtitle,
+            icon = Icons.Outlined.ImageSearch,
+            category = gettingStarted,
+            deepLink = Screen.Settings(targetSetting = Setting.SkipFilePicking),
+            pageTitle = R.string.help_tip_skip_file_picking_page_title,
+            description = R.string.help_tip_skip_file_picking_description,
+            steps = listOf(
+                R.string.help_tip_skip_file_picking_step_1,
+                R.string.help_tip_skip_file_picking_step_2,
+                R.string.help_tip_skip_file_picking_step_3
+            )
+        ),
+        tip(
+            id = TipIds.OpenEditDirectly,
+            title = R.string.help_tip_open_edit_directly_title,
+            subtitle = R.string.help_tip_open_edit_directly_subtitle,
+            icon = Icons.Outlined.ImageEdit,
+            category = gettingStarted,
+            deepLink = Screen.Settings(targetSetting = Setting.OpenEditInsteadOfPreview),
+            pageTitle = R.string.help_tip_open_edit_directly_page_title,
+            description = R.string.help_tip_open_edit_directly_description,
+            steps = listOf(
+                R.string.help_tip_open_edit_directly_step_1,
+                R.string.help_tip_open_edit_directly_step_2,
+                R.string.help_tip_open_edit_directly_step_3
+            )
+        ),
+        tip(
             id = TipIds.FavoritesShareTools,
             title = R.string.help_tip_favorites_share_tools_title,
             subtitle = R.string.help_tip_favorites_share_tools_subtitle,
             icon = Icons.Outlined.Bookmark,
             category = gettingStarted,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.ToolsHiddenForShare),
             pageTitle = R.string.help_tip_favorites_share_tools_page_title,
             description = R.string.help_tip_favorites_share_tools_description,
             steps = listOf(
@@ -359,7 +397,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_tool_arrangement_subtitle,
             icon = Icons.Outlined.Lightbulb,
             category = gettingStarted,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.ScreenOrder),
             pageTitle = R.string.help_tip_tool_arrangement_page_title,
             description = R.string.help_tip_tool_arrangement_description,
             steps = listOf(
@@ -374,13 +412,28 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_backup_restore_settings_subtitle,
             icon = Icons.Outlined.HardDrive,
             category = gettingStarted,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.Backup),
             pageTitle = R.string.help_tip_backup_restore_settings_page_title,
             description = R.string.help_tip_backup_restore_settings_description,
             steps = listOf(
                 R.string.help_tip_backup_restore_settings_step_1,
                 R.string.help_tip_backup_restore_settings_step_2,
                 R.string.help_tip_backup_restore_settings_step_3
+            )
+        ),
+        tip(
+            id = TipIds.PresetTextEntry,
+            title = R.string.help_tip_preset_text_entry_title,
+            subtitle = R.string.help_tip_preset_text_entry_subtitle,
+            icon = Icons.Outlined.LabelPercent,
+            category = gettingStarted,
+            deepLink = Screen.Settings(targetSetting = Setting.CanEnterPresetsByTextField),
+            pageTitle = R.string.help_tip_preset_text_entry_page_title,
+            description = R.string.help_tip_preset_text_entry_description,
+            steps = listOf(
+                R.string.help_tip_preset_text_entry_step_1,
+                R.string.help_tip_preset_text_entry_step_2,
+                R.string.help_tip_preset_text_entry_step_3
             )
         ),
         tip(
@@ -509,7 +562,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_draw_defaults_subtitle,
             icon = Icons.Outlined.AutoFixHigh,
             category = imageEditing,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.DefaultDrawLineWidth),
             pageTitle = R.string.help_tip_draw_defaults_page_title,
             description = R.string.help_tip_draw_defaults_description,
             steps = listOf(
@@ -569,7 +622,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_automatic_exif_cleanup_subtitle,
             icon = Icons.Outlined.ExifEdit,
             category = filesAndMetadata,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.AlwaysClearExif),
             pageTitle = R.string.help_tip_automatic_exif_cleanup_page_title,
             description = R.string.help_tip_automatic_exif_cleanup_description,
             steps = listOf(
@@ -598,7 +651,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_overwrite_files_subtitle,
             icon = Icons.Outlined.FileReplace,
             category = filesAndMetadata,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.OverwriteFiles),
             pageTitle = R.string.help_tip_overwrite_files_page_title,
             description = R.string.help_tip_overwrite_files_description,
             steps = listOf(
@@ -613,7 +666,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_filename_patterns_subtitle,
             icon = Icons.Outlined.Description,
             category = filesAndMetadata,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.FilenamePattern),
             pageTitle = R.string.help_tip_filename_patterns_page_title,
             description = R.string.help_tip_filename_patterns_description,
             steps = listOf(
@@ -628,7 +681,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_save_location_subtitle,
             icon = Icons.Outlined.SaveAs,
             category = filesAndMetadata,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.SavingFolder),
             pageTitle = R.string.help_tip_save_location_page_title,
             description = R.string.help_tip_save_location_description,
             steps = listOf(
@@ -638,18 +691,48 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.SaveOriginalFolder,
+            title = R.string.help_tip_save_original_folder_title,
+            subtitle = R.string.help_tip_save_original_folder_subtitle,
+            icon = Icons.Outlined.SaveAs,
+            category = filesAndMetadata,
+            deepLink = Screen.Settings(targetSetting = Setting.SaveToOriginalFolder),
+            pageTitle = R.string.help_tip_save_original_folder_page_title,
+            description = R.string.help_tip_save_original_folder_description,
+            steps = listOf(
+                R.string.help_tip_save_original_folder_step_1,
+                R.string.help_tip_save_original_folder_step_2,
+                R.string.help_tip_save_original_folder_step_3
+            )
+        ),
+        tip(
             id = TipIds.OneTimeSaveLocation,
             title = R.string.help_tip_one_time_save_location_title,
             subtitle = R.string.help_tip_one_time_save_location_subtitle,
             icon = Icons.Outlined.Save,
             category = filesAndMetadata,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.OneTimeSaveLocation),
             pageTitle = R.string.help_tip_one_time_save_location_page_title,
             description = R.string.help_tip_one_time_save_location_description,
             steps = listOf(
                 R.string.help_tip_one_time_save_location_step_1,
                 R.string.help_tip_one_time_save_location_step_2,
                 R.string.help_tip_one_time_save_location_step_3
+            )
+        ),
+        tip(
+            id = TipIds.SkipLargerOutputs,
+            title = R.string.help_tip_skip_larger_outputs_title,
+            subtitle = R.string.help_tip_skip_larger_outputs_subtitle,
+            icon = Icons.Outlined.ImageWeight,
+            category = filesAndMetadata,
+            deepLink = Screen.Settings(targetSetting = Setting.AllowSkipIfLarger),
+            pageTitle = R.string.help_tip_skip_larger_outputs_page_title,
+            description = R.string.help_tip_skip_larger_outputs_description,
+            steps = listOf(
+                R.string.help_tip_skip_larger_outputs_step_1,
+                R.string.help_tip_skip_larger_outputs_step_2,
+                R.string.help_tip_skip_larger_outputs_step_3
             )
         ),
         tip(
@@ -893,6 +976,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = TipIds.ClipboardAndLinks,
+            title = R.string.help_tip_clipboard_and_links_title,
+            subtitle = R.string.help_tip_clipboard_and_links_subtitle,
+            icon = Icons.Outlined.Share,
+            category = textAndData,
+            deepLink = Screen.Settings(targetSetting = Setting.AllowAutoClipboardPaste),
+            pageTitle = R.string.help_tip_clipboard_and_links_page_title,
+            description = R.string.help_tip_clipboard_and_links_description,
+            steps = listOf(
+                R.string.help_tip_clipboard_and_links_step_1,
+                R.string.help_tip_clipboard_and_links_step_2,
+                R.string.help_tip_clipboard_and_links_step_3
+            )
+        ),
+        tip(
             id = TipIds.PickColor,
             title = R.string.help_tip_pick_color_title,
             subtitle = R.string.help_tip_pick_color_subtitle,
@@ -943,7 +1041,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_color_accessibility_subtitle,
             icon = Icons.Outlined.Palette,
             category = colorTools,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.ColorBlindScheme),
             pageTitle = R.string.help_tip_color_accessibility_page_title,
             description = R.string.help_tip_color_accessibility_description,
             steps = listOf(
@@ -958,7 +1056,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_alpha_background_color_subtitle,
             icon = Icons.Outlined.BackgroundColor,
             category = colorTools,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.EnableBackgroundColorForAlphaFormats),
             pageTitle = R.string.help_tip_alpha_background_color_page_title,
             description = R.string.help_tip_alpha_background_color_description,
             steps = listOf(
@@ -1161,7 +1259,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_cache_and_previews_subtitle,
             icon = Icons.Outlined.Help,
             category = troubleshooting,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.GeneratePreviews),
             pageTitle = R.string.help_tip_cache_and_previews_page_title,
             description = R.string.help_tip_cache_and_previews_description,
             steps = listOf(
@@ -1176,13 +1274,28 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_screen_behavior_subtitle,
             icon = Icons.Outlined.Help,
             category = troubleshooting,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.SecureMode),
             pageTitle = R.string.help_tip_screen_behavior_page_title,
             description = R.string.help_tip_screen_behavior_description,
             steps = listOf(
                 R.string.help_tip_screen_behavior_step_1,
                 R.string.help_tip_screen_behavior_step_2,
                 R.string.help_tip_screen_behavior_step_3
+            )
+        ),
+        tip(
+            id = TipIds.CompactControls,
+            title = R.string.help_tip_compact_controls_title,
+            subtitle = R.string.help_tip_compact_controls_subtitle,
+            icon = Icons.Outlined.Help,
+            category = troubleshooting,
+            deepLink = Screen.Settings(targetSetting = Setting.UseCompactSelectors),
+            pageTitle = R.string.help_tip_compact_controls_page_title,
+            description = R.string.help_tip_compact_controls_description,
+            steps = listOf(
+                R.string.help_tip_compact_controls_step_1,
+                R.string.help_tip_compact_controls_step_2,
+                R.string.help_tip_compact_controls_step_3
             )
         ),
         tip(
@@ -1220,7 +1333,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_exit_confirmation_subtitle,
             icon = Icons.Outlined.SaveConfirm,
             category = troubleshooting,
-            deepLink = Screen.Settings(),
+            deepLink = Screen.Settings(targetSetting = Setting.EnableToolExitConfirmation),
             pageTitle = R.string.help_tip_exit_confirmation_page_title,
             description = R.string.help_tip_exit_confirmation_description,
             steps = listOf(

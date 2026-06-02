@@ -50,6 +50,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -58,6 +59,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -125,6 +127,12 @@ fun SettingsContent(
 
     val settings = component.filteredSettings
     val loading = component.isFilteringSettings
+    val targetSetting = component.targetSetting
+    val gridState = rememberLazyStaggeredGridState()
+    val highlightedContainerColor = MaterialTheme.colorScheme.primaryContainer.blend(
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        fraction = 0.35f
+    )
 
     val padding = WindowInsets.navigationBars
         .union(WindowInsets.displayCutout)
@@ -160,6 +168,19 @@ fun SettingsContent(
     }
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    LaunchedEffect(targetSetting, settings) {
+        targetSetting ?: return@LaunchedEffect
+        val index = settings?.indexOfFirst { (_, setting) ->
+            setting == targetSetting
+        } ?: initialSettingGroups.indexOfFirst { group ->
+            group.settingsList.contains(targetSetting)
+        }
+
+        if (index >= 0) {
+            gridState.scrollToItem(index)
+        }
+    }
 
     Scaffold(
         modifier = if (isStandaloneScreen) {
@@ -304,6 +325,7 @@ fun SettingsContent(
 
                 if (settingsAnimated == null) {
                     LazyVerticalStaggeredGrid(
+                        state = gridState,
                         contentPadding = padding,
                         columns = StaggeredGridCells.Adaptive(300.dp),
                         verticalItemSpacing = spacing,
@@ -351,11 +373,16 @@ fun SettingsContent(
                                             modifier = Modifier.padding(bottom = 8.dp)
                                         ) {
                                             group.settingsList.forEach { setting ->
+                                                val isHighlighted = setting == targetSetting
                                                 SettingItem(
                                                     setting = setting,
                                                     component = component,
                                                     isUpdateAvailable = isUpdateAvailable,
-                                                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                                    containerColor = if (isHighlighted) {
+                                                        highlightedContainerColor
+                                                    } else {
+                                                        MaterialTheme.colorScheme.surfaceContainerLow
+                                                    },
                                                     onNavigateToEasterEgg = {
                                                         component.onNavigate(Screen.EasterEgg)
                                                     },
@@ -377,16 +404,23 @@ fun SettingsContent(
                                         groupKey = group.id,
                                         icon = group.icon,
                                         text = stringResource(group.titleId),
-                                        initialState = group.initialState
+                                        initialState = group.initialState,
+                                        forceExpanded = targetSetting in group.settingsList
                                     ) {
                                         Column(
                                             verticalArrangement = Arrangement.spacedBy(4.dp)
                                         ) {
                                             group.settingsList.forEach { setting ->
+                                                val isHighlighted = setting == targetSetting
                                                 SettingItem(
                                                     setting = setting,
                                                     component = component,
                                                     isUpdateAvailable = isUpdateAvailable,
+                                                    containerColor = if (isHighlighted) {
+                                                        highlightedContainerColor
+                                                    } else {
+                                                        MaterialTheme.colorScheme.surface
+                                                    },
                                                     onNavigateToEasterEgg = {
                                                         component.onNavigate(Screen.EasterEgg)
                                                     },
@@ -409,6 +443,7 @@ fun SettingsContent(
                     }
                 } else if (settingsAnimated.isNotEmpty()) {
                     LazyVerticalStaggeredGrid(
+                        state = gridState,
                         contentPadding = padding,
                         columns = StaggeredGridCells.Adaptive(300.dp),
                         verticalItemSpacing = spacing,

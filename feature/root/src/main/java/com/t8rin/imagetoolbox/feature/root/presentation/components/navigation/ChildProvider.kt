@@ -528,7 +528,8 @@ internal class ChildProvider @Inject constructor(
                 onNavigate = ::navigateToNew,
                 isUpdateAvailable = isUpdateAvailable,
                 onGoBack = ::navigateBack,
-                initialSearchQuery = config.searchQuery
+                initialSearchQuery = config.searchQuery,
+                targetSetting = config.targetSetting
             )
         )
 

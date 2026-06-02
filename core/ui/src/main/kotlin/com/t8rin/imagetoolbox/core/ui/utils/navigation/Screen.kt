@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Texture
 import com.t8rin.imagetoolbox.core.resources.icons.Webp
+import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -95,7 +96,8 @@ sealed class Screen(
 
     @Serializable
     data class Settings(
-        val searchQuery: String = ""
+        val searchQuery: String = "",
+        val targetSetting: Setting? = null
     ) : Screen(
         id = -3,
         title = 0,

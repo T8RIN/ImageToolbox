@@ -20,12 +20,12 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Settings
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -44,6 +44,7 @@ fun SettingGroupItem(
     icon: ImageVector,
     text: String,
     initialState: Boolean = false,
+    forceExpanded: Boolean = false,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(2.dp),
@@ -52,7 +53,7 @@ fun SettingGroupItem(
     val settingsState = LocalSettingsState.current
 
     val initialState =
-        settingsState.settingGroupsInitialVisibility[groupKey] ?: initialState
+        forceExpanded || (settingsState.settingGroupsInitialVisibility[groupKey] ?: initialState)
 
     val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
     val scope = rememberCoroutineScope()

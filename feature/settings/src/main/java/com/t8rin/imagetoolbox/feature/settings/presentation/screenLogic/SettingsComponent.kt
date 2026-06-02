@@ -76,7 +76,8 @@ class SettingsComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit,
     @Assisted val isUpdateAvailable: Value<Boolean>,
     @Assisted val onGoBack: (() -> Unit)?,
-    @Assisted initialSearchQuery: String,
+    @Assisted("search") initialSearchQuery: String,
+    @Assisted("setting") val targetSetting: Setting?,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
@@ -532,14 +533,15 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     @AssistedFactory
-    fun interface Factory {
+    interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
             onTryGetUpdate: (Boolean) -> Unit,
             onNavigate: (Screen) -> Unit,
             isUpdateAvailable: Value<Boolean>,
             onGoBack: (() -> Unit)?,
-            initialSearchQuery: String
+            @Assisted("search") initialSearchQuery: String,
+            @Assisted("setting") targetSetting: Setting? = null
         ): SettingsComponent
     }
 }
