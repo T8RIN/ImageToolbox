@@ -39,8 +39,8 @@ class HelpComponent @AssistedInject internal constructor(
     val selectedCategory: HelpCategory? = selectedTip?.category
         ?: initialCategory?.let(HelpRepository::getCategory)
 
-    val categories: List<HelpCategory> = HelpRepository.categories
-    val tips: List<HelpTip> = HelpRepository.tips
+    val categories: List<HelpCategory> get() = HelpRepository.categories
+    val tips: List<HelpTip> get() = HelpRepository.tips
 
     fun tipsFor(category: HelpCategory) = HelpRepository.getTipsForCategory(category)
 
