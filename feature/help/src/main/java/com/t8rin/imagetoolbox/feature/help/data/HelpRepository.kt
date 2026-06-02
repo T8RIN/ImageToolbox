@@ -185,6 +185,36 @@ object HelpRepository {
             )
         ),
         tip(
+            id = "picker-launcher",
+            title = R.string.help_tip_picker_launcher_title,
+            subtitle = R.string.help_tip_picker_launcher_subtitle,
+            icon = Icons.Rounded.Lightbulb,
+            category = gettingStarted,
+            deepLink = Screen.Settings(),
+            pageTitle = R.string.help_tip_picker_launcher_page_title,
+            description = R.string.help_tip_picker_launcher_description,
+            steps = listOf(
+                R.string.help_tip_picker_launcher_step_1,
+                R.string.help_tip_picker_launcher_step_2,
+                R.string.help_tip_picker_launcher_step_3
+            )
+        ),
+        tip(
+            id = "favorites-share-tools",
+            title = R.string.help_tip_favorites_share_tools_title,
+            subtitle = R.string.help_tip_favorites_share_tools_subtitle,
+            icon = Icons.Rounded.Lightbulb,
+            category = gettingStarted,
+            deepLink = Screen.Settings(),
+            pageTitle = R.string.help_tip_favorites_share_tools_page_title,
+            description = R.string.help_tip_favorites_share_tools_description,
+            steps = listOf(
+                R.string.help_tip_favorites_share_tools_step_1,
+                R.string.help_tip_favorites_share_tools_step_2,
+                R.string.help_tip_favorites_share_tools_step_3
+            )
+        ),
+        tip(
             id = "resize-convert",
             title = R.string.help_tip_resize_convert_title,
             subtitle = R.string.help_tip_resize_convert_subtitle,
@@ -260,6 +290,21 @@ object HelpRepository {
             )
         ),
         tip(
+            id = "collage-stitch-stack",
+            title = R.string.help_tip_collage_stitch_stack_title,
+            subtitle = R.string.help_tip_collage_stitch_stack_subtitle,
+            icon = Icons.Outlined.MultipleImageEdit,
+            category = imageEditing,
+            deepLink = Screen.CollageMaker(),
+            pageTitle = R.string.help_tip_collage_stitch_stack_page_title,
+            description = R.string.help_tip_collage_stitch_stack_description,
+            steps = listOf(
+                R.string.help_tip_collage_stitch_stack_step_1,
+                R.string.help_tip_collage_stitch_stack_step_2,
+                R.string.help_tip_collage_stitch_stack_step_3
+            )
+        ),
+        tip(
             id = "format-conversion",
             title = R.string.help_tip_format_conversion_title,
             subtitle = R.string.help_tip_format_conversion_subtitle,
@@ -301,6 +346,51 @@ object HelpRepository {
                 R.string.help_tip_filenames_step_1,
                 R.string.help_tip_filenames_step_2,
                 R.string.help_tip_filenames_step_3
+            )
+        ),
+        tip(
+            id = "save-location",
+            title = R.string.help_tip_save_location_title,
+            subtitle = R.string.help_tip_save_location_subtitle,
+            icon = Icons.Outlined.ImageConvert,
+            category = filesAndMetadata,
+            deepLink = Screen.Settings(),
+            pageTitle = R.string.help_tip_save_location_page_title,
+            description = R.string.help_tip_save_location_description,
+            steps = listOf(
+                R.string.help_tip_save_location_step_1,
+                R.string.help_tip_save_location_step_2,
+                R.string.help_tip_save_location_step_3
+            )
+        ),
+        tip(
+            id = "quality-vs-size",
+            title = R.string.help_tip_quality_vs_size_title,
+            subtitle = R.string.help_tip_quality_vs_size_subtitle,
+            icon = Icons.Outlined.ImageConvert,
+            category = filesAndMetadata,
+            deepLink = Screen.ResizeAndConvert(),
+            pageTitle = R.string.help_tip_quality_vs_size_page_title,
+            description = R.string.help_tip_quality_vs_size_description,
+            steps = listOf(
+                R.string.help_tip_quality_vs_size_step_1,
+                R.string.help_tip_quality_vs_size_step_2,
+                R.string.help_tip_quality_vs_size_step_3
+            )
+        ),
+        tip(
+            id = "animated-formats",
+            title = R.string.help_tip_animated_formats_title,
+            subtitle = R.string.help_tip_animated_formats_subtitle,
+            icon = Icons.Outlined.ImageConvert,
+            category = filesAndMetadata,
+            deepLink = Screen.WebpTools(),
+            pageTitle = R.string.help_tip_animated_formats_page_title,
+            description = R.string.help_tip_animated_formats_description,
+            steps = listOf(
+                R.string.help_tip_animated_formats_step_1,
+                R.string.help_tip_animated_formats_step_2,
+                R.string.help_tip_animated_formats_step_3
             )
         ),
         tip(
@@ -364,6 +454,21 @@ object HelpRepository {
             )
         ),
         tip(
+            id = "pdf-protection",
+            title = R.string.help_tip_pdf_protection_title,
+            subtitle = R.string.help_tip_pdf_protection_subtitle,
+            icon = Icons.Outlined.Pdf,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools,
+            pageTitle = R.string.help_tip_pdf_protection_page_title,
+            description = R.string.help_tip_pdf_protection_description,
+            steps = listOf(
+                R.string.help_tip_pdf_protection_step_1,
+                R.string.help_tip_pdf_protection_step_2,
+                R.string.help_tip_pdf_protection_step_3
+            )
+        ),
+        tip(
             id = "ocr",
             title = R.string.help_tip_ocr_title,
             subtitle = R.string.help_tip_ocr_subtitle,
@@ -376,6 +481,21 @@ object HelpRepository {
                 R.string.help_tip_ocr_step_1,
                 R.string.help_tip_ocr_step_2,
                 R.string.help_tip_ocr_step_3
+            )
+        ),
+        tip(
+            id = "ocr-language-data",
+            title = R.string.help_tip_ocr_language_data_title,
+            subtitle = R.string.help_tip_ocr_language_data_subtitle,
+            icon = Icons.Outlined.TextSearch,
+            category = textAndData,
+            deepLink = Screen.RecognizeText(),
+            pageTitle = R.string.help_tip_ocr_language_data_page_title,
+            description = R.string.help_tip_ocr_language_data_description,
+            steps = listOf(
+                R.string.help_tip_ocr_language_data_step_1,
+                R.string.help_tip_ocr_language_data_step_2,
+                R.string.help_tip_ocr_language_data_step_3
             )
         ),
         tip(
@@ -469,6 +589,21 @@ object HelpRepository {
             )
         ),
         tip(
+            id = "color-accessibility",
+            title = R.string.help_tip_color_accessibility_title,
+            subtitle = R.string.help_tip_color_accessibility_subtitle,
+            icon = Icons.Outlined.AutoFixHigh,
+            category = colorTools,
+            deepLink = Screen.Settings(),
+            pageTitle = R.string.help_tip_color_accessibility_page_title,
+            description = R.string.help_tip_color_accessibility_description,
+            steps = listOf(
+                R.string.help_tip_color_accessibility_step_1,
+                R.string.help_tip_color_accessibility_step_2,
+                R.string.help_tip_color_accessibility_step_3
+            )
+        ),
+        tip(
             id = "shader-studio",
             title = R.string.help_tip_shader_studio_title,
             subtitle = R.string.help_tip_shader_studio_subtitle,
@@ -525,6 +660,21 @@ object HelpRepository {
                 R.string.help_tip_large_files_step_1,
                 R.string.help_tip_large_files_step_2,
                 R.string.help_tip_large_files_step_3
+            )
+        ),
+        tip(
+            id = "screen-behavior",
+            title = R.string.help_tip_screen_behavior_title,
+            subtitle = R.string.help_tip_screen_behavior_subtitle,
+            icon = Icons.Rounded.HelpOutline,
+            category = troubleshooting,
+            deepLink = Screen.Settings(),
+            pageTitle = R.string.help_tip_screen_behavior_page_title,
+            description = R.string.help_tip_screen_behavior_description,
+            steps = listOf(
+                R.string.help_tip_screen_behavior_step_1,
+                R.string.help_tip_screen_behavior_step_2,
+                R.string.help_tip_screen_behavior_step_3
             )
         ),
         tip(
