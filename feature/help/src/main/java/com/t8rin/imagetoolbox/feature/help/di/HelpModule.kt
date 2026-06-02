@@ -15,18 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.help.presentation.components
+package com.t8rin.imagetoolbox.feature.help.di
 
-import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
-import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
+import com.t8rin.imagetoolbox.feature.help.data.HelpRepositoryImpl
+import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-sealed interface HelpState {
-    data class Categories(val categories: List<HelpCategory>) : HelpState
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface HelpModule {
 
-    data class TutorialCategory(
-        val category: HelpCategory,
-        val tips: List<HelpTip>
-    ) : HelpState
+    @Binds
+    @Singleton
+    fun repository(
+        impl: HelpRepositoryImpl
+    ): HelpRepository
 
-    data class TutorialDetails(val tip: HelpTip) : HelpState
 }

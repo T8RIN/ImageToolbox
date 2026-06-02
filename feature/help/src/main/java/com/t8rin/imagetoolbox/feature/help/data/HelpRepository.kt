@@ -75,31 +75,13 @@ import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
+import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
+import com.t8rin.imagetoolbox.feature.help.domain.model.HelpPage
+import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
+import javax.inject.Inject
 
-data class HelpCategory(
-    val key: String,
-    @StringRes val title: Int,
-    @StringRes val subtitle: Int,
-    val icon: ImageVector
-)
-
-data class HelpTip(
-    val id: String,
-    @StringRes val title: Int,
-    @StringRes val subtitle: Int,
-    val icon: ImageVector,
-    val category: HelpCategory,
-    val pages: List<HelpPage>,
-    val deepLink: Screen? = null
-)
-
-data class HelpPage(
-    @StringRes val title: Int,
-    @StringRes val description: Int,
-    val steps: List<Int>
-)
-
-object HelpRepository {
+internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
 
     private object TipIds {
         const val ChooseTool = "choose-tool"
@@ -226,7 +208,7 @@ object HelpRepository {
         icon = Icons.Outlined.Help
     )
 
-    val categories: List<HelpCategory> = listOf(
+    override val categories: List<HelpCategory> = listOf(
         gettingStarted,
         imageEditing,
         filesAndMetadata,
@@ -237,7 +219,7 @@ object HelpRepository {
         troubleshooting
     )
 
-    val tips: List<HelpTip> = listOf(
+    override val tips: List<HelpTip> = listOf(
         tip(
             id = TipIds.ChooseTool,
             title = R.string.help_tip_choose_tool_title,
@@ -1264,15 +1246,15 @@ object HelpRepository {
         )
     )
 
-    fun getTipsForCategory(category: HelpCategory): List<HelpTip> = tips.filter {
+    override fun getTipsForCategory(category: HelpCategory): List<HelpTip> = tips.filter {
         it.category == category
     }
 
-    fun getTip(id: String): HelpTip? = tips.firstOrNull {
+    override fun getTip(id: String): HelpTip? = tips.firstOrNull {
         it.id == id
     }
 
-    fun getCategory(categoryKey: String): HelpCategory? = categories.firstOrNull {
+    override fun getCategory(categoryKey: String): HelpCategory? = categories.firstOrNull {
         it.key == categoryKey
     }
 

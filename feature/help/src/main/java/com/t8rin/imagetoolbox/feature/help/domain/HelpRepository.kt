@@ -15,18 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.help.presentation.components
+package com.t8rin.imagetoolbox.feature.help.domain
 
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
 
-sealed interface HelpState {
-    data class Categories(val categories: List<HelpCategory>) : HelpState
+interface HelpRepository {
 
-    data class TutorialCategory(
-        val category: HelpCategory,
-        val tips: List<HelpTip>
-    ) : HelpState
+    val categories: List<HelpCategory>
 
-    data class TutorialDetails(val tip: HelpTip) : HelpState
+    val tips: List<HelpTip>
+
+    fun getTipsForCategory(category: HelpCategory): List<HelpTip>
+
+    fun getTip(id: String): HelpTip?
+
+    fun getCategory(categoryKey: String): HelpCategory?
+
 }

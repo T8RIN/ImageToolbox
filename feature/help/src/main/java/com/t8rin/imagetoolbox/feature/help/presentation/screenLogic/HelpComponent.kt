@@ -19,9 +19,9 @@ package com.t8rin.imagetoolbox.feature.help.presentation.screenLogic
 
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.feature.help.data.HelpCategory
-import com.t8rin.imagetoolbox.feature.help.data.HelpRepository
-import com.t8rin.imagetoolbox.feature.help.data.HelpTip
+import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
+import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
+import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
 import com.t8rin.imagetoolbox.feature.help.presentation.components.HelpState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -32,22 +32,23 @@ class HelpComponent @AssistedInject internal constructor(
     @Assisted("categoryName") initialCategory: String?,
     @Assisted("tipId") initialTipId: String?,
     @Assisted val onGoBack: () -> Unit,
-    @Assisted val onNavigate: (Screen) -> Unit
+    @Assisted val onNavigate: (Screen) -> Unit,
+    helpRepository: HelpRepository
 ) : ComponentContext by componentContext {
 
     val state: HelpState = run {
-        initialTipId?.let(HelpRepository::getTip)?.let {
+        initialTipId?.let(helpRepository::getTip)?.let {
             return@run HelpState.TutorialDetails(it)
         }
 
-        initialCategory?.let(HelpRepository::getCategory)?.let {
+        initialCategory?.let(helpRepository::getCategory)?.let {
             return@run HelpState.TutorialCategory(
                 category = it,
-                tips = HelpRepository.getTipsForCategory(it)
+                tips = helpRepository.getTipsForCategory(it)
             )
         }
 
-        HelpState.Categories(HelpRepository.categories)
+        HelpState.Categories(helpRepository.categories)
     }
 
     fun openCategory(category: HelpCategory) {

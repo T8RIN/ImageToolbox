@@ -15,18 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.help.presentation.components
+package com.t8rin.imagetoolbox.feature.help.domain.model
 
-import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
-import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 
-sealed interface HelpState {
-    data class Categories(val categories: List<HelpCategory>) : HelpState
-
-    data class TutorialCategory(
-        val category: HelpCategory,
-        val tips: List<HelpTip>
-    ) : HelpState
-
-    data class TutorialDetails(val tip: HelpTip) : HelpState
-}
+data class HelpTip(
+    val id: String,
+    val title: Int,
+    val subtitle: Int,
+    val icon: Any,
+    val category: HelpCategory,
+    val pages: List<HelpPage>,
+    val deepLink: Screen? = null
+)

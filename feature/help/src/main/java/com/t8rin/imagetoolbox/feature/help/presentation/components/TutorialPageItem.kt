@@ -39,7 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.feature.help.data.HelpPage
+import com.t8rin.imagetoolbox.feature.help.domain.model.HelpPage
 
 @Composable
 internal fun TutorialPageItem(

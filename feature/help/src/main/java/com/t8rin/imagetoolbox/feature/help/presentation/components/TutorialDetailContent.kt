@@ -37,7 +37,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.OpenInNew
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
-import com.t8rin.imagetoolbox.feature.help.data.HelpTip
+import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
 
 @Composable
 internal fun TutorialDetailContent(
