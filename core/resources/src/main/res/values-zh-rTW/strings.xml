@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2412,7 +2411,6 @@
     <string name="help_category_files_metadata_sub">轉換格式、比較輸出、保護隱私和控製檔名</string>
     <string name="help_category_pdf_documents">PDF 和文件</string>
     <string name="help_category_pdf_documents_sub">建立 PDF、掃描文件、OCR 頁面並準備文件以供共享</string>
-    <string name="help_category_text_data" />
     <string name="help_category_text_data_sub">識別文字、掃描代碼、Base64 編碼、檢查雜湊值和打包文件</string>
     <string name="help_category_color_tools">色彩工具</string>
     <string name="help_category_color_tools_sub">選擇顏色、建立調色板、探索顏色庫並建立漸變</string>
@@ -2427,9 +2425,7 @@
     <string name="help_tip_choose_tool_step_1">當您知道操作名稱（例如調整大小、PDF、EXIF、OCR、QR 或顏色）時，請使用搜尋。</string>
     <string name="help_tip_choose_tool_step_2">當您只知道任務類型時開啟一個類別，然後將常用工具固定為收藏夾。</string>
     <string name="help_tip_choose_tool_step_3">當另一個應用程式將影像共用到影像工具箱時，請從共用表格流程中選擇該工具。</string>
-    <string name="help_tip_import_save_share_title" />
     <string name="help_tip_import_save_share_subtitle">了解從選擇輸入到匯出編輯文件的通常流程</string>
-    <string name="help_tip_import_save_share_page_title" />
     <string name="help_tip_import_save_share_description">大多數工具都遵循相同的節奏：選擇輸入、調整選項、預覽，然後儲存或分享。重要的細節是保存會創建一個輸出文件，而共享通常最適合快速切換到另一個應用程式。</string>
     <string name="help_tip_import_save_share_step_1">當選擇器允許時，為單一影像工具選擇一個文件，或為批次工具選擇多個文件。</string>
     <string name="help_tip_import_save_share_step_2">儲存前檢查預覽和輸出控件，尤其是格式、品質和檔案名稱選項。</string>
@@ -2443,49 +2439,42 @@
     <string name="help_tip_batch_workflow_step_3">當原始檔案很大或目標格式對您來說是新的時，請先執行小批量測試。</string>
     <string name="help_tip_single_edit_title">快速單一編輯</string>
     <string name="help_tip_single_edit_subtitle">當您需要對一張圖像進行多項簡單更改時，請使用一體化編輯器</string>
-    <string name="help_tip_single_edit_page_title" />
     <string name="help_tip_single_edit_description">當圖像需要一小部分更改而不是一次專門操作時，單一編輯非常有用。它通常可以更快地進行快速清理、預覽和匯出最終副本，而無需建立批次工作流程。</string>
     <string name="help_tip_single_edit_step_1">為需要常見調整、標記、裁剪、旋轉或匯出變更的一張影像開啟「單一編輯」。</string>
     <string name="help_tip_single_edit_step_2">按照先更改最少像素的順序套用編輯，例如在過濾器之前裁剪和在最終壓縮之前過濾。</string>
     <string name="help_tip_single_edit_step_3">當您需要批次、精確的檔案大小目標、PDF 輸出、OCR 或元資料清理時，請使用專用工具。</string>
     <string name="help_tip_presets_settings_title">使用預設和設定</string>
     <string name="help_tip_presets_settings_subtitle">儲存重複的選擇並根據您喜歡的工作流程調整應用程式</string>
-    <string name="help_tip_presets_settings_page_title" />
     <string name="help_tip_presets_settings_description">當您經常匯出相同類型的文件時，預設和設定非常有用。良好的預設可以將重複的手動檢查表變成一次點擊，而全域設定則定義新工具開始時的預設值。</string>
     <string name="help_tip_presets_settings_step_1">為常見輸出大小、格式、品質值或命名模式建立預設。</string>
     <string name="help_tip_presets_settings_step_2">查看預設格式、品質、儲存資料夾、檔案名稱、選擇器和介面行為的設定。</string>
     <string name="help_tip_presets_settings_step_3">在重新安裝應用程式或移動到其他裝置之前備份設定。</string>
     <string name="help_tip_default_values_title">設定有用的預設值</string>
     <string name="help_tip_default_values_subtitle">選擇預設格式、品質、縮放模式、調整大小類型和色彩空間一次</string>
-    <string name="help_tip_default_values_page_title" />
     <string name="help_tip_default_values_description">預設值不僅僅是外觀偏好。他們決定在許多工具中首先出現的格式、品質、調整大小行為、縮放模式和色彩空間，這有助於避免在每次匯出時重新選擇相同的選擇。</string>
     <string name="help_tip_default_values_step_1">設定預設影像格式和品質以符合您通常的目標，例如用於照片的 JPEG 或用於 Alpha 的 PNG/WebP。</string>
     <string name="help_tip_default_values_step_2">如果您經常匯出嚴格尺寸、社交平台或文件頁面，請調整預設調整大小類型和縮放模式。</string>
     <string name="help_tip_default_values_step_3">只有當您的工作流程需要跨顯示器、列印或外部編輯器進行一致的顏色處理時，才會變更色彩空間預設值。</string>
     <string name="help_tip_picker_launcher_title">選擇器和啟動器</string>
     <string name="help_tip_picker_launcher_subtitle">當應用程式開啟太多對話方塊或在錯誤位置啟動時使用選擇器設置</string>
-    <string name="help_tip_picker_launcher_page_title" />
     <string name="help_tip_picker_launcher_description">選擇器和啟動器設定控制 Image Toolbox 是否從主畫面、工具或檔案選擇流程啟動。當您通常從 Android 共享表輸入或希望應用程式更像工具啟動器時，這些選項特別有用。</string>
     <string name="help_tip_picker_launcher_step_1">如果系統選擇器隱藏檔案、顯示太多最近的項目或處理雲端檔案效果不佳，請使用照片選擇器設定。</string>
     <string name="help_tip_picker_launcher_step_2">僅對您通常從共用輸入或已經知道來源檔案的工具啟用跳過選取。</string>
     <string name="help_tip_picker_launcher_step_3">如果您希望 Image Toolbox 的行為更像工具選擇器而不是普通的主螢幕，請查看啟動器模式。</string>
     <string name="help_tip_image_source_title">圖片來源</string>
     <string name="help_tip_image_source_subtitle">選擇最適合圖庫、檔案管理器和雲端檔案的選取器模式</string>
-    <string name="help_tip_image_source_page_title" />
     <string name="help_tip_image_source_description">圖像來源設定會影響應用程式向 Android 請求圖像的方式。最佳選擇取決於您的檔案是否位於系統庫、檔案管理器資料夾、雲端提供者或共享臨時內容的其他應用程式中。</string>
     <string name="help_tip_image_source_step_1">當您希望常見圖庫影像獲得最系統整合的體驗時，請使用預設選擇器。</string>
     <string name="help_tip_image_source_step_2">如果相簿、資料夾、雲端檔案或非標準格式未出現在您期望的位置，請切換選擇器模式。</string>
     <string name="help_tip_image_source_step_3">如果共用檔案在離開來源應用程式後消失，請透過持久選擇器重新開啟它或先儲存本機副本。</string>
     <string name="help_tip_favorites_share_tools_title">收藏與分享工具</string>
     <string name="help_tip_favorites_share_tools_subtitle">保持主螢幕聚焦並隱藏在共享流程中沒有意義的工具</string>
-    <string name="help_tip_favorites_share_tools_page_title" />
     <string name="help_tip_favorites_share_tools_description">當您每天只使用少數工具時，收藏夾和隱藏共享設定非常有用。他們還透過隱藏無法使用其他應用程式發送的文件類型的工具來保持共享流程的實用性。</string>
     <string name="help_tip_favorites_share_tools_step_1">固定常用工具，以便即使工具按類別分組，也可以輕鬆存取它們。</string>
     <string name="help_tip_favorites_share_tools_step_2">當工具與來自其他應用程式的檔案無關時，隱藏共享流中的工具。</string>
     <string name="help_tip_favorites_share_tools_step_3">如果您希望將收藏放在最後或與相關工具分組，請使用收藏夾排序設定。</string>
     <string name="help_tip_backup_restore_settings_title">備份設定</string>
     <string name="help_tip_backup_restore_settings_subtitle">將預設、首選項和應用程式行為安全地移至另一個安裝</string>
-    <string name="help_tip_backup_restore_settings_page_title" />
     <string name="help_tip_backup_restore_settings_description">在調整預設、資料夾、檔案名稱規則、工具順序和視覺首選項後，備份和還原非常有用。透過備份，您可以嘗試設定或重新安裝應用程序，而無需從記憶體重建工作流程。</string>
     <string name="help_tip_backup_restore_settings_step_1">變更預設、檔案名稱行為、預設格式或工具排列後建立備份。</string>
     <string name="help_tip_backup_restore_settings_step_2">如果您打算清除資料、重新安裝或移動設備，請將備份儲存在應用程式資料夾之外的某個位置。</string>

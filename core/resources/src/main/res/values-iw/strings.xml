@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -2882,24 +2881,18 @@
     <string name="help_tip_sharing_import_title">תקן בעיות שיתוף וייבוא</string>
     <string name="help_tip_sharing_import_subtitle">השתמש בהגדרות הבורר ובפורמטים הנתמכים כאשר קבצים אינם מופיעים או נפתחים כהלכה</string>
     <string name="help_tip_sharing_import_page_title">הכנס את הקובץ לאפליקציה</string>
-    <string name="help_tip_sharing_import_description" />
     <string name="help_tip_sharing_import_step_1">נסה לפתוח את הקובץ דרך בורר המערכת במקום קיצור דרך לקבצים אחרונים.</string>
     <string name="help_tip_sharing_import_step_2">אם פורמט אינו נתמך על ידי כלי אחד, המר אותו תחילה או פתח כלי ספציפי יותר.</string>
-    <string name="help_tip_sharing_import_step_3" />
     <string name="help_tip_exit_confirmation_title">אישור יציאה</string>
     <string name="help_tip_exit_confirmation_subtitle">הימנע מאובדן עריכות שלא נשמרו כאשר מחוות, לחיצות לאחור או החלפת כלים מתרחשים בטעות</string>
     <string name="help_tip_exit_confirmation_page_title">הגן על עבודה לא גמורה</string>
-    <string name="help_tip_exit_confirmation_description" />
     <string name="help_tip_exit_confirmation_step_1">אפשר אישור אם תנועות חזרה בשוגג סגרו אי פעם כלי לפני שייצאת.</string>
-    <string name="help_tip_exit_confirmation_step_2" />
     <string name="help_tip_exit_confirmation_step_3">השתמש בו יחד עם הגדרות קבועות מראש עבור זרימות עבודה ארוכות יותר שבהן בנייה מחדש של הגדרות יהיה מעצבן.</string>
     <string name="help_tip_logs_feedback_title">השתמש ביומנים בעת דיווח על בעיות</string>
-    <string name="help_tip_logs_feedback_subtitle" />
     <string name="help_tip_logs_feedback_page_title">דווח על בעיות בהקשר</string>
     <string name="help_tip_logs_feedback_description">הרבה יותר קל לאבחן דוח ברור עם שלבים, גרסת אפליקציה, סוג קלט ויומנים. יומנים שימושיים ביותר מיד לאחר שחזור בעיה מכיוון שהם שומרים על ההקשר שמסביב טרי.</string>
     <string name="help_tip_logs_feedback_step_1">שימו לב לשם הכלי, לפעולה המדויקת והאם זה קורה עם קובץ אחד או כל קובץ.</string>
     <string name="help_tip_logs_feedback_step_2">פתח את יומני האפליקציה לאחר שחזור הבעיה ושתף את פלט היומן הרלוונטי במידת האפשר.</string>
-    <string name="help_tip_logs_feedback_step_3" />
     <string name="crash_foreground_service_timeout_title">עיבוד הרקע הופסק</string>
     <string name="crash_foreground_service_timeout_description">אנדרואיד לא נתנה להתראת עיבוד הרקע להתחיל בזמן. זוהי מגבלת תזמון מערכת שלא ניתן לתקן בצורה מהימנה. הפעל מחדש את האפליקציה ונסה שוב; שמירה על האפליקציה פתוחה ומתן התראות או עבודת רקע עשויה לעזור.</string>
 </resources>
