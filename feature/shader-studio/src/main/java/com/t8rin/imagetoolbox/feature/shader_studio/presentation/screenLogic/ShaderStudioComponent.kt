@@ -251,11 +251,12 @@ class ShaderStudioComponent @AssistedInject internal constructor(
         val previewPreset = snapshot.toPreset().copy(
             name = snapshot.name
         )
-        val previewErrors = validateSnapshot(
-            snapshot = snapshot
-        )
 
-        if (previewErrors.isNotEmpty() || snapshot.shaderSource.isBlank()) return emptyList()
+        val errors = validationErrors.filter {
+            it !is ShaderValidationError.BlankName
+        }
+
+        if (errors.isNotEmpty() || snapshot.shaderSource.isBlank()) return emptyList()
 
         return listOf(
             UiShaderFilter(
