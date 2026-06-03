@@ -22,6 +22,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidationError
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
@@ -57,6 +58,8 @@ internal class ShaderFilter(
     }
 
     private fun ShaderPreset.isValidShaderPreset(): Boolean =
-        ShaderValidator.validateErrors(this).isEmpty()
+        ShaderValidator.validate(this).none {
+            it !is ShaderValidationError.BlankName
+        }
 
 }

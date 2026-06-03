@@ -42,9 +42,6 @@ data object ShaderValidator {
         }
     }
 
-    fun validateErrors(preset: ShaderPreset): List<String> =
-        validate(preset).map(ShaderValidationError::englishMessage)
-
     private fun MutableList<ShaderValidationError>.validateShaderSourceCharacters(shader: String) {
         val unsafeCharacters = shader.glslUnsafeCharacters()
         if (unsafeCharacters.isNotEmpty()) {

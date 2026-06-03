@@ -252,11 +252,11 @@ class ShaderStudioComponent @AssistedInject internal constructor(
             name = snapshot.name
         )
 
-        val errors = validationErrors.filter {
+        val haveErrors = validationErrors.any {
             it !is ShaderValidationError.BlankName
         }
 
-        if (errors.isNotEmpty() || snapshot.shaderSource.isBlank()) return emptyList()
+        if (haveErrors || snapshot.shaderSource.isBlank()) return emptyList()
 
         return listOf(
             UiShaderFilter(
