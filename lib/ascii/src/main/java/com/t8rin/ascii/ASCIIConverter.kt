@@ -74,10 +74,12 @@ class ASCIIConverter(
                     val luma = color.luma()
 
                     if (isGrayscale && luma != null) {
-                        paint.alpha = (luma * 255.0f).toInt()
-                        paint.color = Color.GRAY
+                        paint.setSrgbColor(
+                            color = Color.GRAY,
+                            alpha = (luma * 255.0f).toInt()
+                        )
                     } else {
-                        paint.color = color
+                        paint.setSrgbColor(color)
                     }
 
                     drawText(
@@ -165,6 +167,13 @@ class ASCIIConverter(
             .plus(0.0722 * (blue / 255f))
 
         return (if (reverseLuma) 1 - luminance else luminance).toFloat()
+    }
+
+    private fun Paint.setSrgbColor(
+        color: Int,
+        alpha: Int = color.alpha
+    ) {
+        setARGB(alpha, color.red, color.green, color.blue)
     }
 }
 
