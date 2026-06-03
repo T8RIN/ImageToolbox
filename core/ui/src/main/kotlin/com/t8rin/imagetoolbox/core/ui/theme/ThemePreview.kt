@@ -85,7 +85,8 @@ fun ImageToolboxThemeForPreview(
             content = {
                 CompositionLocalProvider(
                     LocalSettingsState provides mapSettings(SettingsState.Default).toUiState().copy(
-                        shapesType = shapesType
+                        shapesType = shapesType,
+                        isNightMode = isDarkTheme
                     ),
                     LocalSimpleSettingsInteractor provides FakeSettings,
                     LocalResourceManager provides FakeRes,

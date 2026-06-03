@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BugReport
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
@@ -51,20 +52,35 @@ fun DebugMenuSettingItem(
     val showMenu = rememberSaveable {
         mutableStateOf(false)
     }
+    val isNightMode = LocalSettingsState.current.isNightMode
 
     AnimatedGradientBox(
         colors = {
-            listOf(
-                errorContainer.blend(
-                    color = error,
-                    fraction = 0.6f
-                ),
-                primary.blend(
-                    color = error,
-                    fraction = 0.4f
-                ),
-                error,
-            )
+            if (isNightMode) {
+                listOf(
+                    errorContainer.blend(
+                        color = error,
+                        fraction = 0.6f
+                    ),
+                    primary.blend(
+                        color = error,
+                        fraction = 0.4f
+                    ),
+                    error,
+                )
+            } else {
+                listOf(
+                    error.blend(
+                        color = errorContainer,
+                        fraction = 0.6f
+                    ),
+                    primaryContainer.blend(
+                        color = errorContainer,
+                        fraction = 0.4f
+                    ),
+                    errorContainer,
+                )
+            }
         }
     ) {
         PreferenceItem(
@@ -75,7 +91,11 @@ fun DebugMenuSettingItem(
             modifier = modifier,
             overrideIconShapeContentColor = true,
             containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = if (isNightMode) {
+                MaterialTheme.colorScheme.onError
+            } else {
+                MaterialTheme.colorScheme.onErrorContainer
+            },
             title = stringResource(R.string.debug_menu),
             subtitle = stringResource(R.string.debug_menu_sub),
             startIcon = Icons.TwoTone.BugReport
@@ -113,8 +133,7 @@ fun DebugMenuSettingItem(
 }
 
 @Composable
-@EnPreview
-private fun Preview() = ImageToolboxThemeForPreview(true) {
+private fun PreviewContent(isDarkTheme: Boolean) = ImageToolboxThemeForPreview(isDarkTheme) {
     Box(Modifier.padding(16.dp)) {
         EnhancedButton(
             onClick = {},
@@ -124,3 +143,11 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
         DebugMenuSettingItem()
     }
 }
+
+@Composable
+@EnPreview
+private fun PreviewNight() = PreviewContent(true)
+
+@Composable
+@EnPreview
+private fun PreviewDay() = PreviewContent(false)

@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
@@ -45,19 +47,35 @@ fun HelpTipsSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ShapeDefaults.default,
 ) {
+    val isNightMode = LocalSettingsState.current.isNightMode
+
     AnimatedGradientBox(
         colors = {
-            listOf(
-                primaryContainer.blend(
-                    color = primary,
-                    fraction = 0.8f
-                ),
-                secondaryContainer.blend(
-                    color = primary,
-                    fraction = 0.65f
-                ),
-                tertiary,
-            )
+            if (isNightMode) {
+                listOf(
+                    primaryContainer.blend(
+                        color = primary,
+                        fraction = 0.8f
+                    ),
+                    secondaryContainer.blend(
+                        color = primary,
+                        fraction = 0.65f
+                    ),
+                    tertiary,
+                )
+            } else {
+                listOf(
+                    primary.blend(
+                        color = primaryContainer,
+                        fraction = 0.8f
+                    ),
+                    secondary.blend(
+                        color = primaryContainer,
+                        fraction = 0.65f
+                    ),
+                    tertiaryContainer,
+                )
+            }
         }
     ) {
         PreferenceItemOverload(
@@ -71,7 +89,11 @@ fun HelpTipsSettingItem(
             },
             overrideIconShapeContentColor = true,
             containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = if (isNightMode) {
+                MaterialTheme.colorScheme.onTertiary
+            } else {
+                MaterialTheme.colorScheme.onTertiaryContainer
+            },
             title = stringResource(R.string.help_tips),
             subtitle = stringResource(R.string.help_tips_settings_sub),
             modifier = modifier
@@ -80,8 +102,10 @@ fun HelpTipsSettingItem(
 }
 
 @Composable
-@EnPreview
-private fun Preview() = ImageToolboxThemeForPreview(true) {
+private fun PreviewContent(isDarkTheme: Boolean) = ImageToolboxThemeForPreview(
+    isDarkTheme = isDarkTheme,
+    keyColor = Color.Green
+) {
     Box(Modifier.padding(16.dp)) {
         EnhancedButton(
             onClick = {},
@@ -90,4 +114,11 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
 
         HelpTipsSettingItem({})
     }
+}
+
+@Composable
+@EnPreview
+private fun Preview() = Column {
+    PreviewContent(true)
+    PreviewContent(false)
 }
