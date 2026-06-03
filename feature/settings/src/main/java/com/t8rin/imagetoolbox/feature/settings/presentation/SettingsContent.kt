@@ -112,6 +112,7 @@ import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingGr
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 
 @Composable
@@ -138,6 +139,9 @@ fun SettingsContent(
     val gridState = rememberLazyStaggeredGridState()
 
     var showTargetHighlight by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isHighlightShown by rememberSaveable(targetSetting) {
         mutableStateOf(false)
     }
 
@@ -209,11 +213,16 @@ fun SettingsContent(
     }
 
     LaunchedEffect(targetSetting) {
-        if (targetSetting != null && !showTargetHighlight) {
+        if (targetSetting != null && !showTargetHighlight && !isHighlightShown) {
             showTargetHighlight = true
-            delay(3_000L)
+            delay(3.seconds)
             showTargetHighlight = false
+            isHighlightShown = true
         }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose { showTargetHighlight = false }
     }
 
     Scaffold(
