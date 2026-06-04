@@ -2459,7 +2459,7 @@
     <string name="help_tip_default_values_page_title">让新工具更接近您的目标</string>
     <string name="help_tip_default_values_description">默认值不仅仅是外观偏好。他们决定在许多工具中首先出现的格式、质量、调整大小行为、缩放模式和色彩空间，这有助于避免在每次导出时重新选择相同的选择。</string>
     <string name="help_tip_default_values_step_1">设置默认图像格式和质量以匹配您通常的目标，例如用于照片的 JPEG 或用于 Alpha 的 PNG/WebP。</string>
-    <string name="help_tip_default_values_step_2">如果您经常导出严格尺寸、社交平台或文档页​​面，请调整默认调整大小类型和缩放模式。</string>
+    <string name="help_tip_default_values_step_2">如果您经常导出严格尺寸、社交平台或文档页面，请调整默认调整大小类型和缩放模式。</string>
     <string name="help_tip_default_values_step_3">仅当您的工作流程需要跨显示器、打印或外部编辑器进行一致的颜色处理时，才更改颜色空间默认值。</string>
     <string name="help_tip_picker_launcher_title">选择器和启动器</string>
     <string name="help_tip_picker_launcher_subtitle">当应用程序打开太多对话框或在错误位置启动时使用选择器设置</string>
@@ -2656,7 +2656,7 @@
     <string name="help_tip_document_scanner_description">文档扫描在平面页面、良好的照明和正确的透视下效果最佳。在 OCR 或 PDF 导出之前进行干净扫描可以节省时间，因为文本识别和压缩都取决于页面质量。</string>
     <string name="help_tip_document_scanner_step_1">将文档放置在光线充足且阴影最少的对比表面上。</string>
     <string name="help_tip_document_scanner_step_2">手动调整检测到的角或裁剪，使页面干净地填充框架。</string>
-    <string name="help_tip_document_scanner_step_3">导出为图像或 PDF，然后运行 ​​OCR（如果您需要可选文本）。</string>
+    <string name="help_tip_document_scanner_step_3">导出为图像或PDF，然后运行OCR（如果您需要可选文本）。</string>
     <string name="help_tip_pdf_protection_title">保护或解锁 PDF 文件</string>
     <string name="help_tip_pdf_protection_subtitle">谨慎使用密码并尽可能保留可编辑的源副本</string>
     <string name="help_tip_pdf_protection_page_title">安全处理 PDF 访问</string>
@@ -3119,7 +3119,7 @@
     <string name="help_tip_checksum_tool_tabs_subtitle">从文件或文本计算哈希值、比较一个文件或批量检查多个文件</string>
     <string name="help_tip_checksum_tool_tabs_page_title">验证内容，而不是外观</string>
     <string name="help_tip_checksum_tool_tabs_description">校验和工具具有单独的选项卡，用于文件哈希、文本哈希、将文件与已知哈希进行比较以及批量比较。校验和证明所选算法的逐字节同一性；它并不能证明两个图像仅仅是看起来相似。</string>
-    <string name="help_tip_checksum_tool_tabs_step_1">对文件使用“计算”​​，对键入或粘贴的文本数据使用“文本哈希”。</string>
+    <string name="help_tip_checksum_tool_tabs_step_1">对文件使用“计算”，对键入或粘贴的文本数据使用“文本哈希”。</string>
     <string name="help_tip_checksum_tool_tabs_step_2">当有人为您提供一个文件的预期校验和时，请使用比较。</string>
     <string name="help_tip_checksum_tool_tabs_step_3">当许多文件需要一次进行哈希或验证时，请使用批量比较，然后保持所选算法一致。</string>
     <string name="help_tip_clipboard_privacy_title">剪贴板隐私</string>
