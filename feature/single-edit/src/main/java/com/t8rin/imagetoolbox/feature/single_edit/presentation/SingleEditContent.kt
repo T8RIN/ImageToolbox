@@ -18,9 +18,11 @@
 package com.t8rin.imagetoolbox.feature.single_edit.presentation
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,9 +62,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.EditExifSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -75,6 +79,7 @@ import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.CropEd
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.DrawEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.EraseBackgroundEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.FilterEditOption
+import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.SingleEditUndoRedo
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.ToneCurvesEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 
@@ -167,53 +172,66 @@ fun SingleEditContent(
             )
         },
         actions = {
-            var editSheetData by remember {
-                mutableStateOf(listOf<Uri>())
-            }
-            ShareButton(
-                enabled = component.bitmap != null,
-                onShare = component::shareBitmap,
-                onCopy = {
-                    component.cacheCurrentImage(Clipboard::copy)
-                },
-                onEdit = {
-                    component.cacheCurrentImage { uri ->
-                        editSheetData = listOf(uri)
-                    }
-                }
-            )
-            ProcessImagesPreferenceSheet(
-                uris = editSheetData,
-                visible = editSheetData.isNotEmpty(),
-                onDismiss = { editSheetData = emptyList() },
-                onNavigate = component.onNavigate
-            )
-
-            EnhancedIconButton(
-                enabled = component.bitmap != null,
-                onClick = { showResetDialog = true }
+            val state = rememberScrollState()
+            Row(
+                modifier = Modifier
+                    .fadingEdges(state)
+                    .enhancedHorizontalScroll(state)
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.ImageReset,
-                    contentDescription = stringResource(R.string.reset_image)
-                )
-            }
-            if (component.bitmap != null) {
-                ShowOriginalButton(
-                    canShow = component.canShow(),
-                    onStateChange = {
-                        showOriginal = it
+                var editSheetData by remember {
+                    mutableStateOf(listOf<Uri>())
+                }
+                if (!isPortrait) {
+                    SingleEditUndoRedo(component)
+                }
+                ShareButton(
+                    enabled = component.bitmap != null,
+                    onShare = component::shareBitmap,
+                    onCopy = {
+                        component.cacheCurrentImage(Clipboard::copy)
+                    },
+                    onEdit = {
+                        component.cacheCurrentImage { uri ->
+                            editSheetData = listOf(uri)
+                        }
                     }
                 )
-            } else {
+                ProcessImagesPreferenceSheet(
+                    uris = editSheetData,
+                    visible = editSheetData.isNotEmpty(),
+                    onDismiss = { editSheetData = emptyList() },
+                    onNavigate = component.onNavigate
+                )
+
                 EnhancedIconButton(
-                    enabled = false,
-                    onClick = {}
+                    enabled = component.bitmap != null,
+                    onClick = { showResetDialog = true }
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.History,
-                        contentDescription = stringResource(R.string.original)
+                        imageVector = Icons.Rounded.ImageReset,
+                        contentDescription = stringResource(R.string.reset_image)
                     )
+                }
+                if (component.bitmap != null) {
+                    ShowOriginalButton(
+                        canShow = component.canShow(),
+                        onStateChange = {
+                            showOriginal = it
+                        }
+                    )
+                } else {
+                    EnhancedIconButton(
+                        enabled = false,
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.History,
+                            contentDescription = stringResource(R.string.original)
+                        )
+                    }
+                }
+                if (isPortrait) {
+                    SingleEditUndoRedo(component)
                 }
             }
         },
