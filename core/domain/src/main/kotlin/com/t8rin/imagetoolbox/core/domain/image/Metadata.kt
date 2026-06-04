@@ -55,7 +55,7 @@ private class TagMapMetadata(
     override fun toString(): String = "ReadOnly(${toMap()})"
 }
 
-fun Metadata.readOnly(): Metadata = TagMapMetadata(toMap())
+fun Metadata.readOnly(): Metadata = this as? TagMapMetadata ?: TagMapMetadata(toMap())
 
 inline operator fun Metadata.get(
     tag: MetadataTag

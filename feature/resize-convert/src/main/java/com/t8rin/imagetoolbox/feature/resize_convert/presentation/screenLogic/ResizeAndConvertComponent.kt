@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.image.readOnly
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -63,6 +64,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class ResizeAndConvertComponent @AssistedInject internal constructor(
@@ -112,6 +114,10 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val _redoHistory: MutableState<List<HistorySnapshot>> = mutableStateOf(emptyList())
     private val redoHistory: List<HistorySnapshot> by _redoHistory
 
+    private var pendingHistorySnapshot: HistorySnapshot? = null
+    private var pendingHistoryJob: Job? = null
+    private var pendingHistoryMode: PendingHistoryMode = PendingHistoryMode.Default
+
     val canUndo: Boolean get() = history.size > 1
     val canRedo: Boolean get() = redoHistory.isNotEmpty()
 
@@ -154,6 +160,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     fun setUris(
         uris: List<Uri>?
     ) {
+        cancelPendingHistoryTransaction()
         _history.value = emptyList()
         _redoHistory.value = emptyList()
         registerChangesCleared()
@@ -241,6 +248,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         saveFormat: Boolean = false,
         resetPreset: Boolean = true
     ) {
+        finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             ImageInfo(
@@ -285,6 +293,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun rotateLeft() {
+        finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             it.copy(
@@ -300,6 +309,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun rotateRight() {
+        finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             it.copy(
@@ -315,6 +325,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun flip() {
+        finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             it.copy(isFlipped = !it.isFlipped)
@@ -327,6 +338,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     fun updateWidth(width: Int) {
         if (imageInfo.width != width) {
+            finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
             _imageInfo.update {
                 it.copy(width = width)
@@ -340,6 +352,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     fun updateHeight(height: Int) {
         if (imageInfo.height != height) {
+            finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
             _imageInfo.update {
                 it.copy(height = height)
@@ -353,34 +366,44 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     fun setQuality(quality: Quality) {
         if (imageInfo.quality != quality) {
-            val beforeSnapshot = currentHistorySnapshot()
+            beginPendingHistoryTransaction()
             _imageInfo.update {
                 it.copy(quality = quality)
             }
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
-            commitHistoryFrom(beforeSnapshot)
+            registerChanges()
+            schedulePendingHistoryCommit()
         }
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
         if (imageInfo.imageFormat != imageFormat) {
-            val beforeSnapshot = currentHistorySnapshot()
+            finalizePendingHistoryTransaction()
+            beginPendingHistoryTransaction(PendingHistoryMode.FormatChange)
             _imageInfo.update {
-                it.copy(imageFormat = imageFormat)
+                it.copy(
+                    imageFormat = imageFormat,
+                    quality = it.quality.coerceForFormatChange(
+                        oldFormat = it.imageFormat,
+                        newFormat = imageFormat
+                    )
+                )
             }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
                     resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png.Lossless
                 )
             }
-            commitHistoryFrom(beforeSnapshot)
+            registerChanges()
+            schedulePendingHistoryCommit()
         }
     }
 
     fun setResizeType(type: ResizeType) {
         if (imageInfo.resizeType != type) {
+            finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
             _imageInfo.update {
                 it.copy(
@@ -395,6 +418,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun setKeepExif(boolean: Boolean) {
+        finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _keepExif.update { boolean }
         commitHistoryFrom(beforeSnapshot)
@@ -407,6 +431,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     fun saveBitmaps(
         oneTimeSaveLocationUri: String?
     ) {
+        finalizePendingHistoryTransaction()
         savingJob = trackProgress {
             _isSaving.update { true }
             val results = mutableListOf<SaveResult>()
@@ -499,6 +524,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     fun updatePreset(preset: Preset) {
         componentScope.launch {
+            finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
             if (preset is Preset.AspectRatio && preset.ratio != 1f) {
                 _imageInfo.update { it.copy(rotationDegrees = 0f) }
@@ -553,6 +579,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun updateExif(metadata: Metadata?) {
+        finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _exif.update { metadata }
         commitHistoryFrom(beforeSnapshot)
@@ -576,6 +603,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
+        finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             it.copy(
@@ -662,6 +690,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     )
 
     fun undo() {
+        finalizePendingHistoryTransaction()
         if (!canUndo) return
 
         val current = history.last()
@@ -674,6 +703,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun redo() {
+        finalizePendingHistoryTransaction()
         if (!canRedo) return
 
         val snapshot = redoHistory.last()
@@ -688,7 +718,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         imageInfo = imageInfo,
         preset = presetSelected,
         keepExif = keepExif,
-        exif = exif
+        exif = exif?.readOnly()
     )
 
     private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
@@ -709,6 +739,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     private fun resetHistory() {
+        cancelPendingHistoryTransaction()
         _history.value = listOf(currentHistorySnapshot())
         _redoHistory.value = emptyList()
     }
@@ -726,12 +757,72 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }
     }
 
+    private fun beginPendingHistoryTransaction(
+        mode: PendingHistoryMode = PendingHistoryMode.Default
+    ) {
+        if (pendingHistorySnapshot == null) {
+            pendingHistorySnapshot = currentHistorySnapshot()
+            pendingHistoryMode = mode
+        } else if (mode == PendingHistoryMode.FormatChange) {
+            pendingHistoryMode = mode
+        }
+    }
+
+    private fun schedulePendingHistoryCommit() {
+        pendingHistoryJob?.cancel()
+        val delayMillis = when (pendingHistoryMode) {
+            PendingHistoryMode.Default -> HISTORY_TRANSACTION_DEBOUNCE
+            PendingHistoryMode.FormatChange -> FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+        }
+        pendingHistoryJob = componentScope.launch {
+            delay(delayMillis)
+            val beforeSnapshot = pendingHistorySnapshot
+            pendingHistorySnapshot = null
+            pendingHistoryJob = null
+            pendingHistoryMode = PendingHistoryMode.Default
+            beforeSnapshot?.let(::commitHistoryFrom)
+        }
+    }
+
+    private fun finalizePendingHistoryTransaction() {
+        pendingHistoryJob?.cancel()
+        pendingHistoryJob = null
+        val beforeSnapshot = pendingHistorySnapshot
+        pendingHistorySnapshot = null
+        pendingHistoryMode = PendingHistoryMode.Default
+        beforeSnapshot?.let(::commitHistoryFrom)
+    }
+
+    private fun cancelPendingHistoryTransaction() {
+        pendingHistoryJob?.cancel()
+        pendingHistoryJob = null
+        pendingHistorySnapshot = null
+        pendingHistoryMode = PendingHistoryMode.Default
+    }
+
+    private fun Quality.coerceForFormatChange(
+        oldFormat: ImageFormat,
+        newFormat: ImageFormat
+    ): Quality = if (
+        !oldFormat.canChangeCompressionValue &&
+        newFormat.canChangeCompressionValue
+    ) {
+        settingsProvider.settingsState.value.defaultQuality.coerceIn(newFormat)
+    } else {
+        coerceIn(newFormat)
+    }
+
     private data class HistorySnapshot(
         val imageInfo: ImageInfo = ImageInfo(),
         val preset: Preset = Preset.None,
         val keepExif: Boolean = false,
         val exif: Metadata? = null
     )
+
+    private enum class PendingHistoryMode {
+        Default,
+        FormatChange
+    }
 
     @AssistedFactory
     fun interface Factory {
@@ -745,5 +836,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     private companion object {
         const val MAX_HISTORY_SIZE = 25
+        const val HISTORY_TRANSACTION_DEBOUNCE = 700L
+        const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
     }
 }
