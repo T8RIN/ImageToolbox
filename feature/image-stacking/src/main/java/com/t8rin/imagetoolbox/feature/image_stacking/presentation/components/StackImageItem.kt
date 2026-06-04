@@ -28,13 +28,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,15 +48,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.domain.model.Position
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.Percent
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectLarge
+import com.t8rin.imagetoolbox.core.resources.icons.Place
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PositionSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.translatedName
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
@@ -185,17 +191,74 @@ fun StackImageItem(
                         shape = ShapeDefaults.center
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    PositionSelector(
-                        value = stackImage.position,
-                        onValueChange = {
+                    DataSelector(
+                        value = stackImage.positionOption,
+                        onValueChange = { positionOption ->
                             onStackImageChange(
-                                stackImage.copy(position = it)
+                                when (positionOption) {
+                                    StackPosition.Custom -> stackImage.copy(position = null)
+                                    is StackPosition.Preset -> stackImage.copy(
+                                        position = positionOption.position
+                                    )
+                                }
                             )
                         },
-                        color = Color.Unspecified,
+                        entries = rememberStackPositions(),
+                        spanCount = 2,
+                        title = stringResource(R.string.position),
+                        titleIcon = Icons.Outlined.Place,
+                        itemContentText = {
+                            when (it) {
+                                StackPosition.Custom -> stringResource(R.string.custom)
+                                is StackPosition.Preset -> it.position.translatedName
+                            }
+                        },
+                        containerColor = Color.Unspecified,
                         shape = ShapeDefaults.center
                     )
                     Spacer(modifier = Modifier.height(4.dp))
+                    AnimatedVisibility(visible = stackImage.position == null) {
+                        Column {
+                            EnhancedSliderItem(
+                                value = stackImage.positionX,
+                                title = stringResource(R.string.offset_x),
+                                icon = Icons.Rounded.Percent,
+                                valueRange = 0f..1f,
+                                internalStateTransformation = {
+                                    it.roundToTwoDigits()
+                                },
+                                onValueChange = {
+                                    onStackImageChange(
+                                        stackImage.copy(
+                                            positionX = it.roundToTwoDigits()
+                                        )
+                                    )
+                                },
+                                containerColor = Color.Unspecified,
+                                shape = ShapeDefaults.center
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            EnhancedSliderItem(
+                                value = stackImage.positionY,
+                                title = stringResource(R.string.offset_y),
+                                icon = Icons.Rounded.Percent,
+                                valueRange = 0f..1f,
+                                internalStateTransformation = {
+                                    it.roundToTwoDigits()
+                                },
+                                onValueChange = {
+                                    onStackImageChange(
+                                        stackImage.copy(
+                                            positionY = it.roundToTwoDigits()
+                                        )
+                                    )
+                                },
+                                containerColor = Color.Unspecified,
+                                shape = ShapeDefaults.center
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                        }
+                    }
                     DataSelector(
                         value = stackImage.scale,
                         onValueChange = {
@@ -217,6 +280,20 @@ fun StackImageItem(
             }
         }
     }
+}
+
+private val StackImage.positionOption: StackPosition
+    get() = position?.let(StackPosition::Preset) ?: StackPosition.Custom
+
+@Composable
+private fun rememberStackPositions(): List<StackPosition> = remember {
+    Position.entries.map(StackPosition::Preset) + StackPosition.Custom
+}
+
+private sealed class StackPosition {
+    data class Preset(val position: Position) : StackPosition()
+
+    data object Custom : StackPosition()
 }
 
 @Composable

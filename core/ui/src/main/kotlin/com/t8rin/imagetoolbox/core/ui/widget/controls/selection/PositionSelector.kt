@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.model.Position
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Place
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -54,7 +54,7 @@ fun PositionSelector(
     )
 }
 
-private val Position.translatedName: String
+val Position.translatedName: String
     @Composable
     get() = when (this) {
         Position.Center -> stringResource(id = R.string.center)

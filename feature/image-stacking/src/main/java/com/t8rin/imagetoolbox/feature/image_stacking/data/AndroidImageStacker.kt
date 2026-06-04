@@ -96,12 +96,21 @@ internal class AndroidImageStacker @Inject constructor(
                 }
 
                 bitmap?.let {
-                    drawBitmap(
+                    val paint = stackImage.blendingMode.toPaint().apply {
+                        alpha = (stackImage.alpha * 255).toInt()
+                    }
+
+                    stackImage.position?.let { position ->
+                        drawBitmap(
+                            bitmap = it,
+                            position = position,
+                            paint = paint
+                        )
+                    } ?: drawBitmap(
                         bitmap = it,
-                        position = stackImage.position,
-                        paint = stackImage.blendingMode.toPaint().apply {
-                            alpha = (stackImage.alpha * 255).toInt()
-                        }
+                        left = (width - it.width) * stackImage.positionX.coerceIn(0f, 1f),
+                        top = (height - it.height) * stackImage.positionY.coerceIn(0f, 1f),
+                        paint = paint
                     )
                 }
 
