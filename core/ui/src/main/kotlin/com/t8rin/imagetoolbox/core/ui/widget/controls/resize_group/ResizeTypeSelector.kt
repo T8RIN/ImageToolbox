@@ -35,6 +35,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -92,6 +93,26 @@ fun ResizeTypeSelector(
     }
     var position by rememberSaveable {
         mutableStateOf(Position.Center)
+    }
+
+    LaunchedEffect(value) {
+        when (value) {
+            is ResizeType.CenterCrop -> {
+                canvasColor = value.canvasColor?.let(::Color) ?: Color.Transparent
+                useBlurredBgInsteadOfColor = value.canvasColor == null
+                blurRadius = value.blurRadius
+                position = value.position
+            }
+
+            is ResizeType.Fit -> {
+                canvasColor = value.canvasColor?.let(::Color) ?: Color.Transparent
+                useBlurredBgInsteadOfColor = value.canvasColor == null
+                blurRadius = value.blurRadius
+                position = value.position
+            }
+
+            else -> Unit
+        }
     }
 
     val centerCropResizeType by remember(
