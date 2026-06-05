@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
@@ -63,7 +64,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -98,7 +99,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
-    private val settingsProvider: SettingsProvider,
+    private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder,
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory,
@@ -238,11 +239,11 @@ class SingleEditComponent @AssistedInject internal constructor(
     )
     val helperGridParams: HelperGridParams by _helperGridParams
 
-    private val isAlwaysClearExif: Boolean get() = settingsProvider.settingsState.value.isAlwaysClearExif
+    private val isAlwaysClearExif: Boolean get() = settingsManager.settingsState.value.isAlwaysClearExif
 
     init {
         componentScope.launch {
-            val settingsState = settingsProvider.getSettingsState()
+            val settingsState = settingsManager.getSettingsState()
             _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
             _imageInfo.update {
                 it.copy(resizeType = settingsState.defaultResizeType)
@@ -900,12 +901,21 @@ class SingleEditComponent @AssistedInject internal constructor(
         cachedUri = currentCachedBitmapUri,
         originalSize = originalSize,
         imageInfo = imageInfo.asHistoryImageInfo(),
-        preset = presetSelected
+        preset = presetSelected,
+        backgroundColorForNoAlphaFormats = settingsManager
+            .settingsState
+            .value
+            .backgroundForNoAlphaImageFormats
     )
 
     private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
         val afterSnapshot = currentHistorySnapshot()
-        if (afterSnapshot.hasSameUndoStateAs(beforeSnapshot)) return
+        val hasStateChange = !afterSnapshot.hasSameUndoStateAs(beforeSnapshot)
+        val hasHistoryChange = history
+            .lastOrNull()
+            ?.hasSameUndoStateAs(afterSnapshot) == false
+
+        if (!hasStateChange && !hasHistoryChange) return
 
         _history.update { states ->
             states
@@ -929,6 +939,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         _originalSize.value = snapshot.originalSize
         _imageInfo.value = snapshot.imageInfo
         _presetSelected.value = snapshot.preset
+        restoreBackgroundColorForNoAlphaFormats(snapshot)
 
         job = componentScope.launch {
             _isImageLoading.update { true }
@@ -1011,11 +1022,25 @@ class SingleEditComponent @AssistedInject internal constructor(
         else -> this + snapshot
     }
 
+    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
+        if (
+            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
+            snapshot.backgroundColorForNoAlphaFormats
+        ) {
+            componentScope.launch {
+                settingsManager.setBackgroundColorForNoAlphaFormats(
+                    color = snapshot.backgroundColorForNoAlphaFormats
+                )
+            }
+        }
+    }
+
     private data class HistorySnapshot(
         val cachedUri: String? = null,
         val originalSize: IntegerSize? = null,
         val imageInfo: ImageInfo = ImageInfo(),
-        val preset: Preset = Preset.None
+        val preset: Preset = Preset.None,
+        val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
     private enum class PendingHistoryMode {

@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -53,7 +54,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -79,7 +80,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
-    private val settingsProvider: SettingsProvider,
+    private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -143,11 +144,11 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val isAlwaysClearExif: Boolean get() = settingsProvider.settingsState.value.isAlwaysClearExif
+    private val isAlwaysClearExif: Boolean get() = settingsManager.settingsState.value.isAlwaysClearExif
 
     init {
         componentScope.launch {
-            val settingsState = settingsProvider.getSettingsState()
+            val settingsState = settingsManager.getSettingsState()
             _imageInfo.update {
                 it.copy(resizeType = settingsState.defaultResizeType)
             }
@@ -715,12 +716,21 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         imageInfo = imageInfo.asHistoryImageInfo(),
         preset = presetSelected,
-        keepExif = keepExif
+        keepExif = keepExif,
+        backgroundColorForNoAlphaFormats = settingsManager
+            .settingsState
+            .value
+            .backgroundForNoAlphaImageFormats
     )
 
     private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
         val afterSnapshot = currentHistorySnapshot()
-        if (afterSnapshot.hasSameUndoStateAs(beforeSnapshot)) return
+        val hasStateChange = !afterSnapshot.hasSameUndoStateAs(beforeSnapshot)
+        val hasHistoryChange = history
+            .lastOrNull()
+            ?.hasSameUndoStateAs(afterSnapshot) == false
+
+        if (!hasStateChange && !hasHistoryChange) return
 
         _history.update { states ->
             states
@@ -742,6 +752,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         _imageInfo.value = snapshot.imageInfo
         _presetSelected.value = snapshot.preset
         _keepExif.value = snapshot.keepExif
+        restoreBackgroundColorForNoAlphaFormats(snapshot)
         _previewBitmap.value = null
         debouncedImageCalculation {
             bitmap?.let {
@@ -815,10 +826,24 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         else -> this + snapshot
     }
 
+    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
+        if (
+            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
+            snapshot.backgroundColorForNoAlphaFormats
+        ) {
+            componentScope.launch {
+                settingsManager.setBackgroundColorForNoAlphaFormats(
+                    color = snapshot.backgroundColorForNoAlphaFormats
+                )
+            }
+        }
+    }
+
     private data class HistorySnapshot(
         val imageInfo: ImageInfo = ImageInfo(),
         val preset: Preset = Preset.None,
-        val keepExif: Boolean = false
+        val keepExif: Boolean = false,
+        val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
     private enum class PendingHistoryMode {
