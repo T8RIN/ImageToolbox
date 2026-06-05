@@ -899,22 +899,19 @@ class SingleEditComponent @AssistedInject internal constructor(
     private fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         cachedUri = currentCachedBitmapUri,
         originalSize = originalSize,
-        imageInfo = imageInfo,
+        imageInfo = imageInfo.asHistoryImageInfo(),
         preset = presetSelected
     )
 
     private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
         val afterSnapshot = currentHistorySnapshot()
-        if (afterSnapshot == beforeSnapshot) return
+        if (afterSnapshot.hasSameUndoStateAs(beforeSnapshot)) return
 
         _history.update { states ->
-            val normalizedStates = when {
-                states.isEmpty() -> listOf(beforeSnapshot)
-                states.last() == beforeSnapshot -> states
-                else -> (states + beforeSnapshot).takeLast(MAX_HISTORY_SIZE)
-            }
-
-            (normalizedStates + afterSnapshot).takeLast(MAX_HISTORY_SIZE)
+            states
+                .appendHistorySnapshot(beforeSnapshot)
+                .appendHistorySnapshot(afterSnapshot)
+                .takeLast(MAX_HISTORY_SIZE)
         }
         _redoHistory.value = emptyList()
         registerChanges()
@@ -994,6 +991,24 @@ class SingleEditComponent @AssistedInject internal constructor(
         pendingHistorySnapshot = null
         pendingHistoryMode = PendingHistoryMode.Default
         _hasPendingHistoryTransaction.value = false
+    }
+
+    private fun ImageInfo.asHistoryImageInfo(): ImageInfo = copy(sizeInBytes = 0)
+
+    private fun HistorySnapshot.hasSameUndoStateAs(
+        other: HistorySnapshot
+    ): Boolean = normalized() == other.normalized()
+
+    private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
+        imageInfo = imageInfo.asHistoryImageInfo()
+    )
+
+    private fun List<HistorySnapshot>.appendHistorySnapshot(
+        snapshot: HistorySnapshot
+    ): List<HistorySnapshot> = when {
+        isEmpty() -> listOf(snapshot)
+        last().hasSameUndoStateAs(snapshot) -> dropLast(1) + snapshot
+        else -> this + snapshot
     }
 
     private data class HistorySnapshot(
