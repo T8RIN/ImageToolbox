@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
@@ -63,7 +64,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -98,7 +99,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
-    private val settingsProvider: SettingsProvider,
+    private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder,
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory,
@@ -195,6 +196,22 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo: ImageInfo by _imageInfo
 
+    private val _history: MutableState<List<HistorySnapshot>> = mutableStateOf(emptyList())
+    private val history: List<HistorySnapshot> by _history
+
+    private val _redoHistory: MutableState<List<HistorySnapshot>> = mutableStateOf(emptyList())
+    private val redoHistory: List<HistorySnapshot> by _redoHistory
+
+    private var currentCachedBitmapUri: String? = null
+    private var pendingHistorySnapshot: HistorySnapshot? = null
+    private var pendingHistoryJob: Job? = null
+    private var pendingHistoryMode: PendingHistoryMode = PendingHistoryMode.Default
+    private val _hasPendingHistoryTransaction = mutableStateOf(false)
+
+    val canUndo: Boolean
+        get() = history.size > 1 || (_hasPendingHistoryTransaction.value && history.isNotEmpty())
+    val canRedo: Boolean get() = redoHistory.isNotEmpty()
+
     private val _showWarning: MutableState<Boolean> = mutableStateOf(false)
     val showWarning: Boolean by _showWarning
 
@@ -222,11 +239,11 @@ class SingleEditComponent @AssistedInject internal constructor(
     )
     val helperGridParams: HelperGridParams by _helperGridParams
 
-    private val isAlwaysClearExif: Boolean get() = settingsProvider.settingsState.value.isAlwaysClearExif
+    private val isAlwaysClearExif: Boolean get() = settingsManager.settingsState.value.isAlwaysClearExif
 
     init {
         componentScope.launch {
-            val settingsState = settingsProvider.getSettingsState()
+            val settingsState = settingsManager.getSettingsState()
             _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
             _imageInfo.update {
                 it.copy(resizeType = settingsState.defaultResizeType)
@@ -257,6 +274,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     fun saveBitmap(
         oneTimeSaveLocationUri: String?
     ) {
+        finalizePendingHistoryTransaction()
         savingJob = trackProgress {
             _isSaving.update { true }
             bitmap?.let { bitmap ->
@@ -310,7 +328,12 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
-    fun resetValues(newBitmapComes: Boolean = false) {
+    fun resetValues(
+        newBitmapComes: Boolean = false,
+        commitToHistory: Boolean = true
+    ) {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             ImageInfo(
                 width = _originalSize.value?.width ?: 0,
@@ -320,6 +343,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             )
         }
         if (newBitmapComes) {
+            currentCachedBitmapUri = null
             _bitmap.update {
                 _internalBitmap.value
             }
@@ -329,6 +353,9 @@ class SingleEditComponent @AssistedInject internal constructor(
                 resetPreset = true
             )
         }
+        if (commitToHistory) {
+            commitHistoryFrom(beforeSnapshot)
+        }
     }
 
     fun updateBitmapAfterEditing(
@@ -336,6 +363,12 @@ class SingleEditComponent @AssistedInject internal constructor(
         saveOriginalSize: Boolean = false,
     ) {
         componentScope.launch {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
+            val cachedUri = bitmap?.let {
+                cacheEditedBitmap(it)
+            }
+
             if (!saveOriginalSize) {
                 val size = bitmap?.let { it.width to it.height }
                 _originalSize.update {
@@ -346,6 +379,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             _bitmap.update {
                 imageScaler.scaleUntilCanShow(bitmap)
             }
+            currentCachedBitmapUri = cachedUri
             _imageInfo.update {
                 it.copy(
                     rotationDegrees = 0f
@@ -364,11 +398,13 @@ class SingleEditComponent @AssistedInject internal constructor(
                     resetPreset = true
                 )
             }
-            registerChanges()
+            commitHistoryFrom(beforeSnapshot)
         }
     }
 
     fun rotateBitmapLeft() {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             it.copy(
                 rotationDegrees = it.rotationDegrees - 90f,
@@ -379,10 +415,12 @@ class SingleEditComponent @AssistedInject internal constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
-        registerChanges()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun rotateBitmapRight() {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             it.copy(
                 rotationDegrees = it.rotationDegrees + 90f,
@@ -393,21 +431,25 @@ class SingleEditComponent @AssistedInject internal constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
-        registerChanges()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun flipImage() {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             it.copy(isFlipped = !it.isFlipped)
         }
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
-        registerChanges()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun updateWidth(width: Int) {
         if (imageInfo.width != width) {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
             _imageInfo.update {
                 it.copy(width = width)
             }
@@ -416,12 +458,14 @@ class SingleEditComponent @AssistedInject internal constructor(
                     resetPreset = true
                 )
             }
-            registerChanges()
+            commitHistoryFrom(beforeSnapshot)
         }
     }
 
     fun updateHeight(height: Int) {
         if (imageInfo.height != height) {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
             _imageInfo.update {
                 it.copy(height = height)
             }
@@ -430,26 +474,36 @@ class SingleEditComponent @AssistedInject internal constructor(
                     resetPreset = true
                 )
             }
-            registerChanges()
+            commitHistoryFrom(beforeSnapshot)
         }
     }
 
     fun setQuality(quality: Quality) {
-        if (imageInfo.quality != quality) {
+        val coercedQuality = quality.coerceIn(imageInfo.imageFormat)
+        if (imageInfo.quality != coercedQuality) {
+            beginPendingHistoryTransaction()
             _imageInfo.update {
-                it.copy(quality = quality)
+                it.copy(quality = coercedQuality)
             }
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
             registerChanges()
+            schedulePendingHistoryCommit()
         }
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
         if (imageInfo.imageFormat != imageFormat) {
+            if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
+                finalizePendingHistoryTransaction()
+            }
+            beginPendingHistoryTransaction(PendingHistoryMode.FormatChange)
             _imageInfo.update {
-                it.copy(imageFormat = imageFormat)
+                it.copy(
+                    imageFormat = imageFormat,
+                    quality = it.quality.coerceIn(imageFormat)
+                )
             }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
@@ -457,11 +511,14 @@ class SingleEditComponent @AssistedInject internal constructor(
                 )
             }
             registerChanges()
+            schedulePendingHistoryCommit()
         }
     }
 
     fun setResizeType(type: ResizeType) {
         if (imageInfo.resizeType != type) {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
             _imageInfo.update {
                 it.copy(
                     resizeType = type.withOriginalSizeIfCrop(originalSize)
@@ -472,11 +529,16 @@ class SingleEditComponent @AssistedInject internal constructor(
                     resetPreset = false
                 )
             }
-            registerChanges()
+            commitHistoryFrom(beforeSnapshot)
         }
     }
 
     fun setUri(uri: Uri) {
+        cancelPendingHistoryTransaction()
+        _history.value = emptyList()
+        _redoHistory.value = emptyList()
+        currentCachedBitmapUri = null
+        registerChangesCleared()
         _uri.update { uri }
         decodeBitmapByUri(uri)
     }
@@ -512,7 +574,10 @@ class SingleEditComponent @AssistedInject internal constructor(
                     imageScaler.scaleUntilCanShow(bitmap)
                 }
             }
-            resetValues(true)
+            resetValues(
+                newBitmapComes = true,
+                commitToHistory = false
+            )
             _imageInfo.update {
                 imageData.imageInfo.copy(
                     width = size.first,
@@ -522,6 +587,8 @@ class SingleEditComponent @AssistedInject internal constructor(
             checkBitmapAndUpdate(
                 resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png.Lossless
             )
+            resetHistory()
+            registerChangesCleared()
             _isImageLoading.update { false }
         }
     }
@@ -555,10 +622,22 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
+    private suspend fun cacheEditedBitmap(bitmap: Bitmap): String? = shareProvider.cacheImage(
+        image = bitmap,
+        imageInfo = ImageInfo(
+            originalUri = uri.toString(),
+            imageFormat = ImageFormat.Png.Lossless,
+            width = bitmap.width,
+            height = bitmap.height
+        )
+    )
+
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
     fun setPreset(preset: Preset) {
         componentScope.launch {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
             if (preset is Preset.AspectRatio && preset.ratio != 1f) {
                 _imageInfo.update { it.copy(rotationDegrees = 0f) }
             }
@@ -572,7 +651,7 @@ class SingleEditComponent @AssistedInject internal constructor(
                 )
             )
             _presetSelected.update { preset }
-            registerChanges()
+            commitHistoryFrom(beforeSnapshot)
         }
     }
 
@@ -582,7 +661,6 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     private fun updateExif(metadata: Metadata?) {
         _exif.update { metadata }
-        registerChanges()
     }
 
     fun removeExifTag(tag: MetadataTag) {
@@ -749,13 +827,15 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _imageInfo.update {
             it.copy(imageScaleMode = imageScaleMode)
         }
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
-        registerChanges()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     suspend fun filter(
@@ -792,6 +872,181 @@ class SingleEditComponent @AssistedInject internal constructor(
         _helperGridParams.update { params }
     }
 
+    fun undo() {
+        finalizePendingHistoryTransaction()
+        if (!canUndo) return
+
+        val current = history.last()
+        val previous = history[history.lastIndex - 1]
+
+        _history.value = history.dropLast(1)
+        _redoHistory.update { (it + current).takeLast(MAX_HISTORY_SIZE) }
+        applyHistorySnapshot(previous)
+        registerChanges()
+    }
+
+    fun redo() {
+        finalizePendingHistoryTransaction()
+        if (!canRedo) return
+
+        val snapshot = redoHistory.last()
+
+        _redoHistory.value = redoHistory.dropLast(1)
+        _history.update { (it + snapshot).takeLast(MAX_HISTORY_SIZE) }
+        applyHistorySnapshot(snapshot)
+        registerChanges()
+    }
+
+    private fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        cachedUri = currentCachedBitmapUri,
+        originalSize = originalSize,
+        imageInfo = imageInfo.asHistoryImageInfo(),
+        preset = presetSelected,
+        backgroundColorForNoAlphaFormats = settingsManager
+            .settingsState
+            .value
+            .backgroundForNoAlphaImageFormats
+    )
+
+    private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
+        val afterSnapshot = currentHistorySnapshot()
+        val hasStateChange = !afterSnapshot.hasSameUndoStateAs(beforeSnapshot)
+        val hasHistoryChange = history
+            .lastOrNull()
+            ?.hasSameUndoStateAs(afterSnapshot) == false
+
+        if (!hasStateChange && !hasHistoryChange) return
+
+        _history.update { states ->
+            states
+                .appendHistorySnapshot(beforeSnapshot)
+                .appendHistorySnapshot(afterSnapshot)
+                .takeLast(MAX_HISTORY_SIZE)
+        }
+        _redoHistory.value = emptyList()
+        registerChanges()
+    }
+
+    private fun resetHistory() {
+        cancelPendingHistoryTransaction()
+        currentCachedBitmapUri = null
+        _history.value = listOf(currentHistorySnapshot())
+        _redoHistory.value = emptyList()
+    }
+
+    private fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        currentCachedBitmapUri = snapshot.cachedUri
+        _originalSize.value = snapshot.originalSize
+        _imageInfo.value = snapshot.imageInfo
+        _presetSelected.value = snapshot.preset
+        restoreBackgroundColorForNoAlphaFormats(snapshot)
+
+        job = componentScope.launch {
+            _isImageLoading.update { true }
+            _bitmap.value = snapshot.cachedUri
+                ?.let {
+                    imageGetter.getImage(
+                        uri = it,
+                        originalSize = false,
+                        onFailure = AppToastHost::showFailureToast
+                    )?.image
+                }
+                ?: _internalBitmap.value
+            checkBitmapAndUpdate()
+            _isImageLoading.update { false }
+        }
+    }
+
+    private fun beginPendingHistoryTransaction(
+        mode: PendingHistoryMode = PendingHistoryMode.Default
+    ) {
+        if (pendingHistorySnapshot == null) {
+            pendingHistorySnapshot = currentHistorySnapshot()
+            pendingHistoryMode = mode
+            _hasPendingHistoryTransaction.value = true
+        } else if (mode == PendingHistoryMode.FormatChange) {
+            pendingHistoryMode = mode
+        }
+    }
+
+    private fun schedulePendingHistoryCommit() {
+        pendingHistoryJob?.cancel()
+        val delayMillis = when (pendingHistoryMode) {
+            PendingHistoryMode.Default -> HISTORY_TRANSACTION_DEBOUNCE
+            PendingHistoryMode.FormatChange -> FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+        }
+        pendingHistoryJob = componentScope.launch {
+            delay(delayMillis)
+            val beforeSnapshot = pendingHistorySnapshot
+            pendingHistorySnapshot = null
+            pendingHistoryJob = null
+            pendingHistoryMode = PendingHistoryMode.Default
+            _hasPendingHistoryTransaction.value = false
+            beforeSnapshot?.let(::commitHistoryFrom)
+        }
+    }
+
+    private fun finalizePendingHistoryTransaction() {
+        pendingHistoryJob?.cancel()
+        pendingHistoryJob = null
+        val beforeSnapshot = pendingHistorySnapshot
+        pendingHistorySnapshot = null
+        pendingHistoryMode = PendingHistoryMode.Default
+        _hasPendingHistoryTransaction.value = false
+        beforeSnapshot?.let(::commitHistoryFrom)
+    }
+
+    private fun cancelPendingHistoryTransaction() {
+        pendingHistoryJob?.cancel()
+        pendingHistoryJob = null
+        pendingHistorySnapshot = null
+        pendingHistoryMode = PendingHistoryMode.Default
+        _hasPendingHistoryTransaction.value = false
+    }
+
+    private fun ImageInfo.asHistoryImageInfo(): ImageInfo = copy(sizeInBytes = 0)
+
+    private fun HistorySnapshot.hasSameUndoStateAs(
+        other: HistorySnapshot
+    ): Boolean = normalized() == other.normalized()
+
+    private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
+        imageInfo = imageInfo.asHistoryImageInfo()
+    )
+
+    private fun List<HistorySnapshot>.appendHistorySnapshot(
+        snapshot: HistorySnapshot
+    ): List<HistorySnapshot> = when {
+        isEmpty() -> listOf(snapshot)
+        last().hasSameUndoStateAs(snapshot) -> dropLast(1) + snapshot
+        else -> this + snapshot
+    }
+
+    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
+        if (
+            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
+            snapshot.backgroundColorForNoAlphaFormats
+        ) {
+            componentScope.launch {
+                settingsManager.setBackgroundColorForNoAlphaFormats(
+                    color = snapshot.backgroundColorForNoAlphaFormats
+                )
+            }
+        }
+    }
+
+    private data class HistorySnapshot(
+        val cachedUri: String? = null,
+        val originalSize: IntegerSize? = null,
+        val imageInfo: ImageInfo = ImageInfo(),
+        val preset: Preset = Preset.None,
+        val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
+    )
+
+    private enum class PendingHistoryMode {
+        Default,
+        FormatChange
+    }
 
     @AssistedFactory
     fun interface Factory {
@@ -801,5 +1056,11 @@ class SingleEditComponent @AssistedInject internal constructor(
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): SingleEditComponent
+    }
+
+    private companion object {
+        const val MAX_HISTORY_SIZE = 25
+        const val HISTORY_TRANSACTION_DEBOUNCE = 700L
+        const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
     }
 }

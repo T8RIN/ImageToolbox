@@ -25,10 +25,11 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,10 +39,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.History
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
@@ -69,11 +72,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.EditExifSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
@@ -83,6 +88,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
+import com.t8rin.imagetoolbox.feature.resize_convert.presentation.components.ResizeAndConvertUndoRedo
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
 
 @Composable
@@ -158,55 +164,69 @@ fun ResizeAndConvertContent(
         },
         onGoBack = onBack,
         actions = {
-            var editSheetData by remember {
-                mutableStateOf(listOf<Uri>())
-            }
-            ShareButton(
-                enabled = component.bitmap != null,
-                onShare = component::performSharing,
-                onCopy = {
-                    component.cacheCurrentImage(Clipboard::copy)
-                },
-                onEdit = {
-                    component.cacheImages {
-                        editSheetData = it
-                    }
-                }
-            )
-            ProcessImagesPreferenceSheet(
-                uris = editSheetData,
-                visible = editSheetData.isNotEmpty(),
-                onDismiss = {
-                    editSheetData = emptyList()
-                },
-                onNavigate = component.onNavigate
-            )
-
-            EnhancedIconButton(
-                enabled = component.bitmap != null,
-                onClick = { showResetDialog = true }
+            val state = rememberScrollState()
+            Row(
+                modifier = Modifier
+                    .fadingEdges(state)
+                    .enhancedHorizontalScroll(state),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.ImageReset,
-                    contentDescription = stringResource(R.string.reset_image)
-                )
-            }
-            if (component.bitmap != null) {
-                ShowOriginalButton(
-                    canShow = component.canShow(),
-                    onStateChange = {
-                        showOriginal = it
+                var editSheetData by remember {
+                    mutableStateOf(listOf<Uri>())
+                }
+                if (!isPortrait) {
+                    ResizeAndConvertUndoRedo(component)
+                }
+                ShareButton(
+                    enabled = component.bitmap != null,
+                    onShare = component::performSharing,
+                    onCopy = {
+                        component.cacheCurrentImage(Clipboard::copy)
+                    },
+                    onEdit = {
+                        component.cacheImages {
+                            editSheetData = it
+                        }
                     }
                 )
-            } else {
+                ProcessImagesPreferenceSheet(
+                    uris = editSheetData,
+                    visible = editSheetData.isNotEmpty(),
+                    onDismiss = {
+                        editSheetData = emptyList()
+                    },
+                    onNavigate = component.onNavigate
+                )
+
                 EnhancedIconButton(
-                    enabled = false,
-                    onClick = {}
+                    enabled = component.bitmap != null,
+                    onClick = { showResetDialog = true }
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.History,
-                        contentDescription = stringResource(R.string.original)
+                        imageVector = Icons.Rounded.ImageReset,
+                        contentDescription = stringResource(R.string.reset_image)
                     )
+                }
+                if (component.bitmap != null) {
+                    ShowOriginalButton(
+                        canShow = component.canShow(),
+                        onStateChange = {
+                            showOriginal = it
+                        }
+                    )
+                } else {
+                    EnhancedIconButton(
+                        enabled = false,
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.History,
+                            contentDescription = stringResource(R.string.original)
+                        )
+                    }
+                }
+                if (isPortrait) {
+                    ResizeAndConvertUndoRedo(component)
                 }
             }
         },
