@@ -3119,7 +3119,7 @@
     <string name="help_tip_checksum_tool_tabs_subtitle">从文件或文本计算哈希值、比较一个文件或批量检查多个文件</string>
     <string name="help_tip_checksum_tool_tabs_page_title">验证内容，而不是外观</string>
     <string name="help_tip_checksum_tool_tabs_description">校验和工具具有单独的选项卡，用于文件哈希、文本哈希、将文件与已知哈希进行比较以及批量比较。校验和证明所选算法的逐字节同一性；它并不能证明两个图像仅仅是看起来相似。</string>
-    <string name="help_tip_checksum_tool_tabs_step_1">对文件使用“计算”，对键入或粘贴的文本数据使用“文本哈希”。</string>
+    <string name="help_tip_checksum_tool_tabs_step_1">对文件使用计算并对键入或粘贴的文本数据使用文本哈希。</string>
     <string name="help_tip_checksum_tool_tabs_step_2">当有人为您提供一个文件的预期校验和时，请使用比较。</string>
     <string name="help_tip_checksum_tool_tabs_step_3">当许多文件需要一次进行哈希或验证时，请使用批量比较，然后保持所选算法一致。</string>
     <string name="help_tip_clipboard_privacy_title">剪贴板隐私</string>
