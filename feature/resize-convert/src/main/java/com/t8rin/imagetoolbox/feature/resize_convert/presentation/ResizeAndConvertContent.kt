@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageTransformBar
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PresetSelector
@@ -88,7 +89,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
-import com.t8rin.imagetoolbox.feature.resize_convert.presentation.components.ResizeAndConvertUndoRedo
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
 
 @Composable
@@ -175,7 +175,12 @@ fun ResizeAndConvertContent(
                     mutableStateOf(listOf<Uri>())
                 }
                 if (!isPortrait) {
-                    ResizeAndConvertUndoRedo(component)
+                    UndoRedoButtons(
+                        canUndo = component.canUndo,
+                        canRedo = component.canRedo,
+                        onUndo = component::undo,
+                        onRedo = component::redo
+                    )
                 }
                 ShareButton(
                     enabled = component.bitmap != null,
@@ -226,7 +231,12 @@ fun ResizeAndConvertContent(
                     }
                 }
                 if (isPortrait) {
-                    ResizeAndConvertUndoRedo(component)
+                    UndoRedoButtons(
+                        canUndo = component.canUndo,
+                        canRedo = component.canRedo,
+                        onUndo = component::undo,
+                        onRedo = component::redo
+                    )
                 }
             }
         },

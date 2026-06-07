@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -47,8 +48,10 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsInteractor
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -70,8 +73,13 @@ class FormatConversionComponent @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
+    private val settingsProvider: SettingsProvider,
+    private val settingsInteractor: SettingsInteractor,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<FormatConversionComponent.HistorySnapshot>(
+    dispatchersHolder = dispatchersHolder,
+    componentContext = componentContext
+) {
 
     init {
         debounce {
@@ -115,6 +123,8 @@ class FormatConversionComponent @AssistedInject internal constructor(
     fun setUris(
         uris: List<Uri>?
     ) {
+        clearHistory()
+        registerChangesCleared()
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
@@ -157,10 +167,14 @@ class FormatConversionComponent @AssistedInject internal constructor(
         }
     }
 
-    private suspend fun checkBitmapAndUpdate() {
+    private suspend fun checkBitmapAndUpdate(
+        clearPreview: Boolean = true
+    ) {
         _bitmap.value?.let { bmp ->
             val preview = updatePreview(bmp)
-            _previewBitmap.value = null
+            if (clearPreview) {
+                _previewBitmap.value = null
+            }
             _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
             if (shouldShowPreview) _previewBitmap.value = preview
         }
@@ -207,33 +221,52 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 )
             }
             checkBitmapAndUpdate()
+            resetHistory()
+            registerChangesCleared()
             _isImageLoading.update { false }
         }
     }
 
     fun setQuality(quality: Quality) {
-        if (_imageInfo.value.quality != quality) {
-            _imageInfo.value = _imageInfo.value.copy(quality = quality)
+        val coercedQuality = quality.coerceIn(imageInfo.imageFormat)
+        if (_imageInfo.value.quality != coercedQuality) {
+            beginPendingHistoryTransaction()
+            _imageInfo.value = _imageInfo.value.copy(quality = coercedQuality)
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
             registerChanges()
+            schedulePendingHistoryCommit()
         }
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
         if (_imageInfo.value.imageFormat != imageFormat) {
-            _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
+            if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
+                finalizePendingHistoryTransaction()
+            }
+            beginPendingHistoryTransaction(
+                mode = PendingHistoryMode.FormatChange,
+                commitDelayMillis = FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+            )
+            _imageInfo.value = _imageInfo.value.copy(
+                imageFormat = imageFormat,
+                quality = imageInfo.quality.coerceIn(imageFormat)
+            )
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
             registerChanges()
+            schedulePendingHistoryCommit()
         }
     }
 
     fun setKeepExif(boolean: Boolean) {
+        if (_keepExif.value == boolean) return
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _keepExif.value = boolean
-        registerChanges()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     private var savingJob: Job? by smartJob {
@@ -460,6 +493,67 @@ class FormatConversionComponent @AssistedInject internal constructor(
         )
     )
 
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        imageInfo = imageInfo.asHistoryImageInfo(),
+        keepExif = keepExif,
+        backgroundColorForNoAlphaFormats = settingsProvider
+            .settingsState
+            .value
+            .backgroundForNoAlphaImageFormats
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _imageInfo.update {
+            it.copy(
+                imageFormat = snapshot.imageInfo.imageFormat,
+                quality = snapshot.imageInfo.quality
+            )
+        }
+        _keepExif.value = snapshot.keepExif
+        restoreBackgroundColorForNoAlphaFormats(snapshot)
+        debouncedImageCalculation {
+            bitmap?.let {
+                checkBitmapAndUpdate(clearPreview = false)
+            }
+        }
+    }
+
+    override fun hasSameUndoState(
+        first: HistorySnapshot,
+        second: HistorySnapshot
+    ): Boolean = first.normalized() == second.normalized()
+
+    private fun ImageInfo.asHistoryImageInfo(): ImageInfo = ImageInfo(
+        imageFormat = imageFormat,
+        quality = quality
+    )
+
+    private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
+        imageInfo = imageInfo.asHistoryImageInfo()
+    )
+
+    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
+        if (
+            settingsProvider.settingsState.value.backgroundForNoAlphaImageFormats !=
+            snapshot.backgroundColorForNoAlphaFormats
+        ) {
+            componentScope.launch {
+                settingsInteractor.setBackgroundColorForNoAlphaFormats(
+                    color = snapshot.backgroundColorForNoAlphaFormats
+                )
+            }
+        }
+    }
+
+    data class HistorySnapshot(
+        val imageInfo: ImageInfo = ImageInfo(),
+        val keepExif: Boolean = false,
+        val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
+    )
+
+    private enum class PendingHistoryMode {
+        FormatChange
+    }
 
     @AssistedFactory
     fun interface Factory {
@@ -469,5 +563,9 @@ class FormatConversionComponent @AssistedInject internal constructor(
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): FormatConversionComponent
+    }
+
+    private companion object {
+        const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
     }
 }

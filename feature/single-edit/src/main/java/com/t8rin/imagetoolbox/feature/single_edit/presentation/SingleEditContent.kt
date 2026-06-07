@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageExtraTransformBar
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageTransformBar
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PresetSelector
@@ -80,7 +81,6 @@ import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.CropEd
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.DrawEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.EraseBackgroundEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.FilterEditOption
-import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.SingleEditUndoRedo
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.ToneCurvesEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 
@@ -184,7 +184,12 @@ fun SingleEditContent(
                     mutableStateOf(listOf<Uri>())
                 }
                 if (!isPortrait) {
-                    SingleEditUndoRedo(component)
+                    UndoRedoButtons(
+                        canUndo = component.canUndo,
+                        canRedo = component.canRedo,
+                        onUndo = component::undo,
+                        onRedo = component::redo
+                    )
                 }
                 ShareButton(
                     enabled = component.bitmap != null,
@@ -233,7 +238,12 @@ fun SingleEditContent(
                     }
                 }
                 if (isPortrait) {
-                    SingleEditUndoRedo(component)
+                    UndoRedoButtons(
+                        canUndo = component.canUndo,
+                        canRedo = component.canRedo,
+                        onUndo = component::undo,
+                        onRedo = component::redo
+                    )
                 }
             }
         },

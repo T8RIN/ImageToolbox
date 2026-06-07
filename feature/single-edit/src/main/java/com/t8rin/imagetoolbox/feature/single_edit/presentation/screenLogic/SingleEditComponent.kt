@@ -65,7 +65,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -103,7 +103,10 @@ class SingleEditComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder,
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory,
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<SingleEditComponent.HistorySnapshot>(
+    dispatchersHolder = dispatchersHolder,
+    componentContext = componentContext
+) {
 
     init {
         debounce {
@@ -196,21 +199,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo: ImageInfo by _imageInfo
 
-    private val _history: MutableState<List<HistorySnapshot>> = mutableStateOf(emptyList())
-    private val history: List<HistorySnapshot> by _history
-
-    private val _redoHistory: MutableState<List<HistorySnapshot>> = mutableStateOf(emptyList())
-    private val redoHistory: List<HistorySnapshot> by _redoHistory
-
     private var currentCachedBitmapUri: String? = null
-    private var pendingHistorySnapshot: HistorySnapshot? = null
-    private var pendingHistoryJob: Job? = null
-    private var pendingHistoryMode: PendingHistoryMode = PendingHistoryMode.Default
-    private val _hasPendingHistoryTransaction = mutableStateOf(false)
-
-    val canUndo: Boolean
-        get() = history.size > 1 || (_hasPendingHistoryTransaction.value && history.isNotEmpty())
-    val canRedo: Boolean get() = redoHistory.isNotEmpty()
 
     private val _showWarning: MutableState<Boolean> = mutableStateOf(false)
     val showWarning: Boolean by _showWarning
@@ -255,13 +244,18 @@ class SingleEditComponent @AssistedInject internal constructor(
         _isImageLoading.update { false }
     }
 
-    private suspend fun checkBitmapAndUpdate(resetPreset: Boolean = false) {
+    private suspend fun checkBitmapAndUpdate(
+        resetPreset: Boolean = false,
+        clearPreview: Boolean = true
+    ) {
         if (resetPreset) {
             _presetSelected.update { Preset.None }
         }
         _bitmap.value?.let { bmp ->
             val preview = updatePreview(bmp)
-            _previewBitmap.update { null }
+            if (clearPreview) {
+                _previewBitmap.update { null }
+            }
             _shouldShowPreview.update { imagePreviewCreator.canShow(preview) }
             if (shouldShowPreview) _previewBitmap.update { preview }
         }
@@ -498,7 +492,10 @@ class SingleEditComponent @AssistedInject internal constructor(
             if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
                 finalizePendingHistoryTransaction()
             }
-            beginPendingHistoryTransaction(PendingHistoryMode.FormatChange)
+            beginPendingHistoryTransaction(
+                mode = PendingHistoryMode.FormatChange,
+                commitDelayMillis = FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+            )
             _imageInfo.update {
                 it.copy(
                     imageFormat = imageFormat,
@@ -534,9 +531,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun setUri(uri: Uri) {
-        cancelPendingHistoryTransaction()
-        _history.value = emptyList()
-        _redoHistory.value = emptyList()
+        clearHistory()
         currentCachedBitmapUri = null
         registerChangesCleared()
         _uri.update { uri }
@@ -872,32 +867,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         _helperGridParams.update { params }
     }
 
-    fun undo() {
-        finalizePendingHistoryTransaction()
-        if (!canUndo) return
-
-        val current = history.last()
-        val previous = history[history.lastIndex - 1]
-
-        _history.value = history.dropLast(1)
-        _redoHistory.update { (it + current).takeLast(MAX_HISTORY_SIZE) }
-        applyHistorySnapshot(previous)
-        registerChanges()
-    }
-
-    fun redo() {
-        finalizePendingHistoryTransaction()
-        if (!canRedo) return
-
-        val snapshot = redoHistory.last()
-
-        _redoHistory.value = redoHistory.dropLast(1)
-        _history.update { (it + snapshot).takeLast(MAX_HISTORY_SIZE) }
-        applyHistorySnapshot(snapshot)
-        registerChanges()
-    }
-
-    private fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         cachedUri = currentCachedBitmapUri,
         originalSize = originalSize,
         imageInfo = imageInfo.asHistoryImageInfo(),
@@ -908,33 +878,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             .backgroundForNoAlphaImageFormats
     )
 
-    private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
-        val afterSnapshot = currentHistorySnapshot()
-        val hasStateChange = !afterSnapshot.hasSameUndoStateAs(beforeSnapshot)
-        val hasHistoryChange = history
-            .lastOrNull()
-            ?.hasSameUndoStateAs(afterSnapshot) == false
-
-        if (!hasStateChange && !hasHistoryChange) return
-
-        _history.update { states ->
-            states
-                .appendHistorySnapshot(beforeSnapshot)
-                .appendHistorySnapshot(afterSnapshot)
-                .takeLast(MAX_HISTORY_SIZE)
-        }
-        _redoHistory.value = emptyList()
-        registerChanges()
-    }
-
-    private fun resetHistory() {
-        cancelPendingHistoryTransaction()
-        currentCachedBitmapUri = null
-        _history.value = listOf(currentHistorySnapshot())
-        _redoHistory.value = emptyList()
-    }
-
-    private fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
         currentCachedBitmapUri = snapshot.cachedUri
         _originalSize.value = snapshot.originalSize
         _imageInfo.value = snapshot.imageInfo
@@ -952,75 +896,21 @@ class SingleEditComponent @AssistedInject internal constructor(
                     )?.image
                 }
                 ?: _internalBitmap.value
-            checkBitmapAndUpdate()
+            checkBitmapAndUpdate(clearPreview = false)
             _isImageLoading.update { false }
         }
     }
 
-    private fun beginPendingHistoryTransaction(
-        mode: PendingHistoryMode = PendingHistoryMode.Default
-    ) {
-        if (pendingHistorySnapshot == null) {
-            pendingHistorySnapshot = currentHistorySnapshot()
-            pendingHistoryMode = mode
-            _hasPendingHistoryTransaction.value = true
-        } else if (mode == PendingHistoryMode.FormatChange) {
-            pendingHistoryMode = mode
-        }
-    }
-
-    private fun schedulePendingHistoryCommit() {
-        pendingHistoryJob?.cancel()
-        val delayMillis = when (pendingHistoryMode) {
-            PendingHistoryMode.Default -> HISTORY_TRANSACTION_DEBOUNCE
-            PendingHistoryMode.FormatChange -> FORMAT_HISTORY_TRANSACTION_DEBOUNCE
-        }
-        pendingHistoryJob = componentScope.launch {
-            delay(delayMillis)
-            val beforeSnapshot = pendingHistorySnapshot
-            pendingHistorySnapshot = null
-            pendingHistoryJob = null
-            pendingHistoryMode = PendingHistoryMode.Default
-            _hasPendingHistoryTransaction.value = false
-            beforeSnapshot?.let(::commitHistoryFrom)
-        }
-    }
-
-    private fun finalizePendingHistoryTransaction() {
-        pendingHistoryJob?.cancel()
-        pendingHistoryJob = null
-        val beforeSnapshot = pendingHistorySnapshot
-        pendingHistorySnapshot = null
-        pendingHistoryMode = PendingHistoryMode.Default
-        _hasPendingHistoryTransaction.value = false
-        beforeSnapshot?.let(::commitHistoryFrom)
-    }
-
-    private fun cancelPendingHistoryTransaction() {
-        pendingHistoryJob?.cancel()
-        pendingHistoryJob = null
-        pendingHistorySnapshot = null
-        pendingHistoryMode = PendingHistoryMode.Default
-        _hasPendingHistoryTransaction.value = false
-    }
-
     private fun ImageInfo.asHistoryImageInfo(): ImageInfo = copy(sizeInBytes = 0)
 
-    private fun HistorySnapshot.hasSameUndoStateAs(
-        other: HistorySnapshot
-    ): Boolean = normalized() == other.normalized()
+    override fun hasSameUndoState(
+        first: HistorySnapshot,
+        second: HistorySnapshot
+    ): Boolean = first.normalized() == second.normalized()
 
     private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
         imageInfo = imageInfo.asHistoryImageInfo()
     )
-
-    private fun List<HistorySnapshot>.appendHistorySnapshot(
-        snapshot: HistorySnapshot
-    ): List<HistorySnapshot> = when {
-        isEmpty() -> listOf(snapshot)
-        last().hasSameUndoStateAs(snapshot) -> dropLast(1) + snapshot
-        else -> this + snapshot
-    }
 
     private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
         if (
@@ -1035,7 +925,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
-    private data class HistorySnapshot(
+    data class HistorySnapshot(
         val cachedUri: String? = null,
         val originalSize: IntegerSize? = null,
         val imageInfo: ImageInfo = ImageInfo(),
@@ -1044,7 +934,6 @@ class SingleEditComponent @AssistedInject internal constructor(
     )
 
     private enum class PendingHistoryMode {
-        Default,
         FormatChange
     }
 
@@ -1059,8 +948,6 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     private companion object {
-        const val MAX_HISTORY_SIZE = 25
-        const val HISTORY_TRANSACTION_DEBOUNCE = 700L
         const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
     }
 }

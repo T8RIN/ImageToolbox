@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -42,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShowOriginalButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
@@ -151,6 +152,14 @@ fun FiltersContent(
                     contentDescription = stringResource(R.string.properties)
                 )
             }
+        }
+        if (isPortrait) {
+            UndoRedoButtons(
+                canUndo = component.canUndo,
+                canRedo = component.canRedo,
+                onUndo = component::undo,
+                onRedo = component::redo
+            )
         }
     }
 

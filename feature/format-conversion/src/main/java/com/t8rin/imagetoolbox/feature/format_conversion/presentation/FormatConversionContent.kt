@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -131,6 +132,14 @@ fun FormatConversionContent(
         },
         onGoBack = onBack,
         actions = {
+            if (!isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo
+                )
+            }
             var editSheetData by remember {
                 mutableStateOf(listOf<Uri>())
             }
@@ -154,6 +163,14 @@ fun FormatConversionContent(
                 },
                 onNavigate = component.onNavigate
             )
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo
+                )
+            }
         },
         imagePreview = {
             ImageContainer(

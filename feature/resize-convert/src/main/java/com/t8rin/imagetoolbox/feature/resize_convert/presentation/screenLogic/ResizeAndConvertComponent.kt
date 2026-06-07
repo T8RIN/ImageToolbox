@@ -56,7 +56,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -64,7 +64,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class ResizeAndConvertComponent @AssistedInject internal constructor(
@@ -82,7 +81,10 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<ResizeAndConvertComponent.HistorySnapshot>(
+    dispatchersHolder = dispatchersHolder,
+    componentContext = componentContext
+) {
 
     init {
         debounce {
@@ -107,21 +109,6 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo: ImageInfo by _imageInfo
-
-    private val _history: MutableState<List<HistorySnapshot>> = mutableStateOf(emptyList())
-    private val history: List<HistorySnapshot> by _history
-
-    private val _redoHistory: MutableState<List<HistorySnapshot>> = mutableStateOf(emptyList())
-    private val redoHistory: List<HistorySnapshot> by _redoHistory
-
-    private var pendingHistorySnapshot: HistorySnapshot? = null
-    private var pendingHistoryJob: Job? = null
-    private var pendingHistoryMode: PendingHistoryMode = PendingHistoryMode.Default
-    private val _hasPendingHistoryTransaction = mutableStateOf(false)
-
-    val canUndo: Boolean
-        get() = history.size > 1 || (_hasPendingHistoryTransaction.value && history.isNotEmpty())
-    val canRedo: Boolean get() = redoHistory.isNotEmpty()
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
@@ -162,9 +149,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     fun setUris(
         uris: List<Uri>?
     ) {
-        cancelPendingHistoryTransaction()
-        _history.value = emptyList()
-        _redoHistory.value = emptyList()
+        clearHistory()
         registerChangesCleared()
         _uris.update { null }
         _uris.update { uris }
@@ -209,14 +194,17 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     private suspend fun checkBitmapAndUpdate(
-        resetPreset: Boolean = false
+        resetPreset: Boolean = false,
+        clearPreview: Boolean = true
     ) {
         if (resetPreset) {
             _presetSelected.update { Preset.None }
         }
         _bitmap.value?.let { bmp ->
             val preview = updatePreview(bmp)
-            _previewBitmap.update { null }
+            if (clearPreview) {
+                _previewBitmap.update { null }
+            }
             _shouldShowPreview.update { imagePreviewCreator.canShow(preview) }
             if (shouldShowPreview) _previewBitmap.update { preview }
         }
@@ -386,7 +374,10 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
                 finalizePendingHistoryTransaction()
             }
-            beginPendingHistoryTransaction(PendingHistoryMode.FormatChange)
+            beginPendingHistoryTransaction(
+                mode = PendingHistoryMode.FormatChange,
+                commitDelayMillis = FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+            )
             _imageInfo.update {
                 it.copy(
                     imageFormat = imageFormat,
@@ -688,32 +679,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         )
     )
 
-    fun undo() {
-        finalizePendingHistoryTransaction()
-        if (!canUndo) return
-
-        val current = history.last()
-        val previous = history[history.lastIndex - 1]
-
-        _history.value = history.dropLast(1)
-        _redoHistory.update { (it + current).takeLast(MAX_HISTORY_SIZE) }
-        applyHistorySnapshot(previous)
-        registerChanges()
-    }
-
-    fun redo() {
-        finalizePendingHistoryTransaction()
-        if (!canRedo) return
-
-        val snapshot = redoHistory.last()
-
-        _redoHistory.value = redoHistory.dropLast(1)
-        _history.update { (it + snapshot).takeLast(MAX_HISTORY_SIZE) }
-        applyHistorySnapshot(snapshot)
-        registerChanges()
-    }
-
-    private fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         imageInfo = imageInfo.asHistoryImageInfo(),
         preset = presetSelected,
         keepExif = keepExif,
@@ -723,108 +689,28 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             .backgroundForNoAlphaImageFormats
     )
 
-    private fun commitHistoryFrom(beforeSnapshot: HistorySnapshot) {
-        val afterSnapshot = currentHistorySnapshot()
-        val hasStateChange = !afterSnapshot.hasSameUndoStateAs(beforeSnapshot)
-        val hasHistoryChange = history
-            .lastOrNull()
-            ?.hasSameUndoStateAs(afterSnapshot) == false
-
-        if (!hasStateChange && !hasHistoryChange) return
-
-        _history.update { states ->
-            states
-                .appendHistorySnapshot(beforeSnapshot)
-                .appendHistorySnapshot(afterSnapshot)
-                .takeLast(MAX_HISTORY_SIZE)
-        }
-        _redoHistory.value = emptyList()
-        registerChanges()
-    }
-
-    private fun resetHistory() {
-        cancelPendingHistoryTransaction()
-        _history.value = listOf(currentHistorySnapshot())
-        _redoHistory.value = emptyList()
-    }
-
-    private fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
         _imageInfo.value = snapshot.imageInfo
         _presetSelected.value = snapshot.preset
         _keepExif.value = snapshot.keepExif
         restoreBackgroundColorForNoAlphaFormats(snapshot)
-        _previewBitmap.value = null
         debouncedImageCalculation {
             bitmap?.let {
-                checkBitmapAndUpdate()
+                checkBitmapAndUpdate(clearPreview = false)
             }
         }
     }
 
-    private fun beginPendingHistoryTransaction(
-        mode: PendingHistoryMode = PendingHistoryMode.Default
-    ) {
-        if (pendingHistorySnapshot == null) {
-            pendingHistorySnapshot = currentHistorySnapshot()
-            pendingHistoryMode = mode
-            _hasPendingHistoryTransaction.value = true
-        } else if (mode == PendingHistoryMode.FormatChange) {
-            pendingHistoryMode = mode
-        }
-    }
-
-    private fun schedulePendingHistoryCommit() {
-        pendingHistoryJob?.cancel()
-        val delayMillis = when (pendingHistoryMode) {
-            PendingHistoryMode.Default -> HISTORY_TRANSACTION_DEBOUNCE
-            PendingHistoryMode.FormatChange -> FORMAT_HISTORY_TRANSACTION_DEBOUNCE
-        }
-        pendingHistoryJob = componentScope.launch {
-            delay(delayMillis)
-            val beforeSnapshot = pendingHistorySnapshot
-            pendingHistorySnapshot = null
-            pendingHistoryJob = null
-            pendingHistoryMode = PendingHistoryMode.Default
-            _hasPendingHistoryTransaction.value = false
-            beforeSnapshot?.let(::commitHistoryFrom)
-        }
-    }
-
-    private fun finalizePendingHistoryTransaction() {
-        pendingHistoryJob?.cancel()
-        pendingHistoryJob = null
-        val beforeSnapshot = pendingHistorySnapshot
-        pendingHistorySnapshot = null
-        pendingHistoryMode = PendingHistoryMode.Default
-        _hasPendingHistoryTransaction.value = false
-        beforeSnapshot?.let(::commitHistoryFrom)
-    }
-
-    private fun cancelPendingHistoryTransaction() {
-        pendingHistoryJob?.cancel()
-        pendingHistoryJob = null
-        pendingHistorySnapshot = null
-        pendingHistoryMode = PendingHistoryMode.Default
-        _hasPendingHistoryTransaction.value = false
-    }
-
     private fun ImageInfo.asHistoryImageInfo(): ImageInfo = copy(sizeInBytes = 0)
 
-    private fun HistorySnapshot.hasSameUndoStateAs(
-        other: HistorySnapshot
-    ): Boolean = normalized() == other.normalized()
+    override fun hasSameUndoState(
+        first: HistorySnapshot,
+        second: HistorySnapshot
+    ): Boolean = first.normalized() == second.normalized()
 
     private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
         imageInfo = imageInfo.asHistoryImageInfo()
     )
-
-    private fun List<HistorySnapshot>.appendHistorySnapshot(
-        snapshot: HistorySnapshot
-    ): List<HistorySnapshot> = when {
-        isEmpty() -> listOf(snapshot)
-        last().hasSameUndoStateAs(snapshot) -> dropLast(1) + snapshot
-        else -> this + snapshot
-    }
 
     private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
         if (
@@ -839,7 +725,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }
     }
 
-    private data class HistorySnapshot(
+    data class HistorySnapshot(
         val imageInfo: ImageInfo = ImageInfo(),
         val preset: Preset = Preset.None,
         val keepExif: Boolean = false,
@@ -847,7 +733,6 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     )
 
     private enum class PendingHistoryMode {
-        Default,
         FormatChange
     }
 
@@ -862,8 +747,6 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     private companion object {
-        const val MAX_HISTORY_SIZE = 25
-        const val HISTORY_TRANSACTION_DEBOUNCE = 700L
         const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
     }
 }

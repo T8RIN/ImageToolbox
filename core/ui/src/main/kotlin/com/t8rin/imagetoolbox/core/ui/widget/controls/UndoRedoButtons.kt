@@ -15,13 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.single_edit.presentation.components
+package com.t8rin.imagetoolbox.core.ui.widget.controls
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Redo
@@ -29,22 +31,27 @@ import com.t8rin.imagetoolbox.core.resources.icons.Undo
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 
 @Composable
-internal fun SingleEditUndoRedo(
-    component: SingleEditComponent
+fun UndoRedoButtons(
+    canUndo: Boolean,
+    canRedo: Boolean,
+    onUndo: () -> Unit,
+    onRedo: () -> Unit,
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.surface,
+    resultPadding: Dp = 0.dp
 ) {
     Row(
-        modifier = Modifier.container(
+        modifier = modifier.container(
             shape = ShapeDefaults.circle,
-            color = MaterialTheme.colorScheme.surface,
-            resultPadding = 0.dp
+            color = color,
+            resultPadding = resultPadding
         )
     ) {
         EnhancedIconButton(
-            enabled = component.canUndo,
-            onClick = component::undo
+            enabled = canUndo,
+            onClick = onUndo
         ) {
             Icon(
                 imageVector = Icons.Rounded.Undo,
@@ -52,8 +59,8 @@ internal fun SingleEditUndoRedo(
             )
         }
         EnhancedIconButton(
-            enabled = component.canRedo,
-            onClick = component::redo
+            enabled = canRedo,
+            onClick = onRedo
         ) {
             Icon(
                 imageVector = Icons.Rounded.Redo,
