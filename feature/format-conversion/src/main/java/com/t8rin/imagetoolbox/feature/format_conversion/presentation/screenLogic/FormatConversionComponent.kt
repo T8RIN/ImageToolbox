@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -76,7 +77,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     private val settingsProvider: SettingsProvider,
     private val settingsInteractor: SettingsInteractor,
     dispatchersHolder: DispatchersHolder
-) : BaseHistoryComponent<FormatConversionComponent.HistorySnapshot>(
+) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
@@ -247,7 +248,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
             }
             beginPendingHistoryTransaction(
                 mode = PendingHistoryMode.FormatChange,
-                commitDelayMillis = FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+                commitDelayMillis = formatHistoryTransactionDebounce
             )
             _imageInfo.value = _imageInfo.value.copy(
                 imageFormat = imageFormat,
@@ -551,10 +552,6 @@ class FormatConversionComponent @AssistedInject internal constructor(
         val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
-    private enum class PendingHistoryMode {
-        FormatChange
-    }
-
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
@@ -563,9 +560,5 @@ class FormatConversionComponent @AssistedInject internal constructor(
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): FormatConversionComponent
-    }
-
-    private companion object {
-        const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
     }
 }

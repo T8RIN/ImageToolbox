@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
+import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -103,7 +104,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder,
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory,
-) : BaseHistoryComponent<SingleEditComponent.HistorySnapshot>(
+) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
@@ -494,7 +495,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             }
             beginPendingHistoryTransaction(
                 mode = PendingHistoryMode.FormatChange,
-                commitDelayMillis = FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+                commitDelayMillis = formatHistoryTransactionDebounce
             )
             _imageInfo.update {
                 it.copy(
@@ -933,10 +934,6 @@ class SingleEditComponent @AssistedInject internal constructor(
         val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
-    private enum class PendingHistoryMode {
-        FormatChange
-    }
-
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
@@ -945,9 +942,5 @@ class SingleEditComponent @AssistedInject internal constructor(
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): SingleEditComponent
-    }
-
-    private companion object {
-        const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
     }
 }

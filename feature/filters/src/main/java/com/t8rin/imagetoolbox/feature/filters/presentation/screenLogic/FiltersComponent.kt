@@ -83,6 +83,7 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.components.MaskingPre
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.PreviewRequest
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.UiFilterMask
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.addEditMaskSheet.AddMaskSheetComponent
+import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -112,7 +113,7 @@ class FiltersComponent @AssistedInject internal constructor(
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent.Factory,
     addMaskSheetComponentFactory: AddMaskSheetComponent.Factory,
-) : BaseHistoryComponent<FiltersComponent.HistorySnapshot>(
+) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
@@ -237,7 +238,7 @@ class FiltersComponent @AssistedInject internal constructor(
         }
         beginPendingHistoryTransaction(
             mode = PendingHistoryMode.FormatChange,
-            commitDelayMillis = FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+            commitDelayMillis = formatHistoryTransactionDebounce
         )
         _imageInfo.value = _imageInfo.value.copy(
             imageFormat = imageFormat,
@@ -1159,10 +1160,6 @@ class FiltersComponent @AssistedInject internal constructor(
         val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
-    private enum class PendingHistoryMode {
-        FormatChange
-    }
-
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
@@ -1172,9 +1169,4 @@ class FiltersComponent @AssistedInject internal constructor(
             onNavigate: (Screen) -> Unit,
         ): FiltersComponent
     }
-
-    private companion object {
-        const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
-    }
-
 }

@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -81,7 +82,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
-) : BaseHistoryComponent<ResizeAndConvertComponent.HistorySnapshot>(
+) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
@@ -376,7 +377,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             }
             beginPendingHistoryTransaction(
                 mode = PendingHistoryMode.FormatChange,
-                commitDelayMillis = FORMAT_HISTORY_TRANSACTION_DEBOUNCE
+                commitDelayMillis = formatHistoryTransactionDebounce
             )
             _imageInfo.update {
                 it.copy(
@@ -732,10 +733,6 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
-    private enum class PendingHistoryMode {
-        FormatChange
-    }
-
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
@@ -744,9 +741,5 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): ResizeAndConvertComponent
-    }
-
-    private companion object {
-        const val FORMAT_HISTORY_TRANSACTION_DEBOUNCE = 2_500L
     }
 }

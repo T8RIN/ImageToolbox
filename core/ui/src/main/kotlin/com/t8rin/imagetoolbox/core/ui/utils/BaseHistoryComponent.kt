@@ -32,6 +32,7 @@ abstract class BaseHistoryComponent<Snapshot>(
 
     protected open val maxHistorySize: Int = 25
     protected open val historyTransactionDebounce: Long = 700L
+    protected open val formatHistoryTransactionDebounce: Long = 2500L
 
     private val _history: MutableState<List<Snapshot>> = mutableStateOf(emptyList())
     protected val history: List<Snapshot> by _history
@@ -45,7 +46,7 @@ abstract class BaseHistoryComponent<Snapshot>(
 
     private val _hasPendingHistoryTransaction = mutableStateOf(false)
 
-    protected var pendingHistoryMode: Any? = null
+    protected var pendingHistoryMode: PendingHistoryMode? = null
         private set
 
     val canUndo: Boolean
@@ -118,7 +119,7 @@ abstract class BaseHistoryComponent<Snapshot>(
     }
 
     protected fun beginPendingHistoryTransaction(
-        mode: Any? = null,
+        mode: PendingHistoryMode? = null,
         commitDelayMillis: Long = historyTransactionDebounce
     ) {
         if (pendingHistorySnapshot == null) {
@@ -168,5 +169,9 @@ abstract class BaseHistoryComponent<Snapshot>(
         isEmpty() -> listOf(snapshot)
         hasSameUndoState(last(), snapshot) -> dropLast(1) + snapshot
         else -> this + snapshot
+    }
+
+    enum class PendingHistoryMode {
+        FormatChange
     }
 }
