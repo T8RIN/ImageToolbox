@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.quick_tiles.tiles
 
-import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.service.quicksettings.TileService
 import androidx.core.service.quicksettings.PendingIntentActivityWrapper
 import androidx.core.service.quicksettings.TileServiceCompat
 
-@SuppressLint("NewApi")
 sealed class QuickTile(
     private val tileAction: TileAction
 ) : TileService() {

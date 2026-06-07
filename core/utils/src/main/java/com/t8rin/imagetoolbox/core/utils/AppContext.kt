@@ -30,7 +30,11 @@ class AppContext private constructor(
         internal var appContext: AppContext? = null
 
         internal fun init(application: Context) {
-            appContext = AppContext(application)
+            if (appContext == null) {
+                appContext = AppContext(application)
+            } else {
+                "AppContext is already initialized".makeLog("AppContext")
+            }
         }
     }
 

@@ -28,6 +28,8 @@ import android.media.ImageReader
 import android.media.ImageReader.OnImageAvailableListener
 import android.media.projection.MediaProjection
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.view.WindowManager
 import androidx.core.content.getSystemService
 import androidx.core.graphics.createBitmap
@@ -39,12 +41,26 @@ import com.t8rin.imagetoolbox.core.utils.makeLog
 class ScreenshotMaker(
     private val mediaProjection: MediaProjection,
     private val context: Context,
-    private val onSuccess: (Bitmap) -> Unit
+    private val onSuccess: (Bitmap) -> Unit,
+    private val onFailure: (Throwable) -> Unit
 ) : OnImageAvailableListener {
 
     private var virtualDisplay: VirtualDisplay? = null
 
     private var imageReader: ImageReader? = null
+
+    private val callbackHandler by lazy {
+        Handler(Looper.getMainLooper())
+    }
+
+    private var isCallbackRegistered = false
+    private var isFinished = false
+
+    private val mediaProjectionCallback = object : MediaProjection.Callback() {
+        override fun onStop() {
+            finish(stopProjection = false)
+        }
+    }
 
     @Suppress("DEPRECATION")
     private val screenSize: IntegerSize = run {
@@ -71,13 +87,24 @@ class ScreenshotMaker(
 
     fun takeScreenshot(delay: Long) {
         mainLooperDelayedAction(delay) {
+            if (isFinished) return@mainLooperDelayedAction
+
             imageReader = ImageReader.newInstance(
                 screenSize.width,
                 screenSize.height,
                 PixelFormat.RGBA_8888,
                 1
             )
+
             runCatching {
+                if (!isCallbackRegistered) {
+                    mediaProjection.registerCallback(
+                        mediaProjectionCallback,
+                        callbackHandler
+                    )
+                    isCallbackRegistered = true
+                }
+                imageReader?.setOnImageAvailableListener(this@ScreenshotMaker, callbackHandler)
                 virtualDisplay = mediaProjection.createVirtualDisplay(
                     "screenshot",
                     screenSize.width,
@@ -88,37 +115,64 @@ class ScreenshotMaker(
                     null,
                     null
                 )
-                imageReader?.setOnImageAvailableListener(this@ScreenshotMaker, null)
+            }.onFailure {
+                finish()
+                onFailure(it)
             }
         }
     }
 
     override fun onImageAvailable(reader: ImageReader) {
-        val image = reader.acquireLatestImage() ?: return takeScreenshot(300)
-        val planes = image.planes
-        val buffer = planes[0].buffer.rewind()
-        val pixelStride = planes[0].pixelStride
-        val rowStride = planes[0].rowStride
-        val rowPadding = rowStride - pixelStride * screenSize.width
+        val image = reader.acquireLatestImage() ?: return
+        val result = runCatching {
+            val planes = image.planes
+            val buffer = planes[0].buffer.rewind()
+            val pixelStride = planes[0].pixelStride
+            val rowStride = planes[0].rowStride
+            val rowPadding = rowStride - pixelStride * screenSize.width
 
-        val bitmap = createBitmap(
-            width = screenSize.width + rowPadding / pixelStride,
-            height = screenSize.height
-        )
-
-        bitmap.copyPixelsFromBuffer(buffer)
-
-        finish()
+            createBitmap(
+                width = screenSize.width + rowPadding / pixelStride,
+                height = screenSize.height
+            ).apply {
+                copyPixelsFromBuffer(buffer)
+            }
+        }
 
         image.close()
 
-        onSuccess(bitmap)
+        result.onSuccess {
+            finish()
+            onSuccess(it)
+        }.onFailure {
+            finish()
+            onFailure(it)
+        }
     }
 
-    private fun finish() {
+    private fun finish(stopProjection: Boolean = true) {
+        if (isFinished) return
+
+        isFinished = true
         virtualDisplay?.release()
-        mediaProjection.stop()
+        virtualDisplay = null
+
+        imageReader?.setOnImageAvailableListener(null, null)
+        imageReader?.close()
         imageReader = null
+
+        if (isCallbackRegistered) {
+            runCatching {
+                mediaProjection.unregisterCallback(mediaProjectionCallback)
+            }
+            isCallbackRegistered = false
+        }
+
+        if (stopProjection) {
+            runCatching {
+                mediaProjection.stop()
+            }
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.quick_tiles.screenshot
 
 import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -31,10 +32,7 @@ import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
-import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
@@ -58,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.postToast
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.putScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
+import com.t8rin.imagetoolbox.core.utils.initAppContext
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -71,7 +70,6 @@ import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-@RequiresApi(Build.VERSION_CODES.N)
 @AndroidEntryPoint
 class ScreenshotService : Service() {
 
@@ -101,65 +99,28 @@ class ScreenshotService : Service() {
     private var screenshotJob by smartJob()
 
     private var timeoutJob by smartJob()
+    private var isForeground = false
+
+    override fun onCreate() {
+        super.onCreate()
+        initAppContext()
+    }
 
     override fun onStartCommand(
         intent: Intent?,
         flags: Int,
         startId: Int
-    ): Int = runCatching {
+    ): Int {
         startListening()
 
-        val resultCode = intent?.getIntExtra(RESULT_CODE_EXTRA, RESULT_CANCELED) ?: RESULT_CANCELED
-
-        val data = intent?.parcelable<Intent>(DATA_EXTRA)
-        val channelId = 1
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getSystemService<NotificationManager>()
-                ?.createNotificationChannel(
-                    NotificationChannel(
-                        channelId.toString(),
-                        "screenshot",
-                        NotificationManager.IMPORTANCE_MIN
-                    )
-                )
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                startForeground(
-                    channelId,
-                    Notification.Builder(applicationContext, channelId.toString())
-                        .setSmallIcon(R.drawable.ic_launcher_foreground)
-                        .setContentTitle(getString(R.string.processing_screenshot))
-                        .build(),
-                    ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
-                )
-            } else {
-                startForeground(
-                    channelId,
-                    Notification.Builder(applicationContext, channelId.toString())
-                        .setSmallIcon(R.drawable.ic_launcher_foreground)
-                        .setContentTitle(getString(R.string.processing_screenshot))
-                        .build()
-                )
-            }
-        }
-        val callback = object : MediaProjection.Callback() {}
-
-        mediaProjectionManager?.getMediaProjection(resultCode, data!!)?.apply {
-            registerCallback(
-                callback,
-                Handler(Looper.getMainLooper())
-            )
-            val screenshotMaker = buildScreenshotMaker(
-                mediaProjection = this,
-                intent = intent
-            )
-
-            screenshotMaker.takeScreenshot(1000)
+        runCatching {
+            handleStartCommand(intent)
+        }.onFailure {
+            onFailure(it)
         }
 
-        START_REDELIVER_INTENT
-    }.getOrNull() ?: START_REDELIVER_INTENT
+        return START_NOT_STICKY
+    }
 
     override fun onDestroy() {
         screenshotJob?.cancel()
@@ -168,6 +129,26 @@ class ScreenshotService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder? = null
+
+    private fun handleStartCommand(intent: Intent?) {
+        val resultCode = intent?.getIntExtra(RESULT_CODE_EXTRA, RESULT_CANCELED)
+            ?: RESULT_CANCELED
+        val data = intent?.parcelable<Intent>(DATA_EXTRA)
+
+        if (resultCode != RESULT_OK || data == null) {
+            throw SecurityException("Screen capture permission was not granted")
+        }
+
+        startForegroundSafe()
+
+        val mediaProjection = mediaProjectionManager?.getMediaProjection(resultCode, data)
+            ?: throw NullPointerException("No media projection")
+
+        buildScreenshotMaker(
+            mediaProjection = mediaProjection,
+            intent = intent
+        ).takeScreenshot(1000)
+    }
 
     private fun startListening() {
         screenshotJob = coroutineScope.launch {
@@ -235,8 +216,7 @@ class ScreenshotService : Service() {
                         )
                     }
 
-                    stopForeground(STOP_FOREGROUND_REMOVE)
-                    stopSelf()
+                    stopService()
                 }
         }
 
@@ -247,10 +227,66 @@ class ScreenshotService : Service() {
                     textRes = R.string.screenshot_not_captured_try_again,
                     isLong = true
                 )
-                stopForeground(STOP_FOREGROUND_REMOVE)
-                stopSelf()
+                stopService()
             }
         }
+    }
+
+    private fun startForegroundSafe() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+
+        val channelId = SCREENSHOT_NOTIFICATION_ID.toString()
+
+        getSystemService<NotificationManager>()
+            ?.createNotificationChannel(
+                NotificationChannel(
+                    channelId,
+                    "screenshot",
+                    NotificationManager.IMPORTANCE_MIN
+                )
+            )
+
+        val notification = Notification.Builder(applicationContext, channelId)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle(getString(R.string.processing_screenshot))
+            .build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(
+                SCREENSHOT_NOTIFICATION_ID,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
+            )
+        } else {
+            startForeground(
+                SCREENSHOT_NOTIFICATION_ID,
+                notification
+            )
+        }
+        isForeground = true
+    }
+
+    private fun stopForegroundSafe() {
+        if (!isForeground) return
+
+        runCatching {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        }
+        isForeground = false
+    }
+
+    private fun stopService() {
+        stopForegroundSafe()
+        stopSelf()
+    }
+
+    private fun onFailure(throwable: Throwable) {
+        postToast(
+            textRes = R.string.screenshot_not_captured_try_again,
+            isLong = true,
+            throwable.localizedMessage ?: ""
+        )
+        stopService()
     }
 
     private fun buildScreenshotMaker(
@@ -266,6 +302,9 @@ class ScreenshotService : Service() {
                     output = it
                 )
             )
+        },
+        onFailure = {
+            onFailure(it)
         }
     )
 
@@ -273,5 +312,9 @@ class ScreenshotService : Service() {
         val intent: Intent?,
         val output: Bitmap
     )
+
+    companion object {
+        private const val SCREENSHOT_NOTIFICATION_ID = 1
+    }
 
 }

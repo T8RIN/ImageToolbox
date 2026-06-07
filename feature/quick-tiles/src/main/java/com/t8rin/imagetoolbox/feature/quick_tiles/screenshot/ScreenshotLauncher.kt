@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import android.media.projection.MediaProjectionManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.resources.R
@@ -32,7 +31,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.putScreenExtra
 
 class ScreenshotLauncher : AppCompatActivity() {
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val projectionManager = getSystemService<MediaProjectionManager>()
@@ -40,6 +38,7 @@ class ScreenshotLauncher : AppCompatActivity() {
 
         if (captureIntent == null) {
             onFailure(NullPointerException("No projection manager"))
+            return
         }
 
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -62,7 +61,7 @@ class ScreenshotLauncher : AppCompatActivity() {
                     finish()
                 } else throw SecurityException()
             }.onFailure(::onFailure)
-        }.launch(captureIntent!!)
+        }.launch(captureIntent)
     }
 
     private fun onFailure(throwable: Throwable) {
