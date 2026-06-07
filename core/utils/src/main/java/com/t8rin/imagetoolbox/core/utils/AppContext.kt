@@ -40,7 +40,7 @@ class AppContext private constructor(
 
 }
 
-fun Context.initAppContext() = AppContext.init(this)
+fun Context.initAppContext() = AppContext.init(applicationContext)
 
 val appContext: AppContext
     get() = checkNotNull(AppContext.appContext) {
