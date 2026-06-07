@@ -17,16 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.Dp
@@ -38,8 +34,6 @@ import com.gigamole.composefadingedges.fill.FadingEdgesFillType
 import com.gigamole.composefadingedges.horizontalFadingEdges
 import com.gigamole.composefadingedges.verticalFadingEdges
 
-
-@SuppressLint("UnnecessaryComposedModifier")
 fun Modifier.fadingEdges(
     scrollableState: ScrollableState? = null,
     color: Color = Color.Unspecified,
@@ -49,147 +43,140 @@ fun Modifier.fadingEdges(
     enabled: Boolean = true,
     length: Dp = 16.dp,
     gravity: FadingEdgesGravity = FadingEdgesGravity.All
-) = this.composed {
-    if (!enabled) Modifier
-    else {
-        val fillType = if (color.isSpecified) {
-            FadingEdgesFillType.FadeColor(
-                color = color
-            )
-        } else {
-            FadingEdgesFillType.FadeClip()
+) = this then if (!enabled) {
+    Modifier
+} else if (scrollableState != null && !scrollableState.canScrollBackward && !scrollableState.canScrollForward) {
+    Modifier
+} else {
+    val fillType = if (color.isSpecified) {
+        FadingEdgesFillType.FadeColor(
+            color = color
+        )
+    } else {
+        FadingEdgesFillType.FadeClip()
+    }
+
+    val scrollConfig = FadingEdgesScrollConfig.Dynamic(
+        scrollFactor = scrollFactor
+    )
+
+    when (scrollableState) {
+        is ScrollState -> {
+            if (isVertical) {
+                Modifier.verticalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Dynamic.Scroll(
+                        scrollConfig = scrollConfig,
+                        state = scrollableState
+                    ),
+                    fillType = fillType,
+                    length = length
+                )
+            } else {
+                Modifier.horizontalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Dynamic.Scroll(
+                        scrollConfig = scrollConfig,
+                        state = scrollableState
+                    ),
+                    fillType = fillType,
+                    length = length
+                )
+            }
         }
 
-        val scrollConfig = FadingEdgesScrollConfig.Dynamic(
-            scrollFactor = scrollFactor
-        )
-
-        when (scrollableState) {
-            is ScrollState -> {
-                if (isVertical) {
-                    Modifier.verticalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Dynamic.Scroll(
-                            scrollConfig = scrollConfig,
-                            state = scrollableState
-                        ),
-                        fillType = fillType,
-                        length = length
-                    )
-                } else {
-                    Modifier.horizontalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Dynamic.Scroll(
-                            scrollConfig = scrollConfig,
-                            state = scrollableState
-                        ),
-                        fillType = fillType,
-                        length = length
-                    )
-                }
+        is LazyListState -> {
+            if (isVertical) {
+                Modifier.verticalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Dynamic.Lazy.List(
+                        scrollConfig = scrollConfig,
+                        state = scrollableState
+                    ),
+                    fillType = fillType,
+                    length = length
+                )
+            } else {
+                Modifier.horizontalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Dynamic.Lazy.List(
+                        scrollConfig = scrollConfig,
+                        state = scrollableState
+                    ),
+                    fillType = fillType,
+                    length = length
+                )
             }
+        }
 
-            is LazyListState -> {
-                if (isVertical) {
-                    Modifier.verticalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Dynamic.Lazy.List(
-                            scrollConfig = scrollConfig,
-                            state = scrollableState
-                        ),
-                        fillType = fillType,
-                        length = length
-                    )
-                } else {
-                    Modifier.horizontalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Dynamic.Lazy.List(
-                            scrollConfig = scrollConfig,
-                            state = scrollableState
-                        ),
-                        fillType = fillType,
-                        length = length
-                    )
-                }
+        is LazyGridState -> {
+            if (isVertical) {
+                Modifier.verticalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Dynamic.Lazy.Grid(
+                        scrollConfig = scrollConfig,
+                        state = scrollableState,
+                        spanCount = spanCount ?: scrollableState.layoutInfo.maxSpan
+                    ),
+                    fillType = fillType,
+                    length = length
+                )
+            } else {
+                Modifier.horizontalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Dynamic.Lazy.Grid(
+                        scrollConfig = scrollConfig,
+                        state = scrollableState,
+                        spanCount = spanCount ?: scrollableState.layoutInfo.maxSpan
+                    ),
+                    fillType = fillType,
+                    length = length
+                )
             }
+        }
 
-            is LazyGridState -> {
-                if (isVertical) {
-                    Modifier.verticalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Dynamic.Lazy.Grid(
-                            scrollConfig = scrollConfig,
-                            state = scrollableState,
-                            spanCount = spanCount ?: remember(scrollableState) {
-                                derivedStateOf {
-                                    scrollableState.layoutInfo.maxSpan
-                                }
-                            }.value
-                        ),
-                        fillType = fillType,
-                        length = length
-                    )
-                } else {
-                    Modifier.horizontalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Dynamic.Lazy.Grid(
-                            scrollConfig = scrollConfig,
-                            state = scrollableState,
-                            spanCount = spanCount ?: remember(scrollableState) {
-                                derivedStateOf {
-                                    scrollableState.layoutInfo.maxSpan
-                                }
-                            }.value
-                        ),
-                        fillType = fillType,
-                        length = length
-                    )
-                }
+        is LazyStaggeredGridState -> {
+            require(spanCount != null)
+            if (isVertical) {
+                Modifier.verticalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Dynamic.Lazy.StaggeredGrid(
+                        scrollConfig = scrollConfig,
+                        state = scrollableState,
+                        spanCount = spanCount
+                    ),
+                    fillType = fillType,
+                    length = length
+                )
+            } else {
+                Modifier.horizontalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Dynamic.Lazy.StaggeredGrid(
+                        scrollConfig = scrollConfig,
+                        state = scrollableState,
+                        spanCount = spanCount
+                    ),
+                    fillType = fillType,
+                    length = length
+                )
             }
+        }
 
-            is LazyStaggeredGridState -> {
-                require(spanCount != null)
-                if (isVertical) {
-                    Modifier.verticalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Dynamic.Lazy.StaggeredGrid(
-                            scrollConfig = scrollConfig,
-                            state = scrollableState,
-                            spanCount = spanCount
-                        ),
-                        fillType = fillType,
-                        length = length
-                    )
-                } else {
-                    Modifier.horizontalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Dynamic.Lazy.StaggeredGrid(
-                            scrollConfig = scrollConfig,
-                            state = scrollableState,
-                            spanCount = spanCount
-                        ),
-                        fillType = fillType,
-                        length = length
-                    )
-                }
-            }
-
-            else -> {
-                if (isVertical) {
-                    Modifier.verticalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Static,
-                        fillType = fillType,
-                        length = length
-                    )
-                } else {
-                    Modifier.horizontalFadingEdges(
-                        gravity = gravity,
-                        contentType = FadingEdgesContentType.Static,
-                        fillType = fillType,
-                        length = length
-                    )
-                }
+        else -> {
+            if (isVertical) {
+                Modifier.verticalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Static,
+                    fillType = fillType,
+                    length = length
+                )
+            } else {
+                Modifier.horizontalFadingEdges(
+                    gravity = gravity,
+                    contentType = FadingEdgesContentType.Static,
+                    fillType = fillType,
+                    length = length
+                )
             }
         }
     }
