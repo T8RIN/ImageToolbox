@@ -23,9 +23,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -37,12 +37,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.theme.takeUnless
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -172,11 +175,26 @@ fun Base64ToolsContent(
                                 aspectRatio = it.result.image.toBitmap().safeAspectRatio
                             },
                             error = {
-                                Icon(
-                                    imageVector = Icons.Rounded.BrokenImageAlt,
-                                    contentDescription = null,
-                                    modifier = Modifier.background(MaterialTheme.colorScheme.surface)
-                                )
+                                Box(
+                                    contentAlignment = Alignment.Center,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(
+                                            takeColorFromScheme { isNightMode ->
+                                                errorContainer.copy(
+                                                    if (isNightMode) 0.25f
+                                                    else 1f
+                                                ).compositeOver(surface)
+                                            }
+                                        )
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.BrokenImageAlt,
+                                        contentDescription = null,
+                                        modifier = Modifier.fillMaxSize(0.5f),
+                                        tint = MaterialTheme.colorScheme.onErrorContainer.copy(0.8f)
+                                    )
+                                }
                             },
                             shape = MaterialTheme.shapes.medium,
                             isLoadingFromDifferentPlace = component.isImageLoading

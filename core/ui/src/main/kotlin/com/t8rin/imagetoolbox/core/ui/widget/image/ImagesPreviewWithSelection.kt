@@ -370,14 +370,16 @@ private fun ImageItem(
             error = {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.background(
-                        takeColorFromScheme { isNightMode ->
-                            errorContainer.copy(
-                                if (isNightMode) 0.25f
-                                else 1f
-                            ).compositeOver(surface)
-                        }
-                    )
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            takeColorFromScheme { isNightMode ->
+                                errorContainer.copy(
+                                    if (isNightMode) 0.25f
+                                    else 1f
+                                ).compositeOver(surface)
+                            }
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.BrokenImageAlt,

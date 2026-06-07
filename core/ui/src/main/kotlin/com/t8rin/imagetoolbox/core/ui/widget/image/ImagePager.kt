@@ -54,7 +54,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -82,6 +81,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
@@ -277,14 +277,16 @@ fun ImagePager(
                             error = {
                                 Box(
                                     contentAlignment = Alignment.Center,
-                                    modifier = Modifier.background(
-                                        takeColorFromScheme { isNightMode ->
-                                            errorContainer.copy(
-                                                if (isNightMode) 0.25f
-                                                else 1f
-                                            ).compositeOver(surface)
-                                        }
-                                    )
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(
+                                            takeColorFromScheme { isNightMode ->
+                                                errorContainer.copy(
+                                                    if (isNightMode) 0.25f
+                                                    else 1f
+                                                ).compositeOver(surface)
+                                            }
+                                        )
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.BrokenImageAlt,

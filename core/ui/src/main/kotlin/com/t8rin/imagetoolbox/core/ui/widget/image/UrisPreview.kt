@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -138,6 +139,7 @@ fun UrisPreview(
                             model = uri,
                             error = {
                                 Box(
+                                    modifier = Modifier.fillMaxSize(),
                                     contentAlignment = Alignment.Center,
                                     content = {
                                         errorContent(index, width)

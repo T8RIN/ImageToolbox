@@ -21,6 +21,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
@@ -47,14 +48,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import coil3.SingletonImageLoader
+import coil3.compose.AsyncImage
 import coil3.compose.AsyncImageModelEqualityDelegate
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalAsyncImageModelEqualityDelegate
-import coil3.compose.LocalPlatformContext
-import coil3.compose.SubcomposeAsyncImage
-import coil3.compose.SubcomposeAsyncImageScope
-import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.request.crossfade
@@ -78,9 +75,9 @@ fun Picture(
     contentDescription: String? = null,
     shape: Shape = RectangleShape,
     contentScale: ContentScale = if (model.isCompose()) ContentScale.Fit else ContentScale.Crop,
-    loading: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Loading) -> Unit)? = null,
-    success: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Success) -> Unit)? = null,
-    error: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Error) -> Unit)? = null,
+    loading: @Composable ((AsyncImagePainter.State.Loading) -> Unit)? = null,
+    success: @Composable ((AsyncImagePainter.State.Success) -> Unit)? = null,
+    error: @Composable ((AsyncImagePainter.State.Error) -> Unit)? = null,
     onLoading: ((AsyncImagePainter.State.Loading) -> Unit)? = null,
     onSuccess: ((AsyncImagePainter.State.Success) -> Unit)? = null,
     onError: ((AsyncImagePainter.State.Error) -> Unit)? = null,
@@ -182,9 +179,9 @@ private fun CoilPicture(
     contentDescription: String?,
     shape: Shape,
     contentScale: ContentScale,
-    loading: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Loading) -> Unit)?,
-    success: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Success) -> Unit)?,
-    error: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Error) -> Unit)?,
+    loading: @Composable ((AsyncImagePainter.State.Loading) -> Unit)?,
+    success: @Composable ((AsyncImagePainter.State.Success) -> Unit)?,
+    error: @Composable ((AsyncImagePainter.State.Error) -> Unit)?,
     onLoading: ((AsyncImagePainter.State.Loading) -> Unit)?,
     onSuccess: ((AsyncImagePainter.State.Success) -> Unit)?,
     onError: ((AsyncImagePainter.State.Error) -> Unit)?,
@@ -208,7 +205,7 @@ private fun CoilPicture(
 
     var shimmerVisible by rememberSaveable { mutableStateOf(true) }
 
-    val imageLoader = context.imageLoader
+    var painterState by remember { mutableStateOf<AsyncImagePainter.State?>(null) }
 
     val hdrTransformation = remember(context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
@@ -257,57 +254,76 @@ private fun CoilPicture(
         }
     }
 
-    SubcomposeAsyncImage(
-        model = request,
-        imageLoader = if (LocalInspectionMode.current) {
-            SingletonImageLoader.get(LocalPlatformContext.current)
-        } else imageLoader,
-        contentDescription = contentDescription,
-        modifier = modifier
-            .clip(shape)
-            .then(
-                if (!LocalInspectionMode.current) {
-                    Modifier
-                        .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
-                        .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier)
-                } else {
-                    Modifier
-                }
-            )
-            .padding(contentPadding),
-        contentScale = contentScale,
-        loading = {
-            if (loading != null) loading(it)
-            shimmerVisible = true
-        },
-        success = success,
-        error = error,
-        onSuccess = {
-            if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
-                context.findActivity()?.window?.colorMode =
-                    if (it.result.image.toBitmap(400, 400).hasGainmap()) {
-                        ActivityInfo.COLOR_MODE_HDR
-                    } else ActivityInfo.COLOR_MODE_DEFAULT
+    val imageModifier = modifier
+        .clip(shape)
+        .then(
+            if (!LocalInspectionMode.current) {
+                Modifier
+                    .then(
+                        if (showTransparencyChecker && !shimmerVisible && painterState is AsyncImagePainter.State.Success) {
+                            Modifier.transparencyChecker()
+                        } else Modifier
+                    )
+                    .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier)
+            } else {
+                Modifier
             }
-            shimmerVisible = false
-            onSuccess?.invoke(it)
-            onState?.invoke(it)
-        },
-        onLoading = {
-            onLoading?.invoke(it)
-            onState?.invoke(it)
-        },
-        onError = {
-            if (error != null) shimmerVisible = false
-            onError?.invoke(it)
-            onState?.invoke(it)
-            errorOccurred = true
-        },
-        alignment = alignment,
-        alpha = alpha,
-        colorFilter = colorFilter,
-        filterQuality = filterQuality
-    )
+        )
+        .padding(contentPadding)
+
+    Box(modifier = imageModifier) {
+        AsyncImage(
+            model = request,
+            contentDescription = contentDescription,
+            onState = {
+                painterState = if (error != null || loading != null || success != null) it else null
+
+                when (it) {
+                    is AsyncImagePainter.State.Loading -> {
+                        shimmerVisible = true
+                        onLoading?.invoke(it)
+                        onState?.invoke(it)
+                    }
+
+                    is AsyncImagePainter.State.Success -> {
+                        if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
+                            context.findActivity()?.window?.colorMode =
+                                if (it.result.image.toBitmap(400, 400).hasGainmap()) {
+                                    ActivityInfo.COLOR_MODE_HDR
+                                } else ActivityInfo.COLOR_MODE_DEFAULT
+                        }
+                        shimmerVisible = false
+                        onSuccess?.invoke(it)
+                        onState?.invoke(it)
+                    }
+
+                    is AsyncImagePainter.State.Error -> {
+                        if (error != null) shimmerVisible = false
+                        onError?.invoke(it)
+                        onState?.invoke(it)
+                        errorOccurred = true
+                    }
+
+                    else -> onState?.invoke(it)
+                }
+            },
+            alignment = alignment,
+            contentScale = contentScale,
+            alpha = alpha,
+            colorFilter = colorFilter,
+            filterQuality = filterQuality,
+            modifier = Modifier.matchParentSize()
+        )
+
+        Box(Modifier.matchParentSize()) {
+            when (val state = painterState) {
+                is AsyncImagePainter.State.Loading -> loading?.invoke(state)
+                is AsyncImagePainter.State.Success -> success?.invoke(state)
+                is AsyncImagePainter.State.Error -> error?.invoke(state)
+                else -> Unit
+            }
+        }
+    }
 
     //Needed for triggering recomposition
     LaunchedEffect(errorOccurred) {

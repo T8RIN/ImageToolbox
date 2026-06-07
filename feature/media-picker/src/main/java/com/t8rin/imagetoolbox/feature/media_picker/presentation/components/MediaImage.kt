@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.size.Precision
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Error
@@ -157,14 +157,16 @@ fun MediaImage(
                 error = {
                     Box(
                         contentAlignment = Alignment.Center,
-                        modifier = Modifier.background(
-                            takeColorFromScheme { isNightMode ->
-                                errorContainer.copy(
-                                    if (isNightMode) 0.25f
-                                    else 1f
-                                ).compositeOver(surface)
-                            }
-                        )
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                takeColorFromScheme { isNightMode ->
+                                    errorContainer.copy(
+                                        if (isNightMode) 0.25f
+                                        else 1f
+                                    ).compositeOver(surface)
+                                }
+                            )
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.BrokenImageAlt,
