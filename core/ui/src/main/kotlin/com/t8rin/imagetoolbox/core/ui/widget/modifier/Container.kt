@@ -97,66 +97,79 @@ fun Modifier.container(
             color = shadowColor
         )
         .then(
-            if (resultShape is CornerBasedShape) {
+            remember(
+                resultShape,
+                clip,
+                resultPadding,
+                brush,
+                containerColor,
+                targetBorderWidth,
+                outlineColor
+            ) {
                 Modifier
                     .then(
-                        brush?.let {
-                            Modifier.background(
-                                brush = brush,
-                                shape = resultShape
-                            )
-                        } ?: Modifier.background(
-                            color = containerColor,
-                            shape = resultShape
-                        )
-                    )
-                    .then(
-                        if (targetBorderWidth > 0.dp) {
-                            Modifier.border(
-                                width = targetBorderWidth,
-                                color = outlineColor,
-                                shape = resultShape
-                            )
-                        } else {
+                        if (resultShape is CornerBasedShape) {
                             Modifier
+                                .then(
+                                    brush?.let {
+                                        Modifier.background(
+                                            brush = brush,
+                                            shape = resultShape
+                                        )
+                                    } ?: Modifier.background(
+                                        color = containerColor,
+                                        shape = resultShape
+                                    )
+                                )
+                                .then(
+                                    if (targetBorderWidth > 0.dp) {
+                                        Modifier.border(
+                                            width = targetBorderWidth,
+                                            color = outlineColor,
+                                            shape = resultShape
+                                        )
+                                    } else {
+                                        Modifier
+                                    }
+                                )
+                        } else {
+                            Modifier.drawWithCache {
+                                val outline = resultShape.createOutline(
+                                    size = size,
+                                    layoutDirection = layoutDirection,
+                                    density = this
+                                )
+                                val stroke = if (targetBorderWidth > 0.dp) {
+                                    Stroke(targetBorderWidth.toPx())
+                                } else {
+                                    null
+                                }
+
+                                onDrawWithContent {
+                                    brush?.let {
+                                        drawOutline(
+                                            outline = outline,
+                                            brush = brush
+                                        )
+                                    } ?: drawOutline(
+                                        outline = outline,
+                                        color = containerColor
+                                    )
+
+                                    stroke?.let {
+                                        drawOutline(
+                                            outline = outline,
+                                            color = outlineColor,
+                                            style = stroke
+                                        )
+                                    }
+                                    drawContent()
+                                }
+                            }
                         }
                     )
-            } else {
-                Modifier.drawWithCache {
-                    val outline = resultShape.createOutline(
-                        size = size,
-                        layoutDirection = layoutDirection,
-                        density = this
-                    )
-                    val stroke = if (targetBorderWidth > 0.dp) {
-                        Stroke(targetBorderWidth.toPx())
-                    } else {
-                        null
-                    }
-
-                    onDrawWithContent {
-                        brush?.let {
-                            drawOutline(
-                                outline = outline,
-                                brush = brush
-                            )
-                        } ?: drawOutline(
-                            outline = outline,
-                            color = containerColor
-                        )
-
-                        stroke?.let {
-                            drawOutline(
-                                outline = outline,
-                                color = outlineColor,
-                                style = stroke
-                            )
-                        }
-                        drawContent()
-                    }
-                }
+                    .then(if (clip) Modifier.clip(resultShape) else Modifier)
+                    .then(if (resultPadding > 0.dp) Modifier.padding(resultPadding) else Modifier)
             }
         )
-        .then(if (clip) Modifier.clip(resultShape) else Modifier)
-        .then(if (resultPadding > 0.dp) Modifier.padding(resultPadding) else Modifier)
 }
