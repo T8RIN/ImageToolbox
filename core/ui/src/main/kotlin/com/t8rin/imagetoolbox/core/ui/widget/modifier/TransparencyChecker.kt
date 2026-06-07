@@ -23,6 +23,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.node.CompositionLocalConsumerModifierNode
 import androidx.compose.ui.node.DrawModifierNode
@@ -64,7 +65,7 @@ private data class TransparencyCheckerElement(
         node.colorScheme = colorScheme
         node.checkerWidth = checkerWidth
         node.checkerHeight = checkerHeight
-        node.invalidateDraw()
+        node.invalidateCache()
     }
 
     override fun InspectorInfo.inspectableProperties() {
@@ -83,9 +84,10 @@ private class TransparencyCheckerNode(
     DrawModifierNode,
     CompositionLocalConsumerModifierNode {
 
+    private var cache: CheckerCache? = null
+
     override fun ContentDrawScope.draw() {
         val scheme = colorScheme ?: currentValueOf(LocalMaterialTheme).colorScheme
-
         val checkerWidthPx = checkerWidth.toPx()
         val checkerHeightPx = checkerHeight.toPx()
 
@@ -94,30 +96,46 @@ private class TransparencyCheckerNode(
             return
         }
 
-        val horizontalSteps = (size.width / checkerWidthPx).toInt()
-        val verticalSteps = (size.height / checkerHeightPx).toInt()
-
         val surface = scheme.surface
         val elevatedSurface = scheme.surfaceColorAtElevation(20.dp)
         val background = elevatedSurface.blend(surface, 0.5f)
+        val currentCache = cache?.takeIf {
+            it.size == size &&
+                    it.checkerWidthPx == checkerWidthPx &&
+                    it.checkerHeightPx == checkerHeightPx &&
+                    it.surface == surface &&
+                    it.elevatedSurface == elevatedSurface &&
+                    it.background == background
+        } ?: CheckerCache(
+            size = size,
+            checkerWidthPx = checkerWidthPx,
+            checkerHeightPx = checkerHeightPx,
+            horizontalSteps = (size.width / checkerWidthPx).toInt(),
+            verticalSteps = (size.height / checkerHeightPx).toInt(),
+            surface = surface,
+            elevatedSurface = elevatedSurface,
+            background = background
+        ).also {
+            cache = it
+        }
 
-        drawRect(background)
+        drawRect(currentCache.background)
 
-        for (y in 0..verticalSteps) {
-            for (x in 0..horizontalSteps) {
+        for (y in 0..currentCache.verticalSteps) {
+            for (x in 0..currentCache.horizontalSteps) {
                 drawRect(
                     color = if ((x + y) % 2 == 1) {
-                        elevatedSurface
+                        currentCache.elevatedSurface
                     } else {
-                        surface
+                        currentCache.surface
                     },
                     topLeft = Offset(
-                        x = x * checkerWidthPx,
-                        y = y * checkerHeightPx
+                        x = x * currentCache.checkerWidthPx,
+                        y = y * currentCache.checkerHeightPx
                     ),
                     size = Size(
-                        width = checkerWidthPx,
-                        height = checkerHeightPx
+                        width = currentCache.checkerWidthPx,
+                        height = currentCache.checkerHeightPx
                     )
                 )
             }
@@ -125,4 +143,20 @@ private class TransparencyCheckerNode(
 
         drawContent()
     }
+
+    fun invalidateCache() {
+        cache = null
+        invalidateDraw()
+    }
 }
+
+private data class CheckerCache(
+    val size: Size,
+    val checkerWidthPx: Float,
+    val checkerHeightPx: Float,
+    val horizontalSteps: Int,
+    val verticalSteps: Int,
+    val surface: Color,
+    val elevatedSurface: Color,
+    val background: Color
+)
