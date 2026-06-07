@@ -18,8 +18,11 @@
 package com.t8rin.imagetoolbox.feature.format_conversion.presentation
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -27,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -48,11 +52,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -132,44 +138,54 @@ fun FormatConversionContent(
         },
         onGoBack = onBack,
         actions = {
-            if (!isPortrait) {
-                UndoRedoButtons(
-                    canUndo = component.canUndo,
-                    canRedo = component.canRedo,
-                    onUndo = component::undo,
-                    onRedo = component::redo
-                )
-            }
-            var editSheetData by remember {
-                mutableStateOf(listOf<Uri>())
-            }
-            ShareButton(
-                enabled = component.bitmap != null,
-                onShare = component::shareBitmaps,
-                onCopy = {
-                    component.cacheCurrentImage(Clipboard::copy)
-                },
-                onEdit = {
-                    component.cacheImages {
-                        editSheetData = it
-                    }
+            val state = rememberScrollState()
+            Row(
+                modifier = Modifier
+                    .fadingEdges(state)
+                    .enhancedHorizontalScroll(state),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (!isPortrait) {
+                    UndoRedoButtons(
+                        canUndo = component.canUndo,
+                        canRedo = component.canRedo,
+                        onUndo = component::undo,
+                        onRedo = component::redo,
+                        modifier = Modifier.padding(2.dp)
+                    )
                 }
-            )
-            ProcessImagesPreferenceSheet(
-                uris = editSheetData,
-                visible = editSheetData.isNotEmpty(),
-                onDismiss = {
-                    editSheetData = emptyList()
-                },
-                onNavigate = component.onNavigate
-            )
-            if (isPortrait) {
-                UndoRedoButtons(
-                    canUndo = component.canUndo,
-                    canRedo = component.canRedo,
-                    onUndo = component::undo,
-                    onRedo = component::redo
+                var editSheetData by remember {
+                    mutableStateOf(listOf<Uri>())
+                }
+                ShareButton(
+                    enabled = component.bitmap != null,
+                    onShare = component::shareBitmaps,
+                    onCopy = {
+                        component.cacheCurrentImage(Clipboard::copy)
+                    },
+                    onEdit = {
+                        component.cacheImages {
+                            editSheetData = it
+                        }
+                    }
                 )
+                ProcessImagesPreferenceSheet(
+                    uris = editSheetData,
+                    visible = editSheetData.isNotEmpty(),
+                    onDismiss = {
+                        editSheetData = emptyList()
+                    },
+                    onNavigate = component.onNavigate
+                )
+                if (isPortrait) {
+                    UndoRedoButtons(
+                        canUndo = component.canUndo,
+                        canRedo = component.canRedo,
+                        onUndo = component::undo,
+                        onRedo = component::redo,
+                        modifier = Modifier.padding(2.dp)
+                    )
+                }
             }
         },
         imagePreview = {

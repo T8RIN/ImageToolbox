@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -58,9 +59,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
@@ -98,68 +101,77 @@ fun FiltersContent(
     var showOriginal by remember { mutableStateOf(false) }
 
     val actions: @Composable RowScope.() -> Unit = {
-        Spacer(modifier = Modifier.width(8.dp))
-        if (component.bitmap != null) {
-            var editSheetData by remember {
-                mutableStateOf(listOf<Uri>())
-            }
-            ShareButton(
-                enabled = component.canSave,
-                onShare = component::performSharing,
-                onCopy = {
-                    component.cacheCurrentImage(Clipboard::copy)
-                },
-                onEdit = {
-                    component.cacheImages {
-                        editSheetData = it
+        val state = rememberScrollState()
+        Row(
+            modifier = Modifier
+                .fadingEdges(state)
+                .enhancedHorizontalScroll(state),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(modifier = Modifier.width(8.dp))
+            if (component.bitmap != null) {
+                var editSheetData by remember {
+                    mutableStateOf(listOf<Uri>())
+                }
+                ShareButton(
+                    enabled = component.canSave,
+                    onShare = component::performSharing,
+                    onCopy = {
+                        component.cacheCurrentImage(Clipboard::copy)
+                    },
+                    onEdit = {
+                        component.cacheImages {
+                            editSheetData = it
+                        }
                     }
-                }
-            )
-            ProcessImagesPreferenceSheet(
-                uris = editSheetData,
-                visible = editSheetData.isNotEmpty(),
-                onDismiss = {
-                    editSheetData = emptyList()
-                },
-                onNavigate = component.onNavigate
-            )
-            ShowOriginalButton(
-                canShow = component.canShow(),
-                onStateChange = {
-                    showOriginal = it
-                }
-            )
-        }
-        var showCompareSheet by rememberSaveable { mutableStateOf(false) }
-        CompareButton(
-            onClick = { showCompareSheet = true },
-            visible = component.previewBitmap != null
-        )
-        CompareSheet(
-            data = component.bitmap to component.previewBitmap,
-            visible = showCompareSheet,
-            onDismiss = {
-                showCompareSheet = false
-            }
-        )
-
-        if (component.bitmap != null && (component.basicFilterState.filters.size >= 2 || component.maskingFilterState.masks.size >= 2)) {
-            EnhancedIconButton(
-                onClick = component::showReorderSheet
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Tune,
-                    contentDescription = stringResource(R.string.properties)
+                )
+                ProcessImagesPreferenceSheet(
+                    uris = editSheetData,
+                    visible = editSheetData.isNotEmpty(),
+                    onDismiss = {
+                        editSheetData = emptyList()
+                    },
+                    onNavigate = component.onNavigate
+                )
+                ShowOriginalButton(
+                    canShow = component.canShow(),
+                    onStateChange = {
+                        showOriginal = it
+                    }
                 )
             }
-        }
-        if (isPortrait) {
-            UndoRedoButtons(
-                canUndo = component.canUndo,
-                canRedo = component.canRedo,
-                onUndo = component::undo,
-                onRedo = component::redo
+            var showCompareSheet by rememberSaveable { mutableStateOf(false) }
+            CompareButton(
+                onClick = { showCompareSheet = true },
+                visible = component.previewBitmap != null
             )
+            CompareSheet(
+                data = component.bitmap to component.previewBitmap,
+                visible = showCompareSheet,
+                onDismiss = {
+                    showCompareSheet = false
+                }
+            )
+
+            if (component.bitmap != null && (component.basicFilterState.filters.size >= 2 || component.maskingFilterState.masks.size >= 2)) {
+                EnhancedIconButton(
+                    onClick = component::showReorderSheet
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Tune,
+                        contentDescription = stringResource(R.string.properties)
+                    )
+                }
+            }
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
         }
     }
 

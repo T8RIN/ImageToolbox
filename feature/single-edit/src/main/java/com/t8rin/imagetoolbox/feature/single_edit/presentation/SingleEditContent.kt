@@ -21,6 +21,7 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Icon
@@ -188,7 +189,8 @@ fun SingleEditContent(
                         canUndo = component.canUndo,
                         canRedo = component.canRedo,
                         onUndo = component::undo,
-                        onRedo = component::redo
+                        onRedo = component::redo,
+                        modifier = Modifier.padding(2.dp)
                     )
                 }
                 ShareButton(
@@ -242,7 +244,8 @@ fun SingleEditContent(
                         canUndo = component.canUndo,
                         canRedo = component.canRedo,
                         onUndo = component::undo,
-                        onRedo = component::redo
+                        onRedo = component::redo,
+                        modifier = Modifier.padding(2.dp)
                     )
                 }
             }
