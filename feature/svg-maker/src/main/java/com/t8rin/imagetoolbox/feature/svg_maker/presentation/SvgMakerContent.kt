@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.svg_maker.presentation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
@@ -35,6 +37,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -91,6 +94,15 @@ fun SvgMakerContent(
         },
         onGoBack = onBack,
         actions = {
+            if (!isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
             ShareButton(
                 onShare = component::performSharing,
                 enabled = !component.isSaving && component.uris.isNotEmpty()
@@ -102,6 +114,15 @@ fun SvgMakerContent(
                 Icon(
                     imageVector = Icons.Rounded.ImageReset,
                     contentDescription = stringResource(R.string.reset_image)
+                )
+            }
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
                 )
             }
         },

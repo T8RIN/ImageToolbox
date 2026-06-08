@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,11 +43,13 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animate
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.state.derivedValueOf
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
@@ -64,6 +67,8 @@ import com.t8rin.imagetoolbox.noise_generation.presentation.screenLogic.NoiseGen
 fun NoiseGenerationContent(
     component: NoiseGenerationComponent
 ) {
+    val isPortrait by isPortraitOrientationAsState()
+
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveNoise(
             oneTimeSaveLocationUri = it
@@ -105,7 +110,27 @@ fun NoiseGenerationContent(
             )
         },
         onGoBack = component.onGoBack,
-        actions = {},
+        actions = {
+            if (!isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
+            shareButton()
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
+        },
         topAppBarPersistentActions = {
             TopAppBarEmoji()
         },
@@ -154,7 +179,7 @@ fun NoiseGenerationContent(
                 )
             }
         },
-        buttons = {
+        buttons = { actions ->
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
@@ -169,7 +194,7 @@ fun NoiseGenerationContent(
                     showFolderSelectionDialog = true
                 },
                 actions = {
-                    shareButton()
+                    if (isPortrait) actions()
                 }
             )
             OneTimeSaveLocationSelectionDialog(

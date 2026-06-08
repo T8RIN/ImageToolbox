@@ -37,12 +37,13 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.noise_generation.domain.NoiseGenerator
 import com.t8rin.imagetoolbox.noise_generation.domain.model.NoiseParams
+import com.t8rin.imagetoolbox.noise_generation.presentation.screenLogic.NoiseGenerationComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -58,11 +59,10 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>
-) : BaseComponent(dispatchersHolder, componentContext) {
-
-    init {
-        updatePreview()
-    }
+) : BaseHistoryComponent<HistorySnapshot>(
+    dispatchersHolder = dispatchersHolder,
+    componentContext = componentContext
+) {
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -81,6 +81,11 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
+
+    init {
+        resetHistory()
+        updatePreview()
+    }
 
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
@@ -170,32 +175,65 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
-        _imageFormat.update { imageFormat }
+        if (_imageFormat.value != imageFormat) {
+            if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
+                finalizePendingHistoryTransaction()
+            }
+            beginPendingHistoryTransaction(
+                mode = PendingHistoryMode.FormatChange,
+                commitDelayMillis = formatHistoryTransactionDebounce
+            )
+            _imageFormat.update { imageFormat }
+            registerChanges()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun setQuality(quality: Quality) {
-        _quality.update { quality }
+        if (_quality.value != quality) {
+            beginPendingHistoryTransaction()
+            _quality.update { quality }
+            registerChanges()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun updateParams(params: NoiseParams) {
-        _noiseParams.update(
-            onValueChanged = ::updatePreview,
-            transform = { params }
-        )
+        if (_noiseParams.value != params) {
+            beginPendingHistoryTransaction()
+            _noiseParams.update(
+                onValueChanged = ::updatePreview,
+                transform = { params }
+            )
+            registerChanges()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun setNoiseWidth(width: Int) {
-        _noiseSize.update(
-            onValueChanged = ::updatePreview,
-            transform = { it.copy(width = width.coerceAtMost(8192)) }
-        )
+        val coercedWidth = width.coerceAtMost(8192)
+        if (_noiseSize.value.width != coercedWidth) {
+            beginPendingHistoryTransaction()
+            _noiseSize.update(
+                onValueChanged = ::updatePreview,
+                transform = { it.copy(width = coercedWidth) }
+            )
+            registerChanges()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun setNoiseHeight(height: Int) {
-        _noiseSize.update(
-            onValueChanged = ::updatePreview,
-            transform = { it.copy(height = height.coerceAtMost(8192)) }
-        )
+        val coercedHeight = height.coerceAtMost(8192)
+        if (_noiseSize.value.height != coercedHeight) {
+            beginPendingHistoryTransaction()
+            _noiseSize.update(
+                onValueChanged = ::updatePreview,
+                transform = { it.copy(height = coercedHeight) }
+            )
+            registerChanges()
+            schedulePendingHistoryCommit()
+        }
     }
 
     private fun updatePreview() {
@@ -223,6 +261,28 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        noiseParams = noiseParams,
+        noiseSize = noiseSize,
+        imageFormat = imageFormat,
+        quality = quality
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _noiseParams.update { snapshot.noiseParams }
+        _noiseSize.update { snapshot.noiseSize }
+        _imageFormat.update { snapshot.imageFormat }
+        _quality.update { snapshot.quality }
+        updatePreview()
+    }
+
+    data class HistorySnapshot(
+        val noiseParams: NoiseParams = NoiseParams.Default,
+        val noiseSize: IntegerSize = IntegerSize(1000, 1000),
+        val imageFormat: ImageFormat = ImageFormat.Default,
+        val quality: Quality = Quality.Base(100)
+    )
 
 
     @AssistedFactory

@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
@@ -142,6 +143,15 @@ fun ImageStitchingContent(
             var editSheetData by remember {
                 mutableStateOf(listOf<Uri>())
             }
+            if (!isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
             ShareButton(
                 enabled = component.previewBitmap != null,
                 onShare = component::shareBitmap,
@@ -166,6 +176,15 @@ fun ImageStitchingContent(
                 onClick = { showZoomSheet = true },
                 visible = component.previewBitmap != null,
             )
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
         },
         imagePreview = {
             ImageContainer(
@@ -198,7 +217,7 @@ fun ImageStitchingContent(
             ) {
                 ImageReorderCarousel(
                     images = component.uris,
-                    onReorder = component::updateUris,
+                    onReorder = component::reorderUris,
                     onNeedToAddImage = addImages,
                     onNeedToRemoveImageAt = component::removeImageAt,
                     onNavigate = component.onNavigate

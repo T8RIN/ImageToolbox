@@ -32,10 +32,11 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiNegativeFilter
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.ascii_art.domain.AsciiConverter
+import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -51,7 +52,10 @@ class AsciiArtComponent @AssistedInject internal constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<HistorySnapshot>(
+    dispatchersHolder = dispatchersHolder,
+    componentContext = componentContext
+) {
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
@@ -77,7 +81,12 @@ class AsciiArtComponent @AssistedInject internal constructor(
     }
 
     fun setUri(uri: Uri) {
+        clearHistory()
+        registerChangesCleared()
         _uri.update { uri }
+        if (uri != Uri.EMPTY) {
+            resetHistory()
+        }
     }
 
     fun convertToAsciiString(
@@ -98,19 +107,32 @@ class AsciiArtComponent @AssistedInject internal constructor(
     }
 
     fun setGradient(gradient: String) {
-        _asciiParams.update {
-            it.copy(gradient = gradient)
+        if (asciiParams.gradient != gradient) {
+            beginPendingHistoryTransaction()
+            _asciiParams.update {
+                it.copy(gradient = gradient)
+            }
+            registerChanges()
+            schedulePendingHistoryCommit()
         }
     }
 
     fun setFontSize(fontSize: Float) {
-        _asciiParams.update {
-            it.copy(fontSize = fontSize)
+        if (asciiParams.fontSize != fontSize) {
+            beginPendingHistoryTransaction()
+            _asciiParams.update {
+                it.copy(fontSize = fontSize)
+            }
+            registerChanges()
+            schedulePendingHistoryCommit()
         }
     }
 
     fun toggleIsInvertImage() {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _isInvertImage.update { !it }
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun getAsciiTransformations(): List<Transformation> = buildList {
@@ -119,6 +141,24 @@ class AsciiArtComponent @AssistedInject internal constructor(
     }.map {
         filterProvider.filterToTransformation(it).toCoil()
     }
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        uri = uri,
+        asciiParams = asciiParams,
+        isInvertImage = isInvertImage
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _uri.update { snapshot.uri }
+        _asciiParams.update { snapshot.asciiParams }
+        _isInvertImage.update { snapshot.isInvertImage }
+    }
+
+    data class HistorySnapshot(
+        val uri: Uri = Uri.EMPTY,
+        val asciiParams: AsciiParams = AsciiParams.Default.copy(isGrayscale = true),
+        val isInvertImage: Boolean = false
+    )
 
     @AssistedFactory
     fun interface Factory {

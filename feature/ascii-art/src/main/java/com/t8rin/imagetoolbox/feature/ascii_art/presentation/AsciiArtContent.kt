@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.ascii_art.presentation
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import com.t8rin.imagetoolbox.core.resources.Icons
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -34,8 +34,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeAspectRatio
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -47,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
@@ -120,6 +123,15 @@ fun AsciiArtContent(
             )
         },
         actions = {
+            if (!isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
             ShareButton(
                 enabled = component.uri != Uri.EMPTY,
                 onShare = {
@@ -128,6 +140,15 @@ fun AsciiArtContent(
                     }
                 },
             )
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
         },
         imagePreview = {
             Box(

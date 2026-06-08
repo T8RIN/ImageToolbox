@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -153,6 +154,15 @@ fun ImageSplitterContent(
             var editSheetData by remember {
                 mutableStateOf(listOf<Uri>())
             }
+            if (!isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
             ShareButton(
                 enabled = component.uri != null,
                 onShare = component::shareBitmaps,
@@ -170,6 +180,15 @@ fun ImageSplitterContent(
                 },
                 onNavigate = component.onNavigate
             )
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
         },
         showImagePreviewAsStickyHeader = false,
         imagePreview = {

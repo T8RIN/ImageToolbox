@@ -36,7 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.feature.image_stacking.domain.ImageStacker
 import com.t8rin.imagetoolbox.feature.image_stacking.domain.StackImage
 import com.t8rin.imagetoolbox.feature.image_stacking.domain.StackingParams
 import com.t8rin.imagetoolbox.feature.image_stacking.domain.toStackImage
+import com.t8rin.imagetoolbox.feature.image_stacking.presentation.screenLogic.ImageStackingComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -60,7 +61,10 @@ class ImageStackingComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<HistorySnapshot>(
+    dispatchersHolder = dispatchersHolder,
+    componentContext = componentContext
+) {
 
     init {
         debounce {
@@ -75,7 +79,12 @@ class ImageStackingComponent @AssistedInject internal constructor(
     val isSaving by _isSaving
 
     fun updateUris(uris: List<Uri>) {
+        clearHistory()
+        registerChangesCleared()
         _stackImages.value = uris.map { it.toString().toStackImage() }
+        if (uris.isNotEmpty()) {
+            resetHistory()
+        }
         if (uris.isNotEmpty()) {
             calculatePreview()
         }
@@ -98,8 +107,19 @@ class ImageStackingComponent @AssistedInject internal constructor(
     val done by _done
 
     fun setImageFormat(imageFormat: ImageFormat) {
-        _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
-        calculatePreview()
+        if (_imageInfo.value.imageFormat != imageFormat) {
+            if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
+                finalizePendingHistoryTransaction()
+            }
+            beginPendingHistoryTransaction(
+                mode = PendingHistoryMode.FormatChange,
+                commitDelayMillis = formatHistoryTransactionDebounce
+            )
+            _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
+            registerChanges()
+            calculatePreview()
+            schedulePendingHistoryCommit()
+        }
     }
 
     private var calculationPreviewJob: Job? by smartJob {
@@ -212,8 +232,13 @@ class ImageStackingComponent @AssistedInject internal constructor(
     }
 
     fun setQuality(quality: Quality) {
-        _imageInfo.value = _imageInfo.value.copy(quality = quality)
-        calculatePreview()
+        if (_imageInfo.value.quality != quality) {
+            beginPendingHistoryTransaction()
+            _imageInfo.value = _imageInfo.value.copy(quality = quality)
+            registerChanges()
+            calculatePreview()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun cancelSaving() {
@@ -223,13 +248,18 @@ class ImageStackingComponent @AssistedInject internal constructor(
     }
 
     fun addUrisToEnd(uris: List<Uri>) {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _stackImages.update { list ->
             list + uris.map { it.toString().toStackImage() }.filter { it !in list }
         }
+        commitHistoryFrom(beforeSnapshot)
         calculatePreview()
     }
 
     fun removeImageAt(index: Int) {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _stackImages.update { list ->
             list.toMutableList().apply {
                 removeAt(index)
@@ -237,6 +267,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 if (it == null) _previewBitmap.value = null
             } ?: emptyList()
         }
+        commitHistoryFrom(beforeSnapshot)
         calculatePreview()
     }
 
@@ -277,36 +308,85 @@ class ImageStackingComponent @AssistedInject internal constructor(
     fun updateParams(
         newParams: StackingParams
     ) {
-        _stackingParams.update { newParams }
-        calculatePreview()
+        if (_stackingParams.value != newParams) {
+            beginPendingHistoryTransaction()
+            _stackingParams.update { newParams }
+            registerChanges()
+            calculatePreview()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun updateStackImage(
         value: StackImage,
         index: Int
     ) {
+        beginPendingHistoryTransaction()
         val list = stackImages.toMutableList()
         runCatching {
             list[index] = value
             _stackImages.update { list }
         }.onFailure(AppToastHost::showFailureToast)
 
+        registerChanges()
         calculatePreview()
+        schedulePendingHistoryCommit()
     }
 
     fun reorderUris(uris: List<Uri>) {
         if (stackImages.map { it.uri } != uris) {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
             _stackImages.update { stack ->
                 val stackOrder = uris.map { it.toString() }
                 val data = stack.associateBy { it.uri }
                 val leftStack = stack.filter { it.uri !in stackOrder }
                 (leftStack + stackOrder.mapNotNull { data[it] }).distinct()
             }
+            commitHistoryFrom(beforeSnapshot)
             calculatePreview()
         }
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        stackImages = stackImages,
+        stackingParams = stackingParams,
+        imageInfo = imageInfo.asHistoryImageInfo()
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _stackImages.update { snapshot.stackImages }
+        _stackingParams.update { snapshot.stackingParams }
+        _imageInfo.update { current ->
+            current.copy(
+                imageFormat = snapshot.imageInfo.imageFormat,
+                quality = snapshot.imageInfo.quality
+            )
+        }
+        calculatePreview()
+    }
+
+    override fun hasSameUndoState(
+        first: HistorySnapshot,
+        second: HistorySnapshot
+    ): Boolean = first.normalized() == second.normalized()
+
+    private fun ImageInfo.asHistoryImageInfo(): ImageInfo = ImageInfo(
+        imageFormat = imageFormat,
+        quality = quality
+    )
+
+    private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
+        imageInfo = imageInfo.asHistoryImageInfo()
+    )
+
+    data class HistorySnapshot(
+        val stackImages: List<StackImage> = emptyList(),
+        val stackingParams: StackingParams = StackingParams.Default,
+        val imageInfo: ImageInfo = ImageInfo()
+    )
 
 
     @AssistedFactory

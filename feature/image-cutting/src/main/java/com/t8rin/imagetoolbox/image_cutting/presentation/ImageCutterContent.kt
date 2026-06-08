@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -115,6 +116,15 @@ fun ImageCutterContent(
             var editSheetData by remember {
                 mutableStateOf(listOf<Uri>())
             }
+            if (!isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
             ShareButton(
                 enabled = component.uris != null,
                 onShare = component::shareBitmaps,
@@ -135,6 +145,15 @@ fun ImageCutterContent(
                 },
                 onNavigate = component.onNavigate
             )
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
         },
         imagePreview = {
             Box(

@@ -33,12 +33,13 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.image_splitting.domain.ImageSplitter
 import com.t8rin.imagetoolbox.image_splitting.domain.SplitParams
+import com.t8rin.imagetoolbox.image_splitting.presentation.screenLogic.ImageSplitterComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -53,7 +54,10 @@ class ImageSplitterComponent @AssistedInject internal constructor(
     private val imageSplitter: ImageSplitter,
     private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<HistorySnapshot>(
+    dispatchersHolder = dispatchersHolder,
+    componentContext = componentContext
+) {
 
     init {
         debounce {
@@ -91,16 +95,23 @@ class ImageSplitterComponent @AssistedInject internal constructor(
     }
 
     fun updateUri(uri: Uri?) {
+        clearHistory()
+        registerChangesCleared()
         _uri.value = null
         _uri.value = uri
+        if (uri != null) {
+            resetHistory()
+        }
         updateUris()
     }
 
     fun updateParams(params: SplitParams) {
         if (params != this.params) {
+            beginPendingHistoryTransaction()
             _params.update { params }
             registerChanges()
             updateUris()
+            schedulePendingHistoryCommit()
         }
     }
 
@@ -175,6 +186,22 @@ class ImageSplitterComponent @AssistedInject internal constructor(
             _isSaving.value = false
         }
     }
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        uri = uri,
+        params = params
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _uri.update { snapshot.uri }
+        _params.update { snapshot.params }
+        updateUris()
+    }
+
+    data class HistorySnapshot(
+        val uri: Uri? = null,
+        val params: SplitParams = SplitParams.Default
+    )
 
     @AssistedFactory
     fun interface Factory {

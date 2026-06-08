@@ -45,13 +45,14 @@ import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkApplier
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
+import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.WatermarkingComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -70,7 +71,10 @@ class WatermarkingComponent @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val watermarkApplier: WatermarkApplier<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<HistorySnapshot>(
+    dispatchersHolder = dispatchersHolder,
+    componentContext = componentContext
+) {
 
     init {
         debounce {
@@ -257,19 +261,37 @@ class WatermarkingComponent @AssistedInject internal constructor(
     }
 
     fun setQuality(quality: Quality) {
-        _quality.update { quality }
-        registerChanges()
+        if (_quality.value != quality) {
+            beginPendingHistoryTransaction()
+            _quality.update { quality }
+            registerChanges()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
-        _imageFormat.update { imageFormat }
-        registerChanges()
+        if (_imageFormat.value != imageFormat) {
+            if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
+                finalizePendingHistoryTransaction()
+            }
+            beginPendingHistoryTransaction(
+                mode = PendingHistoryMode.FormatChange,
+                commitDelayMillis = formatHistoryTransactionDebounce
+            )
+            _imageFormat.update { imageFormat }
+            registerChanges()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun updateWatermarkParams(watermarkParams: WatermarkParams) {
-        _watermarkParams.update { watermarkParams }
-        registerChanges()
-        checkBitmapAndUpdate()
+        if (_watermarkParams.value != watermarkParams) {
+            beginPendingHistoryTransaction()
+            _watermarkParams.update { watermarkParams }
+            registerChanges()
+            checkBitmapAndUpdate()
+            schedulePendingHistoryCommit()
+        }
     }
 
     fun updateSelectedUri(
@@ -284,7 +306,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
                 onGetImage = { imageData ->
                     updateBitmap(imageData.image)
                     _isImageLoading.value = false
-                    setImageFormat(imageData.imageInfo.imageFormat)
+                    _imageFormat.update { imageData.imageInfo.imageFormat }
                 },
                 onFailure = {
                     _isImageLoading.value = false
@@ -315,13 +337,21 @@ class WatermarkingComponent @AssistedInject internal constructor(
     fun setUris(
         uris: List<Uri>,
     ) {
+        clearHistory()
+        registerChangesCleared()
         _uris.update { uris }
         uris.firstOrNull()?.let(::updateSelectedUri)
+        if (uris.isNotEmpty()) {
+            resetHistory()
+        }
     }
 
     fun toggleKeepExif(value: Boolean) {
+        if (_keepExif.value == value) return
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _keepExif.update { value }
-        registerChanges()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun getWatermarkTransformation(): Transformation {
@@ -423,6 +453,28 @@ class WatermarkingComponent @AssistedInject internal constructor(
     fun getFormatForFilenameSelection(): ImageFormat? =
         if (uris.size == 1) imageFormat
         else null
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        watermarkParams = watermarkParams,
+        imageFormat = imageFormat,
+        quality = quality,
+        keepExif = keepExif
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _watermarkParams.update { snapshot.watermarkParams }
+        _imageFormat.update { snapshot.imageFormat }
+        _quality.update { snapshot.quality }
+        _keepExif.update { snapshot.keepExif }
+        checkBitmapAndUpdate()
+    }
+
+    data class HistorySnapshot(
+        val watermarkParams: WatermarkParams = WatermarkParams.Default,
+        val imageFormat: ImageFormat = ImageFormat.Default,
+        val quality: Quality = Quality.Base(),
+        val keepExif: Boolean = false
+    )
 
 
     @AssistedFactory

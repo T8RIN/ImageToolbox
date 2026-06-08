@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -134,6 +135,15 @@ fun ImageStackingContent(
             var editSheetData by remember {
                 mutableStateOf(listOf<Uri>())
             }
+            if (!isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
             ShareButton(
                 enabled = component.previewBitmap != null,
                 onShare = component::shareBitmap,
@@ -154,10 +164,15 @@ fun ImageStackingContent(
                 },
                 onNavigate = component.onNavigate
             )
-            ZoomButton(
-                onClick = { showZoomSheet = true },
-                visible = component.previewBitmap != null,
-            )
+            if (isPortrait) {
+                UndoRedoButtons(
+                    canUndo = component.canUndo,
+                    canRedo = component.canRedo,
+                    onUndo = component::undo,
+                    onRedo = component::redo,
+                    modifier = Modifier.padding(2.dp)
+                )
+            }
         },
         imagePreview = {
             ImageContainer(
@@ -173,6 +188,11 @@ fun ImageStackingContent(
             if (component.stackImages.isEmpty()) {
                 TopAppBarEmoji()
             }
+
+            ZoomButton(
+                onClick = { showZoomSheet = true },
+                visible = component.previewBitmap != null,
+            )
         },
         controls = {
             Column(
