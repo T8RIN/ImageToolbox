@@ -73,7 +73,6 @@
 <img src="https://wakatime-badge.malik-mirov3.workers.dev/" style="height: 28px;"/>
 
 </br>
-</br>
 
 <a href="https://trendshift.io/repositories/12928" target="_blank">
 <img src="https://trendshift-badge.malik-mirov3.workers.dev/?v=2" alt="T8RIN%2FImageToolbox | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
