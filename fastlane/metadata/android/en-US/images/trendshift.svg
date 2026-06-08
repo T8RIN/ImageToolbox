@@ -16,11 +16,21 @@
   -->
 
 <svg height="55" viewBox="0 0 250 55" width="250" xmlns="http://www.w3.org/2000/svg">
-    <foreignObject height="55" width="250">
-        <div xmlns="http://www.w3.org/1999/xhtml">
-            <img style="filter: invert(1) hue-rotate(180deg); width: 250px; height: 55px;"
-                alt="T8RIN/ImageToolbox | Trendshift"
-                src="https://trendshift.io/api/badge/repositories/12928" />
-        </div>
-    </foreignObject>
+
+    <defs>
+        <filter id="dark-theme">
+            <!-- invert -->
+            <feComponentTransfer>
+                <feFuncR tableValues="1 0" type="table" />
+                <feFuncG tableValues="1 0" type="table" />
+                <feFuncB tableValues="1 0" type="table" />
+            </feComponentTransfer>
+
+            <!-- hue-rotate(180deg) -->
+            <feColorMatrix type="hueRotate" values="180" />
+        </filter>
+    </defs>
+
+    <image filter="url(#dark-theme)" height="55" href="https://trendshift.io/api/badge/repositories/12928"
+        width="250" />
 </svg>
