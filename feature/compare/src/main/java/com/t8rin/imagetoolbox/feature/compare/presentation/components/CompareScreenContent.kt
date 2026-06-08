@@ -40,17 +40,14 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -66,6 +63,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import coil3.transform.Transformation
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Highlight
@@ -249,11 +247,10 @@ internal fun CompareScreenContent(
 
                         tuneButton()
                     }
-                    val showButtonsAtTheTop by remember(compareType) {
-                        derivedStateOf {
-                            compareType != CompareType.Tap && compareType != CompareType.SideBySide
-                        }
-                    }
+
+                    val showButtonsAtTheTop =
+                        compareType != CompareType.Tap && compareType != CompareType.SideBySide
+
                     AnimatedVisibility(
                         visible = showButtonsAtTheTop
                     ) {
@@ -322,7 +319,8 @@ internal fun CompareScreenContent(
                                             .offset(y = (-2).dp),
                                         value = compareProgress,
                                         onValueChange = onCompareProgressChange,
-                                        valueRange = 0f..100f
+                                        valueRange = 0f..100f,
+                                        isAnimated = false
                                     )
                                 }
                             }
@@ -362,11 +360,10 @@ internal fun CompareScreenContent(
 
                         tuneButton()
                     }
-                    val showButtonsAtTheStart by remember(compareType) {
-                        derivedStateOf {
-                            compareType != CompareType.Tap && compareType != CompareType.SideBySide
-                        }
-                    }
+
+                    val showButtonsAtTheStart =
+                        compareType != CompareType.Tap && compareType != CompareType.SideBySide
+
                     AnimatedVisibility(
                         visible = showButtonsAtTheStart
                     ) {
@@ -455,7 +452,8 @@ internal fun CompareScreenContent(
                                     modifier = modifier,
                                     value = compareProgress,
                                     onValueChange = onCompareProgressChange,
-                                    valueRange = 0f..100f
+                                    valueRange = 0f..100f,
+                                    isAnimated = false
                                 )
                             }
                         }
