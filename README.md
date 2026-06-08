@@ -75,8 +75,12 @@
 </br>
 </br>
 
+<a href="https://trendshift.io/repositories/12928" target="_blank">
+<img src="https://trendshift.io/api/badge/repositories/12928" alt="T8RIN%2FImageToolbox | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
+</a>
+
   <a href="https://hellogithub.com/repository/4c5f2fae4eb545ab87cad9ffd19870ca" target="_blank">
-    <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=4c5f2fae4eb545ab87cad9ffd19870ca&claim_uid=ubtZe5aXVz0n2QA&theme=dark" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54" />
+    <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=4c5f2fae4eb545ab87cad9ffd19870ca&claim_uid=ubtZe5aXVz0n2QA&theme=dark" alt="Featured｜HelloGitHub" style="width: 250px; height: 55px;" width="250" height="55" />
   </a>
   
 
