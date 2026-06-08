@@ -19,18 +19,22 @@
 
     <defs>
         <filter id="dark-theme">
-            <!-- invert -->
             <feComponentTransfer>
                 <feFuncR tableValues="1 0" type="table" />
                 <feFuncG tableValues="1 0" type="table" />
                 <feFuncB tableValues="1 0" type="table" />
             </feComponentTransfer>
 
-            <!-- hue-rotate(180deg) -->
             <feColorMatrix type="hueRotate" values="180" />
+
+            <feComponentTransfer>
+                <feFuncR amplitude="1" exponent="1.15" type="gamma" />
+                <feFuncG amplitude="1" exponent="1.15" type="gamma" />
+                <feFuncB amplitude="1" exponent="1.15" type="gamma" />
+            </feComponentTransfer>
         </filter>
     </defs>
 
     <image filter="url(#dark-theme)" height="55" href="https://trendshift.io/api/badge/repositories/12928"
-        width="250" />
+        preserveAspectRatio="none" width="250" />
 </svg>
