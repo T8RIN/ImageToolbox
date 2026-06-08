@@ -202,21 +202,11 @@ class ImageSplitterComponent @AssistedInject internal constructor(
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
         _uri.update { snapshot.uri }
         _params.update { snapshot.params }
-        restoreBackgroundColorForNoAlphaFormats(snapshot)
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
         updateUris()
-    }
-
-    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
-        if (
-            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
-            snapshot.backgroundColorForNoAlphaFormats
-        ) {
-            componentScope.launch {
-                settingsManager.setBackgroundColorForNoAlphaFormats(
-                    color = snapshot.backgroundColorForNoAlphaFormats
-                )
-            }
-        }
     }
 
     data class HistorySnapshot(

@@ -396,20 +396,10 @@ class ImageCutterComponent @AssistedInject internal constructor(
         _params.update { snapshot.params }
         _imageFormat.update { snapshot.imageFormat }
         _quality.update { snapshot.quality }
-        restoreBackgroundColorForNoAlphaFormats(snapshot)
-    }
-
-    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
-        if (
-            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
-            snapshot.backgroundColorForNoAlphaFormats
-        ) {
-            componentScope.launch {
-                settingsManager.setBackgroundColorForNoAlphaFormats(
-                    color = snapshot.backgroundColorForNoAlphaFormats
-                )
-            }
-        }
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
     }
 
     data class HistorySnapshot(

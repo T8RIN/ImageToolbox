@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -43,6 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -65,6 +67,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: LimitsImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
+    private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
@@ -490,13 +493,21 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         imageInfo = imageInfo.asHistoryImageInfo(),
         resizeType = resizeType,
-        keepExif = keepExif
+        keepExif = keepExif,
+        backgroundColorForNoAlphaFormats = settingsManager
+            .settingsState
+            .value
+            .backgroundForNoAlphaImageFormats
     )
 
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
         _imageInfo.value = snapshot.imageInfo
         _resizeType.value = snapshot.resizeType
         _keepExif.value = snapshot.keepExif
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
         updateCanSave(register = false)
     }
 
@@ -505,6 +516,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
         second: HistorySnapshot
     ): Boolean = first.imageInfo == second.imageInfo &&
             first.keepExif == second.keepExif &&
+            first.backgroundColorForNoAlphaFormats == second.backgroundColorForNoAlphaFormats &&
             first.resizeType.isSameType(second.resizeType)
 
     private fun ImageInfo.asHistoryImageInfo(): ImageInfo = copy(
@@ -520,7 +532,8 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     data class HistorySnapshot(
         val imageInfo: ImageInfo = ImageInfo(),
         val resizeType: LimitsResizeType = LimitsResizeType.Recode(),
-        val keepExif: Boolean = false
+        val keepExif: Boolean = false,
+        val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
     @AssistedFactory

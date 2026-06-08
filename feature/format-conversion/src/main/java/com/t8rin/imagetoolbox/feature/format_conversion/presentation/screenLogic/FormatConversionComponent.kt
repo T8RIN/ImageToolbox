@@ -509,7 +509,10 @@ class FormatConversionComponent @AssistedInject internal constructor(
             )
         }
         _keepExif.value = snapshot.keepExif
-        restoreBackgroundColorForNoAlphaFormats(snapshot)
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
         debouncedImageCalculation {
             bitmap?.let {
                 checkBitmapAndUpdate(clearPreview = false)
@@ -530,19 +533,6 @@ class FormatConversionComponent @AssistedInject internal constructor(
     private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
         imageInfo = imageInfo.asHistoryImageInfo()
     )
-
-    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
-        if (
-            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
-            snapshot.backgroundColorForNoAlphaFormats
-        ) {
-            componentScope.launch {
-                settingsManager.setBackgroundColorForNoAlphaFormats(
-                    color = snapshot.backgroundColorForNoAlphaFormats
-                )
-            }
-        }
-    }
 
     data class HistorySnapshot(
         val imageInfo: ImageInfo = ImageInfo(),

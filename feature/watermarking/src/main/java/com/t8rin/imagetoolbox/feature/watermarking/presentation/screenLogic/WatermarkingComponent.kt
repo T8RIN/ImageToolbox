@@ -473,21 +473,11 @@ class WatermarkingComponent @AssistedInject internal constructor(
         _imageFormat.update { snapshot.imageFormat }
         _quality.update { snapshot.quality }
         _keepExif.update { snapshot.keepExif }
-        restoreBackgroundColorForNoAlphaFormats(snapshot)
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
         checkBitmapAndUpdate()
-    }
-
-    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
-        if (
-            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
-            snapshot.backgroundColorForNoAlphaFormats
-        ) {
-            componentScope.launch {
-                settingsManager.setBackgroundColorForNoAlphaFormats(
-                    color = snapshot.backgroundColorForNoAlphaFormats
-                )
-            }
-        }
     }
 
     data class HistorySnapshot(

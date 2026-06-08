@@ -22,6 +22,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
@@ -88,6 +90,22 @@ abstract class BaseHistoryComponent<Snapshot>(
         first: Snapshot,
         second: Snapshot
     ): Boolean = first == second
+
+    protected fun restoreBackgroundColorForNoAlphaFormats(
+        settingsManager: SettingsManager,
+        backgroundColorForNoAlphaFormats: ColorModel
+    ) {
+        if (
+            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
+            backgroundColorForNoAlphaFormats
+        ) {
+            componentScope.launch {
+                settingsManager.setBackgroundColorForNoAlphaFormats(
+                    color = backgroundColorForNoAlphaFormats
+                )
+            }
+        }
+    }
 
     protected fun commitHistoryFrom(beforeSnapshot: Snapshot) {
         val afterSnapshot = currentHistorySnapshot()

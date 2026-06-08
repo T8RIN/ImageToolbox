@@ -435,7 +435,10 @@ class ImageStitchingComponent @AssistedInject internal constructor(
             )
         }
         _combiningParams.update { snapshot.combiningParams.toSavable() }
-        restoreBackgroundColorForNoAlphaFormats(snapshot)
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
         calculatePreview(true)
     }
 
@@ -452,19 +455,6 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
         imageInfo = imageInfo.asHistoryImageInfo()
     )
-
-    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
-        if (
-            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
-            snapshot.backgroundColorForNoAlphaFormats
-        ) {
-            componentScope.launch {
-                settingsManager.setBackgroundColorForNoAlphaFormats(
-                    color = snapshot.backgroundColorForNoAlphaFormats
-                )
-            }
-        }
-    }
 
     data class HistorySnapshot(
         val uris: List<Uri>? = null,

@@ -372,7 +372,10 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 quality = snapshot.imageInfo.quality
             )
         }
-        restoreBackgroundColorForNoAlphaFormats(snapshot)
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
         calculatePreview()
     }
 
@@ -389,19 +392,6 @@ class ImageStackingComponent @AssistedInject internal constructor(
     private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
         imageInfo = imageInfo.asHistoryImageInfo()
     )
-
-    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
-        if (
-            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
-            snapshot.backgroundColorForNoAlphaFormats
-        ) {
-            componentScope.launch {
-                settingsManager.setBackgroundColorForNoAlphaFormats(
-                    color = snapshot.backgroundColorForNoAlphaFormats
-                )
-            }
-        }
-    }
 
     data class HistorySnapshot(
         val stackImages: List<StackImage> = emptyList(),

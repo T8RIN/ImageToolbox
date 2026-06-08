@@ -1114,7 +1114,10 @@ class FiltersComponent @AssistedInject internal constructor(
                 ?: snapshot.basicFilterState.selectedUri
         )
         _maskingFilterState.value = snapshot.maskingFilterState
-        restoreBackgroundColorForNoAlphaFormats(snapshot)
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
         lastPreviewRequest = null
         filterJob = null
         _canSave.value = calculateCanSave()
@@ -1135,19 +1138,6 @@ class FiltersComponent @AssistedInject internal constructor(
         imageInfo = imageInfo.asHistoryImageInfo(),
         basicFilterState = basicFilterState.copy(selectedUri = null)
     )
-
-    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
-        if (
-            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
-            snapshot.backgroundColorForNoAlphaFormats
-        ) {
-            componentScope.launch {
-                settingsManager.setBackgroundColorForNoAlphaFormats(
-                    color = snapshot.backgroundColorForNoAlphaFormats
-                )
-            }
-        }
-    }
 
     data class HistorySnapshot(
         val imageInfo: ImageInfo = ImageInfo(),

@@ -884,7 +884,10 @@ class SingleEditComponent @AssistedInject internal constructor(
         _originalSize.value = snapshot.originalSize
         _imageInfo.value = snapshot.imageInfo
         _presetSelected.value = snapshot.preset
-        restoreBackgroundColorForNoAlphaFormats(snapshot)
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
 
         job = componentScope.launch {
             _isImageLoading.update { true }
@@ -912,19 +915,6 @@ class SingleEditComponent @AssistedInject internal constructor(
     private fun HistorySnapshot.normalized(): HistorySnapshot = copy(
         imageInfo = imageInfo.asHistoryImageInfo()
     )
-
-    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
-        if (
-            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
-            snapshot.backgroundColorForNoAlphaFormats
-        ) {
-            componentScope.launch {
-                settingsManager.setBackgroundColorForNoAlphaFormats(
-                    color = snapshot.backgroundColorForNoAlphaFormats
-                )
-            }
-        }
-    }
 
     data class HistorySnapshot(
         val cachedUri: String? = null,

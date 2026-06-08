@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -45,6 +46,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -68,6 +70,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageScaler: WeightImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
+    private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
@@ -539,7 +542,11 @@ class WeightResizeComponent @AssistedInject internal constructor(
         handMode = handMode,
         maxBytes = maxBytes,
         imageFormat = imageFormat,
-        keepExif = keepExif
+        keepExif = keepExif,
+        backgroundColorForNoAlphaFormats = settingsManager
+            .settingsState
+            .value
+            .backgroundForNoAlphaImageFormats
     )
 
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
@@ -549,6 +556,10 @@ class WeightResizeComponent @AssistedInject internal constructor(
         _maxBytes.value = snapshot.maxBytes
         _imageFormat.value = snapshot.imageFormat
         _keepExif.value = snapshot.keepExif
+        restoreBackgroundColorForNoAlphaFormats(
+            settingsManager = settingsManager,
+            backgroundColorForNoAlphaFormats = snapshot.backgroundColorForNoAlphaFormats
+        )
         updateCanSave(register = false)
         updateImageSize()
     }
@@ -572,7 +583,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
         val handMode: Boolean = true,
         val maxBytes: Long = 0L,
         val imageFormat: ImageFormat = ImageFormat.Default,
-        val keepExif: Boolean = false
+        val keepExif: Boolean = false,
+        val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
     @AssistedFactory
