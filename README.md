@@ -70,7 +70,7 @@
 </br>
 </br>
 
-<img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7.svg?style=social" style="height: 28px;"/>
+<img src="https://wakatime-badge.malik-mirov3.workers.dev/" style="height: 28px;"/>
 
 </br>
 </br>
