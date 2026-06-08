@@ -48,8 +48,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsInteractor
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -74,8 +73,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
-    private val settingsProvider: SettingsProvider,
-    private val settingsInteractor: SettingsInteractor,
+    private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
@@ -497,7 +495,7 @@ class FormatConversionComponent @AssistedInject internal constructor(
     override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         imageInfo = imageInfo.asHistoryImageInfo(),
         keepExif = keepExif,
-        backgroundColorForNoAlphaFormats = settingsProvider
+        backgroundColorForNoAlphaFormats = settingsManager
             .settingsState
             .value
             .backgroundForNoAlphaImageFormats
@@ -535,11 +533,11 @@ class FormatConversionComponent @AssistedInject internal constructor(
 
     private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
         if (
-            settingsProvider.settingsState.value.backgroundForNoAlphaImageFormats !=
+            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
             snapshot.backgroundColorForNoAlphaFormats
         ) {
             componentScope.launch {
-                settingsInteractor.setBackgroundColorForNoAlphaFormats(
+                settingsManager.setBackgroundColorForNoAlphaFormats(
                     color = snapshot.backgroundColorForNoAlphaFormats
                 )
             }

@@ -32,11 +32,13 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -58,7 +60,8 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val settingsManager: SettingsManager,
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
@@ -266,7 +269,11 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
         noiseParams = noiseParams,
         noiseSize = noiseSize,
         imageFormat = imageFormat,
-        quality = quality
+        quality = quality,
+        backgroundColorForNoAlphaFormats = settingsManager
+            .settingsState
+            .value
+            .backgroundForNoAlphaImageFormats
     )
 
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
@@ -274,14 +281,29 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
         _noiseSize.update { snapshot.noiseSize }
         _imageFormat.update { snapshot.imageFormat }
         _quality.update { snapshot.quality }
+        restoreBackgroundColorForNoAlphaFormats(snapshot)
         updatePreview()
+    }
+
+    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
+        if (
+            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
+            snapshot.backgroundColorForNoAlphaFormats
+        ) {
+            componentScope.launch {
+                settingsManager.setBackgroundColorForNoAlphaFormats(
+                    color = snapshot.backgroundColorForNoAlphaFormats
+                )
+            }
+        }
     }
 
     data class HistorySnapshot(
         val noiseParams: NoiseParams = NoiseParams.Default,
         val noiseSize: IntegerSize = IntegerSize(1000, 1000),
         val imageFormat: ImageFormat = ImageFormat.Default,
-        val quality: Quality = Quality.Base(100)
+        val quality: Quality = Quality.Base(100),
+        val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
 

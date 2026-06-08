@@ -31,11 +31,13 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -60,6 +62,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
     private val imageStacker: ImageStacker<Bitmap>,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
+    private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
@@ -353,7 +356,11 @@ class ImageStackingComponent @AssistedInject internal constructor(
     override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         stackImages = stackImages,
         stackingParams = stackingParams,
-        imageInfo = imageInfo.asHistoryImageInfo()
+        imageInfo = imageInfo.asHistoryImageInfo(),
+        backgroundColorForNoAlphaFormats = settingsManager
+            .settingsState
+            .value
+            .backgroundForNoAlphaImageFormats
     )
 
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
@@ -365,6 +372,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                 quality = snapshot.imageInfo.quality
             )
         }
+        restoreBackgroundColorForNoAlphaFormats(snapshot)
         calculatePreview()
     }
 
@@ -382,10 +390,24 @@ class ImageStackingComponent @AssistedInject internal constructor(
         imageInfo = imageInfo.asHistoryImageInfo()
     )
 
+    private fun restoreBackgroundColorForNoAlphaFormats(snapshot: HistorySnapshot) {
+        if (
+            settingsManager.settingsState.value.backgroundForNoAlphaImageFormats !=
+            snapshot.backgroundColorForNoAlphaFormats
+        ) {
+            componentScope.launch {
+                settingsManager.setBackgroundColorForNoAlphaFormats(
+                    color = snapshot.backgroundColorForNoAlphaFormats
+                )
+            }
+        }
+    }
+
     data class HistorySnapshot(
         val stackImages: List<StackImage> = emptyList(),
         val stackingParams: StackingParams = StackingParams.Default,
-        val imageInfo: ImageInfo = ImageInfo()
+        val imageInfo: ImageInfo = ImageInfo(),
+        val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
 
 
