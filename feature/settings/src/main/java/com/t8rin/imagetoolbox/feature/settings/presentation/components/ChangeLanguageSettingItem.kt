@@ -216,11 +216,7 @@ private fun Context.setGlobalLocale(locale: Locale?) {
                 LocaleList.forLanguageTags(locale.toLanguageTag())
             } ?: LocaleList.getEmptyLocaleList()
     } else {
-        val newLocale = locale ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Resources.getSystem().configuration.locales[0]
-        } else {
-            Resources.getSystem().configuration.locale
-        }
+        val newLocale = locale ?: Resources.getSystem().configuration.locales[0]
         Locale.setDefault(newLocale)
 
         val configuration = resources.configuration

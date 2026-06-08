@@ -101,23 +101,19 @@ internal class AndroidWallpapersProvider @Inject constructor(
     private fun loadWallpapers(): List<Drawable?> {
         val home = safe { wallpaperManager.drawable }
         val builtIn = safe { wallpaperManager.getBuiltInDrawable(30000, 30000, false, 0.5f, 0.5f) }
-        val lock = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        val lock = safe {
+            wallpaperManager.getWallpaperFile(FLAG_LOCK)?.use {
+                BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
+                    .toDrawable(context.resources)
+            }
+        } ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             safe {
-                wallpaperManager.getWallpaperFile(FLAG_LOCK)?.use {
-                    BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
-                        .toDrawable(context.resources)
-                }
-            } ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                safe {
-                    wallpaperManager.getDrawable(FLAG_LOCK)
-                } ?: safe {
-                    wallpaperManager.getBuiltInDrawable(FLAG_LOCK)
-                }
-            } else {
-                safe { wallpaperManager.getBuiltInDrawable(FLAG_LOCK) }
+                wallpaperManager.getDrawable(FLAG_LOCK)
+            } ?: safe {
+                wallpaperManager.getBuiltInDrawable(FLAG_LOCK)
             }
         } else {
-            null
+            safe { wallpaperManager.getBuiltInDrawable(FLAG_LOCK) }
         }
 
         return listOf(home, lock, builtIn)

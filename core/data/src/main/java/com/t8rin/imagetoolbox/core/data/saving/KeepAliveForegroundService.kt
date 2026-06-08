@@ -145,17 +145,13 @@ internal class KeepAliveForegroundService : Service() {
 
     @Suppress("DEPRECATION")
     private fun stopForegroundSafe() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            stopForeground(
-                if (removeNotification) {
-                    STOP_FOREGROUND_REMOVE
-                } else {
-                    STOP_FOREGROUND_DETACH
-                }
-            )
-        } else {
-            stopForeground(removeNotification)
-        }
+        stopForeground(
+            if (removeNotification) {
+                STOP_FOREGROUND_REMOVE
+            } else {
+                STOP_FOREGROUND_DETACH
+            }
+        )
         if (removeNotification) {
             notificationManager.cancel(NOTIFICATION_ID)
         }

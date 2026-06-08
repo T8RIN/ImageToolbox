@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.erase_background.data.backend
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.graphics.set
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.segmentation.Segmentation
@@ -49,9 +46,8 @@ internal object MlKitBackgroundRemoverBackend : AutoBackgroundRemoverBackend<Bit
         }
     }
 
-    @SuppressLint("NewApi")
     private fun autoRemove(
-        type: ApiType = ApiType.Best,
+        type: ApiType = ApiType.New,
         image: Bitmap,
         onFinish: (Result<Bitmap>) -> Unit
     ) {
@@ -78,10 +74,6 @@ internal object MlKitBackgroundRemoverBackend : AutoBackgroundRemoverBackend<Bit
 
     private enum class ApiType {
         Old, New;
-
-        companion object Companion {
-            val Best: ApiType get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) New else Old
-        }
     }
 
 }
@@ -155,7 +147,6 @@ private object MlKitBackgroundRemover {
 
 }
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 private object MlKitSubjectBackgroundRemover {
 
     private var segment: SubjectSegmenter? = null
@@ -175,7 +166,6 @@ private object MlKitSubjectBackgroundRemover {
      * @param bitmap Bitmap which you want to remove background.
      * @param onFinish listener for success and failure callback.
      **/
-    @RequiresApi(api = Build.VERSION_CODES.N)
     fun removeBackground(
         bitmap: Bitmap,
         onFinish: (Result<Bitmap>) -> Unit

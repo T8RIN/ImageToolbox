@@ -31,7 +31,6 @@ import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.MotionEvent
@@ -352,12 +351,7 @@ internal class FramePhotoLayout(
             val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             val dragData = ClipData(view.tag.toString(), mimeTypes, item)
             val myShadow = DragShadowBuilder(view)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                view.startDragAndDrop(dragData, myShadow, view, 0)
-            } else {
-                @Suppress("DEPRECATION")
-                view.startDrag(dragData, myShadow, view, 0)
-            }
+            view.startDragAndDrop(dragData, myShadow, view, 0)
         }
     }
 
