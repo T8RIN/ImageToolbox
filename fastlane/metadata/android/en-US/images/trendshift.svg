@@ -16,25 +16,11 @@
   -->
 
 <svg height="55" viewBox="0 0 250 55" width="250" xmlns="http://www.w3.org/2000/svg">
-
-    <defs>
-        <filter id="dark-theme">
-            <feComponentTransfer>
-                <feFuncR tableValues="1 0" type="table" />
-                <feFuncG tableValues="1 0" type="table" />
-                <feFuncB tableValues="1 0" type="table" />
-            </feComponentTransfer>
-
-            <feColorMatrix type="hueRotate" values="180" />
-
-            <feComponentTransfer>
-                <feFuncR amplitude="1" exponent="1.15" type="gamma" />
-                <feFuncG amplitude="1" exponent="1.15" type="gamma" />
-                <feFuncB amplitude="1" exponent="1.15" type="gamma" />
-            </feComponentTransfer>
-        </filter>
-    </defs>
-
-    <image filter="url(#dark-theme)" height="55" href="https://trendshift.io/api/badge/repositories/12928"
-        preserveAspectRatio="none" width="250" />
+    <foreignObject height="55" width="250">
+        <div style="width:250px;height:55px;" xmlns="http://www.w3.org/1999/xhtml">
+            <img style="width:250px;height:55px;filter:invert(1) hue-rotate(180deg);"
+                alt="T8RIN%2FImageToolbox | Trendshift"
+                src="https://trendshift.io/api/badge/repositories/12928" />
+        </div>
+    </foreignObject>
 </svg>
