@@ -161,6 +161,7 @@ internal fun CompareScreenContentImpl(
                                 Picture(
                                     model = first,
                                     contentDescription = null,
+                                    contentScale = ContentScale.Fit,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .weight(1f)
@@ -172,6 +173,7 @@ internal fun CompareScreenContentImpl(
                                 Picture(
                                     model = second,
                                     contentDescription = null,
+                                    contentScale = ContentScale.Fit,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .weight(1f)
@@ -204,6 +206,7 @@ internal fun CompareScreenContentImpl(
                                 Picture(
                                     model = first,
                                     contentDescription = null,
+                                    contentScale = ContentScale.Fit,
                                     modifier = Modifier
                                         .fillMaxHeight()
                                         .weight(1f)
@@ -215,6 +218,7 @@ internal fun CompareScreenContentImpl(
                                 Picture(
                                     model = second,
                                     contentDescription = null,
+                                    contentScale = ContentScale.Fit,
                                     modifier = Modifier
                                         .fillMaxHeight()
                                         .weight(1f)
@@ -247,9 +251,11 @@ internal fun CompareScreenContentImpl(
                     mutableStateOf(false)
                 }
                 Box(
-                    modifier = modifier.tappable {
-                        showSecondImage = !showSecondImage
-                    }
+                    modifier = modifier
+                        .fillMaxSize()
+                        .tappable {
+                            showSecondImage = !showSecondImage
+                        }
                 ) {
                     val first = bitmapPair.first?.image
                     val second = bitmapPair.second?.image
@@ -257,14 +263,16 @@ internal fun CompareScreenContentImpl(
                         Picture(
                             model = first,
                             contentDescription = null,
-                            contentScale = ContentScale.Inside
+                            contentScale = ContentScale.Inside,
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                     if (showSecondImage && second != null) {
                         Picture(
                             model = second,
                             contentDescription = null,
-                            contentScale = ContentScale.Inside
+                            contentScale = ContentScale.Inside,
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                     Box(
@@ -292,7 +300,7 @@ internal fun CompareScreenContentImpl(
 
             CompareType.Transparency -> {
                 Box(
-                    modifier = modifier
+                    modifier = modifier.fillMaxSize()
                 ) {
                     val first = bitmapPair.first?.image
                     val second = bitmapPair.second?.image
@@ -300,7 +308,8 @@ internal fun CompareScreenContentImpl(
                         Picture(
                             model = first,
                             contentDescription = null,
-                            contentScale = ContentScale.Inside
+                            contentScale = ContentScale.Inside,
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                     if (second != null) {
@@ -308,7 +317,9 @@ internal fun CompareScreenContentImpl(
                             model = second,
                             contentDescription = null,
                             contentScale = ContentScale.Inside,
-                            modifier = Modifier.alpha(compareProgress / 100f)
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .alpha(compareProgress / 100f)
                         )
                     }
                     Box(
@@ -352,7 +363,7 @@ internal fun CompareScreenContentImpl(
                     contentAlignment = Alignment.Center
                 ) {
                     Box(
-                        modifier = modifier
+                        modifier = modifier.fillMaxSize()
                     ) {
                         if (first != null) {
                             var transformations: List<Transformation> by remember {
@@ -377,11 +388,15 @@ internal fun CompareScreenContentImpl(
                                 onSuccess = {
                                     isLoading = false
                                 },
+                                onError = {
+                                    isLoading = false
+                                },
                                 onLoading = {
                                     isLoading = true
                                 },
                                 contentDescription = null,
-                                contentScale = ContentScale.Inside
+                                contentScale = ContentScale.Inside,
+                                modifier = Modifier.fillMaxSize()
                             )
                         }
                     }
