@@ -448,7 +448,7 @@ private fun Modifier.enlargeOnPress(
     interactionSource: MutableInteractionSource,
     animationSpec: AnimationSpec<Float>,
     rowScope: RowScope,
-    factor: Float = 0.25f
+    factor: Float = 0.2f
 ): Modifier {
     val pressedAnimatable = remember { Animatable(0f) }
 
@@ -458,15 +458,9 @@ private fun Modifier.enlargeOnPress(
         interactionSource.interactions
             .map { interaction ->
                 when (interaction) {
-                    is PressInteraction.Press -> pressInteractions.add(
-                        interaction
-                    )
-
-                    is PressInteraction.Release ->
-                        pressInteractions.remove(interaction.press)
-
-                    is PressInteraction.Cancel ->
-                        pressInteractions.remove(interaction.press)
+                    is PressInteraction.Press -> pressInteractions.add(interaction)
+                    is PressInteraction.Release -> pressInteractions.remove(interaction.press)
+                    is PressInteraction.Cancel -> pressInteractions.remove(interaction.press)
                 }
                 pressInteractions.isNotEmpty()
             }

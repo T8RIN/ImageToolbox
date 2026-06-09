@@ -23,9 +23,9 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.InteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
@@ -33,6 +33,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
@@ -45,11 +46,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.t8rin.imagetoolbox.core.domain.utils.autoCast
+import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 object ShapeDefaults {
@@ -324,7 +329,7 @@ internal typealias ShapeAnimatable = Animatable<Float, AnimationVector1D>
 @Composable
 internal fun rememberAnimatedShape(
     currentShape: CornerBasedShape,
-    animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
+    animationSpec: FiniteAnimationSpec<Float> = remember { lessSpringySpec() },
 ): AnimatedShape {
     val density = LocalDensity.current
     val shapesType = LocalSettingsState.current.shapesType
@@ -363,7 +368,7 @@ internal fun rememberAnimatedShape(
 @Composable
 fun animateShape(
     targetValue: CornerBasedShape,
-    animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
+    animationSpec: FiniteAnimationSpec<Float> = remember { lessSpringySpec() },
 ): Shape = rememberAnimatedShape(
     currentShape = targetValue,
     animationSpec = animationSpec
@@ -379,19 +384,33 @@ fun shapeByInteraction(
 ): Shape {
     if (!enabled || interactionSource == null) return shape
 
-    val pressed by interactionSource.collectIsPressedAsState()
-    val focused by interactionSource.collectIsFocusedAsState()
+    val active by produceState(false, interactionSource) {
+        val pressInteractions = mutableListOf<PressInteraction.Press>()
+        val focusInteractions = mutableListOf<FocusInteraction.Focus>()
 
-    val usePressedShape = pressed || focused
+        interactionSource.interactions
+            .map { interaction ->
+                when (interaction) {
+                    is PressInteraction.Press -> pressInteractions.add(interaction)
+                    is PressInteraction.Release -> pressInteractions.remove(interaction.press)
+                    is PressInteraction.Cancel -> pressInteractions.remove(interaction.press)
+                    is FocusInteraction.Focus -> focusInteractions.add(interaction)
+                    is FocusInteraction.Unfocus -> focusInteractions.remove(interaction.focus)
+                }
 
-    val targetShape = if (usePressedShape) pressedShape else shape
-
-    if (targetShape is CornerBasedShape) {
-        return animateShape(
-            targetValue = targetShape,
-            animationSpec = animationSpec,
-        )
+                pressInteractions.isNotEmpty() || focusInteractions.isNotEmpty()
+            }
+            .distinctUntilChanged()
+            .throttleLatest(300)
+            .collectLatest { value = it }
     }
 
-    return targetShape
+    val targetShape = if (active) pressedShape else shape
+
+    return (targetShape as? CornerBasedShape)?.let {
+        animateShape(
+            targetValue = it,
+            animationSpec = animationSpec,
+        )
+    } ?: targetShape
 }
