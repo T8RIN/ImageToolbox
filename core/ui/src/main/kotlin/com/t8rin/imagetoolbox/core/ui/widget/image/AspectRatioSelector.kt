@@ -19,6 +19,8 @@ package com.t8rin.imagetoolbox.core.ui.widget.image
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,7 +38,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -63,6 +64,7 @@ import com.t8rin.cropper.widget.AspectRatioSelectionCard
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.utils.ifCasts
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CropFree
 import com.t8rin.imagetoolbox.core.resources.icons.DashboardCustomize
@@ -75,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import kotlin.math.abs
 
@@ -158,6 +161,15 @@ fun AspectRatioSelector(
                         item != DomainAspectRatio.Original && item != DomainAspectRatio.Free && item !is DomainAspectRatio.Custom
                     }
                 }
+
+                val interactionSource = remember { MutableInteractionSource() }
+
+                val cardShape = shapeByInteraction(
+                    shape = ShapeDefaults.default,
+                    pressedShape = ShapeDefaults.pressed,
+                    interactionSource = interactionSource
+                )
+
                 if (isNumeric) {
                     AspectRatioSelectionCard(
                         modifier = Modifier
@@ -169,12 +181,16 @@ fun AspectRatioSelector(
                                         MaterialTheme.colorScheme.primaryContainer
                                     } else unselectedCardColor,
                                 ).value,
-                                borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
-                                    0.7f
-                                )
-                                else MaterialTheme.colorScheme.outlineVariant()
+                                borderColor = takeColorFromScheme {
+                                    if (selected) onPrimaryContainer.copy(0.7f)
+                                    else outlineVariant()
+                                },
+                                shape = cardShape
                             )
-                            .hapticsClickable {
+                            .hapticsClickable(
+                                interactionSource = interactionSource,
+                                indication = LocalIndication.current
+                            ) {
                                 onAspectRatioChange(
                                     aspectRatios[index],
                                     cropAspectRatio.aspectRatio
@@ -199,9 +215,13 @@ fun AspectRatioSelector(
                                 borderColor = takeColorFromScheme {
                                     if (selected) onPrimaryContainer.copy(0.7f)
                                     else outlineVariant()
-                                }
+                                },
+                                shape = cardShape
                             )
-                            .hapticsClickable {
+                            .hapticsClickable(
+                                interactionSource = interactionSource,
+                                indication = LocalIndication.current
+                            ) {
                                 if (!item::class.isInstance(selectedAspectRatio)) {
                                     onAspectRatioChange(
                                         aspectRatios[index],

@@ -20,6 +20,8 @@ package com.t8rin.imagetoolbox.feature.crop.presentation.components
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,6 +40,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,6 +64,7 @@ import com.t8rin.cropper.settings.CropOutlineProperty
 import com.t8rin.cropper.widget.CropFrameDisplayCard
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -68,6 +72,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -136,6 +141,14 @@ fun CropMaskSelection(
                 key = { _, o -> o.cropOutline.id }
             ) { _, item ->
                 val selected = selectedItem.cropOutline.id == item.cropOutline.id
+                val interactionSource = remember { MutableInteractionSource() }
+
+                val cardShape = shapeByInteraction(
+                    shape = ShapeDefaults.default,
+                    pressedShape = ShapeDefaults.pressed,
+                    interactionSource = interactionSource
+                )
+
                 CropFrameDisplayCard(
                     modifier = Modifier
                         .padding(vertical = 8.dp)
@@ -147,12 +160,16 @@ fun CropMaskSelection(
                                     MaterialTheme.colorScheme.primaryContainer
                                 } else MaterialTheme.colorScheme.surfaceContainerLowest,
                             ).value,
-                            borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
-                                0.7f
-                            )
-                            else MaterialTheme.colorScheme.outlineVariant()
+                            borderColor = takeColorFromScheme {
+                                if (selected) onPrimaryContainer.copy(0.7f)
+                                else outlineVariant()
+                            },
+                            shape = cardShape
                         )
-                        .hapticsClickable {
+                        .hapticsClickable(
+                            interactionSource = interactionSource,
+                            indication = LocalIndication.current
+                        ) {
                             if (item.cropOutline is ImageMaskOutline) {
                                 maskLauncher.pickImage()
                             } else {
