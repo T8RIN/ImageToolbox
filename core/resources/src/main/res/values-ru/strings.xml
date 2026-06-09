@@ -1877,7 +1877,7 @@
     <string name="radial_weave_pixelization">Пикселизация радиального плетения</string>
     <string name="cannot_open_uri">Невозможно открыть ссылку \"%1$s\"</string>
     <string name="snowfall_mode">Режим снегопада</string>
-    <string name="enabled">Включено</string>
+    <string name="enabled">Вкл</string>
     <string name="border_frame">Рамка</string>
     <string name="glitch_variant">Вариант сбоя</string>
     <string name="channel_shift">Сдвиг канала</string>
