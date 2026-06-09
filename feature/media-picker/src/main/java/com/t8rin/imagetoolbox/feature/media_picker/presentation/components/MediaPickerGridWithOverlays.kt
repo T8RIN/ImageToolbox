@@ -87,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
@@ -180,14 +181,24 @@ internal fun MediaPickerGridWithOverlays(
                     }
                     BadgedBox(
                         badge = {
-                            if (selectedMedia.isNotEmpty() && allowMultiple) {
+                            BoxAnimatedVisibility(selectedMedia.isNotEmpty() && allowMultiple) {
                                 EnhancedBadge(
                                     containerColor = MaterialTheme.colorScheme.primary
                                 ) {
-                                    Text(
-                                        text = selectedMedia.size.toString(),
-                                        fontWeight = FontWeight.Bold
-                                    )
+                                    AnimatedContent(
+                                        targetState = selectedMedia.size,
+                                        transitionSpec = {
+                                            fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(
+                                                targetScale = 0.85f
+                                            )
+                                        },
+                                        modifier = Modifier.animateContentSizeNoClip()
+                                    ) { size ->
+                                        Text(
+                                            text = size.toString(),
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
                                 }
                             }
                         }

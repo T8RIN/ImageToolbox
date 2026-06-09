@@ -95,7 +95,9 @@ fun MediaCheckBox(
             targetState = Triple(isChecked, image, selectionIndex),
             transitionSpec = {
                 if (initialState.third >= 0 && targetState.third >= 0) {
-                    fadeIn() togetherWith fadeOut()
+                    fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(
+                        targetScale = 0.85f
+                    )
                 } else {
                     fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut()
                 }
