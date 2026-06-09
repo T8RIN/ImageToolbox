@@ -66,7 +66,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
+import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
@@ -325,7 +325,7 @@ fun EnhancedButtonGroup(
             val scrollState = rememberScrollState()
 
             LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
-                val animationSpec = remember { springySpec<Float>() }
+                val animationSpec = remember { lessSpringySpec<Float>() }
 
                 Row(
                     modifier = Modifier
@@ -447,7 +447,7 @@ private fun Modifier.enlargeOnPress(
     interactionSource: MutableInteractionSource,
     animationSpec: AnimationSpec<Float>,
     rowScope: RowScope,
-    factor: Float = 0.3f
+    factor: Float = 0.25f
 ): Modifier {
     val pressedAnimatable = remember { Animatable(0f) }
 
