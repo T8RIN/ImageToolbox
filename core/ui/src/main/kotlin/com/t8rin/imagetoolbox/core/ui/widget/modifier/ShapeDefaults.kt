@@ -374,7 +374,7 @@ fun shapeByInteraction(
     shape: Shape,
     pressedShape: Shape,
     interactionSource: InteractionSource?,
-    animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
+    animationSpec: FiniteAnimationSpec<Float> = remember { lessSpringySpec() },
     enabled: Boolean = true
 ): Shape {
     if (!enabled || interactionSource == null) return shape

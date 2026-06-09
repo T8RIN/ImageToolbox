@@ -75,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -474,6 +475,8 @@ private fun Modifier.enlargeOnPress(
                 if (pressed) {
                     launch { pressedAnimatable.animateTo(1f, animationSpec) }
                 } else {
+                    delay(150)
+
                     val initialTimeMillis = withFrameMillis { it }
                     while (!(pressedAnimatable.value > 0.75f)) {
                         val timeMillis = withFrameMillis { it }

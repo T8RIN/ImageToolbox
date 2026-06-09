@@ -130,10 +130,6 @@ fun ResizeTypeSelector(
             )
         }
     }
-    val updateCropResizeType = {
-        onValueChange(centerCropResizeType)
-    }
-
     val fitResizeType by remember(
         canvasColor,
         useBlurredBgInsteadOfColor,
@@ -149,8 +145,13 @@ fun ResizeTypeSelector(
             )
         }
     }
-    val updateFitResizeType = {
-        onValueChange(fitResizeType)
+
+    val updateCompoundResizeType = {
+        if (value is ResizeType.CenterCrop) {
+            onValueChange(centerCropResizeType)
+        } else if (value is ResizeType.Fit) {
+            onValueChange(fitResizeType)
+        }
     }
 
     Column(
@@ -250,7 +251,7 @@ fun ResizeTypeSelector(
             )
         }
         AnimatedVisibility(
-            visible = value is ResizeType.CenterCrop,
+            visible = value is ResizeType.CenterCrop || value is ResizeType.Fit,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -261,7 +262,7 @@ fun ResizeTypeSelector(
                     value = position,
                     onValueChange = {
                         position = it
-                        updateCropResizeType()
+                        updateCompoundResizeType()
                     },
                     shape = ShapeDefaults.top,
                     color = MaterialTheme.colorScheme.surface
@@ -271,7 +272,7 @@ fun ResizeTypeSelector(
                     checked = useBlurredBgInsteadOfColor,
                     onCheckedChange = {
                         useBlurredBgInsteadOfColor = it
-                        updateCropResizeType()
+                        updateCompoundResizeType()
                     },
                     shape = ShapeDefaults.center
                 )
@@ -284,7 +285,7 @@ fun ResizeTypeSelector(
                             color = MaterialTheme.colorScheme.surface,
                             onValueChange = {
                                 blurRadius = it
-                                updateCropResizeType()
+                                updateCompoundResizeType()
                             },
                             shape = ShapeDefaults.bottom
                         )
@@ -298,63 +299,7 @@ fun ResizeTypeSelector(
                             value = canvasColor,
                             onValueChange = {
                                 canvasColor = it
-                                updateCropResizeType()
-                            }
-                        )
-                    }
-                }
-            }
-        }
-        AnimatedVisibility(
-            visible = value is ResizeType.Fit,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            Column(
-                modifier = Modifier.padding(8.dp)
-            ) {
-                PositionSelector(
-                    value = position,
-                    onValueChange = {
-                        position = it
-                        updateFitResizeType()
-                    },
-                    shape = ShapeDefaults.top,
-                    color = MaterialTheme.colorScheme.surface
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                UseBlurredBackgroundToggle(
-                    checked = useBlurredBgInsteadOfColor,
-                    onCheckedChange = {
-                        useBlurredBgInsteadOfColor = it
-                        updateFitResizeType()
-                    },
-                    shape = ShapeDefaults.center
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
-                    if (showBlurRadius) {
-                        BlurRadiusSelector(
-                            modifier = Modifier,
-                            value = blurRadius,
-                            color = MaterialTheme.colorScheme.surface,
-                            onValueChange = {
-                                blurRadius = it
-                                updateFitResizeType()
-                            },
-                            shape = ShapeDefaults.bottom
-                        )
-                    } else {
-                        ColorRowSelector(
-                            modifier = Modifier
-                                .container(
-                                    shape = ShapeDefaults.bottom,
-                                    color = MaterialTheme.colorScheme.surface
-                                ),
-                            value = canvasColor,
-                            onValueChange = {
-                                canvasColor = it
-                                updateFitResizeType()
+                                updateCompoundResizeType()
                             }
                         )
                     }
