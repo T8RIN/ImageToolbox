@@ -17,56 +17,23 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.sheets
 
-import android.content.res.Resources
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import coil3.asDrawable
 import coil3.transform.Transformation
-import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ZoomIn
-import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.EnhancedZoomableModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
-import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
-import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import net.engawapg.lib.zoomable.rememberZoomState
-import net.engawapg.lib.zoomable.zoomable
 
 @Composable
 fun ZoomModalSheet(
@@ -75,107 +42,31 @@ fun ZoomModalSheet(
     onDismiss: () -> Unit,
     transformations: List<Transformation> = emptyList()
 ) {
-    val sheetContent: @Composable ColumnScope.() -> Unit = {
-        val zoomState = rememberZoomState(maxScale = 15f)
-        var aspectRatio by remember(data) {
-            mutableFloatStateOf(1f)
-        }
-        Column(
-            modifier = Modifier.navigationBarsPadding()
-        ) {
-            Box(
-                modifier = Modifier.weight(1f)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp)
-                        .container(
-                            shape = ShapeDefaults.extraSmall,
-                            color = MaterialTheme.colorScheme
-                                .outlineVariant()
-                                .copy(alpha = 0.1f),
-                            resultPadding = 0.dp
-                        )
-                        .transparencyChecker()
-                        .clipToBounds()
-                        .zoomable(
-                            zoomState = zoomState
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Picture(
-                        model = data,
-                        contentDescription = null,
-                        onSuccess = {
-                            aspectRatio =
-                                it.result.image.asDrawable(Resources.getSystem()).safeAspectRatio
-                        },
-                        contentScale = ContentScale.FillBounds,
-                        showTransparencyChecker = false,
-                        transformations = transformations,
-                        shape = RectangleShape,
-                        modifier = Modifier.aspectRatio(aspectRatio)
-                    )
-                }
-                val zoomLevel = zoomState.scale
-                BoxAnimatedVisibility(
-                    visible = zoomLevel > 1f,
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 24.dp,
-                            vertical = 8.dp
-                        )
-                        .align(Alignment.TopStart),
-                    enter = scaleIn() + fadeIn(),
-                    exit = scaleOut() + fadeOut()
-                ) {
-                    Text(
-                        text = stringResource(R.string.zoom) + " ${zoomLevel.roundToTwoDigits()}x",
-                        modifier = Modifier
-                            .background(
-                                MaterialTheme.colorScheme.scrim.copy(0.4f),
-                                ShapeDefaults.circle
-                            )
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                        color = Color.White
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier.padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+    if (data != null) {
+        EnhancedZoomableModalBottomSheet(
+            visible = visible,
+            onDismiss = onDismiss,
+            title = {
                 TitleItem(
                     text = stringResource(R.string.zoom),
                     icon = Icons.Outlined.ZoomIn
                 )
-                Spacer(Modifier.weight(1f))
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = onDismiss,
-                    modifier = Modifier.padding(horizontal = 12.dp)
-                ) {
-                    AutoSizeText(stringResource(R.string.close))
-                }
             }
+        ) {
+            var aspectRatio by remember(data) {
+                mutableFloatStateOf(1f)
+            }
+            Picture(
+                model = data,
+                contentDescription = null,
+                onSuccess = {
+                    aspectRatio = it.result.image.safeAspectRatio
+                },
+                contentScale = ContentScale.FillBounds,
+                showTransparencyChecker = false,
+                transformations = transformations,
+                modifier = Modifier.aspectRatio(aspectRatio)
+            )
         }
-    }
-
-    if (data != null) {
-        EnhancedModalBottomSheet(
-            sheetContent = sheetContent,
-            visible = visible,
-            onDismiss = {
-                if (!it) onDismiss()
-            },
-            dragHandle = {
-                EnhancedModalSheetDragHandle(
-                    color = Color.Transparent,
-                    drawStroke = false,
-                    heightWhenDisabled = 20.dp
-                )
-            }
-        )
     }
 }
