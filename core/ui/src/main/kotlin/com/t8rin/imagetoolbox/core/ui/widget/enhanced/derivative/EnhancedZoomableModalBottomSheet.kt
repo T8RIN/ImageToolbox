@@ -53,7 +53,7 @@ import net.engawapg.lib.zoomable.zoomable
 fun EnhancedZoomableModalBottomSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
-    containerColor: Color = EnhancedBottomSheetDefaults.contentContainerColor,
+    containerColor: Color = EnhancedBottomSheetDefaults.barContainerColor,
     confirmButton: @Composable () -> Unit = {
         EnhancedButton(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
