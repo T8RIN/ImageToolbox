@@ -44,7 +44,7 @@ hilt = "2.59.2"
 gms = "4.4.4"
 
 ktor = "3.5.0"
-coil = "3.4.0"
+coil = "3.5.0"
 dotlottieAndroid = "0.14.0"
 appCompat = "1.8.0-alpha01"
 androidxCore = "1.19.0"
