@@ -42,7 +42,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -144,20 +143,16 @@ internal fun AsciiParamsItem(
                         val scope = rememberCoroutineScope()
                         val interactor = LocalSimpleSettingsInteractor.current
                         val defaultItems = remember {
-                            listOf(
-                                Gradient.NORMAL,
-                                Gradient.NORMAL2,
-                                Gradient.ARROWS,
-                                Gradient.OLD,
-                                Gradient.EXTENDED_HIGH,
-                                Gradient.MINIMAL,
-                                Gradient.MATH,
-                                Gradient.NUMERICAL
-                            ).map { it.value }
+                            Gradient.entries.map { it.value }
                         }
-                        val customEntries = settings.customAsciiGradients - defaultItems
 
-                        val items = defaultItems + customEntries
+                        val customEntries = remember(settings.customAsciiGradients, defaultItems) {
+                            settings.customAsciiGradients - defaultItems.toSet()
+                        }
+
+                        val items = remember(defaultItems, customEntries) {
+                            defaultItems + customEntries
+                        }
 
                         RoundedTextField(
                             value = gradientState.value,
@@ -219,7 +214,7 @@ internal fun AsciiParamsItem(
                             onIndexChange = {
                                 gradientState.value = items[it]
                             },
-                            inactiveButtonColor = Color.Unspecified
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh
                         )
                     }
                 }

@@ -77,6 +77,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -459,7 +460,7 @@ fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = tru
             if (blendWithVibrant) blend(palette.getVibrantColor(default), 0.5f)
             else this
         }
-    )
+    ).takeOrElse { Color.Transparent }
 }
 
 /** Class that represents App color scheme based on three main colors

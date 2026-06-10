@@ -200,6 +200,19 @@ value class Gradient(val value: String) {
         val MINIMAL = Gradient(".-+#")
         val MATH = Gradient("π√∞≈≠=÷×-+")
         val NUMERICAL = Gradient("7132546980")
+
+        val entries by lazy {
+            listOf(
+                NORMAL,
+                NORMAL2,
+                ARROWS,
+                OLD,
+                EXTENDED_HIGH,
+                MINIMAL,
+                MATH,
+                NUMERICAL
+            )
+        }
     }
 }
 
