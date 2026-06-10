@@ -3167,4 +3167,5 @@
     <string name="help_tip_wallpaper_export_step_1">Отворите извоз позадина да бисте учитали позадине које систем дозвољава апликацији да чита.</string>
     <string name="help_tip_wallpaper_export_step_2">Изаберите доступне ставке Почетна, Закључај или уграђене позадине које желите да сачувате, копирате или делите.</string>
     <string name="help_tip_wallpaper_export_step_3">Ако позадина недостаје или је функција недоступна, то је обично ограничење система, дозволе или варијанте израде, а не поставка за уређивање.</string>
+    <string name="shape_by_interaction_throttle">Цорнерс Аниматион Тхроттле</string>
 </resources>

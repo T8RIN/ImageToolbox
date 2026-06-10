@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">Buksan ang Mga Wallpaper Export upang i-load ang mga wallpaper na pinapayagan ng system na basahin ng app.</string>
     <string name="help_tip_wallpaper_export_step_2">Piliin ang available na Home, Lock, o built-in na mga entry sa wallpaper na gusto mong i-save, kopyahin, o ibahagi.</string>
     <string name="help_tip_wallpaper_export_step_3">Kung ang isang wallpaper ay nawawala o ang tampok ay hindi magagamit, ito ay karaniwang isang sistema, pahintulot, o build-variant na limitasyon sa halip na isang setting ng pag-edit.</string>
+    <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
 </resources>

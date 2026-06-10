@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">برای بارگیری کاغذدیواری هایی که سیستم به برنامه اجازه خواندن را می دهد، صادرات تصاویر پس زمینه را باز کنید.</string>
     <string name="help_tip_wallpaper_export_step_2">صفحه اصلی، قفل یا ورودی های کاغذدیواری داخلی موجود را که می خواهید ذخیره، کپی یا به اشتراک بگذارید، انتخاب کنید.</string>
     <string name="help_tip_wallpaper_export_step_3">اگر کاغذدیواری وجود نداشته باشد یا ویژگی در دسترس نباشد، معمولاً یک محدودیت سیستم، مجوز یا نوع ساخت است تا تنظیم ویرایش.</string>
+    <string name="shape_by_interaction_throttle">دریچه گاز انیمیشن گوشه ها</string>
 </resources>

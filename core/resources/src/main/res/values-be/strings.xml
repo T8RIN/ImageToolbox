@@ -3168,4 +3168,5 @@
     <string name="help_tip_wallpaper_export_step_1">Адкрыйце Экспарт шпалер, каб загрузіць шпалеры, якія сістэма дазваляе праграме чытаць.</string>
     <string name="help_tip_wallpaper_export_step_2">Выберыце даступныя запісы Home, Lock або ўбудаваныя шпалеры, якія вы хочаце захаваць, скапіяваць або абагуліць.</string>
     <string name="help_tip_wallpaper_export_step_3">Калі шпалеры адсутнічаюць або функцыя недаступная, гэта звычайна абмежаванне сістэмы, дазволу або варыянту зборкі, а не налада рэдагавання.</string>
+    <string name="shape_by_interaction_throttle">Куты Анімацыя Дросель</string>
 </resources>

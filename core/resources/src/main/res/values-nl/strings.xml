@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">Open Achtergronden exporteren om de achtergronden te laden die de app door het systeem kan lezen.</string>
     <string name="help_tip_wallpaper_export_step_2">Selecteer de beschikbare Home-, Lock- of ingebouwde achtergronditems die u wilt opslaan, kopiëren of delen.</string>
     <string name="help_tip_wallpaper_export_step_3">Als een achtergrond ontbreekt of de functie niet beschikbaar is, is dit meestal een systeem-, machtigings- of buildvariantbeperking en geen bewerkingsinstelling.</string>
+    <string name="shape_by_interaction_throttle">Hoeken animatie gaspedaal</string>
 </resources>

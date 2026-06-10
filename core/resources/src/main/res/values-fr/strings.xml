@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">Ouvrez Wallpapers Export pour charger les fonds d’écran que le système permet à l’application de lire.</string>
     <string name="help_tip_wallpaper_export_step_2">Sélectionnez les entrées disponibles Accueil, Verrouillage ou fond d\'écran intégré que vous souhaitez enregistrer, copier ou partager.</string>
     <string name="help_tip_wallpaper_export_step_3">Si un fond d\'écran est manquant ou si la fonctionnalité n\'est pas disponible, il s\'agit généralement d\'une limitation du système, d\'une autorisation ou d\'une variante de construction plutôt que d\'un paramètre d\'édition.</string>
+    <string name="shape_by_interaction_throttle">Accélérateur d\'animation dans les coins</string>
 </resources>

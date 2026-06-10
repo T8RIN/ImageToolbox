@@ -254,7 +254,7 @@ data class SettingsState(
                 defaultImageFormat = null,
                 defaultQuality = Quality.Base(),
                 shapesType = ShapeType.Rounded(),
-                shapeByInteractionThrottle = 250,
+                shapeByInteractionThrottle = 200,
                 filenamePattern = null,
                 filenameBehavior = FilenameBehavior.None(),
                 flingType = FlingType.DEFAULT,

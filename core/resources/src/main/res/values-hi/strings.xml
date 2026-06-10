@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">वॉलपेपर लोड करने के लिए वॉलपेपर एक्सपोर्ट खोलें, सिस्टम ऐप को पढ़ने की अनुमति देता है।</string>
     <string name="help_tip_wallpaper_export_step_2">उपलब्ध होम, लॉक, या अंतर्निहित वॉलपेपर प्रविष्टियों का चयन करें जिन्हें आप सहेजना, कॉपी करना या साझा करना चाहते हैं।</string>
     <string name="help_tip_wallpaper_export_step_3">यदि कोई वॉलपेपर गायब है या सुविधा अनुपलब्ध है, तो यह आमतौर पर संपादन सेटिंग के बजाय एक सिस्टम, अनुमति या बिल्ड-वेरिएंट सीमा है।</string>
+    <string name="shape_by_interaction_throttle">कॉर्नर एनिमेशन थ्रॉटल</string>
 </resources>

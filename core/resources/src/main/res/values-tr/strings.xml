@@ -2895,7 +2895,7 @@
     <string name="crash_foreground_service_timeout_description">Android, arka planda işleme bildiriminin zamanında başlamasına izin vermedi. Bu, güvenilir bir şekilde düzeltilemeyen bir sistem zamanlama sınırlamasıdır. Uygulamayı yeniden başlatın ve tekrar deneyin; uygulamayı açık tutmak ve bildirimlere veya arka planda çalışmaya izin vermek yardımcı olabilir.</string>
     <string name="help_tip_skip_file_picking_title">Dosya toplamayı atla</string>
     <string name="help_tip_skip_file_picking_subtitle">Giriş genellikle paylaşımdan, panodan veya önceki bir ekrandan geldiğinde araçları daha hızlı açın</string>
-    <string name="help_tip_skip_file_picking_page_title">Aracın tekrar tekrar başlatılmasını hızlandırın</string>
+    <string name="help_tip_skip_file_picking_page_title">Aracın tekrar başlatılmasını hızlandırın</string>
     <string name="help_tip_skip_file_picking_description">Dosya Toplama\'yı Atla, desteklenen araçların ilk adımını değiştirir. Genellikle önceden seçilmiş bir görselle veya Android paylaşım eylemlerinden bir araca girdiğinizde kullanışlıdır, ancak her aracın hemen bir dosya istemesini beklerseniz kafa karıştırıcı olabilir.</string>
     <string name="help_tip_skip_file_picking_step_1">Bunu yalnızca normal akışınız araç açılmadan önce kaynak görüntüyü zaten sağladığında etkinleştirin.</string>
     <string name="help_tip_skip_file_picking_step_2">Uygulamayı öğrenirken onu devre dışı bırakın çünkü açık toplama her araç akışının anlaşılmasını kolaylaştırır.</string>
@@ -2908,7 +2908,7 @@
     <string name="help_tip_open_edit_directly_step_2">Karar vermeden önce meta verileri, boyutları, şeffaflığı veya görüntü kalitesini sıklıkla incelediğinizde önce önizlemeyi bırakın.</string>
     <string name="help_tip_open_edit_directly_step_3">Bunu favorilerle birlikte kullanın, böylece paylaşılan görseller gerçekte kullandığınız araçlara yakın olur.</string>
     <string name="help_tip_preset_text_entry_title">Önceden ayarlanmış metin girişi</string>
-    <string name="help_tip_preset_text_entry_subtitle">Kontrolleri tekrar tekrar ayarlamak yerine tam ön ayar değerlerini girin</string>
+    <string name="help_tip_preset_text_entry_subtitle">Kontrolleri tekrar ayarlamak yerine tam ön ayar değerlerini girin</string>
     <string name="help_tip_preset_text_entry_page_title">Kaydırıcılar yavaş olduğunda kesin değerler kullanın</string>
     <string name="help_tip_preset_text_entry_description">Önceden ayarlanmış metin girişi, tekrarlanan çalışmalar için kesin sayılara ihtiyaç duyduğunuzda yardımcı olur: sosyal görüntü boyutları, belge kenar boşlukları, sıkıştırma hedefleri, satır genişlikleri veya hareketlerle ulaşılması can sıkıcı olan diğer değerler. İnce kaydırıcı hareketinin daha zor olduğu küçük ekranlarda da kullanışlıdır.</string>
     <string name="help_tip_preset_text_entry_step_1">Tam boyutları, yüzdeleri, kalite değerlerini veya araç parametrelerini sıklıkla yeniden kullanıyorsanız metin girişini etkinleştirin.</string>
@@ -2941,7 +2941,7 @@
     <string name="help_tip_compact_controls_description">Kompakt seçiciler ve hızlı ayar yerleştirme, küçük telefonlarda, yatay düzenlemede ve birçok parametreli araçlarda yardımcı olur. Buradaki değiş tokuş, kontrollerin daha yoğun hissedilebilmesidir; bu nedenle, ortak seçenekleri zaten tanıdıktan sonra bu en iyisidir.</string>
     <string name="help_tip_compact_controls_step_1">Diyaloglar veya seçenek listeleri ekran için çok uzun göründüğünde kompakt seçicileri etkinleştirin.</string>
     <string name="help_tip_compact_controls_step_2">Araç kontrollerine ekranın bir tarafından erişilmesi daha kolaysa, hızlı ayarlar tarafını ayarlayın.</string>
-    <string name="help_tip_compact_controls_step_3">Uygulamayı hâlâ öğreniyorsanız veya yoğun seçeneklere sık sık dokunamıyorsanız daha geniş kontrollere dönün.</string>
+    <string name="help_tip_compact_controls_step_3">Uygulamayı hâlâ öğreniyorsanız veya yoğun seçeneklere sık dokunamıyorsanız daha geniş kontrollere dönün.</string>
     <string name="help_tip_load_net_image_title">Web\'den resim yükleyin</string>
     <string name="help_tip_load_net_image_subtitle">Bir sayfa veya görsel URL\'sini yapıştırın, ayrıştırılmış görsellerin önizlemesini görüntüleyin, ardından seçilen sonuçları kaydedin veya paylaşın</string>
     <string name="help_tip_load_net_image_page_title">Web görsellerini bilinçli olarak kullanın</string>
@@ -3062,14 +3062,14 @@
     <string name="help_tip_save_vs_share_step_2">Hızlı mesajlar, e-posta ekleri, sosyal paylaşımlar veya sonucu başka bir düzenleyiciye göndermek için Paylaş\'ı kullanın.</string>
     <string name="help_tip_save_vs_share_step_3">Alıcı uygulama güvenilmez olduğunda veya başarısız bir paylaşımın yeniden oluşturulması can sıkıcı olduğunda ilk önce kaydedin.</string>
     <string name="help_tip_pdf_page_size_margins_title">PDF sayfa boyutu ve kenar boşlukları</string>
-    <string name="help_tip_pdf_page_size_margins_subtitle">Belge oluşturmadan önce kağıt boyutunu, sığma davranışını ve nefes alma alanını seçin</string>
+    <string name="help_tip_pdf_page_size_margins_subtitle">Belge oluşturmadan önce kâğıt boyutunu, sığma davranışını ve nefes alma alanını seçin</string>
     <string name="help_tip_pdf_page_size_margins_page_title">Resim sayfalarını yazdırılabilir ve okunabilir hale getirin</string>
-    <string name="help_tip_pdf_page_size_margins_description">Resimlerin şekilleri seçilen kağıt boyutuyla eşleşmediğinde garip PDF sayfaları haline gelebilir. Kenar boşlukları, sığdırma modu ve sayfa yönü, içeriğin kırpılacağını, küçültüleceğini, uzatılacağını veya rahat okunacağını belirler.</string>
-    <string name="help_tip_pdf_page_size_margins_step_1">PDF\'nin yazdırılabileceği veya bir forma gönderilebileceği durumlarda gerçek kağıt boyutunu kullanın.</string>
+    <string name="help_tip_pdf_page_size_margins_description">Resimlerin şekilleri seçilen kâğıt boyutuyla eşleşmediğinde garip PDF sayfaları haline gelebilir. Kenar boşlukları, sığdırma modu ve sayfa yönü, içeriğin kırpılacağını, küçültüleceğini, uzatılacağını veya rahat okunacağını belirler.</string>
+    <string name="help_tip_pdf_page_size_margins_step_1">PDF\'nin yazdırılabileceği veya bir forma gönderilebileceği durumlarda gerçek kâğıt boyutunu kullanın.</string>
     <string name="help_tip_pdf_page_size_margins_step_2">Metnin sayfa kenarına yaslanmaması için taramalar ve ekran görüntüleri için kenar boşluklarını kullanın.</string>
     <string name="help_tip_pdf_page_size_margins_step_3">Kaynak görüntülerin yönü karışık olduğunda dikey ve yatay sayfaları birlikte önizleyin.</string>
     <string name="help_tip_scan_cleanup_title">Taramaları temizleme</string>
-    <string name="help_tip_scan_cleanup_subtitle">PDF veya OCR\'dan önce kağıt kenarlarını, gölgeleri, kontrastı, döndürmeyi ve okunabilirliği iyileştirin</string>
+    <string name="help_tip_scan_cleanup_subtitle">PDF veya OCR\'dan önce kâğıt kenarlarını, gölgeleri, kontrastı, döndürmeyi ve okunabilirliği iyileştirin</string>
     <string name="help_tip_scan_cleanup_page_title">Arşivlemeden önce sayfaları hazırlayın</string>
     <string name="help_tip_scan_cleanup_description">Bir tarama teknik olarak yakalanabilir ancak okunması hala zordur. PDF\'yi dışa aktarmadan önceki küçük temizleme adımları, özellikle faturalar, el yazısı notlar ve az ışıklı sayfalar için genellikle sıkıştırma ayarlarından daha önemlidir.</string>
     <string name="help_tip_scan_cleanup_step_1">Perspektifi düzeltin ve masa kenarlarını, parmakları, gölgeleri ve arka plandaki dağınıklığı kırpın.</string>
@@ -3120,7 +3120,7 @@
     <string name="help_tip_checksum_tool_tabs_title">Bir sağlama toplamı modu seçin</string>
     <string name="help_tip_checksum_tool_tabs_subtitle">Dosyalardan veya metinlerden karmaları hesaplayın, bir dosyayı karşılaştırın veya birçok dosyayı toplu olarak kontrol edin</string>
     <string name="help_tip_checksum_tool_tabs_page_title">Görünümü değil içeriği doğrulayın</string>
-    <string name="help_tip_checksum_tool_tabs_description">Sağlama Toplamı Araçları, dosya karma işlemi, metin karma işlemi, bir dosyayı bilinen bir karma değerle karşılaştırma ve toplu karşılaştırma için ayrı sekmelere sahiptir. Bir sağlama toplamı, seçilen algoritmanın bayt bayt kimliğini kanıtlar; iki görüntünün yalnızca benzer göründüğünü kanıtlamaz.</string>
+    <string name="help_tip_checksum_tool_tabs_description">Sağlama Toplamı Araçları, dosya karma işlemi, metin karma işlemi, bir dosyayı bilinen bir karma değerle karşılaştırma ve toplu karşılaştırma için ayrı sekmelere sahiptir. Bir sağlama toplamı, seçilen algoritmanın bayt kimliğini kanıtlar; iki görüntünün yalnızca benzer göründüğünü kanıtlamaz.</string>
     <string name="help_tip_checksum_tool_tabs_step_1">Dosyalar için Hesapla\'yı ve yazılan veya yapıştırılan metin verileri için Metin Karmasını kullanın.</string>
     <string name="help_tip_checksum_tool_tabs_step_2">Birisi size bir dosya için beklenen sağlama toplamını verdiğinde Karşılaştırma\'yı kullanın.</string>
     <string name="help_tip_checksum_tool_tabs_step_3">Çok sayıda dosyanın tek geçişte karma veya doğrulamaya ihtiyacı olduğunda Toplu Karşılaştırma\'yı kullanın, ardından seçilen algoritmayı tutarlı tutun.</string>
@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">Sistemin uygulamanın okumasına izin verdiği duvar kağıtlarını yüklemek için Duvar Kağıtları Dışa Aktarma\'yı açın.</string>
     <string name="help_tip_wallpaper_export_step_2">Kaydetmek, kopyalamak veya paylaşmak istediğiniz mevcut Ana Sayfa, Kilit veya yerleşik duvar kağıdı girişlerini seçin.</string>
     <string name="help_tip_wallpaper_export_step_3">Bir duvar kağıdı eksikse veya özellik kullanılamıyorsa, bu genellikle bir düzenleme ayarından ziyade bir sistem, izin veya yapı çeşidi sınırlamasıdır.</string>
+    <string name="shape_by_interaction_throttle">Köşe Animasyonu Kısma Kolu</string>
 </resources>

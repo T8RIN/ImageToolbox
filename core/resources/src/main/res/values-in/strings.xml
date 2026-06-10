@@ -3165,4 +3165,5 @@
     <string name="help_tip_wallpaper_export_step_1">Buka Ekspor Wallpaper untuk memuat wallpaper yang dapat dibaca oleh aplikasi oleh sistem.</string>
     <string name="help_tip_wallpaper_export_step_2">Pilih entri Rumah, Kunci, atau wallpaper bawaan yang tersedia yang ingin Anda simpan, salin, atau bagikan.</string>
     <string name="help_tip_wallpaper_export_step_3">Jika wallpaper tidak ada atau fitur tidak tersedia, biasanya hal tersebut disebabkan oleh sistem, izin, atau batasan varian build, bukan pengaturan pengeditan.</string>
+    <string name="shape_by_interaction_throttle">Throttle Animasi Sudut</string>
 </resources>

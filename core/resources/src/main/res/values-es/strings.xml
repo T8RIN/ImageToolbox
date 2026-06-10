@@ -3167,4 +3167,5 @@
     <string name="help_tip_wallpaper_export_step_1">Abra Exportación de fondos de pantalla para cargar los fondos de pantalla que el sistema permite leer a la aplicación.</string>
     <string name="help_tip_wallpaper_export_step_2">Seleccione las entradas disponibles de Inicio, Bloqueo o fondo de pantalla integrado que desea guardar, copiar o compartir.</string>
     <string name="help_tip_wallpaper_export_step_3">Si falta un fondo de pantalla o la función no está disponible, generalmente se trata de una limitación del sistema, de un permiso o de una variante de compilación, en lugar de una configuración de edición.</string>
+    <string name="shape_by_interaction_throttle">Acelerador de animación de esquinas</string>
 </resources>

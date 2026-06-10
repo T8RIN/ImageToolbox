@@ -3133,7 +3133,7 @@
     <string name="help_tip_clipboard_privacy_step_3">Löschen oder ersetzen Sie die Zwischenablage, nachdem Sie vertraulichen Text, QR-Daten oder Base64-Nutzlasten verarbeitet haben.</string>
     <string name="help_tip_color_formats_title">Farbformate</string>
     <string name="help_tip_color_formats_subtitle">Machen Sie sich mit HEX-, RGB-, HSV-, Alpha- und kopierten Farbwerten vertraut, bevor Sie sie an anderer Stelle einfügen</string>
-    <string name="help_tip_color_formats_page_title">Kopieren Sie das Format, das das Ziel erwartet</string>
+    <string name="help_tip_color_formats_page_title">Kopieren Sie das Format, das Ziel erwartet</string>
     <string name="help_tip_color_formats_description">Die gleiche sichtbare Farbe kann auf verschiedene Arten geschrieben werden. Ein Designtool, ein CSS-Feld, ein Android-Farbwert oder ein Bildeditor erwarten möglicherweise eine andere Reihenfolge, Alpha-Behandlung oder ein anderes Farbmodell.</string>
     <string name="help_tip_color_formats_step_1">Verwenden Sie HEX beim Einfügen in Web-, Design- oder Theme-Felder, die kompakte Farbcodes erwarten.</string>
     <string name="help_tip_color_formats_step_2">Verwenden Sie RGB oder HSV, wenn Sie Kanäle, Helligkeit, Sättigung oder Farbton manuell anpassen müssen.</string>
@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">Öffnen Sie „Hintergrundbilder exportieren“, um die Hintergrundbilder zu laden, die das System der App zum Lesen zulässt.</string>
     <string name="help_tip_wallpaper_export_step_2">Wählen Sie die verfügbaren Home-, Lock- oder integrierten Hintergrundbildeinträge aus, die Sie speichern, kopieren oder teilen möchten.</string>
     <string name="help_tip_wallpaper_export_step_3">Wenn ein Hintergrundbild fehlt oder die Funktion nicht verfügbar ist, handelt es sich in der Regel eher um eine System-, Berechtigungs- oder Build-Varianten-Einschränkung als um eine Bearbeitungseinstellung.</string>
+    <string name="shape_by_interaction_throttle">Ecken-Animationsdrossel</string>
 </resources>

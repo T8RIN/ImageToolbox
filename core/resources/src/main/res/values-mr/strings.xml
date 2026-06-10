@@ -3167,4 +3167,5 @@
     <string name="help_tip_wallpaper_export_step_1">ॲपला वाचण्याची अनुमती देणारे वॉलपेपर लोड करण्यासाठी वॉलपेपर एक्सपोर्ट उघडा.</string>
     <string name="help_tip_wallpaper_export_step_2">उपलब्ध होम, लॉक किंवा बिल्ट-इन वॉलपेपर एंट्री निवडा ज्या तुम्हाला सेव्ह, कॉपी किंवा शेअर करायच्या आहेत.</string>
     <string name="help_tip_wallpaper_export_step_3">वॉलपेपर गहाळ असल्यास किंवा वैशिष्ट्य अनुपलब्ध असल्यास, ते सहसा संपादन सेटिंग ऐवजी सिस्टम, परवानगी किंवा बिल्ड-व्हेरिएंट मर्यादा असते.</string>
+    <string name="shape_by_interaction_throttle">कॉर्नर्स ॲनिमेशन थ्रॉटल</string>
 </resources>
