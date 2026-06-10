@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.core.graphics.ColorUtils
@@ -37,7 +38,7 @@ fun ColorScheme.outlineVariant(
     onTopOf: Color = surfaceContainer
 ) = onSecondaryContainer
     .copy(alpha = luminance)
-    .compositeOver(onTopOf)
+    .compositeOver(onTopOf.takeOrElse { surface })
 
 @Composable
 inline fun takeColorFromScheme(
