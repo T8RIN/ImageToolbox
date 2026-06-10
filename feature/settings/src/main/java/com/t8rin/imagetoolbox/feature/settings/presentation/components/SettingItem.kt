@@ -459,6 +459,12 @@ internal fun SettingItem(
                 DragHandleWidthSettingItem(onValueChange = component::setDragHandleWidth)
             }
 
+            Setting.ShapeByInteractionThrottle -> {
+                ShapeByInteractionThrottleSettingItem(
+                    onValueChange = component::setShapeByInteractionThrottle
+                )
+            }
+
             Setting.ConfettiType -> {
                 ConfettiTypeSettingItem(onValueChange = component::setConfettiType)
             }

@@ -384,7 +384,10 @@ fun shapeByInteraction(
 ): Shape {
     if (!enabled || interactionSource == null) return shape
 
-    val active by produceState(false, interactionSource) {
+    val settingsState = LocalSettingsState.current
+    val throttle = settingsState.shapeByInteractionThrottle
+
+    val active by produceState(false, interactionSource, throttle) {
         val pressInteractions = mutableListOf<PressInteraction.Press>()
         val focusInteractions = mutableListOf<FocusInteraction.Focus>()
 
@@ -401,7 +404,7 @@ fun shapeByInteraction(
                 pressInteractions.isNotEmpty() || focusInteractions.isNotEmpty()
             }
             .distinctUntilChanged()
-            .throttleLatest(300)
+            .throttleLatest(throttle)
             .collectLatest { value = it }
     }
 

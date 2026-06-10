@@ -157,6 +157,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_EMOJI_INDEX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_FONT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SETTINGS_GROUP_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPES_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPE_BY_INTERACTION_THROTTLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_AS_LAST
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
@@ -972,6 +973,10 @@ internal class AndroidSettingsManager @Inject constructor(
         jsonParser.toJson(shapeType, ShapeType::class.java)?.apply {
             it[SHAPES_TYPE] = this
         }
+    }
+
+    override suspend fun setShapeByInteractionThrottle(delay: Long) = edit {
+        it[SHAPE_BY_INTERACTION_THROTTLE] = delay.coerceIn(0, 500)
     }
 
     override suspend fun setFilenamePattern(pattern: String?) = edit {

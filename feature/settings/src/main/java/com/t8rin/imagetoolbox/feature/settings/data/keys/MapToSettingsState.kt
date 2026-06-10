@@ -236,6 +236,8 @@ internal fun Preferences.toSettingsState(
             type = ShapeType::class.java
         )
     } ?: default.shapesType,
+    shapeByInteractionThrottle = (this[SHAPE_BY_INTERACTION_THROTTLE]
+        ?: default.shapeByInteractionThrottle).coerceIn(0, 500),
     filenamePattern = this[FILENAME_PATTERN]?.takeIf { it.isNotBlank() } ?: default.filenamePattern,
     filenameBehavior = this[FILENAME_BEHAVIOR]?.let {
         jsonParser.fromJson(

@@ -82,11 +82,11 @@ inline fun <T> Result<T>.onResult(
     action: (isSuccess: Boolean) -> Unit
 ): Result<T> = apply { action(isSuccess) }
 
-fun <T> Flow<T>.throttleLatest(delayMillis: Long): Flow<T> = this
-    .conflate()
-    .transform {
+fun <T> Flow<T>.throttleLatest(delayMillis: Long): Flow<T> = if (delayMillis > 0) {
+    conflate().transform {
         emit(it)
         delay(delayMillis)
     }
+} else this
 
 inline fun <T : Closeable?, R> T.applyUse(block: T.() -> R): R = use(block)

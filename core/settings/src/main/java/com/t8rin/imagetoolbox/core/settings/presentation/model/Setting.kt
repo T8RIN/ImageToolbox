@@ -434,6 +434,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object ShapeByInteractionThrottle : Setting(
+        title = R.string.shape_by_interaction_throttle,
+        subtitle = null
+    )
+
+    @Serializable
     data object ConfettiType : Setting(
         title = R.string.confetti_type,
         subtitle = null

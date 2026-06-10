@@ -21,6 +21,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 
@@ -134,6 +135,7 @@ internal val SNOWFALL_MODE = intPreferencesKey("SNOWFALL_MODE")
 internal val DEFAULT_QUALITY = stringPreferencesKey("DEFAULT_QUALITY")
 internal val DEFAULT_IMAGE_FORMAT = stringPreferencesKey("DEFAULT_IMAGE_FORMAT")
 internal val SHAPES_TYPE = stringPreferencesKey("SHAPES_TYPE_NEW")
+internal val SHAPE_BY_INTERACTION_THROTTLE = longPreferencesKey("SHAPE_BY_INTERACTION_THROTTLE")
 internal val FILENAME_PATTERN = stringPreferencesKey("FILENAME_PATTERN")
 internal val FILENAME_BEHAVIOR = stringPreferencesKey("FILENAME_BEHAVIOR")
 internal val FLING_TYPE = intPreferencesKey("FLING_TYPE")

@@ -2054,6 +2054,7 @@
     <string name="rounded_shapes_sub">Классические закругленные углы.</string>
     <string name="shapes_type">Тип фигуры</string>
     <string name="corners_size">Размер углов</string>
+    <string name="shape_by_interaction_throttle">Задержка анимации углов</string>
     <string name="squircle">Сквиркл</string>
     <string name="squircle_shapes_sub">Элегантные закругленные элементы пользовательского интерфейса</string>
     <string name="filename_format">Формат имени файла</string>

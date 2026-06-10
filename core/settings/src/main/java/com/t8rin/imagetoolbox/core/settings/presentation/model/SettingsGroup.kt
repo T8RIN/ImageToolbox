@@ -105,6 +105,7 @@ sealed class SettingsGroup(
             Setting.SliderType,
             Setting.ShapeType,
             Setting.CornersSize,
+            Setting.ShapeByInteractionThrottle,
             Setting.FlingType,
             Setting.UseCompactSelectors,
             Setting.DragHandleWidth,

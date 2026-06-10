@@ -256,6 +256,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setShapesType(shapeType: ShapeType)
 
+    suspend fun setShapeByInteractionThrottle(delay: Long)
+
     suspend fun setFilenamePattern(pattern: String?)
 
     suspend fun setFlingType(type: FlingType)

@@ -510,6 +510,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun setShapesType(shapeType: ShapeType) = settingsScope { setShapesType(shapeType) }
 
+    fun setShapeByInteractionThrottle(delay: Long) =
+        settingsScope { setShapeByInteractionThrottle(delay) }
+
     fun setFilenamePattern(value: String) = settingsScope { setFilenamePattern(value) }
 
     fun setFlingType(type: FlingType) = settingsScope { setFlingType(type) }
