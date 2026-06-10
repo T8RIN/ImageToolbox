@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3164,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">打开壁纸导出以加载系统允许应用程序读取的壁纸。</string>
     <string name="help_tip_wallpaper_export_step_2">选择要保存、复制或共享的可用主页、锁定或内置壁纸条目。</string>
     <string name="help_tip_wallpaper_export_step_3">如果壁纸丢失或功能不可用，这通常是系统、权限或构建变体限制，而不是编辑设置。</string>
+    <string name="shape_by_interaction_throttle">角落动画油门</string>
 </resources>

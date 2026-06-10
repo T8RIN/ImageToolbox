@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">Nyissa meg a Háttérképek exportálását, hogy betöltse azokat a háttérképeket, amelyeket a rendszer lehetővé tesz az alkalmazás számára.</string>
     <string name="help_tip_wallpaper_export_step_2">Válassza ki a menteni, másolni vagy megosztani kívánt elérhető kezdőlap, zárolás vagy beépített háttérkép bejegyzéseket.</string>
     <string name="help_tip_wallpaper_export_step_3">Ha egy háttérkép hiányzik, vagy a funkció nem érhető el, az általában rendszer-, engedély- vagy build-változat-korlátozás, nem pedig szerkesztési beállítás.</string>
+    <string name="shape_by_interaction_throttle">Corners Animációs Fojtószelep</string>
 </resources>

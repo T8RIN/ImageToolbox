@@ -3167,4 +3167,5 @@
     <string name="help_tip_wallpaper_export_step_1">Deschideți Wallpapers Export pentru a încărca imaginile de fundal pe care sistemul le permite aplicației să le citească.</string>
     <string name="help_tip_wallpaper_export_step_2">Selectați intrările disponibile Acasă, Blocare sau tapet încorporat pe care doriți să le salvați, să le copiați sau să le partajați.</string>
     <string name="help_tip_wallpaper_export_step_3">Dacă lipsește un tapet sau funcția nu este disponibilă, este de obicei o limitare de sistem, o permisiune sau o variantă de construcție, mai degrabă decât o setare de editare.</string>
+    <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
 </resources>

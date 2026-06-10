@@ -3168,4 +3168,5 @@
     <string name="help_tip_wallpaper_export_step_1">Otevřete Tapety Export pro načtení tapet, které systém umožňuje aplikaci číst.</string>
     <string name="help_tip_wallpaper_export_step_2">Vyberte dostupné položky Plocha, Zámek nebo vestavěné tapety, které chcete uložit, zkopírovat nebo sdílet.</string>
     <string name="help_tip_wallpaper_export_step_3">Pokud tapeta chybí nebo je funkce nedostupná, je to obvykle omezení systému, oprávnění nebo varianty sestavení, nikoli nastavení úprav.</string>
+    <string name="shape_by_interaction_throttle">Rohy animace plynu</string>
 </resources>

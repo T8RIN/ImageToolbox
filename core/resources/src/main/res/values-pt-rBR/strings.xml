@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">Abra Exportação de papéis de parede para carregar os papéis de parede que o sistema permite que o aplicativo leia.</string>
     <string name="help_tip_wallpaper_export_step_2">Selecione as entradas disponíveis de Início, Bloqueio ou papel de parede integrado que deseja salvar, copiar ou compartilhar.</string>
     <string name="help_tip_wallpaper_export_step_3">Se um papel de parede estiver faltando ou o recurso não estiver disponível, geralmente é uma limitação do sistema, permissão ou variante de construção, em vez de uma configuração de edição.</string>
+    <string name="shape_by_interaction_throttle">Acelerador de animação de cantos</string>
 </resources>

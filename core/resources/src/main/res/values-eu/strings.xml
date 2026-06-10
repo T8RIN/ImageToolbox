@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">Ireki Wallpapers Export sistemak aplikazioari irakurtzeko aukera ematen dion horma-paperak kargatzeko.</string>
     <string name="help_tip_wallpaper_export_step_2">Hautatu gorde, kopiatu edo partekatu nahi dituzun hasierako, blokeo edo horma-paper-sarrera eskuragarriak.</string>
     <string name="help_tip_wallpaper_export_step_3">Horma-paper bat falta bada edo eginbidea erabilgarri ez badago, normalean sistema, baimen edo eraikuntza-aldaeraren muga bat izan ohi da, editatzeko ezarpena baino.</string>
+    <string name="shape_by_interaction_throttle">Txokoak Animazioa Throttle</string>
 </resources>

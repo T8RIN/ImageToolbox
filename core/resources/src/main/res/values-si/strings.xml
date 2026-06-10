@@ -3167,4 +3167,5 @@
     <string name="help_tip_wallpaper_export_step_1">පද්ධතිය යෙදුමට කියවීමට ඉඩ දෙන බිතුපත් පැටවීමට Wallpapers Export විවෘත කරන්න.</string>
     <string name="help_tip_wallpaper_export_step_2">ඔබට සුරැකීමට, පිටපත් කිරීමට හෝ බෙදා ගැනීමට අවශ්‍ය පවතින නිවස, අගුල, හෝ බිල්පත් ඇතුළත් කිරීම් තෝරන්න.</string>
     <string name="help_tip_wallpaper_export_step_3">බිතුපතක් අස්ථානගත වී ඇත්නම් හෝ විශේෂාංගය නොමැති නම්, එය සාමාන්‍යයෙන් සංස්කරණ සැකසීමකට වඩා පද්ධතියක්, අවසරයක් හෝ ගොඩනැගීමේ ප්‍රභේද සීමාවකි.</string>
+    <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
 </resources>

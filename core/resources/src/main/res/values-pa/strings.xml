@@ -3166,4 +3166,5 @@
     <string name="help_tip_wallpaper_export_step_1">ਸਿਸਟਮ ਐਪ ਨੂੰ ਪੜ੍ਹਨ ਦੀ ਇਜਾਜ਼ਤ ਦਿੰਦਾ ਹੈ, ਉਹਨਾਂ ਵਾਲਪੇਪਰਾਂ ਨੂੰ ਲੋਡ ਕਰਨ ਲਈ ਵਾਲਪੇਪਰ ਐਕਸਪੋਰਟ ਖੋਲ੍ਹੋ।</string>
     <string name="help_tip_wallpaper_export_step_2">ਉਪਲਬਧ ਹੋਮ, ਲਾਕ, ਜਾਂ ਬਿਲਟ-ਇਨ ਵਾਲਪੇਪਰ ਐਂਟਰੀਆਂ ਚੁਣੋ ਜਿਨ੍ਹਾਂ ਨੂੰ ਤੁਸੀਂ ਸੁਰੱਖਿਅਤ ਕਰਨਾ, ਕਾਪੀ ਕਰਨਾ ਜਾਂ ਸਾਂਝਾ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ।</string>
     <string name="help_tip_wallpaper_export_step_3">ਜੇਕਰ ਕੋਈ ਵਾਲਪੇਪਰ ਗੁੰਮ ਹੈ ਜਾਂ ਵਿਸ਼ੇਸ਼ਤਾ ਉਪਲਬਧ ਨਹੀਂ ਹੈ, ਤਾਂ ਇਹ ਆਮ ਤੌਰ \'ਤੇ ਇੱਕ ਸੰਪਾਦਨ ਸੈਟਿੰਗ ਦੀ ਬਜਾਏ ਇੱਕ ਸਿਸਟਮ, ਅਨੁਮਤੀ, ਜਾਂ ਬਿਲਡ-ਵੇਰੀਐਂਟ ਸੀਮਾ ਹੁੰਦੀ ਹੈ।</string>
+    <string name="shape_by_interaction_throttle">ਕੋਨੇ ਐਨੀਮੇਸ਼ਨ ਥ੍ਰੋਟਲ</string>
 </resources>

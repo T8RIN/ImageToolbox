@@ -3165,4 +3165,5 @@
     <string name="help_tip_wallpaper_export_step_1">Mở Xuất hình nền để tải hình nền mà hệ thống cho phép ứng dụng đọc.</string>
     <string name="help_tip_wallpaper_export_step_2">Chọn các mục nhập Màn hình chính, Khóa hoặc hình nền tích hợp sẵn mà bạn muốn lưu, sao chép hoặc chia sẻ.</string>
     <string name="help_tip_wallpaper_export_step_3">Nếu hình nền bị thiếu hoặc tính năng này không khả dụng thì đó thường là giới hạn hệ thống, quyền hoặc biến thể bản dựng chứ không phải là cài đặt chỉnh sửa.</string>
+    <string name="shape_by_interaction_throttle">Van tiết lưu góc hoạt hình</string>
 </resources>

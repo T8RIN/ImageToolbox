@@ -3169,4 +3169,5 @@
     <string name="help_tip_wallpaper_export_step_1">Otwórz Eksport tapet, aby załadować tapety, które system pozwala aplikacji odczytać.</string>
     <string name="help_tip_wallpaper_export_step_2">Wybierz dostępne wpisy ekranu głównego, blokady lub wbudowanej tapety, które chcesz zapisać, skopiować lub udostępnić.</string>
     <string name="help_tip_wallpaper_export_step_3">Jeśli brakuje tapety lub funkcja jest niedostępna, jest to zwykle ograniczenie systemu, uprawnień lub wariantu kompilacji, a nie ustawienie edycji.</string>
+    <string name="shape_by_interaction_throttle">Przepustnica animacji zakrętów</string>
 </resources>
