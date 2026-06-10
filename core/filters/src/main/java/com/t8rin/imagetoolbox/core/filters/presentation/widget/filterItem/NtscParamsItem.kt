@@ -760,6 +760,8 @@ private fun <T : Enum<T>> NtscEnumSelector(
     val labels = remember(entries) {
         entries.map { it.name.ntscEnumName() }
     }
+    if (labels.isEmpty()) return
+
     val safeIndex = selectedIndex.coerceIn(labels.indices)
 
     BoxWithConstraints(
