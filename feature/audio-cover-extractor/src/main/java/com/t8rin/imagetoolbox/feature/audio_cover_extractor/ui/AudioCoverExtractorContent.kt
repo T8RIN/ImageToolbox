@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Album
 import com.t8rin.imagetoolbox.core.resources.icons.MusicAdd
+import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -163,6 +164,13 @@ fun AudioCoverExtractorContent(
                 isPortrait = true,
                 onRemoveUri = component::removeCover,
                 onAddUris = addAudioPicker::pickFile,
+                addUrisContent = { width ->
+                    Icon(
+                        imageVector = Icons.Rounded.NoteAdd,
+                        contentDescription = stringResource(R.string.add),
+                        modifier = Modifier.size(width / 3f)
+                    )
+                },
                 errorContent = { index, width ->
                     Box(
                         modifier = Modifier

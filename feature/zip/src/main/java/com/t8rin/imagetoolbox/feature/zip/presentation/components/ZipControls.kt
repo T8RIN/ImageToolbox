@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Download
+import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.Green
@@ -218,6 +219,13 @@ internal fun ColumnScope.ZipControls(
         uris = component.uris,
         isPortrait = isPortrait,
         onRemoveUri = component::removeUri,
-        onAddUris = additionalFilePicker::pickFile
+        onAddUris = additionalFilePicker::pickFile,
+        addUrisContent = { width ->
+            Icon(
+                imageVector = Icons.Rounded.NoteAdd,
+                contentDescription = stringResource(R.string.add),
+                modifier = Modifier.size(width / 3f)
+            )
+        },
     )
 }

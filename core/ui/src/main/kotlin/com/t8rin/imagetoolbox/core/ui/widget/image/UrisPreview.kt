@@ -59,8 +59,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.File
-import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
@@ -82,7 +82,7 @@ fun UrisPreview(
     isAddUrisVisible: Boolean = true,
     addUrisContent: @Composable BoxScope.(width: Dp) -> Unit = { width ->
         Icon(
-            imageVector = Icons.Rounded.NoteAdd,
+            imageVector = Icons.Outlined.AddPhotoAlt,
             contentDescription = stringResource(R.string.add),
             modifier = Modifier.size(width / 3f)
         )

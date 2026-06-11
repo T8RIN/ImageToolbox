@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -172,13 +171,6 @@ fun DocumentScannerContent(
                 onRemoveUri = component::removeImageUri,
                 onAddUris = additionalDocumentScanner::scan,
                 isAddUrisVisible = !Flavor.isFoss(),
-                addUrisContent = { width ->
-                    Icon(
-                        imageVector = Icons.Rounded.AddPhotoAlt,
-                        contentDescription = stringResource(R.string.add),
-                        modifier = Modifier.size(width / 3f)
-                    )
-                },
                 onClickUri = { uri ->
                     selectedUriForPreview = uri
                 }
