@@ -32,6 +32,7 @@ import org.opencv.core.Mat
 import org.opencv.core.MatOfPoint2f
 import org.opencv.core.Point
 import org.opencv.core.Size
+import org.opencv.geometry.Geometry
 import org.opencv.imgcodecs.Imgcodecs
 import org.opencv.imgproc.Imgproc
 import java.io.File
@@ -151,7 +152,7 @@ class ImageUtil {
         Imgproc.warpPerspective(
             image,
             output,
-            Imgproc.getPerspectiveTransform(
+            Geometry.getPerspectiveTransform(
                 MatOfPoint2f(tLC, tRC, bRC, bLC),
                 croppedImage
             ),

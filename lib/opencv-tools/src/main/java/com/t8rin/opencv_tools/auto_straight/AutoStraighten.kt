@@ -34,6 +34,7 @@ import org.opencv.core.MatOfPoint2f
 import org.opencv.core.Point
 import org.opencv.core.Rect
 import org.opencv.core.Size
+import org.opencv.geometry.Geometry
 import org.opencv.imgproc.Imgproc
 import org.opencv.photo.Photo
 import kotlin.math.abs
@@ -131,7 +132,7 @@ object AutoStraighten : OpenCV() {
         }
 
         val center = Point(rotated.width() / 2.0, rotated.height() / 2.0)
-        val rotMat = Imgproc.getRotationMatrix2D(center, angleDeg, 1.0)
+        val rotMat = Geometry.getRotationMatrix2D(center, angleDeg, 1.0)
 
         val angleRad = Math.toRadians(angleDeg)
         val absSin = abs(sin(angleRad))
@@ -194,12 +195,12 @@ object AutoStraighten : OpenCV() {
                 ensureActive()
                 val approx = MatOfPoint2f()
                 val c2f = MatOfPoint2f(*contour.toArray())
-                Imgproc.approxPolyDP(c2f, approx, Imgproc.arcLength(c2f, true) * 0.02, true)
-                if (approx.total() == 4L && Imgproc.isContourConvex(MatOfPoint(*approx.toArray())))
+                Geometry.approxPolyDP(c2f, approx, Geometry.arcLength(c2f, true) * 0.02, true)
+                if (approx.total() == 4L && Geometry.isContourConvex(MatOfPoint(*approx.toArray())))
                     approx
                 else null
             }
-            .maxByOrNull { Imgproc.contourArea(MatOfPoint(*it.toArray())) }
+            .maxByOrNull { Geometry.contourArea(MatOfPoint(*it.toArray())) }
             ?: return@coroutineScope input
 
         val sorted = sortCorners(biggest.toArray())
@@ -218,7 +219,7 @@ object AutoStraighten : OpenCV() {
             Point(0.0, maxHeight.toDouble())
         )
 
-        val transform = Imgproc.getPerspectiveTransform(MatOfPoint2f(*sorted), dst)
+        val transform = Geometry.getPerspectiveTransform(MatOfPoint2f(*sorted), dst)
         val out = Mat()
         ensureActive()
         Imgproc.warpPerspective(

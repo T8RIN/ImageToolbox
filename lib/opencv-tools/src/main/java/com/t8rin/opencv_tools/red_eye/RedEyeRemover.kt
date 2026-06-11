@@ -28,15 +28,17 @@ import kotlinx.coroutines.ensureActive
 import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.Mat
-import org.opencv.core.MatOfRect
 import org.opencv.core.Point
 import org.opencv.core.Rect
 import org.opencv.core.Scalar
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
-import org.opencv.objdetect.CascadeClassifier
+import org.opencv.objdetect.FaceDetectorYN
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 object RedEyeRemover : OpenCV() {
 
@@ -51,18 +53,9 @@ object RedEyeRemover : OpenCV() {
         Imgproc.cvtColor(srcMat, srcMat, Imgproc.COLOR_RGBA2BGR)
         val resultMat = srcMat.clone()
 
-        val grayMat = Mat()
-        Imgproc.cvtColor(srcMat, grayMat, Imgproc.COLOR_BGR2GRAY)
+        val eyes = detectEyes(srcMat, minEyeSize)
 
-        val eyes = MatOfRect()
-
-        loadCascade().detectMultiScale(
-            grayMat, eyes,
-            1.3, 4, 0,
-            Size(minEyeSize, minEyeSize), Size()
-        )
-
-        for (rect in eyes.toArray()) {
+        for (rect in eyes) {
             ensureActive()
             val roi = Rect(rect.x, rect.y, rect.width, rect.height)
             val eyeMat = srcMat.submat(roi).clone()
@@ -99,11 +92,104 @@ object RedEyeRemover : OpenCV() {
             mean3.copyTo(eyeOut, dilatedMask)
 
             eyeOut.copyTo(resultMat.submat(roi))
+
+            eyeMat.release()
+            bg.release()
+            maskRed.release()
+            maskCmp.release()
+            redEyeMask.release()
+            filledMask.release()
+            dilatedMask.release()
+            meanMat.release()
+            mean3.release()
+            eyeOut.release()
+            channels.forEach(Mat::release)
         }
 
         Imgproc.cvtColor(resultMat, resultMat, Imgproc.COLOR_BGR2RGBA)
 
-        resultMat.toBitmap()
+        val result = resultMat.toBitmap()
+
+        srcMat.release()
+        resultMat.release()
+
+        result
+    }
+
+    private fun detectEyes(
+        srcMat: Mat,
+        minEyeSize: Double
+    ): List<Rect> {
+        val detector = loadFaceDetector(srcMat.size())
+        val faces = Mat()
+
+        detector.detect(srcMat, faces)
+
+        val result = buildList {
+            for (i in 0 until faces.rows()) {
+                val faceWidth = faces.value(i, 2)
+                val faceHeight = faces.value(i, 3)
+
+                val eyeSize = max(
+                    minEyeSize,
+                    min(faceWidth, faceHeight) * 0.16
+                )
+
+                createEyeRect(
+                    imageWidth = srcMat.cols(),
+                    imageHeight = srcMat.rows(),
+                    center = Point(
+                        faces.value(i, 4),
+                        faces.value(i, 5)
+                    ),
+                    size = eyeSize
+                )?.let(::add)
+
+                createEyeRect(
+                    imageWidth = srcMat.cols(),
+                    imageHeight = srcMat.rows(),
+                    center = Point(
+                        faces.value(i, 6),
+                        faces.value(i, 7)
+                    ),
+                    size = eyeSize
+                )?.let(::add)
+            }
+        }
+
+        faces.release()
+
+        return result
+    }
+
+    private fun createEyeRect(
+        imageWidth: Int,
+        imageHeight: Int,
+        center: Point,
+        size: Double
+    ): Rect? {
+        val left = (center.x - size / 2.0)
+            .roundToInt()
+            .coerceIn(0, imageWidth - 1)
+
+        val top = (center.y - size / 2.0)
+            .roundToInt()
+            .coerceIn(0, imageHeight - 1)
+
+        val right = (center.x + size / 2.0)
+            .roundToInt()
+            .coerceIn(0, imageWidth)
+
+        val bottom = (center.y + size / 2.0)
+            .roundToInt()
+            .coerceIn(0, imageHeight)
+
+        val rectWidth = right - left
+        val rectHeight = bottom - top
+
+        if (rectWidth <= 0 || rectHeight <= 0) return null
+
+        return Rect(left, top, rectWidth, rectHeight)
     }
 
     private fun fillHoles(mask: Mat): Mat {
@@ -116,18 +202,40 @@ object RedEyeRemover : OpenCV() {
         Core.bitwise_not(maskFloodfill, maskInv)
         val filledMask = Mat()
         Core.bitwise_or(maskInv, mask, filledMask)
+
+        maskFloodfill.release()
+        floodfillMask.release()
+        maskInv.release()
+
         return filledMask
     }
 
-    private fun loadCascade(): CascadeClassifier {
-        val inputStream = context.assets.open(EYE_DETECTION)
-        val cascadeFile = File(context.cacheDir, EYE_DETECTION)
-        FileOutputStream(cascadeFile).use { output ->
-            inputStream.copyTo(output)
-        }
-        return CascadeClassifier(cascadeFile.absolutePath)
+    private fun Mat.value(row: Int, col: Int): Double {
+        return get(row, col)?.firstOrNull() ?: 0.0
     }
 
-    private const val EYE_DETECTION = "haarcascade_eye.xml"
+    private fun loadFaceDetector(inputSize: Size): FaceDetectorYN {
+        return FaceDetectorYN.create(
+            copyAssetToCache(),
+            "",
+            inputSize,
+            0.7f,
+            0.3f,
+            5000
+        )
+    }
 
+    private fun copyAssetToCache(assetName: String = "face_detection_yunet_2026may.onnx"): String {
+        val file = File(context.cacheDir, assetName)
+
+        if (!file.exists() || file.length() == 0L) {
+            context.assets.open(assetName).use { input ->
+                FileOutputStream(file).use { output ->
+                    input.copyTo(output)
+                }
+            }
+        }
+
+        return file.absolutePath
+    }
 }

@@ -29,7 +29,6 @@ import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
 import com.t8rin.trickle.Trickle
-import org.opencv.calib3d.Calib3d
 import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -41,8 +40,9 @@ import org.opencv.core.Rect
 import org.opencv.core.Scalar
 import org.opencv.core.Size
 import org.opencv.core.times
-import org.opencv.features2d.FlannBasedMatcher
-import org.opencv.features2d.SIFT
+import org.opencv.features.FlannBasedMatcher
+import org.opencv.features.SIFT
+import org.opencv.geometry.Geometry
 import org.opencv.imgproc.Imgproc
 import javax.inject.Inject
 import kotlin.math.max
@@ -110,10 +110,10 @@ internal class CvStitchHelper @Inject constructor(
         }
         if (queryPoints.size < 10) return null
 
-        val homoMat = Calib3d.findHomography(
+        val homoMat = Geometry.findHomography(
             MatOfPoint2f(*trainPoints.toTypedArray()),
             MatOfPoint2f(*queryPoints.toTypedArray()),
-            Calib3d.RANSAC
+            Geometry.RANSAC
         )
 
         val corners = arrayOf(

@@ -81,7 +81,7 @@ zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 
 onnx = "1.26.0"
-opencv = "4.13.0"
+opencv = "5.0.0"
 
 tiffdecoder = "1.0.5"
 materialKolor = "5.0.0-alpha07"
@@ -99,7 +99,6 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 junit = { module = "junit:junit", version.ref = "junit" }
-kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
@@ -216,6 +215,7 @@ compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.r
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeVersion" }
 
 desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
+kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 
 [plugins]
 image-toolbox-library = { id = "image.toolbox.library", version = "unspecified" }

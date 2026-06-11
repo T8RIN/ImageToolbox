@@ -27,6 +27,7 @@ import org.opencv.core.MatOfPoint
 import org.opencv.core.MatOfPoint2f
 import org.opencv.core.Point
 import org.opencv.core.Size
+import org.opencv.geometry.Geometry
 import org.opencv.imgproc.Imgproc
 
 /**
@@ -69,7 +70,7 @@ object DocumentDetector : OpenCV() {
         // area, and scale point to account for shrinking image before document detection
         val documentCorners: List<Point>? = imageSplitByColorChannel
             .mapNotNull { findCorners(it) }
-            .maxByOrNull { Imgproc.contourArea(it) }
+            .maxByOrNull { Geometry.contourArea(it) }
             ?.toList()
             ?.map {
                 Point(
@@ -81,9 +82,7 @@ object DocumentDetector : OpenCV() {
         // sort points to force this order (top left, top right, bottom left, bottom right)
         return documentCorners
             ?.sortedBy { it.y }
-            ?.chunked(2)
-            ?.map { it.sortedBy { point -> point.x } }
-            ?.flatten()
+            ?.chunked(2)?.flatMap { it.sortedBy { point -> point.x } }
     }
 
     /**
@@ -133,10 +132,10 @@ object DocumentDetector : OpenCV() {
         var approxContours = contours.map {
             val approxContour = MatOfPoint2f()
             val contour2f = MatOfPoint2f(*it.toArray())
-            Imgproc.approxPolyDP(
+            Geometry.approxPolyDP(
                 contour2f,
                 approxContour,
-                0.02 * Imgproc.arcLength(contour2f, true),
+                0.02 * Geometry.arcLength(contour2f, true),
                 true
             )
             MatOfPoint(*approxContour.toArray())
@@ -147,11 +146,11 @@ object DocumentDetector : OpenCV() {
         // remove polygons with small areas. We assume that the document takes up a large portion
         // of the photo. Remove polygons that aren't convex since a document can't be convex.
         approxContours = approxContours.filter {
-            it.height() == 4 && Imgproc.contourArea(it) > 1000 && Imgproc.isContourConvex(it)
+            it.height() == 4 && Geometry.contourArea(it) > 1000 && Geometry.isContourConvex(it)
         }
 
         // Once we have all large, convex, 4-sided polygons find and return the 1 with the
         // largest area
-        return approxContours.maxByOrNull { Imgproc.contourArea(it) }
+        return approxContours.maxByOrNull { Geometry.contourArea(it) }
     }
 }
