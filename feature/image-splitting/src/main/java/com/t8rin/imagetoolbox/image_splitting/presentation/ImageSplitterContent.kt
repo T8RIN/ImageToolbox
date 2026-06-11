@@ -58,7 +58,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
+import com.t8rin.imagetoolbox.core.ui.widget.image.urisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -119,9 +119,7 @@ fun ImageSplitterContent(
                 uris = component.uris.ifEmpty {
                     listOf(Uri.EMPTY, Uri.EMPTY)
                 },
-                modifier = Modifier
-                    .animateContentSizeNoClip()
-                    .padding(2.dp),
+                modifier = Modifier.urisPreview(isPortrait = isPortrait),
                 isPortrait = true,
                 onRemoveUri = null,
                 onAddUris = null,

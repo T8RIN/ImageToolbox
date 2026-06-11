@@ -67,6 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
+import com.t8rin.imagetoolbox.core.ui.widget.image.urisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
@@ -131,8 +132,9 @@ fun DocumentScannerContent(
 
     val previewBlock = @Composable {
         UrisPreview(
+            modifier = Modifier.urisPreview(isPortrait = isPortrait),
             uris = component.uris,
-            isPortrait = isPortrait,
+            isPortrait = true,
             onRemoveUri = component::removeImageUri,
             onAddUris = additionalDocumentScanner::scan,
             isAddUrisVisible = !Flavor.isFoss(),
