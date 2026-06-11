@@ -239,6 +239,7 @@ private val DefaultLibraryDescription: @Composable BoxScope.(description: String
             color = colors.libraryContentColor,
             maxLines = textStyles.descriptionMaxLines,
             overflow = textStyles.defaultOverflow,
+            modifier = Modifier.padding(top = 8.dp)
         )
     }
 

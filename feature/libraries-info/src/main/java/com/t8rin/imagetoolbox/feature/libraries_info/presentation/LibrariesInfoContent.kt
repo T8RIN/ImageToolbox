@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.libraries_info.presentation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.plus
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -38,8 +37,10 @@ import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
 import com.mikepenz.aboutlibraries.ui.compose.m3.chipColors
 import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
+import com.mikepenz.aboutlibraries.ui.compose.util.author
 import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import com.mikepenz.aboutlibraries.util.withContext
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -101,7 +102,12 @@ fun LibrariesInfoContent(
                             it.name
                         }.filter { it.licenses.isNotEmpty() }.sortedWith(
                             compareBy(
-                                { !it.name.contains("T8RIN", true) },
+                                {
+                                    !it.name.contains(
+                                        "T8RIN",
+                                        true
+                                    ) || !it.author.contains("T8RIN")
+                                },
                                 { it.name }
                             ),
                         ).toPersistentList()
@@ -121,6 +127,17 @@ fun LibrariesInfoContent(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                 )
+            ),
+            padding = LibraryDefaults.libraryPadding(
+                versionPadding = LibraryDefaults.chipPadding(
+                    containerPadding = PaddingValues(
+                        start = 16.dp
+                    ),
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                ),
+            ),
+            textStyles = LibraryDefaults.libraryTextStyles(
+                versionTextStyle = MaterialTheme.typography.labelMedium
             ),
             onLibraryClick = { library ->
                 val license = library.licenses.firstOrNull()

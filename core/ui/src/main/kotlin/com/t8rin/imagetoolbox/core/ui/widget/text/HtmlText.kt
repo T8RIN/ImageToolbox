@@ -37,8 +37,10 @@ import androidx.compose.ui.text.style.TextOverflow
 fun HtmlText(
     html: String,
     modifier: Modifier = Modifier,
-    style: TextStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left)
-        .copy(color = MaterialTheme.colorScheme.onSurface),
+    style: TextStyle = LocalTextStyle.current.copy(
+        textAlign = TextAlign.Left,
+        color = MaterialTheme.colorScheme.onSurface
+    ),
     hyperlinkStyle: TextStyle = style.copy(
         color = MaterialTheme.colorScheme.primary,
         textDecoration = TextDecoration.Underline,
