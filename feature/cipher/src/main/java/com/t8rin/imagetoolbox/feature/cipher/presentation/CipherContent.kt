@@ -23,7 +23,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVertical
@@ -174,7 +174,7 @@ fun CipherContent(
         showImagePreviewAsStickyHeader = false,
         placeImagePreview = false,
         showActionsInTopAppBar = false,
-        addHorizontalCutoutPaddingIfNoPreview = false,
+        addHorizontalCutoutPaddingIfNoPreview = component.uri != null,
     )
 
     ExitWithoutSavingDialog(
