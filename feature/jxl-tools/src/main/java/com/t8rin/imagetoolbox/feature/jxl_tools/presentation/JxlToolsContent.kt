@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.jxl_tools.presentation
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.WindowInsets
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
@@ -194,7 +194,8 @@ fun JxlToolsContent(
                 onAddImages = addImages
             )
         },
-        placeImagePreview = component.type is Screen.JxlTools.Type.JxlToImage
+        placeImagePreview = component.type == null
+                || component.type is Screen.JxlTools.Type.JxlToImage
                 || component.type is Screen.JxlTools.Type.ImageToJxl,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,

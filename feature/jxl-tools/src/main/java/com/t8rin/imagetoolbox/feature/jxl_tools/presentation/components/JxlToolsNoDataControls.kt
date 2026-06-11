@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,20 @@
 package com.t8rin.imagetoolbox.feature.jxl_tools.presentation.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -106,26 +103,18 @@ internal fun JxlToolsNoDataControls(
             preference4()
         }
     } else {
-        val direction = LocalLayoutDirection.current
-        val cutout = WindowInsets.displayCutout.asPaddingValues().let {
-            PaddingValues(
-                start = it.calculateStartPadding(direction),
-                end = it.calculateEndPadding(direction)
+        Column(
+            modifier = Modifier.windowInsetsPadding(
+                WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
             )
-        }
-
-        Column {
-            Row(
-                modifier = Modifier.padding(cutout)
-            ) {
+        ) {
+            Row {
                 preference1.withModifier(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.width(8.dp))
                 preference2.withModifier(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.padding(cutout)
-            ) {
+            Row {
                 preference3.withModifier(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.width(8.dp))
                 preference4.withModifier(modifier = Modifier.weight(1f))
