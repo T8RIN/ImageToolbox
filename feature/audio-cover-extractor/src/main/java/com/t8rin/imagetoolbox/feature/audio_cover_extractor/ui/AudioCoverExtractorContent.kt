@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,6 +48,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Album
 import com.t8rin.imagetoolbox.core.resources.icons.MusicAdd
 import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -152,10 +153,8 @@ fun AudioCoverExtractorContent(
             )
         },
         imagePreview = {
-            val uris by remember(covers) {
-                derivedStateOf {
-                    covers.map { it.imageCoverUri ?: it.audioUri } + Uri.EMPTY
-                }
+            val uris = remember(covers) {
+                covers.map { it.imageCoverUri ?: it.audioUri }
             }
 
             UrisPreview(
@@ -172,9 +171,15 @@ fun AudioCoverExtractorContent(
                     )
                 },
                 errorContent = { index, width ->
+                    val isNightMode = LocalSettingsState.current.isNightMode
+
                     Box(
                         modifier = Modifier
-                            .background(MaterialTheme.colorScheme.scrim.copy(0.5f))
+                            .background(
+                                takeColorFromScheme {
+                                    if (isNightMode) errorContainer else error
+                                }.copy(0.5f)
+                            )
                             .fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
@@ -188,7 +193,9 @@ fun AudioCoverExtractorContent(
                             modifier = Modifier
                                 .size(size)
                                 .padding(8.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = takeColorFromScheme {
+                                if (isNightMode) onErrorContainer else onError
+                            }.copy(0.5f)
                         )
                         AnimatedVisibility(
                             visible = cover.isLoading,
