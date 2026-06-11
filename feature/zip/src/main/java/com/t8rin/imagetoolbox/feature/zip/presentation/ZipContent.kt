@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.zip.presentation
 
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
@@ -80,7 +80,7 @@ fun ZipContent(
         imagePreview = {},
         showImagePreviewAsStickyHeader = false,
         placeImagePreview = false,
-        addHorizontalCutoutPaddingIfNoPreview = false,
+        addHorizontalCutoutPaddingIfNoPreview = component.uris.isNotEmpty(),
         noDataControls = {
             FileNotPickedWidget(onPickFile = filePicker::pickFile)
         },
