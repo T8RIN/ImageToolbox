@@ -125,6 +125,23 @@ fun DocumentScannerContent(
         )
     }
 
+    var selectedUriForPreview by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val previewBlock = @Composable {
+        UrisPreview(
+            uris = component.uris,
+            isPortrait = isPortrait,
+            onRemoveUri = component::removeImageUri,
+            onAddUris = additionalDocumentScanner::scan,
+            isAddUrisVisible = !Flavor.isFoss(),
+            onClickUri = { uri ->
+                selectedUriForPreview = uri
+            }
+        )
+    }
+
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
@@ -138,9 +155,10 @@ fun DocumentScannerContent(
         },
         onGoBack = onBack,
         actions = {},
-        imagePreview = {},
+        imagePreview = {
+            if (!isPortrait) previewBlock()
+        },
         showImagePreviewAsStickyHeader = false,
-        placeImagePreview = false,
         addHorizontalCutoutPaddingIfNoPreview = false,
         noDataControls = {
             FileNotPickedWidget(
@@ -149,33 +167,11 @@ fun DocumentScannerContent(
             )
         },
         controls = {
-            var selectedUriForPreview by remember {
-                mutableStateOf<Uri?>(null)
+            if (isPortrait) {
+                Spacer(modifier = Modifier.height(24.dp))
+                previewBlock()
+                Spacer(modifier = Modifier.height(12.dp))
             }
-            ImagePager(
-                visible = selectedUriForPreview != null,
-                selectedUri = selectedUriForPreview,
-                uris = component.uris,
-                onNavigate = {
-                    selectedUriForPreview = null
-                    component.onNavigate(it)
-                },
-                onUriSelected = { selectedUriForPreview = it },
-                onShare = component::shareUri,
-                onDismiss = { selectedUriForPreview = null }
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            UrisPreview(
-                uris = component.uris,
-                isPortrait = isPortrait,
-                onRemoveUri = component::removeImageUri,
-                onAddUris = additionalDocumentScanner::scan,
-                isAddUrisVisible = !Flavor.isFoss(),
-                onClickUri = { uri ->
-                    selectedUriForPreview = uri
-                }
-            )
-            Spacer(modifier = Modifier.height(12.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -312,6 +308,19 @@ fun DocumentScannerContent(
             )
         },
         canShowScreenData = component.uris.isNotEmpty()
+    )
+
+    ImagePager(
+        visible = selectedUriForPreview != null,
+        selectedUri = selectedUriForPreview,
+        uris = component.uris,
+        onNavigate = {
+            selectedUriForPreview = null
+            component.onNavigate(it)
+        },
+        onUriSelected = { selectedUriForPreview = it },
+        onShare = component::shareUri,
+        onDismiss = { selectedUriForPreview = null }
     )
 
     ExitWithoutSavingDialog(
