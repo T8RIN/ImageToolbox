@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,13 +39,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.domain.utils.Flavor
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.DocumentScanner
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.resources.icons.Share
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberDocumentScanner
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ScanResult
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
@@ -55,8 +60,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelec
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
@@ -87,7 +94,11 @@ fun DocumentScannerContent(
     )
 
     val documentScanner = rememberDocumentScanner {
-        component.parseScanResult(it)
+        if (Flavor.isFoss()) {
+            component.addScanResult(it)
+        } else {
+            component.parseScanResult(it)
+        }
     }
 
     val additionalDocumentScanner = rememberDocumentScanner {
@@ -104,6 +115,14 @@ fun DocumentScannerContent(
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
             oneTimeSaveLocationUri = it
+        )
+    }
+
+    val addImagesPicker = rememberImagePicker { uris: List<Uri> ->
+        component.addScanResult(
+            ScanResult(
+                imageUris = uris
+            )
         )
     }
 
@@ -152,6 +171,7 @@ fun DocumentScannerContent(
                 isPortrait = isPortrait,
                 onRemoveUri = component::removeImageUri,
                 onAddUris = additionalDocumentScanner::scan,
+                isAddUrisVisible = !Flavor.isFoss(),
                 addUrisContent = { width ->
                     Icon(
                         imageVector = Icons.Rounded.AddPhotoAlt,
@@ -245,6 +265,9 @@ fun DocumentScannerContent(
             var showFolderSelectionDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 isNoData = component.uris.isEmpty(),
                 onSecondaryButtonClick = documentScanner::scan,
@@ -261,13 +284,39 @@ fun DocumentScannerContent(
                         enabled = component.uris.isNotEmpty(),
                         onShare = component::shareBitmaps
                     )
-                }
+                },
+                showMiddleFabInRow = true,
+                middleFab = if (Flavor.isFoss()) {
+                    {
+                        EnhancedFloatingActionButton(
+                            onClick = addImagesPicker::pickImage,
+                            onLongClick = {
+                                showOneTimeImagePickingDialog = true
+                            },
+                            containerColor = takeColorFromScheme {
+                                if (component.uris.isEmpty()) tertiaryContainer
+                                else secondaryContainer
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.AddPhotoAlt,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                } else null
             )
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = saveBitmaps,
                 formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = addImagesPicker,
+                visible = showOneTimeImagePickingDialog
             )
         },
         canShowScreenData = component.uris.isNotEmpty()

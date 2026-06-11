@@ -123,8 +123,10 @@ fun UrisPreview(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            uris.forEachIndexed { index, uri ->
-                if (uri != Uri.EMPTY) {
+            repeat(uris.size + 1) { index ->
+                val uri = uris.getOrNull(index)
+
+                if (uri != null && uri != Uri.EMPTY) {
                     Box(
                         modifier = Modifier.container(
                             shape = ShapeDefaults.extraSmall,

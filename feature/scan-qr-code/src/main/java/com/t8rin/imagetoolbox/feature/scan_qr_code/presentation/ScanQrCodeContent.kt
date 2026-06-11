@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BarcodeScanner
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
@@ -63,7 +63,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.BarcodeType
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.other.renderAsQr
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.QrCodePreview
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.ScanQrCodeControls
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
@@ -90,14 +89,7 @@ fun ScanQrCodeContent(
     val isSaveEnabled = params.content.raw.isNotEmpty() && component.isSaveEnabled
 
     val analyzerImagePicker = rememberImagePicker { uri: Uri ->
-        component.readBarcodeFromImage(
-            image = uri,
-            onFailure = {
-                AppToastHost.showFailureToast(
-                    Throwable(getString(R.string.no_barcode_found), it)
-                )
-            }
-        )
+        component.readBarcodeFromImage(uri)
     }
 
     val captureController = rememberCaptureController()
