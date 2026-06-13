@@ -36,9 +36,11 @@ interface SaveResultHandler {
     fun parseFileSaveResult(saveResult: SaveResult)
 
     fun parseSaveResults(results: List<SaveResult>)
+
+    companion object : SaveResultHandler by SaveResultHandlerImpl
 }
 
-internal object SaveResultHandlerImpl : SaveResultHandler {
+private object SaveResultHandlerImpl : SaveResultHandler {
     override fun parseSaveResult(saveResult: SaveResult) {
         when (saveResult) {
             is SaveResult.Error.Exception -> {
