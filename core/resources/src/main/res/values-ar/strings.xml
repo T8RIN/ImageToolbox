@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -25,7 +23,7 @@
     <string name="color_green">أخضر</string>
     <string name="color_blue">أزرق</string>
     <string name="clipboard_paste_invalid_color_code">ألصِق كود aRGB صالح</string>
-    <string name="clipboard_paste_invalid_empty">لا شيئ للصقه</string>
+    <string name="clipboard_paste_invalid_empty">لا شيء للصقه</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">لا يمكن تغيير مخطط ألوان التطبيق أثناء تشغيل الألوان الديناميكية</string>
     <string name="pick_accent_color">سيعتمد سمة التطبيق على اللون الذي ستختاره</string>
     <string name="smth_went_wrong">حدث خطأ ما: %1$s</string>
@@ -454,7 +452,7 @@
     <string name="mitchell_sub">طريقة إعادة التشكيل التي تستخدم تصفية التفاف مع معلمات قابلة للتضبيط لتحقيق التوازن بين الحدة والصقل في الصورة ذات الحجم الكبير</string>
     <string name="spline_sub">يستخدم الدوال متعددة الحدود المحددة لاستكمال وتقريب المنحنى أو السطح بسلاسة، وتمثيل الشكل المرن والمستمر</string>
     <string name="only_clip_sub">لن يتم إجراء الحفظ في وحدة التخزين، وستتم محاولة وضع الصورة في الحافظة فقط</string>
-    <string name="no_data">لايوجد بيانات</string>
+    <string name="no_data">لا يوجد بيانات</string>
     <string name="use_pixel_switch_sub">يستخدم مفتاحًا يشبه Google Pixel</string>
     <string name="saved_to_original">كُتب فوق الملف بالاسم %1$s في الوجهة الأصلية</string>
     <string name="magnifier_sub">لتمكين المكبر الموجود أعلى الإصبع في أوضاع الرسم لتسهيل الوصول إليه</string>
@@ -2132,7 +2130,7 @@
     <string name="signature">إمضاء</string>
     <string name="signature_sub">أضف توقيعك الإلكتروني إلى أي مستند</string>
     <string name="will_be_for_signature">سيتم استخدام هذا كتوقيع</string>
-    <string name="unlock_pdf">فتح ملف PDF</string>
+    <string name="unlock_pdf">افتح قفل ملف PDF</string>
     <string name="unlock_pdf_sub">أزِل كلمات السر من ملفاتك المحمية</string>
     <string name="protect_pdf">حماية PDF</string>
     <string name="protect_pdf_sub">أمن مستنداتك بتعمية قوية</string>
@@ -2175,7 +2173,7 @@
     <string name="draw_signature">رسم التوقيع</string>
     <string name="pen_params">معلمات القلم</string>
     <string name="draw_signature_sub">استخدم التوقيع الخاص كصورة لوضعها على المستندات</string>
-    <string name="zip_pdf">الرمز البريدي PDF</string>
+    <string name="zip_pdf">اضغط ملف PDF</string>
     <string name="zip_pdf_sub">قسّم المستند بفاصل زمني محدّد وحزم المستندات الجديدة في أرشيف مضغوط</string>
     <string name="interval">فاصلة</string>
     <string name="print_pdf">اطبع PDF</string>
@@ -2404,8 +2402,8 @@
     <string name="shader_parse_error_vec2_expected">يجب أن يكون %1$s عبارة عن مصفوفة مكونة من رقمين أو كائن يحتوي على x وy.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s يجب أن يحتوي على رقمين بالضبط.</string>
     <string name="duplicate">ينسخ</string>
-    <string name="always_clear_exif">امسح ملف EXIF ​​دائمًا</string>
-    <string name="always_clear_exif_sub">قم بإزالة بيانات EXIF ​​الخاصة بالصورة عند الحفظ، حتى عندما تطلب الأداة الاحتفاظ بالبيانات التعريفية</string>
+    <string name="always_clear_exif">امسح ملف EXIF دائمًا</string>
+    <string name="always_clear_exif_sub">أزِل بيانات EXIF الخاصة بالصورة عند الحفظ، حتى عندما تطلب الأداة الاحتفاظ بالبيانات التعريفية</string>
     <string name="help_tips">مساعدة ونصائح</string>
     <string name="tutorials_count">%1$d برامج تعليمية</string>
     <string name="open_tool">أداة مفتوحة</string>
@@ -2430,7 +2428,7 @@
     <string name="help_tip_choose_tool_subtitle">استخدم الفئات والبحث والمفضلات ومشاركة الإجراءات للبدء في المكان المناسب</string>
     <string name="help_tip_choose_tool_page_title">ابدأ من أفضل نقطة دخول</string>
     <string name="help_tip_choose_tool_description">يحتوي Image Toolbox على العديد من الأدوات المركزة، والعديد منها يتداخل للوهلة الأولى. ابدأ من المهمة التي ترغب في إنهائها، ثم اختر الأداة التي تتحكم في الجزء الأكثر أهمية من النتيجة: الحجم أو التنسيق أو البيانات الوصفية أو النص أو صفحات PDF أو الألوان أو التخطيط.</string>
-    <string name="help_tip_choose_tool_step_1">استخدم البحث عندما تعرف اسم الإجراء، مثل تغيير الحجم أو PDF أو EXIF ​​أو OCR أو QR أو اللون.</string>
+    <string name="help_tip_choose_tool_step_1">استخدم البحث عندما تعرف اسم الإجراء، مثل تغيير الحجم أو PDF أو EXIF أو OCR أو QR أو اللون.</string>
     <string name="help_tip_choose_tool_step_2">افتح فئة عندما تعرف نوع المهمة فقط، ثم قم بتثبيت الأدوات المتكررة كمفضلة.</string>
     <string name="help_tip_choose_tool_step_3">عندما يقوم تطبيق آخر بمشاركة صورة في Image Toolbox، اختر الأداة من تدفق ورقة المشاركة.</string>
     <string name="help_tip_import_save_share_title">استيراد النتائج وحفظها ومشاركتها</string>
@@ -2537,7 +2535,7 @@
     <string name="help_tip_preview_before_editing_description">تكون معاينة الصورة مفيدة عندما يأتي ملف من الدردشة أو التخزين السحابي أو تطبيق آخر ولا تكون متأكدًا مما يحتوي عليه. يساعد التحقق من الأبعاد والشفافية والاتجاه والجودة المرئية أولاً على اختيار أداة المتابعة الصحيحة.</string>
     <string name="help_tip_preview_before_editing_step_1">افتح Image Preview عندما تحتاج إلى فحص عدة صور قبل أن تقرر ما يجب فعله بها.</string>
     <string name="help_tip_preview_before_editing_step_2">ابحث عن مشاكل التدوير والمناطق الشفافة ومؤثرات الضغط والأبعاد الكبيرة بشكل غير متوقع.</string>
-    <string name="help_tip_preview_before_editing_step_3">انتقل إلى تغيير الحجم أو الاقتصاص أو المقارنة أو EXIF ​​أو مزيل الخلفية فقط بعد أن تعرف ما يحتاج إلى إصلاح.</string>
+    <string name="help_tip_preview_before_editing_step_3">انتقل إلى تغيير الحجم أو الاقتصاص أو المقارنة أو EXIF أو مزيل الخلفية فقط بعد أن تعرف ما يحتاج إلى إصلاح.</string>
     <string name="help_tip_background_remover_title">إزالة الخلفية أو استعادتها</string>
     <string name="help_tip_background_remover_subtitle">قم بمسح الخلفيات تلقائيًا أو تحسين الحواف يدويًا باستخدام أدوات الاستعادة</string>
     <string name="help_tip_background_remover_page_title">احتفظ بالموضوع واحذف الباقي</string>
@@ -2573,20 +2571,20 @@
     <string name="help_tip_format_conversion_step_1">استخدم JPEG للصور المتوافقة، وPNG للصور غير المفقودة وAlpha، وWebP للمشاركة المدمجة.</string>
     <string name="help_tip_format_conversion_step_2">ضبط الجودة عندما يدعمها التنسيق؛ تعمل القيم المنخفضة على تقليل الحجم ولكن يمكنها إضافة عناصر فنية.</string>
     <string name="help_tip_format_conversion_step_3">احتفظ بالنسخ الأصلية حتى تتأكد من فتح الملفات المحولة بشكل صحيح في التطبيق المستهدف.</string>
-    <string name="help_tip_exif_privacy_title">تحقق من EXIF ​​والخصوصية</string>
+    <string name="help_tip_exif_privacy_title">تحقق من EXIF والخصوصية</string>
     <string name="help_tip_exif_privacy_subtitle">عرض البيانات الوصفية أو تعديلها أو إزالتها قبل مشاركة الصور الحساسة</string>
     <string name="help_tip_exif_privacy_page_title">التحكم في بيانات الصورة المخفية</string>
-    <string name="help_tip_exif_privacy_description">يمكن أن يحتوي ملف EXIF ​​على بيانات الكاميرا والتواريخ والموقع والاتجاه وتفاصيل أخرى غير مرئية في الصورة. يجدر التحقق قبل المشاركة العامة أو تقارير الدعم أو قوائم السوق أو أي صورة قد تكشف عن مكان خاص.</string>
-    <string name="help_tip_exif_privacy_step_1">افتح أدوات EXIF ​​قبل مشاركة الصور التي قد تحتوي على معلومات الموقع أو الجهاز الخاص.</string>
+    <string name="help_tip_exif_privacy_description">يمكن أن يحتوي ملف EXIF على بيانات الكاميرا والتواريخ والموقع والاتجاه وتفاصيل أخرى غير مرئية في الصورة. يجدر التحقق قبل المشاركة العامة أو تقارير الدعم أو قوائم السوق أو أي صورة قد تكشف عن مكان خاص.</string>
+    <string name="help_tip_exif_privacy_step_1">افتح أدوات EXIF قبل مشاركة الصور التي قد تحتوي على معلومات الموقع أو الجهاز الخاص.</string>
     <string name="help_tip_exif_privacy_step_2">قم بإزالة الحقول الحساسة أو قم بتحرير العلامات غير الصحيحة مثل بيانات التاريخ أو الاتجاه أو المؤلف أو الكاميرا.</string>
     <string name="help_tip_exif_privacy_step_3">احفظ نسخة جديدة وشارك تلك النسخة بدلاً من النسخة الأصلية عندما تكون الخصوصية مهمة.</string>
-    <string name="help_tip_automatic_exif_cleanup_title">تنظيف EXIF ​​التلقائي</string>
+    <string name="help_tip_automatic_exif_cleanup_title">تنظيف EXIF التلقائي</string>
     <string name="help_tip_automatic_exif_cleanup_subtitle">قم بإزالة البيانات التعريفية بشكل افتراضي أثناء تحديد ما إذا كان يجب الاحتفاظ بالتواريخ أم لا</string>
     <string name="help_tip_automatic_exif_cleanup_page_title">اجعل الخصوصية هي الوضع الافتراضي</string>
-    <string name="help_tip_automatic_exif_cleanup_description">تعد مجموعة إعدادات EXIF ​​مفيدة عندما تريد أن يتم تنظيف الخصوصية تلقائيًا بدلاً من تذكرها لكل عملية تصدير. يعد الاحتفاظ بالتاريخ والوقت قرارًا منفصلاً لأن التواريخ يمكن أن تكون مفيدة للفرز ولكنها حساسة للمشاركة.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_1">قم بتمكين خيار EXIF ​​الواضح دائمًا عندما تكون معظم عمليات التصدير مخصصة للمشاركة العامة أو شبه العامة.</string>
+    <string name="help_tip_automatic_exif_cleanup_description">تعد مجموعة إعدادات EXIF مفيدة عندما تريد أن يتم تنظيف الخصوصية تلقائيًا بدلاً من تذكرها لكل عملية تصدير. يعد الاحتفاظ بالتاريخ والوقت قرارًا منفصلاً لأن التواريخ يمكن أن تكون مفيدة للفرز ولكنها حساسة للمشاركة.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_1">فعّل خيار EXIF الواضح دائمًا عندما تكون معظم عمليات التصدير مخصّصة للمشاركة العامة أو شبه العامة.</string>
     <string name="help_tip_automatic_exif_cleanup_step_2">قم بتمكين الاحتفاظ بالتاريخ والوقت فقط عندما يكون الحفاظ على وقت الالتقاط أكثر أهمية من إزالة كل طابع زمني.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_3">استخدم تحرير EXIF ​​اليدوي للملفات لمرة واحدة حيث تحتاج إلى الاحتفاظ ببعض الحقول وإزالة الحقول الأخرى.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_3">استخدم تحرير EXIF اليدوي للملفات لمرة واحدة حيث تحتاج إلى الاحتفاظ ببعض الحقول وإزالة الحقول الأخرى.</string>
     <string name="help_tip_filenames_title">التحكم في أسماء الملفات</string>
     <string name="help_tip_filenames_subtitle">استخدم البادئات واللاحقات والطوابع الزمنية والإعدادات المسبقة والمجاميع الاختبارية والأرقام التسلسلية</string>
     <string name="help_tip_filenames_page_title">تسهيل العثور على الصادرات</string>
@@ -3051,7 +3049,7 @@
     <string name="help_tip_metadata_dates_location_description">البيانات الوصفية ليست كلها بنفس القدر من الخطورة. يمكن أن تكون تواريخ الالتقاط مفيدة للأرشفة والفرز، في حين أن نظام تحديد المواقع العالمي (GPS) أو الحقول الشبيهة بالتسلسل للجهاز أو علامات البرامج أو حقول المالك يمكن أن تكشف أكثر مما هو مقصود.</string>
     <string name="help_tip_metadata_dates_location_step_1">احتفظ بعلامات التاريخ والوقت عندما يكون الترتيب الزمني مهمًا للألبومات أو عمليات المسح أو سجل المشروع.</string>
     <string name="help_tip_metadata_dates_location_step_2">قم بإزالة نظام تحديد المواقع العالمي (GPS) وعلامات تعريف الجهاز قبل المشاركة العامة أو إرسال الصور إلى الغرباء.</string>
-    <string name="help_tip_metadata_dates_location_step_3">قم بتصدير عينة وفحص EXIF ​​مرة أخرى عندما تكون متطلبات الخصوصية صارمة.</string>
+    <string name="help_tip_metadata_dates_location_step_3">صدِّر عينة وفحص EXIF مرة أخرى عندما تكون متطلبات الخصوصية صارمة.</string>
     <string name="help_tip_filename_collision_safety_title">تجنب تضارب أسماء الملفات</string>
     <string name="help_tip_filename_collision_safety_subtitle">قم بحماية مخرجات الدفعات عندما تشترك العديد من الملفات بأسماء مثل image.jpg أو Screenshot.png</string>
     <string name="help_tip_filename_collision_safety_page_title">اجعل كل اسم مخرجات فريدًا</string>
