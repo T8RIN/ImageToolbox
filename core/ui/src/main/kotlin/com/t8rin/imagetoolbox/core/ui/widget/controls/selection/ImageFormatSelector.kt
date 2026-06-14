@@ -314,7 +314,7 @@ fun ImageFormatSelector(
             mutableStateOf(showBackgroundSelector)
         }
         LaunchedEffect(showBackgroundSelector, value) {
-            if (previousEnabled != showBackgroundSelector) {
+            if (enableItemsCardBackground && previousEnabled != showBackgroundSelector) {
                 val previous = value
 
                 previous?.let {
@@ -356,15 +356,17 @@ fun ImageFormatSelector(
                         simpleSettingsInteractor.setBackgroundColorForNoAlphaFormats(
                             color = it.toModel()
                         )
-                        val previous = value
+                        if (enableItemsCardBackground) {
+                            val previous = value
 
-                        previous?.let {
-                            onValueChange(
-                                ImageFormat.entries.run {
-                                    rightFrom(indexOf(value))
-                                }
-                            )
-                            onValueChange(previous)
+                            previous?.let {
+                                onValueChange(
+                                    ImageFormat.entries.run {
+                                        rightFrom(indexOf(value))
+                                    }
+                                )
+                                onValueChange(previous)
+                            }
                         }
                     }
                 },

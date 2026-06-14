@@ -339,6 +339,7 @@ sealed class ImageFormat(
                 Jpegli,
                 Png.Lossless,
                 Png.Lossy,
+                Png.OxiPNG,
                 Png.ImageQuant,
                 Bmp,
                 Webp.Lossless,
