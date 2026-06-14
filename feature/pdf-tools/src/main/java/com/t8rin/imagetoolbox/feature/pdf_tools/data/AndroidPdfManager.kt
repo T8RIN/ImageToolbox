@@ -493,7 +493,7 @@ internal class AndroidPdfManager @Inject constructor(
                 val targetHeight = targetWidth / imageAspect
 
                 val centerX = pageWidth * params.x
-                val centerY = pageHeight * (1f - params.y)
+                val centerY = pageHeight * params.y
 
                 var x = centerX - targetWidth / 2f
                 var y = centerY - targetHeight / 2f
@@ -505,19 +505,9 @@ internal class AndroidPdfManager @Inject constructor(
                 y += originY
 
                 document.writePage(page) {
-                    setAlpha(params.opacity)
                     saveGraphicsState()
-                    transform(
-                        Matrix(
-                            targetWidth,
-                            0f,
-                            0f,
-                            -targetHeight,
-                            x,
-                            y + targetHeight
-                        )
-                    )
-                    drawImage(signatureImage, 0f, 0f, 1f, 1f)
+                    setAlpha(params.opacity)
+                    drawImage(signatureImage, x, y, targetWidth, targetHeight)
                     restoreGraphicsState()
                 }
             }
