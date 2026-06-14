@@ -422,7 +422,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
         onGetFiles: (List<File>) -> Unit
     ) = withContext(ioDispatcher) {
         modelsDir.listFiles().orEmpty().toList().filter {
-            !it.name.orEmpty().endsWith(".tmp") && !it.name.isNullOrEmpty() && it.length() > 0
+            it.isFile && !it.name.orEmpty()
+                .endsWith(".tmp") && !it.name.isNullOrEmpty() && it.length() > 0
         }.also { files ->
             val watermarkFile =
                 WatermarkRemoverProcessor.modelFile.takeIf { it.exists() && it.length() > 0 }
@@ -431,7 +432,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 if (watermarkFile != null) files + watermarkFile else files
             )
         }.mapNotNull {
-            val name = it.name
+            val name = it.name.makeLog("COCK")
 
             if (name.isNullOrEmpty() || it.length() <= 0) return@mapNotNull null
 

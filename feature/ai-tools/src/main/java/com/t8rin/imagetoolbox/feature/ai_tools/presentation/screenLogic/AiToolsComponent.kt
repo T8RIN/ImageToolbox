@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.utils.state.updateNotNull
+import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
@@ -58,6 +59,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.NeuralSav
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -163,6 +165,9 @@ class AiToolsComponent @AssistedInject internal constructor(
                 .catch {
                     _downloadProgresses.remove(model.name)
                     downloadJobs.remove(model.name)
+                    if (it !is CancellationException) {
+                        AppToastHost.showFailureToast(it.extractMessage())
+                    }
                 }
                 .collect { progress ->
                     _downloadProgresses[model.name] = progress

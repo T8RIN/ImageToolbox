@@ -24,9 +24,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import java.io.File
 
-@Suppress("DEPRECATION")
 fun File.observeHasChanges(
-    flags: Int = FileObserver.ALL_EVENTS
+    flags: Int = DEFAULT_FLAGS
 ): Flow<Unit> = callbackFlow {
     val observer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         object : FileObserver(this@observeHasChanges, flags) {
@@ -35,6 +34,7 @@ fun File.observeHasChanges(
             }
         }
     } else {
+        @Suppress("DEPRECATION")
         object : FileObserver(absolutePath, flags) {
             override fun onEvent(event: Int, path: String?) {
                 trySend(Unit)
@@ -45,3 +45,6 @@ fun File.observeHasChanges(
     observer.startWatching()
     awaitClose { observer.stopWatching() }
 }
+
+private const val DEFAULT_FLAGS =
+    FileObserver.CREATE or FileObserver.DELETE or FileObserver.DELETE_SELF or FileObserver.DELETE_SELF or FileObserver.MODIFY or FileObserver.MOVE_SELF or FileObserver.MOVED_TO or FileObserver.MOVED_FROM
