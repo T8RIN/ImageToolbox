@@ -69,9 +69,6 @@ fun BoxWithConstraintsScope.EditBox(
     isInteractive: Boolean = true,
     animateOnTapWhenInactive: Boolean = false,
     showSelectionBackground: Boolean = true,
-    drawContent: Boolean = true,
-    drawSelectionControls: Boolean = true,
-    updateStateGeometry: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -93,9 +90,6 @@ fun BoxWithConstraintsScope.EditBox(
         isInteractive = isInteractive,
         animateOnTapWhenInactive = animateOnTapWhenInactive,
         showSelectionBackground = showSelectionBackground,
-        drawContent = drawContent,
-        drawSelectionControls = drawSelectionControls,
-        updateStateGeometry = updateStateGeometry,
         content = content
     )
 }
@@ -112,9 +106,6 @@ fun EditBox(
     isInteractive: Boolean = true,
     animateOnTapWhenInactive: Boolean = false,
     showSelectionBackground: Boolean = true,
-    drawContent: Boolean = true,
-    drawSelectionControls: Boolean = true,
-    updateStateGeometry: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
@@ -126,21 +117,15 @@ fun EditBox(
     val parentMaxWidth = parentSize.width
     val parentMaxHeight = parentSize.height
 
-    if (updateStateGeometry) {
-        SideEffect {
-            state.canvasSize = parentSize
-        }
+    SideEffect {
+        state.canvasSize = parentSize
     }
 
     var needRecalculations by rememberSaveable(state.coerceToBounds, contentSize) {
-        mutableStateOf(
-            updateStateGeometry &&
-                    state.coerceToBounds &&
-                    contentSize != IntSize.Zero
-        )
+        mutableStateOf(state.coerceToBounds && contentSize != IntSize.Zero)
     }
 
-    LaunchedEffect(updateStateGeometry, needRecalculations) {
+    LaunchedEffect(needRecalculations) {
         if (needRecalculations) {
             state.applyChanges(
                 parentMaxWidth = parentMaxWidth,
@@ -196,9 +181,7 @@ fun EditBox(
         modifier = modifier
             .onSizeChanged {
                 contentSize = it
-                if (updateStateGeometry) {
-                    state.contentSize = it
-                }
+                state.contentSize = it
             }
             .graphicsLayer(
                 scaleX = state.scale * if (state.isFlippedHorizontally) -1f else 1f,
@@ -211,12 +194,7 @@ fun EditBox(
             .clip(shape)
             .drawWithCache {
                 onDrawWithContent {
-                    if (
-                        drawSelectionControls &&
-                        showSelectionBackground &&
-                        state.isActive &&
-                        blendingMode == BlendingMode.SrcOver
-                    ) {
+                    if (showSelectionBackground && state.isActive && blendingMode == BlendingMode.SrcOver) {
                         drawRect(selectionBackgroundColor)
                     }
                     drawContent()
@@ -226,26 +204,21 @@ fun EditBox(
         contentAlignment = Alignment.Center
     ) {
         Box(
-            if (drawContent) {
-                Modifier.layerBlendingMode(
+            Modifier
+                .layerBlendingMode(
                     mode = blendingMode,
                     alpha = state.alpha
                 )
-            } else {
-                Modifier
-            }
         ) {
             content()
         }
-        if (drawSelectionControls) {
-            AnimatedBorder(
-                modifier = Modifier.matchParentSize(),
-                alpha = borderAlpha,
-                scale = state.scale,
-                shape = shape
-            )
-        }
-        if (drawSelectionControls && state.isActive) {
+        AnimatedBorder(
+            modifier = Modifier.matchParentSize(),
+            alpha = borderAlpha,
+            scale = state.scale,
+            shape = shape
+        )
+        if (state.isActive) {
             Surface(
                 color = Color.Transparent,
                 modifier = Modifier.matchParentSize()
