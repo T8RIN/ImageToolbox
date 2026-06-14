@@ -3170,4 +3170,6 @@
     <string name="help_tip_wallpaper_export_step_2">حدد إدخالات الصفحة الرئيسية أو القفل أو خلفية الشاشة المضمنة المتوفرة التي تريد حفظها أو نسخها أو مشاركتها.</string>
     <string name="help_tip_wallpaper_export_step_3">إذا كانت خلفية الشاشة مفقودة أو كانت الميزة غير متوفرة، فعادةً ما يكون ذلك عبارة عن قيود على النظام أو الإذن أو متغير البناء بدلاً من إعداد التحرير.</string>
     <string name="shape_by_interaction_throttle">زوايا الرسوم المتحركة خنق</string>
+    <string name="copy_color_as">انسخ اللون كـ</string>
+    <string name="hex_and_name">HEX + الاسم</string>
 </resources>
