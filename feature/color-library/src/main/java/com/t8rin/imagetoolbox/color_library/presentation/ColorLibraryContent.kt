@@ -50,6 +50,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -63,7 +64,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.t8rin.colors.util.ColorUtil.hex
+import com.t8rin.colors.parser.ColorWithName
 import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibraryComponent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -72,7 +73,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Search
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -99,16 +100,12 @@ fun ColorLibraryContent(
     val favoriteColors = component.favoriteColors
     val settingsState = LocalSettingsState.current
 
-    val copyColor: (Color) -> Unit = { color ->
-        Clipboard.copy(
-            text = color.hex(),
-            message = R.string.color_copied
-        )
-    }
-
     val focus = LocalFocusManager.current
     var isSearching by rememberSaveable {
         mutableStateOf(false)
+    }
+    var colorCopyTarget by remember {
+        mutableStateOf<ColorWithName?>(null)
     }
 
     Scaffold(
@@ -255,7 +252,9 @@ fun ColorLibraryContent(
                             color = colorWithName.color,
                             name = colorWithName.name,
                             onToggleFavorite = { component.toggleFavoriteColor(colorWithName) },
-                            onCopy = { copyColor(colorWithName.color) },
+                            onCopy = {
+                                colorCopyTarget = colorWithName
+                            },
                             modifier = Modifier.animateItem()
                         )
                     }
@@ -302,4 +301,11 @@ fun ColorLibraryContent(
             }
         }
     }
+
+    ColorCopyFormatSelectionDialog(
+        visible = colorCopyTarget != null,
+        onDismiss = { colorCopyTarget = null },
+        color = colorCopyTarget?.color ?: Color.Transparent,
+        colorName = colorCopyTarget?.name.orEmpty()
+    )
 }

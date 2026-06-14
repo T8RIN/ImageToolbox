@@ -33,6 +33,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -42,6 +43,7 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
@@ -53,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -78,6 +81,9 @@ fun PickColorFromImageContent(
     AutoContentBasedColors(component.bitmap)
     AutoContentBasedColors(component.color)
     val displayColor = component.color.takeOrElse { Color.Transparent }
+    val displayColorName = remember(displayColor) {
+        ColorNameParser.parseColorName(displayColor)
+    }
 
     val imagePicker = rememberImagePicker { uri: Uri ->
         component.setUri(
@@ -134,6 +140,9 @@ fun PickColorFromImageContent(
     var showOneTimeImagePickingDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    var showColorCopyDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Box {
         Scaffold(
@@ -147,7 +156,10 @@ fun PickColorFromImageContent(
                     onGoBack = component.onGoBack,
                     isPortrait = isPortrait,
                     magnifierButton = magnifierButton,
-                    color = displayColor
+                    color = displayColor,
+                    onCopyColorRequest = {
+                        showColorCopyDialog = true
+                    }
                 )
             },
             bottomBar = {
@@ -209,5 +221,12 @@ fun PickColorFromImageContent(
     LoadingDialog(
         visible = component.isImageLoading,
         canCancel = false
+    )
+
+    ColorCopyFormatSelectionDialog(
+        visible = showColorCopyDialog,
+        onDismiss = { showColorCopyDialog = false },
+        color = displayColor,
+        colorName = displayColorName
     )
 }

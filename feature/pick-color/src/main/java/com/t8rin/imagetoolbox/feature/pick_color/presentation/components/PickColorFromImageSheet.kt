@@ -50,15 +50,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.ImageColorDetector
+import com.t8rin.colors.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -77,7 +78,11 @@ fun PickColorFromImageSheet(
 ) {
     val settingsState = LocalSettingsState.current
     var panEnabled by rememberSaveable { mutableStateOf(false) }
+    var showColorCopyDialog by rememberSaveable { mutableStateOf(false) }
     val displayColor = color.takeOrElse { Color.Transparent }
+    val displayColorName = remember(displayColor) {
+        ColorNameParser.parseColorName(displayColor)
+    }
 
     EnhancedModalBottomSheet(
         sheetContent = {
@@ -151,12 +156,7 @@ fun PickColorFromImageSheet(
                                         shape = ShapeDefaults.small
                                     )
                                     .clip(ShapeDefaults.small)
-                                    .hapticsClickable {
-                                        Clipboard.copy(
-                                            text = displayColor.toHex(),
-                                            message = R.string.color_copied
-                                        )
-                                    },
+                                    .hapticsClickable { showColorCopyDialog = true },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
@@ -178,12 +178,7 @@ fun PickColorFromImageSheet(
                             Text(
                                 modifier = Modifier
                                     .clip(ShapeDefaults.mini)
-                                    .hapticsClickable {
-                                        Clipboard.copy(
-                                            text = displayColor.toHex(),
-                                            message = R.string.color_copied
-                                        )
-                                    }
+                                    .hapticsClickable { showColorCopyDialog = true }
                                     .background(MaterialTheme.colorScheme.secondaryContainer)
                                     .border(
                                         width = settingsState.borderWidth,
@@ -220,5 +215,12 @@ fun PickColorFromImageSheet(
         onDismiss = {
             if (!it) onDismiss()
         }
+    )
+
+    ColorCopyFormatSelectionDialog(
+        visible = showColorCopyDialog,
+        onDismiss = { showColorCopyDialog = false },
+        color = displayColor,
+        colorName = displayColorName
     )
 }

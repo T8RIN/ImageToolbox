@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -59,11 +58,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.parser.ColorNameParser
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -83,6 +82,7 @@ internal fun PickColorFromImageTopAppBar(
     isPortrait: Boolean,
     magnifierButton: @Composable () -> Unit,
     color: Color,
+    onCopyColorRequest: () -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -172,12 +172,7 @@ internal fun PickColorFromImageTopAppBar(
                                             modifier = Modifier
                                                 .padding(horizontal = 8.dp)
                                                 .clip(ShapeDefaults.mini)
-                                                .hapticsClickable {
-                                                    Clipboard.copy(
-                                                        text = color.toHex(),
-                                                        message = R.string.color_copied
-                                                    )
-                                                }
+                                                .hapticsClickable(onClick = onCopyColorRequest)
                                                 .background(MaterialTheme.colorScheme.secondaryContainer)
                                                 .border(
                                                     width = settingsState.borderWidth,
@@ -225,12 +220,7 @@ internal fun PickColorFromImageTopAppBar(
                                                     shape = ShapeDefaults.small
                                                 )
                                                 .clip(ShapeDefaults.small)
-                                                .hapticsClickable {
-                                                    Clipboard.copy(
-                                                        text = color.toHex(),
-                                                        message = R.string.color_copied
-                                                    )
-                                                }
+                                                .hapticsClickable(onClick = onCopyColorRequest)
                                         )
                                     }
                                 }
@@ -259,12 +249,7 @@ internal fun PickColorFromImageTopAppBar(
                                         modifier = Modifier
                                             .padding(horizontal = 8.dp)
                                             .clip(ShapeDefaults.mini)
-                                            .hapticsClickable {
-                                                Clipboard.copy(
-                                                    text = color.toHex(),
-                                                    message = R.string.color_copied
-                                                )
-                                            }
+                                            .hapticsClickable(onClick = onCopyColorRequest)
                                             .background(MaterialTheme.colorScheme.secondaryContainer)
                                             .border(
                                                 width = settingsState.borderWidth,
@@ -304,12 +289,7 @@ internal fun PickColorFromImageTopAppBar(
                                                 shape = ShapeDefaults.small
                                             )
                                             .clip(ShapeDefaults.small)
-                                            .hapticsClickable {
-                                                Clipboard.copy(
-                                                    text = color.toHex(),
-                                                    message = R.string.color_copied
-                                                )
-                                            }
+                                            .hapticsClickable(onClick = onCopyColorRequest)
                                     )
                                 }
                             }
