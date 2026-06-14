@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -56,12 +55,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.t8rin.colors.util.ColorUtil.colorToHex
-import com.t8rin.colors.util.ColorUtil.colorToHexAlpha
+import com.t8rin.colors.util.ColorUtil.hex
 import com.t8rin.colors.util.HexUtil
 import com.t8rin.colors.util.HexVisualTransformation
 import com.t8rin.colors.util.hexRegexSingleChar
 import com.t8rin.colors.util.hexWithAlphaRegex
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
@@ -98,7 +97,7 @@ fun ColorInfo(
     val colorPasteError = rememberSaveable { mutableStateOf<String?>(null) }
     val onCopyCustomColor = {
         Clipboard.copy(
-            text = getFormattedColor(color),
+            text = color.hex(),
             message = R.string.color_copied
         )
     }
@@ -201,7 +200,7 @@ fun ColorInfo(
                     } else {
                         Row(modifier = Modifier.weight(1f)) {
                             AutoSizeText(
-                                text = getFormattedColor(color),
+                                text = color.hex(),
                                 style = MaterialTheme.typography.titleMedium,
                                 maxLines = 1,
                                 modifier = Modifier
@@ -232,7 +231,7 @@ fun ColorInfo(
                         }
                     }
                 }
-                var value by remember(expanded) { mutableStateOf(getFormattedColor(color)) }
+                var value by remember(expanded) { mutableStateOf(color.hex()) }
                 EnhancedAlertDialog(
                     visible = expanded,
                     onDismissRequest = { expanded = false },
@@ -325,13 +324,4 @@ fun ColorInfo(
             }
         }
     }
-}
-
-/** Receive the clipboard data. */
-private fun getFormattedColor(color: Color): String {
-    return if (color.alpha == 1f) {
-        colorToHex(color)
-    } else {
-        colorToHexAlpha(color)
-    }.uppercase()
 }

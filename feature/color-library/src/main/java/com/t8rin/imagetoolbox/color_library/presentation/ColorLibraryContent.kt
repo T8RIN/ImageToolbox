@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -64,8 +63,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.t8rin.colors.util.ColorUtil
+import com.t8rin.colors.util.ColorUtil.hex
 import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibraryComponent
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Close
@@ -101,11 +101,7 @@ fun ColorLibraryContent(
 
     val copyColor: (Color) -> Unit = { color ->
         Clipboard.copy(
-            text = if (color.alpha == 1f) {
-                ColorUtil.colorToHex(color)
-            } else {
-                ColorUtil.colorToHexAlpha(color)
-            }.uppercase(),
+            text = color.hex(),
             message = R.string.color_copied
         )
     }

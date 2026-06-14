@@ -150,6 +150,12 @@ object ColorUtil {
         return RGBUtil.argbToHex(color.alpha, color.red, color.green, color.blue)
     }
 
+    fun Color.hex() = if (alpha == 1f) {
+        colorToHex(this)
+    } else {
+        colorToHexAlpha(this)
+    }.uppercase()
+
     /**
      * Convert a RGB color in [Integer] form to HSV (hue-saturation-value) components.
      *  * For instance, red =255, green =0, blue=0 is -65536
