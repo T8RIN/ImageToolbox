@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
@@ -48,8 +49,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -59,7 +62,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -97,7 +102,22 @@ fun FullscreenEditOption(
     fabButtons: (@Composable () -> Unit)?,
     actions: @Composable RowScope.() -> Unit,
     topAppBar: @Composable (closeButton: @Composable () -> Unit) -> Unit,
-    scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
+    scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberBottomSheetState(
+            initialValue = SheetValue.PartiallyExpanded,
+            enabledValues = setOf(
+                SheetValue.PartiallyExpanded,
+                if (showControls) SheetValue.Expanded else SheetValue.PartiallyExpanded
+            ),
+            confirmValueChange = {
+                when (it) {
+                    SheetValue.Hidden -> false
+                    SheetValue.Expanded -> showControls
+                    else -> true
+                }
+            }
+        )
+    ),
     content: @Composable () -> Unit
 ) {
     var predictiveBackProgress by remember {
@@ -123,6 +143,12 @@ fun FullscreenEditOption(
             else onDismiss()
         }
         val direction = LocalLayoutDirection.current
+        val bottomSheetScope = rememberCoroutineScope()
+        val isExpanded by remember {
+            derivedStateOf {
+                scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded
+            }
+        }
 
         val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
         val scale = (1f - animatedPredictiveBackProgress).coerceAtLeast(0.75f)
@@ -151,7 +177,35 @@ fun FullscreenEditOption(
                     val screenHeight = LocalScreenSize.current.height
                     val sheetSwipeEnabled =
                         scaffoldState.bottomSheetState.currentValue == SheetValue.PartiallyExpanded
-                                && !scaffoldState.bottomSheetState.isAnimationRunning
+                                && !scaffoldState.bottomSheetState.isAnimationRunning && showControls
+
+                    var bottomSheetPredictiveBackProgress by remember {
+                        mutableFloatStateOf(0f)
+                    }
+                    val animatedBottomSheetPredictiveBackProgress by animateFloatAsState(
+                        bottomSheetPredictiveBackProgress
+                    )
+
+                    val clean = {
+                        bottomSheetPredictiveBackProgress = 0f
+                    }
+
+                    PredictiveBackObserver(
+                        onProgress = { progress ->
+                            bottomSheetPredictiveBackProgress = progress / 6f
+                        },
+                        onClean = { isCompleted ->
+                            if (isCompleted) {
+                                bottomSheetScope.launch {
+                                    delay(150)
+                                    clean()
+                                }
+                                scaffoldState.bottomSheetState.partialExpand()
+                            }
+                            clean()
+                        },
+                        enabled = isExpanded
+                    )
 
                     BottomSheetScaffold(
                         topBar = {
@@ -171,11 +225,27 @@ fun FullscreenEditOption(
                             .calculateBottomPadding(),
                         sheetDragHandle = null,
                         sheetShape = RectangleShape,
+                        containerColor = Color.Transparent,
+                        sheetContainerColor = Color.Transparent,
+                        sheetShadowElevation = 0.dp,
                         sheetSwipeEnabled = sheetSwipeEnabled,
                         sheetContent = {
                             Scaffold(
                                 modifier = modifier
                                     .heightIn(max = screenHeight * 0.7f)
+                                    .graphicsLayer {
+                                        val progress = animatedBottomSheetPredictiveBackProgress
+                                        scaleX = (1f - progress).coerceAtLeast(0.85f)
+                                        scaleY = (1f - progress).coerceAtLeast(0.85f)
+                                        transformOrigin = TransformOrigin(
+                                            pivotFractionX = 0.5f,
+                                            pivotFractionY = 1f
+                                        )
+                                        shape = RoundedCornerShape(
+                                            (32.dp * (progress * 10f)).coerceIn(0.dp, 32.dp)
+                                        )
+                                        clip = progress > 0f
+                                    }
                                     .clearFocusOnTap(),
                                 topBar = {
                                     val scope = rememberCoroutineScope()
@@ -187,7 +257,12 @@ fun FullscreenEditOption(
                                         }
                                     ) {
                                         BottomAppBar(
-                                            modifier = Modifier.drawHorizontalStroke(true),
+                                            modifier = Modifier
+                                                .drawHorizontalStroke(true)
+                                                .drawHorizontalStroke(
+                                                    top = false,
+                                                    enabled = showControls
+                                                ),
                                             actions = {
                                                 actions()
                                                 if (showControls) {
@@ -346,10 +421,14 @@ fun FullscreenEditOption(
                             delay(400)
                         }
                         predictiveBackProgress = 0f
-                    }
+                    },
+                    enabled = !useScaffold || !isExpanded
                 )
             } else {
-                ExitBackHandler(onBack = internalOnDismiss)
+                ExitBackHandler(
+                    enabled = !useScaffold || !isExpanded,
+                    onBack = internalOnDismiss
+                )
             }
 
             ExitWithoutSavingDialog(
