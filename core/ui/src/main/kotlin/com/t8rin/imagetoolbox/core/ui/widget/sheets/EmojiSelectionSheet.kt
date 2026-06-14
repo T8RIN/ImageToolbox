@@ -103,7 +103,8 @@ fun EmojiSelectionSheet(
     onEmojiPicked: (Int) -> Unit,
     visible: Boolean,
     icon: ImageVector = Icons.Rounded.Face5,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    useAnimatedEmojis: Boolean = LocalSettingsState.current.useAnimatedEmojis
 ) {
     val state = rememberLazyGridState()
     val emojiWithCategories = Emoji.allIconsCategorized
@@ -118,7 +119,6 @@ fun EmojiSelectionSheet(
             Emoji.animatedIconFor(emoji)?.toString()
         }
     }
-    val useAnimatedEmojis = LocalSettingsState.current.useAnimatedEmojis
 
     var expandedCategories by rememberSaveable(visible) {
         mutableStateOf(emptyList<Int>())

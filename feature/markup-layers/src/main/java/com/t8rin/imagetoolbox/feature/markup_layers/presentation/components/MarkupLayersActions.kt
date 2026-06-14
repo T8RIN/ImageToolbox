@@ -218,7 +218,8 @@ internal fun MarkupLayersActions(
         onDismiss = {
             showEmojiPicker = false
         },
-        icon = Icons.Outlined.EmojiSticky
+        icon = Icons.Outlined.EmojiSticky,
+        useAnimatedEmojis = false
     )
 
     AddShapeLayerDialog(

@@ -50,6 +50,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.withSave
+import coil3.compose.SubcomposeAsyncImage
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
@@ -58,8 +59,8 @@ import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
-import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -302,7 +303,10 @@ private fun PictureLayerContent(
             },
         contentAlignment = Alignment.Center
     ) {
-        Picture(
+        var isLoading by remember {
+            mutableStateOf(false)
+        }
+        SubcomposeAsyncImage(
             model = remember(type.imageData) {
                 ImageRequest.Builder(appContext)
                     .data(type.imageData)
@@ -311,6 +315,7 @@ private fun PictureLayerContent(
                     .size(1600)
                     .build()
             },
+            contentDescription = null,
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .padding(
@@ -319,10 +324,13 @@ private fun PictureLayerContent(
                     end = with(density) { shadowPadding.rightPx.toDp() },
                     bottom = with(density) { shadowPadding.bottomPx.toDp() }
                 )
-                .clip(AutoCornersShape(cornerRadiusPercent)),
-            showTransparencyChecker = false,
-            allowHardware = false,
+                .clip(AutoCornersShape(cornerRadiusPercent))
+                .shimmer(isLoading),
+            onLoading = {
+                isLoading = true
+            },
             onSuccess = {
+                isLoading = false
                 previewBitmap = it.result.image.toBitmap()
             },
             onError = {
