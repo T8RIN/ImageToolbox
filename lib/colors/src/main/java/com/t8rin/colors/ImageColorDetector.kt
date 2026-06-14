@@ -52,6 +52,7 @@ import androidx.core.graphics.get
 import com.t8rin.gesture.observePointersCountWithOffset
 import com.t8rin.gesture.pointerMotionEvents
 import com.t8rin.image.ImageWithConstraints
+import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
@@ -65,17 +66,16 @@ fun ImageColorDetector(
     imageBitmap: ImageBitmap,
     isMagnifierEnabled: Boolean,
     boxModifier: Modifier = Modifier,
-    onColorChange: (Color) -> Unit
+    onColorChange: (Color) -> Unit,
+    zoomState: ZoomState? = rememberZoomState(maxScale = 20f)
 ) {
     var pickerOffset by remember {
         mutableStateOf(Offset.Unspecified)
     }
 
-    val zoomState = rememberZoomState(maxScale = 20f)
-
-    val magnifierEnabled by remember(zoomState.scale, isMagnifierEnabled, panEnabled) {
+    val magnifierEnabled by remember(zoomState?.scale, isMagnifierEnabled, panEnabled) {
         derivedStateOf {
-            zoomState.scale <= 3f && !panEnabled && isMagnifierEnabled
+            (zoomState?.scale ?: 1f) <= 3f && !panEnabled && isMagnifierEnabled
         }
     }
     var globalTouchPosition by remember { mutableStateOf(Offset.Unspecified) }
@@ -99,19 +99,23 @@ fun ImageColorDetector(
                             globalTouchPosition - Offset(0f, 100.dp.toPx())
                         },
                         size = DpSize(height = 100.dp, width = 100.dp),
-                        zoom = 2f / zoomState.scale,
+                        zoom = 2f / (zoomState?.scale ?: 1f),
                         cornerRadius = 50.dp,
                         elevation = 2.dp
                     )
                 } else Modifier
             )
-            .zoomable(
-                zoomState = zoomState,
-                zoomEnabled = (globalTouchPointersCount >= 2 || panEnabled),
-                enableOneFingerZoom = panEnabled,
-                onDoubleTap = { pos ->
-                    if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)
-                }
+            .then(
+                zoomState?.let {
+                    Modifier.zoomable(
+                        zoomState = zoomState,
+                        zoomEnabled = (globalTouchPointersCount >= 2 || panEnabled),
+                        enableOneFingerZoom = panEnabled,
+                        onDoubleTap = { pos ->
+                            if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)
+                        }
+                    )
+                } ?: Modifier
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -179,7 +183,7 @@ fun ImageColorDetector(
                 modifier = Modifier
                     .size(imageWidth, imageHeight),
                 selectedColor = color,
-                zoom = zoomState.scale,
+                zoom = zoomState?.scale ?: 1f,
                 offset = pickerOffset
             )
         }

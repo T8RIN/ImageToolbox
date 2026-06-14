@@ -32,11 +32,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.colors.model.ColorData
+import com.t8rin.colors.parser.ColorWithName
 import com.t8rin.colors.rememberImageColorPaletteState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -57,7 +56,7 @@ internal fun DefaultPaletteControls(
 ) {
     var count by rememberSaveable { mutableIntStateOf(32) }
     var colorCopyTarget by remember {
-        mutableStateOf<ColorData?>(null)
+        mutableStateOf<ColorWithName?>(null)
     }
 
     val state = rememberImageColorPaletteState(
@@ -98,14 +97,15 @@ internal fun DefaultPaletteControls(
             .container(ShapeDefaults.bottom)
             .padding(4.dp),
         onColorClick = {
-            colorCopyTarget = it
+            colorCopyTarget = ColorWithName(
+                color = it.color,
+                name = it.name
+            )
         }
     )
 
     ColorCopyFormatSelectionDialog(
-        visible = colorCopyTarget != null,
-        onDismiss = { colorCopyTarget = null },
-        color = colorCopyTarget?.color ?: Color.Transparent,
-        colorName = colorCopyTarget?.name.orEmpty()
+        target = colorCopyTarget,
+        onDismiss = { colorCopyTarget = null }
     )
 }

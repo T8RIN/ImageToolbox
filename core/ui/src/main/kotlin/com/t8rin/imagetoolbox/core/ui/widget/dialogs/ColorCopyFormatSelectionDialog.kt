@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +35,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.parser.ColorWithName
 import com.t8rin.colors.util.ColorUtil.hex
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -46,6 +49,38 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
+import kotlinx.coroutines.delay
+
+@Composable
+fun ColorCopyFormatSelectionDialog(
+    target: ColorWithName?,
+    onDismiss: () -> Unit
+) {
+    val colorWithName by produceState(
+        target ?: ColorWithName(
+            color = Color.Transparent,
+            name = ""
+        ),
+        key1 = target
+    ) {
+        if (target == null) {
+            delay(600)
+            value = target ?: ColorWithName(
+                color = Color.Transparent,
+                name = ""
+            )
+        } else {
+            value = target
+        }
+    }
+
+    ColorCopyFormatSelectionDialog(
+        visible = target != null,
+        onDismiss = onDismiss,
+        color = colorWithName.color,
+        colorName = colorWithName.name
+    )
+}
 
 @Composable
 fun ColorCopyFormatSelectionDialog(

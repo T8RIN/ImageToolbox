@@ -122,9 +122,7 @@ internal fun ColorInfo(
     )
 
     ColorCopyFormatSelectionDialog(
-        visible = colorCopyTarget != null,
-        onDismiss = { colorCopyTarget = null },
-        color = colorCopyTarget?.color ?: Color.Transparent,
-        colorName = colorCopyTarget?.name.orEmpty()
+        target = colorCopyTarget,
+        onDismiss = { colorCopyTarget = null }
     )
 }

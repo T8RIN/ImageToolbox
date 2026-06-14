@@ -19,16 +19,21 @@ package com.t8rin.imagetoolbox.feature.pick_color.presentation.components
 
 import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +54,7 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t8rin.colors.ImageColorDetector
 import com.t8rin.colors.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -60,13 +66,12 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.EnhancedZoomableModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 
 @Composable
 fun PickColorFromImageSheet(
@@ -78,144 +83,130 @@ fun PickColorFromImageSheet(
 ) {
     val settingsState = LocalSettingsState.current
     var panEnabled by rememberSaveable { mutableStateOf(false) }
-    var showColorCopyDialog by rememberSaveable { mutableStateOf(false) }
+    var showColorCopyDialog by rememberSaveable(visible) { mutableStateOf(false) }
     val displayColor = color.takeOrElse { Color.Transparent }
     val displayColorName = remember(displayColor) {
         ColorNameParser.parseColorName(displayColor)
     }
 
-    EnhancedModalBottomSheet(
-        sheetContent = {
-            Column(
-                modifier = Modifier.navigationBarsPadding()
-            ) {
-                remember(bitmap) { bitmap?.asImageBitmap() }?.let {
-                    ImageColorDetector(
-                        panEnabled = panEnabled,
-                        color = displayColor,
-                        imageBitmap = it,
-                        onColorChange = onColorChange,
-                        isMagnifierEnabled = settingsState.magnifierEnabled,
-                        boxModifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                            .container(
-                                shape = ShapeDefaults.extraSmall,
-                                color = MaterialTheme.colorScheme
-                                    .outlineVariant()
-                                    .copy(alpha = 0.1f),
-                                resultPadding = 0.dp
-                            )
-                            .transparencyChecker()
+    EnhancedZoomableModalBottomSheet(
+        visible,
+        onDismiss,
+        confirmButton = {
+            PanModeButton(
+                selected = panEnabled,
+                onClick = { panEnabled = !panEnabled }
+            )
+        },
+        title = {
+            val interactionSource = remember { MutableInteractionSource() }
+
+            val shape = shapeByInteraction(
+                shape = ShapeDefaults.default,
+                pressedShape = ShapeDefaults.pressed,
+                interactionSource = interactionSource
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 16.dp)
+                    .container(
+                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        shape = shape,
+                        resultPadding = 0.dp
                     )
-                } ?: Box(
+                    .hapticsClickable(
+                        interactionSource = interactionSource,
+                        indication = LocalIndication.current,
+                        onClick = { showColorCopyDialog = true }
+                    )
+                    .padding(8.dp)
+                    .height(IntrinsicSize.Max)
+            ) {
+                Box(
                     modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .container(
-                            shape = ShapeDefaults.extraSmall,
-                            color = MaterialTheme.colorScheme
-                                .outlineVariant()
-                                .copy(alpha = 0.1f),
-                            resultPadding = 0.dp
+                        .fillMaxHeight()
+                        .background(
+                            color = animateColorAsState(displayColor).value,
+                            shape = ShapeDefaults.small
                         )
-                        .shimmer(true)
-                )
-
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .size(40.dp)
+                        .border(
+                            width = settingsState.borderWidth,
+                            color = MaterialTheme.colorScheme.outlineVariant(
+                                onTopOf = animateColorAsState(displayColor).value
+                            ),
+                            shape = ShapeDefaults.small
+                        )
+                        .clip(ShapeDefaults.small),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .padding(end = 16.dp)
-                                .container(
-                                    color = MaterialTheme.colorScheme.surfaceContainerHighest
-                                )
-                                .padding(4.dp)
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .padding(end = 16.dp)
-                                    .background(
-                                        color = animateColorAsState(displayColor).value,
-                                        shape = ShapeDefaults.small
-                                    )
-                                    .size(40.dp)
-                                    .border(
-                                        width = settingsState.borderWidth,
-                                        color = MaterialTheme.colorScheme.outlineVariant(
-                                            onTopOf = animateColorAsState(displayColor).value
-                                        ),
-                                        shape = ShapeDefaults.small
-                                    )
-                                    .clip(ShapeDefaults.small)
-                                    .hapticsClickable { showColorCopyDialog = true },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.ContentCopy,
-                                    contentDescription = stringResource(R.string.copy),
-                                    tint = animateColorAsState(
-                                        displayColor.inverse(
-                                            fraction = { cond ->
-                                                if (cond) 0.8f
-                                                else 0.5f
-                                            },
-                                            darkMode = displayColor.luminance() < 0.3f
-                                        )
-                                    ).value,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-
-                            Text(
-                                modifier = Modifier
-                                    .clip(ShapeDefaults.mini)
-                                    .hapticsClickable { showColorCopyDialog = true }
-                                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                                    .border(
-                                        width = settingsState.borderWidth,
-                                        color = MaterialTheme.colorScheme.outlineVariant(
-                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                        ),
-                                        shape = ShapeDefaults.mini
-                                    )
-                                    .padding(horizontal = 8.dp),
-                                text = displayColor.toHex(),
-                                style = LocalTextStyle.current.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
+                    Icon(
+                        imageVector = Icons.Rounded.ContentCopy,
+                        contentDescription = stringResource(R.string.copy),
+                        tint = animateColorAsState(
+                            displayColor.inverse(
+                                fraction = { cond ->
+                                    if (cond) 0.8f
+                                    else 0.5f
+                                },
+                                darkMode = displayColor.luminance() < 0.3f
                             )
-                        }
-                    }
-                    Spacer(Modifier.weight(1f))
-                    PanModeButton(
-                        selected = panEnabled,
-                        onClick = { panEnabled = !panEnabled }
+                        ).value,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+                Spacer(Modifier.width(8.dp))
+                Column(
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .clip(ShapeDefaults.mini)
+                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                            .border(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant(
+                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                ),
+                                shape = ShapeDefaults.mini
+                            )
+                            .padding(horizontal = 8.dp),
+                        text = displayColor.toHex(),
+                        style = LocalTextStyle.current.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = displayColorName,
+                        style = LocalTextStyle.current.copy(
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp,
+                            lineHeight = 14.sp
+                        )
                     )
                 }
             }
-        },
-        dragHandle = {
-            EnhancedModalSheetDragHandle(
-                color = Color.Transparent,
-                drawStroke = false,
-                heightWhenDisabled = 20.dp
-            )
-        },
-        visible = visible,
-        onDismiss = {
-            if (!it) onDismiss()
         }
-    )
+    ) {
+        remember(bitmap) { bitmap?.asImageBitmap() }?.let {
+            ImageColorDetector(
+                panEnabled = panEnabled,
+                color = displayColor,
+                imageBitmap = it,
+                onColorChange = onColorChange,
+                isMagnifierEnabled = settingsState.magnifierEnabled,
+                boxModifier = Modifier.fillMaxSize()
+            )
+        } ?: Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .shimmer(true)
+        )
+    }
 
     ColorCopyFormatSelectionDialog(
         visible = showColorCopyDialog,
