@@ -92,6 +92,7 @@ fun ColorCopyFormatSelectionDialog(
     EnhancedAlertDialog(
         visible = visible,
         onDismissRequest = onDismiss,
+        placeAboveAll = true,
         icon = {
             Box(
                 modifier = Modifier
