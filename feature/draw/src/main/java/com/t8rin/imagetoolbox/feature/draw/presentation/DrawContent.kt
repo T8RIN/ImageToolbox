@@ -333,7 +333,8 @@ fun DrawContent(
                 actions = {
                     if (isPortrait) it()
                 },
-                showNullDataButtonAsContainer = true
+                showNullDataButtonAsContainer = true,
+                drawBothStrokes = true
             )
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,

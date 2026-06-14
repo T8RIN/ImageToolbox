@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -48,6 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.cropper.model.OutlineType
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
@@ -349,7 +349,8 @@ fun CropContent(
                 },
                 actions = {
                     if (isPortrait) it()
-                }
+                },
+                drawBothStrokes = true
             )
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,

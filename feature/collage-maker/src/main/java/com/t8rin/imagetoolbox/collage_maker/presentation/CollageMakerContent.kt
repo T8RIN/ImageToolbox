@@ -659,7 +659,8 @@ fun CollageMakerContent(
                 },
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
-                }
+                },
+                drawBothStrokes = true
             )
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,

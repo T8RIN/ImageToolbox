@@ -51,7 +51,6 @@ import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -68,6 +67,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Save
@@ -101,7 +101,8 @@ fun BottomButtonsBlock(
     isScreenHaveNoDataContent: Boolean = false,
     primaryButtonContainerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     primaryButtonContentColor: Color = contentColorFor(primaryButtonContainerColor),
-    enableHorizontalStroke: Boolean = true
+    enableHorizontalStroke: Boolean = true,
+    drawBothStrokes: Boolean = false
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val spacing = 8.dp
@@ -179,6 +180,10 @@ fun BottomButtonsBlock(
                                 top = true,
                                 enabled = enableHorizontalStroke
                             )
+                            .drawHorizontalStroke(
+                                top = false,
+                                enabled = drawBothStrokes && enableHorizontalStroke
+                            )
                             .background(
                                 MaterialTheme.colorScheme.surfaceContainer
                             ),
@@ -193,10 +198,15 @@ fun BottomButtonsBlock(
             }
         } else if (portrait) {
             BottomAppBar(
-                modifier = Modifier.drawHorizontalStroke(
-                    top = true,
-                    enabled = enableHorizontalStroke
-                ),
+                modifier = Modifier
+                    .drawHorizontalStroke(
+                        top = true,
+                        enabled = enableHorizontalStroke
+                    )
+                    .drawHorizontalStroke(
+                        top = false,
+                        enabled = drawBothStrokes && enableHorizontalStroke
+                    ),
                 actions = actions,
                 floatingActionButton = {
                     Row {
