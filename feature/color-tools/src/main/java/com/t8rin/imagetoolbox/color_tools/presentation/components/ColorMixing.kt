@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -38,11 +37,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.parser.ColorWithName
 import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Blender
-import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -73,6 +74,9 @@ internal fun ColorMixing(
                 maxPercent = 1f
             )
         }
+    }
+    var colorCopyTarget by remember {
+        mutableStateOf<ColorWithName?>(null)
     }
 
     ExpandableItem(
@@ -127,10 +131,10 @@ internal fun ColorMixing(
                                 index = index,
                                 size = mixedColors.size
                             ),
-                            onCopy = {
-                                Clipboard.copy(
-                                    text = getFormattedColor(color),
-                                    message = R.string.color_copied
+                            onCopy = { name ->
+                                colorCopyTarget = ColorWithName(
+                                    color = color,
+                                    name = name
                                 )
                             }
                         )
@@ -140,5 +144,12 @@ internal fun ColorMixing(
         },
         shape = ShapeDefaults.extraLarge,
         initialState = false
+    )
+
+    ColorCopyFormatSelectionDialog(
+        visible = colorCopyTarget != null,
+        onDismiss = { colorCopyTarget = null },
+        color = colorCopyTarget?.color ?: Color.Transparent,
+        colorName = colorCopyTarget?.name.orEmpty()
     )
 }

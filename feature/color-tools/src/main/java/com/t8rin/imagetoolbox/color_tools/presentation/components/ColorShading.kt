@@ -24,13 +24,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -39,9 +39,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.parser.ColorWithName
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Swatch
-import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.ColorWithNameItem
@@ -82,6 +84,9 @@ internal fun ColorShading(
                 maxPercent = 0.8f
             )
         }
+    }
+    var colorCopyTarget by remember {
+        mutableStateOf<ColorWithName?>(null)
     }
 
     ExpandableItem(
@@ -132,10 +137,10 @@ internal fun ColorShading(
                                         index = index,
                                         size = data.size
                                     ),
-                                    onCopy = {
-                                        Clipboard.copy(
-                                            text = getFormattedColor(color),
-                                            message = R.string.color_copied
+                                    onCopy = { name ->
+                                        colorCopyTarget = ColorWithName(
+                                            color = color,
+                                            name = name
                                         )
                                     },
                                     modifier = Modifier.heightIn(min = 100.dp)
@@ -148,5 +153,12 @@ internal fun ColorShading(
         },
         shape = ShapeDefaults.extraLarge,
         initialState = false
+    )
+
+    ColorCopyFormatSelectionDialog(
+        visible = colorCopyTarget != null,
+        onDismiss = { colorCopyTarget = null },
+        color = colorCopyTarget?.color ?: Color.Transparent,
+        colorName = colorCopyTarget?.name.orEmpty()
     )
 }

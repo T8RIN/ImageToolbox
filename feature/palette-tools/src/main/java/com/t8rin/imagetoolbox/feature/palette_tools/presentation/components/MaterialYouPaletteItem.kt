@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ fun MaterialYouPaletteItem(
     color: Color,
     colorScheme: ColorScheme,
     name: String,
-    onCopy: (Color) -> Unit,
+    onCopy: (Color, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val containerColor by animateColorAsState(color)
@@ -63,7 +63,7 @@ fun MaterialYouPaletteItem(
                     resultPadding = 0.dp
                 )
                 .hapticsClickable {
-                    onCopy(containerColor)
+                    onCopy(containerColor, name)
                 }
                 .padding(12.dp)
         ) {

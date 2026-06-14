@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,9 +32,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.parser.ColorWithName
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.ColorWithNameItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
@@ -50,6 +52,9 @@ internal fun ColorInfo(
     onColorChange: (Color) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
+    var colorCopyTarget by remember {
+        mutableStateOf<ColorWithName?>(null)
+    }
 
     ExpandableItem(
         visibleContent = {
@@ -69,10 +74,10 @@ internal fun ColorInfo(
             ) {
                 ColorWithNameItem(
                     color = selectedColor,
-                    onCopy = {
-                        Clipboard.copy(
-                            text = getFormattedColor(selectedColor),
-                            message = R.string.color_copied
+                    onCopy = { name ->
+                        colorCopyTarget = ColorWithName(
+                            color = selectedColor,
+                            name = name
                         )
                     }
                 )
@@ -114,5 +119,12 @@ internal fun ColorInfo(
         },
         shape = ShapeDefaults.extraLarge,
         initialState = true
+    )
+
+    ColorCopyFormatSelectionDialog(
+        visible = colorCopyTarget != null,
+        onDismiss = { colorCopyTarget = null },
+        color = colorCopyTarget?.color ?: Color.Transparent,
+        colorName = colorCopyTarget?.name.orEmpty()
     )
 }

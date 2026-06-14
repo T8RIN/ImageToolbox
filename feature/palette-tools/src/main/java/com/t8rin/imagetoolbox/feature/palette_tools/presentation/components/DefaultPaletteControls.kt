@@ -27,20 +27,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.model.ColorData
 import com.t8rin.colors.rememberImageColorPaletteState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileExport
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
-import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -53,6 +56,9 @@ internal fun DefaultPaletteControls(
     onOpenExport: (List<NamedColor>) -> Unit
 ) {
     var count by rememberSaveable { mutableIntStateOf(32) }
+    var colorCopyTarget by remember {
+        mutableStateOf<ColorData?>(null)
+    }
 
     val state = rememberImageColorPaletteState(
         imageBitmap = bitmap.asImageBitmap(),
@@ -92,10 +98,14 @@ internal fun DefaultPaletteControls(
             .container(ShapeDefaults.bottom)
             .padding(4.dp),
         onColorClick = {
-            Clipboard.copy(
-                text = it.color.toHex(),
-                message = R.string.color_copied
-            )
+            colorCopyTarget = it
         }
+    )
+
+    ColorCopyFormatSelectionDialog(
+        visible = colorCopyTarget != null,
+        onDismiss = { colorCopyTarget = null },
+        color = colorCopyTarget?.color ?: Color.Transparent,
+        colorName = colorCopyTarget?.name.orEmpty()
     )
 }

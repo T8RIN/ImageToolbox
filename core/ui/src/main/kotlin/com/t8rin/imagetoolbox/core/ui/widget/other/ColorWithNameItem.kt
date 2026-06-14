@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -55,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.colors.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
@@ -78,7 +78,7 @@ fun ColorWithNameItem(
     name: String? = null,
     isFavorite: Boolean = false,
     onToggleFavorite: (() -> Unit)? = null,
-    onCopy: () -> Unit,
+    onCopy: (name: String) -> Unit,
     modifier: Modifier = Modifier,
     containerShape: Shape = ShapeDefaults.default
 ) {
@@ -118,7 +118,9 @@ fun ColorWithNameItem(
                     Modifier.hapticsClickable(
                         indication = LocalIndication.current,
                         interactionSource = copyInteractionSource,
-                        onClick = onCopy
+                        onClick = {
+                            onCopy(colorName)
+                        }
                     )
                 } else {
                     Modifier
@@ -176,7 +178,9 @@ fun ColorWithNameItem(
                     .hapticsClickable(
                         indication = LocalIndication.current,
                         interactionSource = copyInteractionSource,
-                        onClick = onCopy
+                        onClick = {
+                            onCopy(colorName)
+                        }
                     )
                     .padding(4.dp)
             )

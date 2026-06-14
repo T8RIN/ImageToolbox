@@ -20,27 +20,33 @@ package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.parser.ColorWithName
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.getColorScheme
 import com.t8rin.dynamic.theme.rememberColorScheme
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import kotlinx.coroutines.delay
 
@@ -62,6 +68,9 @@ internal fun MaterialYouPalette(
         isInvertColors = isInvertColors
     )
     val context = LocalContext.current
+    var colorCopyTarget by remember {
+        mutableStateOf<ColorWithName?>(null)
+    }
 
     val themeState = LocalDynamicThemeState.current
     LaunchedEffect(colorScheme.primary) {
@@ -78,10 +87,10 @@ internal fun MaterialYouPalette(
 
     MaterialYouPaletteGroup(
         colorScheme = colorScheme,
-        onCopy = { color ->
-            Clipboard.copy(
-                text = color.toHex(),
-                message = R.string.color_copied
+        onCopy = { color, name ->
+            colorCopyTarget = ColorWithName(
+                color = color,
+                name = name
             )
         }
     )
@@ -122,6 +131,12 @@ internal fun MaterialYouPalette(
         Text(stringResource(R.string.copy_as_compose_code))
     }
 
+    ColorCopyFormatSelectionDialog(
+        visible = colorCopyTarget != null,
+        onDismiss = { colorCopyTarget = null },
+        color = colorCopyTarget?.color ?: Color.Transparent,
+        colorName = colorCopyTarget?.name.orEmpty()
+    )
 }
 
 private fun ColorScheme.asCodeString(
