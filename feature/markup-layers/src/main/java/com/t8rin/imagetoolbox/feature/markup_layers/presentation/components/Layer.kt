@@ -48,7 +48,10 @@ internal fun BoxWithConstraintsScope.Layer(
     onActivate: (() -> Unit)?,
     onShowContextOptions: (() -> Unit)?,
     onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?,
-    referenceSizeOverride: Int? = null
+    referenceSizeOverride: Int? = null,
+    drawContent: Boolean = true,
+    drawSelectionControls: Boolean = true,
+    updateStateGeometry: Boolean = true
 ) {
     val canEditLayer = onUpdateLayer != null && component != null
 
@@ -59,7 +62,10 @@ internal fun BoxWithConstraintsScope.Layer(
             onActivate = onActivate,
             onShowContextOptions = onShowContextOptions,
             onUpdateLayer = onUpdateLayer,
-            canEditLayer = canEditLayer
+            canEditLayer = canEditLayer,
+            drawContent = drawContent,
+            drawSelectionControls = drawSelectionControls,
+            updateStateGeometry = updateStateGeometry
         )
         return
     }
@@ -73,6 +79,9 @@ internal fun BoxWithConstraintsScope.Layer(
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = layer.blendingMode,
         isInteractive = isInteractive,
+        drawContent = drawContent,
+        drawSelectionControls = drawSelectionControls,
+        updateStateGeometry = updateStateGeometry,
         onTap = {
             if (layer.state.isActive && canEditLayer) {
                 layer.state.isInEditMode = true
@@ -110,34 +119,38 @@ internal fun BoxWithConstraintsScope.Layer(
                 }
             }
 
-            LayerContent(
-                modifier = contentModifier,
-                type = type,
-                groupedLayers = layer.groupedLayers,
-                textFullSize = referenceSizeOverride
-                    ?: this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
-                contentSize = layer.state.contentSize,
-                layerScale = layer.state.scale,
-                cornerRadiusPercent = cornerRadiusPercent,
-                onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
-                    { result ->
-                        val visibleLineCount = if (result.didOverflowHeight) {
-                            (0 until result.lineCount).count { lineIndex ->
-                                result.getLineBottom(lineIndex) <= result.size.height
+            if (drawContent) {
+                LayerContent(
+                    modifier = contentModifier,
+                    type = type,
+                    groupedLayers = layer.groupedLayers,
+                    textFullSize = referenceSizeOverride
+                        ?: this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
+                    contentSize = layer.state.contentSize,
+                    layerScale = layer.state.scale,
+                    cornerRadiusPercent = cornerRadiusPercent,
+                    onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
+                        { result ->
+                            val visibleLineCount = if (result.didOverflowHeight) {
+                                (0 until result.lineCount).count { lineIndex ->
+                                    result.getLineBottom(lineIndex) <= result.size.height
+                                }
+                            } else {
+                                result.lineCount
                             }
-                        } else {
-                            result.lineCount
-                        }
 
-                        if (visibleLineCount > 0 && layer.visibleLineCount != visibleLineCount) {
-                            onUpdateLayer(
-                                layer.copy(visibleLineCount = visibleLineCount),
-                                false
-                            )
+                            if (visibleLineCount > 0 && layer.visibleLineCount != visibleLineCount) {
+                                onUpdateLayer(
+                                    layer.copy(visibleLineCount = visibleLineCount),
+                                    false
+                                )
+                            }
                         }
-                    }
-                } else null
-            )
+                    } else null
+                )
+            } else {
+                Box(modifier = contentModifier)
+            }
         }
     )
 
@@ -159,7 +172,10 @@ private fun BoxWithConstraintsScope.GroupLayer(
     onActivate: (() -> Unit)?,
     onShowContextOptions: (() -> Unit)?,
     onUpdateLayer: ((UiMarkupLayer, Boolean) -> Unit)?,
-    canEditLayer: Boolean
+    canEditLayer: Boolean,
+    drawContent: Boolean,
+    drawSelectionControls: Boolean,
+    updateStateGeometry: Boolean
 ) {
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
@@ -210,11 +226,14 @@ private fun BoxWithConstraintsScope.GroupLayer(
             layer = renderedChild,
             onActivate = null,
             onShowContextOptions = null,
-            onUpdateLayer = null
+            onUpdateLayer = null,
+            drawContent = drawContent,
+            drawSelectionControls = drawSelectionControls,
+            updateStateGeometry = updateStateGeometry
         )
     }
 
-    if (!layer.isLocked && (activateGroup != null || onShowContextOptions != null)) {
+    if (drawContent && !layer.isLocked && (activateGroup != null || onShowContextOptions != null)) {
         leafLayers.forEach { child ->
             val hitContentSize = child.state.contentSize
                 .takeIf(IntSize::isSpecified)
@@ -256,13 +275,15 @@ private fun BoxWithConstraintsScope.GroupLayer(
         ?: layer.state.contentSize.takeIf { it.isSpecified() }
         ?: IntSize(1, 1)
 
-    SideEffect {
-        layer.state.syncCanvasSize(
-            value = parentCanvasSize,
-            forceScaleAdjustment = true
-        )
-        if (layer.state.contentSize != measuredContentSize) {
-            layer.state.contentSize = measuredContentSize
+    if (updateStateGeometry) {
+        SideEffect {
+            layer.state.syncCanvasSize(
+                value = parentCanvasSize,
+                forceScaleAdjustment = true
+            )
+            if (layer.state.contentSize != measuredContentSize) {
+                layer.state.contentSize = measuredContentSize
+            }
         }
     }
 

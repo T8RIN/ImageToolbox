@@ -331,6 +331,7 @@ fun MarkupLayersContent(
                                 Layer(
                                     component = component,
                                     layer = layer,
+                                    drawSelectionControls = false,
                                     onActivate = {
                                         component.activateLayer(layer)
                                     },
@@ -345,6 +346,19 @@ fun MarkupLayersContent(
                                         requestContextOptions(true)
                                     }
                                 )
+                            }
+                            component.layers.forEach { layer ->
+                                if (layer.state.isActive) {
+                                    Layer(
+                                        component = null,
+                                        layer = layer,
+                                        drawContent = false,
+                                        updateStateGeometry = false,
+                                        onActivate = null,
+                                        onUpdateLayer = null,
+                                        onShowContextOptions = null
+                                    )
+                                }
                             }
                         }
                     }
