@@ -47,7 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asComposePaint
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntSize
 import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
@@ -69,6 +69,7 @@ fun BoxWithConstraintsScope.EditBox(
     isInteractive: Boolean = true,
     animateOnTapWhenInactive: Boolean = false,
     showSelectionBackground: Boolean = true,
+    adjustScaleOnCanvasResize: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -90,6 +91,7 @@ fun BoxWithConstraintsScope.EditBox(
         isInteractive = isInteractive,
         animateOnTapWhenInactive = animateOnTapWhenInactive,
         showSelectionBackground = showSelectionBackground,
+        adjustScaleOnCanvasResize = adjustScaleOnCanvasResize,
         content = content
     )
 }
@@ -106,19 +108,30 @@ fun EditBox(
     isInteractive: Boolean = true,
     animateOnTapWhenInactive: Boolean = false,
     showSelectionBackground: Boolean = true,
+    adjustScaleOnCanvasResize: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
 
-    var contentSize by remember {
-        mutableStateOf(IntSize.Zero)
+    var measuredContentGeometry by remember {
+        mutableStateOf<MeasuredContentGeometry?>(null)
     }
+    val contentSize = measuredContentGeometry?.contentSize ?: IntSize.Zero
 
     val parentMaxWidth = parentSize.width
     val parentMaxHeight = parentSize.height
 
     SideEffect {
-        state.canvasSize = parentSize
+        if (
+            measuredContentGeometry?.canvasSize == parentSize &&
+            contentSize != IntSize.Zero
+        ) {
+            state.syncCanvasGeometry(
+                canvasSize = parentSize,
+                contentSize = contentSize,
+                adjustScale = adjustScaleOnCanvasResize
+            )
+        }
     }
 
     var needRecalculations by rememberSaveable(state.coerceToBounds, contentSize) {
@@ -179,9 +192,11 @@ fun EditBox(
 
     Box(
         modifier = modifier
-            .onSizeChanged {
-                contentSize = it
-                state.contentSize = it
+            .onGloballyPositioned {
+                measuredContentGeometry = MeasuredContentGeometry(
+                    canvasSize = parentSize,
+                    contentSize = it.size
+                )
             }
             .graphicsLayer(
                 scaleX = state.scale * if (state.isFlippedHorizontally) -1f else 1f,
@@ -226,6 +241,11 @@ fun EditBox(
         }
     }
 }
+
+private data class MeasuredContentGeometry(
+    val canvasSize: IntegerSize,
+    val contentSize: IntSize
+)
 
 private fun Modifier.layerBlendingMode(
     mode: BlendingMode,

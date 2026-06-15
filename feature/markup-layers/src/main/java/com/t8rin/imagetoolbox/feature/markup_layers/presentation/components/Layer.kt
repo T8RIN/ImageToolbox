@@ -86,6 +86,7 @@ internal fun BoxWithConstraintsScope.Layer(
             }
             onShowContextOptions?.invoke()
         },
+        adjustScaleOnCanvasResize = !(type is LayerType.Shape && onUpdateLayer != null),
         content = {
             val measuredContentSize = layer.state.contentSize
             val density = LocalDensity.current
@@ -110,13 +111,19 @@ internal fun BoxWithConstraintsScope.Layer(
                 }
             }
 
+            val renderContentSize = if (type is LayerType.Shape && onUpdateLayer != null) {
+                IntSize.Zero
+            } else {
+                layer.state.contentSize
+            }
+
             LayerContent(
                 modifier = contentModifier,
                 type = type,
                 groupedLayers = layer.groupedLayers,
                 textFullSize = referenceSizeOverride
                     ?: this@Layer.constraints.run { minOf(maxWidth, maxHeight) },
-                contentSize = layer.state.contentSize,
+                contentSize = renderContentSize,
                 layerScale = layer.state.scale,
                 cornerRadiusPercent = cornerRadiusPercent,
                 onTextLayout = if (layer.type is LayerType.Text && onUpdateLayer != null) {
@@ -257,13 +264,11 @@ private fun BoxWithConstraintsScope.GroupLayer(
         ?: IntSize(1, 1)
 
     SideEffect {
-        layer.state.syncCanvasSize(
-            value = parentCanvasSize,
+        layer.state.syncCanvasGeometry(
+            canvasSize = parentCanvasSize,
+            contentSize = measuredContentSize,
             forceScaleAdjustment = true
         )
-        if (layer.state.contentSize != measuredContentSize) {
-            layer.state.contentSize = measuredContentSize
-        }
     }
 
     if (canEditLayer && component != null && onUpdateLayer != null) {

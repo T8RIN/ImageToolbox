@@ -172,10 +172,6 @@ class EditBoxState(
             x = (offset.x + offsetChange.x).coerceIn(-maxX, maxX, coerceToBounds),
             y = (offset.y + offsetChange.y).coerceIn(-maxY, maxY, coerceToBounds),
         )
-
-        if (zoomChange != 1f || offsetChange != Offset.Zero || rotationChange != 0f) {
-            canvasResizeAnchor = null
-        }
     }
 
     private fun Float.coerceIn(
@@ -210,7 +206,6 @@ class EditBoxState(
 
     private val _canvasSize = mutableStateOf(IntegerSize.Zero)
     private var preserveGeometryOnNextCanvasResize = false
-    private var canvasResizeAnchor: CanvasResizeAnchor? = null
 
     init {
         adjustByCanvasSize(canvasSize)
@@ -224,11 +219,28 @@ class EditBoxState(
 
     internal fun syncCanvasSize(
         value: IntegerSize,
-        forceScaleAdjustment: Boolean = false
+        forceScaleAdjustment: Boolean = false,
+        adjustScale: Boolean = true
     ) {
-        adjustByCanvasSize(
-            value = value,
-            forceScaleAdjustment = forceScaleAdjustment
+        syncCanvasGeometry(
+            canvasSize = value,
+            contentSize = contentSize,
+            forceScaleAdjustment = forceScaleAdjustment,
+            adjustScale = adjustScale
+        )
+    }
+
+    internal fun syncCanvasGeometry(
+        canvasSize: IntegerSize,
+        contentSize: IntSize,
+        forceScaleAdjustment: Boolean = false,
+        adjustScale: Boolean = true
+    ) {
+        adjustByCanvasGeometry(
+            canvasSize = canvasSize,
+            contentSize = contentSize,
+            forceScaleAdjustment = forceScaleAdjustment,
+            adjustScale = adjustScale
         )
     }
 
@@ -237,67 +249,72 @@ class EditBoxState(
     }
 
     private fun adjustByCanvasSize(
-        value: IntegerSize,
-        forceScaleAdjustment: Boolean = false
+        value: IntegerSize
+    ) {
+        adjustByCanvasGeometry(
+            canvasSize = value,
+            contentSize = contentSize
+        )
+    }
+
+    private fun adjustByCanvasGeometry(
+        canvasSize: IntegerSize,
+        contentSize: IntSize,
+        forceScaleAdjustment: Boolean = false,
+        adjustScale: Boolean = true
     ) {
         val previousCanvasSize = _canvasSize.value
-        if (previousCanvasSize == value) {
-            _canvasSize.value = value
+        val previousContentSize = this.contentSize
+        if (previousCanvasSize == canvasSize && previousContentSize == contentSize) {
+            _canvasSize.value = canvasSize
+            this.contentSize = contentSize
             preserveGeometryOnNextCanvasResize = false
             return
         }
         if (preserveGeometryOnNextCanvasResize) {
-            _canvasSize.value = value
+            _canvasSize.value = canvasSize
+            this.contentSize = contentSize
             preserveGeometryOnNextCanvasResize = false
-            canvasResizeAnchor = null
             return
         }
-        if (previousCanvasSize != IntegerSize.Zero) {
+        if (previousCanvasSize != IntegerSize.Zero && previousCanvasSize != canvasSize) {
             if (
                 previousCanvasSize.width <= 0 ||
                 previousCanvasSize.height <= 0 ||
-                value.width <= 0 ||
-                value.height <= 0
+                canvasSize.width <= 0 ||
+                canvasSize.height <= 0
             ) {
-                _canvasSize.value = value
+                _canvasSize.value = canvasSize
+                this.contentSize = contentSize
                 return
             }
 
-            val resizeAnchor = canvasResizeAnchor ?: CanvasResizeAnchor(
-                canvasSize = previousCanvasSize,
-                offset = offset,
-                scale = scale
-            ).also {
-                canvasResizeAnchor = it
-            }
-            val anchorCanvasSize = resizeAnchor.canvasSize
-
-            val sx = value.width.toFloat() / anchorCanvasSize.width
-            val sy = value.height.toFloat() / anchorCanvasSize.height
-            val previousReferenceSize = min(anchorCanvasSize.width, anchorCanvasSize.height)
-            val referenceScale = min(value.width, value.height).toFloat() / previousReferenceSize
+            val sx = canvasSize.width.toFloat() / previousCanvasSize.width
+            val sy = canvasSize.height.toFloat() / previousCanvasSize.height
+            val referenceScale = min(canvasSize.width, canvasSize.height).toFloat() /
+                    min(previousCanvasSize.width, previousCanvasSize.height)
 
             offset = Offset(
-                x = resizeAnchor.offset.x * sx,
-                y = resizeAnchor.offset.y * sy
+                x = offset.x * sx,
+                y = offset.y * sy
             )
 
-            // Layers whose measured content did not depend on the canvas bounds
-            // need an explicit scale adjustment to preserve their visual size
-            // relative to the preview after canvas resize. Layers already capped
-            // by `sizeIn(max = canvas / 2)` will remeasure on their own.
+            val contentReferenceScale = previousContentSize.referenceScaleTo(contentSize)
             if (
-                contentSize.isSpecified() && (
-                        forceScaleAdjustment || !contentSize.isBoundedByCanvas(previousCanvasSize)
-                        )
+                adjustScale &&
+                contentReferenceScale > 0f &&
+                previousContentSize.isSpecified() &&
+                contentSize.isSpecified() &&
+                (forceScaleAdjustment || !previousContentSize.isBoundedByCanvas(previousCanvasSize))
             ) {
-                scale = (resizeAnchor.scale * referenceScale).fastCoerceIn(
+                scale = (scale * referenceScale / contentReferenceScale).fastCoerceIn(
                     minimumValue = SCALE_RANGE.start,
                     maximumValue = SCALE_RANGE.endInclusive
                 )
             }
         }
-        _canvasSize.value = value
+        _canvasSize.value = canvasSize
+        this.contentSize = contentSize
     }
 
     internal fun normalizedPosition(
@@ -504,11 +521,13 @@ private fun IntSize.rotatedHalfExtents(
 
 private fun IntSize.isSpecified(): Boolean = width > 0 && height > 0
 
-private data class CanvasResizeAnchor(
-    val canvasSize: IntegerSize,
-    val offset: Offset,
-    val scale: Float
-)
+private fun IntSize.referenceScaleTo(
+    value: IntSize
+): Float {
+    if (!isSpecified() || !value.isSpecified()) return 0f
+
+    return min(value.width, value.height).toFloat() / min(width, height)
+}
 
 private fun IntSize.isBoundedByCanvas(
     canvasSize: IntegerSize,
