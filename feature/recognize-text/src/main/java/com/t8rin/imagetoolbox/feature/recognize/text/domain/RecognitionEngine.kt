@@ -19,5 +19,6 @@ package com.t8rin.imagetoolbox.feature.recognize.text.domain
 
 enum class RecognitionEngine {
     Tesseract,
-    PaddleOCR
+    PaddleOCRv5,
+    PaddleOCRv6
 }

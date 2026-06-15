@@ -31,5 +31,6 @@ enum class PaddleOCRModel(
     Arabic("Arabic"),
     Devanagari("Devanagari"),
     Tamil("Tamil"),
-    Telugu("Telugu")
+    Telugu("Telugu"),
+    UniversalV6("PaddleOCRv6")
 }

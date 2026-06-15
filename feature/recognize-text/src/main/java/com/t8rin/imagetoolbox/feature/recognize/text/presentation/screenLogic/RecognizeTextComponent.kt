@@ -132,6 +132,12 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     private val _paddleOCRModel: MutableState<PaddleOCRModel> =
         mutableStateOf(PaddleOCRModel.CJK)
     val paddleOCRModel by _paddleOCRModel
+    val activePaddleOCRModel: PaddleOCRModel
+        get() = if (recognitionEngine == RecognitionEngine.PaddleOCRv6) {
+            PaddleOCRModel.UniversalV6
+        } else {
+            paddleOCRModel
+        }
 
     private val _paddleOCRModelsUpdateKey = mutableIntStateOf(0)
     val paddleOCRModelsUpdateKey by _paddleOCRModelsUpdateKey
@@ -596,7 +602,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         onComplete: () -> Unit
     ) {
         componentScope.launch {
-            imageTextReader.downloadPaddleOCRModel(paddleOCRModel).collect { progress ->
+            imageTextReader.downloadPaddleOCRModel(activePaddleOCRModel).collect { progress ->
                 onProgress(
                     DownloadProgress(
                         currentPercent = progress.currentPercent,

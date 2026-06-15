@@ -215,4 +215,5 @@ internal val PaddleOCRModel.localizedName: Int
         PaddleOCRModel.Devanagari -> R.string.paddle_ocr_model_devanagari
         PaddleOCRModel.Tamil -> R.string.paddle_ocr_model_tamil
         PaddleOCRModel.Telugu -> R.string.paddle_ocr_model_telugu
+        PaddleOCRModel.UniversalV6 -> R.string.paddle_ocr_v6
     }

@@ -51,5 +51,6 @@ fun RecognitionEngineSelector(
 private inline val RecognitionEngine.title: Int
     get() = when (this) {
         RecognitionEngine.Tesseract -> R.string.tesseract
-        RecognitionEngine.PaddleOCR -> R.string.paddle_ocr
+        RecognitionEngine.PaddleOCRv5 -> R.string.paddle_ocr_v5
+        RecognitionEngine.PaddleOCRv6 -> R.string.paddle_ocr_v6
     }

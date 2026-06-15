@@ -74,7 +74,8 @@ object PaddleOCR : NeuralTool() {
         Arabic("Arabic", "paddleocr_v5_arabic.zip"),
         Devanagari("Devanagari", "paddleocr_v5_devanagari.zip"),
         Tamil("Tamil", "paddleocr_v5_ta.zip"),
-        Telugu("Telugu", "paddleocr_v5_te.zip")
+        Telugu("Telugu", "paddleocr_v5_te.zip"),
+        UniversalV6("PaddleOCRv6", "paddleocr_v6_medium.zip")
     }
 
     private val env: OrtEnvironment by lazy { OrtEnvironment.getEnvironment() }

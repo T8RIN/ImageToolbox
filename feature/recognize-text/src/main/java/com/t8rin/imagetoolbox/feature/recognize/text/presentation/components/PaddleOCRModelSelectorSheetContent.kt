@@ -80,7 +80,9 @@ internal fun PaddleOCRModelSelectorSheetContent(
     onValueChange: (PaddleOCRModel) -> Unit,
     onDeleteModel: (PaddleOCRModel) -> Unit
 ) {
-    val models = PaddleOCRModel.entries
+    val models = remember {
+        PaddleOCRModel.entries.filterNot { it == PaddleOCRModel.UniversalV6 }
+    }
     val downloadedModels by remember(updateKey) {
         derivedStateOf {
             models.filter(isDownloaded)

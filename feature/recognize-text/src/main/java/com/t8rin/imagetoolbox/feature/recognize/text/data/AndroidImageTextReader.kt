@@ -96,11 +96,11 @@ internal class AndroidImageTextReader @Inject constructor(
 
         val image = model as? Bitmap ?: (imageGetter.getImage(model) ?: return@withContext empty)
 
-        if (recognitionEngine == RecognitionEngine.PaddleOCR) {
+        if (recognitionEngine == RecognitionEngine.PaddleOCRv5 || recognitionEngine == RecognitionEngine.PaddleOCRv6) {
             return@withContext runCatching {
                 PaddleOCR.recognize(
                     image = image,
-                    model = paddleOCRModel.toNeural()
+                    model = recognitionEngine.toPaddleModel(paddleOCRModel)
                 )?.let { result ->
                     TextRecognitionResult.Success(
                         RecognitionData(
@@ -431,4 +431,11 @@ private fun PaddleOCRModel.toNeural(): PaddleOCR.Model = when (this) {
     PaddleOCRModel.Devanagari -> PaddleOCR.Model.Devanagari
     PaddleOCRModel.Tamil -> PaddleOCR.Model.Tamil
     PaddleOCRModel.Telugu -> PaddleOCR.Model.Telugu
+    PaddleOCRModel.UniversalV6 -> PaddleOCR.Model.UniversalV6
 }
+
+private fun RecognitionEngine.toPaddleModel(paddleOCRModel: PaddleOCRModel): PaddleOCR.Model =
+    when (this) {
+        RecognitionEngine.PaddleOCRv6 -> PaddleOCR.Model.UniversalV6
+        else -> paddleOCRModel.toNeural()
+    }

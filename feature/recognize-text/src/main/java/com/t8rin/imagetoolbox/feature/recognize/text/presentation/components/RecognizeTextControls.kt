@@ -135,7 +135,7 @@ internal fun RecognizeTextControls(
         onValueChange = component::setRecognitionEngine
     )
     AnimatedVisibility(
-        visible = component.recognitionEngine == RecognitionEngine.PaddleOCR,
+        visible = component.recognitionEngine == RecognitionEngine.PaddleOCRv5,
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
