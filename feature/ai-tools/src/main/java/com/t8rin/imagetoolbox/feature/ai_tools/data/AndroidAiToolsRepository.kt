@@ -366,6 +366,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
             WatermarkRemoverProcessor.deleteDownloadedModels()
         } else {
             model.file.delete()
+            model.asBgRemover()?.checkModel()
         }
         if (selectedModel.value?.name == model.name) selectModel(null)
         updateFlow.emit(Unit)
