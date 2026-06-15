@@ -82,7 +82,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.seconds
 
 
 class MarkupLayersComponent @AssistedInject internal constructor(
@@ -538,14 +540,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private fun updateBitmap(bitmap: Bitmap?) {
         componentScope.launch {
-            updateBitmapSync(bitmap)
+            _isImageLoading.value = true
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
+            _isImageLoading.value = false
         }
     }
 
     private suspend fun updateBitmapSync(bitmap: Bitmap?) {
-        _isImageLoading.value = true
         _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-        _isImageLoading.value = false
     }
 
     fun setUri(uri: Uri) {
@@ -624,6 +626,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     applyProject(
                         project = result.project
                     )
+                    delay(2.seconds)
                     registerChangesCleared()
                 }
 

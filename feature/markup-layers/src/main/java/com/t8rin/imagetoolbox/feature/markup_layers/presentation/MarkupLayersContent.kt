@@ -89,6 +89,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -286,7 +287,8 @@ fun MarkupLayersContent(
                                 color = MaterialTheme.colorScheme.outlineVariant(),
                                 shape = ShapeDefaults.extremeSmall
                             )
-                            .background(MaterialTheme.colorScheme.surfaceContainerLow),
+                            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                            .shimmer(component.isImageLoading),
                         contentAlignment = Alignment.Center
                     ) {
                         Box(
