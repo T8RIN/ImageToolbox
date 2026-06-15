@@ -36,7 +36,6 @@ import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
-import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -76,7 +75,6 @@ class GradientMakerComponent @AssistedInject internal constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>,
     private val gradientMaker: GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -421,9 +419,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                 uri = uri.toString(),
                 originalSize = false,
                 onGetImage = { imageData ->
-                    launch {
-                        _colorPickerBitmap.value = imageScaler.scaleUntilCanShow(imageData.image)
-                    }
+                    _colorPickerBitmap.value = imageData.image
                     _imageAspectRatio.update {
                         imageData.image.safeAspectRatio
                     }
