@@ -86,7 +86,7 @@ internal fun BoxWithConstraintsScope.Layer(
             }
             onShowContextOptions?.invoke()
         },
-        adjustScaleOnCanvasResize = !(type is LayerType.Shape && onUpdateLayer != null),
+        preserveBoundsOnCanvasResize = type is LayerType.Shape && onUpdateLayer != null,
         content = {
             val measuredContentSize = layer.state.contentSize
             val density = LocalDensity.current
@@ -98,7 +98,7 @@ internal fun BoxWithConstraintsScope.Layer(
                     height = with(density) { measuredContentSize.height.toDp() }
                 )
 
-                layer.isGroup || type is LayerType.Text -> Modifier.sizeIn(
+                layer.isGroup || type is LayerType.Text || type is LayerType.Shape -> Modifier.sizeIn(
                     maxWidth = this@Layer.maxWidth,
                     maxHeight = this@Layer.maxHeight
                 )

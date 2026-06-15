@@ -34,7 +34,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,6 +69,7 @@ fun BoxWithConstraintsScope.EditBox(
     animateOnTapWhenInactive: Boolean = false,
     showSelectionBackground: Boolean = true,
     adjustScaleOnCanvasResize: Boolean = true,
+    preserveBoundsOnCanvasResize: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -92,6 +92,7 @@ fun BoxWithConstraintsScope.EditBox(
         animateOnTapWhenInactive = animateOnTapWhenInactive,
         showSelectionBackground = showSelectionBackground,
         adjustScaleOnCanvasResize = adjustScaleOnCanvasResize,
+        preserveBoundsOnCanvasResize = preserveBoundsOnCanvasResize,
         content = content
     )
 }
@@ -109,6 +110,7 @@ fun EditBox(
     animateOnTapWhenInactive: Boolean = false,
     showSelectionBackground: Boolean = true,
     adjustScaleOnCanvasResize: Boolean = true,
+    preserveBoundsOnCanvasResize: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return
@@ -118,9 +120,6 @@ fun EditBox(
     }
     val contentSize = measuredContentGeometry?.contentSize ?: IntSize.Zero
 
-    val parentMaxWidth = parentSize.width
-    val parentMaxHeight = parentSize.height
-
     SideEffect {
         if (
             measuredContentGeometry?.canvasSize == parentSize &&
@@ -129,28 +128,54 @@ fun EditBox(
             state.syncCanvasGeometry(
                 canvasSize = parentSize,
                 contentSize = contentSize,
-                adjustScale = adjustScaleOnCanvasResize
+                cornerRadiusPercent = cornerRadiusPercent,
+                adjustScale = adjustScaleOnCanvasResize,
+                preserveBoundsPosition = preserveBoundsOnCanvasResize
             )
         }
     }
 
-    var needRecalculations by rememberSaveable(state.coerceToBounds, contentSize) {
-        mutableStateOf(state.coerceToBounds && contentSize != IntSize.Zero)
+    var lastBoundsRecalculationGeometry by remember {
+        mutableStateOf<MeasuredContentGeometry?>(null)
+    }
+    var skipNextContentBoundsRecalculation by remember {
+        mutableStateOf(false)
     }
 
-    LaunchedEffect(needRecalculations) {
-        if (needRecalculations) {
+    LaunchedEffect(
+        state.coerceToBounds,
+        measuredContentGeometry,
+        cornerRadiusPercent
+    ) {
+        val geometry = measuredContentGeometry
+        if (!state.coerceToBounds || geometry == null || contentSize == IntSize.Zero) return@LaunchedEffect
+
+        val previousGeometry = lastBoundsRecalculationGeometry
+        val isCanvasResize = previousGeometry != null &&
+                previousGeometry.canvasSize != geometry.canvasSize
+        val isContentResize = previousGeometry != null &&
+                previousGeometry.contentSize != geometry.contentSize
+        val shouldRecalculateBounds = when {
+            previousGeometry == null -> true
+            isCanvasResize -> false
+            isContentResize && skipNextContentBoundsRecalculation -> false
+            isContentResize -> true
+            else -> false
+        }
+
+        if (shouldRecalculateBounds) {
             state.applyChanges(
-                parentMaxWidth = parentMaxWidth,
-                parentMaxHeight = parentMaxHeight,
-                contentSize = contentSize,
+                parentMaxWidth = geometry.canvasSize.width,
+                parentMaxHeight = geometry.canvasSize.height,
+                contentSize = geometry.contentSize,
                 cornerRadiusPercent = cornerRadiusPercent,
                 zoomChange = 1f,
                 offsetChange = Offset.Zero,
                 rotationChange = 0f
             )
-            needRecalculations = false
         }
+        skipNextContentBoundsRecalculation = isCanvasResize
+        lastBoundsRecalculationGeometry = geometry
     }
 
     val tapScale = remember { Animatable(1f) }

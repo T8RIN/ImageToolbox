@@ -220,13 +220,15 @@ class EditBoxState(
     internal fun syncCanvasSize(
         value: IntegerSize,
         forceScaleAdjustment: Boolean = false,
-        adjustScale: Boolean = true
+        adjustScale: Boolean = true,
+        preserveBoundsPosition: Boolean = false
     ) {
         syncCanvasGeometry(
             canvasSize = value,
             contentSize = contentSize,
             forceScaleAdjustment = forceScaleAdjustment,
-            adjustScale = adjustScale
+            adjustScale = adjustScale,
+            preserveBoundsPosition = preserveBoundsPosition
         )
     }
 
@@ -234,13 +236,17 @@ class EditBoxState(
         canvasSize: IntegerSize,
         contentSize: IntSize,
         forceScaleAdjustment: Boolean = false,
-        adjustScale: Boolean = true
+        cornerRadiusPercent: Int = 0,
+        adjustScale: Boolean = true,
+        preserveBoundsPosition: Boolean = false
     ) {
         adjustByCanvasGeometry(
             canvasSize = canvasSize,
             contentSize = contentSize,
             forceScaleAdjustment = forceScaleAdjustment,
-            adjustScale = adjustScale
+            cornerRadiusPercent = cornerRadiusPercent,
+            adjustScale = adjustScale,
+            preserveBoundsPosition = preserveBoundsPosition
         )
     }
 
@@ -261,7 +267,9 @@ class EditBoxState(
         canvasSize: IntegerSize,
         contentSize: IntSize,
         forceScaleAdjustment: Boolean = false,
-        adjustScale: Boolean = true
+        cornerRadiusPercent: Int = 0,
+        adjustScale: Boolean = true,
+        preserveBoundsPosition: Boolean = false
     ) {
         val previousCanvasSize = _canvasSize.value
         val previousContentSize = this.contentSize
@@ -289,15 +297,20 @@ class EditBoxState(
                 return
             }
 
+            val normalizedBoundsPosition = if (preserveBoundsPosition) {
+                calculateNormalizedPosition(
+                    canvasSize = previousCanvasSize,
+                    contentSize = previousContentSize,
+                    offset = offset,
+                    scale = scale,
+                    rotation = rotation,
+                    cornerRadiusPercent = cornerRadiusPercent
+                )
+            } else null
             val sx = canvasSize.width.toFloat() / previousCanvasSize.width
             val sy = canvasSize.height.toFloat() / previousCanvasSize.height
             val referenceScale = min(canvasSize.width, canvasSize.height).toFloat() /
                     min(previousCanvasSize.width, previousCanvasSize.height)
-
-            offset = Offset(
-                x = offset.x * sx,
-                y = offset.y * sy
-            )
 
             val contentReferenceScale = previousContentSize.referenceScaleTo(contentSize)
             if (
@@ -312,6 +325,20 @@ class EditBoxState(
                     maximumValue = SCALE_RANGE.endInclusive
                 )
             }
+
+            offset = normalizedBoundsPosition?.let {
+                calculateOffsetForNormalizedPosition(
+                    normalizedPosition = it,
+                    canvasSize = canvasSize,
+                    contentSize = contentSize,
+                    scale = scale,
+                    rotation = rotation,
+                    cornerRadiusPercent = cornerRadiusPercent
+                )
+            } ?: Offset(
+                x = offset.x * sx,
+                y = offset.y * sy
+            )
         }
         _canvasSize.value = canvasSize
         this.contentSize = contentSize
@@ -319,36 +346,14 @@ class EditBoxState(
 
     internal fun normalizedPosition(
         cornerRadiusPercent: Int
-    ): Offset? {
-        val contentSize = contentSize
-        val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: return null
-        val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: return null
-
-        if (contentSize.width <= 0 || contentSize.height <= 0) return null
-
-        val halfExtents = contentSize.rotatedHalfExtents(
-            degrees = rotation,
-            cornerRadiusPercent = cornerRadiusPercent
-        )
-
-        val halfWidth = halfExtents.x * scale
-        val halfHeight = halfExtents.y * scale
-        val layerWidth = halfWidth * 2f
-        val layerHeight = halfHeight * 2f
-        val left = canvasWidth / 2f + offset.x - halfWidth
-        val top = canvasHeight / 2f + offset.y - halfHeight
-
-        return Offset(
-            x = left.normalizeEdgeAware(
-                axisSize = canvasWidth.toFloat(),
-                layerSize = layerWidth
-            ),
-            y = top.normalizeEdgeAware(
-                axisSize = canvasHeight.toFloat(),
-                layerSize = layerHeight
-            )
-        )
-    }
+    ): Offset? = calculateNormalizedPosition(
+        canvasSize = canvasSize,
+        contentSize = contentSize,
+        offset = offset,
+        scale = scale,
+        rotation = rotation,
+        cornerRadiusPercent = cornerRadiusPercent
+    )
 
     internal fun setNormalizedPosition(
         x: Float? = null,
@@ -432,6 +437,80 @@ class EditBoxState(
             rotationChange = 0f
         )
     }
+}
+
+private fun calculateNormalizedPosition(
+    canvasSize: IntegerSize,
+    contentSize: IntSize,
+    offset: Offset,
+    scale: Float,
+    rotation: Float,
+    cornerRadiusPercent: Int
+): Offset? {
+    val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: return null
+    val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: return null
+
+    if (contentSize.width <= 0 || contentSize.height <= 0) return null
+
+    val halfExtents = contentSize.rotatedHalfExtents(
+        degrees = rotation,
+        cornerRadiusPercent = cornerRadiusPercent
+    )
+
+    val halfWidth = halfExtents.x * scale
+    val halfHeight = halfExtents.y * scale
+    val layerWidth = halfWidth * 2f
+    val layerHeight = halfHeight * 2f
+    val left = canvasWidth / 2f + offset.x - halfWidth
+    val top = canvasHeight / 2f + offset.y - halfHeight
+
+    return Offset(
+        x = left.normalizeEdgeAware(
+            axisSize = canvasWidth.toFloat(),
+            layerSize = layerWidth
+        ),
+        y = top.normalizeEdgeAware(
+            axisSize = canvasHeight.toFloat(),
+            layerSize = layerHeight
+        )
+    )
+}
+
+private fun calculateOffsetForNormalizedPosition(
+    normalizedPosition: Offset,
+    canvasSize: IntegerSize,
+    contentSize: IntSize,
+    scale: Float,
+    rotation: Float,
+    cornerRadiusPercent: Int
+): Offset? {
+    val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: return null
+    val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: return null
+
+    if (contentSize.width <= 0 || contentSize.height <= 0) return null
+
+    val halfExtents = contentSize.rotatedHalfExtents(
+        degrees = rotation,
+        cornerRadiusPercent = cornerRadiusPercent
+    )
+
+    val halfWidth = halfExtents.x * scale
+    val halfHeight = halfExtents.y * scale
+    val layerWidth = halfWidth * 2f
+    val layerHeight = halfHeight * 2f
+    val targetLeft = normalizedPosition.x.denormalizeEdgeAware(
+        axisSize = canvasWidth.toFloat(),
+        layerSize = layerWidth
+    )
+    val targetTop = normalizedPosition.y.denormalizeEdgeAware(
+        axisSize = canvasHeight.toFloat(),
+        layerSize = layerHeight
+    )
+
+    return Offset(
+        x = targetLeft - canvasWidth / 2f + halfWidth,
+        y = targetTop - canvasHeight / 2f + halfHeight
+    )
 }
 
 private fun Float.normalizeEdgeAware(
