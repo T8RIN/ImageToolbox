@@ -683,7 +683,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     ) {
         val width = reqWidth.takeIf { it > 0 } ?: 1
         val height = reqHeight.takeIf { it > 0 } ?: 1
-        width / height.toFloat()
+
         _backgroundBehavior.update {
             BackgroundBehavior.Color(
                 width = width,
