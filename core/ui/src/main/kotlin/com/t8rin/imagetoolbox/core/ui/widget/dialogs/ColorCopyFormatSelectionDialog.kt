@@ -167,7 +167,7 @@ private enum class ColorCopyFormat {
     fun title(): String = when (this) {
         Hex -> "HEX"
         Name -> stringResource(R.string.name)
-        HexAndName -> stringResource(R.string.hex_and_name)
+        HexAndName -> "HEX + ${stringResource(R.string.name)}"
     }
 
     fun icon(): ImageVector = when (this) {

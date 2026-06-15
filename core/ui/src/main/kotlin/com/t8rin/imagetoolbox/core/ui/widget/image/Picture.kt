@@ -207,6 +207,8 @@ private fun CoilPicture(
 
     var painterState by remember { mutableStateOf<AsyncImagePainter.State?>(null) }
 
+    var isSuccess by remember { mutableStateOf(false) }
+
     val hdrTransformation = remember(context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
             listOf(
@@ -260,7 +262,7 @@ private fun CoilPicture(
             if (!LocalInspectionMode.current) {
                 Modifier
                     .then(
-                        if (showTransparencyChecker && !shimmerVisible && painterState is AsyncImagePainter.State.Success) {
+                        if (showTransparencyChecker && !shimmerVisible && isSuccess) {
                             Modifier.transparencyChecker()
                         } else Modifier
                     )
@@ -276,6 +278,8 @@ private fun CoilPicture(
             model = request,
             contentDescription = contentDescription,
             onState = {
+                isSuccess = it is AsyncImagePainter.State.Success
+
                 painterState = if (error != null || loading != null || success != null) it else null
 
                 when (it) {
