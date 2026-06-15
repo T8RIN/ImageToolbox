@@ -415,22 +415,21 @@ class GradientMakerComponent @AssistedInject internal constructor(
             _selectedUri.value = uri
             _colorPickerBitmap.value = null
             _isImageLoading.value = true
-            imageGetter.getImageAsync(
+            imageGetter.getImageData(
                 uri = uri.toString(),
-                originalSize = false,
-                onGetImage = { imageData ->
-                    _colorPickerBitmap.value = imageData.image
-                    _imageAspectRatio.update {
-                        imageData.image.safeAspectRatio
-                    }
-                    _isImageLoading.value = false
-                    setImageFormat(imageData.imageInfo.imageFormat)
-                },
+                size = 2000,
                 onFailure = {
                     _isImageLoading.value = false
                     AppToastHost.showFailureToast(it)
                 }
-            )
+            )?.let { imageData ->
+                _colorPickerBitmap.value = imageData.image
+                _imageAspectRatio.update {
+                    imageData.image.safeAspectRatio
+                }
+                _isImageLoading.value = false
+                setImageFormat(imageData.imageInfo.imageFormat)
+            }
         }
     }
 
