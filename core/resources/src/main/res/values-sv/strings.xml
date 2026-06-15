@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -3169,4 +3167,6 @@
     <string name="help_tip_wallpaper_export_step_2">Välj de tillgängliga hem-, lås- eller inbyggda bakgrundsposter som du vill spara, kopiera eller dela.</string>
     <string name="help_tip_wallpaper_export_step_3">Om en bakgrundsbild saknas eller funktionen inte är tillgänglig är det vanligtvis en system-, behörighets- eller byggvariantbegränsning snarare än en redigeringsinställning.</string>
     <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
+    <string name="copy_color_as">Kopiera färg som</string>
+    <string name="hex_and_name">HEX + namn</string>
 </resources>
