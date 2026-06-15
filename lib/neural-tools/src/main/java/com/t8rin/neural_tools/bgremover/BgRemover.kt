@@ -41,6 +41,7 @@ object BgRemover : NeuralTool() {
         U2Net,
         BiRefNet,
         BiRefNetTiny,
+        MODNet,
         ISNet,
         YOLO
     }
@@ -91,6 +92,7 @@ object BgRemover : NeuralTool() {
         Type.U2Net -> U2NetFullBackgroundRemover
         Type.BiRefNet -> BiRefNetBackgroundRemover
         Type.BiRefNetTiny -> BiRefNetTinyBackgroundRemover
+        Type.MODNet -> MODNetBackgroundRemover
         Type.ISNet -> ISNetBackgroundRemover
         Type.YOLO -> YoloSegRemover
     }

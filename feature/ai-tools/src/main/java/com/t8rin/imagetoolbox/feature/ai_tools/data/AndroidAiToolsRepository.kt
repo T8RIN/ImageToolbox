@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.neural_tools.bgremover.BgRemover
 import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
 import com.t8rin.neural_tools.inpaint.WatermarkRemoverProcessor
+import com.t8rin.neural_tools.scans.UvDocUnwarper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ensureActive
@@ -292,6 +293,34 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 }
             }
 
+            model.isUvDocUnwarper -> {
+                processImage {
+                    val ortSession = session.makeLog("Held session")
+                        ?: createSession(selectedModel.value).makeLog("New session")
+                        ?: return@withContext null.also {
+                            listener.onError(getString(R.string.failed_to_open_session))
+                        }
+
+                    keepAliveService.track(
+                        onFailure = {
+                            listener.onError(it.extractMessage())
+                        },
+                        action = {
+                            listener.onProgress(0, 1)
+                            UvDocUnwarper.unwarp(
+                                image = image,
+                                session = ortSession
+                            )?.also {
+                                listener.onProgress(1, 1)
+                            } ?: run {
+                                listener.onError(getString(R.string.processing_failed))
+                                null
+                            }
+                        }
+                    )
+                }
+            }
+
             else -> {
                 processImage {
                     val ortSession = session.makeLog("Held session")
@@ -466,6 +495,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 name.startsWith("inspyrenet") -> BgRemover.Type.InSPyReNet
                 name.startsWith("RMBG_1.4") -> BgRemover.Type.RMBG1_4
                 name.startsWith("birefnet_swin_tiny") -> BgRemover.Type.BiRefNetTiny
+                name.startsWith("modnet_portrait_matting") -> BgRemover.Type.MODNet
                 name.startsWith("isnet") -> BgRemover.Type.ISNet
                 name.startsWith("yolo") -> BgRemover.Type.YOLO
                 else -> return null

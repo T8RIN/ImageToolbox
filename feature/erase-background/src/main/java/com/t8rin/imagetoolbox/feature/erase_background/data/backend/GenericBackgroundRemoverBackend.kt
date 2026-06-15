@@ -41,6 +41,7 @@ internal class GenericBackgroundRemoverBackend(
                 BgModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
                 BgModelType.ISNet -> BgRemover.Type.ISNet
                 BgModelType.YOLO -> BgRemover.Type.YOLO
+                BgModelType.MODNet -> BgRemover.Type.MODNet
             }
         )!!
     }

@@ -2842,6 +2842,7 @@
     <string name="model_ddcolor">Full DDColor model delivers high-quality colorization for general images with minimal artifacts. Best choice of all colorization models.</string>
     <string name="model_ddcolor_artistic">DDColor Trained and private artistic datasets; produces diverse and artistic colorization results with fewer unrealistic color artifacts.</string>
     <string name="model_birefnet">Lightweight BiRefNet model based on Swin Transformer for accurate background removing.</string>
+    <string name="model_modnet">Portrait matting model for fast person cutouts with softer hair and edge handling.</string>
     <string name="model_inspyrenet">High-quality background removal with sharp edges and excellent detail preservation, especially on complex objects and tricky backgrounds.</string>
     <string name="model_isnet">Background removal model that produces accurate masks with smooth edges, suitable for general objects and moderate detail preservation.</string>
     <string name="model_already_downloaded">Model already downloaded</string>
@@ -2937,6 +2938,9 @@
     <string name="model_dat_3x">3x upscaling using advanced transformer architecture, ideal for moderate enlargement needs.</string>
     <string name="model_dat_4x">4x high-quality upscaling with state-of-the-art transformer network, preserves fine details at larger scales.</string>
     <string name="model_nafnet_deblurring">Removes blur/noise and shakes from photos. General purpose but best on photos.</string>
+    <string name="model_zero_dcepp">Fast low-light enhancement using Zero-DCE++ curve estimation.</string>
+    <string name="model_restormer_deraining">Restormer image restoration model for reducing rain streaks and wet-weather artifacts.</string>
+    <string name="model_uvdoc_grid">Document unwarping model that predicts a coordinate grid and remaps curved pages into a flatter scan.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Restores low-quality images using Swin2SR transformer, optimized for BSRGAN degradation. Great for fixing heavy compression artifacts and enhancing details at 4x scale.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x upscaling with SwinIR transformer trained on BSRGAN degradation. Uses GAN for sharper textures and more natural details in photos and complex scenes.</string>
     <string name="path">Path</string>

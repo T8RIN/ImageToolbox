@@ -36,8 +36,10 @@ data class NeuralModel(
     val isImported = downloadLink == "imported"
 
     val isWatermarkRemover = name == WATERMARK_REMOVER_MODEL_NAME
+    val isUvDocUnwarper = name == "uvdoc_grid.onnx"
 
-    val isNonChunkable = name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover
+    val isNonChunkable =
+        name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover || isUvDocUnwarper
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 
@@ -241,6 +243,15 @@ data class NeuralModel(
                     downloadSize = 2391605,
                     speed = Speed.VeryFast(0.492f),
                     checksum = "8fef8e73062d2eff56aacea17caa1162b094a8c8a8010f51084c7e2cf9403ded"
+                ),
+                NeuralModel(
+                    downloadLink = res("zero_dcepp.onnx"),
+                    title = "Zero-DCE++",
+                    description = R.string.model_zero_dcepp,
+                    type = Type.ENHANCE,
+                    downloadSize = 52261,
+                    speed = Speed.VeryFast(0.002f),
+                    checksum = "8a78b1d5dd66dae64a12b87e9908215d70fc9ae941dd55006b2beebdf9c510a3"
                 ),
                 NeuralModel(
                     downloadLink = res("onnx/enhance/other-models/1x-Anti-Aliasing-fp16.onnx"),
@@ -801,6 +812,15 @@ data class NeuralModel(
                     checksum = "46512ae91e17171c09476e3154fa2f2f8b0a557b3c8e9c91c10d11f35bc3f70c"
                 ),
                 NeuralModel(
+                    downloadLink = res("modnet_portrait_matting.onnx"),
+                    title = "MODNet",
+                    description = R.string.model_modnet,
+                    type = Type.REMOVE_BG,
+                    downloadSize = 25888640,
+                    speed = Speed.VeryFast(0.061f),
+                    checksum = "07c308cf0fc7e6e8b2065a12ed7fc07e1de8febb7dc7839d7b7f15dd66584df9"
+                ),
+                NeuralModel(
                     downloadLink = res("isnet-general-use.onnx"),
                     title = "ISNet",
                     description = R.string.model_isnet,
@@ -925,6 +945,24 @@ data class NeuralModel(
                     downloadSize = 91736251,
                     speed = Speed.VeryFast(1.371f),
                     checksum = "07263f416febecce10193dd648e950b22e397cf521eedab1a114ef77b2bc9587"
+                ),
+                NeuralModel(
+                    downloadLink = res("restormer_deraining.onnx"),
+                    title = "Restormer Deraining",
+                    description = R.string.model_restormer_deraining,
+                    type = Type.ENHANCE,
+                    downloadSize = 107114307,
+                    speed = Speed.Normal(12.615f),
+                    checksum = "1ef76f2f59cfe98fd626590f11e2c2cbe5b0870d9a4ce4f2b01ca3f02caefc87"
+                ),
+                NeuralModel(
+                    downloadLink = res("uvdoc_grid.onnx"),
+                    title = "UVDOC Grid",
+                    description = R.string.model_uvdoc_grid,
+                    type = Type.SCANS,
+                    downloadSize = 31802768,
+                    speed = Speed.VeryFast(0.912f),
+                    checksum = "16cb598b88b186d49c1ab0d81df2bdb2a66c26159b119871f129c1c3f9c85fd2"
                 ),
                 NeuralModel(
                     downloadLink = res("upscalers/swin2SR-x4-bsrgan-psnr.onnx"),

@@ -290,6 +290,7 @@ private fun BgModelType.toLib(): BgRemover.Type = when (this) {
     BgModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
     BgModelType.ISNet -> BgRemover.Type.ISNet
     BgModelType.YOLO -> BgRemover.Type.YOLO
+    BgModelType.MODNet -> BgRemover.Type.MODNet
 }
 
 private fun BgRemover.Type.toDomain(): BgModelType? = when (this) {
@@ -301,4 +302,5 @@ private fun BgRemover.Type.toDomain(): BgModelType? = when (this) {
     BgRemover.Type.BiRefNet -> null
     BgRemover.Type.ISNet -> BgModelType.ISNet
     BgRemover.Type.YOLO -> BgModelType.YOLO
+    BgRemover.Type.MODNet -> BgModelType.MODNet
 }
