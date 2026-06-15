@@ -535,6 +535,7 @@ or click one of the badges below.
     - BiRefNet
     - ISNet
     - YOLO
+    - MODNet
 - Watermarking
     - Repeating Text
     - Image
@@ -705,7 +706,7 @@ or click one of the badges below.
     - PDF to Text (OCR)
     - Remove Annotations
 - Document Scanning
-- AI tools (95+ ready to use models available)
+- AI tools (100+ ready to use models available)
     - Upscale
     - Remove BG
     - DeJPEG
