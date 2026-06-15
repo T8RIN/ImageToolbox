@@ -3166,4 +3166,10 @@
     <string name="help_tip_wallpaper_export_step_2">เลือกรายการหน้าแรก ล็อค หรือวอลเปเปอร์ในตัวที่คุณต้องการบันทึก คัดลอก หรือแชร์</string>
     <string name="help_tip_wallpaper_export_step_3">หากวอลเปเปอร์หายไปหรือฟีเจอร์ไม่พร้อมใช้งาน โดยปกติจะเป็นข้อจำกัดของระบบ สิทธิ์ หรือเวอร์ชันบิวด์ ไม่ใช่การตั้งค่าการแก้ไข</string>
     <string name="shape_by_interaction_throttle">มุมแอนิเมชั่นเค้น</string>
+    <string name="copy_color_as">คัดลอกสีเป็น</string>
+    <string name="hex_and_name">เลขฐานสิบหก + ชื่อ</string>
+    <string name="model_modnet">โมเดลการจัดวางแนวตั้งสำหรับการตัดบุคคลอย่างรวดเร็วด้วยเส้นผมที่นุ่มนวลและการจัดการขอบ</string>
+    <string name="model_zero_dcepp">การปรับปรุงสภาพแสงน้อยอย่างรวดเร็วโดยใช้การประมาณค่าเส้นโค้ง Zero-DCE++</string>
+    <string name="model_restormer_deraining">แบบจำลองการฟื้นฟูอิมเมจ Restormer เพื่อลดเส้นสายฝนและสิ่งผิดปกติจากสภาพอากาศเปียก</string>
+    <string name="model_uvdoc_grid">เอกสารโมเดลที่ไม่บิดเบี้ยวซึ่งคาดการณ์ตารางพิกัดและแมปหน้าที่โค้งใหม่ให้เป็นการสแกนที่เรียบยิ่งขึ้น</string>
 </resources>

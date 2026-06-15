@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Piliin ang available na Home, Lock, o built-in na mga entry sa wallpaper na gusto mong i-save, kopyahin, o ibahagi.</string>
     <string name="help_tip_wallpaper_export_step_3">Kung ang isang wallpaper ay nawawala o ang tampok ay hindi magagamit, ito ay karaniwang isang sistema, pahintulot, o build-variant na limitasyon sa halip na isang setting ng pag-edit.</string>
     <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
+    <string name="copy_color_as">Kopyahin ang kulay bilang</string>
+    <string name="hex_and_name">HEX + pangalan</string>
+    <string name="model_modnet">Portrait matting model para sa mabilis na mga cutout ng tao na may mas malambot na buhok at paghawak sa gilid.</string>
+    <string name="model_zero_dcepp">Mabilis na low-light enhancement gamit ang Zero-DCE++ curve estimation.</string>
+    <string name="model_restormer_deraining">Modelo ng pagpapanumbalik ng imahe ng restormer para sa pagbabawas ng mga bahid ng ulan at mga artifact sa wet-weather.</string>
+    <string name="model_uvdoc_grid">Idokumento ang unwarping na modelo na hinuhulaan ang isang coordinate grid at i-remap ang mga curved page sa isang flatter scan.</string>
 </resources>

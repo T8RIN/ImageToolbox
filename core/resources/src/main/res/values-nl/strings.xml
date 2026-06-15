@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Selecteer de beschikbare Home-, Lock- of ingebouwde achtergronditems die u wilt opslaan, kopiëren of delen.</string>
     <string name="help_tip_wallpaper_export_step_3">Als een achtergrond ontbreekt of de functie niet beschikbaar is, is dit meestal een systeem-, machtigings- of buildvariantbeperking en geen bewerkingsinstelling.</string>
     <string name="shape_by_interaction_throttle">Hoeken animatie gaspedaal</string>
+    <string name="copy_color_as">Kopieer kleur als</string>
+    <string name="hex_and_name">HEX + naam</string>
+    <string name="model_modnet">Portretmatmodel voor snelle persoonsuitsnijdingen met zachter haar en randverwerking.</string>
+    <string name="model_zero_dcepp">Snelle verbetering bij weinig licht met behulp van Zero-DCE++-curveschatting.</string>
+    <string name="model_restormer_deraining">Resstormer beeldherstelmodel voor het verminderen van regenstrepen en artefacten bij nat weer.</string>
+    <string name="model_uvdoc_grid">Document-unwarping-model dat een coördinatenraster voorspelt en gebogen pagina\'s opnieuw in kaart brengt in een vlakkere scan.</string>
 </resources>

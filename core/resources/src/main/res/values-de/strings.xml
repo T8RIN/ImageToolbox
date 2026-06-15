@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Wählen Sie die verfügbaren Home-, Lock- oder integrierten Hintergrundbildeinträge aus, die Sie speichern, kopieren oder teilen möchten.</string>
     <string name="help_tip_wallpaper_export_step_3">Wenn ein Hintergrundbild fehlt oder die Funktion nicht verfügbar ist, handelt es sich in der Regel eher um eine System-, Berechtigungs- oder Build-Varianten-Einschränkung als um eine Bearbeitungseinstellung.</string>
     <string name="shape_by_interaction_throttle">Ecken-Animationsdrossel</string>
+    <string name="copy_color_as">Farbe kopieren als</string>
+    <string name="hex_and_name">HEX + Name</string>
+    <string name="model_modnet">Portrait-Mattenmodell für schnelle Personenausschnitte mit weicherem Haar- und Kantenhandling.</string>
+    <string name="model_zero_dcepp">Schnelle Verbesserung bei schwachem Licht mithilfe der Zero-DCE++-Kurvenschätzung.</string>
+    <string name="model_restormer_deraining">Restormer-Bildwiederherstellungsmodell zur Reduzierung von Regenstreifen und Artefakten bei nassem Wetter.</string>
+    <string name="model_uvdoc_grid">Dokumententzerrungsmodell, das ein Koordinatengitter vorhersagt und gekrümmte Seiten in einen flacheren Scan umwandelt.</string>
 </resources>

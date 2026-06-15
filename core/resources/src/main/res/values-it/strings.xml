@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Seleziona le voci Home, Blocco o sfondo integrato disponibili che desideri salvare, copiare o condividere.</string>
     <string name="help_tip_wallpaper_export_step_3">Se manca uno sfondo o la funzionalità non è disponibile, in genere si tratta di una limitazione del sistema, di un\'autorizzazione o di una variante di build piuttosto che di un\'impostazione di modifica.</string>
     <string name="shape_by_interaction_throttle">Acceleratore per l\'animazione degli angoli</string>
+    <string name="copy_color_as">Copia colore come</string>
+    <string name="hex_and_name">ESAGONALE + nome</string>
+    <string name="model_modnet">Modello con stuoia verticale per ritagli rapidi di persone con peli più morbidi e gestione dei bordi.</string>
+    <string name="model_zero_dcepp">Miglioramento rapido in condizioni di scarsa illuminazione utilizzando la stima della curva Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Modello di ripristino delle immagini Restormer per ridurre le strisce di pioggia e gli artefatti dovuti al tempo umido.</string>
+    <string name="model_uvdoc_grid">Modello di rimozione della deformazione del documento che prevede una griglia di coordinate e rimappa le pagine curve in una scansione più piatta.</string>
 </resources>

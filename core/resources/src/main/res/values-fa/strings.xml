@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">صفحه اصلی، قفل یا ورودی های کاغذدیواری داخلی موجود را که می خواهید ذخیره، کپی یا به اشتراک بگذارید، انتخاب کنید.</string>
     <string name="help_tip_wallpaper_export_step_3">اگر کاغذدیواری وجود نداشته باشد یا ویژگی در دسترس نباشد، معمولاً یک محدودیت سیستم، مجوز یا نوع ساخت است تا تنظیم ویرایش.</string>
     <string name="shape_by_interaction_throttle">دریچه گاز انیمیشن گوشه ها</string>
+    <string name="copy_color_as">کپی رنگ به عنوان</string>
+    <string name="hex_and_name">HEX + نام</string>
+    <string name="model_modnet">مدل تشک پرتره برای برش افراد سریع با موها و دست زدن به لبه های نرم تر.</string>
+    <string name="model_zero_dcepp">بهبود سریع در نور کم با استفاده از تخمین منحنی Zero-DCE++.</string>
+    <string name="model_restormer_deraining">مدل بازسازی تصویر Restormer برای کاهش رگه های باران و مصنوعات آب و هوای مرطوب.</string>
+    <string name="model_uvdoc_grid">مدل انحرافی سند که یک شبکه مختصات را پیش‌بینی می‌کند و صفحات منحنی را به یک اسکن مسطح‌تر بازنگری می‌کند.</string>
 </resources>

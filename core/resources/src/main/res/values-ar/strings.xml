@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -3172,4 +3174,8 @@
     <string name="shape_by_interaction_throttle">زوايا الرسوم المتحركة خنق</string>
     <string name="copy_color_as">انسخ اللون كـ</string>
     <string name="hex_and_name">HEX + الاسم</string>
+    <string name="model_modnet">نموذج حصيرة بورتريه لقواطع سريعة للأشخاص مع شعر أكثر نعومة ومعالجة للحواف.</string>
+    <string name="model_zero_dcepp">تحسين سريع للإضاءة المنخفضة باستخدام تقدير منحنى Zero-DCE++.</string>
+    <string name="model_restormer_deraining">نموذج استعادة الصورة Restormer لتقليل خطوط المطر وتحف الطقس الرطب.</string>
+    <string name="model_uvdoc_grid">قم بتوثيق نموذج إزالة التشوه الذي يتنبأ بشبكة إحداثيات ويعيد رسم خريطة للصفحات المنحنية في مسح أكثر اتساعًا.</string>
 </resources>

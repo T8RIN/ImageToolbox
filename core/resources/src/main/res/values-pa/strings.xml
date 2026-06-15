@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">ਉਪਲਬਧ ਹੋਮ, ਲਾਕ, ਜਾਂ ਬਿਲਟ-ਇਨ ਵਾਲਪੇਪਰ ਐਂਟਰੀਆਂ ਚੁਣੋ ਜਿਨ੍ਹਾਂ ਨੂੰ ਤੁਸੀਂ ਸੁਰੱਖਿਅਤ ਕਰਨਾ, ਕਾਪੀ ਕਰਨਾ ਜਾਂ ਸਾਂਝਾ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ।</string>
     <string name="help_tip_wallpaper_export_step_3">ਜੇਕਰ ਕੋਈ ਵਾਲਪੇਪਰ ਗੁੰਮ ਹੈ ਜਾਂ ਵਿਸ਼ੇਸ਼ਤਾ ਉਪਲਬਧ ਨਹੀਂ ਹੈ, ਤਾਂ ਇਹ ਆਮ ਤੌਰ \'ਤੇ ਇੱਕ ਸੰਪਾਦਨ ਸੈਟਿੰਗ ਦੀ ਬਜਾਏ ਇੱਕ ਸਿਸਟਮ, ਅਨੁਮਤੀ, ਜਾਂ ਬਿਲਡ-ਵੇਰੀਐਂਟ ਸੀਮਾ ਹੁੰਦੀ ਹੈ।</string>
     <string name="shape_by_interaction_throttle">ਕੋਨੇ ਐਨੀਮੇਸ਼ਨ ਥ੍ਰੋਟਲ</string>
+    <string name="copy_color_as">ਇਸ ਤਰ੍ਹਾਂ ਰੰਗ ਕਾਪੀ ਕਰੋ</string>
+    <string name="hex_and_name">HEX + ਨਾਮ</string>
+    <string name="model_modnet">ਨਰਮ ਵਾਲਾਂ ਅਤੇ ਕਿਨਾਰੇ ਨੂੰ ਸੰਭਾਲਣ ਵਾਲੇ ਤੇਜ਼ ਵਿਅਕਤੀ ਕੱਟਆਊਟ ਲਈ ਪੋਰਟਰੇਟ ਮੈਟਿੰਗ ਮਾਡਲ।</string>
+    <string name="model_zero_dcepp">ਜ਼ੀਰੋ-DCE++ ਕਰਵ ਅੰਦਾਜ਼ੇ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋਏ ਤੇਜ਼ ਘੱਟ ਰੋਸ਼ਨੀ ਸੁਧਾਰ।</string>
+    <string name="model_restormer_deraining">ਬਰਸਾਤ ਦੀਆਂ ਲਕੀਰਾਂ ਅਤੇ ਗਿੱਲੇ-ਮੌਸਮ ਦੀਆਂ ਕਲਾਕ੍ਰਿਤੀਆਂ ਨੂੰ ਘਟਾਉਣ ਲਈ ਰੀਸਟੋਰਮਰ ਚਿੱਤਰ ਬਹਾਲੀ ਦਾ ਮਾਡਲ।</string>
+    <string name="model_uvdoc_grid">ਦਸਤਾਵੇਜ਼ ਅਣਵਰਪਿੰਗ ਮਾਡਲ ਜੋ ਇੱਕ ਕੋਆਰਡੀਨੇਟ ਗਰਿੱਡ ਦੀ ਭਵਿੱਖਬਾਣੀ ਕਰਦਾ ਹੈ ਅਤੇ ਕਰਵਡ ਪੰਨਿਆਂ ਨੂੰ ਫਲੈਟਰ ਸਕੈਨ ਵਿੱਚ ਰੀਮੈਪ ਕਰਦਾ ਹੈ।</string>
 </resources>

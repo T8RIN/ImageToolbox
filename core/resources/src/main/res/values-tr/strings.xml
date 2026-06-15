@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Kaydetmek, kopyalamak veya paylaşmak istediğiniz mevcut Ana Sayfa, Kilit veya yerleşik duvar kağıdı girişlerini seçin.</string>
     <string name="help_tip_wallpaper_export_step_3">Bir duvar kağıdı eksikse veya özellik kullanılamıyorsa, bu genellikle bir düzenleme ayarından ziyade bir sistem, izin veya yapı çeşidi sınırlamasıdır.</string>
     <string name="shape_by_interaction_throttle">Köşe Animasyonu Kısma Kolu</string>
+    <string name="copy_color_as">Rengi farklı kopyala</string>
+    <string name="hex_and_name">HEX + adı</string>
+    <string name="model_modnet">Daha yumuşak saçlar ve kenar tutuşu ile hızlı insan kesimleri için portre paspas modeli.</string>
+    <string name="model_zero_dcepp">Zero-DCE++ eğri tahminini kullanarak hızlı düşük ışık iyileştirmesi.</string>
+    <string name="model_restormer_deraining">Yağmur izlerini ve yağışlı hava eserlerini azaltmak için Restormer görüntü restorasyon modeli.</string>
+    <string name="model_uvdoc_grid">Koordinat ızgarasını tahmin eden ve kavisli sayfaları daha düz bir taramayla yeniden eşleştiren çarpıklık giderme modelini belgeleyin.</string>
 </resources>

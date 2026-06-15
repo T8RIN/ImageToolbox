@@ -3166,4 +3166,10 @@
     <string name="help_tip_wallpaper_export_step_2">Chọn các mục nhập Màn hình chính, Khóa hoặc hình nền tích hợp sẵn mà bạn muốn lưu, sao chép hoặc chia sẻ.</string>
     <string name="help_tip_wallpaper_export_step_3">Nếu hình nền bị thiếu hoặc tính năng này không khả dụng thì đó thường là giới hạn hệ thống, quyền hoặc biến thể bản dựng chứ không phải là cài đặt chỉnh sửa.</string>
     <string name="shape_by_interaction_throttle">Van tiết lưu góc hoạt hình</string>
+    <string name="copy_color_as">Sao chép màu như</string>
+    <string name="hex_and_name">HEX + tên</string>
+    <string name="model_modnet">Mẫu thảm chân dung giúp cắt nhanh người với mái tóc mềm hơn và khả năng xử lý cạnh.</string>
+    <string name="model_zero_dcepp">Cải thiện nhanh trong điều kiện ánh sáng yếu bằng cách sử dụng ước tính đường cong Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Mô hình phục hồi hình ảnh Restormer để giảm các vệt mưa và hiện tượng thời tiết ẩm ướt.</string>
+    <string name="model_uvdoc_grid">Mô hình không cong vênh tài liệu dự đoán lưới tọa độ và ánh xạ lại các trang cong thành bản quét phẳng hơn.</string>
 </resources>

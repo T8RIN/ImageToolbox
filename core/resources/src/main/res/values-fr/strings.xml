@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Sélectionnez les entrées disponibles Accueil, Verrouillage ou fond d\'écran intégré que vous souhaitez enregistrer, copier ou partager.</string>
     <string name="help_tip_wallpaper_export_step_3">Si un fond d\'écran est manquant ou si la fonctionnalité n\'est pas disponible, il s\'agit généralement d\'une limitation du système, d\'une autorisation ou d\'une variante de construction plutôt que d\'un paramètre d\'édition.</string>
     <string name="shape_by_interaction_throttle">Accélérateur d\'animation dans les coins</string>
+    <string name="copy_color_as">Copier la couleur comme</string>
+    <string name="hex_and_name">HEX + nom</string>
+    <string name="model_modnet">Modèle de tapis de portrait pour des découpes rapides de personnes avec des cheveux et une manipulation des bords plus doux.</string>
+    <string name="model_zero_dcepp">Amélioration rapide des conditions de faible luminosité grâce à l\'estimation de la courbe Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Modèle de restauration d\'image Restormer pour réduire les traînées de pluie et les artefacts de temps pluvieux.</string>
+    <string name="model_uvdoc_grid">Modèle de déformation de documents qui prédit une grille de coordonnées et remappe les pages courbes en une numérisation plus plate.</string>
 </resources>

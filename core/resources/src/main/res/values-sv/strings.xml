@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -3169,4 +3171,8 @@
     <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
     <string name="copy_color_as">Kopiera färg som</string>
     <string name="hex_and_name">HEX + namn</string>
+    <string name="model_modnet">Porträttmattmodell för snabba personklippningar med mjukare hår och kanthantering.</string>
+    <string name="model_zero_dcepp">Snabb förbättring i svagt ljus med Zero-DCE++ kurvuppskattning.</string>
+    <string name="model_restormer_deraining">Restormer-bildrestaureringsmodell för att minska regnstråk och artefakter i vått väder.</string>
+    <string name="model_uvdoc_grid">Dokumentera modell som förutsäger ett koordinatnät och mappar om böjda sidor till en plattare skanning.</string>
 </resources>

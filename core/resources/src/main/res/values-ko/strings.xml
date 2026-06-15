@@ -3166,4 +3166,10 @@
     <string name="help_tip_wallpaper_export_step_2">저장, 복사 또는 공유하려는 사용 가능한 홈, 잠금 또는 내장 배경 화면 항목을 선택하십시오.</string>
     <string name="help_tip_wallpaper_export_step_3">배경화면이 없거나 기능을 사용할 수 없는 경우 이는 일반적으로 편집 설정이 아닌 시스템, 권한 또는 빌드 변형 제한 사항입니다.</string>
     <string name="shape_by_interaction_throttle">코너 애니메이션 스로틀</string>
+    <string name="copy_color_as">색상을 다음으로 복사</string>
+    <string name="hex_and_name">HEX + 이름</string>
+    <string name="model_modnet">더 부드러운 머리카락과 가장자리 처리 기능을 갖춘 빠른 ​​인물 컷아웃을 위한 인물 사진 매트 모델입니다.</string>
+    <string name="model_zero_dcepp">Zero-DCE++ 곡선 추정을 사용한 빠른 저조도 향상.</string>
+    <string name="model_restormer_deraining">빗줄기 및 습한 날씨 인공물을 줄이기 위한 Restormer 이미지 복원 모델.</string>
+    <string name="model_uvdoc_grid">좌표 격자를 예측하고 곡선 페이지를 더 평평한 스캔으로 다시 매핑하는 문서 뒤틀림 모델입니다.</string>
 </resources>

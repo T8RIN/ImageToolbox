@@ -3168,4 +3168,10 @@
     <string name="help_tip_wallpaper_export_step_2">Selectați intrările disponibile Acasă, Blocare sau tapet încorporat pe care doriți să le salvați, să le copiați sau să le partajați.</string>
     <string name="help_tip_wallpaper_export_step_3">Dacă lipsește un tapet sau funcția nu este disponibilă, este de obicei o limitare de sistem, o permisiune sau o variantă de construcție, mai degrabă decât o setare de editare.</string>
     <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
+    <string name="copy_color_as">Copiați culoarea ca</string>
+    <string name="hex_and_name">HEX + nume</string>
+    <string name="model_modnet">Model de covoraș portret pentru decupaje rapide de persoane, cu păr mai moale și manevrare a marginilor.</string>
+    <string name="model_zero_dcepp">Îmbunătățire rapidă în condiții de lumină scăzută folosind estimarea curbei Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Model de restaurare a imaginii Restormer pentru reducerea dungilor de ploaie și a artefactelor pe vreme umedă.</string>
+    <string name="model_uvdoc_grid">Model de deformare a documentelor care prezice o grilă de coordonate și remapează paginile curbe într-o scanare mai plată.</string>
 </resources>

@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">ساقلىماقچى ، كۆچۈرمەكچى ياكى ھەمبەھىرلىمەكچى بولغان ئۆي ، قۇلۇپ ياكى ئىچىگە قاچىلانغان تام قەغىزىنى تاللاڭ.</string>
     <string name="help_tip_wallpaper_export_step_3">ئەگەر تام قەغىزى يوقاپ كەتسە ياكى بۇ ئىقتىدارنى ئىشلەتكىلى بولمىسا ، ئۇ ئادەتتە تەھرىرلەش تەڭشىكى بولماستىن ، سىستېما ، ئىجازەت ياكى قۇر ئۆزگەرتىش چەكلىمىسى بولىدۇ.</string>
     <string name="shape_by_interaction_throttle">بۇلۇڭلار كارتون فىلىمى</string>
+    <string name="copy_color_as">رەڭنى كۆچۈرۈڭ</string>
+    <string name="hex_and_name">HEX + name</string>
+    <string name="model_modnet">يۇمران چاچ ۋە قىرلارنى بىر تەرەپ قىلىدىغان تېز سۈرئەتلىك كىشىلەرنىڭ كېسىشمە سۈرىتىنى ماسلاشتۇرۇش مودېلى.</string>
+    <string name="model_zero_dcepp">Zero-DCE ++ ئەگرى سىزىق ئارقىلىق تېز تۆۋەن نۇرنى ئاشۇرۇش.</string>
+    <string name="model_restormer_deraining">يامغۇر سۈيىنى ۋە ھۆل-يېغىنلىق بۇيۇملارنى ئازايتىش ئۈچۈن رەسىمنى ئەسلىگە كەلتۈرۈش ئەندىزىسىنى ئەسلىگە كەلتۈرۈش.</string>
+    <string name="model_uvdoc_grid">كوئوردېنات تورىنى ئالدىن پەرەز قىلىدىغان ۋە ئەگمە بەتلەرنى تەكشى سىكانېرغا ئايلاندۇرىدىغان ھۆججەت يېشىش ئەندىزىسى.</string>
 </resources>

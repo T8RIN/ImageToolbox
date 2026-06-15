@@ -3168,4 +3168,10 @@
     <string name="help_tip_wallpaper_export_step_2">उपलब्ध होम, लॉक किंवा बिल्ट-इन वॉलपेपर एंट्री निवडा ज्या तुम्हाला सेव्ह, कॉपी किंवा शेअर करायच्या आहेत.</string>
     <string name="help_tip_wallpaper_export_step_3">वॉलपेपर गहाळ असल्यास किंवा वैशिष्ट्य अनुपलब्ध असल्यास, ते सहसा संपादन सेटिंग ऐवजी सिस्टम, परवानगी किंवा बिल्ड-व्हेरिएंट मर्यादा असते.</string>
     <string name="shape_by_interaction_throttle">कॉर्नर्स ॲनिमेशन थ्रॉटल</string>
+    <string name="copy_color_as">रंग म्हणून कॉपी करा</string>
+    <string name="hex_and_name">HEX + नाव</string>
+    <string name="model_modnet">मऊ केस आणि काठ हाताळणीसह वेगवान व्यक्ती कटआउटसाठी पोर्ट्रेट मॅटिंग मॉडेल.</string>
+    <string name="model_zero_dcepp">शून्य-DCE++ वक्र अंदाज वापरून जलद कमी-प्रकाश सुधारणा.</string>
+    <string name="model_restormer_deraining">पावसाच्या रेषा आणि ओल्या हवामानातील कलाकृती कमी करण्यासाठी पुनर्संचयित प्रतिमा पुनर्संचयित मॉडेल.</string>
+    <string name="model_uvdoc_grid">दस्तऐवज अनवारिंग मॉडेल जे एका समन्वय ग्रिडचा अंदाज लावते आणि वक्र पृष्ठांचे फ्लॅटर स्कॅनमध्ये रीमॅप करते.</string>
 </resources>

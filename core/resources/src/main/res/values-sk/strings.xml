@@ -3169,4 +3169,10 @@
     <string name="help_tip_wallpaper_export_step_2">Vyberte dostupné položky Domov, Zámok alebo vstavané tapety, ktoré chcete uložiť, skopírovať alebo zdieľať.</string>
     <string name="help_tip_wallpaper_export_step_3">Ak tapeta chýba alebo funkcia nie je k dispozícii, je to zvyčajne obmedzenie systému, povolenia alebo variantu zostavenia, a nie nastavenie úprav.</string>
     <string name="shape_by_interaction_throttle">Rohy animácie plynu</string>
+    <string name="copy_color_as">Kopírovať farbu ako</string>
+    <string name="hex_and_name">HEX + meno</string>
+    <string name="model_modnet">Model rohože na výšku pre rýchle vystrihovanie osôb s jemnejším vlasom a hranami.</string>
+    <string name="model_zero_dcepp">Rýchle vylepšenie pri slabom osvetlení pomocou odhadu krivky Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Restormer model obnovy obrazu na zníženie dažďových pruhov a artefaktov z vlhkého počasia.</string>
+    <string name="model_uvdoc_grid">Model nedeformovania dokumentu, ktorý predpovedá súradnicovú mriežku a premapuje zakrivené strany na plochejšie skenovanie.</string>
 </resources>

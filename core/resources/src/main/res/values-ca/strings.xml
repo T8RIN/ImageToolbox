@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Seleccioneu les entrades d\'inici, de bloqueig o de fons de pantalla integrades disponibles que vulgueu desar, copiar o compartir.</string>
     <string name="help_tip_wallpaper_export_step_3">Si falta un fons de pantalla o la funció no està disponible, normalment es tracta d\'una limitació de sistema, permís o variant de compilació en lloc d\'una configuració d\'edició.</string>
     <string name="shape_by_interaction_throttle">Corners Animació Acelerador</string>
+    <string name="copy_color_as">Copia el color com a</string>
+    <string name="hex_and_name">HEX + nom</string>
+    <string name="model_modnet">Model d\'estora retrat per a retalls ràpids de persones amb cabells més suaus i manipulació de vores.</string>
+    <string name="model_zero_dcepp">Millora ràpida amb poca llum mitjançant l\'estimació de la corba Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Model de restauració d\'imatges Restormer per reduir les ratlles de pluja i els artefactes de temps humit.</string>
+    <string name="model_uvdoc_grid">Model de deformació de documents que prediu una graella de coordenades i reasigna les pàgines corbes en un escaneig més pla.</string>
 </resources>

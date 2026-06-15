@@ -3168,4 +3168,10 @@
     <string name="help_tip_wallpaper_export_step_2">ඔබට සුරැකීමට, පිටපත් කිරීමට හෝ බෙදා ගැනීමට අවශ්‍ය පවතින නිවස, අගුල, හෝ බිල්පත් ඇතුළත් කිරීම් තෝරන්න.</string>
     <string name="help_tip_wallpaper_export_step_3">බිතුපතක් අස්ථානගත වී ඇත්නම් හෝ විශේෂාංගය නොමැති නම්, එය සාමාන්‍යයෙන් සංස්කරණ සැකසීමකට වඩා පද්ධතියක්, අවසරයක් හෝ ගොඩනැගීමේ ප්‍රභේද සීමාවකි.</string>
     <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
+    <string name="copy_color_as">ලෙස වර්ණය පිටපත් කරන්න</string>
+    <string name="hex_and_name">HEX + නම</string>
+    <string name="model_modnet">මෘදු හිසකෙස් සහ දාර හැසිරවීම සහිත වේගවත් පුද්ගල කටවුට් සඳහා පෝට්රේට් මැටිං ආකෘතිය.</string>
+    <string name="model_zero_dcepp">Zero-DCE++ වක්‍ර ඇස්තමේන්තුව භාවිතයෙන් වේගවත් අඩු ආලෝකය වැඩි දියුණු කිරීම.</string>
+    <string name="model_restormer_deraining">වැසි ඉරි සහ තෙත් කාලගුණ කෞතුක වස්තු අඩු කිරීම සඳහා ප්‍රතිස්ථාපන රූප ප්‍රතිසාධන ආකෘතිය.</string>
+    <string name="model_uvdoc_grid">ඛණ්ඩාංක ජාලයක් පුරෝකථනය කරන සහ වක්‍ර පිටු පැතලි ස්කෑන් එකකට නැවත සකස් කරන ලේඛන ඉවත් කිරීමේ ආකෘතිය.</string>
 </resources>

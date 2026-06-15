@@ -3170,4 +3170,10 @@
     <string name="help_tip_wallpaper_export_step_2">Pasirinkite norimus išsaugoti, kopijuoti arba bendrinti galimus pagrindinio ekrano, užrakto arba įtaisytuosius ekrano fono įrašus.</string>
     <string name="help_tip_wallpaper_export_step_3">Jei trūksta ekrano fono arba funkcija nepasiekiama, tai dažniausiai yra sistemos, leidimo arba versijos varianto apribojimas, o ne redagavimo nustatymas.</string>
     <string name="shape_by_interaction_throttle">Corners Animacija Droselis</string>
+    <string name="copy_color_as">Kopijuoti spalvą kaip</string>
+    <string name="hex_and_name">HEX + vardas</string>
+    <string name="model_modnet">Portretinis matinis modelis greitam žmonių iškirpimui su švelnesniais plaukais ir kraštų valdymu.</string>
+    <string name="model_zero_dcepp">Greitas pagerinimas esant silpnam apšvietimui naudojant Zero-DCE++ kreivės įvertinimą.</string>
+    <string name="model_restormer_deraining">Restormer vaizdo atkūrimo modelis, skirtas sumažinti lietaus juosteles ir šlapio oro artefaktus.</string>
+    <string name="model_uvdoc_grid">Dokumentuokite iškreiptą modelį, kuris numato koordinačių tinklelį ir perskirsto išlenktus puslapius į plokštesnį nuskaitymą.</string>
 </resources>

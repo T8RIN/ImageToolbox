@@ -3168,4 +3168,10 @@
     <string name="help_tip_wallpaper_export_step_2">Изаберите доступне ставке Почетна, Закључај или уграђене позадине које желите да сачувате, копирате или делите.</string>
     <string name="help_tip_wallpaper_export_step_3">Ако позадина недостаје или је функција недоступна, то је обично ограничење система, дозволе или варијанте израде, а не поставка за уређивање.</string>
     <string name="shape_by_interaction_throttle">Цорнерс Аниматион Тхроттле</string>
+    <string name="copy_color_as">Копирај боју као</string>
+    <string name="hex_and_name">ХЕКС + име</string>
+    <string name="model_modnet">Портретни модел подлоге за брзо сечење лица са мекшом косом и руковањем ивицама.</string>
+    <string name="model_zero_dcepp">Брзо побољшање при слабом осветљењу помоћу процене криве Зеро-ДЦЕ++.</string>
+    <string name="model_restormer_deraining">Рестормер модел рестаурације слике за смањење трагова кише и артефаката по влажном времену.</string>
+    <string name="model_uvdoc_grid">Модел одмотавања документа који предвиђа координатну мрежу и пресликава закривљене странице у равније скенирање.</string>
 </resources>

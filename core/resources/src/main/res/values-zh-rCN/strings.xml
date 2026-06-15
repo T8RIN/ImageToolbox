@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">选择要保存、复制或共享的可用主页、锁定或内置壁纸条目。</string>
     <string name="help_tip_wallpaper_export_step_3">如果壁纸丢失或功能不可用，这通常是系统、权限或构建变体限制，而不是编辑设置。</string>
     <string name="shape_by_interaction_throttle">边角动画节流</string>
+    <string name="copy_color_as">将颜色复制为</string>
+    <string name="hex_and_name">十六进制 + 名称</string>
+    <string name="model_modnet">肖像抠图模型，用于快速人物剪裁，具有更柔软的头发和边缘处理。</string>
+    <string name="model_zero_dcepp">使用零 DCE++ 曲线估计进行快速低光增强。</string>
+    <string name="model_restormer_deraining">用于减少雨纹和潮湿天气伪影的 Restormer 图像恢复模型。</string>
+    <string name="model_uvdoc_grid">文档反扭曲模型可预测坐标网格并将弯曲页面重新映射为更平坦的扫描。</string>
 </resources>

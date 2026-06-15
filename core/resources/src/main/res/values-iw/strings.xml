@@ -3170,4 +3170,10 @@
     <string name="help_tip_wallpaper_export_step_2">בחר את ערכי הבית, הנעילה או הטפטים המובנים הזמינים שברצונך לשמור, להעתיק או לשתף.</string>
     <string name="help_tip_wallpaper_export_step_3">אם חסר טפט או שהתכונה אינה זמינה, לרוב מדובר במגבלה של מערכת, הרשאה או גרסת בנייה ולא הגדרת עריכה.</string>
     <string name="shape_by_interaction_throttle">מצערת אנימציה של פינות</string>
+    <string name="copy_color_as">העתק צבע בשם</string>
+    <string name="hex_and_name">HEX + שם</string>
+    <string name="model_modnet">דגם מחצלת פורטרט לגזרות מהירות של אדם עם שיער רך יותר וטיפול בקצוות.</string>
+    <string name="model_zero_dcepp">שיפור מהיר בתאורה נמוכה באמצעות הערכת עקומת Zero-DCE++.</string>
+    <string name="model_restormer_deraining">דגם שחזור תמונה של רסטורמר להפחתת פסי גשם וחפצים במזג אוויר רטוב.</string>
+    <string name="model_uvdoc_grid">מודל ביטול עיוות מסמך המחזה רשת קואורדינטות וממפה מחדש דפים מעוקלים לסריקה שטוחה יותר.</string>
 </resources>

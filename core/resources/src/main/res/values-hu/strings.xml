@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Válassza ki a menteni, másolni vagy megosztani kívánt elérhető kezdőlap, zárolás vagy beépített háttérkép bejegyzéseket.</string>
     <string name="help_tip_wallpaper_export_step_3">Ha egy háttérkép hiányzik, vagy a funkció nem érhető el, az általában rendszer-, engedély- vagy build-változat-korlátozás, nem pedig szerkesztési beállítás.</string>
     <string name="shape_by_interaction_throttle">Corners Animációs Fojtószelep</string>
+    <string name="copy_color_as">Szín másolása mint</string>
+    <string name="hex_and_name">HEX + név</string>
+    <string name="model_modnet">Portré szőnyeg modell a gyors személykivágásokhoz puhább hajjal és élkezeléssel.</string>
+    <string name="model_zero_dcepp">Gyors javítás gyenge fényviszonyok mellett a Zero-DCE++ görbebecsléssel.</string>
+    <string name="model_restormer_deraining">Restormer kép-helyreállítási modell az esőcsíkok és a nedves időjárási műtermékek csökkentésére.</string>
+    <string name="model_uvdoc_grid">Dokumentáljon görbületmentesítő modellt, amely előrejelzi a koordinátarácsot, és az ívelt oldalakat laposabb szkenneléssé alakítja át.</string>
 </resources>

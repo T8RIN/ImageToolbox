@@ -3169,4 +3169,10 @@
     <string name="help_tip_wallpaper_export_step_2">Vyberte dostupné položky Plocha, Zámek nebo vestavěné tapety, které chcete uložit, zkopírovat nebo sdílet.</string>
     <string name="help_tip_wallpaper_export_step_3">Pokud tapeta chybí nebo je funkce nedostupná, je to obvykle omezení systému, oprávnění nebo varianty sestavení, nikoli nastavení úprav.</string>
     <string name="shape_by_interaction_throttle">Rohy animace plynu</string>
+    <string name="copy_color_as">Kopírovat barvu jako</string>
+    <string name="hex_and_name">HEX + jméno</string>
+    <string name="model_modnet">Portrétní model rohože pro rychlé výřezy osob s měkčími vlasy a manipulací s okraji.</string>
+    <string name="model_zero_dcepp">Rychlé vylepšení při slabém osvětlení pomocí odhadu křivky Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Restormer model obnovy obrazu pro snížení dešťových pruhů a artefaktů za vlhkého počasí.</string>
+    <string name="model_uvdoc_grid">Model nedeformování dokumentu, který předpovídá souřadnicovou mřížku a přemapuje zakřivené stránky na plošší sken.</string>
 </resources>

@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Valitse käytettävissä olevat Koti-, Lukitus- tai sisäänrakennetut taustakuvat, jotka haluat tallentaa, kopioida tai jakaa.</string>
     <string name="help_tip_wallpaper_export_step_3">Jos taustakuva puuttuu tai ominaisuus ei ole käytettävissä, se on yleensä järjestelmän, luvan tai koontiversion rajoitus eikä muokkausasetus.</string>
     <string name="shape_by_interaction_throttle">Corners Animaatio Kaasu</string>
+    <string name="copy_color_as">Kopioi väri muodossa</string>
+    <string name="hex_and_name">HEX + nimi</string>
+    <string name="model_modnet">Muotokuva mattamalli nopeaan henkilöleikkaukseen pehmeämmällä hiuksilla ja reunojen käsittelyllä.</string>
+    <string name="model_zero_dcepp">Nopea parannus hämärässä Zero-DCE++ käyräestimaatiolla.</string>
+    <string name="model_restormer_deraining">Restormer-kuvanpalautusmalli saderaitojen ja märän sään esineiden vähentämiseen.</string>
+    <string name="model_uvdoc_grid">Dokumentoi vääristymätön malli, joka ennustaa koordinaattiruudukon ja muokkaa kaarevat sivut tasaisemmiksi skannauksiksi.</string>
 </resources>

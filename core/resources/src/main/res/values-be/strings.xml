@@ -3169,4 +3169,10 @@
     <string name="help_tip_wallpaper_export_step_2">Выберыце даступныя запісы Home, Lock або ўбудаваныя шпалеры, якія вы хочаце захаваць, скапіяваць або абагуліць.</string>
     <string name="help_tip_wallpaper_export_step_3">Калі шпалеры адсутнічаюць або функцыя недаступная, гэта звычайна абмежаванне сістэмы, дазволу або варыянту зборкі, а не налада рэдагавання.</string>
     <string name="shape_by_interaction_throttle">Куты Анімацыя Дросель</string>
+    <string name="copy_color_as">Капіраваць колер як</string>
+    <string name="hex_and_name">HEX + імя</string>
+    <string name="model_modnet">Мадэль партрэтнага цыноўкі для хуткага стрыжкі асобы з больш мяккімі валасамі і апрацоўкай краёў.</string>
+    <string name="model_zero_dcepp">Хуткае паляпшэнне пры слабым асвятленні з дапамогай ацэнкі крывой Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Мадэль аднаўлення выявы Restormer для памяншэння палос ад дажджу і артэфактаў вільготнага надвор\'я.</string>
+    <string name="model_uvdoc_grid">Мадэль дэфармацыі дакумента, якая прагназуе каардынатную сетку і пераназначае выгнутыя старонкі ў больш плоскае сканаванне.</string>
 </resources>

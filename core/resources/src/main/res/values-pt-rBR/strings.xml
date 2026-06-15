@@ -3167,4 +3167,10 @@
     <string name="help_tip_wallpaper_export_step_2">Selecione as entradas disponíveis de Início, Bloqueio ou papel de parede integrado que deseja salvar, copiar ou compartilhar.</string>
     <string name="help_tip_wallpaper_export_step_3">Se um papel de parede estiver faltando ou o recurso não estiver disponível, geralmente é uma limitação do sistema, permissão ou variante de construção, em vez de uma configuração de edição.</string>
     <string name="shape_by_interaction_throttle">Acelerador de animação de cantos</string>
+    <string name="copy_color_as">Copiar cor como</string>
+    <string name="hex_and_name">HEX + nome</string>
+    <string name="model_modnet">Modelo de fosqueamento retrato para recortes rápidos de pessoas com cabelos mais macios e manuseio de bordas.</string>
+    <string name="model_zero_dcepp">Aprimoramento rápido em condições de pouca luz usando estimativa de curva Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Modelo de restauração de imagem Restormer para reduzir riscos de chuva e artefatos de clima úmido.</string>
+    <string name="model_uvdoc_grid">Modelo de documento sem distorções que prevê uma grade de coordenadas e remapeia páginas curvas em uma digitalização mais plana.</string>
 </resources>

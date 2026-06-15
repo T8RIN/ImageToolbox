@@ -3170,4 +3170,10 @@
     <string name="help_tip_wallpaper_export_step_2">Wybierz dostępne wpisy ekranu głównego, blokady lub wbudowanej tapety, które chcesz zapisać, skopiować lub udostępnić.</string>
     <string name="help_tip_wallpaper_export_step_3">Jeśli brakuje tapety lub funkcja jest niedostępna, jest to zwykle ograniczenie systemu, uprawnień lub wariantu kompilacji, a nie ustawienie edycji.</string>
     <string name="shape_by_interaction_throttle">Przepustnica animacji zakrętów</string>
+    <string name="copy_color_as">Skopiuj kolor jako</string>
+    <string name="hex_and_name">HEX + nazwa</string>
+    <string name="model_modnet">Model matowy do portretów do szybkich wycinanek, z delikatniejszymi włosami i lepszymi krawędziami.</string>
+    <string name="model_zero_dcepp">Szybka poprawa przy słabym oświetleniu za pomocą estymacji krzywej Zero-DCE++.</string>
+    <string name="model_restormer_deraining">Model przywracania obrazu Restormer w celu ograniczenia smug deszczu i artefaktów spowodowanych deszczową pogodą.</string>
+    <string name="model_uvdoc_grid">Model usuwania wypaczeń dokumentu, który przewiduje siatkę współrzędnych i przekształca zakrzywione strony w bardziej płaski skan.</string>
 </resources>
