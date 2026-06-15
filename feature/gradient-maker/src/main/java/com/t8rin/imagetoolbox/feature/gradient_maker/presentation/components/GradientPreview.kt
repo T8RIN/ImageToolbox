@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.zIndex
@@ -50,7 +51,8 @@ internal fun GradientPreview(
     gradientSize: IntegerSize,
     onSizeChanged: (Size) -> Unit,
     imageAspectRatio: Float,
-    selectedUri: Uri
+    selectedUri: Uri,
+    shape: Shape = MaterialTheme.shapes.medium
 ) {
     val alpha by animateFloatAsState(
         if (brush == null) 1f
@@ -71,7 +73,7 @@ internal fun GradientPreview(
             Box(
                 modifier = Modifier
                     .aspectRatio(aspectRatio)
-                    .clip(MaterialTheme.shapes.medium)
+                    .clip(shape)
                     .then(
                         if (allowPickingImage != true) {
                             Modifier.transparencyChecker()
@@ -104,7 +106,7 @@ internal fun GradientPreview(
                 Picture(
                     model = selectedUri,
                     modifier = Modifier.matchParentSize(),
-                    shape = MaterialTheme.shapes.medium
+                    shape = shape
                 )
             }
         }

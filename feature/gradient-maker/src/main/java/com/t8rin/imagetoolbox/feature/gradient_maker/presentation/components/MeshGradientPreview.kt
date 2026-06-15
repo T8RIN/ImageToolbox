@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.zIndex
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
@@ -42,7 +43,8 @@ internal fun MeshGradientPreview(
     allowPickingImage: Boolean?,
     gradientSize: IntegerSize,
     imageAspectRatio: Float,
-    selectedUri: Uri
+    selectedUri: Uri,
+    shape: Shape = MaterialTheme.shapes.medium
 ) {
     val alpha by animateFloatAsState(gradientAlpha)
     AnimatedContent(
@@ -59,7 +61,7 @@ internal fun MeshGradientPreview(
             Spacer(
                 modifier = Modifier
                     .aspectRatio(aspectRatio)
-                    .clip(MaterialTheme.shapes.medium)
+                    .clip(shape)
                     .then(
                         if (allowPickingImage != true) {
                             Modifier.transparencyChecker()
@@ -77,7 +79,7 @@ internal fun MeshGradientPreview(
                 Picture(
                     model = selectedUri,
                     modifier = Modifier.matchParentSize(),
-                    shape = MaterialTheme.shapes.medium,
+                    shape = shape,
                     size = 1500
                 )
             }
