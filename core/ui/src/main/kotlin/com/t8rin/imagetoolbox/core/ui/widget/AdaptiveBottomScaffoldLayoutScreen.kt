@@ -263,7 +263,8 @@ fun AdaptiveBottomScaffoldLayoutScreen(
 
     val isExpanded by remember {
         derivedStateOf {
-            scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded
+            scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded ||
+                    scaffoldState.bottomSheetState.targetValue == SheetValue.Expanded
         }
     }
     val scope = rememberCoroutineScope()

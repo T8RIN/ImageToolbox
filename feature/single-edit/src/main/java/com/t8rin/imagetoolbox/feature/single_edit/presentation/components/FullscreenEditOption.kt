@@ -146,10 +146,10 @@ fun FullscreenEditOption(
         val bottomSheetScope = rememberCoroutineScope()
         val isExpanded by remember {
             derivedStateOf {
-                scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded
+                scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded ||
+                        scaffoldState.bottomSheetState.targetValue == SheetValue.Expanded
             }
         }
-
         val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
         val scale = (1f - animatedPredictiveBackProgress).coerceAtLeast(0.75f)
 
