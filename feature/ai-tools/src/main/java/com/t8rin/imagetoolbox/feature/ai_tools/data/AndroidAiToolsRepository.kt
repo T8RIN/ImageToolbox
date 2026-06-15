@@ -461,7 +461,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 if (watermarkFile != null) files + watermarkFile else files
             )
         }.mapNotNull {
-            val name = it.name.makeLog("COCK")
+            val name = it.name
 
             if (name.isNullOrEmpty() || it.length() <= 0) return@mapNotNull null
 
