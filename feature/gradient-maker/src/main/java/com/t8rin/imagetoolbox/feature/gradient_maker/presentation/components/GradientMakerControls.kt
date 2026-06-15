@@ -109,7 +109,8 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .padding(16.dp)
+                        .padding(16.dp),
+                    colorPickerBitmap = component.colorPickerBitmap
                 )
             }
             Spacer(Modifier.height(8.dp))
@@ -158,7 +159,8 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                 colorStops = component.colorStops,
                 onRemoveClick = component::removeColorStop,
                 onValueChange = component::updateColorStop,
-                onAddColorStop = component::addColorStop
+                onAddColorStop = component::addColorStop,
+                colorPickerBitmap = component.colorPickerBitmap
             )
             Spacer(Modifier.height(8.dp))
             TileModeSelector(

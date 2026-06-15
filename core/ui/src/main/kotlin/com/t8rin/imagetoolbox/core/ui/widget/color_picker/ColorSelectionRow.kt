@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -51,6 +50,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Block
 import com.t8rin.imagetoolbox.core.resources.icons.Done
 import com.t8rin.imagetoolbox.core.resources.icons.Error
@@ -80,7 +80,8 @@ fun ColorSelectionRow(
     value: Color?,
     onValueChange: (Color) -> Unit,
     contentPadding: PaddingValues = PaddingValues(),
-    onNullClick: (() -> Unit)? = null
+    onNullClick: (() -> Unit)? = null,
+    allowCustom: Boolean = true
 ) {
     val context = LocalContext.current
     var customColor by remember { mutableStateOf<Color?>(null) }
@@ -163,76 +164,78 @@ fun ColorSelectionRow(
                     }
                 }
             }
-            item {
-                val background = customColor ?: MaterialTheme.colorScheme.primary
-                val isSelected = customColor != null
-                val interactionSource = remember { MutableInteractionSource() }
-                val shape = shapeByInteraction(
-                    shape = if (isSelected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),
-                    pressedShape = ShapeDefaults.pressed,
-                    interactionSource = interactionSource
-                )
-
-                Box(
-                    modifier = Modifier
-                        .height(itemSize)
-                        .aspectRatio(
-                            ratio = animateFloatAsState(
-                                targetValue = if (isSelected) 1.5f else 1f,
-                                animationSpec = tween(400)
-                            ).value,
-                            matchHeightConstraintsFirst = true
-                        )
-                        .container(
-                            shape = shape,
-                            color = background,
-                            resultPadding = 0.dp
-                        )
-                        .transparencyChecker()
-                        .background(background, shape)
-                        .hapticsCombinedClickable(
-                            indication = LocalIndication.current,
-                            interactionSource = interactionSource,
-                            onLongClick = {
-                                context.pasteColorFromClipboard(
-                                    onPastedColor = {
-                                        val color = if (allowAlpha) it else it.copy(1f)
-
-                                        onValueChange(color)
-                                        customColor = color
-                                    },
-                                    onPastedColorFailure = { message ->
-                                        AppToastHost.showToast(
-                                            message = message,
-                                            icon = Icons.Outlined.Error
-                                        )
-                                    }
-                                )
-                            },
-                            onClick = {
-                                showColorPicker = true
-                            }
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Palette,
-                        contentDescription = null,
-                        tint = background.inverse(
-                            fraction = {
-                                if (it) 0.8f
-                                else 0.5f
-                            },
-                            darkMode = background.luminance() < 0.3f
-                        ),
-                        modifier = Modifier
-                            .size(32.dp)
-                            .background(
-                                color = background.copy(alpha = 1f),
-                                shape = shape
-                            )
-                            .padding(4.dp)
+            if (allowCustom) {
+                item {
+                    val background = customColor ?: MaterialTheme.colorScheme.primary
+                    val isSelected = customColor != null
+                    val interactionSource = remember { MutableInteractionSource() }
+                    val shape = shapeByInteraction(
+                        shape = if (isSelected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),
+                        pressedShape = ShapeDefaults.pressed,
+                        interactionSource = interactionSource
                     )
+
+                    Box(
+                        modifier = Modifier
+                            .height(itemSize)
+                            .aspectRatio(
+                                ratio = animateFloatAsState(
+                                    targetValue = if (isSelected) 1.5f else 1f,
+                                    animationSpec = tween(400)
+                                ).value,
+                                matchHeightConstraintsFirst = true
+                            )
+                            .container(
+                                shape = shape,
+                                color = background,
+                                resultPadding = 0.dp
+                            )
+                            .transparencyChecker()
+                            .background(background, shape)
+                            .hapticsCombinedClickable(
+                                indication = LocalIndication.current,
+                                interactionSource = interactionSource,
+                                onLongClick = {
+                                    context.pasteColorFromClipboard(
+                                        onPastedColor = {
+                                            val color = if (allowAlpha) it else it.copy(1f)
+
+                                            onValueChange(color)
+                                            customColor = color
+                                        },
+                                        onPastedColorFailure = { message ->
+                                            AppToastHost.showToast(
+                                                message = message,
+                                                icon = Icons.Outlined.Error
+                                            )
+                                        }
+                                    )
+                                },
+                                onClick = {
+                                    showColorPicker = true
+                                }
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Palette,
+                            contentDescription = null,
+                            tint = background.inverse(
+                                fraction = {
+                                    if (it) 0.8f
+                                    else 0.5f
+                                },
+                                darkMode = background.luminance() < 0.3f
+                            ),
+                            modifier = Modifier
+                                .size(32.dp)
+                                .background(
+                                    color = background.copy(alpha = 1f),
+                                    shape = shape
+                                )
+                                .padding(4.dp)
+                        )
+                    }
                 }
             }
             items(

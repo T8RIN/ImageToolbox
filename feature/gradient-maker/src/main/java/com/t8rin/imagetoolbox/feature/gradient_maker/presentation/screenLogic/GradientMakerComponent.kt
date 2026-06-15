@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
+import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -75,6 +76,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
+    private val imageScaler: ImageScaler<Bitmap>,
     private val gradientMaker: GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -118,6 +120,9 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     private val _selectedUri = mutableStateOf(Uri.EMPTY)
     val selectedUri: Uri by _selectedUri
+
+    private val _colorPickerBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val colorPickerBitmap: Bitmap? by _colorPickerBitmap
 
     private val _uris = mutableStateOf(emptyList<Uri>())
     val uris by _uris
@@ -410,11 +415,15 @@ class GradientMakerComponent @AssistedInject internal constructor(
     fun updateSelectedUri(uri: Uri) {
         componentScope.launch {
             _selectedUri.value = uri
+            _colorPickerBitmap.value = null
             _isImageLoading.value = true
             imageGetter.getImageAsync(
                 uri = uri.toString(),
                 originalSize = false,
                 onGetImage = { imageData ->
+                    launch {
+                        _colorPickerBitmap.value = imageScaler.scaleUntilCanShow(imageData.image)
+                    }
                     _imageAspectRatio.update {
                         imageData.image.safeAspectRatio
                     }
@@ -436,6 +445,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     override fun resetState() {
         _selectedUri.update { Uri.EMPTY }
+        _colorPickerBitmap.value = null
         _uris.update { emptyList() }
         _gradientAlpha.update { 1f }
         _gradientState = UiGradientState()
@@ -449,10 +459,16 @@ class GradientMakerComponent @AssistedInject internal constructor(
     ) = componentScope.launch {
         if (selectedUri == removedUri) {
             val index = uris.indexOf(removedUri)
-            if (index == 0) {
-                uris.getOrNull(1)?.let(::updateSelectedUri)
+            val replacementUri = if (index == 0) {
+                uris.getOrNull(1)
             } else {
-                uris.getOrNull(index - 1)?.let(::updateSelectedUri)
+                uris.getOrNull(index - 1)
+            }
+            if (replacementUri != null) {
+                updateSelectedUri(replacementUri)
+            } else {
+                _selectedUri.value = Uri.EMPTY
+                _colorPickerBitmap.value = null
             }
         }
         _uris.update {

@@ -90,8 +90,8 @@ fun PickColorFromImageSheet(
     }
 
     EnhancedZoomableModalBottomSheet(
-        visible,
-        onDismiss,
+        visible = visible,
+        onDismiss = onDismiss,
         confirmButton = {
             PanModeButton(
                 selected = panEnabled,

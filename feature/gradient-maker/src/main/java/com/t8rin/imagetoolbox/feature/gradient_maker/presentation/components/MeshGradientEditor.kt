@@ -17,11 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.ui.theme.inverseByLuma
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorPickerSheet
@@ -54,7 +55,8 @@ import kotlin.math.sqrt
 @Composable
 internal fun MeshGradientEditor(
     state: UiMeshGradientState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    colorPickerBitmap: Bitmap? = null
 ) {
     val selectedPoint = rememberSaveable(
         stateSaver = PairOffsetColorSaver
@@ -193,9 +195,16 @@ internal fun MeshGradientEditor(
             onColorSelected = { newColor ->
                 selectedPoint.value?.let { (offset) ->
                     state.updatePointColor(offset, newColor)
+                    selectedPoint.value = offset to newColor
                 }
             },
-            allowAlpha = true
+            allowAlpha = true,
+            additionalContent = { onColorChange ->
+                GradientMakerColorPickerAdditionalContent(
+                    bitmap = colorPickerBitmap,
+                    onColorChange = onColorChange
+                )
+            }
         )
     }
 }

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,8 +29,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,17 +44,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorInfo
-import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelection
+import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorPickerSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -65,7 +63,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.RevealValue
 import com.t8rin.imagetoolbox.core.ui.widget.other.SwipeToReveal
 import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
-import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueDialog
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueText
@@ -77,7 +74,8 @@ fun ColorStopSelection(
     colorStops: List<Pair<Float, Color>>,
     onRemoveClick: (Int) -> Unit,
     onValueChange: (Int, Pair<Float, Color>) -> Unit,
-    onAddColorStop: (Pair<Float, Color>) -> Unit
+    onAddColorStop: (Pair<Float, Color>) -> Unit,
+    colorPickerBitmap: Bitmap?
 ) {
     var showColorPicker by rememberSaveable { mutableStateOf(false) }
 
@@ -105,7 +103,8 @@ fun ColorStopSelection(
                         onValueChange = {
                             onValueChange(index, it)
                         },
-                        canDelete = colorStops.size > 2
+                        canDelete = colorStops.size > 2,
+                        colorPickerBitmap = colorPickerBitmap
                     )
                 }
                 EnhancedButton(
@@ -131,42 +130,20 @@ fun ColorStopSelection(
     var color by rememberSaveable(stateSaver = ColorSaver) {
         mutableStateOf(Color.Red)
     }
-    EnhancedModalBottomSheet(
-        sheetContent = {
-            Box {
-                Column(
-                    Modifier
-                        .enhancedVerticalScroll(rememberScrollState())
-                        .padding(start = 36.dp, top = 36.dp, end = 36.dp, bottom = 24.dp)
-                ) {
-                    ColorSelection(
-                        value = color,
-                        onValueChange = { color = it },
-                        withAlpha = true
-                    )
-                }
-            }
-        },
+    ColorPickerSheet(
         visible = showColorPicker,
-        onDismiss = {
-            showColorPicker = it
+        onDismiss = { showColorPicker = false },
+        color = color,
+        onColorSelected = {
+            color = it
+            onAddColorStop(1f to it)
         },
-        title = {
-            TitleItem(
-                text = stringResource(R.string.color),
-                icon = Icons.Rounded.Palette
+        allowAlpha = true,
+        additionalContent = { onColorChange ->
+            GradientMakerColorPickerAdditionalContent(
+                bitmap = colorPickerBitmap,
+                onColorChange = onColorChange
             )
-        },
-        confirmButton = {
-            EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    onAddColorStop(1f to color)
-                    showColorPicker = false
-                }
-            ) {
-                AutoSizeText(stringResource(R.string.ok))
-            }
         }
     )
 }
@@ -177,7 +154,8 @@ private fun ColorStopSelectionItem(
     color: Color,
     onRemoveClick: () -> Unit,
     onValueChange: (Pair<Float, Color>) -> Unit,
-    canDelete: Boolean
+    canDelete: Boolean,
+    colorPickerBitmap: Bitmap?
 ) {
     var showColorPicker by rememberSaveable { mutableStateOf(false) }
 
@@ -289,43 +267,19 @@ private fun ColorStopSelectionItem(
         }
     )
 
-    EnhancedModalBottomSheet(
-        sheetContent = {
-            Box {
-                Column(
-                    Modifier
-                        .enhancedVerticalScroll(rememberScrollState())
-                        .padding(start = 36.dp, top = 36.dp, end = 36.dp, bottom = 24.dp)
-                ) {
-                    ColorSelection(
-                        value = color,
-                        onValueChange = {
-                            onValueChange(value to it)
-                        },
-                        withAlpha = true
-                    )
-                }
-            }
-        },
+    ColorPickerSheet(
         visible = showColorPicker,
-        onDismiss = {
-            showColorPicker = it
+        onDismiss = { showColorPicker = false },
+        color = color,
+        onColorSelected = {
+            onValueChange(value to it)
         },
-        title = {
-            TitleItem(
-                text = stringResource(R.string.color),
-                icon = Icons.Rounded.Palette
+        allowAlpha = true,
+        additionalContent = { onColorChange ->
+            GradientMakerColorPickerAdditionalContent(
+                bitmap = colorPickerBitmap,
+                onColorChange = onColorChange
             )
-        },
-        confirmButton = {
-            EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    showColorPicker = false
-                }
-            ) {
-                AutoSizeText(stringResource(R.string.close))
-            }
         }
     )
 }
