@@ -707,7 +707,7 @@ internal class AndroidSettingsManager @Inject constructor(
             }
 
             PerformanceClass.Average -> {
-                it[USE_ANIMATED_EMOJIS] = false
+                it[USE_ANIMATED_EMOJIS] = true
                 it[CONFETTI_ENABLED] = true
                 it[DRAW_BUTTON_SHADOWS] = false
                 it[DRAW_SWITCH_SHADOWS] = true
