@@ -84,6 +84,7 @@ fun FreeCornersCropper(
     handlesSize: Dp = 8.dp,
     frameStrokeWidth: Dp = 1.2.dp,
     coercePointsToImageArea: Boolean = true,
+    onZoomChange: (Float) -> Unit = {},
     overlayColor: Color = Color.Black.copy(0.5f),
     contentPadding: PaddingValues = PaddingValues(24.dp),
     containerModifier: Modifier = Modifier,
@@ -122,7 +123,8 @@ fun FreeCornersCropper(
                 coercePointsToImageArea = coercePointsToImageArea,
                 handlesSize = handlesSize,
                 frameStrokeWidth = frameStrokeWidth,
-                overlayColor = overlayColor
+                overlayColor = overlayColor,
+                onZoomChange = onZoomChange
             )
         }
     }
@@ -137,6 +139,7 @@ fun FreeCornersCropper(
     showMagnifier: Boolean = true,
     handlesSize: Dp = 8.dp,
     frameStrokeWidth: Dp = 1.2.dp,
+    onZoomChange: (Float) -> Unit = {},
     coercePointsToImageArea: Boolean = true,
     overlayColor: Color = Color.Black.copy(0.5f),
     contentPadding: PaddingValues = PaddingValues(24.dp)
@@ -168,6 +171,10 @@ fun FreeCornersCropper(
 
     var magnifierCenter by remember { mutableStateOf(Offset.Unspecified) }
 
+    val zoomState = rememberZoomState(maxScale = 20f)
+
+    onZoomChange(zoomState.scale)
+
     ImageWithConstraints(
         modifier = modifier
             .clipToBounds()
@@ -178,7 +185,7 @@ fun FreeCornersCropper(
                 drawRect(overlayColor)
             }
             .zoomable(
-                zoomState = rememberZoomState(maxScale = 10f),
+                zoomState = zoomState,
                 zoomEnabled = globalTouchPointersCount >= 2
             ),
         imageBitmap = imageBitmap,

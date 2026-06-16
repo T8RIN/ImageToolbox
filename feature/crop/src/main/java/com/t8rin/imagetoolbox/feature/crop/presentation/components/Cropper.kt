@@ -24,12 +24,14 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.plus
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.union
 import androidx.compose.material3.MaterialTheme
@@ -80,48 +82,67 @@ fun Cropper(
     LaunchedEffect(crop) {
         if (crop) onImageCropStarted()
     }
+
+    val settingsState = LocalSettingsState.current
+
     AnimatedContent(
         targetState = cropType,
         transitionSpec = { fadeIn() togetherWith fadeOut() }
     ) { type ->
         when (type) {
             CropType.Default -> {
-                val scope = rememberCoroutineScope()
-                AdvancedCropper(
-                    imageModel = bitmap,
-                    aspectRatio = if (cropProperties.aspectRatio != AspectRatio.Original) {
-                        cropProperties.aspectRatio.value
-                    } else null,
-                    modifier = Modifier.transparencyChecker(),
-                    containerModifier = Modifier.fillMaxSize(),
-                    croppingTrigger = crop,
-                    onCropped = {
-                        scope.launch {
-                            BitmapFactory.decodeFile(it.toFile().absolutePath)
-                                .apply(onImageCropFinished)
-                        }
-                    },
-                    sliderConfig = remember {
-                        HorizontalWheelSliderConfig(
-                            mirrorIcon = Icons.Outlined.Flip,
-                            rotate90Icon = Icons.Outlined.Rotate90Ccw
-                        )
-                    },
-                    isOverlayDraggable = true,
-                    rotationAngleState = rotationState,
-                    onLoadingStateChange = {
-                        if (it) {
-                            onImageCropStarted()
-                        } else {
-                            rotationState.floatValue = 0f
-                            onImageCropFinished(null)
-                        }
-                    },
-                    contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout).let {
-                        if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-                        else it.only(WindowInsetsSides.Horizontal)
-                    }.asPaddingValues()
-                )
+                Box {
+                    val scope = rememberCoroutineScope()
+                    var zoomLevel by remember {
+                        mutableFloatStateOf(1f)
+                    }
+
+                    AdvancedCropper(
+                        imageModel = bitmap,
+                        aspectRatio = if (cropProperties.aspectRatio != AspectRatio.Original) {
+                            cropProperties.aspectRatio.value
+                        } else null,
+                        modifier = Modifier.transparencyChecker(),
+                        containerModifier = Modifier.fillMaxSize(),
+                        croppingTrigger = crop,
+                        onCropped = {
+                            scope.launch {
+                                BitmapFactory.decodeFile(it.toFile().absolutePath)
+                                    .apply(onImageCropFinished)
+                            }
+                        },
+                        sliderConfig = remember {
+                            HorizontalWheelSliderConfig(
+                                mirrorIcon = Icons.Outlined.Flip,
+                                rotate90Icon = Icons.Outlined.Rotate90Ccw
+                            )
+                        },
+                        isOverlayDraggable = true,
+                        rotationAngleState = rotationState,
+                        onLoadingStateChange = {
+                            if (it) {
+                                onImageCropStarted()
+                            } else {
+                                rotationState.floatValue = 0f
+                                onImageCropFinished(null)
+                            }
+                        },
+                        onZoomChange = { newZoom ->
+                            zoomLevel = newZoom
+                        },
+                        contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout)
+                            .let {
+                                if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+                                else it.only(WindowInsetsSides.Horizontal)
+                            }.asPaddingValues() + PaddingValues(top = 16.dp),
+                        gridColor = MaterialTheme.colorScheme.primaryFixed.copy(0.5f),
+                        handlesColor = MaterialTheme.colorScheme.primaryFixed
+                    )
+                    ZoomBadge(
+                        zoomLevel = zoomLevel,
+                        modifier = Modifier.align(Alignment.TopStart),
+                    )
+                }
             }
 
             CropType.NoRotation -> {
@@ -136,9 +157,9 @@ fun Cropper(
                         }
                         val bmp = remember(bitmap) { bitmap.asImageBitmap() }
                         val minDimension = remember(cropProperties.handleSize) {
-                            val size = (cropProperties.handleSize * 3).roundToInt()
-
-                            IntSize(size, size)
+                            (cropProperties.handleSize * 3).roundToInt().let {
+                                IntSize(it, it)
+                            }
                         }
                         ImageCropper(
                             backgroundModifier = Modifier.transparencyChecker(),
@@ -146,12 +167,14 @@ fun Cropper(
                             contentDescription = null,
                             cropProperties = cropProperties.copy(
                                 fixedAspectRatio = fixedAspectRatio,
-                                minDimension = minDimension
+                                minDimension = minDimension,
+                                maxZoom = 20f
                             ),
                             onCropStart = onImageCropStarted,
                             crop = crop,
                             cropStyle = CropDefaults.style(
-                                overlayColor = MaterialTheme.colorScheme.surfaceVariant
+                                overlayColor = MaterialTheme.colorScheme.primaryFixed.copy(0.5f),
+                                handleColor = MaterialTheme.colorScheme.primaryFixed
                             ),
                             onZoomChange = { newZoom ->
                                 zoomLevel = newZoom
@@ -169,32 +192,42 @@ fun Cropper(
             }
 
             CropType.FreeCorners -> {
-                val settingsState = LocalSettingsState.current
-
-                FreeCornersCropper(
-                    bitmap = bitmap,
-                    croppingTrigger = crop,
-                    onCropped = {
-                        onImageCropFinished(it)
-                    },
-                    coercePointsToImageArea = coercePointsToImageArea,
-                    modifier = Modifier.transparencyChecker(),
-                    contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout)
-                        .let {
-                            if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-                            else it.only(WindowInsetsSides.Horizontal)
-                        }
-                        .union(
-                            WindowInsets(
-                                left = 16.dp,
-                                top = 16.dp,
-                                right = 16.dp,
-                                bottom = 16.dp
+                Box {
+                    var zoomLevel by remember {
+                        mutableFloatStateOf(1f)
+                    }
+                    FreeCornersCropper(
+                        bitmap = bitmap,
+                        croppingTrigger = crop,
+                        onCropped = {
+                            onImageCropFinished(it)
+                        },
+                        coercePointsToImageArea = coercePointsToImageArea,
+                        modifier = Modifier.transparencyChecker(),
+                        contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout)
+                            .let {
+                                if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+                                else it.only(WindowInsetsSides.Horizontal)
+                            }
+                            .union(
+                                WindowInsets(
+                                    left = 16.dp,
+                                    top = 32.dp,
+                                    right = 16.dp,
+                                    bottom = 32.dp
+                                )
                             )
-                        )
-                        .asPaddingValues(),
-                    showMagnifier = settingsState.magnifierEnabled
-                )
+                            .asPaddingValues(),
+                        onZoomChange = { newZoom ->
+                            zoomLevel = newZoom
+                        },
+                        showMagnifier = settingsState.magnifierEnabled
+                    )
+                    ZoomBadge(
+                        zoomLevel = zoomLevel,
+                        modifier = Modifier.align(Alignment.TopStart),
+                    )
+                }
             }
         }
     }
