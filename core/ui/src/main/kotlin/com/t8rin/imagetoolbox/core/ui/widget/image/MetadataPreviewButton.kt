@@ -294,4 +294,6 @@ private fun IntegerSize.formatResolution(): String? = takeIf {
 }?.run {
     val megapixels = width.toLong() * height / 1_000_000f
     "$width × $height • ${String.format(Locale.US, "%.1f", megapixels)} MP"
+}?.let {
+    if ("0.0" !in it) it else it.substringBeforeLast("•").trim()
 }
