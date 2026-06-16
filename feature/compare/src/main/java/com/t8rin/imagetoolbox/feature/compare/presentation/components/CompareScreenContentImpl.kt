@@ -114,7 +114,7 @@ internal fun CompareScreenContentImpl(
                                         uri = beforeData.uri,
                                         alignment = Alignment.TopStart,
                                         enabled = isLabelsEnabled,
-                                        shape = ShapeDefaults.default.only(
+                                        shape = ShapeDefaults.small.only(
                                             CornerSides.BottomEnd
                                         )
                                     )
@@ -128,7 +128,7 @@ internal fun CompareScreenContentImpl(
                                         uri = afterData.uri,
                                         alignment = Alignment.BottomEnd,
                                         enabled = isLabelsEnabled,
-                                        shape = ShapeDefaults.default.only(
+                                        shape = ShapeDefaults.small.only(
                                             CornerSides.TopStart
                                         )
                                     )
@@ -185,7 +185,7 @@ internal fun CompareScreenContentImpl(
                             uri = bitmapPair.first?.uri,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
-                            shape = ShapeDefaults.default.only(
+                            shape = ShapeDefaults.small.only(
                                 CornerSides.BottomEnd
                             )
                         )
@@ -193,7 +193,7 @@ internal fun CompareScreenContentImpl(
                             uri = bitmapPair.second?.uri,
                             alignment = Alignment.BottomStart,
                             enabled = isLabelsEnabled,
-                            shape = ShapeDefaults.default.only(
+                            shape = ShapeDefaults.small.only(
                                 CornerSides.TopEnd
                             )
                         )
@@ -230,7 +230,7 @@ internal fun CompareScreenContentImpl(
                             uri = bitmapPair.first?.uri,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
-                            shape = ShapeDefaults.default.only(
+                            shape = ShapeDefaults.small.only(
                                 CornerSides.BottomEnd
                             )
                         )
@@ -238,7 +238,7 @@ internal fun CompareScreenContentImpl(
                             uri = bitmapPair.second?.uri,
                             alignment = Alignment.TopEnd,
                             enabled = isLabelsEnabled,
-                            shape = ShapeDefaults.default.only(
+                            shape = ShapeDefaults.small.only(
                                 CornerSides.BottomStart
                             )
                         )
@@ -263,7 +263,7 @@ internal fun CompareScreenContentImpl(
                         Picture(
                             model = first,
                             contentDescription = null,
-                            contentScale = ContentScale.Inside,
+                            contentScale = ContentScale.Fit,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -271,7 +271,7 @@ internal fun CompareScreenContentImpl(
                         Picture(
                             model = second,
                             contentDescription = null,
-                            contentScale = ContentScale.Inside,
+                            contentScale = ContentScale.Fit,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -285,11 +285,11 @@ internal fun CompareScreenContentImpl(
                             else Alignment.TopStart,
                             enabled = isLabelsEnabled,
                             shape = if (showSecondImage) {
-                                ShapeDefaults.default.only(
+                                ShapeDefaults.small.only(
                                     CornerSides.TopStart
                                 )
                             } else {
-                                ShapeDefaults.default.only(
+                                ShapeDefaults.small.only(
                                     CornerSides.BottomEnd
                                 )
                             }
@@ -308,7 +308,7 @@ internal fun CompareScreenContentImpl(
                         Picture(
                             model = first,
                             contentDescription = null,
-                            contentScale = ContentScale.Inside,
+                            contentScale = ContentScale.Fit,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -316,7 +316,7 @@ internal fun CompareScreenContentImpl(
                         Picture(
                             model = second,
                             contentDescription = null,
-                            contentScale = ContentScale.Inside,
+                            contentScale = ContentScale.Fit,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .alpha(compareProgress / 100f)
@@ -329,7 +329,7 @@ internal fun CompareScreenContentImpl(
                             uri = bitmapPair.first?.uri,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
-                            shape = ShapeDefaults.default.only(
+                            shape = ShapeDefaults.small.only(
                                 CornerSides.BottomEnd
                             )
                         )
@@ -342,7 +342,7 @@ internal fun CompareScreenContentImpl(
                             modifier = Modifier.alpha(compareProgress / 100f),
                             alignment = Alignment.BottomEnd,
                             enabled = isLabelsEnabled,
-                            shape = ShapeDefaults.default.only(
+                            shape = ShapeDefaults.small.only(
                                 CornerSides.TopStart
                             )
                         )
@@ -395,7 +395,7 @@ internal fun CompareScreenContentImpl(
                                     isLoading = true
                                 },
                                 contentDescription = null,
-                                contentScale = ContentScale.Inside,
+                                contentScale = ContentScale.Fit,
                                 modifier = Modifier.fillMaxSize()
                             )
                         }

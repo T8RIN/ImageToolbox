@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 
 @Composable
@@ -41,6 +43,8 @@ internal fun BoxScope.CompareLabel(
     alignment: Alignment,
     enabled: Boolean,
     shape: Shape,
+    containerColor: Color = MaterialTheme.colorScheme.primaryContainerFixed.blend(Color.Black),
+    contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
     modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
@@ -52,12 +56,12 @@ internal fun BoxScope.CompareLabel(
                 ?: stringResource(R.string.filename),
             modifier = Modifier
                 .background(
-                    color = MaterialTheme.colorScheme.scrim.copy(0.4f),
+                    color = containerColor,
                     shape = shape
                 )
-                .padding(horizontal = 8.dp, vertical = 2.dp),
-            color = Color.White,
-            fontSize = 13.sp
+                .padding(horizontal = 8.dp, vertical = 4.dp),
+            style = MaterialTheme.typography.labelMedium,
+            color = contentColor
         )
     }
 }
