@@ -17,12 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Outlined.AutoFixHigh: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -181,6 +181,115 @@ val Icons.Rounded.AutoFixHigh: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             lineToRelative(1.33f, -1.331f)
             lineToRelative(1.359f, 1.36f)
             lineToRelative(-1.33f, 1.331f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.TwoTone.AutoFixHigh: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "TwoTone.AutoFixHigh",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+            moveTo(17.167f, 9.715f)
+            lineToRelative(0.001f, 0.001f)
+            lineToRelative(-2.727f, -2.728f)
+            curveToRelative(-0.193f, -0.183f, -0.434f, -0.28f, -0.684f, -0.28f)
+            reflectiveCurveToRelative(-0.492f, 0.096f, -0.684f, 0.28f)
+            lineTo(2.307f, 17.754f)
+            curveToRelative(-0.376f, 0.376f, -0.376f, 0.983f, 0f, 1.359f)
+            lineToRelative(2.727f, 2.728f)
+            curveToRelative(0.193f, 0.193f, 0.434f, 0.289f, 0.684f, 0.289f)
+            reflectiveCurveToRelative(0.492f, -0.096f, 0.684f, -0.28f)
+            lineToRelative(10.765f, -10.766f)
+            curveToRelative(0.376f, -0.376f, 0.376f, -0.993f, 0f, -1.369f)
+            close()
+            moveTo(5.719f, 19.807f)
+            lineToRelative(-1.359f, -1.359f)
+            lineToRelative(6.91f, -6.92f)
+            lineToRelative(1.359f, 1.359f)
+            lineToRelative(-6.91f, 6.92f)
+            close()
+            moveTo(13.987f, 11.528f)
+            lineToRelative(-1.359f, -1.359f)
+            lineToRelative(1.128f, -1.128f)
+            lineToRelative(1.359f, 1.359f)
+            lineToRelative(-1.128f, 1.128f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+            moveTo(19.895f, 7.093f)
+            lineToRelative(0.566f, -1.226f)
+            lineToRelative(1.225f, -0.567f)
+            curveToRelative(0.451f, -0.208f, 0.451f, -0.844f, 0f, -1.052f)
+            lineToRelative(-1.225f, -0.567f)
+            lineToRelative(-0.566f, -1.214f)
+            curveToRelative(-0.208f, -0.451f, -0.844f, -0.451f, -1.052f, 0f)
+            lineToRelative(-0.566f, 1.226f)
+            lineToRelative(-1.214f, 0.567f)
+            curveToRelative(-0.451f, 0.208f, -0.451f, 0.844f, 0f, 1.052f)
+            lineToRelative(1.225f, 0.567f)
+            lineToRelative(0.566f, 1.214f)
+            curveToRelative(0.197f, 0.451f, 0.844f, 0.451f, 1.04f, 0f)
+            lineToRelative(0.001f, -0f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+            moveTo(8.765f, 6.883f)
+            lineToRelative(0.515f, -1.114f)
+            lineToRelative(1.114f, -0.515f)
+            curveToRelative(0.41f, -0.189f, 0.41f, -0.767f, 0f, -0.956f)
+            lineToRelative(-1.114f, -0.515f)
+            lineToRelative(-0.515f, -1.104f)
+            curveToRelative(-0.189f, -0.41f, -0.767f, -0.41f, -0.956f, 0f)
+            lineToRelative(-0.515f, 1.114f)
+            lineToRelative(-1.104f, 0.515f)
+            curveToRelative(-0.41f, 0.189f, -0.41f, 0.767f, 0f, 0.956f)
+            lineToRelative(1.114f, 0.515f)
+            lineToRelative(0.515f, 1.104f)
+            curveToRelative(0.179f, 0.41f, 0.767f, 0.41f, 0.946f, 0f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF1D1D1B))) {
+            moveTo(19.848f, 17.967f)
+            lineToRelative(0.515f, -1.114f)
+            lineToRelative(1.114f, -0.515f)
+            curveToRelative(0.41f, -0.189f, 0.41f, -0.767f, 0f, -0.956f)
+            lineToRelative(-1.114f, -0.515f)
+            lineToRelative(-0.515f, -1.104f)
+            curveToRelative(-0.189f, -0.41f, -0.767f, -0.41f, -0.956f, 0f)
+            lineToRelative(-0.515f, 1.114f)
+            lineToRelative(-1.104f, 0.515f)
+            curveToRelative(-0.41f, 0.189f, -0.41f, 0.767f, 0f, 0.956f)
+            lineToRelative(1.114f, 0.515f)
+            lineToRelative(0.515f, 1.104f)
+            curveToRelative(0.179f, 0.41f, 0.767f, 0.41f, 0.946f, 0f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFF1D1D1C)),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(12.627f, 10.164f)
+            lineToRelative(1.128f, -1.128f)
+            lineToRelative(1.359f, 1.359f)
+            lineToRelative(-1.128f, 1.128f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFF1D1D1C)),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(4.357f, 18.441f)
+            lineToRelative(6.915f, -6.915f)
+            lineToRelative(1.359f, 1.359f)
+            lineToRelative(-6.915f, 6.915f)
             close()
         }
     }.build()

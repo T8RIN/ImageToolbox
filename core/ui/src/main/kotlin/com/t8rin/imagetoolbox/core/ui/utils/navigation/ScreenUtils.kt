@@ -333,10 +333,10 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is DeleteExif -> Icons.TwoTone.Exif
     is Draw -> Icons.TwoTone.Draw
     is EraseBackground -> Icons.TwoTone.Eraser
-    is Filter -> Icons.Outlined.AutoFixHigh
+    is Filter -> Icons.TwoTone.AutoFixHigh
     is PaletteTools -> Icons.TwoTone.PaletteSwatch
     is GifTools -> Icons.TwoTone.GifBox
-    is GradientMaker -> Icons.Outlined.Gradient
+    is GradientMaker -> Icons.TwoTone.Gradient
     is ImagePreview -> Icons.TwoTone.Landscape
     is ImageStitching -> Icons.TwoTone.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
@@ -344,7 +344,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is LoadNetImage -> Icons.TwoTone.ImageDownload
     is PdfTools -> Icons.TwoTone.Pdf
     is PickColorFromImage -> Icons.TwoTone.Eyedropper
-    is RecognizeText -> Icons.Outlined.TextSearch
+    is RecognizeText -> Icons.TwoTone.TextSearch
     is ResizeAndConvert -> Icons.TwoTone.MultipleImageEdit
     is WeightResize -> Icons.TwoTone.ImageWeight
     is Watermarking -> Icons.TwoTone.Watermark
@@ -365,10 +365,10 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is EditExif -> Icons.TwoTone.ExifEdit
     is ImageCutter -> Icons.TwoTone.ScissorsSmall
     is AudioCoverExtractor -> Icons.TwoTone.Album
-    is WallpapersExport -> Icons.Outlined.WallpaperAlt
+    is WallpapersExport -> Icons.TwoTone.WallpaperAlt
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.TwoTone.Neurology
-    is ColorLibrary -> Icons.Outlined.FormatPaintVariant
+    is ColorLibrary -> Icons.TwoTone.FormatPaintVariant
     is ShaderStudio -> Icons.TwoTone.EvShadow
     is PdfTools.Merge -> Icons.TwoTone.ImageCombine
     is PdfTools.Split -> Icons.TwoTone.SplitAlt

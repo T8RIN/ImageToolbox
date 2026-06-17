@@ -91,3 +91,88 @@ val Icons.Outlined.WallpaperAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         }
     }.build()
 }
+
+val Icons.TwoTone.WallpaperAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "TwoTone.WallpaperAlt",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(19.725f, 6.65f)
+            curveToRelative(-0.183f, -0.25f, -0.425f, -0.433f, -0.725f, -0.55f)
+            verticalLineToRelative(-3.1f)
+            curveToRelative(0f, -0.55f, -0.196f, -1.021f, -0.588f, -1.412f)
+            reflectiveCurveToRelative(-0.862f, -0.588f, -1.412f, -0.588f)
+            horizontalLineTo(7f)
+            curveToRelative(-0.55f, 0f, -1.021f, 0.196f, -1.412f, 0.588f)
+            reflectiveCurveToRelative(-0.588f, 0.862f, -0.588f, 1.412f)
+            verticalLineToRelative(18f)
+            curveToRelative(0f, 0.55f, 0.196f, 1.021f, 0.588f, 1.412f)
+            reflectiveCurveToRelative(0.862f, 0.588f, 1.412f, 0.588f)
+            horizontalLineToRelative(10f)
+            curveToRelative(0.55f, 0f, 1.021f, -0.196f, 1.412f, -0.588f)
+            reflectiveCurveToRelative(0.588f, -0.862f, 0.588f, -1.412f)
+            verticalLineToRelative(-10.1f)
+            curveToRelative(0.3f, -0.117f, 0.542f, -0.3f, 0.725f, -0.55f)
+            curveToRelative(0.183f, -0.25f, 0.275f, -0.533f, 0.275f, -0.85f)
+            verticalLineToRelative(-2f)
+            curveToRelative(0f, -0.317f, -0.092f, -0.6f, -0.275f, -0.85f)
+            close()
+            moveTo(17f, 21f)
+            horizontalLineTo(7f)
+            verticalLineTo(3f)
+            horizontalLineToRelative(10f)
+            verticalLineToRelative(18f)
+            close()
+        }
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(15.5f, 15f)
+            curveToRelative(0.1f, 0f, 0.175f, -0.046f, 0.225f, -0.138f)
+            reflectiveCurveToRelative(0.042f, -0.179f, -0.025f, -0.262f)
+            lineToRelative(-2.125f, -2.825f)
+            curveToRelative(-0.05f, -0.067f, -0.117f, -0.1f, -0.2f, -0.1f)
+            reflectiveCurveToRelative(-0.15f, 0.033f, -0.2f, 0.1f)
+            lineToRelative(-1.675f, 2.225f)
+            lineToRelative(-1.175f, -1.575f)
+            curveToRelative(-0.05f, -0.067f, -0.117f, -0.1f, -0.2f, -0.1f)
+            reflectiveCurveToRelative(-0.15f, 0.033f, -0.2f, 0.1f)
+            lineToRelative(-1.625f, 2.175f)
+            curveToRelative(-0.067f, 0.083f, -0.075f, 0.171f, -0.025f, 0.262f)
+            reflectiveCurveToRelative(0.125f, 0.138f, 0.225f, 0.138f)
+            horizontalLineToRelative(7f)
+            close()
+        }
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(15.713f, 9.712f)
+            curveToRelative(0.192f, -0.192f, 0.287f, -0.429f, 0.287f, -0.712f)
+            reflectiveCurveToRelative(-0.096f, -0.521f, -0.287f, -0.712f)
+            reflectiveCurveToRelative(-0.429f, -0.287f, -0.712f, -0.287f)
+            reflectiveCurveToRelative(-0.521f, 0.096f, -0.712f, 0.287f)
+            reflectiveCurveToRelative(-0.287f, 0.429f, -0.287f, 0.712f)
+            reflectiveCurveToRelative(0.096f, 0.521f, 0.287f, 0.712f)
+            reflectiveCurveToRelative(0.429f, 0.287f, 0.712f, 0.287f)
+            reflectiveCurveToRelative(0.521f, -0.096f, 0.712f, -0.287f)
+            close()
+        }
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(7f, 21f)
+            verticalLineTo(3f)
+            verticalLineToRelative(18f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color.Black),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(7f, 3f)
+            horizontalLineToRelative(10f)
+            verticalLineToRelative(18f)
+            horizontalLineToRelative(-10f)
+            close()
+        }
+    }.build()
+}
