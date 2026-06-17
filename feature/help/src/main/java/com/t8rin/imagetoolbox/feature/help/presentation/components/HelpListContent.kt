@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.help.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,35 +33,80 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
+import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
 
 @Composable
 internal fun HelpListContent(
     categories: List<HelpCategory>,
+    filteredTips: List<HelpTip>,
+    isSearching: Boolean,
+    searchKeyword: String,
     onOpenCategory: (HelpCategory) -> Unit,
+    onOpenTip: (HelpTip) -> Unit,
+    onSearchingChange: (Boolean) -> Unit,
+    onSearchKeywordChange: (String) -> Unit,
     onGoBack: () -> Unit
 ) {
     HelpScaffold(
         title = stringResource(R.string.help_tips),
-        onGoBack = onGoBack
+        onGoBack = onGoBack,
+        isSearching = isSearching,
+        searchKeyword = searchKeyword,
+        onSearchingChange = onSearchingChange,
+        onSearchKeywordChange = onSearchKeywordChange
     ) { contentPadding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = contentPadding,
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            flingBehavior = enhancedFlingBehavior()
-        ) {
-            itemsIndexed(
-                items = categories,
-                key = { _, category -> category.key }
-            ) { index, category ->
-                PreferenceItem(
-                    title = stringResource(category.title),
-                    subtitle = stringResource(category.subtitle),
-                    startIcon = category.icon as? ImageVector,
-                    shape = ShapeDefaults.byIndex(index, categories.size),
-                    onClick = { onOpenCategory(category) },
-                    modifier = Modifier.fillMaxWidth()
-                )
+        AnimatedContent(
+            targetState = searchKeyword.isBlank() to filteredTips.isNotEmpty(),
+            modifier = Modifier.fillMaxSize()
+        ) { (isSearchEmpty, haveData) ->
+            if (isSearchEmpty) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = contentPadding,
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    flingBehavior = enhancedFlingBehavior()
+                ) {
+                    itemsIndexed(
+                        items = categories,
+                        key = { _, category -> category.key }
+                    ) { index, category ->
+                        PreferenceItem(
+                            title = stringResource(category.title),
+                            subtitle = stringResource(category.subtitle),
+                            startIcon = category.icon as? ImageVector,
+                            shape = ShapeDefaults.byIndex(index, categories.size),
+                            onClick = { onOpenCategory(category) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItem()
+                        )
+                    }
+                }
+            } else if (haveData) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = contentPadding,
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    flingBehavior = enhancedFlingBehavior()
+                ) {
+                    itemsIndexed(
+                        items = filteredTips,
+                        key = { _, tip -> tip.id }
+                    ) { index, tip ->
+                        PreferenceItem(
+                            title = stringResource(tip.title),
+                            subtitle = stringResource(tip.subtitle),
+                            startIcon = tip.icon as? ImageVector,
+                            shape = ShapeDefaults.byIndex(index, filteredTips.size),
+                            onClick = { onOpenTip(tip) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItem()
+                        )
+                    }
+                }
+            } else {
+                HelpSearchEmptyContent(contentPadding)
             }
         }
     }

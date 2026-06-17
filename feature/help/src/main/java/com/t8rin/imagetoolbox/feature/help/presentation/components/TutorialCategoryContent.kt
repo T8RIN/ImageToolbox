@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.help.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,32 +37,51 @@ import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
 @Composable
 internal fun TutorialCategoryContent(
     category: HelpCategory,
-    tips: List<HelpTip>,
+    filteredTips: List<HelpTip>,
+    isSearching: Boolean,
+    searchKeyword: String,
     onOpenTip: (HelpTip) -> Unit,
+    onSearchingChange: (Boolean) -> Unit,
+    onSearchKeywordChange: (String) -> Unit,
     onGoBack: () -> Unit
 ) {
     HelpScaffold(
         title = stringResource(category.title),
-        onGoBack = onGoBack
+        onGoBack = onGoBack,
+        isSearching = isSearching,
+        searchKeyword = searchKeyword,
+        onSearchingChange = onSearchingChange,
+        onSearchKeywordChange = onSearchKeywordChange
     ) { contentPadding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = contentPadding,
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            flingBehavior = enhancedFlingBehavior()
-        ) {
-            itemsIndexed(
-                items = tips,
-                key = { _, tip -> tip.id }
-            ) { index, tip ->
-                PreferenceItem(
-                    title = stringResource(tip.title),
-                    subtitle = stringResource(tip.subtitle),
-                    startIcon = tip.icon as? ImageVector,
-                    shape = ShapeDefaults.byIndex(index, tips.size),
-                    onClick = { onOpenTip(tip) },
-                    modifier = Modifier.fillMaxWidth()
-                )
+        AnimatedContent(
+            targetState = filteredTips.isNotEmpty(),
+            modifier = Modifier.fillMaxSize()
+        ) { haveData ->
+            if (haveData) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = contentPadding,
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    flingBehavior = enhancedFlingBehavior()
+                ) {
+                    itemsIndexed(
+                        items = filteredTips,
+                        key = { _, tip -> tip.id }
+                    ) { index, tip ->
+                        PreferenceItem(
+                            title = stringResource(tip.title),
+                            subtitle = stringResource(tip.subtitle),
+                            startIcon = tip.icon as? ImageVector,
+                            shape = ShapeDefaults.byIndex(index, filteredTips.size),
+                            onClick = { onOpenTip(tip) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItem()
+                        )
+                    }
+                }
+            } else {
+                HelpSearchEmptyContent(contentPadding)
             }
         }
     }

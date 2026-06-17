@@ -23,10 +23,7 @@ import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
 sealed interface HelpState {
     data class Categories(val categories: List<HelpCategory>) : HelpState
 
-    data class TutorialCategory(
-        val category: HelpCategory,
-        val tips: List<HelpTip>
-    ) : HelpState
+    data class TutorialCategory(val category: HelpCategory) : HelpState
 
     data class TutorialDetails(val tip: HelpTip) : HelpState
 }

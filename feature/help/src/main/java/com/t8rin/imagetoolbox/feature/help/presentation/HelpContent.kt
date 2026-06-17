@@ -32,7 +32,13 @@ fun HelpContent(
         is HelpState.Categories -> {
             HelpListContent(
                 categories = state.categories,
+                filteredTips = component.filteredTips,
+                isSearching = component.isSearching,
+                searchKeyword = component.searchKeyword,
                 onOpenCategory = component::openCategory,
+                onOpenTip = component::openTip,
+                onSearchingChange = component::updateIsSearching,
+                onSearchKeywordChange = component::updateSearch,
                 onGoBack = component.onGoBack
             )
         }
@@ -40,8 +46,12 @@ fun HelpContent(
         is HelpState.TutorialCategory -> {
             TutorialCategoryContent(
                 category = state.category,
-                tips = state.tips,
+                filteredTips = component.filteredTips,
+                isSearching = component.isSearching,
+                searchKeyword = component.searchKeyword,
                 onOpenTip = component::openTip,
+                onSearchingChange = component::updateIsSearching,
+                onSearchKeywordChange = component::updateSearch,
                 onGoBack = component.onGoBack
             )
         }
