@@ -17,9 +17,11 @@
 
 package com.t8rin.imagetoolbox.core.data.di
 
+import com.t8rin.imagetoolbox.core.data.history.AppHistoryRepositoryImpl
 import com.t8rin.imagetoolbox.core.data.saving.AndroidFileController
 import com.t8rin.imagetoolbox.core.data.saving.AndroidFilenameCreator
 import com.t8rin.imagetoolbox.core.data.saving.AndroidKeepAliveService
+import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.image.MetadataProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FileController.Companion.toMetadataProvider
@@ -53,6 +55,12 @@ internal interface SavingModule {
     fun service(
         impl: AndroidKeepAliveService
     ): KeepAliveService
+
+    @Singleton
+    @Binds
+    fun history(
+        impl: AppHistoryRepositoryImpl
+    ): AppHistoryRepository
 
     companion object {
         @Singleton

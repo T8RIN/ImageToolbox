@@ -143,6 +143,7 @@ data class SettingsState(
     val keepDateTime: Boolean,
     val isAlwaysClearExif: Boolean,
     val enableBackgroundColorForAlphaFormats: Boolean,
+    val showToolsHistory: Boolean,
 ) {
 
     companion object {
@@ -262,6 +263,7 @@ data class SettingsState(
                 keepDateTime = false,
                 isAlwaysClearExif = false,
                 enableBackgroundColorForAlphaFormats = false,
+                showToolsHistory = true,
             )
         }
     }

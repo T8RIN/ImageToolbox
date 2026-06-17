@@ -657,6 +657,10 @@ internal fun SettingItem(
             Setting.DebugMenu -> {
                 DebugMenuSettingItem()
             }
+
+            Setting.ShowToolsHistory -> {
+                ShowToolsHistorySettingItem(onClick = component::toggleShowToolsHistory)
+            }
         }
     }
 }

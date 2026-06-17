@@ -15,25 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.domain.remote
+package com.t8rin.imagetoolbox.core.domain.history
 
-interface AnalyticsManager {
+import com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool
+import kotlinx.coroutines.flow.Flow
 
-    val allowCollectCrashlytics: Boolean
+interface AppHistoryRepository {
 
-    val allowCollectAnalytics: Boolean
+    fun lastUsedTools(maxCount: Int = 5): Flow<List<LastUsedTool>>
 
-    fun updateAnalyticsCollectionEnabled(value: Boolean)
-
-    fun updateAllowCollectCrashlytics(value: Boolean)
-
-    fun sendReport(throwable: Throwable)
-
-    fun registerScreenOpen(screenName: String)
-
-    fun pushMetric(
-        tag: String,
-        metric: String
-    )
+    suspend fun pushLastTool(screenId: Int)
 
 }

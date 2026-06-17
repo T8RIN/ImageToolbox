@@ -60,6 +60,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -93,6 +94,8 @@ fun MainContent(
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val isSheetSlideable = (isGrid && !settingsState.showSettingsInLandscape) || !isGrid
     val layoutDirection = LocalLayoutDirection.current
+
+    val lastUsedTools by component.lastUsedTools.collectAsStateWithLifecycle()
 
     var sheetExpanded by rememberSaveable { mutableStateOf(false) }
 
@@ -162,7 +165,8 @@ fun MainContent(
                 },
                 isUpdateAvailable = isUpdateAvailable,
                 onNavigate = component.onNavigate,
-                onToggleFavorite = component::toggleFavoriteScreen
+                onToggleFavorite = component::toggleFavoriteScreen,
+                lastUsedTools = lastUsedTools
             )
         }
     }

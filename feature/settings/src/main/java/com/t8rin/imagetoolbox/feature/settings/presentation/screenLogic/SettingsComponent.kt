@@ -534,6 +534,8 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleEnableBackgroundColorForAlphaFormats() =
         settingsScope { toggleEnableBackgroundColorForAlphaFormats() }
 
+    fun toggleShowToolsHistory() =
+        settingsScope { toggleShowToolsHistory() }
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

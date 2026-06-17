@@ -733,4 +733,10 @@ sealed class Setting(
         subtitle = R.string.debug_menu_sub
     )
 
+    @Serializable
+    data object ShowToolsHistory : Setting(
+        title = R.string.show_recent_tools,
+        subtitle = R.string.show_recent_tools_sub
+    )
+
 }

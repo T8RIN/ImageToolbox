@@ -179,6 +179,7 @@ data class UiSettingsState(
     val keepDateTime: Boolean,
     val isAlwaysClearExif: Boolean,
     val enableBackgroundColorForAlphaFormats: Boolean,
+    val showToolsHistory: Boolean,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -438,6 +439,7 @@ fun SettingsState.toUiState(
                 keepDateTime = keepDateTime,
                 isAlwaysClearExif = isAlwaysClearExif,
                 enableBackgroundColorForAlphaFormats = enableBackgroundColorForAlphaFormats,
+                showToolsHistory = showToolsHistory,
             )
         }
     }.value

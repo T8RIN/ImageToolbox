@@ -35,6 +35,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.t8rin.imagetoolbox.core.domain.APP_CHANGELOG
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
@@ -89,6 +90,7 @@ class RootComponent @AssistedInject internal constructor(
     private val client: HttpClient,
     private val filterParamsInteractor: FilterParamsInteractor,
     private val fileController: FileController,
+    private val appHistoryRepository: AppHistoryRepository,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
     resourceManager: ResourceManager,
@@ -406,7 +408,8 @@ class RootComponent @AssistedInject internal constructor(
     fun navigateTo(screen: Screen) {
         componentScope.launch {
             delay(100)
-            screen.simpleName.makeLog("Navigator").also(analyticsManager::registerScreenOpen)
+            screen.saveToHistory().simpleName.makeLog("Navigator")
+                .also(analyticsManager::registerScreenOpen)
             navController.pushNew(screen)
             hideSelectDialog()
         }
@@ -415,7 +418,8 @@ class RootComponent @AssistedInject internal constructor(
     fun replaceTo(screen: Screen) {
         componentScope.launch {
             delay(100)
-            screen.simpleName.makeLog("Navigator").also(analyticsManager::registerScreenOpen)
+            screen.saveToHistory().simpleName.makeLog("Navigator")
+                .also(analyticsManager::registerScreenOpen)
             navController.navigate(
                 transformer = { stack ->
                     stack.dropLastWhile { it !is Screen.PdfTools } + screen
@@ -429,7 +433,8 @@ class RootComponent @AssistedInject internal constructor(
         if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
             navigateBack()
         }
-        screen.simpleName.makeLog("Navigator").also(analyticsManager::registerScreenOpen)
+        screen.saveToHistory().simpleName.makeLog("Navigator")
+            .also(analyticsManager::registerScreenOpen)
         navController.pushNew(screen)
     }
 
@@ -468,6 +473,14 @@ class RootComponent @AssistedInject internal constructor(
             onWantGithubReview = ::onWantGithubReview,
             isOpenEditInsteadOfPreview = settingsState.openEditInsteadOfPreview
         )
+    }
+
+    private fun Screen.saveToHistory() = apply {
+        if (id < 0) return@apply
+
+        componentScope.launch {
+            appHistoryRepository.pushLastTool(id)
+        }
     }
 
 

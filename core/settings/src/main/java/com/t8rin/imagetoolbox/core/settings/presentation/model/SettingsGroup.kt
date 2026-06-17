@@ -158,6 +158,7 @@ sealed class SettingsGroup(
         titleId = R.string.tools_arrangement,
         settingsList = listOf(
             Setting.ScreenOrder,
+            Setting.ShowToolsHistory,
             Setting.ScreenSearch,
             Setting.EnableLauncherMode,
             Setting.GroupOptions,

@@ -41,9 +41,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -66,6 +66,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.settings.presentation.model.IconShape
@@ -88,6 +89,7 @@ internal fun LauncherScreenSelector(
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     contentPadding: PaddingValues,
     onToggleFavorite: (Screen) -> Unit,
+    lastUsedTools: List<UiLastUsedTool>
 ) {
     val settingsState = LocalSettingsState.current
     val showFavoriteControls =
@@ -100,6 +102,18 @@ internal fun LauncherScreenSelector(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         flingBehavior = enhancedFlingBehavior()
     ) {
+        if (lastUsedTools.isNotEmpty()) {
+            item(
+                key = "lastUsedTools",
+                span = { GridItemSpan(maxLineSpan) }
+            ) {
+                LastUsedToolsCard(
+                    tools = lastUsedTools,
+                    onNavigate = onNavigateToScreenWithPopUpTo,
+                    modifier = Modifier.animateItem()
+                )
+            }
+        }
         items(screenList) { screen ->
             val containerColor by animateColorAsState(
                 if (settingsState.isNightMode) {

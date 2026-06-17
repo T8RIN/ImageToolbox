@@ -270,6 +270,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleEnableBackgroundColorForAlphaFormats()
 
+    suspend fun toggleShowToolsHistory()
+
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

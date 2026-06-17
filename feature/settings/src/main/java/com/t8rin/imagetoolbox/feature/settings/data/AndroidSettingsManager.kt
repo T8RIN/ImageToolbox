@@ -161,6 +161,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPE_BY_INTERACTION_TH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_AS_LAST
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_TOOLS_HISTORY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SKIP_IMAGE_PICKING
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SLIDER_TYPE
@@ -1004,6 +1005,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleEnableBackgroundColorForAlphaFormats() = toggle(
         key = ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS,
         defaultValue = default.enableBackgroundColorForAlphaFormats
+    )
+
+    override suspend fun toggleShowToolsHistory() = toggle(
+        key = SHOW_TOOLS_HISTORY,
+        defaultValue = default.showToolsHistory
     )
 
     private suspend fun toggleFilenameBehavior(

@@ -52,6 +52,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -108,6 +109,7 @@ internal fun RowScope.ScreenPreferenceSelection(
     onChangeShowScreenSearch: (Boolean) -> Unit,
     onToggleFavorite: (Screen) -> Unit,
     showNavRail: Boolean,
+    lastUsedTools: List<UiLastUsedTool>
 ) {
     val settingsState = LocalSettingsState.current
     val cutout = WindowInsets.displayCutout.asPaddingValues()
@@ -193,7 +195,8 @@ internal fun RowScope.ScreenPreferenceSelection(
                             screenList = currentScreenList,
                             onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
                             contentPadding = contentPadding,
-                            onToggleFavorite = onToggleFavorite
+                            onToggleFavorite = onToggleFavorite,
+                            lastUsedTools = lastUsedTools
                         )
                     } else {
                         LazyVerticalStaggeredGrid(
@@ -208,6 +211,18 @@ internal fun RowScope.ScreenPreferenceSelection(
                             contentPadding = contentPadding,
                             flingBehavior = enhancedFlingBehavior(),
                             content = {
+                                if (lastUsedTools.isNotEmpty()) {
+                                    item(
+                                        key = "lastUsedTools",
+                                        span = StaggeredGridItemSpan.FullLine
+                                    ) {
+                                        LastUsedToolsCard(
+                                            tools = lastUsedTools,
+                                            onNavigate = onNavigateToScreenWithPopUpTo,
+                                            modifier = Modifier.animateItem()
+                                        )
+                                    }
+                                }
                                 items(currentScreenList) { screen ->
                                     PreferenceItemOverload(
                                         onClick = {

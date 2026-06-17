@@ -3199,4 +3199,6 @@
     <string name="shader_parse_error_vec2_expected">%1$s must be a two-number array or an object with x and y.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s must contain exactly 2 numbers.</string>
     <string name="duplicate">Duplicate</string>
+    <string name="show_recent_tools">Show Recent Tools</string>
+    <string name="show_recent_tools_sub">Display quick access to recently used tools on the main screen</string>
 </resources>

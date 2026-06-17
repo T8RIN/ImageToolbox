@@ -15,25 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.domain.remote
+package com.t8rin.imagetoolbox.feature.main.presentation.components
 
-interface AnalyticsManager {
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 
-    val allowCollectCrashlytics: Boolean
-
-    val allowCollectAnalytics: Boolean
-
-    fun updateAnalyticsCollectionEnabled(value: Boolean)
-
-    fun updateAllowCollectCrashlytics(value: Boolean)
-
-    fun sendReport(throwable: Throwable)
-
-    fun registerScreenOpen(screenName: String)
-
-    fun pushMetric(
-        tag: String,
-        metric: String
-    )
-
-}
+data class UiLastUsedTool(
+    val screen: Screen,
+    val openCount: Int
+)

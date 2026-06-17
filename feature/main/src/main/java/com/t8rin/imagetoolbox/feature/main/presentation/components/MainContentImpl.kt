@@ -71,7 +71,8 @@ internal fun MainContentImpl(
     onToggleFavorite: (Screen) -> Unit,
     onShowFeaturesFall: () -> Unit,
     onTryGetUpdate: () -> Unit,
-    isUpdateAvailable: Boolean
+    isUpdateAvailable: Boolean,
+    lastUsedTools: List<UiLastUsedTool>
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -279,7 +280,8 @@ internal fun MainContentImpl(
                     onGetClipList = onGetClipList,
                     onNavigateToScreenWithPopUpTo = onNavigate,
                     onNavigationBarItemChange = { selectedNavigationItem = it },
-                    onToggleFavorite = onToggleFavorite
+                    onToggleFavorite = onToggleFavorite,
+                    lastUsedTools = lastUsedTools
                 )
             }
         }

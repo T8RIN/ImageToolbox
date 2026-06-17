@@ -64,6 +64,15 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
         }
     }
 
+    override fun pushMetric(
+        tag: String,
+        metric: String
+    ) {
+        if (allowCollectAnalytics) {
+            analytics.logEvent(tag) { param(Param.CONTENT, metric) }
+        }
+    }
+
     private fun deviceInfo(): String {
         val info = get()
 

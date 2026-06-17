@@ -22,13 +22,22 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.value.Value
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
+import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
+import com.t8rin.imagetoolbox.core.domain.utils.onEachDebounced
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.feature.main.presentation.components.UiLastUsedTool
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlin.time.Duration.Companion.minutes
 
 class MainComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -36,10 +45,38 @@ class MainComponent @AssistedInject internal constructor(
     @Assisted private val onGetClipList: (List<Uri>) -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     @Assisted val isUpdateAvailable: Value<Boolean>,
+    private val analyticsManager: AnalyticsManager,
+    appHistoryRepository: AppHistoryRepository,
     dispatchersHolder: DispatchersHolder,
     private val settingsManager: SettingsManager,
     settingsComponentFactory: SettingsComponent.Factory
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    val lastUsedTools: StateFlow<List<UiLastUsedTool>> = appHistoryRepository
+        .lastUsedTools()
+        .map { lastUsedTools ->
+            lastUsedTools.mapNotNull { tool ->
+                Screen.entries.find { it.id == tool.screenId }?.let { screen ->
+                    UiLastUsedTool(
+                        screen = screen,
+                        openCount = tool.openCount
+                    )
+                }
+            }
+        }
+        .onEachDebounced(5.minutes) { mapped ->
+            analyticsManager.pushMetric(
+                tag = "AppHistory",
+                metric = mapped.joinToString {
+                    "[${it.screen.simpleName} - ${it.openCount}]"
+                }
+            )
+        }
+        .stateIn(
+            scope = componentScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
 
     val settingsComponent = settingsComponentFactory(
         componentContext = childContext("mainSettings"),

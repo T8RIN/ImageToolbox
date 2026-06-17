@@ -24,8 +24,10 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.transformLatest
 import java.io.Closeable
 import kotlin.reflect.KClass
+import kotlin.time.Duration
 
 
 inline fun <reified T> T?.notNullAnd(
@@ -88,5 +90,25 @@ fun <T> Flow<T>.throttleLatest(delayMillis: Long): Flow<T> = if (delayMillis > 0
         delay(delayMillis)
     }
 } else this
+
+
+fun <T> Flow<T>.onEachDebounced(
+    timeout: Duration,
+    action: suspend (T) -> Unit
+): Flow<T> {
+    var isFirst = true
+
+    return transformLatest { value ->
+        emit(value)
+
+        if (isFirst) {
+            isFirst = false
+            action(value)
+        } else {
+            delay(timeout)
+            action(value)
+        }
+    }
+}
 
 inline fun <T : Closeable?, R> T.applyUse(block: T.() -> R): R = use(block)
