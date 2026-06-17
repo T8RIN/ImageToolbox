@@ -707,7 +707,8 @@ fun BitmapDrawer(
                     drawDownPosition = drawDownPosition,
                     currentDrawPosition = currentDrawPosition,
                     imageWidth = imageWidth,
-                    imageHeight = imageHeight
+                    imageHeight = imageHeight,
+                    isMagnifierEnabled = magnifierEnabled
                 )
             }
         }

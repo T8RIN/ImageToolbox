@@ -52,6 +52,7 @@ internal fun LineAngleIndicator(
     currentDrawPosition: Offset,
     imageWidth: Int,
     imageHeight: Int,
+    isMagnifierEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     val density = LocalDensity.current
@@ -78,11 +79,16 @@ internal fun LineAngleIndicator(
             with(density) {
                 val verticalGap = 108.dp.roundToPx()
                 val horizontalGap = -indicatorWidth / 2
+                val verticalGapSafe = if (isMagnifierEnabled) {
+                    verticalGap - indicatorHeight
+                } else {
+                    -verticalGap
+                }
 
                 IntOffset(
                     x = (currentDrawPosition.x.roundToInt() + horizontalGap)
                         .coerceIn(0, (imageWidth - indicatorWidth).coerceAtLeast(0)),
-                    y = (currentDrawPosition.y.roundToInt() - verticalGap)
+                    y = (currentDrawPosition.y.roundToInt() + verticalGapSafe)
                         .coerceIn(0, (imageHeight - indicatorHeight).coerceAtLeast(0))
                 )
             }
