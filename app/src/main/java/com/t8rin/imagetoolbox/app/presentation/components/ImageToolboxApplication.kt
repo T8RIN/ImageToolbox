@@ -17,8 +17,6 @@
 
 package com.t8rin.imagetoolbox.app.presentation.components
 
-import androidx.compose.runtime.Composer
-import androidx.compose.runtime.tooling.ComposeStackTraceMode
 import com.t8rin.imagetoolbox.app.presentation.components.functions.attachLogWriter
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initCollages
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initColorNames
@@ -68,8 +66,6 @@ class ImageToolboxApplication : ComposeApplication() {
         if (isSetupCompleted) return
 
         if (isMain()) {
-            Composer.setDiagnosticStackTraceMode(ComposeStackTraceMode.SourceInformation)
-
             setupFlags()
             initAppContext()
             initEmoji()

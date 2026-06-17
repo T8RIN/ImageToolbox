@@ -17,12 +17,15 @@
 
 package com.t8rin.imagetoolbox.app.presentation.components.functions
 
-import androidx.compose.foundation.ComposeFoundationFlags.isPausableCompositionInPrefetchEnabled
-import androidx.compose.material3.ComposeMaterial3Flags.isCheckboxStylingFixEnabled
+import androidx.compose.foundation.ComposeFoundationFlags
+import androidx.compose.material3.ComposeMaterial3Flags
+import androidx.compose.runtime.Composer
+import androidx.compose.runtime.tooling.ComposeStackTraceMode
 import com.arkivanov.decompose.DecomposeSettings
 
 internal fun setupFlags() {
-    isCheckboxStylingFixEnabled = true
+    ComposeFoundationFlags.isPausableCompositionInPrefetchEnabled = true
+    ComposeMaterial3Flags.isCheckboxStylingFixEnabled = true
+    Composer.setDiagnosticStackTraceMode(ComposeStackTraceMode.GroupKeys)
     DecomposeSettings.update { it.copy(duplicateConfigurationsEnabled = true) }
-    isPausableCompositionInPrefetchEnabled = true
 }
