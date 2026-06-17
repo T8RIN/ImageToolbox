@@ -43,17 +43,18 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
         if (settings.showToolsHistory) {
             dataStore.data.map { preferences ->
                 val lastTools = preferences[LAST_USED_TOOLS] ?: return@map emptyList()
-
-                jsonParser.fromJson<LastUsedTools>(
+                val rawList = jsonParser.fromJson<LastUsedTools>(
                     json = lastTools,
                     type = LastUsedTools::class.java
-                )?.tools.orEmpty().sortedByDescending { it.openCount }.let {
+                )?.tools.orEmpty()
+
+                rawList.sortedByDescending { it.openCount }.let {
                     if (maxCount < Int.MAX_VALUE) {
-                        val last = it.lastOrNull()
+                        val last = rawList.lastOrNull()
                         val limited = it.take(maxCount)
 
-                        if (last != null && last !in limited) {
-                            limited + last
+                        if (last != null) {
+                            listOf(last) + limited.minus(last)
                         } else {
                             limited
                         }
