@@ -47,7 +47,7 @@ const val PDF = "pdf/"
 
 
 const val WEBLATE_LINK = "https://hosted.weblate.org/engage/image-resizer/"
-const val PARTNER_FREE_SOFTWARE = "https://t.me/FreeApkexe"
+const val PARTNER_FREE_SOFTWARE = "tg://resolve?domain=freeapkexe"
 const val JAVA_FORMAT_SPECIFICATION =
     "https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html"
 const val USER_AGENT =
