@@ -130,11 +130,7 @@ object PaddleOCR : NeuralTool() {
             }
         }
 
-        return resolveFrom(modelDirectory(model)) ?: if (model == Model.CJK) {
-            resolveFrom(directory)
-        } else {
-            null
-        }
+        return resolveFrom(modelDirectory(model))
     }
 
     private val _isDownloaded = MutableStateFlow(modelFiles(Model.CJK) != null)
