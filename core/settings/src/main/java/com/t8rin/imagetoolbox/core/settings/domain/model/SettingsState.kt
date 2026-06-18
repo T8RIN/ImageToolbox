@@ -144,6 +144,7 @@ data class SettingsState(
     val isAlwaysClearExif: Boolean,
     val enableBackgroundColorForAlphaFormats: Boolean,
     val showToolsHistory: Boolean,
+    val motionDurationScale: Float,
 ) {
 
     companion object {
@@ -264,6 +265,7 @@ data class SettingsState(
                 isAlwaysClearExif = false,
                 enableBackgroundColorForAlphaFormats = false,
                 showToolsHistory = true,
+                motionDurationScale = 1f,
             )
         }
     }

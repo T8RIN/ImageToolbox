@@ -180,6 +180,7 @@ data class UiSettingsState(
     val isAlwaysClearExif: Boolean,
     val enableBackgroundColorForAlphaFormats: Boolean,
     val showToolsHistory: Boolean,
+    val motionDurationScale: Float,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -440,6 +441,7 @@ fun SettingsState.toUiState(
                 isAlwaysClearExif = isAlwaysClearExif,
                 enableBackgroundColorForAlphaFormats = enableBackgroundColorForAlphaFormats,
                 showToolsHistory = showToolsHistory,
+                motionDurationScale = motionDurationScale,
             )
         }
     }.value

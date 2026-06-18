@@ -38,6 +38,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.animation.AlphaEasing
 import com.t8rin.imagetoolbox.core.ui.utils.animation.SoftEasing
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
@@ -58,9 +59,10 @@ internal fun AnimatedGradientBox(
     var from by remember { mutableStateOf(Offset.Zero) }
     var to by remember { mutableStateOf(Offset.Zero) }
     var control by remember { mutableStateOf(Offset.Zero) }
+    val motionDurationScale = LocalSettingsState.current.motionDurationScale
 
-    LaunchedEffect(size) {
-        if (size == Size.Zero) return@LaunchedEffect
+    LaunchedEffect(size, motionDurationScale) {
+        if (size == Size.Zero || motionDurationScale <= 0f) return@LaunchedEffect
 
         from = Offset(size.width / 2f, size.height / 2f)
         to = randomOffset(size, from)

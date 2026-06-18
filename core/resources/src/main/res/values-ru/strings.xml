@@ -2070,6 +2070,8 @@
     <string name="extension_pattern_description">Расширение файла (png, jpg, webp и т. д.) автоматически соответствует фактическому сохраненному формату.</string>
     <string name="formatted_timestamp_pattern_description">Настраиваемая временная метка, позволяющая определить собственный формат по спецификации Java для идеальной сортировки.</string>
     <string name="fling_type">Тип броска</string>
+    <string name="motion_duration_scale">Масштаб длительности анимаций</string>
+    <string name="motion_duration_scale_sub">Управляет скоростью анимаций приложения: 0 отключает движение, 1 — обычная скорость, большие значения замедляют анимации</string>
     <string name="android_native">Android</string>
     <string name="ios_style">Стиль iOS</string>
     <string name="smooth_curve">Гладкая кривая</string>

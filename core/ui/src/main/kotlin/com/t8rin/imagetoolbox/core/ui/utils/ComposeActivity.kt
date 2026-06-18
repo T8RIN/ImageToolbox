@@ -22,13 +22,17 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.MotionDurationScale
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.createLifecycleAwareWindowRecomposer
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -57,7 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
-import com.t8rin.imagetoolbox.core.ui.utils.provider.setContentWithWindowSizeClass
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import dagger.hilt.android.AndroidEntryPoint
@@ -160,12 +164,20 @@ abstract class ComposeActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) onFirstLaunch()
 
-        setContentWithWindowSizeClass {
+        setContent(
+            parent = window.decorView.createLifecycleAwareWindowRecomposer(
+                coroutineContext = object : MotionDurationScale {
+                    override val scaleFactor: Float get() = settingsState.motionDurationScale
+                },
+                lifecycle = lifecycle
+            )
+        ) {
             CompositionLocalProvider(
                 LocalSimpleSettingsInteractor provides settingsManager.toSimpleSettingsInteractor(),
                 LocalMetadataProvider provides fileController.toMetadataProvider(),
                 LocalKeepAliveService provides keepAliveService,
                 LocalResourceManager provides resourceManager,
+                LocalWindowSizeClass provides calculateWindowSizeClass(this),
                 content = ::Content
             )
         }

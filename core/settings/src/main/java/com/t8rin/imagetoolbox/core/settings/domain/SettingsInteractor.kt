@@ -272,6 +272,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleShowToolsHistory()
 
+    suspend fun setMotionDurationScale(scale: Float)
+
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

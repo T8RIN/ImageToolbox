@@ -638,6 +638,10 @@ internal fun SettingItem(
                 FlingTypeSettingItem(onValueChange = component::setFlingType)
             }
 
+            Setting.MotionDurationScale -> {
+                MotionDurationScaleSettingItem(onValueChange = component::setMotionDurationScale)
+            }
+
             Setting.ToolsHiddenForShare -> {
                 ToolsHiddenForShareSettingItem(onValueChange = component::setHiddenForShareScreens)
             }

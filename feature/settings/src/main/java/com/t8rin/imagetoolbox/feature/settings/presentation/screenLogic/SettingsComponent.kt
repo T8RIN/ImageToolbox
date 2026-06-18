@@ -517,6 +517,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun setFlingType(type: FlingType) = settingsScope { setFlingType(type) }
 
+    fun setMotionDurationScale(scale: Float) = settingsScope { setMotionDurationScale(scale) }
+
     fun setHiddenForShareScreens(screen: Screen) = settingsScope {
         val screens =
             this@SettingsComponent.settingsState.hiddenForShareScreens

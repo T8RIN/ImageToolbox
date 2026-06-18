@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.provider
 
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 
 val LocalWindowSizeClass = compositionLocalOf<WindowSizeClass> { error("SizeClass not present") }
-
-fun ComponentActivity.setContentWithWindowSizeClass(
-    content: @Composable () -> Unit
-) = setContent {
-    LocalWindowSizeClass.ProvidesValue(
-        value = calculateWindowSizeClass(this),
-        content = content
-    )
-}

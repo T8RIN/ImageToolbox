@@ -2896,6 +2896,8 @@
     <string name="suffix_pattern_description">Custom text placed at the end of the filename, useful for versioning like _v2, _edited, or _final.</string>
     <string name="extension_pattern_description">The file extension (png, jpg, webp, etc.), automatically matching the actual saved format.</string>
     <string name="fling_type">Fling Type</string>
+    <string name="motion_duration_scale">Motion Duration Scale</string>
+    <string name="motion_duration_scale_sub">Controls app animation speed: 0 disables motion, 1 is normal, higher values slow animations down</string>
     <string name="android_native">Android Native</string>
     <string name="ios_style">iOS Style</string>
     <string name="smooth_curve">Smooth Curve</string>

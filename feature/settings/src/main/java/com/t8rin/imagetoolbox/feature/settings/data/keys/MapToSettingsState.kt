@@ -258,6 +258,8 @@ internal fun Preferences.toSettingsState(
     enableBackgroundColorForAlphaFormats = this[ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS]
         ?: default.enableBackgroundColorForAlphaFormats,
     showToolsHistory = this[SHOW_TOOLS_HISTORY] ?: default.showToolsHistory,
+    motionDurationScale = (this[MOTION_DURATION_SCALE] ?: default.motionDurationScale)
+        .coerceIn(0f, 5f)
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

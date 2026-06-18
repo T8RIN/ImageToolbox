@@ -704,6 +704,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object MotionDurationScale : Setting(
+        title = R.string.motion_duration_scale,
+        subtitle = R.string.motion_duration_scale_sub
+    )
+
+    @Serializable
     data object ToolsHiddenForShare : Setting(
         title = R.string.hidden_for_share,
         subtitle = null

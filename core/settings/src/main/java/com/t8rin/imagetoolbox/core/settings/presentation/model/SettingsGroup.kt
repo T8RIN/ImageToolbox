@@ -107,6 +107,7 @@ sealed class SettingsGroup(
             Setting.CornersSize,
             Setting.ShapeByInteractionThrottle,
             Setting.FlingType,
+            Setting.MotionDurationScale,
             Setting.UseCompactSelectors,
             Setting.DragHandleWidth,
             Setting.CenterAlignDialogButtons,

@@ -141,6 +141,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.KEEP_DATE_TIME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAIN_SCREEN_TITLE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.MOTION_DURATION_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.NIGHT_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ONE_TIME_SAVE_LOCATIONS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.OPEN_EDIT_INSTEAD_OF_PREVIEW
@@ -1011,6 +1012,10 @@ internal class AndroidSettingsManager @Inject constructor(
         key = SHOW_TOOLS_HISTORY,
         defaultValue = default.showToolsHistory
     )
+
+    override suspend fun setMotionDurationScale(scale: Float) = edit {
+        it[MOTION_DURATION_SCALE] = scale.coerceIn(0f, 5f)
+    }
 
     private suspend fun toggleFilenameBehavior(
         behavior: FilenameBehavior
