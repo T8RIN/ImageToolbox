@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -3176,4 +3174,8 @@
     <string name="model_zero_dcepp">Szybka poprawa przy słabym oświetleniu za pomocą estymacji krzywej Zero-DCE++.</string>
     <string name="model_restormer_deraining">Model przywracania obrazu Restormer w celu ograniczenia smug deszczu i artefaktów spowodowanych deszczową pogodą.</string>
     <string name="model_uvdoc_grid">Model usuwania wypaczeń dokumentu, który przewiduje siatkę współrzędnych i przekształca zakrzywione strony w bardziej płaski skan.</string>
+    <string name="motion_duration_scale">Skala czasu trwania ruchu</string>
+    <string name="motion_duration_scale_sub">Reguluje prędkość animacji w aplikacji: 0 wyłącza ruch, 1 oznacza normalną prędkość, wyższe wartości spowalniają animacje</string>
+    <string name="show_recent_tools">Pokaż ostatnio używane narzędzia</string>
+    <string name="show_recent_tools_sub">Wyświetl na ekranie głównym szybki dostęp do ostatnio używanych narzędzi</string>
 </resources>
