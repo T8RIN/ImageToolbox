@@ -40,14 +40,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Crown
 import com.t8rin.imagetoolbox.core.resources.icons.Database
 import com.t8rin.imagetoolbox.core.resources.icons.DateRange
-import com.t8rin.imagetoolbox.core.resources.icons.Extension
 import com.t8rin.imagetoolbox.core.resources.icons.FinanceMode
-import com.t8rin.imagetoolbox.core.resources.icons.History
+import com.t8rin.imagetoolbox.core.resources.icons.Interests
 import com.t8rin.imagetoolbox.core.resources.icons.LocalFireDepartment
-import com.t8rin.imagetoolbox.core.resources.icons.QualityHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Save
+import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.TouchApp
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
@@ -90,13 +90,13 @@ internal fun UsageStatisticsContentImpl(
                 modifier = Modifier.weight(1f)
             )
             UsageStatisticSummaryItem(
-                icon = Icons.Rounded.History,
+                icon = Icons.Rounded.Interests,
                 title = stringResource(R.string.tool_opens),
                 value = state.totalToolOpens.toString(),
                 modifier = Modifier.weight(1f)
             )
             UsageStatisticSummaryItem(
-                icon = Icons.Rounded.Extension,
+                icon = Icons.Rounded.ServiceToolbox,
                 title = stringResource(R.string.tools_used),
                 value = statistics.size.toString(),
                 modifier = Modifier.weight(1f)
@@ -120,7 +120,7 @@ internal fun UsageStatisticsContentImpl(
                 modifier = Modifier.weight(1f)
             )
             UsageStatisticSummaryItem(
-                icon = Icons.Rounded.QualityHigh,
+                icon = Icons.Rounded.Crown,
                 title = stringResource(R.string.top_format),
                 value = state.topSavedFormat,
                 modifier = Modifier.weight(1f)
