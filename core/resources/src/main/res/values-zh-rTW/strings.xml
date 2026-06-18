@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -3186,4 +3188,6 @@
     <string name="tools_used">使用的工具</string>
     <string name="no_usage_statistics">尚無使用統計</string>
     <string name="no_usage_statistics_sub">打開一些工具，它們會自動出現在這裡</string>
+    <string name="show_recent_tools">顯示最近使用的工具</string>
+    <string name="tool_usage_subtitle">%1$d 開啟 • %2$s</string>
 </resources>
