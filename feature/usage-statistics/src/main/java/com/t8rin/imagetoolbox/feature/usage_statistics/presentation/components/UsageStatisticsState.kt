@@ -19,5 +19,6 @@ package com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components
 
 data class UsageStatisticsState(
     val appOpenCount: Int = 0,
+    val successfulSavesCount: Int = 0,
     val tools: List<UiToolUsageStatistic> = emptyList()
 )

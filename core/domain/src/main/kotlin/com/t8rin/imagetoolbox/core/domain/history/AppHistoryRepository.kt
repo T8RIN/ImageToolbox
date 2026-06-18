@@ -26,6 +26,10 @@ interface AppHistoryRepository {
 
     fun toolUsageStatistics(): Flow<List<LastUsedTool>>
 
+    fun successfulSavesCount(): Flow<Int>
+
     suspend fun pushLastTool(screenId: Int)
+
+    suspend fun registerSuccessfulSave()
 
 }

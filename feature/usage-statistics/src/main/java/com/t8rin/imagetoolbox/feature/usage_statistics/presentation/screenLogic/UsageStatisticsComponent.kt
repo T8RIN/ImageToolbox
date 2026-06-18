@@ -44,10 +44,12 @@ class UsageStatisticsComponent @AssistedInject constructor(
 
     val state: StateFlow<UsageStatisticsState> = combine(
         settingsProvider.settingsState,
-        appHistoryRepository.toolUsageStatistics()
-    ) { settings, history ->
+        appHistoryRepository.toolUsageStatistics(),
+        appHistoryRepository.successfulSavesCount()
+    ) { settings, history, successfulSavesCount ->
         UsageStatisticsState(
             appOpenCount = settings.appOpenCount,
+            successfulSavesCount = successfulSavesCount,
             tools = history.mapNotNull { item ->
                 Screen.entries.find { it.id == item.screenId }?.let { screen ->
                     UiToolUsageStatistic(

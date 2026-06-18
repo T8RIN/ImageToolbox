@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.data.utils.isExternalStorageWritable
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
@@ -89,6 +90,7 @@ internal class AndroidFileController @Inject constructor(
     private val shareProvider: ShareProvider,
     private val filenameCreator: FilenameCreator,
     private val jsonParser: JsonParser,
+    private val appHistoryRepository: AppHistoryRepository,
     private val appScope: AppScope,
     private val dataStore: DataStore<Preferences>,
     private val imageLoader: ImageLoader,
@@ -122,6 +124,10 @@ internal class AndroidFileController @Inject constructor(
             second = keepOriginalMetadata,
             third = oneTimeSaveLocationUri
         ).makeLog("File Controller save")
+
+        if (result is SaveResult.Success) {
+            appHistoryRepository.registerSuccessfulSave()
+        }
 
         return result
     }

@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.data.history
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool
@@ -79,6 +80,10 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
         )
     }
 
+    override fun successfulSavesCount(): Flow<Int> = dataStore.data.map { preferences ->
+        preferences[SUCCESSFUL_SAVES_COUNT] ?: 0
+    }
+
     override suspend fun pushLastTool(screenId: Int) {
         dataStore.edit { preferences ->
             val current = preferences[LAST_USED_TOOLS]?.let {
@@ -114,6 +119,12 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun registerSuccessfulSave() {
+        dataStore.edit { preferences ->
+            preferences[SUCCESSFUL_SAVES_COUNT] = (preferences[SUCCESSFUL_SAVES_COUNT] ?: 0) + 1
+        }
+    }
+
 }
 
 private data class LastUsedTools(
@@ -121,3 +132,4 @@ private data class LastUsedTools(
 )
 
 private val LAST_USED_TOOLS = stringPreferencesKey("LAST_USED_TOOLS")
+private val SUCCESSFUL_SAVES_COUNT = intPreferencesKey("SUCCESSFUL_SAVES_COUNT")
