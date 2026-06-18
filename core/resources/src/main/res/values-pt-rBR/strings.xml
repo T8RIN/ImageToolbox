@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -3173,4 +3172,8 @@
     <string name="model_zero_dcepp">Aprimoramento rápido em condições de pouca luz usando estimativa de curva Zero-DCE++.</string>
     <string name="model_restormer_deraining">Modelo de restauração de imagem Restormer para reduzir riscos de chuva e artefatos de clima úmido.</string>
     <string name="model_uvdoc_grid">Modelo de documento sem distorções que prevê uma grade de coordenadas e remapeia páginas curvas em uma digitalização mais plana.</string>
+    <string name="motion_duration_scale">Escala de Duração do Movimento</string>
+    <string name="motion_duration_scale_sub">Controla a velocidade da animação do aplicativo: 0 desativa o movimento, 1 é o padrão, valores maiores diminuem a velocidade das animações</string>
+    <string name="show_recent_tools">Mostrar Ferramentas Recentes</string>
+    <string name="show_recent_tools_sub">Exibir acesso rápido às ferramentas usadas recentemente na tela principal</string>
 </resources>
