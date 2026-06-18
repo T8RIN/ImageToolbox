@@ -19,5 +19,9 @@ package com.t8rin.imagetoolbox.core.ui.utils.provider
 
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 
-val LocalWindowSizeClass = compositionLocalOf<WindowSizeClass> { error("SizeClass not present") }
+val LocalWindowSizeClass = compositionLocalOf {
+    WindowSizeClass.calculateFromSize(DpSize(400.dp, 1000.dp))
+}

@@ -26,7 +26,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.plus
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,12 +45,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.FinanceMode
 import com.t8rin.imagetoolbox.core.resources.icons.History
 import com.t8rin.imagetoolbox.core.resources.icons.TouchApp
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import java.util.Calendar
 import kotlin.random.Random
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed as staggeredItemsIndexed
 
 @Composable
 internal fun UsageStatisticsContentImpl(
@@ -58,63 +66,115 @@ internal fun UsageStatisticsContentImpl(
     val totalToolOpens = statistics.sumOf { it.openCount }
     val lastOpened = statistics.maxByOrNull { it.lastOpenedTimestamp }?.lastOpenedTimestamp
     val maxOpenCount = statistics.maxOfOrNull { it.openCount } ?: 0
+    val widthSizeClass = LocalWindowSizeClass.current.widthSizeClass
 
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = contentPadding + PaddingValues(12.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        flingBehavior = enhancedFlingBehavior()
-    ) {
-        item {
-            FlowRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+    val isPortrait by isPortraitOrientationAsState()
+    val useGrid = widthSizeClass >= WindowWidthSizeClass.Medium || !isPortrait
+    val padding = contentPadding + PaddingValues(12.dp)
+
+    val statsCard = @Composable {
+        FlowRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            UsageStatisticSummaryItem(
+                icon = Icons.Rounded.TouchApp,
+                title = stringResource(R.string.app_opens),
+                value = state.appOpenCount.toString(),
+                modifier = Modifier.weight(1f)
+            )
+            UsageStatisticSummaryItem(
+                icon = Icons.Rounded.History,
+                title = stringResource(R.string.tool_opens),
+                value = totalToolOpens.toString(),
+                modifier = Modifier.weight(1f)
+            )
+            UsageStatisticSummaryItem(
+                icon = Icons.Outlined.DateRange,
+                title = stringResource(R.string.last_tool_opened),
+                value = lastOpened.asReadableDate(),
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+
+    if (useGrid) {
+        LazyVerticalStaggeredGrid(
+            modifier = modifier.fillMaxSize(),
+            contentPadding = padding,
+            columns = StaggeredGridCells.Adaptive(400.dp),
+            verticalItemSpacing = 4.dp,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            flingBehavior = enhancedFlingBehavior()
+        ) {
+            item(
+                span = StaggeredGridItemSpan.FullLine
             ) {
-                UsageStatisticSummaryItem(
-                    icon = Icons.Rounded.TouchApp,
-                    title = stringResource(R.string.app_opens),
-                    value = state.appOpenCount.toString(),
-                    modifier = Modifier.weight(1f)
-                )
-                UsageStatisticSummaryItem(
-                    icon = Icons.Rounded.History,
-                    title = stringResource(R.string.tool_opens),
-                    value = totalToolOpens.toString(),
-                    modifier = Modifier.weight(1f)
-                )
-                UsageStatisticSummaryItem(
-                    icon = Icons.Outlined.DateRange,
-                    title = stringResource(R.string.last_tool_opened),
-                    value = lastOpened.asReadableDate(),
-                    modifier = Modifier.weight(1f)
-                )
+                statsCard()
+            }
+
+            if (statistics.isEmpty()) {
+                item(
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
+                    PreferenceItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = ShapeDefaults.default,
+                        title = stringResource(R.string.no_usage_statistics),
+                        subtitle = stringResource(R.string.no_usage_statistics_sub),
+                        startIcon = Icons.Outlined.FinanceMode,
+                    )
+                }
+            } else {
+                staggeredItemsIndexed(
+                    items = statistics,
+                    key = { _, item -> item.screen.id }
+                ) { _, item ->
+                    ToolUsageStatisticItem(
+                        item = item,
+                        progress = item.openCount / maxOpenCount.toFloat(),
+                        shape = ShapeDefaults.default,
+                        onClick = { onNavigate(item.screen) }
+                    )
+                }
             }
         }
-
-        if (statistics.isEmpty()) {
+    } else {
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            contentPadding = padding,
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            flingBehavior = enhancedFlingBehavior()
+        ) {
             item {
-                PreferenceItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = ShapeDefaults.default,
-                    title = stringResource(R.string.no_usage_statistics),
-                    subtitle = stringResource(R.string.no_usage_statistics_sub),
-                    startIcon = Icons.Outlined.FinanceMode,
-                )
+                statsCard()
             }
-        } else {
-            itemsIndexed(
-                items = statistics,
-                key = { _, item -> item.screen.id }
-            ) { index, item ->
-                ToolUsageStatisticItem(
-                    item = item,
-                    progress = item.openCount / maxOpenCount.toFloat(),
-                    shape = ShapeDefaults.byIndex(index, statistics.size),
-                    onClick = { onNavigate(item.screen) }
-                )
+
+            if (statistics.isEmpty()) {
+                item {
+                    PreferenceItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = ShapeDefaults.default,
+                        title = stringResource(R.string.no_usage_statistics),
+                        subtitle = stringResource(R.string.no_usage_statistics_sub),
+                        startIcon = Icons.Outlined.FinanceMode,
+                    )
+                }
+            } else {
+                itemsIndexed(
+                    items = statistics,
+                    key = { _, item -> item.screen.id }
+                ) { index, item ->
+                    ToolUsageStatisticItem(
+                        item = item,
+                        progress = item.openCount / maxOpenCount.toFloat(),
+                        shape = ShapeDefaults.byIndex(index, statistics.size),
+                        onClick = { onNavigate(item.screen) }
+                    )
+                }
             }
         }
     }
