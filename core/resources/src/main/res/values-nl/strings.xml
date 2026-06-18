@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Snelle verbetering bij weinig licht met behulp van Zero-DCE++-curveschatting.</string>
     <string name="model_restormer_deraining">Resstormer beeldherstelmodel voor het verminderen van regenstrepen en artefacten bij nat weer.</string>
     <string name="model_uvdoc_grid">Document-unwarping-model dat een coördinatenraster voorspelt en gebogen pagina\'s opnieuw in kaart brengt in een vlakkere scan.</string>
+    <string name="motion_duration_scale">Bewegingsduurschaal</string>
+    <string name="motion_duration_scale_sub">Beheert de animatiesnelheid van de app: 0 schakelt beweging uit, 1 is normaal, hogere waarden vertragen animaties</string>
+    <string name="show_recent_tools">Toon recente tools</string>
+    <string name="show_recent_tools_sub">Geef snelle toegang tot recent gebruikte tools op het hoofdscherm weer</string>
+    <string name="usage_statistics">Gebruiksstatistieken</string>
+    <string name="usage_statistics_sub">Ontdek app-openingen, toollanceringen en uw meest gebruikte tools</string>
+    <string name="app_opens">App wordt geopend</string>
+    <string name="tool_opens">Gereedschap wordt geopend</string>
+    <string name="last_tool_opened">Laatste hulpmiddel</string>
+    <string name="successful_saves">Succesvolle reddingen</string>
+    <string name="activity_streak">Activiteitsreeks</string>
+    <string name="data_saved">Gegevens opgeslagen</string>
+    <string name="top_format">Topformaat</string>
+    <string name="tools_used">Gebruikt gereedschap</string>
+    <string name="tool_usage_subtitle">%1$d opent • %2$s</string>
+    <string name="no_usage_statistics">Nog geen gebruiksstatistieken</string>
+    <string name="no_usage_statistics_sub">Open een paar tools en ze verschijnen hier automatisch</string>
 </resources>

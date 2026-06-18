@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">ज़ीरो-डीसीई++ वक्र अनुमान का उपयोग करके तेज़ कम रोशनी में वृद्धि।</string>
     <string name="model_restormer_deraining">बारिश की लकीरों और गीले मौसम की कलाकृतियों को कम करने के लिए रिस्टॉर्मर इमेज रेस्टोरेशन मॉडल।</string>
     <string name="model_uvdoc_grid">दस्तावेज़ अनवारपिंग मॉडल जो एक समन्वय ग्रिड की भविष्यवाणी करता है और घुमावदार पृष्ठों को एक फ्लैटर स्कैन में रीमैप करता है।</string>
+    <string name="motion_duration_scale">गति अवधि स्केल</string>
+    <string name="motion_duration_scale_sub">ऐप एनीमेशन गति को नियंत्रित करता है: 0 गति को अक्षम करता है, 1 सामान्य है, उच्च मान एनिमेशन को धीमा कर देते हैं</string>
+    <string name="show_recent_tools">नवीनतम उपकरण दिखाएँ</string>
+    <string name="show_recent_tools_sub">मुख्य स्क्रीन पर हाल ही में उपयोग किए गए टूल तक त्वरित पहुंच प्रदर्शित करें</string>
+    <string name="usage_statistics">उपयोग सांख्यिकी</string>
+    <string name="usage_statistics_sub">ऐप खुलने, टूल लॉन्च होने और आपके सबसे अधिक उपयोग किए जाने वाले टूल का अन्वेषण करें</string>
+    <string name="app_opens">ऐप खुलता है</string>
+    <string name="tool_opens">टूल खुलता है</string>
+    <string name="last_tool_opened">अंतिम उपकरण</string>
+    <string name="successful_saves">सफल बचत</string>
+    <string name="activity_streak">गतिविधि की लकीर</string>
+    <string name="data_saved">डेटा सहेजा गया</string>
+    <string name="top_format">शीर्ष प्रारूप</string>
+    <string name="tools_used">उपकरणों का इस्तेमाल</string>
+    <string name="tool_usage_subtitle">%1$d खुलता है • %2$s</string>
+    <string name="no_usage_statistics">अभी तक कोई उपयोग आँकड़े नहीं</string>
+    <string name="no_usage_statistics_sub">कुछ उपकरण खोलें और वे स्वचालित रूप से यहां दिखाई देंगे</string>
 </resources>

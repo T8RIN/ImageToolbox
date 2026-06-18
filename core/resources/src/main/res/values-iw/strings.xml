@@ -3176,4 +3176,21 @@
     <string name="model_zero_dcepp">שיפור מהיר בתאורה נמוכה באמצעות הערכת עקומת Zero-DCE++.</string>
     <string name="model_restormer_deraining">דגם שחזור תמונה של רסטורמר להפחתת פסי גשם וחפצים במזג אוויר רטוב.</string>
     <string name="model_uvdoc_grid">מודל ביטול עיוות מסמך המחזה רשת קואורדינטות וממפה מחדש דפים מעוקלים לסריקה שטוחה יותר.</string>
+    <string name="motion_duration_scale">סולם משך תנועה</string>
+    <string name="motion_duration_scale_sub">שולט במהירות הנפשה של האפליקציה: 0 משבית את התנועה, 1 הוא נורמלי, ערכים גבוהים יותר מאטים את ההנפשה</string>
+    <string name="show_recent_tools">הצג כלים אחרונים</string>
+    <string name="show_recent_tools_sub">הצג גישה מהירה לכלים שבהם השתמשת לאחרונה במסך הראשי</string>
+    <string name="usage_statistics">סטטיסטיקת שימוש</string>
+    <string name="usage_statistics_sub">חקור את פתיחת האפליקציה, השקות הכלים והכלים הנפוצים ביותר שלך</string>
+    <string name="app_opens">האפליקציה נפתחת</string>
+    <string name="tool_opens">הכלי נפתח</string>
+    <string name="last_tool_opened">כלי אחרון</string>
+    <string name="successful_saves">שמירות מוצלחות</string>
+    <string name="activity_streak">רצף פעילות</string>
+    <string name="data_saved">הנתונים נשמרו</string>
+    <string name="top_format">פורמט עליון</string>
+    <string name="tools_used">כלים בשימוש</string>
+    <string name="tool_usage_subtitle">%1$d נפתח • %2$s</string>
+    <string name="no_usage_statistics">אין עדיין סטטיסטיקות שימוש</string>
+    <string name="no_usage_statistics_sub">פתחו כמה כלים והם יופיעו כאן אוטומטית</string>
 </resources>

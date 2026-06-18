@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">使用零 DCE++ 曲線估計進行快速低光增強。</string>
     <string name="model_restormer_deraining">用於減少雨紋和潮濕天氣偽影的 Restormer 影像恢復模型。</string>
     <string name="model_uvdoc_grid">文件反扭曲模型可預測座標網格並將彎曲頁面重新映射為更平坦的掃描。</string>
+    <string name="motion_duration_scale">運動持續時間量表</string>
+    <string name="motion_duration_scale_sub">控制應用程式動畫速度：0 停用運動，1 正常，較高的值會減慢動畫速度</string>
+    <string name="show_recent_tools" />
+    <string name="show_recent_tools_sub">在主畫面上顯示對最近使用的工具的快速訪問</string>
+    <string name="usage_statistics">使用統計</string>
+    <string name="usage_statistics_sub">探索應用程式開啟、工具啟動以及您最常用的工具</string>
+    <string name="app_opens">應用程式打開</string>
+    <string name="tool_opens">工具開啟</string>
+    <string name="last_tool_opened">最後一個工具</string>
+    <string name="successful_saves">成功保存</string>
+    <string name="activity_streak">連續活動</string>
+    <string name="data_saved">資料已儲存</string>
+    <string name="top_format">頂部格式</string>
+    <string name="tools_used">使用的工具</string>
+    <string name="tool_usage_subtitle" />
+    <string name="no_usage_statistics">尚無使用統計</string>
+    <string name="no_usage_statistics_sub">打開一些工具，它們會自動出現在這裡</string>
 </resources>

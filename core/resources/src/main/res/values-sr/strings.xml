@@ -3174,4 +3174,21 @@
     <string name="model_zero_dcepp">Брзо побољшање при слабом осветљењу помоћу процене криве Зеро-ДЦЕ++.</string>
     <string name="model_restormer_deraining">Рестормер модел рестаурације слике за смањење трагова кише и артефаката по влажном времену.</string>
     <string name="model_uvdoc_grid">Модел одмотавања документа који предвиђа координатну мрежу и пресликава закривљене странице у равније скенирање.</string>
+    <string name="motion_duration_scale">Скала трајања покрета</string>
+    <string name="motion_duration_scale_sub">Контролише брзину анимације апликације: 0 онемогућава кретање, 1 је нормално, веће вредности успоравају анимације</string>
+    <string name="show_recent_tools">Прикажи недавне алатке</string>
+    <string name="show_recent_tools_sub">Прикажите брзи приступ недавно коришћеним алатима на главном екрану</string>
+    <string name="usage_statistics">Статистика коришћења</string>
+    <string name="usage_statistics_sub">Истражите отварање апликације, покретање алата и најчешће коришћене алате</string>
+    <string name="app_opens">Апликација се отвара</string>
+    <string name="tool_opens">Алат се отвара</string>
+    <string name="last_tool_opened">Последњи алат</string>
+    <string name="successful_saves">Успешно чување</string>
+    <string name="activity_streak">Низ активности</string>
+    <string name="data_saved">Подаци су сачувани</string>
+    <string name="top_format">Топ формат</string>
+    <string name="tools_used">Коришћени алати</string>
+    <string name="tool_usage_subtitle">__ПХ_0__ отвара • __ПХ_1__</string>
+    <string name="no_usage_statistics">Још увек нема статистике коришћења</string>
+    <string name="no_usage_statistics_sub">Отворите неколико алата и они ће се аутоматски појавити овде</string>
 </resources>

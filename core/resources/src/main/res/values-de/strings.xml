@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Schnelle Verbesserung bei schwachem Licht mithilfe der Zero-DCE++-Kurvenschätzung.</string>
     <string name="model_restormer_deraining">Restormer-Bildwiederherstellungsmodell zur Reduzierung von Regenstreifen und Artefakten bei nassem Wetter.</string>
     <string name="model_uvdoc_grid">Dokumententzerrungsmodell, das ein Koordinatengitter vorhersagt und gekrümmte Seiten in einen flacheren Scan umwandelt.</string>
+    <string name="motion_duration_scale">Bewegungsdauerskala</string>
+    <string name="motion_duration_scale_sub">Steuert die Geschwindigkeit der App-Animation: 0 deaktiviert die Bewegung, 1 ist normal, höhere Werte verlangsamen die Animationen</string>
+    <string name="show_recent_tools">Aktuelle Tools anzeigen</string>
+    <string name="show_recent_tools_sub">Zeigen Sie den Schnellzugriff auf zuletzt verwendete Tools auf dem Hauptbildschirm an</string>
+    <string name="usage_statistics">Nutzungsstatistik</string>
+    <string name="usage_statistics_sub">Entdecken Sie App-Öffnungen, Tool-Starts und Ihre am häufigsten verwendeten Tools</string>
+    <string name="app_opens">App wird geöffnet</string>
+    <string name="tool_opens">Werkzeug öffnet sich</string>
+    <string name="last_tool_opened">Letztes Werkzeug</string>
+    <string name="successful_saves">Erfolgreiche Speicherungen</string>
+    <string name="activity_streak">Aktivitätssträhne</string>
+    <string name="data_saved">Daten gespeichert</string>
+    <string name="top_format">Top-Format</string>
+    <string name="tools_used">Verwendete Werkzeuge</string>
+    <string name="tool_usage_subtitle">%1$d öffnet sich • %2$s</string>
+    <string name="no_usage_statistics">Noch keine Nutzungsstatistiken</string>
+    <string name="no_usage_statistics_sub">Öffnen Sie einige Tools und sie werden hier automatisch angezeigt</string>
 </resources>

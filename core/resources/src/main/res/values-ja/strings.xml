@@ -3172,4 +3172,21 @@
     <string name="model_zero_dcepp">Zero-DCE++ 曲線推定を使用した高速低照度強化。</string>
     <string name="model_restormer_deraining">雨の縞模様や雨天時のアーティファクトを軽減するための Restormer 画像復元モデル。</string>
     <string name="model_uvdoc_grid">座標グリッドを予測し、湾曲したページをより平坦なスキャンに再マッピングするドキュメント アンワーピング モデル。</string>
+    <string name="motion_duration_scale">モーション持続時間スケール</string>
+    <string name="motion_duration_scale_sub">アプリのアニメーション速度を制御します。0 はモーションを無効にし、1 は通常、値を大きくするとアニメーションが遅くなります。</string>
+    <string name="show_recent_tools">最近のツールを表示</string>
+    <string name="show_recent_tools_sub">最近使用したツールへのクイック アクセスをメイン画面に表示します</string>
+    <string name="usage_statistics">使用統計</string>
+    <string name="usage_statistics_sub">アプリの起動、ツールの起動、最もよく使用されるツールを探索します</string>
+    <string name="app_opens">アプリが開きます</string>
+    <string name="tool_opens">ツールが開きます</string>
+    <string name="last_tool_opened">最後のツール</string>
+    <string name="successful_saves">保存に成功しました</string>
+    <string name="activity_streak">連続アクティビティ</string>
+    <string name="data_saved">保存されたデータ</string>
+    <string name="top_format">トップフォーマット</string>
+    <string name="tools_used">使用したツール</string>
+    <string name="tool_usage_subtitle">%1$d が開きます • %2$s</string>
+    <string name="no_usage_statistics">使用統計はまだありません</string>
+    <string name="no_usage_statistics_sub">いくつかのツールを開くと、自動的にここに表示されます</string>
 </resources>

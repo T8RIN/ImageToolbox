@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -3188,4 +3190,9 @@
     <string name="tool_usage_subtitle">%1$d يفتح • %2$s</string>
     <string name="no_usage_statistics">لا توجد إحصائيات استخدام حتى الآن</string>
     <string name="no_usage_statistics_sub">افتح بعض الأدوات وستظهر هنا تلقائيًا</string>
+    <string name="successful_saves">تصديات ناجحة</string>
+    <string name="activity_streak">خط النشاط</string>
+    <string name="data_saved">تم حفظ البيانات</string>
+    <string name="top_format">أعلى تنسيق</string>
+    <string name="tools_used">الأدوات المستخدمة</string>
 </resources>

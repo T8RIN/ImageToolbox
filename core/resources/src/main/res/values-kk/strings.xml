@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Zero-DCE++ қисығын бағалау арқылы төмен жарықты жылдам жақсарту.</string>
     <string name="model_restormer_deraining">Жаңбыр жолақтары мен ылғалды ауа-райындағы артефактілерді азайтуға арналған рестормер кескінін қалпына келтіру үлгісі.</string>
     <string name="model_uvdoc_grid">Координаттар торын болжайтын және қисық беттерді тегіс сканерлеуге қайта салатын құжатты ашу үлгісі.</string>
+    <string name="motion_duration_scale">Қозғалыс ұзақтығы шкаласы</string>
+    <string name="motion_duration_scale_sub">Қолданба анимациясының жылдамдығын басқарады: 0 қозғалысты өшіреді, 1 қалыпты, жоғары мәндер анимацияларды баяулатады</string>
+    <string name="show_recent_tools">Соңғы құралдарды көрсету</string>
+    <string name="show_recent_tools_sub">Негізгі экранда соңғы пайдаланылған құралдарға жылдам қол жеткізуді көрсету</string>
+    <string name="usage_statistics">Пайдалану статистикасы</string>
+    <string name="usage_statistics_sub">Қолданбаның ашылуын, құралды іске қосуды және ең көп қолданылатын құралдарды зерттеңіз</string>
+    <string name="app_opens">Қолданба ашылады</string>
+    <string name="tool_opens">Құрал ашылады</string>
+    <string name="last_tool_opened">Соңғы құрал</string>
+    <string name="successful_saves">Сәтті құтқару</string>
+    <string name="activity_streak">Белсенділік сызығы</string>
+    <string name="data_saved">Деректер сақталды</string>
+    <string name="top_format">Жоғарғы формат</string>
+    <string name="tools_used">Қолданылатын құралдар</string>
+    <string name="tool_usage_subtitle">%1$d ашылады • %2$s</string>
+    <string name="no_usage_statistics">Қолдану статистикасы әлі жоқ</string>
+    <string name="no_usage_statistics_sub">Бірнеше құралдарды ашыңыз және олар осы жерде автоматты түрде пайда болады</string>
 </resources>

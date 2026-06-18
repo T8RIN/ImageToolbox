@@ -3172,4 +3172,21 @@
     <string name="model_zero_dcepp">Peningkatan cahaya rendah yang cepat menggunakan estimasi kurva Zero-DCE++.</string>
     <string name="model_restormer_deraining">Model restorasi gambar Restormer untuk mengurangi garis-garis hujan dan artefak cuaca basah.</string>
     <string name="model_uvdoc_grid">Model dokumentasi yang tidak melengkung yang memprediksi kisi koordinat dan memetakan ulang halaman melengkung menjadi pemindaian yang lebih datar.</string>
+    <string name="motion_duration_scale">Skala Durasi Gerak</string>
+    <string name="motion_duration_scale_sub">Mengontrol kecepatan animasi aplikasi: 0 menonaktifkan gerakan, 1 normal, nilai yang lebih tinggi memperlambat animasi</string>
+    <string name="show_recent_tools">Tampilkan Alat Terbaru</string>
+    <string name="show_recent_tools_sub">Tampilkan akses cepat ke alat yang baru-baru ini digunakan di layar utama</string>
+    <string name="usage_statistics">Statistik Penggunaan</string>
+    <string name="usage_statistics_sub">Jelajahi pembukaan aplikasi, peluncuran alat, dan alat yang paling sering Anda gunakan</string>
+    <string name="app_opens">Aplikasi terbuka</string>
+    <string name="tool_opens">Alat terbuka</string>
+    <string name="last_tool_opened">Alat terakhir</string>
+    <string name="successful_saves">Penyelamatan berhasil</string>
+    <string name="activity_streak">Rentetan aktivitas</string>
+    <string name="data_saved">Data disimpan</string>
+    <string name="top_format">Format teratas</string>
+    <string name="tools_used">Alat yang digunakan</string>
+    <string name="tool_usage_subtitle">%1$d terbuka • %2$s</string>
+    <string name="no_usage_statistics">Belum ada statistik penggunaan</string>
+    <string name="no_usage_statistics_sub">Buka beberapa alat dan alat tersebut akan muncul di sini secara otomatis</string>
 </resources>

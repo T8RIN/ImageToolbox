@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">ஜீரோ-டிசிஇ++ வளைவு மதிப்பீட்டைப் பயன்படுத்தி வேகமான குறைந்த-ஒளி மேம்பாடு.</string>
     <string name="model_restormer_deraining">மழைக் கோடுகள் மற்றும் ஈரமான வானிலை கலைப்பொருட்களைக் குறைப்பதற்கான ரெஸ்டார்மர் பட மறுசீரமைப்பு மாதிரி.</string>
     <string name="model_uvdoc_grid">ஒரு ஒருங்கிணைப்பு கட்டத்தை முன்னறிவிக்கும் மற்றும் வளைந்த பக்கங்களை பிளாட்டர் ஸ்கேனில் மறுவடிவமைக்கும் ஆவண அன்வார்ப்பிங் மாதிரி.</string>
+    <string name="motion_duration_scale">இயக்க கால அளவு</string>
+    <string name="motion_duration_scale_sub">பயன்பாட்டு அனிமேஷன் வேகத்தைக் கட்டுப்படுத்துகிறது: 0 இயக்கத்தை முடக்குகிறது, 1 இயல்பானது, அதிக மதிப்புகள் அனிமேஷன்களை மெதுவாக்கும்</string>
+    <string name="show_recent_tools">சமீபத்திய கருவிகளைக் காட்டு</string>
+    <string name="show_recent_tools_sub">பிரதான திரையில் சமீபத்தில் பயன்படுத்தப்பட்ட கருவிகளுக்கான விரைவான அணுகலைக் காண்பி</string>
+    <string name="usage_statistics">பயன்பாட்டு புள்ளிவிவரங்கள்</string>
+    <string name="usage_statistics_sub">ஆப்ஸ் திறப்புகள், கருவி துவக்கங்கள் மற்றும் நீங்கள் அதிகம் பயன்படுத்திய கருவிகளை ஆராயுங்கள்</string>
+    <string name="app_opens">ஆப் திறக்கிறது</string>
+    <string name="tool_opens">கருவி திறக்கிறது</string>
+    <string name="last_tool_opened">கடைசி கருவி</string>
+    <string name="successful_saves">வெற்றிகரமான சேமிப்பு</string>
+    <string name="activity_streak">செயல்பாட்டுத் தொடர்</string>
+    <string name="data_saved">தரவு சேமிக்கப்பட்டது</string>
+    <string name="top_format">மேல் வடிவம்</string>
+    <string name="tools_used">பயன்படுத்தப்படும் கருவிகள்</string>
+    <string name="tool_usage_subtitle">%1$d திறக்கிறது • %2$s</string>
+    <string name="no_usage_statistics">இதுவரை பயன்பாட்டு புள்ளிவிவரங்கள் இல்லை</string>
+    <string name="no_usage_statistics_sub">சில கருவிகளைத் திறக்கவும், அவை தானாகவே இங்கே தோன்றும்</string>
 </resources>

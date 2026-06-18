@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Nopea parannus hämärässä Zero-DCE++ käyräestimaatiolla.</string>
     <string name="model_restormer_deraining">Restormer-kuvanpalautusmalli saderaitojen ja märän sään esineiden vähentämiseen.</string>
     <string name="model_uvdoc_grid">Dokumentoi vääristymätön malli, joka ennustaa koordinaattiruudukon ja muokkaa kaarevat sivut tasaisemmiksi skannauksiksi.</string>
+    <string name="motion_duration_scale">Liikkeen kestoasteikko</string>
+    <string name="motion_duration_scale_sub">Ohjaa sovelluksen animaationopeutta: 0 poistaa liikkeen käytöstä, 1 on normaali, korkeammat arvot hidastavat animaatioita</string>
+    <string name="show_recent_tools">Näytä viimeisimmät työkalut</string>
+    <string name="show_recent_tools_sub">Näytä äskettäin käytettyjen työkalujen nopea pääsy päänäytölle</string>
+    <string name="usage_statistics">Käyttötilastot</string>
+    <string name="usage_statistics_sub">Tutustu sovellusten avauksiin, työkalujen käynnistämiseen ja eniten käytettyihin työkaluihisi</string>
+    <string name="app_opens">Sovellus avautuu</string>
+    <string name="tool_opens">Työkalu avautuu</string>
+    <string name="last_tool_opened">Viimeinen työkalu</string>
+    <string name="successful_saves">Onnistuneet tallennukset</string>
+    <string name="activity_streak">Aktiivisuusputki</string>
+    <string name="data_saved">Tiedot tallennettu</string>
+    <string name="top_format">Huippumuoto</string>
+    <string name="tools_used">Käytetyt työkalut</string>
+    <string name="tool_usage_subtitle">%1$d avautuu • %2$s</string>
+    <string name="no_usage_statistics">Ei vielä käyttötilastoja</string>
+    <string name="no_usage_statistics_sub">Avaa muutama työkalu, niin ne näkyvät täällä automaattisesti</string>
 </resources>

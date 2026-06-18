@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3175,4 +3177,17 @@
     <string name="motion_duration_scale_sub">控制应用动画速度：0 关闭动效，1 为默认速度，数值越大动画越慢</string>
     <string name="show_recent_tools">展示最近使用的工具</string>
     <string name="show_recent_tools_sub">主屏快捷展示最近使用的工具</string>
+    <string name="usage_statistics">使用统计</string>
+    <string name="usage_statistics_sub">探索应用程序打开、工具启动以及您最常用的工具</string>
+    <string name="app_opens">应用程序打开</string>
+    <string name="tool_opens">工具打开</string>
+    <string name="last_tool_opened">最后一个工具</string>
+    <string name="successful_saves">成功保存</string>
+    <string name="activity_streak">连续活动</string>
+    <string name="data_saved">数据已保存</string>
+    <string name="top_format">顶部格式</string>
+    <string name="tools_used">使用的工具</string>
+    <string name="tool_usage_subtitle">%1$d 打开 • %2$s</string>
+    <string name="no_usage_statistics">尚无使用统计</string>
+    <string name="no_usage_statistics_sub">打开一些工具，它们会自动出现在这里</string>
 </resources>

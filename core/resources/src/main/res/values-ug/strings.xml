@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Zero-DCE ++ ئەگرى سىزىق ئارقىلىق تېز تۆۋەن نۇرنى ئاشۇرۇش.</string>
     <string name="model_restormer_deraining">يامغۇر سۈيىنى ۋە ھۆل-يېغىنلىق بۇيۇملارنى ئازايتىش ئۈچۈن رەسىمنى ئەسلىگە كەلتۈرۈش ئەندىزىسىنى ئەسلىگە كەلتۈرۈش.</string>
     <string name="model_uvdoc_grid">كوئوردېنات تورىنى ئالدىن پەرەز قىلىدىغان ۋە ئەگمە بەتلەرنى تەكشى سىكانېرغا ئايلاندۇرىدىغان ھۆججەت يېشىش ئەندىزىسى.</string>
+    <string name="motion_duration_scale">ھەرىكەت ۋاقتى</string>
+    <string name="motion_duration_scale_sub">ئەپنىڭ كارتون سۈرئىتىنى كونترول قىلىدۇ: 0 ھەرىكەتنى چەكلەيدۇ ، 1 نورمال ، تېخىمۇ يۇقىرى قىممەت كارتوننى ئاستىلىتىدۇ</string>
+    <string name="show_recent_tools">يېقىنقى قوراللارنى كۆرسەت</string>
+    <string name="show_recent_tools_sub">ئاساسىي ئېكراندا يېقىندا ئىشلىتىلگەن قوراللارنى تېز زىيارەت قىلىڭ</string>
+    <string name="usage_statistics">ئىشلىتىش ستاتىستىكىسى</string>
+    <string name="usage_statistics_sub">ئەپ ئېچىش ، قورال قوزغىتىش ۋە ئەڭ كۆپ ئىشلىتىدىغان قوراللىرىڭىزنى ئىزدەڭ</string>
+    <string name="app_opens">ئەپ ئېچىلدى</string>
+    <string name="tool_opens">قورال ئېچىلدى</string>
+    <string name="last_tool_opened">ئاخىرقى قورال</string>
+    <string name="successful_saves">مۇۋەپپەقىيەتلىك تېجەيدۇ</string>
+    <string name="activity_streak">پائالىيەت تەرتىپى</string>
+    <string name="data_saved">سانلىق مەلۇمات ساقلاندى</string>
+    <string name="top_format">ئەڭ يۇقىرى فورماتى</string>
+    <string name="tools_used">ئىشلىتىلگەن قوراللار</string>
+    <string name="tool_usage_subtitle">%1$d ئېچىلدى • %2$s</string>
+    <string name="no_usage_statistics">ھازىرچە ئىشلىتىش سىتاتىستىكىسى يوق</string>
+    <string name="no_usage_statistics_sub">بىر قانچە قورالنى ئېچىڭ ، ئۇلار بۇ يەردە ئاپتوماتىك كۆرۈنىدۇ</string>
 </resources>

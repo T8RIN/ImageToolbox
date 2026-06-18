@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Argi gutxiko hobekuntza azkarra Zero-DCE++ kurbaren estimazioa erabiliz.</string>
     <string name="model_restormer_deraining">Restormer irudia leheneratzeko eredua euri-marra eta eguraldi hezearen artefaktuak murrizteko.</string>
     <string name="model_uvdoc_grid">Dokumentuen deformazio-eredua, koordenatu-sare bat aurreikusten duena eta orri kurbatuak birmapatzen dituena eskaneatu lauago batean.</string>
+    <string name="motion_duration_scale">Mugimenduaren Iraupen Eskala</string>
+    <string name="motion_duration_scale_sub">Aplikazioaren animazio-abiadura kontrolatzen du: 0-k mugimendua desgaitzen du, 1 normala da, balio handiagoak animazioak moteltzen ditu</string>
+    <string name="show_recent_tools">Erakutsi azken tresnak</string>
+    <string name="show_recent_tools_sub">Erakutsi azken erabilitako tresnetarako sarbide azkarra pantaila nagusian</string>
+    <string name="usage_statistics">Erabilera Estatistika</string>
+    <string name="usage_statistics_sub">Arakatu aplikazioa irekitzen, tresna abiarazten eta gehien erabiltzen dituzun tresnak</string>
+    <string name="app_opens">Aplikazioa irekitzen da</string>
+    <string name="tool_opens">Tresna irekitzen da</string>
+    <string name="last_tool_opened">Azken tresna</string>
+    <string name="successful_saves">Gorde arrakastatsuak</string>
+    <string name="activity_streak">Jarduera bolada</string>
+    <string name="data_saved">Datuak gordeta</string>
+    <string name="top_format">Goiko formatua</string>
+    <string name="tools_used">Erabilitako tresnak</string>
+    <string name="tool_usage_subtitle">%1$d irekitzen • %2$s</string>
+    <string name="no_usage_statistics">Oraindik ez dago erabilera-estatistikarik</string>
+    <string name="no_usage_statistics_sub">Ireki tresna batzuk eta automatikoki agertuko dira hemen</string>
 </resources>

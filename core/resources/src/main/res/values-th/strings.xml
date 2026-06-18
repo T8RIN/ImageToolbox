@@ -3172,4 +3172,21 @@
     <string name="model_zero_dcepp">การปรับปรุงสภาพแสงน้อยอย่างรวดเร็วโดยใช้การประมาณค่าเส้นโค้ง Zero-DCE++</string>
     <string name="model_restormer_deraining">แบบจำลองการฟื้นฟูอิมเมจ Restormer เพื่อลดเส้นสายฝนและสิ่งผิดปกติจากสภาพอากาศเปียก</string>
     <string name="model_uvdoc_grid">เอกสารโมเดลที่ไม่บิดเบี้ยวซึ่งคาดการณ์ตารางพิกัดและแมปหน้าที่โค้งใหม่ให้เป็นการสแกนที่เรียบยิ่งขึ้น</string>
+    <string name="motion_duration_scale">สเกลระยะเวลาการเคลื่อนไหว</string>
+    <string name="motion_duration_scale_sub">ควบคุมความเร็วของแอนิเมชันของแอป: 0 ปิดใช้งานการเคลื่อนไหว, 1 คือค่าปกติ ค่าที่สูงกว่าจะทำให้แอนิเมชั่นช้าลง</string>
+    <string name="show_recent_tools">แสดงเครื่องมือล่าสุด</string>
+    <string name="show_recent_tools_sub">แสดงการเข้าถึงเครื่องมือที่ใช้ล่าสุดอย่างรวดเร็วบนหน้าจอหลัก</string>
+    <string name="usage_statistics">สถิติการใช้งาน</string>
+    <string name="usage_statistics_sub">สำรวจการเปิดแอป การเปิดตัวเครื่องมือ และเครื่องมือที่คุณใช้บ่อยที่สุด</string>
+    <string name="app_opens">แอปเปิดขึ้น</string>
+    <string name="tool_opens">เครื่องมือเปิดขึ้น</string>
+    <string name="last_tool_opened">เครื่องมือชิ้นสุดท้าย</string>
+    <string name="successful_saves">บันทึกได้สำเร็จ</string>
+    <string name="activity_streak">กิจกรรมต่อเนื่อง</string>
+    <string name="data_saved">บันทึกข้อมูลแล้ว</string>
+    <string name="top_format">รูปแบบยอดนิยม</string>
+    <string name="tools_used">เครื่องมือที่ใช้</string>
+    <string name="tool_usage_subtitle">%1$d เปิด • %2$s</string>
+    <string name="no_usage_statistics">ยังไม่มีสถิติการใช้งาน</string>
+    <string name="no_usage_statistics_sub">เปิดเครื่องมือบางอย่างแล้วเครื่องมือเหล่านั้นจะปรากฏที่นี่โดยอัตโนมัติ</string>
 </resources>

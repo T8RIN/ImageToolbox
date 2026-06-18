@@ -3174,4 +3174,21 @@
     <string name="model_zero_dcepp">Mejora rápida en condiciones de poca luz mediante la estimación de curva Zero-DCE++.</string>
     <string name="model_restormer_deraining">Modelo de restauración de imágenes de Restormer para reducir las rayas de lluvia y los artefactos de clima húmedo.</string>
     <string name="model_uvdoc_grid">Modelo de corrección de documentos que predice una cuadrícula de coordenadas y reasigna páginas curvas en un escaneo más plano.</string>
+    <string name="motion_duration_scale">Escala de duración del movimiento</string>
+    <string name="motion_duration_scale_sub">Controla la velocidad de animación de la aplicación: 0 desactiva el movimiento, 1 es normal, los valores más altos ralentizan las animaciones</string>
+    <string name="show_recent_tools">Mostrar herramientas recientes</string>
+    <string name="show_recent_tools_sub">Mostrar acceso rápido a herramientas utilizadas recientemente en la pantalla principal</string>
+    <string name="usage_statistics">Estadísticas de uso</string>
+    <string name="usage_statistics_sub">Explore las aperturas de aplicaciones, los lanzamientos de herramientas y las herramientas más utilizadas</string>
+    <string name="app_opens">Se abre la aplicación</string>
+    <string name="tool_opens">Se abre la herramienta</string>
+    <string name="last_tool_opened">última herramienta</string>
+    <string name="successful_saves">Guardadas exitosas</string>
+    <string name="activity_streak">Racha de actividad</string>
+    <string name="data_saved">Datos guardados</string>
+    <string name="top_format">formato superior</string>
+    <string name="tools_used">Herramientas utilizadas</string>
+    <string name="tool_usage_subtitle">%1$d abre • %2$s</string>
+    <string name="no_usage_statistics">Aún no hay estadísticas de uso</string>
+    <string name="no_usage_statistics_sub">Abra algunas herramientas y aparecerán aquí automáticamente.</string>
 </resources>

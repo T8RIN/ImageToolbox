@@ -3174,4 +3174,21 @@
     <string name="model_zero_dcepp">Îmbunătățire rapidă în condiții de lumină scăzută folosind estimarea curbei Zero-DCE++.</string>
     <string name="model_restormer_deraining">Model de restaurare a imaginii Restormer pentru reducerea dungilor de ploaie și a artefactelor pe vreme umedă.</string>
     <string name="model_uvdoc_grid">Model de deformare a documentelor care prezice o grilă de coordonate și remapează paginile curbe într-o scanare mai plată.</string>
+    <string name="motion_duration_scale">Scala de durată a mișcării</string>
+    <string name="motion_duration_scale_sub">Controlează viteza animației aplicației: 0 dezactivează mișcarea, 1 este normal, valorile mai mari încetinesc animațiile</string>
+    <string name="show_recent_tools">Afișați instrumentele recente</string>
+    <string name="show_recent_tools_sub">Afișați acces rapid la instrumentele utilizate recent pe ecranul principal</string>
+    <string name="usage_statistics">Statistici de utilizare</string>
+    <string name="usage_statistics_sub">Explorați se deschide aplicația, se lansează instrumente și cele mai utilizate instrumente</string>
+    <string name="app_opens">Se deschide aplicația</string>
+    <string name="tool_opens">Instrumentul se deschide</string>
+    <string name="last_tool_opened">Ultimul instrument</string>
+    <string name="successful_saves">Salvări reușite</string>
+    <string name="activity_streak">Urma de activitate</string>
+    <string name="data_saved">Datele salvate</string>
+    <string name="top_format">Format de top</string>
+    <string name="tools_used">Instrumente folosite</string>
+    <string name="tool_usage_subtitle">%1$d se deschide • %2$s</string>
+    <string name="no_usage_statistics">Nu există încă statistici de utilizare</string>
+    <string name="no_usage_statistics_sub">Deschideți câteva instrumente și acestea vor apărea aici automat</string>
 </resources>

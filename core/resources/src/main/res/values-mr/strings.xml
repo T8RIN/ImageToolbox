@@ -3174,4 +3174,21 @@
     <string name="model_zero_dcepp">शून्य-DCE++ वक्र अंदाज वापरून जलद कमी-प्रकाश सुधारणा.</string>
     <string name="model_restormer_deraining">पावसाच्या रेषा आणि ओल्या हवामानातील कलाकृती कमी करण्यासाठी पुनर्संचयित प्रतिमा पुनर्संचयित मॉडेल.</string>
     <string name="model_uvdoc_grid">दस्तऐवज अनवारिंग मॉडेल जे एका समन्वय ग्रिडचा अंदाज लावते आणि वक्र पृष्ठांचे फ्लॅटर स्कॅनमध्ये रीमॅप करते.</string>
+    <string name="motion_duration_scale">गती कालावधी स्केल</string>
+    <string name="motion_duration_scale_sub">ॲप ॲनिमेशन गती नियंत्रित करते: 0 गती अक्षम करते, 1 सामान्य आहे, उच्च मूल्ये ॲनिमेशन कमी करतात</string>
+    <string name="show_recent_tools">अलीकडील साधने दाखवा</string>
+    <string name="show_recent_tools_sub">मुख्य स्क्रीनवर अलीकडे वापरलेल्या साधनांचा द्रुत प्रवेश प्रदर्शित करा</string>
+    <string name="usage_statistics">वापर आकडेवारी</string>
+    <string name="usage_statistics_sub">ॲप उघडते, टूल लॉन्च होते आणि तुमची सर्वाधिक वापरलेली साधने एक्सप्लोर करा</string>
+    <string name="app_opens">ॲप उघडतो</string>
+    <string name="tool_opens">साधन उघडते</string>
+    <string name="last_tool_opened">शेवटचे साधन</string>
+    <string name="successful_saves">यशस्वी बचत</string>
+    <string name="activity_streak">क्रियाकलाप स्ट्रीक</string>
+    <string name="data_saved">डेटा जतन केला</string>
+    <string name="top_format">शीर्ष स्वरूप</string>
+    <string name="tools_used">साधने वापरली</string>
+    <string name="tool_usage_subtitle">%1$d उघडेल • %2$s</string>
+    <string name="no_usage_statistics">अद्याप वापराची आकडेवारी नाही</string>
+    <string name="no_usage_statistics_sub">काही साधने उघडा आणि ती येथे आपोआप दिसून येतील</string>
 </resources>

@@ -3175,4 +3175,21 @@
     <string name="model_zero_dcepp">Швидке покращення в умовах слабкого освітлення за допомогою оцінки кривої Zero-DCE++.</string>
     <string name="model_restormer_deraining">Модель відновлення зображення Restormer для зменшення смуг дощу та артефактів у вологу погоду.</string>
     <string name="model_uvdoc_grid">Модель деформації документа, яка прогнозує координатну сітку та переставляє вигнуті сторінки на більш пласке сканування.</string>
+    <string name="motion_duration_scale">Шкала тривалості руху</string>
+    <string name="motion_duration_scale_sub">Керує швидкістю анімації програми: 0 вимикає рух, 1 – це нормально, вищі значення сповільнюють анімацію</string>
+    <string name="show_recent_tools">Показати останні інструменти</string>
+    <string name="show_recent_tools_sub">Відображення швидкого доступу до нещодавно використаних інструментів на головному екрані</string>
+    <string name="usage_statistics">Статистика використання</string>
+    <string name="usage_statistics_sub">Дізнайтеся про відкриття програм, запуски інструментів і інструменти, якими ви найчастіше користуєтеся</string>
+    <string name="app_opens">Відкриється програма</string>
+    <string name="tool_opens">Інструмент відкривається</string>
+    <string name="last_tool_opened">Останній інструмент</string>
+    <string name="successful_saves">Успішні збереження</string>
+    <string name="activity_streak">Смуга активності</string>
+    <string name="data_saved">Дані збережено</string>
+    <string name="top_format">Топовий формат</string>
+    <string name="tools_used">Використані інструменти</string>
+    <string name="tool_usage_subtitle">%1$d відкривається • %2$s</string>
+    <string name="no_usage_statistics">Статистики використання ще немає</string>
+    <string name="no_usage_statistics_sub">Відкрийте кілька інструментів, і вони з’являться тут автоматично</string>
 </resources>

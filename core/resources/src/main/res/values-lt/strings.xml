@@ -3176,4 +3176,21 @@
     <string name="model_zero_dcepp">Greitas pagerinimas esant silpnam apšvietimui naudojant Zero-DCE++ kreivės įvertinimą.</string>
     <string name="model_restormer_deraining">Restormer vaizdo atkūrimo modelis, skirtas sumažinti lietaus juosteles ir šlapio oro artefaktus.</string>
     <string name="model_uvdoc_grid">Dokumentuokite iškreiptą modelį, kuris numato koordinačių tinklelį ir perskirsto išlenktus puslapius į plokštesnį nuskaitymą.</string>
+    <string name="motion_duration_scale">Judesio trukmės skalė</string>
+    <string name="motion_duration_scale_sub">Valdo programos animacijos greitį: 0 išjungia judėjimą, 1 yra normalus, didesnės reikšmės sulėtina animaciją</string>
+    <string name="show_recent_tools">Rodyti naujausius įrankius</string>
+    <string name="show_recent_tools_sub">Pagrindiniame ekrane parodykite greitą prieigą prie neseniai naudotų įrankių</string>
+    <string name="usage_statistics">Naudojimo statistika</string>
+    <string name="usage_statistics_sub">Naršykite programų atidarymus, įrankių paleidimus ir dažniausiai naudojamus įrankius</string>
+    <string name="app_opens">Atsidaro programėlė</string>
+    <string name="tool_opens">Atsidaro įrankis</string>
+    <string name="last_tool_opened">Paskutinis įrankis</string>
+    <string name="successful_saves">Sėkmingi išsaugojimai</string>
+    <string name="activity_streak">Veiklos serija</string>
+    <string name="data_saved">Duomenys išsaugoti</string>
+    <string name="top_format">Aukščiausias formatas</string>
+    <string name="tools_used">Naudoti įrankiai</string>
+    <string name="tool_usage_subtitle">%1$d atsidaro • %2$s</string>
+    <string name="no_usage_statistics">Kol kas nėra naudojimo statistikos</string>
+    <string name="no_usage_statistics_sub">Atidarykite kelis įrankius ir jie čia pasirodys automatiškai</string>
 </resources>

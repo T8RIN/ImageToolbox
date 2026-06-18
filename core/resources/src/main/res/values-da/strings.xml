@@ -3174,4 +3174,21 @@
     <string name="model_zero_dcepp">Hurtig forbedring i svagt lys ved hjælp af Zero-DCE++ kurvestimering.</string>
     <string name="model_restormer_deraining">Restormer-billedgendannelsesmodel til reduktion af regnstriber og artefakter i vådt vejr.</string>
     <string name="model_uvdoc_grid">Dokumentudviklende model, der forudsiger et koordinatgitter og omformer buede sider til en fladere scanning.</string>
+    <string name="motion_duration_scale">Bevægelsesvarighedskala</string>
+    <string name="motion_duration_scale_sub">Styrer app-animationshastighed: 0 deaktiverer bevægelse, 1 er normal, højere værdier sænker animationerne</string>
+    <string name="show_recent_tools">Vis seneste værktøjer</string>
+    <string name="show_recent_tools_sub">Vis hurtig adgang til nyligt brugte værktøjer på hovedskærmen</string>
+    <string name="usage_statistics">Brugsstatistik</string>
+    <string name="usage_statistics_sub">Udforsk appåbninger, værktøjslanceringer og dine mest brugte værktøjer</string>
+    <string name="app_opens">App åbner</string>
+    <string name="tool_opens">Værktøjet åbner</string>
+    <string name="last_tool_opened">Sidste værktøj</string>
+    <string name="successful_saves">Vellykkede redninger</string>
+    <string name="activity_streak">Aktivitetsrække</string>
+    <string name="data_saved">Data gemt</string>
+    <string name="top_format">Top format</string>
+    <string name="tools_used">Brugte redskaber</string>
+    <string name="tool_usage_subtitle">%1$d åbner • %2$s</string>
+    <string name="no_usage_statistics">Ingen brugsstatistik endnu</string>
+    <string name="no_usage_statistics_sub">Åbn nogle få værktøjer, og de vises her automatisk</string>
 </resources>

@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">జీరో-DCE++ కర్వ్ అంచనాను ఉపయోగించి వేగవంతమైన తక్కువ-కాంతి మెరుగుదల.</string>
     <string name="model_restormer_deraining">వర్షపు చారికలు మరియు తడి-వాతావరణ కళాఖండాలను తగ్గించడం కోసం రీస్టోర్మర్ ఇమేజ్ రీస్టోరేషన్ మోడల్.</string>
     <string name="model_uvdoc_grid">కోఆర్డినేట్ గ్రిడ్‌ను అంచనా వేసే డాక్యుమెంట్ అన్‌వార్పింగ్ మోడల్ మరియు వంపు తిరిగిన పేజీలను ఫ్లాటర్ స్కాన్‌లో రీమ్యాప్ చేస్తుంది.</string>
+    <string name="motion_duration_scale">మోషన్ వ్యవధి స్కేల్</string>
+    <string name="motion_duration_scale_sub">యాప్ యానిమేషన్ వేగాన్ని నియంత్రిస్తుంది: 0 చలనాన్ని నిలిపివేస్తుంది, 1 సాధారణమైనది, అధిక విలువలు యానిమేషన్‌లను నెమ్మదిస్తాయి</string>
+    <string name="show_recent_tools">ఇటీవలి సాధనాలను చూపు</string>
+    <string name="show_recent_tools_sub">ప్రధాన స్క్రీన్‌లో ఇటీవల ఉపయోగించిన సాధనాలకు త్వరిత ప్రాప్యతను ప్రదర్శించండి</string>
+    <string name="usage_statistics">వినియోగ గణాంకాలు</string>
+    <string name="usage_statistics_sub">యాప్ ఓపెన్‌లు, టూల్ లాంచ్‌లు మరియు మీరు ఎక్కువగా ఉపయోగించిన సాధనాలను అన్వేషించండి</string>
+    <string name="app_opens">యాప్ ఓపెన్ అవుతుంది</string>
+    <string name="tool_opens">సాధనం తెరవబడుతుంది</string>
+    <string name="last_tool_opened">చివరి సాధనం</string>
+    <string name="successful_saves">విజయవంతమైన ఆదా</string>
+    <string name="activity_streak">కార్యాచరణ పరంపర</string>
+    <string name="data_saved">డేటా సేవ్ చేయబడింది</string>
+    <string name="top_format">టాప్ ఫార్మాట్</string>
+    <string name="tools_used">ఉపయోగించిన సాధనాలు</string>
+    <string name="tool_usage_subtitle">%1$d తెరవబడుతుంది • %2$s</string>
+    <string name="no_usage_statistics">ఇంకా వినియోగ గణాంకాలు లేవు</string>
+    <string name="no_usage_statistics_sub">కొన్ని సాధనాలను తెరవండి మరియు అవి స్వయంచాలకంగా ఇక్కడ కనిపిస్తాయి</string>
 </resources>

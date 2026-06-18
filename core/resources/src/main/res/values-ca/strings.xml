@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Millora ràpida amb poca llum mitjançant l\'estimació de la corba Zero-DCE++.</string>
     <string name="model_restormer_deraining">Model de restauració d\'imatges Restormer per reduir les ratlles de pluja i els artefactes de temps humit.</string>
     <string name="model_uvdoc_grid">Model de deformació de documents que prediu una graella de coordenades i reasigna les pàgines corbes en un escaneig més pla.</string>
+    <string name="motion_duration_scale">Escala de durada del moviment</string>
+    <string name="motion_duration_scale_sub">Controla la velocitat de l\'animació de l\'aplicació: 0 desactiva el moviment, 1 és normal, els valors més alts ralenteixen les animacions</string>
+    <string name="show_recent_tools">Mostra les eines recents</string>
+    <string name="show_recent_tools_sub">Mostra l\'accés ràpid a les eines utilitzades recentment a la pantalla principal</string>
+    <string name="usage_statistics">Estadístiques d\'ús</string>
+    <string name="usage_statistics_sub">Explora les obres de l\'aplicació, els llançaments d\'eines i les teves eines més utilitzades</string>
+    <string name="app_opens">S\'obre l\'aplicació</string>
+    <string name="tool_opens">S\'obre l\'eina</string>
+    <string name="last_tool_opened">Última eina</string>
+    <string name="successful_saves">Salvades amb èxit</string>
+    <string name="activity_streak">Ratxa d\'activitat</string>
+    <string name="data_saved">Dades desades</string>
+    <string name="top_format">Format superior</string>
+    <string name="tools_used">Eines utilitzades</string>
+    <string name="tool_usage_subtitle">%1$d obre • %2$s</string>
+    <string name="no_usage_statistics">Encara no hi ha estadístiques d\'ús</string>
+    <string name="no_usage_statistics_sub">Obriu algunes eines i apareixeran aquí automàticament</string>
 </resources>

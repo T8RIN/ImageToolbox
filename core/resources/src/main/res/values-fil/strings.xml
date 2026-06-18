@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Mabilis na low-light enhancement gamit ang Zero-DCE++ curve estimation.</string>
     <string name="model_restormer_deraining">Modelo ng pagpapanumbalik ng imahe ng restormer para sa pagbabawas ng mga bahid ng ulan at mga artifact sa wet-weather.</string>
     <string name="model_uvdoc_grid">Idokumento ang unwarping na modelo na hinuhulaan ang isang coordinate grid at i-remap ang mga curved page sa isang flatter scan.</string>
+    <string name="motion_duration_scale">Scale ng Tagal ng Paggalaw</string>
+    <string name="motion_duration_scale_sub">Kinokontrol ang bilis ng animation ng app: Hindi pinapagana ng 0 ang paggalaw, ang 1 ay normal, ang mas mataas na mga halaga ay nagpapabagal sa mga animation</string>
+    <string name="show_recent_tools">Ipakita ang Mga Kamakailang Tool</string>
+    <string name="show_recent_tools_sub">Ipakita ang mabilis na pag-access sa mga kamakailang ginamit na tool sa pangunahing screen</string>
+    <string name="usage_statistics">Mga Istatistika ng Paggamit</string>
+    <string name="usage_statistics_sub">I-explore ang mga pagbukas ng app, paglulunsad ng tool, at ang iyong mga pinakaginagamit na tool</string>
+    <string name="app_opens">Bubukas ang app</string>
+    <string name="tool_opens">Bumukas ang tool</string>
+    <string name="last_tool_opened">Huling kasangkapan</string>
+    <string name="successful_saves">Ang matagumpay na pag-save</string>
+    <string name="activity_streak">Activity streak</string>
+    <string name="data_saved">Na-save ang data</string>
+    <string name="top_format">Nangungunang format</string>
+    <string name="tools_used">Mga gamit na ginamit</string>
+    <string name="tool_usage_subtitle">%1$d ay bubukas • %2$s</string>
+    <string name="no_usage_statistics">Wala pang istatistika ng paggamit</string>
+    <string name="no_usage_statistics_sub">Magbukas ng ilang tool at awtomatikong lilitaw ang mga ito dito</string>
 </resources>

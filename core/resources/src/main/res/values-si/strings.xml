@@ -3174,4 +3174,21 @@
     <string name="model_zero_dcepp">Zero-DCE++ වක්‍ර ඇස්තමේන්තුව භාවිතයෙන් වේගවත් අඩු ආලෝකය වැඩි දියුණු කිරීම.</string>
     <string name="model_restormer_deraining">වැසි ඉරි සහ තෙත් කාලගුණ කෞතුක වස්තු අඩු කිරීම සඳහා ප්‍රතිස්ථාපන රූප ප්‍රතිසාධන ආකෘතිය.</string>
     <string name="model_uvdoc_grid">ඛණ්ඩාංක ජාලයක් පුරෝකථනය කරන සහ වක්‍ර පිටු පැතලි ස්කෑන් එකකට නැවත සකස් කරන ලේඛන ඉවත් කිරීමේ ආකෘතිය.</string>
+    <string name="motion_duration_scale">චලන කාල සීමාව</string>
+    <string name="motion_duration_scale_sub">යෙදුම් සජීවිකරණ වේගය පාලනය කරයි: 0 චලනය අක්‍රීය කරයි, 1 සාමාන්‍ය වේ, ඉහළ අගයන් සජීවිකරණ මන්දගාමී වේ</string>
+    <string name="show_recent_tools">මෑත කාලීන මෙවලම් පෙන්වන්න</string>
+    <string name="show_recent_tools_sub">ප්‍රධාන තිරයේ මෑතකදී භාවිත කළ මෙවලම් වෙත ඉක්මන් ප්‍රවේශය සංදර්ශන කරන්න</string>
+    <string name="usage_statistics">භාවිත සංඛ්යා ලේඛන</string>
+    <string name="usage_statistics_sub">යෙදුම විවෘත කිරීම්, මෙවලම් දියත් කිරීම් සහ ඔබ වැඩිපුරම භාවිතා කරන මෙවලම් ගවේෂණය කරන්න</string>
+    <string name="app_opens">යෙදුම විවෘත වේ</string>
+    <string name="tool_opens">මෙවලම විවෘත වේ</string>
+    <string name="last_tool_opened">අවසාන මෙවලම</string>
+    <string name="successful_saves">සාර්ථක ඉතිරි කිරීම්</string>
+    <string name="activity_streak">ක්‍රියාකාරකම් මාලාව</string>
+    <string name="data_saved">දත්ත සුරකින ලදී</string>
+    <string name="top_format">ඉහළම ආකෘතිය</string>
+    <string name="tools_used">භාවිතා කරන මෙවලම්</string>
+    <string name="tool_usage_subtitle">%1$d විවෘත වේ • %2$s</string>
+    <string name="no_usage_statistics">තවමත් භාවිත සංඛ්‍යාලේඛන නොමැත</string>
+    <string name="no_usage_statistics_sub">මෙවලම් කිහිපයක් විවෘත කරන්න, ඒවා ස්වයංක්‍රීයව මෙහි දිස්වනු ඇත</string>
 </resources>

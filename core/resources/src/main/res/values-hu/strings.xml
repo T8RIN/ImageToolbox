@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Gyors javítás gyenge fényviszonyok mellett a Zero-DCE++ görbebecsléssel.</string>
     <string name="model_restormer_deraining">Restormer kép-helyreállítási modell az esőcsíkok és a nedves időjárási műtermékek csökkentésére.</string>
     <string name="model_uvdoc_grid">Dokumentáljon görbületmentesítő modellt, amely előrejelzi a koordinátarácsot, és az ívelt oldalakat laposabb szkenneléssé alakítja át.</string>
+    <string name="motion_duration_scale">Mozgás időtartama skála</string>
+    <string name="motion_duration_scale_sub">Az alkalmazás animációjának sebességét szabályozza: 0 letiltja a mozgást, az 1 a normál, a magasabb értékek lassítják az animációt</string>
+    <string name="show_recent_tools">Legutóbbi eszközök megjelenítése</string>
+    <string name="show_recent_tools_sub">Gyors hozzáférést biztosít a legutóbb használt eszközökhöz a főképernyőn</string>
+    <string name="usage_statistics">Használati statisztika</string>
+    <string name="usage_statistics_sub">Fedezze fel az alkalmazásmegnyitásokat, az eszközindításokat és a leggyakrabban használt eszközöket</string>
+    <string name="app_opens">Megnyílik az alkalmazás</string>
+    <string name="tool_opens">Megnyílik az eszköz</string>
+    <string name="last_tool_opened">Utolsó eszköz</string>
+    <string name="successful_saves">Sikeres mentések</string>
+    <string name="activity_streak">Tevékenységi sorozat</string>
+    <string name="data_saved">Adatok mentve</string>
+    <string name="top_format">Top formátum</string>
+    <string name="tools_used">Használt eszközök</string>
+    <string name="tool_usage_subtitle">%1$d nyílik • %2$s</string>
+    <string name="no_usage_statistics">Még nincs használati statisztika</string>
+    <string name="no_usage_statistics_sub">Nyisson meg néhány eszközt, és azok automatikusan megjelennek itt</string>
 </resources>

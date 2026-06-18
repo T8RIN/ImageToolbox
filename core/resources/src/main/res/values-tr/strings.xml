@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Zero-DCE++ eğri tahminini kullanarak hızlı düşük ışık iyileştirmesi.</string>
     <string name="model_restormer_deraining">Yağmur izlerini ve yağışlı hava eserlerini azaltmak için Restormer görüntü restorasyon modeli.</string>
     <string name="model_uvdoc_grid">Koordinat ızgarasını tahmin eden ve kavisli sayfaları daha düz bir taramayla yeniden eşleştiren çarpıklık giderme modelini belgeleyin.</string>
+    <string name="motion_duration_scale">Hareket Süresi Ölçeği</string>
+    <string name="motion_duration_scale_sub">Uygulama animasyon hızını kontrol eder: 0 hareketi devre dışı bırakır, 1 normaldir, daha yüksek değerler animasyonları yavaşlatır</string>
+    <string name="show_recent_tools">En Son Araçları Göster</string>
+    <string name="show_recent_tools_sub">Son kullanılan araçlara hızlı erişimi ana ekranda görüntüleyin</string>
+    <string name="usage_statistics">Kullanım İstatistikleri</string>
+    <string name="usage_statistics_sub">Uygulama açılışlarını, araç açılışlarını ve en çok kullandığınız araçları keşfedin</string>
+    <string name="app_opens">Uygulama açılıyor</string>
+    <string name="tool_opens">Araç açılır</string>
+    <string name="last_tool_opened">Son araç</string>
+    <string name="successful_saves">Başarılı kaydetmeler</string>
+    <string name="activity_streak">Etkinlik serisi</string>
+    <string name="data_saved">Veriler kaydedildi</string>
+    <string name="top_format">En iyi format</string>
+    <string name="tools_used">Kullanılan araçlar</string>
+    <string name="tool_usage_subtitle">%1$d açılıyor • %2$s</string>
+    <string name="no_usage_statistics">Henüz kullanım istatistiği yok</string>
+    <string name="no_usage_statistics_sub">Birkaç araç açın, burada otomatik olarak görünecekler</string>
 </resources>

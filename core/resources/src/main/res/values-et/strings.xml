@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Kiire täiustamine hämaras, kasutades null-DCE++ kõvera hinnangut.</string>
     <string name="model_restormer_deraining">Restormeri kujutise taastamise mudel vihmatriibude ja märja ilmaga seotud esemete vähendamiseks.</string>
     <string name="model_uvdoc_grid">Dokumenteerige kõveruse kaotamise mudel, mis ennustab koordinaatide ruudustikku ja kaardistab kõverad leheküljed lamedamaks skannimiseks.</string>
+    <string name="motion_duration_scale">Liikumise kestuse skaala</string>
+    <string name="motion_duration_scale_sub">Juhib rakenduse animatsiooni kiirust: 0 keelab liikumise, 1 on normaalne, kõrgemad väärtused aeglustavad animatsioone</string>
+    <string name="show_recent_tools">Näita hiljutisi tööriistu</string>
+    <string name="show_recent_tools_sub">Kuvage põhiekraanil kiire juurdepääs hiljuti kasutatud tööriistadele</string>
+    <string name="usage_statistics">Kasutusstatistika</string>
+    <string name="usage_statistics_sub">Uurige rakenduste avamisi, tööriistade käivitamisi ja enimkasutatud tööriistu</string>
+    <string name="app_opens">Rakendus avaneb</string>
+    <string name="tool_opens">Tööriist avaneb</string>
+    <string name="last_tool_opened">Viimane tööriist</string>
+    <string name="successful_saves">Edukad salvestused</string>
+    <string name="activity_streak">Aktiivsuse jada</string>
+    <string name="data_saved">Andmed salvestatud</string>
+    <string name="top_format">Tippformaat</string>
+    <string name="tools_used">Kasutatud tööriistad</string>
+    <string name="tool_usage_subtitle">%1$d avaneb • %2$s</string>
+    <string name="no_usage_statistics">Kasutusstatistikat veel pole</string>
+    <string name="no_usage_statistics_sub">Avage mõned tööriistad ja need kuvatakse siin automaatselt</string>
 </resources>

@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">بهبود سریع در نور کم با استفاده از تخمین منحنی Zero-DCE++.</string>
     <string name="model_restormer_deraining">مدل بازسازی تصویر Restormer برای کاهش رگه های باران و مصنوعات آب و هوای مرطوب.</string>
     <string name="model_uvdoc_grid">مدل انحرافی سند که یک شبکه مختصات را پیش‌بینی می‌کند و صفحات منحنی را به یک اسکن مسطح‌تر بازنگری می‌کند.</string>
+    <string name="motion_duration_scale">مقیاس مدت حرکت</string>
+    <string name="motion_duration_scale_sub">سرعت انیمیشن برنامه را کنترل می کند: 0 حرکت را غیرفعال می کند، 1 عادی است، مقادیر بالاتر انیمیشن ها را کاهش می دهد</string>
+    <string name="show_recent_tools">نمایش ابزارهای اخیر</string>
+    <string name="show_recent_tools_sub">نمایش دسترسی سریع به ابزارهای اخیراً استفاده شده در صفحه اصلی</string>
+    <string name="usage_statistics">آمار استفاده</string>
+    <string name="usage_statistics_sub">باز شدن برنامه، راه‌اندازی ابزار و ابزارهای مورد استفاده خود را کاوش کنید</string>
+    <string name="app_opens">برنامه باز می شود</string>
+    <string name="tool_opens">ابزار باز می شود</string>
+    <string name="last_tool_opened">آخرین ابزار</string>
+    <string name="successful_saves">سیوهای موفق</string>
+    <string name="activity_streak">رگه فعالیت</string>
+    <string name="data_saved">داده ها ذخیره شد</string>
+    <string name="top_format">فرمت برتر</string>
+    <string name="tools_used">ابزارهای مورد استفاده</string>
+    <string name="tool_usage_subtitle">%1$d باز می شود • %2$s</string>
+    <string name="no_usage_statistics">هنوز آمار استفاده وجود ندارد</string>
+    <string name="no_usage_statistics_sub">چند ابزار را باز کنید و آنها به طور خودکار در اینجا ظاهر می شوند</string>
 </resources>

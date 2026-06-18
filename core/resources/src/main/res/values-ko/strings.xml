@@ -3172,4 +3172,21 @@
     <string name="model_zero_dcepp">Zero-DCE++ 곡선 추정을 사용한 빠른 저조도 향상.</string>
     <string name="model_restormer_deraining">빗줄기 및 습한 날씨 인공물을 줄이기 위한 Restormer 이미지 복원 모델.</string>
     <string name="model_uvdoc_grid">좌표 격자를 예측하고 곡선 페이지를 더 평평한 스캔으로 다시 매핑하는 문서 뒤틀림 모델입니다.</string>
+    <string name="motion_duration_scale">모션 지속 시간 척도</string>
+    <string name="motion_duration_scale_sub">앱 애니메이션 속도 제어: 0은 동작을 비활성화하고, 1은 정상이며, 값이 높을수록 애니메이션이 느려집니다.</string>
+    <string name="show_recent_tools">최근 도구 표시</string>
+    <string name="show_recent_tools_sub">메인 화면에 최근 사용한 도구에 대한 빠른 액세스 표시</string>
+    <string name="usage_statistics">사용 통계</string>
+    <string name="usage_statistics_sub">앱 열기, 도구 실행 및 가장 많이 사용되는 도구를 살펴보세요.</string>
+    <string name="app_opens">앱이 열립니다</string>
+    <string name="tool_opens">도구가 열립니다</string>
+    <string name="last_tool_opened">마지막 도구</string>
+    <string name="successful_saves">성공적인 저장</string>
+    <string name="activity_streak">연속 활동</string>
+    <string name="data_saved">저장된 데이터</string>
+    <string name="top_format">최고 형식</string>
+    <string name="tools_used">사용된 도구</string>
+    <string name="tool_usage_subtitle">%1$d 열림 • %2$s</string>
+    <string name="no_usage_statistics">아직 사용 통계가 없습니다.</string>
+    <string name="no_usage_statistics_sub">몇 가지 도구를 열면 여기에 자동으로 표시됩니다.</string>
 </resources>

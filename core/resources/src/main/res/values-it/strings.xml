@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">Miglioramento rapido in condizioni di scarsa illuminazione utilizzando la stima della curva Zero-DCE++.</string>
     <string name="model_restormer_deraining">Modello di ripristino delle immagini Restormer per ridurre le strisce di pioggia e gli artefatti dovuti al tempo umido.</string>
     <string name="model_uvdoc_grid">Modello di rimozione della deformazione del documento che prevede una griglia di coordinate e rimappa le pagine curve in una scansione più piatta.</string>
+    <string name="motion_duration_scale">Scala della durata del movimento</string>
+    <string name="motion_duration_scale_sub">Controlla la velocità di animazione dell\'app: 0 disabilita il movimento, 1 è normale, valori più alti rallentano le animazioni</string>
+    <string name="show_recent_tools">Mostra strumenti recenti</string>
+    <string name="show_recent_tools_sub">Visualizza l\'accesso rapido agli strumenti utilizzati di recente nella schermata principale</string>
+    <string name="usage_statistics">Statistiche sull\'utilizzo</string>
+    <string name="usage_statistics_sub">Esplora le aperture delle app, i lanci degli strumenti e gli strumenti più utilizzati</string>
+    <string name="app_opens">Si apre l\'applicazione</string>
+    <string name="tool_opens">Lo strumento si apre</string>
+    <string name="last_tool_opened">Ultimo strumento</string>
+    <string name="successful_saves">Salvataggi riusciti</string>
+    <string name="activity_streak">Serie di attività</string>
+    <string name="data_saved">Dati salvati</string>
+    <string name="top_format">Il miglior formato</string>
+    <string name="tools_used">Strumenti utilizzati</string>
+    <string name="tool_usage_subtitle">%1$d apre • %2$s</string>
+    <string name="no_usage_statistics">Ancora nessuna statistica sull\'utilizzo</string>
+    <string name="no_usage_statistics_sub">Apri alcuni strumenti e appariranno qui automaticamente</string>
 </resources>

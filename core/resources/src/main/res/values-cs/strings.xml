@@ -3175,4 +3175,21 @@
     <string name="model_zero_dcepp">Rychlé vylepšení při slabém osvětlení pomocí odhadu křivky Zero-DCE++.</string>
     <string name="model_restormer_deraining">Restormer model obnovy obrazu pro snížení dešťových pruhů a artefaktů za vlhkého počasí.</string>
     <string name="model_uvdoc_grid">Model nedeformování dokumentu, který předpovídá souřadnicovou mřížku a přemapuje zakřivené stránky na plošší sken.</string>
+    <string name="motion_duration_scale">Měřítko trvání pohybu</string>
+    <string name="motion_duration_scale_sub">Ovládá rychlost animace aplikace: 0 deaktivuje pohyb, 1 je normální, vyšší hodnoty zpomalují animace</string>
+    <string name="show_recent_tools">Zobrazit poslední nástroje</string>
+    <string name="show_recent_tools_sub">Zobrazení rychlého přístupu k naposledy použitým nástrojům na hlavní obrazovce</string>
+    <string name="usage_statistics">Statistiky použití</string>
+    <string name="usage_statistics_sub">Prozkoumejte otevření aplikace, spuštění nástrojů a nejpoužívanější nástroje</string>
+    <string name="app_opens">Aplikace se otevře</string>
+    <string name="tool_opens">Nástroj se otevře</string>
+    <string name="last_tool_opened">Poslední nástroj</string>
+    <string name="successful_saves">Úspěšné uložení</string>
+    <string name="activity_streak">Série aktivit</string>
+    <string name="data_saved">Data uložena</string>
+    <string name="top_format">Špičkový formát</string>
+    <string name="tools_used">Použité nástroje</string>
+    <string name="tool_usage_subtitle">%1$d se otevře • %2$s</string>
+    <string name="no_usage_statistics">Zatím žádné statistiky využití</string>
+    <string name="no_usage_statistics_sub">Otevřete několik nástrojů a automaticky se zde zobrazí</string>
 </resources>

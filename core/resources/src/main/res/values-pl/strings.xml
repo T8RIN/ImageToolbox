@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -3178,4 +3180,17 @@
     <string name="motion_duration_scale_sub">Reguluje prędkość animacji w aplikacji: 0 wyłącza ruch, 1 oznacza normalną prędkość, wyższe wartości spowalniają animacje</string>
     <string name="show_recent_tools">Pokaż ostatnio używane narzędzia</string>
     <string name="show_recent_tools_sub">Wyświetl na ekranie głównym szybki dostęp do ostatnio używanych narzędzi</string>
+    <string name="usage_statistics">Statystyki użytkowania</string>
+    <string name="usage_statistics_sub">Przeglądaj otwieranie aplikacji, uruchamianie narzędzi i najczęściej używane narzędzia</string>
+    <string name="app_opens">Aplikacja zostanie otwarta</string>
+    <string name="tool_opens">Narzędzie zostanie otwarte</string>
+    <string name="last_tool_opened">Ostatnie narzędzie</string>
+    <string name="successful_saves">Pomyślne oszczędności</string>
+    <string name="activity_streak">Pasmo aktywności</string>
+    <string name="data_saved">Dane zapisane</string>
+    <string name="top_format">Najlepszy format</string>
+    <string name="tools_used">Używane narzędzia</string>
+    <string name="tool_usage_subtitle">%1$d otwiera • %2$s</string>
+    <string name="no_usage_statistics">Nie ma jeszcze statystyk użytkowania</string>
+    <string name="no_usage_statistics_sub">Otwórz kilka narzędzi, a pojawią się one tutaj automatycznie</string>
 </resources>

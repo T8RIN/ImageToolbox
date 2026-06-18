@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -3177,4 +3179,17 @@
     <string name="motion_duration_scale_sub">Styr appens animationshastighet: 0 inaktiverar rörelse, 1 är normalt, högre värden saktar ner animationerna</string>
     <string name="show_recent_tools">Visa senaste verktyg</string>
     <string name="show_recent_tools_sub">Visa snabb åtkomst till senast använda verktyg på huvudskärmen</string>
+    <string name="usage_statistics">Användningsstatistik</string>
+    <string name="usage_statistics_sub">Utforska appöppningar, verktygslanseringar och dina mest använda verktyg</string>
+    <string name="app_opens">Appen öppnas</string>
+    <string name="tool_opens">Verktyget öppnas</string>
+    <string name="last_tool_opened">Sista verktyget</string>
+    <string name="successful_saves">Lyckade räddningar</string>
+    <string name="activity_streak">Aktivitetsserie</string>
+    <string name="data_saved">Data sparas</string>
+    <string name="top_format">Toppformat</string>
+    <string name="tools_used">Använda verktyg</string>
+    <string name="tool_usage_subtitle">%1$d öppnas • %2$s</string>
+    <string name="no_usage_statistics">Ingen användningsstatistik ännu</string>
+    <string name="no_usage_statistics_sub">Öppna några verktyg så visas de här automatiskt</string>
 </resources>

@@ -3172,4 +3172,21 @@
     <string name="model_zero_dcepp">Cải thiện nhanh trong điều kiện ánh sáng yếu bằng cách sử dụng ước tính đường cong Zero-DCE++.</string>
     <string name="model_restormer_deraining">Mô hình phục hồi hình ảnh Restormer để giảm các vệt mưa và hiện tượng thời tiết ẩm ướt.</string>
     <string name="model_uvdoc_grid">Mô hình không cong vênh tài liệu dự đoán lưới tọa độ và ánh xạ lại các trang cong thành bản quét phẳng hơn.</string>
+    <string name="motion_duration_scale">Thang thời lượng chuyển động</string>
+    <string name="motion_duration_scale_sub">Kiểm soát tốc độ hoạt ảnh của ứng dụng: 0 tắt chuyển động, 1 là bình thường, giá trị cao hơn sẽ làm chậm hoạt ảnh</string>
+    <string name="show_recent_tools">Hiển thị các công cụ gần đây</string>
+    <string name="show_recent_tools_sub">Hiển thị quyền truy cập nhanh vào các công cụ được sử dụng gần đây trên màn hình chính</string>
+    <string name="usage_statistics">Thống kê sử dụng</string>
+    <string name="usage_statistics_sub">Khám phá các lần mở ứng dụng, khởi chạy công cụ và các công cụ bạn sử dụng nhiều nhất</string>
+    <string name="app_opens">Ứng dụng mở ra</string>
+    <string name="tool_opens">Công cụ mở ra</string>
+    <string name="last_tool_opened">Công cụ cuối cùng</string>
+    <string name="successful_saves">Lưu thành công</string>
+    <string name="activity_streak">Chuỗi hoạt động</string>
+    <string name="data_saved">Đã lưu dữ liệu</string>
+    <string name="top_format">Định dạng hàng đầu</string>
+    <string name="tools_used">Công cụ được sử dụng</string>
+    <string name="tool_usage_subtitle">%1$d mở ra • %2$s</string>
+    <string name="no_usage_statistics">Chưa có số liệu thống kê sử dụng</string>
+    <string name="no_usage_statistics_sub">Mở một vài công cụ và chúng sẽ tự động xuất hiện ở đây</string>
 </resources>

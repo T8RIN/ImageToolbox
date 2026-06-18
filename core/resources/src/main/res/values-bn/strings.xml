@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">জিরো-ডিসিই++ বক্ররেখা অনুমান ব্যবহার করে দ্রুত কম-আলো বর্ধিতকরণ।</string>
     <string name="model_restormer_deraining">বৃষ্টির রেখা এবং ভেজা-আবহাওয়া আর্টিফ্যাক্টগুলি হ্রাস করার জন্য পুনরুদ্ধারকারী চিত্র পুনরুদ্ধার মডেল।</string>
     <string name="model_uvdoc_grid">ডকুমেন্ট আনওয়ারিং মডেল যা একটি স্থানাঙ্ক গ্রিডের পূর্বাভাস দেয় এবং বাঁকা পৃষ্ঠাগুলিকে একটি ফ্ল্যাটার স্ক্যানে রিম্যাপ করে।</string>
+    <string name="motion_duration_scale">গতির সময়কাল স্কেল</string>
+    <string name="motion_duration_scale_sub">অ্যাপ অ্যানিমেশন গতি নিয়ন্ত্রণ করে: 0 গতি নিষ্ক্রিয় করে, 1 স্বাভাবিক, উচ্চ মান অ্যানিমেশনকে ধীর করে দেয়</string>
+    <string name="show_recent_tools">সাম্প্রতিক সরঞ্জামগুলি দেখান৷</string>
+    <string name="show_recent_tools_sub">প্রধান স্ক্রিনে সম্প্রতি ব্যবহৃত সরঞ্জামগুলিতে দ্রুত অ্যাক্সেস প্রদর্শন করুন</string>
+    <string name="usage_statistics">ব্যবহার পরিসংখ্যান</string>
+    <string name="usage_statistics_sub">এক্সপ্লোর অ্যাপ ওপেন, টুল লঞ্চ, এবং আপনার সবচেয়ে বেশি ব্যবহৃত টুল</string>
+    <string name="app_opens">অ্যাপ খোলে</string>
+    <string name="tool_opens">টুল খোলে</string>
+    <string name="last_tool_opened">শেষ টুল</string>
+    <string name="successful_saves">সফল সংরক্ষণ</string>
+    <string name="activity_streak">কার্যকলাপের ধারা</string>
+    <string name="data_saved">ডেটা সংরক্ষিত</string>
+    <string name="top_format">শীর্ষ বিন্যাস</string>
+    <string name="tools_used">ব্যবহৃত সরঞ্জাম</string>
+    <string name="tool_usage_subtitle">%1$d খোলে • %2$s</string>
+    <string name="no_usage_statistics">এখনও কোন ব্যবহার পরিসংখ্যান</string>
+    <string name="no_usage_statistics_sub">কয়েকটি টুল খুলুন এবং সেগুলি এখানে স্বয়ংক্রিয়ভাবে প্রদর্শিত হবে</string>
 </resources>

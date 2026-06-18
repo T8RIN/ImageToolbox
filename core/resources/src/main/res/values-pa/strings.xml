@@ -3173,4 +3173,21 @@
     <string name="model_zero_dcepp">ਜ਼ੀਰੋ-DCE++ ਕਰਵ ਅੰਦਾਜ਼ੇ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋਏ ਤੇਜ਼ ਘੱਟ ਰੋਸ਼ਨੀ ਸੁਧਾਰ।</string>
     <string name="model_restormer_deraining">ਬਰਸਾਤ ਦੀਆਂ ਲਕੀਰਾਂ ਅਤੇ ਗਿੱਲੇ-ਮੌਸਮ ਦੀਆਂ ਕਲਾਕ੍ਰਿਤੀਆਂ ਨੂੰ ਘਟਾਉਣ ਲਈ ਰੀਸਟੋਰਮਰ ਚਿੱਤਰ ਬਹਾਲੀ ਦਾ ਮਾਡਲ।</string>
     <string name="model_uvdoc_grid">ਦਸਤਾਵੇਜ਼ ਅਣਵਰਪਿੰਗ ਮਾਡਲ ਜੋ ਇੱਕ ਕੋਆਰਡੀਨੇਟ ਗਰਿੱਡ ਦੀ ਭਵਿੱਖਬਾਣੀ ਕਰਦਾ ਹੈ ਅਤੇ ਕਰਵਡ ਪੰਨਿਆਂ ਨੂੰ ਫਲੈਟਰ ਸਕੈਨ ਵਿੱਚ ਰੀਮੈਪ ਕਰਦਾ ਹੈ।</string>
+    <string name="motion_duration_scale">ਮੋਸ਼ਨ ਮਿਆਦ ਦਾ ਪੈਮਾਨਾ</string>
+    <string name="motion_duration_scale_sub">ਐਪ ਐਨੀਮੇਸ਼ਨ ਦੀ ਗਤੀ ਨੂੰ ਨਿਯੰਤਰਿਤ ਕਰਦਾ ਹੈ: 0 ਮੋਸ਼ਨ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾਉਂਦਾ ਹੈ, 1 ਆਮ ਹੈ, ਉੱਚ ਮੁੱਲ ਐਨੀਮੇਸ਼ਨ ਨੂੰ ਹੌਲੀ ਕਰਦੇ ਹਨ</string>
+    <string name="show_recent_tools">ਹਾਲੀਆ ਟੂਲ ਦਿਖਾਓ</string>
+    <string name="show_recent_tools_sub">ਮੁੱਖ ਸਕ੍ਰੀਨ \'ਤੇ ਹਾਲ ਹੀ ਵਿੱਚ ਵਰਤੇ ਗਏ ਟੂਲਸ ਤੱਕ ਤੁਰੰਤ ਪਹੁੰਚ ਦਿਖਾਓ</string>
+    <string name="usage_statistics">ਵਰਤੋਂ ਦੇ ਅੰਕੜੇ</string>
+    <string name="usage_statistics_sub">ਐਪ ਓਪਨ, ਟੂਲ ਲਾਂਚ, ਅਤੇ ਤੁਹਾਡੇ ਸਭ ਤੋਂ ਵੱਧ ਵਰਤੇ ਗਏ ਟੂਲਸ ਦੀ ਪੜਚੋਲ ਕਰੋ</string>
+    <string name="app_opens">ਐਪ ਖੁੱਲ੍ਹਦਾ ਹੈ</string>
+    <string name="tool_opens">ਟੂਲ ਖੁੱਲ੍ਹਦਾ ਹੈ</string>
+    <string name="last_tool_opened">ਆਖਰੀ ਸੰਦ</string>
+    <string name="successful_saves">ਸਫਲ ਬਚਤ</string>
+    <string name="activity_streak">ਗਤੀਵਿਧੀ ਲੜੀ</string>
+    <string name="data_saved">ਡਾਟਾ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਗਿਆ</string>
+    <string name="top_format">ਪ੍ਰਮੁੱਖ ਫਾਰਮੈਟ</string>
+    <string name="tools_used">ਟੂਲ ਵਰਤੇ ਗਏ</string>
+    <string name="tool_usage_subtitle">%1$d ਖੁੱਲਦਾ ਹੈ • %2$s</string>
+    <string name="no_usage_statistics">ਅਜੇ ਤੱਕ ਵਰਤੋਂ ਦੇ ਕੋਈ ਅੰਕੜੇ ਨਹੀਂ ਹਨ</string>
+    <string name="no_usage_statistics_sub">ਕੁਝ ਟੂਲ ਖੋਲ੍ਹੋ ਅਤੇ ਉਹ ਇੱਥੇ ਆਪਣੇ ਆਪ ਦਿਖਾਈ ਦੇਣਗੇ</string>
 </resources>
