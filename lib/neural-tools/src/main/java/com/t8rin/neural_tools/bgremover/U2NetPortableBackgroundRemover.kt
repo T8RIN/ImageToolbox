@@ -40,7 +40,7 @@ internal object U2NetPortableBackgroundRemover : GenericBackgroundRemover(
         close()
     }
 
-    override fun removeBackground(image: Bitmap, modelPath: String, trainedSize: Int?): Bitmap? {
+    override fun removeBackground(image: Bitmap, modelPath: String, trainedSize: Int?): Bitmap {
         extract()
         return super.removeBackground(
             image = image,

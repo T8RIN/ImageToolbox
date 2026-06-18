@@ -28,22 +28,20 @@ internal class GenericBackgroundRemoverBackend(
 
     override suspend fun performBackgroundRemove(
         image: Bitmap
-    ): Result<Bitmap> = runCatching {
-        BgRemover.removeBackground(
-            image = image,
-            type = when (modelType) {
-                BgModelType.MlKit,
-                BgModelType.U2NetP -> BgRemover.Type.U2NetP
+    ): Result<Bitmap> = BgRemover.removeBackground(
+        image = image,
+        type = when (modelType) {
+            BgModelType.MlKit,
+            BgModelType.U2NetP -> BgRemover.Type.U2NetP
 
-                BgModelType.U2Net -> BgRemover.Type.U2Net
-                BgModelType.RMBG -> BgRemover.Type.RMBG1_4
-                BgModelType.InSPyReNet -> BgRemover.Type.InSPyReNet
-                BgModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
-                BgModelType.ISNet -> BgRemover.Type.ISNet
-                BgModelType.YOLO -> BgRemover.Type.YOLO
-                BgModelType.MODNet -> BgRemover.Type.MODNet
-            }
-        )!!
-    }
+            BgModelType.U2Net -> BgRemover.Type.U2Net
+            BgModelType.RMBG -> BgRemover.Type.RMBG1_4
+            BgModelType.InSPyReNet -> BgRemover.Type.InSPyReNet
+            BgModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
+            BgModelType.ISNet -> BgRemover.Type.ISNet
+            BgModelType.YOLO -> BgRemover.Type.YOLO
+            BgModelType.MODNet -> BgRemover.Type.MODNet
+        }
+    )
 
 }

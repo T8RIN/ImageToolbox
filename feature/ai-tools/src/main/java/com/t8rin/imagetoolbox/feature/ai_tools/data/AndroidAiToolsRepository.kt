@@ -96,11 +96,6 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     init {
         appScope.launch { extractU2NetP() }
-        appScope.launch {
-            WatermarkRemoverProcessor.isDownloaded.collect {
-                updateFlow.emit(Unit)
-            }
-        }
     }
 
     private var isProcessingImage = false
@@ -118,7 +113,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
     override val downloadedModels: StateFlow<List<NeuralModel>> =
         merge(
             modelsDir.observeHasChanges().debounce(100),
-            updateFlow
+            updateFlow,
+            WatermarkRemoverProcessor.isDownloaded
         ).map {
             fetchDownloadedModels { files ->
                 occupiedStorageSize.update { files.sumOf { it.length() } }

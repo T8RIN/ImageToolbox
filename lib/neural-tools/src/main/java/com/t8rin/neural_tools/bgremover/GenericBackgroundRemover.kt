@@ -45,6 +45,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.io.readByteArray
 import java.io.File
 import java.io.FileOutputStream
+import java.io.NotActiveException
 import java.nio.FloatBuffer
 import kotlin.math.roundToInt
 
@@ -90,12 +91,12 @@ abstract class GenericBackgroundRemover(
         image: Bitmap,
         modelPath: String = modelFile.path,
         trainedSize: Int? = this.trainedSize
-    ): Bitmap? {
+    ): Bitmap {
         if (!modelFile.exists() || modelFile.length() <= 0) {
             _isDownloaded.update { false }
             modelFile.delete()
             close()
-            return null
+            throw NotActiveException("Model ${modelFile.name} is not downloaded")
         }
 
         val session = session ?: env.createSession(modelPath, OrtSession.SessionOptions()).also {

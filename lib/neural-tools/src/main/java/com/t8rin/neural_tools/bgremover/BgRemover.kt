@@ -75,9 +75,9 @@ object BgRemover : NeuralTool() {
     fun removeBackground(
         image: Bitmap,
         type: Type
-    ): Bitmap? = runCatching {
+    ): Result<Bitmap> = runCatching {
         getRemover(type).removeBackground(image)
-    }.getOrNull()
+    }
 
     fun closeAll() {
         Type.entries.forEach {
