@@ -3184,8 +3184,8 @@
     <string name="show_recent_tools_sub">Отображение быстрого доступа к недавно использованным инструментам на главном экране.</string>
     <string name="usage_statistics">Статистика использования</string>
     <string name="usage_statistics_sub">Изучите открытия приложений, запуски инструментов и наиболее часто используемые вами инструменты.</string>
-    <string name="app_opens">Приложение открывается</string>
-    <string name="tool_opens">Инструмент открывается</string>
+    <string name="app_opens">Приложение открыто</string>
+    <string name="tool_opens">Инструментов открыто</string>
     <string name="last_tool_opened">Последний инструмент</string>
     <string name="successful_saves">Успешные сохранения</string>
     <string name="tools_used">Используемые инструменты</string>
