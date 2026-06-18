@@ -422,9 +422,16 @@ internal class AndroidFileController @Inject constructor(
                 )
             )
         }.onSuccess {
+            val savedBytes = uri.toUri().fileSize() ?: 0
+
+            appHistoryRepository.registerSuccessfulSave(
+                savedBytes = savedBytes,
+                savedFormat = ""
+            )
             return@withContext SaveResult.Success(
                 message = null,
-                savingPath = ""
+                savingPath = "",
+                savedBytes = savedBytes
             )
         }.onFailure {
             uri.makeLog("File Controller write")
