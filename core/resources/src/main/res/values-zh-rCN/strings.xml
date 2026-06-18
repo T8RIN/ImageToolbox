@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3173,4 +3171,8 @@
     <string name="model_zero_dcepp">使用零 DCE++ 曲线估计进行快速低光增强。</string>
     <string name="model_restormer_deraining">用于减少雨纹和潮湿天气伪影的 Restormer 图像恢复模型。</string>
     <string name="model_uvdoc_grid">文档反扭曲模型可预测坐标网格并将弯曲页面重新映射为更平坦的扫描。</string>
+    <string name="motion_duration_scale">动效时长标尺</string>
+    <string name="motion_duration_scale_sub">控制应用动画速度：0 关闭动效，1 为默认速度，数值越大动画越慢</string>
+    <string name="show_recent_tools">展示最近使用的工具</string>
+    <string name="show_recent_tools_sub">主屏快捷展示最近使用的工具</string>
 </resources>
