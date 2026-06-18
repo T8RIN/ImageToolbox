@@ -22,11 +22,5 @@ data class AppUsageStatistics(
     val savedBytes: Long = 0,
     val lastActivityDayEpoch: Long = 0,
     val currentActivityStreak: Int = 0,
-    val savedFormatCounts: Map<String, Int> = emptyMap(),
-    val todayToolOpens: Int = 0,
-    val todaySuccessfulSaves: Int = 0,
-    val weekToolOpens: Int = 0,
-    val weekSuccessfulSaves: Int = 0,
-    val activeDays: Int = 0,
-    val lastSuccessfulSaveTimestamp: Long? = null
+    val savedFormatCounts: Map<String, Int> = emptyMap()
 )
