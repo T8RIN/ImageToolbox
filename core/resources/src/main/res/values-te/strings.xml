@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d తెరవబడుతుంది • %2$s</string>
     <string name="no_usage_statistics">ఇంకా వినియోగ గణాంకాలు లేవు</string>
     <string name="no_usage_statistics_sub">కొన్ని సాధనాలను తెరవండి మరియు అవి స్వయంచాలకంగా ఇక్కడ కనిపిస్తాయి</string>
+    <string name="usage_statistics_info">మీ వినియోగ గణాంకాలు మీ పరికరంలో స్థానికంగా మాత్రమే నిల్వ చేయబడతాయి. ImageToolbox మీ వ్యక్తిగత కార్యాచరణ, ఇష్టమైన సాధనాలు మరియు సేవ్ చేసిన డేటా అంతర్దృష్టులను చూపడానికి మాత్రమే వాటిని ఉపయోగిస్తుంది</string>
 </resources>

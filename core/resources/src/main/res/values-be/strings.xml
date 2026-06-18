@@ -3192,4 +3192,5 @@
     <string name="tool_usage_subtitle">%1$d адкрываецца • %2$s</string>
     <string name="no_usage_statistics">Статыстыка выкарыстання пакуль адсутнічае</string>
     <string name="no_usage_statistics_sub">Адкрыйце некалькі інструментаў, і яны з\'явяцца тут аўтаматычна</string>
+    <string name="usage_statistics_info">Ваша статыстыка выкарыстання захоўваецца толькі лакальна на вашай прыладзе. ImageToolbox выкарыстоўвае іх толькі для таго, каб паказаць вашу асабістую дзейнасць, любімыя інструменты і захаваныя даныя</string>
 </resources>

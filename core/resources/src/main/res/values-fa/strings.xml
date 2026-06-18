@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d باز می شود • %2$s</string>
     <string name="no_usage_statistics">هنوز آمار استفاده وجود ندارد</string>
     <string name="no_usage_statistics_sub">چند ابزار را باز کنید و آنها به طور خودکار در اینجا ظاهر می شوند</string>
+    <string name="usage_statistics_info">آمار استفاده شما فقط به صورت محلی در دستگاه شما ذخیره می شود. ImageToolbox از آنها فقط برای نشان دادن فعالیت شخصی، ابزارهای مورد علاقه و اطلاعات اطلاعات ذخیره شده شما استفاده می کند</string>
 </resources>

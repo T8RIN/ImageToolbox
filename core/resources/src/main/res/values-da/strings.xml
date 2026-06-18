@@ -3191,4 +3191,5 @@
     <string name="tool_usage_subtitle">%1$d åbner • %2$s</string>
     <string name="no_usage_statistics">Ingen brugsstatistik endnu</string>
     <string name="no_usage_statistics_sub">Åbn nogle få værktøjer, og de vises her automatisk</string>
+    <string name="usage_statistics_info">Din brugsstatistik gemmes kun lokalt på din enhed. ImageToolbox bruger dem kun til at vise din personlige aktivitet, yndlingsværktøjer og gemte dataindsigter</string>
 </resources>

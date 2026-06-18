@@ -3195,4 +3195,5 @@
     <string name="data_saved">تم حفظ البيانات</string>
     <string name="top_format">أعلى تنسيق</string>
     <string name="tools_used">الأدوات المستخدمة</string>
+    <string name="usage_statistics_info">يتم تخزين إحصائيات الاستخدام الخاصة بك محليًا فقط على جهازك. يستخدمها ImageToolbox فقط لإظهار نشاطك الشخصي وأدواتك المفضلة ورؤى البيانات المحفوظة</string>
 </resources>

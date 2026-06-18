@@ -3189,4 +3189,5 @@
     <string name="tool_usage_subtitle">%1$d เปิด • %2$s</string>
     <string name="no_usage_statistics">ยังไม่มีสถิติการใช้งาน</string>
     <string name="no_usage_statistics_sub">เปิดเครื่องมือบางอย่างแล้วเครื่องมือเหล่านั้นจะปรากฏที่นี่โดยอัตโนมัติ</string>
+    <string name="usage_statistics_info">สถิติการใช้งานของคุณจะถูกจัดเก็บไว้ในอุปกรณ์ของคุณเท่านั้น ImageToolbox ใช้เพื่อแสดงกิจกรรมส่วนตัว เครื่องมือโปรด และข้อมูลเชิงลึกของข้อมูลที่บันทึกไว้เท่านั้น</string>
 </resources>

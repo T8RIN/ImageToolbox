@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d nyílik • %2$s</string>
     <string name="no_usage_statistics">Még nincs használati statisztika</string>
     <string name="no_usage_statistics_sub">Nyisson meg néhány eszközt, és azok automatikusan megjelennek itt</string>
+    <string name="usage_statistics_info">A használati statisztikát csak helyileg tároljuk az eszközön. Az ImageToolbox csak az Ön személyes tevékenységének, kedvenc eszközeinek és mentett adatok betekintésének megjelenítésére használja őket</string>
 </resources>

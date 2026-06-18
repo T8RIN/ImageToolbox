@@ -3191,4 +3191,5 @@
     <string name="tool_usage_subtitle">%1$d විවෘත වේ • %2$s</string>
     <string name="no_usage_statistics">තවමත් භාවිත සංඛ්‍යාලේඛන නොමැත</string>
     <string name="no_usage_statistics_sub">මෙවලම් කිහිපයක් විවෘත කරන්න, ඒවා ස්වයංක්‍රීයව මෙහි දිස්වනු ඇත</string>
+    <string name="usage_statistics_info">ඔබගේ භාවිත සංඛ්‍යාලේඛන ඔබගේ උපාංගයේ ස්ථානීයව පමණක් ගබඩා කෙරේ. ImageToolbox ඒවා භාවිතා කරන්නේ ඔබගේ පුද්ගලික ක්‍රියාකාරකම්, ප්‍රියතම මෙවලම් සහ සුරැකි දත්ත විදසුන් පෙන්වීමට පමණි</string>
 </resources>

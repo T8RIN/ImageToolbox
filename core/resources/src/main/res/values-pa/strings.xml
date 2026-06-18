@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d ਖੁੱਲਦਾ ਹੈ • %2$s</string>
     <string name="no_usage_statistics">ਅਜੇ ਤੱਕ ਵਰਤੋਂ ਦੇ ਕੋਈ ਅੰਕੜੇ ਨਹੀਂ ਹਨ</string>
     <string name="no_usage_statistics_sub">ਕੁਝ ਟੂਲ ਖੋਲ੍ਹੋ ਅਤੇ ਉਹ ਇੱਥੇ ਆਪਣੇ ਆਪ ਦਿਖਾਈ ਦੇਣਗੇ</string>
+    <string name="usage_statistics_info">ਤੁਹਾਡੇ ਵਰਤੋਂ ਦੇ ਅੰਕੜੇ ਸਿਰਫ਼ ਤੁਹਾਡੀ ਡਿਵਾਈਸ \'ਤੇ ਸਥਾਨਕ ਤੌਰ \'ਤੇ ਸਟੋਰ ਕੀਤੇ ਜਾਂਦੇ ਹਨ। ਚਿੱਤਰ ਟੂਲਬਾਕਸ ਉਹਨਾਂ ਦੀ ਵਰਤੋਂ ਸਿਰਫ਼ ਤੁਹਾਡੀ ਨਿੱਜੀ ਗਤੀਵਿਧੀ, ਮਨਪਸੰਦ ਟੂਲ ਅਤੇ ਸੁਰੱਖਿਅਤ ਕੀਤੇ ਡੇਟਾ ਇਨਸਾਈਟਸ ਦਿਖਾਉਣ ਲਈ ਕਰਦਾ ਹੈ</string>
 </resources>

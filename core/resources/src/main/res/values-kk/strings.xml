@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d ашылады • %2$s</string>
     <string name="no_usage_statistics">Қолдану статистикасы әлі жоқ</string>
     <string name="no_usage_statistics_sub">Бірнеше құралдарды ашыңыз және олар осы жерде автоматты түрде пайда болады</string>
+    <string name="usage_statistics_info">Пайдалану статистикасы құрылғыңызда тек жергілікті түрде сақталады. ImageToolbox оларды жеке әрекетті, таңдаулы құралдарды және сақталған деректер туралы түсініктерді көрсету үшін ғана пайдаланады</string>
 </resources>

@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d খোলে • %2$s</string>
     <string name="no_usage_statistics">এখনও কোন ব্যবহার পরিসংখ্যান</string>
     <string name="no_usage_statistics_sub">কয়েকটি টুল খুলুন এবং সেগুলি এখানে স্বয়ংক্রিয়ভাবে প্রদর্শিত হবে</string>
+    <string name="usage_statistics_info">আপনার ব্যবহারের পরিসংখ্যান শুধুমাত্র আপনার ডিভাইসে স্থানীয়ভাবে সংরক্ষণ করা হয়। ImageToolbox এগুলি শুধুমাত্র আপনার ব্যক্তিগত কার্যকলাপ, প্রিয় সরঞ্জাম এবং সংরক্ষিত ডেটা অন্তর্দৃষ্টি দেখাতে ব্যবহার করে</string>
 </resources>

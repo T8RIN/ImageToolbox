@@ -3190,4 +3190,5 @@
     <string name="no_usage_statistics_sub">打開一些工具，它們會自動出現在這裡</string>
     <string name="show_recent_tools">顯示最近使用的工具</string>
     <string name="tool_usage_subtitle">%1$d 開啟 • %2$s</string>
+    <string name="usage_statistics_info">您的使用情況統計資料僅儲存在您的裝置本機。 ImageToolbox 僅使用它們來顯示您的個人活動、最喜歡的工具和保存的資料見解</string>
 </resources>

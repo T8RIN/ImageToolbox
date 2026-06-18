@@ -3191,4 +3191,5 @@
     <string name="tool_usage_subtitle">__ПХ_0__ отвара • __ПХ_1__</string>
     <string name="no_usage_statistics">Још увек нема статистике коришћења</string>
     <string name="no_usage_statistics_sub">Отворите неколико алата и они ће се аутоматски појавити овде</string>
+    <string name="usage_statistics_info">Ваша статистика коришћења се чува само локално на вашем уређају. ИмагеТоолбок их користи само за приказ ваших личних активности, омиљених алата и увида у сачуване податке</string>
 </resources>

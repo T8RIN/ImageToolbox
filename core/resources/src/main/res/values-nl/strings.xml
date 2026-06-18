@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d opent • %2$s</string>
     <string name="no_usage_statistics">Nog geen gebruiksstatistieken</string>
     <string name="no_usage_statistics_sub">Open een paar tools en ze verschijnen hier automatisch</string>
+    <string name="usage_statistics_info">Uw gebruiksstatistieken worden alleen lokaal op uw apparaat opgeslagen. ImageToolbox gebruikt ze alleen om uw persoonlijke activiteit, favoriete tools en opgeslagen gegevensinzichten te tonen</string>
 </resources>

@@ -3189,4 +3189,5 @@
     <string name="tool_usage_subtitle">%1$d terbuka • %2$s</string>
     <string name="no_usage_statistics">Belum ada statistik penggunaan</string>
     <string name="no_usage_statistics_sub">Buka beberapa alat dan alat tersebut akan muncul di sini secara otomatis</string>
+    <string name="usage_statistics_info">Statistik penggunaan Anda hanya disimpan secara lokal di perangkat Anda. ImageToolbox menggunakannya hanya untuk menampilkan aktivitas pribadi Anda, alat favorit, dan wawasan data yang disimpan</string>
 </resources>

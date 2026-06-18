@@ -3189,4 +3189,5 @@
     <string name="tool_usage_subtitle">%1$d mở ra • %2$s</string>
     <string name="no_usage_statistics">Chưa có số liệu thống kê sử dụng</string>
     <string name="no_usage_statistics_sub">Mở một vài công cụ và chúng sẽ tự động xuất hiện ở đây</string>
+    <string name="usage_statistics_info">Số liệu thống kê sử dụng của bạn chỉ được lưu trữ cục bộ trên thiết bị của bạn. ImageToolbox chỉ sử dụng chúng để hiển thị hoạt động cá nhân, các công cụ yêu thích của bạn và thông tin chi tiết về dữ liệu đã lưu</string>
 </resources>

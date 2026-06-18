@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d ay bubukas • %2$s</string>
     <string name="no_usage_statistics">Wala pang istatistika ng paggamit</string>
     <string name="no_usage_statistics_sub">Magbukas ng ilang tool at awtomatikong lilitaw ang mga ito dito</string>
+    <string name="usage_statistics_info">Ang iyong mga istatistika sa paggamit ay lokal lamang na naka-imbak sa iyong device. Ginagamit lang sila ng ImageToolbox para ipakita ang iyong personal na aktibidad, mga paboritong tool, at mga naka-save na insight sa data</string>
 </resources>

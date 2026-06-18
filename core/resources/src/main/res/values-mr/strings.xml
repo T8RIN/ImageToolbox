@@ -3191,4 +3191,5 @@
     <string name="tool_usage_subtitle">%1$d उघडेल • %2$s</string>
     <string name="no_usage_statistics">अद्याप वापराची आकडेवारी नाही</string>
     <string name="no_usage_statistics_sub">काही साधने उघडा आणि ती येथे आपोआप दिसून येतील</string>
+    <string name="usage_statistics_info">तुमची वापर आकडेवारी तुमच्या डिव्हाइसवर फक्त स्थानिक पातळीवर संग्रहित केली जाते. इमेजटूलबॉक्स त्यांचा वापर फक्त तुमची वैयक्तिक गतिविधी, आवडती साधने आणि सेव्ह केलेला डेटा इनसाइट दर्शविण्यासाठी करते</string>
 </resources>

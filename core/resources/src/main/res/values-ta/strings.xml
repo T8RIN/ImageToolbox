@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d திறக்கிறது • %2$s</string>
     <string name="no_usage_statistics">இதுவரை பயன்பாட்டு புள்ளிவிவரங்கள் இல்லை</string>
     <string name="no_usage_statistics_sub">சில கருவிகளைத் திறக்கவும், அவை தானாகவே இங்கே தோன்றும்</string>
+    <string name="usage_statistics_info">உங்கள் பயன்பாட்டு புள்ளிவிவரங்கள் உங்கள் சாதனத்தில் உள்ளூரில் மட்டுமே சேமிக்கப்படும். ImageToolbox உங்கள் தனிப்பட்ட செயல்பாடு, பிடித்த கருவிகள் மற்றும் சேமிக்கப்பட்ட தரவு நுண்ணறிவு ஆகியவற்றைக் காட்ட மட்டுமே அவற்றைப் பயன்படுத்துகிறது</string>
 </resources>

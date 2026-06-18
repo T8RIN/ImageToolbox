@@ -3193,4 +3193,5 @@
     <string name="tool_usage_subtitle">%1$d נפתח • %2$s</string>
     <string name="no_usage_statistics">אין עדיין סטטיסטיקות שימוש</string>
     <string name="no_usage_statistics_sub">פתחו כמה כלים והם יופיעו כאן אוטומטית</string>
+    <string name="usage_statistics_info">סטטיסטיקת השימוש שלך מאוחסנת רק באופן מקומי במכשיר שלך. ImageToolbox משתמש בהם רק כדי להציג את הפעילות האישית שלך, הכלים המועדפים ותובנות הנתונים השמורים</string>
 </resources>

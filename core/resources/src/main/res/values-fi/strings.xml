@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d avautuu • %2$s</string>
     <string name="no_usage_statistics">Ei vielä käyttötilastoja</string>
     <string name="no_usage_statistics_sub">Avaa muutama työkalu, niin ne näkyvät täällä automaattisesti</string>
+    <string name="usage_statistics_info">Käyttötilastot tallennetaan vain paikallisesti laitteellesi. ImageToolbox käyttää niitä vain näyttääkseen henkilökohtaisen toimintasi, suosikkityökalusi ja tallennetut tiedot</string>
 </resources>

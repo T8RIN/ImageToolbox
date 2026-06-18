@@ -3192,4 +3192,5 @@
     <string name="tool_usage_subtitle">%1$d se otevře • %2$s</string>
     <string name="no_usage_statistics">Zatím žádné statistiky využití</string>
     <string name="no_usage_statistics_sub">Otevřete několik nástrojů a automaticky se zde zobrazí</string>
+    <string name="usage_statistics_info">Vaše statistiky využití jsou uloženy pouze lokálně ve vašem zařízení. ImageToolbox je používá pouze k zobrazení vaší osobní aktivity, oblíbených nástrojů a statistik uložených dat</string>
 </resources>

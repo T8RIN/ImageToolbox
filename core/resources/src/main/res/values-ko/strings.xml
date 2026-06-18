@@ -3189,4 +3189,5 @@
     <string name="tool_usage_subtitle">%1$d 열림 • %2$s</string>
     <string name="no_usage_statistics">아직 사용 통계가 없습니다.</string>
     <string name="no_usage_statistics_sub">몇 가지 도구를 열면 여기에 자동으로 표시됩니다.</string>
+    <string name="usage_statistics_info">귀하의 사용 통계는 귀하의 장치에 로컬로만 저장됩니다. ImageToolbox는 이를 개인 활동, 즐겨찾는 도구 및 저장된 데이터 통찰력을 표시하는 데에만 사용합니다.</string>
 </resources>

@@ -3191,4 +3191,5 @@
     <string name="tool_usage_subtitle">%1$d se deschide • %2$s</string>
     <string name="no_usage_statistics">Nu există încă statistici de utilizare</string>
     <string name="no_usage_statistics_sub">Deschideți câteva instrumente și acestea vor apărea aici automat</string>
+    <string name="usage_statistics_info">Statisticile dvs. de utilizare sunt stocate numai local pe dispozitivul dvs. ImageToolbox le folosește numai pentru a vă afișa activitatea personală, instrumentele preferate și informațiile despre datele salvate</string>
 </resources>

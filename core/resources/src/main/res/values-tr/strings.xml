@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d açılıyor • %2$s</string>
     <string name="no_usage_statistics">Henüz kullanım istatistiği yok</string>
     <string name="no_usage_statistics_sub">Birkaç araç açın, burada otomatik olarak görünecekler</string>
+    <string name="usage_statistics_info">Kullanım istatistikleriniz yalnızca yerel olarak cihazınızda saklanır. ImageToolbox bunları yalnızca kişisel etkinliğinizi, favori araçlarınızı ve kayıtlı veri öngörülerinizi göstermek için kullanır</string>
 </resources>

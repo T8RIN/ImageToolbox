@@ -3193,4 +3193,5 @@
     <string name="tool_usage_subtitle">%1$d atsidaro • %2$s</string>
     <string name="no_usage_statistics">Kol kas nėra naudojimo statistikos</string>
     <string name="no_usage_statistics_sub">Atidarykite kelis įrankius ir jie čia pasirodys automatiškai</string>
+    <string name="usage_statistics_info">Jūsų naudojimo statistika saugoma tik lokaliai jūsų įrenginyje. „ImageToolbox“ juos naudoja tik jūsų asmeninei veiklai, mėgstamiems įrankiams ir išsaugotų duomenų įžvalgoms rodyti</string>
 </resources>

@@ -3190,4 +3190,5 @@
     <string name="tool_usage_subtitle">%1$d ئېچىلدى • %2$s</string>
     <string name="no_usage_statistics">ھازىرچە ئىشلىتىش سىتاتىستىكىسى يوق</string>
     <string name="no_usage_statistics_sub">بىر قانچە قورالنى ئېچىڭ ، ئۇلار بۇ يەردە ئاپتوماتىك كۆرۈنىدۇ</string>
+    <string name="usage_statistics_info">ئىشلىتىش ستاتىستىكىڭىز پەقەت ئۈسكۈنىڭىزدە ساقلىنىدۇ. ImageToolbox ئۇلارنى پەقەت شەخسىي پائالىيىتىڭىز ، ياقتۇرىدىغان قوراللىرىڭىز ۋە ساقلانغان سانلىق مەلۇماتلىرىڭىزنى كۆرسىتىش ئۈچۈنلا ئىشلىتىدۇ</string>
 </resources>
