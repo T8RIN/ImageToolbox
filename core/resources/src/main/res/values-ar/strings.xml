@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -3178,4 +3176,16 @@
     <string name="model_zero_dcepp">تحسين سريع للإضاءة المنخفضة باستخدام تقدير منحنى Zero-DCE++.</string>
     <string name="model_restormer_deraining">نموذج استعادة الصورة Restormer لتقليل خطوط المطر وتحف الطقس الرطب.</string>
     <string name="model_uvdoc_grid">قم بتوثيق نموذج إزالة التشوه الذي يتنبأ بشبكة إحداثيات ويعيد رسم خريطة للصفحات المنحنية في مسح أكثر اتساعًا.</string>
+    <string name="motion_duration_scale">مقياس مدة الحركة</string>
+    <string name="motion_duration_scale_sub">يتحكم في سرعة الرسوم المتحركة في التطبيق: القيمة 0 تعطل الحركة، والقيمة 1 تمثل الوضع العادي، أما القيم الأعلى فتؤدي إلى إبطاء الرسوم المتحركة</string>
+    <string name="show_recent_tools">اعرض الأدوات الحديثة</string>
+    <string name="show_recent_tools_sub">اعرض الوصول السريع إلى الأدوات المستخدمة حديثًا على الشاشة الرئيسية</string>
+    <string name="usage_statistics">إحصائيات الاستخدام</string>
+    <string name="usage_statistics_sub">استكشف عمليات فتح تطبيق وتشغيل الأدوات والأدوات الأكثر استخدامًا لديك</string>
+    <string name="app_opens">فتح التطبيق</string>
+    <string name="tool_opens">فتح الأدوات</string>
+    <string name="last_tool_opened">آخر أداة</string>
+    <string name="tool_usage_subtitle">%1$d يفتح • %2$s</string>
+    <string name="no_usage_statistics">لا توجد إحصائيات استخدام حتى الآن</string>
+    <string name="no_usage_statistics_sub">افتح بعض الأدوات وستظهر هنا تلقائيًا</string>
 </resources>
