@@ -126,7 +126,14 @@ internal class AndroidFileController @Inject constructor(
         ).makeLog("File Controller save")
 
         if (result is SaveResult.Success) {
-            appHistoryRepository.registerSuccessfulSave()
+            appHistoryRepository.registerSuccessfulSave(
+                savedBytes = result.savedBytes,
+                savedFormat = if (saveTarget is ImageSaveTarget) {
+                    saveTarget.imageFormat.title
+                } else {
+                    saveTarget.extension
+                }
+            )
         }
 
         return result
@@ -171,7 +178,8 @@ internal class AndroidFileController @Inject constructor(
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
                 return@withContext SaveResult.Success(
                     message = getString(R.string.copied),
-                    savingPath = savingPath
+                    savingPath = savingPath,
+                    savedBytes = data.size.toLong()
                 )
             }
 
@@ -226,7 +234,8 @@ internal class AndroidFileController @Inject constructor(
                             originalUri.filename(context).toString()
                         ),
                         isOverwritten = true,
-                        savingPath = savingPath
+                        savingPath = savingPath,
+                        savedBytes = data.size.toLong()
                     )
                 }
             } else {
@@ -361,7 +370,8 @@ internal class AndroidFileController @Inject constructor(
                             )
                         }
                     } else null,
-                    savingPath = actualSavingPath
+                    savingPath = actualSavingPath,
+                    savedBytes = data.size.toLong()
                 )
             }
         }.onFailure {

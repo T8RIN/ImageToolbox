@@ -3209,6 +3209,9 @@
     <string name="tool_opens">Tool opens</string>
     <string name="last_tool_opened">Last tool</string>
     <string name="successful_saves">Successful saves</string>
+    <string name="activity_streak">Activity streak</string>
+    <string name="data_saved">Data saved</string>
+    <string name="top_format">Top format</string>
     <string name="tools_used">Tools used</string>
     <string name="tool_usage_subtitle">%1$d opens • %2$s</string>
     <string name="no_usage_statistics">No usage statistics yet</string>

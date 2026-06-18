@@ -21,8 +21,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
+import com.t8rin.imagetoolbox.core.domain.history.model.AppUsageStatistics
 import com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
@@ -30,6 +32,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 import javax.inject.Inject
 
 internal class AppHistoryRepositoryImpl @Inject constructor(
@@ -84,8 +87,37 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
         preferences[SUCCESSFUL_SAVES_COUNT] ?: 0
     }
 
+    override fun appUsageStatistics(): Flow<AppUsageStatistics> =
+        dataStore.data.map { preferences ->
+            AppUsageStatistics(
+                successfulSavesCount = preferences[SUCCESSFUL_SAVES_COUNT] ?: 0,
+                savedBytes = preferences[SAVED_BYTES] ?: 0,
+                lastActivityDayEpoch = preferences[LAST_ACTIVITY_DAY_EPOCH] ?: 0,
+                currentActivityStreak = preferences[CURRENT_ACTIVITY_STREAK] ?: 0,
+                savedFormatCounts = preferences[SAVED_FORMAT_COUNTERS]?.let { counters ->
+                    jsonParser.fromJson<SavedFormatCounters>(
+                        json = counters,
+                        type = SavedFormatCounters::class.java
+                    )?.counters
+                }.orEmpty()
+            )
+        }
+
     override suspend fun pushLastTool(screenId: Int) {
         dataStore.edit { preferences ->
+            val todayEpochDay = LocalDate.now().toEpochDay()
+            val lastActivityDayEpoch = preferences[LAST_ACTIVITY_DAY_EPOCH]
+
+            if (lastActivityDayEpoch != todayEpochDay) {
+                preferences[CURRENT_ACTIVITY_STREAK] =
+                    if (lastActivityDayEpoch == todayEpochDay - 1) {
+                        (preferences[CURRENT_ACTIVITY_STREAK] ?: 0) + 1
+                    } else {
+                        1
+                    }
+                preferences[LAST_ACTIVITY_DAY_EPOCH] = todayEpochDay
+            }
+
             val current = preferences[LAST_USED_TOOLS]?.let {
                 jsonParser.fromJson(
                     json = it,
@@ -119,9 +151,31 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun registerSuccessfulSave() {
+    override suspend fun registerSuccessfulSave(
+        savedBytes: Long,
+        savedFormat: String
+    ) {
         dataStore.edit { preferences ->
             preferences[SUCCESSFUL_SAVES_COUNT] = (preferences[SUCCESSFUL_SAVES_COUNT] ?: 0) + 1
+            preferences[SAVED_BYTES] = (preferences[SAVED_BYTES] ?: 0) + savedBytes.coerceAtLeast(0)
+
+            val format = savedFormat.lowercase().trim()
+            if (format.isNotEmpty()) {
+                val current = preferences[SAVED_FORMAT_COUNTERS]?.let {
+                    jsonParser.fromJson(
+                        json = it,
+                        type = SavedFormatCounters::class.java
+                    )
+                } ?: SavedFormatCounters(emptyMap())
+
+                preferences[SAVED_FORMAT_COUNTERS] = jsonParser.toJson(
+                    obj = current.copy(
+                        counters = current.counters + (format to ((current.counters[format]
+                            ?: 0) + 1))
+                    ),
+                    type = SavedFormatCounters::class.java
+                ) ?: preferences[SAVED_FORMAT_COUNTERS].orEmpty()
+            }
         }
     }
 
@@ -131,5 +185,13 @@ private data class LastUsedTools(
     val tools: List<LastUsedTool>
 )
 
+private data class SavedFormatCounters(
+    val counters: Map<String, Int>
+)
+
 private val LAST_USED_TOOLS = stringPreferencesKey("LAST_USED_TOOLS")
 private val SUCCESSFUL_SAVES_COUNT = intPreferencesKey("SUCCESSFUL_SAVES_COUNT")
+private val SAVED_BYTES = longPreferencesKey("SAVED_BYTES")
+private val LAST_ACTIVITY_DAY_EPOCH = longPreferencesKey("LAST_ACTIVITY_DAY_EPOCH")
+private val CURRENT_ACTIVITY_STREAK = intPreferencesKey("CURRENT_ACTIVITY_STREAK")
+private val SAVED_FORMAT_COUNTERS = stringPreferencesKey("SAVED_FORMAT_COUNTERS")

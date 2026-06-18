@@ -63,7 +63,7 @@ internal fun UsageStatisticSummaryItem(
             modifier = Modifier.weight(1f, false)
         ) {
             Text(
-                text = if (value == "0" || value == "0.0") {
+                text = if (value.isBlank() || value == "0" || value == "0.0") {
                     stringResource(R.string.not_specified)
                 } else {
                     value

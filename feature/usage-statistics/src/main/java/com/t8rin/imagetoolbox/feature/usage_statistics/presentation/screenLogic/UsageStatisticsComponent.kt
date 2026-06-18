@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -45,11 +46,17 @@ class UsageStatisticsComponent @AssistedInject constructor(
     val state: StateFlow<UsageStatisticsState> = combine(
         settingsProvider.settingsState,
         appHistoryRepository.toolUsageStatistics(),
-        appHistoryRepository.successfulSavesCount()
-    ) { settings, history, successfulSavesCount ->
+        appHistoryRepository.appUsageStatistics()
+    ) { settings, history, usageStatistics ->
         UsageStatisticsState(
             appOpenCount = settings.appOpenCount,
-            successfulSavesCount = successfulSavesCount,
+            successfulSavesCount = usageStatistics.successfulSavesCount,
+            activityStreak = usageStatistics.currentActivityStreak,
+            savedBytes = usageStatistics.savedBytes,
+            topSavedFormat = usageStatistics.savedFormatCounts
+                .maxWithOrNull(compareBy<Map.Entry<String, Int>> { it.value }.thenBy { it.key })
+                ?.key
+                ?.asSavedFormatLabel().orEmpty(),
             tools = history.mapNotNull { item ->
                 Screen.entries.find { it.id == item.screenId }?.let { screen ->
                     UiToolUsageStatistic(
@@ -65,6 +72,16 @@ class UsageStatisticsComponent @AssistedInject constructor(
         started = SharingStarted.Eagerly,
         initialValue = UsageStatisticsState()
     )
+
+    private fun String.asSavedFormatLabel(): String {
+        val format = ImageFormat.entries.find {
+            it.title.equals(this, ignoreCase = true) ||
+                    it.extension.equals(this, ignoreCase = true) ||
+                    it.mimeType.entry.equals(this, ignoreCase = true)
+        }
+
+        return format?.title ?: uppercase()
+    }
 
     @AssistedFactory
     fun interface Factory {

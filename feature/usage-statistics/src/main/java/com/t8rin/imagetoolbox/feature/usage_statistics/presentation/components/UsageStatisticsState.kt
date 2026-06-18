@@ -20,5 +20,12 @@ package com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components
 data class UsageStatisticsState(
     val appOpenCount: Int = 0,
     val successfulSavesCount: Int = 0,
+    val activityStreak: Int = 0,
+    val savedBytes: Long = 0,
+    val topSavedFormat: String = "",
     val tools: List<UiToolUsageStatistic> = emptyList()
-)
+) {
+    val totalToolOpens = tools.sumOf { it.openCount }
+    val lastOpened = tools.maxByOrNull { it.lastOpenedTimestamp }?.lastOpenedTimestamp
+    val maxOpenCount = tools.maxOfOrNull { it.openCount } ?: 0
+}

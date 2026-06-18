@@ -40,13 +40,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Database
 import com.t8rin.imagetoolbox.core.resources.icons.DateRange
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
 import com.t8rin.imagetoolbox.core.resources.icons.FinanceMode
 import com.t8rin.imagetoolbox.core.resources.icons.History
+import com.t8rin.imagetoolbox.core.resources.icons.LocalFireDepartment
+import com.t8rin.imagetoolbox.core.resources.icons.QualityHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.TouchApp
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
@@ -65,9 +69,6 @@ internal fun UsageStatisticsContentImpl(
     modifier: Modifier = Modifier
 ) {
     val statistics = state.tools
-    val totalToolOpens = statistics.sumOf { it.openCount }
-    val lastOpened = statistics.maxByOrNull { it.lastOpenedTimestamp }?.lastOpenedTimestamp
-    val maxOpenCount = statistics.maxOfOrNull { it.openCount } ?: 0
     val widthSizeClass = LocalWindowSizeClass.current.widthSizeClass
 
     val isPortrait by isPortraitOrientationAsState()
@@ -91,7 +92,7 @@ internal fun UsageStatisticsContentImpl(
             UsageStatisticSummaryItem(
                 icon = Icons.Rounded.History,
                 title = stringResource(R.string.tool_opens),
-                value = totalToolOpens.toString(),
+                value = state.totalToolOpens.toString(),
                 modifier = Modifier.weight(1f)
             )
             UsageStatisticSummaryItem(
@@ -107,9 +108,27 @@ internal fun UsageStatisticsContentImpl(
                 modifier = Modifier.weight(1f)
             )
             UsageStatisticSummaryItem(
+                icon = Icons.Rounded.LocalFireDepartment,
+                title = stringResource(R.string.activity_streak),
+                value = state.activityStreak.toString(),
+                modifier = Modifier.weight(1f)
+            )
+            UsageStatisticSummaryItem(
+                icon = Icons.Rounded.Database,
+                title = stringResource(R.string.data_saved),
+                value = rememberHumanFileSize(state.savedBytes),
+                modifier = Modifier.weight(1f)
+            )
+            UsageStatisticSummaryItem(
+                icon = Icons.Rounded.QualityHigh,
+                title = stringResource(R.string.top_format),
+                value = state.topSavedFormat,
+                modifier = Modifier.weight(1f)
+            )
+            UsageStatisticSummaryItem(
                 icon = Icons.Rounded.DateRange,
                 title = stringResource(R.string.last_tool_opened),
-                value = lastOpened.asReadableDate(),
+                value = state.lastOpened.asReadableDate(),
                 modifier = Modifier.weight(1f)
             )
         }
@@ -149,7 +168,7 @@ internal fun UsageStatisticsContentImpl(
                 ) { _, item ->
                     ToolUsageStatisticItem(
                         item = item,
-                        progress = item.openCount / maxOpenCount.toFloat(),
+                        progress = item.openCount / state.maxOpenCount.toFloat(),
                         shape = ShapeDefaults.default,
                         onClick = { onNavigate(item.screen) }
                     )
@@ -184,7 +203,7 @@ internal fun UsageStatisticsContentImpl(
                 ) { index, item ->
                     ToolUsageStatisticItem(
                         item = item,
-                        progress = item.openCount / maxOpenCount.toFloat(),
+                        progress = item.openCount / state.maxOpenCount.toFloat(),
                         shape = ShapeDefaults.byIndex(index, statistics.size),
                         onClick = { onNavigate(item.screen) }
                     )
@@ -203,6 +222,9 @@ private fun Preview() = ImageToolboxThemeForPreview(true, keyColor = Color.Green
             UsageStatisticsState(
                 appOpenCount = 840,
                 successfulSavesCount = 320,
+                activityStreak = 12,
+                savedBytes = 128_400_000,
+                topSavedFormat = "JPG",
                 tools = Screen.entries.map { screen ->
                     UiToolUsageStatistic(
                         screen = screen,
@@ -244,6 +266,8 @@ private fun Preview1() = ImageToolboxThemeForPreview(true) {
     UsageStatisticsContentImpl(
         state = UsageStatisticsState(
             appOpenCount = 840,
+            activityStreak = 3,
+            savedBytes = 12_000_000,
             tools = emptyList()
         ),
         onNavigate = {}

@@ -3177,4 +3177,7 @@
     <string name="model_zero_dcepp">Быстрое улучшение при слабом освещении с использованием оценки кривой Zero-DCE++.</string>
     <string name="model_restormer_deraining">Модель восстановления изображений Restormer для уменьшения полос дождя и артефактов влажной погоды.</string>
     <string name="model_uvdoc_grid">Модель развертки документа, которая прогнозирует координатную сетку и преобразует изогнутые страницы в более плоские сканы.</string>
+    <string name="activity_streak">Дней подряд</string>
+    <string name="data_saved">Данных сохранено</string>
+    <string name="top_format">Топ формат</string>
 </resources>

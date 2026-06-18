@@ -15,27 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.domain.history
+package com.t8rin.imagetoolbox.core.domain.history.model
 
-import com.t8rin.imagetoolbox.core.domain.history.model.AppUsageStatistics
-import com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool
-import kotlinx.coroutines.flow.Flow
-
-interface AppHistoryRepository {
-
-    fun lastUsedTools(maxCount: Int = 5): Flow<List<LastUsedTool>>
-
-    fun toolUsageStatistics(): Flow<List<LastUsedTool>>
-
-    fun successfulSavesCount(): Flow<Int>
-
-    fun appUsageStatistics(): Flow<AppUsageStatistics>
-
-    suspend fun pushLastTool(screenId: Int)
-
-    suspend fun registerSuccessfulSave(
-        savedBytes: Long,
-        savedFormat: String
-    )
-
-}
+data class AppUsageStatistics(
+    val successfulSavesCount: Int = 0,
+    val savedBytes: Long = 0,
+    val lastActivityDayEpoch: Long = 0,
+    val currentActivityStreak: Int = 0,
+    val savedFormatCounts: Map<String, Int> = emptyMap(),
+    val todayToolOpens: Int = 0,
+    val todaySuccessfulSaves: Int = 0,
+    val weekToolOpens: Int = 0,
+    val weekSuccessfulSaves: Int = 0,
+    val activeDays: Int = 0,
+    val lastSuccessfulSaveTimestamp: Long? = null
+)
