@@ -3189,7 +3189,7 @@
     <string name="last_tool_opened">Последний инструмент</string>
     <string name="successful_saves">Успешные сохранения</string>
     <string name="tools_used">Используемые инструменты</string>
-    <string name="tool_usage_subtitle">%1$d открывается • %2$s</string>
+    <string name="tool_usage_subtitle">%1$d открыто • %2$s</string>
     <string name="no_usage_statistics">Статистики использования пока нет</string>
     <string name="no_usage_statistics_sub">Откройте несколько инструментов, и они появятся здесь автоматически.</string>
 </resources>
