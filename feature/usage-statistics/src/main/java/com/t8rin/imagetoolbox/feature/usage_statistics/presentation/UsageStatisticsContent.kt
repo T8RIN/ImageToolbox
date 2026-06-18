@@ -17,26 +17,35 @@
 
 package com.t8rin.imagetoolbox.feature.usage_statistics.presentation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.plus
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
+import com.t8rin.imagetoolbox.core.resources.icons.Info
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components.UsageStatisticsContentImpl
+import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components.UsageStatisticsInfoDialog
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.UsageStatisticsComponent
 
 @Composable
@@ -45,6 +54,9 @@ fun UsageStatisticsContent(
 ) {
     val state by component.state.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    var showInfoDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -70,13 +82,30 @@ fun UsageStatisticsContent(
                     TopAppBarEmoji()
                 }
             )
+        },
+        floatingActionButton = {
+            EnhancedFloatingActionButton(
+                onClick = {
+                    showInfoDialog = true
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = null
+                )
+            }
         }
     ) { contentPadding ->
         UsageStatisticsContentImpl(
             state = state,
-            contentPadding = contentPadding,
+            contentPadding = contentPadding + PaddingValues(bottom = 80.dp),
             onNavigate = component.onNavigate,
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         )
     }
+
+    UsageStatisticsInfoDialog(
+        visible = showInfoDialog,
+        onDismiss = { showInfoDialog = false }
+    )
 }

@@ -3216,4 +3216,5 @@
     <string name="tool_usage_subtitle">%1$d opens • %2$s</string>
     <string name="no_usage_statistics">No usage statistics yet</string>
     <string name="no_usage_statistics_sub">Open a few tools and they will appear here automatically</string>
+    <string name="usage_statistics_info">Your usage statistics are stored only locally on your device. ImageToolbox uses them only to show your personal activity, favorite tools, and saved data insights</string>
 </resources>
