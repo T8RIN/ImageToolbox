@@ -78,4 +78,5 @@ dependencies {
     implementation(projects.feature.appLogs)
     implementation(projects.feature.shaderStudio)
     implementation(projects.feature.help)
+    implementation(projects.feature.usageStatistics)
 }

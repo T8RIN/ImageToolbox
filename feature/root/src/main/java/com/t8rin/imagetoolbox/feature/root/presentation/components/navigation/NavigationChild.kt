@@ -152,6 +152,8 @@ import com.t8rin.imagetoolbox.feature.single_edit.presentation.SingleEditContent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.SvgMakerContent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
+import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.UsageStatisticsContent
+import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.UsageStatisticsComponent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.WallpapersExportContent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.WatermarkingContent
@@ -383,6 +385,11 @@ internal sealed interface NavigationChild {
     class AppLogs(private val component: AppLogsComponent) : NavigationChild {
         @Composable
         override fun Content() = AppLogsContent(component)
+    }
+
+    class UsageStatistics(private val component: UsageStatisticsComponent) : NavigationChild {
+        @Composable
+        override fun Content() = UsageStatisticsContent(component)
     }
 
     class MarkupLayers(private val component: MarkupLayersComponent) : NavigationChild {

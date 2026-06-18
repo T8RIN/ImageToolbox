@@ -24,6 +24,8 @@ interface AppHistoryRepository {
 
     fun lastUsedTools(maxCount: Int = 5): Flow<List<LastUsedTool>>
 
+    fun toolUsageStatistics(): Flow<List<LastUsedTool>>
+
     suspend fun pushLastTool(screenId: Int)
 
 }

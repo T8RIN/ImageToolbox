@@ -151,6 +151,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SplitPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SvgMaker
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.UnlockPdfTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.UsageStatistics
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WallpapersExport
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WatermarkPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Watermarking
@@ -164,6 +165,7 @@ import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.Settings
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
+import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.UsageStatisticsComponent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.WatermarkingComponent
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
@@ -216,6 +218,7 @@ internal class ChildProvider @Inject constructor(
     private val colorToolsComponentFactory: ColorToolsComponent.Factory,
     private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
     private val appLogsComponentFactory: AppLogsComponent.Factory,
+    private val usageStatisticsComponentFactory: UsageStatisticsComponent.Factory,
     private val mainComponentFactory: MainComponent.Factory,
     private val markupLayersComponentFactory: MarkupLayersComponent.Factory,
     private val base64ToolsComponentFactory: Base64ToolsComponent.Factory,
@@ -614,6 +617,14 @@ internal class ChildProvider @Inject constructor(
             appLogsComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack
+            )
+        )
+
+        Screen.UsageStatistics -> UsageStatistics(
+            usageStatisticsComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 

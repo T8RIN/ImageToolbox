@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.domain.history.model
+package com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components
 
-data class LastUsedTool(
-    val screenId: Int,
-    val openCount: Int,
-    val lastOpenedTimestamp: Long
+data class UsageStatisticsState(
+    val appOpenCount: Int = 0,
+    val tools: List<UiToolUsageStatistic> = emptyList()
 )

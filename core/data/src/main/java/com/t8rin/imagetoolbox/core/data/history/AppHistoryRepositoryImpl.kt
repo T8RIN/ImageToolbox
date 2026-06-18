@@ -37,17 +37,21 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
     private val settingsProvider: SettingsProvider
 ) : AppHistoryRepository {
 
+    private val rawLastUsedTools: Flow<List<LastUsedTool>>
+        get() = dataStore.data.map { preferences ->
+            preferences[LAST_USED_TOOLS]?.let { lastTools ->
+                jsonParser.fromJson<LastUsedTools>(
+                    json = lastTools,
+                    type = LastUsedTools::class.java
+                )?.tools
+            }.orEmpty()
+        }
+
     override fun lastUsedTools(
         maxCount: Int
     ): Flow<List<LastUsedTool>> = settingsProvider.settingsState.flatMapLatest { settings ->
         if (settings.showToolsHistory) {
-            dataStore.data.map { preferences ->
-                val lastTools = preferences[LAST_USED_TOOLS] ?: return@map emptyList()
-                val rawList = jsonParser.fromJson<LastUsedTools>(
-                    json = lastTools,
-                    type = LastUsedTools::class.java
-                )?.tools.orEmpty()
-
+            rawLastUsedTools.map { rawList ->
                 rawList.sortedByDescending { it.openCount }.let {
                     if (maxCount < Int.MAX_VALUE) {
                         val last = rawList.lastOrNull()
@@ -68,6 +72,13 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun toolUsageStatistics(): Flow<List<LastUsedTool>> = rawLastUsedTools.map { rawList ->
+        rawList.sortedWith(
+            compareByDescending<LastUsedTool> { it.openCount }
+                .thenByDescending { it.lastOpenedTimestamp }
+        )
+    }
+
     override suspend fun pushLastTool(screenId: Int) {
         dataStore.edit { preferences ->
             val current = preferences[LAST_USED_TOOLS]?.let {
@@ -81,7 +92,8 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
                 it.screenId == screenId
             } ?: LastUsedTool(
                 screenId = screenId,
-                openCount = 0
+                openCount = 0,
+                lastOpenedTimestamp = System.currentTimeMillis()
             )
 
             val newValue = current.copy(
@@ -89,7 +101,8 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
                     .minus(screenEntry)
                     .plus(
                         screenEntry.copy(
-                            openCount = screenEntry.openCount + 1
+                            openCount = screenEntry.openCount + 1,
+                            lastOpenedTimestamp = System.currentTimeMillis()
                         )
                     )
             )

@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 
 @Composable
 internal fun LastUsedToolsCard(
@@ -79,7 +80,12 @@ internal fun LastUsedToolsCard(
             Spacer(Modifier.width(11.dp))
             IconShapeContainer(
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                modifier = Modifier.scaleOnTap(
+                    onRelease = {
+                        onNavigate(Screen.UsageStatistics)
+                    }
+                )
             ) {
                 Icon(
                     imageVector = Icons.Rounded.History,

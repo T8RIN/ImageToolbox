@@ -51,12 +51,7 @@ internal fun SearchableSettingItem(
     group: SettingsGroup,
     setting: Setting,
     shape: Shape,
-    component: SettingsComponent,
-    onNavigateToEasterEgg: () -> Unit,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToLibrariesInfo: () -> Unit,
-    onNavigateToHelp: () -> Unit,
-    isUpdateAvailable: Boolean
+    component: SettingsComponent
 ) {
     Column(
         modifier = modifier.container(
@@ -100,12 +95,7 @@ internal fun SearchableSettingItem(
         ProvideContainerDefaults(itemShape) {
             SettingItem(
                 setting = setting,
-                component = component,
-                isUpdateAvailable = isUpdateAvailable,
-                onNavigateToEasterEgg = onNavigateToEasterEgg,
-                onNavigateToSettings = onNavigateToSettings,
-                onNavigateToLibrariesInfo = onNavigateToLibrariesInfo,
-                onNavigateToHelp = onNavigateToHelp
+                component = component
             )
         }
         Spacer(Modifier.height(8.dp))

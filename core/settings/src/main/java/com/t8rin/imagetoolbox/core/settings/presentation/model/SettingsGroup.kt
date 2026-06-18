@@ -316,6 +316,7 @@ sealed class SettingsGroup(
         titleId = R.string.about_app,
         settingsList = listOfNotNull(
             Setting.CurrentVersionCode,
+            Setting.AppUsageStatistics,
             Setting.AppLogs,
             Setting.OpenSourceLicenses,
             Setting.HelpTranslate,

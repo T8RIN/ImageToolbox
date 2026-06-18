@@ -15,10 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.domain.history.model
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.feature)
+    alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
+}
 
-data class LastUsedTool(
-    val screenId: Int,
-    val openCount: Int,
-    val lastOpenedTimestamp: Long
-)
+android.namespace = "com.t8rin.imagetoolbox.feature.usage_statistics"

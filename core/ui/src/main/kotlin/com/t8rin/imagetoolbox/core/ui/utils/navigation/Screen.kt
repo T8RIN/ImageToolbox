@@ -95,6 +95,13 @@ sealed class Screen(
     )
 
     @Serializable
+    data object UsageStatistics : Screen(
+        id = -8,
+        title = 0,
+        subtitle = 0
+    )
+
+    @Serializable
     data class Settings(
         val searchQuery: String = "",
         val targetSetting: Setting? = null

@@ -3203,4 +3203,12 @@
     <string name="duplicate">Duplicate</string>
     <string name="show_recent_tools">Show Recent Tools</string>
     <string name="show_recent_tools_sub">Display quick access to recently used tools on the main screen</string>
+    <string name="usage_statistics">Usage Statistics</string>
+    <string name="usage_statistics_sub">Explore app opens, tool launches, and your most used tools</string>
+    <string name="app_opens">App opens</string>
+    <string name="tool_opens">Tool opens</string>
+    <string name="last_tool_opened">Last tool</string>
+    <string name="tool_usage_subtitle">%1$d opens • %2$s</string>
+    <string name="no_usage_statistics">No usage statistics yet</string>
+    <string name="no_usage_statistics_sub">Open a few tools and they will appear here automatically</string>
 </resources>

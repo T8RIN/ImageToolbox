@@ -28,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Save
@@ -50,13 +51,10 @@ import kotlinx.coroutines.launch
 internal fun SettingItem(
     setting: Setting,
     component: SettingsComponent,
-    onNavigateToEasterEgg: () -> Unit,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToLibrariesInfo: () -> Unit,
-    onNavigateToHelp: () -> Unit,
-    isUpdateAvailable: Boolean,
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
+    val isUpdateAvailable by component.isUpdateAvailable.subscribeAsState()
+
     ProvideContainerDefaults(
         color = containerColor,
         shape = LocalContainerShape.current
@@ -101,6 +99,14 @@ internal fun SettingItem(
                 AppLogsSettingItem(
                     onClick = {
                         component.onNavigate(Screen.AppLogs)
+                    }
+                )
+            }
+
+            Setting.AppUsageStatistics -> {
+                AppUsageStatisticsSettingItem(
+                    onClick = {
+                        component.onNavigate(Screen.UsageStatistics)
                     }
                 )
             }
@@ -183,7 +189,7 @@ internal fun SettingItem(
                 }
                 LaunchedEffect(clicks) {
                     if (clicks >= 3) {
-                        onNavigateToEasterEgg()
+                        component.onNavigate(Screen.EasterEgg)
                         clicks = 0
                     }
 
@@ -264,7 +270,11 @@ internal fun SettingItem(
             }
 
             Setting.HelpTips -> {
-                HelpTipsSettingItem(onClick = onNavigateToHelp)
+                HelpTipsSettingItem(
+                    onClick = {
+                        component.onNavigate(Screen.Help())
+                    }
+                )
             }
 
             Setting.ImagePickerMode -> {
@@ -496,7 +506,9 @@ internal fun SettingItem(
             Setting.UseFullscreenSettings -> {
                 UseFullscreenSettingsSettingItem(
                     onClick = component::toggleUseFullscreenSettings,
-                    onNavigateToSettings = onNavigateToSettings
+                    onNavigateToSettings = {
+                        component.onNavigate(Screen.Settings())
+                    }
                 )
             }
 
@@ -569,7 +581,11 @@ internal fun SettingItem(
             }
 
             Setting.OpenSourceLicenses -> {
-                OpenSourceLicensesSettingItem(onClick = onNavigateToLibrariesInfo)
+                OpenSourceLicensesSettingItem(
+                    onClick = {
+                        component.onNavigate(Screen.LibrariesInfo)
+                    }
+                )
             }
 
             Setting.FastSettingsSide -> {

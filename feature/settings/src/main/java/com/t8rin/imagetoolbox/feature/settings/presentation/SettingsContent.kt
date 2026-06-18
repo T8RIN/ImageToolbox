@@ -79,7 +79,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
@@ -90,7 +89,6 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -122,9 +120,6 @@ fun SettingsContent(
     appBarNavigationIcon: (@Composable (Boolean, () -> Unit) -> Unit)? = null
 ) {
     val isStandaloneScreen = appBarNavigationIcon == null
-
-    val isUpdateAvailable by component.isUpdateAvailable.subscribeAsState()
-
     val settingsState = LocalSettingsState.current
     val layoutDirection = LocalLayoutDirection.current
     val initialSettingGroups = SettingsGroup.entries
@@ -419,23 +414,10 @@ fun SettingsContent(
                                                 SettingItem(
                                                     setting = setting,
                                                     component = component,
-                                                    isUpdateAvailable = isUpdateAvailable,
                                                     containerColor = if (showTargetHighlight && setting == targetSetting) {
                                                         highlightedContainerColor
                                                     } else {
                                                         MaterialTheme.colorScheme.surfaceContainerLow
-                                                    },
-                                                    onNavigateToEasterEgg = {
-                                                        component.onNavigate(Screen.EasterEgg)
-                                                    },
-                                                    onNavigateToSettings = {
-                                                        component.onNavigate(Screen.Settings())
-                                                    },
-                                                    onNavigateToLibrariesInfo = {
-                                                        component.onNavigate(Screen.LibrariesInfo)
-                                                    },
-                                                    onNavigateToHelp = {
-                                                        component.onNavigate(Screen.Help())
                                                     }
                                                 )
                                             }
@@ -456,23 +438,10 @@ fun SettingsContent(
                                                 SettingItem(
                                                     setting = setting,
                                                     component = component,
-                                                    isUpdateAvailable = isUpdateAvailable,
                                                     containerColor = if (showTargetHighlight && setting == targetSetting) {
                                                         highlightedContainerColor
                                                     } else {
                                                         MaterialTheme.colorScheme.surface
-                                                    },
-                                                    onNavigateToEasterEgg = {
-                                                        component.onNavigate(Screen.EasterEgg)
-                                                    },
-                                                    onNavigateToSettings = {
-                                                        component.onNavigate(Screen.Settings())
-                                                    },
-                                                    onNavigateToLibrariesInfo = {
-                                                        component.onNavigate(Screen.LibrariesInfo)
-                                                    },
-                                                    onNavigateToHelp = {
-                                                        component.onNavigate(Screen.Help())
                                                     }
                                                 )
                                             }
@@ -502,20 +471,7 @@ fun SettingsContent(
                                 ),
                                 group = group,
                                 setting = setting,
-                                component = component,
-                                isUpdateAvailable = isUpdateAvailable,
-                                onNavigateToEasterEgg = {
-                                    component.onNavigate(Screen.EasterEgg)
-                                },
-                                onNavigateToSettings = {
-                                    component.onNavigate(Screen.Settings())
-                                },
-                                onNavigateToLibrariesInfo = {
-                                    component.onNavigate(Screen.LibrariesInfo)
-                                },
-                                onNavigateToHelp = {
-                                    component.onNavigate(Screen.Help())
-                                }
+                                component = component
                             )
                         }
                     }

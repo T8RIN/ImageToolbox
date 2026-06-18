@@ -638,6 +638,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object AppUsageStatistics : Setting(
+        title = R.string.usage_statistics,
+        subtitle = R.string.usage_statistics_sub
+    )
+
+    @Serializable
     data object AddPresetToFilename : Setting(
         title = R.string.add_preset_to_filename,
         subtitle = R.string.add_preset_to_filename_sub
