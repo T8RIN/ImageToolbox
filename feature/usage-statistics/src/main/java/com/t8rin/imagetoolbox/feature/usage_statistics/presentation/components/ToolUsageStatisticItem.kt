@@ -81,7 +81,8 @@ internal fun ToolUsageStatisticItem(
                     .padding(
                         top = if (progress >= 1f) 8.dp else 12.dp
                     )
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                amplitude = { 0.8f }
             )
         }
     )
