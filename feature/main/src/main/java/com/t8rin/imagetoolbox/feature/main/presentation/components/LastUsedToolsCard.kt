@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.History
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
@@ -70,12 +71,12 @@ internal fun LastUsedToolsCard(
         Row(
             modifier = Modifier
                 .container(
-                    shape = ShapeDefaults.extraLarge,
+                    shape = ShapeDefaults.large,
                     resultPadding = 0.dp
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(11.dp))
             IconShapeContainer(
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 contentColor = MaterialTheme.colorScheme.onTertiaryContainer
@@ -93,7 +94,11 @@ internal fun LastUsedToolsCard(
                         weight = 1f,
                         fill = false
                     )
-                    .fadingEdges(lazyListState),
+                    .fadingEdges(
+                        scrollableState = lazyListState,
+                        color = SafeLocalContainerColor,
+                        length = 32.dp
+                    ),
                 flingBehavior = enhancedFlingBehavior(),
                 contentPadding = PaddingValues(
                     start = 6.dp,
@@ -174,7 +179,7 @@ internal fun LastUsedToolsCard(
                     }
                 }
             }
-            Spacer(Modifier.width(6.dp))
+            Spacer(Modifier.width(2.dp))
         }
     }
 }

@@ -59,7 +59,7 @@ fun ImageToolboxTheme(
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = settingsState.isDynamicColors,
         dynamicColorsOverride = { isNightMode ->
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.BAKLAVA && DeviceInfo.isPixel()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA && DeviceInfo.isPixel()) {
                 val colors = if (isNightMode) {
                     dynamicDarkColorScheme(context)
                 } else {
