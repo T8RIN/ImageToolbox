@@ -35,6 +35,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -45,10 +46,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -82,6 +86,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
@@ -93,6 +98,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.palette.graphics.Palette
 import com.materialkolor.hct.Hct
+import com.materialkolor.ktx.blend
 import com.materialkolor.palettes.TonalPalette
 import com.materialkolor.scheme.DynamicScheme
 import com.materialkolor.scheme.SchemeContent
@@ -746,19 +752,21 @@ private fun ColorScheme.withDynamicErrorColors(
     isDarkTheme: Boolean,
     errorSeed: Color?
 ): ColorScheme {
-    val palette = errorSeed?.toArgb()?.let(TonalPalette::fromInt) ?: TonalPalette.fromHueAndChroma(
-        hue = Hct.fromInt(primary.toArgb()).dynamicErrorHue(),
+    val errorHue = errorSeed?.toArgb()?.let { Hct.fromInt(it).hue }
+        ?: Hct.fromInt(primary.toArgb()).dynamicErrorHue()
+    val palette = TonalPalette.fromHueAndChroma(
+        hue = errorHue,
         chroma = style.dynamicErrorChroma()
     )
-    val errorTone = if (isDarkTheme) 80 else 35
-    val onErrorTone = if (isDarkTheme) 20 else 100
-    val errorContainerTone = if (isDarkTheme) 30 else 82
-    val onErrorContainerTone = if (isDarkTheme) 90 else 10
+    val errorTone = if (isDarkTheme) 70 else 30
+    val onErrorTone = if (isDarkTheme) 22 else 84
+    val errorContainerTone = if (isDarkTheme) 30 else 78
+    val onErrorContainerTone = if (isDarkTheme) 84 else 22
 
     return copy(
-        error = Color(palette.tone(errorTone)),
+        error = Color(palette.tone(errorTone)).blend(primary, 0.15f),
         onError = Color(palette.tone(onErrorTone)),
-        errorContainer = Color(palette.tone(errorContainerTone)),
+        errorContainer = Color(palette.tone(errorContainerTone)).blend(primaryContainer, 0.15f),
         onErrorContainer = Color(palette.tone(onErrorContainerTone))
     )
 }
@@ -767,7 +775,6 @@ private fun ColorScheme.withExpressiveOnColors(isDarkTheme: Boolean): ColorSchem
     onPrimary = primary.expressiveOnColor(isDarkTheme) ?: onPrimary,
     onSecondary = secondary.expressiveOnColor(isDarkTheme) ?: onSecondary,
     onTertiary = tertiary.expressiveOnColor(isDarkTheme) ?: onTertiary,
-    onError = error.expressiveOnColor(isDarkTheme) ?: onError
 )
 
 private fun Color.expressiveOnColor(isDarkTheme: Boolean): Color? {
@@ -905,3 +912,110 @@ private fun ColorScheme.toAmoled(amoledMode: Boolean): ColorScheme {
 
 val LocalDynamicThemeState: ProvidableCompositionLocal<DynamicThemeState> =
     compositionLocalOf { error("DynamicThemeState not present") }
+
+@PreviewLightDark
+@Composable
+private fun PreviewLightDark() = MaterialTheme(
+    colorScheme = rememberColorScheme(
+        isDarkTheme = isSystemInDarkTheme(),
+        amoledMode = false,
+        colorTuple = ColorTuple(
+            primary = Color(0xFFA1FF00),
+            error = Color(0xFFD99292)
+        ),
+        style = PaletteStyle.TonalSpot,
+        contrastLevel = 0.0,
+        dynamicColor = false,
+        isInvertColors = false,
+    )
+) {
+    Column {
+        Row {
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError
+                )
+            ) {
+                Text("error")
+            }
+
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer
+                )
+            ) {
+                Text("errorContainer")
+            }
+        }
+
+        Row {
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            ) {
+                Text("primary")
+            }
+
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            ) {
+                Text("primaryContainer")
+            }
+        }
+
+        Row {
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
+                )
+            ) {
+                Text("secondary")
+            }
+
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            ) {
+                Text("secondaryContainer")
+            }
+        }
+
+        Row {
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                )
+            ) {
+                Text("secondary")
+            }
+
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                )
+            ) {
+                Text("secondaryContainer")
+            }
+        }
+    }
+}
