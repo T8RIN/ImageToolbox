@@ -782,7 +782,7 @@ private fun Color.expressiveOnColor(isDarkTheme: Boolean): Color? {
     val candidateTones = if (isDarkTheme) {
         listOf(22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10)
     } else {
-        listOf(94, 95, 96, 97, 98)
+        listOf(96, 97, 98)
     }
 
     return candidateTones
@@ -920,8 +920,7 @@ private fun PreviewLightDark() = MaterialTheme(
         isDarkTheme = isSystemInDarkTheme(),
         amoledMode = false,
         colorTuple = ColorTuple(
-            primary = Color(0xFFA1FF00),
-            error = Color(0xFFD99292)
+            primary = Color(0xFFBCE870)
         ),
         style = PaletteStyle.TonalSpot,
         contrastLevel = 0.0,
@@ -1004,7 +1003,7 @@ private fun PreviewLightDark() = MaterialTheme(
                     contentColor = MaterialTheme.colorScheme.onTertiary
                 )
             ) {
-                Text("secondary")
+                Text("tertiary")
             }
 
             Button(
@@ -1014,7 +1013,7 @@ private fun PreviewLightDark() = MaterialTheme(
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer
                 )
             ) {
-                Text("secondaryContainer")
+                Text("tertiaryContainer")
             }
         }
     }
