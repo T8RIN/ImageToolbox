@@ -457,7 +457,9 @@ private fun String?.toColorTupleList(): List<ColorTuple> {
                     primary = it,
                     secondary = temp.getOrNull(1)?.toIntOrNull()?.toColor(),
                     tertiary = temp.getOrNull(2)?.toIntOrNull()?.toColor(),
-                    surface = temp.getOrNull(3)?.toIntOrNull()?.toColor()
+                    surface = temp.getOrNull(3)?.toIntOrNull()?.toColor(),
+                    neutralVariant = temp.getOrNull(4)?.toIntOrNull()?.toColor(),
+                    error = temp.getOrNull(5)?.toIntOrNull()?.toColor()
                 )
             )
         }
@@ -478,6 +480,8 @@ fun String.asColorTuple(): ColorTuple {
         secondary = colorTuple.getOrNull(1)?.toIntOrNull()?.let { Color(it) },
         tertiary = colorTuple.getOrNull(2)?.toIntOrNull()?.let { Color(it) },
         surface = colorTuple.getOrNull(3)?.toIntOrNull()?.let { Color(it) },
+        neutralVariant = colorTuple.getOrNull(4)?.toIntOrNull()?.let { Color(it) },
+        error = colorTuple.getOrNull(5)?.toIntOrNull()?.let { Color(it) },
     )
 }
 

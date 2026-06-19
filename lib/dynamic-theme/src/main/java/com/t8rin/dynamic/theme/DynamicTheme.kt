@@ -286,11 +286,39 @@ fun Color.calculateSurfaceColor(): Int {
     return TonalPalette.fromHueAndChroma(hue, (chroma / 12.0).coerceAtMost(4.0)).tone(90)
 }
 
+fun Color.calculateNeutralVariantColor(): Int = calculateSurfaceColor()
+
+fun Color.calculateErrorColor(style: PaletteStyle = PaletteStyle.TonalSpot): Int {
+    val hct = Hct.fromInt(this.toArgb())
+
+    return TonalPalette.fromHueAndChroma(
+        hue = hct.dynamicErrorHue(),
+        chroma = style.dynamicErrorChroma()
+    ).tone(82)
+}
+
 private fun Hct.secondaryChroma(): Double = (chroma / 3.0).coerceIn(14.0, 28.0)
 
 private fun Hct.tertiaryChroma(): Double = (chroma / 2.0).coerceIn(20.0, 42.0)
 
 private fun Hct.tertiaryHue(): Double = (hue + 60.0).mod(360.0)
+
+private fun PaletteStyle.dynamicErrorChroma(): Double = when (this) {
+    PaletteStyle.Neutral -> 56.0
+    PaletteStyle.TonalSpot -> 72.0
+    PaletteStyle.Expressive -> 76.0
+    PaletteStyle.Vibrant -> 80.0
+    else -> 72.0
+}
+
+private fun Hct.dynamicErrorHue(): Double {
+    val breakpoints = doubleArrayOf(0.0, 3.0, 13.0, 23.0, 33.0, 43.0, 153.0, 273.0, 360.0)
+    val hues = doubleArrayOf(12.0, 22.0, 32.0, 12.0, 22.0, 32.0, 22.0, 12.0)
+
+    return hues.getOrElse(breakpoints.indexOfLast { hue >= it }.coerceAtMost(hues.lastIndex)) {
+        hues.last()
+    }
+}
 
 
 @SuppressLint("MissingPermission")
@@ -327,7 +355,9 @@ fun rememberAppColorTuple(
                                 primary = primary,
                                 secondary = secondary,
                                 tertiary = tertiary,
-                                surface = surface
+                                surface = surface,
+                                neutralVariant = surfaceVariant,
+                                error = error
                             )
                         }
                     }
@@ -462,19 +492,24 @@ fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = tru
     ).takeOrElse { Color.Transparent }
 }
 
-/** Class that represents App color scheme based on three main colors
+/** Class that represents App color scheme based on main palette colors
  *  @param primary primary color
  *  @param secondary secondary color
  *  @param tertiary tertiary color
+ *  @param surface neutral color
+ *  @param neutralVariant neutral variant color
+ *  @param error error color
  */
 data class ColorTuple(
     val primary: Color,
     val secondary: Color? = null,
     val tertiary: Color? = null,
-    val surface: Color? = null
+    val surface: Color? = null,
+    val neutralVariant: Color? = null,
+    val error: Color? = null
 ) {
     override fun toString(): String =
-        "ColorTuple(primary=${primary.toArgb()}, secondary=${secondary?.toArgb()}, tertiary=${tertiary?.toArgb()}, surface=${surface?.toArgb()})"
+        "ColorTuple(primary=${primary.toArgb()}, secondary=${secondary?.toArgb()}, tertiary=${tertiary?.toArgb()}, surface=${surface?.toArgb()}, neutralVariant=${neutralVariant?.toArgb()}, error=${error?.toArgb()})"
 }
 
 /**
@@ -486,7 +521,9 @@ fun rememberDynamicThemeState(
         primary = MaterialTheme.colorScheme.primary,
         secondary = MaterialTheme.colorScheme.secondary,
         tertiary = MaterialTheme.colorScheme.tertiary,
-        surface = MaterialTheme.colorScheme.surface
+        surface = MaterialTheme.colorScheme.surface,
+        neutralVariant = MaterialTheme.colorScheme.surfaceVariant,
+        error = MaterialTheme.colorScheme.error
     )
 ): DynamicThemeState = rememberSaveable(saver = DynamicThemeStateSaver) {
     DynamicThemeState(initialColorTuple)
@@ -499,7 +536,9 @@ val DynamicThemeStateSaver = listSaver(
             colorTuple.primary.toArgb(),
             colorTuple.secondary?.toArgb() ?: -1,
             colorTuple.tertiary?.toArgb() ?: -1,
-            colorTuple.surface?.toArgb() ?: -1
+            colorTuple.surface?.toArgb() ?: -1,
+            colorTuple.neutralVariant?.toArgb() ?: -1,
+            colorTuple.error?.toArgb() ?: -1
         )
 
         list
@@ -508,9 +547,11 @@ val DynamicThemeStateSaver = listSaver(
         DynamicThemeState(
             initialColorTuple = ColorTuple(
                 primary = Color(ints[0]),
-                secondary = ints[1].takeIf { it != -1 }?.let { Color(it) },
-                tertiary = ints[2].takeIf { it != -1 }?.let { Color(it) },
-                surface = ints[3].takeIf { it != -1 }?.let { Color(it) },
+                secondary = ints.getOrNull(1)?.takeIf { it != -1 }?.let { Color(it) },
+                tertiary = ints.getOrNull(2)?.takeIf { it != -1 }?.let { Color(it) },
+                surface = ints.getOrNull(3)?.takeIf { it != -1 }?.let { Color(it) },
+                neutralVariant = ints.getOrNull(4)?.takeIf { it != -1 }?.let { Color(it) },
+                error = ints.getOrNull(5)?.takeIf { it != -1 }?.let { Color(it) },
             )
         )
     }
@@ -647,9 +688,28 @@ fun Context.getColorScheme(
 
             val n2 = TonalPalette.fromInt(n1.tone(90))
 
+            val nv = colorTuple.neutralVariant?.toArgb().let {
+                if (it != null) {
+                    TonalPalette.fromInt(it)
+                } else {
+                    n2
+                }
+            }
+
+            val e = colorTuple.error?.toArgb()?.let(TonalPalette::fromInt)
+
             val scheme = when (style) {
                 PaletteStyle.TonalSpot -> DynamicScheme(
-                    hct, Variant.TONAL_SPOT, isDarkTheme, contrastLevel, a1, a2, a3, n1, n2
+                    sourceColorHct = hct,
+                    variant = Variant.TONAL_SPOT,
+                    isDark = isDarkTheme,
+                    contrastLevel = contrastLevel,
+                    primaryPalette = a1,
+                    secondaryPalette = a2,
+                    tertiaryPalette = a3,
+                    neutralPalette = n1,
+                    neutralVariantPalette = nv,
+                    errorPalette = e ?: TonalPalette.fromHueAndChroma(25.0, 84.0)
                 )
 
                 PaletteStyle.Neutral -> SchemeNeutral(hct, isDarkTheme, contrastLevel)
@@ -662,7 +722,7 @@ fun Context.getColorScheme(
                 PaletteStyle.Content -> SchemeContent(hct, isDarkTheme, contrastLevel)
             }
 
-            scheme.toColorScheme().withDynamicErrorColors(style, isDarkTheme)
+            scheme.toColorScheme().withDynamicErrorColors(style, isDarkTheme, colorTuple.error)
         }
 
 
@@ -681,28 +741,12 @@ fun Context.getColorScheme(
 
 private fun ColorScheme.withDynamicErrorColors(
     style: PaletteStyle,
-    isDarkTheme: Boolean
+    isDarkTheme: Boolean,
+    errorSeed: Color?
 ): ColorScheme {
-    val chroma = when (style) {
-        PaletteStyle.Neutral -> 56.0
-        PaletteStyle.TonalSpot -> 72.0
-        PaletteStyle.Expressive -> 76.0
-        PaletteStyle.Vibrant -> 80.0
-        else -> 72.0
-    }
-
-    fun Hct.dynamicErrorHue(): Double {
-        val breakpoints = doubleArrayOf(0.0, 3.0, 13.0, 23.0, 33.0, 43.0, 153.0, 273.0, 360.0)
-        val hues = doubleArrayOf(12.0, 22.0, 32.0, 12.0, 22.0, 32.0, 22.0, 12.0)
-
-        return hues.getOrElse(breakpoints.indexOfLast { hue >= it }.coerceAtMost(hues.lastIndex)) {
-            hues.last()
-        }
-    }
-
-    val palette = TonalPalette.fromHueAndChroma(
+    val palette = errorSeed?.toArgb()?.let(TonalPalette::fromInt) ?: TonalPalette.fromHueAndChroma(
         hue = Hct.fromInt(primary.toArgb()).dynamicErrorHue(),
-        chroma = chroma
+        chroma = style.dynamicErrorChroma()
     )
     val errorTone = if (isDarkTheme) 80 else 35
     val onErrorTone = if (isDarkTheme) 20 else 100

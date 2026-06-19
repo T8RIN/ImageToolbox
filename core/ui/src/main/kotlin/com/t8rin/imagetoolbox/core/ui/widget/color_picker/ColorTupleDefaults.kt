@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ package com.t8rin.imagetoolbox.core.ui.widget.color_picker
 
 import androidx.compose.ui.graphics.Color
 import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.calculateErrorColor
+import com.t8rin.dynamic.theme.calculateNeutralVariantColor
 import com.t8rin.dynamic.theme.calculateSecondaryColor
 import com.t8rin.dynamic.theme.calculateSurfaceColor
 import com.t8rin.dynamic.theme.calculateTertiaryColor
@@ -48,7 +50,9 @@ object ColorTupleDefaults {
                 primary = it,
                 secondary = it.calculateSecondaryColor().toColor(),
                 tertiary = it.calculateTertiaryColor().toColor(),
-                surface = it.calculateSurfaceColor().toColor()
+                surface = it.calculateSurfaceColor().toColor(),
+                neutralVariant = it.calculateNeutralVariantColor().toColor(),
+                error = it.calculateErrorColor().toColor()
             )
         }
     }

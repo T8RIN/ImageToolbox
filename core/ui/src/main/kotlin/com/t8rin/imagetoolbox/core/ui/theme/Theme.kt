@@ -27,7 +27,6 @@ import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
-import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -57,19 +56,17 @@ fun ImageToolboxTheme(
         colorBlindType = settingsState.colorBlindType,
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = settingsState.isDynamicColors,
-        dynamicColorsOverride = { isNightMode ->
+        dynamicColorsOverride = {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA && DeviceInfo.isPixel()) {
-                val colors = if (isNightMode) {
-                    dynamicDarkColorScheme(context)
-                } else {
-                    dynamicLightColorScheme(context)
-                }
+                val colors = dynamicLightColorScheme(context)
 
                 ColorTuple(
                     primary = colors.primary,
                     secondary = colors.secondary,
                     tertiary = colors.tertiary,
-                    surface = colors.surface
+                    surface = colors.surface,
+                    neutralVariant = colors.surfaceVariant,
+                    error = colors.error
                 )
             } else null
         },

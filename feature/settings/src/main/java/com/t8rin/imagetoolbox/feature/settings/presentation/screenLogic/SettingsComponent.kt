@@ -205,7 +205,7 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setColorTuple(colorTuple: ColorTuple) = settingsScope {
         setColorTuple(
             colorTuple.run {
-                "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
+                "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}*${neutralVariant?.toArgb()}*${error?.toArgb()}"
             }
         )
     }
@@ -225,7 +225,7 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setSaveFolderUri(uri: Uri?) = settingsScope { setSaveFolderUri(uri?.toString()) }
 
     private fun List<ColorTuple>.asString(): String = joinToString(separator = "*") {
-        "${it.primary.toArgb()}/${it.secondary?.toArgb()}/${it.tertiary?.toArgb()}/${it.surface?.toArgb()}"
+        "${it.primary.toArgb()}/${it.secondary?.toArgb()}/${it.tertiary?.toArgb()}/${it.surface?.toArgb()}/${it.neutralVariant?.toArgb()}/${it.error?.toArgb()}"
     }
 
     fun setColorTuples(colorTuples: List<ColorTuple>) =
@@ -306,7 +306,9 @@ class SettingsComponent @AssistedInject internal constructor(
                 primary = Color(0xFF6D216D),
                 secondary = Color(0xFF240A95),
                 tertiary = Color(0xFFFFFFA0),
-                surface = Color(0xFF1D2D3D)
+                surface = Color(0xFF1D2D3D),
+                neutralVariant = Color(0xFF2F3F4F),
+                error = Color(0xFFFFB4AB)
             )
             val colorTupleS = listOf(colorTuple).asString()
             setColorTuple(colorTuple)

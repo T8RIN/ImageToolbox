@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,11 +43,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
+import com.t8rin.dynamic.theme.calculateErrorColor
+import com.t8rin.dynamic.theme.calculateNeutralVariantColor
 import com.t8rin.dynamic.theme.calculateSecondaryColor
 import com.t8rin.dynamic.theme.calculateSurfaceColor
 import com.t8rin.dynamic.theme.calculateTertiaryColor
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
 import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
@@ -94,6 +96,17 @@ fun ColorTuplePicker(
             colorTuple.surface ?: colorTuple.primary.calculateSurfaceColor().toColor()
         )
     }
+    var neutralVariant by rememberSaveable(colorTuple, stateSaver = ColorSaver) {
+        mutableStateOf(
+            colorTuple.neutralVariant ?: colorTuple.primary.calculateNeutralVariantColor().toColor()
+        )
+    }
+    var error by rememberSaveable(colorTuple, settingsState, stateSaver = ColorSaver) {
+        mutableStateOf(
+            colorTuple.error ?: colorTuple.primary.calculateErrorColor(settingsState.themeStyle)
+                .toColor()
+        )
+    }
 
     val appColorTuple = rememberAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
@@ -123,6 +136,12 @@ fun ColorTuplePicker(
             surface =
                 colorTuple.surface
                     ?: colorTuple.primary.calculateSurfaceColor().toColor()
+            neutralVariant =
+                colorTuple.neutralVariant
+                    ?: colorTuple.primary.calculateNeutralVariantColor().toColor()
+            error =
+                colorTuple.error
+                    ?: colorTuple.primary.calculateErrorColor(settingsState.themeStyle).toColor()
         }
     }
 
@@ -178,6 +197,8 @@ fun ColorTuplePicker(
                                             secondary = this.secondary
                                             tertiary = this.tertiary
                                             surface = this.surface
+                                            neutralVariant = this.surfaceVariant
+                                            error = this.error
                                         }
                                     }
                                 },
@@ -212,6 +233,9 @@ fun ColorTuplePicker(
                                         secondary = it.calculateSecondaryColor().toColor()
                                         tertiary = it.calculateTertiaryColor().toColor()
                                         surface = it.calculateSurfaceColor().toColor()
+                                        neutralVariant = it.calculateNeutralVariantColor().toColor()
+                                        error = it.calculateErrorColor(settingsState.themeStyle)
+                                            .toColor()
                                     }
                                     primary = it
                                 },
@@ -271,6 +295,40 @@ fun ColorTuplePicker(
                                 )
                             }
                         }
+                        item {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .container(ShapeDefaults.extraLarge)
+                                    .padding(horizontal = 20.dp)
+                            ) {
+                                TitleItem(text = stringResource(R.string.neutral_variant))
+                                ColorSelection(
+                                    value = neutralVariant,
+                                    onValueChange = {
+                                        neutralVariant = it
+                                    },
+                                    infoContainerColor = MaterialTheme.colorScheme.surface
+                                )
+                            }
+                        }
+                        item {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .container(ShapeDefaults.extraLarge)
+                                    .padding(horizontal = 20.dp)
+                            ) {
+                                TitleItem(text = stringResource(R.string.error))
+                                ColorSelection(
+                                    value = error,
+                                    onValueChange = {
+                                        error = it
+                                    },
+                                    infoContainerColor = MaterialTheme.colorScheme.surface
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -283,7 +341,9 @@ fun ColorTuplePicker(
                             primary = primary,
                             secondary = secondary,
                             tertiary = tertiary,
-                            surface = surface
+                            surface = surface,
+                            neutralVariant = neutralVariant,
+                            error = error
                         )
                     )
                     onDismiss()

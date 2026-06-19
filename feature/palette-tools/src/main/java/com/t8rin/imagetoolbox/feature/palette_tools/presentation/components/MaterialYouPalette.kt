@@ -80,7 +80,9 @@ internal fun MaterialYouPalette(
                 primary = colorScheme.primary,
                 secondary = colorScheme.secondary,
                 tertiary = colorScheme.tertiary,
-                surface = colorScheme.surface
+                surface = colorScheme.surface,
+                neutralVariant = colorScheme.surfaceVariant,
+                error = colorScheme.error
             )
         )
     }
