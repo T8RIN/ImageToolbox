@@ -722,7 +722,9 @@ fun Context.getColorScheme(
                 PaletteStyle.Content -> SchemeContent(hct, isDarkTheme, contrastLevel)
             }
 
-            scheme.toColorScheme().withDynamicErrorColors(style, isDarkTheme, colorTuple.error)
+            scheme.toColorScheme()
+                .withDynamicErrorColors(style, isDarkTheme, colorTuple.error)
+                .withExpressiveOnColors(isDarkTheme)
         }
 
 
@@ -759,6 +761,29 @@ private fun ColorScheme.withDynamicErrorColors(
         errorContainer = Color(palette.tone(errorContainerTone)),
         onErrorContainer = Color(palette.tone(onErrorContainerTone))
     )
+}
+
+private fun ColorScheme.withExpressiveOnColors(isDarkTheme: Boolean): ColorScheme = copy(
+    onPrimary = primary.expressiveOnColor(isDarkTheme) ?: onPrimary,
+    onSecondary = secondary.expressiveOnColor(isDarkTheme) ?: onSecondary,
+    onTertiary = tertiary.expressiveOnColor(isDarkTheme) ?: onTertiary,
+    onError = error.expressiveOnColor(isDarkTheme) ?: onError
+)
+
+private fun Color.expressiveOnColor(isDarkTheme: Boolean): Color? {
+    val palette = TonalPalette.fromInt(toArgb())
+    val candidateTones = if (isDarkTheme) {
+        listOf(22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10)
+    } else {
+        listOf(94, 95, 96, 97, 98)
+    }
+
+    return candidateTones
+        .asSequence()
+        .map { Color(palette.tone(it)) }
+        .firstOrNull { candidate ->
+            ColorUtils.calculateContrast(candidate.toArgb(), toArgb()) >= 4.5
+        }
 }
 
 private fun ColorScheme.invertColors(
