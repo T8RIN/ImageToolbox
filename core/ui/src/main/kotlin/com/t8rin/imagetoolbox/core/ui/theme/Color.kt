@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.core.graphics.ColorUtils
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 
@@ -46,7 +45,7 @@ inline fun takeColorFromScheme(
 ) = animateColorAsState(
     MaterialTheme.colorScheme.run {
         action(
-            if (LocalInspectionMode.current) false else LocalSettingsState.current.isNightMode
+            LocalSettingsState.current.isNightMode
         )
     }
 ).value
