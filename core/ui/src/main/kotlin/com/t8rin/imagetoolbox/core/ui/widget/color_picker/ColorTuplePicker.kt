@@ -111,12 +111,12 @@ fun ColorTuplePicker(
     val appColorTuple = rememberAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = true,
-        darkTheme = true
+        darkTheme = false
     )
 
     val scheme = rememberColorScheme(
         amoledMode = false,
-        isDarkTheme = true,
+        isDarkTheme = false,
         colorTuple = appColorTuple,
         contrastLevel = settingsState.themeContrastLevel,
         style = settingsState.themeStyle,
