@@ -268,18 +268,14 @@ fun ColorTupleItem(
 
 fun Color.calculateSecondaryColor(): Int {
     val hct = Hct.fromInt(this.toArgb())
-    val hue = hct.hue
-    val chroma = hct.chroma
 
-    return TonalPalette.fromHueAndChroma(hue, chroma / 3.0).tone(80)
+    return TonalPalette.fromHueAndChroma(hct.hue, hct.secondaryChroma()).tone(80)
 }
 
 fun Color.calculateTertiaryColor(): Int {
     val hct = Hct.fromInt(this.toArgb())
-    val hue = hct.hue
-    val chroma = hct.chroma
 
-    return TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0).tone(80)
+    return TonalPalette.fromHueAndChroma(hct.tertiaryHue(), hct.tertiaryChroma()).tone(80)
 }
 
 fun Color.calculateSurfaceColor(): Int {
@@ -289,6 +285,12 @@ fun Color.calculateSurfaceColor(): Int {
 
     return TonalPalette.fromHueAndChroma(hue, (chroma / 12.0).coerceAtMost(4.0)).tone(90)
 }
+
+private fun Hct.secondaryChroma(): Double = (chroma / 3.0).coerceIn(14.0, 28.0)
+
+private fun Hct.tertiaryChroma(): Double = (chroma / 2.0).coerceIn(20.0, 42.0)
+
+private fun Hct.tertiaryHue(): Double = (hue + 60.0).mod(360.0)
 
 
 @SuppressLint("MissingPermission")
@@ -623,7 +625,7 @@ fun Context.getColorScheme(
                 if (it != null) {
                     TonalPalette.fromInt(it)
                 } else {
-                    TonalPalette.fromHueAndChroma(hue, chroma / 3.0)
+                    TonalPalette.fromHueAndChroma(hue, hct.secondaryChroma())
                 }
             }
 
@@ -631,7 +633,7 @@ fun Context.getColorScheme(
                 if (it != null) {
                     TonalPalette.fromInt(it)
                 } else {
-                    TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0)
+                    TonalPalette.fromHueAndChroma(hct.tertiaryHue(), hct.tertiaryChroma())
                 }
             }
 
@@ -682,11 +684,11 @@ private fun ColorScheme.withDynamicErrorColors(
     isDarkTheme: Boolean
 ): ColorScheme {
     val chroma = when (style) {
-        PaletteStyle.Neutral -> 50.0
-        PaletteStyle.TonalSpot -> 60.0
-        PaletteStyle.Expressive -> 64.0
+        PaletteStyle.Neutral -> 56.0
+        PaletteStyle.TonalSpot -> 72.0
+        PaletteStyle.Expressive -> 76.0
         PaletteStyle.Vibrant -> 80.0
-        else -> 60.0
+        else -> 72.0
     }
 
     fun Hct.dynamicErrorHue(): Double {
@@ -702,12 +704,16 @@ private fun ColorScheme.withDynamicErrorColors(
         hue = Hct.fromInt(primary.toArgb()).dynamicErrorHue(),
         chroma = chroma
     )
+    val errorTone = if (isDarkTheme) 80 else 35
+    val onErrorTone = if (isDarkTheme) 20 else 100
+    val errorContainerTone = if (isDarkTheme) 30 else 82
+    val onErrorContainerTone = if (isDarkTheme) 90 else 10
 
     return copy(
-        error = Color(palette.tone(if (isDarkTheme) 80 else 40)),
-        onError = Color(palette.tone(if (isDarkTheme) 20 else 100)),
-        errorContainer = Color(palette.tone(if (isDarkTheme) 30 else 90)),
-        onErrorContainer = Color(palette.tone(if (isDarkTheme) 90 else 10))
+        error = Color(palette.tone(errorTone)),
+        onError = Color(palette.tone(onErrorTone)),
+        errorContainer = Color(palette.tone(errorContainerTone)),
+        onErrorContainer = Color(palette.tone(onErrorContainerTone))
     )
 }
 
