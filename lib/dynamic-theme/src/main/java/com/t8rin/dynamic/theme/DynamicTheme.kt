@@ -92,10 +92,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.palette.graphics.Palette
-import com.materialkolor.dynamicColorScheme
-import com.materialkolor.dynamiccolor.ColorSpec
 import com.materialkolor.hct.Hct
 import com.materialkolor.palettes.TonalPalette
+import com.materialkolor.scheme.DynamicScheme
+import com.materialkolor.scheme.SchemeContent
+import com.materialkolor.scheme.SchemeExpressive
+import com.materialkolor.scheme.SchemeFidelity
+import com.materialkolor.scheme.SchemeFruitSalad
+import com.materialkolor.scheme.SchemeMonochrome
+import com.materialkolor.scheme.SchemeNeutral
+import com.materialkolor.scheme.SchemeRainbow
+import com.materialkolor.scheme.SchemeVibrant
+import com.materialkolor.scheme.Variant
+import com.materialkolor.toColorScheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -604,27 +613,54 @@ fun Context.getColorScheme(
                 dynamicLightColorScheme(this)
             }
         } else {
-            dynamicColorScheme(
-                seedColor = colorTuple.primary,
-                primary = colorTuple.primary,
-                secondary = colorTuple.secondary,
-                tertiary = colorTuple.tertiary,
-                neutral = colorTuple.surface,
-                contrastLevel = if (dynamicColor) 0.0 else contrastLevel,
-                isDark = isDarkTheme,
-                specVersion = ColorSpec.SpecVersion.SPEC_2021,
-                style = when (style) {
-                    PaletteStyle.TonalSpot -> com.materialkolor.PaletteStyle.TonalSpot
-                    PaletteStyle.Neutral -> com.materialkolor.PaletteStyle.Neutral
-                    PaletteStyle.Vibrant -> com.materialkolor.PaletteStyle.Vibrant
-                    PaletteStyle.Expressive -> com.materialkolor.PaletteStyle.Expressive
-                    PaletteStyle.Rainbow -> com.materialkolor.PaletteStyle.Rainbow
-                    PaletteStyle.FruitSalad -> com.materialkolor.PaletteStyle.FruitSalad
-                    PaletteStyle.Monochrome -> com.materialkolor.PaletteStyle.Monochrome
-                    PaletteStyle.Fidelity -> com.materialkolor.PaletteStyle.Fidelity
-                    PaletteStyle.Content -> com.materialkolor.PaletteStyle.Content
+            val hct = Hct.fromInt(colorTuple.primary.toArgb())
+            val hue = hct.hue
+            val chroma = hct.chroma
+
+            val a1 = colorTuple.primary.let { TonalPalette.fromInt(it.toArgb()) }
+
+            val a2 = colorTuple.secondary?.toArgb().let {
+                if (it != null) {
+                    TonalPalette.fromInt(it)
+                } else {
+                    TonalPalette.fromHueAndChroma(hue, chroma / 3.0)
                 }
-            )
+            }
+
+            val a3 = colorTuple.tertiary?.toArgb().let {
+                if (it != null) {
+                    TonalPalette.fromInt(it)
+                } else {
+                    TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0)
+                }
+            }
+
+            val n1 = colorTuple.surface?.toArgb().let {
+                if (it != null) {
+                    TonalPalette.fromInt(it)
+                } else {
+                    TonalPalette.fromHueAndChroma(hue, (chroma / 12.0).coerceAtMost(4.0))
+                }
+            }
+
+            val n2 = TonalPalette.fromInt(n1.tone(90))
+
+            val scheme = when (style) {
+                PaletteStyle.TonalSpot -> DynamicScheme(
+                    hct, Variant.TONAL_SPOT, isDarkTheme, contrastLevel, a1, a2, a3, n1, n2
+                )
+
+                PaletteStyle.Neutral -> SchemeNeutral(hct, isDarkTheme, contrastLevel)
+                PaletteStyle.Vibrant -> SchemeVibrant(hct, isDarkTheme, contrastLevel)
+                PaletteStyle.Expressive -> SchemeExpressive(hct, isDarkTheme, contrastLevel)
+                PaletteStyle.Rainbow -> SchemeRainbow(hct, isDarkTheme, contrastLevel)
+                PaletteStyle.FruitSalad -> SchemeFruitSalad(hct, isDarkTheme, contrastLevel)
+                PaletteStyle.Monochrome -> SchemeMonochrome(hct, isDarkTheme, contrastLevel)
+                PaletteStyle.Fidelity -> SchemeFidelity(hct, isDarkTheme, contrastLevel)
+                PaletteStyle.Content -> SchemeContent(hct, isDarkTheme, contrastLevel)
+            }
+
+            scheme.toColorScheme().withDynamicErrorColors(style, isDarkTheme)
         }
 
 
@@ -639,6 +675,40 @@ fun Context.getColorScheme(
                     .compositeOver(surfaceColorAtElevation(6.dp))
             )
         }
+}
+
+private fun ColorScheme.withDynamicErrorColors(
+    style: PaletteStyle,
+    isDarkTheme: Boolean
+): ColorScheme {
+    val chroma = when (style) {
+        PaletteStyle.Neutral -> 50.0
+        PaletteStyle.TonalSpot -> 60.0
+        PaletteStyle.Expressive -> 64.0
+        PaletteStyle.Vibrant -> 80.0
+        else -> 60.0
+    }
+
+    fun Hct.dynamicErrorHue(): Double {
+        val breakpoints = doubleArrayOf(0.0, 3.0, 13.0, 23.0, 33.0, 43.0, 153.0, 273.0, 360.0)
+        val hues = doubleArrayOf(12.0, 22.0, 32.0, 12.0, 22.0, 32.0, 22.0, 12.0)
+
+        return hues.getOrElse(breakpoints.indexOfLast { hue >= it }.coerceAtMost(hues.lastIndex)) {
+            hues.last()
+        }
+    }
+
+    val palette = TonalPalette.fromHueAndChroma(
+        hue = Hct.fromInt(primary.toArgb()).dynamicErrorHue(),
+        chroma = chroma
+    )
+
+    return copy(
+        error = Color(palette.tone(if (isDarkTheme) 80 else 40)),
+        onError = Color(palette.tone(if (isDarkTheme) 20 else 100)),
+        errorContainer = Color(palette.tone(if (isDarkTheme) 30 else 90)),
+        onErrorContainer = Color(palette.tone(if (isDarkTheme) 90 else 10))
+    )
 }
 
 private fun ColorScheme.invertColors(

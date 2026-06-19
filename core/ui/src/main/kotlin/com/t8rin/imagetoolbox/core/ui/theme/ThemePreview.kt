@@ -94,7 +94,6 @@ fun ImageToolboxThemeForPreview(
                 ) {
                     MaterialExpressiveTheme(
                         motionScheme = CustomMotionScheme,
-                        colorScheme = modifiedColorScheme(),
                         shapes = modifiedShapes(),
                         content = {
                             Surface {

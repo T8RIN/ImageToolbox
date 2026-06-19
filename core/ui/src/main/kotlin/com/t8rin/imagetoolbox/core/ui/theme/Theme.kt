@@ -23,7 +23,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
@@ -86,7 +85,6 @@ fun ImageToolboxTheme(
         content = {
             MaterialExpressiveTheme(
                 motionScheme = CustomMotionScheme,
-                colorScheme = modifiedColorScheme(),
                 shapes = modifiedShapes(),
                 content = content
             )
@@ -174,22 +172,6 @@ internal fun modifiedShapes(): Shapes {
                     bottomEnd = shapes.extraExtraLarge.bottomEnd,
                     bottomStart = shapes.extraExtraLarge.bottomStart,
                     shapesType = shapesType
-                )
-            )
-        }
-    }.value
-}
-
-@Composable
-internal fun modifiedColorScheme(): ColorScheme {
-    val scheme = MaterialTheme.colorScheme
-
-    return remember(scheme) {
-        derivedStateOf {
-            scheme.copy(
-                errorContainer = scheme.errorContainer.blend(
-                    color = scheme.primary,
-                    fraction = 0.15f
                 )
             )
         }
