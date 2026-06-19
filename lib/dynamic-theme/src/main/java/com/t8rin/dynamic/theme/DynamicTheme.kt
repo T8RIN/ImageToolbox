@@ -92,19 +92,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.palette.graphics.Palette
-import com.materialkolor.dynamiccolor.MaterialDynamicColors
+import com.materialkolor.dynamicColorScheme
+import com.materialkolor.dynamiccolor.ColorSpec
 import com.materialkolor.hct.Hct
 import com.materialkolor.palettes.TonalPalette
-import com.materialkolor.scheme.DynamicScheme
-import com.materialkolor.scheme.SchemeContent
-import com.materialkolor.scheme.SchemeExpressive
-import com.materialkolor.scheme.SchemeFidelity
-import com.materialkolor.scheme.SchemeFruitSalad
-import com.materialkolor.scheme.SchemeMonochrome
-import com.materialkolor.scheme.SchemeNeutral
-import com.materialkolor.scheme.SchemeRainbow
-import com.materialkolor.scheme.SchemeVibrant
-import com.materialkolor.scheme.Variant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -204,29 +195,14 @@ fun ColorTupleItem(
     val (primary, secondary, tertiary) = remember(colorTuple) {
         derivedStateOf {
             colorTuple.run {
-                val hct = Hct.fromInt(colorTuple.primary.toArgb())
-                val hue = hct.hue
-                val chroma = hct.chroma
-
-                val secondary = colorTuple.secondary?.toArgb().let {
-                    if (it != null) {
-                        TonalPalette.fromInt(it)
-                    } else {
-                        TonalPalette.fromHueAndChroma(hue, chroma / 3.0)
-                    }
-                }
-                val tertiary = colorTuple.tertiary?.toArgb().let {
-                    if (it != null) {
-                        TonalPalette.fromInt(it)
-                    } else {
-                        TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0)
-                    }
-                }
-
                 Triple(
                     primary,
-                    colorTuple.secondary ?: Color(secondary.tone(70)),
-                    colorTuple.tertiary ?: Color(tertiary.tone(70))
+                    secondary ?: Color(
+                        TonalPalette.fromInt(primary.calculateSecondaryColor()).tone(70)
+                    ),
+                    tertiary ?: Color(
+                        TonalPalette.fromInt(primary.calculateTertiaryColor()).tone(70)
+                    )
                 )
             }
         }
@@ -441,7 +417,19 @@ fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): ColorSche
         surfaceContainerHigh = surfaceContainerHigh.animateColor(),
         surfaceContainerHighest = surfaceContainerHighest.animateColor(),
         surfaceContainerLow = surfaceContainerLow.animateColor(),
-        surfaceContainerLowest = surfaceContainerLowest.animateColor()
+        surfaceContainerLowest = surfaceContainerLowest.animateColor(),
+        primaryFixed = primaryFixed.animateColor(),
+        primaryFixedDim = primaryFixedDim.animateColor(),
+        onPrimaryFixed = onPrimaryFixed.animateColor(),
+        onPrimaryFixedVariant = onPrimaryFixedVariant.animateColor(),
+        secondaryFixed = secondaryFixed.animateColor(),
+        secondaryFixedDim = secondaryFixedDim.animateColor(),
+        onSecondaryFixed = onSecondaryFixed.animateColor(),
+        onSecondaryFixedVariant = onSecondaryFixedVariant.animateColor(),
+        tertiaryFixed = tertiaryFixed.animateColor(),
+        tertiaryFixedDim = tertiaryFixedDim.animateColor(),
+        onTertiaryFixed = onTertiaryFixed.animateColor(),
+        onTertiaryFixedVariant = onTertiaryFixedVariant.animateColor(),
     )
 }
 
@@ -616,54 +604,26 @@ fun Context.getColorScheme(
                 dynamicLightColorScheme(this)
             }
         } else {
-            val hct = Hct.fromInt(colorTuple.primary.toArgb())
-            val hue = hct.hue
-            val chroma = hct.chroma
-
-            val a1 = colorTuple.primary.let { TonalPalette.fromInt(it.toArgb()) }
-
-            val a2 = colorTuple.secondary?.toArgb().let {
-                if (it != null) {
-                    TonalPalette.fromInt(it)
-                } else {
-                    TonalPalette.fromHueAndChroma(hue, chroma / 3.0)
+            dynamicColorScheme(
+                seedColor = colorTuple.primary,
+                primary = colorTuple.primary,
+                secondary = colorTuple.secondary,
+                tertiary = colorTuple.tertiary,
+                neutral = colorTuple.surface,
+                isDark = isDarkTheme,
+                specVersion = ColorSpec.SpecVersion.SPEC_2021,
+                style = when (style) {
+                    PaletteStyle.TonalSpot -> com.materialkolor.PaletteStyle.TonalSpot
+                    PaletteStyle.Neutral -> com.materialkolor.PaletteStyle.Neutral
+                    PaletteStyle.Vibrant -> com.materialkolor.PaletteStyle.Vibrant
+                    PaletteStyle.Expressive -> com.materialkolor.PaletteStyle.Expressive
+                    PaletteStyle.Rainbow -> com.materialkolor.PaletteStyle.Rainbow
+                    PaletteStyle.FruitSalad -> com.materialkolor.PaletteStyle.FruitSalad
+                    PaletteStyle.Monochrome -> com.materialkolor.PaletteStyle.Monochrome
+                    PaletteStyle.Fidelity -> com.materialkolor.PaletteStyle.Fidelity
+                    PaletteStyle.Content -> com.materialkolor.PaletteStyle.Content
                 }
-            }
-
-            val a3 = colorTuple.tertiary?.toArgb().let {
-                if (it != null) {
-                    TonalPalette.fromInt(it)
-                } else {
-                    TonalPalette.fromHueAndChroma(hue + 60.0, chroma / 2.0)
-                }
-            }
-
-            val n1 = colorTuple.surface?.toArgb().let {
-                if (it != null) {
-                    TonalPalette.fromInt(it)
-                } else {
-                    TonalPalette.fromHueAndChroma(hue, (chroma / 12.0).coerceAtMost(4.0))
-                }
-            }
-
-            val n2 = TonalPalette.fromInt(n1.tone(90))
-
-            val scheme = when (style) {
-                PaletteStyle.TonalSpot -> DynamicScheme(
-                    hct, Variant.TONAL_SPOT, isDarkTheme, contrastLevel, a1, a2, a3, n1, n2
-                )
-
-                PaletteStyle.Neutral -> SchemeNeutral(hct, isDarkTheme, contrastLevel)
-                PaletteStyle.Vibrant -> SchemeVibrant(hct, isDarkTheme, contrastLevel)
-                PaletteStyle.Expressive -> SchemeExpressive(hct, isDarkTheme, contrastLevel)
-                PaletteStyle.Rainbow -> SchemeRainbow(hct, isDarkTheme, contrastLevel)
-                PaletteStyle.FruitSalad -> SchemeFruitSalad(hct, isDarkTheme, contrastLevel)
-                PaletteStyle.Monochrome -> SchemeMonochrome(hct, isDarkTheme, contrastLevel)
-                PaletteStyle.Fidelity -> SchemeFidelity(hct, isDarkTheme, contrastLevel)
-                PaletteStyle.Content -> SchemeContent(hct, isDarkTheme, contrastLevel)
-            }
-
-            scheme.toColorScheme()
+            )
         }
 
 
@@ -738,62 +698,6 @@ private fun ColorScheme.invertColors(
         onTertiaryFixedVariant = onTertiaryFixedVariant.invertColor(),
     )
 }
-
-private fun DynamicScheme.toColorScheme(): ColorScheme {
-    val colors = MaterialDynamicColors()
-    val scheme = this
-    return ColorScheme(
-        primary = Color(colors.primary().getArgb(scheme)),
-        onPrimary = Color(colors.onPrimary().getArgb(scheme)),
-        primaryContainer = Color(colors.primaryContainer().getArgb(scheme)),
-        onPrimaryContainer = Color(colors.onPrimaryContainer().getArgb(scheme)),
-        inversePrimary = Color(colors.inversePrimary().getArgb(scheme)),
-        secondary = Color(colors.secondary().getArgb(scheme)),
-        onSecondary = Color(colors.onSecondary().getArgb(scheme)),
-        secondaryContainer = Color(colors.secondaryContainer().getArgb(scheme)),
-        onSecondaryContainer = Color(colors.onSecondaryContainer().getArgb(scheme)),
-        tertiary = Color(colors.tertiary().getArgb(scheme)),
-        onTertiary = Color(colors.onTertiary().getArgb(scheme)),
-        tertiaryContainer = Color(colors.tertiaryContainer().getArgb(scheme)),
-        onTertiaryContainer = Color(colors.onTertiaryContainer().getArgb(scheme)),
-        background = Color(colors.background().getArgb(scheme)),
-        onBackground = Color(colors.onBackground().getArgb(scheme)),
-        surface = Color(colors.surface().getArgb(scheme)),
-        onSurface = Color(colors.onSurface().getArgb(scheme)),
-        surfaceVariant = Color(colors.surfaceVariant().getArgb(scheme)),
-        onSurfaceVariant = Color(colors.onSurfaceVariant().getArgb(scheme)),
-        surfaceTint = Color(colors.surfaceTint().getArgb(scheme)),
-        inverseSurface = Color(colors.inverseSurface().getArgb(scheme)),
-        inverseOnSurface = Color(colors.inverseOnSurface().getArgb(scheme)),
-        error = Color(colors.error().getArgb(scheme)),
-        onError = Color(colors.onError().getArgb(scheme)),
-        errorContainer = Color(colors.errorContainer().getArgb(scheme)),
-        onErrorContainer = Color(colors.onErrorContainer().getArgb(scheme)),
-        outline = Color(colors.outline().getArgb(scheme)),
-        outlineVariant = Color(colors.outlineVariant().getArgb(scheme)),
-        scrim = Color(colors.scrim().getArgb(scheme)),
-        surfaceBright = Color(colors.surfaceBright().getArgb(scheme)),
-        surfaceDim = Color(colors.surfaceDim().getArgb(scheme)),
-        surfaceContainer = Color(colors.surfaceContainer().getArgb(scheme)),
-        surfaceContainerHigh = Color(colors.surfaceContainerHigh().getArgb(scheme)),
-        surfaceContainerHighest = Color(colors.surfaceContainerHighest().getArgb(scheme)),
-        surfaceContainerLow = Color(colors.surfaceContainerLow().getArgb(scheme)),
-        surfaceContainerLowest = Color(colors.surfaceContainerLowest().getArgb(scheme)),
-        primaryFixed = Color(colors.primaryFixed().getArgb(scheme)),
-        primaryFixedDim = Color(colors.primaryFixedDim().getArgb(scheme)),
-        onPrimaryFixed = Color(colors.onPrimaryFixed().getArgb(scheme)),
-        onPrimaryFixedVariant = Color(colors.onPrimaryFixedVariant().getArgb(scheme)),
-        secondaryFixed = Color(colors.secondaryFixed().getArgb(scheme)),
-        secondaryFixedDim = Color(colors.secondaryFixedDim().getArgb(scheme)),
-        onSecondaryFixed = Color(colors.onSecondaryFixed().getArgb(scheme)),
-        onSecondaryFixedVariant = Color(colors.onSecondaryFixedVariant().getArgb(scheme)),
-        tertiaryFixed = Color(colors.tertiaryFixed().getArgb(scheme)),
-        tertiaryFixedDim = Color(colors.tertiaryFixedDim().getArgb(scheme)),
-        onTertiaryFixed = Color(colors.onTertiaryFixed().getArgb(scheme)),
-        onTertiaryFixedVariant = Color(colors.onTertiaryFixedVariant().getArgb(scheme)),
-    )
-}
-
 
 private fun ColorScheme.toAmoled(amoledMode: Boolean): ColorScheme {
     fun Color.darken(fraction: Float = 0.5f): Color =
