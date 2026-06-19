@@ -610,6 +610,7 @@ fun Context.getColorScheme(
                 secondary = colorTuple.secondary,
                 tertiary = colorTuple.tertiary,
                 neutral = colorTuple.surface,
+                contrastLevel = contrastLevel,
                 isDark = isDarkTheme,
                 specVersion = ColorSpec.SpecVersion.SPEC_2021,
                 style = when (style) {
