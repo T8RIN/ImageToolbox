@@ -320,13 +320,45 @@ private fun AlphaSlider(
             )
         }
 
-        if (!sliderSize.isEmpty()) {
+        if (sliderSize.height > 0f) {
+            val colorScheme = MaterialTheme.colorScheme
+            val isDark = LocalSettingsState.current.isNightMode
+
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val thumbY = (1f - alpha) * (sliderSize.height - thumbHeightPx)
                 drawRoundRect(
-                    color = thumbConfig.color,
+                    color = thumbConfig.color.takeOrElse {
+                        if (isDark) {
+                            colorScheme.onPrimaryFixed
+                        } else {
+                            colorScheme.primaryFixed
+                        }
+                    },
                     topLeft = Offset(
-                        x = thumbConfig.borderSize.toPx() / 2f,
+                        x = thumbConfig.borderSize.toPx() / 2 + 4f,
+                        y = thumbY + 4f
+                    ),
+                    size = Size(
+                        width = sliderSize.width - thumbConfig.borderSize.toPx() - 8f,
+                        height = thumbHeightPx - 8f
+                    ),
+                    style = Stroke(width = thumbConfig.borderSize.toPx()),
+                    cornerRadius = CornerRadius(
+                        thumbConfig.borderRadius,
+                        thumbConfig.borderRadius
+                    )
+                )
+
+                drawRoundRect(
+                    color = thumbConfig.color.takeOrElse {
+                        if (isDark) {
+                            colorScheme.primaryFixed
+                        } else {
+                            colorScheme.onPrimaryFixed
+                        }
+                    },
+                    topLeft = Offset(
+                        x = thumbConfig.borderSize.toPx() / 2,
                         y = thumbY
                     ),
                     size = Size(
@@ -334,7 +366,10 @@ private fun AlphaSlider(
                         height = thumbHeightPx
                     ),
                     style = Stroke(width = thumbConfig.borderSize.toPx()),
-                    cornerRadius = CornerRadius(thumbConfig.borderRadius, thumbConfig.borderRadius)
+                    cornerRadius = CornerRadius(
+                        thumbConfig.borderRadius,
+                        thumbConfig.borderRadius
+                    )
                 )
             }
         }
@@ -585,5 +620,8 @@ private fun Preview() = ImageToolboxThemeForPreview(true, keyColor = Color.Red) 
             .padding(16.dp)
             .fillMaxWidth()
             .height(200.dp),
+        hueSliderConfig = HueSliderThumbConfig(
+            withAlpha = true
+        )
     )
 }
