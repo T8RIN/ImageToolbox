@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toMat
 import org.opencv.core.Core
-import org.opencv.core.CvType
 import org.opencv.core.Mat
 import org.opencv.core.MatOfPoint
 import org.opencv.core.MatOfPoint2f
@@ -29,6 +28,9 @@ import org.opencv.core.Point
 import org.opencv.core.Size
 import org.opencv.geometry.Geometry
 import org.opencv.imgproc.Imgproc
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.sqrt
 
 /**
  * This class uses OpenCV to find document corners.
@@ -36,6 +38,25 @@ import org.opencv.imgproc.Imgproc
  * @constructor creates document detector
  */
 object DocumentDetector : OpenCV() {
+
+    private const val RESIZE_THRESHOLD = 500.0
+    private const val MIN_AREA_FACTOR = 0.04
+    private const val MAX_AREA_FACTOR = 0.92
+    private const val EXPECTED_MAX_COSINE = 0.4
+    private const val EXPECTED_OPTIMAL_MAX_COSINE = 0.3
+    private const val EXPECTED_AREA_FACTOR = 0.2
+    private const val APPROX_EPSILON_FACTOR = 0.02
+    private const val THRESHOLD_VALUE = 160.0
+    private const val THRESHOLD_MAX_VALUE = 255.0
+
+    private data class DocumentCandidate(
+        val points: List<Point>,
+        val area: Double,
+        val maxCosine: Double,
+        val weight: Double
+    ) {
+        val score: Double = area + weight * (1 - maxCosine)
+    }
 
     /**
      * take a photo with a document, and find the document's corners
@@ -46,111 +67,225 @@ object DocumentDetector : OpenCV() {
     fun findDocumentCorners(image: Bitmap): List<Point>? {
 
         // convert bitmap to OpenCV matrix
-        val mat = image.toMat()
+        val source = image.toMat()
 
         // shrink photo to make it easier to find document corners
-        val shrunkImageHeight = 500.0
-        Imgproc.resize(
-            mat,
-            mat,
-            Size(
-                shrunkImageHeight * image.width / image.height,
-                shrunkImageHeight
+        val maxSide = max(image.width, image.height).toDouble()
+        val resizeScale = if (maxSide > RESIZE_THRESHOLD) {
+            maxSide / RESIZE_THRESHOLD
+        } else {
+            1.0
+        }
+        val scaledWidth = image.width / resizeScale
+        val scaledHeight = image.height / resizeScale
+        val resized = Mat()
+        Imgproc.resize(source, resized, Size(scaledWidth, scaledHeight))
+
+        val rgbImage = Mat()
+        when (resized.channels()) {
+            4 -> Imgproc.cvtColor(resized, rgbImage, Imgproc.COLOR_RGBA2RGB)
+            1 -> Imgproc.cvtColor(resized, rgbImage, Imgproc.COLOR_GRAY2RGB)
+            else -> resized.copyTo(rgbImage)
+        }
+
+        val blurredImage = Mat()
+        Imgproc.medianBlur(rgbImage, blurredImage, 9)
+
+        val candidates = mutableListOf<DocumentCandidate>()
+        val imageSplitByColorChannel = mutableListOf<Mat>()
+        Core.split(blurredImage, imageSplitByColorChannel)
+
+        val luvImage = Mat()
+        val imageSplitByLuvChannel = mutableListOf<Mat>()
+        Imgproc.cvtColor(blurredImage, luvImage, Imgproc.COLOR_RGB2Luv)
+        Core.split(luvImage, imageSplitByLuvChannel)
+
+        var weight = 3_000_000.0
+        (imageSplitByColorChannel + imageSplitByLuvChannel).forEach { channel ->
+            findCandidates(
+                image = channel,
+                imageWidth = scaledWidth,
+                imageHeight = scaledHeight,
+                candidates = candidates,
+                weight = weight
             )
-        )
+            weight -= 1.0
+        }
 
-        // convert photo to LUV colorspace to avoid glares caused by lights
-        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2Luv)
-
-        // separate photo into 3 parts, (L, U, and V)
-        val imageSplitByColorChannel: List<Mat> = mutableListOf()
-        Core.split(mat, imageSplitByColorChannel)
-
-        // find corners for each color channel, then pick the quad with the largest
-        // area, and scale point to account for shrinking image before document detection
-        val documentCorners: List<Point>? = imageSplitByColorChannel
-            .mapNotNull { findCorners(it) }
-            .maxByOrNull { Geometry.contourArea(it) }
-            ?.toList()
-            ?.map {
+        val documentCorners: List<Point>? = candidates
+            .maxByOrNull(DocumentCandidate::score)
+            ?.points
+            ?.map { point ->
                 Point(
-                    it.x * image.height / shrunkImageHeight,
-                    it.y * image.height / shrunkImageHeight
+                    point.x * resizeScale,
+                    point.y * resizeScale
                 )
             }
 
         // sort points to force this order (top left, top right, bottom left, bottom right)
-        return documentCorners
-            ?.sortedBy { it.y }
-            ?.chunked(2)?.flatMap { it.sortedBy { point -> point.x } }
+        return documentCorners?.sortForCropper()
     }
 
-    /**
-     * take an image matrix with a document, and find the document's corners
-     *
-     * @param image a photo with a document in matrix format (only 1 color space)
-     * @return a matrix with document corners or null if we can't find corners
-     */
-    private fun findCorners(image: Mat): MatOfPoint? {
-        val outputImage = Mat()
+    private fun findCandidates(
+        image: Mat,
+        imageWidth: Double,
+        imageHeight: Double,
+        candidates: MutableList<DocumentCandidate>,
+        weight: Double
+    ) {
+        val morphologyStruct = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, Size(4.0, 4.0))
+        val dilateStruct = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, Size(3.0, 3.0))
+        val thresholdImage = Mat()
 
-        // blur image to help remove noise
-        Imgproc.GaussianBlur(image, outputImage, Size(5.0, 5.0), 0.0)
-
-        // convert all pixels to either black or white (document should be black after this), but
-        // there might be other parts of the photo that turn black
         Imgproc.threshold(
-            outputImage,
-            outputImage,
+            image,
+            thresholdImage,
+            THRESHOLD_VALUE,
+            THRESHOLD_MAX_VALUE,
+            Imgproc.THRESH_BINARY
+        )
+        Imgproc.morphologyEx(
+            thresholdImage,
+            thresholdImage,
+            Imgproc.MORPH_CLOSE,
+            morphologyStruct
+        )
+        Imgproc.dilate(thresholdImage, thresholdImage, dilateStruct)
+        collectCandidates(thresholdImage, imageWidth, imageHeight, candidates, weight)
+
+        val otsuImage = Mat()
+        Imgproc.threshold(
+            image,
+            otsuImage,
             0.0,
-            255.0,
+            THRESHOLD_MAX_VALUE,
             Imgproc.THRESH_BINARY + Imgproc.THRESH_OTSU
         )
-
-        // detect the document's border using the Canny edge detection algorithm
-        Imgproc.Canny(outputImage, outputImage, 50.0, 200.0)
-
-        // the detect edges might have gaps, so try to close those
         Imgproc.morphologyEx(
-            outputImage,
-            outputImage,
+            otsuImage,
+            otsuImage,
             Imgproc.MORPH_CLOSE,
-            Mat.ones(Size(5.0, 5.0), CvType.CV_8U)
+            morphologyStruct
         )
+        Imgproc.dilate(otsuImage, otsuImage, dilateStruct)
+        collectCandidates(otsuImage, imageWidth, imageHeight, candidates, weight - 0.25)
 
-        // get outline of document edges, and outlines of other shapes in photo
+        var threshold = 60
+        while (threshold >= 10) {
+            val edgeImage = Mat()
+            Imgproc.Canny(
+                image,
+                edgeImage,
+                threshold * 2.0,
+                threshold * 4.0
+            )
+            Imgproc.dilate(edgeImage, edgeImage, dilateStruct)
+            collectCandidates(
+                image = edgeImage,
+                imageWidth = imageWidth,
+                imageHeight = imageHeight,
+                candidates = candidates,
+                weight = weight - (60 - threshold + 1)
+            )
+
+            val bestCandidate = candidates.maxByOrNull(DocumentCandidate::score)
+            if (
+                bestCandidate != null &&
+                bestCandidate.maxCosine < EXPECTED_OPTIMAL_MAX_COSINE &&
+                bestCandidate.area > imageWidth * imageHeight * EXPECTED_AREA_FACTOR
+            ) {
+                break
+            }
+
+            threshold -= 10
+        }
+    }
+
+    private fun collectCandidates(
+        image: Mat,
+        imageWidth: Double,
+        imageHeight: Double,
+        candidates: MutableList<DocumentCandidate>,
+        weight: Double
+    ) {
         val contours: MutableList<MatOfPoint> = mutableListOf()
         Imgproc.findContours(
-            outputImage,
+            image,
             contours,
             Mat(),
-            Imgproc.RETR_LIST,
+            Imgproc.RETR_TREE,
             Imgproc.CHAIN_APPROX_SIMPLE
         )
 
-        // approximate outlines using polygons
-        var approxContours = contours.map {
+        val minArea = imageWidth * imageHeight * MIN_AREA_FACTOR
+        val maxArea = imageWidth * imageHeight * MAX_AREA_FACTOR
+
+        contours.forEach { contour ->
+            val contourArea = Geometry.contourArea(contour)
+            if (contourArea < minArea || contourArea >= maxArea) return@forEach
+
             val approxContour = MatOfPoint2f()
-            val contour2f = MatOfPoint2f(*it.toArray())
+            val contour2f = MatOfPoint2f(*contour.toArray())
+            val arcLength = Geometry.arcLength(contour2f, true)
+            if (arcLength < 100) return@forEach
+
             Geometry.approxPolyDP(
                 contour2f,
                 approxContour,
-                0.02 * Geometry.arcLength(contour2f, true),
+                APPROX_EPSILON_FACTOR * arcLength,
                 true
             )
-            MatOfPoint(*approxContour.toArray())
-        }
 
-        // We now have many polygons, so remove polygons that don't have 4 sides since we
-        // know the document has 4 sides. Calculate areas for all remaining polygons, and
-        // remove polygons with small areas. We assume that the document takes up a large portion
-        // of the photo. Remove polygons that aren't convex since a document can't be convex.
-        approxContours = approxContours.filter {
-            it.height() == 4 && Geometry.contourArea(it) > 1000 && Geometry.isContourConvex(it)
-        }
+            if (approxContour.total() != 4L) return@forEach
 
-        // Once we have all large, convex, 4-sided polygons find and return the 1 with the
-        // largest area
-        return approxContours.maxByOrNull { Geometry.contourArea(it) }
+            val approx = MatOfPoint(*approxContour.toArray())
+            if (!Geometry.isContourConvex(approx)) return@forEach
+
+            val points = approx.toList()
+            val maxCosine = points.maxCornerCosine()
+            if (maxCosine >= EXPECTED_MAX_COSINE) return@forEach
+
+            candidates += DocumentCandidate(
+                points = points,
+                area = contourArea,
+                maxCosine = maxCosine,
+                weight = weight
+            )
+        }
+    }
+
+    private fun List<Point>.maxCornerCosine(): Double {
+        var maxCosine = 0.0
+        for (i in 2 until 6) {
+            val cosine = abs(
+                angleCosine(
+                    point1 = this[i % 4],
+                    point2 = this[i - 2],
+                    origin = this[(i - 1) % 4]
+                )
+            )
+            maxCosine = max(maxCosine, cosine)
+        }
+        return maxCosine
+    }
+
+    private fun angleCosine(
+        point1: Point,
+        point2: Point,
+        origin: Point
+    ): Double {
+        val dx1 = point1.x - origin.x
+        val dy1 = point1.y - origin.y
+        val dx2 = point2.x - origin.x
+        val dy2 = point2.y - origin.y
+        return (dx1 * dx2 + dy1 * dy2) /
+                sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10)
+    }
+
+    private fun List<Point>.sortForCropper(): List<Point> {
+        val sortedByY = sortedBy(Point::y)
+        val top = sortedByY.take(2).sortedBy(Point::x)
+        val bottom = sortedByY.takeLast(2).sortedBy(Point::x)
+        return top + bottom
     }
 }
