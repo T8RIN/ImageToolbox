@@ -1121,7 +1121,7 @@
     <string name="delete_template_warn">మీరు ఎంచుకున్న టెంప్లేట్ ఫిల్టర్‌ను తొలగించబోతున్నారు. ఈ ఆపరేషన్ రద్దు చేయబడదు</string>
     <string name="added_filter_template">\"%1$s\" (%2$s) పేరుతో ఫిల్టర్ టెంప్లేట్ జోడించబడింది</string>
     <string name="filter_preview">ఫిల్టర్ ప్రివ్యూ</string>
-    <string name="qr_code">QR &amp;amp; బార్‌కోడ్</string>
+    <string name="qr_code">QR &amp; బార్‌కోడ్</string>
     <string name="qr_code_sub">QR కోడ్‌ని స్కాన్ చేయండి మరియు దాని కంటెంట్‌ను పొందండి లేదా కొత్తదాన్ని రూపొందించడానికి మీ స్ట్రింగ్‌ను అతికించండి</string>
     <string name="code_content">కోడ్ కంటెంట్</string>
     <string name="scan_qr_code_to_replace_content">ఫీల్డ్‌లోని కంటెంట్‌ని భర్తీ చేయడానికి ఏదైనా బార్‌కోడ్‌ని స్కాన్ చేయండి లేదా ఎంచుకున్న రకంతో కొత్త బార్‌కోడ్‌ను రూపొందించడానికి ఏదైనా టైప్ చేయండి</string>
