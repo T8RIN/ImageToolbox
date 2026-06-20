@@ -2356,17 +2356,17 @@
     <string name="shader_error_blank_name">O nome do shader não deve ficar em branco.</string>
     <string name="shader_error_blank_source">A origem do sombreador não deve estar em branco.</string>
     <string name="shader_error_unsupported_characters">A origem do shader contém caracteres não suportados: %1$s. Use apenas fonte ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">O parâmetro \\"%1$s\\" é declarado mais de uma vez.</string>
+    <string name="shader_error_duplicate_parameter">O parâmetro \\\"%1$s\\\" é declarado mais de uma vez.</string>
     <string name="shader_error_blank_parameter_name">Os nomes dos parâmetros não devem ficar em branco.</string>
-    <string name="shader_error_reserved_parameter_name">O parâmetro \\"%1$s\\" usa um nome GPUImage reservado.</string>
-    <string name="shader_error_invalid_parameter_name">O parâmetro \\"%1$s\\" deve ser um identificador GLSL válido.</string>
-    <string name="shader_error_invalid_value_type">O parâmetro \\"%1$s\\" tem o tipo de valor %2$s \\"%3$s\\", esperado \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">O parâmetro \\"%1$s\\" não pode definir mínimo ou máximo para valores bool.</string>
-    <string name="shader_error_min_greater_than_max">O parâmetro \\"%1$s\\" tem min maior que max.</string>
-    <string name="shader_error_default_lower_than_min">O padrão do parâmetro \\"%1$s\\" é menor que min.</string>
-    <string name="shader_error_default_greater_than_max">O padrão do parâmetro \\"%1$s\\" é maior que o máximo.</string>
-    <string name="shader_error_missing_input_texture">O shader deve declarar \"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">O shader deve declarar \"vec2 variável %1$s;\\".</string>
+    <string name="shader_error_reserved_parameter_name">O parâmetro \\\"%1$s\\\" usa um nome GPUImage reservado.</string>
+    <string name="shader_error_invalid_parameter_name">O parâmetro \\\"%1$s\\\" deve ser um identificador GLSL válido.</string>
+    <string name="shader_error_invalid_value_type">O parâmetro \\\"%1$s\\\" tem o tipo de valor %2$s \\\"%3$s\\\", esperado \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">O parâmetro \\\"%1$s\\\" não pode definir mínimo ou máximo para valores bool.</string>
+    <string name="shader_error_min_greater_than_max">O parâmetro \\\"%1$s\\\" tem min maior que max.</string>
+    <string name="shader_error_default_lower_than_min">O padrão do parâmetro \\\"%1$s\\\" é menor que min.</string>
+    <string name="shader_error_default_greater_than_max">O padrão do parâmetro \\\"%1$s\\\" é maior que o máximo.</string>
+    <string name="shader_error_missing_input_texture">O shader deve declarar \"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">O shader deve declarar \"vec2 variável %1$s;\\\".</string>
     <string name="shader_error_missing_main_function">O shader deve definir \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">O shader deve escrever uma cor em gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">Os shaders ShaderToy mainImage não são suportados. Use o contrato void main() do GPUImage.</string>
@@ -2377,16 +2377,16 @@
     <string name="shader_error_external_textures">Texturas externas não são suportadas.</string>
     <string name="shader_error_external_texture_extensions">Extensões de textura externas não são suportadas.</string>
     <string name="shader_error_libretro_parameters">Os parâmetros do shader Libretro não são suportados.</string>
-    <string name="shader_error_extra_input_texture">Apenas uma textura de entrada é suportada. Remova \\"uniforme %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">O parâmetro \\"%1$s\\" deve ser declarado como \\"uniforme %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">O parâmetro \\"%1$s\\" é declarado como \\"uniforme %2$s %1$s;\\", esperado \\"uniforme %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Apenas uma textura de entrada é suportada. Remova \\\"uniforme %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">O parâmetro \\\"%1$s\\\" deve ser declarado como \\\"uniforme %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">O parâmetro \\\"%1$s\\\" é declarado como \\\"uniforme %2$s %1$s;\\\", esperado \\\"uniforme %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">O arquivo do shader está vazio.</string>
     <string name="shader_parse_error_not_itshader_json">O arquivo shader deve ser um objeto JSON .itshader com versão, nome e campos de shader.</string>
     <string name="shader_parse_error_invalid_json">O arquivo Shader não é JSON válido ou não corresponde ao formato .itshader.</string>
-    <string name="shader_parse_error_missing_field">O campo \\"%1$s\\" é obrigatório.</string>
+    <string name="shader_parse_error_missing_field">O campo \\\"%1$s\\\" é obrigatório.</string>
     <string name="shader_parse_error_missing_param_field">%1$s é obrigatório.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" não é compatível. Tipos suportados: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s é necessário para parâmetros \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" não é compatível. Tipos suportados: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s é necessário para parâmetros \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s deve ser um número finito.</string>
     <string name="shader_parse_error_integer_expected">%1$s deve ser um número inteiro.</string>
     <string name="shader_parse_error_bool_expected">%1$s deve ser verdadeiro ou falso.</string>
@@ -3262,4 +3262,28 @@
     <string name="search_keywords_pdf_remove_annotations">anotações em pdf comentários remover limpar</string>
     <string name="neutral_variant">Variante Neutra</string>
     <string name="error">Erro</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
