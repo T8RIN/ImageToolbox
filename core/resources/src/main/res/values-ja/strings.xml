@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -2356,15 +2355,15 @@
     <string name="shader_error_blank_name">シェーダ名を空白にすることはできません。</string>
     <string name="shader_error_blank_source">シェーダ ソースを空白にすることはできません。</string>
     <string name="shader_error_unsupported_characters">シェーダー ソースにサポートされていない文字 %1$s が含まれています。 ASCII GLSL ソースのみを使用してください。</string>
-    <string name="shader_error_duplicate_parameter">パラメータ \\"%1$s\\" が複数回宣言されています。</string>
+    <string name="shader_error_duplicate_parameter">パラメータ \\\"%1$s\\\" が複数回宣言されています。</string>
     <string name="shader_error_blank_parameter_name">パラメータ名を空白にすることはできません。</string>
-    <string name="shader_error_reserved_parameter_name">パラメータ \\"%1$s\\" は予約された GPUImage 名を使用します。</string>
-    <string name="shader_error_invalid_parameter_name">パラメータ \\"%1$s\\" は有効な GLSL 識別子である必要があります。</string>
-    <string name="shader_error_invalid_value_type">パラメータ \\"%1$s\\" の %2$s 値タイプは \\"%3$s\\" ですが、予期される値は \\"%4$s\\" です。</string>
-    <string name="shader_error_bool_bounds">パラメータ \\"%1$s\\" はブール値の最小値または最大値を定義できません。</string>
-    <string name="shader_error_min_greater_than_max">パラメータ \\"%1$s\\" の最小値が最大値より大きくなっています。</string>
-    <string name="shader_error_default_lower_than_min">パラメータ \\"%1$s\\" のデフォルトは最小値よりも小さいです。</string>
-    <string name="shader_error_default_greater_than_max">パラメータ \\"%1$s\\" のデフォルトは最大値より大きくなります。</string>
+    <string name="shader_error_reserved_parameter_name">パラメータ \\\"%1$s\\\" は予約された GPUImage 名を使用します。</string>
+    <string name="shader_error_invalid_parameter_name">パラメータ \\\"%1$s\\\" は有効な GLSL 識別子である必要があります。</string>
+    <string name="shader_error_invalid_value_type">パラメータ \\\"%1$s\\\" の %2$s 値タイプは \\\"%3$s\\\" ですが、予期される値は \\\"%4$s\\\" です。</string>
+    <string name="shader_error_bool_bounds">パラメータ \\\"%1$s\\\" はブール値の最小値または最大値を定義できません。</string>
+    <string name="shader_error_min_greater_than_max">パラメータ \\\"%1$s\\\" の最小値が最大値より大きくなっています。</string>
+    <string name="shader_error_default_lower_than_min">パラメータ \\\"%1$s\\\" のデフォルトは最小値よりも小さいです。</string>
+    <string name="shader_error_default_greater_than_max">パラメータ \\\"%1$s\\\" のデフォルトは最大値より大きくなります。</string>
     <string name="shader_error_missing_input_texture">シェーダーは「uniform Sampler2D %1$s;」を宣言する必要があります。</string>
     <string name="shader_error_missing_texture_coordinate">シェーダーは「variing vec2 %1$s;」を宣言する必要があります。</string>
     <string name="shader_error_missing_main_function">シェーダーは「void main()」を定義する必要があります。</string>
@@ -2378,8 +2377,8 @@
     <string name="shader_error_external_texture_extensions">外部テクスチャ拡張機能はサポートされていません。</string>
     <string name="shader_error_libretro_parameters">Libretro シェーダ パラメータはサポートされていません。</string>
     <string name="shader_error_extra_input_texture">サポートされる入力テクスチャは 1 つだけです。 「ユニフォーム %1$s %2$s;」を削除します。</string>
-    <string name="shader_error_missing_uniform">パラメータ \\"%1$s\\" は、\\"uniform %2$s %1$s;\\" として宣言する必要があります。</string>
-    <string name="shader_error_wrong_uniform_type">パラメータ \\"%1$s\\" は \\"uniform %2$s %1$s;\\" として宣言されていますが、予期された \\"uniform %3$s %1$s;\\" です。</string>
+    <string name="shader_error_missing_uniform">パラメータ \\\"%1$s\\\" は、\\\"uniform %2$s %1$s;\\\" として宣言する必要があります。</string>
+    <string name="shader_error_wrong_uniform_type">パラメータ \\\"%1$s\\\" は \\\"uniform %2$s %1$s;\\\" として宣言されていますが、予期された \\\"uniform %3$s %1$s;\\\" です。</string>
     <string name="shader_parse_error_empty_file">シェーダーファイルが空です。</string>
     <string name="shader_parse_error_not_itshader_json">シェーダー ファイルは、バージョン、名前、およびシェーダー フィールドを含む .itshader JSON オブジェクトである必要があります。</string>
     <string name="shader_parse_error_invalid_json">シェーダー ファイルが有効な JSON でないか、.itshader 形式と一致しません。</string>

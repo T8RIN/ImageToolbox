@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">ਸਾਰੇ ਦਸਤਾਵੇਜ਼ ਏਮਬੈਡਡ ਚਿੱਤਰਾਂ ਨੂੰ ਗ੍ਰੇਸਕੇਲ ਵਿੱਚ ਬਦਲੋ</string>
     <string name="compress_pdf">ਪੀਡੀਐਫ ਨੂੰ ਸੰਕੁਚਿਤ ਕਰੋ</string>
     <string name="compress_pdf_sub">ਆਸਾਨੀ ਨਾਲ ਸਾਂਝਾ ਕਰਨ ਲਈ ਆਪਣੇ ਦਸਤਾਵੇਜ਼ ਫਾਈਲ ਆਕਾਰ ਨੂੰ ਅਨੁਕੂਲ ਬਣਾਓ</string>
-    <string name="repair_info">ਚਿੱਤਰ ਟੂਲਬਾਕਸ ਅੰਦਰੂਨੀ ਕਰਾਸ-ਰੈਫਰੈਂਸ ਟੇਬਲ ਨੂੰ ਦੁਬਾਰਾ ਬਣਾਉਂਦਾ ਹੈ ਅਤੇ ਸਕ੍ਰੈਚ ਤੋਂ ਫਾਈਲ ਬਣਤਰ ਨੂੰ ਦੁਬਾਰਾ ਬਣਾਉਂਦਾ ਹੈ। ਇਹ ਬਹੁਤ ਸਾਰੀਆਂ ਫਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਨੂੰ ਬਹਾਲ ਕਰ ਸਕਦਾ ਹੈ ਜੋ \\"ਖੋਲ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ\\"।</string>
+    <string name="repair_info">ਚਿੱਤਰ ਟੂਲਬਾਕਸ ਅੰਦਰੂਨੀ ਕਰਾਸ-ਰੈਫਰੈਂਸ ਟੇਬਲ ਨੂੰ ਦੁਬਾਰਾ ਬਣਾਉਂਦਾ ਹੈ ਅਤੇ ਸਕ੍ਰੈਚ ਤੋਂ ਫਾਈਲ ਬਣਤਰ ਨੂੰ ਦੁਬਾਰਾ ਬਣਾਉਂਦਾ ਹੈ। ਇਹ ਬਹੁਤ ਸਾਰੀਆਂ ਫਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਨੂੰ ਬਹਾਲ ਕਰ ਸਕਦਾ ਹੈ ਜੋ \\\"ਖੋਲ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ\\\"।</string>
     <string name="grayscale_info">ਇਹ ਟੂਲ ਸਾਰੇ ਦਸਤਾਵੇਜ਼ ਚਿੱਤਰਾਂ ਨੂੰ ਗ੍ਰੇਸਕੇਲ ਵਿੱਚ ਬਦਲਦਾ ਹੈ। ਪ੍ਰਿੰਟਿੰਗ ਅਤੇ ਫਾਈਲ ਦਾ ਆਕਾਰ ਘਟਾਉਣ ਲਈ ਸਭ ਤੋਂ ਵਧੀਆ</string>
     <string name="metadata">ਮੈਟਾਡਾਟਾ</string>
     <string name="metadata_pdf_sub">ਬਿਹਤਰ ਗੋਪਨੀਯਤਾ ਲਈ ਦਸਤਾਵੇਜ਼ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਸੰਪਾਦਿਤ ਕਰੋ</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">ਸ਼ੈਡਰ ਨਾਮ ਖਾਲੀ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ।</string>
     <string name="shader_error_blank_source">ਸ਼ੈਡਰ ਸਰੋਤ ਖਾਲੀ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।</string>
     <string name="shader_error_unsupported_characters">ਸ਼ੈਡਰ ਸਰੋਤ ਵਿੱਚ ਅਸਮਰਥਿਤ ਅੱਖਰ ਹਨ: %1$s। ਸਿਰਫ਼ ASCII GLSL ਸਰੋਤ ਦੀ ਵਰਤੋਂ ਕਰੋ।</string>
-    <string name="shader_error_duplicate_parameter">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਨੂੰ ਇੱਕ ਤੋਂ ਵੱਧ ਵਾਰ ਘੋਸ਼ਿਤ ਕੀਤਾ ਗਿਆ ਹੈ।</string>
+    <string name="shader_error_duplicate_parameter">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਨੂੰ ਇੱਕ ਤੋਂ ਵੱਧ ਵਾਰ ਘੋਸ਼ਿਤ ਕੀਤਾ ਗਿਆ ਹੈ।</string>
     <string name="shader_error_blank_parameter_name">ਪੈਰਾਮੀਟਰ ਨਾਮ ਖਾਲੀ ਨਹੀਂ ਹੋਣੇ ਚਾਹੀਦੇ।</string>
-    <string name="shader_error_reserved_parameter_name">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਇੱਕ ਰਾਖਵੇਂ GPUI ਚਿੱਤਰ ਨਾਮ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।</string>
-    <string name="shader_error_invalid_parameter_name">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਇੱਕ ਵੈਧ GLSL ਪਛਾਣਕਰਤਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।</string>
-    <string name="shader_error_invalid_value_type">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਵਿੱਚ %2$s ਮੁੱਲ ਕਿਸਮ \\"%3$s\\" ਹੈ, \\"%4$s\\" ਦੀ ਉਮੀਦ ਹੈ।</string>
-    <string name="shader_error_bool_bounds">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਬੂਲ ਮੁੱਲਾਂ ਲਈ ਘੱਟੋ-ਘੱਟ ਜਾਂ ਅਧਿਕਤਮ ਨੂੰ ਪਰਿਭਾਸ਼ਿਤ ਨਹੀਂ ਕਰ ਸਕਦਾ ਹੈ।</string>
-    <string name="shader_error_min_greater_than_max">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਵਿੱਚ ਅਧਿਕਤਮ ਤੋਂ ਘੱਟੋ ਘੱਟ ਹੈ।</string>
-    <string name="shader_error_default_lower_than_min">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਪੂਰਵ-ਨਿਰਧਾਰਤ ਘੱਟੋ-ਘੱਟ ਤੋਂ ਘੱਟ ਹੈ।</string>
-    <string name="shader_error_default_greater_than_max">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਪੂਰਵ-ਨਿਰਧਾਰਤ ਅਧਿਕਤਮ ਤੋਂ ਵੱਧ ਹੈ।</string>
-    <string name="shader_error_missing_input_texture">ਸ਼ੈਡਰ ਨੂੰ \\"ਯੂਨੀਫਾਰਮ ਸੈਂਪਲਰ2D %1$s;\\" ਘੋਸ਼ਿਤ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ।</string>
-    <string name="shader_error_missing_texture_coordinate">ਸ਼ੈਡਰ ਨੂੰ \\"ਵੱਖ-ਵੱਖ vec2 %1$s;\\" ਘੋਸ਼ਿਤ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ।</string>
-    <string name="shader_error_missing_main_function">ਸ਼ੈਡਰ ਨੂੰ \\"void main()\\" ਨੂੰ ਪਰਿਭਾਸ਼ਿਤ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ।</string>
+    <string name="shader_error_reserved_parameter_name">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਇੱਕ ਰਾਖਵੇਂ GPUI ਚਿੱਤਰ ਨਾਮ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।</string>
+    <string name="shader_error_invalid_parameter_name">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਇੱਕ ਵੈਧ GLSL ਪਛਾਣਕਰਤਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।</string>
+    <string name="shader_error_invalid_value_type">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਵਿੱਚ %2$s ਮੁੱਲ ਕਿਸਮ \\\"%3$s\\\" ਹੈ, \\\"%4$s\\\" ਦੀ ਉਮੀਦ ਹੈ।</string>
+    <string name="shader_error_bool_bounds">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਬੂਲ ਮੁੱਲਾਂ ਲਈ ਘੱਟੋ-ਘੱਟ ਜਾਂ ਅਧਿਕਤਮ ਨੂੰ ਪਰਿਭਾਸ਼ਿਤ ਨਹੀਂ ਕਰ ਸਕਦਾ ਹੈ।</string>
+    <string name="shader_error_min_greater_than_max">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਵਿੱਚ ਅਧਿਕਤਮ ਤੋਂ ਘੱਟੋ ਘੱਟ ਹੈ।</string>
+    <string name="shader_error_default_lower_than_min">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਪੂਰਵ-ਨਿਰਧਾਰਤ ਘੱਟੋ-ਘੱਟ ਤੋਂ ਘੱਟ ਹੈ।</string>
+    <string name="shader_error_default_greater_than_max">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਪੂਰਵ-ਨਿਰਧਾਰਤ ਅਧਿਕਤਮ ਤੋਂ ਵੱਧ ਹੈ।</string>
+    <string name="shader_error_missing_input_texture">ਸ਼ੈਡਰ ਨੂੰ \\\"ਯੂਨੀਫਾਰਮ ਸੈਂਪਲਰ2D %1$s;\\\" ਘੋਸ਼ਿਤ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ।</string>
+    <string name="shader_error_missing_texture_coordinate">ਸ਼ੈਡਰ ਨੂੰ \\\"ਵੱਖ-ਵੱਖ vec2 %1$s;\\\" ਘੋਸ਼ਿਤ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ।</string>
+    <string name="shader_error_missing_main_function">ਸ਼ੈਡਰ ਨੂੰ \\\"void main()\\\" ਨੂੰ ਪਰਿਭਾਸ਼ਿਤ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ।</string>
     <string name="shader_error_missing_fragment_color">ਸ਼ੈਡਰ ਨੂੰ gl_FragColor ਲਈ ਇੱਕ ਰੰਗ ਲਿਖਣਾ ਚਾਹੀਦਾ ਹੈ।</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders ਸਮਰਥਿਤ ਨਹੀਂ ਹਨ। GPUImage ਦੇ void main() ਇਕਰਾਰਨਾਮੇ ਦੀ ਵਰਤੋਂ ਕਰੋ।</string>
-    <string name="shader_error_shadertoy_i_time">ਐਨੀਮੇਟਡ ShaderToy ਯੂਨੀਫਾਰਮ \\"iTime\\" ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ।</string>
-    <string name="shader_error_shadertoy_i_frame">ਐਨੀਮੇਟਡ ShaderToy ਯੂਨੀਫਾਰਮ \\"iFrame\\" ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ।</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy ਯੂਨੀਫਾਰਮ \\"iResolution\\" ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ।</string>
+    <string name="shader_error_shadertoy_i_time">ਐਨੀਮੇਟਡ ShaderToy ਯੂਨੀਫਾਰਮ \\\"iTime\\\" ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ।</string>
+    <string name="shader_error_shadertoy_i_frame">ਐਨੀਮੇਟਡ ShaderToy ਯੂਨੀਫਾਰਮ \\\"iFrame\\\" ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ।</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy ਯੂਨੀਫਾਰਮ \\\"iResolution\\\" ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ।</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel ਟੈਕਸਟ ਸਮਰਥਿਤ ਨਹੀਂ ਹਨ।</string>
     <string name="shader_error_external_textures">ਬਾਹਰੀ ਟੈਕਸਟ ਸਮਰਥਿਤ ਨਹੀਂ ਹਨ।</string>
     <string name="shader_error_external_texture_extensions">ਬਾਹਰੀ ਟੈਕਸਟ ਐਕਸਟੈਂਸ਼ਨ ਸਮਰਥਿਤ ਨਹੀਂ ਹਨ।</string>
     <string name="shader_error_libretro_parameters">ਲਿਬਰੇਟਰੋ ਸ਼ੇਡਰ ਪੈਰਾਮੀਟਰ ਸਮਰਥਿਤ ਨਹੀਂ ਹਨ।</string>
-    <string name="shader_error_extra_input_texture">ਸਿਰਫ਼ ਇੱਕ ਇੰਪੁੱਟ ਟੈਕਸਟ ਸਮਰਥਿਤ ਹੈ। \\"ਵਰਦੀ %1$s %2$s;\\" ਹਟਾਓ।</string>
-    <string name="shader_error_missing_uniform">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਨੂੰ \\"ਵਰਦੀ %2$s %1$s;\\" ਵਜੋਂ ਘੋਸ਼ਿਤ ਕੀਤਾ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।</string>
-    <string name="shader_error_wrong_uniform_type">ਪੈਰਾਮੀਟਰ \\"%1$s\\" ਨੂੰ \\"ਵਰਦੀ %2$s %1$s;\\" ਵਜੋਂ ਘੋਸ਼ਿਤ ਕੀਤਾ ਗਿਆ ਹੈ, ਉਮੀਦ ਕੀਤੀ ਗਈ \\"ਵਰਦੀ %3$s %1$s;\\"।</string>
+    <string name="shader_error_extra_input_texture">ਸਿਰਫ਼ ਇੱਕ ਇੰਪੁੱਟ ਟੈਕਸਟ ਸਮਰਥਿਤ ਹੈ। \\\"ਵਰਦੀ %1$s %2$s;\\\" ਹਟਾਓ।</string>
+    <string name="shader_error_missing_uniform">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਨੂੰ \\\"ਵਰਦੀ %2$s %1$s;\\\" ਵਜੋਂ ਘੋਸ਼ਿਤ ਕੀਤਾ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।</string>
+    <string name="shader_error_wrong_uniform_type">ਪੈਰਾਮੀਟਰ \\\"%1$s\\\" ਨੂੰ \\\"ਵਰਦੀ %2$s %1$s;\\\" ਵਜੋਂ ਘੋਸ਼ਿਤ ਕੀਤਾ ਗਿਆ ਹੈ, ਉਮੀਦ ਕੀਤੀ ਗਈ \\\"ਵਰਦੀ %3$s %1$s;\\\"।</string>
     <string name="shader_parse_error_empty_file">ਸ਼ੈਡਰ ਫਾਈਲ ਖਾਲੀ ਹੈ।</string>
     <string name="shader_parse_error_not_itshader_json">ਸ਼ੈਡਰ ਫਾਈਲ ਵਰਜਨ, ਨਾਮ ਅਤੇ ਸ਼ੈਡਰ ਖੇਤਰਾਂ ਦੇ ਨਾਲ ਇੱਕ .itshader JSON ਵਸਤੂ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ।</string>
     <string name="shader_parse_error_invalid_json">ਸ਼ੈਡਰ ਫਾਈਲ ਵੈਧ JSON ਨਹੀਂ ਹੈ ਜਾਂ .itshader ਫਾਰਮੈਟ ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦੀ ਹੈ।</string>
-    <string name="shader_parse_error_missing_field">ਖੇਤਰ \\"%1$s\\" ਲੋੜੀਂਦਾ ਹੈ।</string>
+    <string name="shader_parse_error_missing_field">ਖੇਤਰ \\\"%1$s\\\" ਲੋੜੀਂਦਾ ਹੈ।</string>
     <string name="shader_parse_error_missing_param_field">%1$s ਲੋੜੀਂਦਾ ਹੈ।</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ। ਸਮਰਥਿਤ ਕਿਸਮਾਂ: %3$s।</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" ਪੈਰਾਮੀਟਰਾਂ ਲਈ %1$s ਦੀ ਲੋੜ ਹੈ।</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ। ਸਮਰਥਿਤ ਕਿਸਮਾਂ: %3$s।</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" ਪੈਰਾਮੀਟਰਾਂ ਲਈ %1$s ਦੀ ਲੋੜ ਹੈ।</string>
     <string name="shader_parse_error_finite_number_expected">%1$s ਇੱਕ ਸੀਮਤ ਸੰਖਿਆ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ।</string>
     <string name="shader_parse_error_integer_expected">%1$s ਇੱਕ ਪੂਰਨ ਅੰਕ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।</string>
     <string name="shader_parse_error_bool_expected">%1$s ਸੱਚ ਜਾਂ ਗਲਤ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।</string>
@@ -3191,76 +3190,13 @@
     <string name="no_usage_statistics">ਅਜੇ ਤੱਕ ਵਰਤੋਂ ਦੇ ਕੋਈ ਅੰਕੜੇ ਨਹੀਂ ਹਨ</string>
     <string name="no_usage_statistics_sub">ਕੁਝ ਟੂਲ ਖੋਲ੍ਹੋ ਅਤੇ ਉਹ ਇੱਥੇ ਆਪਣੇ ਆਪ ਦਿਖਾਈ ਦੇਣਗੇ</string>
     <string name="usage_statistics_info">ਤੁਹਾਡੇ ਵਰਤੋਂ ਦੇ ਅੰਕੜੇ ਸਿਰਫ਼ ਤੁਹਾਡੀ ਡਿਵਾਈਸ \'ਤੇ ਸਥਾਨਕ ਤੌਰ \'ਤੇ ਸਟੋਰ ਕੀਤੇ ਜਾਂਦੇ ਹਨ। ਚਿੱਤਰ ਟੂਲਬਾਕਸ ਉਹਨਾਂ ਦੀ ਵਰਤੋਂ ਸਿਰਫ਼ ਤੁਹਾਡੀ ਨਿੱਜੀ ਗਤੀਵਿਧੀ, ਮਨਪਸੰਦ ਟੂਲ ਅਤੇ ਸੁਰੱਖਿਅਤ ਕੀਤੇ ਡੇਟਾ ਇਨਸਾਈਟਸ ਦਿਖਾਉਣ ਲਈ ਕਰਦਾ ਹੈ</string>
-    <string name="search_keywords_single_edit" />
     <string name="search_keywords_resize_and_convert">ਆਕਾਰ ਬਦਲੋ ਕਨਵਰਟ ਸਕੇਲ ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਮਾਪ ਚੌੜਾਈ ਉਚਾਈ jpg jpeg png webp ਕੰਪਰੈੱਸ</string>
     <string name="search_keywords_weight_resize">ਸੰਕੁਚਿਤ ਆਕਾਰ ਭਾਰ ਬਾਈਟ mb kb ਗੁਣਵੱਤਾ ਅਨੁਕੂਲਤਾ ਨੂੰ ਘਟਾਓ</string>
-    <string name="search_keywords_crop" />
-    <string name="search_keywords_filter" />
-    <string name="search_keywords_draw" />
-    <string name="search_keywords_cipher" />
-    <string name="search_keywords_erase_background" />
-    <string name="search_keywords_image_preview" />
-    <string name="search_keywords_image_stitching" />
-    <string name="search_keywords_load_net_image" />
-    <string name="search_keywords_pick_color_from_image" />
-    <string name="search_keywords_palette_tools" />
-    <string name="search_keywords_delete_exif" />
-    <string name="search_keywords_compare" />
-    <string name="search_keywords_limit_resize" />
-    <string name="search_keywords_pdf_tools" />
-    <string name="search_keywords_recognize_text" />
-    <string name="search_keywords_gradient_maker" />
-    <string name="search_keywords_watermarking" />
-    <string name="search_keywords_gif_tools" />
-    <string name="search_keywords_apng_tools" />
-    <string name="search_keywords_zip" />
-    <string name="search_keywords_jxl_tools" />
-    <string name="search_keywords_svg_maker" />
-    <string name="search_keywords_format_conversion" />
-    <string name="search_keywords_document_scanner" />
-    <string name="search_keywords_scan_qr_code" />
-    <string name="search_keywords_image_stacking" />
-    <string name="search_keywords_image_splitting" />
-    <string name="search_keywords_color_tools" />
-    <string name="search_keywords_webp_tools" />
-    <string name="search_keywords_noise_generation" />
-    <string name="search_keywords_collage_maker" />
-    <string name="search_keywords_markup_layers" />
-    <string name="search_keywords_base64_tools" />
-    <string name="search_keywords_checksum_tools" />
     <string name="search_keywords_mesh_gradients">ਜਾਲ ਗਰੇਡੀਐਂਟ ਪਿਛੋਕੜ</string>
-    <string name="search_keywords_edit_exif" />
-    <string name="search_keywords_image_cutter" />
-    <string name="search_keywords_audio_cover_extractor" />
-    <string name="search_keywords_wallpapers_export" />
-    <string name="search_keywords_ascii_art" />
-    <string name="search_keywords_ai_tools" />
-    <string name="search_keywords_color_library" />
-    <string name="search_keywords_shader_studio" />
-    <string name="search_keywords_pdf_merge" />
     <string name="search_keywords_pdf_split">pdf ਵੱਖਰੇ ਪੰਨਿਆਂ ਨੂੰ ਵੰਡੋ</string>
-    <string name="search_keywords_pdf_rotate" />
-    <string name="search_keywords_pdf_rearrange" />
-    <string name="search_keywords_pdf_page_numbers" />
-    <string name="search_keywords_pdf_ocr" />
-    <string name="search_keywords_pdf_watermark" />
     <string name="search_keywords_pdf_signature">pdf ਦਸਤਖਤ ਸਾਈਨ ਡਰਾਅ</string>
-    <string name="search_keywords_pdf_protect" />
-    <string name="search_keywords_pdf_unlock" />
-    <string name="search_keywords_pdf_compress" />
-    <string name="search_keywords_pdf_grayscale" />
-    <string name="search_keywords_pdf_repair" />
-    <string name="search_keywords_pdf_metadata" />
     <string name="search_keywords_pdf_remove_pages">pdf ਪੰਨਿਆਂ ਨੂੰ ਮਿਟਾਓ</string>
-    <string name="search_keywords_pdf_crop" />
-    <string name="search_keywords_pdf_flatten" />
-    <string name="search_keywords_pdf_extract_images" />
-    <string name="search_keywords_pdf_zip_convert" />
-    <string name="search_keywords_pdf_print" />
     <string name="search_keywords_pdf_preview">ਪੀਡੀਐਫ ਪ੍ਰੀਵਿਊ ਦਰਸ਼ਕ ਪੜ੍ਹਦਾ ਹੈ</string>
-    <string name="search_keywords_pdf_images_to_pdf" />
-    <string name="search_keywords_pdf_extract_pages" />
-    <string name="search_keywords_pdf_remove_annotations" />
     <string name="neutral_variant">ਨਿਰਪੱਖ ਰੂਪ</string>
     <string name="error">ਗਲਤੀ</string>
 </resources>

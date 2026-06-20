@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="flexible">Fleksibel</string>
     <string name="ok">OK</string>
     <string name="crop">Beskær</string>
@@ -2140,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Konverter alle dokumentindlejrede billeder til gråtoner</string>
     <string name="compress_pdf">Komprimer PDF</string>
     <string name="compress_pdf_sub">Optimer din dokumentfilstørrelse for nemmere deling</string>
-    <string name="repair_info">ImageToolbox genopbygger den interne krydsreferencetabel og regenererer filstrukturen fra bunden. Dette kan gendanne adgangen til mange filer, der \\"ikke kan åbnes\\"</string>
+    <string name="repair_info">ImageToolbox genopbygger den interne krydsreferencetabel og regenererer filstrukturen fra bunden. Dette kan gendanne adgangen til mange filer, der \\\"ikke kan åbnes\\\"</string>
     <string name="grayscale_info">Dette værktøj konverterer alle dokumentbilleder til gråtoner. Bedst til udskrivning og reduktion af filstørrelse</string>
     <string name="metadata">Metadata</string>
     <string name="metadata_pdf_sub">Rediger dokumentegenskaber for bedre privatliv</string>
@@ -2358,37 +2356,37 @@
     <string name="shader_error_blank_name">Shader-navnet må ikke være tomt.</string>
     <string name="shader_error_blank_source">Shader-kilde må ikke være tom.</string>
     <string name="shader_error_unsupported_characters">Shader-kilden indeholder ikke-understøttede tegn: %1$s. Brug kun ASCII GLSL-kilde.</string>
-    <string name="shader_error_duplicate_parameter">Parameteren \\"%1$s\\" erklæres mere end én gang.</string>
+    <string name="shader_error_duplicate_parameter">Parameteren \\\"%1$s\\\" erklæres mere end én gang.</string>
     <string name="shader_error_blank_parameter_name">Parameternavne må ikke være tomme.</string>
-    <string name="shader_error_reserved_parameter_name">Parameteren \\"%1$s\\" bruger et reserveret GPUIimage-navn.</string>
-    <string name="shader_error_invalid_parameter_name">Parameteren \\"%1$s\\" skal være et gyldigt GLSL-id.</string>
-    <string name="shader_error_invalid_value_type">Parameteren \\"%1$s\\" har %2$s værditypen \\"%3$s\\", forventet \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Parameteren \\"%1$s\\" kan ikke definere min eller max for bool-værdier.</string>
-    <string name="shader_error_min_greater_than_max">Parameteren \\"%1$s\\" har min. større end maks.</string>
-    <string name="shader_error_default_lower_than_min">Parameter \\"%1$s\\" standard er lavere end min.</string>
-    <string name="shader_error_default_greater_than_max">Parameter \\"%1$s\\" standard er større end max.</string>
-    <string name="shader_error_missing_input_texture">Shader skal erklære \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader skal erklære \\"varierende vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Shader skal definere \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parameteren \\\"%1$s\\\" bruger et reserveret GPUIimage-navn.</string>
+    <string name="shader_error_invalid_parameter_name">Parameteren \\\"%1$s\\\" skal være et gyldigt GLSL-id.</string>
+    <string name="shader_error_invalid_value_type">Parameteren \\\"%1$s\\\" har %2$s værditypen \\\"%3$s\\\", forventet \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Parameteren \\\"%1$s\\\" kan ikke definere min eller max for bool-værdier.</string>
+    <string name="shader_error_min_greater_than_max">Parameteren \\\"%1$s\\\" har min. større end maks.</string>
+    <string name="shader_error_default_lower_than_min">Parameter \\\"%1$s\\\" standard er lavere end min.</string>
+    <string name="shader_error_default_greater_than_max">Parameter \\\"%1$s\\\" standard er større end max.</string>
+    <string name="shader_error_missing_input_texture">Shader skal erklære \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader skal erklære \\\"varierende vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Shader skal definere \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader skal skrive en farve til gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders understøttes ikke. Brug GPUImage\'s void main()-kontrakt.</string>
-    <string name="shader_error_shadertoy_i_time">Animeret ShaderToy-uniform \\"iTime\\" understøttes ikke.</string>
-    <string name="shader_error_shadertoy_i_frame">Animeret ShaderToy-uniform \\"iFrame\\" understøttes ikke.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \\"iResolution\\" understøttes ikke.</string>
+    <string name="shader_error_shadertoy_i_time">Animeret ShaderToy-uniform \\\"iTime\\\" understøttes ikke.</string>
+    <string name="shader_error_shadertoy_i_frame">Animeret ShaderToy-uniform \\\"iFrame\\\" understøttes ikke.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \\\"iResolution\\\" understøttes ikke.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel-teksturer understøttes ikke.</string>
     <string name="shader_error_external_textures">Eksterne teksturer understøttes ikke.</string>
     <string name="shader_error_external_texture_extensions">Eksterne teksturudvidelser understøttes ikke.</string>
     <string name="shader_error_libretro_parameters">Libretro shader-parametre understøttes ikke.</string>
-    <string name="shader_error_extra_input_texture">Kun én inputtekstur understøttes. Fjern \\"uniform %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Parameter \\"%1$s\\" skal erklæres som \\"uniform %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parameter \\"%1$s\\" er erklæret som \\"uniform %2$s %1$s;\\", forventet \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Kun én inputtekstur understøttes. Fjern \\\"uniform %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Parameter \\\"%1$s\\\" skal erklæres som \\\"uniform %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Parameter \\\"%1$s\\\" er erklæret som \\\"uniform %2$s %1$s;\\\", forventet \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Shader-filen er tom.</string>
     <string name="shader_parse_error_not_itshader_json">Shader-fil skal være et .itshader JSON-objekt med version, navn og shader-felter.</string>
     <string name="shader_parse_error_invalid_json">Shader-filen er ikke gyldig JSON eller matcher ikke .itshader-formatet.</string>
-    <string name="shader_parse_error_missing_field">Feltet \\"%1$s\\" er påkrævet.</string>
+    <string name="shader_parse_error_missing_field">Feltet \\\"%1$s\\\" er påkrævet.</string>
     <string name="shader_parse_error_missing_param_field">%1$s er påkrævet.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" understøttes ikke. Understøttede typer: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s er påkrævet for \\"%2$s\\" parametre.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" understøttes ikke. Understøttede typer: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s er påkrævet for \\\"%2$s\\\" parametre.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s skal være et endeligt tal.</string>
     <string name="shader_parse_error_integer_expected">%1$s skal være et heltal.</string>
     <string name="shader_parse_error_bool_expected">%1$s skal være sand eller falsk.</string>

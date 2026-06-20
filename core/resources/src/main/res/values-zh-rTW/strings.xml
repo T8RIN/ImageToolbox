@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2386,7 +2384,7 @@
     <string name="shader_parse_error_invalid_json">着色器文件不是有效的 JSON 或与 .itshader 格式不匹配。</string>
     <string name="shader_parse_error_missing_field">字段“%1$s”为必填项。</string>
     <string name="shader_parse_error_missing_param_field">%1$s 为必填项。</string>
-    <string name="shader_parse_error_unsupported_param_type">不支持 %1$s \\"%2$s\\"。支持的类型：%3$s。</string>
+    <string name="shader_parse_error_unsupported_param_type">不支持 %1$s \\\"%2$s\\\"。支持的类型：%3$s。</string>
     <string name="shader_parse_error_missing_value">“%2$s”参数需要 %1$s。</string>
     <string name="shader_parse_error_finite_number_expected">%1$s 必须是有限数。</string>
     <string name="shader_parse_error_integer_expected">%1$s 必须是整数。</string>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -2362,37 +2360,37 @@
     <string name="shader_error_blank_name">يجب ألا يكون اسم التظليل فارغًا.</string>
     <string name="shader_error_blank_source">يجب ألا يكون مصدر التظليل فارغًا.</string>
     <string name="shader_error_unsupported_characters">يحتوي مصدر التظليل على أحرف غير مدعومة: %1$s. استخدم مصدر ASCII GLSL فقط.</string>
-    <string name="shader_error_duplicate_parameter">تم الإعلان عن المعلمة \\"%1$s\\" أكثر من مرة.</string>
+    <string name="shader_error_duplicate_parameter">تم الإعلان عن المعلمة \\\"%1$s\\\" أكثر من مرة.</string>
     <string name="shader_error_blank_parameter_name">يجب ألا تكون أسماء المعلمات فارغة.</string>
-    <string name="shader_error_reserved_parameter_name">تستخدم المعلمة \\"%1$s\\" اسم GPUImage محجوزًا.</string>
-    <string name="shader_error_invalid_parameter_name">يجب أن تكون المعلمة \\"%1$s\\" معرف GLSL صالحًا.</string>
-    <string name="shader_error_invalid_value_type">المعلمة \\"%1$s\\" لها %2$s نوع القيمة \\"%3$s\\"، المتوقع \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">لا يمكن للمعلمة \\"%1$s\\" تعريف الحد الأدنى أو الحد الأقصى للقيم المنطقية.</string>
-    <string name="shader_error_min_greater_than_max">تحتوي المعلمة \\"%1$s\\" على الحد الأدنى أكبر من الحد الأقصى.</string>
-    <string name="shader_error_default_lower_than_min">المعلمة \\"%1$s\\" الافتراضية أقل من الحد الأدنى.</string>
-    <string name="shader_error_default_greater_than_max">المعلمة \\"%1$s\\" الافتراضية أكبر من الحد الأقصى.</string>
-    <string name="shader_error_missing_input_texture">يجب أن يعلن Shader عن \\"uniform Sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">يجب أن يعلن Shader \\"Varying vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">يجب أن يحدد التظليل \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">تستخدم المعلمة \\\"%1$s\\\" اسم GPUImage محجوزًا.</string>
+    <string name="shader_error_invalid_parameter_name">يجب أن تكون المعلمة \\\"%1$s\\\" معرف GLSL صالحًا.</string>
+    <string name="shader_error_invalid_value_type">المعلمة \\\"%1$s\\\" لها %2$s نوع القيمة \\\"%3$s\\\"، المتوقع \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">لا يمكن للمعلمة \\\"%1$s\\\" تعريف الحد الأدنى أو الحد الأقصى للقيم المنطقية.</string>
+    <string name="shader_error_min_greater_than_max">تحتوي المعلمة \\\"%1$s\\\" على الحد الأدنى أكبر من الحد الأقصى.</string>
+    <string name="shader_error_default_lower_than_min">المعلمة \\\"%1$s\\\" الافتراضية أقل من الحد الأدنى.</string>
+    <string name="shader_error_default_greater_than_max">المعلمة \\\"%1$s\\\" الافتراضية أكبر من الحد الأقصى.</string>
+    <string name="shader_error_missing_input_texture">يجب أن يعلن Shader عن \\\"uniform Sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">يجب أن يعلن Shader \\\"Varying vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">يجب أن يحدد التظليل \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">يجب على Shader كتابة لون إلى gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">تظليل ShaderToy mainImage غير مدعوم. استخدم العقد الرئيسي () الفارغ الخاص بـ GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">الرسوم المتحركة ShaderToy الموحدة \\"iTime\\" غير مدعومة.</string>
-    <string name="shader_error_shadertoy_i_frame">الرسوم المتحركة ShaderToy الموحدة \\"iFrame\\" غير مدعومة.</string>
-    <string name="shader_error_shadertoy_i_resolution">الزي الرسمي ShaderToy \\"iResolution\\" غير مدعوم.</string>
+    <string name="shader_error_shadertoy_i_time">الرسوم المتحركة ShaderToy الموحدة \\\"iTime\\\" غير مدعومة.</string>
+    <string name="shader_error_shadertoy_i_frame">الرسوم المتحركة ShaderToy الموحدة \\\"iFrame\\\" غير مدعومة.</string>
+    <string name="shader_error_shadertoy_i_resolution">الزي الرسمي ShaderToy \\\"iResolution\\\" غير مدعوم.</string>
     <string name="shader_error_shadertoy_i_channel">مواد ShaderToy iChannel غير مدعومة.</string>
     <string name="shader_error_external_textures">القوام الخارجي غير مدعوم.</string>
     <string name="shader_error_external_texture_extensions">ملحقات النسيج الخارجية غير مدعومة.</string>
     <string name="shader_error_libretro_parameters">معلمات تظليل Libretro غير مدعومة.</string>
-    <string name="shader_error_extra_input_texture">يتم دعم نسيج إدخال واحد فقط. قم بإزالة \\"الزي الرسمي %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">يجب تعريف المعلمة \\"%1$s\\" كـ \\"موحدة %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">تم تعريف المعلمة \\"%1$s\\" كـ \\"موحدة %2$s %1$s;\\"، متوقعة \\"موحدة %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">يتم دعم نسيج إدخال واحد فقط. قم بإزالة \\\"الزي الرسمي %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">يجب تعريف المعلمة \\\"%1$s\\\" كـ \\\"موحدة %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">تم تعريف المعلمة \\\"%1$s\\\" كـ \\\"موحدة %2$s %1$s;\\\"، متوقعة \\\"موحدة %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">ملف التظليل فارغ.</string>
     <string name="shader_parse_error_not_itshader_json">يجب أن يكون ملف Shader عبارة عن كائن ‎.itshader JSON يحتوي على حقول الإصدار والاسم والتظليل.</string>
     <string name="shader_parse_error_invalid_json">ملف Shader غير صالح بتنسيق JSON أو لا يتطابق مع تنسيق .itshader.</string>
-    <string name="shader_parse_error_missing_field">الحقل \\"%1$s\\" مطلوب.</string>
+    <string name="shader_parse_error_missing_field">الحقل \\\"%1$s\\\" مطلوب.</string>
     <string name="shader_parse_error_missing_param_field">%1$s مطلوب.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" غير مدعوم. الأنواع المدعومة: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s مطلوب لمعلمات \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" غير مدعوم. الأنواع المدعومة: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s مطلوب لمعلمات \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s يجب أن يكون عددًا محدودًا.</string>
     <string name="shader_parse_error_integer_expected">%1$s يجب أن يكون عددًا صحيحًا.</string>
     <string name="shader_parse_error_bool_expected">%1$s يجب أن يكون صحيحًا أو خطأ.</string>

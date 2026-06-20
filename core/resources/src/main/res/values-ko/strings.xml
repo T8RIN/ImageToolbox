@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -2138,7 +2137,7 @@
     <string name="grayscale_pdf_sub">문서에 포함된 모든 이미지를 회색조로 변환</string>
     <string name="compress_pdf">PDF 압축</string>
     <string name="compress_pdf_sub">더 쉽게 공유할 수 있도록 문서 파일 크기를 최적화하세요.</string>
-    <string name="repair_info">ImageToolbox는 내부 상호 참조 테이블을 다시 작성하고 파일 구조를 처음부터 다시 생성합니다. 이렇게 하면 \\"열 수 없는\\" 많은 파일에 대한 액세스를 복원할 수 있습니다.</string>
+    <string name="repair_info">ImageToolbox는 내부 상호 참조 테이블을 다시 작성하고 파일 구조를 처음부터 다시 생성합니다. 이렇게 하면 \\\"열 수 없는\\\" 많은 파일에 대한 액세스를 복원할 수 있습니다.</string>
     <string name="grayscale_info">이 도구는 모든 문서 이미지를 회색조로 변환합니다. 인쇄 및 파일 크기 축소에 가장 적합</string>
     <string name="metadata">메타데이터</string>
     <string name="metadata_pdf_sub">더 나은 개인 정보 보호를 위해 문서 속성 편집</string>
@@ -2356,37 +2355,37 @@
     <string name="shader_error_blank_name">셰이더 이름은 비워둘 수 없습니다.</string>
     <string name="shader_error_blank_source">셰이더 소스는 비워둘 수 없습니다.</string>
     <string name="shader_error_unsupported_characters">셰이더 소스에 지원되지 않는 문자(%1$s)가 포함되어 있습니다. ASCII GLSL 소스만 사용하세요.</string>
-    <string name="shader_error_duplicate_parameter">\\"%1$s\\" 매개변수가 두 번 이상 선언되었습니다.</string>
+    <string name="shader_error_duplicate_parameter">\\\"%1$s\\\" 매개변수가 두 번 이상 선언되었습니다.</string>
     <string name="shader_error_blank_parameter_name">매개변수 이름은 비워둘 수 없습니다.</string>
-    <string name="shader_error_reserved_parameter_name">\\"%1$s\\" 매개변수는 예약된 GPUImage 이름을 사용합니다.</string>
-    <string name="shader_error_invalid_parameter_name">\\"%1$s\\" 매개변수는 유효한 GLSL 식별자여야 합니다.</string>
-    <string name="shader_error_invalid_value_type">\\"%1$s\\" 매개변수에는 %2$s 값 유형 \\"%3$s\\"이 있습니다. 예상되는 \\"%4$s\\"입니다.</string>
-    <string name="shader_error_bool_bounds">\\"%1$s\\" 매개변수는 bool 값의 최소 또는 최대를 정의할 수 없습니다.</string>
-    <string name="shader_error_min_greater_than_max">\\"%1$s\\" 매개변수의 최소값이 최대값보다 큽니다.</string>
-    <string name="shader_error_default_lower_than_min">매개변수 \\"%1$s\\" 기본값은 최소값보다 낮습니다.</string>
-    <string name="shader_error_default_greater_than_max">매개변수 \\"%1$s\\" 기본값은 최대값보다 큽니다.</string>
-    <string name="shader_error_missing_input_texture">셰이더는 \\"uniform Sampler2D %1$s;\\"을 선언해야 합니다.</string>
-    <string name="shader_error_missing_texture_coordinate">셰이더는 \\"Varying vec2 %1$s;\\"을 선언해야 합니다.</string>
-    <string name="shader_error_missing_main_function">셰이더는 \\"void main()\\"을 정의해야 합니다.</string>
+    <string name="shader_error_reserved_parameter_name">\\\"%1$s\\\" 매개변수는 예약된 GPUImage 이름을 사용합니다.</string>
+    <string name="shader_error_invalid_parameter_name">\\\"%1$s\\\" 매개변수는 유효한 GLSL 식별자여야 합니다.</string>
+    <string name="shader_error_invalid_value_type">\\\"%1$s\\\" 매개변수에는 %2$s 값 유형 \\\"%3$s\\\"이 있습니다. 예상되는 \\\"%4$s\\\"입니다.</string>
+    <string name="shader_error_bool_bounds">\\\"%1$s\\\" 매개변수는 bool 값의 최소 또는 최대를 정의할 수 없습니다.</string>
+    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" 매개변수의 최소값이 최대값보다 큽니다.</string>
+    <string name="shader_error_default_lower_than_min">매개변수 \\\"%1$s\\\" 기본값은 최소값보다 낮습니다.</string>
+    <string name="shader_error_default_greater_than_max">매개변수 \\\"%1$s\\\" 기본값은 최대값보다 큽니다.</string>
+    <string name="shader_error_missing_input_texture">셰이더는 \\\"uniform Sampler2D %1$s;\\\"을 선언해야 합니다.</string>
+    <string name="shader_error_missing_texture_coordinate">셰이더는 \\\"Varying vec2 %1$s;\\\"을 선언해야 합니다.</string>
+    <string name="shader_error_missing_main_function">셰이더는 \\\"void main()\\\"을 정의해야 합니다.</string>
     <string name="shader_error_missing_fragment_color">셰이더는 gl_FragColor에 색상을 써야 합니다.</string>
-    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage 셰이더는 지원되지 않습니다. GPUImage\의 void main() 계약을 사용하세요.</string>
-    <string name="shader_error_shadertoy_i_time">애니메이션 ShaderToy 유니폼 \\"iTime\\"은 지원되지 않습니다.</string>
-    <string name="shader_error_shadertoy_i_frame">애니메이션 ShaderToy 유니폼 \\"iFrame\\"은 지원되지 않습니다.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy 유니폼 \\"iResolution\\"은 지원되지 않습니다.</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage 셰이더는 지원되지 않습니다. GPUImage void main() 계약을 사용하세요.</string>
+    <string name="shader_error_shadertoy_i_time">애니메이션 ShaderToy 유니폼 \\\"iTime\\\"은 지원되지 않습니다.</string>
+    <string name="shader_error_shadertoy_i_frame">애니메이션 ShaderToy 유니폼 \\\"iFrame\\\"은 지원되지 않습니다.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy 유니폼 \\\"iResolution\\\"은 지원되지 않습니다.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel 텍스처는 지원되지 않습니다.</string>
     <string name="shader_error_external_textures">외부 텍스처는 지원되지 않습니다.</string>
     <string name="shader_error_external_texture_extensions">외부 텍스처 확장은 지원되지 않습니다.</string>
     <string name="shader_error_libretro_parameters">Libretro 셰이더 매개변수는 지원되지 않습니다.</string>
-    <string name="shader_error_extra_input_texture">입력 텍스처는 하나만 지원됩니다. \\"유니폼 %1$s %2$s;\\"을 제거합니다.</string>
-    <string name="shader_error_missing_uniform">\\"%1$s\\" 매개변수는 \\"uniform %2$s %1$s;\\"로 선언되어야 합니다.</string>
-    <string name="shader_error_wrong_uniform_type">\\"%1$s\\" 매개변수는 \\"uniform %2$s %1$s;\\"로 선언됩니다. 예상되는 \\"uniform %3$s %1$s;\\"입니다.</string>
+    <string name="shader_error_extra_input_texture">입력 텍스처는 하나만 지원됩니다. \\\"유니폼 %1$s %2$s;\\\"을 제거합니다.</string>
+    <string name="shader_error_missing_uniform">\\\"%1$s\\\" 매개변수는 \\\"uniform %2$s %1$s;\\\"로 선언되어야 합니다.</string>
+    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" 매개변수는 \\\"uniform %2$s %1$s;\\\"로 선언됩니다. 예상되는 \\\"uniform %3$s %1$s;\\\"입니다.</string>
     <string name="shader_parse_error_empty_file">셰이더 파일이 비어 있습니다.</string>
     <string name="shader_parse_error_not_itshader_json">셰이더 파일은 버전, 이름 및 셰이더 필드가 포함된 .itshader JSON 객체여야 합니다.</string>
     <string name="shader_parse_error_invalid_json">셰이더 파일이 유효한 JSON이 아니거나 .itshader 형식과 일치하지 않습니다.</string>
-    <string name="shader_parse_error_missing_field">\\"%1$s\\" 필드가 필요합니다.</string>
+    <string name="shader_parse_error_missing_field">\\\"%1$s\\\" 필드가 필요합니다.</string>
     <string name="shader_parse_error_missing_param_field">%1$s이(가) 필요합니다.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\"은(는) 지원되지 않습니다. 지원되는 유형: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" 매개변수에는 %1$s이(가) 필요합니다.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\"은(는) 지원되지 않습니다. 지원되는 유형: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" 매개변수에는 %1$s이(가) 필요합니다.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s은(는) 유한 숫자여야 합니다.</string>
     <string name="shader_parse_error_integer_expected">%1$s은(는) 정수여야 합니다.</string>
     <string name="shader_parse_error_bool_expected">%1$s은(는) 참이거나 거짓이어야 합니다.</string>
@@ -3191,72 +3190,25 @@
     <string name="no_usage_statistics_sub">몇 가지 도구를 열면 여기에 자동으로 표시됩니다.</string>
     <string name="usage_statistics_info">귀하의 사용 통계는 귀하의 장치에 로컬로만 저장됩니다. ImageToolbox는 이를 개인 활동, 즐겨찾는 도구 및 저장된 데이터 통찰력을 표시하는 데에만 사용합니다.</string>
     <string name="search_keywords_single_edit">편집자 편집 사진 사진 수정 조정</string>
-    <string name="search_keywords_resize_and_convert" />
-    <string name="search_keywords_weight_resize" />
     <string name="search_keywords_crop">자르기 트림 컷 종횡비</string>
     <string name="search_keywords_filter">필터 효과 색상 보정 LUT 마스크 조정</string>
-    <string name="search_keywords_draw" />
     <string name="search_keywords_cipher">암호 암호화 해독 암호 비밀</string>
-    <string name="search_keywords_erase_background" />
-    <string name="search_keywords_image_preview" />
     <string name="search_keywords_image_stitching">스티치 병합 결합 파노라마 긴 스크린샷</string>
     <string name="search_keywords_load_net_image">URL 웹 다운로드 인터넷 링크 이미지</string>
     <string name="search_keywords_pick_color_from_image">선택기 스포이드 샘플 16진수 RGB 색상</string>
-    <string name="search_keywords_palette_tools" />
-    <string name="search_keywords_delete_exif" />
-    <string name="search_keywords_compare" />
     <string name="search_keywords_limit_resize">제한 크기 조정 최대 최소 메가픽셀 크기 클램프</string>
-    <string name="search_keywords_pdf_tools" />
     <string name="search_keywords_recognize_text">ocr 텍스트 인식 추출 스캔</string>
-    <string name="search_keywords_gradient_maker" />
     <string name="search_keywords_watermarking">워터마크 로고 텍스트 스탬프 오버레이</string>
-    <string name="search_keywords_gif_tools" />
-    <string name="search_keywords_apng_tools" />
-    <string name="search_keywords_zip" />
-    <string name="search_keywords_jxl_tools" />
     <string name="search_keywords_svg_maker">svg 벡터 추적 변환 xml</string>
-    <string name="search_keywords_format_conversion" />
     <string name="search_keywords_document_scanner">문서 스캐너 스캔 종이 관점 자르기</string>
-    <string name="search_keywords_scan_qr_code" />
-    <string name="search_keywords_image_stacking" />
-    <string name="search_keywords_image_splitting" />
     <string name="search_keywords_color_tools">색상 변환 hex rgb hsl hsv cmyk lab</string>
-    <string name="search_keywords_webp_tools" />
-    <string name="search_keywords_noise_generation" />
-    <string name="search_keywords_collage_maker" />
-    <string name="search_keywords_markup_layers" />
     <string name="search_keywords_base64_tools">base64 인코딩 데이터 uri 디코딩</string>
-    <string name="search_keywords_checksum_tools" />
-    <string name="search_keywords_mesh_gradients" />
-    <string name="search_keywords_edit_exif" />
-    <string name="search_keywords_image_cutter" />
-    <string name="search_keywords_audio_cover_extractor" />
-    <string name="search_keywords_wallpapers_export" />
-    <string name="search_keywords_ascii_art" />
     <string name="search_keywords_ai_tools">AI ML 신경 강화 고급 세그먼트</string>
-    <string name="search_keywords_color_library" />
-    <string name="search_keywords_shader_studio" />
-    <string name="search_keywords_pdf_merge" />
-    <string name="search_keywords_pdf_split" />
     <string name="search_keywords_pdf_rotate">PDF 회전 페이지 방향</string>
-    <string name="search_keywords_pdf_rearrange" />
-    <string name="search_keywords_pdf_page_numbers" />
     <string name="search_keywords_pdf_ocr">pdf ocr 텍스트는 검색 가능한 추출을 인식합니다.</string>
-    <string name="search_keywords_pdf_watermark" />
-    <string name="search_keywords_pdf_signature" />
-    <string name="search_keywords_pdf_protect" />
     <string name="search_keywords_pdf_unlock">PDF 잠금 해제 비밀번호 해독 보호 제거</string>
-    <string name="search_keywords_pdf_compress" />
-    <string name="search_keywords_pdf_grayscale" />
-    <string name="search_keywords_pdf_repair" />
-    <string name="search_keywords_pdf_metadata" />
-    <string name="search_keywords_pdf_remove_pages" />
-    <string name="search_keywords_pdf_crop" />
     <string name="search_keywords_pdf_flatten">PDF 병합 주석 양식 레이어</string>
     <string name="search_keywords_pdf_extract_images">PDF 추출 이미지 사진</string>
-    <string name="search_keywords_pdf_zip_convert" />
-    <string name="search_keywords_pdf_print" />
-    <string name="search_keywords_pdf_preview" />
     <string name="search_keywords_pdf_images_to_pdf">이미지를 PDF로 변환 jpg JPEG png 문서</string>
     <string name="search_keywords_pdf_extract_pages">PDF를 이미지 페이지로 내보내기 jpg png</string>
     <string name="search_keywords_pdf_remove_annotations">PDF 주석 주석 제거 제거</string>

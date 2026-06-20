@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -2067,7 +2066,7 @@
     <string name="preset_info_pattern_description">Вставляет имя примененной предустановки в имя файла, чтобы вы могли легко запомнить, как было обработано изображение.</string>
     <string name="scale_mode_pattern_description">Отображает режим масштабирования изображения, используемый во время обработки, помогая различать изображения с измененным размером, обрезанные или подогнанные.</string>
     <string name="suffix_pattern_description">Пользовательский текст, помещаемый в конце имени файла, полезный для управления версиями, например _v2, _edited или _final.</string>
-    <string name="extension_pattern_description">Расширение файла (png, jpg, webp и т. д.) автоматически соответствует фактическому сохраненному формату.</string>
+    <string name="extension_pattern_description">Расширение файла (png, jpg, webp и т. д.) автоматически соответствует фактическому сохраненному формату.</string>
     <string name="formatted_timestamp_pattern_description">Настраиваемая временная метка, позволяющая определить собственный формат по спецификации Java для идеальной сортировки.</string>
     <string name="fling_type">Тип броска</string>
     <string name="motion_duration_scale">Масштаб длительности анимаций</string>

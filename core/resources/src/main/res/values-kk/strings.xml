@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
     <string name="image_not_saved_sub">Қазір шықсаңыз, барлық сақталмаған өңдеме жоғалады</string>
@@ -905,7 +904,7 @@
     <string name="engine_mode">Қозғалтқыш режимі</string>
     <string name="legacy">Мұра</string>
     <string name="lstm_network">LSTM желісі</string>
-    <string name="legacy_and_lstm">Legacy &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
     <string name="convert">Түрлендіру</string>
     <string name="convert_sub">Кескін топтамаларын берілген пішімге түрлендіру</string>
     <string name="add_new_folder">Жаңа қалта қосу</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Барлық ендірілген құжат кескіндерін сұр реңкке түрлендіріңіз</string>
     <string name="compress_pdf">PDF файлын қысыңыз</string>
     <string name="compress_pdf_sub">Бөлісуді жеңілдету үшін құжат файлының өлшемін оңтайландырыңыз</string>
-    <string name="repair_info">ImageToolbox ішкі айқас сілтеме кестесін қайта құрады және файл құрылымын нөлден бастап қайта жасайды. Бұл \\"ашу мүмкін емес\\" көптеген файлдарға кіру рұқсатын қалпына келтіре алады.</string>
+    <string name="repair_info">ImageToolbox ішкі айқас сілтеме кестесін қайта құрады және файл құрылымын нөлден бастап қайта жасайды. Бұл \\\"ашу мүмкін емес\\\" көптеген файлдарға кіру рұқсатын қалпына келтіре алады.</string>
     <string name="grayscale_info">Бұл құрал барлық құжат кескіндерін сұр реңкке түрлендіреді. Басып шығару және файл өлшемін азайту үшін ең жақсы</string>
     <string name="metadata">Метадеректер</string>
     <string name="metadata_pdf_sub">Құпиялықты жақсарту үшін құжат сипаттарын өңдеңіз</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">Шейдер атауы бос болмауы керек.</string>
     <string name="shader_error_blank_source">Шейдер көзі бос болмауы керек.</string>
     <string name="shader_error_unsupported_characters">Шейдер көзінде қолдау көрсетілмейтін таңбалар бар: %1$s. Тек ASCII GLSL көзін пайдаланыңыз.</string>
-    <string name="shader_error_duplicate_parameter">\\"%1$s\\" параметрі бірнеше рет жарияланған.</string>
+    <string name="shader_error_duplicate_parameter">\\\"%1$s\\\" параметрі бірнеше рет жарияланған.</string>
     <string name="shader_error_blank_parameter_name">Параметр атаулары бос болмауы керек.</string>
-    <string name="shader_error_reserved_parameter_name">\\"%1$s\\" параметрі сақталған GPUImage атауын пайдаланады.</string>
-    <string name="shader_error_invalid_parameter_name">\\"%1$s\\" параметрі жарамды GLSL идентификаторы болуы керек.</string>
-    <string name="shader_error_invalid_value_type">\\"%1$s\\" параметрінде \\"%3$s\\" %2$s мәні бар, күтілетін \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">\\"%1$s\\" параметрі bool мәндері үшін min немесе max мәндерін анықтай алмайды.</string>
-    <string name="shader_error_min_greater_than_max">\\"%1$s\\" параметрінде min мәні максимумнан үлкен.</string>
-    <string name="shader_error_default_lower_than_min">\\"%1$s\\" әдепкі параметрі мин. мәнінен төмен.</string>
-    <string name="shader_error_default_greater_than_max">Параметр \\"%1$s\\" әдепкі мәннен үлкен.</string>
-    <string name="shader_error_missing_input_texture">Шейдер \\"uniform sampler2D %1$s;\\" жариялауы керек.</string>
-    <string name="shader_error_missing_texture_coordinate">Шейдер \\"өзгермелі vec2 %1$s;\\" жариялауы керек.</string>
-    <string name="shader_error_missing_main_function">Шейдер \\"void main()\\" анықтауы керек.</string>
+    <string name="shader_error_reserved_parameter_name">\\\"%1$s\\\" параметрі сақталған GPUImage атауын пайдаланады.</string>
+    <string name="shader_error_invalid_parameter_name">\\\"%1$s\\\" параметрі жарамды GLSL идентификаторы болуы керек.</string>
+    <string name="shader_error_invalid_value_type">\\\"%1$s\\\" параметрінде \\\"%3$s\\\" %2$s мәні бар, күтілетін \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">\\\"%1$s\\\" параметрі bool мәндері үшін min немесе max мәндерін анықтай алмайды.</string>
+    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" параметрінде min мәні максимумнан үлкен.</string>
+    <string name="shader_error_default_lower_than_min">\\\"%1$s\\\" әдепкі параметрі мин. мәнінен төмен.</string>
+    <string name="shader_error_default_greater_than_max">Параметр \\\"%1$s\\\" әдепкі мәннен үлкен.</string>
+    <string name="shader_error_missing_input_texture">Шейдер \\\"uniform sampler2D %1$s;\\\" жариялауы керек.</string>
+    <string name="shader_error_missing_texture_coordinate">Шейдер \\\"өзгермелі vec2 %1$s;\\\" жариялауы керек.</string>
+    <string name="shader_error_missing_main_function">Шейдер \\\"void main()\\\" анықтауы керек.</string>
     <string name="shader_error_missing_fragment_color">Шейдер gl_FragColor үшін түсті жазуы керек.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage шейдерлеріне қолдау көрсетілмейді. GPUImage\'s void main() келісімін пайдаланыңыз.</string>
-    <string name="shader_error_shadertoy_i_time">\\"iTime\\" анимациялық ShaderToy формасына қолдау көрсетілмейді.</string>
-    <string name="shader_error_shadertoy_i_frame">Анимациялық ShaderToy формасына \\"iFrame\\" қолдау көрсетілмейді.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy формасына \\"iResolution\\" қолдау көрсетілмейді.</string>
+    <string name="shader_error_shadertoy_i_time">\\\"iTime\\\" анимациялық ShaderToy формасына қолдау көрсетілмейді.</string>
+    <string name="shader_error_shadertoy_i_frame">Анимациялық ShaderToy формасына \\\"iFrame\\\" қолдау көрсетілмейді.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy формасына \\\"iResolution\\\" қолдау көрсетілмейді.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel текстураларына қолдау көрсетілмейді.</string>
     <string name="shader_error_external_textures">Сыртқы текстураларға қолдау көрсетілмейді.</string>
     <string name="shader_error_external_texture_extensions">Сыртқы текстура кеңейтіміне қолдау көрсетілмейді.</string>
     <string name="shader_error_libretro_parameters">Libretro шейдер параметрлеріне қолдау көрсетілмейді.</string>
-    <string name="shader_error_extra_input_texture">Тек бір енгізу текстурасына қолдау көрсетіледі. \\"униформа %1$s %2$s;\\" алып тастаңыз.</string>
-    <string name="shader_error_missing_uniform">\\"%1$s\\" параметрі \\"uniform %2$s %1$s;\\" ретінде жариялануы керек.</string>
-    <string name="shader_error_wrong_uniform_type">\\"%1$s\\" параметрі \\"uniform %2$s %1$s;\\" деп жарияланды, күтілетін \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Тек бір енгізу текстурасына қолдау көрсетіледі. \\\"униформа %1$s %2$s;\\\" алып тастаңыз.</string>
+    <string name="shader_error_missing_uniform">\\\"%1$s\\\" параметрі \\\"uniform %2$s %1$s;\\\" ретінде жариялануы керек.</string>
+    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" параметрі \\\"uniform %2$s %1$s;\\\" деп жарияланды, күтілетін \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Шейдер файлы бос.</string>
     <string name="shader_parse_error_not_itshader_json">Шейдер файлы нұсқасы, аты және шейдер өрістері бар .itshader JSON нысаны болуы керек.</string>
     <string name="shader_parse_error_invalid_json">Шейдер файлы JSON жарамсыз немесе .itshader пішіміне сәйкес келмейді.</string>
-    <string name="shader_parse_error_missing_field">\\"%1$s\\" өрісі қажет.</string>
+    <string name="shader_parse_error_missing_field">\\\"%1$s\\\" өрісі қажет.</string>
     <string name="shader_parse_error_missing_param_field">%1$s қажет.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" қолданылмайды. Қолдау көрсетілетін түрлер: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s \\"%2$s\\" параметрлері үшін қажет.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" қолданылмайды. Қолдау көрсетілетін түрлер: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s \\\"%2$s\\\" параметрлері үшін қажет.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s шекті сан болуы керек.</string>
     <string name="shader_parse_error_integer_expected">%1$s бүтін сан болуы керек.</string>
     <string name="shader_parse_error_bool_expected">%1$s шын немесе жалған болуы керек.</string>

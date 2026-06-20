@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -1067,7 +1065,7 @@
     <string name="lanczos3_jinc_sub">Wariant filtru Lanczos 3, który wykorzystuje funkcję jinc, zapewniając wysokiej jakości interpolację z minimalnymi artefaktami.</string>
     <string name="auto_crop">Automatyczne kadrowanie</string>
     <string name="triangle">Trójkąt</string>
-    <string name="custom_params_info" tools:ignore="TypographyDashes">Opcje powinny być wprowadzane zgodnie z tym wzorem: „--{nazwa_opcji} {wartość}\</string>
+    <string name="custom_params_info" tools:ignore="TypographyDashes">Opcje powinny być wprowadzane zgodnie z tym wzorem: „--{nazwa_opcji} {wartość}\\</string>
     <string name="clustered_2x2_dithering">Dithering klastrowy 2x2</string>
     <string name="links_preview_sub">Umożliwia pobieranie podglądu linków w miejscach, w których można uzyskać tekst (QRCode, OCR itp.).</string>
     <string name="tag_exposure_index">Wskaźnik ekspozycji</string>
@@ -2371,7 +2369,7 @@
     <string name="shader_error_default_greater_than_max">Parametr „%1$s” domyślnie jest większy niż maks.</string>
     <string name="shader_error_missing_input_texture">Moduł cieniujący musi zadeklarować „jednolity próbnik2D %1$s;”.</string>
     <string name="shader_error_missing_texture_coordinate">Moduł cieniujący musi zadeklarować „zmienny vec2 %1$s;”.</string>
-    <string name="shader_error_missing_main_function">Shader musi zdefiniować `void main()\\".</string>
+    <string name="shader_error_missing_main_function">Shader musi zdefiniować `void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader musi zapisać kolor do gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shadery nie są obsługiwane. Użyj umowy void main() GPUImage.</string>
     <string name="shader_error_shadertoy_i_time">Animowany uniform ShaderToy „iTime” nie jest obsługiwany.</string>

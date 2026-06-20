@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">I-convert ang lahat ng mga larawang naka-embed na dokumento sa grayscale</string>
     <string name="compress_pdf">I-compress ang PDF</string>
     <string name="compress_pdf_sub">I-optimize ang laki ng iyong file ng dokumento para sa mas madaling pagbabahagi</string>
-    <string name="repair_info">Ang ImageToolbox ay muling itinatayo ang panloob na cross-reference na talahanayan at muling nabuo ang istraktura ng file mula sa simula. Maaari nitong ibalik ang access sa maraming file na \\"hindi mabubuksan\\"</string>
+    <string name="repair_info">Ang ImageToolbox ay muling itinatayo ang panloob na cross-reference na talahanayan at muling nabuo ang istraktura ng file mula sa simula. Maaari nitong ibalik ang access sa maraming file na \\\"hindi mabubuksan\\\"</string>
     <string name="grayscale_info">Kino-convert ng tool na ito ang lahat ng mga imahe ng dokumento sa grayscale. Pinakamahusay para sa pag-print at pagbabawas ng laki ng file</string>
     <string name="metadata">Metadata</string>
     <string name="metadata_pdf_sub">I-edit ang mga katangian ng dokumento para sa mas mahusay na privacy</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">Hindi dapat blangko ang pangalan ng shader.</string>
     <string name="shader_error_blank_source">Hindi dapat blangko ang pinagmulan ng shader.</string>
     <string name="shader_error_unsupported_characters">Ang pinagmulan ng shader ay naglalaman ng mga hindi sinusuportahang character: %1$s. Gamitin lang ang ASCII GLSL source.</string>
-    <string name="shader_error_duplicate_parameter">Ang parameter na \\"%1$s\\" ay idineklara nang higit sa isang beses.</string>
+    <string name="shader_error_duplicate_parameter">Ang parameter na \\\"%1$s\\\" ay idineklara nang higit sa isang beses.</string>
     <string name="shader_error_blank_parameter_name">Hindi dapat blangko ang mga pangalan ng parameter.</string>
-    <string name="shader_error_reserved_parameter_name">Gumagamit ang parameter na \\"%1$s\\" ng nakareserbang pangalan ng GPUImage.</string>
-    <string name="shader_error_invalid_parameter_name">Ang parameter na \\"%1$s\\" ay dapat na isang wastong GLSL identifier.</string>
-    <string name="shader_error_invalid_value_type">Ang parameter na \\"%1$s\\" ay may %2$s uri ng halaga na \\"%3$s\\", inaasahang \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Hindi matukoy ng parameter na \\"%1$s\\" ang min o max para sa mga halaga ng bool.</string>
-    <string name="shader_error_min_greater_than_max">Ang parameter na \\"%1$s\\" ay may min na mas malaki kaysa sa max.</string>
-    <string name="shader_error_default_lower_than_min">Ang parameter na \\"%1$s\\" ay mas mababa sa min.</string>
-    <string name="shader_error_default_greater_than_max">Ang parameter na \\"%1$s\\" ay mas malaki kaysa sa max.</string>
-    <string name="shader_error_missing_input_texture">Dapat ideklara ng shader ang \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Dapat ideklara ng shader ang \\"varying vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Dapat tukuyin ng shader ang \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Gumagamit ang parameter na \\\"%1$s\\\" ng nakareserbang pangalan ng GPUImage.</string>
+    <string name="shader_error_invalid_parameter_name">Ang parameter na \\\"%1$s\\\" ay dapat na isang wastong GLSL identifier.</string>
+    <string name="shader_error_invalid_value_type">Ang parameter na \\\"%1$s\\\" ay may %2$s uri ng halaga na \\\"%3$s\\\", inaasahang \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Hindi matukoy ng parameter na \\\"%1$s\\\" ang min o max para sa mga halaga ng bool.</string>
+    <string name="shader_error_min_greater_than_max">Ang parameter na \\\"%1$s\\\" ay may min na mas malaki kaysa sa max.</string>
+    <string name="shader_error_default_lower_than_min">Ang parameter na \\\"%1$s\\\" ay mas mababa sa min.</string>
+    <string name="shader_error_default_greater_than_max">Ang parameter na \\\"%1$s\\\" ay mas malaki kaysa sa max.</string>
+    <string name="shader_error_missing_input_texture">Dapat ideklara ng shader ang \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Dapat ideklara ng shader ang \\\"varying vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Dapat tukuyin ng shader ang \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Dapat magsulat ng kulay ang shader sa gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">Ang ShaderToy mainImage shaders ay hindi suportado. Gamitin ang void main() na kontrata ng GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Ang animated na ShaderToy uniform na \\"iTime\\" ay hindi suportado.</string>
-    <string name="shader_error_shadertoy_i_frame">Ang animated na ShaderToy uniform na \\"iFrame\\" ay hindi suportado.</string>
-    <string name="shader_error_shadertoy_i_resolution">Hindi sinusuportahan ang unipormeng ShaderToy na \\"iResolution\\".</string>
+    <string name="shader_error_shadertoy_i_time">Ang animated na ShaderToy uniform na \\\"iTime\\\" ay hindi suportado.</string>
+    <string name="shader_error_shadertoy_i_frame">Ang animated na ShaderToy uniform na \\\"iFrame\\\" ay hindi suportado.</string>
+    <string name="shader_error_shadertoy_i_resolution">Hindi sinusuportahan ang unipormeng ShaderToy na \\\"iResolution\\\".</string>
     <string name="shader_error_shadertoy_i_channel">Hindi sinusuportahan ang mga texture ng ShaderToy iChannel.</string>
     <string name="shader_error_external_textures">Ang mga panlabas na texture ay hindi suportado.</string>
     <string name="shader_error_external_texture_extensions">Hindi sinusuportahan ang mga external na texture extension.</string>
     <string name="shader_error_libretro_parameters">Ang mga parameter ng Libretro shader ay hindi suportado.</string>
-    <string name="shader_error_extra_input_texture">Isang input texture lang ang sinusuportahan. Alisin ang \\"uniform %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Dapat ideklara ang parameter na \\"%1$s\\" bilang \\"uniporme %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Ang parameter na \\"%1$s\\" ay idineklara bilang \\"uniporme %2$s %1$s;\\", inaasahang \\"uniporme %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Isang input texture lang ang sinusuportahan. Alisin ang \\\"uniform %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Dapat ideklara ang parameter na \\\"%1$s\\\" bilang \\\"uniporme %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Ang parameter na \\\"%1$s\\\" ay idineklara bilang \\\"uniporme %2$s %1$s;\\\", inaasahang \\\"uniporme %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Walang laman ang shader file.</string>
     <string name="shader_parse_error_not_itshader_json">Ang shader file ay dapat na .itshader JSON object na may bersyon, pangalan, at shader na mga field.</string>
     <string name="shader_parse_error_invalid_json">Ang shader file ay hindi wastong JSON o hindi tumutugma sa .itshader na format.</string>
-    <string name="shader_parse_error_missing_field">Kinakailangan ang field na \\"%1$s\\".</string>
+    <string name="shader_parse_error_missing_field">Kinakailangan ang field na \\\"%1$s\\\".</string>
     <string name="shader_parse_error_missing_param_field">Kinakailangan ang %1$s.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" ay hindi suportado. Mga sinusuportahang uri: %3$s.</string>
-    <string name="shader_parse_error_missing_value">Kinakailangan ang %1$s para sa mga parameter na \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" ay hindi suportado. Mga sinusuportahang uri: %3$s.</string>
+    <string name="shader_parse_error_missing_value">Kinakailangan ang %1$s para sa mga parameter na \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">Ang %1$s ay dapat na isang may hangganang numero.</string>
     <string name="shader_parse_error_integer_expected">Dapat ay isang integer ang %1$s.</string>
     <string name="shader_parse_error_bool_expected">Dapat totoo o mali ang %1$s.</string>

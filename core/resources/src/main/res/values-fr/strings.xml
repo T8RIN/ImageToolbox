@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -1433,7 +1432,7 @@
     <string name="tesseract_options">Options de tesseract</string>
     <string name="tesseract_options_sub">Appliquer quelques variables d\'entrée pour le moteur tesseract</string>
     <string name="custom_options">Options personnalisées</string>
-    <string name="custom_params_info">Les options doivent être saisies en suivant ce modèle : \"--{option_name} {value}\"</string>
+    <string name="custom_params_info">Les options doivent être saisies en suivant ce modèle : \"--{option_name} {value}\"</string>
     <string name="auto_crop">Recadrage automatique</string>
     <string name="free_corners">Coins Libres</string>
     <string name="free_corners_sub">Recadrer l\'image par polygone, cela corrige également la perspective</string>
@@ -1464,7 +1463,7 @@
     <string name="zigzag_ratio">Rapport de zigzag</string>
     <string name="create_shortcut">Créer un raccourci</string>
     <string name="create_shortcut_title">Choisissez l\'outil à épingler</string>
-    <string name="create_shortcut_subtitle">L\'outil sera ajouté à l\'écran d\'accueil de votre lanceur en tant que raccourci, utilisez-le en combinaison avec le paramètre « Ignorer la sélection de fichiers » pour obtenir le comportement souhaité.</string>
+    <string name="create_shortcut_subtitle">L\'outil sera ajouté à l\'écran d\'accueil de votre lanceur en tant que raccourci, utilisez-le en combinaison avec le paramètre « Ignorer la sélection de fichiers » pour obtenir le comportement souhaité.</string>
     <string name="dont_stack_frames">N\'empilez pas les cadres</string>
     <string name="dont_stack_frames_sub">Permet de supprimer les images précédentes, afin qu\'elles ne s\'empilent pas les unes sur les autres</string>
     <string name="crossfade">Fondu enchaîné</string>
@@ -1545,7 +1544,7 @@
     <string name="match">Correspondre!</string>
     <string name="difference">Différence</string>
     <string name="match_sub">Les sommes de contrôle sont égales, cela peut être sûr</string>
-    <string name="difference_sub">Les sommes de contrôle ne sont pas égales, le fichier peut être dangereux !</string>
+    <string name="difference_sub">Les sommes de contrôle ne sont pas égales, le fichier peut être dangereux !</string>
     <string name="mesh_gradients">Dégradés de maillage</string>
     <string name="collection_mesh_gradients_sub">Regardez la collection en ligne de dégradés de maillage</string>
     <string name="wrong_font">Seules les polices TTF et OTF peuvent être importées</string>
@@ -1747,7 +1746,7 @@
     <string name="processing_screenshot">Capture d\'écran du traitement</string>
     <string name="screenshot_not_captured_try_again">Capture d\'écran non capturée, réessayez</string>
     <string name="skipped_saving">Enregistrement ignoré</string>
-    <string name="skipped_saving_multiple">%1$s fichiers ignorés</string>
+    <string name="skipped_saving_multiple">%1$s fichiers ignorés</string>
     <string name="allow_skip_if_larger">Autoriser le saut si la taille est plus grande</string>
     <string name="allow_skip_if_larger_sub">Certains outils seront autorisés à ignorer l\'enregistrement des images si la taille du fichier résultant est plus grande que l\'original.</string>
     <string name="qr_type_calendar_event">Événement du calendrier</string>
@@ -1845,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Image de filigrane cachée détectée</string>
     <string name="this_image_was_hidden">Cette image était cachée</string>
     <string name="generative_inpaint">Inpainting génératif</string>
-    <string name="generative_inpaint_sub">Vous permet de supprimer des objets dans une image à l\'aide d\'un modèle d\'IA, sans recourir à OpenCV. Pour utiliser cette fonctionnalité, l\'application téléchargera le modèle requis (~ 200 Mo) depuis GitHub.</string>
+    <string name="generative_inpaint_sub">Vous permet de supprimer des objets dans une image à l\'aide d\'un modèle d\'IA, sans recourir à OpenCV. Pour utiliser cette fonctionnalité, l\'application téléchargera le modèle requis (~ 200 Mo) depuis GitHub.</string>
     <string name="generative_inpaint_ready_sub">Vous permet de supprimer des objets dans une image à l\'aide d\'un modèle d\'IA, sans recourir à OpenCV. Cela pourrait être une opération de longue durée</string>
     <string name="error_level_analysis">Analyse du niveau d\'erreur</string>
     <string name="luminance_gradient">Dégradé de luminance</string>
@@ -1929,7 +1928,7 @@
     <string name="note_chunk_info">Les images de plus de %1$s px seront découpées et traitées en morceaux, superposés pour éviter les coutures visibles.</string>
     <string name="large_chunk_warning">Les grandes tailles peuvent provoquer une instabilité avec les appareils bas de gamme</string>
     <string name="select_one_to_start">Sélectionnez-en un pour commencer</string>
-    <string name="delete_model_sub">Voulez-vous supprimer le modèle %1$s ? Vous devrez le télécharger à nouveau</string>
+    <string name="delete_model_sub">Voulez-vous supprimer le modèle %1$s ? Vous devrez le télécharger à nouveau</string>
     <string name="confirm">Confirmer</string>
     <string name="models">Modèles</string>
     <string name="downloaded_models">Modèles téléchargés</string>
@@ -1985,14 +1984,14 @@
     <string name="type_anime">Anime</string>
     <string name="type_scans">Analyses</string>
     <string name="type_upscale">Haut de gamme</string>
-    <string name="model_realesrgan_x4v3">Upscaler X4 pour les images générales ; petit modèle qui utilise moins de GPU et de temps, avec un flou et un débruit modérés.</string>
+    <string name="model_realesrgan_x4v3">Upscaler X4 pour les images générales ; petit modèle qui utilise moins de GPU et de temps, avec un flou et un débruit modérés.</string>
     <string name="model_realesrgan_x2plus">Upscaler X2 pour les images générales, préservant les textures et les détails naturels.</string>
     <string name="model_realesrgan_x4plus">Upscaler X4 pour des images générales avec des textures améliorées et des résultats réalistes.</string>
-    <string name="model_realesrgan_x4plus_anime">Upscaler X4 optimisé pour les images animées ; 6 blocs RRDB pour des lignes et des détails plus nets.</string>
+    <string name="model_realesrgan_x4plus_anime">Upscaler X4 optimisé pour les images animées ; 6 blocs RRDB pour des lignes et des détails plus nets.</string>
     <string name="model_realesrnet_x4plus">L\'upscaler X4 avec perte MSE produit des résultats plus fluides et des artefacts réduits pour les images générales.</string>
-    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler optimisé pour les images animées ; Variante 4B32F avec des détails plus nets et des lignes douces.</string>
-    <string name="model_ultrasharp_v2_x4">Modèle X4 UltraSharp V2 pour les images générales ; met l\'accent sur la netteté et la clarté.</string>
-    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite ; plus rapide et plus petit, préserve les détails tout en utilisant moins de mémoire GPU.</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler optimisé pour les images animées ; Variante 4B32F avec des détails plus nets et des lignes douces.</string>
+    <string name="model_ultrasharp_v2_x4">Modèle X4 UltraSharp V2 pour les images générales ; met l\'accent sur la netteté et la clarté.</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite ; plus rapide et plus petit, préserve les détails tout en utilisant moins de mémoire GPU.</string>
     <string name="model_rmbg_1_4">Modèle léger pour une suppression rapide de l’arrière-plan. Performances et précision équilibrées. Fonctionne avec des portraits, des objets et des scènes. Recommandé pour la plupart des cas d\'utilisation.</string>
     <string name="type_removebg">Supprimer la glycémie</string>
     <string name="horizontal_border_thickness">Épaisseur de la bordure horizontale</string>
@@ -2007,7 +2006,7 @@
     <string name="model_u2net">Modèle de segmentation d\'image de haute précision pour la suppression de l\'arrière-plan</string>
     <string name="model_u2netp">Version allégée de U2Net pour une suppression plus rapide de l\'arrière-plan avec une utilisation moindre de la mémoire.</string>
     <string name="model_ddcolor">Le modèle complet DDColor offre une colorisation de haute qualité pour les images générales avec un minimum d\'artefacts. Meilleur choix de tous les modèles de colorisation.</string>
-    <string name="model_ddcolor_artistic">DDColor Ensembles de données artistiques formés et privés ; produit des résultats de colorisation diversifiés et artistiques avec moins d’artefacts de couleur irréalistes.</string>
+    <string name="model_ddcolor_artistic">DDColor Ensembles de données artistiques formés et privés ; produit des résultats de colorisation diversifiés et artistiques avec moins d’artefacts de couleur irréalistes.</string>
     <string name="model_birefnet">Modèle BiRefNet léger basé sur Swin Transformer pour une suppression précise de l\'arrière-plan.</string>
     <string name="model_inspyrenet">Suppression d’arrière-plan de haute qualité avec des bords nets et une excellente préservation des détails, en particulier sur les objets complexes et les arrière-plans délicats.</string>
     <string name="model_isnet">Modèle de suppression d\'arrière-plan qui produit des masques précis avec des bords lisses, adaptés aux objets généraux et à une préservation modérée des détails.</string>
@@ -2053,7 +2052,7 @@
     <string name="original_filename_pattern_description">Utilise le nom de fichier d\'origine sans extension, vous aidant ainsi à conserver l\'identification de la source intacte.</string>
     <string name="width_pattern_description">La largeur de l\'image en pixels, utile pour suivre les changements de résolution ou la mise à l\'échelle des résultats.</string>
     <string name="height_pattern_description">La hauteur de l\'image en pixels, utile lorsque vous travaillez avec des proportions ou des exportations.</string>
-    <string name="random_numbers_pattern_description">Génère des chiffres aléatoires pour garantir des noms de fichiers uniques ; ajoutez plus de chiffres pour plus de sécurité contre les doublons.</string>
+    <string name="random_numbers_pattern_description">Génère des chiffres aléatoires pour garantir des noms de fichiers uniques ; ajoutez plus de chiffres pour plus de sécurité contre les doublons.</string>
     <string name="sequence_number_pattern_description">Compteur à incrémentation automatique pour les exportations par lots, idéal lors de l\'enregistrement de plusieurs images en une seule session.</string>
     <string name="preset_info_pattern_description">Insère le nom du préréglage appliqué dans le nom de fichier afin que vous puissiez facilement vous rappeler comment l\'image a été traitée.</string>
     <string name="scale_mode_pattern_description">Affiche le mode de mise à l\'échelle de l\'image utilisé pendant le traitement, permettant de distinguer les images redimensionnées, recadrées ou ajustées.</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Convertir toutes les images intégrées au document en niveaux de gris</string>
     <string name="compress_pdf">Compresser un PDF</string>
     <string name="compress_pdf_sub">Optimisez la taille de votre fichier de document pour un partage plus facile</string>
-    <string name="repair_info">ImageToolbox reconstruit la table de références croisées interne et régénère la structure des fichiers à partir de zéro. Cela peut restaurer l\'accès à de nombreux fichiers qui \\"ne peuvent pas être ouverts\\"</string>
+    <string name="repair_info">ImageToolbox reconstruit la table de références croisées interne et régénère la structure des fichiers à partir de zéro. Cela peut restaurer l\'accès à de nombreux fichiers qui \\\"ne peuvent pas être ouverts\\\"</string>
     <string name="grayscale_info">Cet outil convertit toutes les images du document en niveaux de gris. Idéal pour imprimer et réduire la taille des fichiers</string>
     <string name="metadata">Métadonnées</string>
     <string name="metadata_pdf_sub">Modifier les propriétés du document pour une meilleure confidentialité</string>
@@ -2195,7 +2194,7 @@
     <string name="markup_project_open_failed">Impossible d\'ouvrir le projet Image Toolbox</string>
     <string name="markup_project_missing_data">Le projet Image Toolbox ne contient pas de données de projet</string>
     <string name="markup_project_corrupted">Le projet Image Toolbox est corrompu</string>
-    <string name="unsupported_markup_project_version">Version du projet Image Toolbox non prise en charge : %1$d</string>
+    <string name="unsupported_markup_project_version">Version du projet Image Toolbox non prise en charge : %1$d</string>
     <string name="save_markup_project">Enregistrer le projet</string>
     <string name="save_markup_project_sub">Stockez les calques, l\'arrière-plan et l\'historique des modifications dans un fichier de projet modifiable</string>
     <string name="failed_to_open">Échec de l\'ouverture</string>
@@ -2231,7 +2230,7 @@
     <string name="oom_description">Pas assez de mémoire pour terminer cette action. Veuillez essayer d\'utiliser une image plus petite, de fermer d\'autres applications ou de redémarrer l\'application.</string>
     <string name="parallel_workers">Travailleurs parallèles</string>
     <string name="skipped_images_warning">Ces images n\'ont pas été enregistrées car les fichiers convertis seraient plus volumineux que les originaux. Vérifiez cette liste avant de supprimer les images originales.</string>
-    <string name="skipped_saving_count">Fichiers ignorés : %1$s</string>
+    <string name="skipped_saving_count">Fichiers ignorés : %1$s</string>
     <string name="app_logs">Journaux d\'applications</string>
     <string name="app_logs_sub">Afficher les journaux de l\'application pour repérer les problèmes</string>
     <string name="favorite_tools_in_grouped_mode">Favoris dans les outils groupés</string>
@@ -2321,7 +2320,7 @@
     <string name="debug_menu">Menu de débogage</string>
     <string name="debug_menu_sub">Menu permettant de tester les fonctions de l\'application. Il n\'est pas destiné à apparaître dans la version de production.</string>
     <string name="provider">Fournisseur</string>
-    <string name="download_paddle_ocr_description">PaddleOCR nécessite des modèles ONNX supplémentaires sur votre appareil. Voulez-vous télécharger les données %1$s ?</string>
+    <string name="download_paddle_ocr_description">PaddleOCR nécessite des modèles ONNX supplémentaires sur votre appareil. Voulez-vous télécharger les données %1$s ?</string>
     <string name="paddle_ocr_model_universal">Universel</string>
     <string name="paddle_ocr_model_korean">coréen</string>
     <string name="paddle_ocr_model_latin">latin</string>
@@ -2353,41 +2352,41 @@
     <string name="reset_shader">Réinitialiser le shader</string>
     <string name="reset_shader_sub">Le brouillon actuel du shader sera effacé</string>
     <string name="invalid_shader">Shader invalide</string>
-    <string name="shader_error_unsupported_version">Version de shader non prise en charge %1$d. Version prise en charge : %2$d.</string>
+    <string name="shader_error_unsupported_version">Version de shader non prise en charge %1$d. Version prise en charge : %2$d.</string>
     <string name="shader_error_blank_name">Le nom du shader ne doit pas être vide.</string>
     <string name="shader_error_blank_source">La source du shader ne doit pas être vide.</string>
-    <string name="shader_error_unsupported_characters">La source du shader contient des caractères non pris en charge : %1$s. Utilisez uniquement la source ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Le paramètre \\"%1$s\\" est déclaré plusieurs fois.</string>
+    <string name="shader_error_unsupported_characters">La source du shader contient des caractères non pris en charge : %1$s. Utilisez uniquement la source ASCII GLSL.</string>
+    <string name="shader_error_duplicate_parameter">Le paramètre \\\"%1$s\\\" est déclaré plusieurs fois.</string>
     <string name="shader_error_blank_parameter_name">Les noms de paramètres ne doivent pas être vides.</string>
-    <string name="shader_error_reserved_parameter_name">Le paramètre \\"%1$s\\" utilise un nom GPUImage réservé.</string>
-    <string name="shader_error_invalid_parameter_name">Le paramètre \\"%1$s\\" doit être un identifiant GLSL valide.</string>
-    <string name="shader_error_invalid_value_type">Le paramètre \\"%1$s\\" a le type de valeur %2$s \\"%3$s\\", attendu \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Le paramètre \\"%1$s\\" ne peut pas définir min ou max pour les valeurs booléennes.</string>
-    <string name="shader_error_min_greater_than_max">Le paramètre \\"%1$s\\" a un minimum supérieur au maximum.</string>
-    <string name="shader_error_default_lower_than_min">Le paramètre \\"%1$s\\" par défaut est inférieur au min.</string>
-    <string name="shader_error_default_greater_than_max">Le paramètre \\"%1$s\\" par défaut est supérieur au maximum.</string>
-    <string name="shader_error_missing_input_texture">Le shader doit déclarer \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Le shader doit déclarer \\"varying vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Le shader doit définir \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Le paramètre \\\"%1$s\\\" utilise un nom GPUImage réservé.</string>
+    <string name="shader_error_invalid_parameter_name">Le paramètre \\\"%1$s\\\" doit être un identifiant GLSL valide.</string>
+    <string name="shader_error_invalid_value_type">Le paramètre \\\"%1$s\\\" a le type de valeur %2$s \\\"%3$s\\\", attendu \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Le paramètre \\\"%1$s\\\" ne peut pas définir min ou max pour les valeurs booléennes.</string>
+    <string name="shader_error_min_greater_than_max">Le paramètre \\\"%1$s\\\" a un minimum supérieur au maximum.</string>
+    <string name="shader_error_default_lower_than_min">Le paramètre \\\"%1$s\\\" par défaut est inférieur au min.</string>
+    <string name="shader_error_default_greater_than_max">Le paramètre \\\"%1$s\\\" par défaut est supérieur au maximum.</string>
+    <string name="shader_error_missing_input_texture">Le shader doit déclarer \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Le shader doit déclarer \\\"varying vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Le shader doit définir \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Le shader doit écrire une couleur dans gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">Les shaders ShaderToy mainImage ne sont pas pris en charge. Utilisez le contrat void main() de GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">L\'uniforme ShaderToy animé « iTime » n\'est pas pris en charge.</string>
-    <string name="shader_error_shadertoy_i_frame">L\'uniforme ShaderToy animé « iFrame » n\'est pas pris en charge.</string>
+    <string name="shader_error_shadertoy_i_time">L\'uniforme ShaderToy animé « iTime » n\'est pas pris en charge.</string>
+    <string name="shader_error_shadertoy_i_frame">L\'uniforme ShaderToy animé « iFrame » n\'est pas pris en charge.</string>
     <string name="shader_error_shadertoy_i_resolution">L\'uniforme ShaderToy « iResolution » n\'est pas pris en charge.</string>
     <string name="shader_error_shadertoy_i_channel">Les textures ShaderToy iChannel ne sont pas prises en charge.</string>
     <string name="shader_error_external_textures">Les textures externes ne sont pas prises en charge.</string>
     <string name="shader_error_external_texture_extensions">Les extensions de texture externes ne sont pas prises en charge.</string>
     <string name="shader_error_libretro_parameters">Les paramètres du shader Libretro ne sont pas pris en charge.</string>
-    <string name="shader_error_extra_input_texture">Une seule texture d’entrée est prise en charge. Supprimez \\"uniforme %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Le paramètre \\"%1$s\\" doit être déclaré comme \\"uniform %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Le paramètre \\"%1$s\\" est déclaré comme \\"uniform %2$s %1$s;\\", attendu \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Une seule texture d’entrée est prise en charge. Supprimez \\\"uniforme %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Le paramètre \\\"%1$s\\\" doit être déclaré comme \\\"uniform %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Le paramètre \\\"%1$s\\\" est déclaré comme \\\"uniform %2$s %1$s;\\\", attendu \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Le fichier shader est vide.</string>
     <string name="shader_parse_error_not_itshader_json">Le fichier shader doit être un objet JSON .itshader avec des champs de version, de nom et de shader.</string>
     <string name="shader_parse_error_invalid_json">Le fichier Shader n\'est pas un JSON valide ou ne correspond pas au format .itshader.</string>
-    <string name="shader_parse_error_missing_field">Le champ \\"%1$s\\" est obligatoire.</string>
+    <string name="shader_parse_error_missing_field">Le champ \\\"%1$s\\\" est obligatoire.</string>
     <string name="shader_parse_error_missing_param_field">%1$s est requis.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" n\'est pas pris en charge. Types pris en charge : %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s est requis pour les paramètres \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" n\'est pas pris en charge. Types pris en charge : %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s est requis pour les paramètres \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s doit être un nombre fini.</string>
     <string name="shader_parse_error_integer_expected">%1$s doit être un entier.</string>
     <string name="shader_parse_error_bool_expected">%1$s doit être vrai ou faux.</string>
@@ -2431,7 +2430,7 @@
     <string name="help_tip_import_save_share_title">Importez, enregistrez et partagez les résultats</string>
     <string name="help_tip_import_save_share_subtitle">Comprendre le flux habituel depuis la sélection des entrées jusqu\'à l\'exportation du fichier modifié</string>
     <string name="help_tip_import_save_share_page_title">Suivez le flux d\'édition commun</string>
-    <string name="help_tip_import_save_share_description">La plupart des outils suivent le même rythme : choisissez la saisie, ajustez les options, prévisualisez, puis enregistrez ou partagez. Le détail important est que l\'enregistrement crée un fichier de sortie, tandis que le partage est généralement préférable pour un transfert rapide vers une autre application.</string>
+    <string name="help_tip_import_save_share_description">La plupart des outils suivent le même rythme : choisissez la saisie, ajustez les options, prévisualisez, puis enregistrez ou partagez. Le détail important est que l\'enregistrement crée un fichier de sortie, tandis que le partage est généralement préférable pour un transfert rapide vers une autre application.</string>
     <string name="help_tip_import_save_share_step_1">Choisissez un fichier pour les outils à image unique ou plusieurs fichiers pour les outils par lots lorsque le sélecteur le permet.</string>
     <string name="help_tip_import_save_share_step_2">Vérifiez les contrôles d\'aperçu et de sortie avant d\'enregistrer, en particulier les options de format, de qualité et de nom de fichier.</string>
     <string name="help_tip_import_save_share_step_3">Utilisez le partage pour un transfert rapide ou enregistrez lorsque vous avez besoin d\'une copie persistante dans le dossier sélectionné.</string>
@@ -2496,7 +2495,7 @@
     <string name="help_tip_resize_convert_page_title">Créer des copies redimensionnées</string>
     <string name="help_tip_resize_convert_description">Redimensionner et convertir est l\'outil principal pour les dimensions prévisibles et les fichiers de sortie plus légers. Utilisez-le lorsque la taille de l’image, le format de sortie et le comportement des métadonnées comptent tous en même temps.</string>
     <string name="help_tip_resize_convert_step_1">Choisissez une ou plusieurs images, puis choisissez si les dimensions, l\'échelle ou la taille du fichier sont les plus importantes.</string>
-    <string name="help_tip_resize_convert_step_2">Sélectionnez le format et la qualité de sortie ; utilisez PNG ou WebP lorsque la transparence doit être préservée.</string>
+    <string name="help_tip_resize_convert_step_2">Sélectionnez le format et la qualité de sortie ; utilisez PNG ou WebP lorsque la transparence doit être préservée.</string>
     <string name="help_tip_resize_convert_step_3">Prévisualisez le résultat, puis enregistrez ou partagez les copies générées sans modifier les originaux.</string>
     <string name="help_tip_resize_by_file_size_title">Redimensionner par taille de fichier</string>
     <string name="help_tip_resize_by_file_size_subtitle">Ciblez une limite de taille lorsqu\'un site Web, une messagerie ou un formulaire rejette des images volumineuses</string>
@@ -2566,7 +2565,7 @@
     <string name="help_tip_format_conversion_page_title">Choisissez le format du travail</string>
     <string name="help_tip_format_conversion_description">Différents formats sont meilleurs pour les photos, les captures d\'écran, la transparence, la compression ou la compatibilité. La conversion est plus sûre lorsque vous comprenez ce que l\'application de destination prend en charge et si la source contient des données alpha, des animations ou des métadonnées que vous souhaitez conserver.</string>
     <string name="help_tip_format_conversion_step_1">Utilisez JPEG pour les photos compatibles, PNG pour les images sans perte et alpha, et WebP pour le partage compact.</string>
-    <string name="help_tip_format_conversion_step_2">Ajustez la qualité lorsque le format le prend en charge ; des valeurs inférieures réduisent la taille mais peuvent ajouter des artefacts.</string>
+    <string name="help_tip_format_conversion_step_2">Ajustez la qualité lorsque le format le prend en charge ; des valeurs inférieures réduisent la taille mais peuvent ajouter des artefacts.</string>
     <string name="help_tip_format_conversion_step_3">Conservez les originaux jusqu\'à ce que vous vérifiiez que les fichiers convertis s\'ouvrent correctement dans l\'application cible.</string>
     <string name="help_tip_exif_privacy_title">Vérifiez EXIF ​​et confidentialité</string>
     <string name="help_tip_exif_privacy_subtitle">Afficher, modifier ou supprimer des métadonnées avant de partager des photos sensibles</string>
@@ -2648,7 +2647,7 @@
     <string name="help_tip_images_to_pdf_title">Transformez des images en PDF</string>
     <string name="help_tip_images_to_pdf_subtitle">Combinez des numérisations, des captures d\'écran, des reçus ou des photos en un seul document partageable</string>
     <string name="help_tip_images_to_pdf_page_title">Construire un document propre</string>
-    <string name="help_tip_images_to_pdf_description">Les images deviennent de meilleures pages PDF lorsqu\'elles sont recadrées, ordonnées et dimensionnées de manière cohérente. Traitez la liste d\'images comme une pile de pages : chaque choix de rotation, de marge et de taille de page affecte la lisibilité du document final.</string>
+    <string name="help_tip_images_to_pdf_description">Les images deviennent de meilleures pages PDF lorsqu\'elles sont recadrées, ordonnées et dimensionnées de manière cohérente. Traitez la liste d\'images comme une pile de pages : chaque choix de rotation, de marge et de taille de page affecte la lisibilité du document final.</string>
     <string name="help_tip_images_to_pdf_step_1">Recadrez ou faites pivoter les images en premier lorsque les bords de la page, les ombres ou l\'orientation sont incorrects.</string>
     <string name="help_tip_images_to_pdf_step_2">Sélectionnez les images dans l’ordre des pages prévu et ajustez la taille de la page ou les marges si l’outil les propose.</string>
     <string name="help_tip_images_to_pdf_step_3">Exportez le PDF, puis vérifiez que toutes les pages sont lisibles avant de l\'envoyer.</string>
@@ -2669,7 +2668,7 @@
     <string name="help_tip_pdf_page_organization_title">Organiser les pages PDF</string>
     <string name="help_tip_pdf_page_organization_subtitle">Fusionner, diviser, réorganiser, faire pivoter, recadrer, supprimer des pages et ajouter délibérément des numéros de page</string>
     <string name="help_tip_pdf_page_organization_page_title">Corriger la structure du document avant la décoration</string>
-    <string name="help_tip_pdf_page_organization_description">Les outils de page PDF sont plus faciles à utiliser dans le même ordre que celui dans lequel vous prépareriez un document papier : collecter les pages, supprimer les mauvaises, les mettre en ordre, corriger l\'orientation, puis ajouter les derniers détails tels que les numéros de page ou les filigranes.</string>
+    <string name="help_tip_pdf_page_organization_description">Les outils de page PDF sont plus faciles à utiliser dans le même ordre que celui dans lequel vous prépareriez un document papier : collecter les pages, supprimer les mauvaises, les mettre en ordre, corriger l\'orientation, puis ajouter les derniers détails tels que les numéros de page ou les filigranes.</string>
     <string name="help_tip_pdf_page_organization_step_1">Utilisez d\'abord la fusion ou la conversion d\'images en PDF lorsque le document est toujours divisé en plusieurs fichiers.</string>
     <string name="help_tip_pdf_page_organization_step_2">Réorganisez, faites pivoter, recadrez ou supprimez des pages avant d\'ajouter des numéros de page, des signatures ou des filigranes.</string>
     <string name="help_tip_pdf_page_organization_step_3">Prévisualisez le PDF final après les modifications structurelles, car une page manquante ou pivotée peut être difficile à remarquer plus tard.</string>
@@ -2683,7 +2682,7 @@
     <string name="help_tip_ocr_title">Reconnaître le texte</string>
     <string name="help_tip_ocr_subtitle">Extrayez le texte des images avec des moteurs et des langues OCR sélectionnables</string>
     <string name="help_tip_ocr_page_title">Obtenez de meilleurs résultats OCR</string>
-    <string name="help_tip_ocr_description">La précision de l\'OCR dépend de la netteté de l\'image, des données linguistiques, du contraste et de l\'orientation de la page. Les meilleurs résultats proviennent généralement de la préparation préalable de l\'image : recadrez l\'image, éliminez le bruit, faites-la pivoter verticalement, augmentez la lisibilité, puis reconnaissez le texte.</string>
+    <string name="help_tip_ocr_description">La précision de l\'OCR dépend de la netteté de l\'image, des données linguistiques, du contraste et de l\'orientation de la page. Les meilleurs résultats proviennent généralement de la préparation préalable de l\'image : recadrez l\'image, éliminez le bruit, faites-la pivoter verticalement, augmentez la lisibilité, puis reconnaissez le texte.</string>
     <string name="help_tip_ocr_step_1">Recadrez l\'image dans la zone de texte et faites-la pivoter verticalement avant la reconnaissance.</string>
     <string name="help_tip_ocr_step_2">Choisissez la bonne langue et téléchargez les données linguistiques si l\'application le demande.</string>
     <string name="help_tip_ocr_step_3">Copiez ou partagez le texte reconnu, puis vérifiez manuellement les noms, les chiffres et la ponctuation.</string>
@@ -2768,13 +2767,13 @@
     <string name="help_tip_ai_models_subtitle">Choisissez un modèle par type d\'image et défaut au lieu de choisir d\'abord le plus grand</string>
     <string name="help_tip_ai_models_page_title">Faites correspondre le modèle aux dégâts</string>
     <string name="help_tip_ai_models_description">AI Tools peut télécharger ou importer différents modèles ONNX/ORT, et chaque modèle est formé pour un type particulier de problème. Un modèle pour les blocs JPEG, le nettoyage des lignes animées, le débruitage, la suppression de l\'arrière-plan, la colorisation ou la mise à l\'échelle peut produire de moins bons résultats s\'il est utilisé sur le mauvais type d\'image.</string>
-    <string name="help_tip_ai_models_step_1">Lisez la description du modèle avant de télécharger ; choisissez le modèle qui nomme votre problème réel, tel que la compression, le bruit, les demi-teintes, le flou ou la suppression de l\'arrière-plan.</string>
+    <string name="help_tip_ai_models_step_1">Lisez la description du modèle avant de télécharger ; choisissez le modèle qui nomme votre problème réel, tel que la compression, le bruit, les demi-teintes, le flou ou la suppression de l\'arrière-plan.</string>
     <string name="help_tip_ai_models_step_2">Commencez avec un modèle plus petit ou plus spécifique lorsque vous testez un nouveau type d\'image, puis comparez avec des modèles plus lourds uniquement si le résultat n\'est pas assez bon.</string>
     <string name="help_tip_ai_models_step_3">Conservez uniquement les modèles que vous utilisez réellement, car les modèles téléchargés et importés peuvent occuper un espace de stockage considérable.</string>
     <string name="help_tip_ai_models_page_2_title">Comprendre les familles de modèles</string>
-    <string name="help_tip_ai_models_page_2_description">Les noms de modèles font souvent allusion à leur cible : les modèles de style RealESRGAN haut de gamme, les modèles SCUNet et FBCNN nettoient le bruit ou la compression, les modèles d\'arrière-plan créent des masques et les coloriseurs ajoutent de la couleur à l\'entrée en niveaux de gris. Les modèles personnalisés importés peuvent être puissants, mais ils doivent correspondre à la forme d\'entrée/sortie attendue et utiliser le format ONNX ou ORT pris en charge.</string>
+    <string name="help_tip_ai_models_page_2_description">Les noms de modèles font souvent allusion à leur cible : les modèles de style RealESRGAN haut de gamme, les modèles SCUNet et FBCNN nettoient le bruit ou la compression, les modèles d\'arrière-plan créent des masques et les coloriseurs ajoutent de la couleur à l\'entrée en niveaux de gris. Les modèles personnalisés importés peuvent être puissants, mais ils doivent correspondre à la forme d\'entrée/sortie attendue et utiliser le format ONNX ou ORT pris en charge.</string>
     <string name="help_tip_ai_models_page_2_step_1">Utilisez des upscalers lorsque vous avez besoin de plus de pixels, des débruiteurs lorsque l\'image est granuleuse et des suppresseurs d\'artefacts lorsque les blocs de compression ou les bandes sont le principal problème.</string>
-    <string name="help_tip_ai_models_page_2_step_2">Utilisez des modèles d\'arrière-plan uniquement pour la séparation des sujets ; ce ne sont pas les mêmes que la suppression générale d’objets ou l’amélioration d’image.</string>
+    <string name="help_tip_ai_models_page_2_step_2">Utilisez des modèles d\'arrière-plan uniquement pour la séparation des sujets ; ce ne sont pas les mêmes que la suppression générale d’objets ou l’amélioration d’image.</string>
     <string name="help_tip_ai_models_page_2_step_3">Importez des modèles personnalisés uniquement à partir de sources fiables et testez-les sur une petite image avant d\'utiliser des fichiers importants.</string>
     <string name="help_tip_ai_parameters_title">Paramètres de l\'IA</string>
     <string name="help_tip_ai_parameters_subtitle">Ajustez la taille des blocs, le chevauchement et les travailleurs parallèles pour équilibrer la qualité, la vitesse et la mémoire.</string>
@@ -2782,7 +2781,7 @@
     <string name="help_tip_ai_parameters_description">La taille des morceaux contrôle la taille des morceaux d’image avant qu’ils ne soient traités par le modèle. Overlap mélange les morceaux voisins pour masquer les bordures. Les travailleurs parallèles peuvent accélérer le traitement, mais chaque travailleur a besoin de mémoire, de sorte que des valeurs élevées peuvent rendre les images volumineuses instables sur les téléphones dotés de RAM limitée.</string>
     <string name="help_tip_ai_parameters_step_1">Utilisez des morceaux plus gros pour un contexte plus fluide lorsque votre appareil gère le modèle de manière fiable et que l\'image n\'est pas énorme.</string>
     <string name="help_tip_ai_parameters_step_2">Augmentez le chevauchement lorsque les bordures des morceaux deviennent visibles, mais n\'oubliez pas qu\'un chevauchement plus important signifie un travail plus répété.</string>
-    <string name="help_tip_ai_parameters_step_3">Élever des travailleurs parallèles uniquement après un test stable ; si le traitement ralentit, chauffe l\'appareil ou tombe en panne, réduisez d\'abord le nombre de travailleurs.</string>
+    <string name="help_tip_ai_parameters_step_3">Élever des travailleurs parallèles uniquement après un test stable ; si le traitement ralentit, chauffe l\'appareil ou tombe en panne, réduisez d\'abord le nombre de travailleurs.</string>
     <string name="help_tip_ai_parameters_page_2_title">Évitez les artefacts de fragments</string>
     <string name="help_tip_ai_parameters_page_2_description">Le chunking permet à l\'application de traiter des images plus grandes que ce que le modèle peut gérer confortablement à la fois. Le compromis est que chaque tuile a moins de contexte environnant, donc un faible chevauchement ou des morceaux trop petits peuvent créer des bordures visibles, des changements de texture ou des détails incohérents entre les zones voisines.</string>
     <string name="help_tip_ai_parameters_page_2_step_1">Augmentez le chevauchement si vous voyez des bordures rectangulaires, des changements de texture répétés ou des sauts de détails entre les régions traitées.</string>
@@ -2803,7 +2802,7 @@
     <string name="help_tip_shader_studio_title">Expérimentez dans Shader Studio</string>
     <string name="help_tip_shader_studio_subtitle">Utilisez les effets de shader GPU pour un traitement d\'image avancé et des looks personnalisés</string>
     <string name="help_tip_shader_studio_page_title">Travaillez soigneusement avec les shaders</string>
-    <string name="help_tip_shader_studio_description">Shader Studio est puissant, mais le code et les paramètres du shader nécessitent de petites modifications testables. Traitez-le comme un outil expérimental : conservez une base de référence fonctionnelle, modifiez une chose à la fois et testez avec différentes tailles d\'image avant de faire confiance à un préréglage.</string>
+    <string name="help_tip_shader_studio_description">Shader Studio est puissant, mais le code et les paramètres du shader nécessitent de petites modifications testables. Traitez-le comme un outil expérimental : conservez une base de référence fonctionnelle, modifiez une chose à la fois et testez avec différentes tailles d\'image avant de faire confiance à un préréglage.</string>
     <string name="help_tip_shader_studio_step_1">Commencez par un shader fonctionnel connu ou un effet simple avant d\'ajouter des paramètres.</string>
     <string name="help_tip_shader_studio_step_2">Modifiez un paramètre ou un bloc de code à la fois et vérifiez l\'aperçu pour détecter les erreurs.</string>
     <string name="help_tip_shader_studio_step_3">Exportez les préréglages uniquement après les avoir testés sur quelques tailles d\'image différentes.</string>
@@ -2833,7 +2832,7 @@
     <string name="help_tip_encryption_workflow_page_title">Gérez les sorties chiffrées avec soin</string>
     <string name="help_tip_encryption_workflow_description">Les outils de chiffrement peuvent protéger les fichiers avec un cryptage par mot de passe, mais ils ne remplacent pas la mémorisation de la clé ou la conservation de sauvegardes. Le cryptage est utile pour le transport et le stockage, tandis que ZIP est préférable lorsque l\'objectif principal est de regrouper plusieurs sorties.</string>
     <string name="help_tip_encryption_workflow_step_1">Chiffrez d’abord une copie et conservez l’original jusqu’à ce que vous ayez vérifié que le décryptage fonctionne avec le mot de passe que vous avez stocké.</string>
-    <string name="help_tip_encryption_workflow_step_2">Utilisez un gestionnaire de mots de passe ou un autre endroit sûr pour la clé ; l\'application ne peut pas deviner un mot de passe perdu pour vous.</string>
+    <string name="help_tip_encryption_workflow_step_2">Utilisez un gestionnaire de mots de passe ou un autre endroit sûr pour la clé ; l\'application ne peut pas deviner un mot de passe perdu pour vous.</string>
     <string name="help_tip_encryption_workflow_step_3">Partagez des fichiers cryptés uniquement avec des personnes disposant également du mot de passe et sachant quel outil ou méthode doit les déchiffrer.</string>
     <string name="help_tip_tool_arrangement_title">Organiser les outils</string>
     <string name="help_tip_tool_arrangement_subtitle">Outils de regroupement, de commande, de recherche et d\'épinglage pour que l\'écran principal corresponde à votre flux de travail réel</string>
@@ -2892,7 +2891,7 @@
     <string name="help_tip_logs_feedback_step_2">Ouvrez les journaux d\'application après avoir reproduit le problème et partagez la sortie du journal pertinente lorsque cela est possible.</string>
     <string name="help_tip_logs_feedback_step_3">Joignez des captures d\'écran ou des exemples de fichiers uniquement lorsqu\'ils ne contiennent pas d\'informations privées.</string>
     <string name="crash_foreground_service_timeout_title">Le traitement en arrière-plan a été arrêté</string>
-    <string name="crash_foreground_service_timeout_description">Android n\'a pas laissé la notification de traitement en arrière-plan démarrer à temps. Il s’agit d’une limitation de synchronisation du système qui ne peut pas être corrigée de manière fiable. Redémarrez l\'application et réessayez ; garder l\'application ouverte et autoriser les notifications ou le travail en arrière-plan peut être utile.</string>
+    <string name="crash_foreground_service_timeout_description">Android n\'a pas laissé la notification de traitement en arrière-plan démarrer à temps. Il s’agit d’une limitation de synchronisation du système qui ne peut pas être corrigée de manière fiable. Redémarrez l\'application et réessayez ; garder l\'application ouverte et autoriser les notifications ou le travail en arrière-plan peut être utile.</string>
     <string name="help_tip_skip_file_picking_title">Ignorer la sélection de fichiers</string>
     <string name="help_tip_skip_file_picking_subtitle">Ouvrez les outils plus rapidement lorsque la saisie provient généralement d\'un partage, du presse-papiers ou d\'un écran précédent.</string>
     <string name="help_tip_skip_file_picking_page_title">Rendre les lancements répétés d\'outils plus rapides</string>
@@ -2903,14 +2902,14 @@
     <string name="help_tip_open_edit_directly_title">Ouvrir d\'abord l\'éditeur</string>
     <string name="help_tip_open_edit_directly_subtitle">Ignorer l\'aperçu lorsqu\'une image partagée doit être directement modifiée</string>
     <string name="help_tip_open_edit_directly_page_title">Choisissez Aperçu ou Modifier comme premier arrêt</string>
-    <string name="help_tip_open_edit_directly_description">Ouvrir la modification au lieu de l\'aperçu est destiné aux utilisateurs qui savent déjà qu\'ils souhaitent modifier l\'image. L\'aperçu est plus sûr lorsque vous inspectez des fichiers à partir d\'un chat ou d\'un stockage cloud ; la modification directe est plus rapide pour les captures d\'écran, les recadrages rapides, les annotations et les corrections ponctuelles.</string>
+    <string name="help_tip_open_edit_directly_description">Ouvrir la modification au lieu de l\'aperçu est destiné aux utilisateurs qui savent déjà qu\'ils souhaitent modifier l\'image. L\'aperçu est plus sûr lorsque vous inspectez des fichiers à partir d\'un chat ou d\'un stockage cloud ; la modification directe est plus rapide pour les captures d\'écran, les recadrages rapides, les annotations et les corrections ponctuelles.</string>
     <string name="help_tip_open_edit_directly_step_1">Activez la modification directe si la plupart des images partagées nécessitent immédiatement des modifications de recadrage, de balisage, de filtres ou d\'exportation.</string>
     <string name="help_tip_open_edit_directly_step_2">Laissez d\'abord l\'aperçu lorsque vous inspectez souvent les métadonnées, les dimensions, la transparence ou la qualité de l\'image avant de prendre une décision.</string>
     <string name="help_tip_open_edit_directly_step_3">Utilisez-le avec vos favoris pour que les images partagées se rapprochent des outils que vous utilisez réellement.</string>
     <string name="help_tip_preset_text_entry_title">Saisie de texte prédéfinie</string>
     <string name="help_tip_preset_text_entry_subtitle">Entrez des valeurs prédéfinies exactes au lieu d\'ajuster les commandes à plusieurs reprises</string>
     <string name="help_tip_preset_text_entry_page_title">Utilisez des valeurs précises lorsque les curseurs sont lents</string>
-    <string name="help_tip_preset_text_entry_description">La saisie de texte prédéfinie est utile lorsque vous avez besoin de chiffres exacts pour un travail répété : tailles d\'images sociales, marges de documents, cibles de compression, largeurs de ligne ou autres valeurs difficiles à atteindre avec des gestes. Il est également utile sur les petits écrans où les mouvements fins du curseur sont plus difficiles.</string>
+    <string name="help_tip_preset_text_entry_description">La saisie de texte prédéfinie est utile lorsque vous avez besoin de chiffres exacts pour un travail répété : tailles d\'images sociales, marges de documents, cibles de compression, largeurs de ligne ou autres valeurs difficiles à atteindre avec des gestes. Il est également utile sur les petits écrans où les mouvements fins du curseur sont plus difficiles.</string>
     <string name="help_tip_preset_text_entry_step_1">Activez la saisie de texte si vous réutilisez souvent des tailles, des pourcentages, des valeurs de qualité ou des paramètres d\'outils exacts.</string>
     <string name="help_tip_preset_text_entry_step_2">Enregistrez la valeur en tant que préréglage après l\'avoir saisie une fois, puis réutilisez-la au lieu de reconstruire la même configuration.</string>
     <string name="help_tip_preset_text_entry_step_3">Conservez les commandes gestuelles pour un réglage visuel approximatif et les valeurs saisies pour des exigences de sortie strictes.</string>
@@ -2926,12 +2925,12 @@
     <string name="help_tip_skip_larger_outputs_page_title">Protégez les lots des surprises de mauvaise taille</string>
     <string name="help_tip_skip_larger_outputs_description">Certaines conversions agrandissent les fichiers, en particulier les captures d\'écran PNG, les photos déjà compressées, les WebP de haute qualité ou les images dont les métadonnées sont préservées. Autoriser sauter si plus grand empêche ces sorties de remplacer une source plus petite dans les flux de travail où la réduction de la taille est l’objectif principal.</string>
     <string name="help_tip_skip_larger_outputs_step_1">Activez-le lorsque l\'exportation est destinée à compresser, redimensionner ou préparer des fichiers aux limites de téléchargement.</string>
-    <string name="help_tip_skip_larger_outputs_step_2">Examinez les fichiers ignorés après un lot ; ils peuvent déjà être optimisés ou nécessiter un format différent.</string>
+    <string name="help_tip_skip_larger_outputs_step_2">Examinez les fichiers ignorés après un lot ; ils peuvent déjà être optimisés ou nécessiter un format différent.</string>
     <string name="help_tip_skip_larger_outputs_step_3">Désactivez-le lorsque la qualité, la transparence ou la compatibilité des formats comptent plus que la taille finale du fichier.</string>
     <string name="help_tip_clipboard_and_links_title">Presse-papiers et liens</string>
     <string name="help_tip_clipboard_and_links_subtitle">Contrôlez la saisie automatique du presse-papiers et les aperçus des liens pour des outils textuels plus rapides</string>
     <string name="help_tip_clipboard_and_links_page_title">Rendre la saisie automatique prévisible</string>
-    <string name="help_tip_clipboard_and_links_description">Les paramètres du presse-papiers et des liens sont pratiques pour les flux de travail QR, Base64, URL et contenant beaucoup de texte, mais la saisie automatique doit rester intentionnelle. Si l\'application semble remplir les champs toute seule, vérifiez le comportement de collage du presse-papiers ; si les cartes de lien semblent bruyantes ou lentes, ajustez le comportement de l\'aperçu des liens.</string>
+    <string name="help_tip_clipboard_and_links_description">Les paramètres du presse-papiers et des liens sont pratiques pour les flux de travail QR, Base64, URL et contenant beaucoup de texte, mais la saisie automatique doit rester intentionnelle. Si l\'application semble remplir les champs toute seule, vérifiez le comportement de collage du presse-papiers ; si les cartes de lien semblent bruyantes ou lentes, ajustez le comportement de l\'aperçu des liens.</string>
     <string name="help_tip_clipboard_and_links_step_1">Autorisez le collage automatique dans le presse-papiers lorsque vous copiez souvent du texte et ouvrez immédiatement un outil de correspondance.</string>
     <string name="help_tip_clipboard_and_links_step_2">Désactivez le collage automatique si le contenu privé du presse-papiers apparaît dans les outils là où vous ne l\'attendiez pas.</string>
     <string name="help_tip_clipboard_and_links_step_3">Désactivez les aperçus des liens lorsque la récupération des aperçus est lente, gênante ou inutile pour votre flux de travail.</string>
@@ -2948,7 +2947,7 @@
     <string name="help_tip_load_net_image_description">Web Image Loading analyse les sources d\'images à partir de l\'URL fournie, prévisualise la première image disponible et vous permet d\'enregistrer ou de partager les images analysées sélectionnées. Certains sites utilisent des liens temporaires, protégés ou générés par un script, de sorte qu\'une page qui fonctionne dans un navigateur peut toujours ne renvoyer aucune image utilisable.</string>
     <string name="help_tip_load_net_image_step_1">Collez une URL d\'image directe ou une URL de page et attendez que la liste d\'images analysées apparaisse.</string>
     <string name="help_tip_load_net_image_step_2">Utilisez les contrôles de cadre ou de sélection lorsque la page contient plusieurs images et que vous n’en avez besoin que de certaines.</string>
-    <string name="help_tip_load_net_image_step_3">Si rien ne se charge, essayez d\'abord un lien d\'image direct ou téléchargez-le via le navigateur ; le site peut bloquer l\'analyse ou utiliser des liens privés.</string>
+    <string name="help_tip_load_net_image_step_3">Si rien ne se charge, essayez d\'abord un lien d\'image direct ou téléchargez-le via le navigateur ; le site peut bloquer l\'analyse ou utiliser des liens privés.</string>
     <string name="help_tip_resize_type_title">Choisissez le type de redimensionnement</string>
     <string name="help_tip_resize_type_subtitle">Comprendre Explicite, Flexible, Recadrer et Ajuster avant de forcer une image dans de nouvelles dimensions</string>
     <string name="help_tip_resize_type_page_title">Contrôler la forme, le canevas et les proportions</string>
@@ -2987,7 +2986,7 @@
     <string name="help_tip_upscale_vs_resize_title">Redimensionnement haut de gamme ou normal</string>
     <string name="help_tip_upscale_vs_resize_subtitle">Savoir quand l\'ajout de pixels nécessite l\'IA et quand une simple mise à l\'échelle suffit</string>
     <string name="help_tip_upscale_vs_resize_page_title">Ne confondez pas taille et détail</string>
-    <string name="help_tip_upscale_vs_resize_description">Le redimensionnement normal modifie les dimensions en interpolant les pixels ; il ne peut pas inventer de vrais détails. L\'IA haut de gamme peut créer des détails plus nets, mais elle est plus lente et peut halluciner la texture, le bon choix dépend donc de si vous avez besoin de compatibilité, de vitesse ou de restauration visuelle.</string>
+    <string name="help_tip_upscale_vs_resize_description">Le redimensionnement normal modifie les dimensions en interpolant les pixels ; il ne peut pas inventer de vrais détails. L\'IA haut de gamme peut créer des détails plus nets, mais elle est plus lente et peut halluciner la texture, le bon choix dépend donc de si vous avez besoin de compatibilité, de vitesse ou de restauration visuelle.</string>
     <string name="help_tip_upscale_vs_resize_step_1">Utilisez le redimensionnement normal pour les miniatures, les limites de téléchargement, les captures d\'écran et les modifications simples des dimensions.</string>
     <string name="help_tip_upscale_vs_resize_step_2">Utilisez l\'IA haut de gamme lorsqu\'une image petite ou douce doit être plus belle dans une taille plus grande.</string>
     <string name="help_tip_upscale_vs_resize_step_3">Comparez les visages, le texte et les motifs après la mise à niveau de l\'IA, car les détails générés peuvent sembler convaincants mais incorrects.</string>
@@ -3023,7 +3022,7 @@
     <string name="help_tip_image_cutting_subtitle">Supprimez les régions verticales ou horizontales et fusionnez les parties restantes ensemble</string>
     <string name="help_tip_image_cutting_page_title">Supprimer une région sans laisser d\'espace</string>
     <string name="help_tip_image_cutting_description">La découpe d\'image est différente du recadrage normal. Il peut supprimer une bande verticale ou horizontale sélectionnée, puis fusionner les parties d\'image restantes. Le mode inverse conserve la région sélectionnée à la place, et l\'utilisation des deux directions inverses conserve le rectangle sélectionné.</string>
-    <string name="help_tip_image_cutting_step_1">Utilisez la coupe verticale pour les régions latérales, les colonnes ou les bandes médianes ; utilisez la coupe horizontale pour les bannières, les espaces ou les rangées.</string>
+    <string name="help_tip_image_cutting_step_1">Utilisez la coupe verticale pour les régions latérales, les colonnes ou les bandes médianes ; utilisez la coupe horizontale pour les bannières, les espaces ou les rangées.</string>
     <string name="help_tip_image_cutting_step_2">Activez l\'inverse sur un axe lorsque vous souhaitez conserver la pièce sélectionnée au lieu de la supprimer.</string>
     <string name="help_tip_image_cutting_step_3">Prévisualisez les bords après la découpe, car le contenu fusionné peut paraître abrupt lorsque la zone supprimée traverse des détails importants.</string>
     <string name="help_tip_format_choice_title">Choisissez le format de sortie</string>
@@ -3036,7 +3035,7 @@
     <string name="help_tip_audio_cover_extractor_title">Extraire les couvertures audio</string>
     <string name="help_tip_audio_cover_extractor_subtitle">Enregistrez les pochettes d\'album intégrées ou les images multimédias disponibles à partir de fichiers audio sous forme d\'images PNG</string>
     <string name="help_tip_audio_cover_extractor_page_title">Extraire des illustrations de fichiers audio</string>
-    <string name="help_tip_audio_cover_extractor_description">Audio Covers utilise les métadonnées multimédias Android pour lire les illustrations intégrées à partir de fichiers audio. Lorsque les illustrations intégrées ne sont pas disponibles, le récupérateur peut revenir à un cadre multimédia si Android peut en fournir un ; si ni l’un ni l’autre n’existe, l’outil signale qu’il n’y a aucune image à extraire.</string>
+    <string name="help_tip_audio_cover_extractor_description">Audio Covers utilise les métadonnées multimédias Android pour lire les illustrations intégrées à partir de fichiers audio. Lorsque les illustrations intégrées ne sont pas disponibles, le récupérateur peut revenir à un cadre multimédia si Android peut en fournir un ; si ni l’un ni l’autre n’existe, l’outil signale qu’il n’y a aucune image à extraire.</string>
     <string name="help_tip_audio_cover_extractor_step_1">Ouvrez les couvertures audio et sélectionnez un ou plusieurs fichiers audio avec la pochette attendue.</string>
     <string name="help_tip_audio_cover_extractor_step_2">Examinez la couverture extraite avant de l\'enregistrer ou de la partager, en particulier pour les fichiers provenant d\'applications de streaming ou d\'enregistrement.</string>
     <string name="help_tip_audio_cover_extractor_step_3">Si aucune image n\'est trouvée, le fichier audio n\'a probablement pas de couverture intégrée ou Android n\'a pas pu exposer un cadre utilisable.</string>
@@ -3057,7 +3056,7 @@
     <string name="help_tip_save_vs_share_title">Enregistrer ou partager</string>
     <string name="help_tip_save_vs_share_subtitle">Choisissez entre un fichier persistant et un transfert temporaire vers une autre application</string>
     <string name="help_tip_save_vs_share_page_title">Exporter avec la bonne intention</string>
-    <string name="help_tip_save_vs_share_description">Enregistrer et partager peuvent sembler similaires, mais ils résolvent des problèmes différents. L\'enregistrement crée un fichier que vous pourrez retrouver plus tard ; le partage envoie un résultat généré via Android vers une autre application et peut ne pas laisser de copie locale durable.</string>
+    <string name="help_tip_save_vs_share_description">Enregistrer et partager peuvent sembler similaires, mais ils résolvent des problèmes différents. L\'enregistrement crée un fichier que vous pourrez retrouver plus tard ; le partage envoie un résultat généré via Android vers une autre application et peut ne pas laisser de copie locale durable.</string>
     <string name="help_tip_save_vs_share_step_1">Utilisez Enregistrer lorsque la sortie doit rester dans un dossier connu, être sauvegardée ou être réutilisée ultérieurement.</string>
     <string name="help_tip_save_vs_share_step_2">Utilisez Partager pour des messages rapides, des pièces jointes à des e-mails, des publications sur les réseaux sociaux ou pour envoyer le résultat à un autre éditeur.</string>
     <string name="help_tip_save_vs_share_step_3">Enregistrez d\'abord lorsque l\'application de réception n\'est pas fiable ou lorsqu\'un partage ayant échoué serait ennuyeux à recréer.</string>
@@ -3120,7 +3119,7 @@
     <string name="help_tip_checksum_tool_tabs_title">Choisissez un mode de somme de contrôle</string>
     <string name="help_tip_checksum_tool_tabs_subtitle">Calculez les hachages de fichiers ou de texte, comparez un fichier ou vérifiez par lots plusieurs fichiers</string>
     <string name="help_tip_checksum_tool_tabs_page_title">Vérifier le contenu, pas l\'apparence</string>
-    <string name="help_tip_checksum_tool_tabs_description">Checksum Tools comporte des onglets séparés pour le hachage de fichiers, le hachage de texte, la comparaison d\'un fichier avec un hachage connu et la comparaison par lots. Une somme de contrôle prouve l\'identité octet par octet pour l\'algorithme sélectionné ; cela ne prouve pas que deux images se ressemblent simplement.</string>
+    <string name="help_tip_checksum_tool_tabs_description">Checksum Tools comporte des onglets séparés pour le hachage de fichiers, le hachage de texte, la comparaison d\'un fichier avec un hachage connu et la comparaison par lots. Une somme de contrôle prouve l\'identité octet par octet pour l\'algorithme sélectionné ; cela ne prouve pas que deux images se ressemblent simplement.</string>
     <string name="help_tip_checksum_tool_tabs_step_1">Utilisez Calculer pour les fichiers et Text Hash pour les données texte saisies ou collées.</string>
     <string name="help_tip_checksum_tool_tabs_step_2">Utilisez Compare lorsque quelqu\'un vous donne une somme de contrôle attendue pour un fichier.</string>
     <string name="help_tip_checksum_tool_tabs_step_3">Utilisez Batch Compare lorsque de nombreux fichiers nécessitent des hachages ou une vérification en un seul passage, puis gardez l\'algorithme sélectionné cohérent.</string>
@@ -3174,7 +3173,7 @@
     <string name="model_restormer_deraining">Modèle de restauration d\'image Restormer pour réduire les traînées de pluie et les artefacts de temps pluvieux.</string>
     <string name="model_uvdoc_grid">Modèle de déformation de documents qui prédit une grille de coordonnées et remappe les pages courbes en une numérisation plus plate.</string>
     <string name="motion_duration_scale">Échelle de durée de mouvement</string>
-    <string name="motion_duration_scale_sub">Contrôle la vitesse d\'animation de l\'application : 0 désactive le mouvement, 1 est normal, des valeurs plus élevées ralentissent les animations</string>
+    <string name="motion_duration_scale_sub">Contrôle la vitesse d\'animation de l\'application : 0 désactive le mouvement, 1 est normal, des valeurs plus élevées ralentissent les animations</string>
     <string name="show_recent_tools">Afficher les outils récents</string>
     <string name="show_recent_tools_sub">Afficher un accès rapide aux outils récemment utilisés sur l\'écran principal</string>
     <string name="usage_statistics">Statistiques d\'utilisation</string>
