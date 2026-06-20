@@ -2138,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Konvertálja az összes dokumentumba ágyazott képet szürkeárnyalatossá</string>
     <string name="compress_pdf">PDF tömörítése</string>
     <string name="compress_pdf_sub">Optimalizálja a dokumentumfájl méretét a könnyebb megosztás érdekében</string>
-    <string name="repair_info">Az ImageToolbox újraépíti a belső kereszthivatkozási táblát, és a semmiből regenerálja a fájlstruktúrát. Ezzel visszaállíthatja a hozzáférést számos olyan fájlhoz, amelyeket \\"nem lehet megnyitni\\"</string>
+    <string name="repair_info">Az ImageToolbox újraépíti a belső kereszthivatkozási táblát, és a semmiből regenerálja a fájlstruktúrát. Ezzel visszaállíthatja a hozzáférést számos olyan fájlhoz, amelyeket \\\"nem lehet megnyitni\\\"</string>
     <string name="grayscale_info">Ez az eszköz az összes dokumentumképet szürkeárnyalatossá alakítja. A legjobb a nyomtatáshoz és a fájlméret csökkentéséhez</string>
     <string name="metadata">Metaadatok</string>
     <string name="metadata_pdf_sub">Szerkessze a dokumentum tulajdonságait a jobb adatvédelem érdekében</string>
@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">A Shader neve nem lehet üres.</string>
     <string name="shader_error_blank_source">A Shader forrása nem lehet üres.</string>
     <string name="shader_error_unsupported_characters">A Shader forrás nem támogatott karaktereket tartalmaz: %1$s. Csak ASCII GLSL forrást használjon.</string>
-    <string name="shader_error_duplicate_parameter">A \\"%1$s\\" paraméter többször deklarálva van.</string>
+    <string name="shader_error_duplicate_parameter">A \\\"%1$s\\\" paraméter többször deklarálva van.</string>
     <string name="shader_error_blank_parameter_name">A paraméternevek nem lehetnek üresek.</string>
-    <string name="shader_error_reserved_parameter_name">A \\"%1$s\\" paraméter fenntartott GPUI-képnevet használ.</string>
-    <string name="shader_error_invalid_parameter_name">A \\"%1$s\\" paraméternek érvényes GLSL-azonosítónak kell lennie.</string>
-    <string name="shader_error_invalid_value_type">A \\"%1$s\\" paraméter %2$s értéktípusa \\"%3$s\\", várható érték: \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">A \\"%1$s\\" paraméter nem határozhat meg minimum vagy max értéket a logikai értékekhez.</string>
-    <string name="shader_error_min_greater_than_max">A \\"%1$s\\" paraméter min nagyobb, mint max.</string>
-    <string name="shader_error_default_lower_than_min">A \\"%1$s\\" paraméter alapértelmezett értéke kisebb, mint min.</string>
-    <string name="shader_error_default_greater_than_max">A \\"%1$s\\" paraméter alapértelmezett értéke nagyobb, mint a max.</string>
-    <string name="shader_error_missing_input_texture">A Shadernek deklarálnia kell, hogy \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">A Shadernek deklarálnia kell, hogy \\"változó vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">A Shadernek meg kell határoznia a \\"void main()\\" paramétert.</string>
+    <string name="shader_error_reserved_parameter_name">A \\\"%1$s\\\" paraméter fenntartott GPUI-képnevet használ.</string>
+    <string name="shader_error_invalid_parameter_name">A \\\"%1$s\\\" paraméternek érvényes GLSL-azonosítónak kell lennie.</string>
+    <string name="shader_error_invalid_value_type">A \\\"%1$s\\\" paraméter %2$s értéktípusa \\\"%3$s\\\", várható érték: \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">A \\\"%1$s\\\" paraméter nem határozhat meg minimum vagy max értéket a logikai értékekhez.</string>
+    <string name="shader_error_min_greater_than_max">A \\\"%1$s\\\" paraméter min nagyobb, mint max.</string>
+    <string name="shader_error_default_lower_than_min">A \\\"%1$s\\\" paraméter alapértelmezett értéke kisebb, mint min.</string>
+    <string name="shader_error_default_greater_than_max">A \\\"%1$s\\\" paraméter alapértelmezett értéke nagyobb, mint a max.</string>
+    <string name="shader_error_missing_input_texture">A Shadernek deklarálnia kell, hogy \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">A Shadernek deklarálnia kell, hogy \\\"változó vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">A Shadernek meg kell határoznia a \\\"void main()\\\" paramétert.</string>
     <string name="shader_error_missing_fragment_color">A Shadernek színt kell írnia a gl_FragColor-ba.</string>
     <string name="shader_error_shadertoy_main_image">A ShaderToy mainImage shaderek nem támogatottak. Használja a GPUImage érvénytelen main() szerződését.</string>
-    <string name="shader_error_shadertoy_i_time">Az \\"iTime\\" animált ShaderToy egyenruha nem támogatott.</string>
-    <string name="shader_error_shadertoy_i_frame">Az animált ShaderToy egyenruha \\"iFrame\\" nem támogatott.</string>
-    <string name="shader_error_shadertoy_i_resolution">A ShaderToy egységes \\"iResolution\\" nem támogatott.</string>
+    <string name="shader_error_shadertoy_i_time">Az \\\"iTime\\\" animált ShaderToy egyenruha nem támogatott.</string>
+    <string name="shader_error_shadertoy_i_frame">Az animált ShaderToy egyenruha \\\"iFrame\\\" nem támogatott.</string>
+    <string name="shader_error_shadertoy_i_resolution">A ShaderToy egységes \\\"iResolution\\\" nem támogatott.</string>
     <string name="shader_error_shadertoy_i_channel">A ShaderToy iChannel textúrák nem támogatottak.</string>
     <string name="shader_error_external_textures">A külső textúrák nem támogatottak.</string>
     <string name="shader_error_external_texture_extensions">A külső textúra kiterjesztések nem támogatottak.</string>
     <string name="shader_error_libretro_parameters">A Libretro shader paraméterei nem támogatottak.</string>
-    <string name="shader_error_extra_input_texture">Csak egy bemeneti textúra támogatott. Távolítsa el az \\"uniform %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">A \\"%1$s\\" paramétert \\"uniform %2$s %1$s;\\"-ként kell deklarálni.</string>
-    <string name="shader_error_wrong_uniform_type">A \\"%1$s\\" paraméter a következőként van deklarálva: \\"uniform %2$s %1$s;\\", várhatóan \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Csak egy bemeneti textúra támogatott. Távolítsa el az \\\"uniform %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">A \\\"%1$s\\\" paramétert \\\"uniform %2$s %1$s;\\\"-ként kell deklarálni.</string>
+    <string name="shader_error_wrong_uniform_type">A \\\"%1$s\\\" paraméter a következőként van deklarálva: \\\"uniform %2$s %1$s;\\\", várhatóan \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">A Shader fájl üres.</string>
     <string name="shader_parse_error_not_itshader_json">A Shader fájlnak .itshader JSON-objektumnak kell lennie verzió-, név- és shader-mezőkkel.</string>
     <string name="shader_parse_error_invalid_json">A Shader fájl nem érvényes JSON, vagy nem egyezik az .itshader formátummal.</string>
-    <string name="shader_parse_error_missing_field">A \\"%1$s\\" mező kitöltése kötelező.</string>
+    <string name="shader_parse_error_missing_field">A \\\"%1$s\\\" mező kitöltése kötelező.</string>
     <string name="shader_parse_error_missing_param_field">%1$s szükséges.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" nem támogatott. Támogatott típusok: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s szükséges a \\"%2$s\\" paraméterekhez.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" nem támogatott. Támogatott típusok: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s szükséges a \\\"%2$s\\\" paraméterekhez.</string>
     <string name="shader_parse_error_finite_number_expected">A %1$s véges szám kell, hogy legyen.</string>
     <string name="shader_parse_error_integer_expected">%1$s egész számnak kell lennie.</string>
     <string name="shader_parse_error_bool_expected">%1$s igaznak vagy hamisnak kell lennie.</string>
@@ -3262,4 +3262,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf megjegyzések megjegyzések eltávolítása tiszta</string>
     <string name="neutral_variant">Semleges változat</string>
     <string name="error">Hiba</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
