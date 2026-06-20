@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">शेडर नाम रिक्त नहीं होना चाहिए.</string>
     <string name="shader_error_blank_source">शेडर स्रोत रिक्त नहीं होना चाहिए.</string>
     <string name="shader_error_unsupported_characters">शेडर स्रोत में असमर्थित वर्ण हैं: %1$s। केवल ASCII GLSL स्रोत का उपयोग करें।</string>
-    <string name="shader_error_duplicate_parameter">पैरामीटर \\"%1$s\\" एक से अधिक बार घोषित किया गया है।</string>
+    <string name="shader_error_duplicate_parameter">पैरामीटर \\\"%1$s\\\" एक से अधिक बार घोषित किया गया है।</string>
     <string name="shader_error_blank_parameter_name">पैरामीटर नाम रिक्त नहीं होने चाहिए.</string>
-    <string name="shader_error_reserved_parameter_name">पैरामीटर \\"%1$s\\" एक आरक्षित GPUImage नाम का उपयोग करता है।</string>
-    <string name="shader_error_invalid_parameter_name">पैरामीटर \\"%1$s\\" एक वैध GLSL पहचानकर्ता होना चाहिए.</string>
-    <string name="shader_error_invalid_value_type">पैरामीटर \"%1$s\\" में %2$s मान प्रकार \"%3$s\\" है, अपेक्षित \"%4$s\\"।</string>
-    <string name="shader_error_bool_bounds">पैरामीटर \\"%1$s\\" बूल मानों के लिए न्यूनतम या अधिकतम परिभाषित नहीं कर सकता।</string>
-    <string name="shader_error_min_greater_than_max">पैरामीटर \\"%1$s\\" में न्यूनतम अधिकतम से अधिक है।</string>
-    <string name="shader_error_default_lower_than_min">पैरामीटर \\"%1$s\\" डिफ़ॉल्ट न्यूनतम से कम है।</string>
-    <string name="shader_error_default_greater_than_max">पैरामीटर \\"%1$s\\" डिफ़ॉल्ट अधिकतम से अधिक है।</string>
-    <string name="shader_error_missing_input_texture">शेडर को \\"यूनिफ़ॉर्म सैम्पलर2D %1$s;\\" घोषित करना होगा।</string>
-    <string name="shader_error_missing_texture_coordinate">शेडर को \\"विभिन्न vec2 %1$s;\\" घोषित करना होगा।</string>
-    <string name="shader_error_missing_main_function">शेडर को \\"void main()\\" परिभाषित करना होगा।</string>
+    <string name="shader_error_reserved_parameter_name">पैरामीटर \\\"%1$s\\\" एक आरक्षित GPUImage नाम का उपयोग करता है।</string>
+    <string name="shader_error_invalid_parameter_name">पैरामीटर \\\"%1$s\\\" एक वैध GLSL पहचानकर्ता होना चाहिए.</string>
+    <string name="shader_error_invalid_value_type">पैरामीटर \"%1$s\\\" में %2$s मान प्रकार \"%3$s\\\" है, अपेक्षित \"%4$s\\\"।</string>
+    <string name="shader_error_bool_bounds">पैरामीटर \\\"%1$s\\\" बूल मानों के लिए न्यूनतम या अधिकतम परिभाषित नहीं कर सकता।</string>
+    <string name="shader_error_min_greater_than_max">पैरामीटर \\\"%1$s\\\" में न्यूनतम अधिकतम से अधिक है।</string>
+    <string name="shader_error_default_lower_than_min">पैरामीटर \\\"%1$s\\\" डिफ़ॉल्ट न्यूनतम से कम है।</string>
+    <string name="shader_error_default_greater_than_max">पैरामीटर \\\"%1$s\\\" डिफ़ॉल्ट अधिकतम से अधिक है।</string>
+    <string name="shader_error_missing_input_texture">शेडर को \\\"यूनिफ़ॉर्म सैम्पलर2D %1$s;\\\" घोषित करना होगा।</string>
+    <string name="shader_error_missing_texture_coordinate">शेडर को \\\"विभिन्न vec2 %1$s;\\\" घोषित करना होगा।</string>
+    <string name="shader_error_missing_main_function">शेडर को \\\"void main()\\\" परिभाषित करना होगा।</string>
     <string name="shader_error_missing_fragment_color">शेडर को gl_FragColor पर एक रंग लिखना होगा।</string>
-    <string name="shader_error_shadertoy_main_image">शेडरटॉय मेनइमेज शेडर्स समर्थित नहीं हैं। GPUImage\ के शून्य मुख्य() अनुबंध का उपयोग करें।</string>
-    <string name="shader_error_shadertoy_i_time">एनिमेटेड शेडरटॉय वर्दी \\"iTime\\" समर्थित नहीं है।</string>
-    <string name="shader_error_shadertoy_i_frame">एनिमेटेड शेडरटॉय वर्दी \\"iFrame\\" समर्थित नहीं है।</string>
-    <string name="shader_error_shadertoy_i_resolution">शेडरटॉय वर्दी \\"iResolution\\" समर्थित नहीं है।</string>
+    <string name="shader_error_shadertoy_main_image">शेडरटॉय मेनइमेज शेडर्स समर्थित नहीं हैं। GPUImage के शून्य मुख्य() अनुबंध का उपयोग करें।</string>
+    <string name="shader_error_shadertoy_i_time">एनिमेटेड शेडरटॉय वर्दी \\\"iTime\\\" समर्थित नहीं है।</string>
+    <string name="shader_error_shadertoy_i_frame">एनिमेटेड शेडरटॉय वर्दी \\\"iFrame\\\" समर्थित नहीं है।</string>
+    <string name="shader_error_shadertoy_i_resolution">शेडरटॉय वर्दी \\\"iResolution\\\" समर्थित नहीं है।</string>
     <string name="shader_error_shadertoy_i_channel">शेडरटॉय आईचैनल बनावट समर्थित नहीं हैं।</string>
     <string name="shader_error_external_textures">बाहरी बनावट समर्थित नहीं हैं.</string>
     <string name="shader_error_external_texture_extensions">बाहरी बनावट एक्सटेंशन समर्थित नहीं हैं.</string>
     <string name="shader_error_libretro_parameters">लिब्रेट्रो शेडर पैरामीटर समर्थित नहीं हैं।</string>
-    <string name="shader_error_extra_input_texture">केवल एक इनपुट बनावट समर्थित है. \\"वर्दी %1$s %2$s;\\" हटाएं।</string>
-    <string name="shader_error_missing_uniform">पैरामीटर \\"%1$s\\" को \\"यूनिफ़ॉर्म %2$s %1$s;\\" घोषित किया जाना चाहिए।</string>
-    <string name="shader_error_wrong_uniform_type">पैरामीटर \"%1$s\\" को \"यूनिफ़ॉर्म %2$s %1$s;\\" घोषित किया गया है, अपेक्षित \"यूनिफ़ॉर्म %3$s %1$s;\\"।</string>
+    <string name="shader_error_extra_input_texture">केवल एक इनपुट बनावट समर्थित है. \\\"वर्दी %1$s %2$s;\\\" हटाएं।</string>
+    <string name="shader_error_missing_uniform">पैरामीटर \\\"%1$s\\\" को \\\"यूनिफ़ॉर्म %2$s %1$s;\\\" घोषित किया जाना चाहिए।</string>
+    <string name="shader_error_wrong_uniform_type">पैरामीटर \"%1$s\\\" को \"यूनिफ़ॉर्म %2$s %1$s;\\\" घोषित किया गया है, अपेक्षित \"यूनिफ़ॉर्म %3$s %1$s;\\\"।</string>
     <string name="shader_parse_error_empty_file">शेडर फ़ाइल खाली है.</string>
     <string name="shader_parse_error_not_itshader_json">शेडर फ़ाइल संस्करण, नाम और शेडर फ़ील्ड के साथ एक .itshader JSON ऑब्जेक्ट होनी चाहिए।</string>
     <string name="shader_parse_error_invalid_json">शेडर फ़ाइल वैध JSON नहीं है या .itshader प्रारूप से मेल नहीं खाती है।</string>
-    <string name="shader_parse_error_missing_field">फ़ील्ड \\"%1$s\\" आवश्यक है.</string>
+    <string name="shader_parse_error_missing_field">फ़ील्ड \\\"%1$s\\\" आवश्यक है.</string>
     <string name="shader_parse_error_missing_param_field">%1$s आवश्यक है.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" समर्थित नहीं है. समर्थित प्रकार: %3$s।</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" पैरामीटर के लिए %1$s आवश्यक है।</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" समर्थित नहीं है. समर्थित प्रकार: %3$s।</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" पैरामीटर के लिए %1$s आवश्यक है।</string>
     <string name="shader_parse_error_finite_number_expected">%1$s एक सीमित संख्या होनी चाहिए.</string>
     <string name="shader_parse_error_integer_expected">%1$s एक पूर्णांक होना चाहिए.</string>
     <string name="shader_parse_error_bool_expected">%1$s सत्य या असत्य होना चाहिए।</string>
@@ -3262,4 +3262,28 @@
     <string name="search_keywords_pdf_remove_annotations">पीडीएफ एनोटेशन टिप्पणियाँ साफ हटा दें</string>
     <string name="neutral_variant">तटस्थ संस्करण</string>
     <string name="error">गलती</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
