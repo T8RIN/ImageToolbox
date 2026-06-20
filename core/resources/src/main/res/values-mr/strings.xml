@@ -294,8 +294,7 @@
     <string name="features_sub">फाइल्सचे पासवर्ड-आधारित एनक्रिप्शन. पुढे केलेल्या फायली निवडलेल्या निर्देशिकेत संग्रहित केल्या जाऊ शकतात किंवा सामायिक केल्या जाऊ शकतात. डिक्रिप्ट केलेल्या फायली थेट उघडल्या जाऊ शकतात.</string>
     <string name="implementation_sub">AES-256, GCM मोड, कोणतेही पॅडिंग नाही, 12 बाइट यादृच्छिक IV डीफॉल्टनुसार. आपण आवश्यक अल्गोरिदम निवडू शकता. की 256-बिट SHA-3 हॅश म्हणून वापरल्या जातात</string>
     <string name="file_size">फाइल आकार</string>
-    <string name="file_size_sub">जास्तीत जास्त फाइल आकार Android OS आणि उपलब्ध मेमरीद्वारे प्रतिबंधित आहे, जी डिव्हाइसवर अवलंबून आहे.
-\nकृपया लक्षात ठेवा: मेमरी ही स्टोरेज नाही.</string>
+    <string name="file_size_sub">जास्तीत जास्त फाइल आकार Android OS आणि उपलब्ध मेमरीद्वारे प्रतिबंधित आहे, जी डिव्हाइसवर अवलंबून आहे. \nकृपया लक्षात ठेवा: मेमरी ही स्टोरेज नाही.</string>
     <string name="compatibility_sub">कृपया लक्षात घ्या की इतर फाइल एन्क्रिप्शन सॉफ्टवेअर किंवा सेवांच्या सुसंगततेची हमी दिलेली नाही. किंचित भिन्न की उपचार किंवा सायफर कॉन्फिगरेशनमुळे विसंगतता येऊ शकते.</string>
     <string name="invalid_password_or_not_encrypted">अवैध पासवर्ड किंवा निवडलेली फाइल एनक्रिप्ट केलेली नाही</string>
     <string name="image_size_warning">दिलेल्या रुंदी आणि उंचीसह प्रतिमा जतन करण्याचा प्रयत्न केल्याने मेमरी त्रुटी होऊ शकते. हे तुमच्या स्वतःच्या जोखमीवर करा.</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">सर्व दस्तऐवज एम्बेड केलेल्या प्रतिमा ग्रेस्केलमध्ये रूपांतरित करा</string>
     <string name="compress_pdf">पीडीएफ कॉम्प्रेस करा</string>
     <string name="compress_pdf_sub">सुलभ सामायिकरणासाठी तुमचा दस्तऐवज फाइल आकार ऑप्टिमाइझ करा</string>
-    <string name="repair_info">इमेजटूलबॉक्स अंतर्गत क्रॉस-रेफरन्स टेबलची पुनर्बांधणी करते आणि स्क्रॅचमधून फाइल संरचना पुन्हा निर्माण करते. हे \\"उघडले जाऊ शकत नाही\\" अशा अनेक फाइल्समध्ये प्रवेश पुनर्संचयित करू शकते.</string>
+    <string name="repair_info">इमेजटूलबॉक्स अंतर्गत क्रॉस-रेफरन्स टेबलची पुनर्बांधणी करते आणि स्क्रॅचमधून फाइल संरचना पुन्हा निर्माण करते. हे \\\"उघडले जाऊ शकत नाही\\\" अशा अनेक फाइल्समध्ये प्रवेश पुनर्संचयित करू शकते.</string>
     <string name="grayscale_info">हे साधन सर्व दस्तऐवज प्रतिमा ग्रेस्केलमध्ये रूपांतरित करते. मुद्रित करण्यासाठी आणि फाइल आकार कमी करण्यासाठी सर्वोत्तम</string>
     <string name="metadata">मेटाडेटा</string>
     <string name="metadata_pdf_sub">चांगल्या गोपनीयतेसाठी दस्तऐवज गुणधर्म संपादित करा</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">शेडरचे नाव रिक्त नसावे.</string>
     <string name="shader_error_blank_source">शेडर स्त्रोत रिक्त नसावा.</string>
     <string name="shader_error_unsupported_characters">शेडर स्त्रोतामध्ये असमर्थित वर्ण आहेत: %1$s. फक्त ASCII GLSL स्रोत वापरा.</string>
-    <string name="shader_error_duplicate_parameter">पॅरामीटर \\"%1$s\\" एकापेक्षा जास्त वेळा घोषित केले आहे.</string>
+    <string name="shader_error_duplicate_parameter">पॅरामीटर \\\"%1$s\\\" एकापेक्षा जास्त वेळा घोषित केले आहे.</string>
     <string name="shader_error_blank_parameter_name">पॅरामीटर नावे रिक्त नसावीत.</string>
-    <string name="shader_error_reserved_parameter_name">पॅरामीटर \\"%1$s\\" आरक्षित GPUI इमेज नाव वापरते.</string>
-    <string name="shader_error_invalid_parameter_name">पॅरामीटर \\"%1$s\\" एक वैध GLSL अभिज्ञापक असणे आवश्यक आहे.</string>
-    <string name="shader_error_invalid_value_type">पॅरामीटर \\"%1$s\\" मध्ये %2$s मूल्य प्रकार आहे \\"%3$s\\", अपेक्षित \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">पॅरामीटर \\"%1$s\\" bool मूल्यांसाठी किमान किंवा कमाल परिभाषित करू शकत नाही.</string>
-    <string name="shader_error_min_greater_than_max">पॅरामीटर \\"%1$s\\" मध्ये कमाल पेक्षा किमान आहे.</string>
-    <string name="shader_error_default_lower_than_min">पॅरामीटर \\"%1$s\\" डीफॉल्ट किमान पेक्षा कमी आहे.</string>
-    <string name="shader_error_default_greater_than_max">पॅरामीटर \\"%1$s\\" डीफॉल्ट कमाल पेक्षा मोठे आहे.</string>
-    <string name="shader_error_missing_input_texture">शेडरने \\"एकसमान नमुना2D %1$s;\\" घोषित करणे आवश्यक आहे.</string>
-    <string name="shader_error_missing_texture_coordinate">शेडरने \\"वेरिंग vec2 %1$s;\\" घोषित करणे आवश्यक आहे.</string>
-    <string name="shader_error_missing_main_function">शेडरने \\"void main()\\" परिभाषित करणे आवश्यक आहे.</string>
+    <string name="shader_error_reserved_parameter_name">पॅरामीटर \\\"%1$s\\\" आरक्षित GPUI इमेज नाव वापरते.</string>
+    <string name="shader_error_invalid_parameter_name">पॅरामीटर \\\"%1$s\\\" एक वैध GLSL अभिज्ञापक असणे आवश्यक आहे.</string>
+    <string name="shader_error_invalid_value_type">पॅरामीटर \\\"%1$s\\\" मध्ये %2$s मूल्य प्रकार आहे \\\"%3$s\\\", अपेक्षित \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">पॅरामीटर \\\"%1$s\\\" bool मूल्यांसाठी किमान किंवा कमाल परिभाषित करू शकत नाही.</string>
+    <string name="shader_error_min_greater_than_max">पॅरामीटर \\\"%1$s\\\" मध्ये कमाल पेक्षा किमान आहे.</string>
+    <string name="shader_error_default_lower_than_min">पॅरामीटर \\\"%1$s\\\" डीफॉल्ट किमान पेक्षा कमी आहे.</string>
+    <string name="shader_error_default_greater_than_max">पॅरामीटर \\\"%1$s\\\" डीफॉल्ट कमाल पेक्षा मोठे आहे.</string>
+    <string name="shader_error_missing_input_texture">शेडरने \\\"एकसमान नमुना2D %1$s;\\\" घोषित करणे आवश्यक आहे.</string>
+    <string name="shader_error_missing_texture_coordinate">शेडरने \\\"वेरिंग vec2 %1$s;\\\" घोषित करणे आवश्यक आहे.</string>
+    <string name="shader_error_missing_main_function">शेडरने \\\"void main()\\\" परिभाषित करणे आवश्यक आहे.</string>
     <string name="shader_error_missing_fragment_color">शेडरने gl_FragColor वर रंग लिहिला पाहिजे.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders समर्थित नाहीत. GPUImage च्या void main() कराराचा वापर करा.</string>
-    <string name="shader_error_shadertoy_i_time">ॲनिमेटेड ShaderToy युनिफॉर्म \\"iTime\\" समर्थित नाही.</string>
-    <string name="shader_error_shadertoy_i_frame">ॲनिमेटेड ShaderToy युनिफॉर्म \\"iFrame\\" समर्थित नाही.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy युनिफॉर्म \\"iResolution\\" समर्थित नाही.</string>
+    <string name="shader_error_shadertoy_i_time">ॲनिमेटेड ShaderToy युनिफॉर्म \\\"iTime\\\" समर्थित नाही.</string>
+    <string name="shader_error_shadertoy_i_frame">ॲनिमेटेड ShaderToy युनिफॉर्म \\\"iFrame\\\" समर्थित नाही.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy युनिफॉर्म \\\"iResolution\\\" समर्थित नाही.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel पोत समर्थित नाहीत.</string>
     <string name="shader_error_external_textures">बाह्य पोत समर्थित नाहीत.</string>
     <string name="shader_error_external_texture_extensions">बाह्य पोत विस्तार समर्थित नाहीत.</string>
     <string name="shader_error_libretro_parameters">लिब्रेट्रो शेडर पॅरामीटर्स समर्थित नाहीत.</string>
-    <string name="shader_error_extra_input_texture">फक्त एक इनपुट पोत समर्थित आहे. \\"गणवेश %1$s %2$s;\\" काढा.</string>
-    <string name="shader_error_missing_uniform">पॅरामीटर \\"%1$s\\" हे \\"युनिफॉर्म %2$s %1$s;\\" म्हणून घोषित करणे आवश्यक आहे.</string>
-    <string name="shader_error_wrong_uniform_type">पॅरामीटर \\"%1$s\\" हे \\"युनिफॉर्म %2$s %1$s;\\" म्हणून घोषित केले आहे, अपेक्षित \\"युनिफॉर्म %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">फक्त एक इनपुट पोत समर्थित आहे. \\\"गणवेश %1$s %2$s;\\\" काढा.</string>
+    <string name="shader_error_missing_uniform">पॅरामीटर \\\"%1$s\\\" हे \\\"युनिफॉर्म %2$s %1$s;\\\" म्हणून घोषित करणे आवश्यक आहे.</string>
+    <string name="shader_error_wrong_uniform_type">पॅरामीटर \\\"%1$s\\\" हे \\\"युनिफॉर्म %2$s %1$s;\\\" म्हणून घोषित केले आहे, अपेक्षित \\\"युनिफॉर्म %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">शेडर फाइल रिकामी आहे.</string>
     <string name="shader_parse_error_not_itshader_json">शेडर फाइल आवृत्ती, नाव आणि शेडर फील्डसह .itshader JSON ऑब्जेक्ट असणे आवश्यक आहे.</string>
     <string name="shader_parse_error_invalid_json">शेडर फाइल वैध JSON नाही किंवा .itshader फॉरमॅटशी जुळत नाही.</string>
-    <string name="shader_parse_error_missing_field">फील्ड \\"%1$s\\" आवश्यक आहे.</string>
+    <string name="shader_parse_error_missing_field">फील्ड \\\"%1$s\\\" आवश्यक आहे.</string>
     <string name="shader_parse_error_missing_param_field">%1$s आवश्यक आहे.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" समर्थित नाही. समर्थित प्रकार: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" पॅरामीटर्ससाठी %1$s आवश्यक आहे.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" समर्थित नाही. समर्थित प्रकार: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" पॅरामीटर्ससाठी %1$s आवश्यक आहे.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s ही मर्यादित संख्या असणे आवश्यक आहे.</string>
     <string name="shader_parse_error_integer_expected">%1$s पूर्णांक असणे आवश्यक आहे.</string>
     <string name="shader_parse_error_bool_expected">%1$s सत्य किंवा असत्य असणे आवश्यक आहे.</string>
@@ -3213,4 +3212,78 @@
     <string name="search_keywords_pdf_extract_pages">प्रतिमा पृष्ठांवर pdf निर्यात jpg png</string>
     <string name="neutral_variant">तटस्थ प्रकार</string>
     <string name="error">त्रुटी</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="search_keywords_pdf_extract_images"></string>
+    <string name="search_keywords_pdf_preview"></string>
+    <string name="search_keywords_pdf_crop"></string>
+    <string name="search_keywords_audio_cover_extractor"></string>
+    <string name="search_keywords_single_edit"></string>
+    <string name="search_keywords_crop"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="search_keywords_mesh_gradients"></string>
+    <string name="search_keywords_edit_exif"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="search_keywords_pdf_split"></string>
+    <string name="search_keywords_document_scanner"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="search_keywords_jxl_tools"></string>
+    <string name="search_keywords_pdf_zip_convert"></string>
+    <string name="search_keywords_image_cutter"></string>
+    <string name="search_keywords_recognize_text"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="search_keywords_collage_maker"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="search_keywords_pdf_tools"></string>
+    <string name="search_keywords_apng_tools"></string>
+    <string name="search_keywords_svg_maker"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="search_keywords_color_tools"></string>
+    <string name="search_keywords_pdf_merge"></string>
+    <string name="search_keywords_pdf_repair"></string>
+    <string name="search_keywords_pdf_signature"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="search_keywords_watermarking"></string>
+    <string name="search_keywords_noise_generation"></string>
+    <string name="search_keywords_pick_color_from_image"></string>
+    <string name="search_keywords_scan_qr_code"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="search_keywords_load_net_image"></string>
+    <string name="search_keywords_gif_tools"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="search_keywords_ai_tools"></string>
+    <string name="search_keywords_image_preview"></string>
+    <string name="search_keywords_palette_tools"></string>
+    <string name="search_keywords_draw"></string>
+    <string name="search_keywords_pdf_print"></string>
+    <string name="search_keywords_image_splitting"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="search_keywords_ascii_art"></string>
+    <string name="search_keywords_compare"></string>
+    <string name="search_keywords_pdf_remove_annotations"></string>
+    <string name="search_keywords_image_stacking"></string>
+    <string name="search_keywords_filter"></string>
+    <string name="search_keywords_color_library"></string>
+    <string name="search_keywords_gradient_maker"></string>
+    <string name="search_keywords_zip"></string>
+    <string name="search_keywords_pdf_protect"></string>
+    <string name="search_keywords_pdf_unlock"></string>
+    <string name="search_keywords_markup_layers"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="search_keywords_pdf_grayscale"></string>
+    <string name="search_keywords_cipher"></string>
+    <string name="search_keywords_limit_resize"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="search_keywords_image_stitching"></string>
+    <string name="search_keywords_pdf_remove_pages"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
