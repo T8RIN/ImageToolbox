@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -3268,4 +3270,7 @@
     <string name="search_keywords_pdf_extract_images">pdf பிரித்தெடுக்கப்பட்ட படங்கள் படங்கள்</string>
     <string name="search_keywords_pdf_extract_pages">pdf to images pages export jpg png</string>
     <string name="search_keywords_pdf_remove_annotations">pdf சிறுகுறிப்பு கருத்துகள் சுத்தமாக நீக்கப்படும்</string>
+    <string name="vertical_tooth_range">செங்குத்து பல் வீச்சு</string>
+    <string name="search_keywords_color_library">வண்ண நூலகப் பொருள் தட்டு நிறங்கள் என்று பெயரிடப்பட்டது</string>
+    <string name="search_keywords_pdf_images_to_pdf">படங்களை pdf ஆக மாற்ற jpg jpeg png ஆவணம்</string>
 </resources>
