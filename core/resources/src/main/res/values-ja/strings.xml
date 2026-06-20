@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -3261,4 +3263,13 @@
     <string name="search_keywords_pdf_remove_annotations">PDF 注釈 コメント 削除 クリーン</string>
     <string name="neutral_variant">中立的なバリアント</string>
     <string name="error">エラー</string>
+    <string name="drop_shadow">ドロップシャドウ</string>
+    <string name="tooth_height">歯の高さ</string>
+    <string name="horizontal_tooth_range">水平歯範囲</string>
+    <string name="vertical_tooth_range">垂直歯範囲</string>
+    <string name="top_edge">トップエッジ</string>
+    <string name="right_edge">右端</string>
+    <string name="bottom_edge">下端</string>
+    <string name="left_edge">左端</string>
+    <string name="torn_edge">破れたエッジ</string>
 </resources>

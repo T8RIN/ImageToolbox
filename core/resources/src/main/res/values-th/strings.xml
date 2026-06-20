@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -3261,4 +3263,13 @@
     <string name="search_keywords_pdf_remove_annotations">คำอธิบายประกอบ pdf ลบความคิดเห็นที่สะอาด</string>
     <string name="neutral_variant">ตัวแปรที่เป็นกลาง</string>
     <string name="error">ข้อผิดพลาด</string>
+    <string name="drop_shadow">วางเงา</string>
+    <string name="tooth_height">ความสูงของฟัน</string>
+    <string name="horizontal_tooth_range">ช่วงฟันแนวนอน</string>
+    <string name="vertical_tooth_range">ช่วงฟันแนวตั้ง</string>
+    <string name="top_edge">ขอบบน</string>
+    <string name="right_edge">ขอบขวา</string>
+    <string name="bottom_edge">ขอบล่าง</string>
+    <string name="left_edge">ขอบซ้าย</string>
+    <string name="torn_edge">ขอบฉีกขาด</string>
 </resources>

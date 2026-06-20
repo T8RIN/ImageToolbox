@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -3261,4 +3263,13 @@
     <string name="search_keywords_pdf_images_to_pdf">hình ảnh sang pdf chuyển đổi tài liệu jpg jpeg png</string>
     <string name="search_keywords_pdf_extract_pages">trang pdf sang hình ảnh xuất jpg png</string>
     <string name="search_keywords_pdf_remove_annotations">chú thích pdf loại bỏ ý kiến ​​sạch sẽ</string>
+    <string name="drop_shadow">Thả bóng</string>
+    <string name="tooth_height">Chiều cao răng</string>
+    <string name="horizontal_tooth_range">Phạm vi răng ngang</string>
+    <string name="vertical_tooth_range">Phạm vi răng dọc</string>
+    <string name="top_edge">Cạnh trên</string>
+    <string name="right_edge">Cạnh phải</string>
+    <string name="bottom_edge">Cạnh dưới</string>
+    <string name="left_edge">Cạnh trái</string>
+    <string name="torn_edge">Rách cạnh</string>
 </resources>

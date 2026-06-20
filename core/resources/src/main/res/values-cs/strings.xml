@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -3214,4 +3216,63 @@
     <string name="search_keywords_pdf_remove_annotations">pdf anotace komentáře odstranit čisté</string>
     <string name="neutral_variant">Neutrální varianta</string>
     <string name="error">Chyba</string>
+    <string name="drop_shadow">Vržený stín</string>
+    <string name="tooth_height">Výška zubů</string>
+    <string name="horizontal_tooth_range">Horizontální rozsah zubů</string>
+    <string name="vertical_tooth_range">Vertikální rozsah zubů</string>
+    <string name="top_edge">Horní okraj</string>
+    <string name="right_edge">Pravý okraj</string>
+    <string name="bottom_edge">Dolní okraj</string>
+    <string name="left_edge">Levý okraj</string>
+    <string name="torn_edge">Roztrhaný okraj</string>
+    <string name="search_keywords_single_edit">editor upravit fotografii obrázek retuš upravit</string>
+    <string name="search_keywords_resize_and_convert">změnit velikost převést měřítko rozlišení rozměry šířka výška jpg jpeg png webp komprimovat</string>
+    <string name="search_keywords_weight_resize">komprimovat velikost hmotnost bajtů mb kb snížit kvalitu optimalizovat</string>
+    <string name="search_keywords_crop">crop trim cut poměr stran</string>
+    <string name="search_keywords_filter">efekt filtru korekce barev upravit lut maska</string>
+    <string name="search_keywords_draw">kreslit štětec tužkou anotovat značení</string>
+    <string name="search_keywords_cipher">šifra zašifrovat dešifrovat heslo tajný</string>
+    <string name="search_keywords_erase_background">odstraňovač pozadí vymazat odstranit výřez transparentní alfa</string>
+    <string name="search_keywords_image_preview">náhled prohlížeč galerie prohlédnout otevřít</string>
+    <string name="search_keywords_image_stitching">steh sloučení kombinovat panorama dlouhý snímek obrazovky</string>
+    <string name="search_keywords_load_net_image">url web ke stažení obrázek internetového odkazu</string>
+    <string name="search_keywords_pick_color_from_image">sběrač kapátko vzorek hex rgb barva</string>
+    <string name="search_keywords_palette_tools">vzorník barev palety extrakt dominantní</string>
+    <string name="search_keywords_delete_exif">exif metadata privacy remove strip clean gps location</string>
+    <string name="search_keywords_compare">porovnat rozdíl rozdílu před po</string>
+    <string name="search_keywords_limit_resize">limit resize max min megapixels rozměry svorka</string>
+    <string name="search_keywords_recognize_text">ocr text rozpoznat extrakt skenování</string>
+    <string name="search_keywords_gradient_maker">přechod barvy pozadí mřížky</string>
+    <string name="search_keywords_watermarking">překrytí textu razítka vodoznaku</string>
+    <string name="search_keywords_gif_tools">GIF animace animované převést snímky</string>
+    <string name="search_keywords_apng_tools">apng animace animovaný png převést snímky</string>
+    <string name="search_keywords_zip">zip archiv komprimovat rozbalit soubory</string>
+    <string name="search_keywords_jxl_tools">jxl jpeg xl převést obrazový formát jpg</string>
+    <string name="search_keywords_svg_maker">svg vector trace convert xml</string>
+    <string name="search_keywords_format_conversion">format convert jpg jpeg png webp heic avif jxl bmp</string>
+    <string name="search_keywords_document_scanner">skener dokumentů skenování papíru perspektivy oříznutí</string>
+    <string name="search_keywords_scan_qr_code">qr skenování čárových kódů</string>
+    <string name="search_keywords_image_stacking">stacking overlay average medián astrofotografie</string>
+    <string name="search_keywords_image_splitting">split dlaždice mřížka slice díly</string>
+    <string name="search_keywords_color_tools">color convert hex rgb hsl hsv cmyk lab</string>
+    <string name="search_keywords_webp_tools">webp převést formát animovaného obrázku</string>
+    <string name="search_keywords_noise_generation">generátor šumu náhodné zrno textury</string>
+    <string name="search_keywords_collage_maker">koláž rozložení mřížky kombinovat</string>
+    <string name="search_keywords_markup_layers">vrstvy značek anotovat překryvné úpravy</string>
+    <string name="search_keywords_base64_tools">base64 kódování dekódování dat uri</string>
+    <string name="search_keywords_checksum_tools">kontrolní součet hash md5 sha sha1 sha256 ověřit</string>
+    <string name="search_keywords_edit_exif">exif metadata upravit gps datum kamera</string>
+    <string name="search_keywords_image_cutter">řezané dlaždice dělené mřížky</string>
+    <string name="search_keywords_audio_cover_extractor">audio přebal alba hudební metadata</string>
+    <string name="search_keywords_wallpapers_export">pozadí exportu tapety</string>
+    <string name="search_keywords_ascii_art">ascii text art znaky</string>
+    <string name="search_keywords_ai_tools">ai ml neuron enhance upscale segment</string>
+    <string name="search_keywords_color_library">paleta materiálů knihovny barev s názvem barvy</string>
+    <string name="search_keywords_shader_studio">studio efektu fragmentů shader glsl</string>
+    <string name="search_keywords_pdf_rotate">pdf otočit orientaci stránek</string>
+    <string name="search_keywords_pdf_rearrange">pdf změnit uspořádání změnit pořadí stránek seřadit</string>
+    <string name="search_keywords_pdf_page_numbers">pdf stránkování čísel stránek</string>
+    <string name="search_keywords_pdf_ocr">pdf ocr text rozpoznat prohledávatelný extrakt</string>
+    <string name="search_keywords_pdf_watermark">text loga vodoznaku ve formátu pdf</string>
+    <string name="search_keywords_pdf_protect">pdf chránit heslem šifrovat zámek</string>
 </resources>

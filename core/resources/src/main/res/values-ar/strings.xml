@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -3266,4 +3268,13 @@
     <string name="search_keywords_pdf_remove_annotations">قوات الدفاع الشعبي التعليقات التوضيحية إزالة نظيفة</string>
     <string name="neutral_variant">البديل المحايد</string>
     <string name="error">خطأ</string>
+    <string name="drop_shadow">إسقاط الظل</string>
+    <string name="tooth_height">ارتفاع الأسنان</string>
+    <string name="horizontal_tooth_range">نطاق الأسنان الأفقي</string>
+    <string name="vertical_tooth_range">نطاق الأسنان العمودي</string>
+    <string name="top_edge">الحافة العلوية</string>
+    <string name="right_edge">الحافة اليمنى</string>
+    <string name="bottom_edge">الحافة السفلية</string>
+    <string name="left_edge">الحافة اليسرى</string>
+    <string name="torn_edge">الحافة الممزقة</string>
 </resources>

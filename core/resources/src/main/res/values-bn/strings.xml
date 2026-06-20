@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -3235,4 +3237,40 @@
     <string name="search_keywords_pdf_remove_annotations">পিডিএফ টীকা মন্তব্য মুছে পরিষ্কার</string>
     <string name="neutral_variant">নিরপেক্ষ বৈকল্পিক</string>
     <string name="error">ত্রুটি</string>
+    <string name="drop_shadow">ড্রপ শ্যাডো</string>
+    <string name="tooth_height">দাঁতের উচ্চতা</string>
+    <string name="horizontal_tooth_range">অনুভূমিক দাঁত পরিসীমা</string>
+    <string name="vertical_tooth_range">উল্লম্ব দাঁত পরিসীমা</string>
+    <string name="top_edge">শীর্ষ প্রান্ত</string>
+    <string name="right_edge">ডান প্রান্ত</string>
+    <string name="bottom_edge">নীচের প্রান্ত</string>
+    <string name="left_edge">বাম প্রান্ত</string>
+    <string name="torn_edge">ছেঁড়া প্রান্ত</string>
+    <string name="search_keywords_filter">ফিল্টার প্রভাব রঙ সংশোধন লুট মাস্ক সামঞ্জস্য</string>
+    <string name="search_keywords_image_preview">প্রিভিউ দর্শক গ্যালারি খোলা পরিদর্শন</string>
+    <string name="search_keywords_load_net_image">url ওয়েব ডাউনলোড ইন্টারনেট লিঙ্ক ইমেজ</string>
+    <string name="search_keywords_palette_tools">প্যালেট রং swatches প্রভাবশালী নির্যাস</string>
+    <string name="search_keywords_compare">পরে আগে পার্থক্য পার্থক্য তুলনা</string>
+    <string name="search_keywords_gradient_maker">গ্রেডিয়েন্ট পটভূমি রঙ জাল</string>
+    <string name="search_keywords_watermarking">ওয়াটারমার্ক লোগো টেক্সট স্ট্যাম্প ওভারলে</string>
+    <string name="search_keywords_gif_tools">জিআইএফ অ্যানিমেশন অ্যানিমেটেড কনভার্ট ফ্রেম</string>
+    <string name="search_keywords_apng_tools">apng অ্যানিমেশন অ্যানিমেটেড png রূপান্তর ফ্রেম</string>
+    <string name="search_keywords_zip">জিপ আর্কাইভ কম্প্রেস প্যাক আনপ্যাক ফাইল</string>
+    <string name="search_keywords_svg_maker">svg ভেক্টর ট্রেস রূপান্তর xml</string>
+    <string name="search_keywords_document_scanner">নথি স্ক্যানার স্ক্যান কাগজ দৃষ্টিকোণ ফসল</string>
+    <string name="search_keywords_scan_qr_code">কিউআর বারকোড কোড স্ক্যানার স্ক্যান</string>
+    <string name="search_keywords_image_stacking">স্ট্যাকিং ওভারলে গড় মাঝারি অ্যাস্ট্রোফটোগ্রাফি</string>
+    <string name="search_keywords_color_tools">কালার কনভার্ট হেক্স আরজিবি এইচএসএল এইচএসভি cmyk ল্যাব</string>
+    <string name="search_keywords_noise_generation">গোলমাল জেনারেটর এলোমেলো জমিন শস্য</string>
+    <string name="search_keywords_collage_maker">কোলাজ গ্রিড লেআউট একত্রিত</string>
+    <string name="search_keywords_checksum_tools">চেকসাম হ্যাশ md5 sha sha1 sha256 যাচাই করুন</string>
+    <string name="search_keywords_image_cutter">বিভক্ত গ্রিড টুকরা টাইল কাটা</string>
+    <string name="search_keywords_audio_cover_extractor">অডিও কভার অ্যালবাম শিল্প সঙ্গীত মেটাডেটা</string>
+    <string name="search_keywords_ascii_art">ascii টেক্সট আর্ট অক্ষর</string>
+    <string name="search_keywords_color_library">রঙ লাইব্রেরি উপাদান প্যালেট নাম রং</string>
+    <string name="search_keywords_pdf_rotate">pdf পৃষ্ঠাগুলির অভিযোজন ঘোরান</string>
+    <string name="search_keywords_pdf_page_numbers">পিডিএফ পৃষ্ঠা সংখ্যা পৃষ্ঠা সংখ্যা</string>
+    <string name="search_keywords_pdf_ocr">pdf ocr টেক্সট সনাক্ত করা অনুসন্ধানযোগ্য নির্যাস</string>
+    <string name="search_keywords_pdf_watermark">পিডিএফ ওয়াটারমার্ক স্ট্যাম্প লোগো পাঠ্য</string>
+    <string name="search_keywords_pdf_unlock">pdf আনলক পাসওয়ার্ড ডিক্রিপ্ট সুরক্ষা অপসারণ</string>
 </resources>

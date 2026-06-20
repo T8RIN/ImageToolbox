@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
     <string name="loading">මොහොතක් සිටින්න…</string>
@@ -3224,4 +3226,51 @@
     <string name="search_keywords_pdf_extract_images">pdf උපුටා ගැනීම පින්තූර පින්තූර</string>
     <string name="neutral_variant">මධ්යස්ථ ප්රභේදය</string>
     <string name="error">දෝෂයකි</string>
+    <string name="drop_shadow">සෙවනැල්ල හෙළන්න</string>
+    <string name="tooth_height">දත් උස</string>
+    <string name="horizontal_tooth_range">තිරස් දත් පරාසය</string>
+    <string name="vertical_tooth_range">සිරස් දත් පරාසය</string>
+    <string name="top_edge">ඉහළ කෙළවර</string>
+    <string name="right_edge">දකුණු කෙළවර</string>
+    <string name="bottom_edge">පහළ කෙළවර</string>
+    <string name="left_edge">වම් කෙළවර</string>
+    <string name="torn_edge">ඉරා දැමූ දාරය</string>
+    <string name="search_keywords_palette_tools">palette colours swatches extract dominant</string>
+    <string name="search_keywords_compare">පසු වෙනස පෙර සසඳන්න</string>
+    <string name="search_keywords_pdf_tools">pdf ලේඛන පිටු මෙවලම්</string>
+    <string name="search_keywords_zip">zip archive compress pack ගොනු අසුරන්න</string>
+    <string name="search_keywords_svg_maker">svg vector trace convert xml</string>
+    <string name="search_keywords_scan_qr_code">qr තීරු කේත ස්කෑනර් ස්කෑන්</string>
+    <string name="search_keywords_image_stacking">සාමාන්‍ය මධ්‍ය තාරකා ඡායාරූපකරණය උඩින් තැබීම</string>
+    <string name="search_keywords_image_splitting">split tiles grid පෙත්ත කොටස්</string>
+    <string name="search_keywords_webp_tools">webp සජීවිකරණ රූප ආකෘතිය පරිවර්තනය කරන්න</string>
+    <string name="search_keywords_noise_generation">ශබ්ද උත්පාදක අහඹු වයනය ධාන්ය</string>
+    <string name="search_keywords_markup_layers">මාර්ක්අප් ස්තර විවරණ උඩැතිරි සංස්කරණය</string>
+    <string name="search_keywords_base64_tools">base64 දත්ත විකේතනය කිරීම uri</string>
+    <string name="search_keywords_mesh_gradients">දැල් අනුක්‍රමණ පසුබිම</string>
+    <string name="search_keywords_edit_exif">exif පාරදත්ත සංස්කරණය gps දිනය කැමරාව</string>
+    <string name="search_keywords_image_cutter">බෙදුණු ජාලක කැබලි ටයිල් කපා</string>
+    <string name="search_keywords_wallpapers_export">බිතුපත් අපනයන පසුබිම</string>
+    <string name="search_keywords_ai_tools">AI ml ස්නායු වැඩි දියුණු කිරීම ඉහළ මට්ටමේ කොටස</string>
+    <string name="search_keywords_color_library">වර්ණ පුස්තකාල ද්‍රව්‍ය තලය නම් වර්ණ</string>
+    <string name="search_keywords_shader_studio">shader glsl fragment effect studio</string>
+    <string name="search_keywords_pdf_merge">pdf merge combine join</string>
+    <string name="search_keywords_pdf_split">pdf වෙනම පිටු බෙදන්න</string>
+    <string name="search_keywords_pdf_rotate">pdf භ්‍රමණය පිටු දිශානතිය</string>
+    <string name="search_keywords_pdf_page_numbers">pdf පිටු අංක පේජිනේෂන්</string>
+    <string name="search_keywords_pdf_watermark">pdf දිය සලකුණ මුද්දර ලාංඡන පෙළ</string>
+    <string name="search_keywords_pdf_signature">pdf අත්සන් අත්සන් ඇඳීම</string>
+    <string name="search_keywords_pdf_unlock">pdf unlock password decrypt remove protection</string>
+    <string name="search_keywords_pdf_compress">pdf සම්පීඩනය ප්‍රමාණය ප්‍රශස්ත කිරීම අඩු කරන්න</string>
+    <string name="search_keywords_pdf_grayscale">pdf අළු පරිමාණ කළු සුදු ඒකවර්ණ</string>
+    <string name="search_keywords_pdf_metadata">pdf පාරදත්ත ගුණාංග exif කර්තෘ මාතෘකාව</string>
+    <string name="search_keywords_pdf_remove_pages">pdf පිටු මකා දමන්න</string>
+    <string name="search_keywords_pdf_crop">pdf බෝග සීමා මායිම්</string>
+    <string name="search_keywords_pdf_flatten">pdf සමතලා විවරණ ස්තර සාදයි</string>
+    <string name="search_keywords_pdf_zip_convert">pdf zip සංරක්ෂිත සම්පීඩනය</string>
+    <string name="search_keywords_pdf_print">pdf මුද්‍රණ මුද්‍රණ යන්ත්‍රය</string>
+    <string name="search_keywords_pdf_preview">pdf පෙරදසුන් නරඹන්නා කියවා ඇත</string>
+    <string name="search_keywords_pdf_images_to_pdf">පින්තූර pdf බවට පරිවර්තනය jpg jpeg png ලේඛනය</string>
+    <string name="search_keywords_pdf_extract_pages">pdf සිට පින්තූර පිටු වෙත jpg png අපනයනය කරන්න</string>
+    <string name="search_keywords_pdf_remove_annotations">pdf annotations comments remove clean</string>
 </resources>

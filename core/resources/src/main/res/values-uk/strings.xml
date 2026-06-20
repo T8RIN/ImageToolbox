@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -3264,4 +3266,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf анотації коментарі видалити чисті</string>
     <string name="neutral_variant">Нейтральний варіант</string>
     <string name="error">Помилка</string>
+    <string name="drop_shadow">Тінь</string>
+    <string name="tooth_height">Висота зуба</string>
+    <string name="horizontal_tooth_range">Горизонтальний діапазон зубів</string>
+    <string name="vertical_tooth_range">Вертикальний діапазон зубів</string>
+    <string name="top_edge">Верхній край</string>
+    <string name="right_edge">Правий край</string>
+    <string name="bottom_edge">Нижній край</string>
+    <string name="left_edge">Лівий край</string>
+    <string name="torn_edge">Рваний край</string>
 </resources>

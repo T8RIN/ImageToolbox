@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -3263,4 +3265,13 @@
     <string name="search_keywords_pdf_remove_annotations">пдф напомене коментари уклонити чисте</string>
     <string name="neutral_variant">Неутрал Вариант</string>
     <string name="error">Грешка</string>
+    <string name="drop_shadow">Дроп Схадов</string>
+    <string name="tooth_height">Висина зуба</string>
+    <string name="horizontal_tooth_range">Хоризонтални опсег зуба</string>
+    <string name="vertical_tooth_range">Вертикални опсег зуба</string>
+    <string name="top_edge">Топ Едге</string>
+    <string name="right_edge">Десна ивица</string>
+    <string name="bottom_edge">Боттом Едге</string>
+    <string name="left_edge">Лева ивица</string>
+    <string name="torn_edge">Торн Едге</string>
 </resources>

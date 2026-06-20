@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -3233,4 +3235,42 @@
     <string name="search_keywords_pdf_remove_annotations">pdf ఉల్లేఖనాల వ్యాఖ్యలు శుభ్రంగా తీసివేయబడతాయి</string>
     <string name="neutral_variant">తటస్థ వేరియంట్</string>
     <string name="error">లోపం</string>
+    <string name="drop_shadow">డ్రాప్ షాడో</string>
+    <string name="tooth_height">పంటి ఎత్తు</string>
+    <string name="horizontal_tooth_range">క్షితిజసమాంతర టూత్ రేంజ్</string>
+    <string name="vertical_tooth_range">నిలువు టూత్ రేంజ్</string>
+    <string name="top_edge">టాప్ ఎడ్జ్</string>
+    <string name="right_edge">కుడి అంచు</string>
+    <string name="bottom_edge">దిగువ అంచు</string>
+    <string name="left_edge">ఎడమ అంచు</string>
+    <string name="torn_edge">చిరిగిన అంచు</string>
+    <string name="search_keywords_crop">పంట ట్రిమ్ కట్ కారక నిష్పత్తి</string>
+    <string name="search_keywords_draw">పెయింట్ బ్రష్ పెన్సిల్ ఉల్లేఖన మార్కప్‌ను గీయండి</string>
+    <string name="search_keywords_image_preview">ప్రివ్యూ వ్యూయర్ గ్యాలరీ తనిఖీ తెరవబడింది</string>
+    <string name="search_keywords_image_stitching">స్టిచ్ మెర్జ్ పనోరమా లాంగ్ స్క్రీన్‌షాట్‌ను కలపండి</string>
+    <string name="search_keywords_pick_color_from_image">పికర్ ఐడ్రాపర్ నమూనా హెక్స్ rgb రంగు</string>
+    <string name="search_keywords_palette_tools">పాలెట్ రంగులు swatches సారం ఆధిపత్యం</string>
+    <string name="search_keywords_pdf_tools">pdf డాక్యుమెంట్ పేజీల సాధనాలు</string>
+    <string name="search_keywords_recognize_text">ocr టెక్స్ట్ గుర్తింపు సారం స్కాన్</string>
+    <string name="search_keywords_apng_tools">apng యానిమేషన్ యానిమేటెడ్ png ఫ్రేమ్‌లను మారుస్తుంది</string>
+    <string name="search_keywords_svg_maker">svg వెక్టర్ ట్రేస్ కన్వర్ట్ xml</string>
+    <string name="search_keywords_document_scanner">డాక్యుమెంట్ స్కానర్ స్కాన్ పేపర్ పెర్స్పెక్టివ్ క్రాప్</string>
+    <string name="search_keywords_image_stacking">స్టాకింగ్ ఓవర్లే సగటు మధ్యస్థ ఆస్ట్రోఫోటోగ్రఫీ</string>
+    <string name="search_keywords_color_tools">రంగు మార్చడానికి hex rgb hsl hsv cmyk ల్యాబ్</string>
+    <string name="search_keywords_collage_maker">కోల్లెజ్ గ్రిడ్ లేఅవుట్ కలపండి</string>
+    <string name="search_keywords_markup_layers">మార్కప్ లేయర్‌లు ఓవర్‌లే సవరణను ఉల్లేఖిస్తాయి</string>
+    <string name="search_keywords_ai_tools">ai ml నాడీ ఉన్నత స్థాయి విభాగాన్ని మెరుగుపరుస్తుంది</string>
+    <string name="search_keywords_color_library">రంగు లైబ్రరీ మెటీరియల్ పాలెట్ రంగులు అనే పేరు</string>
+    <string name="search_keywords_pdf_rotate">pdf రొటేట్ పేజీల విన్యాసాన్ని</string>
+    <string name="search_keywords_pdf_rearrange">pdf పేజీల క్రమాన్ని క్రమాన్ని మార్చండి</string>
+    <string name="search_keywords_pdf_page_numbers">pdf పేజీ సంఖ్యల పేజీ</string>
+    <string name="search_keywords_pdf_ocr">pdf ocr టెక్స్ట్ శోధించదగిన సారాన్ని గుర్తించింది</string>
+    <string name="search_keywords_pdf_protect">pdf పాస్‌వర్డ్ ఎన్‌క్రిప్ట్ లాక్‌ని రక్షించండి</string>
+    <string name="search_keywords_pdf_compress">pdf కంప్రెస్ తగ్గించు పరిమాణాన్ని ఆప్టిమైజ్ చేయండి</string>
+    <string name="search_keywords_pdf_repair">pdf మరమ్మత్తు పరిష్కారము విరిగిన రికవరీ</string>
+    <string name="search_keywords_pdf_metadata">pdf మెటాడేటా లక్షణాలు exif రచయిత శీర్షిక</string>
+    <string name="search_keywords_pdf_remove_pages">pdf తొలగించు పేజీలను తొలగించండి</string>
+    <string name="search_keywords_pdf_crop">pdf క్రాప్ ట్రిమ్ మార్జిన్లు</string>
+    <string name="search_keywords_pdf_flatten">pdf చదును ఉల్లేఖనాలు పొరలను ఏర్పరుస్తాయి</string>
+    <string name="search_keywords_pdf_extract_pages">pdf to images pages export jpg png</string>
 </resources>

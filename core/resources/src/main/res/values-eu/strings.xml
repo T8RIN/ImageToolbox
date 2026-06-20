@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Tamaina %1$s</string>
     <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
     <string name="loading">Kargatzen…</string>
@@ -3219,4 +3221,56 @@
     <string name="search_keywords_pdf_print">pdf inprimagailua</string>
     <string name="search_keywords_pdf_preview">pdf aurrebista ikuslea irakurri</string>
     <string name="error">Errorea</string>
+    <string name="neutral_variant">Aldaera Neutroa</string>
+    <string name="drop_shadow">Jaregin itzala</string>
+    <string name="tooth_height">Hortzen Altuera</string>
+    <string name="horizontal_tooth_range">Hortz barruti horizontala</string>
+    <string name="vertical_tooth_range">Hortz sorta bertikala</string>
+    <string name="top_edge">Goiko Ertza</string>
+    <string name="right_edge">Eskuineko Ertza</string>
+    <string name="bottom_edge">Beheko Ertza</string>
+    <string name="left_edge">Ezkerreko Ertza</string>
+    <string name="torn_edge">Ertza Urratua</string>
+    <string name="search_keywords_pick_color_from_image">hautatzailea eyedropper lagina hex rgb kolorea</string>
+    <string name="search_keywords_compare">alderatu diferentzia aurretik eta ondoren</string>
+    <string name="search_keywords_recognize_text">ocr testua ezagutzen ateratze eskaneatzea</string>
+    <string name="search_keywords_watermarking">ur-markaren logotipoaren testu zigiluaren gainjartzea</string>
+    <string name="search_keywords_apng_tools">apng animazioa PNG bihurtzeko fotogramak</string>
+    <string name="search_keywords_zip">zip artxiboa konprimitu paketea deskonprimitu fitxategiak</string>
+    <string name="search_keywords_jxl_tools">jxl jpeg xl bihurtu jpg irudi formatua</string>
+    <string name="search_keywords_svg_maker">svg traza bektorial bihurtzeko xml</string>
+    <string name="search_keywords_document_scanner">dokumentu eskaner eskaneatu papera perspektiba moztu</string>
+    <string name="search_keywords_scan_qr_code">qr barra-kodeen eskanerra eskaneatzea</string>
+    <string name="search_keywords_image_stacking">pilaketa gainjartzea batez besteko astroargazkiaren mediana</string>
+    <string name="search_keywords_image_splitting">zatitu fitxak sareta xerra zatiak</string>
+    <string name="search_keywords_color_tools">kolore bihurtzea hex rgb hsl hsv cmyk lab</string>
+    <string name="search_keywords_noise_generation">zarata-sortzailea ausazko ehundura alea</string>
+    <string name="search_keywords_collage_maker">collage-sarearen diseinua konbinatu</string>
+    <string name="search_keywords_markup_layers">markatze geruzek gainjarri edizioa egiten dute</string>
+    <string name="search_keywords_base64_tools">base64 kodetu datuak deskodetzen uri</string>
+    <string name="search_keywords_checksum_tools">checksum hash md5 sha sha1 sha256 egiaztatu</string>
+    <string name="search_keywords_edit_exif">exif metadatuak editatu gps data kamera</string>
+    <string name="search_keywords_image_cutter">zatitu sareta zati fitxak moztu</string>
+    <string name="search_keywords_audio_cover_extractor">audioaren azala albumaren artearen musika metadatuak</string>
+    <string name="search_keywords_wallpapers_export">horma-papera esportatzeko atzeko planoa</string>
+    <string name="search_keywords_ascii_art">ascii testu-arteko pertsonaiak</string>
+    <string name="search_keywords_ai_tools">ai ml neuronal hobetu goi mailako segmentua</string>
+    <string name="search_keywords_color_library">kolore liburutegiko material paleta koloreak izenekoa</string>
+    <string name="search_keywords_shader_studio">shader glsl fragment efektu estudioa</string>
+    <string name="search_keywords_pdf_rotate">pdf biratu orriak orientazioa</string>
+    <string name="search_keywords_pdf_rearrange">pdf berrantolatu berrantolatu orriak ordenatu</string>
+    <string name="search_keywords_pdf_page_numbers">pdf orrialde-zenbakien orria</string>
+    <string name="search_keywords_pdf_ocr">pdf ocr testua ezagutu bilaketa daitekeen laburpena</string>
+    <string name="search_keywords_pdf_watermark">pdf ur-marka zigiluaren logotipoaren testua</string>
+    <string name="search_keywords_pdf_protect">pdf babestu pasahitza enkriptatu blokeoa</string>
+    <string name="search_keywords_pdf_unlock">pdf desblokeatu pasahitza deszifratu kendu babesa</string>
+    <string name="search_keywords_pdf_compress">pdf konprimitu tamaina murriztu optimizatu</string>
+    <string name="search_keywords_pdf_grayscale">pdf gris-eskala beltza zuri monokromoa</string>
+    <string name="search_keywords_pdf_repair">pdf konponketa konpondu berreskuratu hautsita</string>
+    <string name="search_keywords_pdf_metadata">pdf metadatuen propietate exif egilearen izenburua</string>
+    <string name="search_keywords_pdf_flatten">pdf berdindu oharrak geruzak eratzen ditu</string>
+    <string name="search_keywords_pdf_extract_images">pdf ateratzeko irudiak irudiak</string>
+    <string name="search_keywords_pdf_images_to_pdf">irudiak pdf bihurtzeko jpg jpeg png dokumentua</string>
+    <string name="search_keywords_pdf_extract_pages">pdf irudietara orrietara esportatu jpg png</string>
+    <string name="search_keywords_pdf_remove_annotations">pdf oharrak iruzkinak garbi kendu</string>
 </resources>

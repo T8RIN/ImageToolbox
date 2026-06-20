@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf-anteckningar kommentarer ta bort ren</string>
     <string name="neutral_variant">Neutral variant</string>
     <string name="error">Fel</string>
+    <string name="drop_shadow">Drop Shadow</string>
+    <string name="tooth_height">Tandhöjd</string>
+    <string name="horizontal_tooth_range">Horisontellt tandområde</string>
+    <string name="vertical_tooth_range">Vertikal tandområde</string>
+    <string name="top_edge">Top Edge</string>
+    <string name="right_edge">Höger kant</string>
+    <string name="bottom_edge">Nedre kant</string>
+    <string name="left_edge">Vänster kant</string>
+    <string name="torn_edge">Torn Edge</string>
 </resources>

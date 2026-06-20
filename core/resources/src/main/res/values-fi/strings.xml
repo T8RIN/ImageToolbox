@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf-merkinnät kommentit poista puhdas</string>
     <string name="neutral_variant">Neutraali vaihtoehto</string>
     <string name="error">Virhe</string>
+    <string name="drop_shadow">Varjo</string>
+    <string name="tooth_height">Hampaan korkeus</string>
+    <string name="horizontal_tooth_range">Vaakasuuntainen hammasalue</string>
+    <string name="vertical_tooth_range">Pystysuuntainen hammasalue</string>
+    <string name="top_edge">Yläreuna</string>
+    <string name="right_edge">Oikea reuna</string>
+    <string name="bottom_edge">Alareuna</string>
+    <string name="left_edge">Vasen reuna</string>
+    <string name="torn_edge">Revitty reuna</string>
 </resources>

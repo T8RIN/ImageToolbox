@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf annotations commentaires supprimer nettoyer</string>
     <string name="neutral_variant">Variante neutre</string>
     <string name="error">Erreur</string>
+    <string name="drop_shadow">Ombre portée</string>
+    <string name="tooth_height">Hauteur des dents</string>
+    <string name="horizontal_tooth_range">Plage de dents horizontale</string>
+    <string name="vertical_tooth_range">Gamme de dents verticales</string>
+    <string name="top_edge">Bord supérieur</string>
+    <string name="right_edge">Bord droit</string>
+    <string name="bottom_edge">Bord inférieur</string>
+    <string name="left_edge">Bord gauche</string>
+    <string name="torn_edge">Bord déchiré</string>
 </resources>

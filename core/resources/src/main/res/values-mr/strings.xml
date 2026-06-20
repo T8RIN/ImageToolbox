@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -3212,4 +3214,63 @@
     <string name="search_keywords_pdf_extract_pages">प्रतिमा पृष्ठांवर pdf निर्यात jpg png</string>
     <string name="neutral_variant">तटस्थ प्रकार</string>
     <string name="error">त्रुटी</string>
+    <string name="drop_shadow">सावली सोडा</string>
+    <string name="tooth_height">दात उंची</string>
+    <string name="horizontal_tooth_range">क्षैतिज दात श्रेणी</string>
+    <string name="vertical_tooth_range">अनुलंब दात श्रेणी</string>
+    <string name="top_edge">टॉप एज</string>
+    <string name="right_edge">उजवी किनार</string>
+    <string name="bottom_edge">तळाशी कडा</string>
+    <string name="left_edge">डावा किनारा</string>
+    <string name="torn_edge">फाटलेला कडा</string>
+    <string name="search_keywords_single_edit">संपादक संपादन फोटो चित्र रीटच समायोजित</string>
+    <string name="search_keywords_crop">क्रॉप ट्रिम कट आस्पेक्ट रेशो</string>
+    <string name="search_keywords_filter">फिल्टर प्रभाव रंग सुधारणा समायोजित lut मुखवटा</string>
+    <string name="search_keywords_draw">पेंट ब्रश पेन्सिल भाष्य मार्कअप काढा</string>
+    <string name="search_keywords_cipher">सायफर एनक्रिप्ट डिक्रिप्ट पासवर्ड गुप्त</string>
+    <string name="search_keywords_image_preview">पूर्वावलोकन दर्शक गॅलरी तपासणी उघडा</string>
+    <string name="search_keywords_image_stitching">स्टिच मर्ज पॅनोरामा लाँग स्क्रीनशॉट एकत्र करा</string>
+    <string name="search_keywords_load_net_image">url वेब डाउनलोड इंटरनेट लिंक प्रतिमा</string>
+    <string name="search_keywords_pick_color_from_image">पिकर आयड्रॉपर नमुना हेक्स आरजीबी रंग</string>
+    <string name="search_keywords_palette_tools">पॅलेट रंग swatches प्राबल्य अर्क</string>
+    <string name="search_keywords_compare">नंतरच्या आधी भिन्न फरकाची तुलना करा</string>
+    <string name="search_keywords_limit_resize">मर्यादा आकार बदला कमाल किमान मेगापिक्सेल परिमाण क्लॅम्प</string>
+    <string name="search_keywords_pdf_tools">पीडीएफ दस्तऐवज पृष्ठे साधने</string>
+    <string name="search_keywords_recognize_text">ocr मजकूर ओळख अर्क स्कॅन</string>
+    <string name="search_keywords_gradient_maker">ग्रेडियंट पार्श्वभूमी रंग जाळी</string>
+    <string name="search_keywords_watermarking">वॉटरमार्क लोगो मजकूर स्टॅम्प आच्छादन</string>
+    <string name="search_keywords_gif_tools">gif ॲनिमेशन ॲनिमेटेड रूपांतरित फ्रेम्स</string>
+    <string name="search_keywords_apng_tools">apng ॲनिमेशन ॲनिमेटेड png रूपांतर फ्रेम</string>
+    <string name="search_keywords_zip">zip आर्काइव्ह कॉम्प्रेस पॅक अनपॅक फाइल्स</string>
+    <string name="search_keywords_jxl_tools">jxl jpeg xl रूपांतरित jpg प्रतिमा स्वरूप</string>
+    <string name="search_keywords_svg_maker">svg वेक्टर ट्रेस रूपांतरित xml</string>
+    <string name="search_keywords_document_scanner">दस्तऐवज स्कॅनर स्कॅन पेपर दृष्टीकोन पीक</string>
+    <string name="search_keywords_scan_qr_code">क्यूआर बारकोड कोड स्कॅनर स्कॅन</string>
+    <string name="search_keywords_image_stacking">स्टॅकिंग आच्छादन सरासरी मध्यवर्ती खगोल छायाचित्रण</string>
+    <string name="search_keywords_image_splitting">स्प्लिट टाइल्स ग्रिड स्लाइस भाग</string>
+    <string name="search_keywords_color_tools">कलर कन्व्हर्ट हेक्स आरजीबी एचएसएल एचएसव्ही सीएमआयके लॅब</string>
+    <string name="search_keywords_noise_generation">आवाज जनरेटर यादृच्छिक पोत धान्य</string>
+    <string name="search_keywords_collage_maker">कोलाज ग्रिड लेआउट एकत्र</string>
+    <string name="search_keywords_markup_layers">मार्कअप स्तर भाष्य आच्छादन संपादन</string>
+    <string name="search_keywords_mesh_gradients">जाळीदार ग्रेडियंट पार्श्वभूमी</string>
+    <string name="search_keywords_edit_exif">exif मेटाडेटा संपादित करा जीपीएस तारीख कॅमेरा</string>
+    <string name="search_keywords_image_cutter">विभाजित ग्रिड तुकडे फरशा</string>
+    <string name="search_keywords_audio_cover_extractor">ऑडिओ कव्हर अल्बम कला संगीत मेटाडेटा</string>
+    <string name="search_keywords_ascii_art">ascii मजकूर कला वर्ण</string>
+    <string name="search_keywords_ai_tools">एआय एमएल न्यूरल एन्हांस अपस्केल सेगमेंट</string>
+    <string name="search_keywords_color_library">कलर लायब्ररी मटेरियल पॅलेट नावाचे रंग</string>
+    <string name="search_keywords_pdf_merge">pdf मर्ज एकत्र करा</string>
+    <string name="search_keywords_pdf_split">पीडीएफ स्वतंत्र पृष्ठे विभाजित करा</string>
+    <string name="search_keywords_pdf_signature">pdf स्वाक्षरी चिन्ह काढा</string>
+    <string name="search_keywords_pdf_protect">पीडीएफ पासवर्ड एन्क्रिप्ट लॉक संरक्षित करा</string>
+    <string name="search_keywords_pdf_unlock">pdf अनलॉक पासवर्ड डिक्रिप्ट संरक्षण काढून टाका</string>
+    <string name="search_keywords_pdf_grayscale">पीडीएफ ग्रेस्केल काळा पांढरा मोनोक्रोम</string>
+    <string name="search_keywords_pdf_repair">पीडीएफ दुरुस्ती दुरुस्त पुनर्प्राप्ती तुटलेली</string>
+    <string name="search_keywords_pdf_remove_pages">pdf पाने हटवा</string>
+    <string name="search_keywords_pdf_crop">पीडीएफ क्रॉप ट्रिम मार्जिन</string>
+    <string name="search_keywords_pdf_extract_images">pdf चित्रे काढा</string>
+    <string name="search_keywords_pdf_zip_convert">पीडीएफ झिप आर्काइव्ह कॉम्प्रेस</string>
+    <string name="search_keywords_pdf_print">पीडीएफ प्रिंट प्रिंटर</string>
+    <string name="search_keywords_pdf_preview">pdf पूर्वावलोकन दर्शक वाचले</string>
+    <string name="search_keywords_pdf_remove_annotations">pdf भाष्य टिप्पण्या स्वच्छ काढा</string>
 </resources>

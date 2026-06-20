@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf megjegyzések megjegyzések eltávolítása tiszta</string>
     <string name="neutral_variant">Semleges változat</string>
     <string name="error">Hiba</string>
+    <string name="drop_shadow">Dobó árnyék</string>
+    <string name="tooth_height">Fogmagasság</string>
+    <string name="horizontal_tooth_range">Vízszintes fogtartomány</string>
+    <string name="vertical_tooth_range">Függőleges fogtartomány</string>
+    <string name="top_edge">Top Edge</string>
+    <string name="right_edge">Jobb Edge</string>
+    <string name="bottom_edge">Alsó él</string>
+    <string name="left_edge">Left Edge</string>
+    <string name="torn_edge">Szakadt él</string>
 </resources>

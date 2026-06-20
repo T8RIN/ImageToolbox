@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -3199,4 +3201,76 @@
     <string name="search_keywords_pdf_preview">ਪੀਡੀਐਫ ਪ੍ਰੀਵਿਊ ਦਰਸ਼ਕ ਪੜ੍ਹਦਾ ਹੈ</string>
     <string name="neutral_variant">ਨਿਰਪੱਖ ਰੂਪ</string>
     <string name="error">ਗਲਤੀ</string>
+    <string name="drop_shadow">ਡਰਾਪ ਸ਼ੈਡੋ</string>
+    <string name="tooth_height">ਦੰਦ ਦੀ ਉਚਾਈ</string>
+    <string name="horizontal_tooth_range">ਹਰੀਜ਼ੱਟਲ ਟੂਥ ਰੇਂਜ</string>
+    <string name="vertical_tooth_range">ਵਰਟੀਕਲ ਟੂਥ ਰੇਂਜ</string>
+    <string name="top_edge">ਸਿਖਰ ਦਾ ਕਿਨਾਰਾ</string>
+    <string name="right_edge">ਸੱਜਾ ਕਿਨਾਰਾ</string>
+    <string name="bottom_edge">ਹੇਠਲਾ ਕਿਨਾਰਾ</string>
+    <string name="left_edge">ਖੱਬਾ ਕਿਨਾਰਾ</string>
+    <string name="torn_edge">ਫਟੇ ਕਿਨਾਰੇ</string>
+    <string name="search_keywords_single_edit">ਸੰਪਾਦਕ ਫੋਟੋ ਤਸਵੀਰ ਰੀਟਚ ਐਡਜਸਟ</string>
+    <string name="search_keywords_crop">ਫਸਲ ਟ੍ਰਿਮ ਕੱਟ ਪੱਖ ਅਨੁਪਾਤ</string>
+    <string name="search_keywords_filter">ਫਿਲਟਰ ਪ੍ਰਭਾਵ ਰੰਗ ਸੁਧਾਰ ਲੂਟ ਮਾਸਕ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰੋ</string>
+    <string name="search_keywords_draw">ਪੇਂਟ ਬੁਰਸ਼ ਪੈਨਸਿਲ ਐਨੋਟੇਟ ਮਾਰਕਅੱਪ ਖਿੱਚੋ</string>
+    <string name="search_keywords_cipher">ਸਿਫਰ ਐਨਕ੍ਰਿਪਟ ਡੀਕ੍ਰਿਪਟ ਪਾਸਵਰਡ ਗੁਪਤ</string>
+    <string name="search_keywords_erase_background">ਬੈਕਗ੍ਰਾਊਂਡ ਰਿਮੂਵਰ ਮਿਟਾਓ ਕੱਟਆਊਟ ਪਾਰਦਰਸ਼ੀ ਅਲਫ਼ਾ</string>
+    <string name="search_keywords_image_preview">ਝਲਕ ਦਰਸ਼ਕ ਗੈਲਰੀ ਦਾ ਨਿਰੀਖਣ ਖੁੱਲ੍ਹਾ</string>
+    <string name="search_keywords_image_stitching">ਸਟੀਚ ਮਰਜ ਕੰਬਾਈਨ ਪੈਨੋਰਾਮਾ ਲੰਬਾ ਸਕ੍ਰੀਨਸ਼ੌਟ</string>
+    <string name="search_keywords_load_net_image">url ਵੈੱਬ ਡਾਊਨਲੋਡ ਇੰਟਰਨੈੱਟ ਲਿੰਕ ਚਿੱਤਰ</string>
+    <string name="search_keywords_pick_color_from_image">ਪਿੱਕਰ ਆਈਡ੍ਰੌਪਰ ਨਮੂਨਾ ਹੈਕਸ ਆਰਜੀਬੀ ਰੰਗ</string>
+    <string name="search_keywords_palette_tools">ਪੈਲੇਟ ਰੰਗਾਂ ਦੇ ਸਵੈਚ ਐਬਸਟਰੈਕਟ ਪ੍ਰਭਾਵੀ ਹਨ</string>
+    <string name="search_keywords_delete_exif">exif ਮੈਟਾਡੇਟਾ ਗੋਪਨੀਯਤਾ ਹਟਾਓ ਪੱਟੀ ਸਾਫ਼ GPS ਸਥਾਨ</string>
+    <string name="search_keywords_compare">ਬਾਅਦ ਤੋਂ ਪਹਿਲਾਂ ਅੰਤਰ ਦੀ ਤੁਲਨਾ ਕਰੋ</string>
+    <string name="search_keywords_limit_resize">ਸੀਮਾ ਰੀਸਾਈਜ਼ ਅਧਿਕਤਮ ਘੱਟੋ-ਘੱਟ ਮੈਗਾਪਿਕਸਲ ਦੇ ਮਾਪ ਕਲੈਂਪ</string>
+    <string name="search_keywords_pdf_tools">pdf ਦਸਤਾਵੇਜ਼ ਪੰਨੇ ਟੂਲ</string>
+    <string name="search_keywords_recognize_text">ocr ਟੈਕਸਟ ਪਛਾਣ ਐਕਸਟਰੈਕਟ ਸਕੈਨ</string>
+    <string name="search_keywords_gradient_maker">ਗਰੇਡੀਐਂਟ ਬੈਕਗ੍ਰਾਊਂਡ ਰੰਗ ਜਾਲ</string>
+    <string name="search_keywords_watermarking">ਵਾਟਰਮਾਰਕ ਲੋਗੋ ਟੈਕਸਟ ਸਟੈਂਪ ਓਵਰਲੇਅ</string>
+    <string name="search_keywords_gif_tools">gif ਐਨੀਮੇਸ਼ਨ ਐਨੀਮੇਟਡ ਕਨਵਰਟ ਫਰੇਮ</string>
+    <string name="search_keywords_apng_tools">apng ਐਨੀਮੇਸ਼ਨ ਐਨੀਮੇਟਡ png ਕਨਵਰਟ ਫਰੇਮ</string>
+    <string name="search_keywords_zip">zip ਆਰਕਾਈਵ ਕੰਪਰੈੱਸ ਪੈਕ ਅਨਪੈਕ ਫਾਈਲਾਂ</string>
+    <string name="search_keywords_jxl_tools">jxl jpeg xl jpg ਚਿੱਤਰ ਫਾਰਮੈਟ ਵਿੱਚ ਬਦਲੋ</string>
+    <string name="search_keywords_svg_maker">svg ਵੈਕਟਰ ਟਰੇਸ ਕਨਵਰਟ xml</string>
+    <string name="search_keywords_format_conversion">ਫਾਰਮੈਟ ਕਨਵਰਟ jpg jpeg png webp heic avif jxl bmp</string>
+    <string name="search_keywords_document_scanner">ਦਸਤਾਵੇਜ਼ ਸਕੈਨਰ ਸਕੈਨ ਕਾਗਜ਼ ਦ੍ਰਿਸ਼ਟੀਕੋਣ ਫਸਲ</string>
+    <string name="search_keywords_scan_qr_code">qr ਬਾਰਕੋਡ ਕੋਡ ਸਕੈਨਰ ਸਕੈਨ</string>
+    <string name="search_keywords_image_stacking">ਸਟੈਕਿੰਗ ਓਵਰਲੇ ਔਸਤ ਮੱਧ ਐਸਟ੍ਰੋਫੋਟੋਗ੍ਰਾਫੀ</string>
+    <string name="search_keywords_image_splitting">ਸਪਲਿਟ ਟਾਇਲਸ ਗਰਿੱਡ ਟੁਕੜੇ ਹਿੱਸੇ</string>
+    <string name="search_keywords_color_tools">ਰੰਗ ਪਰਿਵਰਤਨ hex rgb hsl hsv cmyk ਲੈਬ</string>
+    <string name="search_keywords_webp_tools">webp ਕਨਵਰਟ ਐਨੀਮੇਟਡ ਚਿੱਤਰ ਫਾਰਮੈਟ</string>
+    <string name="search_keywords_noise_generation">ਸ਼ੋਰ ਜਨਰੇਟਰ ਬੇਤਰਤੀਬ ਟੈਕਸਟਚਰ ਅਨਾਜ</string>
+    <string name="search_keywords_collage_maker">ਕੋਲਾਜ ਗਰਿੱਡ ਖਾਕਾ ਜੋੜ</string>
+    <string name="search_keywords_markup_layers">ਮਾਰਕਅੱਪ ਲੇਅਰ ਐਨੋਟੇਟ ਓਵਰਲੇ ਐਡਿਟ</string>
+    <string name="search_keywords_base64_tools">ਬੇਸ 64 ਏਨਕੋਡ ਡੀਕੋਡ ਡੇਟਾ ਯੂਰੀ</string>
+    <string name="search_keywords_checksum_tools">ਚੈੱਕਸਮ ਹੈਸ਼ md5 sha sha1 sha256 ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ</string>
+    <string name="search_keywords_edit_exif">exif ਮੈਟਾਡੇਟਾ ਜੀਪੀਐਸ ਮਿਤੀ ਕੈਮਰਾ ਸੰਪਾਦਿਤ ਕਰੋ</string>
+    <string name="search_keywords_image_cutter">ਸਪਲਿਟ ਗਰਿੱਡ ਟੁਕੜੇ ਟਾਇਲ ਕੱਟ</string>
+    <string name="search_keywords_audio_cover_extractor">ਆਡੀਓ ਕਵਰ ਐਲਬਮ ਆਰਟ ਸੰਗੀਤ ਮੈਟਾਡੇਟਾ</string>
+    <string name="search_keywords_wallpapers_export">ਵਾਲਪੇਪਰ ਨਿਰਯਾਤ ਪਿਛੋਕੜ</string>
+    <string name="search_keywords_ascii_art">ascii ਟੈਕਸਟ ਕਲਾ ਅੱਖਰ</string>
+    <string name="search_keywords_ai_tools">ਏਆਈਐਮਐਲ ਨਿਊਰਲ ਐਨਹਾਂਸ ਅਪਸਕੇਲ ਖੰਡ</string>
+    <string name="search_keywords_color_library">ਰੰਗ ਲਾਇਬ੍ਰੇਰੀ ਸਮੱਗਰੀ ਪੈਲੇਟ ਨਾਮ ਰੰਗ</string>
+    <string name="search_keywords_shader_studio">ਸ਼ੈਡਰ ਜੀਐਲਐਸਐਲ ਫਰੈਗਮੈਂਟ ਇਫੈਕਟ ਸਟੂਡੀਓ</string>
+    <string name="search_keywords_pdf_merge">pdf ਮਰਜ ਕੰਬਾਈਨ join</string>
+    <string name="search_keywords_pdf_rotate">pdf ਪੰਨਿਆਂ ਦੀ ਸਥਿਤੀ ਨੂੰ ਘੁੰਮਾਓ</string>
+    <string name="search_keywords_pdf_rearrange">pdf ਪੰਨਿਆਂ ਦੀ ਲੜੀ ਨੂੰ ਮੁੜ ਵਿਵਸਥਿਤ ਕਰੋ</string>
+    <string name="search_keywords_pdf_page_numbers">pdf ਪੰਨਾ ਨੰਬਰ ਪੰਨਾਬੰਦੀ</string>
+    <string name="search_keywords_pdf_ocr">pdf ocr ਟੈਕਸਟ ਖੋਜਣਯੋਗ ਐਬਸਟਰੈਕਟ ਨੂੰ ਪਛਾਣਦਾ ਹੈ</string>
+    <string name="search_keywords_pdf_watermark">pdf ਵਾਟਰਮਾਰਕ ਸਟੈਂਪ ਲੋਗੋ ਟੈਕਸਟ</string>
+    <string name="search_keywords_pdf_protect">pdf ਪਾਸਵਰਡ ਇਨਕ੍ਰਿਪਟ ਲੌਕ ਦੀ ਰੱਖਿਆ ਕਰੋ</string>
+    <string name="search_keywords_pdf_unlock">pdf ਅਨਲੌਕ ਪਾਸਵਰਡ ਡੀਕ੍ਰਿਪਟ ਸੁਰੱਖਿਆ ਹਟਾਓ</string>
+    <string name="search_keywords_pdf_compress">pdf ਕੰਪਰੈੱਸ ਘਟਾਓ ਆਕਾਰ ਅਨੁਕੂਲ</string>
+    <string name="search_keywords_pdf_grayscale">ਪੀਡੀਐਫ ਗ੍ਰੇਸਕੇਲ ਕਾਲਾ ਚਿੱਟਾ ਮੋਨੋਕ੍ਰੋਮ</string>
+    <string name="search_keywords_pdf_repair">ਪੀਡੀਐਫ ਮੁਰੰਮਤ ਠੀਕ ਰਿਕਵਰੀ ਟੁੱਟ ਗਈ</string>
+    <string name="search_keywords_pdf_metadata">ਪੀਡੀਐਫ ਮੈਟਾਡੇਟਾ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ exif ਲੇਖਕ ਸਿਰਲੇਖ</string>
+    <string name="search_keywords_pdf_crop">pdf ਕ੍ਰੌਪ ਟ੍ਰਿਮ ਮਾਰਜਿਨ</string>
+    <string name="search_keywords_pdf_flatten">pdf ਫਲੈਟ ਐਨੋਟੇਸ਼ਨ ਲੇਅਰਾਂ ਬਣਾਉਂਦੀ ਹੈ</string>
+    <string name="search_keywords_pdf_extract_images">ਪੀਡੀਐਫ ਐਕਸਟਰੈਕਟ ਚਿੱਤਰ ਤਸਵੀਰਾਂ</string>
+    <string name="search_keywords_pdf_zip_convert">ਪੀਡੀਐਫ ਜ਼ਿਪ ਆਰਕਾਈਵ ਕੰਪਰੈੱਸ</string>
+    <string name="search_keywords_pdf_print">pdf ਪ੍ਰਿੰਟ ਪ੍ਰਿੰਟਰ</string>
+    <string name="search_keywords_pdf_images_to_pdf">ਚਿੱਤਰਾਂ ਨੂੰ ਪੀਡੀਐਫ ਵਿੱਚ jpg jpeg png ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਬਦਲੋ</string>
+    <string name="search_keywords_pdf_extract_pages">ਚਿੱਤਰ ਪੰਨਿਆਂ ਲਈ pdf jpg png ਨੂੰ ਨਿਰਯਾਤ ਕਰੋ</string>
+    <string name="search_keywords_pdf_remove_annotations">ਪੀਡੀਐਫ ਐਨੋਟੇਸ਼ਨ ਟਿੱਪਣੀਆਂ ਸਾਫ਼ ਹਟਾਉਂਦੀਆਂ ਹਨ</string>
 </resources>

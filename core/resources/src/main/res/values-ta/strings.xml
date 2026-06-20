@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -3206,4 +3208,69 @@
     <string name="search_keywords_pdf_preview">pdf முன்னோட்ட பார்வையாளர் படித்தார்</string>
     <string name="neutral_variant">நடுநிலை மாறுபாடு</string>
     <string name="error">பிழை</string>
+    <string name="drop_shadow">துளி நிழல்</string>
+    <string name="tooth_height">பல் உயரம்</string>
+    <string name="horizontal_tooth_range">கிடைமட்ட பல் வீச்சு</string>
+    <string name="vertical_tooth_range" />
+    <string name="top_edge">டாப் எட்ஜ்</string>
+    <string name="right_edge">வலது விளிம்பு</string>
+    <string name="bottom_edge">கீழ் விளிம்பு</string>
+    <string name="left_edge">இடது விளிம்பு</string>
+    <string name="torn_edge">கிழிந்த விளிம்பு</string>
+    <string name="search_keywords_single_edit">எடிட்டர் எடிட் போட்டோ பிக்சர் ரீடச் அட்ஜஸ்ட்</string>
+    <string name="search_keywords_crop">பயிர் டிரிம் வெட்டு விகித விகிதம்</string>
+    <string name="search_keywords_filter">வடிகட்டி விளைவு வண்ண திருத்தம் லூட் மாஸ்க் சரிசெய்தல்</string>
+    <string name="search_keywords_draw">பெயிண்ட் பிரஷ் பென்சில் சிறுகுறிப்பு மார்க்அப் வரையவும்</string>
+    <string name="search_keywords_cipher">மறைக்குறியீடு மறைகுறியாக்கம் கடவுச்சொல் ரகசியம்</string>
+    <string name="search_keywords_image_preview">முன்னோட்ட பார்வையாளர் கேலரி ஆய்வு திறந்திருக்கும்</string>
+    <string name="search_keywords_image_stitching">stitch merge பனோரமா நீண்ட ஸ்கிரீன்ஷாட்டை இணைக்கவும்</string>
+    <string name="search_keywords_load_net_image">url இணைய பதிவிறக்க இணைய இணைப்பு படம்</string>
+    <string name="search_keywords_pick_color_from_image">பிக்கர் ஐட்ராப்பர் மாதிரி ஹெக்ஸ் ஆர்ஜிபி நிறம்</string>
+    <string name="search_keywords_palette_tools">தட்டு நிறங்கள் swatches சாறு ஆதிக்கம்</string>
+    <string name="search_keywords_delete_exif">exif மெட்டாடேட்டா தனியுரிமை துண்டு சுத்தமான ஜிபிஎஸ் இருப்பிடத்தை நீக்குகிறது</string>
+    <string name="search_keywords_compare">பின் வேறுபாட்டை ஒப்பிடு</string>
+    <string name="search_keywords_limit_resize">வரம்பு மறுஅளவிடுதல் அதிகபட்சம் நிமிடம் மெகாபிக்சல்கள் பரிமாணங்கள் கிளாம்ப்</string>
+    <string name="search_keywords_recognize_text">ocr உரை அங்கீகரிக்கப்பட்ட சாறு ஸ்கேன்</string>
+    <string name="search_keywords_gradient_maker">சாய்வு பின்னணி வண்ண கண்ணி</string>
+    <string name="search_keywords_watermarking">வாட்டர்மார்க் லோகோ உரை முத்திரை மேலடுக்கு</string>
+    <string name="search_keywords_gif_tools">gif அனிமேஷன் அனிமேஷன் மாற்றப்பட்ட சட்டங்கள்</string>
+    <string name="search_keywords_apng_tools">apng அனிமேஷன் அனிமேஷன் png மாற்ற சட்டங்கள்</string>
+    <string name="search_keywords_zip">zip காப்பக சுருக்க பேக் கோப்புகளைத் திறக்கவும்</string>
+    <string name="search_keywords_jxl_tools">jxl jpeg xl jpg பட வடிவமைப்பை மாற்றுகிறது</string>
+    <string name="search_keywords_svg_maker">svg வெக்டர் ட்ரேஸ் கன்வெர்ட் எக்ஸ்எம்எல்</string>
+    <string name="search_keywords_document_scanner">ஆவண ஸ்கேனர் ஸ்கேன் காகித முன்னோக்கு பயிர்</string>
+    <string name="search_keywords_scan_qr_code">qr பார்கோடு குறியீடு ஸ்கேனர் ஸ்கேன்</string>
+    <string name="search_keywords_image_stacking">ஸ்டாக்கிங் மேலடுக்கு சராசரி சராசரி வானியற்பியல்</string>
+    <string name="search_keywords_image_splitting">பிளவு ஓடுகள் கட்டம் துண்டு பாகங்கள்</string>
+    <string name="search_keywords_color_tools">ஹெக்ஸ் rgb hsl hsv cmyk ஆய்வகத்தை மாற்றும் வண்ணம்</string>
+    <string name="search_keywords_webp_tools">webp அனிமேஷன் பட வடிவமைப்பை மாற்றுகிறது</string>
+    <string name="search_keywords_noise_generation">இரைச்சல் ஜெனரேட்டர் சீரற்ற அமைப்பு தானிய</string>
+    <string name="search_keywords_collage_maker">படத்தொகுப்பு கட்டம் அமைப்பை இணைக்கவும்</string>
+    <string name="search_keywords_markup_layers">மார்க்அப் லேயர்கள் மேலடுக்கு திருத்தத்தைக் குறிக்கின்றன</string>
+    <string name="search_keywords_base64_tools">அடிப்படை64 குறியாக்கம் தரவு உரி</string>
+    <string name="search_keywords_checksum_tools">செக்சம் ஹாஷ் md5 sha sha1 sha256 சரிபார்க்கவும்</string>
+    <string name="search_keywords_edit_exif">exif மெட்டாடேட்டா ஜிபிஎஸ் தேதி கேமராவைத் திருத்தவும்</string>
+    <string name="search_keywords_image_cutter">பிளவு கட்டம் துண்டுகள் ஓடுகள் வெட்டி</string>
+    <string name="search_keywords_audio_cover_extractor">ஆடியோ கவர் ஆல்பம் கலை இசை மெட்டாடேட்டா</string>
+    <string name="search_keywords_wallpapers_export">வால்பேப்பர் ஏற்றுமதி பின்னணி</string>
+    <string name="search_keywords_ascii_art">ascii உரை கலை எழுத்துக்கள்</string>
+    <string name="search_keywords_ai_tools">AI ml நரம்பியல் மேம்படுத்தும் மேல்தட்டு பிரிவு</string>
+    <string name="search_keywords_color_library" />
+    <string name="search_keywords_shader_studio">ஷேடர் ஜிஎல்எஸ்எல் துண்டு விளைவு ஸ்டுடியோ</string>
+    <string name="search_keywords_pdf_rotate">pdf பக்கங்களை சுழற்றும் நோக்குநிலை</string>
+    <string name="search_keywords_pdf_rearrange">pdf மறுசீரமைக்க பக்கங்களை வரிசைப்படுத்தவும்</string>
+    <string name="search_keywords_pdf_page_numbers">pdf பக்க எண்கள் பேஜினேஷன்</string>
+    <string name="search_keywords_pdf_ocr">pdf ocr உரை தேடக்கூடிய சாற்றை அங்கீகரிக்கிறது</string>
+    <string name="search_keywords_pdf_watermark">pdf வாட்டர்மார்க் ஸ்டாம்ப் லோகோ உரை</string>
+    <string name="search_keywords_pdf_protect">pdf கடவுச்சொல் குறியாக்க பூட்டைப் பாதுகாக்கிறது</string>
+    <string name="search_keywords_pdf_unlock">pdf அன்லாக் கடவுச்சொல்லை மறைகுறியாக்கி பாதுகாப்பு நீக்கவும்</string>
+    <string name="search_keywords_pdf_compress">pdf அமுக்கி அளவை மேம்படுத்துதல்</string>
+    <string name="search_keywords_pdf_grayscale">pdf கிரேஸ்கேல் கருப்பு வெள்ளை மோனோக்ரோம்</string>
+    <string name="search_keywords_pdf_repair">pdf பழுது சரிசெய்தல் உடைந்த மீட்க</string>
+    <string name="search_keywords_pdf_metadata">pdf மெட்டாடேட்டா பண்புகள் exif ஆசிரியர் தலைப்பு</string>
+    <string name="search_keywords_pdf_flatten">pdf தட்டையான சிறுகுறிப்புகள் அடுக்குகளை உருவாக்குகிறது</string>
+    <string name="search_keywords_pdf_extract_images">pdf பிரித்தெடுக்கப்பட்ட படங்கள் படங்கள்</string>
+    <string name="search_keywords_pdf_images_to_pdf" />
+    <string name="search_keywords_pdf_extract_pages">pdf to images pages export jpg png</string>
+    <string name="search_keywords_pdf_remove_annotations">pdf சிறுகுறிப்பு கருத்துகள் சுத்தமாக நீக்கப்படும்</string>
 </resources>

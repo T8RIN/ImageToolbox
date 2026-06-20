@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="flexible">Fleksibel</string>
     <string name="ok">OK</string>
     <string name="crop">Beskær</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf-anmærkninger kommentarer fjern rene</string>
     <string name="neutral_variant">Neutral variant</string>
     <string name="error">Fejl</string>
+    <string name="drop_shadow">Drop Shadow</string>
+    <string name="tooth_height">Tandhøjde</string>
+    <string name="horizontal_tooth_range">Vandret tandområde</string>
+    <string name="vertical_tooth_range">Lodret tandområde</string>
+    <string name="top_edge">Øverste kant</string>
+    <string name="right_edge">Højre kant</string>
+    <string name="bottom_edge">Nederste kant</string>
+    <string name="left_edge">Venstre kant</string>
+    <string name="torn_edge">Revet kant</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -3192,4 +3194,84 @@
     <string name="no_usage_statistics_sub">Deschideți câteva instrumente și acestea vor apărea aici automat</string>
     <string name="usage_statistics_info">Statisticile dvs. de utilizare sunt stocate numai local pe dispozitivul dvs. ImageToolbox le folosește numai pentru a vă afișa activitatea personală, instrumentele preferate și informațiile despre datele salvate</string>
     <string name="error">Eroare</string>
+    <string name="neutral_variant">Varianta neutră</string>
+    <string name="drop_shadow">Drop Shadow</string>
+    <string name="tooth_height">Înălțimea dintelui</string>
+    <string name="horizontal_tooth_range">Gama de dinte orizontală</string>
+    <string name="vertical_tooth_range">Gama de dinte verticală</string>
+    <string name="top_edge">Marginea de sus</string>
+    <string name="right_edge">Marginea dreaptă</string>
+    <string name="bottom_edge">Marginea de jos</string>
+    <string name="left_edge">Marginea din stânga</string>
+    <string name="torn_edge">Marginea ruptă</string>
+    <string name="search_keywords_single_edit">editor edita fotografie retușare imagine ajusta</string>
+    <string name="search_keywords_resize_and_convert">redimensionare converti scala rezolutie dimensiuni latime inaltime jpg jpeg png webp comprima</string>
+    <string name="search_keywords_weight_resize">comprima dimensiunea greutate octeți mb kb reduce calitatea optimiza</string>
+    <string name="search_keywords_crop">decuparea decuparea raportului de aspect</string>
+    <string name="search_keywords_filter">efectul de filtru corecția culorii reglați masca lut</string>
+    <string name="search_keywords_draw">trage pensula creion adnotare marcaj</string>
+    <string name="search_keywords_cipher">cifrare criptare decriptare parola secretă</string>
+    <string name="search_keywords_erase_background">dispozitiv de îndepărtare a fundalului șterge șterge decupaj alfa transparent</string>
+    <string name="search_keywords_image_preview">vizualizare de previzualizare galerie inspectare deschisă</string>
+    <string name="search_keywords_image_stitching">îmbinare cusături combina panoramă captură de ecran lungă</string>
+    <string name="search_keywords_load_net_image">url web descărcare imagine link internet</string>
+    <string name="search_keywords_pick_color_from_image">picker eyedropper eșantion hex culoare rgb</string>
+    <string name="search_keywords_palette_tools">paleta de culori eșantioane extras dominant</string>
+    <string name="search_keywords_delete_exif">confidențialitatea metadatelor exif eliminați banda curată locația gps</string>
+    <string name="search_keywords_compare">comparați diferența înainte și după</string>
+    <string name="search_keywords_limit_resize">limita redimensionare max min megapixeli dimensiuni clema</string>
+    <string name="search_keywords_pdf_tools">instrumente pentru paginile documentului pdf</string>
+    <string name="search_keywords_recognize_text">ocr text recunoaște extras scanare</string>
+    <string name="search_keywords_gradient_maker">plasă de culoare de fundal cu gradient</string>
+    <string name="search_keywords_watermarking">suprapunere a ștampilei textului logoului filigranului</string>
+    <string name="search_keywords_gif_tools">animație gif conversie cadre animate</string>
+    <string name="search_keywords_apng_tools">animație apng animate PNG converti cadre</string>
+    <string name="search_keywords_zip">arhiva zip compress pack despachetează fișierele</string>
+    <string name="search_keywords_jxl_tools">jxl jpeg xl convertește formatul de imagine jpg</string>
+    <string name="search_keywords_svg_maker">svg vector trace convert xml</string>
+    <string name="search_keywords_format_conversion">format convert jpg jpeg png webp heic avif jxl bmp</string>
+    <string name="search_keywords_document_scanner">scaner de documente scanare decupare perspectiva hârtiei</string>
+    <string name="search_keywords_scan_qr_code">scaner cod de bare qr scaner</string>
+    <string name="search_keywords_image_stacking">stivuire suprapunere medie astrofotografie mediană</string>
+    <string name="search_keywords_image_splitting">împărțit plăci grilă felie părți</string>
+    <string name="search_keywords_color_tools">culoare convert hex rgb hsl hsv cmyk lab</string>
+    <string name="search_keywords_webp_tools">webp convert format de imagine animată</string>
+    <string name="search_keywords_noise_generation">generator de zgomot granul de textură aleatoare</string>
+    <string name="search_keywords_collage_maker">combină aspectul grilei de colaj</string>
+    <string name="search_keywords_markup_layers">straturile de marcare adnotă editarea suprapunerii</string>
+    <string name="search_keywords_base64_tools">base64 encode decode data uri</string>
+    <string name="search_keywords_checksum_tools">checksum hash md5 sha sha1 sha256 verifica</string>
+    <string name="search_keywords_mesh_gradients">fundal gradient de plasă</string>
+    <string name="search_keywords_edit_exif">metadate exif editați camera de date GPS</string>
+    <string name="search_keywords_image_cutter">tăiați plăci bucăți de grilă împărțite</string>
+    <string name="search_keywords_audio_cover_extractor">metadate muzicale coperta audio coperta albumului</string>
+    <string name="search_keywords_wallpapers_export">fundal export tapet</string>
+    <string name="search_keywords_ascii_art">caractere de artă text ascii</string>
+    <string name="search_keywords_ai_tools">ai ml neural sporesc segmentul de lux</string>
+    <string name="search_keywords_color_library">paleta de materiale ale bibliotecii de culori numită culori</string>
+    <string name="search_keywords_shader_studio">shader glsl fragment effect studio</string>
+    <string name="search_keywords_pdf_merge">pdf merge combine join</string>
+    <string name="search_keywords_pdf_split">pdf împărțiți pagini separate</string>
+    <string name="search_keywords_pdf_rotate">pdf rotiți orientarea paginilor</string>
+    <string name="search_keywords_pdf_rearrange">pdf rearanja reordonează sortarea paginilor</string>
+    <string name="search_keywords_pdf_page_numbers">paginarea numerelor paginilor pdf</string>
+    <string name="search_keywords_pdf_ocr">textul pdf ocr recunoaște extrasul care poate fi căutat</string>
+    <string name="search_keywords_pdf_watermark">pdf text logo ștampilă filigran</string>
+    <string name="search_keywords_pdf_signature">pdf semnătură semnă desen</string>
+    <string name="search_keywords_pdf_protect">pdf proteja parola criptare blocare</string>
+    <string name="search_keywords_pdf_unlock">pdf deblocare parola decriptare elimina protectie</string>
+    <string name="search_keywords_pdf_compress">pdf comprima reduce dimensiunea optimiza</string>
+    <string name="search_keywords_pdf_grayscale">pdf tonuri de gri negru alb monocrom</string>
+    <string name="search_keywords_pdf_repair">pdf reparare reparare recuperare stricat</string>
+    <string name="search_keywords_pdf_metadata">proprietățile metadatelor pdf titlul autorului exif</string>
+    <string name="search_keywords_pdf_remove_pages">pdf elimina șterge pagini</string>
+    <string name="search_keywords_pdf_crop">pdf tăiați marginile de tăiere</string>
+    <string name="search_keywords_pdf_flatten">pdf aplatiza adnotările formează straturi</string>
+    <string name="search_keywords_pdf_extract_images">pdf extrage imagini imagini</string>
+    <string name="search_keywords_pdf_zip_convert">pdf comprimare arhivă zip</string>
+    <string name="search_keywords_pdf_print">imprimanta de imprimare pdf</string>
+    <string name="search_keywords_pdf_preview">vizualizator de previzualizare pdf citit</string>
+    <string name="search_keywords_pdf_images_to_pdf">imagini în pdf converti document jpg jpeg png</string>
+    <string name="search_keywords_pdf_extract_pages">pdf în pagini de imagini export jpg png</string>
+    <string name="search_keywords_pdf_remove_annotations">adnotări pdf comentarii elimina curat</string>
 </resources>

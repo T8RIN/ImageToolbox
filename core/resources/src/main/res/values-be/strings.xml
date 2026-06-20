@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -3264,4 +3266,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf анатацыі каментарыі выдаліць чыстыя</string>
     <string name="neutral_variant">Нейтральны варыянт</string>
     <string name="error">Памылка</string>
+    <string name="drop_shadow">Цень</string>
+    <string name="tooth_height">Вышыня зуба</string>
+    <string name="horizontal_tooth_range">Дыяпазон гарызантальных зубоў</string>
+    <string name="vertical_tooth_range">Вертыкальны дыяпазон зубоў</string>
+    <string name="top_edge">Верхні край</string>
+    <string name="right_edge">Правы край</string>
+    <string name="bottom_edge">Ніжні край</string>
+    <string name="left_edge">Левы край</string>
+    <string name="torn_edge">Ірваны край</string>
 </resources>

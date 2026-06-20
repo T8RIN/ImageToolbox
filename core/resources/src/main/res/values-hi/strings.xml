@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">पीडीएफ एनोटेशन टिप्पणियाँ साफ हटा दें</string>
     <string name="neutral_variant">तटस्थ संस्करण</string>
     <string name="error">गलती</string>
+    <string name="drop_shadow">परछाई डालना</string>
+    <string name="tooth_height">दांत की ऊंचाई</string>
+    <string name="horizontal_tooth_range">क्षैतिज दाँत रेंज</string>
+    <string name="vertical_tooth_range">वर्टिकल टूथ रेंज</string>
+    <string name="top_edge">शीर्ष बढ़त</string>
+    <string name="right_edge">दाहिना किनारा</string>
+    <string name="bottom_edge">निचला किनारा</string>
+    <string name="left_edge">बायां किनारा</string>
+    <string name="torn_edge">फटा हुआ किनारा</string>
 </resources>

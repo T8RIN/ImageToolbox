@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -3214,4 +3216,60 @@
     <string name="search_keywords_pdf_remove_annotations">PDF 주석 주석 제거 제거</string>
     <string name="neutral_variant">중립 변형</string>
     <string name="error">오류</string>
+    <string name="drop_shadow">그림자</string>
+    <string name="tooth_height">치아 높이</string>
+    <string name="horizontal_tooth_range">수평 치아 범위</string>
+    <string name="vertical_tooth_range">수직 치아 범위</string>
+    <string name="top_edge">위쪽 가장자리</string>
+    <string name="right_edge">오른쪽 가장자리</string>
+    <string name="bottom_edge">하단 가장자리</string>
+    <string name="left_edge">왼쪽 가장자리</string>
+    <string name="torn_edge">찢어진 가장자리</string>
+    <string name="search_keywords_resize_and_convert">크기 조정 변환 스케일 해상도 치수 너비 높이 jpg jpeg png webp 압축</string>
+    <string name="search_keywords_weight_resize">압축 크기 무게 바이트 mb kb 품질 감소 최적화</string>
+    <string name="search_keywords_draw">그리기 페인트 브러시 연필 주석 표시</string>
+    <string name="search_keywords_erase_background">배경 제거제 지우기 제거 컷아웃 투명 알파</string>
+    <string name="search_keywords_image_preview">미리보기 뷰어 갤러리 검사 열기</string>
+    <string name="search_keywords_palette_tools">팔레트 색상 견본 추출물 지배적</string>
+    <string name="search_keywords_delete_exif">EXIF 메타데이터 개인 정보 보호 스트립 청소 GPS 위치 제거</string>
+    <string name="search_keywords_compare">전후 차이 비교</string>
+    <string name="search_keywords_pdf_tools">pdf 문서 페이지 도구</string>
+    <string name="search_keywords_gradient_maker">그라데이션 배경 색상 메쉬</string>
+    <string name="search_keywords_gif_tools">gif 애니메이션 애니메이션 변환 프레임</string>
+    <string name="search_keywords_apng_tools">apng 애니메이션 애니메이션 png 프레임 변환</string>
+    <string name="search_keywords_zip">zip 아카이브 압축 팩 압축 풀기 파일</string>
+    <string name="search_keywords_jxl_tools">jxl jpeg xl jpg 이미지 형식 변환</string>
+    <string name="search_keywords_format_conversion">형식 변환 jpg jpeg png webp heic avid jxl bmp</string>
+    <string name="search_keywords_scan_qr_code">qr 바코드 코드 스캐너 스캔</string>
+    <string name="search_keywords_image_stacking">스태킹 오버레이 평균 중앙값 천체 사진</string>
+    <string name="search_keywords_image_splitting">분할 타일 그리드 조각 부품</string>
+    <string name="search_keywords_webp_tools">webp 변환 애니메이션 이미지 형식</string>
+    <string name="search_keywords_noise_generation">노이즈 생성기 무작위 텍스처 그레인</string>
+    <string name="search_keywords_collage_maker">콜라주 그리드 레이아웃 결합</string>
+    <string name="search_keywords_markup_layers">마크업 레이어 주석 오버레이 편집</string>
+    <string name="search_keywords_checksum_tools">체크섬 해시 md5 sha sha1 sha256 확인</string>
+    <string name="search_keywords_mesh_gradients">메쉬 그라데이션 배경</string>
+    <string name="search_keywords_edit_exif">EXIF 메타데이터 편집 GPS 날짜 카메라</string>
+    <string name="search_keywords_image_cutter">분할 그리드 조각 타일 자르기</string>
+    <string name="search_keywords_audio_cover_extractor">오디오 커버 앨범 아트 음악 메타데이터</string>
+    <string name="search_keywords_wallpapers_export">배경 수출 배경</string>
+    <string name="search_keywords_ascii_art">ASCII 텍스트 아트 문자</string>
+    <string name="search_keywords_color_library">색상이라는 색상 라이브러리 재료 팔레트</string>
+    <string name="search_keywords_shader_studio">셰이더 glsl 조각 효과 스튜디오</string>
+    <string name="search_keywords_pdf_merge">pdf 병합 결합 결합</string>
+    <string name="search_keywords_pdf_split">pdf 별도 페이지 분할</string>
+    <string name="search_keywords_pdf_rearrange">pdf 재정렬 재정렬 페이지 정렬</string>
+    <string name="search_keywords_pdf_page_numbers">pdf 페이지 번호 페이지 매기기</string>
+    <string name="search_keywords_pdf_watermark">pdf 워터마크 스탬프 로고 텍스트</string>
+    <string name="search_keywords_pdf_signature">pdf 서명 서명 그리기</string>
+    <string name="search_keywords_pdf_protect">pdf 비밀번호 보호 암호화 잠금</string>
+    <string name="search_keywords_pdf_compress">PDF 압축 크기 줄이기 최적화</string>
+    <string name="search_keywords_pdf_grayscale">pdf 회색조 검정 흰색 흑백</string>
+    <string name="search_keywords_pdf_repair">PDF 수리 수정 복구 깨진</string>
+    <string name="search_keywords_pdf_metadata">pdf 메타데이터 속성 EXIF ​​작성자 제목</string>
+    <string name="search_keywords_pdf_remove_pages">pdf 제거 삭제 페이지</string>
+    <string name="search_keywords_pdf_crop">pdf 자르기 트림 여백</string>
+    <string name="search_keywords_pdf_zip_convert">pdf zip 아카이브 압축</string>
+    <string name="search_keywords_pdf_print">PDF 인쇄 프린터</string>
+    <string name="search_keywords_pdf_preview">PDF 미리보기 뷰어 읽기</string>
 </resources>

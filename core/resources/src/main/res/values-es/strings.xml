@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf anotaciones comentarios eliminar limpiar</string>
     <string name="neutral_variant">Variante neutra</string>
     <string name="error">Error</string>
+    <string name="drop_shadow">Sombra paralela</string>
+    <string name="tooth_height">Altura del diente</string>
+    <string name="horizontal_tooth_range">Rango de dientes horizontales</string>
+    <string name="vertical_tooth_range">Rango de dientes verticales</string>
+    <string name="top_edge">Borde superior</string>
+    <string name="right_edge">Borde derecho</string>
+    <string name="bottom_edge">Borde inferior</string>
+    <string name="left_edge">Borde izquierdo</string>
+    <string name="torn_edge">Borde rasgado</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
     <string name="pick_image">Trieu la imatge per començar</string>
@@ -3207,4 +3209,68 @@
     <string name="search_keywords_pdf_compress">pdf comprimir reduir la mida optimitzar</string>
     <string name="search_keywords_pdf_flatten">pdf aplanar anotacions forma capes</string>
     <string name="error">Error</string>
+    <string name="neutral_variant" />
+    <string name="drop_shadow">Ombra caiguda</string>
+    <string name="tooth_height">Alçada de la dent</string>
+    <string name="horizontal_tooth_range">Gamma de dents horitzontals</string>
+    <string name="vertical_tooth_range">Gamma de dents verticals</string>
+    <string name="top_edge">Bord superior</string>
+    <string name="right_edge">Bord dret</string>
+    <string name="bottom_edge">Bord inferior</string>
+    <string name="left_edge">Bord esquerre</string>
+    <string name="torn_edge">Bord esquinçat</string>
+    <string name="search_keywords_single_edit">editor editar foto retoc d\'imatge ajustar</string>
+    <string name="search_keywords_resize_and_convert">redimensionar convertir escala resolució dimensions amplada alçada jpg jpeg png webp comprimir</string>
+    <string name="search_keywords_weight_resize">comprimir mida pes bytes mb kb reduir la qualitat optimitzar</string>
+    <string name="search_keywords_crop">retalla la relació d\'aspecte de retall</string>
+    <string name="search_keywords_filter">correcció de color de l\'efecte de filtre ajustar la màscara de lut</string>
+    <string name="search_keywords_draw">dibuixar pinzell llapis anotar marcatge</string>
+    <string name="search_keywords_cipher">xifrar xifrar desxifrar la contrasenya secreta</string>
+    <string name="search_keywords_erase_background">eliminador de fons esborra eliminar retall alfa transparent</string>
+    <string name="search_keywords_image_preview">visualització prèvia de la galeria d\'inspecció oberta</string>
+    <string name="search_keywords_image_stitching">Stitch merge combina una captura de pantalla llarga panoràmica</string>
+    <string name="search_keywords_load_net_image">URL de descàrrega web imatge d\'enllaç a Internet</string>
+    <string name="search_keywords_pick_color_from_image">selector comptagotes mostra hexadecimal color rgb</string>
+    <string name="search_keywords_palette_tools">paleta de colors mostres extracte dominant</string>
+    <string name="search_keywords_delete_exif">privadesa de les metadades d\'exif eliminar la franja neta de la ubicació del GPS</string>
+    <string name="search_keywords_compare">compara la diferència de diferència abans després</string>
+    <string name="search_keywords_limit_resize">límit canvia la mida màxima min megapíxels dimensions pinça</string>
+    <string name="search_keywords_pdf_tools" />
+    <string name="search_keywords_recognize_text">ocr text reconeix l\'extracte d\'exploració</string>
+    <string name="search_keywords_gradient_maker">malla de color de fons degradat</string>
+    <string name="search_keywords_apng_tools">fotogrames de conversió png animats d\'animació apng</string>
+    <string name="search_keywords_zip">arxiu zip comprimir paquet descomprimir fitxers</string>
+    <string name="search_keywords_jxl_tools">jxl jpeg xl convertir format d\'imatge jpg</string>
+    <string name="search_keywords_svg_maker">svg vector traça convertir xml</string>
+    <string name="search_keywords_format_conversion">convertir format jpg jpeg png webp heic avif jxl bmp</string>
+    <string name="search_keywords_document_scanner">escàner de documents escanejar paper retall en perspectiva</string>
+    <string name="search_keywords_scan_qr_code">Escaneig de codi de barres qr</string>
+    <string name="search_keywords_image_stacking">superposició d\'apilament astrofotografia mitjana mitjana</string>
+    <string name="search_keywords_image_splitting">peces de rajoles dividides de quadrícula</string>
+    <string name="search_keywords_color_tools">conversió de color hexadecimal rgb hsl hsv cmyk lab</string>
+    <string name="search_keywords_webp_tools">Webp convertir format d\'imatge animada</string>
+    <string name="search_keywords_base64_tools">base64 codificar descodificar dades uri</string>
+    <string name="search_keywords_checksum_tools">checksum hash md5 sha sha1 sha256 verificar</string>
+    <string name="search_keywords_mesh_gradients">fons degradat de malla</string>
+    <string name="search_keywords_edit_exif">modifica metadades exif càmera de data GPS</string>
+    <string name="search_keywords_image_cutter">tallar rajoles de peces de quadrícula dividides</string>
+    <string name="search_keywords_color_library">paleta de materials de la biblioteca de colors anomenada colors</string>
+    <string name="search_keywords_pdf_merge" />
+    <string name="search_keywords_pdf_split">pdf dividir pàgines separades</string>
+    <string name="search_keywords_pdf_rotate">pdf girar orientació de pàgines</string>
+    <string name="search_keywords_pdf_watermark">text del logotip del segell de marca d\'aigua pdf</string>
+    <string name="search_keywords_pdf_signature">Sorteig de signatura en pdf</string>
+    <string name="search_keywords_pdf_protect">pdf protegeix contrasenya xifrat bloqueig</string>
+    <string name="search_keywords_pdf_grayscale">pdf en escala de grisos negre blanc monocrom</string>
+    <string name="search_keywords_pdf_repair">pdf reparació reparació recuperar trencat</string>
+    <string name="search_keywords_pdf_metadata">propietats de metadades pdf títol de l\'autor exif</string>
+    <string name="search_keywords_pdf_remove_pages">pdf eliminar esborrar pàgines</string>
+    <string name="search_keywords_pdf_crop">pdf retallar els marges</string>
+    <string name="search_keywords_pdf_extract_images">pdf extreu imatges imatges</string>
+    <string name="search_keywords_pdf_zip_convert">comprimir arxiu pdf zip</string>
+    <string name="search_keywords_pdf_print">impressora d\'impressió pdf</string>
+    <string name="search_keywords_pdf_preview">visor de vista prèvia de pdf llegit</string>
+    <string name="search_keywords_pdf_images_to_pdf">imatges a pdf convertir document jpg jpeg png</string>
+    <string name="search_keywords_pdf_extract_pages">pdf a pàgines d\'imatges exportar jpg png</string>
+    <string name="search_keywords_pdf_remove_annotations">pdf anotacions comentaris eliminar net</string>
 </resources>

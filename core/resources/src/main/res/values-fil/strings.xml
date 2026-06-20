@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf annotation comments alisin malinis</string>
     <string name="neutral_variant">Neutral na Variant</string>
     <string name="error">Error</string>
+    <string name="drop_shadow">Drop Shadow</string>
+    <string name="tooth_height">Taas ng ngipin</string>
+    <string name="horizontal_tooth_range">Pahalang na Saklaw ng Ngipin</string>
+    <string name="vertical_tooth_range">Vertical na Saklaw ng Ngipin</string>
+    <string name="top_edge">Top Edge</string>
+    <string name="right_edge">Kanang Gilid</string>
+    <string name="bottom_edge">Ibabang Gilid</string>
+    <string name="left_edge">Kaliwang Gilid</string>
+    <string name="torn_edge">Napunit na Gilid</string>
 </resources>

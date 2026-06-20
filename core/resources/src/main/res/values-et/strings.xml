@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
     <string name="size">Suurus %1$s</string>
     <string name="loading">Laadin…</string>
@@ -3262,4 +3264,13 @@
     <string name="search_keywords_pdf_remove_annotations">pdf märkused kommentaarid eemalda puhas</string>
     <string name="neutral_variant">Neutraalne variant</string>
     <string name="error">Viga</string>
+    <string name="drop_shadow">Langev vari</string>
+    <string name="tooth_height">Hamba kõrgus</string>
+    <string name="horizontal_tooth_range">Horisontaalne hammaste vahemik</string>
+    <string name="vertical_tooth_range">Vertikaalne hammaste vahemik</string>
+    <string name="top_edge">Ülemine serv</string>
+    <string name="right_edge">Parem serv</string>
+    <string name="bottom_edge">Alumine serv</string>
+    <string name="left_edge">Vasak serv</string>
+    <string name="torn_edge">Rebenenud serv</string>
 </resources>
