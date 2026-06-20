@@ -78,7 +78,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringEnglish
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.matchesSearchQuery
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -95,7 +94,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.utils.screenList
-import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 fun ProcessImagesPreferenceSheet(
@@ -118,13 +116,7 @@ fun ProcessImagesPreferenceSheet(
         derivedStateOf {
             if (searchKeyword.isNotBlank()) {
                 (rawScreenList + hiddenScreenList).filter {
-                    it.matchesSearchQuery(
-                        query = searchKeyword,
-                        title = appContext.getString(it.title),
-                        subtitle = appContext.getString(it.subtitle),
-                        englishTitle = appContext.getStringEnglish(it.title),
-                        englishSubtitle = appContext.getStringEnglish(it.subtitle)
-                    )
+                    it.matchesSearchQuery(searchKeyword)
                 }
             } else {
                 rawScreenList
