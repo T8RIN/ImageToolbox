@@ -2140,7 +2140,7 @@
     <string name="grayscale_pdf_sub">Перетворення всіх зображень, вбудованих у документ, у відтінки сірого</string>
     <string name="compress_pdf">Стиснути PDF</string>
     <string name="compress_pdf_sub">Оптимізуйте розмір файлу документа, щоб простіше ділитися ним</string>
-    <string name="repair_info">ImageToolbox перебудовує внутрішню таблицю перехресних посилань і генерує файлову структуру з нуля. Це може відновити доступ до багатьох файлів, які \\"неможливо відкрити\\"</string>
+    <string name="repair_info">ImageToolbox перебудовує внутрішню таблицю перехресних посилань і генерує файлову структуру з нуля. Це може відновити доступ до багатьох файлів, які \\\"неможливо відкрити\\\"</string>
     <string name="grayscale_info">Цей інструмент перетворює всі зображення документів на градації сірого. Найкраще підходить для друку та зменшення розміру файлу</string>
     <string name="metadata">Метадані</string>
     <string name="metadata_pdf_sub">Відредагуйте властивості документа для кращої конфіденційності</string>
@@ -2358,37 +2358,37 @@
     <string name="shader_error_blank_name">Необхідно вказати назву шейдера.</string>
     <string name="shader_error_blank_source">Джерело шейдера не має бути пустим.</string>
     <string name="shader_error_unsupported_characters">Джерело шейдера містить непідтримувані символи: %1$s. Використовуйте лише джерело ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Параметр \\"%1$s\\" оголошено більше одного разу.</string>
+    <string name="shader_error_duplicate_parameter">Параметр \\\"%1$s\\\" оголошено більше одного разу.</string>
     <string name="shader_error_blank_parameter_name">Імена параметрів не повинні бути пустими.</string>
-    <string name="shader_error_reserved_parameter_name">Параметр \\"%1$s\\" використовує зарезервоване ім\'я GPUImage.</string>
-    <string name="shader_error_invalid_parameter_name">Параметр \\"%1$s\\" має бути дійсним ідентифікатором GLSL.</string>
-    <string name="shader_error_invalid_value_type">Параметр \\"%1$s\\" має %2$s тип значення \\"%3$s\\", очікуваний \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Параметр \\"%1$s\\" не може визначити min або max для логічних значень.</string>
-    <string name="shader_error_min_greater_than_max">Параметр \\"%1$s\\" має min більше ніж max.</string>
-    <string name="shader_error_default_lower_than_min">Параметр \\"%1$s\\" за умовчанням нижчий за min.</string>
-    <string name="shader_error_default_greater_than_max">Параметр \\"%1$s\\" за умовчанням перевищує макс.</string>
-    <string name="shader_error_missing_input_texture">Шейдер повинен оголосити \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Шейдер має оголосити \\"variying vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Шейдер повинен визначати \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Параметр \\\"%1$s\\\" використовує зарезервоване ім\'я GPUImage.</string>
+    <string name="shader_error_invalid_parameter_name">Параметр \\\"%1$s\\\" має бути дійсним ідентифікатором GLSL.</string>
+    <string name="shader_error_invalid_value_type">Параметр \\\"%1$s\\\" має %2$s тип значення \\\"%3$s\\\", очікуваний \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Параметр \\\"%1$s\\\" не може визначити min або max для логічних значень.</string>
+    <string name="shader_error_min_greater_than_max">Параметр \\\"%1$s\\\" має min більше ніж max.</string>
+    <string name="shader_error_default_lower_than_min">Параметр \\\"%1$s\\\" за умовчанням нижчий за min.</string>
+    <string name="shader_error_default_greater_than_max">Параметр \\\"%1$s\\\" за умовчанням перевищує макс.</string>
+    <string name="shader_error_missing_input_texture">Шейдер повинен оголосити \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Шейдер має оголосити \\\"variying vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Шейдер повинен визначати \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Шейдер повинен записати колір у gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage шейдери не підтримуються. Використовуйте контракт void main() GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Анімована форма ShaderToy \\"iTime\\" не підтримується.</string>
-    <string name="shader_error_shadertoy_i_frame">Анімований однорідний ShaderToy \\"iFrame\\" не підтримується.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \\"iResolution\\" не підтримується.</string>
+    <string name="shader_error_shadertoy_i_time">Анімована форма ShaderToy \\\"iTime\\\" не підтримується.</string>
+    <string name="shader_error_shadertoy_i_frame">Анімований однорідний ShaderToy \\\"iFrame\\\" не підтримується.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \\\"iResolution\\\" не підтримується.</string>
     <string name="shader_error_shadertoy_i_channel">Текстури ShaderToy iChannel не підтримуються.</string>
     <string name="shader_error_external_textures">Зовнішні текстури не підтримуються.</string>
     <string name="shader_error_external_texture_extensions">Зовнішні розширення текстур не підтримуються.</string>
     <string name="shader_error_libretro_parameters">Параметри шейдера Libretro не підтримуються.</string>
-    <string name="shader_error_extra_input_texture">Підтримується лише одна вхідна текстура. Видалити \\"uniform %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Параметр \\"%1$s\\" повинен бути оголошений як \\"uniform %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Параметр \\"%1$s\\" оголошено як \\"uniform %2$s %1$s;\\", очікується \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Підтримується лише одна вхідна текстура. Видалити \\\"uniform %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Параметр \\\"%1$s\\\" повинен бути оголошений як \\\"uniform %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Параметр \\\"%1$s\\\" оголошено як \\\"uniform %2$s %1$s;\\\", очікується \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Файл шейдера порожній.</string>
     <string name="shader_parse_error_not_itshader_json">Файл шейдера має бути об’єктом .itshader JSON із версією, назвою та полями шейдера.</string>
     <string name="shader_parse_error_invalid_json">Файл шейдера недійсний JSON або не відповідає формату .itshader.</string>
-    <string name="shader_parse_error_missing_field">Поле \\"%1$s\\" є обов\'язковим для заповнення.</string>
+    <string name="shader_parse_error_missing_field">Поле \\\"%1$s\\\" є обов\'язковим для заповнення.</string>
     <string name="shader_parse_error_missing_param_field">Потрібен %1$s.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" не підтримується. Підтримувані типи: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s необхідний для параметрів \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" не підтримується. Підтримувані типи: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s необхідний для параметрів \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s має бути кінцевим числом.</string>
     <string name="shader_parse_error_integer_expected">%1$s має бути цілим числом.</string>
     <string name="shader_parse_error_bool_expected">%1$s має бути true або false.</string>
@@ -3264,4 +3264,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf анотації коментарі видалити чисті</string>
     <string name="neutral_variant">Нейтральний варіант</string>
     <string name="error">Помилка</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
