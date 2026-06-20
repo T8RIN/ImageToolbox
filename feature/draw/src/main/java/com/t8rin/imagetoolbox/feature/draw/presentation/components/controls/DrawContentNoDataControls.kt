@@ -35,7 +35,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,6 +51,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.ImagesMode
@@ -134,14 +134,14 @@ internal fun DrawContentNoDataControls(
         screenWidth,
         drawOnBackgroundParams
     ) {
-        mutableIntStateOf(drawOnBackgroundParams.width.takeIf { it > -1 } ?: screenWidth)
+        mutableIntStateOf(drawOnBackgroundParams.width.takeIf { it > 0 } ?: screenWidth)
     }
     var height by remember(
         showBackgroundDrawingSetup,
         screenHeight,
         drawOnBackgroundParams
     ) {
-        mutableIntStateOf(drawOnBackgroundParams.height.takeIf { it > -1 } ?: screenHeight)
+        mutableIntStateOf(drawOnBackgroundParams.height.takeIf { it > 0 } ?: screenHeight)
     }
     var sheetBackgroundColor by rememberSaveable(
         showBackgroundDrawingSetup,

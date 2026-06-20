@@ -100,8 +100,8 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
             is DrawBehavior.Background -> {
                 drawBehavior.color.toDrawable().toBitmap(
-                    width = drawBehavior.width,
-                    height = drawBehavior.height
+                    width = drawBehavior.width.coerceAtLeast(1),
+                    height = drawBehavior.height.coerceAtLeast(1)
                 )
             }
 
