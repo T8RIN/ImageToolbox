@@ -498,6 +498,8 @@ or click one of the badges below.
     - [x] VHS NTSC
     - [x] Expand Image
     - [x] Shader
+    - [x] Torn Edge
+    - [x] Drop Shadow 
 
 
   </details>
