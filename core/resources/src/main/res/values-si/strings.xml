@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
     <string name="loading">මොහොතක් සිටින්න…</string>
@@ -3271,4 +3273,6 @@
     <string name="search_keywords_pdf_images_to_pdf">පින්තූර pdf බවට පරිවර්තනය jpg jpeg png ලේඛනය</string>
     <string name="search_keywords_pdf_extract_pages">pdf සිට පින්තූර පිටු වෙත jpg png අපනයනය කරන්න</string>
     <string name="search_keywords_pdf_remove_annotations">pdf annotations comments remove clean</string>
+    <string name="reset_usage_statistics">භාවිත සංඛ්‍යාලේඛන යළි පිහිටුවන්න</string>
+    <string name="reset_usage_statistics_sub">මෙවලම විවෘත වේ, සංඛ්‍යාලේඛන සුරකින්න, ස්ට්‍රීක්, සුරකින ලද දත්ත, සහ ඉහළ ආකෘතිය යළි පිහිටුවනු ඇත. යෙදුම් විවෘත කිරීම් නොවෙනස්ව පවතිනු ඇත.</string>
 </resources>

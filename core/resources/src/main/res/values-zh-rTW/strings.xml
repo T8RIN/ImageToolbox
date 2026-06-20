@@ -3272,4 +3272,6 @@
     <string name="left_edge">左邊緣</string>
     <string name="torn_edge">撕邊</string>
     <string name="bottom_edge">底邊</string>
+    <string name="reset_usage_statistics">重置使用統計數據</string>
+    <string name="reset_usage_statistics_sub">工具打開，保存統計資料、條紋、保存的資料和頂部格式將被重置。應用程式開啟將保持不變。</string>
 </resources>

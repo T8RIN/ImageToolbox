@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -3270,4 +3272,6 @@
     <string name="bottom_edge">Cạnh dưới</string>
     <string name="left_edge">Cạnh trái</string>
     <string name="torn_edge">Rách cạnh</string>
+    <string name="reset_usage_statistics">Đặt lại số liệu thống kê sử dụng</string>
+    <string name="reset_usage_statistics_sub">Công cụ mở ra, lưu số liệu thống kê, vệt, dữ liệu đã lưu và định dạng trên cùng sẽ được đặt lại. Ứng dụng mở sẽ không thay đổi.</string>
 </resources>

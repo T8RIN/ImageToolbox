@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -3271,4 +3273,6 @@
     <string name="search_keywords_pdf_print">पीडीएफ प्रिंट प्रिंटर</string>
     <string name="search_keywords_pdf_preview">pdf पूर्वावलोकन दर्शक वाचले</string>
     <string name="search_keywords_pdf_remove_annotations">pdf भाष्य टिप्पण्या स्वच्छ काढा</string>
+    <string name="reset_usage_statistics">वापर आकडेवारी रीसेट करा</string>
+    <string name="reset_usage_statistics_sub">टूल उघडेल, आकडेवारी जतन करा, स्ट्रीक, जतन केलेला डेटा आणि शीर्ष स्वरूप रीसेट केले जाईल. ॲप उघडेल ते अपरिवर्तित राहील.</string>
 </resources>

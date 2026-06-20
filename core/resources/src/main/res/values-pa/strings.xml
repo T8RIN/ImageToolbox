@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -3271,4 +3273,6 @@
     <string name="search_keywords_pdf_images_to_pdf">ਚਿੱਤਰਾਂ ਨੂੰ ਪੀਡੀਐਫ ਵਿੱਚ jpg jpeg png ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਬਦਲੋ</string>
     <string name="search_keywords_pdf_extract_pages">ਚਿੱਤਰ ਪੰਨਿਆਂ ਲਈ pdf jpg png ਨੂੰ ਨਿਰਯਾਤ ਕਰੋ</string>
     <string name="search_keywords_pdf_remove_annotations">ਪੀਡੀਐਫ ਐਨੋਟੇਸ਼ਨ ਟਿੱਪਣੀਆਂ ਸਾਫ਼ ਹਟਾਉਂਦੀਆਂ ਹਨ</string>
+    <string name="reset_usage_statistics">ਵਰਤੋਂ ਦੇ ਅੰਕੜੇ ਰੀਸੈਟ ਕਰੋ</string>
+    <string name="reset_usage_statistics_sub">ਟੂਲ ਖੁੱਲ੍ਹਦਾ ਹੈ, ਅੰਕੜਿਆਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ, ਸਟ੍ਰੀਕ, ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਡੇਟਾ, ਅਤੇ ਚੋਟੀ ਦੇ ਫਾਰਮੈਟ ਨੂੰ ਰੀਸੈਟ ਕੀਤਾ ਜਾਵੇਗਾ। ਐਪ ਖੁੱਲ੍ਹਦਾ ਹੈ, ਬਦਲਿਆ ਨਹੀਂ ਜਾਵੇਗਾ।</string>
 </resources>

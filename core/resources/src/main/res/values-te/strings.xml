@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -3271,4 +3273,6 @@
     <string name="search_keywords_pdf_crop">pdf క్రాప్ ట్రిమ్ మార్జిన్లు</string>
     <string name="search_keywords_pdf_flatten">pdf చదును ఉల్లేఖనాలు పొరలను ఏర్పరుస్తాయి</string>
     <string name="search_keywords_pdf_extract_pages">pdf to images pages export jpg png</string>
+    <string name="reset_usage_statistics">వినియోగ గణాంకాలను రీసెట్ చేయండి</string>
+    <string name="reset_usage_statistics_sub">సాధనం తెరుచుకుంటుంది, గణాంకాలను సేవ్ చేయండి, స్ట్రీక్, సేవ్ చేసిన డేటా మరియు టాప్ ఫార్మాట్ రీసెట్ చేయబడుతుంది. యాప్ ఓపెన్‌లు మారవు.</string>
 </resources>

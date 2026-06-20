@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -3270,4 +3272,6 @@
     <string name="bottom_edge">ขอบล่าง</string>
     <string name="left_edge">ขอบซ้าย</string>
     <string name="torn_edge">ขอบฉีกขาด</string>
+    <string name="reset_usage_statistics">รีเซ็ตสถิติการใช้งาน</string>
+    <string name="reset_usage_statistics_sub">เครื่องมือเปิดขึ้น บันทึกสถิติ สถิติต่อเนื่อง ข้อมูลที่บันทึกไว้ และรูปแบบสูงสุดจะถูกรีเซ็ต การเปิดแอปจะไม่เปลี่ยนแปลง</string>
 </resources>

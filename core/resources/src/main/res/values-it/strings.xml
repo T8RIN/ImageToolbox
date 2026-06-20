@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -3271,4 +3273,6 @@
     <string name="bottom_edge">Bordo inferiore</string>
     <string name="left_edge">Bordo sinistro</string>
     <string name="torn_edge">Bordo strappato</string>
+    <string name="reset_usage_statistics">Reimposta le statistiche di utilizzo</string>
+    <string name="reset_usage_statistics_sub">Lo strumento si apre, le statistiche di salvataggio, la sequenza, i dati salvati e il formato principale verranno reimpostati. L\'apertura dell\'app rimarrà invariata.</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3270,4 +3272,6 @@
     <string name="bottom_edge">底边</string>
     <string name="left_edge">左边缘</string>
     <string name="torn_edge">撕边</string>
+    <string name="reset_usage_statistics">重置使用统计数据</string>
+    <string name="reset_usage_statistics_sub">工具打开，保存统计数据、条纹、保存的数据和顶部格式将被重置。应用程序打开将保持不变。</string>
 </resources>

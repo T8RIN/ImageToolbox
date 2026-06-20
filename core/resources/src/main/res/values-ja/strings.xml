@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -3270,4 +3272,6 @@
     <string name="bottom_edge">下端</string>
     <string name="left_edge">左端</string>
     <string name="torn_edge">破れたエッジ</string>
+    <string name="reset_usage_statistics">使用状況統計をリセットする</string>
+    <string name="reset_usage_statistics_sub">ツールが開き、統計、ストリーク、保存データが保存され、トップフォーマットがリセットされます。アプリの起動は変更されません。</string>
 </resources>

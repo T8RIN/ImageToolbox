@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -3275,4 +3277,6 @@
     <string name="bottom_edge">الحافة السفلية</string>
     <string name="left_edge">الحافة اليسرى</string>
     <string name="torn_edge">الحافة الممزقة</string>
+    <string name="reset_usage_statistics">إعادة تعيين إحصائيات الاستخدام</string>
+    <string name="reset_usage_statistics_sub">يتم فتح الأداة وحفظ الإحصائيات والخط والبيانات المحفوظة وسيتم إعادة تعيين التنسيق العلوي. ستبقى عمليات فتح التطبيق دون تغيير.</string>
 </resources>

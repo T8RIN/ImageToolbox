@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -3273,4 +3275,6 @@
     <string name="bottom_edge">Dolna krawędź</string>
     <string name="left_edge">Lewa krawędź</string>
     <string name="torn_edge">Rozdarta krawędź</string>
+    <string name="reset_usage_statistics">Zresetuj statystyki użytkowania</string>
+    <string name="reset_usage_statistics_sub">Narzędzie zostanie otwarte, zapisz statystyki, smugi, zapisane dane i najwyższy format zostaną zresetowane. Otwarcia aplikacji pozostaną niezmienione.</string>
 </resources>

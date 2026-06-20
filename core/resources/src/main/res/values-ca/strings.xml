@@ -3273,4 +3273,6 @@
     <string name="neutral_variant">Variant neutral</string>
     <string name="search_keywords_pdf_tools">Eines de pàgines de documents pdf</string>
     <string name="search_keywords_pdf_merge">pdf combinar combinar unir</string>
+    <string name="reset_usage_statistics">Restableix les estadístiques d\'ús</string>
+    <string name="reset_usage_statistics_sub">S\'obre l\'eina, desa les estadístiques, la ratxa, les dades desades i el format superior es restabliran. L\'obertura de l\'aplicació es mantindrà sense canvis.</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -3273,4 +3275,6 @@
     <string name="search_keywords_pdf_ocr">pdf ocr text rozpoznat prohledávatelný extrakt</string>
     <string name="search_keywords_pdf_watermark">text loga vodoznaku ve formátu pdf</string>
     <string name="search_keywords_pdf_protect">pdf chránit heslem šifrovat zámek</string>
+    <string name="reset_usage_statistics">Resetovat statistiky využití</string>
+    <string name="reset_usage_statistics_sub">Nástroj se otevře, uloží se statistiky, pruh, uložená data a nejvyšší formát budou resetovány. Otevření aplikace zůstanou nezměněna.</string>
 </resources>

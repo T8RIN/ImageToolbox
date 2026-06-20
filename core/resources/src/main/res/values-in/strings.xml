@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -3270,4 +3272,6 @@
     <string name="bottom_edge">Tepi Bawah</string>
     <string name="left_edge">Tepi Kiri</string>
     <string name="torn_edge">Tepi Robek</string>
+    <string name="reset_usage_statistics">Setel ulang statistik penggunaan</string>
+    <string name="reset_usage_statistics_sub">Alat terbuka, menyimpan statistik, coretan, data yang disimpan, dan format teratas akan diatur ulang. Pembukaan aplikasi tidak akan berubah.</string>
 </resources>
