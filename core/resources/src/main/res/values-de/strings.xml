@@ -2377,15 +2377,15 @@
     <string name="shader_error_external_textures">Externe Texturen werden nicht unterstützt.</string>
     <string name="shader_error_external_texture_extensions">Externe Texturerweiterungen werden nicht unterstützt.</string>
     <string name="shader_error_libretro_parameters">Libretro-Shader-Parameter werden nicht unterstützt.</string>
-    <string name="shader_error_extra_input_texture">Es wird nur eine Eingabetextur unterstützt. Entfernen Sie \\"einheitlich %1$s %2$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Es wird nur eine Eingabetextur unterstützt. Entfernen Sie \\\"einheitlich %1$s %2$s;\\\".</string>
     <string name="shader_error_missing_uniform">Der Parameter „%1$s“ muss als „uniform %2$s %1$s;“ deklariert werden.</string>
-    <string name="shader_error_wrong_uniform_type">Parameter „%1$s“ wird als „uniform %2$s %1$s;\“ deklariert, erwartet als „uniform %3$s %1$s;\“.</string>
+    <string name="shader_error_wrong_uniform_type">Parameter „%1$s“ wird als „uniform %2$s %1$s; deklariert, erwartet als „uniform %3$s %1$s;.</string>
     <string name="shader_parse_error_empty_file">Shader-Datei ist leer.</string>
     <string name="shader_parse_error_not_itshader_json">Die Shader-Datei muss ein .itshader-JSON-Objekt mit Versions-, Namens- und Shader-Feldern sein.</string>
     <string name="shader_parse_error_invalid_json">Die Shader-Datei ist kein gültiges JSON oder entspricht nicht dem .itshader-Format.</string>
     <string name="shader_parse_error_missing_field">Das Feld „%1$s“ ist erforderlich.</string>
     <string name="shader_parse_error_missing_param_field">%1$s ist erforderlich.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" wird nicht unterstützt. Unterstützte Typen: %3$s.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" wird nicht unterstützt. Unterstützte Typen: %3$s.</string>
     <string name="shader_parse_error_missing_value">%1$s ist für die Parameter „%2$s“ erforderlich.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s muss eine endliche Zahl sein.</string>
     <string name="shader_parse_error_integer_expected">%1$s muss eine Ganzzahl sein.</string>
@@ -3262,4 +3262,28 @@
     <string name="search_keywords_pdf_remove_annotations">PDF-Anmerkungen Kommentare sauber entfernen</string>
     <string name="neutral_variant">Neutrale Variante</string>
     <string name="error">Fehler</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
