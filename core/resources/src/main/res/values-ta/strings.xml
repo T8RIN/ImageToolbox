@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -3211,7 +3209,6 @@
     <string name="drop_shadow">துளி நிழல்</string>
     <string name="tooth_height">பல் உயரம்</string>
     <string name="horizontal_tooth_range">கிடைமட்ட பல் வீச்சு</string>
-    <string name="vertical_tooth_range" />
     <string name="top_edge">டாப் எட்ஜ்</string>
     <string name="right_edge">வலது விளிம்பு</string>
     <string name="bottom_edge">கீழ் விளிம்பு</string>
@@ -3255,7 +3252,6 @@
     <string name="search_keywords_wallpapers_export">வால்பேப்பர் ஏற்றுமதி பின்னணி</string>
     <string name="search_keywords_ascii_art">ascii உரை கலை எழுத்துக்கள்</string>
     <string name="search_keywords_ai_tools">AI ml நரம்பியல் மேம்படுத்தும் மேல்தட்டு பிரிவு</string>
-    <string name="search_keywords_color_library" />
     <string name="search_keywords_shader_studio">ஷேடர் ஜிஎல்எஸ்எல் துண்டு விளைவு ஸ்டுடியோ</string>
     <string name="search_keywords_pdf_rotate">pdf பக்கங்களை சுழற்றும் நோக்குநிலை</string>
     <string name="search_keywords_pdf_rearrange">pdf மறுசீரமைக்க பக்கங்களை வரிசைப்படுத்தவும்</string>
@@ -3270,7 +3266,6 @@
     <string name="search_keywords_pdf_metadata">pdf மெட்டாடேட்டா பண்புகள் exif ஆசிரியர் தலைப்பு</string>
     <string name="search_keywords_pdf_flatten">pdf தட்டையான சிறுகுறிப்புகள் அடுக்குகளை உருவாக்குகிறது</string>
     <string name="search_keywords_pdf_extract_images">pdf பிரித்தெடுக்கப்பட்ட படங்கள் படங்கள்</string>
-    <string name="search_keywords_pdf_images_to_pdf" />
     <string name="search_keywords_pdf_extract_pages">pdf to images pages export jpg png</string>
     <string name="search_keywords_pdf_remove_annotations">pdf சிறுகுறிப்பு கருத்துகள் சுத்தமாக நீக்கப்படும்</string>
 </resources>
