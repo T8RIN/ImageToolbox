@@ -110,7 +110,7 @@ internal fun TemplatesContent(
             ) {
                 itemsIndexed(
                     items = templateFilters,
-                    key = { _, f -> f.hashCode() }
+                    key = { index, f -> "$index-${f.hashCode()}" }
                 ) { index, templateFilter ->
                     var showFilterTemplateInfoSheet by rememberSaveable {
                         mutableStateOf(false)
