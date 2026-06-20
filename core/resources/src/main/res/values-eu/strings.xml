@@ -1119,7 +1119,7 @@
     <string name="save_as_qr_code_image">Gorde QR kodearen irudi gisa</string>
     <string name="delete_template">Ezabatu txantiloia</string>
     <string name="delete_template_warn">Hautatutako txantiloi-iragazkia ezabatzera zoaz. Eragiketa hau ezin da desegin</string>
-    <string name="added_filter_template"> \"%1$s \" izena duen iragazki txantiloia gehitu da (%2$s)</string>
+    <string name="added_filter_template">\"%1$s \" izena duen iragazki txantiloia gehitu da (%2$s)</string>
     <string name="filter_preview">Iragaziaren aurrebista</string>
     <string name="qr_code">QR eta barra-kodea</string>
     <string name="qr_code_sub">Eskaneatu QR kodea eta lortu bere edukia edo itsatsi zure katea berria sortzeko</string>
@@ -1413,7 +1413,7 @@
     <string name="tesseract_options">Tesseract Aukerak</string>
     <string name="tesseract_options_sub">Aplikatu sarrerako aldagai batzuk tesseract motorrako</string>
     <string name="custom_options">Aukera pertsonalizatuak</string>
-    <string name="custom_params_info">Aukerak eredu hau jarraituz sartu behar dira:  \"--{option_name} {value} \"</string>
+    <string name="custom_params_info">Aukerak eredu hau jarraituz sartu behar dira: \"--{option_name} {value} \"</string>
     <string name="auto_crop">Mozketa automatikoa</string>
     <string name="free_corners">Doako Txokoak</string>
     <string name="free_corners_sub">Moztu irudia poligonoz, honek perspektiba ere zuzentzen du</string>
@@ -1504,8 +1504,8 @@
     <string name="fast_settings_side">Ezarpen azkarrak aldean</string>
     <string name="fast_settings_side_sub">Gehitu zerrenda mugikor bat hautatutako aldean irudiak editatzen dituzun bitartean, eta horrek ezarpen azkarrak irekiko ditu klik egiten duzunean</string>
     <string name="clear_selection">Garbitu hautaketa</string>
-    <string name="settings_group_visibility_hidden"> \"%1$s \" ezarpen taldea lehenespenez tolestuta egongo da</string>
-    <string name="settings_group_visibility_visible"> \"%1$s \" ezarpen taldea lehenespenez zabalduko da</string>
+    <string name="settings_group_visibility_hidden">\"%1$s \" ezarpen taldea lehenespenez tolestuta egongo da</string>
+    <string name="settings_group_visibility_visible">\"%1$s \" ezarpen taldea lehenespenez zabalduko da</string>
     <string name="base_64_tools">Base64 tresnak</string>
     <string name="base_64_tools_sub">Deskodetu Base64 katea irudira, edo kodetu irudia Base64 formatuan</string>
     <string name="base_64">Oinarria64</string>
@@ -1734,7 +1734,7 @@
     <string name="refresh">Freskatu</string>
     <string name="wallpapers_export_sub">Lortu uneko hasierako, blokeoa eta horma-irudi integratuak</string>
     <string name="allow_access_to_all_files_for_wp">Baimendu fitxategi guztietarako sarbidea, hau beharrezkoa da horma-paperak berreskuratzeko</string>
-    <string name="allow_read_media_images_for_wp">Kudeatu kanpoko biltegiratze-baimena ez da nahikoa, zure irudietarako sarbidea baimendu behar duzu, ziurtatu  \"Baimendu guztiak \" hautatu duzula</string>
+    <string name="allow_read_media_images_for_wp">Kudeatu kanpoko biltegiratze-baimena ez da nahikoa, zure irudietarako sarbidea baimendu behar duzu, ziurtatu \"Baimendu guztiak \" hautatu duzula</string>
     <string name="add_preset_to_filename">Gehitu aurrezarpena fitxategi-izenari</string>
     <string name="add_preset_to_filename_sub">Hautatutako aurrezartutako atzizkia eransten dio irudi-fitxategiaren izenari</string>
     <string name="add_image_scale_mode_to_filename">Gehitu irudien eskala modua fitxategi-izenari</string>
@@ -1863,7 +1863,7 @@
     <string name="pulse_grid_pixelization">Pultsu-sarearen pixelizazioa</string>
     <string name="nucleus_pixelization">Nukleoaren pixelizazioa</string>
     <string name="radial_weave_pixelization">Ehun erradiala pixelizazioa</string>
-    <string name="cannot_open_uri">Ezin da ireki uri  \"%1$s \"</string>
+    <string name="cannot_open_uri">Ezin da ireki uri \"%1$s \"</string>
     <string name="snowfall_mode">Elurra modua</string>
     <string name="enabled">Gaituta</string>
     <string name="border_frame">Ertzaren markoa</string>
@@ -2138,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Bihurtu dokumentu txertatutako irudi guztiak gris-eskalara</string>
     <string name="compress_pdf">Konprimitu PDFa</string>
     <string name="compress_pdf_sub">Optimizatu zure dokumentu-fitxategiaren tamaina errazago partekatzeko</string>
-    <string name="repair_info">ImageToolbox-ek barne-erreferentzia gurutzatuen taula berreraikitzen du eta fitxategi-egitura hutsetik birsortzen du. Honek \\"ireki ezin diren\\" fitxategi askotarako sarbidea berrezarri dezake</string>
+    <string name="repair_info">ImageToolbox-ek barne-erreferentzia gurutzatuen taula berreraikitzen du eta fitxategi-egitura hutsetik birsortzen du. Honek \\\"ireki ezin diren\\\" fitxategi askotarako sarbidea berrezarri dezake</string>
     <string name="grayscale_info">Tresna honek dokumentuen irudi guztiak gris-eskala bihurtzen ditu. Fitxategien tamaina murrizteko eta inprimatzeko onena</string>
     <string name="metadata">Metadatuak</string>
     <string name="metadata_pdf_sub">Editatu dokumentuaren propietateak pribatutasun hobea izateko</string>
@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">Erabiltzailearen izenak ez du hutsik egon behar.</string>
     <string name="shader_error_blank_source">Itzalaren iturria ez da hutsik egon behar.</string>
     <string name="shader_error_unsupported_characters">Itzalaren iturriak onartzen ez diren karaktereak ditu: %1$s. Erabili ASCII GLSL iturria soilik.</string>
-    <string name="shader_error_duplicate_parameter">\\"%1$s\\" parametroa behin baino gehiagotan deklaratzen da.</string>
+    <string name="shader_error_duplicate_parameter">\\\"%1$s\\\" parametroa behin baino gehiagotan deklaratzen da.</string>
     <string name="shader_error_blank_parameter_name">Parametroen izenak ez dira hutsik egon behar.</string>
-    <string name="shader_error_reserved_parameter_name">\\"%1$s\\" parametroak GPUImage izen erreserbatua erabiltzen du.</string>
-    <string name="shader_error_invalid_parameter_name">\\"%1$s\\" parametroak baliozko GLSL identifikatzaile bat izan behar du.</string>
-    <string name="shader_error_invalid_value_type">\\"%1$s\\" parametroak %2$s balio mota du \\"%3$s\\", espero den \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">\\"%1$s\\" parametroak ezin du definitu min edo max balio booletarako.</string>
-    <string name="shader_error_min_greater_than_max">\\"%1$s\\" parametroak gehienez baino min handiagoa du.</string>
-    <string name="shader_error_default_lower_than_min">\\"%1$s\\" parametro lehenetsia min baino txikiagoa da.</string>
-    <string name="shader_error_default_greater_than_max">\\"%1$s\\" parametro lehenetsia gehienezkoa baino handiagoa da.</string>
-    <string name="shader_error_missing_input_texture">Shader-ek \\"uniform sampler2D %1$s;\\" deklaratu behar du.</string>
-    <string name="shader_error_missing_texture_coordinate">Shader-ek \\"vec2 %1$s aldakorra\" deklaratu behar du.</string>
-    <string name="shader_error_missing_main_function">Shader-ek \\"void main()\\" definitu behar du.</string>
+    <string name="shader_error_reserved_parameter_name">\\\"%1$s\\\" parametroak GPUImage izen erreserbatua erabiltzen du.</string>
+    <string name="shader_error_invalid_parameter_name">\\\"%1$s\\\" parametroak baliozko GLSL identifikatzaile bat izan behar du.</string>
+    <string name="shader_error_invalid_value_type">\\\"%1$s\\\" parametroak %2$s balio mota du \\\"%3$s\\\", espero den \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">\\\"%1$s\\\" parametroak ezin du definitu min edo max balio booletarako.</string>
+    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" parametroak gehienez baino min handiagoa du.</string>
+    <string name="shader_error_default_lower_than_min">\\\"%1$s\\\" parametro lehenetsia min baino txikiagoa da.</string>
+    <string name="shader_error_default_greater_than_max">\\\"%1$s\\\" parametro lehenetsia gehienezkoa baino handiagoa da.</string>
+    <string name="shader_error_missing_input_texture">Shader-ek \\\"uniform sampler2D %1$s;\\\" deklaratu behar du.</string>
+    <string name="shader_error_missing_texture_coordinate">Shader-ek \\\"vec2 %1$s aldakorra\" deklaratu behar du.</string>
+    <string name="shader_error_missing_main_function">Shader-ek \\\"void main()\\\" definitu behar du.</string>
     <string name="shader_error_missing_fragment_color">Shader-ek kolore bat idatzi behar du gl_FragColor-en.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage itzalgailuak ez dira onartzen. Erabili GPUImage-ren void main() kontratua.</string>
-    <string name="shader_error_shadertoy_i_time">\\"iTime\\" ShaderToy uniforme animatua ez da onartzen.</string>
-    <string name="shader_error_shadertoy_i_frame">ShaderToy animaziozko \\"iFrame\\" uniformea ​​ez da onartzen.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniforme \\"iResolution\\" ez da onartzen.</string>
+    <string name="shader_error_shadertoy_i_time">\\\"iTime\\\" ShaderToy uniforme animatua ez da onartzen.</string>
+    <string name="shader_error_shadertoy_i_frame">ShaderToy animaziozko \\\"iFrame\\\" uniformea ​​ez da onartzen.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniforme \\\"iResolution\\\" ez da onartzen.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel testurak ez dira onartzen.</string>
     <string name="shader_error_external_textures">Kanpoko ehundurak ez dira onartzen.</string>
     <string name="shader_error_external_texture_extensions">Kanpoko ehundura luzapenak ez dira onartzen.</string>
     <string name="shader_error_libretro_parameters">Libretro itzalduraren parametroak ez dira onartzen.</string>
-    <string name="shader_error_extra_input_texture">Sarrerako testura bakarra onartzen da. Kendu \\"uniformea ​​%1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">\\"%1$s\\" parametroa \\"uniforme %2$s %1$s;\\" gisa deklaratu behar da.</string>
-    <string name="shader_error_wrong_uniform_type">\\"%1$s\\" parametroa \\"uniforme %2$s %1$s;\\", espero den \\"uniforme %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Sarrerako testura bakarra onartzen da. Kendu \\\"uniformea ​​%1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">\\\"%1$s\\\" parametroa \\\"uniforme %2$s %1$s;\\\" gisa deklaratu behar da.</string>
+    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" parametroa \\\"uniforme %2$s %1$s;\\\", espero den \\\"uniforme %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Shader fitxategia hutsik dago.</string>
     <string name="shader_parse_error_not_itshader_json">Shader fitxategiak .itshader JSON objektu bat izan behar du, bertsio, izena eta itzal-eremuekin.</string>
     <string name="shader_parse_error_invalid_json">Shader fitxategia ez da JSON baliozkoa edo ez dator bat .itshader formatuarekin.</string>
-    <string name="shader_parse_error_missing_field">\\"%1$s\\" eremua beharrezkoa da.</string>
+    <string name="shader_parse_error_missing_field">\\\"%1$s\\\" eremua beharrezkoa da.</string>
     <string name="shader_parse_error_missing_param_field">%1$s beharrezkoa da.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" ez da onartzen. Onartutako motak: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s beharrezkoa da \\"%2$s\\" parametroetarako.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" ez da onartzen. Onartutako motak: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s beharrezkoa da \\\"%2$s\\\" parametroetarako.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s zenbaki finitua izan behar du.</string>
     <string name="shader_parse_error_integer_expected">%1$s zenbaki oso bat izan behar du.</string>
     <string name="shader_parse_error_bool_expected">%1$s egia ala gezurra izan behar du.</string>
@@ -3219,4 +3219,71 @@
     <string name="search_keywords_pdf_print">pdf inprimagailua</string>
     <string name="search_keywords_pdf_preview">pdf aurrebista ikuslea irakurri</string>
     <string name="error">Errorea</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="search_keywords_pdf_extract_images"></string>
+    <string name="search_keywords_audio_cover_extractor"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="search_keywords_pdf_images_to_pdf"></string>
+    <string name="search_keywords_edit_exif"></string>
+    <string name="neutral_variant"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="search_keywords_pdf_compress"></string>
+    <string name="search_keywords_pdf_rotate"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="search_keywords_document_scanner"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="search_keywords_jxl_tools"></string>
+    <string name="search_keywords_image_cutter"></string>
+    <string name="search_keywords_recognize_text"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="search_keywords_pdf_rearrange"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="search_keywords_collage_maker"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="search_keywords_apng_tools"></string>
+    <string name="search_keywords_svg_maker"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="search_keywords_color_tools"></string>
+    <string name="search_keywords_pdf_repair"></string>
+    <string name="search_keywords_pdf_watermark"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="search_keywords_watermarking"></string>
+    <string name="search_keywords_noise_generation"></string>
+    <string name="search_keywords_pick_color_from_image"></string>
+    <string name="search_keywords_scan_qr_code"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="search_keywords_pdf_ocr"></string>
+    <string name="search_keywords_base64_tools"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="search_keywords_ai_tools"></string>
+    <string name="search_keywords_shader_studio"></string>
+    <string name="search_keywords_pdf_page_numbers"></string>
+    <string name="search_keywords_wallpapers_export"></string>
+    <string name="search_keywords_image_splitting"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="search_keywords_ascii_art"></string>
+    <string name="search_keywords_pdf_extract_pages"></string>
+    <string name="search_keywords_compare"></string>
+    <string name="search_keywords_pdf_remove_annotations"></string>
+    <string name="search_keywords_image_stacking"></string>
+    <string name="search_keywords_color_library"></string>
+    <string name="search_keywords_pdf_metadata"></string>
+    <string name="search_keywords_pdf_flatten"></string>
+    <string name="search_keywords_checksum_tools"></string>
+    <string name="search_keywords_zip"></string>
+    <string name="search_keywords_pdf_protect"></string>
+    <string name="search_keywords_pdf_unlock"></string>
+    <string name="search_keywords_markup_layers"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="search_keywords_pdf_grayscale"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
