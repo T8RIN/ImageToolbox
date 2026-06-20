@@ -2138,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Converteer alle in het document ingebedde afbeeldingen naar grijswaarden</string>
     <string name="compress_pdf">PDF comprimeren</string>
     <string name="compress_pdf_sub">Optimaliseer de bestandsgrootte van uw document om gemakkelijker te kunnen delen</string>
-    <string name="repair_info">ImageToolbox bouwt de interne kruisverwijzingstabel opnieuw op en genereert de bestandsstructuur helemaal opnieuw. Hierdoor kan de toegang tot veel bestanden worden hersteld die \\"niet kunnen worden geopend\\"</string>
+    <string name="repair_info">ImageToolbox bouwt de interne kruisverwijzingstabel opnieuw op en genereert de bestandsstructuur helemaal opnieuw. Hierdoor kan de toegang tot veel bestanden worden hersteld die \\\"niet kunnen worden geopend\\\"</string>
     <string name="grayscale_info">Deze tool converteert alle documentafbeeldingen naar grijswaarden. Beste voor afdrukken en verkleinen van de bestandsgrootte</string>
     <string name="metadata">Metagegevens</string>
     <string name="metadata_pdf_sub">Bewerk documenteigenschappen voor betere privacy</string>
@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">De naam van de shader mag niet leeg zijn.</string>
     <string name="shader_error_blank_source">De arceringsbron mag niet leeg zijn.</string>
     <string name="shader_error_unsupported_characters">De arceringsbron bevat niet-ondersteunde tekens: %1$s. Gebruik alleen ASCII GLSL-bron.</string>
-    <string name="shader_error_duplicate_parameter">Parameter \\"%1$s\\" wordt meer dan één keer gedeclareerd.</string>
+    <string name="shader_error_duplicate_parameter">Parameter \\\"%1$s\\\" wordt meer dan één keer gedeclareerd.</string>
     <string name="shader_error_blank_parameter_name">Parameternamen mogen niet leeg zijn.</string>
-    <string name="shader_error_reserved_parameter_name">Parameter \\"%1$s\\" gebruikt een gereserveerde GPUImage-naam.</string>
-    <string name="shader_error_invalid_parameter_name">Parameter \\"%1$s\\" moet een geldige GLSL-identificatie zijn.</string>
-    <string name="shader_error_invalid_value_type">Parameter \\"%1$s\\" heeft %2$s waardetype \\"%3$s\\", verwacht \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Parameter \\"%1$s\\" kan min of max voor boolwaarden niet definiëren.</string>
-    <string name="shader_error_min_greater_than_max">Parameter \\"%1$s\\" heeft min groter dan max.</string>
-    <string name="shader_error_default_lower_than_min">Parameter \\"%1$s\\" standaard is lager dan min.</string>
-    <string name="shader_error_default_greater_than_max">Parameter \\"%1$s\\" standaard is groter dan max.</string>
-    <string name="shader_error_missing_input_texture">Shader moet \\"uniforme sampler2D %1$s;\\" declareren.</string>
-    <string name="shader_error_missing_texture_coordinate">Shader moet \\"variërende vec2 %1$s;\\" declareren.</string>
-    <string name="shader_error_missing_main_function">Shader moet \\"void main()\\" definiëren.</string>
+    <string name="shader_error_reserved_parameter_name">Parameter \\\"%1$s\\\" gebruikt een gereserveerde GPUImage-naam.</string>
+    <string name="shader_error_invalid_parameter_name">Parameter \\\"%1$s\\\" moet een geldige GLSL-identificatie zijn.</string>
+    <string name="shader_error_invalid_value_type">Parameter \\\"%1$s\\\" heeft %2$s waardetype \\\"%3$s\\\", verwacht \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Parameter \\\"%1$s\\\" kan min of max voor boolwaarden niet definiëren.</string>
+    <string name="shader_error_min_greater_than_max">Parameter \\\"%1$s\\\" heeft min groter dan max.</string>
+    <string name="shader_error_default_lower_than_min">Parameter \\\"%1$s\\\" standaard is lager dan min.</string>
+    <string name="shader_error_default_greater_than_max">Parameter \\\"%1$s\\\" standaard is groter dan max.</string>
+    <string name="shader_error_missing_input_texture">Shader moet \\\"uniforme sampler2D %1$s;\\\" declareren.</string>
+    <string name="shader_error_missing_texture_coordinate">Shader moet \\\"variërende vec2 %1$s;\\\" declareren.</string>
+    <string name="shader_error_missing_main_function">Shader moet \\\"void main()\\\" definiëren.</string>
     <string name="shader_error_missing_fragment_color">Shader moet een kleur naar gl_FragColor schrijven.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage-shaders worden niet ondersteund. Gebruik het void main()-contract van GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Geanimeerd ShaderToy-uniform \\"iTime\\" wordt niet ondersteund.</string>
-    <string name="shader_error_shadertoy_i_frame">Geanimeerd ShaderToy-uniform \\"iFrame\\" wordt niet ondersteund.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy-uniform \\"iResolution\\" wordt niet ondersteund.</string>
+    <string name="shader_error_shadertoy_i_time">Geanimeerd ShaderToy-uniform \\\"iTime\\\" wordt niet ondersteund.</string>
+    <string name="shader_error_shadertoy_i_frame">Geanimeerd ShaderToy-uniform \\\"iFrame\\\" wordt niet ondersteund.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy-uniform \\\"iResolution\\\" wordt niet ondersteund.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel-texturen worden niet ondersteund.</string>
     <string name="shader_error_external_textures">Externe texturen worden niet ondersteund.</string>
     <string name="shader_error_external_texture_extensions">Externe textuurextensies worden niet ondersteund.</string>
     <string name="shader_error_libretro_parameters">Libretro-shaderparameters worden niet ondersteund.</string>
-    <string name="shader_error_extra_input_texture">Er wordt slechts één invoertextuur ondersteund. Verwijder \\"uniform %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Parameter \\"%1$s\\" moet worden gedeclareerd als \\"uniform %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parameter \\"%1$s\\" wordt gedeclareerd als \\"uniform %2$s %1$s;\\", verwacht \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Er wordt slechts één invoertextuur ondersteund. Verwijder \\\"uniform %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Parameter \\\"%1$s\\\" moet worden gedeclareerd als \\\"uniform %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Parameter \\\"%1$s\\\" wordt gedeclareerd als \\\"uniform %2$s %1$s;\\\", verwacht \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Shader-bestand is leeg.</string>
     <string name="shader_parse_error_not_itshader_json">Het arceringsbestand moet een .itshader JSON-object zijn met versie-, naam- en arceringsvelden.</string>
     <string name="shader_parse_error_invalid_json">Het Shader-bestand is geen geldige JSON of komt niet overeen met de .itshader-indeling.</string>
-    <string name="shader_parse_error_missing_field">Veld \\"%1$s\\" is verplicht.</string>
+    <string name="shader_parse_error_missing_field">Veld \\\"%1$s\\\" is verplicht.</string>
     <string name="shader_parse_error_missing_param_field">%1$s is vereist.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" wordt niet ondersteund. Ondersteunde typen: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s is vereist voor \\"%2$s\\" parameters.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" wordt niet ondersteund. Ondersteunde typen: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s is vereist voor \\\"%2$s\\\" parameters.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s moet een eindig getal zijn.</string>
     <string name="shader_parse_error_integer_expected">%1$s moet een geheel getal zijn.</string>
     <string name="shader_parse_error_bool_expected">%1$s moet waar of onwaar zijn.</string>
@@ -2400,7 +2400,7 @@
     <string name="duplicate">Duplicaat</string>
     <string name="always_clear_exif">Wis EXIF ​​altijd</string>
     <string name="always_clear_exif_sub">Verwijder EXIF-gegevens van afbeeldingen bij het opslaan, zelfs wanneer een tool vraagt ​​om het bewaren van metagegevens</string>
-    <string name="help_tips">Hulp &amp;amp; Tips</string>
+    <string name="help_tips">Hulp &amp; Tips</string>
     <string name="tutorials_count">%1$d zelfstudies</string>
     <string name="open_tool">Gereedschap openen</string>
     <string name="help_tips_settings_sub">Leer de belangrijkste tools, exportopties, PDF-stromen, kleurhulpprogramma\'s en oplossingen voor veelvoorkomende problemen</string>
@@ -3262,4 +3262,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf annotaties opmerkingen verwijderen schoon</string>
     <string name="neutral_variant">Neutrale variant</string>
     <string name="error">Fout</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
