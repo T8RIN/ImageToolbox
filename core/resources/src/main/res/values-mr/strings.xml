@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -295,8 +294,7 @@
     <string name="features_sub">फाइल्सचे पासवर्ड-आधारित एनक्रिप्शन. पुढे केलेल्या फायली निवडलेल्या निर्देशिकेत संग्रहित केल्या जाऊ शकतात किंवा सामायिक केल्या जाऊ शकतात. डिक्रिप्ट केलेल्या फायली थेट उघडल्या जाऊ शकतात.</string>
     <string name="implementation_sub">AES-256, GCM मोड, कोणतेही पॅडिंग नाही, 12 बाइट यादृच्छिक IV डीफॉल्टनुसार. आपण आवश्यक अल्गोरिदम निवडू शकता. की 256-बिट SHA-3 हॅश म्हणून वापरल्या जातात</string>
     <string name="file_size">फाइल आकार</string>
-    <string name="file_size_sub">जास्तीत जास्त फाइल आकार Android OS आणि उपलब्ध मेमरीद्वारे प्रतिबंधित आहे, जी डिव्हाइसवर अवलंबून आहे.
-\nकृपया लक्षात ठेवा: मेमरी ही स्टोरेज नाही.</string>
+    <string name="file_size_sub">जास्तीत जास्त फाइल आकार Android OS आणि उपलब्ध मेमरीद्वारे प्रतिबंधित आहे, जी डिव्हाइसवर अवलंबून आहे. \nकृपया लक्षात ठेवा: मेमरी ही स्टोरेज नाही.</string>
     <string name="compatibility_sub">कृपया लक्षात घ्या की इतर फाइल एन्क्रिप्शन सॉफ्टवेअर किंवा सेवांच्या सुसंगततेची हमी दिलेली नाही. किंचित भिन्न की उपचार किंवा सायफर कॉन्फिगरेशनमुळे विसंगतता येऊ शकते.</string>
     <string name="invalid_password_or_not_encrypted">अवैध पासवर्ड किंवा निवडलेली फाइल एनक्रिप्ट केलेली नाही</string>
     <string name="image_size_warning">दिलेल्या रुंदी आणि उंचीसह प्रतिमा जतन करण्याचा प्रयत्न केल्याने मेमरी त्रुटी होऊ शकते. हे तुमच्या स्वतःच्या जोखमीवर करा.</string>
@@ -2140,7 +2138,7 @@
     <string name="grayscale_pdf_sub">सर्व दस्तऐवज एम्बेड केलेल्या प्रतिमा ग्रेस्केलमध्ये रूपांतरित करा</string>
     <string name="compress_pdf">पीडीएफ कॉम्प्रेस करा</string>
     <string name="compress_pdf_sub">सुलभ सामायिकरणासाठी तुमचा दस्तऐवज फाइल आकार ऑप्टिमाइझ करा</string>
-    <string name="repair_info">इमेजटूलबॉक्स अंतर्गत क्रॉस-रेफरन्स टेबलची पुनर्बांधणी करते आणि स्क्रॅचमधून फाइल संरचना पुन्हा निर्माण करते. हे \\"उघडले जाऊ शकत नाही\\" अशा अनेक फाइल्समध्ये प्रवेश पुनर्संचयित करू शकते.</string>
+    <string name="repair_info">इमेजटूलबॉक्स अंतर्गत क्रॉस-रेफरन्स टेबलची पुनर्बांधणी करते आणि स्क्रॅचमधून फाइल संरचना पुन्हा निर्माण करते. हे \\\"उघडले जाऊ शकत नाही\\\" अशा अनेक फाइल्समध्ये प्रवेश पुनर्संचयित करू शकते.</string>
     <string name="grayscale_info">हे साधन सर्व दस्तऐवज प्रतिमा ग्रेस्केलमध्ये रूपांतरित करते. मुद्रित करण्यासाठी आणि फाइल आकार कमी करण्यासाठी सर्वोत्तम</string>
     <string name="metadata">मेटाडेटा</string>
     <string name="metadata_pdf_sub">चांगल्या गोपनीयतेसाठी दस्तऐवज गुणधर्म संपादित करा</string>
@@ -2358,37 +2356,37 @@
     <string name="shader_error_blank_name">शेडरचे नाव रिक्त नसावे.</string>
     <string name="shader_error_blank_source">शेडर स्त्रोत रिक्त नसावा.</string>
     <string name="shader_error_unsupported_characters">शेडर स्त्रोतामध्ये असमर्थित वर्ण आहेत: %1$s. फक्त ASCII GLSL स्रोत वापरा.</string>
-    <string name="shader_error_duplicate_parameter">पॅरामीटर \\"%1$s\\" एकापेक्षा जास्त वेळा घोषित केले आहे.</string>
+    <string name="shader_error_duplicate_parameter">पॅरामीटर \\\"%1$s\\\" एकापेक्षा जास्त वेळा घोषित केले आहे.</string>
     <string name="shader_error_blank_parameter_name">पॅरामीटर नावे रिक्त नसावीत.</string>
-    <string name="shader_error_reserved_parameter_name">पॅरामीटर \\"%1$s\\" आरक्षित GPUI इमेज नाव वापरते.</string>
-    <string name="shader_error_invalid_parameter_name">पॅरामीटर \\"%1$s\\" एक वैध GLSL अभिज्ञापक असणे आवश्यक आहे.</string>
-    <string name="shader_error_invalid_value_type">पॅरामीटर \\"%1$s\\" मध्ये %2$s मूल्य प्रकार आहे \\"%3$s\\", अपेक्षित \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">पॅरामीटर \\"%1$s\\" bool मूल्यांसाठी किमान किंवा कमाल परिभाषित करू शकत नाही.</string>
-    <string name="shader_error_min_greater_than_max">पॅरामीटर \\"%1$s\\" मध्ये कमाल पेक्षा किमान आहे.</string>
-    <string name="shader_error_default_lower_than_min">पॅरामीटर \\"%1$s\\" डीफॉल्ट किमान पेक्षा कमी आहे.</string>
-    <string name="shader_error_default_greater_than_max">पॅरामीटर \\"%1$s\\" डीफॉल्ट कमाल पेक्षा मोठे आहे.</string>
-    <string name="shader_error_missing_input_texture">शेडरने \\"एकसमान नमुना2D %1$s;\\" घोषित करणे आवश्यक आहे.</string>
-    <string name="shader_error_missing_texture_coordinate">शेडरने \\"वेरिंग vec2 %1$s;\\" घोषित करणे आवश्यक आहे.</string>
-    <string name="shader_error_missing_main_function">शेडरने \\"void main()\\" परिभाषित करणे आवश्यक आहे.</string>
+    <string name="shader_error_reserved_parameter_name">पॅरामीटर \\\"%1$s\\\" आरक्षित GPUI इमेज नाव वापरते.</string>
+    <string name="shader_error_invalid_parameter_name">पॅरामीटर \\\"%1$s\\\" एक वैध GLSL अभिज्ञापक असणे आवश्यक आहे.</string>
+    <string name="shader_error_invalid_value_type">पॅरामीटर \\\"%1$s\\\" मध्ये %2$s मूल्य प्रकार आहे \\\"%3$s\\\", अपेक्षित \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">पॅरामीटर \\\"%1$s\\\" bool मूल्यांसाठी किमान किंवा कमाल परिभाषित करू शकत नाही.</string>
+    <string name="shader_error_min_greater_than_max">पॅरामीटर \\\"%1$s\\\" मध्ये कमाल पेक्षा किमान आहे.</string>
+    <string name="shader_error_default_lower_than_min">पॅरामीटर \\\"%1$s\\\" डीफॉल्ट किमान पेक्षा कमी आहे.</string>
+    <string name="shader_error_default_greater_than_max">पॅरामीटर \\\"%1$s\\\" डीफॉल्ट कमाल पेक्षा मोठे आहे.</string>
+    <string name="shader_error_missing_input_texture">शेडरने \\\"एकसमान नमुना2D %1$s;\\\" घोषित करणे आवश्यक आहे.</string>
+    <string name="shader_error_missing_texture_coordinate">शेडरने \\\"वेरिंग vec2 %1$s;\\\" घोषित करणे आवश्यक आहे.</string>
+    <string name="shader_error_missing_main_function">शेडरने \\\"void main()\\\" परिभाषित करणे आवश्यक आहे.</string>
     <string name="shader_error_missing_fragment_color">शेडरने gl_FragColor वर रंग लिहिला पाहिजे.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders समर्थित नाहीत. GPUImage च्या void main() कराराचा वापर करा.</string>
-    <string name="shader_error_shadertoy_i_time">ॲनिमेटेड ShaderToy युनिफॉर्म \\"iTime\\" समर्थित नाही.</string>
-    <string name="shader_error_shadertoy_i_frame">ॲनिमेटेड ShaderToy युनिफॉर्म \\"iFrame\\" समर्थित नाही.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy युनिफॉर्म \\"iResolution\\" समर्थित नाही.</string>
+    <string name="shader_error_shadertoy_i_time">ॲनिमेटेड ShaderToy युनिफॉर्म \\\"iTime\\\" समर्थित नाही.</string>
+    <string name="shader_error_shadertoy_i_frame">ॲनिमेटेड ShaderToy युनिफॉर्म \\\"iFrame\\\" समर्थित नाही.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy युनिफॉर्म \\\"iResolution\\\" समर्थित नाही.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel पोत समर्थित नाहीत.</string>
     <string name="shader_error_external_textures">बाह्य पोत समर्थित नाहीत.</string>
     <string name="shader_error_external_texture_extensions">बाह्य पोत विस्तार समर्थित नाहीत.</string>
     <string name="shader_error_libretro_parameters">लिब्रेट्रो शेडर पॅरामीटर्स समर्थित नाहीत.</string>
-    <string name="shader_error_extra_input_texture">फक्त एक इनपुट पोत समर्थित आहे. \\"गणवेश %1$s %2$s;\\" काढा.</string>
-    <string name="shader_error_missing_uniform">पॅरामीटर \\"%1$s\\" हे \\"युनिफॉर्म %2$s %1$s;\\" म्हणून घोषित करणे आवश्यक आहे.</string>
-    <string name="shader_error_wrong_uniform_type">पॅरामीटर \\"%1$s\\" हे \\"युनिफॉर्म %2$s %1$s;\\" म्हणून घोषित केले आहे, अपेक्षित \\"युनिफॉर्म %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">फक्त एक इनपुट पोत समर्थित आहे. \\\"गणवेश %1$s %2$s;\\\" काढा.</string>
+    <string name="shader_error_missing_uniform">पॅरामीटर \\\"%1$s\\\" हे \\\"युनिफॉर्म %2$s %1$s;\\\" म्हणून घोषित करणे आवश्यक आहे.</string>
+    <string name="shader_error_wrong_uniform_type">पॅरामीटर \\\"%1$s\\\" हे \\\"युनिफॉर्म %2$s %1$s;\\\" म्हणून घोषित केले आहे, अपेक्षित \\\"युनिफॉर्म %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">शेडर फाइल रिकामी आहे.</string>
     <string name="shader_parse_error_not_itshader_json">शेडर फाइल आवृत्ती, नाव आणि शेडर फील्डसह .itshader JSON ऑब्जेक्ट असणे आवश्यक आहे.</string>
     <string name="shader_parse_error_invalid_json">शेडर फाइल वैध JSON नाही किंवा .itshader फॉरमॅटशी जुळत नाही.</string>
-    <string name="shader_parse_error_missing_field">फील्ड \\"%1$s\\" आवश्यक आहे.</string>
+    <string name="shader_parse_error_missing_field">फील्ड \\\"%1$s\\\" आवश्यक आहे.</string>
     <string name="shader_parse_error_missing_param_field">%1$s आवश्यक आहे.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" समर्थित नाही. समर्थित प्रकार: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" पॅरामीटर्ससाठी %1$s आवश्यक आहे.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" समर्थित नाही. समर्थित प्रकार: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" पॅरामीटर्ससाठी %1$s आवश्यक आहे.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s ही मर्यादित संख्या असणे आवश्यक आहे.</string>
     <string name="shader_parse_error_integer_expected">%1$s पूर्णांक असणे आवश्यक आहे.</string>
     <string name="shader_parse_error_bool_expected">%1$s सत्य किंवा असत्य असणे आवश्यक आहे.</string>
@@ -3192,76 +3190,26 @@
     <string name="no_usage_statistics">अद्याप वापराची आकडेवारी नाही</string>
     <string name="no_usage_statistics_sub">काही साधने उघडा आणि ती येथे आपोआप दिसून येतील</string>
     <string name="usage_statistics_info">तुमची वापर आकडेवारी तुमच्या डिव्हाइसवर फक्त स्थानिक पातळीवर संग्रहित केली जाते. इमेजटूलबॉक्स त्यांचा वापर फक्त तुमची वैयक्तिक गतिविधी, आवडती साधने आणि सेव्ह केलेला डेटा इनसाइट दर्शविण्यासाठी करते</string>
-    <string name="search_keywords_single_edit" />
     <string name="search_keywords_resize_and_convert">आकार बदला रूपांतर स्केल रिझोल्यूशन परिमाणे रुंदी उंची jpg jpeg png वेबपी कॉम्प्रेस</string>
     <string name="search_keywords_weight_resize">कॉम्प्रेस आकार वजन बाइट्स mb kb गुणवत्ता ऑप्टिमाइझ कमी करा</string>
-    <string name="search_keywords_crop" />
-    <string name="search_keywords_filter" />
-    <string name="search_keywords_draw" />
-    <string name="search_keywords_cipher" />
     <string name="search_keywords_erase_background">पार्श्वभूमी रिमूव्हर मिटवा कटआउट पारदर्शक अल्फा काढा</string>
-    <string name="search_keywords_image_preview" />
-    <string name="search_keywords_image_stitching" />
-    <string name="search_keywords_load_net_image" />
-    <string name="search_keywords_pick_color_from_image" />
-    <string name="search_keywords_palette_tools" />
     <string name="search_keywords_delete_exif">exif मेटाडेटा गोपनीयता पट्टी साफ जीपीएस स्थान काढा</string>
-    <string name="search_keywords_compare" />
-    <string name="search_keywords_limit_resize" />
-    <string name="search_keywords_pdf_tools" />
-    <string name="search_keywords_recognize_text" />
-    <string name="search_keywords_gradient_maker" />
-    <string name="search_keywords_watermarking" />
-    <string name="search_keywords_gif_tools" />
-    <string name="search_keywords_apng_tools" />
-    <string name="search_keywords_zip" />
-    <string name="search_keywords_jxl_tools" />
-    <string name="search_keywords_svg_maker" />
     <string name="search_keywords_format_conversion">स्वरूप रूपांतरित jpg jpeg png webp heic avif jxl bmp</string>
-    <string name="search_keywords_document_scanner" />
-    <string name="search_keywords_scan_qr_code" />
-    <string name="search_keywords_image_stacking" />
-    <string name="search_keywords_image_splitting" />
-    <string name="search_keywords_color_tools" />
     <string name="search_keywords_webp_tools">वेबपी रूपांतरित ॲनिमेटेड प्रतिमा स्वरूप</string>
-    <string name="search_keywords_noise_generation" />
-    <string name="search_keywords_collage_maker" />
-    <string name="search_keywords_markup_layers" />
     <string name="search_keywords_base64_tools">बेस64 एन्कोड डीकोड डेटा यूआरआय</string>
     <string name="search_keywords_checksum_tools">चेकसम हॅश md5 sha sha1 sha256 सत्यापित करा</string>
-    <string name="search_keywords_mesh_gradients" />
-    <string name="search_keywords_edit_exif" />
-    <string name="search_keywords_image_cutter" />
-    <string name="search_keywords_audio_cover_extractor" />
     <string name="search_keywords_wallpapers_export">वॉलपेपर निर्यात पार्श्वभूमी</string>
-    <string name="search_keywords_ascii_art" />
-    <string name="search_keywords_ai_tools" />
-    <string name="search_keywords_color_library" />
     <string name="search_keywords_shader_studio">शेडर जीएलएसएल फ्रॅगमेंट इफेक्ट स्टुडिओ</string>
-    <string name="search_keywords_pdf_merge" />
-    <string name="search_keywords_pdf_split" />
     <string name="search_keywords_pdf_rotate">pdf पृष्ठे फिरवा</string>
     <string name="search_keywords_pdf_rearrange">pdf पानांची क्रमवारी पुनर्रचना करा</string>
     <string name="search_keywords_pdf_page_numbers">pdf पृष्ठ क्रमांक पृष्ठांकन</string>
     <string name="search_keywords_pdf_ocr">पीडीएफ ओसीआर मजकूर शोधण्यायोग्य अर्क ओळखा</string>
     <string name="search_keywords_pdf_watermark">पीडीएफ वॉटरमार्क स्टॅम्प लोगो मजकूर</string>
-    <string name="search_keywords_pdf_signature" />
-    <string name="search_keywords_pdf_protect" />
-    <string name="search_keywords_pdf_unlock" />
     <string name="search_keywords_pdf_compress">पीडीएफ कॉम्प्रेस कमी आकार ऑप्टिमाइझ करा</string>
-    <string name="search_keywords_pdf_grayscale" />
-    <string name="search_keywords_pdf_repair" />
     <string name="search_keywords_pdf_metadata">pdf मेटाडेटा गुणधर्म exif लेखक शीर्षक</string>
-    <string name="search_keywords_pdf_remove_pages" />
-    <string name="search_keywords_pdf_crop" />
     <string name="search_keywords_pdf_flatten">pdf सपाट भाष्ये स्तर तयार करतात</string>
-    <string name="search_keywords_pdf_extract_images" />
-    <string name="search_keywords_pdf_zip_convert" />
-    <string name="search_keywords_pdf_print" />
-    <string name="search_keywords_pdf_preview" />
     <string name="search_keywords_pdf_images_to_pdf">प्रतिमा pdf मध्ये रूपांतरित करा jpg jpeg png दस्तऐवज</string>
     <string name="search_keywords_pdf_extract_pages">प्रतिमा पृष्ठांवर pdf निर्यात jpg png</string>
-    <string name="search_keywords_pdf_remove_annotations" />
     <string name="neutral_variant">तटस्थ प्रकार</string>
     <string name="error">त्रुटी</string>
 </resources>

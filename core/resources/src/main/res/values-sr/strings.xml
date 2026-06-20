@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -905,7 +904,7 @@
     <string name="engine_mode">Енгине Моде</string>
     <string name="legacy">Легаци</string>
     <string name="lstm_network">ЛСТМ мрежа</string>
-    <string name="legacy_and_lstm">Легаци &amp;amp; ЛСТМ</string>
+    <string name="legacy_and_lstm">Легаци &amp; ЛСТМ</string>
     <string name="convert">Цонверт</string>
     <string name="convert_sub">Конвертујте групе слика у дати формат</string>
     <string name="add_new_folder">Додај нову фасциклу</string>
@@ -1607,7 +1606,7 @@
     <string name="send_logs">Пошаљи дневнике</string>
     <string name="send_logs_sub">Кликните да бисте поделили датотеку евиденције апликације, ово ми може помоћи да уочим проблем и решим проблеме</string>
     <string name="crash_title">Упс… Нешто је пошло наопако</string>
-    <string name="crash_subtitle">Можете ме контактирати користећи опције испод и покушаћу да пронађем решење.\н(Не заборавите да приложите евиденције)</string>
+    <string name="crash_subtitle">Можете ме контактирати користећи опције испод и покушаћу да пронађем решење.(Не заборавите да приложите евиденције)</string>
     <string name="ocr_write_to_file">Врите То Филе</string>
     <string name="ocr_write_to_file_sub">Извуците текст из серије слика и сачувајте га у једној текстуалној датотеци</string>
     <string name="ocr_write_to_metadata">Врите То Метадата</string>
@@ -2358,37 +2357,37 @@
     <string name="shader_error_blank_name">Име схадера не сме бити празно.</string>
     <string name="shader_error_blank_source">Поље за извор схадера не сме бити празно.</string>
     <string name="shader_error_unsupported_characters">Извор схадера садржи неподржане знакове: __ПХ_0__. Користите само АСЦИИ ГЛСЛ извор.</string>
-    <string name="shader_error_duplicate_parameter">Параметар \\"__ПХ_0__\\" је декларисан више пута.</string>
+    <string name="shader_error_duplicate_parameter">Параметар \\\"__ПХ_0__\\\" је декларисан више пута.</string>
     <string name="shader_error_blank_parameter_name">Називи параметара не смеју да буду празни.</string>
-    <string name="shader_error_reserved_parameter_name">Параметар \\"__ПХ_0__\\" користи резервисано име ГПУИ слике.</string>
-    <string name="shader_error_invalid_parameter_name">Параметар \\"__ПХ_0__\\" мора да буде важећи ГЛСЛ идентификатор.</string>
-    <string name="shader_error_invalid_value_type">Параметар \\"__ПХ_0__\\" има __ПХ_1__ тип вредности \\"__ПХ_2__\\", очекивано \\"__ПХ_3__\\".</string>
-    <string name="shader_error_bool_bounds">Параметар \\"__ПХ_0__\\" не може да дефинише мин или максимум за боол вредности.</string>
-    <string name="shader_error_min_greater_than_max">Параметар \\"__ПХ_0__\\" има мин већи од макс.</string>
-    <string name="shader_error_default_lower_than_min">Подразумевани параметар \\"__ПХ_0__\\" је мањи од мин.</string>
-    <string name="shader_error_default_greater_than_max">Подразумевани параметар \\"__ПХ_0__\\" је већи од макс.</string>
-    <string name="shader_error_missing_input_texture">Схадер мора декларисати \\"униформ самплер2Д __ПХ_0__;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Шејдер мора да декларише \\"варијантно вец2 __ПХ_0__;\\".</string>
-    <string name="shader_error_missing_main_function">Схадер мора да дефинише \\"воид маин()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Параметар \\\"__ПХ_0__\\\" користи резервисано име ГПУИ слике.</string>
+    <string name="shader_error_invalid_parameter_name">Параметар \\\"__ПХ_0__\\\" мора да буде важећи ГЛСЛ идентификатор.</string>
+    <string name="shader_error_invalid_value_type">Параметар \\\"__ПХ_0__\\\" има __ПХ_1__ тип вредности \\\"__ПХ_2__\\\", очекивано \\\"__ПХ_3__\\\".</string>
+    <string name="shader_error_bool_bounds">Параметар \\\"__ПХ_0__\\\" не може да дефинише мин или максимум за боол вредности.</string>
+    <string name="shader_error_min_greater_than_max">Параметар \\\"__ПХ_0__\\\" има мин већи од макс.</string>
+    <string name="shader_error_default_lower_than_min">Подразумевани параметар \\\"__ПХ_0__\\\" је мањи од мин.</string>
+    <string name="shader_error_default_greater_than_max">Подразумевани параметар \\\"__ПХ_0__\\\" је већи од макс.</string>
+    <string name="shader_error_missing_input_texture">Схадер мора декларисати \\\"униформ самплер2Д __ПХ_0__;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Шејдер мора да декларише \\\"варијантно вец2 __ПХ_0__;\\\".</string>
+    <string name="shader_error_missing_main_function">Схадер мора да дефинише \\\"воид маин()\\\".</string>
     <string name="shader_error_missing_fragment_color">Схадер мора уписати боју у гл_ФрагЦолор.</string>
     <string name="shader_error_shadertoy_main_image">СхадерТои маинИмаге схадери нису подржани. Користите воид маин() уговор ГПУИмаге-а.</string>
-    <string name="shader_error_shadertoy_i_time">Анимирана СхадерТои униформа \\"иТиме\\" није подржана.</string>
-    <string name="shader_error_shadertoy_i_frame">Анимирана СхадерТои униформа \\"иФраме\\" није подржана.</string>
-    <string name="shader_error_shadertoy_i_resolution">СхадерТои униформа \\"иРесолутион\\" није подржана.</string>
+    <string name="shader_error_shadertoy_i_time">Анимирана СхадерТои униформа \\\"иТиме\\\" није подржана.</string>
+    <string name="shader_error_shadertoy_i_frame">Анимирана СхадерТои униформа \\\"иФраме\\\" није подржана.</string>
+    <string name="shader_error_shadertoy_i_resolution">СхадерТои униформа \\\"иРесолутион\\\" није подржана.</string>
     <string name="shader_error_shadertoy_i_channel">СхадерТои иЦханнел текстуре нису подржане.</string>
     <string name="shader_error_external_textures">Спољне текстуре нису подржане.</string>
     <string name="shader_error_external_texture_extensions">Екстензије за екстерне текстуре нису подржане.</string>
     <string name="shader_error_libretro_parameters">Либретро параметри схадера нису подржани.</string>
-    <string name="shader_error_extra_input_texture">Подржана је само једна улазна текстура. Уклоните \\"униформа __ПХ_0__ __ПХ_1__;\\".</string>
-    <string name="shader_error_missing_uniform">Параметар \\"__ПХ_0__\\" мора бити декларисан као \\"униформ __ПХ_1__ __ПХ_2__;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Параметар \\"__ПХ_0__\\" је декларисан као \\"униформ __ПХ_1__ __ПХ_2__;\\", очекивано \\"униформ __ПХ_3__ __ПХ_4__;\\".</string>
+    <string name="shader_error_extra_input_texture">Подржана је само једна улазна текстура. Уклоните \\\"униформа __ПХ_0__ __ПХ_1__;\\\".</string>
+    <string name="shader_error_missing_uniform">Параметар \\\"__ПХ_0__\\\" мора бити декларисан као \\\"униформ __ПХ_1__ __ПХ_2__;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Параметар \\\"__ПХ_0__\\\" је декларисан као \\\"униформ __ПХ_1__ __ПХ_2__;\\\", очекивано \\\"униформ __ПХ_3__ __ПХ_4__;\\\".</string>
     <string name="shader_parse_error_empty_file">Схадер датотека је празна.</string>
     <string name="shader_parse_error_not_itshader_json">Схадер датотека мора да буде .итсхадер ЈСОН објекат са верзијом, именом и пољима за шедер.</string>
     <string name="shader_parse_error_invalid_json">Схадер датотека није важећа ЈСОН или се не подудара са .итсхадер форматом.</string>
-    <string name="shader_parse_error_missing_field">Поље \\"__ПХ_0__\\" је обавезно.</string>
+    <string name="shader_parse_error_missing_field">Поље \\\"__ПХ_0__\\\" је обавезно.</string>
     <string name="shader_parse_error_missing_param_field">__ПХ_0__ је обавезан.</string>
-    <string name="shader_parse_error_unsupported_param_type">__ПХ_0__ \\"__ПХ_1__\\" није подржано. Подржани типови: __ПХ_2__.</string>
-    <string name="shader_parse_error_missing_value">__ПХ_0__ је неопходан за параметре \\"__ПХ_1__\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">__ПХ_0__ \\\"__ПХ_1__\\\" није подржано. Подржани типови: __ПХ_2__.</string>
+    <string name="shader_parse_error_missing_value">__ПХ_0__ је неопходан за параметре \\\"__ПХ_1__\\\".</string>
     <string name="shader_parse_error_finite_number_expected">__ПХ_0__ мора бити коначан број.</string>
     <string name="shader_parse_error_integer_expected">__ПХ_0__ мора бити цео број.</string>
     <string name="shader_parse_error_bool_expected">__ПХ_0__ мора бити тачно или нетачно.</string>

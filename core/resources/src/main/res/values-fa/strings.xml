@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">همه تصاویر جاسازی شده سند را به مقیاس خاکستری تبدیل کنید</string>
     <string name="compress_pdf">فشرده سازی PDF</string>
     <string name="compress_pdf_sub">اندازه فایل سند خود را برای اشتراک گذاری آسان تر بهینه کنید</string>
-    <string name="repair_info">ImageToolbox جدول مرجع متقابل داخلی را بازسازی می کند و ساختار فایل را از ابتدا بازسازی می کند. این می‌تواند دسترسی به بسیاری از فایل‌هایی را که \\"باز نمی‌شوند\\" بازیابی کند.</string>
+    <string name="repair_info">ImageToolbox جدول مرجع متقابل داخلی را بازسازی می کند و ساختار فایل را از ابتدا بازسازی می کند. این می‌تواند دسترسی به بسیاری از فایل‌هایی را که \\\"باز نمی‌شوند\\\" بازیابی کند.</string>
     <string name="grayscale_info">این ابزار تمام تصاویر سند را به مقیاس خاکستری تبدیل می کند. بهترین برای چاپ و کاهش حجم فایل</string>
     <string name="metadata">فراداده</string>
     <string name="metadata_pdf_sub">ویژگی های سند را برای حفظ حریم خصوصی بهتر ویرایش کنید</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">نام سایه زن نباید خالی باشد.</string>
     <string name="shader_error_blank_source">منبع سایه زن نباید خالی باشد.</string>
     <string name="shader_error_unsupported_characters">منبع سایه زن حاوی نویسه های پشتیبانی نشده است: %1$s. فقط از منبع ASCII GLSL استفاده کنید.</string>
-    <string name="shader_error_duplicate_parameter">پارامتر \\"%1$s\\" بیش از یک بار اعلام شده است.</string>
+    <string name="shader_error_duplicate_parameter">پارامتر \\\"%1$s\\\" بیش از یک بار اعلام شده است.</string>
     <string name="shader_error_blank_parameter_name">نام پارامترها نباید خالی باشد.</string>
-    <string name="shader_error_reserved_parameter_name">پارامتر \\"%1$s\\" از یک نام GPImage رزرو شده استفاده می کند.</string>
-    <string name="shader_error_invalid_parameter_name">پارامتر \\"%1$s\\" باید یک شناسه معتبر GLSL باشد.</string>
-    <string name="shader_error_invalid_value_type">پارامتر \\"%1$s\\" دارای مقدار %2$s نوع \\"%3$s\\" است، مورد انتظار \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">پارامتر \\"%1$s\\" نمی تواند حداقل یا حداکثر را برای مقادیر bool تعریف کند.</string>
-    <string name="shader_error_min_greater_than_max">پارامتر \\"%1$s\\" کمتر از حداکثر دارد.</string>
-    <string name="shader_error_default_lower_than_min">پارامتر \\"%1$s\\" پیش‌فرض کمتر از حداقل است.</string>
-    <string name="shader_error_default_greater_than_max">پارامتر \\"%1$s\\" پیش‌فرض بزرگ‌تر از حداکثر است.</string>
-    <string name="shader_error_missing_input_texture">Shader باید \\"uniform sampler2D %1$s;\\" را اعلام کند.</string>
-    <string name="shader_error_missing_texture_coordinate">Shader باید \\"varing vec2 %1$s;\\" را اعلام کند.</string>
-    <string name="shader_error_missing_main_function">Shader باید \\"void main()\\" را تعریف کند.</string>
+    <string name="shader_error_reserved_parameter_name">پارامتر \\\"%1$s\\\" از یک نام GPImage رزرو شده استفاده می کند.</string>
+    <string name="shader_error_invalid_parameter_name">پارامتر \\\"%1$s\\\" باید یک شناسه معتبر GLSL باشد.</string>
+    <string name="shader_error_invalid_value_type">پارامتر \\\"%1$s\\\" دارای مقدار %2$s نوع \\\"%3$s\\\" است، مورد انتظار \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">پارامتر \\\"%1$s\\\" نمی تواند حداقل یا حداکثر را برای مقادیر bool تعریف کند.</string>
+    <string name="shader_error_min_greater_than_max">پارامتر \\\"%1$s\\\" کمتر از حداکثر دارد.</string>
+    <string name="shader_error_default_lower_than_min">پارامتر \\\"%1$s\\\" پیش‌فرض کمتر از حداقل است.</string>
+    <string name="shader_error_default_greater_than_max">پارامتر \\\"%1$s\\\" پیش‌فرض بزرگ‌تر از حداکثر است.</string>
+    <string name="shader_error_missing_input_texture">Shader باید \\\"uniform sampler2D %1$s;\\\" را اعلام کند.</string>
+    <string name="shader_error_missing_texture_coordinate">Shader باید \\\"varing vec2 %1$s;\\\" را اعلام کند.</string>
+    <string name="shader_error_missing_main_function">Shader باید \\\"void main()\\\" را تعریف کند.</string>
     <string name="shader_error_missing_fragment_color">Shader باید یک رنگ به gl_FragColor بنویسد.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage پشتیبانی نمی شود. از قرارداد void main() GPUImage استفاده کنید.</string>
-    <string name="shader_error_shadertoy_i_time">یونیفرم ShaderToy متحرک \\"iTime\\" پشتیبانی نمی شود.</string>
-    <string name="shader_error_shadertoy_i_frame">یونیفرم ShaderToy متحرک \\"iFrame\\" پشتیبانی نمی شود.</string>
-    <string name="shader_error_shadertoy_i_resolution">لباس ShaderToy \\"iResolution\\" پشتیبانی نمی شود.</string>
+    <string name="shader_error_shadertoy_i_time">یونیفرم ShaderToy متحرک \\\"iTime\\\" پشتیبانی نمی شود.</string>
+    <string name="shader_error_shadertoy_i_frame">یونیفرم ShaderToy متحرک \\\"iFrame\\\" پشتیبانی نمی شود.</string>
+    <string name="shader_error_shadertoy_i_resolution">لباس ShaderToy \\\"iResolution\\\" پشتیبانی نمی شود.</string>
     <string name="shader_error_shadertoy_i_channel">بافت های ShaderToy iChannel پشتیبانی نمی شوند.</string>
     <string name="shader_error_external_textures">بافت های خارجی پشتیبانی نمی شوند.</string>
     <string name="shader_error_external_texture_extensions">پسوندهای بافت خارجی پشتیبانی نمی شوند.</string>
     <string name="shader_error_libretro_parameters">پارامترهای سایه زن Libretro پشتیبانی نمی شوند.</string>
-    <string name="shader_error_extra_input_texture">فقط یک بافت ورودی پشتیبانی می شود. \\"یکنواخت %1$s %2$s;\\" را حذف کنید.</string>
-    <string name="shader_error_missing_uniform">پارامتر \\"%1$s\\" باید به عنوان \\"یکنواخت %2$s %1$s;\\" اعلام شود.</string>
-    <string name="shader_error_wrong_uniform_type">پارامتر \\"%1$s\\" به عنوان \\"یکنواخت %2$s %1$s;\\" اعلام شده است، \\"یکنواخت %3$s %1$s;\\" مورد انتظار است.</string>
+    <string name="shader_error_extra_input_texture">فقط یک بافت ورودی پشتیبانی می شود. \\\"یکنواخت %1$s %2$s;\\\" را حذف کنید.</string>
+    <string name="shader_error_missing_uniform">پارامتر \\\"%1$s\\\" باید به عنوان \\\"یکنواخت %2$s %1$s;\\\" اعلام شود.</string>
+    <string name="shader_error_wrong_uniform_type">پارامتر \\\"%1$s\\\" به عنوان \\\"یکنواخت %2$s %1$s;\\\" اعلام شده است، \\\"یکنواخت %3$s %1$s;\\\" مورد انتظار است.</string>
     <string name="shader_parse_error_empty_file">فایل Shader خالی است.</string>
     <string name="shader_parse_error_not_itshader_json">فایل Shader باید یک شی JSON .itshader با قسمت‌های نسخه، نام و سایه‌زن باشد.</string>
     <string name="shader_parse_error_invalid_json">فایل Shader JSON معتبر نیست یا با قالب .itshader مطابقت ندارد.</string>
-    <string name="shader_parse_error_missing_field">فیلد \\"%1$s\\" الزامی است.</string>
+    <string name="shader_parse_error_missing_field">فیلد \\\"%1$s\\\" الزامی است.</string>
     <string name="shader_parse_error_missing_param_field">%1$s مورد نیاز است.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" پشتیبانی نمی شود. انواع پشتیبانی شده: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s برای پارامترهای \\"%2$s\\" مورد نیاز است.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" پشتیبانی نمی شود. انواع پشتیبانی شده: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s برای پارامترهای \\\"%2$s\\\" مورد نیاز است.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s باید یک عدد محدود باشد.</string>
     <string name="shader_parse_error_integer_expected">%1$s باید یک عدد صحیح باشد.</string>
     <string name="shader_parse_error_bool_expected">%1$s باید درست یا نادرست باشد.</string>

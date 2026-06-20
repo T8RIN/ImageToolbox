@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -2358,37 +2357,37 @@
     <string name="shader_error_blank_name">Numele shaderului nu trebuie să fie necompletat.</string>
     <string name="shader_error_blank_source">Sursa shader nu trebuie să fie goală.</string>
     <string name="shader_error_unsupported_characters">Sursa shader conține caractere neacceptate: %1$s. Utilizați numai sursa ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Parametrul \\"%1$s\\" este declarat de mai multe ori.</string>
+    <string name="shader_error_duplicate_parameter">Parametrul \\\"%1$s\\\" este declarat de mai multe ori.</string>
     <string name="shader_error_blank_parameter_name">Numele parametrilor nu trebuie să fie necompletate.</string>
     <string name="shader_error_reserved_parameter_name">Parametrul „%1$s” folosește un nume GPUImage rezervat.</string>
     <string name="shader_error_invalid_parameter_name">Parametrul „%1$s” trebuie să fie un identificator GLSL valid.</string>
-    <string name="shader_error_invalid_value_type">Parametrul \\"%1$s\\" are %2$s tip de valoare \\"%3$s\\", așteptat \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Parametrul \\"%1$s\\" nu poate defini min sau maxim pentru valorile bool.</string>
+    <string name="shader_error_invalid_value_type">Parametrul \\\"%1$s\\\" are %2$s tip de valoare \\\"%3$s\\\", așteptat \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Parametrul \\\"%1$s\\\" nu poate defini min sau maxim pentru valorile bool.</string>
     <string name="shader_error_min_greater_than_max">Parametrul „%1$s” are min mai mare decât max.</string>
     <string name="shader_error_default_lower_than_min">Parametrul „%1$s” prestabilit este mai mic decât min.</string>
     <string name="shader_error_default_greater_than_max">Parametrul „%1$s” prestabilit este mai mare decât max.</string>
-    <string name="shader_error_missing_input_texture">Shader trebuie să declare „uniform sampler2D %1$s;\”.</string>
-    <string name="shader_error_missing_texture_coordinate">Shader trebuie să declare „Vec2 variabil %1$s;\”.</string>
+    <string name="shader_error_missing_input_texture">Shader trebuie să declare „uniform sampler2D %1$s;.</string>
+    <string name="shader_error_missing_texture_coordinate">Shader trebuie să declare „Vec2 variabil %1$s;.</string>
     <string name="shader_error_missing_main_function">Shader trebuie să definească „void main()”.</string>
     <string name="shader_error_missing_fragment_color">Shader trebuie să scrie o culoare în gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage nu sunt acceptate. Utilizați contractul principal () nul al lui GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Uniforma animată ShaderToy \\"iTime\\" nu este acceptată.</string>
+    <string name="shader_error_shadertoy_i_time">Uniforma animată ShaderToy \\\"iTime\\\" nu este acceptată.</string>
     <string name="shader_error_shadertoy_i_frame">Uniforma animată ShaderToy „iFrame” nu este acceptată.</string>
-    <string name="shader_error_shadertoy_i_resolution">Uniforma ShaderToy \\"iResolution\\" nu este acceptată.</string>
+    <string name="shader_error_shadertoy_i_resolution">Uniforma ShaderToy \\\"iResolution\\\" nu este acceptată.</string>
     <string name="shader_error_shadertoy_i_channel">Texturile ShaderToy iChannel nu sunt acceptate.</string>
     <string name="shader_error_external_textures">Texturile externe nu sunt acceptate.</string>
     <string name="shader_error_external_texture_extensions">Extensiile de texturi externe nu sunt acceptate.</string>
     <string name="shader_error_libretro_parameters">Parametrii de shader Libretro nu sunt acceptați.</string>
-    <string name="shader_error_extra_input_texture">Este acceptată o singură textură de intrare. Eliminați „uniforma %1$s %2$s;\”.</string>
-    <string name="shader_error_missing_uniform">Parametrul \\"%1$s\\" trebuie declarat ca \\"uniform %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametrul \\"%1$s\\" este declarat ca \\"uniform %2$s %1$s;\\", așteptat \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Este acceptată o singură textură de intrare. Eliminați „uniforma %1$s %2$s;.</string>
+    <string name="shader_error_missing_uniform">Parametrul \\\"%1$s\\\" trebuie declarat ca \\\"uniform %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametrul \\\"%1$s\\\" este declarat ca \\\"uniform %2$s %1$s;\\\", așteptat \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Fișierul Shader este gol.</string>
     <string name="shader_parse_error_not_itshader_json">Fișierul Shader trebuie să fie un obiect JSON .itshader cu câmpuri versiune, nume și shader.</string>
     <string name="shader_parse_error_invalid_json">Fișierul Shader nu este JSON valid sau nu se potrivește cu formatul .itshader.</string>
-    <string name="shader_parse_error_missing_field">Câmpul \\"%1$s\\" este obligatoriu.</string>
+    <string name="shader_parse_error_missing_field">Câmpul \\\"%1$s\\\" este obligatoriu.</string>
     <string name="shader_parse_error_missing_param_field">%1$s este obligatoriu.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" nu este acceptat. Tipuri acceptate: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s este necesar pentru parametrii \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" nu este acceptat. Tipuri acceptate: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s este necesar pentru parametrii \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s trebuie să fie un număr finit.</string>
     <string name="shader_parse_error_integer_expected">%1$s trebuie să fie un număr întreg.</string>
     <string name="shader_parse_error_bool_expected">%1$s trebuie să fie adevărat sau fals.</string>
@@ -3192,76 +3191,5 @@
     <string name="no_usage_statistics">Nu există încă statistici de utilizare</string>
     <string name="no_usage_statistics_sub">Deschideți câteva instrumente și acestea vor apărea aici automat</string>
     <string name="usage_statistics_info">Statisticile dvs. de utilizare sunt stocate numai local pe dispozitivul dvs. ImageToolbox le folosește numai pentru a vă afișa activitatea personală, instrumentele preferate și informațiile despre datele salvate</string>
-    <string name="search_keywords_single_edit" />
-    <string name="search_keywords_resize_and_convert" />
-    <string name="search_keywords_weight_resize" />
-    <string name="search_keywords_crop" />
-    <string name="search_keywords_filter" />
-    <string name="search_keywords_draw" />
-    <string name="search_keywords_cipher" />
-    <string name="search_keywords_erase_background" />
-    <string name="search_keywords_image_preview" />
-    <string name="search_keywords_image_stitching" />
-    <string name="search_keywords_load_net_image" />
-    <string name="search_keywords_pick_color_from_image" />
-    <string name="search_keywords_palette_tools" />
-    <string name="search_keywords_delete_exif" />
-    <string name="search_keywords_compare" />
-    <string name="search_keywords_limit_resize" />
-    <string name="search_keywords_pdf_tools" />
-    <string name="search_keywords_recognize_text" />
-    <string name="search_keywords_gradient_maker" />
-    <string name="search_keywords_watermarking" />
-    <string name="search_keywords_gif_tools" />
-    <string name="search_keywords_apng_tools" />
-    <string name="search_keywords_zip" />
-    <string name="search_keywords_jxl_tools" />
-    <string name="search_keywords_svg_maker" />
-    <string name="search_keywords_format_conversion" />
-    <string name="search_keywords_document_scanner" />
-    <string name="search_keywords_scan_qr_code" />
-    <string name="search_keywords_image_stacking" />
-    <string name="search_keywords_image_splitting" />
-    <string name="search_keywords_color_tools" />
-    <string name="search_keywords_webp_tools" />
-    <string name="search_keywords_noise_generation" />
-    <string name="search_keywords_collage_maker" />
-    <string name="search_keywords_markup_layers" />
-    <string name="search_keywords_base64_tools" />
-    <string name="search_keywords_checksum_tools" />
-    <string name="search_keywords_mesh_gradients" />
-    <string name="search_keywords_edit_exif" />
-    <string name="search_keywords_image_cutter" />
-    <string name="search_keywords_audio_cover_extractor" />
-    <string name="search_keywords_wallpapers_export" />
-    <string name="search_keywords_ascii_art" />
-    <string name="search_keywords_ai_tools" />
-    <string name="search_keywords_color_library" />
-    <string name="search_keywords_shader_studio" />
-    <string name="search_keywords_pdf_merge" />
-    <string name="search_keywords_pdf_split" />
-    <string name="search_keywords_pdf_rotate" />
-    <string name="search_keywords_pdf_rearrange" />
-    <string name="search_keywords_pdf_page_numbers" />
-    <string name="search_keywords_pdf_ocr" />
-    <string name="search_keywords_pdf_watermark" />
-    <string name="search_keywords_pdf_signature" />
-    <string name="search_keywords_pdf_protect" />
-    <string name="search_keywords_pdf_unlock" />
-    <string name="search_keywords_pdf_compress" />
-    <string name="search_keywords_pdf_grayscale" />
-    <string name="search_keywords_pdf_repair" />
-    <string name="search_keywords_pdf_metadata" />
-    <string name="search_keywords_pdf_remove_pages" />
-    <string name="search_keywords_pdf_crop" />
-    <string name="search_keywords_pdf_flatten" />
-    <string name="search_keywords_pdf_extract_images" />
-    <string name="search_keywords_pdf_zip_convert" />
-    <string name="search_keywords_pdf_print" />
-    <string name="search_keywords_pdf_preview" />
-    <string name="search_keywords_pdf_images_to_pdf" />
-    <string name="search_keywords_pdf_extract_pages" />
-    <string name="search_keywords_pdf_remove_annotations" />
-    <string name="neutral_variant" />
     <string name="error">Eroare</string>
 </resources>

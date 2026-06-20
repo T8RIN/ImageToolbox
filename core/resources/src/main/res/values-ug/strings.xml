@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">سۈرەت بەك چوڭ، ئالدىن كۆرگىلى بولمايدۇ، لېكىن يەنىلا ساقلاشنى سىناپ باقىمىز</string>
     <string name="pick_image">رەسىمنى تاللاپ باشلاڭ</string>
     <string name="height">ئېگىزلىك %1$s</string>
@@ -882,9 +881,9 @@
     <string name="resize_anchor">لەڭگەرنىڭ چوڭ-كىچىكلىكى</string>
     <string name="pixel_switch">Pixel</string>
     <string name="fluent_switch">راۋان</string>
-    <string name="fluent_switch_sub">\ \"راۋان \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ</string>
+    <string name="fluent_switch_sub">" \"راۋان \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ"</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">\ \"Cupertino \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ</string>
+    <string name="cupertino_switch_sub">" \"Cupertino \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ"</string>
     <string name="images_to_svg">SVG غا رەسىملەر</string>
     <string name="images_to_svg_sub">SVG رەسىملىرىگە بېرىلگەن رەسىملەرنى ئىز قوغلاڭ</string>
     <string name="use_sampled_palette">Sampled Palette نى ئىشلىتىڭ</string>
@@ -905,7 +904,7 @@
     <string name="engine_mode">ماتور ھالىتى</string>
     <string name="legacy">مىراس</string>
     <string name="lstm_network">LSTM تورى</string>
-    <string name="legacy_and_lstm">Legacy &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
     <string name="convert">ئايلاندۇرۇش</string>
     <string name="convert_sub">رەسىم گۇرۇپپىسىنى بېرىلگەن فورماتقا ئۆزگەرتىڭ</string>
     <string name="add_new_folder">يېڭى ھۆججەت قىسقۇچ قوشۇڭ</string>
@@ -1120,9 +1119,9 @@
     <string name="save_as_qr_code_image">QR كود رەسىمى سۈپىتىدە ساقلاڭ</string>
     <string name="delete_template">قېلىپنى ئۆچۈرۈڭ</string>
     <string name="delete_template_warn">تاللانغان قېلىپ سۈزگۈچنى ئۆچۈرمەكچى بولۇۋاتىسىز. بۇ مەشغۇلاتنى ئەمەلدىن قالدۇرغىلى بولمايدۇ</string>
-    <string name="added_filter_template">ئىسمى \ \"%1$s \" بىلەن سۈزگۈچ قېلىپى قوشۇلدى (%2$s)</string>
+    <string name="added_filter_template">"ئىسمى  \"%1$s \" بىلەن سۈزگۈچ قېلىپى قوشۇلدى (%2$s)"</string>
     <string name="filter_preview">سۈزگۈچ ئالدىن كۆرۈش</string>
-    <string name="qr_code">QR &amp;amp; تاياقچە كودى</string>
+    <string name="qr_code">QR &amp; تاياقچە كودى</string>
     <string name="qr_code_sub">QR كودىنى سايىلەپ ئۇنىڭ مەزمۇنىغا ئېرىشىڭ ياكى تىزمىڭىزنى چاپلاپ يېڭى كود ھاسىل قىلىڭ</string>
     <string name="code_content">كود مەزمۇنى</string>
     <string name="scan_qr_code_to_replace_content">ساھەدىكى مەزمۇنلارنى ئالماشتۇرۇش ئۈچۈن ھەر قانداق تاياقچە كودنى سايىلەڭ ياكى تاللانغان تىپ بىلەن يېڭى تاياقچە كود ھاسىل قىلىدىغان نەرسە كىرگۈزۈڭ</string>
@@ -1414,7 +1413,7 @@
     <string name="tesseract_options">سىناق تاللانمىلىرى</string>
     <string name="tesseract_options_sub">سىناق ماتورىغا بىر قىسىم كىرگۈزگۈچى ئۆزگەرگۈچى مىقدارلارنى ئىشلىتىڭ</string>
     <string name="custom_options">ئىختىيارى تاللانما</string>
-    <string name="custom_params_info">بۇ ئەندىزە بويىچە تاللاشلار كىرگۈزۈلۈشى كېرەك: \ \"- {option_name} {value} \"</string>
+    <string name="custom_params_info">"بۇ ئەندىزە بويىچە تاللاشلار كىرگۈزۈلۈشى كېرەك:  \"- {option_name} {value} \""</string>
     <string name="auto_crop">Auto Crop</string>
     <string name="free_corners">ھەقسىز بۇلۇڭ</string>
     <string name="free_corners_sub">كۆپ قىرلىق رەسىمنى كېسىش ، بۇمۇ كۆز قاراشنى توغرىلايدۇ</string>
@@ -1446,7 +1445,7 @@
     <string name="zigzag_ratio">Zigzag نىسبىتى</string>
     <string name="create_shortcut">تېزلەتمە قۇرۇش</string>
     <string name="create_shortcut_title">مىخلاش قورالىنى تاللاڭ</string>
-    <string name="create_shortcut_subtitle">قورال قوزغاتقۇچنىڭ باش ئېكرانىغا تېزلەتمە سۈپىتىدە قوشۇلىدۇ ، ئۇنى \ \"ھۆججەت تاللاشتىن ئاتلاش \" تەڭشىكى بىلەن بىرلەشتۈرۈپ ، لازىملىق ھەرىكەتنى ئەمەلگە ئاشۇرۇڭ.</string>
+    <string name="create_shortcut_subtitle">"قورال قوزغاتقۇچنىڭ باش ئېكرانىغا تېزلەتمە سۈپىتىدە قوشۇلىدۇ ، ئۇنى  \"ھۆججەت تاللاشتىن ئاتلاش \" تەڭشىكى بىلەن بىرلەشتۈرۈپ ، لازىملىق ھەرىكەتنى ئەمەلگە ئاشۇرۇڭ."</string>
     <string name="dont_stack_frames">رامكىنى دۆۋىلەپ قويماڭ</string>
     <string name="dont_stack_frames_sub">ئالدىنقى رامكىلارنى بىر تەرەپ قىلىشنى قوزغىتىدۇ ، شۇڭا ئۇلار بىر-بىرىگە چاپلاشمايدۇ</string>
     <string name="crossfade">Crossfade</string>
@@ -1490,7 +1489,7 @@
     <string name="open_source_licenses">ئوچۇق كود ئىجازەتنامىسى</string>
     <string name="open_source_licenses_sub">بۇ ئەپتە ئىشلىتىلگەن ئوچۇق كود كۈتۈپخانىلىرىنىڭ ئىجازەتنامىسىنى كۆرۈڭ</string>
     <string name="area">رايون</string>
-    <string name="area_sub">پېكسىل رايون مۇناسىۋىتىنى ئىشلىتىپ قايتا قۇرۇش. ئۇ رەسىمنى يوقىتىشنىڭ ياقتۇرىدىغان ئۇسۇلى بولۇشى مۇمكىن ، چۈنكى ئۇ moire \ \'- ھەقسىز نەتىجىنى بېرىدۇ. ئەمما رەسىمنى چوڭايتقاندا ، ئۇ \ \"ئەڭ يېقىن \" ئۇسۇلىغا ئوخشايدۇ.</string>
+    <string name="area_sub">"پېكسىل رايون مۇناسىۋىتىنى ئىشلىتىپ قايتا قۇرۇش. ئۇ رەسىمنى يوقىتىشنىڭ ياقتۇرىدىغان ئۇسۇلى بولۇشى مۇمكىن ، چۈنكى ئۇ moire  \'- ھەقسىز نەتىجىنى بېرىدۇ. ئەمما رەسىمنى چوڭايتقاندا ، ئۇ  \"ئەڭ يېقىن \" ئۇسۇلىغا ئوخشايدۇ."</string>
     <string name="enable_tonemapping">Tonemapping نى قوزغىتىڭ</string>
     <string name="enter_percent">% نى كىرگۈزۈڭ</string>
     <string name="unknown_host">تور بېكەتنى زىيارەت قىلالمايدۇ ، VPN ئىشلىتىپ سىناپ بېقىڭ ياكى url نىڭ توغرا ياكى ئەمەسلىكىنى تەكشۈرۈڭ</string>
@@ -1607,7 +1606,7 @@
     <string name="send_logs">خاتىرە ئەۋەتىڭ</string>
     <string name="send_logs_sub">ئەپ خاتىرىسىنى ئورتاقلىشىش ئۈچۈن چېكىڭ ، بۇ مېنىڭ مەسىلىنى بايقىشىم ۋە مەسىلىلەرنى ھەل قىلىشىمغا ياردەم بېرەلەيدۇ</string>
     <string name="crash_title">ئاپلا… چاتاق چىقتى</string>
-    <string name="crash_subtitle">تۆۋەندىكى تاللاشلار ئارقىلىق مەن بىلەن ئالاقىلاشسىڭىز بولىدۇ ، مەن ھەل قىلىش چارىسى تېپىشقا تىرىشىمەن. \ N (خاتىرە باغلاشنى ئۇنتۇپ قالماڭ)</string>
+    <string name="crash_subtitle">"تۆۋەندىكى تاللاشلار ئارقىلىق مەن بىلەن ئالاقىلاشسىڭىز بولىدۇ ، مەن ھەل قىلىش چارىسى تېپىشقا تىرىشىمەن.  N (خاتىرە باغلاشنى ئۇنتۇپ قالماڭ)"</string>
     <string name="ocr_write_to_file">ھۆججەتكە يېزىڭ</string>
     <string name="ocr_write_to_file_sub">بىر تۈركۈم رەسىملەردىن تېكىستنى چىقىرىپ بىر تېكىست ھۆججىتىگە ساقلاڭ</string>
     <string name="ocr_write_to_metadata">Metadata غا يېزىڭ</string>
@@ -1735,7 +1734,7 @@
     <string name="refresh">يېڭىلاش</string>
     <string name="wallpapers_export_sub">ھازىرقى ئۆي ، قۇلۇپ ۋە ئىچىگە سېلىنغان تام قەغىزىگە ئېرىشىڭ</string>
     <string name="allow_access_to_all_files_for_wp">بارلىق ھۆججەتلەرنى زىيارەت قىلىشقا يول قويۇڭ ، بۇ تام قەغىزىنى ئەسلىگە كەلتۈرۈش ئۈچۈن كېرەك</string>
-    <string name="allow_read_media_images_for_wp">سىرتقى ساقلاش ئىجازەتنامىسىنى باشقۇرۇش يېتەرلىك ئەمەس ، رەسىملىرىڭىزنى زىيارەت قىلىشىڭىزغا رۇخسەت قىلىشىڭىز ، \ \"ھەممىگە يول قويۇش\" نى جەزملەشتۈرۈڭ.</string>
+    <string name="allow_read_media_images_for_wp">"سىرتقى ساقلاش ئىجازەتنامىسىنى باشقۇرۇش يېتەرلىك ئەمەس ، رەسىملىرىڭىزنى زىيارەت قىلىشىڭىزغا رۇخسەت قىلىشىڭىز ،  \"ھەممىگە يول قويۇش\" نى جەزملەشتۈرۈڭ."</string>
     <string name="add_preset_to_filename">ھۆججەت نامىغا ئالدىن بەلگىلەڭ</string>
     <string name="add_preset_to_filename_sub">رەسىم ھۆججىتىنىڭ نامىغا تاللانغان ئالدىن بەلگىلەش قوشۇلىدۇ</string>
     <string name="add_image_scale_mode_to_filename">ھۆججەت نامىغا رەسىم چوڭلۇقى ھالىتىنى قوشۇڭ</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">بارلىق ھۆججەت قىستۇرۇلغان رەسىملەرنى كۈلرەڭگە ئۆزگەرتىڭ</string>
     <string name="compress_pdf">PDF نى بېسىڭ</string>
     <string name="compress_pdf_sub">ئورتاقلىشىش ئۈچۈن ھۆججەت ھۆججىتىنىڭ چوڭ-كىچىكلىكىنى ئەلالاشتۇرۇڭ</string>
-    <string name="repair_info">ImageToolbox ئىچكى ھالقىما پايدىلىنىش جەدۋىلىنى قايتا قۇرۇپ ، ھۆججەت قۇرۇلمىسىنى باشتىن-ئاخىر ئەسلىگە كەلتۈرىدۇ. بۇ \ \"ئاچقىلى بولمايدىغان \\" نۇرغۇن ھۆججەتلەرنى زىيارەت قىلىشنى ئەسلىگە كەلتۈرەلەيدۇ.</string>
+    <string name="repair_info">"ImageToolbox ئىچكى ھالقىما پايدىلىنىش جەدۋىلىنى قايتا قۇرۇپ ، ھۆججەت قۇرۇلمىسىنى باشتىن-ئاخىر ئەسلىگە كەلتۈرىدۇ. بۇ  \"ئاچقىلى بولمايدىغان \\\" نۇرغۇن ھۆججەتلەرنى زىيارەت قىلىشنى ئەسلىگە كەلتۈرەلەيدۇ."</string>
     <string name="grayscale_info">بۇ قورال بارلىق ھۆججەت رەسىملىرىنى كۈلرەڭگە ئايلاندۇرىدۇ. ھۆججەتنىڭ چوڭ-كىچىكلىكىنى بېسىپ چىقىرىش ۋە ئازايتىشتا ئەڭ ياخشى</string>
     <string name="metadata">Metadata</string>
     <string name="metadata_pdf_sub">تېخىمۇ ياخشى مەخپىيەتلىك ئۈچۈن ھۆججەت خاسلىقىنى تەھرىرلەڭ</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">سايە ئىسمى بوش بولماسلىقى كېرەك.</string>
     <string name="shader_error_blank_source">سايە مەنبەسى بوش بولماسلىقى كېرەك.</string>
     <string name="shader_error_unsupported_characters">Shader مەنبە قوللىمايدىغان ھەرپلەرنى ئۆز ئىچىگە ئالىدۇ: %1$s. پەقەت ASCII GLSL مەنبەسىنى ئىشلىتىڭ.</string>
-    <string name="shader_error_duplicate_parameter">پارامېتىر \ \"__ PH_0 __ \\" بىر نەچچە قېتىم ئېلان قىلىندى.</string>
+    <string name="shader_error_duplicate_parameter">"پارامېتىر  \"__ PH_0 __ \\\" بىر نەچچە قېتىم ئېلان قىلىندى."</string>
     <string name="shader_error_blank_parameter_name">پارامېتىر ئىسىملىرى بوش بولماسلىقى كېرەك.</string>
-    <string name="shader_error_reserved_parameter_name">پارامېتىر \ \"__ PH_0 __ \\" زاپاس GPUImage نامىنى ئىشلىتىدۇ.</string>
-    <string name="shader_error_invalid_parameter_name">پارامېتىر \ \"__ PH_0 __ \\" چوقۇم ئۈنۈملۈك GLSL پەرقلىگۈچى بولۇشى كېرەك.</string>
-    <string name="shader_error_invalid_value_type">پارامېتىر \ \"__ PH_0 __ \\" %2$s قىممەت تىپى \ \"__ PH_2 __ \\" بار ، مۆلچەردىكى \ \"__ PH_3 __ \\".</string>
-    <string name="shader_error_bool_bounds">پارامېتىر \ \"__ PH_0 __ \\" بولاق قىممىتى ئۈچۈن min ياكى max نى بەلگىلىيەلمەيدۇ.</string>
-    <string name="shader_error_min_greater_than_max">پارامېتىر \ \"__ PH_0 __ \\" نىڭ ئەڭ چوڭ چېكى ئەڭ چوڭ.</string>
-    <string name="shader_error_default_lower_than_min">پارامېتىر \ \"__ PH_0 __ \\" سۈكۈتتىكى قىممىتى min دىن تۆۋەن.</string>
-    <string name="shader_error_default_greater_than_max">پارامېتىر \ \"__ PH_0 __ \\" سۈكۈتتىكىسى ئەڭ چوڭ.</string>
-    <string name="shader_error_missing_input_texture">Shader چوقۇم \ \"بىرلىككە كەلگەن sampler2D __PH_0 __; \\" نى ئېلان قىلىشى كېرەك.</string>
-    <string name="shader_error_missing_texture_coordinate">Shader چوقۇم \ \"ئوخشىمىغان vec2 __PH_0 __; \\" نى ئېلان قىلىشى كېرەك.</string>
-    <string name="shader_error_missing_main_function">Shader چوقۇم \ \"void main () \\" نى ئېنىقلىشى كېرەك.</string>
+    <string name="shader_error_reserved_parameter_name">"پارامېتىر  \"__ PH_0 __ \\\" زاپاس GPUImage نامىنى ئىشلىتىدۇ."</string>
+    <string name="shader_error_invalid_parameter_name">"پارامېتىر  \"__ PH_0 __ \\\" چوقۇم ئۈنۈملۈك GLSL پەرقلىگۈچى بولۇشى كېرەك."</string>
+    <string name="shader_error_invalid_value_type">"پارامېتىر  \"__ PH_0 __ \\\" %2$s قىممەت تىپى  \"__ PH_2 __ \\\" بار ، مۆلچەردىكى  \"__ PH_3 __ \\\"."</string>
+    <string name="shader_error_bool_bounds">"پارامېتىر  \"__ PH_0 __ \\\" بولاق قىممىتى ئۈچۈن min ياكى max نى بەلگىلىيەلمەيدۇ."</string>
+    <string name="shader_error_min_greater_than_max">"پارامېتىر  \"__ PH_0 __ \\\" نىڭ ئەڭ چوڭ چېكى ئەڭ چوڭ."</string>
+    <string name="shader_error_default_lower_than_min">"پارامېتىر  \"__ PH_0 __ \\\" سۈكۈتتىكى قىممىتى min دىن تۆۋەن."</string>
+    <string name="shader_error_default_greater_than_max">"پارامېتىر  \"__ PH_0 __ \\\" سۈكۈتتىكىسى ئەڭ چوڭ."</string>
+    <string name="shader_error_missing_input_texture">"Shader چوقۇم  \"بىرلىككە كەلگەن sampler2D __PH_0 __; \\\" نى ئېلان قىلىشى كېرەك."</string>
+    <string name="shader_error_missing_texture_coordinate">"Shader چوقۇم  \"ئوخشىمىغان vec2 __PH_0 __; \\\" نى ئېلان قىلىشى كېرەك."</string>
+    <string name="shader_error_missing_main_function">"Shader چوقۇم  \"void main () \\\" نى ئېنىقلىشى كېرەك."</string>
     <string name="shader_error_missing_fragment_color">Shader چوقۇم gl_FragColor غا رەڭ يېزىشى كېرەك.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage سايە قوللىمايدۇ. GPUImage نىڭ بىكار ئاساسلىق () توختامىنى ئىشلىتىڭ.</string>
-    <string name="shader_error_shadertoy_i_time">Animated ShaderToy فورماتى \ \"iTime \\" نى قوللىمايدۇ.</string>
-    <string name="shader_error_shadertoy_i_frame">Animated ShaderToy فورماتى \ \"iFrame \\" نى قوللىمايدۇ.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy فورماتى \ \"iResolution \\" نى قوللىمايدۇ.</string>
+    <string name="shader_error_shadertoy_i_time">"Animated ShaderToy فورماتى  \"iTime \\\" نى قوللىمايدۇ."</string>
+    <string name="shader_error_shadertoy_i_frame">"Animated ShaderToy فورماتى  \"iFrame \\\" نى قوللىمايدۇ."</string>
+    <string name="shader_error_shadertoy_i_resolution">"ShaderToy فورماتى  \"iResolution \\\" نى قوللىمايدۇ."</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel تېكىستلىرىنى قوللىمايدۇ.</string>
     <string name="shader_error_external_textures">سىرتقى تېكىستلەرنى قوللىمايدۇ.</string>
     <string name="shader_error_external_texture_extensions">سىرتقى توقۇلمىلارنى كېڭەيتىشنى قوللىمايدۇ.</string>
     <string name="shader_error_libretro_parameters">Libretro سايە پارامېتىرلىرىنى قوللىمايدۇ.</string>
-    <string name="shader_error_extra_input_texture">پەقەت بىرلا كىرگۈزۈش قۇرۇلمىسىنى قوللايدۇ. \ \"بىرلىككە كەلگەن %1$s __PH_1 __; \\" نى ئېلىڭ.</string>
-    <string name="shader_error_missing_uniform">پارامېتىر \ \"__ PH_0 __ \\" چوقۇم \ \"بىردەك %2$s __PH_2 __; \\" دەپ ئېلان قىلىنىشى كېرەك.</string>
-    <string name="shader_error_wrong_uniform_type">پارامېتىر \ \"__ PH_0 __ \\" \ \"بىردەك %2$s __PH_2 __; \\" ، مۆلچەرلەنگەن \ \"بىردەك %3$s __PH_4 __; \\" دەپ ئېلان قىلىندى.</string>
+    <string name="shader_error_extra_input_texture">"پەقەت بىرلا كىرگۈزۈش قۇرۇلمىسىنى قوللايدۇ.  \"بىرلىككە كەلگەن %1$s __PH_1 __; \\\" نى ئېلىڭ."</string>
+    <string name="shader_error_missing_uniform">"پارامېتىر  \"__ PH_0 __ \\\" چوقۇم  \"بىردەك %2$s __PH_2 __; \\\" دەپ ئېلان قىلىنىشى كېرەك."</string>
+    <string name="shader_error_wrong_uniform_type">"پارامېتىر  \"__ PH_0 __ \\\"  \"بىردەك %2$s __PH_2 __; \\\" ، مۆلچەرلەنگەن  \"بىردەك %3$s __PH_4 __; \\\" دەپ ئېلان قىلىندى."</string>
     <string name="shader_parse_error_empty_file">Shader ھۆججىتى قۇرۇق.</string>
     <string name="shader_parse_error_not_itshader_json">Shader ھۆججىتى چوقۇم نەشرى ، ئىسمى ۋە سايە مەيدانى بار .itshader JSON ئوبيېكتى بولۇشى كېرەك.</string>
     <string name="shader_parse_error_invalid_json">Shader ھۆججىتى ئىناۋەتلىك JSON ئەمەس ياكى .itshader فورماتىغا ماس كەلمەيدۇ.</string>
-    <string name="shader_parse_error_missing_field">مەيدان \ \"__ PH_0 __ \\" تەلەپ قىلىنىدۇ.</string>
+    <string name="shader_parse_error_missing_field">"مەيدان  \"__ PH_0 __ \\\" تەلەپ قىلىنىدۇ."</string>
     <string name="shader_parse_error_missing_param_field">%1$s تەلەپ قىلىنىدۇ.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \ \"__ PH_1 __ \\" قوللىمايدۇ. قوللايدىغان تىپلار: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\ \"__ PH_1 __ \\" پارامېتىرلىرى ئۈچۈن %1$s تەلەپ قىلىنىدۇ.</string>
+    <string name="shader_parse_error_unsupported_param_type">"%1$s  \"__ PH_1 __ \\\" قوللىمايدۇ. قوللايدىغان تىپلار: %3$s."</string>
+    <string name="shader_parse_error_missing_value">" \"__ PH_1 __ \\\" پارامېتىرلىرى ئۈچۈن %1$s تەلەپ قىلىنىدۇ."</string>
     <string name="shader_parse_error_finite_number_expected">%1$s چوقۇم چەكلىك سان بولۇشى كېرەك.</string>
     <string name="shader_parse_error_integer_expected">%1$s چوقۇم پۈتۈن سان بولۇشى كېرەك.</string>
     <string name="shader_parse_error_bool_expected">%1$s چوقۇم راست ياكى يالغان بولۇشى كېرەك.</string>
@@ -3191,76 +3190,5 @@
     <string name="no_usage_statistics">ھازىرچە ئىشلىتىش سىتاتىستىكىسى يوق</string>
     <string name="no_usage_statistics_sub">بىر قانچە قورالنى ئېچىڭ ، ئۇلار بۇ يەردە ئاپتوماتىك كۆرۈنىدۇ</string>
     <string name="usage_statistics_info">ئىشلىتىش ستاتىستىكىڭىز پەقەت ئۈسكۈنىڭىزدە ساقلىنىدۇ. ImageToolbox ئۇلارنى پەقەت شەخسىي پائالىيىتىڭىز ، ياقتۇرىدىغان قوراللىرىڭىز ۋە ساقلانغان سانلىق مەلۇماتلىرىڭىزنى كۆرسىتىش ئۈچۈنلا ئىشلىتىدۇ</string>
-    <string name="search_keywords_single_edit" />
-    <string name="search_keywords_resize_and_convert" />
-    <string name="search_keywords_weight_resize" />
-    <string name="search_keywords_crop" />
-    <string name="search_keywords_filter" />
-    <string name="search_keywords_draw" />
-    <string name="search_keywords_cipher" />
-    <string name="search_keywords_erase_background" />
-    <string name="search_keywords_image_preview" />
-    <string name="search_keywords_image_stitching" />
-    <string name="search_keywords_load_net_image" />
-    <string name="search_keywords_pick_color_from_image" />
-    <string name="search_keywords_palette_tools" />
-    <string name="search_keywords_delete_exif" />
-    <string name="search_keywords_compare" />
-    <string name="search_keywords_limit_resize" />
-    <string name="search_keywords_pdf_tools" />
-    <string name="search_keywords_recognize_text" />
-    <string name="search_keywords_gradient_maker" />
-    <string name="search_keywords_watermarking" />
-    <string name="search_keywords_gif_tools" />
-    <string name="search_keywords_apng_tools" />
-    <string name="search_keywords_zip" />
-    <string name="search_keywords_jxl_tools" />
-    <string name="search_keywords_svg_maker" />
-    <string name="search_keywords_format_conversion" />
-    <string name="search_keywords_document_scanner" />
-    <string name="search_keywords_scan_qr_code" />
-    <string name="search_keywords_image_stacking" />
-    <string name="search_keywords_image_splitting" />
-    <string name="search_keywords_color_tools" />
-    <string name="search_keywords_webp_tools" />
-    <string name="search_keywords_noise_generation" />
-    <string name="search_keywords_collage_maker" />
-    <string name="search_keywords_markup_layers" />
-    <string name="search_keywords_base64_tools" />
-    <string name="search_keywords_checksum_tools" />
-    <string name="search_keywords_mesh_gradients" />
-    <string name="search_keywords_edit_exif" />
-    <string name="search_keywords_image_cutter" />
-    <string name="search_keywords_audio_cover_extractor" />
-    <string name="search_keywords_wallpapers_export" />
-    <string name="search_keywords_ascii_art" />
-    <string name="search_keywords_ai_tools" />
-    <string name="search_keywords_color_library" />
-    <string name="search_keywords_shader_studio" />
-    <string name="search_keywords_pdf_merge" />
-    <string name="search_keywords_pdf_split" />
-    <string name="search_keywords_pdf_rotate" />
-    <string name="search_keywords_pdf_rearrange" />
-    <string name="search_keywords_pdf_page_numbers" />
-    <string name="search_keywords_pdf_ocr" />
-    <string name="search_keywords_pdf_watermark" />
-    <string name="search_keywords_pdf_signature" />
-    <string name="search_keywords_pdf_protect" />
-    <string name="search_keywords_pdf_unlock" />
-    <string name="search_keywords_pdf_compress" />
-    <string name="search_keywords_pdf_grayscale" />
-    <string name="search_keywords_pdf_repair" />
-    <string name="search_keywords_pdf_metadata" />
-    <string name="search_keywords_pdf_remove_pages" />
-    <string name="search_keywords_pdf_crop" />
-    <string name="search_keywords_pdf_flatten" />
-    <string name="search_keywords_pdf_extract_images" />
-    <string name="search_keywords_pdf_zip_convert" />
-    <string name="search_keywords_pdf_print" />
-    <string name="search_keywords_pdf_preview" />
-    <string name="search_keywords_pdf_images_to_pdf" />
-    <string name="search_keywords_pdf_extract_pages" />
-    <string name="search_keywords_pdf_remove_annotations" />
-    <string name="neutral_variant" />
     <string name="error">خاتالىق</string>
 </resources>

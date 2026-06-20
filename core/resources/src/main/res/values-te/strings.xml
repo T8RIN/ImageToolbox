@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -905,7 +904,7 @@
     <string name="engine_mode">ఇంజిన్ మోడ్</string>
     <string name="legacy">వారసత్వం</string>
     <string name="lstm_network">LSTM నెట్‌వర్క్</string>
-    <string name="legacy_and_lstm">లెగసీ &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">లెగసీ &amp; LSTM</string>
     <string name="convert">మార్చు</string>
     <string name="convert_sub">ఇమేజ్ బ్యాచ్‌లను ఇచ్చిన ఆకృతికి మార్చండి</string>
     <string name="add_new_folder">కొత్త ఫోల్డర్‌ని జోడించండి</string>
@@ -1122,7 +1121,7 @@
     <string name="delete_template_warn">మీరు ఎంచుకున్న టెంప్లేట్ ఫిల్టర్‌ను తొలగించబోతున్నారు. ఈ ఆపరేషన్ రద్దు చేయబడదు</string>
     <string name="added_filter_template">\"%1$s\" (%2$s) పేరుతో ఫిల్టర్ టెంప్లేట్ జోడించబడింది</string>
     <string name="filter_preview">ఫిల్టర్ ప్రివ్యూ</string>
-    <string name="qr_code">QR &amp;amp; బార్‌కోడ్</string>
+    <string name="qr_code">QR &amp; బార్‌కోడ్</string>
     <string name="qr_code_sub">QR కోడ్‌ని స్కాన్ చేయండి మరియు దాని కంటెంట్‌ను పొందండి లేదా కొత్తదాన్ని రూపొందించడానికి మీ స్ట్రింగ్‌ను అతికించండి</string>
     <string name="code_content">కోడ్ కంటెంట్</string>
     <string name="scan_qr_code_to_replace_content">ఫీల్డ్‌లోని కంటెంట్‌ని భర్తీ చేయడానికి ఏదైనా బార్‌కోడ్‌ని స్కాన్ చేయండి లేదా ఎంచుకున్న రకంతో కొత్త బార్‌కోడ్‌ను రూపొందించడానికి ఏదైనా టైప్ చేయండి</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">అన్ని డాక్యుమెంట్ ఎంబెడెడ్ ఇమేజ్‌లను గ్రేస్కేల్‌కి మార్చండి</string>
     <string name="compress_pdf">PDFని కుదించుము</string>
     <string name="compress_pdf_sub">సులభంగా భాగస్వామ్యం చేయడానికి మీ డాక్యుమెంట్ ఫైల్ పరిమాణాన్ని ఆప్టిమైజ్ చేయండి</string>
-    <string name="repair_info">ImageToolbox అంతర్గత క్రాస్-రిఫరెన్స్ పట్టికను పునర్నిర్మిస్తుంది మరియు మొదటి నుండి ఫైల్ నిర్మాణాన్ని పునరుత్పత్తి చేస్తుంది. ఇది \\"తెరవలేని\\" అనేక ఫైల్‌లకు యాక్సెస్‌ని పునరుద్ధరించగలదు</string>
+    <string name="repair_info">ImageToolbox అంతర్గత క్రాస్-రిఫరెన్స్ పట్టికను పునర్నిర్మిస్తుంది మరియు మొదటి నుండి ఫైల్ నిర్మాణాన్ని పునరుత్పత్తి చేస్తుంది. ఇది \\\"తెరవలేని\\\" అనేక ఫైల్‌లకు యాక్సెస్‌ని పునరుద్ధరించగలదు</string>
     <string name="grayscale_info">ఈ సాధనం అన్ని డాక్యుమెంట్ చిత్రాలను గ్రేస్కేల్‌కి మారుస్తుంది. ఫైల్ పరిమాణాన్ని ముద్రించడానికి మరియు తగ్గించడానికి ఉత్తమమైనది</string>
     <string name="metadata">మెటాడేటా</string>
     <string name="metadata_pdf_sub">మెరుగైన గోప్యత కోసం డాక్యుమెంట్ ప్రాపర్టీలను సవరించండి</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">షేడర్ పేరు తప్పనిసరిగా ఖాళీగా ఉండకూడదు.</string>
     <string name="shader_error_blank_source">షేడర్ మూలం ఖాళీగా ఉండకూడదు.</string>
     <string name="shader_error_unsupported_characters">షేడర్ మూలం మద్దతు లేని అక్షరాలను కలిగి ఉంది: %1$s. ASCII GLSL మూలాన్ని మాత్రమే ఉపయోగించండి.</string>
-    <string name="shader_error_duplicate_parameter">పరామితి \\"%1$s\\" ఒకటి కంటే ఎక్కువసార్లు ప్రకటించబడింది.</string>
+    <string name="shader_error_duplicate_parameter">పరామితి \\\"%1$s\\\" ఒకటి కంటే ఎక్కువసార్లు ప్రకటించబడింది.</string>
     <string name="shader_error_blank_parameter_name">పారామీటర్ పేర్లు ఖాళీగా ఉండకూడదు.</string>
-    <string name="shader_error_reserved_parameter_name">పరామితి \\"%1$s\\" రిజర్వు చేయబడిన GPUImage పేరును ఉపయోగిస్తుంది.</string>
-    <string name="shader_error_invalid_parameter_name">పరామితి \\"%1$s\\" తప్పనిసరిగా చెల్లుబాటు అయ్యే GLSL ఐడెంటిఫైయర్ అయి ఉండాలి.</string>
-    <string name="shader_error_invalid_value_type">పరామితి \\"%1$s\\" %2$s విలువ రకాన్ని కలిగి ఉంది \\"%3$s\\", ఊహించిన \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">పారామీటర్ \\"%1$s\\" బూల్ విలువల కోసం నిమి లేదా గరిష్టాన్ని నిర్వచించలేదు.</string>
-    <string name="shader_error_min_greater_than_max">\\"%1$s\\" పరామితి గరిష్టం కంటే నిమి ఎక్కువ.</string>
-    <string name="shader_error_default_lower_than_min">పరామితి \\"%1$s\\" డిఫాల్ట్ నిమి కంటే తక్కువగా ఉంది.</string>
-    <string name="shader_error_default_greater_than_max">పరామితి \\"%1$s\\" డిఫాల్ట్ గరిష్టం కంటే ఎక్కువ.</string>
-    <string name="shader_error_missing_input_texture">షేడర్ తప్పనిసరిగా \\"యూనిఫాం నమూనా2D %1$s;\\"ని ప్రకటించాలి.</string>
-    <string name="shader_error_missing_texture_coordinate">షేడర్ తప్పనిసరిగా \\"వైవిధ్యమైన vec2 %1$s;\\"ని ప్రకటించాలి.</string>
-    <string name="shader_error_missing_main_function">షేడర్ తప్పనిసరిగా \\"శూన్యం ప్రధాన()\\"ను నిర్వచించాలి.</string>
+    <string name="shader_error_reserved_parameter_name">పరామితి \\\"%1$s\\\" రిజర్వు చేయబడిన GPUImage పేరును ఉపయోగిస్తుంది.</string>
+    <string name="shader_error_invalid_parameter_name">పరామితి \\\"%1$s\\\" తప్పనిసరిగా చెల్లుబాటు అయ్యే GLSL ఐడెంటిఫైయర్ అయి ఉండాలి.</string>
+    <string name="shader_error_invalid_value_type">పరామితి \\\"%1$s\\\" %2$s విలువ రకాన్ని కలిగి ఉంది \\\"%3$s\\\", ఊహించిన \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">పారామీటర్ \\\"%1$s\\\" బూల్ విలువల కోసం నిమి లేదా గరిష్టాన్ని నిర్వచించలేదు.</string>
+    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" పరామితి గరిష్టం కంటే నిమి ఎక్కువ.</string>
+    <string name="shader_error_default_lower_than_min">పరామితి \\\"%1$s\\\" డిఫాల్ట్ నిమి కంటే తక్కువగా ఉంది.</string>
+    <string name="shader_error_default_greater_than_max">పరామితి \\\"%1$s\\\" డిఫాల్ట్ గరిష్టం కంటే ఎక్కువ.</string>
+    <string name="shader_error_missing_input_texture">షేడర్ తప్పనిసరిగా \\\"యూనిఫాం నమూనా2D %1$s;\\\"ని ప్రకటించాలి.</string>
+    <string name="shader_error_missing_texture_coordinate">షేడర్ తప్పనిసరిగా \\\"వైవిధ్యమైన vec2 %1$s;\\\"ని ప్రకటించాలి.</string>
+    <string name="shader_error_missing_main_function">షేడర్ తప్పనిసరిగా \\\"శూన్యం ప్రధాన()\\\"ను నిర్వచించాలి.</string>
     <string name="shader_error_missing_fragment_color">షేడర్ తప్పనిసరిగా gl_FragColorకి రంగును వ్రాయాలి.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy మెయిన్‌ఇమేజ్ షేడర్‌లకు మద్దతు లేదు. GPUImage యొక్క శూన్యమైన ప్రధాన() ఒప్పందాన్ని ఉపయోగించండి.</string>
-    <string name="shader_error_shadertoy_i_time">యానిమేటెడ్ ShaderToy యూనిఫాం \\"iTime\\"కి మద్దతు లేదు.</string>
-    <string name="shader_error_shadertoy_i_frame">యానిమేటెడ్ ShaderToy యూనిఫాం \\"iFrame\\"కి మద్దతు లేదు.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy యూనిఫాం \\"iResolution\\"కు మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_i_time">యానిమేటెడ్ ShaderToy యూనిఫాం \\\"iTime\\\"కి మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_i_frame">యానిమేటెడ్ ShaderToy యూనిఫాం \\\"iFrame\\\"కి మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy యూనిఫాం \\\"iResolution\\\"కు మద్దతు లేదు.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel అల్లికలకు మద్దతు లేదు.</string>
     <string name="shader_error_external_textures">బాహ్య అల్లికలకు మద్దతు లేదు.</string>
     <string name="shader_error_external_texture_extensions">బాహ్య ఆకృతి పొడిగింపులకు మద్దతు లేదు.</string>
     <string name="shader_error_libretro_parameters">లిబ్రెట్రో షేడర్ పారామీటర్‌లకు మద్దతు లేదు.</string>
-    <string name="shader_error_extra_input_texture">ఒక ఇన్‌పుట్ ఆకృతికి మాత్రమే మద్దతు ఉంది. \\"యూనిఫాం %1$s %2$s;\\"ని తీసివేయండి.</string>
-    <string name="shader_error_missing_uniform">\\"%1$s\\" పరామితి తప్పనిసరిగా \\"యూనిఫాం %2$s %1$s;\\"గా ప్రకటించబడాలి.</string>
-    <string name="shader_error_wrong_uniform_type">\\"%1$s\\" పరామితి \\"యూనిఫాం %2$s %1$s;\\"గా ప్రకటించబడింది, అంచనా వేయబడిన \\"యూనిఫాం %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">ఒక ఇన్‌పుట్ ఆకృతికి మాత్రమే మద్దతు ఉంది. \\\"యూనిఫాం %1$s %2$s;\\\"ని తీసివేయండి.</string>
+    <string name="shader_error_missing_uniform">\\\"%1$s\\\" పరామితి తప్పనిసరిగా \\\"యూనిఫాం %2$s %1$s;\\\"గా ప్రకటించబడాలి.</string>
+    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" పరామితి \\\"యూనిఫాం %2$s %1$s;\\\"గా ప్రకటించబడింది, అంచనా వేయబడిన \\\"యూనిఫాం %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">షేడర్ ఫైల్ ఖాళీగా ఉంది.</string>
     <string name="shader_parse_error_not_itshader_json">షేడర్ ఫైల్ తప్పనిసరిగా వెర్షన్, పేరు మరియు షేడర్ ఫీల్డ్‌లతో కూడిన .itshader JSON ఆబ్జెక్ట్ అయి ఉండాలి.</string>
     <string name="shader_parse_error_invalid_json">షేడర్ ఫైల్ చెల్లుబాటు అయ్యే JSON కాదు లేదా .itshader ఫార్మాట్‌తో సరిపోలడం లేదు.</string>
-    <string name="shader_parse_error_missing_field">ఫీల్డ్ \\"%1$s\\" అవసరం.</string>
+    <string name="shader_parse_error_missing_field">ఫీల్డ్ \\\"%1$s\\\" అవసరం.</string>
     <string name="shader_parse_error_missing_param_field">%1$s అవసరం.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" మద్దతు లేదు. మద్దతు ఉన్న రకాలు: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" పారామితుల కోసం %1$s అవసరం.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" మద్దతు లేదు. మద్దతు ఉన్న రకాలు: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" పారామితుల కోసం %1$s అవసరం.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s తప్పనిసరిగా పరిమిత సంఖ్య అయి ఉండాలి.</string>
     <string name="shader_parse_error_integer_expected">%1$s తప్పనిసరిగా పూర్ణాంకం అయి ఉండాలి.</string>
     <string name="shader_parse_error_bool_expected">%1$s తప్పక నిజం లేదా తప్పు.</string>
@@ -2401,7 +2400,7 @@
     <string name="duplicate">నకిలీ</string>
     <string name="always_clear_exif">ఎల్లప్పుడూ EXIF ​​ని క్లియర్ చేయండి</string>
     <string name="always_clear_exif_sub">మెటాడేటాను ఉంచాలని సాధనం అభ్యర్థించినప్పటికీ, సేవ్‌లో ఇమేజ్ EXIF ​​డేటాను తీసివేయండి</string>
-    <string name="help_tips">సహాయం &amp;amp; చిట్కాలు</string>
+    <string name="help_tips">సహాయం &amp; చిట్కాలు</string>
     <string name="tutorials_count">%1$d ట్యుటోరియల్స్</string>
     <string name="open_tool">సాధనాన్ని తెరవండి</string>
     <string name="help_tips_settings_sub">ప్రధాన సాధనాలు, ఎగుమతి ఎంపికలు, PDF ఫ్లోలు, రంగు వినియోగాలు మరియు సాధారణ సమస్యల పరిష్కారాలను తెలుసుకోండి</string>
@@ -3194,38 +3193,23 @@
     <string name="search_keywords_single_edit">ఎడిటర్ ఎడిట్ ఫోటో పిక్చర్ రీటచ్ సర్దుబాటు</string>
     <string name="search_keywords_resize_and_convert">పరిమాణాన్ని మార్చండి స్కేల్ రిజల్యూషన్ కొలతలు వెడల్పు ఎత్తు jpg jpeg png webp కంప్రెస్</string>
     <string name="search_keywords_weight_resize">కంప్రెస్ సైజు బరువు బైట్‌లు mb kb నాణ్యతను ఆప్టిమైజ్‌ని తగ్గిస్తుంది</string>
-    <string name="search_keywords_crop" />
     <string name="search_keywords_filter">ఫిల్టర్ ప్రభావం రంగు దిద్దుబాటు సర్దుబాటు lut ముసుగు</string>
-    <string name="search_keywords_draw" />
     <string name="search_keywords_cipher">సాంకేతికలిపి ఎన్‌క్రిప్ట్ డీక్రిప్ట్ పాస్‌వర్డ్ రహస్యం</string>
     <string name="search_keywords_erase_background">బ్యాక్‌గ్రౌండ్ రిమూవర్ ఎరేస్ కటౌట్ పారదర్శక ఆల్ఫాను తీసివేయండి</string>
-    <string name="search_keywords_image_preview" />
-    <string name="search_keywords_image_stitching" />
     <string name="search_keywords_load_net_image">url వెబ్ డౌన్‌లోడ్ ఇంటర్నెట్ లింక్ చిత్రం</string>
-    <string name="search_keywords_pick_color_from_image" />
-    <string name="search_keywords_palette_tools" />
     <string name="search_keywords_delete_exif">exif మెటాడేటా గోప్యత స్ట్రిప్ క్లీన్ gps స్థానాన్ని తీసివేస్తుంది</string>
     <string name="search_keywords_compare">తర్వాత ముందు తేడా తేడాను సరిపోల్చండి</string>
     <string name="search_keywords_limit_resize">పరిమితి పరిమాణాన్ని గరిష్టంగా నిమి మెగాపిక్సెల్స్ కొలతలు బిగింపు</string>
-    <string name="search_keywords_pdf_tools" />
-    <string name="search_keywords_recognize_text" />
     <string name="search_keywords_gradient_maker">గ్రేడియంట్ నేపథ్య రంగు మెష్</string>
     <string name="search_keywords_watermarking">వాటర్‌మార్క్ లోగో టెక్స్ట్ స్టాంప్ ఓవర్‌లే</string>
     <string name="search_keywords_gif_tools">gif యానిమేషన్ యానిమేటెడ్ కన్వర్ట్ ఫ్రేమ్‌లు</string>
-    <string name="search_keywords_apng_tools" />
     <string name="search_keywords_zip">జిప్ ఆర్కైవ్ కంప్రెస్ ప్యాక్ ఫైళ్లను అన్‌ప్యాక్ చేయండి</string>
     <string name="search_keywords_jxl_tools">jxl jpeg xl jpg ఇమేజ్ ఫార్మాట్‌ని మారుస్తుంది</string>
-    <string name="search_keywords_svg_maker" />
     <string name="search_keywords_format_conversion">ఫార్మాట్ మార్చడానికి jpg jpeg png webp heic avif jxl bmp</string>
-    <string name="search_keywords_document_scanner" />
     <string name="search_keywords_scan_qr_code">qr బార్‌కోడ్ కోడ్ స్కానర్ స్కాన్</string>
-    <string name="search_keywords_image_stacking" />
     <string name="search_keywords_image_splitting">స్ప్లిట్ టైల్స్ గ్రిడ్ స్లైస్ భాగాలు</string>
-    <string name="search_keywords_color_tools" />
     <string name="search_keywords_webp_tools">webp యానిమేటెడ్ చిత్ర ఆకృతిని మారుస్తుంది</string>
     <string name="search_keywords_noise_generation">శబ్దం జనరేటర్ యాదృచ్ఛిక ఆకృతి ధాన్యం</string>
-    <string name="search_keywords_collage_maker" />
-    <string name="search_keywords_markup_layers" />
     <string name="search_keywords_base64_tools">బేస్64 ఎన్కోడ్ డేటా యూరి</string>
     <string name="search_keywords_checksum_tools">చెక్సమ్ హాష్ md5 sha sha1 sha256 ధృవీకరించండి</string>
     <string name="search_keywords_mesh_gradients">మెష్ గ్రేడియంట్ నేపథ్యం</string>
@@ -3234,32 +3218,18 @@
     <string name="search_keywords_audio_cover_extractor">ఆడియో కవర్ ఆల్బమ్ ఆర్ట్ మ్యూజిక్ మెటాడేటా</string>
     <string name="search_keywords_wallpapers_export">వాల్‌పేపర్ ఎగుమతి నేపథ్యం</string>
     <string name="search_keywords_ascii_art">ascii టెక్స్ట్ ఆర్ట్ అక్షరాలు</string>
-    <string name="search_keywords_ai_tools" />
-    <string name="search_keywords_color_library" />
     <string name="search_keywords_shader_studio">షేడర్ glsl ఫ్రాగ్మెంట్ ఎఫెక్ట్ స్టూడియో</string>
     <string name="search_keywords_pdf_merge">పిడిఎఫ్ విలీనం కలపండి</string>
     <string name="search_keywords_pdf_split">pdf ప్రత్యేక పేజీలను విభజించింది</string>
-    <string name="search_keywords_pdf_rotate" />
-    <string name="search_keywords_pdf_rearrange" />
-    <string name="search_keywords_pdf_page_numbers" />
-    <string name="search_keywords_pdf_ocr" />
     <string name="search_keywords_pdf_watermark">pdf వాటర్‌మార్క్ స్టాంప్ లోగో టెక్స్ట్</string>
     <string name="search_keywords_pdf_signature">pdf సంతకం సైన్ డ్రా</string>
-    <string name="search_keywords_pdf_protect" />
     <string name="search_keywords_pdf_unlock">pdf అన్‌లాక్ పాస్‌వర్డ్ డీక్రిప్ట్ రిమూవ్ ప్రొటెక్షన్</string>
-    <string name="search_keywords_pdf_compress" />
     <string name="search_keywords_pdf_grayscale">pdf గ్రేస్కేల్ బ్లాక్ వైట్ మోనోక్రోమ్</string>
-    <string name="search_keywords_pdf_repair" />
-    <string name="search_keywords_pdf_metadata" />
-    <string name="search_keywords_pdf_remove_pages" />
-    <string name="search_keywords_pdf_crop" />
-    <string name="search_keywords_pdf_flatten" />
     <string name="search_keywords_pdf_extract_images">pdf చిత్రాలను సేకరించండి</string>
     <string name="search_keywords_pdf_zip_convert">pdf జిప్ ఆర్కైవ్ కంప్రెస్</string>
     <string name="search_keywords_pdf_print">pdf ప్రింట్ ప్రింటర్</string>
     <string name="search_keywords_pdf_preview">pdf ప్రివ్యూ వ్యూయర్ చదివారు</string>
     <string name="search_keywords_pdf_images_to_pdf">చిత్రాలు pdfకు jpg jpeg png పత్రాన్ని మారుస్తాయి</string>
-    <string name="search_keywords_pdf_extract_pages" />
     <string name="search_keywords_pdf_remove_annotations">pdf ఉల్లేఖనాల వ్యాఖ్యలు శుభ్రంగా తీసివేయబడతాయి</string>
     <string name="neutral_variant">తటస్థ వేరియంట్</string>
     <string name="error">లోపం</string>

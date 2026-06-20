@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Converti tutte le immagini incorporate nel documento in scala di grigi</string>
     <string name="compress_pdf">Comprimi PDF</string>
     <string name="compress_pdf_sub">Ottimizza le dimensioni del file del tuo documento per una condivisione più semplice</string>
-    <string name="repair_info">ImageToolbox ricostruisce la tabella dei riferimenti incrociati interna e rigenera la struttura dei file da zero. Ciò può ripristinare l\'accesso a molti file che \\"non possono essere aperti\\"</string>
+    <string name="repair_info">ImageToolbox ricostruisce la tabella dei riferimenti incrociati interna e rigenera la struttura dei file da zero. Ciò può ripristinare l\'accesso a molti file che \\\"non possono essere aperti\\\"</string>
     <string name="grayscale_info">Questo strumento converte tutte le immagini del documento in scala di grigi. Ideale per stampare e ridurre le dimensioni del file</string>
     <string name="metadata">Metadati</string>
     <string name="metadata_pdf_sub">Modifica le proprietà del documento per una migliore privacy</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">Il nome dello shader non deve essere vuoto.</string>
     <string name="shader_error_blank_source">La sorgente dello shader non deve essere vuota.</string>
     <string name="shader_error_unsupported_characters">L\'origine dello shader contiene caratteri non supportati: %1$s. Utilizzare solo l\'origine ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Il parametro \\"%1$s\\" è dichiarato più di una volta.</string>
+    <string name="shader_error_duplicate_parameter">Il parametro \\\"%1$s\\\" è dichiarato più di una volta.</string>
     <string name="shader_error_blank_parameter_name">I nomi dei parametri non devono essere vuoti.</string>
-    <string name="shader_error_reserved_parameter_name">Il parametro \\"%1$s\\" utilizza un nome GPUImage riservato.</string>
-    <string name="shader_error_invalid_parameter_name">Il parametro \\"%1$s\\" deve essere un identificatore GLSL valido.</string>
-    <string name="shader_error_invalid_value_type">Il parametro \\"%1$s\\" ha %2$s tipo di valore \\"%3$s\\", previsto \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Il parametro \\"%1$s\\" non può definire il minimo o il massimo per i valori bool.</string>
-    <string name="shader_error_min_greater_than_max">Il parametro \\"%1$s\\" ha min maggiore di max.</string>
-    <string name="shader_error_default_lower_than_min">Il valore predefinito del parametro \\"%1$s\\" è inferiore al valore minimo.</string>
-    <string name="shader_error_default_greater_than_max">Il valore predefinito del parametro \\"%1$s\\" è maggiore del massimo.</string>
-    <string name="shader_error_missing_input_texture">Lo shader deve dichiarare \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Lo shader deve dichiarare \\"varying vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Lo shader deve definire \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Il parametro \\\"%1$s\\\" utilizza un nome GPUImage riservato.</string>
+    <string name="shader_error_invalid_parameter_name">Il parametro \\\"%1$s\\\" deve essere un identificatore GLSL valido.</string>
+    <string name="shader_error_invalid_value_type">Il parametro \\\"%1$s\\\" ha %2$s tipo di valore \\\"%3$s\\\", previsto \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Il parametro \\\"%1$s\\\" non può definire il minimo o il massimo per i valori bool.</string>
+    <string name="shader_error_min_greater_than_max">Il parametro \\\"%1$s\\\" ha min maggiore di max.</string>
+    <string name="shader_error_default_lower_than_min">Il valore predefinito del parametro \\\"%1$s\\\" è inferiore al valore minimo.</string>
+    <string name="shader_error_default_greater_than_max">Il valore predefinito del parametro \\\"%1$s\\\" è maggiore del massimo.</string>
+    <string name="shader_error_missing_input_texture">Lo shader deve dichiarare \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Lo shader deve dichiarare \\\"varying vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Lo shader deve definire \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Lo shader deve scrivere un colore in gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">Gli shader ShaderToy mainImage non sono supportati. Utilizza il contratto void main() di GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">L\'uniforme animata ShaderToy \\"iTime\\" non è supportata.</string>
-    <string name="shader_error_shadertoy_i_frame">L\'uniforme animata ShaderToy \\"iFrame\\" non è supportata.</string>
-    <string name="shader_error_shadertoy_i_resolution">L\'uniforme ShaderToy \\"iResolution\\" non è supportata.</string>
+    <string name="shader_error_shadertoy_i_time">L\'uniforme animata ShaderToy \\\"iTime\\\" non è supportata.</string>
+    <string name="shader_error_shadertoy_i_frame">L\'uniforme animata ShaderToy \\\"iFrame\\\" non è supportata.</string>
+    <string name="shader_error_shadertoy_i_resolution">L\'uniforme ShaderToy \\\"iResolution\\\" non è supportata.</string>
     <string name="shader_error_shadertoy_i_channel">Le texture ShaderToy iChannel non sono supportate.</string>
     <string name="shader_error_external_textures">Le texture esterne non sono supportate.</string>
     <string name="shader_error_external_texture_extensions">Le estensioni delle texture esterne non sono supportate.</string>
     <string name="shader_error_libretro_parameters">I parametri dello shader Libretro non sono supportati.</string>
-    <string name="shader_error_extra_input_texture">È supportata solo una texture di input. Rimuovi \\"uniforme %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Il parametro \\"%1$s\\" deve essere dichiarato come \\"uniform %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Il parametro \\"%1$s\\" è dichiarato come \\"uniform %2$s %1$s;\\", previsto \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">È supportata solo una texture di input. Rimuovi \\\"uniforme %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Il parametro \\\"%1$s\\\" deve essere dichiarato come \\\"uniform %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Il parametro \\\"%1$s\\\" è dichiarato come \\\"uniform %2$s %1$s;\\\", previsto \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Il file dello shader è vuoto.</string>
     <string name="shader_parse_error_not_itshader_json">Il file shader deve essere un oggetto JSON .itshader con campi versione, nome e shader.</string>
     <string name="shader_parse_error_invalid_json">Il file shader non è un JSON valido o non corrisponde al formato .itshader.</string>
-    <string name="shader_parse_error_missing_field">Il campo \\"%1$s\\" è obbligatorio.</string>
+    <string name="shader_parse_error_missing_field">Il campo \\\"%1$s\\\" è obbligatorio.</string>
     <string name="shader_parse_error_missing_param_field">%1$s è obbligatorio.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" non è supportato. Tipi supportati: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s è obbligatorio per i parametri \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" non è supportato. Tipi supportati: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s è obbligatorio per i parametri \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s deve essere un numero finito.</string>
     <string name="shader_parse_error_integer_expected">%1$s deve essere un numero intero.</string>
     <string name="shader_parse_error_bool_expected">%1$s deve essere vero o falso.</string>
