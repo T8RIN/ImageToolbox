@@ -2137,7 +2137,7 @@
     <string name="grayscale_pdf_sub">Chuyển đổi tất cả các hình ảnh được nhúng trong tài liệu sang thang độ xám</string>
     <string name="compress_pdf">Nén PDF</string>
     <string name="compress_pdf_sub">Tối ưu hóa kích thước tệp tài liệu của bạn để chia sẻ dễ dàng hơn</string>
-    <string name="repair_info">ImageToolbox xây dựng lại bảng tham chiếu chéo nội bộ và tạo lại cấu trúc tệp từ đầu. Điều này có thể khôi phục quyền truy cập vào nhiều tệp \\"không thể mở được\\"</string>
+    <string name="repair_info">ImageToolbox xây dựng lại bảng tham chiếu chéo nội bộ và tạo lại cấu trúc tệp từ đầu. Điều này có thể khôi phục quyền truy cập vào nhiều tệp \\\"không thể mở được\\\"</string>
     <string name="grayscale_info">Công cụ này chuyển đổi tất cả hình ảnh tài liệu sang thang độ xám. Tốt nhất để in và giảm kích thước tập tin</string>
     <string name="metadata">Siêu dữ liệu</string>
     <string name="metadata_pdf_sub">Chỉnh sửa thuộc tính tài liệu để bảo mật tốt hơn</string>
@@ -2355,37 +2355,37 @@
     <string name="shader_error_blank_name">Tên shader không được để trống.</string>
     <string name="shader_error_blank_source">Nguồn Shader không được để trống.</string>
     <string name="shader_error_unsupported_characters">Nguồn trình đổ bóng chứa các ký tự không được hỗ trợ: %1$s. Chỉ sử dụng nguồn ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Tham số \\"%1$s\\" được khai báo nhiều lần.</string>
+    <string name="shader_error_duplicate_parameter">Tham số \\\"%1$s\\\" được khai báo nhiều lần.</string>
     <string name="shader_error_blank_parameter_name">Tên thông số không được để trống.</string>
-    <string name="shader_error_reserved_parameter_name">Tham số \\"%1$s\\" sử dụng tên GPUImage dành riêng.</string>
-    <string name="shader_error_invalid_parameter_name">Tham số \\"%1$s\\" phải là mã định danh GLSL hợp lệ.</string>
-    <string name="shader_error_invalid_value_type">Tham số \\"%1$s\\" có loại giá trị %2$s \\"%3$s\\", dự kiến ​​\\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Tham số \\"%1$s\\" không thể xác định giá trị tối thiểu hoặc tối đa cho các giá trị bool.</string>
-    <string name="shader_error_min_greater_than_max">Tham số \\"%1$s\\" có giá trị tối thiểu lớn hơn tối đa.</string>
-    <string name="shader_error_default_lower_than_min">Thông số \\"%1$s\\" mặc định thấp hơn giá trị tối thiểu.</string>
-    <string name="shader_error_default_greater_than_max">Thông số \\"%1$s\\" mặc định lớn hơn giá trị tối đa.</string>
-    <string name="shader_error_missing_input_texture">Shader phải khai báo \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader phải khai báo \\"thay đổi vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Trình đổ bóng phải xác định \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Tham số \\\"%1$s\\\" sử dụng tên GPUImage dành riêng.</string>
+    <string name="shader_error_invalid_parameter_name">Tham số \\\"%1$s\\\" phải là mã định danh GLSL hợp lệ.</string>
+    <string name="shader_error_invalid_value_type">Tham số \\\"%1$s\\\" có loại giá trị %2$s \\\"%3$s\\\", dự kiến ​​\\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Tham số \\\"%1$s\\\" không thể xác định giá trị tối thiểu hoặc tối đa cho các giá trị bool.</string>
+    <string name="shader_error_min_greater_than_max">Tham số \\\"%1$s\\\" có giá trị tối thiểu lớn hơn tối đa.</string>
+    <string name="shader_error_default_lower_than_min">Thông số \\\"%1$s\\\" mặc định thấp hơn giá trị tối thiểu.</string>
+    <string name="shader_error_default_greater_than_max">Thông số \\\"%1$s\\\" mặc định lớn hơn giá trị tối đa.</string>
+    <string name="shader_error_missing_input_texture">Shader phải khai báo \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader phải khai báo \\\"thay đổi vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Trình đổ bóng phải xác định \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader phải ghi màu vào gl_FragColor.</string>
-    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shader không được hỗ trợ. Sử dụng hợp đồng void main() của GPUImage\.</string>
-    <string name="shader_error_shadertoy_i_time">Đồng phục ShaderToy hoạt hình \\"iTime\\" không được hỗ trợ.</string>
-    <string name="shader_error_shadertoy_i_frame">Đồng phục ShaderToy hoạt hình \\"iFrame\\" không được hỗ trợ.</string>
-    <string name="shader_error_shadertoy_i_resolution">Đồng phục ShaderToy \\"iResolution\\" không được hỗ trợ.</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shader không được hỗ trợ. Sử dụng hợp đồng void main() của GPUImage</string>
+    <string name="shader_error_shadertoy_i_time">Đồng phục ShaderToy hoạt hình \\\"iTime\\\" không được hỗ trợ.</string>
+    <string name="shader_error_shadertoy_i_frame">Đồng phục ShaderToy hoạt hình \\\"iFrame\\\" không được hỗ trợ.</string>
+    <string name="shader_error_shadertoy_i_resolution">Đồng phục ShaderToy \\\"iResolution\\\" không được hỗ trợ.</string>
     <string name="shader_error_shadertoy_i_channel">Kết cấu ShaderToy iChannel không được hỗ trợ.</string>
     <string name="shader_error_external_textures">Kết cấu bên ngoài không được hỗ trợ.</string>
     <string name="shader_error_external_texture_extensions">Phần mở rộng kết cấu bên ngoài không được hỗ trợ.</string>
     <string name="shader_error_libretro_parameters">Các tham số của trình đổ bóng Libretro không được hỗ trợ.</string>
-    <string name="shader_error_extra_input_texture">Chỉ có một kết cấu đầu vào được hỗ trợ. Xóa \\"đồng phục %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Tham số \\"%1$s\\" phải được khai báo là \\"đồng nhất %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Tham số \\"%1$s\\" được khai báo là \\"đồng nhất %2$s %1$s;\\", dự kiến ​​\\"đồng nhất %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Chỉ có một kết cấu đầu vào được hỗ trợ. Xóa \\\"đồng phục %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Tham số \\\"%1$s\\\" phải được khai báo là \\\"đồng nhất %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Tham số \\\"%1$s\\\" được khai báo là \\\"đồng nhất %2$s %1$s;\\\", dự kiến ​​\\\"đồng nhất %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Tệp Shader trống.</string>
     <string name="shader_parse_error_not_itshader_json">Tệp Shader phải là đối tượng JSON .itshader có các trường phiên bản, tên và shader.</string>
     <string name="shader_parse_error_invalid_json">Tệp Shader không phải là JSON hợp lệ hoặc không khớp với định dạng .itshader.</string>
-    <string name="shader_parse_error_missing_field">Trường \\"%1$s\\" là bắt buộc.</string>
+    <string name="shader_parse_error_missing_field">Trường \\\"%1$s\\\" là bắt buộc.</string>
     <string name="shader_parse_error_missing_param_field">%1$s là bắt buộc.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" không được hỗ trợ. Các loại được hỗ trợ: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s là bắt buộc đối với tham số \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" không được hỗ trợ. Các loại được hỗ trợ: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s là bắt buộc đối với tham số \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s phải là số hữu hạn.</string>
     <string name="shader_parse_error_integer_expected">%1$s phải là số nguyên.</string>
     <string name="shader_parse_error_bool_expected">%1$s phải đúng hoặc sai.</string>
@@ -2399,7 +2399,7 @@
     <string name="duplicate">Nhân bản</string>
     <string name="always_clear_exif">Luôn xóa EXIF</string>
     <string name="always_clear_exif_sub">Xóa dữ liệu EXIF ​​​​hình ảnh khi lưu, ngay cả khi công cụ yêu cầu giữ lại siêu dữ liệu</string>
-    <string name="help_tips">Trợ giúp &amp;amp; Mẹo</string>
+    <string name="help_tips">Trợ giúp &amp; Mẹo</string>
     <string name="tutorials_count">%1$d hướng dẫn</string>
     <string name="open_tool">Mở công cụ</string>
     <string name="help_tips_settings_sub">Tìm hiểu các công cụ chính, tùy chọn xuất, luồng PDF, tiện ích màu sắc và cách khắc phục các sự cố thường gặp</string>
@@ -3261,4 +3261,28 @@
     <string name="search_keywords_pdf_images_to_pdf">hình ảnh sang pdf chuyển đổi tài liệu jpg jpeg png</string>
     <string name="search_keywords_pdf_extract_pages">trang pdf sang hình ảnh xuất jpg png</string>
     <string name="search_keywords_pdf_remove_annotations">chú thích pdf loại bỏ ý kiến ​​sạch sẽ</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
