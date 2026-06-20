@@ -1463,7 +1463,7 @@
     <string name="zigzag_ratio">Rapport de zigzag</string>
     <string name="create_shortcut">Créer un raccourci</string>
     <string name="create_shortcut_title">Choisissez l\'outil à épingler</string>
-    <string name="create_shortcut_subtitle">L\'outil sera ajouté à l\'écran d\'accueil de votre lanceur en tant que raccourci, utilisez-le en combinaison avec le paramètre « Ignorer la sélection de fichiers » pour obtenir le comportement souhaité.</string>
+    <string name="create_shortcut_subtitle">L\'outil sera ajouté à l\'écran d\'accueil de votre lanceur en tant que raccourci, utilisez-le en combinaison avec le paramètre « Ignorer la sélection de fichiers » pour obtenir le comportement souhaité.</string>
     <string name="dont_stack_frames">N\'empilez pas les cadres</string>
     <string name="dont_stack_frames_sub">Permet de supprimer les images précédentes, afin qu\'elles ne s\'empilent pas les unes sur les autres</string>
     <string name="crossfade">Fondu enchaîné</string>
@@ -1544,7 +1544,7 @@
     <string name="match">Correspondre!</string>
     <string name="difference">Différence</string>
     <string name="match_sub">Les sommes de contrôle sont égales, cela peut être sûr</string>
-    <string name="difference_sub">Les sommes de contrôle ne sont pas égales, le fichier peut être dangereux !</string>
+    <string name="difference_sub">Les sommes de contrôle ne sont pas égales, le fichier peut être dangereux !</string>
     <string name="mesh_gradients">Dégradés de maillage</string>
     <string name="collection_mesh_gradients_sub">Regardez la collection en ligne de dégradés de maillage</string>
     <string name="wrong_font">Seules les polices TTF et OTF peuvent être importées</string>
