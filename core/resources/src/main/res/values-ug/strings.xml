@@ -881,9 +881,9 @@
     <string name="resize_anchor">لەڭگەرنىڭ چوڭ-كىچىكلىكى</string>
     <string name="pixel_switch">Pixel</string>
     <string name="fluent_switch">راۋان</string>
-    <string name="fluent_switch_sub">\ \"راۋان \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ</string>
+    <string name="fluent_switch_sub">" \"راۋان \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ"</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">\ \"Cupertino \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ</string>
+    <string name="cupertino_switch_sub">" \"Cupertino \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ"</string>
     <string name="images_to_svg">SVG غا رەسىملەر</string>
     <string name="images_to_svg_sub">SVG رەسىملىرىگە بېرىلگەن رەسىملەرنى ئىز قوغلاڭ</string>
     <string name="use_sampled_palette">Sampled Palette نى ئىشلىتىڭ</string>
@@ -1121,7 +1121,7 @@
     <string name="delete_template_warn">تاللانغان قېلىپ سۈزگۈچنى ئۆچۈرمەكچى بولۇۋاتىسىز. بۇ مەشغۇلاتنى ئەمەلدىن قالدۇرغىلى بولمايدۇ</string>
     <string name="added_filter_template">"ئىسمى  \"%1$s \" بىلەن سۈزگۈچ قېلىپى قوشۇلدى (%2$s)"</string>
     <string name="filter_preview">سۈزگۈچ ئالدىن كۆرۈش</string>
-    <string name="qr_code">QR &amp;amp; تاياقچە كودى</string>
+    <string name="qr_code">QR &amp; تاياقچە كودى</string>
     <string name="qr_code_sub">QR كودىنى سايىلەپ ئۇنىڭ مەزمۇنىغا ئېرىشىڭ ياكى تىزمىڭىزنى چاپلاپ يېڭى كود ھاسىل قىلىڭ</string>
     <string name="code_content">كود مەزمۇنى</string>
     <string name="scan_qr_code_to_replace_content">ساھەدىكى مەزمۇنلارنى ئالماشتۇرۇش ئۈچۈن ھەر قانداق تاياقچە كودنى سايىلەڭ ياكى تاللانغان تىپ بىلەن يېڭى تاياقچە كود ھاسىل قىلىدىغان نەرسە كىرگۈزۈڭ</string>
@@ -1445,7 +1445,7 @@
     <string name="zigzag_ratio">Zigzag نىسبىتى</string>
     <string name="create_shortcut">تېزلەتمە قۇرۇش</string>
     <string name="create_shortcut_title">مىخلاش قورالىنى تاللاڭ</string>
-    <string name="create_shortcut_subtitle">قورال قوزغاتقۇچنىڭ باش ئېكرانىغا تېزلەتمە سۈپىتىدە قوشۇلىدۇ ، ئۇنى \ \"ھۆججەت تاللاشتىن ئاتلاش \" تەڭشىكى بىلەن بىرلەشتۈرۈپ ، لازىملىق ھەرىكەتنى ئەمەلگە ئاشۇرۇڭ.</string>
+    <string name="create_shortcut_subtitle">"قورال قوزغاتقۇچنىڭ باش ئېكرانىغا تېزلەتمە سۈپىتىدە قوشۇلىدۇ ، ئۇنى  \"ھۆججەت تاللاشتىن ئاتلاش \" تەڭشىكى بىلەن بىرلەشتۈرۈپ ، لازىملىق ھەرىكەتنى ئەمەلگە ئاشۇرۇڭ."</string>
     <string name="dont_stack_frames">رامكىنى دۆۋىلەپ قويماڭ</string>
     <string name="dont_stack_frames_sub">ئالدىنقى رامكىلارنى بىر تەرەپ قىلىشنى قوزغىتىدۇ ، شۇڭا ئۇلار بىر-بىرىگە چاپلاشمايدۇ</string>
     <string name="crossfade">Crossfade</string>
@@ -1489,7 +1489,7 @@
     <string name="open_source_licenses">ئوچۇق كود ئىجازەتنامىسى</string>
     <string name="open_source_licenses_sub">بۇ ئەپتە ئىشلىتىلگەن ئوچۇق كود كۈتۈپخانىلىرىنىڭ ئىجازەتنامىسىنى كۆرۈڭ</string>
     <string name="area">رايون</string>
-    <string name="area_sub">پېكسىل رايون مۇناسىۋىتىنى ئىشلىتىپ قايتا قۇرۇش. ئۇ رەسىمنى يوقىتىشنىڭ ياقتۇرىدىغان ئۇسۇلى بولۇشى مۇمكىن ، چۈنكى ئۇ moire \ \'- ھەقسىز نەتىجىنى بېرىدۇ. ئەمما رەسىمنى چوڭايتقاندا ، ئۇ \ \"ئەڭ يېقىن \" ئۇسۇلىغا ئوخشايدۇ.</string>
+    <string name="area_sub">"پېكسىل رايون مۇناسىۋىتىنى ئىشلىتىپ قايتا قۇرۇش. ئۇ رەسىمنى يوقىتىشنىڭ ياقتۇرىدىغان ئۇسۇلى بولۇشى مۇمكىن ، چۈنكى ئۇ moire  \'- ھەقسىز نەتىجىنى بېرىدۇ. ئەمما رەسىمنى چوڭايتقاندا ، ئۇ  \"ئەڭ يېقىن \" ئۇسۇلىغا ئوخشايدۇ."</string>
     <string name="enable_tonemapping">Tonemapping نى قوزغىتىڭ</string>
     <string name="enter_percent">% نى كىرگۈزۈڭ</string>
     <string name="unknown_host">تور بېكەتنى زىيارەت قىلالمايدۇ ، VPN ئىشلىتىپ سىناپ بېقىڭ ياكى url نىڭ توغرا ياكى ئەمەسلىكىنى تەكشۈرۈڭ</string>
@@ -1606,7 +1606,7 @@
     <string name="send_logs">خاتىرە ئەۋەتىڭ</string>
     <string name="send_logs_sub">ئەپ خاتىرىسىنى ئورتاقلىشىش ئۈچۈن چېكىڭ ، بۇ مېنىڭ مەسىلىنى بايقىشىم ۋە مەسىلىلەرنى ھەل قىلىشىمغا ياردەم بېرەلەيدۇ</string>
     <string name="crash_title">ئاپلا… چاتاق چىقتى</string>
-    <string name="crash_subtitle">تۆۋەندىكى تاللاشلار ئارقىلىق مەن بىلەن ئالاقىلاشسىڭىز بولىدۇ ، مەن ھەل قىلىش چارىسى تېپىشقا تىرىشىمەن. \ N (خاتىرە باغلاشنى ئۇنتۇپ قالماڭ)</string>
+    <string name="crash_subtitle">"تۆۋەندىكى تاللاشلار ئارقىلىق مەن بىلەن ئالاقىلاشسىڭىز بولىدۇ ، مەن ھەل قىلىش چارىسى تېپىشقا تىرىشىمەن.  N (خاتىرە باغلاشنى ئۇنتۇپ قالماڭ)"</string>
     <string name="ocr_write_to_file">ھۆججەتكە يېزىڭ</string>
     <string name="ocr_write_to_file_sub">بىر تۈركۈم رەسىملەردىن تېكىستنى چىقىرىپ بىر تېكىست ھۆججىتىگە ساقلاڭ</string>
     <string name="ocr_write_to_metadata">Metadata غا يېزىڭ</string>
