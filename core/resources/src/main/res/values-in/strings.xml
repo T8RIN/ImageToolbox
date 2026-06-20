@@ -906,7 +906,7 @@
     <string name="reset_properties">Setel ulang properti</string>
     <string name="reset_properties_sub">Semua properti akan disetel ke nilai default, perhatikan bahwa tindakan ini tidak dapat dibatalkan</string>
     <string name="detailed">Berdetail</string>
-    <string name="legacy_and_lstm">Warisan &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">Warisan &amp; LSTM</string>
     <string name="convert_sub">Konversi kumpulan gambar ke format tertentu</string>
     <string name="tag_bits_per_sample">Bit Per Sampel</string>
     <string name="tag_compression">Kompresi</string>
@@ -2115,7 +2115,7 @@
     <string name="pages">Halaman</string>
     <string name="rearrange_pdf">Susun ulang PDF</string>
     <string name="rearrange_pdf_sub">Seret dan lepas halaman untuk menyusun ulang</string>
-    <string name="hold_drag_drop">Tahan &amp;amp; Seret halaman</string>
+    <string name="hold_drag_drop">Tahan &amp; Seret halaman</string>
     <string name="page_numbers">Nomor Halaman</string>
     <string name="page_numbers_sub">Tambahkan penomoran ke dokumen Anda secara otomatis</string>
     <string name="label_format">Format Label</string>
@@ -2137,7 +2137,7 @@
     <string name="grayscale_pdf_sub">Ubah semua gambar yang disematkan pada dokumen menjadi skala abu-abu</string>
     <string name="compress_pdf">Kompres PDF</string>
     <string name="compress_pdf_sub">Optimalkan ukuran file dokumen Anda agar lebih mudah dibagikan</string>
-    <string name="repair_info">ImageToolbox membangun kembali tabel referensi silang internal dan membuat ulang struktur file dari awal. Ini dapat memulihkan akses ke banyak file yang \\"tidak dapat dibuka\\"</string>
+    <string name="repair_info">ImageToolbox membangun kembali tabel referensi silang internal dan membuat ulang struktur file dari awal. Ini dapat memulihkan akses ke banyak file yang \\\"tidak dapat dibuka\\\"</string>
     <string name="grayscale_info">Alat ini mengubah semua gambar dokumen menjadi skala abu-abu. Terbaik untuk mencetak dan mengurangi ukuran file</string>
     <string name="metadata">Metadata</string>
     <string name="metadata_pdf_sub">Edit properti dokumen untuk privasi yang lebih baik</string>
@@ -2355,37 +2355,37 @@
     <string name="shader_error_blank_name">Nama shader wajib diisi.</string>
     <string name="shader_error_blank_source">Sumber shader wajib diisi.</string>
     <string name="shader_error_unsupported_characters">Sumber shader berisi karakter yang tidak didukung: %1$s. Gunakan sumber ASCII GLSL saja.</string>
-    <string name="shader_error_duplicate_parameter">Parameter \\"%1$s\\" dideklarasikan lebih dari satu kali.</string>
+    <string name="shader_error_duplicate_parameter">Parameter \\\"%1$s\\\" dideklarasikan lebih dari satu kali.</string>
     <string name="shader_error_blank_parameter_name">Nama parameter wajib diisi.</string>
-    <string name="shader_error_reserved_parameter_name">Parameter \\"%1$s\\" menggunakan nama GPUImage yang dicadangkan.</string>
-    <string name="shader_error_invalid_parameter_name">Parameter \\"%1$s\\" harus berupa pengidentifikasi GLSL yang valid.</string>
-    <string name="shader_error_invalid_value_type">Parameter \\"%1$s\\" memiliki tipe nilai %2$s \\"%3$s\\", yang diharapkan \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Parameter \\"%1$s\\" tidak dapat menentukan min atau max untuk nilai bool.</string>
-    <string name="shader_error_min_greater_than_max">Parameter \\"%1$s\\" memiliki nilai minimum lebih besar dari nilai maksimum.</string>
-    <string name="shader_error_default_lower_than_min">Parameter \\"%1$s\\" default lebih rendah dari min.</string>
-    <string name="shader_error_default_greater_than_max">Parameter \\"%1$s\\" default lebih besar dari maks.</string>
-    <string name="shader_error_missing_input_texture">Shader harus mendeklarasikan \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader harus mendeklarasikan \\"bervariasi vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Shader harus mendefinisikan \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parameter \\\"%1$s\\\" menggunakan nama GPUImage yang dicadangkan.</string>
+    <string name="shader_error_invalid_parameter_name">Parameter \\\"%1$s\\\" harus berupa pengidentifikasi GLSL yang valid.</string>
+    <string name="shader_error_invalid_value_type">Parameter \\\"%1$s\\\" memiliki tipe nilai %2$s \\\"%3$s\\\", yang diharapkan \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Parameter \\\"%1$s\\\" tidak dapat menentukan min atau max untuk nilai bool.</string>
+    <string name="shader_error_min_greater_than_max">Parameter \\\"%1$s\\\" memiliki nilai minimum lebih besar dari nilai maksimum.</string>
+    <string name="shader_error_default_lower_than_min">Parameter \\\"%1$s\\\" default lebih rendah dari min.</string>
+    <string name="shader_error_default_greater_than_max">Parameter \\\"%1$s\\\" default lebih besar dari maks.</string>
+    <string name="shader_error_missing_input_texture">Shader harus mendeklarasikan \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader harus mendeklarasikan \\\"bervariasi vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Shader harus mendefinisikan \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader harus menulis warna ke gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shader tidak didukung. Gunakan kontrak void main() GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Seragam ShaderToy animasi \\"iTime\\" tidak didukung.</string>
-    <string name="shader_error_shadertoy_i_frame">Seragam animasi ShaderToy \\"iFrame\\" tidak didukung.</string>
-    <string name="shader_error_shadertoy_i_resolution">Seragam ShaderToy \\"iResolution\\" tidak didukung.</string>
+    <string name="shader_error_shadertoy_i_time">Seragam ShaderToy animasi \\\"iTime\\\" tidak didukung.</string>
+    <string name="shader_error_shadertoy_i_frame">Seragam animasi ShaderToy \\\"iFrame\\\" tidak didukung.</string>
+    <string name="shader_error_shadertoy_i_resolution">Seragam ShaderToy \\\"iResolution\\\" tidak didukung.</string>
     <string name="shader_error_shadertoy_i_channel">Tekstur ShaderToy iChannel tidak didukung.</string>
     <string name="shader_error_external_textures">Tekstur eksternal tidak didukung.</string>
     <string name="shader_error_external_texture_extensions">Ekstensi tekstur eksternal tidak didukung.</string>
     <string name="shader_error_libretro_parameters">Parameter libretro shader tidak didukung.</string>
-    <string name="shader_error_extra_input_texture">Hanya satu tekstur masukan yang didukung. Hapus \\"seragam %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Parameter \\"%1$s\\" harus dideklarasikan sebagai \\"seragam %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parameter \\"%1$s\\" dideklarasikan sebagai \\"seragam %2$s %1$s;\\", yang diharapkan \\"seragam %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Hanya satu tekstur masukan yang didukung. Hapus \\\"seragam %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Parameter \\\"%1$s\\\" harus dideklarasikan sebagai \\\"seragam %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Parameter \\\"%1$s\\\" dideklarasikan sebagai \\\"seragam %2$s %1$s;\\\", yang diharapkan \\\"seragam %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">File shader kosong.</string>
     <string name="shader_parse_error_not_itshader_json">File shader harus berupa objek .itshader JSON dengan kolom versi, nama, dan shader.</string>
     <string name="shader_parse_error_invalid_json">File shader bukan JSON yang valid atau tidak cocok dengan format .itshader.</string>
-    <string name="shader_parse_error_missing_field">Bidang \\"%1$s\\" wajib diisi.</string>
+    <string name="shader_parse_error_missing_field">Bidang \\\"%1$s\\\" wajib diisi.</string>
     <string name="shader_parse_error_missing_param_field">%1$s diperlukan.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" tidak didukung. Jenis yang didukung: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s diperlukan untuk parameter \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" tidak didukung. Jenis yang didukung: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s diperlukan untuk parameter \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s harus berupa bilangan berhingga.</string>
     <string name="shader_parse_error_integer_expected">%1$s harus berupa bilangan bulat.</string>
     <string name="shader_parse_error_bool_expected">%1$s harus benar atau salah.</string>
@@ -2399,7 +2399,7 @@
     <string name="duplicate">Duplikat</string>
     <string name="always_clear_exif">Selalu hapus EXIF</string>
     <string name="always_clear_exif_sub">Hapus data EXIF ​​gambar saat disimpan, bahkan ketika alat meminta penyimpanan metadata</string>
-    <string name="help_tips">Bantuan &amp;amp; Tip</string>
+    <string name="help_tips">Bantuan &amp; Tip</string>
     <string name="tutorials_count">%1$d tutorial</string>
     <string name="open_tool">Buka alat</string>
     <string name="help_tips_settings_sub">Pelajari alat utama, opsi ekspor, alur PDF, utilitas warna, dan perbaikan untuk masalah umum</string>
@@ -3261,4 +3261,28 @@
     <string name="search_keywords_pdf_remove_annotations">komentar anotasi pdf hapus bersih</string>
     <string name="neutral_variant">Varian Netral</string>
     <string name="error">Kesalahan</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
