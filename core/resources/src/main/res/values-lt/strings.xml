@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
     <string name="smth_went_wrong">Kažkas nutiko ne taip: %1$s.</string>
@@ -315,8 +314,7 @@
     <string name="features_sub">Failų šifravimas slaptažodžiu. Tęsti failai gali būti saugomi pasirinktame kataloge arba bendrinami. Iššifruotus failus taip pat galima atidaryti tiesiogiai.</string>
     <string name="implementation_sub">AES-256, GCM režimas, be užpildymo, 12 baitų atsitiktiniai IV pagal numatytuosius nustatymus. Galite pasirinkti reikiamą algoritmą. Raktai naudojami kaip 256 bitų SHA-3 maišos</string>
     <string name="file_size">Failo dydis</string>
-    <string name="file_size_sub">Didžiausią failo dydį riboja „Android“ OS ir turima atmintis, kuri priklauso nuo įrenginio.
-\nAtkreipkite dėmesį: atmintis nėra saugykla.</string>
+    <string name="file_size_sub">Didžiausią failo dydį riboja „Android“ OS ir turima atmintis, kuri priklauso nuo įrenginio. \nAtkreipkite dėmesį: atmintis nėra saugykla.</string>
     <string name="compatibility_sub">Atminkite, kad suderinamumas su kita failų šifravimo programine įranga ar paslaugomis negarantuojamas. Šiek tiek kitoks raktų apdorojimas arba šifro konfigūracija gali sukelti nesuderinamumą.</string>
     <string name="invalid_password_or_not_encrypted">Neteisingas slaptažodis arba pasirinktas failas nėra užšifruotas</string>
     <string name="image_size_warning">Bandant išsaugoti nurodyto pločio ir aukščio vaizdą, gali atsirasti atminties trūkumo klaida. Darykite tai savo rizika.</string>
@@ -920,7 +918,7 @@
     <string name="engine_mode">Variklio režimas</string>
     <string name="legacy">Palikimas</string>
     <string name="lstm_network">LSTM tinklas</string>
-    <string name="legacy_and_lstm">Legacy &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
     <string name="convert">Konvertuoti</string>
     <string name="convert_sub">Konvertuoti vaizdų paketus į nurodytą formatą</string>
     <string name="add_new_folder">Pridėti naują aplanką</string>
@@ -1999,9 +1997,9 @@
     <string name="horizontal_border_thickness">Horizontalios kraštinės storis</string>
     <string name="vertical_border_thickness">Vertikalios kraštinės storis</string>
     <plurals name="color_count">
-        <item quantity="many">%1$s spalvos</item>
         <item quantity="one">%1$s spalva</item>
         <item quantity="few">%1$s spalvos</item>
+        <item quantity="many">%1$s spalvos</item>
         <item quantity="other">%1$s spalvos</item>
     </plurals>
     <string name="current_model_not_chunkable">Dabartinis modelis nepalaiko smulkinimo, vaizdas bus apdorojamas originaliais matmenimis, todėl gali sunaudoti daug atminties ir kilti problemų su žemos klasės įrenginiais</string>
@@ -2142,7 +2140,7 @@
     <string name="grayscale_pdf_sub">Konvertuoti visus dokumento įterptus vaizdus į pilkos spalvos tonus</string>
     <string name="compress_pdf">Suspausti PDF</string>
     <string name="compress_pdf_sub">Optimizuokite dokumento failo dydį, kad būtų lengviau bendrinti</string>
-    <string name="repair_info">„ImageToolbox“ atkuria vidinę kryžminių nuorodų lentelę ir atkuria failo struktūrą nuo nulio. Tai gali atkurti prieigą prie daugelio failų, kurių \\"negalima atidaryti\\"</string>
+    <string name="repair_info">„ImageToolbox“ atkuria vidinę kryžminių nuorodų lentelę ir atkuria failo struktūrą nuo nulio. Tai gali atkurti prieigą prie daugelio failų, kurių \\\"negalima atidaryti\\\"</string>
     <string name="grayscale_info">Šis įrankis konvertuoja visus dokumentų vaizdus į pilkos spalvos tonus. Geriausiai tinka spausdinti ir sumažinti failo dydį</string>
     <string name="metadata">Metaduomenys</string>
     <string name="metadata_pdf_sub">Redaguokite dokumento ypatybes, kad užtikrintumėte didesnį privatumą</string>
@@ -2360,37 +2358,37 @@
     <string name="shader_error_blank_name">Shader pavadinimo laukas negali būti tuščias.</string>
     <string name="shader_error_blank_source">Shader šaltinio laukas negali būti tuščias.</string>
     <string name="shader_error_unsupported_characters">Shader šaltinyje yra nepalaikomų simbolių: %1$s. Naudokite tik ASCII GLSL šaltinį.</string>
-    <string name="shader_error_duplicate_parameter">Parametras \\"%1$s\\" deklaruojamas daugiau nei vieną kartą.</string>
+    <string name="shader_error_duplicate_parameter">Parametras \\\"%1$s\\\" deklaruojamas daugiau nei vieną kartą.</string>
     <string name="shader_error_blank_parameter_name">Parametrų pavadinimų laukas negali būti tuščias.</string>
-    <string name="shader_error_reserved_parameter_name">Parametras \\"%1$s\\" naudoja rezervuotą GPUI vaizdo pavadinimą.</string>
-    <string name="shader_error_invalid_parameter_name">Parametras \\"%1$s\\" turi būti galiojantis GLSL identifikatorius.</string>
-    <string name="shader_error_invalid_value_type">Parametras \\"%1$s\\" turi %2$s vertės tipą \\"%3$s\\", numatomas \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Parametras \\"%1$s\\" negali apibrėžti minimalios arba didžiausios būties reikšmių.</string>
-    <string name="shader_error_min_greater_than_max">Parametras \\"%1$s\\" yra mažesnis nei maks.</string>
-    <string name="shader_error_default_lower_than_min">Numatytasis parametras \\"%1$s\\" yra mažesnis nei min.</string>
-    <string name="shader_error_default_greater_than_max">Numatytasis parametras \\"%1$s\\" yra didesnis nei maks.</string>
-    <string name="shader_error_missing_input_texture">Shader turi deklaruoti \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader turi deklaruoti \\"varying vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Shader turi apibrėžti \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parametras \\\"%1$s\\\" naudoja rezervuotą GPUI vaizdo pavadinimą.</string>
+    <string name="shader_error_invalid_parameter_name">Parametras \\\"%1$s\\\" turi būti galiojantis GLSL identifikatorius.</string>
+    <string name="shader_error_invalid_value_type">Parametras \\\"%1$s\\\" turi %2$s vertės tipą \\\"%3$s\\\", numatomas \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Parametras \\\"%1$s\\\" negali apibrėžti minimalios arba didžiausios būties reikšmių.</string>
+    <string name="shader_error_min_greater_than_max">Parametras \\\"%1$s\\\" yra mažesnis nei maks.</string>
+    <string name="shader_error_default_lower_than_min">Numatytasis parametras \\\"%1$s\\\" yra mažesnis nei min.</string>
+    <string name="shader_error_default_greater_than_max">Numatytasis parametras \\\"%1$s\\\" yra didesnis nei maks.</string>
+    <string name="shader_error_missing_input_texture">Shader turi deklaruoti \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader turi deklaruoti \\\"varying vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Shader turi apibrėžti \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader turi įrašyti spalvą į gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage šešėliai nepalaikomi. Naudokite GPUImage negaliojančią pagrindinę () sutartį.</string>
-    <string name="shader_error_shadertoy_i_time">Animuota ShaderToy uniforma \\"iTime\\" nepalaikoma.</string>
-    <string name="shader_error_shadertoy_i_frame">Animuota ShaderToy uniforma \\"iFrame\\" nepalaikoma.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniforma \\"iResolution\\" nepalaikoma.</string>
+    <string name="shader_error_shadertoy_i_time">Animuota ShaderToy uniforma \\\"iTime\\\" nepalaikoma.</string>
+    <string name="shader_error_shadertoy_i_frame">Animuota ShaderToy uniforma \\\"iFrame\\\" nepalaikoma.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniforma \\\"iResolution\\\" nepalaikoma.</string>
     <string name="shader_error_shadertoy_i_channel">„ShaderToy iChannel“ tekstūros nepalaikomos.</string>
     <string name="shader_error_external_textures">Išorinės tekstūros nepalaikomos.</string>
     <string name="shader_error_external_texture_extensions">Išoriniai tekstūros plėtiniai nepalaikomi.</string>
     <string name="shader_error_libretro_parameters">Libretro šešėlių parametrai nepalaikomi.</string>
-    <string name="shader_error_extra_input_texture">Palaikoma tik viena įvesties tekstūra. Pašalinti \\"uniformą %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Parametras \\"%1$s\\" turi būti deklaruotas kaip \\"vienodas %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametras \\"%1$s\\" deklaruojamas kaip \\"vienodas %2$s %1$s;\\", numatomas \\"vienodas %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Palaikoma tik viena įvesties tekstūra. Pašalinti \\\"uniformą %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Parametras \\\"%1$s\\\" turi būti deklaruotas kaip \\\"vienodas %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametras \\\"%1$s\\\" deklaruojamas kaip \\\"vienodas %2$s %1$s;\\\", numatomas \\\"vienodas %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Shader failas tuščias.</string>
     <string name="shader_parse_error_not_itshader_json">Shader failas turi būti .itshader JSON objektas su versijos, pavadinimo ir šešėlio laukais.</string>
     <string name="shader_parse_error_invalid_json">Shader failas netinkamas JSON arba neatitinka .itshader formato.</string>
-    <string name="shader_parse_error_missing_field">Lauką \\"%1$s\\" būtina užpildyti.</string>
+    <string name="shader_parse_error_missing_field">Lauką \\\"%1$s\\\" būtina užpildyti.</string>
     <string name="shader_parse_error_missing_param_field">%1$s reikalingas.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" nepalaikomas. Palaikomi tipai: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s reikalingas \\"%2$s\\" parametrams.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" nepalaikomas. Palaikomi tipai: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s reikalingas \\\"%2$s\\\" parametrams.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s turi būti baigtinis skaičius.</string>
     <string name="shader_parse_error_integer_expected">%1$s turi būti sveikas skaičius.</string>
     <string name="shader_parse_error_bool_expected">%1$s turi būti teisinga arba klaidinga.</string>
@@ -3266,4 +3264,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf komentarai komentarai pašalinti švarus</string>
     <string name="neutral_variant">Neutralus variantas</string>
     <string name="error">Klaida</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
