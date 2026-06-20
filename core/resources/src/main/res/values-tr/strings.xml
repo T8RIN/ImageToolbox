@@ -2138,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Tüm belgeye gömülü görüntüleri gri tonlamaya dönüştürün</string>
     <string name="compress_pdf">PDF\'yi sıkıştır</string>
     <string name="compress_pdf_sub">Daha kolay paylaşım için belgenizin dosya boyutunu optimize edin</string>
-    <string name="repair_info">ImageToolbox dahili çapraz referans tablosunu yeniden oluşturur ve dosya yapısını sıfırdan yeniden oluşturur. Bu, \\"açılamayan\\" birçok dosyaya erişimi geri yükleyebilir</string>
+    <string name="repair_info">ImageToolbox dahili çapraz referans tablosunu yeniden oluşturur ve dosya yapısını sıfırdan yeniden oluşturur. Bu, \\\"açılamayan\\\" birçok dosyaya erişimi geri yükleyebilir</string>
     <string name="grayscale_info">Bu araç, tüm belge resimlerini gri tonlamaya dönüştürür. Dosya boyutunu yazdırmak ve küçültmek için en iyisi</string>
     <string name="metadata">Meta veriler</string>
     <string name="metadata_pdf_sub">Daha iyi gizlilik için belge özelliklerini düzenleyin</string>
@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">Gölgelendirici adı boş bırakılmamalıdır.</string>
     <string name="shader_error_blank_source">Gölgelendirici kaynağı boş olmamalıdır.</string>
     <string name="shader_error_unsupported_characters">Gölgelendirici kaynağı desteklenmeyen karakterler içeriyor: %1$s. Yalnızca ASCII GLSL kaynağını kullanın.</string>
-    <string name="shader_error_duplicate_parameter">\\"%1$s\\" parametresi birden fazla bildirildi.</string>
+    <string name="shader_error_duplicate_parameter">\\\"%1$s\\\" parametresi birden fazla bildirildi.</string>
     <string name="shader_error_blank_parameter_name">Parametre adları boş bırakılmamalıdır.</string>
-    <string name="shader_error_reserved_parameter_name">\\"%1$s\\" parametresi ayrılmış bir GPUImage adı kullanır.</string>
-    <string name="shader_error_invalid_parameter_name">\\"%1$s\\" parametresi geçerli bir GLSL tanımlayıcısı olmalıdır.</string>
-    <string name="shader_error_invalid_value_type">\\"%1$s\\" parametresi %2$s değer türüne sahip \\"%3$s\\", beklenen \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">\\"%1$s\\" parametresi bool değerleri için minimum veya maksimumu tanımlayamıyor.</string>
-    <string name="shader_error_min_greater_than_max">\\"%1$s\\" parametresinin minimum değeri maksimum değerinden büyük.</string>
-    <string name="shader_error_default_lower_than_min">\\"%1$s\\" parametresi varsayılanı minimumdan düşük.</string>
-    <string name="shader_error_default_greater_than_max">\\"%1$s\\" parametresi varsayılanı maks. değerden büyük.</string>
-    <string name="shader_error_missing_input_texture">Gölgelendiricinin \\"tek tip örnekleyici2D %1$s;\\" bildiriminde bulunması gerekir.</string>
-    <string name="shader_error_missing_texture_coordinate">Gölgelendiricinin \\"değişen vec2 %1$s;\\" bildiriminde bulunması gerekir.</string>
-    <string name="shader_error_missing_main_function">Gölgelendiricinin \\"void main()\\" tanımlaması gerekir.</string>
+    <string name="shader_error_reserved_parameter_name">\\\"%1$s\\\" parametresi ayrılmış bir GPUImage adı kullanır.</string>
+    <string name="shader_error_invalid_parameter_name">\\\"%1$s\\\" parametresi geçerli bir GLSL tanımlayıcısı olmalıdır.</string>
+    <string name="shader_error_invalid_value_type">\\\"%1$s\\\" parametresi %2$s değer türüne sahip \\\"%3$s\\\", beklenen \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">\\\"%1$s\\\" parametresi bool değerleri için minimum veya maksimumu tanımlayamıyor.</string>
+    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" parametresinin minimum değeri maksimum değerinden büyük.</string>
+    <string name="shader_error_default_lower_than_min">\\\"%1$s\\\" parametresi varsayılanı minimumdan düşük.</string>
+    <string name="shader_error_default_greater_than_max">\\\"%1$s\\\" parametresi varsayılanı maks. değerden büyük.</string>
+    <string name="shader_error_missing_input_texture">Gölgelendiricinin \\\"tek tip örnekleyici2D %1$s;\\\" bildiriminde bulunması gerekir.</string>
+    <string name="shader_error_missing_texture_coordinate">Gölgelendiricinin \\\"değişen vec2 %1$s;\\\" bildiriminde bulunması gerekir.</string>
+    <string name="shader_error_missing_main_function">Gölgelendiricinin \\\"void main()\\\" tanımlaması gerekir.</string>
     <string name="shader_error_missing_fragment_color">Shader\'ın gl_FragColor\'a bir renk yazması gerekir.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage gölgelendiricileri desteklenmez. GPUImage\'ın void main() sözleşmesini kullanın.</string>
-    <string name="shader_error_shadertoy_i_time">Animasyonlu ShaderToy üniforması \\"iTime\\" desteklenmiyor.</string>
-    <string name="shader_error_shadertoy_i_frame">Animasyonlu ShaderToy üniforması \\"iFrame\\" desteklenmiyor.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy üniforması \\"iResolution\\" desteklenmiyor.</string>
+    <string name="shader_error_shadertoy_i_time">Animasyonlu ShaderToy üniforması \\\"iTime\\\" desteklenmiyor.</string>
+    <string name="shader_error_shadertoy_i_frame">Animasyonlu ShaderToy üniforması \\\"iFrame\\\" desteklenmiyor.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy üniforması \\\"iResolution\\\" desteklenmiyor.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel dokuları desteklenmez.</string>
     <string name="shader_error_external_textures">Dış dokular desteklenmez.</string>
     <string name="shader_error_external_texture_extensions">Harici doku uzantıları desteklenmez.</string>
     <string name="shader_error_libretro_parameters">Libretro gölgelendirici parametreleri desteklenmez.</string>
-    <string name="shader_error_extra_input_texture">Yalnızca bir giriş dokusu desteklenir. \\"üniforma %1$s %2$s;\\" öğesini kaldırın.</string>
-    <string name="shader_error_missing_uniform">\\"%1$s\\" parametresi \\"üniform %2$s %1$s;\\" olarak bildirilmelidir.</string>
-    <string name="shader_error_wrong_uniform_type">\\"%1$s\\" parametresi \\"tekdüze %2$s %1$s;\\" olarak bildirildi, beklenen \\"tekdüze %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Yalnızca bir giriş dokusu desteklenir. \\\"üniforma %1$s %2$s;\\\" öğesini kaldırın.</string>
+    <string name="shader_error_missing_uniform">\\\"%1$s\\\" parametresi \\\"üniform %2$s %1$s;\\\" olarak bildirilmelidir.</string>
+    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" parametresi \\\"tekdüze %2$s %1$s;\\\" olarak bildirildi, beklenen \\\"tekdüze %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Gölgelendirici dosyası boş.</string>
     <string name="shader_parse_error_not_itshader_json">Gölgelendirici dosyası, sürüm, ad ve gölgelendirici alanlarını içeren bir .itshader JSON nesnesi olmalıdır.</string>
     <string name="shader_parse_error_invalid_json">Gölgelendirici dosyası geçerli bir JSON değil veya .itshader biçimiyle eşleşmiyor.</string>
-    <string name="shader_parse_error_missing_field">\\"%1$s\\" alanı gereklidir.</string>
+    <string name="shader_parse_error_missing_field">\\\"%1$s\\\" alanı gereklidir.</string>
     <string name="shader_parse_error_missing_param_field">%1$s gerekli.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" desteklenmiyor. Desteklenen türler: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" parametreleri için %1$s gereklidir.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" desteklenmiyor. Desteklenen türler: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" parametreleri için %1$s gereklidir.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s sonlu bir sayı olmalıdır.</string>
     <string name="shader_parse_error_integer_expected">%1$s bir tamsayı olmalıdır.</string>
     <string name="shader_parse_error_bool_expected">%1$s doğru veya yanlış olmalıdır.</string>
@@ -3262,4 +3262,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf ek açıklamalar yorumlar kaldır temiz</string>
     <string name="neutral_variant">Nötr Varyant</string>
     <string name="error">Hata</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
