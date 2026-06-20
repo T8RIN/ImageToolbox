@@ -236,6 +236,119 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.RemoveAnnotations -> "PdfTools_RemoveAnnotations"
 }
 
+fun Screen.matchesSearchQuery(
+    query: String,
+    title: String,
+    subtitle: String,
+    englishTitle: String,
+    englishSubtitle: String
+): Boolean {
+    val trimmedQuery = query.trim()
+    if (trimmedQuery.isEmpty()) return true
+
+    val searchableText = listOf(
+        title,
+        subtitle,
+        englishTitle,
+        englishSubtitle,
+        simpleName.replace("_", " "),
+        searchKeywords()
+    ).joinToString(separator = " ")
+
+    val queryWords = trimmedQuery.split(Regex("\\s+"))
+
+    return searchableText.contains(
+        other = trimmedQuery,
+        ignoreCase = true
+    ) || queryWords.all { word ->
+        searchableText.contains(
+            other = word,
+            ignoreCase = true
+        )
+    }
+}
+
+private fun Screen.searchKeywords(): String = when (this) {
+    is SingleEdit -> "editor edit photo picture retouch adjust"
+    is ResizeAndConvert -> "resize convert scale resolution dimensions width height jpg jpeg png webp compress"
+    is WeightResize -> "compress size weight bytes mb kb reduce quality optimize"
+    is Crop -> "crop trim cut aspect ratio"
+    is Filter -> "filter effect color correction adjust lut mask"
+    is Draw -> "draw paint brush pencil annotate markup"
+    is Cipher -> "cipher encrypt decrypt password secret"
+    is EraseBackground -> "background remover erase remove cutout transparent alpha"
+    is ImagePreview -> "preview viewer gallery inspect open"
+    is ImageStitching -> "stitch merge combine panorama long screenshot"
+    is LoadNetImage -> "url web download internet link image"
+    is PickColorFromImage -> "picker eyedropper sample hex rgb color"
+    is PaletteTools -> "palette colors swatches extract dominant"
+    is DeleteExif -> "exif metadata privacy remove strip clean gps location"
+    is Compare -> "compare diff difference before after"
+    is LimitResize -> "limit resize max min megapixels dimensions clamp"
+    is PdfTools -> "pdf document pages tools"
+    is RecognizeText -> "ocr text recognize extract scan"
+    is GradientMaker -> "gradient background color mesh"
+    is Watermarking -> "watermark logo text stamp overlay"
+    is GifTools -> "gif animation animated convert frames"
+    is ApngTools -> "apng animation animated png convert frames"
+    is Zip -> "zip archive compress pack unpack files"
+    is JxlTools -> "jxl jpeg xl convert jpg image format"
+    is SvgMaker -> "svg vector trace convert xml"
+    is FormatConversion -> "format convert jpg jpeg png webp heic avif jxl bmp"
+    is DocumentScanner -> "document scanner scan paper perspective crop"
+    is ScanQrCode -> "qr barcode code scanner scan"
+    is ImageStacking -> "stacking overlay average median astrophotography"
+    is ImageSplitting -> "split tiles grid slice parts"
+    is ColorTools -> "color convert hex rgb hsl hsv cmyk lab"
+    is WebpTools -> "webp convert animated image format"
+    is NoiseGeneration -> "noise generator random texture grain"
+    is CollageMaker -> "collage grid layout combine"
+    is MarkupLayers -> "markup layers annotate overlay edit"
+    is Base64Tools -> "base64 encode decode data uri"
+    is ChecksumTools -> "checksum hash md5 sha sha1 sha256 verify"
+    is MeshGradients -> "mesh gradient background"
+    is EditExif -> "exif metadata edit gps date camera"
+    is ImageCutter -> "cut split grid pieces tiles"
+    is AudioCoverExtractor -> "audio cover album art music metadata"
+    is WallpapersExport -> "wallpaper export background"
+    is AsciiArt -> "ascii text art characters"
+    is AiTools -> "ai ml neural enhance upscale segment"
+    is ColorLibrary -> "color library material palette named colors"
+    is ShaderStudio -> "shader glsl fragment effect studio"
+    is PdfTools.Merge -> "pdf merge combine join"
+    is PdfTools.Split -> "pdf split separate pages"
+    is PdfTools.Rotate -> "pdf rotate pages orientation"
+    is PdfTools.Rearrange -> "pdf rearrange reorder pages sort"
+    is PdfTools.PageNumbers -> "pdf page numbers pagination"
+    is PdfTools.OCR -> "pdf ocr text recognize searchable extract"
+    is PdfTools.Watermark -> "pdf watermark stamp logo text"
+    is PdfTools.Signature -> "pdf signature sign draw"
+    is PdfTools.Protect -> "pdf protect password encrypt lock"
+    is PdfTools.Unlock -> "pdf unlock password decrypt remove protection"
+    is PdfTools.Compress -> "pdf compress reduce size optimize"
+    is PdfTools.Grayscale -> "pdf grayscale black white monochrome"
+    is PdfTools.Repair -> "pdf repair fix recover broken"
+    is PdfTools.Metadata -> "pdf metadata properties exif author title"
+    is PdfTools.RemovePages -> "pdf remove delete pages"
+    is PdfTools.Crop -> "pdf crop trim margins"
+    is PdfTools.Flatten -> "pdf flatten annotations forms layers"
+    is PdfTools.ExtractImages -> "pdf extract images pictures"
+    is PdfTools.ZipConvert -> "pdf zip archive compress"
+    is PdfTools.Print -> "pdf print printer"
+    is PdfTools.Preview -> "pdf preview viewer read"
+    is PdfTools.ImagesToPdf -> "images to pdf convert jpg jpeg png document"
+    is PdfTools.ExtractPages -> "pdf to images pages export jpg png"
+    is PdfTools.RemoveAnnotations -> "pdf annotations comments remove clean"
+    is EasterEgg,
+    is Main,
+    is Settings,
+    is AppLogs,
+    is LibrariesInfo,
+    is LibraryDetails,
+    is Help,
+    is UsageStatistics -> ""
+}
+
 internal fun Screen.icon(): ImageVector? = when (this) {
     is EasterEgg,
     is Main,

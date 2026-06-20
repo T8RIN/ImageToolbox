@@ -261,6 +261,11 @@ object ContextUtils {
         Configuration(resources.configuration).apply { setLocale(locale) }
     ).getText(resId).toString()
 
+    fun Context.getStringEnglish(
+        @StringRes
+        resId: Int
+    ): String = getStringLocalized(resId, Locale.ENGLISH)
+
     fun Context.pasteColorFromClipboard(
         onPastedColor: (Color) -> Unit,
         onPastedColorFailure: (String) -> Unit,

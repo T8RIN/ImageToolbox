@@ -78,8 +78,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringEnglish
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.matchesSearchQuery
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -94,7 +95,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.utils.screenList
-import java.util.Locale
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 fun ProcessImagesPreferenceSheet(
@@ -104,8 +105,6 @@ fun ProcessImagesPreferenceSheet(
     onDismiss: () -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
-    val resourceManager = LocalResourceManager.current
-
     var isSearching by rememberSaveable {
         mutableStateOf(false)
     }
@@ -119,19 +118,12 @@ fun ProcessImagesPreferenceSheet(
         derivedStateOf {
             if (searchKeyword.isNotBlank()) {
                 (rawScreenList + hiddenScreenList).filter {
-                    val string =
-                        resourceManager.getString(it.title) + " " + resourceManager.getString(it.subtitle)
-                    val stringEn =
-                        resourceManager.getStringLocalized(it.title, Locale.ENGLISH.language)
-                            .plus(" ")
-                            .plus(
-                                resourceManager.getStringLocalized(
-                                    it.subtitle,
-                                    Locale.ENGLISH.language
-                                )
-                            )
-                    stringEn.contains(other = searchKeyword, ignoreCase = true).or(
-                        string.contains(other = searchKeyword, ignoreCase = true)
+                    it.matchesSearchQuery(
+                        query = searchKeyword,
+                        title = appContext.getString(it.title),
+                        subtitle = appContext.getString(it.subtitle),
+                        englishTitle = appContext.getStringEnglish(it.title),
+                        englishSubtitle = appContext.getStringEnglish(it.subtitle)
                     )
                 }
             } else {

@@ -23,10 +23,10 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringEnglish
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.matchesSearchQuery
 import com.t8rin.imagetoolbox.core.utils.appContext
-import java.util.Locale
 
 @Composable
 internal fun filteredScreenListFor(
@@ -97,13 +97,12 @@ internal fun filteredScreenListFor(
             }.let { screens ->
                 if (screenSearchKeyword.isNotEmpty() && canSearchScreens) {
                     screens.filter {
-                        val string =
-                            appContext.getString(it.title) + " " + appContext.getString(it.subtitle)
-                        val stringEn = appContext.getStringLocalized(it.title, Locale.ENGLISH)
-                            .plus(" ")
-                            .plus(appContext.getStringLocalized(it.subtitle, Locale.ENGLISH))
-                        stringEn.contains(other = screenSearchKeyword, ignoreCase = true).or(
-                            string.contains(other = screenSearchKeyword, ignoreCase = true)
+                        it.matchesSearchQuery(
+                            query = screenSearchKeyword,
+                            title = appContext.getString(it.title),
+                            subtitle = appContext.getString(it.subtitle),
+                            englishTitle = appContext.getStringEnglish(it.title),
+                            englishSubtitle = appContext.getStringEnglish(it.subtitle)
                         )
                     }
                 } else screens
