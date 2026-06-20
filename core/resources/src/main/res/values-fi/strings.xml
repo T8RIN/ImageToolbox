@@ -1121,7 +1121,7 @@
     <string name="delete_template_warn">Olet poistamassa valitun mallisuodattimen. Tätä toimintoa ei voi kumota</string>
     <string name="added_filter_template">Lisätty suodatinmalli, jonka nimi on \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Suodattimen esikatselu</string>
-    <string name="qr_code">QR &amp;amp; Viivakoodi</string>
+    <string name="qr_code">QR &amp; Viivakoodi</string>
     <string name="qr_code_sub">Skannaa QR-koodi ja hae sen sisältö tai liitä merkkijonosi luodaksesi uuden koodin</string>
     <string name="code_content">Koodin sisältö</string>
     <string name="scan_qr_code_to_replace_content">Skannaa mikä tahansa viivakoodi korvataksesi kentän sisällön tai kirjoita jotain luodaksesi uuden viivakoodin valitulla tyypillä</string>
