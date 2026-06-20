@@ -38,4 +38,6 @@ interface AppHistoryRepository {
         savedFormat: String
     )
 
+    suspend fun resetUsageStatistics()
+
 }

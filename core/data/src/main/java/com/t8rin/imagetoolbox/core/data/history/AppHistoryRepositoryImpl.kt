@@ -179,6 +179,17 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun resetUsageStatistics() {
+        dataStore.edit { preferences ->
+            preferences.remove(LAST_USED_TOOLS)
+            preferences.remove(SUCCESSFUL_SAVES_COUNT)
+            preferences.remove(SAVED_BYTES)
+            preferences.remove(LAST_ACTIVITY_DAY_EPOCH)
+            preferences.remove(CURRENT_ACTIVITY_STREAK)
+            preferences.remove(SAVED_FORMAT_COUNTERS)
+        }
+    }
+
 }
 
 private data class LastUsedTools(

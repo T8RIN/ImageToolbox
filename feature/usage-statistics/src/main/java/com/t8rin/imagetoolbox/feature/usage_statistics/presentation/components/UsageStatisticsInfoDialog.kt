@@ -17,29 +17,48 @@
 
 package com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.FinanceMode
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 
 @Composable
 fun UsageStatisticsInfoDialog(
     visible: Boolean,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onWantReset: () -> Unit
 ) {
     EnhancedAlertDialog(
         visible = visible,
         onDismissRequest = onDismiss,
         confirmButton = {
-            EnhancedButton(
-                onClick = onDismiss
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(stringResource(R.string.close))
+                EnhancedIconButton(
+                    onClick = onWantReset,
+                    containerColor = MaterialTheme.colorScheme.errorContainer
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.DeleteSweep,
+                        contentDescription = stringResource(R.string.reset_usage_statistics)
+                    )
+                }
+                EnhancedButton(
+                    onClick = onDismiss
+                ) {
+                    Text(stringResource(R.string.close))
+                }
             }
         },
         icon = {

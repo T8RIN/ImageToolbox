@@ -3201,6 +3201,8 @@
     <string name="no_usage_statistics">Статистики использования пока нет</string>
     <string name="no_usage_statistics_sub">Откройте несколько инструментов, и они появятся здесь автоматически.</string>
     <string name="usage_statistics_info">Статистика использования хранится только локально на вашем устройстве. ImageToolbox использует их только для отображения вашей личной активности, любимых инструментов и сохраненных данных.</string>
+    <string name="reset_usage_statistics">Сбросить статистику использования</string>
+    <string name="reset_usage_statistics_sub">Открытия инструментов, статистика сохранений, серия активности, сохраненные данные и топ формат будут сброшены. Количество открытий приложения не изменится.</string>
     <string name="search_keywords_single_edit">редактор редактировать фотографию ретушь изображения настроить</string>
     <string name="search_keywords_resize_and_convert">изменить размер конвертировать масштаб разрешение размеры ширина высота jpg jpeg png webp сжатие</string>
     <string name="search_keywords_weight_resize">сжать размер вес байты мб КБ уменьшить качество оптимизировать</string>

@@ -38,7 +38,7 @@ class UsageStatisticsComponent @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
-    appHistoryRepository: AppHistoryRepository,
+    private val appHistoryRepository: AppHistoryRepository,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -81,6 +81,12 @@ class UsageStatisticsComponent @AssistedInject constructor(
         }
 
         return format?.title ?: uppercase()
+    }
+
+    fun resetUsageStatistics() {
+        componentScope.launch {
+            appHistoryRepository.resetUsageStatistics()
+        }
     }
 
     @AssistedFactory

@@ -37,7 +37,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
+import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.Info
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -55,6 +57,9 @@ fun UsageStatisticsContent(
     val state by component.state.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     var showInfoDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var showResetDialog by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -106,6 +111,22 @@ fun UsageStatisticsContent(
 
     UsageStatisticsInfoDialog(
         visible = showInfoDialog,
-        onDismiss = { showInfoDialog = false }
+        onDismiss = { showInfoDialog = false },
+        onWantReset = {
+            showResetDialog = true
+        }
+    )
+
+    ResetDialog(
+        visible = showResetDialog,
+        onDismiss = { showResetDialog = false },
+        onReset = {
+            showInfoDialog = false
+            showResetDialog = false
+            component.resetUsageStatistics()
+        },
+        title = stringResource(R.string.reset_usage_statistics),
+        text = stringResource(R.string.reset_usage_statistics_sub),
+        icon = Icons.Outlined.DeleteSweep
     )
 }
