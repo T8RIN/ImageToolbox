@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -343,8 +341,7 @@
     <string name="features_sub">Lösenordsbaserad kryptering av filer. Fortsatta filer kan lagras i den valda katalogen eller delas. Dekrypterade filer kan också öppnas direkt.</string>
     <string name="implementation_sub">AES-256, GCM-läge, ingen utfyllnad, 12 bytes slumpmässiga IVs som standard. Du kan välja den algoritm som behövs. Nycklar används som 256-bitars SHA-3-hashar</string>
     <string name="file_size">Fil-storlek</string>
-    <string name="file_size_sub">Den maximala filstorleken begränsas av Android OS och tillgängligt minne, vilket är enhetsberoende.
-\nObservera: minnet är inte lagringsutrymme.</string>
+    <string name="file_size_sub">Den maximala filstorleken begränsas av Android OS och tillgängligt minne, vilket är enhetsberoende. \nObservera: minnet är inte lagringsutrymme.</string>
     <string name="compatibility_sub">Observera att kompatibilitet med annan filkrypteringsmjukvara eller tjänster inte garanteras. En något annorlunda nyckelbehandling eller chifferkonfiguration kan orsaka inkompatibilitet.</string>
     <string name="invalid_password_or_not_encrypted">Ogiltigt lösenord eller vald fil är inte krypterad</string>
     <string name="image_size_warning">Om du försöker spara bilden med den angivna bredden och höjden kan det leda till att minnet är slut. Gör detta på egen risk.</string>
@@ -649,7 +646,7 @@
     <string name="segmentation_mode_circle_word">Ringa in ord</string>
     <string name="segmentation_mode_single_char">Enstaka röding</string>
     <string name="segmentation_mode_sparse_text">Sparsam text</string>
-    <string name="segmentation_mode_sparse_text_osd">Gles textorientering &amp;amp; skriptdetektion</string>
+    <string name="segmentation_mode_sparse_text_osd">Gles textorientering &amp; skriptdetektion</string>
     <string name="segmentation_mode_raw_line">Rå linje</string>
     <string name="delete_language_sub">Vill du radera språket \"%1$s\" OCR-träningsdata för alla igenkänningstyper, eller bara för den valda (%2$s)?</string>
     <string name="current">Nuvarande</string>
@@ -962,7 +959,7 @@
     <string name="engine_mode">Motorläge</string>
     <string name="legacy">Arv</string>
     <string name="lstm_network">LSTM-nätverk</string>
-    <string name="legacy_and_lstm">Legacy &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
     <string name="convert">Konvertera</string>
     <string name="convert_sub">Konvertera bildsatser till givet format</string>
     <string name="add_new_folder">Lägg till ny mapp</string>
@@ -1179,7 +1176,7 @@
     <string name="delete_template_warn">Du håller på att ta bort valt mallfilter. Denna operation kan inte ångras</string>
     <string name="added_filter_template">Lade till filtermall med namnet \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Förhandsgranska filter</string>
-    <string name="qr_code">QR &amp;amp; streckkod</string>
+    <string name="qr_code">QR &amp; streckkod</string>
     <string name="qr_code_sub">Skanna QR-koden och få dess innehåll eller klistra in din sträng för att skapa en ny</string>
     <string name="code_content">Kodinnehåll</string>
     <string name="scan_qr_code_to_replace_content">Skanna valfri streckkod för att ersätta innehållet i fältet, eller skriv något för att generera ny streckkod med vald typ</string>
@@ -2141,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Konvertera alla dokumentinbäddade bilder till gråskala</string>
     <string name="compress_pdf">Komprimera PDF</string>
     <string name="compress_pdf_sub">Optimera din dokumentfilstorlek för enklare delning</string>
-    <string name="repair_info">ImageToolbox bygger om den interna korsreferenstabellen och regenererar filstrukturen från början. Detta kan återställa åtkomst till många filer som \\"inte kan öppnas\\"</string>
+    <string name="repair_info">ImageToolbox bygger om den interna korsreferenstabellen och regenererar filstrukturen från början. Detta kan återställa åtkomst till många filer som \\\"inte kan öppnas\\\"</string>
     <string name="grayscale_info">Detta verktyg konverterar alla dokumentbilder till gråskala. Bäst för att skriva ut och minska filstorleken</string>
     <string name="metadata">Metadata</string>
     <string name="metadata_pdf_sub">Redigera dokumentegenskaper för bättre sekretess</string>
@@ -2359,37 +2356,37 @@
     <string name="shader_error_blank_name">Shadernamn får inte vara tomt.</string>
     <string name="shader_error_blank_source">Shader-källa får inte vara tom.</string>
     <string name="shader_error_unsupported_characters">Shader-källan innehåller tecken som inte stöds: %1$s. Använd endast ASCII GLSL-källa.</string>
-    <string name="shader_error_duplicate_parameter">Parametern \\"%1$s\\" deklareras mer än en gång.</string>
+    <string name="shader_error_duplicate_parameter">Parametern \\\"%1$s\\\" deklareras mer än en gång.</string>
     <string name="shader_error_blank_parameter_name">Parameternamn får inte vara tomma.</string>
-    <string name="shader_error_reserved_parameter_name">Parametern \\"%1$s\\" använder ett reserverat GPUIimage-namn.</string>
-    <string name="shader_error_invalid_parameter_name">Parametern \\"%1$s\\" måste vara en giltig GLSL-identifierare.</string>
-    <string name="shader_error_invalid_value_type">Parametern \\"%1$s\\" har %2$s värdetypen \\"%3$s\\", förväntad \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Parametern \\"%1$s\\" kan inte definiera min eller max för boolvärden.</string>
-    <string name="shader_error_min_greater_than_max">Parametern \\"%1$s\\" har min större än max.</string>
-    <string name="shader_error_default_lower_than_min">Parameter \\"%1$s\\" standard är lägre än min.</string>
-    <string name="shader_error_default_greater_than_max">Parametern \\"%1$s\\" standard är större än max.</string>
-    <string name="shader_error_missing_input_texture">Shader måste deklarera \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader måste deklarera \\"varierande vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Shader måste definiera \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parametern \\\"%1$s\\\" använder ett reserverat GPUIimage-namn.</string>
+    <string name="shader_error_invalid_parameter_name">Parametern \\\"%1$s\\\" måste vara en giltig GLSL-identifierare.</string>
+    <string name="shader_error_invalid_value_type">Parametern \\\"%1$s\\\" har %2$s värdetypen \\\"%3$s\\\", förväntad \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Parametern \\\"%1$s\\\" kan inte definiera min eller max för boolvärden.</string>
+    <string name="shader_error_min_greater_than_max">Parametern \\\"%1$s\\\" har min större än max.</string>
+    <string name="shader_error_default_lower_than_min">Parameter \\\"%1$s\\\" standard är lägre än min.</string>
+    <string name="shader_error_default_greater_than_max">Parametern \\\"%1$s\\\" standard är större än max.</string>
+    <string name="shader_error_missing_input_texture">Shader måste deklarera \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader måste deklarera \\\"varierande vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Shader måste definiera \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader måste skriva en färg till gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders stöds inte. Använd GPUImages void main()-kontrakt.</string>
-    <string name="shader_error_shadertoy_i_time">Animerad ShaderToy-uniform \\"iTime\\" stöds inte.</string>
-    <string name="shader_error_shadertoy_i_frame">Animerad ShaderToy-uniform \\"iFrame\\" stöds inte.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \\"iResolution\\" stöds inte.</string>
+    <string name="shader_error_shadertoy_i_time">Animerad ShaderToy-uniform \\\"iTime\\\" stöds inte.</string>
+    <string name="shader_error_shadertoy_i_frame">Animerad ShaderToy-uniform \\\"iFrame\\\" stöds inte.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \\\"iResolution\\\" stöds inte.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel-texturer stöds inte.</string>
     <string name="shader_error_external_textures">Externa texturer stöds inte.</string>
     <string name="shader_error_external_texture_extensions">Externa texturtillägg stöds inte.</string>
     <string name="shader_error_libretro_parameters">Libretro-skuggningsparametrar stöds inte.</string>
-    <string name="shader_error_extra_input_texture">Endast en inmatningstextur stöds. Ta bort \\"uniform %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Parametern \\"%1$s\\" måste deklareras som \\"uniform %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametern \\"%1$s\\" deklareras som \\"uniform %2$s %1$s;\\", förväntad \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Endast en inmatningstextur stöds. Ta bort \\\"uniform %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Parametern \\\"%1$s\\\" måste deklareras som \\\"uniform %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametern \\\"%1$s\\\" deklareras som \\\"uniform %2$s %1$s;\\\", förväntad \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Shader-filen är tom.</string>
     <string name="shader_parse_error_not_itshader_json">Shader-filen måste vara ett .itshader JSON-objekt med version, namn och shader-fält.</string>
     <string name="shader_parse_error_invalid_json">Shader-filen är inte giltig JSON eller matchar inte .itshader-formatet.</string>
-    <string name="shader_parse_error_missing_field">Fält \\"%1$s\\" är obligatoriskt.</string>
+    <string name="shader_parse_error_missing_field">Fält \\\"%1$s\\\" är obligatoriskt.</string>
     <string name="shader_parse_error_missing_param_field">%1$s krävs.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" stöds inte. Typer som stöds: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s krävs för parametrarna \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" stöds inte. Typer som stöds: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s krävs för parametrarna \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s måste vara ett ändligt tal.</string>
     <string name="shader_parse_error_integer_expected">%1$s måste vara ett heltal.</string>
     <string name="shader_parse_error_bool_expected">%1$s måste vara sant eller falskt.</string>
@@ -2403,7 +2400,7 @@
     <string name="duplicate">Duplicera</string>
     <string name="always_clear_exif">Rensa alltid EXIF</string>
     <string name="always_clear_exif_sub">Ta bort bild EXIF-data vid lagring, även när ett verktyg begär att behålla metadata</string>
-    <string name="help_tips">Hjälp &amp;amp; Tips</string>
+    <string name="help_tips">Hjälp &amp; Tips</string>
     <string name="tutorials_count">%1$d självstudier</string>
     <string name="open_tool">Öppna verktyget</string>
     <string name="help_tips_settings_sub">Lär dig de viktigaste verktygen, exportalternativ, PDF-flöden, färgverktyg och korrigeringar för vanliga problem</string>
@@ -3265,4 +3262,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf-anteckningar kommentarer ta bort ren</string>
     <string name="neutral_variant">Neutral variant</string>
     <string name="error">Fel</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
