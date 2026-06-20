@@ -904,7 +904,7 @@
     <string name="engine_mode">ఇంజిన్ మోడ్</string>
     <string name="legacy">వారసత్వం</string>
     <string name="lstm_network">LSTM నెట్‌వర్క్</string>
-    <string name="legacy_and_lstm">లెగసీ &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">లెగసీ &amp; LSTM</string>
     <string name="convert">మార్చు</string>
     <string name="convert_sub">ఇమేజ్ బ్యాచ్‌లను ఇచ్చిన ఆకృతికి మార్చండి</string>
     <string name="add_new_folder">కొత్త ఫోల్డర్‌ని జోడించండి</string>
@@ -2138,7 +2138,7 @@
     <string name="grayscale_pdf_sub">అన్ని డాక్యుమెంట్ ఎంబెడెడ్ ఇమేజ్‌లను గ్రేస్కేల్‌కి మార్చండి</string>
     <string name="compress_pdf">PDFని కుదించుము</string>
     <string name="compress_pdf_sub">సులభంగా భాగస్వామ్యం చేయడానికి మీ డాక్యుమెంట్ ఫైల్ పరిమాణాన్ని ఆప్టిమైజ్ చేయండి</string>
-    <string name="repair_info">ImageToolbox అంతర్గత క్రాస్-రిఫరెన్స్ పట్టికను పునర్నిర్మిస్తుంది మరియు మొదటి నుండి ఫైల్ నిర్మాణాన్ని పునరుత్పత్తి చేస్తుంది. ఇది \\"తెరవలేని\\" అనేక ఫైల్‌లకు యాక్సెస్‌ని పునరుద్ధరించగలదు</string>
+    <string name="repair_info">ImageToolbox అంతర్గత క్రాస్-రిఫరెన్స్ పట్టికను పునర్నిర్మిస్తుంది మరియు మొదటి నుండి ఫైల్ నిర్మాణాన్ని పునరుత్పత్తి చేస్తుంది. ఇది \\\"తెరవలేని\\\" అనేక ఫైల్‌లకు యాక్సెస్‌ని పునరుద్ధరించగలదు</string>
     <string name="grayscale_info">ఈ సాధనం అన్ని డాక్యుమెంట్ చిత్రాలను గ్రేస్కేల్‌కి మారుస్తుంది. ఫైల్ పరిమాణాన్ని ముద్రించడానికి మరియు తగ్గించడానికి ఉత్తమమైనది</string>
     <string name="metadata">మెటాడేటా</string>
     <string name="metadata_pdf_sub">మెరుగైన గోప్యత కోసం డాక్యుమెంట్ ప్రాపర్టీలను సవరించండి</string>
@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">షేడర్ పేరు తప్పనిసరిగా ఖాళీగా ఉండకూడదు.</string>
     <string name="shader_error_blank_source">షేడర్ మూలం ఖాళీగా ఉండకూడదు.</string>
     <string name="shader_error_unsupported_characters">షేడర్ మూలం మద్దతు లేని అక్షరాలను కలిగి ఉంది: %1$s. ASCII GLSL మూలాన్ని మాత్రమే ఉపయోగించండి.</string>
-    <string name="shader_error_duplicate_parameter">పరామితి \\"%1$s\\" ఒకటి కంటే ఎక్కువసార్లు ప్రకటించబడింది.</string>
+    <string name="shader_error_duplicate_parameter">పరామితి \\\"%1$s\\\" ఒకటి కంటే ఎక్కువసార్లు ప్రకటించబడింది.</string>
     <string name="shader_error_blank_parameter_name">పారామీటర్ పేర్లు ఖాళీగా ఉండకూడదు.</string>
-    <string name="shader_error_reserved_parameter_name">పరామితి \\"%1$s\\" రిజర్వు చేయబడిన GPUImage పేరును ఉపయోగిస్తుంది.</string>
-    <string name="shader_error_invalid_parameter_name">పరామితి \\"%1$s\\" తప్పనిసరిగా చెల్లుబాటు అయ్యే GLSL ఐడెంటిఫైయర్ అయి ఉండాలి.</string>
-    <string name="shader_error_invalid_value_type">పరామితి \\"%1$s\\" %2$s విలువ రకాన్ని కలిగి ఉంది \\"%3$s\\", ఊహించిన \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">పారామీటర్ \\"%1$s\\" బూల్ విలువల కోసం నిమి లేదా గరిష్టాన్ని నిర్వచించలేదు.</string>
-    <string name="shader_error_min_greater_than_max">\\"%1$s\\" పరామితి గరిష్టం కంటే నిమి ఎక్కువ.</string>
-    <string name="shader_error_default_lower_than_min">పరామితి \\"%1$s\\" డిఫాల్ట్ నిమి కంటే తక్కువగా ఉంది.</string>
-    <string name="shader_error_default_greater_than_max">పరామితి \\"%1$s\\" డిఫాల్ట్ గరిష్టం కంటే ఎక్కువ.</string>
-    <string name="shader_error_missing_input_texture">షేడర్ తప్పనిసరిగా \\"యూనిఫాం నమూనా2D %1$s;\\"ని ప్రకటించాలి.</string>
-    <string name="shader_error_missing_texture_coordinate">షేడర్ తప్పనిసరిగా \\"వైవిధ్యమైన vec2 %1$s;\\"ని ప్రకటించాలి.</string>
-    <string name="shader_error_missing_main_function">షేడర్ తప్పనిసరిగా \\"శూన్యం ప్రధాన()\\"ను నిర్వచించాలి.</string>
+    <string name="shader_error_reserved_parameter_name">పరామితి \\\"%1$s\\\" రిజర్వు చేయబడిన GPUImage పేరును ఉపయోగిస్తుంది.</string>
+    <string name="shader_error_invalid_parameter_name">పరామితి \\\"%1$s\\\" తప్పనిసరిగా చెల్లుబాటు అయ్యే GLSL ఐడెంటిఫైయర్ అయి ఉండాలి.</string>
+    <string name="shader_error_invalid_value_type">పరామితి \\\"%1$s\\\" %2$s విలువ రకాన్ని కలిగి ఉంది \\\"%3$s\\\", ఊహించిన \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">పారామీటర్ \\\"%1$s\\\" బూల్ విలువల కోసం నిమి లేదా గరిష్టాన్ని నిర్వచించలేదు.</string>
+    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" పరామితి గరిష్టం కంటే నిమి ఎక్కువ.</string>
+    <string name="shader_error_default_lower_than_min">పరామితి \\\"%1$s\\\" డిఫాల్ట్ నిమి కంటే తక్కువగా ఉంది.</string>
+    <string name="shader_error_default_greater_than_max">పరామితి \\\"%1$s\\\" డిఫాల్ట్ గరిష్టం కంటే ఎక్కువ.</string>
+    <string name="shader_error_missing_input_texture">షేడర్ తప్పనిసరిగా \\\"యూనిఫాం నమూనా2D %1$s;\\\"ని ప్రకటించాలి.</string>
+    <string name="shader_error_missing_texture_coordinate">షేడర్ తప్పనిసరిగా \\\"వైవిధ్యమైన vec2 %1$s;\\\"ని ప్రకటించాలి.</string>
+    <string name="shader_error_missing_main_function">షేడర్ తప్పనిసరిగా \\\"శూన్యం ప్రధాన()\\\"ను నిర్వచించాలి.</string>
     <string name="shader_error_missing_fragment_color">షేడర్ తప్పనిసరిగా gl_FragColorకి రంగును వ్రాయాలి.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy మెయిన్‌ఇమేజ్ షేడర్‌లకు మద్దతు లేదు. GPUImage యొక్క శూన్యమైన ప్రధాన() ఒప్పందాన్ని ఉపయోగించండి.</string>
-    <string name="shader_error_shadertoy_i_time">యానిమేటెడ్ ShaderToy యూనిఫాం \\"iTime\\"కి మద్దతు లేదు.</string>
-    <string name="shader_error_shadertoy_i_frame">యానిమేటెడ్ ShaderToy యూనిఫాం \\"iFrame\\"కి మద్దతు లేదు.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy యూనిఫాం \\"iResolution\\"కు మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_i_time">యానిమేటెడ్ ShaderToy యూనిఫాం \\\"iTime\\\"కి మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_i_frame">యానిమేటెడ్ ShaderToy యూనిఫాం \\\"iFrame\\\"కి మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy యూనిఫాం \\\"iResolution\\\"కు మద్దతు లేదు.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel అల్లికలకు మద్దతు లేదు.</string>
     <string name="shader_error_external_textures">బాహ్య అల్లికలకు మద్దతు లేదు.</string>
     <string name="shader_error_external_texture_extensions">బాహ్య ఆకృతి పొడిగింపులకు మద్దతు లేదు.</string>
     <string name="shader_error_libretro_parameters">లిబ్రెట్రో షేడర్ పారామీటర్‌లకు మద్దతు లేదు.</string>
-    <string name="shader_error_extra_input_texture">ఒక ఇన్‌పుట్ ఆకృతికి మాత్రమే మద్దతు ఉంది. \\"యూనిఫాం %1$s %2$s;\\"ని తీసివేయండి.</string>
-    <string name="shader_error_missing_uniform">\\"%1$s\\" పరామితి తప్పనిసరిగా \\"యూనిఫాం %2$s %1$s;\\"గా ప్రకటించబడాలి.</string>
-    <string name="shader_error_wrong_uniform_type">\\"%1$s\\" పరామితి \\"యూనిఫాం %2$s %1$s;\\"గా ప్రకటించబడింది, అంచనా వేయబడిన \\"యూనిఫాం %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">ఒక ఇన్‌పుట్ ఆకృతికి మాత్రమే మద్దతు ఉంది. \\\"యూనిఫాం %1$s %2$s;\\\"ని తీసివేయండి.</string>
+    <string name="shader_error_missing_uniform">\\\"%1$s\\\" పరామితి తప్పనిసరిగా \\\"యూనిఫాం %2$s %1$s;\\\"గా ప్రకటించబడాలి.</string>
+    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" పరామితి \\\"యూనిఫాం %2$s %1$s;\\\"గా ప్రకటించబడింది, అంచనా వేయబడిన \\\"యూనిఫాం %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">షేడర్ ఫైల్ ఖాళీగా ఉంది.</string>
     <string name="shader_parse_error_not_itshader_json">షేడర్ ఫైల్ తప్పనిసరిగా వెర్షన్, పేరు మరియు షేడర్ ఫీల్డ్‌లతో కూడిన .itshader JSON ఆబ్జెక్ట్ అయి ఉండాలి.</string>
     <string name="shader_parse_error_invalid_json">షేడర్ ఫైల్ చెల్లుబాటు అయ్యే JSON కాదు లేదా .itshader ఫార్మాట్‌తో సరిపోలడం లేదు.</string>
-    <string name="shader_parse_error_missing_field">ఫీల్డ్ \\"%1$s\\" అవసరం.</string>
+    <string name="shader_parse_error_missing_field">ఫీల్డ్ \\\"%1$s\\\" అవసరం.</string>
     <string name="shader_parse_error_missing_param_field">%1$s అవసరం.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" మద్దతు లేదు. మద్దతు ఉన్న రకాలు: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" పారామితుల కోసం %1$s అవసరం.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" మద్దతు లేదు. మద్దతు ఉన్న రకాలు: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" పారామితుల కోసం %1$s అవసరం.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s తప్పనిసరిగా పరిమిత సంఖ్య అయి ఉండాలి.</string>
     <string name="shader_parse_error_integer_expected">%1$s తప్పనిసరిగా పూర్ణాంకం అయి ఉండాలి.</string>
     <string name="shader_parse_error_bool_expected">%1$s తప్పక నిజం లేదా తప్పు.</string>
@@ -2400,7 +2400,7 @@
     <string name="duplicate">నకిలీ</string>
     <string name="always_clear_exif">ఎల్లప్పుడూ EXIF ​​ని క్లియర్ చేయండి</string>
     <string name="always_clear_exif_sub">మెటాడేటాను ఉంచాలని సాధనం అభ్యర్థించినప్పటికీ, సేవ్‌లో ఇమేజ్ EXIF ​​డేటాను తీసివేయండి</string>
-    <string name="help_tips">సహాయం &amp;amp; చిట్కాలు</string>
+    <string name="help_tips">సహాయం &amp; చిట్కాలు</string>
     <string name="tutorials_count">%1$d ట్యుటోరియల్స్</string>
     <string name="open_tool">సాధనాన్ని తెరవండి</string>
     <string name="help_tips_settings_sub">ప్రధాన సాధనాలు, ఎగుమతి ఎంపికలు, PDF ఫ్లోలు, రంగు వినియోగాలు మరియు సాధారణ సమస్యల పరిష్కారాలను తెలుసుకోండి</string>
@@ -3233,4 +3233,57 @@
     <string name="search_keywords_pdf_remove_annotations">pdf ఉల్లేఖనాల వ్యాఖ్యలు శుభ్రంగా తీసివేయబడతాయి</string>
     <string name="neutral_variant">తటస్థ వేరియంట్</string>
     <string name="error">లోపం</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="search_keywords_pdf_crop"></string>
+    <string name="search_keywords_crop"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="search_keywords_pdf_compress"></string>
+    <string name="search_keywords_pdf_rotate"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="search_keywords_document_scanner"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="search_keywords_recognize_text"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="search_keywords_pdf_rearrange"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="search_keywords_collage_maker"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="search_keywords_pdf_tools"></string>
+    <string name="search_keywords_apng_tools"></string>
+    <string name="search_keywords_svg_maker"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="search_keywords_color_tools"></string>
+    <string name="search_keywords_pdf_repair"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="search_keywords_pick_color_from_image"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="search_keywords_pdf_ocr"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="search_keywords_ai_tools"></string>
+    <string name="search_keywords_image_preview"></string>
+    <string name="search_keywords_palette_tools"></string>
+    <string name="search_keywords_pdf_page_numbers"></string>
+    <string name="search_keywords_draw"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="search_keywords_pdf_extract_pages"></string>
+    <string name="search_keywords_image_stacking"></string>
+    <string name="search_keywords_color_library"></string>
+    <string name="search_keywords_pdf_metadata"></string>
+    <string name="search_keywords_pdf_flatten"></string>
+    <string name="search_keywords_pdf_protect"></string>
+    <string name="search_keywords_markup_layers"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="search_keywords_image_stitching"></string>
+    <string name="search_keywords_pdf_remove_pages"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
