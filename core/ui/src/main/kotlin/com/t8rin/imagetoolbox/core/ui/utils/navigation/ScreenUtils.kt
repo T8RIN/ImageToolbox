@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
-import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -91,7 +90,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.WandShine
 import com.t8rin.imagetoolbox.core.resources.icons.Watermark
 import com.t8rin.imagetoolbox.core.resources.icons.WatermarkAlt
 import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringEnglish
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AiTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AppLogs
@@ -146,7 +144,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Watermarking
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WebpTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WeightResize
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Zip
-import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -237,118 +234,6 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.ImagesToPdf -> "PdfTools_ImagesToPdf"
     is PdfTools.ExtractPages -> "PdfTools_ExtractPages"
     is PdfTools.RemoveAnnotations -> "PdfTools_RemoveAnnotations"
-}
-
-fun Screen.matchesSearchQuery(query: String): Boolean {
-    val trimmedQuery = query.trim()
-
-    if (trimmedQuery.isEmpty()) return true
-
-    val keywordsRes = searchKeywordsRes()
-
-    val searchableText = listOf(
-        appContext.getString(title),
-        appContext.getString(subtitle),
-        keywordsRes?.let(appContext::getString).orEmpty(),
-        appContext.getStringEnglish(title),
-        appContext.getStringEnglish(subtitle),
-        keywordsRes?.let {
-            appContext.getStringEnglish(it)
-        }.orEmpty(),
-        simpleName.replace("_", " "),
-    ).joinToString(separator = " ")
-
-    return searchableText.contains(
-        other = trimmedQuery,
-        ignoreCase = true
-    ) || trimmedQuery.split(Regex("\\s+")).all { word ->
-        searchableText.contains(
-            other = word,
-            ignoreCase = true
-        )
-    }
-}
-
-@StringRes
-private fun Screen.searchKeywordsRes(): Int? = when (this) {
-    is SingleEdit -> R.string.search_keywords_single_edit
-    is ResizeAndConvert -> R.string.search_keywords_resize_and_convert
-    is WeightResize -> R.string.search_keywords_weight_resize
-    is Crop -> R.string.search_keywords_crop
-    is Filter -> R.string.search_keywords_filter
-    is Draw -> R.string.search_keywords_draw
-    is Cipher -> R.string.search_keywords_cipher
-    is EraseBackground -> R.string.search_keywords_erase_background
-    is ImagePreview -> R.string.search_keywords_image_preview
-    is ImageStitching -> R.string.search_keywords_image_stitching
-    is LoadNetImage -> R.string.search_keywords_load_net_image
-    is PickColorFromImage -> R.string.search_keywords_pick_color_from_image
-    is PaletteTools -> R.string.search_keywords_palette_tools
-    is DeleteExif -> R.string.search_keywords_delete_exif
-    is Compare -> R.string.search_keywords_compare
-    is LimitResize -> R.string.search_keywords_limit_resize
-    is PdfTools -> R.string.search_keywords_pdf_tools
-    is RecognizeText -> R.string.search_keywords_recognize_text
-    is GradientMaker -> R.string.search_keywords_gradient_maker
-    is Watermarking -> R.string.search_keywords_watermarking
-    is GifTools -> R.string.search_keywords_gif_tools
-    is ApngTools -> R.string.search_keywords_apng_tools
-    is Zip -> R.string.search_keywords_zip
-    is JxlTools -> R.string.search_keywords_jxl_tools
-    is SvgMaker -> R.string.search_keywords_svg_maker
-    is FormatConversion -> R.string.search_keywords_format_conversion
-    is DocumentScanner -> R.string.search_keywords_document_scanner
-    is ScanQrCode -> R.string.search_keywords_scan_qr_code
-    is ImageStacking -> R.string.search_keywords_image_stacking
-    is ImageSplitting -> R.string.search_keywords_image_splitting
-    is ColorTools -> R.string.search_keywords_color_tools
-    is WebpTools -> R.string.search_keywords_webp_tools
-    is NoiseGeneration -> R.string.search_keywords_noise_generation
-    is CollageMaker -> R.string.search_keywords_collage_maker
-    is MarkupLayers -> R.string.search_keywords_markup_layers
-    is Base64Tools -> R.string.search_keywords_base64_tools
-    is ChecksumTools -> R.string.search_keywords_checksum_tools
-    is MeshGradients -> R.string.search_keywords_mesh_gradients
-    is EditExif -> R.string.search_keywords_edit_exif
-    is ImageCutter -> R.string.search_keywords_image_cutter
-    is AudioCoverExtractor -> R.string.search_keywords_audio_cover_extractor
-    is WallpapersExport -> R.string.search_keywords_wallpapers_export
-    is AsciiArt -> R.string.search_keywords_ascii_art
-    is AiTools -> R.string.search_keywords_ai_tools
-    is ColorLibrary -> R.string.search_keywords_color_library
-    is ShaderStudio -> R.string.search_keywords_shader_studio
-    is PdfTools.Merge -> R.string.search_keywords_pdf_merge
-    is PdfTools.Split -> R.string.search_keywords_pdf_split
-    is PdfTools.Rotate -> R.string.search_keywords_pdf_rotate
-    is PdfTools.Rearrange -> R.string.search_keywords_pdf_rearrange
-    is PdfTools.PageNumbers -> R.string.search_keywords_pdf_page_numbers
-    is PdfTools.OCR -> R.string.search_keywords_pdf_ocr
-    is PdfTools.Watermark -> R.string.search_keywords_pdf_watermark
-    is PdfTools.Signature -> R.string.search_keywords_pdf_signature
-    is PdfTools.Protect -> R.string.search_keywords_pdf_protect
-    is PdfTools.Unlock -> R.string.search_keywords_pdf_unlock
-    is PdfTools.Compress -> R.string.search_keywords_pdf_compress
-    is PdfTools.Grayscale -> R.string.search_keywords_pdf_grayscale
-    is PdfTools.Repair -> R.string.search_keywords_pdf_repair
-    is PdfTools.Metadata -> R.string.search_keywords_pdf_metadata
-    is PdfTools.RemovePages -> R.string.search_keywords_pdf_remove_pages
-    is PdfTools.Crop -> R.string.search_keywords_pdf_crop
-    is PdfTools.Flatten -> R.string.search_keywords_pdf_flatten
-    is PdfTools.ExtractImages -> R.string.search_keywords_pdf_extract_images
-    is PdfTools.ZipConvert -> R.string.search_keywords_pdf_zip_convert
-    is PdfTools.Print -> R.string.search_keywords_pdf_print
-    is PdfTools.Preview -> R.string.search_keywords_pdf_preview
-    is PdfTools.ImagesToPdf -> R.string.search_keywords_pdf_images_to_pdf
-    is PdfTools.ExtractPages -> R.string.search_keywords_pdf_extract_pages
-    is PdfTools.RemoveAnnotations -> R.string.search_keywords_pdf_remove_annotations
-    is EasterEgg,
-    is Main,
-    is Settings,
-    is AppLogs,
-    is LibrariesInfo,
-    is LibraryDetails,
-    is Help,
-    is UsageStatistics -> null
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
