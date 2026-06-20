@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
@@ -49,6 +50,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
@@ -62,6 +64,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Boolea
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ChannelMixParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ClaheParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.CropOrPerspectiveParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.DropShadowParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.EnhancedZoomBlurParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FilterValueWrapperItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatArrayItem
@@ -83,6 +86,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFa
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SmearParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SparkleParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ToneCurvesParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TornEdgeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TripleItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.VoronoiCrystallizeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.WaterParamsItem
@@ -394,6 +398,24 @@ internal fun <T : Any> FilterItemContent(
 
             is NtscParams -> {
                 NtscParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is DropShadowParams -> {
+                DropShadowParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is TornEdgeParams -> {
+                TornEdgeParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

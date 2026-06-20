@@ -1139,6 +1139,7 @@
     <string name="erase_background">Erase background</string>
     <string name="restore_background">Restore background</string>
     <string name="blur_radius">Blur radius</string>
+    <string name="drop_shadow">Drop Shadow</string>
     <string name="pipette">Pipette</string>
     <string name="draw_mode">Draw mode</string>
     <string name="create_issue">Create Issue</string>
@@ -1419,6 +1420,13 @@
     <string name="repeat_watermark_sub">Repeats watermark over image instead of single at given position</string>
     <string name="offset_x">Offset X</string>
     <string name="offset_y">Offset Y</string>
+    <string name="tooth_height">Tooth Height</string>
+    <string name="horizontal_tooth_range">Horizontal Tooth Range</string>
+    <string name="vertical_tooth_range">Vertical Tooth Range</string>
+    <string name="top_edge">Top Edge</string>
+    <string name="right_edge">Right Edge</string>
+    <string name="bottom_edge">Bottom Edge</string>
+    <string name="left_edge">Left Edge</string>
     <string name="watermark_type">Watermark Type</string>
     <string name="watermarking_image_sub">This image will be used as pattern for watermarking</string>
     <string name="text_color">Text Color</string>
@@ -2706,6 +2714,7 @@
     <string name="snowfall_mode">Snowfall Mode</string>
     <string name="enabled">Enabled</string>
     <string name="border_frame">Border Frame</string>
+    <string name="torn_edge">Torn Edge</string>
     <string name="glitch_variant">Glitch Variant</string>
     <string name="channel_shift">Channel Shift</string>
     <string name="max_offset">Max Offset</string>

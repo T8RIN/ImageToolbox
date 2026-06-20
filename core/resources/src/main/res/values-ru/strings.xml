@@ -354,6 +354,7 @@
     <string name="erase_background">Стирание фона</string>
     <string name="restore_background">Восстановление фона</string>
     <string name="blur_radius">Радиус размытия</string>
+    <string name="drop_shadow">Отбрасываемая тень</string>
     <string name="auto_erase_background">Автоматическое удаление фона</string>
     <string name="pipette">Пипетка</string>
     <string name="draw_mode">Режим рисования</string>
@@ -621,6 +622,13 @@
     <string name="camera_sub">Использует камеру для получения изображения, обратите внимание, что вы можете получить только одну фотографию, используя этот источник изображений</string>
     <string name="repeat_watermark">Повтор водяного знака</string>
     <string name="offset_x">Смещение Х</string>
+    <string name="tooth_height">Высота зубцов</string>
+    <string name="horizontal_tooth_range">Горизонтальный шаг зубцов</string>
+    <string name="vertical_tooth_range">Вертикальный шаг зубцов</string>
+    <string name="top_edge">Верхний край</string>
+    <string name="right_edge">Правый край</string>
+    <string name="bottom_edge">Нижний край</string>
+    <string name="left_edge">Левый край</string>
     <string name="watermarking_image_sub">Это изображение будет использоваться в качестве шаблона для водяного знака</string>
     <string name="watermarking">Водяной знак</string>
     <string name="repeat_watermark_sub">Накладывает водяной знак на все изображение вместо заданной точки</string>
@@ -1879,6 +1887,7 @@
     <string name="snowfall_mode">Режим снегопада</string>
     <string name="enabled">Вкл</string>
     <string name="border_frame">Рамка</string>
+    <string name="torn_edge">Рваный край</string>
     <string name="glitch_variant">Вариант сбоя</string>
     <string name="channel_shift">Сдвиг канала</string>
     <string name="max_offset">Максимальное смещение</string>

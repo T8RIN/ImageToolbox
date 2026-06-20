@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
@@ -53,6 +54,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
@@ -313,6 +315,27 @@ internal fun Any.toPair(): Pair<String, String>? {
                 softKnee,
                 exposure,
                 gamma
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is DropShadowParams -> {
+            DropShadowParams::class.simpleName!! to listOf(
+                color.colorInt,
+                offsetX,
+                offsetY,
+                blurRadius
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is TornEdgeParams -> {
+            TornEdgeParams::class.simpleName!! to listOf(
+                toothHeight,
+                horizontalToothRange,
+                verticalToothRange,
+                top,
+                right,
+                bottom,
+                left
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -732,6 +755,41 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 softKnee = softKnee.toFloat(),
                 exposure = exposure.toFloat(),
                 gamma = gamma.toFloat()
+            )
+        }
+
+        name == DropShadowParams::class.simpleName -> {
+            val (color, offsetX, offsetY, blurRadius) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            DropShadowParams(
+                color = color.toInt().toColorModel(),
+                offsetX = offsetX.toFloat(),
+                offsetY = offsetY.toFloat(),
+                blurRadius = blurRadius.toFloat()
+            )
+        }
+
+        name == TornEdgeParams::class.simpleName -> {
+            val (
+                toothHeight,
+                horizontalToothRange,
+                verticalToothRange,
+                top,
+                right,
+                bottom,
+                left
+            ) = value.split(PROPERTIES_SEPARATOR)
+
+            TornEdgeParams(
+                toothHeight = toothHeight.toInt(),
+                horizontalToothRange = horizontalToothRange.toInt(),
+                verticalToothRange = verticalToothRange.toInt(),
+                top = top.toBoolean(),
+                right = right.toBoolean(),
+                bottom = bottom.toBoolean(),
+                left = left.toBoolean()
             )
         }
 
