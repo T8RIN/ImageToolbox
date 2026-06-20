@@ -17,6 +17,10 @@
 
 package com.t8rin.cropper
 
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.calculateCentroid
+import androidx.compose.foundation.gestures.calculatePan
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,8 +34,15 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.AwaitPointerEventScope
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.util.fastAny
+import androidx.compose.ui.util.fastForEach
 import com.t8rin.cropper.model.CropData
 import com.t8rin.cropper.state.CropState
 import com.t8rin.cropper.state.cropData
@@ -65,6 +76,7 @@ import kotlinx.coroutines.launch
 fun Modifier.crop(
     vararg keys: Any?,
     cropState: CropState,
+    enableOneFingerZoom: Boolean = true,
     zoomOnDoubleTap: (ZoomLevel) -> Float = cropState.DefaultOnDoubleTap,
     onDown: ((CropData) -> Unit)? = null,
     onMove: ((CropData) -> Unit)? = null,
@@ -116,21 +128,50 @@ fun Modifier.crop(
             )
         }
 
-        val tapModifier = Modifier.pointerInput(*keys) {
-            detectTapGestures(
-                onDoubleTap = { offset: Offset ->
-                    coroutineScope.launch {
-                        zoomLevel = getNextZoomLevel(zoomLevel)
-                        val newZoom = zoomOnDoubleTap(zoomLevel)
-                        cropState.onDoubleTap(
-                            offset = offset,
-                            zoom = newZoom
-                        ) {
-                            onGestureEnd?.invoke(cropState.cropData)
-                        }
+        val tapModifier = Modifier.pointerInput(*keys, enableOneFingerZoom) {
+            fun onDoubleTap(offset: Offset) {
+                coroutineScope.launch {
+                    zoomLevel = getNextZoomLevel(zoomLevel)
+                    val newZoom = zoomOnDoubleTap(zoomLevel)
+                    cropState.onDoubleTap(
+                        offset = offset,
+                        zoom = newZoom
+                    ) {
+                        onGestureEnd?.invoke(cropState.cropData)
                     }
                 }
-            )
+            }
+
+            if (enableOneFingerZoom) {
+                detectOneFingerZoomGestures(
+                    onDoubleTap = ::onDoubleTap,
+                    onGestureStart = {
+                        onGestureStart?.invoke(cropState.cropData)
+                    },
+                    onGestureEnd = {
+                        coroutineScope.launch {
+                            cropState.onGestureEnd {
+                                onGestureEnd?.invoke(cropState.cropData)
+                            }
+                        }
+                    },
+                    onZoom = { centroid, zoom, mainPointer, pointerList ->
+                        coroutineScope.launch {
+                            cropState.onGesture(
+                                centroid = centroid,
+                                panChange = Offset.Zero,
+                                zoomChange = zoom,
+                                rotationChange = 0f,
+                                mainPointer = mainPointer,
+                                changes = pointerList
+                            )
+                        }
+                        onGesture?.invoke(cropState.cropData)
+                    }
+                )
+            } else {
+                detectTapGestures(onDoubleTap = ::onDoubleTap)
+            }
         }
 
         val touchModifier = Modifier.pointerInput(*keys) {
@@ -176,6 +217,7 @@ fun Modifier.crop(
         properties["onDown"] = onGestureStart
         properties["onMove"] = onGesture
         properties["onUp"] = onGestureEnd
+        properties["enableOneFingerZoom"] = enableOneFingerZoom
     }
 )
 
@@ -186,4 +228,109 @@ internal val CropState.DefaultOnDoubleTap: (ZoomLevel) -> Float
             ZoomLevel.Mid -> 3f.coerceIn(zoomMin, zoomMax)
             ZoomLevel.Max -> 5f.coerceAtLeast(zoomMax)
         }
+    }
+
+private suspend fun PointerInputScope.detectOneFingerZoomGestures(
+    onDoubleTap: (Offset) -> Unit,
+    onGestureStart: () -> Unit,
+    onZoom: (
+        centroid: Offset,
+        zoom: Float,
+        mainPointer: PointerInputChange,
+        changes: List<PointerInputChange>
+    ) -> Unit,
+    onGestureEnd: () -> Unit
+) = awaitEachGesture {
+    val firstDown = awaitFirstDown(requireUnconsumed = false)
+    var firstUp = firstDown
+    var hasMoved = false
+    var isMultiTouch = false
+    var isCanceled = false
+
+    do {
+        val event = awaitPointerEvent()
+        if (event.changes.fastAny { it.isConsumed }) {
+            isCanceled = true
+            break
+        }
+        if (event.changes.fastAny { it.positionChanged() }) {
+            hasMoved = true
+        }
+        if (event.changes.size > 1) {
+            isMultiTouch = true
+        }
+        firstUp = event.changes.first()
+    } while (event.changes.fastAny { it.pressed })
+
+    val isTap = !hasMoved &&
+            !isMultiTouch &&
+            !isCanceled &&
+            firstUp.uptimeMillis - firstDown.uptimeMillis <= viewConfiguration.longPressTimeoutMillis
+
+    if (isTap) {
+        val secondDown = awaitSecondDown(firstUp)
+        if (secondDown != null) {
+            var secondUp: PointerInputChange = secondDown
+            var isZooming = false
+            var isSecondMultiTouch = false
+            var isSecondCanceled = false
+
+            do {
+                val event = awaitPointerEvent(PointerEventPass.Initial)
+                if (event.changes.fastAny { it.isConsumed }) {
+                    isSecondCanceled = true
+                    break
+                }
+
+                if (event.changes.size > 1) {
+                    isSecondMultiTouch = true
+                }
+
+                val panChange = event.calculatePan()
+                if (panChange != Offset.Zero) {
+                    if (!isZooming) {
+                        onGestureStart()
+                    }
+                    isZooming = true
+                    val zoomChange = 1f + panChange.y * 0.004f
+                    if (zoomChange != 1f) {
+                        onZoom(
+                            event.calculateCentroid(useCurrent = true),
+                            zoomChange,
+                            event.changes.first(),
+                            event.changes
+                        )
+                        event.changes.fastForEach {
+                            if (it.positionChanged()) {
+                                it.consume()
+                            }
+                        }
+                    }
+                }
+                secondUp = event.changes.first()
+            } while (event.changes.fastAny { it.pressed })
+
+            if (isZooming && !isSecondMultiTouch && !isSecondCanceled) {
+                onGestureEnd()
+            } else if (!isSecondMultiTouch &&
+                !isSecondCanceled &&
+                secondUp.uptimeMillis - secondDown.uptimeMillis <=
+                viewConfiguration.longPressTimeoutMillis
+            ) {
+                onDoubleTap(secondUp.position)
+            }
+        }
+    }
+}
+
+private suspend fun AwaitPointerEventScope.awaitSecondDown(
+    firstUp: PointerInputChange
+): PointerInputChange? =
+    withTimeoutOrNull(viewConfiguration.doubleTapTimeoutMillis) {
+        val minUptime = firstUp.uptimeMillis + viewConfiguration.doubleTapMinTimeMillis
+        var change: PointerInputChange
+        do {
+            change = awaitFirstDown()
+        } while (change.uptimeMillis < minUptime)
+        change
     }

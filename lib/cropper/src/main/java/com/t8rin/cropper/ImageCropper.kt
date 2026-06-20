@@ -78,6 +78,7 @@ fun ImageCropper(
     cropProperties: CropProperties,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     crop: Boolean = false,
+    enableOneFingerZoom: Boolean = true,
     onCropStart: () -> Unit,
     onZoomChange: (Float) -> Unit,
     onCropSuccess: (ImageBitmap) -> Unit,
@@ -184,7 +185,8 @@ fun ImageCropper(
             .size(containerWidth, containerHeight)
             .crop(
                 keys = resetKeys,
-                cropState = cropState
+                cropState = cropState,
+                enableOneFingerZoom = enableOneFingerZoom
             )
 
         LaunchedEffect(key1 = cropProperties) {
