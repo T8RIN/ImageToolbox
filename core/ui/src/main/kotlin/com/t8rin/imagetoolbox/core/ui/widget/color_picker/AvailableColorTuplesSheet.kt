@@ -37,7 +37,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -66,6 +65,7 @@ import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.nearestFor
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Contrast
@@ -485,7 +485,9 @@ fun AvailableColorTuplesSheet(
     )
     colorPicker()
 
-    if (settingsState.isDynamicColors) onDismiss()
+    LaunchedEffect(settingsState.isDynamicColors, visible) {
+        if (settingsState.isDynamicColors && visible) onDismiss()
+    }
 }
 
 @Composable
