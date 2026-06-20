@@ -286,8 +286,7 @@
     <string name="features_sub">මුරපදය මත පදනම් වූ ගොනු සංකේතනය කිරීම. ලබාගත් ගොනු තෝරාගත් නාමාවලියෙහි ගබඩා කර හෝ බෙදාගත හැක. විකේතනය කරන ලද ගොනු ද කෙලින්ම විවෘත කළ හැකිය.</string>
     <string name="implementation_sub">AES-256, GCM මාදිලිය, පිරවුමක් නැත, පෙරනිමියෙන් බයිට් 12 අහඹු IVs. ඔබට අවශ්ය ඇල්ගොරිතම තෝරාගත හැක. යතුරු 256-bit SHA-3 හැෂ් ලෙස භාවිතා කරයි</string>
     <string name="file_size">ගොනු විශාලත්වය</string>
-    <string name="file_size_sub">උපරිම ගොනු ප්‍රමාණය Android OS සහ පවතින මතකය මගින් සීමා කර ඇත, එය උපාංගය මත රඳා පවතී.
-\nකරුණාකර සලකන්න: මතකය ගබඩා කිරීම නොවේ.</string>
+    <string name="file_size_sub">උපරිම ගොනු ප්‍රමාණය Android OS සහ පවතින මතකය මගින් සීමා කර ඇත, එය උපාංගය මත රඳා පවතී. \nකරුණාකර සලකන්න: මතකය ගබඩා කිරීම නොවේ.</string>
     <string name="compatibility_sub">වෙනත් ගොනු සංකේතාංකන මෘදුකාංග හෝ සේවාවන් සඳහා ගැළපුම සහතික නොවන බව කරුණාවෙන් සලකන්න. තරමක් වෙනස් යතුරු ප්‍රතිකාරයක් හෝ කේතාංක වින්‍යාසයක් නොගැලපීම ඇති කළ හැකිය.</string>
     <string name="invalid_password_or_not_encrypted">වලංගු නොවන මුරපදයක් හෝ තෝරාගත් ගොනුවක් සංකේතනය කර නොමැත</string>
     <string name="image_size_warning">ලබා දී ඇති පළල සහ උස සමඟ රූපය සුරැකීමට උත්සාහ කිරීම මතකයේ දෝෂයක් ඇති විය හැක. මෙය ඔබේම අවදානමකින් කරන්න.</string>
@@ -2139,7 +2138,7 @@
     <string name="grayscale_pdf_sub">සියලුම ලේඛන කාවැද්දූ පින්තූර අළු පරිමාණයට පරිවර්තනය කරන්න</string>
     <string name="compress_pdf">PDF සම්පීඩනය කරන්න</string>
     <string name="compress_pdf_sub">පහසු බෙදාගැනීම සඳහා ඔබේ ලේඛන ගොනු ප්‍රමාණය ප්‍රශස්ත කරන්න</string>
-    <string name="repair_info">ImageToolbox අභ්‍යන්තර හරස් යොමු වගුව නැවත ගොඩනඟන අතර මුල සිටම ගොනු ව්‍යුහය ප්‍රතිජනනය කරයි. මෙය \\"විවෘත කළ නොහැකි\\" බොහෝ ගොනු වෙත ප්‍රවේශය ප්‍රතිසාධනය කළ හැක.</string>
+    <string name="repair_info">ImageToolbox අභ්‍යන්තර හරස් යොමු වගුව නැවත ගොඩනඟන අතර මුල සිටම ගොනු ව්‍යුහය ප්‍රතිජනනය කරයි. මෙය \\\"විවෘත කළ නොහැකි\\\" බොහෝ ගොනු වෙත ප්‍රවේශය ප්‍රතිසාධනය කළ හැක.</string>
     <string name="grayscale_info">මෙම මෙවලම සියලුම ලේඛන රූප අළු පරිමාණයට පරිවර්තනය කරයි. ගොනු ප්රමාණය මුද්රණය කිරීම සහ අඩු කිරීම සඳහා හොඳම වේ</string>
     <string name="metadata">පාරදත්ත</string>
     <string name="metadata_pdf_sub">වඩා හොඳ පෞද්ගලිකත්වය සඳහා ලේඛන ගුණාංග සංස්කරණය කරන්න</string>
@@ -2357,37 +2356,37 @@
     <string name="shader_error_blank_name">සෙවන නම හිස් නොවිය යුතුය.</string>
     <string name="shader_error_blank_source">සෙවන මූලාශ්‍රය හිස් නොවිය යුතුය.</string>
     <string name="shader_error_unsupported_characters">Shader මූලාශ්‍රයේ සහය නොදක්වන අක්ෂර අඩංගු වේ: %1$s. ASCII GLSL මූලාශ්‍රය පමණක් භාවිතා කරන්න.</string>
-    <string name="shader_error_duplicate_parameter">\\"%1$s\\" පරාමිතිය එක් වරකට වඩා ප්‍රකාශ කර ඇත.</string>
+    <string name="shader_error_duplicate_parameter">\\\"%1$s\\\" පරාමිතිය එක් වරකට වඩා ප්‍රකාශ කර ඇත.</string>
     <string name="shader_error_blank_parameter_name">පරාමිති නම් හිස් නොවිය යුතුය.</string>
-    <string name="shader_error_reserved_parameter_name">\\"%1$s\\" පරාමිතිය වෙන් කළ GPUImage නමක් භාවිතා කරයි.</string>
-    <string name="shader_error_invalid_parameter_name">\\"%1$s\\" පරාමිතිය වලංගු GLSL හැඳුනුම්කාරකයක් විය යුතුය.</string>
-    <string name="shader_error_invalid_value_type">\\"%1$s\\" පරාමිතිය %2$s අගය වර්ගය \\"%3$s\\" ඇත, අපේක්ෂිත \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">\\"%1$s\\" පරාමිතියට bool අගයන් සඳහා min හෝ max නිර්වචනය කළ නොහැක.</string>
-    <string name="shader_error_min_greater_than_max">\\"%1$s\\" පරාමිතිය උපරිමයට වඩා මිනි වැඩිය.</string>
-    <string name="shader_error_default_lower_than_min">\\"%1$s\\" පරාමිතිය පෙරනිමිය විනාඩියට වඩා අඩුය.</string>
-    <string name="shader_error_default_greater_than_max">පරාමිතිය \\"%1$s\\" පෙරනිමිය උපරිමයට වඩා වැඩිය.</string>
-    <string name="shader_error_missing_input_texture">Shader විසින් \\"ඒකාකාර සාම්පල2D %1$s;\\" ප්‍රකාශ කළ යුතුය.</string>
-    <string name="shader_error_missing_texture_coordinate">Shader විසින් \\"වෙනස් vec2 %1$s;\\" ප්‍රකාශ කළ යුතුය.</string>
-    <string name="shader_error_missing_main_function">Shader විසින් \\"void main()\\" අර්ථ දැක්විය යුතුය.</string>
+    <string name="shader_error_reserved_parameter_name">\\\"%1$s\\\" පරාමිතිය වෙන් කළ GPUImage නමක් භාවිතා කරයි.</string>
+    <string name="shader_error_invalid_parameter_name">\\\"%1$s\\\" පරාමිතිය වලංගු GLSL හැඳුනුම්කාරකයක් විය යුතුය.</string>
+    <string name="shader_error_invalid_value_type">\\\"%1$s\\\" පරාමිතිය %2$s අගය වර්ගය \\\"%3$s\\\" ඇත, අපේක්ෂිත \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">\\\"%1$s\\\" පරාමිතියට bool අගයන් සඳහා min හෝ max නිර්වචනය කළ නොහැක.</string>
+    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" පරාමිතිය උපරිමයට වඩා මිනි වැඩිය.</string>
+    <string name="shader_error_default_lower_than_min">\\\"%1$s\\\" පරාමිතිය පෙරනිමිය විනාඩියට වඩා අඩුය.</string>
+    <string name="shader_error_default_greater_than_max">පරාමිතිය \\\"%1$s\\\" පෙරනිමිය උපරිමයට වඩා වැඩිය.</string>
+    <string name="shader_error_missing_input_texture">Shader විසින් \\\"ඒකාකාර සාම්පල2D %1$s;\\\" ප්‍රකාශ කළ යුතුය.</string>
+    <string name="shader_error_missing_texture_coordinate">Shader විසින් \\\"වෙනස් vec2 %1$s;\\\" ප්‍රකාශ කළ යුතුය.</string>
+    <string name="shader_error_missing_main_function">Shader විසින් \\\"void main()\\\" අර්ථ දැක්විය යුතුය.</string>
     <string name="shader_error_missing_fragment_color">Shader gl_FragColor වෙත වර්ණයක් ලිවිය යුතුය.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders සඳහා සහය නොදක්වයි. GPUImage හි අවලංගු ප්‍රධාන() ගිවිසුම භාවිතා කරන්න.</string>
-    <string name="shader_error_shadertoy_i_time">සජීවිකරණ ShaderToy නිල ඇඳුම \\"iTime\\" සඳහා සහය නොදක්වයි.</string>
-    <string name="shader_error_shadertoy_i_frame">සජීවිකරණ ShaderToy නිල ඇඳුම \\"iFrame\\" සඳහා සහය නොදක්වයි.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy නිල ඇඳුම \\"iResolution\\" සඳහා සහය නොදක්වයි.</string>
+    <string name="shader_error_shadertoy_i_time">සජීවිකරණ ShaderToy නිල ඇඳුම \\\"iTime\\\" සඳහා සහය නොදක්වයි.</string>
+    <string name="shader_error_shadertoy_i_frame">සජීවිකරණ ShaderToy නිල ඇඳුම \\\"iFrame\\\" සඳහා සහය නොදක්වයි.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy නිල ඇඳුම \\\"iResolution\\\" සඳහා සහය නොදක්වයි.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel වයනය සඳහා සහය නොදක්වයි.</string>
     <string name="shader_error_external_textures">බාහිර වයනය සඳහා සහය නොදක්වයි.</string>
     <string name="shader_error_external_texture_extensions">බාහිර වයනය දිගු සඳහා සහය නොදක්වයි.</string>
     <string name="shader_error_libretro_parameters">Libretro සෙවන පරාමිතීන් සඳහා සහය නොදක්වයි.</string>
-    <string name="shader_error_extra_input_texture">එක් ආදාන වයනයකට පමණක් සහය දක්වයි. \\"නිල ඇඳුම %1$s %2$s;\\" ඉවත් කරන්න.</string>
-    <string name="shader_error_missing_uniform">\\"%1$s\\" පරාමිතිය \\"ඒකාකාර %2$s %1$s;\\" ලෙස ප්‍රකාශ කළ යුතුය.</string>
-    <string name="shader_error_wrong_uniform_type">\\"%1$s\\" පරාමිතිය \\"ඒකාකාර %2$s %1$s;\\" ලෙස ප්‍රකාශ කර ඇත, අපේක්ෂිත \\"ඒකාකාර %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">එක් ආදාන වයනයකට පමණක් සහය දක්වයි. \\\"නිල ඇඳුම %1$s %2$s;\\\" ඉවත් කරන්න.</string>
+    <string name="shader_error_missing_uniform">\\\"%1$s\\\" පරාමිතිය \\\"ඒකාකාර %2$s %1$s;\\\" ලෙස ප්‍රකාශ කළ යුතුය.</string>
+    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" පරාමිතිය \\\"ඒකාකාර %2$s %1$s;\\\" ලෙස ප්‍රකාශ කර ඇත, අපේක්ෂිත \\\"ඒකාකාර %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Shader ගොනුව හිස්ය.</string>
     <string name="shader_parse_error_not_itshader_json">Shader ගොනුව අනුවාදය, නම සහ සෙවන ක්ෂේත්‍ර සහිත .itshader JSON වස්තුවක් විය යුතුය.</string>
     <string name="shader_parse_error_invalid_json">Shader ගොනුව JSON වලංගු නැත හෝ .itshader ආකෘතියට නොගැලපේ.</string>
-    <string name="shader_parse_error_missing_field">ක්ෂේත්‍රය \\"%1$s\\" අවශ්‍යයි.</string>
+    <string name="shader_parse_error_missing_field">ක්ෂේත්‍රය \\\"%1$s\\\" අවශ්‍යයි.</string>
     <string name="shader_parse_error_missing_param_field">%1$s අවශ්‍යයි.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" සහාය නොදක්වයි. සහාය දක්වන වර්ග: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s \\"%2$s\\" පරාමිති සඳහා අවශ්‍ය වේ.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" සහාය නොදක්වයි. සහාය දක්වන වර්ග: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s \\\"%2$s\\\" පරාමිති සඳහා අවශ්‍ය වේ.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s පරිමිත අංකයක් විය යුතුය.</string>
     <string name="shader_parse_error_integer_expected">%1$s නිඛිලයක් විය යුතුය.</string>
     <string name="shader_parse_error_bool_expected">%1$s සත්‍ය හෝ අසත්‍ය විය යුතුය.</string>
@@ -3225,4 +3224,66 @@
     <string name="search_keywords_pdf_extract_images">pdf උපුටා ගැනීම පින්තූර පින්තූර</string>
     <string name="neutral_variant">මධ්යස්ථ ප්රභේදය</string>
     <string name="error">දෝෂයකි</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="search_keywords_pdf_preview"></string>
+    <string name="search_keywords_pdf_crop"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="search_keywords_mesh_gradients"></string>
+    <string name="search_keywords_pdf_images_to_pdf"></string>
+    <string name="search_keywords_edit_exif"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="search_keywords_pdf_compress"></string>
+    <string name="search_keywords_pdf_rotate"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="search_keywords_pdf_split"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="search_keywords_pdf_zip_convert"></string>
+    <string name="search_keywords_image_cutter"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="search_keywords_pdf_tools"></string>
+    <string name="search_keywords_svg_maker"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="search_keywords_pdf_merge"></string>
+    <string name="search_keywords_pdf_watermark"></string>
+    <string name="search_keywords_pdf_signature"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="search_keywords_noise_generation"></string>
+    <string name="search_keywords_scan_qr_code"></string>
+    <string name="search_keywords_webp_tools"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="search_keywords_base64_tools"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="search_keywords_ai_tools"></string>
+    <string name="search_keywords_shader_studio"></string>
+    <string name="search_keywords_palette_tools"></string>
+    <string name="search_keywords_pdf_page_numbers"></string>
+    <string name="search_keywords_wallpapers_export"></string>
+    <string name="search_keywords_pdf_print"></string>
+    <string name="search_keywords_image_splitting"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="search_keywords_pdf_extract_pages"></string>
+    <string name="search_keywords_compare"></string>
+    <string name="search_keywords_pdf_remove_annotations"></string>
+    <string name="search_keywords_image_stacking"></string>
+    <string name="search_keywords_color_library"></string>
+    <string name="search_keywords_pdf_metadata"></string>
+    <string name="search_keywords_pdf_flatten"></string>
+    <string name="search_keywords_zip"></string>
+    <string name="search_keywords_pdf_unlock"></string>
+    <string name="search_keywords_markup_layers"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="search_keywords_pdf_grayscale"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="search_keywords_pdf_remove_pages"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
