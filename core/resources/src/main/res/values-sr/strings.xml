@@ -1606,7 +1606,7 @@
     <string name="send_logs">Пошаљи дневнике</string>
     <string name="send_logs_sub">Кликните да бисте поделили датотеку евиденције апликације, ово ми може помоћи да уочим проблем и решим проблеме</string>
     <string name="crash_title">Упс… Нешто је пошло наопако</string>
-    <string name="crash_subtitle">Можете ме контактирати користећи опције испод и покушаћу да пронађем решење.\н(Не заборавите да приложите евиденције)</string>
+    <string name="crash_subtitle">Можете ме контактирати користећи опције испод и покушаћу да пронађем решење.(Не заборавите да приложите евиденције)</string>
     <string name="ocr_write_to_file">Врите То Филе</string>
     <string name="ocr_write_to_file_sub">Извуците текст из серије слика и сачувајте га у једној текстуалној датотеци</string>
     <string name="ocr_write_to_metadata">Врите То Метадата</string>
