@@ -2066,7 +2066,7 @@
     <string name="preset_info_pattern_description">Вставляет имя примененной предустановки в имя файла, чтобы вы могли легко запомнить, как было обработано изображение.</string>
     <string name="scale_mode_pattern_description">Отображает режим масштабирования изображения, используемый во время обработки, помогая различать изображения с измененным размером, обрезанные или подогнанные.</string>
     <string name="suffix_pattern_description">Пользовательский текст, помещаемый в конце имени файла, полезный для управления версиями, например _v2, _edited или _final.</string>
-    <string name="extension_pattern_description">Расширение файла (png, jpg, webp и т. д.) автоматически соответствует фактическому сохраненному формату.</string>
+    <string name="extension_pattern_description">Расширение файла (png, jpg, webp и т. д.) автоматически соответствует фактическому сохраненному формату.</string>
     <string name="formatted_timestamp_pattern_description">Настраиваемая временная метка, позволяющая определить собственный формат по спецификации Java для идеальной сортировки.</string>
     <string name="fling_type">Тип броска</string>
     <string name="motion_duration_scale">Масштаб длительности анимаций</string>
@@ -3264,4 +3264,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf аннотации комментарии удалить очистить</string>
     <string name="neutral_variant">Нейтральный вариант</string>
     <string name="error">Ошибка</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
