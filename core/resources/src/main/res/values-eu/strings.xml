@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Tamaina %1$s</string>
     <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
     <string name="loading">Kargatzen…</string>
@@ -3202,65 +3201,22 @@
     <string name="search_keywords_image_preview">aurrebista ikuslea galeria ikuskatu irekita</string>
     <string name="search_keywords_image_stitching">stitch merge konbinatu panorama luzea pantaila-argazkia</string>
     <string name="search_keywords_load_net_image">url web deskarga Interneteko esteka irudia</string>
-    <string name="search_keywords_pick_color_from_image" />
     <string name="search_keywords_palette_tools">paleta kolore-laginak atera nagusi</string>
     <string name="search_keywords_delete_exif">exif metadatuen pribatutasuna kendu banda garbia gps kokapena</string>
-    <string name="search_keywords_compare" />
     <string name="search_keywords_limit_resize">muga aldatu tamaina gehienez megapixelak dimentsioak clamp</string>
     <string name="search_keywords_pdf_tools">pdf dokumentuen orriak tresnak</string>
-    <string name="search_keywords_recognize_text" />
     <string name="search_keywords_gradient_maker">gradientearen atzeko planoko koloreko sare</string>
-    <string name="search_keywords_watermarking" />
     <string name="search_keywords_gif_tools">gif animazio animaziozko bihurketa fotogramak</string>
-    <string name="search_keywords_apng_tools" />
-    <string name="search_keywords_zip" />
-    <string name="search_keywords_jxl_tools" />
-    <string name="search_keywords_svg_maker" />
     <string name="search_keywords_format_conversion">formatua bihurtu jpg jpeg png webp heic avif jxl bmp</string>
-    <string name="search_keywords_document_scanner" />
-    <string name="search_keywords_scan_qr_code" />
-    <string name="search_keywords_image_stacking" />
-    <string name="search_keywords_image_splitting" />
-    <string name="search_keywords_color_tools" />
     <string name="search_keywords_webp_tools">webp bihurtu animaziozko irudi formatua</string>
-    <string name="search_keywords_noise_generation" />
-    <string name="search_keywords_collage_maker" />
-    <string name="search_keywords_markup_layers" />
-    <string name="search_keywords_base64_tools" />
-    <string name="search_keywords_checksum_tools" />
     <string name="search_keywords_mesh_gradients">sare gradientearen atzeko planoa</string>
-    <string name="search_keywords_edit_exif" />
-    <string name="search_keywords_image_cutter" />
-    <string name="search_keywords_audio_cover_extractor" />
-    <string name="search_keywords_wallpapers_export" />
-    <string name="search_keywords_ascii_art" />
-    <string name="search_keywords_ai_tools" />
-    <string name="search_keywords_color_library" />
-    <string name="search_keywords_shader_studio" />
     <string name="search_keywords_pdf_merge">pdf batu konbinatu batu</string>
     <string name="search_keywords_pdf_split">pdf orrialdeak banatu</string>
-    <string name="search_keywords_pdf_rotate" />
-    <string name="search_keywords_pdf_rearrange" />
-    <string name="search_keywords_pdf_page_numbers" />
-    <string name="search_keywords_pdf_ocr" />
-    <string name="search_keywords_pdf_watermark" />
     <string name="search_keywords_pdf_signature">pdf sinadura seinale zozketa</string>
-    <string name="search_keywords_pdf_protect" />
-    <string name="search_keywords_pdf_unlock" />
-    <string name="search_keywords_pdf_compress" />
-    <string name="search_keywords_pdf_grayscale" />
-    <string name="search_keywords_pdf_repair" />
-    <string name="search_keywords_pdf_metadata" />
     <string name="search_keywords_pdf_remove_pages">pdf kendu ezabatu orriak</string>
     <string name="search_keywords_pdf_crop">pdf moztu marjinak moztu</string>
-    <string name="search_keywords_pdf_flatten" />
-    <string name="search_keywords_pdf_extract_images" />
     <string name="search_keywords_pdf_zip_convert">pdf zip artxiboa konprimitzea</string>
     <string name="search_keywords_pdf_print">pdf inprimagailua</string>
     <string name="search_keywords_pdf_preview">pdf aurrebista ikuslea irakurri</string>
-    <string name="search_keywords_pdf_images_to_pdf" />
-    <string name="search_keywords_pdf_extract_pages" />
-    <string name="search_keywords_pdf_remove_annotations" />
-    <string name="neutral_variant" />
     <string name="error">Errorea</string>
 </resources>

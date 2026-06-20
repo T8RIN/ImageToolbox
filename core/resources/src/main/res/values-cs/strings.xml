@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -3193,61 +3192,11 @@
     <string name="no_usage_statistics">Zatím žádné statistiky využití</string>
     <string name="no_usage_statistics_sub">Otevřete několik nástrojů a automaticky se zde zobrazí</string>
     <string name="usage_statistics_info">Vaše statistiky využití jsou uloženy pouze lokálně ve vašem zařízení. ImageToolbox je používá pouze k zobrazení vaší osobní aktivity, oblíbených nástrojů a statistik uložených dat</string>
-    <string name="search_keywords_single_edit" />
-    <string name="search_keywords_resize_and_convert" />
-    <string name="search_keywords_weight_resize" />
-    <string name="search_keywords_crop" />
-    <string name="search_keywords_filter" />
-    <string name="search_keywords_draw" />
-    <string name="search_keywords_cipher" />
-    <string name="search_keywords_erase_background" />
-    <string name="search_keywords_image_preview" />
-    <string name="search_keywords_image_stitching" />
-    <string name="search_keywords_load_net_image" />
-    <string name="search_keywords_pick_color_from_image" />
-    <string name="search_keywords_palette_tools" />
-    <string name="search_keywords_delete_exif" />
-    <string name="search_keywords_compare" />
-    <string name="search_keywords_limit_resize" />
     <string name="search_keywords_pdf_tools">Nástroje pro stránky dokumentů pdf</string>
-    <string name="search_keywords_recognize_text" />
-    <string name="search_keywords_gradient_maker" />
-    <string name="search_keywords_watermarking" />
-    <string name="search_keywords_gif_tools" />
-    <string name="search_keywords_apng_tools" />
-    <string name="search_keywords_zip" />
-    <string name="search_keywords_jxl_tools" />
-    <string name="search_keywords_svg_maker" />
-    <string name="search_keywords_format_conversion" />
-    <string name="search_keywords_document_scanner" />
-    <string name="search_keywords_scan_qr_code" />
-    <string name="search_keywords_image_stacking" />
-    <string name="search_keywords_image_splitting" />
-    <string name="search_keywords_color_tools" />
-    <string name="search_keywords_webp_tools" />
-    <string name="search_keywords_noise_generation" />
-    <string name="search_keywords_collage_maker" />
-    <string name="search_keywords_markup_layers" />
-    <string name="search_keywords_base64_tools" />
-    <string name="search_keywords_checksum_tools" />
     <string name="search_keywords_mesh_gradients">síť přechodů pozadí</string>
-    <string name="search_keywords_edit_exif" />
-    <string name="search_keywords_image_cutter" />
-    <string name="search_keywords_audio_cover_extractor" />
-    <string name="search_keywords_wallpapers_export" />
-    <string name="search_keywords_ascii_art" />
-    <string name="search_keywords_ai_tools" />
-    <string name="search_keywords_color_library" />
-    <string name="search_keywords_shader_studio" />
     <string name="search_keywords_pdf_merge">pdf sloučit spojit spojit</string>
     <string name="search_keywords_pdf_split">pdf rozdělené samostatné stránky</string>
-    <string name="search_keywords_pdf_rotate" />
-    <string name="search_keywords_pdf_rearrange" />
-    <string name="search_keywords_pdf_page_numbers" />
-    <string name="search_keywords_pdf_ocr" />
-    <string name="search_keywords_pdf_watermark" />
     <string name="search_keywords_pdf_signature">pdf podpis podepsat kreslení</string>
-    <string name="search_keywords_pdf_protect" />
     <string name="search_keywords_pdf_unlock">pdf odemknout heslo dešifrovat odstranit ochranu</string>
     <string name="search_keywords_pdf_compress">pdf komprimovat snížit velikost optimalizovat</string>
     <string name="search_keywords_pdf_grayscale">pdf černobílé černobílé odstíny šedé</string>

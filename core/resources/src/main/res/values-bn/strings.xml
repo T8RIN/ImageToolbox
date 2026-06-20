@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -3195,58 +3194,31 @@
     <string name="search_keywords_resize_and_convert">আকার পরিবর্তন করুন স্কেল রেজোলিউশন মাত্রা প্রস্থ উচ্চতা jpg jpeg png webp কম্প্রেস</string>
     <string name="search_keywords_weight_resize">কম্প্রেস আকার ওজন বাইট mb kb মান কমাতে অপ্টিমাইজ</string>
     <string name="search_keywords_crop">ক্রপ ট্রিম কাট অ্যাসপেক্ট রেশিও</string>
-    <string name="search_keywords_filter" />
     <string name="search_keywords_draw">পেইন্ট ব্রাশ পেন্সিল টীকা মার্কআপ আঁকা</string>
     <string name="search_keywords_cipher">সাইফার এনক্রিপ্ট ডিক্রিপ্ট পাসওয়ার্ড গোপন</string>
     <string name="search_keywords_erase_background">ব্যাকগ্রাউন্ড রিমুভার মুছে ফেলুন কাটআউট স্বচ্ছ আলফা</string>
-    <string name="search_keywords_image_preview" />
     <string name="search_keywords_image_stitching">স্টিচ মার্জ একত্রিত প্যানোরামা দীর্ঘ স্ক্রিনশট</string>
-    <string name="search_keywords_load_net_image" />
     <string name="search_keywords_pick_color_from_image">পিকার আইড্রপার নমুনা হেক্স আরজিবি রঙ</string>
-    <string name="search_keywords_palette_tools" />
     <string name="search_keywords_delete_exif">exif মেটাডেটা গোপনীয়তা স্ট্রিপ পরিষ্কার জিপিএস অবস্থান অপসারণ</string>
-    <string name="search_keywords_compare" />
     <string name="search_keywords_limit_resize">সীমিত আকার পরিবর্তন করুন সর্বোচ্চ মিনিট মেগাপিক্সেল মাত্রা বাতা</string>
     <string name="search_keywords_pdf_tools">পিডিএফ ডকুমেন্ট পেজ টুলস</string>
     <string name="search_keywords_recognize_text">ocr পাঠ্য নির্যাস স্ক্যান সনাক্ত</string>
-    <string name="search_keywords_gradient_maker" />
-    <string name="search_keywords_watermarking" />
-    <string name="search_keywords_gif_tools" />
-    <string name="search_keywords_apng_tools" />
-    <string name="search_keywords_zip" />
     <string name="search_keywords_jxl_tools">jxl jpeg xl রূপান্তর jpg ইমেজ ফরম্যাট</string>
-    <string name="search_keywords_svg_maker" />
     <string name="search_keywords_format_conversion">বিন্যাস রূপান্তর jpg jpeg png webp heic avif jxl bmp</string>
-    <string name="search_keywords_document_scanner" />
-    <string name="search_keywords_scan_qr_code" />
-    <string name="search_keywords_image_stacking" />
     <string name="search_keywords_image_splitting">বিভক্ত টাইলস গ্রিড টুকরা অংশ</string>
-    <string name="search_keywords_color_tools" />
     <string name="search_keywords_webp_tools">ওয়েবপি কনভার্ট অ্যানিমেটেড ইমেজ ফরম্যাট</string>
-    <string name="search_keywords_noise_generation" />
-    <string name="search_keywords_collage_maker" />
     <string name="search_keywords_markup_layers">মার্কআপ স্তরগুলি ওভারলে সম্পাদনা টীকা</string>
     <string name="search_keywords_base64_tools">base64 এনকোড ডিকোড ডেটা ইউরি</string>
-    <string name="search_keywords_checksum_tools" />
     <string name="search_keywords_mesh_gradients">মেশ গ্রেডিয়েন্ট ব্যাকগ্রাউন্ড</string>
     <string name="search_keywords_edit_exif">exif মেটাডেটা সম্পাদনা GPS তারিখ ক্যামেরা</string>
-    <string name="search_keywords_image_cutter" />
-    <string name="search_keywords_audio_cover_extractor" />
     <string name="search_keywords_wallpapers_export">ওয়ালপেপার এক্সপোর্ট ব্যাকগ্রাউন্ড</string>
-    <string name="search_keywords_ascii_art" />
     <string name="search_keywords_ai_tools">এআই এমএল নিউরাল উন্নত আপস্কেল সেগমেন্ট</string>
-    <string name="search_keywords_color_library" />
     <string name="search_keywords_shader_studio">shader glsl ফ্র্যাগমেন্ট ইফেক্ট স্টুডিও</string>
     <string name="search_keywords_pdf_merge">পিডিএফ একত্রিত করুন যোগদান</string>
     <string name="search_keywords_pdf_split">পিডিএফ আলাদা পাতা বিভক্ত করুন</string>
-    <string name="search_keywords_pdf_rotate" />
     <string name="search_keywords_pdf_rearrange">pdf পৃষ্ঠাগুলি সাজানোর পুনর্বিন্যাস করুন</string>
-    <string name="search_keywords_pdf_page_numbers" />
-    <string name="search_keywords_pdf_ocr" />
-    <string name="search_keywords_pdf_watermark" />
     <string name="search_keywords_pdf_signature">পিডিএফ স্বাক্ষর সাইন ড্র</string>
     <string name="search_keywords_pdf_protect">পিডিএফ পাসওয়ার্ড এনক্রিপ্ট লক রক্ষা করুন</string>
-    <string name="search_keywords_pdf_unlock" />
     <string name="search_keywords_pdf_compress">পিডিএফ কম্প্রেস আকার অপ্টিমাইজ হ্রাস</string>
     <string name="search_keywords_pdf_grayscale">পিডিএফ গ্রেস্কেল কালো সাদা একরঙা</string>
     <string name="search_keywords_pdf_repair">পিডিএফ মেরামত ফিক্স ভাঙ্গা পুনরুদ্ধার</string>
