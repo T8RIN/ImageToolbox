@@ -2138,7 +2138,7 @@
     <string name="grayscale_pdf_sub">সমস্ত নথি এমবেড করা ছবিকে গ্রেস্কেলে রূপান্তর করুন</string>
     <string name="compress_pdf">পিডিএফ কম্প্রেস করুন</string>
     <string name="compress_pdf_sub">সহজে ভাগ করার জন্য আপনার নথি ফাইলের আকার অপ্টিমাইজ করুন</string>
-    <string name="repair_info">ImageToolbox অভ্যন্তরীণ ক্রস-রেফারেন্স টেবিল পুনর্নির্মাণ করে এবং স্ক্র্যাচ থেকে ফাইল গঠন পুনরুত্পাদন করে। এটি অনেক ফাইলের অ্যাক্সেস পুনরুদ্ধার করতে পারে যা \\"খোলা যাবে না\\"</string>
+    <string name="repair_info">ImageToolbox অভ্যন্তরীণ ক্রস-রেফারেন্স টেবিল পুনর্নির্মাণ করে এবং স্ক্র্যাচ থেকে ফাইল গঠন পুনরুত্পাদন করে। এটি অনেক ফাইলের অ্যাক্সেস পুনরুদ্ধার করতে পারে যা \\\"খোলা যাবে না\\\"</string>
     <string name="grayscale_info">এই টুলটি সমস্ত নথির ছবিকে গ্রেস্কেলে রূপান্তর করে। ফাইলের আকার মুদ্রণ এবং হ্রাস করার জন্য সেরা</string>
     <string name="metadata">মেটাডেটা</string>
     <string name="metadata_pdf_sub">ভাল গোপনীয়তার জন্য নথি বৈশিষ্ট্য সম্পাদনা করুন</string>
@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">শেডারের নাম খালি হওয়া উচিত নয়।</string>
     <string name="shader_error_blank_source">শেডারের উৎস অবশ্যই খালি থাকবে না।</string>
     <string name="shader_error_unsupported_characters">Shader উৎসে অসমর্থিত অক্ষর রয়েছে: %1$s। শুধুমাত্র ASCII GLSL উৎস ব্যবহার করুন।</string>
-    <string name="shader_error_duplicate_parameter">প্যারামিটার \\"%1$s\\" একাধিকবার ঘোষণা করা হয়েছে।</string>
+    <string name="shader_error_duplicate_parameter">প্যারামিটার \\\"%1$s\\\" একাধিকবার ঘোষণা করা হয়েছে।</string>
     <string name="shader_error_blank_parameter_name">পরামিতি নাম খালি হতে হবে না.</string>
-    <string name="shader_error_reserved_parameter_name">প্যারামিটার \\"%1$s\\" একটি সংরক্ষিত GPUI চিত্র নাম ব্যবহার করে।</string>
-    <string name="shader_error_invalid_parameter_name">প্যারামিটার \\"%1$s\\" অবশ্যই একটি বৈধ GLSL শনাক্তকারী হতে হবে।</string>
-    <string name="shader_error_invalid_value_type">প্যারামিটার \\"%1$s\\" এর %2$s মান প্রকার \\"%3$s\\" আছে, প্রত্যাশিত \\"%4$s\\"।</string>
-    <string name="shader_error_bool_bounds">প্যারামিটার \\"%1$s\\" বুলের মানের জন্য সর্বনিম্ন বা সর্বোচ্চ নির্ধারণ করতে পারে না।</string>
-    <string name="shader_error_min_greater_than_max">\\"%1$s\\" প্যারামিটারে সর্বোচ্চ থেকে মিনিমাম বেশি।</string>
-    <string name="shader_error_default_lower_than_min">প্যারামিটার \\"%1$s\\" ডিফল্ট মিনিমাম থেকে কম।</string>
-    <string name="shader_error_default_greater_than_max">প্যারামিটার \\"%1$s\\" ডিফল্ট সর্বোচ্চ থেকে বড়।</string>
-    <string name="shader_error_missing_input_texture">শেডারকে অবশ্যই \\"ইউনিফর্ম স্যাম্পলার2D %1$s;\\" ঘোষণা করতে হবে।</string>
-    <string name="shader_error_missing_texture_coordinate">শেডারকে অবশ্যই \\"পরিবর্তিত vec2 %1$s;\\" ঘোষণা করতে হবে।</string>
-    <string name="shader_error_missing_main_function">Shader অবশ্যই \\"void main()\\" সংজ্ঞায়িত করবে।</string>
+    <string name="shader_error_reserved_parameter_name">প্যারামিটার \\\"%1$s\\\" একটি সংরক্ষিত GPUI চিত্র নাম ব্যবহার করে।</string>
+    <string name="shader_error_invalid_parameter_name">প্যারামিটার \\\"%1$s\\\" অবশ্যই একটি বৈধ GLSL শনাক্তকারী হতে হবে।</string>
+    <string name="shader_error_invalid_value_type">প্যারামিটার \\\"%1$s\\\" এর %2$s মান প্রকার \\\"%3$s\\\" আছে, প্রত্যাশিত \\\"%4$s\\\"।</string>
+    <string name="shader_error_bool_bounds">প্যারামিটার \\\"%1$s\\\" বুলের মানের জন্য সর্বনিম্ন বা সর্বোচ্চ নির্ধারণ করতে পারে না।</string>
+    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" প্যারামিটারে সর্বোচ্চ থেকে মিনিমাম বেশি।</string>
+    <string name="shader_error_default_lower_than_min">প্যারামিটার \\\"%1$s\\\" ডিফল্ট মিনিমাম থেকে কম।</string>
+    <string name="shader_error_default_greater_than_max">প্যারামিটার \\\"%1$s\\\" ডিফল্ট সর্বোচ্চ থেকে বড়।</string>
+    <string name="shader_error_missing_input_texture">শেডারকে অবশ্যই \\\"ইউনিফর্ম স্যাম্পলার2D %1$s;\\\" ঘোষণা করতে হবে।</string>
+    <string name="shader_error_missing_texture_coordinate">শেডারকে অবশ্যই \\\"পরিবর্তিত vec2 %1$s;\\\" ঘোষণা করতে হবে।</string>
+    <string name="shader_error_missing_main_function">Shader অবশ্যই \\\"void main()\\\" সংজ্ঞায়িত করবে।</string>
     <string name="shader_error_missing_fragment_color">Shader অবশ্যই gl_FragColor এ একটি রঙ লিখতে হবে।</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders সমর্থিত নয়। GPUImage এর void main() চুক্তি ব্যবহার করুন।</string>
-    <string name="shader_error_shadertoy_i_time">অ্যানিমেটেড ShaderToy ইউনিফর্ম \\"iTime\\" সমর্থিত নয়।</string>
-    <string name="shader_error_shadertoy_i_frame">অ্যানিমেটেড ShaderToy ইউনিফর্ম \\"iFrame\\" সমর্থিত নয়।</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy ইউনিফর্ম \\"iResolution\\" সমর্থিত নয়।</string>
+    <string name="shader_error_shadertoy_i_time">অ্যানিমেটেড ShaderToy ইউনিফর্ম \\\"iTime\\\" সমর্থিত নয়।</string>
+    <string name="shader_error_shadertoy_i_frame">অ্যানিমেটেড ShaderToy ইউনিফর্ম \\\"iFrame\\\" সমর্থিত নয়।</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy ইউনিফর্ম \\\"iResolution\\\" সমর্থিত নয়।</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel টেক্সচার সমর্থিত নয়।</string>
     <string name="shader_error_external_textures">বাহ্যিক টেক্সচার সমর্থিত নয়।</string>
     <string name="shader_error_external_texture_extensions">বাহ্যিক টেক্সচার এক্সটেনশন সমর্থিত নয়।</string>
     <string name="shader_error_libretro_parameters">Libretro shader পরামিতি সমর্থিত নয়।</string>
-    <string name="shader_error_extra_input_texture">শুধুমাত্র একটি ইনপুট টেক্সচার সমর্থিত। \\"ইউনিফর্ম %1$s %2$s;\\" সরান।</string>
-    <string name="shader_error_missing_uniform">প্যারামিটার \\"%1$s\\" অবশ্যই \\"ইনিফর্ম %2$s %1$s;\\" হিসেবে ঘোষণা করতে হবে।</string>
-    <string name="shader_error_wrong_uniform_type">প্যারামিটার \\"%1$s\\" কে \\"ইউনিফর্ম %2$s %1$s;\\" হিসেবে ঘোষণা করা হয়েছে, প্রত্যাশিত \\"ইউনিফর্ম %3$s %1$s;\\"।</string>
+    <string name="shader_error_extra_input_texture">শুধুমাত্র একটি ইনপুট টেক্সচার সমর্থিত। \\\"ইউনিফর্ম %1$s %2$s;\\\" সরান।</string>
+    <string name="shader_error_missing_uniform">প্যারামিটার \\\"%1$s\\\" অবশ্যই \\\"ইনিফর্ম %2$s %1$s;\\\" হিসেবে ঘোষণা করতে হবে।</string>
+    <string name="shader_error_wrong_uniform_type">প্যারামিটার \\\"%1$s\\\" কে \\\"ইউনিফর্ম %2$s %1$s;\\\" হিসেবে ঘোষণা করা হয়েছে, প্রত্যাশিত \\\"ইউনিফর্ম %3$s %1$s;\\\"।</string>
     <string name="shader_parse_error_empty_file">Shader ফাইলটি খালি।</string>
     <string name="shader_parse_error_not_itshader_json">Shader ফাইল সংস্করণ, নাম, এবং shader ক্ষেত্র সহ একটি .itshader JSON অবজেক্ট হতে হবে।</string>
     <string name="shader_parse_error_invalid_json">Shader ফাইলটি বৈধ JSON নয় বা .itshader ফর্ম্যাটের সাথে মেলে না।</string>
-    <string name="shader_parse_error_missing_field">ক্ষেত্র \\"%1$s\\" প্রয়োজন।</string>
+    <string name="shader_parse_error_missing_field">ক্ষেত্র \\\"%1$s\\\" প্রয়োজন।</string>
     <string name="shader_parse_error_missing_param_field">%1$s প্রয়োজন।</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" সমর্থিত নয়। সমর্থিত প্রকার: %3$s।</string>
-    <string name="shader_parse_error_missing_value">\\"%2$s\\" প্যারামিটারের জন্য %1$s প্রয়োজন।</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" সমর্থিত নয়। সমর্থিত প্রকার: %3$s।</string>
+    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" প্যারামিটারের জন্য %1$s প্রয়োজন।</string>
     <string name="shader_parse_error_finite_number_expected">%1$s একটি সসীম সংখ্যা হতে হবে।</string>
     <string name="shader_parse_error_integer_expected">%1$s একটি পূর্ণসংখ্যা হতে হবে।</string>
     <string name="shader_parse_error_bool_expected">%1$s সত্য বা মিথ্যা হতে হবে।</string>
@@ -3235,4 +3235,55 @@
     <string name="search_keywords_pdf_remove_annotations">পিডিএফ টীকা মন্তব্য মুছে পরিষ্কার</string>
     <string name="neutral_variant">নিরপেক্ষ বৈকল্পিক</string>
     <string name="error">ত্রুটি</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="search_keywords_audio_cover_extractor"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="search_keywords_pdf_rotate"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="search_keywords_document_scanner"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="search_keywords_image_cutter"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="search_keywords_collage_maker"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="search_keywords_apng_tools"></string>
+    <string name="search_keywords_svg_maker"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="search_keywords_color_tools"></string>
+    <string name="search_keywords_pdf_watermark"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="search_keywords_watermarking"></string>
+    <string name="search_keywords_noise_generation"></string>
+    <string name="search_keywords_scan_qr_code"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="search_keywords_load_net_image"></string>
+    <string name="search_keywords_pdf_ocr"></string>
+    <string name="search_keywords_gif_tools"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="search_keywords_image_preview"></string>
+    <string name="search_keywords_palette_tools"></string>
+    <string name="search_keywords_pdf_page_numbers"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="search_keywords_ascii_art"></string>
+    <string name="search_keywords_compare"></string>
+    <string name="search_keywords_image_stacking"></string>
+    <string name="search_keywords_filter"></string>
+    <string name="search_keywords_color_library"></string>
+    <string name="search_keywords_gradient_maker"></string>
+    <string name="search_keywords_checksum_tools"></string>
+    <string name="search_keywords_zip"></string>
+    <string name="search_keywords_pdf_unlock"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
