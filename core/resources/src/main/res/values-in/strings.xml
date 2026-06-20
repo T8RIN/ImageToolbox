@@ -1121,7 +1121,7 @@
     <string name="delete_template_warn">Anda akan menghapus filter template yang dipilih. Operasi ini tidak dapat dibatalkan</string>
     <string name="added_filter_template">Menambahkan templat filter dengan nama \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Pratinjau Filter</string>
-    <string name="qr_code">QR &amp;amp; Kode Batang</string>
+    <string name="qr_code">QR &amp; Kode Batang</string>
     <string name="qr_code_sub">Pindai kode QR dan dapatkan kontennya atau tempel string Anda untuk menghasilkan yang baru</string>
     <string name="code_content">Konten Kode</string>
     <string name="scan_qr_code_to_replace_content">Pindai kode batang apa pun untuk mengganti konten di bidang, atau ketik sesuatu untuk menghasilkan kode batang baru dengan jenis yang dipilih</string>
