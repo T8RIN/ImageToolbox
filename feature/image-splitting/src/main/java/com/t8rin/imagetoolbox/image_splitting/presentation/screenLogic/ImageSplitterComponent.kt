@@ -38,8 +38,10 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.image_splitting.domain.ImageSplitter
+import com.t8rin.imagetoolbox.image_splitting.domain.SavableSplitParams
 import com.t8rin.imagetoolbox.image_splitting.domain.SplitParams
 import com.t8rin.imagetoolbox.image_splitting.presentation.screenLogic.ImageSplitterComponent.HistorySnapshot
 import dagger.assisted.Assisted
@@ -61,10 +63,20 @@ class ImageSplitterComponent @AssistedInject internal constructor(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
+    private var savableParams by fileController.savable(
+        scope = componentScope,
+        initial = SavableSplitParams()
+    )
 
     init {
         debounce {
             initialUri?.let(::updateUri)
+            _params.update {
+                it.copy(
+                    rowsCount = savableParams.rowsCount,
+                    columnsCount = savableParams.columnsCount
+                )
+            }
         }
     }
 
@@ -110,6 +122,10 @@ class ImageSplitterComponent @AssistedInject internal constructor(
 
     fun updateParams(params: SplitParams) {
         if (params != this.params) {
+            savableParams = SavableSplitParams(
+                rowsCount = params.rowsCount,
+                columnsCount = params.columnsCount
+            )
             beginPendingHistoryTransaction()
             _params.update { params }
             registerChanges()
