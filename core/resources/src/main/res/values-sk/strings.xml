@@ -1997,9 +1997,9 @@
     <string name="horizontal_border_thickness">Hrúbka horizontálneho okraja</string>
     <string name="vertical_border_thickness">Hrúbka vertikálneho okraja</string>
     <plurals name="color_count">
-        <item quantity="many">%1$s dňa</item>
         <item quantity="one">%1$s farba</item>
         <item quantity="few">%1$s farieb</item>
+        <item quantity="many">%1$s farieb</item>
         <item quantity="other">%1$s farieb</item>
     </plurals>
     <string name="current_model_not_chunkable">Aktuálny model nepodporuje chunking, obraz bude spracovaný v pôvodných rozmeroch, čo môže spôsobiť vysokú spotrebu pamäte a problémy s low-end zariadeniami</string>
@@ -2140,7 +2140,7 @@
     <string name="grayscale_pdf_sub">Previesť všetky obrázky vložené do dokumentu na odtiene sivej</string>
     <string name="compress_pdf">Komprimovať PDF</string>
     <string name="compress_pdf_sub">Optimalizujte veľkosť súboru dokumentu pre jednoduchšie zdieľanie</string>
-    <string name="repair_info">ImageToolbox prestavuje internú tabuľku krížových odkazov a regeneruje štruktúru súborov od začiatku. To môže obnoviť prístup k mnohým súborom, ktoré \\"nemožno otvoriť\\"</string>
+    <string name="repair_info">ImageToolbox prestavuje internú tabuľku krížových odkazov a regeneruje štruktúru súborov od začiatku. To môže obnoviť prístup k mnohým súborom, ktoré \\\"nemožno otvoriť\\\"</string>
     <string name="grayscale_info">Tento nástroj skonvertuje všetky obrázky dokumentov do odtieňov sivej. Najlepšie na tlač a zmenšenie veľkosti súboru</string>
     <string name="metadata">Metadáta</string>
     <string name="metadata_pdf_sub">Upravte vlastnosti dokumentu pre lepšie súkromie</string>
@@ -2358,37 +2358,37 @@
     <string name="shader_error_blank_name">Názov tieňovača nesmie byť prázdny.</string>
     <string name="shader_error_blank_source">Zdroj tieňovania nesmie byť prázdny.</string>
     <string name="shader_error_unsupported_characters">Shader zdroj obsahuje nepodporované znaky: %1$s. Používajte len zdroj ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Parameter \\"%1$s\\" je deklarovaný viac ako raz.</string>
+    <string name="shader_error_duplicate_parameter">Parameter \\\"%1$s\\\" je deklarovaný viac ako raz.</string>
     <string name="shader_error_blank_parameter_name">Názvy parametrov nesmú byť prázdne.</string>
-    <string name="shader_error_reserved_parameter_name">Parameter \\"%1$s\\" používa vyhradený názov GPUImage.</string>
-    <string name="shader_error_invalid_parameter_name">Parameter \\"%1$s\\" musí byť platným identifikátorom GLSL.</string>
-    <string name="shader_error_invalid_value_type">Parameter \\"%1$s\\" má %2$s typ hodnoty \\"%3$s\\", očakávaný \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Parameter \\"%1$s\\" nemôže definovať minimálnu alebo maximálnu hodnotu boolov.</string>
-    <string name="shader_error_min_greater_than_max">Parameter \\"%1$s\\" má min. väčší ako max.</string>
-    <string name="shader_error_default_lower_than_min">Predvolený parameter \\"%1$s\\" je nižší ako min.</string>
-    <string name="shader_error_default_greater_than_max">Predvolený parameter \\"%1$s\\" je väčší ako max.</string>
-    <string name="shader_error_missing_input_texture">Shader musí deklarovať \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader musí deklarovať \\"varying vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Shader musí definovať \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parameter \\\"%1$s\\\" používa vyhradený názov GPUImage.</string>
+    <string name="shader_error_invalid_parameter_name">Parameter \\\"%1$s\\\" musí byť platným identifikátorom GLSL.</string>
+    <string name="shader_error_invalid_value_type">Parameter \\\"%1$s\\\" má %2$s typ hodnoty \\\"%3$s\\\", očakávaný \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Parameter \\\"%1$s\\\" nemôže definovať minimálnu alebo maximálnu hodnotu boolov.</string>
+    <string name="shader_error_min_greater_than_max">Parameter \\\"%1$s\\\" má min. väčší ako max.</string>
+    <string name="shader_error_default_lower_than_min">Predvolený parameter \\\"%1$s\\\" je nižší ako min.</string>
+    <string name="shader_error_default_greater_than_max">Predvolený parameter \\\"%1$s\\\" je väčší ako max.</string>
+    <string name="shader_error_missing_input_texture">Shader musí deklarovať \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader musí deklarovať \\\"varying vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Shader musí definovať \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader musí zapísať farbu do gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shadery nie sú podporované. Použite neplatnú zmluvu main() GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Animovaná uniforma ShaderToy \\"iTime\\" nie je podporovaná.</string>
-    <string name="shader_error_shadertoy_i_frame">Animovaná uniforma ShaderToy \\"iFrame\\" nie je podporovaná.</string>
-    <string name="shader_error_shadertoy_i_resolution">Uniforma ShaderToy \\"iResolution\\" nie je podporovaná.</string>
+    <string name="shader_error_shadertoy_i_time">Animovaná uniforma ShaderToy \\\"iTime\\\" nie je podporovaná.</string>
+    <string name="shader_error_shadertoy_i_frame">Animovaná uniforma ShaderToy \\\"iFrame\\\" nie je podporovaná.</string>
+    <string name="shader_error_shadertoy_i_resolution">Uniforma ShaderToy \\\"iResolution\\\" nie je podporovaná.</string>
     <string name="shader_error_shadertoy_i_channel">Textúry ShaderToy iChannel nie sú podporované.</string>
     <string name="shader_error_external_textures">Vonkajšie textúry nie sú podporované.</string>
     <string name="shader_error_external_texture_extensions">Externé rozšírenia textúr nie sú podporované.</string>
     <string name="shader_error_libretro_parameters">Parametre shadera Libretro nie sú podporované.</string>
-    <string name="shader_error_extra_input_texture">Podporovaná je iba jedna vstupná textúra. Odstrániť \\"uniform %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Parameter \\"%1$s\\" musí byť deklarovaný ako \\"uniform %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parameter \\"%1$s\\" je deklarovaný ako \\"jednotný %2$s %1$s;\\", očakávaný \\"jednotný %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Podporovaná je iba jedna vstupná textúra. Odstrániť \\\"uniform %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Parameter \\\"%1$s\\\" musí byť deklarovaný ako \\\"uniform %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Parameter \\\"%1$s\\\" je deklarovaný ako \\\"jednotný %2$s %1$s;\\\", očakávaný \\\"jednotný %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Shader súbor je prázdny.</string>
     <string name="shader_parse_error_not_itshader_json">Shader súbor musí byť objekt .itshader JSON s poliami verzie, názvu a shadera.</string>
     <string name="shader_parse_error_invalid_json">Shader súbor nie je platný JSON alebo sa nezhoduje s formátom .itshader.</string>
-    <string name="shader_parse_error_missing_field">Pole \\"%1$s\\" je povinné.</string>
+    <string name="shader_parse_error_missing_field">Pole \\\"%1$s\\\" je povinné.</string>
     <string name="shader_parse_error_missing_param_field">Vyžaduje sa %1$s.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" nie je podporované. Podporované typy: %3$s.</string>
-    <string name="shader_parse_error_missing_value">Pre parametre \\"%2$s\\" sa vyžaduje %1$s.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" nie je podporované. Podporované typy: %3$s.</string>
+    <string name="shader_parse_error_missing_value">Pre parametre \\\"%2$s\\\" sa vyžaduje %1$s.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s musí byť konečné číslo.</string>
     <string name="shader_parse_error_integer_expected">%1$s musí byť celé číslo.</string>
     <string name="shader_parse_error_bool_expected">%1$s musí byť pravdivé alebo nepravdivé.</string>
@@ -3264,4 +3264,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf anotácie komentáre odstrániť čisté</string>
     <string name="neutral_variant">Neutrálny variant</string>
     <string name="error">Chyba</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
