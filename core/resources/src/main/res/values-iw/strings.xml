@@ -1997,10 +1997,9 @@
     <string name="horizontal_border_thickness">עובי גבול אופקי</string>
     <string name="vertical_border_thickness">עובי גבול אנכי</string>
     <plurals name="color_count">
-        <item quantity="other">%1$s צבעים</item>
-        <item quantity="many">%1$s צבעים</item>
         <item quantity="one">%1$s צבעים</item>
         <item quantity="two">%1$s צבעים</item>
+        <item quantity="other">%1$s צבעים</item>
     </plurals>
     <string name="current_model_not_chunkable">הדגם הנוכחי אינו תומך ב-chunking, התמונה תעובד במידות מקוריות, הדבר עלול לגרום לצריכת זיכרון גבוהה ולבעיות במכשירים מתקדמים</string>
     <string name="chunking_disabled">Chunking מושבת, התמונה תעובד במידות מקוריות, זה עלול לגרום לצריכת זיכרון גבוהה ולבעיות במכשירים מתקדמים אך עשוי לתת תוצאות טובות יותר בהסקת מסקנות</string>
@@ -2140,7 +2139,7 @@
     <string name="grayscale_pdf_sub">המר את כל התמונות המוטבעות במסמכים לגווני אפור</string>
     <string name="compress_pdf">דחוס PDF</string>
     <string name="compress_pdf_sub">בצע אופטימיזציה של גודל קובץ המסמך שלך לשיתוף קל יותר</string>
-    <string name="repair_info">ImageToolbox בונה מחדש את טבלת ההפניות הפנימית ומחדשת את מבנה הקובץ מאפס. זה יכול לשחזר גישה לקבצים רבים ש\\"לא ניתן לפתוח\\"</string>
+    <string name="repair_info">ImageToolbox בונה מחדש את טבלת ההפניות הפנימית ומחדשת את מבנה הקובץ מאפס. זה יכול לשחזר גישה לקבצים רבים ש\\\"לא ניתן לפתוח\\\"</string>
     <string name="grayscale_info">כלי זה ממיר את כל תמונות המסמכים לגווני אפור. הטוב ביותר להדפסה ולהקטנת גודל הקובץ</string>
     <string name="metadata">מטא נתונים</string>
     <string name="metadata_pdf_sub">ערוך מאפייני מסמך לפרטיות טובה יותר</string>
@@ -2358,37 +2357,37 @@
     <string name="shader_error_blank_name">שם הצללה לא יכול להיות ריק.</string>
     <string name="shader_error_blank_source">מקור הצללה לא חייב להיות ריק.</string>
     <string name="shader_error_unsupported_characters">מקור Shader מכיל תווים שאינם נתמכים: %1$s. השתמש במקור ASCII GLSL בלבד.</string>
-    <string name="shader_error_duplicate_parameter">הפרמטר \\"%1$s\\" מוכרז יותר מפעם אחת.</string>
+    <string name="shader_error_duplicate_parameter">הפרמטר \\\"%1$s\\\" מוכרז יותר מפעם אחת.</string>
     <string name="shader_error_blank_parameter_name">שמות פרמטרים לא יכולים להיות ריקים.</string>
-    <string name="shader_error_reserved_parameter_name">הפרמטר \\"%1$s\\" משתמש בשם GPUIimage שמור.</string>
-    <string name="shader_error_invalid_parameter_name">הפרמטר \\"%1$s\\" חייב להיות מזהה GLSL חוקי.</string>
-    <string name="shader_error_invalid_value_type">לפרמטר \\"%1$s\\" יש %2$s סוג ערך \\"%3$s\\", צפוי \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">הפרמטר \\"%1$s\\" אינו יכול להגדיר מינימום או מקסימום עבור ערכי bool.</string>
-    <string name="shader_error_min_greater_than_max">לפרמטר \\"%1$s\\" יש דקות גדולות מהמקסימום.</string>
-    <string name="shader_error_default_lower_than_min">ברירת המחדל של הפרמטר \\"%1$s\\" נמוכה ממינימום.</string>
-    <string name="shader_error_default_greater_than_max">ברירת המחדל של הפרמטר \\"%1$s\\" גדולה מהמקסימום.</string>
-    <string name="shader_error_missing_input_texture">Shader חייב להכריז על \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader חייב להכריז על \\"variing vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Shader חייב להגדיר \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">הפרמטר \\\"%1$s\\\" משתמש בשם GPUIimage שמור.</string>
+    <string name="shader_error_invalid_parameter_name">הפרמטר \\\"%1$s\\\" חייב להיות מזהה GLSL חוקי.</string>
+    <string name="shader_error_invalid_value_type">לפרמטר \\\"%1$s\\\" יש %2$s סוג ערך \\\"%3$s\\\", צפוי \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">הפרמטר \\\"%1$s\\\" אינו יכול להגדיר מינימום או מקסימום עבור ערכי bool.</string>
+    <string name="shader_error_min_greater_than_max">לפרמטר \\\"%1$s\\\" יש דקות גדולות מהמקסימום.</string>
+    <string name="shader_error_default_lower_than_min">ברירת המחדל של הפרמטר \\\"%1$s\\\" נמוכה ממינימום.</string>
+    <string name="shader_error_default_greater_than_max">ברירת המחדל של הפרמטר \\\"%1$s\\\" גדולה מהמקסימום.</string>
+    <string name="shader_error_missing_input_texture">Shader חייב להכריז על \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader חייב להכריז על \\\"variing vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Shader חייב להגדיר \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader חייב לכתוב צבע ל-gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">הצללות של ShaderToy mainImage אינן נתמכות. השתמש בחוזה main() void של GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">מדי ShaderToy מונפש \\"iTime\\" אינם נתמכים.</string>
-    <string name="shader_error_shadertoy_i_frame">המדים \\"iFrame\\" של ShaderToy מונפשים אינם נתמכים.</string>
-    <string name="shader_error_shadertoy_i_resolution">מדים של ShaderToy \\"iResolution\\" אינם נתמכים.</string>
+    <string name="shader_error_shadertoy_i_time">מדי ShaderToy מונפש \\\"iTime\\\" אינם נתמכים.</string>
+    <string name="shader_error_shadertoy_i_frame">המדים \\\"iFrame\\\" של ShaderToy מונפשים אינם נתמכים.</string>
+    <string name="shader_error_shadertoy_i_resolution">מדים של ShaderToy \\\"iResolution\\\" אינם נתמכים.</string>
     <string name="shader_error_shadertoy_i_channel">מרקמי iChannel של ShaderToy אינם נתמכים.</string>
     <string name="shader_error_external_textures">טקסטורות חיצוניות אינן נתמכות.</string>
     <string name="shader_error_external_texture_extensions">הרחבות מרקם חיצוני אינן נתמכות.</string>
     <string name="shader_error_libretro_parameters">פרמטרי הצללה של Libretro אינם נתמכים.</string>
-    <string name="shader_error_extra_input_texture">רק מרקם קלט אחד נתמך. הסר את \\"מדים %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">יש להצהיר על הפרמטר \\"%1$s\\" כ\\"אחיד %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">הפרמטר \\"%1$s\\" מוכרז כ\\"אחיד %2$s %1$s;\\", צפוי \\"אחיד %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">רק מרקם קלט אחד נתמך. הסר את \\\"מדים %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">יש להצהיר על הפרמטר \\\"%1$s\\\" כ\\\"אחיד %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">הפרמטר \\\"%1$s\\\" מוכרז כ\\\"אחיד %2$s %1$s;\\\", צפוי \\\"אחיד %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">קובץ Shader ריק.</string>
     <string name="shader_parse_error_not_itshader_json">קובץ Shader חייב להיות אובייקט ‎.itshader JSON עם שדות גרסה, שם ושדות הצללה.</string>
     <string name="shader_parse_error_invalid_json">קובץ Shader אינו JSON חוקי או אינו תואם לפורמט .itshader.</string>
-    <string name="shader_parse_error_missing_field">שדה \\"%1$s\\" נדרש.</string>
+    <string name="shader_parse_error_missing_field">שדה \\\"%1$s\\\" נדרש.</string>
     <string name="shader_parse_error_missing_param_field">%1$s נדרש.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" אינו נתמך. סוגים נתמכים: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s נדרש עבור פרמטרים של \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" אינו נתמך. סוגים נתמכים: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s נדרש עבור פרמטרים של \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s חייב להיות מספר סופי.</string>
     <string name="shader_parse_error_integer_expected">%1$s חייב להיות מספר שלם.</string>
     <string name="shader_parse_error_bool_expected">%1$s חייב להיות נכון או לא נכון.</string>
@@ -3264,4 +3263,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf הערות הערות להסיר נקי</string>
     <string name="neutral_variant">וריאנט ניטרלי</string>
     <string name="error">שְׁגִיאָה</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
