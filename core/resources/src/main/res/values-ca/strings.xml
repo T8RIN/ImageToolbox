@@ -2138,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Converteix totes les imatges incrustades del document a escala de grisos</string>
     <string name="compress_pdf">Comprimir PDF</string>
     <string name="compress_pdf_sub">Optimitzeu la mida del fitxer del document per compartir-lo més fàcilment</string>
-    <string name="repair_info">ImageToolbox reconstrueix la taula interna de referències creuades i regenera l\'estructura de fitxers des de zero. Això pot restaurar l\'accés a molts fitxers que \\"no es poden obrir\\"</string>
+    <string name="repair_info">ImageToolbox reconstrueix la taula interna de referències creuades i regenera l\'estructura de fitxers des de zero. Això pot restaurar l\'accés a molts fitxers que \\\"no es poden obrir\\\"</string>
     <string name="grayscale_info">Aquesta eina converteix totes les imatges del document a escala de grisos. El millor per imprimir i reduir la mida del fitxer</string>
     <string name="metadata">Metadades</string>
     <string name="metadata_pdf_sub">Editeu les propietats del document per a una millor privadesa</string>
@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">El nom de l\'ombra no ha de quedar en blanc.</string>
     <string name="shader_error_blank_source">La font de l\'ombra no ha d\'estar en blanc.</string>
     <string name="shader_error_unsupported_characters">La font d\'ombra conté caràcters no admesos: %1$s. Utilitzeu només la font ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">El paràmetre \\"%1$s\\" es declara més d\'una vegada.</string>
+    <string name="shader_error_duplicate_parameter">El paràmetre \\\"%1$s\\\" es declara més d\'una vegada.</string>
     <string name="shader_error_blank_parameter_name">Els noms dels paràmetres no poden quedar en blanc.</string>
-    <string name="shader_error_reserved_parameter_name">El paràmetre \\"%1$s\\" utilitza un nom reservat de GPUImage.</string>
-    <string name="shader_error_invalid_parameter_name">El paràmetre \\"%1$s\\" ha de ser un identificador GLSL vàlid.</string>
-    <string name="shader_error_invalid_value_type">El paràmetre \\"%1$s\\" té el tipus de valor %2$s \\"%3$s\\", esperat \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">El paràmetre \\"%1$s\\" no pot definir el mínim ni el màxim per als valors bool.</string>
-    <string name="shader_error_min_greater_than_max">El paràmetre \\"%1$s\\" té un mínim més gran que un màxim.</string>
-    <string name="shader_error_default_lower_than_min">El paràmetre \\"%1$s\\" per defecte és inferior al min.</string>
-    <string name="shader_error_default_greater_than_max">El paràmetre \\"%1$s\\" per defecte és superior al màxim.</string>
-    <string name="shader_error_missing_input_texture">Shader ha de declarar \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader ha de declarar \\"vec2 variable %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Shader ha de definir \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">El paràmetre \\\"%1$s\\\" utilitza un nom reservat de GPUImage.</string>
+    <string name="shader_error_invalid_parameter_name">El paràmetre \\\"%1$s\\\" ha de ser un identificador GLSL vàlid.</string>
+    <string name="shader_error_invalid_value_type">El paràmetre \\\"%1$s\\\" té el tipus de valor %2$s \\\"%3$s\\\", esperat \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">El paràmetre \\\"%1$s\\\" no pot definir el mínim ni el màxim per als valors bool.</string>
+    <string name="shader_error_min_greater_than_max">El paràmetre \\\"%1$s\\\" té un mínim més gran que un màxim.</string>
+    <string name="shader_error_default_lower_than_min">El paràmetre \\\"%1$s\\\" per defecte és inferior al min.</string>
+    <string name="shader_error_default_greater_than_max">El paràmetre \\\"%1$s\\\" per defecte és superior al màxim.</string>
+    <string name="shader_error_missing_input_texture">Shader ha de declarar \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader ha de declarar \\\"vec2 variable %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Shader ha de definir \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shader ha d\'escriure un color a gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">Els shaders mainImage de ShaderToy no són compatibles. Utilitzeu el contracte void main() de GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">L\'uniforme animat de ShaderToy \\"iTime\\" no és compatible.</string>
-    <string name="shader_error_shadertoy_i_frame">L\'uniforme animat de ShaderToy \\"iFrame\\" no és compatible.</string>
-    <string name="shader_error_shadertoy_i_resolution">L\'uniforme \\"iResolution\\" de ShaderToy no és compatible.</string>
+    <string name="shader_error_shadertoy_i_time">L\'uniforme animat de ShaderToy \\\"iTime\\\" no és compatible.</string>
+    <string name="shader_error_shadertoy_i_frame">L\'uniforme animat de ShaderToy \\\"iFrame\\\" no és compatible.</string>
+    <string name="shader_error_shadertoy_i_resolution">L\'uniforme \\\"iResolution\\\" de ShaderToy no és compatible.</string>
     <string name="shader_error_shadertoy_i_channel">Les textures iChannel de ShaderToy no són compatibles.</string>
     <string name="shader_error_external_textures">Les textures externes no s\'admeten.</string>
     <string name="shader_error_external_texture_extensions">Les extensions de textures externes no són compatibles.</string>
     <string name="shader_error_libretro_parameters">Els paràmetres de l\'ombra de Libretro no són compatibles.</string>
-    <string name="shader_error_extra_input_texture">Només s\'admet una textura d\'entrada. Elimina \\"uniforme %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">El paràmetre \\"%1$s\\" s\'ha de declarar com a \\"uniforme %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">El paràmetre \\"%1$s\\" es declara com a \\"uniform %2$s %1$s;\\", esperat \\"uniform %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Només s\'admet una textura d\'entrada. Elimina \\\"uniforme %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">El paràmetre \\\"%1$s\\\" s\'ha de declarar com a \\\"uniforme %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">El paràmetre \\\"%1$s\\\" es declara com a \\\"uniform %2$s %1$s;\\\", esperat \\\"uniform %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">El fitxer shader està buit.</string>
     <string name="shader_parse_error_not_itshader_json">El fitxer shader ha de ser un objecte JSON .itshader amb camps de versió, nom i shader.</string>
     <string name="shader_parse_error_invalid_json">El fitxer Shader no és un JSON vàlid o no coincideix amb el format .itshader.</string>
-    <string name="shader_parse_error_missing_field">El camp \\"%1$s\\" és obligatori.</string>
+    <string name="shader_parse_error_missing_field">El camp \\\"%1$s\\\" és obligatori.</string>
     <string name="shader_parse_error_missing_param_field">%1$s és obligatori.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" no és compatible. Tipus compatibles: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s és necessari per als paràmetres \\"%2$s\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" no és compatible. Tipus compatibles: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s és necessari per als paràmetres \\\"%2$s\\\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s ha de ser un nombre finit.</string>
     <string name="shader_parse_error_integer_expected">%1$s ha de ser un nombre enter.</string>
     <string name="shader_parse_error_bool_expected">%1$s ha de ser vertader o fals.</string>
@@ -3207,4 +3207,83 @@
     <string name="search_keywords_pdf_compress">pdf comprimir reduir la mida optimitzar</string>
     <string name="search_keywords_pdf_flatten">pdf aplanar anotacions forma capes</string>
     <string name="error">Error</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="search_keywords_pdf_extract_images"></string>
+    <string name="search_keywords_pdf_preview"></string>
+    <string name="search_keywords_pdf_crop"></string>
+    <string name="search_keywords_single_edit"></string>
+    <string name="search_keywords_format_conversion"></string>
+    <string name="search_keywords_crop"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="search_keywords_mesh_gradients"></string>
+    <string name="search_keywords_pdf_images_to_pdf"></string>
+    <string name="search_keywords_edit_exif"></string>
+    <string name="search_keywords_resize_and_convert"></string>
+    <string name="neutral_variant"></string>
+    <string name="search_keywords_delete_exif"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="search_keywords_pdf_rotate"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="search_keywords_pdf_split"></string>
+    <string name="search_keywords_document_scanner"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="search_keywords_jxl_tools"></string>
+    <string name="search_keywords_pdf_zip_convert"></string>
+    <string name="search_keywords_image_cutter"></string>
+    <string name="search_keywords_recognize_text"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="search_keywords_pdf_tools"></string>
+    <string name="search_keywords_erase_background"></string>
+    <string name="search_keywords_apng_tools"></string>
+    <string name="search_keywords_svg_maker"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="search_keywords_color_tools"></string>
+    <string name="search_keywords_pdf_merge"></string>
+    <string name="search_keywords_pdf_repair"></string>
+    <string name="search_keywords_pdf_watermark"></string>
+    <string name="search_keywords_pdf_signature"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="search_keywords_pick_color_from_image"></string>
+    <string name="search_keywords_scan_qr_code"></string>
+    <string name="search_keywords_webp_tools"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="search_keywords_load_net_image"></string>
+    <string name="search_keywords_base64_tools"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="search_keywords_image_preview"></string>
+    <string name="search_keywords_palette_tools"></string>
+    <string name="search_keywords_draw"></string>
+    <string name="search_keywords_pdf_print"></string>
+    <string name="search_keywords_image_splitting"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="search_keywords_pdf_extract_pages"></string>
+    <string name="search_keywords_weight_resize"></string>
+    <string name="search_keywords_compare"></string>
+    <string name="search_keywords_pdf_remove_annotations"></string>
+    <string name="search_keywords_image_stacking"></string>
+    <string name="search_keywords_filter"></string>
+    <string name="search_keywords_color_library"></string>
+    <string name="search_keywords_pdf_metadata"></string>
+    <string name="search_keywords_gradient_maker"></string>
+    <string name="search_keywords_checksum_tools"></string>
+    <string name="search_keywords_zip"></string>
+    <string name="search_keywords_pdf_protect"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="search_keywords_pdf_grayscale"></string>
+    <string name="search_keywords_cipher"></string>
+    <string name="search_keywords_limit_resize"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="search_keywords_image_stitching"></string>
+    <string name="search_keywords_pdf_remove_pages"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
