@@ -904,7 +904,7 @@
     <string name="engine_mode">Moottoritila</string>
     <string name="legacy">Legacy</string>
     <string name="lstm_network">LSTM verkko</string>
-    <string name="legacy_and_lstm">Legacy &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
     <string name="convert">Muuntaa</string>
     <string name="convert_sub">Muunna kuvaerät annettuun muotoon</string>
     <string name="add_new_folder">Lisää uusi kansio</string>
@@ -2138,7 +2138,7 @@
     <string name="grayscale_pdf_sub">Muunna kaikki asiakirjan upotetut kuvat harmaasävyiksi</string>
     <string name="compress_pdf">Pakkaa PDF</string>
     <string name="compress_pdf_sub">Optimoi asiakirjatiedoston koko helpottamaan jakamista</string>
-    <string name="repair_info">ImageToolbox rakentaa sisäisen ristiviittaustaulukon uudelleen ja luo tiedostorakenteen uudelleen tyhjästä. Tämä voi palauttaa pääsyn moniin tiedostoihin, joita \\"ei voi avata\\"</string>
+    <string name="repair_info">ImageToolbox rakentaa sisäisen ristiviittaustaulukon uudelleen ja luo tiedostorakenteen uudelleen tyhjästä. Tämä voi palauttaa pääsyn moniin tiedostoihin, joita \\\"ei voi avata\\\"</string>
     <string name="grayscale_info">Tämä työkalu muuntaa kaikki asiakirjan kuvat harmaasävyiksi. Paras tulostukseen ja tiedostokoon pienentämiseen</string>
     <string name="metadata">Metatiedot</string>
     <string name="metadata_pdf_sub">Muokkaa asiakirjan ominaisuuksia parantaaksesi yksityisyyttä</string>
@@ -2356,37 +2356,37 @@
     <string name="shader_error_blank_name">Varjostimen nimi ei saa olla tyhjä.</string>
     <string name="shader_error_blank_source">Varjostimen lähde ei saa olla tyhjä.</string>
     <string name="shader_error_unsupported_characters">Shader-lähde sisältää merkkejä, joita ei tueta: %1$s. Käytä vain ASCII GLSL -lähdettä.</string>
-    <string name="shader_error_duplicate_parameter">Parametri \\"%1$s\\" ilmoitetaan useammin kuin kerran.</string>
+    <string name="shader_error_duplicate_parameter">Parametri \\\"%1$s\\\" ilmoitetaan useammin kuin kerran.</string>
     <string name="shader_error_blank_parameter_name">Parametrien nimet eivät saa olla tyhjiä.</string>
-    <string name="shader_error_reserved_parameter_name">Parametri \\"%1$s\\" käyttää varattua GPUI-kuvan nimeä.</string>
-    <string name="shader_error_invalid_parameter_name">Parametrin \\"%1$s\\" on oltava kelvollinen GLSL-tunniste.</string>
-    <string name="shader_error_invalid_value_type">Parametrilla \\"%1$s\\" on %2$s-arvotyyppi \\"%3$s\\", odotusarvo \\"%4$s\\".</string>
-    <string name="shader_error_bool_bounds">Parametri \\"%1$s\\" ei voi määrittää vähimmäis- tai enimmäisarvoa loogisille arvoille.</string>
-    <string name="shader_error_min_greater_than_max">Parametrin \\"%1$s\\" min on suurempi kuin max.</string>
-    <string name="shader_error_default_lower_than_min">Parametrin \\"%1$s\\" oletusarvo on pienempi kuin min.</string>
-    <string name="shader_error_default_greater_than_max">Parametrin \\"%1$s\\" oletusarvo on suurempi kuin max.</string>
-    <string name="shader_error_missing_input_texture">Shaderin on ilmoitettava \\"uniform sampler2D %1$s;\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shaderin täytyy ilmoittaa \\"varying vec2 %1$s;\\".</string>
-    <string name="shader_error_missing_main_function">Shaderin on määritettävä \\"void main()\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parametri \\\"%1$s\\\" käyttää varattua GPUI-kuvan nimeä.</string>
+    <string name="shader_error_invalid_parameter_name">Parametrin \\\"%1$s\\\" on oltava kelvollinen GLSL-tunniste.</string>
+    <string name="shader_error_invalid_value_type">Parametrilla \\\"%1$s\\\" on %2$s-arvotyyppi \\\"%3$s\\\", odotusarvo \\\"%4$s\\\".</string>
+    <string name="shader_error_bool_bounds">Parametri \\\"%1$s\\\" ei voi määrittää vähimmäis- tai enimmäisarvoa loogisille arvoille.</string>
+    <string name="shader_error_min_greater_than_max">Parametrin \\\"%1$s\\\" min on suurempi kuin max.</string>
+    <string name="shader_error_default_lower_than_min">Parametrin \\\"%1$s\\\" oletusarvo on pienempi kuin min.</string>
+    <string name="shader_error_default_greater_than_max">Parametrin \\\"%1$s\\\" oletusarvo on suurempi kuin max.</string>
+    <string name="shader_error_missing_input_texture">Shaderin on ilmoitettava \\\"uniform sampler2D %1$s;\\\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shaderin täytyy ilmoittaa \\\"varying vec2 %1$s;\\\".</string>
+    <string name="shader_error_missing_main_function">Shaderin on määritettävä \\\"void main()\\\".</string>
     <string name="shader_error_missing_fragment_color">Shaderin on kirjoitettava väri kohtaan gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage -varjostimia ei tueta. Käytä GPUImagen mitätöntä main() -sopimusta.</string>
-    <string name="shader_error_shadertoy_i_time">Animoitua ShaderToy-pukua \\"iTime\\" ei tueta.</string>
-    <string name="shader_error_shadertoy_i_frame">Animoitua ShaderToy-pukua \\"iFrame\\" ei tueta.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy univormua \\"iResolution\\" ei tueta.</string>
+    <string name="shader_error_shadertoy_i_time">Animoitua ShaderToy-pukua \\\"iTime\\\" ei tueta.</string>
+    <string name="shader_error_shadertoy_i_frame">Animoitua ShaderToy-pukua \\\"iFrame\\\" ei tueta.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy univormua \\\"iResolution\\\" ei tueta.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel -kuvioita ei tueta.</string>
     <string name="shader_error_external_textures">Ulkoisia pintakuvioita ei tueta.</string>
     <string name="shader_error_external_texture_extensions">Ulkoisia pintakuviolaajennuksia ei tueta.</string>
     <string name="shader_error_libretro_parameters">Libretro Shader -parametreja ei tueta.</string>
-    <string name="shader_error_extra_input_texture">Vain yhtä syöttötekstuuria tuetaan. Poista \\"uniform %1$s %2$s;\\".</string>
-    <string name="shader_error_missing_uniform">Parametri \\"%1$s\\" on ilmoitettava muodossa \\"yhdenmukainen %2$s %1$s;\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametri \\"%1$s\\" on ilmoitettu \\"yhtenäinen %2$s %1$s;\\", odotettu \\"yhtenäinen %3$s %1$s;\\".</string>
+    <string name="shader_error_extra_input_texture">Vain yhtä syöttötekstuuria tuetaan. Poista \\\"uniform %1$s %2$s;\\\".</string>
+    <string name="shader_error_missing_uniform">Parametri \\\"%1$s\\\" on ilmoitettava muodossa \\\"yhdenmukainen %2$s %1$s;\\\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametri \\\"%1$s\\\" on ilmoitettu \\\"yhtenäinen %2$s %1$s;\\\", odotettu \\\"yhtenäinen %3$s %1$s;\\\".</string>
     <string name="shader_parse_error_empty_file">Shader-tiedosto on tyhjä.</string>
     <string name="shader_parse_error_not_itshader_json">Shader-tiedoston on oltava .itshader JSON-objekti, jossa on versio-, nimi- ja shader-kentät.</string>
     <string name="shader_parse_error_invalid_json">Shader-tiedosto ei ole kelvollinen JSON tai se ei vastaa .itshader-muotoa.</string>
-    <string name="shader_parse_error_missing_field">Kenttä \\"%1$s\\" on pakollinen.</string>
+    <string name="shader_parse_error_missing_field">Kenttä \\\"%1$s\\\" on pakollinen.</string>
     <string name="shader_parse_error_missing_param_field">%1$s vaaditaan.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\"%2$s\\" ei ole tuettu. Tuetut tyypit: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s vaaditaan \\"%2$s\\" parametreille.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" ei ole tuettu. Tuetut tyypit: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s vaaditaan \\\"%2$s\\\" parametreille.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s on oltava äärellinen luku.</string>
     <string name="shader_parse_error_integer_expected">%1$s on oltava kokonaisluku.</string>
     <string name="shader_parse_error_bool_expected">%1$s on oltava tosi tai epätosi.</string>
@@ -3262,4 +3262,28 @@
     <string name="search_keywords_pdf_remove_annotations">pdf-merkinnät kommentit poista puhdas</string>
     <string name="neutral_variant">Neutraali vaihtoehto</string>
     <string name="error">Virhe</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
