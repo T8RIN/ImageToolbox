@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.domain.image.model
 
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+
 data class ImageExportProfiles(
     val presets: List<ImageExportProfile> = emptyList()
 )
@@ -26,6 +28,7 @@ data class ImageExportProfile(
     val imageInfo: ImageInfo = ImageInfo(),
     val preset: Preset = Preset.None,
     val keepExif: Boolean? = null,
+    val backgroundColorForNoAlphaFormats: Int? = null,
     val version: Int = 1
 ) {
 
@@ -37,12 +40,25 @@ data class ImageExportProfile(
         sizeInBytes = 0
     )
 
+    fun applyExportSettingsTo(imageInfo: ImageInfo): ImageInfo = imageInfo.copy(
+        imageFormat = this.imageInfo.imageFormat,
+        quality = this.imageInfo.quality.coerceIn(this.imageInfo.imageFormat),
+        resizeType = this.imageInfo.resizeType,
+        imageScaleMode = this.imageInfo.imageScaleMode,
+        rotationDegrees = this.imageInfo.rotationDegrees,
+        isFlipped = this.imageInfo.isFlipped,
+        sizeInBytes = 0
+    )
+
+    fun backgroundColorModel(): ColorModel? = backgroundColorForNoAlphaFormats?.let(::ColorModel)
+
     companion object {
         fun from(
             name: String,
             imageInfo: ImageInfo,
             preset: Preset,
-            keepExif: Boolean? = null
+            keepExif: Boolean? = null,
+            backgroundColorForNoAlphaFormats: ColorModel? = null
         ): ImageExportProfile = ImageExportProfile(
             name = name.trim(),
             imageInfo = imageInfo.copy(
@@ -50,7 +66,8 @@ data class ImageExportProfile(
                 sizeInBytes = 0
             ),
             preset = preset,
-            keepExif = keepExif
+            keepExif = keepExif,
+            backgroundColorForNoAlphaFormats = backgroundColorForNoAlphaFormats?.colorInt
         )
     }
 }

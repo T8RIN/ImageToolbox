@@ -49,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -121,11 +122,15 @@ fun PresetSelector(
     val scope = rememberCoroutineScope()
     val imagePresets =
         imageExportProfilesHolder?.imageProfiles?.collectAsState()?.value ?: emptyList()
-    val selectedImagePreset by remember(
+    val currentBackgroundColorForNoAlphaFormats = settingsState
+        .backgroundForNoAlphaImageFormats
+        .toArgb()
+    val selectedProfile by remember(
         imagePresets,
         imageInfo,
         value,
-        imageExportProfilesHolder?.currentProfileKeepExif
+        imageExportProfilesHolder?.currentProfileKeepExif,
+        currentBackgroundColorForNoAlphaFormats
     ) {
         derivedStateOf {
             imageInfo?.let { currentImageInfo ->
@@ -133,13 +138,14 @@ fun PresetSelector(
                     it.matchesCurrentPreset(
                         imageInfo = currentImageInfo,
                         preset = value,
-                        keepExif = imageExportProfilesHolder?.currentProfileKeepExif
+                        keepExif = imageExportProfilesHolder?.currentProfileKeepExif,
+                        backgroundColorForNoAlphaFormats = currentBackgroundColorForNoAlphaFormats
                     )
                 }
             }
         }
     }
-    val selectedChipColor = if (selectedImagePreset == null) {
+    val selectedChipColor = if (selectedProfile == null) {
         MaterialTheme.colorScheme.primary
     } else {
         MaterialTheme.colorScheme.primaryContainer
@@ -320,7 +326,7 @@ fun PresetSelector(
                             item(key = "image_presets") {
                                 ImageExportProfileSelector(
                                     profiles = imagePresets,
-                                    selectedProfile = selectedImagePreset,
+                                    selectedProfile = selectedProfile,
                                     imageInfo = imageInfo,
                                     preset = value,
                                     onApplyProfile = imageExportProfilesHolder::applyProfile,
@@ -456,10 +462,16 @@ fun PresetSelector(
 private fun ImageExportProfile.matchesCurrentPreset(
     imageInfo: ImageInfo,
     preset: Preset,
-    keepExif: Boolean?
+    keepExif: Boolean?,
+    backgroundColorForNoAlphaFormats: Int?
 ): Boolean {
     if (this.preset != preset) return false
     if (keepExif != null && this.keepExif != null && this.keepExif != keepExif) return false
+    if (
+        this.backgroundColorForNoAlphaFormats != null &&
+        backgroundColorForNoAlphaFormats != null &&
+        this.backgroundColorForNoAlphaFormats != backgroundColorForNoAlphaFormats
+    ) return false
 
     return this.imageInfo.comparableFor(preset) == imageInfo.comparableFor(preset)
 }

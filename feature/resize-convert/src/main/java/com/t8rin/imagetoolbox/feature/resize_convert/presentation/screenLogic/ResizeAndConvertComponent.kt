@@ -555,7 +555,11 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                     name = name,
                     imageInfo = imageInfo,
                     preset = presetSelected,
-                    keepExif = keepExif
+                    keepExif = keepExif,
+                    backgroundColorForNoAlphaFormats = settingsManager
+                        .settingsState
+                        .value
+                        .backgroundForNoAlphaImageFormats
                 )
             )
         }
@@ -565,14 +569,17 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
+            restoreProfileBackgroundColor(profile)
             val restoredInfo = profile.toImageInfo(imageInfo).copy(
                 originalUri = selectedUri?.toString()
             )
             setBitmapInfo(
-                imageTransformer.applyPresetBy(
-                    image = bitmap,
-                    preset = profile.preset,
-                    currentInfo = restoredInfo
+                profile.applyExportSettingsTo(
+                    imageTransformer.applyPresetBy(
+                        image = bitmap,
+                        preset = profile.preset,
+                        currentInfo = restoredInfo
+                    )
                 )
             )
             _presetSelected.update { profile.preset }
@@ -580,6 +587,13 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                 _keepExif.update { keepExif }
             }
             commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    private suspend fun restoreProfileBackgroundColor(profile: ImageExportProfile) {
+        val color = profile.backgroundColorModel() ?: return
+        if (settingsManager.settingsState.value.backgroundForNoAlphaImageFormats != color) {
+            settingsManager.setBackgroundColorForNoAlphaFormats(color)
         }
     }
 

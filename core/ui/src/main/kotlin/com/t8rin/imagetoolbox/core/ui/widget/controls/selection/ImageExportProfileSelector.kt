@@ -79,6 +79,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.image.aspectRatios
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
@@ -154,18 +155,23 @@ fun ImageExportProfileSelector(
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             contentPadding = PaddingValues(12.dp),
-            modifier = Modifier.clearFocusOnTap()
+            modifier = Modifier
+                .animateContentSizeNoClip()
+                .clearFocusOnTap()
         ) {
-            item {
-                AddImagePresetBlock(
-                    preset = preset,
-                    imageInfo = imageInfo,
-                    onSave = onSaveProfile,
-                    modifier = Modifier
-                        .padding(
-                            bottom = 4.dp
-                        )
-                )
+            if (selectedProfile == null || profiles.isEmpty()) {
+                item("AddImagePresetBlock") {
+                    AddImagePresetBlock(
+                        preset = preset,
+                        imageInfo = imageInfo,
+                        onSave = onSaveProfile,
+                        modifier = Modifier
+                            .padding(
+                                bottom = 4.dp
+                            )
+                            .animateItem()
+                    )
+                }
             }
             itemsIndexed(
                 items = profiles,
@@ -179,7 +185,9 @@ fun ImageExportProfileSelector(
                         onApplyProfile(item)
                     },
                     drawStartIconContainer = false,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateItem(),
                     startIcon = {
                         Icon(
                             imageVector = if (selected) {

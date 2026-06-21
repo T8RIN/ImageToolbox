@@ -664,7 +664,11 @@ class SingleEditComponent @AssistedInject internal constructor(
                 ImageExportProfile.from(
                     name = name,
                     imageInfo = imageInfo,
-                    preset = presetSelected
+                    preset = presetSelected,
+                    backgroundColorForNoAlphaFormats = settingsManager
+                        .settingsState
+                        .value
+                        .backgroundForNoAlphaImageFormats
                 )
             )
         }
@@ -674,18 +678,28 @@ class SingleEditComponent @AssistedInject internal constructor(
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
+            restoreProfileBackgroundColor(profile)
             val restoredInfo = profile.toImageInfo(imageInfo).copy(
                 originalUri = uri.toString()
             )
             setBitmapInfo(
-                imageTransformer.applyPresetBy(
-                    image = bitmap,
-                    preset = profile.preset,
-                    currentInfo = restoredInfo
+                profile.applyExportSettingsTo(
+                    imageTransformer.applyPresetBy(
+                        image = bitmap,
+                        preset = profile.preset,
+                        currentInfo = restoredInfo
+                    )
                 )
             )
             _presetSelected.update { profile.preset }
             commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    private suspend fun restoreProfileBackgroundColor(profile: ImageExportProfile) {
+        val color = profile.backgroundColorModel() ?: return
+        if (settingsManager.settingsState.value.backgroundForNoAlphaImageFormats != color) {
+            settingsManager.setBackgroundColorForNoAlphaFormats(color)
         }
     }
 
