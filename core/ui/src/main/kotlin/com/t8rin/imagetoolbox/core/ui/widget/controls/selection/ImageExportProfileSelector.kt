@@ -48,8 +48,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.image.model.ImagePreset
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
@@ -87,16 +87,16 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import kotlin.math.abs
 
 @Composable
-fun ImagePresetSelector(
-    profiles: List<ImagePreset>,
-    selectedProfile: ImagePreset?,
+fun ImageExportProfileSelector(
+    profiles: List<ImageExportProfile>,
+    selectedProfile: ImageExportProfile?,
     imageInfo: ImageInfo,
     preset: Preset,
-    onApplyProfile: (ImagePreset) -> Unit,
+    onApplyProfile: (ImageExportProfile) -> Unit,
     onSaveProfile: (String) -> Unit,
-    onDeleteProfile: (ImagePreset) -> Unit,
-    onExportProfile: (ImagePreset, Uri) -> Unit,
-    onShareProfile: (ImagePreset) -> Unit,
+    onDeleteProfile: (ImageExportProfile) -> Unit,
+    onExportProfile: (ImageExportProfile, Uri) -> Unit,
+    onShareProfile: (ImageExportProfile) -> Unit,
     onImportProfile: (Uri) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -218,10 +218,10 @@ fun ImagePresetSelector(
 
 @Composable
 private fun ImagePresetItemMenu(
-    preset: ImagePreset,
-    onExportProfile: (ImagePreset, Uri) -> Unit,
-    onShareProfile: (ImagePreset) -> Unit,
-    onDeleteProfile: (ImagePreset) -> Unit,
+    preset: ImageExportProfile,
+    onExportProfile: (ImageExportProfile, Uri) -> Unit,
+    onShareProfile: (ImageExportProfile) -> Unit,
+    onDeleteProfile: (ImageExportProfile) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var showMenu by rememberSaveable(preset.name) { mutableStateOf(false) }
@@ -341,9 +341,9 @@ private fun ImagePresetMenuAction(
 }
 
 @Composable
-private fun ImagePreset.subtitle(): String = imageInfo.summary(preset)
+private fun ImageExportProfile.subtitle(): String = imageInfo.summary(preset)
 
-private val ImagePreset.fileName: String
+private val ImageExportProfile.fileName: String
     get() = "${name.safeFileName()}.itpreset"
 
 @Composable

@@ -27,8 +27,8 @@ import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
+import com.t8rin.imagetoolbox.core.domain.image.ImageExportProfilesUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
-import com.t8rin.imagetoolbox.core.domain.image.ImagePresetsUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -37,9 +37,9 @@ import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.clearAttribute
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageData
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.image.model.ImagePreset
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
@@ -59,7 +59,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
-import com.t8rin.imagetoolbox.core.ui.utils.ImagePresetsHolder
+import com.t8rin.imagetoolbox.core.ui.utils.ImageExportProfilesHolder
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
@@ -85,13 +85,13 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     private val settingsManager: SettingsManager,
-    private val imagePresetsUseCase: ImagePresetsUseCase,
+    private val imageExportProfilesUseCase: ImageExportProfilesUseCase,
     dispatchersHolder: DispatchersHolder
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
-), ImagePresetsHolder by ImagePresetsHolder(
-    imagePresetsUseCase = imagePresetsUseCase,
+), ImageExportProfilesHolder by ImageExportProfilesHolder(
+    imageExportProfilesUseCase = imageExportProfilesUseCase,
     componentScope = componentContext.coroutineScope
 ) {
 
@@ -142,7 +142,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     private val isAlwaysClearExif: Boolean get() = settingsManager.settingsState.value.isAlwaysClearExif
 
-    override val currentImagePresetKeepExif: Boolean
+    override val currentProfileKeepExif: Boolean
         get() = keepExif
 
     init {
@@ -527,31 +527,31 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }.onFailure(AppToastHost::showFailureToast)
     }
 
-    override fun updatePreset(preset: Preset) {
+    override fun updateProfile(profile: Preset) {
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
-            if (preset is Preset.AspectRatio && preset.ratio != 1f) {
+            if (profile is Preset.AspectRatio && profile.ratio != 1f) {
                 _imageInfo.update { it.copy(rotationDegrees = 0f) }
             }
             setBitmapInfo(
                 imageTransformer.applyPresetBy(
                     image = bitmap,
-                    preset = preset,
+                    preset = profile,
                     currentInfo = imageInfo.copy(
                         originalUri = selectedUri?.toString()
                     )
                 )
             )
-            _presetSelected.update { preset }
+            _presetSelected.update { profile }
             commitHistoryFrom(beforeSnapshot)
         }
     }
 
-    override fun saveImagePreset(name: String) {
+    override fun saveProfile(name: String) {
         componentScope.launch {
-            imagePresetsUseCase.upsert(
-                ImagePreset.from(
+            imageExportProfilesUseCase.upsert(
+                ImageExportProfile.from(
                     name = name,
                     imageInfo = imageInfo,
                     preset = presetSelected,
@@ -561,22 +561,22 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }
     }
 
-    override fun applyImagePreset(preset: ImagePreset) {
+    override fun applyProfile(profile: ImageExportProfile) {
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
-            val restoredInfo = preset.toImageInfo(imageInfo).copy(
+            val restoredInfo = profile.toImageInfo(imageInfo).copy(
                 originalUri = selectedUri?.toString()
             )
             setBitmapInfo(
                 imageTransformer.applyPresetBy(
                     image = bitmap,
-                    preset = preset.preset,
+                    preset = profile.preset,
                     currentInfo = restoredInfo
                 )
             )
-            _presetSelected.update { preset.preset }
-            preset.keepExif?.let { keepExif ->
+            _presetSelected.update { profile.preset }
+            profile.keepExif?.let { keepExif ->
                 _keepExif.update { keepExif }
             }
             commitHistoryFrom(beforeSnapshot)

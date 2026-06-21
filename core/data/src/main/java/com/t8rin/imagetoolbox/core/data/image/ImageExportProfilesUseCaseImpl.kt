@@ -22,10 +22,10 @@ import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.t8rin.imagetoolbox.core.domain.image.ImagePresetsUseCase
+import com.t8rin.imagetoolbox.core.domain.image.ImageExportProfilesUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
-import com.t8rin.imagetoolbox.core.domain.image.model.ImagePreset
-import com.t8rin.imagetoolbox.core.domain.image.model.ImagePresets
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfiles
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
@@ -33,19 +33,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-internal class ImagePresetsUseCaseImpl @Inject constructor(
+internal class ImageExportProfilesUseCaseImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val fileController: FileController,
     private val jsonParser: JsonParser,
     private val shareProvider: ShareProvider
-) : ImagePresetsUseCase {
+) : ImageExportProfilesUseCase {
 
-    override val presets: Flow<List<ImagePreset>> = dataStore.data.map { preferences ->
+    override val profiles: Flow<List<ImageExportProfile>> = dataStore.data.map { preferences ->
         preferences.readPresets().presets.asReversed()
     }
 
-    override suspend fun upsert(preset: ImagePreset) {
-        val normalized = preset.copy(name = preset.name.trim())
+    override suspend fun upsert(profile: ImageExportProfile) {
+        val normalized = profile.copy(name = profile.name.trim())
         if (normalized.name.isBlank()) return
 
         dataStore.edit { preferences ->
@@ -58,18 +58,18 @@ internal class ImagePresetsUseCaseImpl @Inject constructor(
             } else {
                 list.add(normalized)
             }
-            preferences.writePresets(ImagePresets(list))
+            preferences.writePresets(ImageExportProfiles(list))
         }
     }
 
-    override suspend fun delete(preset: ImagePreset) {
+    override suspend fun delete(profile: ImageExportProfile) {
         dataStore.edit { preferences ->
             val current = preferences.readPresets()
 
             preferences.writePresets(
                 current.copy(
                     presets = current.presets.filterNot {
-                        it.name.equals(preset.name, ignoreCase = true)
+                        it.name.equals(profile.name, ignoreCase = true)
                     }
                 )
             )
@@ -77,20 +77,20 @@ internal class ImagePresetsUseCaseImpl @Inject constructor(
     }
 
     override suspend fun export(
-        preset: ImagePreset,
+        profile: ImageExportProfile,
         uri: String
     ) {
-        preset.toJson()?.let { json ->
+        profile.toJson()?.let { json ->
             fileController.writeBytes(uri) {
                 it.writeBytes(json.encodeToByteArray())
             }
         }
     }
 
-    override suspend fun share(preset: ImagePreset) {
-        preset.toJson()?.let { json ->
+    override suspend fun share(profile: ImageExportProfile) {
+        profile.toJson()?.let { json ->
             shareProvider.shareData(
-                filename = preset.fileName(),
+                filename = profile.fileName(),
                 writeData = {
                     it.writeBytes(json.encodeToByteArray())
                 }
@@ -98,32 +98,32 @@ internal class ImagePresetsUseCaseImpl @Inject constructor(
         }
     }
 
-    override suspend fun importPreset(uri: String) {
+    override suspend fun importProfile(uri: String) {
         runSuspendCatching {
             fileController.readBytes(uri).decodeToString()
         }.mapCatching { json ->
-            jsonParser.fromJson<ImagePreset>(
+            jsonParser.fromJson<ImageExportProfile>(
                 json = json,
-                type = ImagePreset::class.java
+                type = ImageExportProfile::class.java
             )
         }.getOrNull()?.let { preset ->
             upsert(preset)
         }
     }
 
-    private fun Preferences.readPresets(): ImagePresets {
+    private fun Preferences.readPresets(): ImageExportProfiles {
         val json = this[PresetsKey]
 
         return json?.let {
-            jsonParser.fromJson<ImagePresets>(
+            jsonParser.fromJson<ImageExportProfiles>(
                 json = it,
-                type = ImagePresets::class.java
+                type = ImageExportProfiles::class.java
             )
-        } ?: ImagePresets()
+        } ?: ImageExportProfiles()
     }
 
     private fun MutablePreferences.writePresets(
-        presets: ImagePresets
+        presets: ImageExportProfiles
     ) {
         if (presets.presets.isEmpty()) {
             remove(PresetsKey)
@@ -132,18 +132,18 @@ internal class ImagePresetsUseCaseImpl @Inject constructor(
 
         jsonParser.toJson(
             obj = presets,
-            type = ImagePresets::class.java
+            type = ImageExportProfiles::class.java
         )?.let { json ->
             this[PresetsKey] = json
         }
     }
 
-    private fun ImagePreset.toJson(): String? = jsonParser.toJson(
+    private fun ImageExportProfile.toJson(): String? = jsonParser.toJson(
         obj = this,
-        type = ImagePreset::class.java
+        type = ImageExportProfile::class.java
     )
 
-    private fun ImagePreset.fileName(): String = "${name.safePresetFileName()}.itpreset"
+    private fun ImageExportProfile.fileName(): String = "${name.safePresetFileName()}.itpreset"
 
     private fun String.safePresetFileName(): String = trim()
         .replace(Regex("""[^\w.-]+"""), "_")

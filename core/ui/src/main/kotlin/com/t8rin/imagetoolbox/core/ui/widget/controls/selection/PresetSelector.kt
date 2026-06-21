@@ -55,8 +55,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.image.model.ImagePreset
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -69,7 +69,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Telegram
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalEditPresetsController
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.ImagePresetsHolder
+import com.t8rin.imagetoolbox.core.ui.utils.ImageExportProfilesHolder
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.OOMWarning
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -101,7 +101,7 @@ fun PresetSelector(
     isBytesResize: Boolean = false,
     showWarning: Boolean = false,
     onValueChange: (Preset) -> Unit,
-    imagePresetsHolder: ImagePresetsHolder? = null,
+    imageExportProfilesHolder: ImageExportProfilesHolder? = null,
     imageInfo: ImageInfo? = null
 ) {
     val settingsState = LocalSettingsState.current
@@ -119,12 +119,13 @@ fun PresetSelector(
 
     val state = rememberRevealState()
     val scope = rememberCoroutineScope()
-    val imagePresets = imagePresetsHolder?.imagePresets?.collectAsState()?.value ?: emptyList()
+    val imagePresets =
+        imageExportProfilesHolder?.imageProfiles?.collectAsState()?.value ?: emptyList()
     val selectedImagePreset by remember(
         imagePresets,
         imageInfo,
         value,
-        imagePresetsHolder?.currentImagePresetKeepExif
+        imageExportProfilesHolder?.currentProfileKeepExif
     ) {
         derivedStateOf {
             imageInfo?.let { currentImageInfo ->
@@ -132,7 +133,7 @@ fun PresetSelector(
                     it.matchesCurrentPreset(
                         imageInfo = currentImageInfo,
                         preset = value,
-                        keepExif = imagePresetsHolder?.currentImagePresetKeepExif
+                        keepExif = imageExportProfilesHolder?.currentProfileKeepExif
                     )
                 }
             }
@@ -315,19 +316,19 @@ fun PresetSelector(
                                 }
                             }
                         }
-                        if (imageInfo != null && imagePresetsHolder != null) {
+                        if (imageInfo != null && imageExportProfilesHolder != null) {
                             item(key = "image_presets") {
-                                ImagePresetSelector(
+                                ImageExportProfileSelector(
                                     profiles = imagePresets,
                                     selectedProfile = selectedImagePreset,
                                     imageInfo = imageInfo,
                                     preset = value,
-                                    onApplyProfile = imagePresetsHolder::applyImagePreset,
-                                    onSaveProfile = imagePresetsHolder::saveImagePreset,
-                                    onDeleteProfile = imagePresetsHolder::deleteImagePreset,
-                                    onExportProfile = imagePresetsHolder::exportImagePreset,
-                                    onShareProfile = imagePresetsHolder::shareImagePreset,
-                                    onImportProfile = imagePresetsHolder::importImagePreset
+                                    onApplyProfile = imageExportProfilesHolder::applyProfile,
+                                    onSaveProfile = imageExportProfilesHolder::saveProfile,
+                                    onDeleteProfile = imageExportProfilesHolder::deleteProfile,
+                                    onExportProfile = imageExportProfilesHolder::exportProfile,
+                                    onShareProfile = imageExportProfilesHolder::shareProfile,
+                                    onImportProfile = imageExportProfilesHolder::importProfile
                                 )
                             }
                         }
@@ -452,7 +453,7 @@ fun PresetSelector(
     )
 }
 
-private fun ImagePreset.matchesCurrentPreset(
+private fun ImageExportProfile.matchesCurrentPreset(
     imageInfo: ImageInfo,
     preset: Preset,
     keepExif: Boolean?

@@ -284,9 +284,9 @@ fun SingleEditContent(
                 value = component.presetSelected,
                 includeTelegramOption = true,
                 includeAspectRatioOption = true,
-                onValueChange = component::updatePreset,
+                onValueChange = component::updateProfile,
                 imageInfo = imageInfo,
-                imagePresetsHolder = component
+                imageExportProfilesHolder = component
             )
             Spacer(Modifier.size(8.dp))
             ResizeImageField(

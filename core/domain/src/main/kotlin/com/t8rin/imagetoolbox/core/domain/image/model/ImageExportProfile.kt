@@ -17,11 +17,11 @@
 
 package com.t8rin.imagetoolbox.core.domain.image.model
 
-data class ImagePresets(
-    val presets: List<ImagePreset> = emptyList()
+data class ImageExportProfiles(
+    val presets: List<ImageExportProfile> = emptyList()
 )
 
-data class ImagePreset(
+data class ImageExportProfile(
     val name: String = "",
     val imageInfo: ImageInfo = ImageInfo(),
     val preset: Preset = Preset.None,
@@ -43,7 +43,7 @@ data class ImagePreset(
             imageInfo: ImageInfo,
             preset: Preset,
             keepExif: Boolean? = null
-        ): ImagePreset = ImagePreset(
+        ): ImageExportProfile = ImageExportProfile(
             name = name.trim(),
             imageInfo = imageInfo.copy(
                 originalUri = null,

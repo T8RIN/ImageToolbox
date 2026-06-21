@@ -17,24 +17,24 @@
 
 package com.t8rin.imagetoolbox.core.domain.image
 
-import com.t8rin.imagetoolbox.core.domain.image.model.ImagePreset
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile
 import kotlinx.coroutines.flow.Flow
 
-interface ImagePresetsUseCase {
+interface ImageExportProfilesUseCase {
 
-    val presets: Flow<List<ImagePreset>>
+    val profiles: Flow<List<ImageExportProfile>>
 
-    suspend fun upsert(preset: ImagePreset)
+    suspend fun upsert(profile: ImageExportProfile)
 
-    suspend fun delete(preset: ImagePreset)
+    suspend fun delete(profile: ImageExportProfile)
 
     suspend fun export(
-        preset: ImagePreset,
+        profile: ImageExportProfile,
         uri: String
     )
 
-    suspend fun share(preset: ImagePreset)
+    suspend fun share(profile: ImageExportProfile)
 
-    suspend fun importPreset(uri: String)
+    suspend fun importProfile(uri: String)
 
 }

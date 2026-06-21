@@ -24,10 +24,10 @@ import com.t8rin.imagetoolbox.core.data.image.AndroidImagePreviewCreator
 import com.t8rin.imagetoolbox.core.data.image.AndroidImageScaler
 import com.t8rin.imagetoolbox.core.data.image.AndroidImageTransformer
 import com.t8rin.imagetoolbox.core.data.image.AndroidShareProvider
-import com.t8rin.imagetoolbox.core.data.image.ImagePresetsUseCaseImpl
+import com.t8rin.imagetoolbox.core.data.image.ImageExportProfilesUseCaseImpl
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
+import com.t8rin.imagetoolbox.core.domain.image.ImageExportProfilesUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
-import com.t8rin.imagetoolbox.core.domain.image.ImagePresetsUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -87,8 +87,8 @@ internal interface ImageModule {
 
     @Singleton
     @Binds
-    fun presetExport(
-        useCase: ImagePresetsUseCaseImpl
-    ): ImagePresetsUseCase
+    fun provideImageExportProfilesUseCase(
+        useCase: ImageExportProfilesUseCaseImpl
+    ): ImageExportProfilesUseCase
 
 }
