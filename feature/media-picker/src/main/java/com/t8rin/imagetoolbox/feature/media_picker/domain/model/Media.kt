@@ -36,9 +36,7 @@ data class Media(
     val timestamp: Long,
     val expiryTimestamp: Long? = null,
     val takenTimestamp: Long? = null,
-    val fullDate: String,
     val mimeType: String,
-    val duration: String? = null,
     val width: Int? = null,
     val height: Int? = null,
 ) {
@@ -48,8 +46,6 @@ data class Media(
 
     val imageSize: IntegerSize? = IntegerSize(width ?: 0, height ?: 0)
         .takeIf { it.width > 0 && it.height > 0 }
-
-    val isVideo: Boolean = mimeType.startsWith("video/") && duration != null
 
     val isImage: Boolean = mimeType.startsWith("image/")
 
@@ -104,8 +100,5 @@ data class Media(
 }
 
 const val WEEKLY_DATE_FORMAT = "EEEE"
-const val DEFAULT_DATE_FORMAT = "EEE, MMMM d"
-const val EXTENDED_DATE_FORMAT = "EEE, MMM d, yyyy"
-const val FULL_DATE_FORMAT = "EEEE, MMMM d, yyyy, hh:mm a"
-const val HEADER_DATE_FORMAT = "MMMM d, yyyy\n" + "h:mm a"
-const val EXIF_DATE_FORMAT = "MMMM d, yyyy • h:mm a"
+const val DEFAULT_DATE_FORMAT = "EEE, d MMMM"
+const val EXTENDED_DATE_FORMAT = "EEE, d MMMM yyyy"

@@ -25,11 +25,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
-import com.t8rin.imagetoolbox.feature.media_picker.data.utils.DateExt
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getDate
-import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getDateExt
-import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getDateHeader
-import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getMonth
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
@@ -146,7 +142,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     if (data.isEmpty()) {
                         return@collectLatest _mediaState.emit(MediaState(isLoading = false))
                     }
-                    _mediaState.collectMedia(data, error, albumId)
+                    _mediaState.collectMedia(data, error)
                     _filteredMediaState.emit(mediaState.value)
                 }
         }
@@ -154,39 +150,20 @@ class MediaPickerComponent @AssistedInject internal constructor(
 
     private suspend fun MutableStateFlow<MediaState>.collectMedia(
         data: List<Media>,
-        error: String,
-        albumId: Long,
-        groupByMonth: Boolean = false
+        error: String
     ) {
         val mappedData = mutableListOf<MediaItem>()
-        val monthHeaderList: MutableSet<String> = mutableSetOf()
         withContext(defaultDispatcher) {
             val groupedData = data.groupBy {
-                if (groupByMonth) {
-                    it.timestamp.getMonth()
-                } else {
-                    it.timestamp.getDate(
-                        stringToday = "Today",
-                        stringYesterday = "Yesterday"
-                    )
-                }
+                it.timestamp.getDate()
             }
             groupedData.forEach { (date, data) ->
                 val dateHeader = MediaItem.Header("header_$date", date, data)
                 val groupedMedia = data.map {
                     MediaItem.MediaViewItem("media_${it.id}_${it.label}", it)
                 }
-                if (groupByMonth) {
-                    mappedData.add(dateHeader)
-                    mappedData.addAll(groupedMedia)
-                } else {
-                    val month = getMonth(date)
-                    if (month.isNotEmpty() && !monthHeaderList.contains(month)) {
-                        monthHeaderList.add(month)
-                    }
-                    mappedData.add(dateHeader)
-                    mappedData.addAll(groupedMedia)
-                }
+                mappedData.add(dateHeader)
+                mappedData.addAll(groupedMedia)
             }
         }
         withContext(uiDispatcher) {
@@ -196,18 +173,10 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     error = error,
                     media = data,
                     mappedMedia = mappedData,
-                    dateHeader = data.dateHeader(albumId)
                 )
             )
         }
     }
-
-    private fun List<Media>.dateHeader(albumId: Long): String =
-        if (albumId != -1L && isNotEmpty()) {
-            val startDate: DateExt = last().timestamp.getDateExt()
-            val endDate: DateExt = first().timestamp.getDateExt()
-            getDateHeader(startDate, endDate)
-        } else ""
 
     private var mediaFilterJob: Job? by smartJob()
 
@@ -239,8 +208,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                             )
                         }
                     }.distinctBy { it.id },
-                    error = mediaState.value.error,
-                    albumId = selectedAlbumId
+                    error = mediaState.value.error
                 )
             }
         }

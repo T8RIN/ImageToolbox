@@ -183,27 +183,15 @@ fun MediaImage(
         Box(
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
-            if (media.duration != null) {
-                MediaVideoDurationHeader(
-                    modifier = Modifier
-                        .padding(selectedSize.value / 2)
-                        .graphicsLayer {
-                            scaleX = scale.value
-                            scaleY = scale.value
-                        },
-                    media = media,
-                )
-            } else {
-                MediaExtensionHeader(
-                    modifier = Modifier
-                        .padding(selectedSize.value / 2)
-                        .graphicsLayer {
-                            scaleX = scale.value
-                            scaleY = scale.value
-                        },
-                    media = media
-                )
-            }
+            MediaExtensionHeader(
+                modifier = Modifier
+                    .padding(selectedSize.value / 2)
+                    .graphicsLayer {
+                        scaleX = scale.value
+                        scaleY = scale.value
+                    },
+                media = media
+            )
         }
 
         if (media.fileSize > 0) {
