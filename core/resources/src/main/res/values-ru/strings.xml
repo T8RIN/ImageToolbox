@@ -3279,4 +3279,8 @@
     <string name="error">Ошибка</string>
     <string name="audio">Аудио</string>
     <string name="file">Файл</string>
+    <string name="export_profiles">Профили экспорта</string>
+    <string name="save_export_profile">Сохранить текущий профиль</string>
+    <string name="delete_export_profile">Удалить профиль экспорта</string>
+    <string name="delete_export_profile_sub">Вы хотите удалить профиль экспорта \"%1$s\"?</string>
 </resources>

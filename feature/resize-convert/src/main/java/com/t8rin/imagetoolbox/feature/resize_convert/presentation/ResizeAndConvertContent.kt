@@ -297,7 +297,9 @@ fun ResizeAndConvertContent(
                 value = component.presetSelected,
                 includeTelegramOption = true,
                 includeAspectRatioOption = true,
-                onValueChange = component::updatePreset
+                onValueChange = component::updateProfile,
+                imageInfo = imageInfo,
+                imageExportProfilesHolder = component
             )
             Spacer(Modifier.size(8.dp))
             AnimatedVisibility(

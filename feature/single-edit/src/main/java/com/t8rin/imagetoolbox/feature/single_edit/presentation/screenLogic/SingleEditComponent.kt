@@ -35,6 +35,7 @@ import com.t8rin.cropper.settings.CropOutlineProperty
 import com.t8rin.curves.ImageCurvesEditorState
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
+import com.t8rin.imagetoolbox.core.domain.image.ImageExportProfilesUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -44,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.clearAttribute
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageData
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
@@ -66,9 +68,11 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
+import com.t8rin.imagetoolbox.core.ui.utils.ImageExportProfilesHolder
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
@@ -85,7 +89,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
-
 class SingleEditComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
@@ -101,12 +104,16 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsManager: SettingsManager,
+    private val imageExportProfilesUseCase: ImageExportProfilesUseCase,
     dispatchersHolder: DispatchersHolder,
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory,
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
+), ImageExportProfilesHolder by ImageExportProfilesHolder(
+    imageExportProfilesUseCase = imageExportProfilesUseCase,
+    componentScope = componentContext.coroutineScope
 ) {
 
     init {
@@ -247,13 +254,17 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     private suspend fun checkBitmapAndUpdate(
         resetPreset: Boolean = false,
-        clearPreview: Boolean = true
+        clearPreview: Boolean = true,
+        previewImageInfo: ImageInfo = imageInfo
     ) {
         if (resetPreset) {
             _presetSelected.update { Preset.None }
         }
         _bitmap.value?.let { bmp ->
-            val preview = updatePreview(bmp)
+            val preview = updatePreview(
+                bitmap = bmp,
+                previewImageInfo = previewImageInfo
+            )
             if (clearPreview) {
                 _previewBitmap.update { null }
             }
@@ -299,8 +310,9 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     private suspend fun updatePreview(
         bitmap: Bitmap,
+        previewImageInfo: ImageInfo = imageInfo
     ): Bitmap? = withContext(defaultDispatcher) {
-        return@withContext imageInfo.run {
+        return@withContext previewImageInfo.run {
             _showWarning.update {
                 width * height * 4L >= 10_000 * 10_000 * 3L
             }
@@ -318,7 +330,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         if (imageInfo != newInfo) {
             _imageInfo.update { newInfo }
             debouncedImageCalculation {
-                checkBitmapAndUpdate()
+                checkBitmapAndUpdate(previewImageInfo = newInfo)
             }
         }
     }
@@ -630,24 +642,69 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
-    fun setPreset(preset: Preset) {
+    override fun updateProfile(profile: Preset) {
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
-            if (preset is Preset.AspectRatio && preset.ratio != 1f) {
+            if (profile is Preset.AspectRatio && profile.ratio != 1f) {
                 _imageInfo.update { it.copy(rotationDegrees = 0f) }
             }
             setBitmapInfo(
                 imageTransformer.applyPresetBy(
                     image = bitmap,
-                    preset = preset,
+                    preset = profile,
                     currentInfo = imageInfo.copy(
                         originalUri = uri.toString()
                     )
                 )
             )
-            _presetSelected.update { preset }
+            _presetSelected.update { profile }
             commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    override fun saveProfile(name: String) {
+        componentScope.launch {
+            imageExportProfilesUseCase.upsert(
+                ImageExportProfile.from(
+                    name = name,
+                    imageInfo = imageInfo,
+                    preset = presetSelected,
+                    backgroundColorForNoAlphaFormats = settingsManager
+                        .settingsState
+                        .value
+                        .backgroundForNoAlphaImageFormats
+                )
+            )
+        }
+    }
+
+    override fun applyProfile(profile: ImageExportProfile) {
+        componentScope.launch {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
+            restoreProfileBackgroundColor(profile)
+            val restoredInfo = profile.toImageInfo(imageInfo).copy(
+                originalUri = uri.toString()
+            )
+            setBitmapInfo(
+                profile.applyExportSettingsTo(
+                    imageTransformer.applyPresetBy(
+                        image = bitmap,
+                        preset = profile.preset,
+                        currentInfo = restoredInfo
+                    )
+                )
+            )
+            _presetSelected.update { profile.preset }
+            commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    private suspend fun restoreProfileBackgroundColor(profile: ImageExportProfile) {
+        val color = profile.backgroundColorModel() ?: return
+        if (settingsManager.settingsState.value.backgroundForNoAlphaImageFormats != color) {
+            settingsManager.setBackgroundColorForNoAlphaFormats(color)
         }
     }
 

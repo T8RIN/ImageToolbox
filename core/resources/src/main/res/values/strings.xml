@@ -3302,4 +3302,8 @@
     <string name="search_keywords_pdf_remove_annotations">pdf annotations comments remove clean</string>
     <string name="audio">Audio</string>
     <string name="file">File</string>
+    <string name="export_profiles">Export profiles</string>
+    <string name="save_export_profile">Save current profile</string>
+    <string name="delete_export_profile">Delete export profile</string>
+    <string name="delete_export_profile_sub">Do you want to delete export profile \"%1$s\"?</string>
 </resources>
