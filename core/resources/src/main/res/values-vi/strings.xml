@@ -3276,4 +3276,8 @@
     <string name="reset_usage_statistics_sub">Công cụ mở ra, lưu số liệu thống kê, vệt, dữ liệu đã lưu và định dạng trên cùng sẽ được đặt lại. Ứng dụng mở sẽ không thay đổi.</string>
     <string name="audio">Âm thanh</string>
     <string name="file">Tài liệu</string>
+    <string name="export_profiles">Xuất hồ sơ</string>
+    <string name="save_export_profile">Lưu hồ sơ hiện tại</string>
+    <string name="delete_export_profile">Xóa hồ sơ xuất</string>
+    <string name="delete_export_profile_sub">Bạn có muốn xóa hồ sơ xuất \\"%1$s\\" không?</string>
 </resources>

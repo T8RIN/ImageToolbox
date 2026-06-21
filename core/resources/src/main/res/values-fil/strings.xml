@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Magbubukas ang tool, i-save ang mga istatistika, streak, naka-save na data, at ire-reset ang nangungunang format. Ang pagbukas ng app ay mananatiling hindi magbabago.</string>
     <string name="audio">Audio</string>
     <string name="file">file</string>
+    <string name="export_profiles">I-export ang mga profile</string>
+    <string name="save_export_profile">I-save ang kasalukuyang profile</string>
+    <string name="delete_export_profile">Tanggalin ang profile sa pag-export</string>
+    <string name="delete_export_profile_sub">Gusto mo bang tanggalin ang export na profile \\"%1$s\\"?</string>
 </resources>

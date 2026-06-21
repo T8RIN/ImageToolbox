@@ -3281,4 +3281,8 @@
     <string name="reset_usage_statistics_sub">يتم فتح الأداة وحفظ الإحصائيات والخط والبيانات المحفوظة وسيتم إعادة تعيين التنسيق العلوي. ستبقى عمليات فتح التطبيق دون تغيير.</string>
     <string name="audio">صوتي</string>
     <string name="file">ملف</string>
+    <string name="export_profiles">تصدير الملفات الشخصية</string>
+    <string name="save_export_profile">حفظ الملف الشخصي الحالي</string>
+    <string name="delete_export_profile">حذف ملف تعريف التصدير</string>
+    <string name="delete_export_profile_sub">هل تريد حذف ملف تعريف التصدير \\"%1$s\\"؟</string>
 </resources>

@@ -3279,4 +3279,8 @@
     <string name="reset_usage_statistics_sub">Nástroj sa otvorí, uložia sa štatistiky, vynuluje sa pruh, uložené údaje a najvyšší formát. Otvorenia aplikácie zostanú nezmenené.</string>
     <string name="audio">Zvuk</string>
     <string name="file">Súbor</string>
+    <string name="export_profiles">Exportovať profily</string>
+    <string name="save_export_profile">Uložiť aktuálny profil</string>
+    <string name="delete_export_profile">Odstrániť exportný profil</string>
+    <string name="delete_export_profile_sub">Chcete odstrániť exportný profil \\"%1$s\\"?</string>
 </resources>

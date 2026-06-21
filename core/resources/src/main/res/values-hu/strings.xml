@@ -3241,11 +3241,11 @@
     <string name="search_keywords_pdf_merge">pdf egyesítése egyesíteni csatlakozni</string>
     <string name="search_keywords_pdf_split">pdf külön oldalra osztott</string>
     <string name="search_keywords_pdf_rotate">pdf oldalforgatás tájolása</string>
-    <string name="search_keywords_pdf_rearrange">pdf átrendezés átrendezés oldalak rendezése</string>
+    <string name="search_keywords_pdf_rearrange">pdf átrendezés oldalak rendezése</string>
     <string name="search_keywords_pdf_page_numbers">pdf oldalszámok oldalszámozása</string>
     <string name="search_keywords_pdf_ocr">pdf ocr szöveg felismerhető kereshető kivonat</string>
     <string name="search_keywords_pdf_watermark">pdf vízjel bélyegző logó szövege</string>
-    <string name="search_keywords_pdf_signature">pdf aláírás aláírás húzás</string>
+    <string name="search_keywords_pdf_signature">pdf aláírás húzás</string>
     <string name="search_keywords_pdf_protect">pdf védelme jelszóval titkosítási zár</string>
     <string name="search_keywords_pdf_unlock">pdf feloldó jelszó visszafejtése védelem eltávolítása</string>
     <string name="search_keywords_pdf_compress">pdf tömörítés méret csökkentése optimalizálni</string>
@@ -3255,13 +3255,13 @@
     <string name="search_keywords_pdf_remove_pages">pdf távolítsa el az oldalakat</string>
     <string name="search_keywords_pdf_crop">pdf kivágási margók</string>
     <string name="search_keywords_pdf_flatten">A pdf lapos annotációk rétegeket képeznek</string>
-    <string name="search_keywords_pdf_extract_images">pdf kivonat képek képek</string>
+    <string name="search_keywords_pdf_extract_images">pdf kivonat képek</string>
     <string name="search_keywords_pdf_zip_convert">pdf zip archívum tömörítés</string>
-    <string name="search_keywords_pdf_print">pdf nyomtató nyomtató</string>
+    <string name="search_keywords_pdf_print">pdf nyomtató</string>
     <string name="search_keywords_pdf_preview">pdf preview viewer olvasni</string>
     <string name="search_keywords_pdf_images_to_pdf">képeket pdf-be konvertálhat jpg jpeg png dokumentumot</string>
     <string name="search_keywords_pdf_extract_pages">pdf képekbe oldalak exportálása jpg png</string>
-    <string name="search_keywords_pdf_remove_annotations">pdf megjegyzések megjegyzések eltávolítása tiszta</string>
+    <string name="search_keywords_pdf_remove_annotations">pdf megjegyzések eltávolítása tiszta</string>
     <string name="neutral_variant">Semleges változat</string>
     <string name="error">Hiba</string>
     <string name="drop_shadow">Dobó árnyék</string>
@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Megnyílik az eszköz, elmenti a statisztikákat, a csíkokat, a mentett adatokat és a felső formátumot. Az alkalmazásmegnyitások változatlanok maradnak.</string>
     <string name="audio">Hang</string>
     <string name="file">Fájl</string>
+    <string name="export_profiles">Profilok exportálása</string>
+    <string name="save_export_profile">Az aktuális profil mentése</string>
+    <string name="delete_export_profile">Exportálási profil törlése</string>
+    <string name="delete_export_profile_sub">Törli a \\"%1$s\\" exportprofilt?</string>
 </resources>

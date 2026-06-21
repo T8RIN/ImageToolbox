@@ -3276,4 +3276,8 @@
     <string name="reset_usage_statistics_sub">工具打開，保存統計資料、條紋、保存的資料和頂部格式將被重置。應用程式開啟將保持不變。</string>
     <string name="audio">聲音的</string>
     <string name="file">文件</string>
+    <string name="export_profiles">匯出設定檔</string>
+    <string name="save_export_profile">儲存目前設定檔</string>
+    <string name="delete_export_profile">刪除匯出設定檔</string>
+    <string name="delete_export_profile_sub">您想刪除匯出設定檔「%1$s」嗎？</string>
 </resources>

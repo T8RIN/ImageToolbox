@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">L\'outil s\'ouvre, les statistiques de sauvegarde, la séquence, les données enregistrées et le format supérieur seront réinitialisés. L\'ouverture de l\'application restera inchangée.</string>
     <string name="audio">Audio</string>
     <string name="file">Déposer</string>
+    <string name="export_profiles">Exporter des profils</string>
+    <string name="save_export_profile">Enregistrer le profil actuel</string>
+    <string name="delete_export_profile">Supprimer le profil d\'exportation</string>
+    <string name="delete_export_profile_sub">Voulez-vous supprimer le profil d\'exportation \\"%1$s\\" ?</string>
 </resources>

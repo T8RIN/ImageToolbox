@@ -3278,4 +3278,8 @@
     <string name="reset_usage_statistics_sub">Instrumentul se deschide, salvează statisticile, seria, datele salvate și formatul de top vor fi resetate. Deschiderile aplicației vor rămâne neschimbate.</string>
     <string name="audio">Audio</string>
     <string name="file">Fişier</string>
+    <string name="export_profiles">Exportați profiluri</string>
+    <string name="save_export_profile">Salvați profilul curent</string>
+    <string name="delete_export_profile">Ștergeți profilul de export</string>
+    <string name="delete_export_profile_sub">Doriți să ștergeți profilul de export \\"%1$s\\"?</string>
 </resources>

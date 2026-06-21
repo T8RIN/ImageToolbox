@@ -3279,4 +3279,8 @@
     <string name="reset_usage_statistics_sub">Відкриття інструмента, збереження статистики, серії, збережені дані та верхній формат буде скинуто. Відкриття програми залишаться без змін.</string>
     <string name="audio">Аудіо</string>
     <string name="file">Файл</string>
+    <string name="export_profiles">Експорт профілів</string>
+    <string name="save_export_profile">Зберегти поточний профіль</string>
+    <string name="delete_export_profile">Видалити профіль експорту</string>
+    <string name="delete_export_profile_sub">Ви бажаєте видалити профіль експорту \\"%1$s\\"?</string>
 </resources>

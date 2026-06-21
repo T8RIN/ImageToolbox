@@ -3228,7 +3228,7 @@
     <string name="search_keywords_collage_maker">layout de grade de colagem combinar</string>
     <string name="search_keywords_markup_layers">camadas de marcação anotar edição de sobreposição</string>
     <string name="search_keywords_base64_tools">codificação base64 decodificação de dados uri</string>
-    <string name="search_keywords_checksum_tools">hash de soma de verificação md5 sha sha1 sha256 verificar</string>
+    <string name="search_keywords_checksum_tools">hash de soma de verificação md5 sha1 sha256 verificar</string>
     <string name="search_keywords_mesh_gradients">fundo gradiente de malha</string>
     <string name="search_keywords_edit_exif">exif metadados editar gps data câmera</string>
     <string name="search_keywords_image_cutter">cortar peças de grade divididas</string>
@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">A ferramenta é aberta, as estatísticas salvas, a sequência, os dados salvos e o formato superior serão redefinidos. As aberturas de aplicativos permanecerão inalteradas.</string>
     <string name="audio">Áudio</string>
     <string name="file">Arquivo</string>
+    <string name="export_profiles">Exportar perfis</string>
+    <string name="save_export_profile">Salvar perfil atual</string>
+    <string name="delete_export_profile">Excluir perfil de exportação</string>
+    <string name="delete_export_profile_sub">Deseja excluir o perfil de exportação \\"%1$s\\"?</string>
 </resources>

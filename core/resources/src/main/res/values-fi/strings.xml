@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Työkalu avautuu, tilastot, viiva, tallennetut tiedot ja huippumuoto palautetaan. Sovellusten avaukset pysyvät ennallaan.</string>
     <string name="audio">Audio</string>
     <string name="file">Tiedosto</string>
+    <string name="export_profiles">Vie profiilit</string>
+    <string name="save_export_profile">Tallenna nykyinen profiili</string>
+    <string name="delete_export_profile">Poista vientiprofiili</string>
+    <string name="delete_export_profile_sub">Haluatko poistaa vientiprofiilin \\"%1$s\\"?</string>
 </resources>

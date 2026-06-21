@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">टूल उघडेल, आकडेवारी जतन करा, स्ट्रीक, जतन केलेला डेटा आणि शीर्ष स्वरूप रीसेट केले जाईल. ॲप उघडेल ते अपरिवर्तित राहील.</string>
     <string name="audio">ऑडिओ</string>
     <string name="file">फाईल</string>
+    <string name="export_profiles">प्रोफाइल निर्यात करा</string>
+    <string name="save_export_profile">वर्तमान प्रोफाइल जतन करा</string>
+    <string name="delete_export_profile">निर्यात प्रोफाइल हटवा</string>
+    <string name="delete_export_profile_sub">तुम्ही एक्सपोर्ट प्रोफाईल \\"%1$s\\" हटवू इच्छिता?</string>
 </resources>

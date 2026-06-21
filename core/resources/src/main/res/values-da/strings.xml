@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Værktøjet åbner, gem statistik, streak, gemte data og topformat nulstilles. App-åbninger forbliver uændrede.</string>
     <string name="audio">Lyd</string>
     <string name="file">Fil</string>
+    <string name="export_profiles">Eksporter profiler</string>
+    <string name="save_export_profile">Gem den aktuelle profil</string>
+    <string name="delete_export_profile">Slet eksportprofil</string>
+    <string name="delete_export_profile_sub">Vil du slette eksportprofilen \\"%1$s\\"?</string>
 </resources>

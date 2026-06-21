@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">টুল খোলে, পরিসংখ্যান সংরক্ষণ করুন, স্ট্রিক, সংরক্ষিত ডেটা এবং শীর্ষ বিন্যাস পুনরায় সেট করা হবে। অ্যাপ ওপেন অপরিবর্তিত থাকবে।</string>
     <string name="audio">অডিও</string>
     <string name="file">ফাইল</string>
+    <string name="export_profiles">প্রোফাইল রপ্তানি করুন</string>
+    <string name="save_export_profile">বর্তমান প্রোফাইল সংরক্ষণ করুন</string>
+    <string name="delete_export_profile">এক্সপোর্ট প্রোফাইল মুছুন</string>
+    <string name="delete_export_profile_sub">আপনি কি রপ্তানি প্রোফাইল \\"%1$s\\" মুছতে চান?</string>
 </resources>

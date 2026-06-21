@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">ਟੂਲ ਖੁੱਲ੍ਹਦਾ ਹੈ, ਅੰਕੜਿਆਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ, ਸਟ੍ਰੀਕ, ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਡੇਟਾ, ਅਤੇ ਚੋਟੀ ਦੇ ਫਾਰਮੈਟ ਨੂੰ ਰੀਸੈਟ ਕੀਤਾ ਜਾਵੇਗਾ। ਐਪ ਖੁੱਲ੍ਹਦਾ ਹੈ, ਬਦਲਿਆ ਨਹੀਂ ਜਾਵੇਗਾ।</string>
     <string name="audio">ਆਡੀਓ</string>
     <string name="file">ਫਾਈਲ</string>
+    <string name="export_profiles">ਪ੍ਰੋਫਾਈਲਾਂ ਨੂੰ ਨਿਰਯਾਤ ਕਰੋ</string>
+    <string name="save_export_profile">ਮੌਜੂਦਾ ਪ੍ਰੋਫਾਈਲ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
+    <string name="delete_export_profile">ਨਿਰਯਾਤ ਪ੍ਰੋਫਾਈਲ ਮਿਟਾਓ</string>
+    <string name="delete_export_profile_sub">ਕੀ ਤੁਸੀਂ ਨਿਰਯਾਤ ਪ੍ਰੋਫਾਈਲ \\"%1$s\\" ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
 </resources>

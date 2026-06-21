@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">टूल खुलता है, आँकड़े सहेजें, स्ट्रीक, सहेजा गया डेटा, और शीर्ष प्रारूप रीसेट हो जाएगा। ऐप खुलने का समय अपरिवर्तित रहेगा.</string>
     <string name="audio">ऑडियो</string>
     <string name="file">फ़ाइल</string>
+    <string name="export_profiles">प्रोफ़ाइल निर्यात करें</string>
+    <string name="save_export_profile">वर्तमान प्रोफ़ाइल सहेजें</string>
+    <string name="delete_export_profile">निर्यात प्रोफ़ाइल हटाएँ</string>
+    <string name="delete_export_profile_sub">क्या आप निर्यात प्रोफ़ाइल \\"%1$s\\" को हटाना चाहते हैं?</string>
 </resources>

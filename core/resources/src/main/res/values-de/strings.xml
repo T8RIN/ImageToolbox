@@ -3228,7 +3228,7 @@
     <string name="search_keywords_collage_maker">Collage-Raster-Layout kombinieren</string>
     <string name="search_keywords_markup_layers">Markup-Ebenen kommentieren Overlay-Bearbeitung</string>
     <string name="search_keywords_base64_tools">Base64-Codierung, Decodierung der Daten-URI</string>
-    <string name="search_keywords_checksum_tools">Prüfsumme Hash MD5 sha sha1 sha256 überprüfen</string>
+    <string name="search_keywords_checksum_tools">Prüfsumme Hash MD5 sha1 sha256 überprüfen</string>
     <string name="search_keywords_mesh_gradients">Mesh-Hintergrund mit Farbverlauf</string>
     <string name="search_keywords_edit_exif">Exif-Metadaten bearbeiten GPS-Datumskamera</string>
     <string name="search_keywords_image_cutter">Schneiden Sie geteilte Gitterstücke aus Fliesen</string>
@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Das Tool wird geöffnet, die Speicherstatistiken, der Streak, die gespeicherten Daten und das Topformat werden zurückgesetzt. App-Öffnungen bleiben unverändert.</string>
     <string name="audio">Audio</string>
     <string name="file">Datei</string>
+    <string name="export_profiles">Profile exportieren</string>
+    <string name="save_export_profile">Aktuelles Profil speichern</string>
+    <string name="delete_export_profile">Exportprofil löschen</string>
+    <string name="delete_export_profile_sub">Möchten Sie das Exportprofil „%1$s“ löschen?</string>
 </resources>

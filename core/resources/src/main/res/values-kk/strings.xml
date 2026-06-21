@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Құрал ашылады, статистиканы сақтау, жолақ, сақталған деректер және жоғарғы пішім қалпына келтіріледі. Қолданбаның ашылуы өзгеріссіз қалады.</string>
     <string name="audio">Аудио</string>
     <string name="file">Файл</string>
+    <string name="export_profiles">Профильдерді экспорттау</string>
+    <string name="save_export_profile">Ағымдағы профильді сақтаңыз</string>
+    <string name="delete_export_profile">Экспорттау профилін жою</string>
+    <string name="delete_export_profile_sub">\\"%1$s\\" экспорттау профилін жойғыңыз келе ме?</string>
 </resources>

@@ -3198,7 +3198,7 @@
     <string name="search_keywords_crop">relación de aspecto de recorte de recorte</string>
     <string name="search_keywords_filter">efecto de filtro corrección de color ajustar máscara lut</string>
     <string name="search_keywords_draw">dibujar pincel lápiz anotar marcado</string>
-    <string name="search_keywords_cipher">cifrar cifrar descifrar contraseña secreto</string>
+    <string name="search_keywords_cipher">cifrar descifrar contraseña secreto</string>
     <string name="search_keywords_erase_background">eliminador de fondo borrar eliminar recorte transparente alfa</string>
     <string name="search_keywords_image_preview">vista previa de la galería del visor inspeccionar abrir</string>
     <string name="search_keywords_image_stitching">puntada fusionar combinar panorama captura de pantalla larga</string>
@@ -3228,7 +3228,7 @@
     <string name="search_keywords_collage_maker">diseño de cuadrícula de collage combinar</string>
     <string name="search_keywords_markup_layers">capas de marcado anotar superposición editar</string>
     <string name="search_keywords_base64_tools">base64 codificar decodificar datos uri</string>
-    <string name="search_keywords_checksum_tools">suma de comprobación hash md5 sha sha1 sha256 verificar</string>
+    <string name="search_keywords_checksum_tools">suma de comprobación hash md5 sha1 sha256 verificar</string>
     <string name="search_keywords_mesh_gradients">fondo degradado de malla</string>
     <string name="search_keywords_edit_exif">metadatos exif editar gps fecha cámara</string>
     <string name="search_keywords_image_cutter">cortar piezas de rejilla divididas en azulejos</string>
@@ -3252,7 +3252,7 @@
     <string name="search_keywords_pdf_grayscale">pdf escala de grises negro blanco monocromo</string>
     <string name="search_keywords_pdf_repair">pdf reparar arreglar recuperar roto</string>
     <string name="search_keywords_pdf_metadata">propiedades de metadatos pdf exif título del autor</string>
-    <string name="search_keywords_pdf_remove_pages">pdf eliminar eliminar páginas</string>
+    <string name="search_keywords_pdf_remove_pages">pdf eliminar páginas</string>
     <string name="search_keywords_pdf_crop">márgenes de recorte de recorte pdf</string>
     <string name="search_keywords_pdf_flatten">pdf aplanar anotaciones forma capas</string>
     <string name="search_keywords_pdf_extract_images">pdf extraer imágenes fotos</string>
@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Se abre la herramienta, se restablecen las estadísticas guardadas, la racha, los datos guardados y el formato superior. Las aperturas de aplicaciones permanecerán sin cambios.</string>
     <string name="audio">Audio</string>
     <string name="file">Archivo</string>
+    <string name="export_profiles">Exportar perfiles</string>
+    <string name="save_export_profile">Guardar perfil actual</string>
+    <string name="delete_export_profile">Eliminar perfil de exportación</string>
+    <string name="delete_export_profile_sub">¿Quiere eliminar el perfil de exportación \\"%1$s\\"?</string>
 </resources>

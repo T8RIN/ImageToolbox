@@ -3276,4 +3276,8 @@
     <string name="reset_usage_statistics_sub">Alat terbuka, menyimpan statistik, coretan, data yang disimpan, dan format teratas akan diatur ulang. Pembukaan aplikasi tidak akan berubah.</string>
     <string name="audio">Audio</string>
     <string name="file">Mengajukan</string>
+    <string name="export_profiles">Ekspor profil</string>
+    <string name="save_export_profile">Simpan profil saat ini</string>
+    <string name="delete_export_profile">Hapus profil ekspor</string>
+    <string name="delete_export_profile_sub">Apakah Anda ingin menghapus profil ekspor \\"%1$s\\"?</string>
 </resources>

@@ -3278,4 +3278,8 @@
     <string name="reset_usage_statistics_sub">Алат се отвара, чува статистику, низ, сачувани подаци и горњи формат ће бити ресетовани. Отварања апликације ће остати непромењена.</string>
     <string name="audio">Аудио</string>
     <string name="file">Филе</string>
+    <string name="export_profiles">Извези профиле</string>
+    <string name="save_export_profile">Сачувајте тренутни профил</string>
+    <string name="delete_export_profile">Избришите профил за извоз</string>
+    <string name="delete_export_profile_sub">Да ли желите да избришете профил за извоз \\"__ПХ_0__\\"?</string>
 </resources>

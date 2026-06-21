@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Tool wordt geopend, statistieken, streak, opgeslagen gegevens worden opgeslagen en het topformaat wordt gereset. Het openen van de app blijft ongewijzigd.</string>
     <string name="audio">Audio</string>
     <string name="file">Bestand</string>
+    <string name="export_profiles">Profielen exporteren</string>
+    <string name="save_export_profile">Huidig ​​profiel opslaan</string>
+    <string name="delete_export_profile">Exportprofiel verwijderen</string>
+    <string name="delete_export_profile_sub">Wilt u het exportprofiel \\"%1$s\\" verwijderen?</string>
 </resources>

@@ -3276,4 +3276,8 @@
     <string name="reset_usage_statistics_sub">เครื่องมือเปิดขึ้น บันทึกสถิติ สถิติต่อเนื่อง ข้อมูลที่บันทึกไว้ และรูปแบบสูงสุดจะถูกรีเซ็ต การเปิดแอปจะไม่เปลี่ยนแปลง</string>
     <string name="audio">เสียง</string>
     <string name="file">ไฟล์</string>
+    <string name="export_profiles">ส่งออกโปรไฟล์</string>
+    <string name="save_export_profile">บันทึกโปรไฟล์ปัจจุบัน</string>
+    <string name="delete_export_profile">ลบโปรไฟล์การส่งออก</string>
+    <string name="delete_export_profile_sub">คุณต้องการลบโปรไฟล์การส่งออก \\"%1$s\\" หรือไม่</string>
 </resources>

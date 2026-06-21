@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">கருவி திறக்கிறது, புள்ளிவிவரங்களைச் சேமிக்கிறது, ஸ்ட்ரீக், சேமித்த தரவு மற்றும் மேல் வடிவம் மீட்டமைக்கப்படும். ஆப்ஸ் ஓபன் ஆனது மாறாமல் இருக்கும்.</string>
     <string name="audio">ஆடியோ</string>
     <string name="file">கோப்பு</string>
+    <string name="export_profiles">சுயவிவரங்களை ஏற்றுமதி செய்யுங்கள்</string>
+    <string name="save_export_profile">தற்போதைய சுயவிவரத்தை சேமிக்கவும்</string>
+    <string name="delete_export_profile">ஏற்றுமதி சுயவிவரத்தை நீக்கவும்</string>
+    <string name="delete_export_profile_sub">\\"%1$s\\" என்ற ஏற்றுமதி சுயவிவரத்தை நீக்க விரும்புகிறீர்களா?</string>
 </resources>

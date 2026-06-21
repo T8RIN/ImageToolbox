@@ -3279,4 +3279,8 @@
     <string name="reset_usage_statistics_sub">Atidaromas įrankis, išsaugoma statistika, seka, išsaugoti duomenys ir viršutinis formatas bus nustatytas iš naujo. Programos atidarymas išliks nepakitęs.</string>
     <string name="audio">Garsas</string>
     <string name="file">Failas</string>
+    <string name="export_profiles">Eksportuoti profilius</string>
+    <string name="save_export_profile">Išsaugoti esamą profilį</string>
+    <string name="delete_export_profile">Ištrinti eksporto profilį</string>
+    <string name="delete_export_profile_sub">Ar norite ištrinti eksporto profilį \\"%1$s\\"?</string>
 </resources>

@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Tööriist avaneb, statistika salvestamine, vööt, salvestatud andmed ja ülemine vorming lähtestatakse. Rakenduse avamised jäävad muutumatuks.</string>
     <string name="audio">Heli</string>
     <string name="file">Fail</string>
+    <string name="export_profiles">Ekspordi profiilid</string>
+    <string name="save_export_profile">Salvesta praegune profiil</string>
+    <string name="delete_export_profile">Kustuta ekspordiprofiil</string>
+    <string name="delete_export_profile_sub">Kas soovite kustutada ekspordiprofiili \\"%1$s\\"?</string>
 </resources>

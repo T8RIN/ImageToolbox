@@ -3228,7 +3228,7 @@
     <string name="search_keywords_collage_maker">Combinazione del layout della griglia del collage</string>
     <string name="search_keywords_markup_layers">i livelli di markup annotano la modifica in sovrapposizione</string>
     <string name="search_keywords_base64_tools">base64 codifica decodifica dati uri</string>
-    <string name="search_keywords_checksum_tools">checksum hash md5 sha sha1 sha256 verifica</string>
+    <string name="search_keywords_checksum_tools">checksum hash md5 sha1 sha256 verifica</string>
     <string name="search_keywords_mesh_gradients">sfondo sfumato mesh</string>
     <string name="search_keywords_edit_exif">metadati EXIF ​​modifica la data GPS della fotocamera</string>
     <string name="search_keywords_image_cutter">tagliare le tessere con pezzi di griglia divisi</string>
@@ -3238,7 +3238,7 @@
     <string name="search_keywords_ai_tools">ai ml neurale migliora il segmento di lusso</string>
     <string name="search_keywords_color_library">tavolozza dei materiali della libreria colori denominata colori</string>
     <string name="search_keywords_shader_studio">studio di effetti frammento glsl shader</string>
-    <string name="search_keywords_pdf_merge">pdf unisci unisci unisci</string>
+    <string name="search_keywords_pdf_merge">pdf unisci</string>
     <string name="search_keywords_pdf_split">pdf diviso in pagine separate</string>
     <string name="search_keywords_pdf_rotate">pdf ruotare l\'orientamento delle pagine</string>
     <string name="search_keywords_pdf_rearrange">pdf riorganizzare riordinare le pagine ordinare</string>
@@ -3255,7 +3255,7 @@
     <string name="search_keywords_pdf_remove_pages">pdf rimuovi elimina pagine</string>
     <string name="search_keywords_pdf_crop">pdf ritagliare i margini di ritaglio</string>
     <string name="search_keywords_pdf_flatten">pdf appiattire le annotazioni forma livelli</string>
-    <string name="search_keywords_pdf_extract_images">pdf estrarre immagini immagini</string>
+    <string name="search_keywords_pdf_extract_images">pdf estrarre immagini</string>
     <string name="search_keywords_pdf_zip_convert">comprimere archivio zip pdf</string>
     <string name="search_keywords_pdf_print">stampante per stampa pdf</string>
     <string name="search_keywords_pdf_preview">visualizzatore di anteprima pdf letto</string>
@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Lo strumento si apre, le statistiche di salvataggio, la sequenza, i dati salvati e il formato principale verranno reimpostati. L\'apertura dell\'app rimarrà invariata.</string>
     <string name="audio">Audio</string>
     <string name="file">File</string>
+    <string name="export_profiles">Profili di esportazione</string>
+    <string name="save_export_profile">Salva il profilo corrente</string>
+    <string name="delete_export_profile">Elimina il profilo di esportazione</string>
+    <string name="delete_export_profile_sub">Vuoi eliminare il profilo di esportazione \\"%1$s\\"?</string>
 </resources>

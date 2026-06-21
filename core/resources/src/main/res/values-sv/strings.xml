@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Verktyget öppnas, spara statistik, streak, sparad data och toppformat kommer att återställas. Appöppningar förblir oförändrade.</string>
     <string name="audio">Audio</string>
     <string name="file">Fil</string>
+    <string name="export_profiles">Exportera profiler</string>
+    <string name="save_export_profile">Spara aktuell profil</string>
+    <string name="delete_export_profile">Ta bort exportprofil</string>
+    <string name="delete_export_profile_sub">Vill du ta bort exportprofilen \\"%1$s\\"?</string>
 </resources>

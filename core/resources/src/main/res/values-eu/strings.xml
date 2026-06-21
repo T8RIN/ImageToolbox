@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Tresna irekitzen da, gorde estatistikak, marra, gordetako datuak eta goi-formatua berrezarri egingo dira. Aplikazioen irekierak ez dira aldatuko.</string>
     <string name="audio">Audioa</string>
     <string name="file">Fitxategia</string>
+    <string name="export_profiles">Esportatu profilak</string>
+    <string name="save_export_profile">Gorde uneko profila</string>
+    <string name="delete_export_profile">Ezabatu esportazio-profila</string>
+    <string name="delete_export_profile_sub">\\"%1$s\\" esportazio profila ezabatu nahi duzu?</string>
 </resources>

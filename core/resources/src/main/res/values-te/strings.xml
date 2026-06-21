@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">సాధనం తెరుచుకుంటుంది, గణాంకాలను సేవ్ చేయండి, స్ట్రీక్, సేవ్ చేసిన డేటా మరియు టాప్ ఫార్మాట్ రీసెట్ చేయబడుతుంది. యాప్ ఓపెన్‌లు మారవు.</string>
     <string name="audio">ఆడియో</string>
     <string name="file">ఫైల్</string>
+    <string name="export_profiles">ప్రొఫైల్‌లను ఎగుమతి చేయండి</string>
+    <string name="save_export_profile">ప్రస్తుత ప్రొఫైల్‌ను సేవ్ చేయండి</string>
+    <string name="delete_export_profile">ఎగుమతి ప్రొఫైల్‌ను తొలగించండి</string>
+    <string name="delete_export_profile_sub">మీరు \\"%1$s\\" ఎగుమతి ప్రొఫైల్‌ని తొలగించాలనుకుంటున్నారా?</string>
 </resources>

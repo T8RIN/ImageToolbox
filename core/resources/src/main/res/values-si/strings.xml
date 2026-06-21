@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">මෙවලම විවෘත වේ, සංඛ්‍යාලේඛන සුරකින්න, ස්ට්‍රීක්, සුරකින ලද දත්ත, සහ ඉහළ ආකෘතිය යළි පිහිටුවනු ඇත. යෙදුම් විවෘත කිරීම් නොවෙනස්ව පවතිනු ඇත.</string>
     <string name="audio">ශ්රව්ය උපකරණ</string>
     <string name="file">ගොනුව</string>
+    <string name="export_profiles">පැතිකඩ අපනයනය කරන්න</string>
+    <string name="save_export_profile">වත්මන් පැතිකඩ සුරකින්න</string>
+    <string name="delete_export_profile">අපනයන පැතිකඩ මකන්න</string>
+    <string name="delete_export_profile_sub">ඔබට \\"%1$s\\" නිර්යාත පැතිකඩ මැකීමට අවශ්‍යද?</string>
 </resources>

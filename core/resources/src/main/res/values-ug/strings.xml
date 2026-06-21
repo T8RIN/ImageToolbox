@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">قورال ئېچىلىدۇ ، سانلىق مەلۇماتلارنى ساقلايدۇ ، رەتلەش ، ساقلانغان سانلىق مەلۇمات ۋە ئەڭ يۇقىرى فورماتى ئەسلىگە كېلىدۇ. ئەپ ئېچىلمايدۇ.</string>
     <string name="audio">Audio</string>
     <string name="file">ھۆججەت</string>
+    <string name="export_profiles">ئارخىپلارنى چىقىرىش</string>
+    <string name="save_export_profile">نۆۋەتتىكى ئارخىپنى ساقلاڭ</string>
+    <string name="delete_export_profile">ئېكسپورت ئارخىپىنى ئۆچۈرۈڭ</string>
+    <string name="delete_export_profile_sub">ئېكسپورت ئارخىپىنى ئۆچۈرمەكچىمۇ؟ \ \"__ PH_0 __ \\"?</string>
 </resources>

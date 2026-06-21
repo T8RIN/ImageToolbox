@@ -3276,4 +3276,8 @@
     <string name="reset_usage_statistics_sub">도구 열기, 저장 통계, 연속 기록, 저장된 데이터 및 최고 형식이 재설정됩니다. 앱 열기는 변경되지 않습니다.</string>
     <string name="audio">오디오</string>
     <string name="file">파일</string>
+    <string name="export_profiles">프로필 내보내기</string>
+    <string name="save_export_profile">현재 프로필 저장</string>
+    <string name="delete_export_profile">내보내기 프로필 삭제</string>
+    <string name="delete_export_profile_sub">내보내기 프로필 \\"%1$s\\"을(를) 삭제하시겠습니까?</string>
 </resources>

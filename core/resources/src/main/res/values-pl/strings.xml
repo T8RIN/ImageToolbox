@@ -3279,4 +3279,8 @@
     <string name="reset_usage_statistics_sub">Narzędzie zostanie otwarte, zapisz statystyki, smugi, zapisane dane i najwyższy format zostaną zresetowane. Otwarcia aplikacji pozostaną niezmienione.</string>
     <string name="audio">Audio</string>
     <string name="file">Plik</string>
+    <string name="export_profiles">Eksportuj profile</string>
+    <string name="save_export_profile">Zapisz bieżący profil</string>
+    <string name="delete_export_profile">Usuń profil eksportu</string>
+    <string name="delete_export_profile_sub">Czy chcesz usunąć profil eksportu „%1$s”?</string>
 </resources>

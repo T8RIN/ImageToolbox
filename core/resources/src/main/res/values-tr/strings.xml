@@ -3195,13 +3195,13 @@
     <string name="search_keywords_single_edit">düzenleyici fotoğraf düzenleme resim rötuş ayarlama</string>
     <string name="search_keywords_resize_and_convert">yeniden boyutlandır dönüştür ölçek çözünürlük boyutlar genişlik yükseklik jpg jpeg png webp sıkıştır</string>
     <string name="search_keywords_weight_resize">sıkıştır boyut ağırlık bayt mb kb kaliteyi azalt optimize et</string>
-    <string name="search_keywords_crop">kırpma kırpma kesme en boy oranı</string>
+    <string name="search_keywords_crop">kırpma kesme en boy oranı</string>
     <string name="search_keywords_filter">filtre efekti renk düzeltme lut maskesini ayarlama</string>
     <string name="search_keywords_draw">çizmek boya fırça kalem açıklama ekleme işaretleme</string>
     <string name="search_keywords_cipher">şifre şifrelemek şifresini çözmek şifre gizli</string>
     <string name="search_keywords_erase_background">arka plan sökücü silme kaldır kesme şeffaf alfa</string>
     <string name="search_keywords_image_preview">önizleme görüntüleyici galeri incelemeyi aç</string>
-    <string name="search_keywords_image_stitching">dikiş birleştirme birleştirme panorama uzun ekran görüntüsü</string>
+    <string name="search_keywords_image_stitching">dikiş birleştirme panorama uzun ekran görüntüsü</string>
     <string name="search_keywords_load_net_image">url web indir internet bağlantısı resmi</string>
     <string name="search_keywords_pick_color_from_image">seçici damlalık örneği hex rgb rengi</string>
     <string name="search_keywords_palette_tools">palet renkleri renk örnekleri özü baskın</string>
@@ -3228,7 +3228,7 @@
     <string name="search_keywords_collage_maker">kolaj ızgara düzeni birleştirme</string>
     <string name="search_keywords_markup_layers">işaretleme katmanları açıklama ekleme kaplama düzenleme</string>
     <string name="search_keywords_base64_tools">base64 kod çözme veri uri\'si</string>
-    <string name="search_keywords_checksum_tools">sağlama toplamı karma md5 sha sha1 sha256 doğrulamak</string>
+    <string name="search_keywords_checksum_tools">sağlama toplamı karma md5 sha1 sha256 doğrulamak</string>
     <string name="search_keywords_mesh_gradients">örgü degrade arka planı</string>
     <string name="search_keywords_edit_exif">exif meta verileri düzenleme gps tarih kamerası</string>
     <string name="search_keywords_image_cutter">bölünmüş ızgara parçalarını kesin</string>
@@ -3238,7 +3238,7 @@
     <string name="search_keywords_ai_tools">ai ml nöral geliştirme lüks segment</string>
     <string name="search_keywords_color_library">renkler adlı renk kitaplığı malzeme paleti</string>
     <string name="search_keywords_shader_studio">gölgelendirici glsl parça efekt stüdyosu</string>
-    <string name="search_keywords_pdf_merge">pdf birleştirme birleştirme birleştirme</string>
+    <string name="search_keywords_pdf_merge">pdf birleştirme</string>
     <string name="search_keywords_pdf_split">pdf ayrı sayfalara bölünmüş</string>
     <string name="search_keywords_pdf_rotate">pdf sayfa yönünü döndürme</string>
     <string name="search_keywords_pdf_rearrange">pdf yeniden düzenleme yeniden sıralama sayfaları sıralama</string>
@@ -3247,7 +3247,7 @@
     <string name="search_keywords_pdf_watermark">pdf filigran damga logo metni</string>
     <string name="search_keywords_pdf_signature">pdf imza işareti çizimi</string>
     <string name="search_keywords_pdf_protect">pdf şifreyi koru şifreleme kilidi</string>
-    <string name="search_keywords_pdf_unlock">pdf kilit açma şifre şifre çözme korumayı kaldır</string>
+    <string name="search_keywords_pdf_unlock">pdf kilit açma şifre çözme korumayı kaldır</string>
     <string name="search_keywords_pdf_compress">pdf sıkıştır boyutu küçült optimize et</string>
     <string name="search_keywords_pdf_grayscale">pdf gri tonlamalı siyah beyaz tek renkli</string>
     <string name="search_keywords_pdf_repair">pdf onarım düzeltme kırık kurtarma</string>
@@ -3277,4 +3277,8 @@
     <string name="reset_usage_statistics_sub">Araç açılır, istatistikleri kaydetme, seri, kayıtlı veriler ve üst format sıfırlanır. Uygulama açılışları değişmeden kalacaktır.</string>
     <string name="audio">Ses</string>
     <string name="file">Dosya</string>
+    <string name="export_profiles">Profilleri dışa aktar</string>
+    <string name="save_export_profile">Mevcut profili kaydet</string>
+    <string name="delete_export_profile">Dışa aktarma profilini sil</string>
+    <string name="delete_export_profile_sub">\\"%1$s\\" dışa aktarma profilini silmek istiyor musunuz?</string>
 </resources>
