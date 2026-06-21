@@ -699,7 +699,8 @@ fun BitmapDrawer(
                 onUpdateCurrentDrawPosition = { currentDrawPosition = it },
                 onUpdateDrawDownPosition = { drawDownPosition = it },
                 drawEnabled = !panEnabled && !isWarpInputLocked && drawImageBitmap != null,
-                helperGridParams = helperGridParams
+                helperGridParams = helperGridParams,
+                drawBitmapBorder = settingsState.drawBitmapBorder
             )
 
             if (showLineAngle && drawPathMode.canShowLineAngle() && drawDownPosition.isSpecified && currentDrawPosition.isSpecified) {

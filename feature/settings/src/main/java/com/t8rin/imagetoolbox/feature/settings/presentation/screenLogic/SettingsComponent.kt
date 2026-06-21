@@ -377,6 +377,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleMagnifierEnabled() = settingsScope { toggleMagnifierEnabled() }
 
+    fun toggleDrawBitmapBorder() = settingsScope { toggleDrawBitmapBorder() }
+
     fun toggleExifWidgetInitialState() = settingsScope { toggleExifWidgetInitialState() }
 
     fun setScreensWithBrightnessEnforcement(screen: Screen) = settingsScope {

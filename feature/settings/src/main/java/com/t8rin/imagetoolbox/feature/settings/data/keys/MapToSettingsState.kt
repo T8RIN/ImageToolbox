@@ -105,6 +105,7 @@ internal fun Preferences.toSettingsState(
     filenameSuffix = this[FILENAME_SUFFIX] ?: default.filenameSuffix,
     defaultImageScaleMode = this.toDefaultImageScaleMode(default),
     magnifierEnabled = this[MAGNIFIER_ENABLED] ?: default.magnifierEnabled,
+    drawBitmapBorder = this[DRAW_BITMAP_BORDER] ?: default.drawBitmapBorder,
     exifWidgetInitialState = this[EXIF_WIDGET_INITIAL_STATE]
         ?: default.exifWidgetInitialState,
     initialOcrCodes = this[INITIAL_OCR_CODES]?.split("+") ?: default.initialOcrCodes,

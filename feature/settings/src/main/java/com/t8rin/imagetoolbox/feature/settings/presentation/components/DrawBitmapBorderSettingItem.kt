@@ -18,34 +18,34 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.ZoomIn
+import com.t8rin.imagetoolbox.core.resources.icons.FilterFrames
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun MagnifierSettingItem(
+fun DrawBitmapBorderSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.center,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.magnifier),
-        subtitle = stringResource(R.string.magnifier_sub),
-        checked = settingsState.magnifierEnabled,
+        title = stringResource(R.string.draw_bitmap_border),
+        subtitle = stringResource(R.string.draw_bitmap_border_sub),
+        checked = settingsState.drawBitmapBorder,
         onClick = {
             onClick()
         },
-        startIcon = Icons.Outlined.ZoomIn
+        startIcon = Icons.Outlined.FilterFrames
     )
 }

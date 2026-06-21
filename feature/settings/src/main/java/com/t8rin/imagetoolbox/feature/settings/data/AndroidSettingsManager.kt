@@ -101,6 +101,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_RESIZE_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DONATE_DIALOG_OPEN_COUNT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAG_HANDLE_WIDTH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_APPBAR_SHADOWS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_BITMAP_BORDER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_BUTTON_SHADOWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_CONTAINER_SHADOWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_FAB_SHADOWS
@@ -496,6 +497,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleMagnifierEnabled() = toggle(
         key = MAGNIFIER_ENABLED,
         defaultValue = default.magnifierEnabled
+    )
+
+    override suspend fun toggleDrawBitmapBorder() = toggle(
+        key = DRAW_BITMAP_BORDER,
+        defaultValue = default.drawBitmapBorder
     )
 
     override suspend fun toggleExifWidgetInitialState() = toggle(

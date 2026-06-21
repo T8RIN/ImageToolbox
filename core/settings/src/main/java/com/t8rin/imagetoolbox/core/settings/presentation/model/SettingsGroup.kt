@@ -203,7 +203,8 @@ sealed class SettingsGroup(
             Setting.DefaultDrawLineWidth,
             Setting.DefaultDrawColor,
             Setting.DefaultDrawPathMode,
-            Setting.Magnifier
+            Setting.Magnifier,
+            Setting.DrawBitmapBorder
         ),
         initialState = false
     )

@@ -138,6 +138,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)
 
+    suspend fun toggleDrawBitmapBorder()
+
     suspend fun toggleExifWidgetInitialState()
 
     suspend fun setInitialOCRLanguageCodes(list: List<String>)

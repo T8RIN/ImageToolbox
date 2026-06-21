@@ -72,6 +72,7 @@ internal val VIBRATION_STRENGTH = intPreferencesKey("VIBRATION_STRENGTH")
 internal val FILENAME_SUFFIX = stringPreferencesKey("FILENAME_SUFFIX")
 internal val IMAGE_SCALE_MODE = intPreferencesKey("IMAGE_SCALE_MODE")
 internal val MAGNIFIER_ENABLED = booleanPreferencesKey("MAGNIFIER_ENABLED")
+internal val DRAW_BITMAP_BORDER = booleanPreferencesKey("DRAW_BITMAP_BORDER")
 internal val EXIF_WIDGET_INITIAL_STATE = booleanPreferencesKey("EXIF_WIDGET_INITIAL_STATE")
 internal val INITIAL_OCR_CODES = stringPreferencesKey("INITIAL_OCR_CODES")
 internal val SCREENS_WITH_BRIGHTNESS_ENFORCEMENT =

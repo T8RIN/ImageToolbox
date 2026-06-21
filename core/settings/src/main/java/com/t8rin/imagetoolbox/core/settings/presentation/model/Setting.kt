@@ -386,6 +386,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object DrawBitmapBorder : Setting(
+        title = R.string.draw_bitmap_border,
+        subtitle = R.string.draw_bitmap_border_sub
+    )
+
+    @Serializable
     data object ExifWidgetInitialState : Setting(
         title = R.string.force_exif_widget_initial_value,
         subtitle = R.string.force_exif_widget_initial_value_sub

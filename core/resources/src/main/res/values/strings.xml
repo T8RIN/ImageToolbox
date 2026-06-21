@@ -1363,6 +1363,8 @@
     <string name="saved_to_original">Overwritten file with name %1$s at original destination</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">Enables magnifier at the top of finger in drawing modes for better accessibility</string>
+    <string name="draw_bitmap_border">Drawing border</string>
+    <string name="draw_bitmap_border_sub">Show a thin border around the drawing and erasing canvas</string>
     <string name="force_exif_widget_initial_value">Force initial value</string>
     <string name="force_exif_widget_initial_value_sub">Forces exif widget to be checked initially</string>
     <string name="exif" translatable="false">EXIF</string>

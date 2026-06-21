@@ -392,6 +392,7 @@ fun BitmapEraser(
                 onUpdateDrawDownPosition = { drawDownPosition = it },
                 drawEnabled = !panEnabled,
                 helperGridParams = helperGridParams,
+                drawBitmapBorder = settingsState.drawBitmapBorder,
                 beforeHelperGridModifier = Modifier.drawBehind {
                     if (originalImagePreviewAlpha != 0f) {
                         drawContext.canvas.apply {

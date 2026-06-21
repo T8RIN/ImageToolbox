@@ -434,6 +434,10 @@ internal fun SettingItem(
                 MagnifierSettingItem(onClick = component::toggleMagnifierEnabled)
             }
 
+            Setting.DrawBitmapBorder -> {
+                DrawBitmapBorderSettingItem(onClick = component::toggleDrawBitmapBorder)
+            }
+
             Setting.ExifWidgetInitialState -> {
                 ExifWidgetInitialStateSettingItem(onClick = component::toggleExifWidgetInitialState)
             }
