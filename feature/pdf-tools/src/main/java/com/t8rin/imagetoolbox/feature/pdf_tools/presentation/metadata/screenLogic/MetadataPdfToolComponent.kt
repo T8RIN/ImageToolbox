@@ -64,6 +64,10 @@ class MetadataPdfToolComponent @AssistedInject internal constructor(
     private val _deepClean: MutableState<Boolean> = mutableStateOf(false)
     val deepClean by _deepClean
 
+    init {
+        checkSelectedPdf(initialUri)
+    }
+
     override fun getKey(): Pair<String, Uri?> = "metadata" to uri
 
     fun setUri(uri: Uri?) {
@@ -73,6 +77,10 @@ class MetadataPdfToolComponent @AssistedInject internal constructor(
             registerChanges()
         }
         _uri.update { uri }
+        checkSelectedPdf(uri)
+    }
+
+    private fun checkSelectedPdf(uri: Uri?) {
         checkPdf(
             uri = uri,
             onDecrypted = { _uri.value = it },

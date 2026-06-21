@@ -62,6 +62,13 @@ class WatermarkPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
+    init {
+        checkPdf(
+            uri = initialUri,
+            onDecrypted = { _uri.value = it }
+        )
+    }
+
     private val _params: MutableState<PdfWatermarkParams> =
         mutableStateOf(PdfWatermarkParams(color = Color.Gray.toArgb()))
     val params by _params

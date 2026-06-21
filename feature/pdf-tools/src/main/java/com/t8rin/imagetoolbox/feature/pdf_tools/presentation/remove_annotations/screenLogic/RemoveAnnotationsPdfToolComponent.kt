@@ -60,6 +60,13 @@ class RemoveAnnotationsPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
+    init {
+        checkPdf(
+            uri = initialUri,
+            onDecrypted = { _uri.value = it }
+        )
+    }
+
     private val _params: MutableState<PdfRemoveAnnotationParams> =
         mutableStateOf(PdfRemoveAnnotationParams())
     val params by _params

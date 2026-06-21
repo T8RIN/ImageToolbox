@@ -57,6 +57,13 @@ class RepairPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
+    init {
+        checkPdf(
+            uri = initialUri,
+            onDecrypted = { _uri.value = it }
+        )
+    }
+
     override fun getKey(): Pair<String, Uri?> = "repaired" to uri
 
     fun setUri(uri: Uri?) {

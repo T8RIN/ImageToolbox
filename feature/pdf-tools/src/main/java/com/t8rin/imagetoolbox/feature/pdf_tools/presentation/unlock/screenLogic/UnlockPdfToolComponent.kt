@@ -57,6 +57,13 @@ class UnlockPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
+    init {
+        checkPdf(
+            uri = initialUri,
+            onDecrypted = { _uri.value = it }
+        )
+    }
+
     private val _password: MutableState<String> = mutableStateOf("")
     val password by _password
 
