@@ -422,7 +422,7 @@ class RootComponent @AssistedInject internal constructor(
                 .also(analyticsManager::registerScreenOpen)
             navController.navigate(
                 transformer = { stack ->
-                    stack.dropLastWhile { it !is Screen.PdfTools } + screen
+                    stack.dropLastWhile { it !is Screen.PdfTools && it !is Screen.Main } + screen
                 }
             )
             hideSelectDialog()
