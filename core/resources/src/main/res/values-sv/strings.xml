@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Torn Edge</string>
     <string name="reset_usage_statistics">Återställ användningsstatistik</string>
     <string name="reset_usage_statistics_sub">Verktyget öppnas, spara statistik, streak, sparad data och toppformat kommer att återställas. Appöppningar förblir oförändrade.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Fil</string>
 </resources>

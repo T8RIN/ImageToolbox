@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Revet kant</string>
     <string name="reset_usage_statistics">Nulstil brugsstatistikker</string>
     <string name="reset_usage_statistics_sub">Værktøjet åbner, gem statistik, streak, gemte data og topformat nulstilles. App-åbninger forbliver uændrede.</string>
+    <string name="audio">Lyd</string>
+    <string name="file">Fil</string>
 </resources>

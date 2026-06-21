@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Bordo strappato</string>
     <string name="reset_usage_statistics">Reimposta le statistiche di utilizzo</string>
     <string name="reset_usage_statistics_sub">Lo strumento si apre, le statistiche di salvataggio, la sequenza, i dati salvati e il formato principale verranno reimpostati. L\'apertura dell\'app rimarrà invariata.</string>
+    <string name="audio">Audio</string>
+    <string name="file">File</string>
 </resources>

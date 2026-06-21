@@ -3275,4 +3275,6 @@
     <string name="search_keywords_pdf_remove_annotations">pdf oharrak iruzkinak garbi kendu</string>
     <string name="reset_usage_statistics">Berrezarri erabilera-estatistikak</string>
     <string name="reset_usage_statistics_sub">Tresna irekitzen da, gorde estatistikak, marra, gordetako datuak eta goi-formatua berrezarri egingo dira. Aplikazioen irekierak ez dira aldatuko.</string>
+    <string name="audio">Audioa</string>
+    <string name="file">Fitxategia</string>
 </resources>

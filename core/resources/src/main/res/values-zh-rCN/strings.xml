@@ -3274,4 +3274,6 @@
     <string name="torn_edge">撕边</string>
     <string name="reset_usage_statistics">重置使用统计数据</string>
     <string name="reset_usage_statistics_sub">工具打开，保存统计数据、条纹、保存的数据和顶部格式将被重置。应用程序打开将保持不变。</string>
+    <string name="audio">声音的</string>
+    <string name="file">文件</string>
 </resources>

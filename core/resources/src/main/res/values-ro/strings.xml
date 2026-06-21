@@ -3276,4 +3276,6 @@
     <string name="search_keywords_pdf_remove_annotations">adnotări pdf comentarii elimina curat</string>
     <string name="reset_usage_statistics">Resetați statisticile de utilizare</string>
     <string name="reset_usage_statistics_sub">Instrumentul se deschide, salvează statisticile, seria, datele salvate și formatul de top vor fi resetate. Deschiderile aplicației vor rămâne neschimbate.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Fişier</string>
 </resources>

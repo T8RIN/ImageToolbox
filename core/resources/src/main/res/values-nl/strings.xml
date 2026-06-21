@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Gescheurde rand</string>
     <string name="reset_usage_statistics">Gebruiksstatistieken opnieuw instellen</string>
     <string name="reset_usage_statistics_sub">Tool wordt geopend, statistieken, streak, opgeslagen gegevens worden opgeslagen en het topformaat wordt gereset. Het openen van de app blijft ongewijzigd.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Bestand</string>
 </resources>

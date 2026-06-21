@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Borda rasgada</string>
     <string name="reset_usage_statistics">Redefinir estatísticas de uso</string>
     <string name="reset_usage_statistics_sub">A ferramenta é aberta, as estatísticas salvas, a sequência, os dados salvos e o formato superior serão redefinidos. As aberturas de aplicativos permanecerão inalteradas.</string>
+    <string name="audio">Áudio</string>
+    <string name="file">Arquivo</string>
 </resources>

@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Szakadt él</string>
     <string name="reset_usage_statistics">Használati statisztikák visszaállítása</string>
     <string name="reset_usage_statistics_sub">Megnyílik az eszköz, elmenti a statisztikákat, a csíkokat, a mentett adatokat és a felső formátumot. Az alkalmazásmegnyitások változatlanok maradnak.</string>
+    <string name="audio">Hang</string>
+    <string name="file">Fájl</string>
 </resources>

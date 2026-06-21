@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Borde rasgado</string>
     <string name="reset_usage_statistics">Restablecer estadísticas de uso</string>
     <string name="reset_usage_statistics_sub">Se abre la herramienta, se restablecen las estadísticas guardadas, la racha, los datos guardados y el formato superior. Las aperturas de aplicaciones permanecerán sin cambios.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Archivo</string>
 </resources>

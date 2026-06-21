@@ -3275,4 +3275,6 @@
     <string name="search_keywords_pdf_remove_annotations">pdf ئىزاھلىرى باھالارنى پاكىز ئۆچۈرۈۋېتىدۇ</string>
     <string name="reset_usage_statistics">ئىشلىتىش ستاتىستىكىسىنى ئەسلىگە كەلتۈرۈڭ</string>
     <string name="reset_usage_statistics_sub">قورال ئېچىلىدۇ ، سانلىق مەلۇماتلارنى ساقلايدۇ ، رەتلەش ، ساقلانغان سانلىق مەلۇمات ۋە ئەڭ يۇقىرى فورماتى ئەسلىگە كېلىدۇ. ئەپ ئېچىلمايدۇ.</string>
+    <string name="audio">Audio</string>
+    <string name="file">ھۆججەت</string>
 </resources>

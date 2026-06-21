@@ -3277,4 +3277,6 @@
     <string name="torn_edge">Ірваны край</string>
     <string name="reset_usage_statistics">Скінуць статыстыку выкарыстання</string>
     <string name="reset_usage_statistics_sub">Адкрыццё інструмента, статыстыка захавання, серыя, захаваныя даныя і верхні фармат будуць скінуты. Адкрыцці праграмы застануцца без змен.</string>
+    <string name="audio">Аўдыё</string>
+    <string name="file">Файл</string>
 </resources>

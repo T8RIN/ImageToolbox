@@ -3275,4 +3275,6 @@
     <string name="torn_edge">لبه پاره شده</string>
     <string name="reset_usage_statistics">بازنشانی آمار استفاده</string>
     <string name="reset_usage_statistics_sub">ابزار باز می‌شود، آمار را ذخیره می‌کند، رگه‌ها، داده‌های ذخیره‌شده و قالب بالا بازنشانی می‌شوند. باز شدن برنامه بدون تغییر می ماند.</string>
+    <string name="audio">صوتی</string>
+    <string name="file">فایل</string>
 </resources>

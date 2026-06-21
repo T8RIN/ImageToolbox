@@ -3275,4 +3275,6 @@
     <string name="search_keywords_pdf_unlock">pdf আনলক পাসওয়ার্ড ডিক্রিপ্ট সুরক্ষা অপসারণ</string>
     <string name="reset_usage_statistics">ব্যবহারের পরিসংখ্যান রিসেট করুন</string>
     <string name="reset_usage_statistics_sub">টুল খোলে, পরিসংখ্যান সংরক্ষণ করুন, স্ট্রিক, সংরক্ষিত ডেটা এবং শীর্ষ বিন্যাস পুনরায় সেট করা হবে। অ্যাপ ওপেন অপরিবর্তিত থাকবে।</string>
+    <string name="audio">অডিও</string>
+    <string name="file">ফাইল</string>
 </resources>

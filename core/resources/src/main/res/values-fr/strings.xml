@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Bord déchiré</string>
     <string name="reset_usage_statistics">Réinitialiser les statistiques d\'utilisation</string>
     <string name="reset_usage_statistics_sub">L\'outil s\'ouvre, les statistiques de sauvegarde, la séquence, les données enregistrées et le format supérieur seront réinitialisés. L\'ouverture de l\'application restera inchangée.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Déposer</string>
 </resources>

@@ -3277,4 +3277,6 @@
     <string name="torn_edge">Roztrhaný okraj</string>
     <string name="reset_usage_statistics">Obnoviť štatistiky používania</string>
     <string name="reset_usage_statistics_sub">Nástroj sa otvorí, uložia sa štatistiky, vynuluje sa pruh, uložené údaje a najvyšší formát. Otvorenia aplikácie zostanú nezmenené.</string>
+    <string name="audio">Zvuk</string>
+    <string name="file">Súbor</string>
 </resources>

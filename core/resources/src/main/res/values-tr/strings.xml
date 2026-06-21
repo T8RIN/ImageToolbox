@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Yırtık Kenar</string>
     <string name="reset_usage_statistics">Kullanım istatistiklerini sıfırla</string>
     <string name="reset_usage_statistics_sub">Araç açılır, istatistikleri kaydetme, seri, kayıtlı veriler ve üst format sıfırlanır. Uygulama açılışları değişmeden kalacaktır.</string>
+    <string name="audio">Ses</string>
+    <string name="file">Dosya</string>
 </resources>

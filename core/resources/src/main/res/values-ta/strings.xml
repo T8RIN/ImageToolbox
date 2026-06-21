@@ -3275,4 +3275,6 @@
     <string name="search_keywords_pdf_images_to_pdf">படங்களை pdf ஆக மாற்ற jpg jpeg png ஆவணம்</string>
     <string name="reset_usage_statistics">பயன்பாட்டு புள்ளிவிவரங்களை மீட்டமைக்கவும்</string>
     <string name="reset_usage_statistics_sub">கருவி திறக்கிறது, புள்ளிவிவரங்களைச் சேமிக்கிறது, ஸ்ட்ரீக், சேமித்த தரவு மற்றும் மேல் வடிவம் மீட்டமைக்கப்படும். ஆப்ஸ் ஓபன் ஆனது மாறாமல் இருக்கும்.</string>
+    <string name="audio">ஆடியோ</string>
+    <string name="file">கோப்பு</string>
 </resources>

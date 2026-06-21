@@ -3275,4 +3275,6 @@
     <string name="search_keywords_pdf_remove_annotations">ਪੀਡੀਐਫ ਐਨੋਟੇਸ਼ਨ ਟਿੱਪਣੀਆਂ ਸਾਫ਼ ਹਟਾਉਂਦੀਆਂ ਹਨ</string>
     <string name="reset_usage_statistics">ਵਰਤੋਂ ਦੇ ਅੰਕੜੇ ਰੀਸੈਟ ਕਰੋ</string>
     <string name="reset_usage_statistics_sub">ਟੂਲ ਖੁੱਲ੍ਹਦਾ ਹੈ, ਅੰਕੜਿਆਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ, ਸਟ੍ਰੀਕ, ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਡੇਟਾ, ਅਤੇ ਚੋਟੀ ਦੇ ਫਾਰਮੈਟ ਨੂੰ ਰੀਸੈਟ ਕੀਤਾ ਜਾਵੇਗਾ। ਐਪ ਖੁੱਲ੍ਹਦਾ ਹੈ, ਬਦਲਿਆ ਨਹੀਂ ਜਾਵੇਗਾ।</string>
+    <string name="audio">ਆਡੀਓ</string>
+    <string name="file">ਫਾਈਲ</string>
 </resources>

@@ -3276,4 +3276,6 @@
     <string name="torn_edge">Торн Едге</string>
     <string name="reset_usage_statistics">Ресетујте статистику коришћења</string>
     <string name="reset_usage_statistics_sub">Алат се отвара, чува статистику, низ, сачувани подаци и горњи формат ће бити ресетовани. Отварања апликације ће остати непромењена.</string>
+    <string name="audio">Аудио</string>
+    <string name="file">Филе</string>
 </resources>

@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Napunit na Gilid</string>
     <string name="reset_usage_statistics">I-reset ang mga istatistika ng paggamit</string>
     <string name="reset_usage_statistics_sub">Magbubukas ang tool, i-save ang mga istatistika, streak, naka-save na data, at ire-reset ang nangungunang format. Ang pagbukas ng app ay mananatiling hindi magbabago.</string>
+    <string name="audio">Audio</string>
+    <string name="file">file</string>
 </resources>

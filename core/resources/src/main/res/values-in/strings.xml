@@ -3274,4 +3274,6 @@
     <string name="torn_edge">Tepi Robek</string>
     <string name="reset_usage_statistics">Setel ulang statistik penggunaan</string>
     <string name="reset_usage_statistics_sub">Alat terbuka, menyimpan statistik, coretan, data yang disimpan, dan format teratas akan diatur ulang. Pembukaan aplikasi tidak akan berubah.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Mengajukan</string>
 </resources>

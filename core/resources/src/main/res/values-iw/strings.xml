@@ -3277,4 +3277,6 @@
     <string name="torn_edge">קצה קרוע</string>
     <string name="reset_usage_statistics">אפס סטטיסטיקת שימוש</string>
     <string name="reset_usage_statistics_sub">הכלי נפתח, שמירה נתונים סטטיסטיים, רצף, נתונים שמורים והפורמט העליון יאופסו. פתיחת האפליקציה תישאר ללא שינוי.</string>
+    <string name="audio">שֶׁמַע</string>
+    <string name="file">קוֹבֶץ</string>
 </resources>

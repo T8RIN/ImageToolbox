@@ -3277,4 +3277,6 @@
     <string name="torn_edge">Rozdarta krawędź</string>
     <string name="reset_usage_statistics">Zresetuj statystyki użytkowania</string>
     <string name="reset_usage_statistics_sub">Narzędzie zostanie otwarte, zapisz statystyki, smugi, zapisane dane i najwyższy format zostaną zresetowane. Otwarcia aplikacji pozostaną niezmienione.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Plik</string>
 </resources>

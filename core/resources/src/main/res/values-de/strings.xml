@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Abgerissener Rand</string>
     <string name="reset_usage_statistics">Nutzungsstatistik zurücksetzen</string>
     <string name="reset_usage_statistics_sub">Das Tool wird geöffnet, die Speicherstatistiken, der Streak, die gespeicherten Daten und das Topformat werden zurückgesetzt. App-Öffnungen bleiben unverändert.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Datei</string>
 </resources>

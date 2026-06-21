@@ -3275,4 +3275,6 @@
     <string name="torn_edge">Revitty reuna</string>
     <string name="reset_usage_statistics">Nollaa käyttötilastot</string>
     <string name="reset_usage_statistics_sub">Työkalu avautuu, tilastot, viiva, tallennetut tiedot ja huippumuoto palautetaan. Sovellusten avaukset pysyvät ennallaan.</string>
+    <string name="audio">Audio</string>
+    <string name="file">Tiedosto</string>
 </resources>

@@ -3277,4 +3277,6 @@
     <string name="torn_edge">Suplyšęs kraštas</string>
     <string name="reset_usage_statistics">Iš naujo nustatyti naudojimo statistiką</string>
     <string name="reset_usage_statistics_sub">Atidaromas įrankis, išsaugoma statistika, seka, išsaugoti duomenys ir viršutinis formatas bus nustatytas iš naujo. Programos atidarymas išliks nepakitęs.</string>
+    <string name="audio">Garsas</string>
+    <string name="file">Failas</string>
 </resources>

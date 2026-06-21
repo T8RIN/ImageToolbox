@@ -3277,4 +3277,6 @@
     <string name="search_keywords_pdf_remove_annotations">pdf аннотации комментарии удалить очистить</string>
     <string name="neutral_variant">Нейтральный вариант</string>
     <string name="error">Ошибка</string>
+    <string name="audio">Аудио</string>
+    <string name="file">Файл</string>
 </resources>

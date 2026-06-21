@@ -3275,4 +3275,6 @@
     <string name="search_keywords_pdf_extract_pages">pdf to images pages export jpg png</string>
     <string name="reset_usage_statistics">వినియోగ గణాంకాలను రీసెట్ చేయండి</string>
     <string name="reset_usage_statistics_sub">సాధనం తెరుచుకుంటుంది, గణాంకాలను సేవ్ చేయండి, స్ట్రీక్, సేవ్ చేసిన డేటా మరియు టాప్ ఫార్మాట్ రీసెట్ చేయబడుతుంది. యాప్ ఓపెన్‌లు మారవు.</string>
+    <string name="audio">ఆడియో</string>
+    <string name="file">ఫైల్</string>
 </resources>

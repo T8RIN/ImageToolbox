@@ -3275,4 +3275,6 @@
     <string name="search_keywords_pdf_remove_annotations">pdf भाष्य टिप्पण्या स्वच्छ काढा</string>
     <string name="reset_usage_statistics">वापर आकडेवारी रीसेट करा</string>
     <string name="reset_usage_statistics_sub">टूल उघडेल, आकडेवारी जतन करा, स्ट्रीक, जतन केलेला डेटा आणि शीर्ष स्वरूप रीसेट केले जाईल. ॲप उघडेल ते अपरिवर्तित राहील.</string>
+    <string name="audio">ऑडिओ</string>
+    <string name="file">फाईल</string>
 </resources>

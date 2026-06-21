@@ -3279,4 +3279,6 @@
     <string name="torn_edge">الحافة الممزقة</string>
     <string name="reset_usage_statistics">إعادة تعيين إحصائيات الاستخدام</string>
     <string name="reset_usage_statistics_sub">يتم فتح الأداة وحفظ الإحصائيات والخط والبيانات المحفوظة وسيتم إعادة تعيين التنسيق العلوي. ستبقى عمليات فتح التطبيق دون تغيير.</string>
+    <string name="audio">صوتي</string>
+    <string name="file">ملف</string>
 </resources>

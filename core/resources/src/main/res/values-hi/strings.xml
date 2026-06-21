@@ -3275,4 +3275,6 @@
     <string name="torn_edge">फटा हुआ किनारा</string>
     <string name="reset_usage_statistics">उपयोग आँकड़े रीसेट करें</string>
     <string name="reset_usage_statistics_sub">टूल खुलता है, आँकड़े सहेजें, स्ट्रीक, सहेजा गया डेटा, और शीर्ष प्रारूप रीसेट हो जाएगा। ऐप खुलने का समय अपरिवर्तित रहेगा.</string>
+    <string name="audio">ऑडियो</string>
+    <string name="file">फ़ाइल</string>
 </resources>

@@ -3274,4 +3274,6 @@
     <string name="torn_edge">ขอบฉีกขาด</string>
     <string name="reset_usage_statistics">รีเซ็ตสถิติการใช้งาน</string>
     <string name="reset_usage_statistics_sub">เครื่องมือเปิดขึ้น บันทึกสถิติ สถิติต่อเนื่อง ข้อมูลที่บันทึกไว้ และรูปแบบสูงสุดจะถูกรีเซ็ต การเปิดแอปจะไม่เปลี่ยนแปลง</string>
+    <string name="audio">เสียง</string>
+    <string name="file">ไฟล์</string>
 </resources>

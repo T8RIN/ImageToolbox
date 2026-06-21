@@ -3274,4 +3274,6 @@
     <string name="search_keywords_pdf_preview">PDF 미리보기 뷰어 읽기</string>
     <string name="reset_usage_statistics">사용 통계 재설정</string>
     <string name="reset_usage_statistics_sub">도구 열기, 저장 통계, 연속 기록, 저장된 데이터 및 최고 형식이 재설정됩니다. 앱 열기는 변경되지 않습니다.</string>
+    <string name="audio">오디오</string>
+    <string name="file">파일</string>
 </resources>

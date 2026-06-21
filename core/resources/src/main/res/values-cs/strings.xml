@@ -3277,4 +3277,6 @@
     <string name="search_keywords_pdf_protect">pdf chránit heslem šifrovat zámek</string>
     <string name="reset_usage_statistics">Resetovat statistiky využití</string>
     <string name="reset_usage_statistics_sub">Nástroj se otevře, uloží se statistiky, pruh, uložená data a nejvyšší formát budou resetovány. Otevření aplikace zůstanou nezměněna.</string>
+    <string name="audio">Zvuk</string>
+    <string name="file">Soubor</string>
 </resources>
