@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
@@ -122,10 +121,6 @@ internal fun MainDrawerContent(
         enabled = (sideSheetState.isOpen || sideSheetState.isAnimationRunning) && isSheetSlideable
     )
 
-    val autoElevation by animateDpAsState(
-        if (settingsState.drawContainerShadows) 16.dp
-        else 0.dp
-    )
     ModalDrawerSheet(
         modifier = Modifier
             .width(animateDpAsState(targetValue = widthState).value)
@@ -146,14 +141,8 @@ internal fun MainDrawerContent(
                         .offset(-((settingsState.borderWidth + 1.dp)))
                         .autoElevatedBorder(
                             shape = shape,
-                            autoElevation = autoElevation
+                            autoElevation = 0.dp
                         )
-                        .autoElevatedBorder(
-                            height = 0.dp,
-                            shape = shape,
-                            autoElevation = autoElevation
-                        )
-                        .clip(shape)
                 } else Modifier
             ),
         drawerContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
@@ -166,7 +155,7 @@ internal fun MainDrawerContent(
     }
 }
 
-fun GraphicsLayerScope.calculatePredictiveBackScaleX(progress: Float): Float {
+private fun GraphicsLayerScope.calculatePredictiveBackScaleX(progress: Float): Float {
     val width = size.width
     return if (width.isNaN() || width == 0f) {
         1f
@@ -175,7 +164,7 @@ fun GraphicsLayerScope.calculatePredictiveBackScaleX(progress: Float): Float {
     }
 }
 
-fun GraphicsLayerScope.calculatePredictiveBackScaleY(progress: Float): Float {
+private fun GraphicsLayerScope.calculatePredictiveBackScaleY(progress: Float): Float {
     val height = size.height
     return if (height.isNaN() || height == 0f) {
         1f
