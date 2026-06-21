@@ -17,12 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Outlined.GifBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -222,6 +222,92 @@ val Icons.TwoTone.GifBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             horizontalLineToRelative(14f)
             verticalLineToRelative(14f)
             horizontalLineToRelative(-14f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.Rounded.GifBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Rounded.GifBox",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(200f, 840f)
+            quadToRelative(-33f, 0f, -56.5f, -23.5f)
+            reflectiveQuadTo(120f, 760f)
+            verticalLineToRelative(-560f)
+            quadToRelative(0f, -33f, 23.5f, -56.5f)
+            reflectiveQuadTo(200f, 120f)
+            horizontalLineToRelative(560f)
+            quadToRelative(33f, 0f, 56.5f, 23.5f)
+            reflectiveQuadTo(840f, 200f)
+            verticalLineToRelative(560f)
+            quadToRelative(0f, 33f, -23.5f, 56.5f)
+            reflectiveQuadTo(760f, 840f)
+            lineTo(200f, 840f)
+            close()
+            moveTo(491.5f, 591.5f)
+            quadTo(500f, 583f, 500f, 570f)
+            verticalLineToRelative(-180f)
+            quadToRelative(0f, -13f, -8.5f, -21.5f)
+            reflectiveQuadTo(470f, 360f)
+            quadToRelative(-13f, 0f, -21.5f, 8.5f)
+            reflectiveQuadTo(440f, 390f)
+            verticalLineToRelative(180f)
+            quadToRelative(0f, 13f, 8.5f, 21.5f)
+            reflectiveQuadTo(470f, 600f)
+            quadToRelative(13f, 0f, 21.5f, -8.5f)
+            close()
+            moveTo(280f, 600f)
+            horizontalLineToRelative(80f)
+            quadToRelative(17f, 0f, 28.5f, -11.5f)
+            reflectiveQuadTo(400f, 560f)
+            verticalLineToRelative(-50f)
+            quadToRelative(0f, -13f, -8.5f, -21.5f)
+            reflectiveQuadTo(370f, 480f)
+            quadToRelative(-13f, 0f, -21.5f, 8.5f)
+            reflectiveQuadTo(340f, 510f)
+            verticalLineToRelative(30f)
+            horizontalLineToRelative(-40f)
+            verticalLineToRelative(-120f)
+            horizontalLineToRelative(70f)
+            quadToRelative(13f, 0f, 21.5f, -8.5f)
+            reflectiveQuadTo(400f, 390f)
+            quadToRelative(0f, -13f, -8.5f, -21.5f)
+            reflectiveQuadTo(370f, 360f)
+            horizontalLineToRelative(-90f)
+            quadToRelative(-17f, 0f, -28.5f, 11.5f)
+            reflectiveQuadTo(240f, 400f)
+            verticalLineToRelative(160f)
+            quadToRelative(0f, 17f, 11.5f, 28.5f)
+            reflectiveQuadTo(280f, 600f)
+            close()
+            moveTo(620f, 570f)
+            verticalLineToRelative(-50f)
+            horizontalLineToRelative(50f)
+            quadToRelative(13f, 0f, 21.5f, -8.5f)
+            reflectiveQuadTo(700f, 490f)
+            quadToRelative(0f, -13f, -8.5f, -21.5f)
+            reflectiveQuadTo(670f, 460f)
+            horizontalLineToRelative(-50f)
+            verticalLineToRelative(-40f)
+            horizontalLineToRelative(90f)
+            quadToRelative(13f, 0f, 21.5f, -8.5f)
+            reflectiveQuadTo(740f, 390f)
+            quadToRelative(0f, -13f, -8.5f, -21.5f)
+            reflectiveQuadTo(710f, 360f)
+            lineTo(590f, 360f)
+            quadToRelative(-13f, 0f, -21.5f, 8.5f)
+            reflectiveQuadTo(560f, 390f)
+            verticalLineToRelative(180f)
+            quadToRelative(0f, 13f, 8.5f, 21.5f)
+            reflectiveQuadTo(590f, 600f)
+            quadToRelative(13f, 0f, 21.5f, -8.5f)
+            reflectiveQuadTo(620f, 570f)
             close()
         }
     }.build()

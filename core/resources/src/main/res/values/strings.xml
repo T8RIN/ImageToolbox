@@ -3300,4 +3300,6 @@
     <string name="search_keywords_pdf_images_to_pdf">images to pdf convert jpg jpeg png document</string>
     <string name="search_keywords_pdf_extract_pages">pdf to images pages export jpg png</string>
     <string name="search_keywords_pdf_remove_annotations">pdf annotations comments remove clean</string>
+    <string name="audio">Audio</string>
+    <string name="file">File</string>
 </resources>
