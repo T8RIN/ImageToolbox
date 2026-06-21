@@ -28,6 +28,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
+import com.t8rin.imagetoolbox.core.domain.image.ImagePresetsUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -38,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.image.clearAttribute
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageData
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.image.model.ImagePreset
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
@@ -65,6 +67,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 
 class ResizeAndConvertComponent @AssistedInject internal constructor(
@@ -81,6 +86,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     private val settingsManager: SettingsManager,
+    private val imagePresetsUseCase: ImagePresetsUseCase,
     dispatchersHolder: DispatchersHolder
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
@@ -122,6 +128,13 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.None)
     val presetSelected by _presetSelected
+
+    val imagePresets: StateFlow<List<ImagePreset>> = imagePresetsUseCase.presets
+        .stateIn(
+            scope = componentScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
@@ -534,6 +547,59 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             )
             _presetSelected.update { preset }
             commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    fun saveExportPreset(name: String) {
+        componentScope.launch {
+            imagePresetsUseCase.upsert(
+                ImagePreset.from(
+                    name = name,
+                    imageInfo = imageInfo,
+                    preset = presetSelected,
+                    keepExif = keepExif
+                )
+            )
+        }
+    }
+
+    fun applyExportPreset(preset: ImagePreset) {
+        componentScope.launch {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
+            val restoredInfo = preset.toImageInfo(imageInfo).copy(
+                originalUri = selectedUri?.toString()
+            )
+            setBitmapInfo(
+                imageTransformer.applyPresetBy(
+                    image = bitmap,
+                    preset = preset.preset,
+                    currentInfo = restoredInfo
+                )
+            )
+            _presetSelected.update { preset.preset }
+            preset.keepExif?.let { keepExif ->
+                _keepExif.update { keepExif }
+            }
+            commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    fun deleteExportPreset(preset: ImagePreset) {
+        componentScope.launch {
+            imagePresetsUseCase.delete(preset)
+        }
+    }
+
+    fun exportExportPreset(preset: ImagePreset) {
+        componentScope.launch {
+            imagePresetsUseCase.export(preset)
+        }
+    }
+
+    fun importExportPreset(uri: Uri) {
+        componentScope.launch {
+            imagePresetsUseCase.importPreset(uri.toString())
         }
     }
 

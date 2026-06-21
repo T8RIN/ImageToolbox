@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -56,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImagePresetSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PresetSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ScaleModeSelector
@@ -280,6 +282,18 @@ fun SingleEditContent(
                 onApplyCurves = { showApplyCurves = true }
             )
             Spacer(Modifier.size(16.dp))
+            ImagePresetSelector(
+                profiles = component.imagePresets.collectAsStateWithLifecycle().value,
+                imageInfo = imageInfo,
+                preset = component.presetSelected,
+                enabled = component.bitmap != null,
+                onApplyProfile = component::applyExportPreset,
+                onSaveProfile = component::saveExportPreset,
+                onDeleteProfile = component::deleteExportPreset,
+                onExportProfile = component::exportExportPreset,
+                onImportProfile = component::importExportPreset
+            )
+            Spacer(Modifier.size(8.dp))
             PresetSelector(
                 value = component.presetSelected,
                 includeTelegramOption = true,

@@ -36,6 +36,7 @@ import com.t8rin.curves.ImageCurvesEditorState
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
+import com.t8rin.imagetoolbox.core.domain.image.ImagePresetsUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -46,6 +47,7 @@ import com.t8rin.imagetoolbox.core.domain.image.clearAttribute
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageData
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.image.model.ImagePreset
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
@@ -83,8 +85,10 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
-
 
 class SingleEditComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -101,6 +105,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsManager: SettingsManager,
+    private val imagePresetsUseCase: ImagePresetsUseCase,
     dispatchersHolder: DispatchersHolder,
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory,
@@ -210,6 +215,13 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.None)
     val presetSelected by _presetSelected
+
+    val imagePresets: StateFlow<List<ImagePreset>> = imagePresetsUseCase.presets
+        .stateIn(
+            scope = componentScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -648,6 +660,55 @@ class SingleEditComponent @AssistedInject internal constructor(
             )
             _presetSelected.update { preset }
             commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    fun saveExportPreset(name: String) {
+        componentScope.launch {
+            imagePresetsUseCase.upsert(
+                ImagePreset.from(
+                    name = name,
+                    imageInfo = imageInfo,
+                    preset = presetSelected
+                )
+            )
+        }
+    }
+
+    fun applyExportPreset(preset: ImagePreset) {
+        componentScope.launch {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
+            val restoredInfo = preset.toImageInfo(imageInfo).copy(
+                originalUri = uri.toString()
+            )
+            setBitmapInfo(
+                imageTransformer.applyPresetBy(
+                    image = bitmap,
+                    preset = preset.preset,
+                    currentInfo = restoredInfo
+                )
+            )
+            _presetSelected.update { preset.preset }
+            commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    fun deleteExportPreset(preset: ImagePreset) {
+        componentScope.launch {
+            imagePresetsUseCase.delete(preset)
+        }
+    }
+
+    fun exportExportPreset(preset: ImagePreset) {
+        componentScope.launch {
+            imagePresetsUseCase.export(preset)
+        }
+    }
+
+    fun importExportPreset(uri: Uri) {
+        componentScope.launch {
+            imagePresetsUseCase.importPreset(uri.toString())
         }
     }
 

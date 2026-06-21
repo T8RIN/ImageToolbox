@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,10 @@ import com.t8rin.imagetoolbox.core.data.image.AndroidImagePreviewCreator
 import com.t8rin.imagetoolbox.core.data.image.AndroidImageScaler
 import com.t8rin.imagetoolbox.core.data.image.AndroidImageTransformer
 import com.t8rin.imagetoolbox.core.data.image.AndroidShareProvider
+import com.t8rin.imagetoolbox.core.data.image.ImagePresetsUseCaseImpl
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
+import com.t8rin.imagetoolbox.core.domain.image.ImagePresetsUseCase
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -82,5 +84,11 @@ internal interface ImageModule {
     fun provideImageShareProvider(
         provider: AndroidShareProvider
     ): ImageShareProvider<Bitmap>
+
+    @Singleton
+    @Binds
+    fun presetExport(
+        useCase: ImagePresetsUseCaseImpl
+    ): ImagePresetsUseCase
 
 }
