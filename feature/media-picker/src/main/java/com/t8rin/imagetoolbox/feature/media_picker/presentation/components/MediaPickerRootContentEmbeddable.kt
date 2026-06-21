@@ -34,13 +34,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -55,7 +53,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.utils.tryAll
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
@@ -138,6 +138,9 @@ fun MediaPickerRootContentEmbeddable(
         }
     }
 
+    val albumsState by component.albumsState.collectAsStateWithLifecycle()
+    val mediaState by component.mediaState.collectAsStateWithLifecycle()
+
     val content: @Composable (PaddingValues) -> Unit = {
         AnimatedContent(
             targetState = isPermissionAllowed,
@@ -155,7 +158,9 @@ fun MediaPickerRootContentEmbeddable(
                         component = component,
                         isManagePermissionAllowed = isManagePermissionAllowed,
                         onRequestManagePermission = requestManagePermission,
-                        onPicked = onPicked
+                        onPicked = onPicked,
+                        albumsState = albumsState,
+                        mediaState = mediaState
                     )
                     LaunchedEffect(Unit) {
                         component.init(allowedMedia = allowedMedia)
@@ -232,7 +237,7 @@ fun MediaPickerRootContentEmbeddable(
                         actions = {
                             TopAppBarEmoji()
                         },
-                        drawHorizontalStroke = component.albumsState.collectAsState().value.albums.size <= 1
+                        drawHorizontalStroke = albumsState.albums.size <= 1 && !(mediaState.isLoading && mediaState.media.isNotEmpty())
                     )
                 },
                 content = content

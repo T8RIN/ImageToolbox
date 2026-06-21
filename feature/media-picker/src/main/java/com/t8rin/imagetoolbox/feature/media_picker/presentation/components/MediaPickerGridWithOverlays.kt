@@ -90,12 +90,16 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
 internal fun MediaPickerGridWithOverlays(
     component: MediaPickerComponent,
+    mediaState: MediaState,
+    albumsState: AlbumState,
     isSearching: Boolean,
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,
@@ -106,8 +110,6 @@ internal fun MediaPickerGridWithOverlays(
     onPicked: (List<Uri>) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val albumsState by component.albumsState.collectAsState()
-    val mediaState by component.mediaState.collectAsState()
     val selectedMedia = component.selectedMedia
 
     var searchKeyword by rememberSaveable(isSearching) {
@@ -238,7 +240,9 @@ internal fun MediaPickerGridWithOverlays(
         }
 
         val isHaveNoData = mediaState.media.isEmpty() && !mediaState.isLoading
-        val showLoading = (mediaState.isLoading || filteredMediaState.isLoading) && !isHaveNoData
+        val showLoading = (
+                (mediaState.isLoading && mediaState.media.isEmpty()) || filteredMediaState.isLoading
+                ) && !isHaveNoData
 
         val backgroundColor by animateColorAsState(
             MaterialTheme.colorScheme.scrim.copy(

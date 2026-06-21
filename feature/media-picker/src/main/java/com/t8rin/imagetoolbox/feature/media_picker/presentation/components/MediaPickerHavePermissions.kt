@@ -46,13 +46,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -71,6 +70,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
@@ -84,7 +84,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
@@ -94,11 +96,12 @@ internal fun MediaPickerHavePermissions(
     allowMultiple: Boolean,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean,
-    onPicked: (List<Uri>) -> Unit
+    onPicked: (List<Uri>) -> Unit,
+    mediaState: MediaState,
+    albumsState: AlbumState
 ) {
     var selectedAlbumIndex by rememberSaveable { mutableLongStateOf(-1) }
 
-    val albumsState by component.albumsState.collectAsState()
     var isSearching by rememberSaveable {
         mutableStateOf(false)
     }
@@ -114,154 +117,169 @@ internal fun MediaPickerHavePermissions(
 
     Scaffold(
         topBar = {
-            AnimatedVisibility(
-                modifier = Modifier.fillMaxWidth(),
-                visible = albumsState.albums.size > 1
+            val hasAlbums = albumsState.albums.size > 1
+            val isRefreshing = mediaState.isLoading && mediaState.media.isNotEmpty()
+
+            Column(
+                Modifier
+                    .drawHorizontalStroke(
+                        enabled = hasAlbums || isRefreshing
+                    )
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
             ) {
-                val layoutDirection = LocalLayoutDirection.current
-                var showAlbumThumbnail by rememberSaveable {
-                    mutableStateOf(false)
-                }
-                val listState = rememberLazyListState()
-                Row(
-                    modifier = Modifier
-                        .drawHorizontalStroke()
-                        .background(MaterialTheme.colorScheme.surfaceContainer)
+                AnimatedVisibility(
+                    modifier = Modifier.fillMaxWidth(),
+                    visible = hasAlbums
                 ) {
-                    LazyRow(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fadingEdges(listState)
-                            .padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 8.dp
-                        ),
-                        contentPadding = PaddingValues(
-                            start = WindowInsets.displayCutout
-                                .asPaddingValues()
-                                .calculateStartPadding(layoutDirection) + 8.dp,
-                            end = WindowInsets.displayCutout
-                                .asPaddingValues()
-                                .calculateEndPadding(layoutDirection) + 8.dp
-                        ),
-                        state = listState,
-                        flingBehavior = enhancedFlingBehavior()
-                    ) {
-                        items(
-                            items = albumsState.albums,
-                            key = Album::toString
-                        ) { album ->
-                            val selected = selectedAlbumIndex == album.id
-                            val isImageVisible = showAlbumThumbnail && album.uri.isNotEmpty()
-                            EnhancedChip(
-                                selected = selected,
-                                selectedColor = MaterialTheme.colorScheme.secondaryContainer,
-                                unselectedColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                onClick = {
-                                    selectedAlbumIndex = album.id
-                                    component.getAlbum(selectedAlbumIndex)
-                                },
-                                contentPadding = PaddingValues(
-                                    horizontal = animateDpAsState(
-                                        if (isImageVisible) 8.dp
-                                        else 12.dp
-                                    ).value,
-                                    vertical = animateDpAsState(
-                                        if (isImageVisible) 8.dp
-                                        else 0.dp
-                                    ).value
-                                ),
-                                label = {
-                                    val title =
-                                        if (album.id == -1L) stringResource(R.string.all) else album.label
-                                    Column(
-                                        modifier = Modifier
-                                            .animateContentSizeNoClip(
-                                                alignment = Alignment.Center
-                                            )
-                                            .then(
-                                                if (showAlbumThumbnail && album.uri.isEmpty()) {
-                                                    Modifier.height(140.dp)
-                                                } else Modifier
-                                            ),
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        var width by remember {
-                                            mutableStateOf(1.dp)
-                                        }
-                                        val density = LocalDensity.current
-                                        Text(
-                                            text = title,
-                                            modifier = Modifier.onSizeChanged {
-                                                width = with(density) {
-                                                    it.width.toDp().coerceAtLeast(100.dp)
-                                                }
-                                            }
-                                        )
-                                        BoxAnimatedVisibility(
-                                            visible = isImageVisible,
-                                            enter = fadeIn() + expandVertically(),
-                                            exit = fadeOut() + shrinkVertically()
+                    val layoutDirection = LocalLayoutDirection.current
+                    var showAlbumThumbnail by rememberSaveable {
+                        mutableStateOf(false)
+                    }
+                    val listState = rememberLazyListState()
+                    Row {
+                        LazyRow(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fadingEdges(listState)
+                                .padding(vertical = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                space = 8.dp
+                            ),
+                            contentPadding = PaddingValues(
+                                start = WindowInsets.displayCutout
+                                    .asPaddingValues()
+                                    .calculateStartPadding(layoutDirection) + 8.dp,
+                                end = WindowInsets.displayCutout
+                                    .asPaddingValues()
+                                    .calculateEndPadding(layoutDirection) + 8.dp
+                            ),
+                            state = listState,
+                            flingBehavior = enhancedFlingBehavior()
+                        ) {
+                            items(
+                                items = albumsState.albums,
+                                key = Album::toString
+                            ) { album ->
+                                val selected = selectedAlbumIndex == album.id
+                                val isImageVisible = showAlbumThumbnail && album.uri.isNotEmpty()
+                                EnhancedChip(
+                                    selected = selected,
+                                    selectedColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    unselectedColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    onClick = {
+                                        selectedAlbumIndex = album.id
+                                        component.getAlbum(selectedAlbumIndex)
+                                    },
+                                    contentPadding = PaddingValues(
+                                        horizontal = animateDpAsState(
+                                            if (isImageVisible) 8.dp
+                                            else 12.dp
+                                        ).value,
+                                        vertical = animateDpAsState(
+                                            if (isImageVisible) 8.dp
+                                            else 0.dp
+                                        ).value
+                                    ),
+                                    label = {
+                                        val title =
+                                            if (album.id == -1L) stringResource(R.string.all) else album.label
+                                        Column(
+                                            modifier = Modifier
+                                                .animateContentSizeNoClip(
+                                                    alignment = Alignment.Center
+                                                )
+                                                .then(
+                                                    if (showAlbumThumbnail && album.uri.isEmpty()) {
+                                                        Modifier.height(140.dp)
+                                                    } else Modifier
+                                                ),
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
-                                            Box {
-                                                BoxAnimatedVisibility(
-                                                    visible = width > 1.dp,
-                                                    enter = fadeIn() + scaleIn(),
-                                                    exit = fadeOut() + scaleOut()
-                                                ) {
-                                                    Picture(
-                                                        model = album.uri,
+                                            var width by remember {
+                                                mutableStateOf(1.dp)
+                                            }
+                                            val density = LocalDensity.current
+                                            Text(
+                                                text = title,
+                                                modifier = Modifier.onSizeChanged {
+                                                    width = with(density) {
+                                                        it.width.toDp().coerceAtLeast(100.dp)
+                                                    }
+                                                }
+                                            )
+                                            BoxAnimatedVisibility(
+                                                visible = isImageVisible,
+                                                enter = fadeIn() + expandVertically(),
+                                                exit = fadeOut() + shrinkVertically()
+                                            ) {
+                                                Box {
+                                                    BoxAnimatedVisibility(
+                                                        visible = width > 1.dp,
+                                                        enter = fadeIn() + scaleIn(),
+                                                        exit = fadeOut() + scaleOut()
+                                                    ) {
+                                                        Picture(
+                                                            model = album.uri,
+                                                            modifier = Modifier
+                                                                .padding(top = 8.dp)
+                                                                .height(100.dp)
+                                                                .width(width),
+                                                            shape = ShapeDefaults.small
+                                                        )
+                                                    }
+                                                    Box(
                                                         modifier = Modifier
                                                             .padding(top = 8.dp)
                                                             .height(100.dp)
-                                                            .width(width),
-                                                        shape = ShapeDefaults.small
-                                                    )
-                                                }
-                                                Box(
-                                                    modifier = Modifier
-                                                        .padding(top = 8.dp)
-                                                        .height(100.dp)
-                                                        .width(width)
-                                                        .clip(ShapeDefaults.small)
-                                                        .background(
-                                                            MaterialTheme
-                                                                .colorScheme
-                                                                .surfaceContainer
-                                                                .copy(0.6f)
-                                                        ),
-                                                    contentAlignment = Alignment.Center
-                                                ) {
-                                                    AutoSizeText(
-                                                        text = album.count.toString(),
-                                                        style = MaterialTheme.typography.headlineLarge.copy(
-                                                            fontSize = 20.sp,
-                                                            color = MaterialTheme.colorScheme.onSurface,
-                                                            fontWeight = FontWeight.Bold
+                                                            .width(width)
+                                                            .clip(ShapeDefaults.small)
+                                                            .background(
+                                                                MaterialTheme
+                                                                    .colorScheme
+                                                                    .surfaceContainer
+                                                                    .copy(0.6f)
+                                                            ),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        AutoSizeText(
+                                                            text = album.count.toString(),
+                                                            style = MaterialTheme.typography.headlineLarge.copy(
+                                                                fontSize = 20.sp,
+                                                                color = MaterialTheme.colorScheme.onSurface,
+                                                                fontWeight = FontWeight.Bold
+                                                            )
                                                         )
-                                                    )
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                },
-                                defaultMinSize = 32.dp,
-                                shape = ShapeDefaults.default
+                                    },
+                                    defaultMinSize = 32.dp,
+                                    shape = ShapeDefaults.default
+                                )
+                            }
+                        }
+                        EnhancedIconButton(
+                            onClick = { showAlbumThumbnail = !showAlbumThumbnail }
+                        ) {
+                            val rotation by animateFloatAsState(if (showAlbumThumbnail) 180f else 0f)
+                            Icon(
+                                imageVector = Icons.Rounded.KeyboardArrowDown,
+                                contentDescription = "Expand",
+                                modifier = Modifier.rotate(rotation)
                             )
                         }
                     }
-                    EnhancedIconButton(
-                        onClick = { showAlbumThumbnail = !showAlbumThumbnail }
-                    ) {
-                        val rotation by animateFloatAsState(if (showAlbumThumbnail) 180f else 0f)
-                        Icon(
-                            imageVector = Icons.Rounded.KeyboardArrowDown,
-                            contentDescription = "Expand",
-                            modifier = Modifier.rotate(rotation)
-                        )
-                    }
+                }
+                AnimatedVisibility(
+                    visible = isRefreshing,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    LinearWavyProgressIndicator(
+                        modifier = Modifier.padding(12.dp)
+                    )
                 }
             }
         },
@@ -277,6 +295,8 @@ internal fun MediaPickerHavePermissions(
             selectedAlbumIndex = selectedAlbumIndex,
             onSearchingChange = { isSearching = it },
             onPicked = onPicked,
+            mediaState = mediaState,
+            albumsState = albumsState,
             modifier = Modifier.padding(contentPadding)
         )
     }
