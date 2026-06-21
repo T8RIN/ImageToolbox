@@ -69,7 +69,6 @@ internal fun MediaPickerGrid(
 ) {
     val scope = rememberCoroutineScope()
     val gridState = rememberLazyGridState()
-    val isCheckVisible = rememberSaveable { mutableStateOf(allowMultiple) }
     val hapticFeedback = LocalHapticFeedback.current
 
     LaunchedEffect(state.media) {
@@ -203,10 +202,9 @@ internal fun MediaPickerGrid(
                     }
                     MediaStickyHeader(
                         date = item.text,
-                        isCheckVisible = isCheckVisible,
                         isChecked = isChecked.value,
-                        onChecked = {
-                            if (allowMultiple) {
+                        onChecked = if (allowMultiple) {
+                            {
                                 hapticFeedback.longPress()
                                 scope.launch {
                                     isChecked.value = !isChecked.value
@@ -219,7 +217,7 @@ internal fun MediaPickerGrid(
                                     } else selectedMedia.removeAll(item.data)
                                 }
                             }
-                        }
+                        } else null
                     )
                 }
 
