@@ -329,12 +329,7 @@ fun PresetSelector(
                                     selectedProfile = selectedProfile,
                                     imageInfo = imageInfo,
                                     preset = value,
-                                    onApplyProfile = imageExportProfilesHolder::applyProfile,
-                                    onSaveProfile = imageExportProfilesHolder::saveProfile,
-                                    onDeleteProfile = imageExportProfilesHolder::deleteProfile,
-                                    onExportProfile = imageExportProfilesHolder::exportProfile,
-                                    onShareProfile = imageExportProfilesHolder::shareProfile,
-                                    onImportProfile = imageExportProfilesHolder::importProfile
+                                    imageExportProfilesHolder = imageExportProfilesHolder
                                 )
                             }
                         }
