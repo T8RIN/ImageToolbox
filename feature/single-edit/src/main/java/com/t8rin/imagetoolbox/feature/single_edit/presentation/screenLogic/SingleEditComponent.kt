@@ -68,9 +68,11 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
+import com.t8rin.imagetoolbox.core.ui.utils.ImagePresetsHolder
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
@@ -85,9 +87,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 
 class SingleEditComponent @AssistedInject internal constructor(
@@ -112,6 +111,9 @@ class SingleEditComponent @AssistedInject internal constructor(
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
+), ImagePresetsHolder by ImagePresetsHolder(
+    imagePresetsUseCase = imagePresetsUseCase,
+    componentScope = componentContext.coroutineScope
 ) {
 
     init {
@@ -215,13 +217,6 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.None)
     val presetSelected by _presetSelected
-
-    val imagePresets: StateFlow<List<ImagePreset>> = imagePresetsUseCase.presets
-        .stateIn(
-            scope = componentScope,
-            started = SharingStarted.Eagerly,
-            initialValue = emptyList()
-        )
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -642,7 +637,7 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
-    fun setPreset(preset: Preset) {
+    override fun updatePreset(preset: Preset) {
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
@@ -663,7 +658,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
-    fun saveExportPreset(name: String) {
+    override fun saveImagePreset(name: String) {
         componentScope.launch {
             imagePresetsUseCase.upsert(
                 ImagePreset.from(
@@ -675,7 +670,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
-    fun applyExportPreset(preset: ImagePreset) {
+    override fun applyImagePreset(preset: ImagePreset) {
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
@@ -691,24 +686,6 @@ class SingleEditComponent @AssistedInject internal constructor(
             )
             _presetSelected.update { preset.preset }
             commitHistoryFrom(beforeSnapshot)
-        }
-    }
-
-    fun deleteExportPreset(preset: ImagePreset) {
-        componentScope.launch {
-            imagePresetsUseCase.delete(preset)
-        }
-    }
-
-    fun exportExportPreset(preset: ImagePreset) {
-        componentScope.launch {
-            imagePresetsUseCase.export(preset)
-        }
-    }
-
-    fun importExportPreset(uri: Uri) {
-        componentScope.launch {
-            imagePresetsUseCase.importPreset(uri.toString())
         }
     }
 

@@ -28,7 +28,12 @@ interface ImagePresetsUseCase {
 
     suspend fun delete(preset: ImagePreset)
 
-    suspend fun export(preset: ImagePreset)
+    suspend fun export(
+        preset: ImagePreset,
+        uri: String
+    )
+
+    suspend fun share(preset: ImagePreset)
 
     suspend fun importPreset(uri: String)
 

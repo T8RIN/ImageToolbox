@@ -3303,5 +3303,5 @@
     <string name="audio">Audio</string>
     <string name="file">File</string>
     <string name="export_profiles">Export profiles</string>
-    <string name="save_export_profile">Save profile</string>
+    <string name="save_export_profile">Save current profile</string>
 </resources>

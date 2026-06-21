@@ -59,17 +59,16 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
+import com.t8rin.imagetoolbox.core.ui.utils.ImagePresetsHolder
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 
 class ResizeAndConvertComponent @AssistedInject internal constructor(
@@ -91,6 +90,9 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
+), ImagePresetsHolder by ImagePresetsHolder(
+    imagePresetsUseCase = imagePresetsUseCase,
+    componentScope = componentContext.coroutineScope
 ) {
 
     init {
@@ -129,13 +131,6 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.None)
     val presetSelected by _presetSelected
 
-    val imagePresets: StateFlow<List<ImagePreset>> = imagePresetsUseCase.presets
-        .stateIn(
-            scope = componentScope,
-            started = SharingStarted.Eagerly,
-            initialValue = emptyList()
-        )
-
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
@@ -146,6 +141,9 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     val selectedUri by _selectedUri
 
     private val isAlwaysClearExif: Boolean get() = settingsManager.settingsState.value.isAlwaysClearExif
+
+    override val currentImagePresetKeepExif: Boolean
+        get() = keepExif
 
     init {
         componentScope.launch {
@@ -529,7 +527,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }.onFailure(AppToastHost::showFailureToast)
     }
 
-    fun updatePreset(preset: Preset) {
+    override fun updatePreset(preset: Preset) {
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
@@ -550,7 +548,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }
     }
 
-    fun saveExportPreset(name: String) {
+    override fun saveImagePreset(name: String) {
         componentScope.launch {
             imagePresetsUseCase.upsert(
                 ImagePreset.from(
@@ -563,7 +561,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }
     }
 
-    fun applyExportPreset(preset: ImagePreset) {
+    override fun applyImagePreset(preset: ImagePreset) {
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
@@ -582,24 +580,6 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                 _keepExif.update { keepExif }
             }
             commitHistoryFrom(beforeSnapshot)
-        }
-    }
-
-    fun deleteExportPreset(preset: ImagePreset) {
-        componentScope.launch {
-            imagePresetsUseCase.delete(preset)
-        }
-    }
-
-    fun exportExportPreset(preset: ImagePreset) {
-        componentScope.launch {
-            imagePresetsUseCase.export(preset)
-        }
-    }
-
-    fun importExportPreset(uri: Uri) {
-        componentScope.launch {
-            imagePresetsUseCase.importPreset(uri.toString())
         }
     }
 

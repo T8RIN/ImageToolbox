@@ -41,7 +41,7 @@ internal class ImagePresetsUseCaseImpl @Inject constructor(
 ) : ImagePresetsUseCase {
 
     override val presets: Flow<List<ImagePreset>> = dataStore.data.map { preferences ->
-        preferences.readPresets().presets
+        preferences.readPresets().presets.asReversed()
     }
 
     override suspend fun upsert(preset: ImagePreset) {
@@ -76,13 +76,21 @@ internal class ImagePresetsUseCaseImpl @Inject constructor(
         }
     }
 
-    override suspend fun export(preset: ImagePreset) {
-        jsonParser.toJson(
-            obj = preset,
-            type = ImagePreset::class.java
-        )?.let { json ->
+    override suspend fun export(
+        preset: ImagePreset,
+        uri: String
+    ) {
+        preset.toJson()?.let { json ->
+            fileController.writeBytes(uri) {
+                it.writeBytes(json.encodeToByteArray())
+            }
+        }
+    }
+
+    override suspend fun share(preset: ImagePreset) {
+        preset.toJson()?.let { json ->
             shareProvider.shareData(
-                filename = "${preset.name.safePresetFileName()}.itpreset",
+                filename = preset.fileName(),
                 writeData = {
                     it.writeBytes(json.encodeToByteArray())
                 }
@@ -129,6 +137,13 @@ internal class ImagePresetsUseCaseImpl @Inject constructor(
             this[PresetsKey] = json
         }
     }
+
+    private fun ImagePreset.toJson(): String? = jsonParser.toJson(
+        obj = this,
+        type = ImagePreset::class.java
+    )
+
+    private fun ImagePreset.fileName(): String = "${name.safePresetFileName()}.itpreset"
 
     private fun String.safePresetFileName(): String = trim()
         .replace(Regex("""[^\w.-]+"""), "_")
