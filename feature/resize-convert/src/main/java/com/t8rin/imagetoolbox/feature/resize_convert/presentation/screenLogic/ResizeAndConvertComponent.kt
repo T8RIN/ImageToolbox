@@ -207,13 +207,17 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
 
     private suspend fun checkBitmapAndUpdate(
         resetPreset: Boolean = false,
-        clearPreview: Boolean = true
+        clearPreview: Boolean = true,
+        previewImageInfo: ImageInfo = imageInfo
     ) {
         if (resetPreset) {
             _presetSelected.update { Preset.None }
         }
         _bitmap.value?.let { bmp ->
-            val preview = updatePreview(bmp)
+            val preview = updatePreview(
+                bitmap = bmp,
+                previewImageInfo = previewImageInfo
+            )
             if (clearPreview) {
                 _previewBitmap.update { null }
             }
@@ -223,9 +227,10 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     private suspend fun updatePreview(
-        bitmap: Bitmap
+        bitmap: Bitmap,
+        previewImageInfo: ImageInfo = imageInfo
     ): Bitmap? = withContext(defaultDispatcher) {
-        return@withContext imageInfo.run {
+        return@withContext previewImageInfo.run {
             _showWarning.update { width * height * 4L >= 10_000 * 10_000 * 3L }
             imagePreviewCreator.createPreview(
                 image = bitmap,
@@ -241,7 +246,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         if (_imageInfo.value != newInfo) {
             _imageInfo.update { newInfo }
             debouncedImageCalculation {
-                checkBitmapAndUpdate()
+                checkBitmapAndUpdate(previewImageInfo = newInfo)
             }
         }
     }

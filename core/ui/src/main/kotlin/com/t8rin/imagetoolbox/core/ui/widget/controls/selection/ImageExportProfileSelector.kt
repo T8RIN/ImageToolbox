@@ -24,11 +24,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
@@ -39,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -72,19 +75,26 @@ import com.t8rin.imagetoolbox.core.resources.icons.UploadFile
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.aspectRatios
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.other.RevealDirection
+import com.t8rin.imagetoolbox.core.ui.widget.other.RevealValue
+import com.t8rin.imagetoolbox.core.ui.widget.other.SwipeToReveal
+import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @Composable
@@ -102,6 +112,7 @@ fun ImageExportProfileSelector(
     modifier: Modifier = Modifier
 ) {
     var showSheet by rememberSaveable { mutableStateOf(false) }
+    var profileToDelete by remember { mutableStateOf<ImageExportProfile?>(null) }
     val importPicker = rememberFilePicker(
         mimeType = MimeType.All,
         onSuccess = onImportProfile
@@ -177,51 +188,149 @@ fun ImageExportProfileSelector(
                 items = profiles,
                 key = { _, item -> item.name }
             ) { index, item ->
-                val selected = item == selectedProfile
-                PreferenceItemOverload(
-                    title = item.name,
-                    subtitle = item.subtitle(),
-                    onClick = {
-                        onApplyProfile(item)
-                    },
-                    drawStartIconContainer = false,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .animateItem(),
-                    startIcon = {
-                        Icon(
-                            imageVector = if (selected) {
-                                Icons.Rounded.RadioButtonChecked
-                            } else {
-                                Icons.Rounded.RadioButtonUnchecked
-                            },
-                            contentDescription = null
-                        )
-                    },
-                    endIcon = {
-                        ImagePresetItemMenu(
-                            preset = item,
-                            onExportProfile = onExportProfile,
-                            onShareProfile = onShareProfile,
-                            onDeleteProfile = onDeleteProfile,
-                            modifier = Modifier.offset(x = 8.dp)
-                        )
-                    },
-                    shape = ShapeDefaults.byIndex(index, profiles.size),
-                    containerColor = if (selected) {
-                        MaterialTheme.colorScheme.primaryContainer
-                    } else {
-                        Color.Unspecified
-                    },
-                    contentColor = if (selected) {
-                        MaterialTheme.colorScheme.onPrimaryContainer
-                    } else {
-                        Color.Unspecified
-                    }
+                ImagePresetItem(
+                    index = index,
+                    profilesCount = profiles.size,
+                    item = item,
+                    selected = item == selectedProfile,
+                    onApplyProfile = onApplyProfile,
+                    onExportProfile = onExportProfile,
+                    onShareProfile = onShareProfile,
+                    onWantDelete = { profileToDelete = it }
                 )
             }
         }
     }
+
+    EnhancedAlertDialog(
+        visible = profileToDelete != null,
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(stringResource(R.string.delete_export_profile))
+        },
+        text = {
+            Text(
+                stringResource(
+                    R.string.delete_export_profile_sub,
+                    profileToDelete?.name ?: ""
+                )
+            )
+        },
+        onDismissRequest = { profileToDelete = null },
+        confirmButton = {
+            EnhancedButton(
+                onClick = {
+                    profileToDelete?.let(onDeleteProfile)
+                    profileToDelete = null
+                }
+            ) {
+                Text(stringResource(R.string.confirm))
+            }
+        },
+        dismissButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = { profileToDelete = null }
+            ) {
+                Text(stringResource(R.string.cancel))
+            }
+        }
+    )
+}
+
+@Composable
+private fun LazyItemScope.ImagePresetItem(
+    index: Int,
+    profilesCount: Int,
+    item: ImageExportProfile,
+    selected: Boolean,
+    onApplyProfile: (ImageExportProfile) -> Unit,
+    onExportProfile: (ImageExportProfile, Uri) -> Unit,
+    onShareProfile: (ImageExportProfile) -> Unit,
+    onWantDelete: (ImageExportProfile) -> Unit
+) {
+    val scope = rememberCoroutineScope()
+    val state = rememberRevealState()
+    val shape = ShapeDefaults.byIndex(index, profilesCount)
+
+    SwipeToReveal(
+        state = state,
+        directions = setOf(RevealDirection.EndToStart),
+        modifier = Modifier.animateItem(),
+        revealedContentEnd = {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .container(
+                        color = MaterialTheme.colorScheme.errorContainer,
+                        shape = shape,
+                        autoShadowElevation = 0.dp,
+                        resultPadding = 0.dp
+                    )
+                    .hapticsClickable {
+                        scope.launch {
+                            state.animateTo(RevealValue.Default)
+                        }
+                        onWantDelete(item)
+                    }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = stringResource(R.string.delete),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .padding(end = 8.dp)
+                        .align(Alignment.CenterEnd),
+                    tint = MaterialTheme.colorScheme.onErrorContainer
+                )
+            }
+        },
+        swipeableContent = {
+            PreferenceItemOverload(
+                title = item.name,
+                subtitle = item.subtitle(),
+                onClick = {
+                    onApplyProfile(item)
+                },
+                drawStartIconContainer = false,
+                modifier = Modifier.fillMaxWidth(),
+                startIcon = {
+                    Icon(
+                        imageVector = if (selected) {
+                            Icons.Rounded.RadioButtonChecked
+                        } else {
+                            Icons.Rounded.RadioButtonUnchecked
+                        },
+                        contentDescription = null
+                    )
+                },
+                endIcon = {
+                    ImagePresetItemMenu(
+                        preset = item,
+                        onExportProfile = onExportProfile,
+                        onShareProfile = onShareProfile,
+                        modifier = Modifier.offset(x = 8.dp)
+                    )
+                },
+                shape = shape,
+                containerColor = if (selected) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else {
+                    Color.Unspecified
+                },
+                contentColor = if (selected) {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                } else {
+                    Color.Unspecified
+                }
+            )
+        }
+    )
 }
 
 @Composable
@@ -229,7 +338,6 @@ private fun ImagePresetItemMenu(
     preset: ImageExportProfile,
     onExportProfile: (ImageExportProfile, Uri) -> Unit,
     onShareProfile: (ImageExportProfile) -> Unit,
-    onDeleteProfile: (ImageExportProfile) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var showMenu by rememberSaveable(preset.name) { mutableStateOf(false) }
@@ -267,14 +375,6 @@ private fun ImagePresetItemMenu(
                 onClick = {
                     showMenu = false
                     onShareProfile(preset)
-                }
-            )
-            ImagePresetMenuAction(
-                title = R.string.delete,
-                icon = Icons.Rounded.Delete,
-                onClick = {
-                    showMenu = false
-                    onDeleteProfile(preset)
                 }
             )
         }
