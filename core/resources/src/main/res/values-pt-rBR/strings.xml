@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -3281,4 +3279,6 @@
     <string name="save_export_profile">Salvar perfil atual</string>
     <string name="delete_export_profile">Excluir perfil de exportação</string>
     <string name="delete_export_profile_sub">Deseja excluir o perfil de exportação \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Desenho de borda</string>
+    <string name="draw_bitmap_border_sub">Mostrar uma borda fina ao redor da tela de desenho e apagamento</string>
 </resources>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -3280,4 +3278,6 @@
     <string name="save_export_profile">Simpan profil saat ini</string>
     <string name="delete_export_profile">Hapus profil ekspor</string>
     <string name="delete_export_profile_sub">Apakah Anda ingin menghapus profil ekspor \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Menggambar garis tepi</string>
+    <string name="draw_bitmap_border_sub">Tampilkan garis tepi tipis di sekeliling kanvas menggambar dan menghapus</string>
 </resources>
