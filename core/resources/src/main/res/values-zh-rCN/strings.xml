@@ -3280,4 +3280,6 @@
     <string name="save_export_profile">保存当前配置文件</string>
     <string name="delete_export_profile">删除导出配置文件</string>
     <string name="delete_export_profile_sub">您想删除导出配置文件“%1$s”吗？</string>
+    <string name="draw_bitmap_border">绘制边框</string>
+    <string name="draw_bitmap_border_sub">在绘图和擦除画布周围显示细边框</string>
 </resources>

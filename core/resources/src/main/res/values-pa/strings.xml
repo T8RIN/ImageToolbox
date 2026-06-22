@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">ਮੌਜੂਦਾ ਪ੍ਰੋਫਾਈਲ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="delete_export_profile">ਨਿਰਯਾਤ ਪ੍ਰੋਫਾਈਲ ਮਿਟਾਓ</string>
     <string name="delete_export_profile_sub">ਕੀ ਤੁਸੀਂ ਨਿਰਯਾਤ ਪ੍ਰੋਫਾਈਲ \\"%1$s\\" ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
+    <string name="draw_bitmap_border">ਡਰਾਇੰਗ ਬਾਰਡਰ</string>
+    <string name="draw_bitmap_border_sub">ਡਰਾਇੰਗ ਅਤੇ ਮਿਟਾਉਣ ਵਾਲੇ ਕੈਨਵਸ ਦੇ ਦੁਆਲੇ ਇੱਕ ਪਤਲੀ ਬਾਰਡਰ ਦਿਖਾਓ</string>
 </resources>

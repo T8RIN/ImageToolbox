@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">ప్రస్తుత ప్రొఫైల్‌ను సేవ్ చేయండి</string>
     <string name="delete_export_profile">ఎగుమతి ప్రొఫైల్‌ను తొలగించండి</string>
     <string name="delete_export_profile_sub">మీరు \\"%1$s\\" ఎగుమతి ప్రొఫైల్‌ని తొలగించాలనుకుంటున్నారా?</string>
+    <string name="draw_bitmap_border">డ్రాయింగ్ సరిహద్దు</string>
+    <string name="draw_bitmap_border_sub">డ్రాయింగ్ మరియు ఎరేసింగ్ కాన్వాస్ చుట్టూ సన్నని అంచుని చూపండి</string>
 </resources>

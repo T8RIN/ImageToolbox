@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Huidig ​​profiel opslaan</string>
     <string name="delete_export_profile">Exportprofiel verwijderen</string>
     <string name="delete_export_profile_sub">Wilt u het exportprofiel \\"%1$s\\" verwijderen?</string>
+    <string name="draw_bitmap_border">Rand tekenen</string>
+    <string name="draw_bitmap_border_sub">Toon een dunne rand rond het teken- en wisdoek</string>
 </resources>

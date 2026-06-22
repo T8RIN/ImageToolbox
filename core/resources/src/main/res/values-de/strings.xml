@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Aktuelles Profil speichern</string>
     <string name="delete_export_profile">Exportprofil löschen</string>
     <string name="delete_export_profile_sub">Möchten Sie das Exportprofil „%1$s“ löschen?</string>
+    <string name="draw_bitmap_border">Rahmen zeichnen</string>
+    <string name="draw_bitmap_border_sub">Zeigen Sie einen dünnen Rand um die Zeichen- und Löschfläche an</string>
 </resources>

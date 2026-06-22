@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Desa el perfil actual</string>
     <string name="delete_export_profile">Suprimeix el perfil d\'exportació</string>
     <string name="delete_export_profile_sub">Voleu suprimir el perfil d\'exportació \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Dibuix de vora</string>
+    <string name="draw_bitmap_border_sub">Mostra una vora fina al voltant del dibuix i esborra el llenç</string>
 </resources>

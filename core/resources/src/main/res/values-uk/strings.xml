@@ -3283,4 +3283,6 @@
     <string name="save_export_profile">Зберегти поточний профіль</string>
     <string name="delete_export_profile">Видалити профіль експорту</string>
     <string name="delete_export_profile_sub">Ви бажаєте видалити профіль експорту \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Малювання кордону</string>
+    <string name="draw_bitmap_border_sub">Покажіть тонку рамку навколо малюнка та стирання полотна</string>
 </resources>

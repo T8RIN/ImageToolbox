@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Tallenna nykyinen profiili</string>
     <string name="delete_export_profile">Poista vientiprofiili</string>
     <string name="delete_export_profile_sub">Haluatko poistaa vientiprofiilin \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Piirrä reunus</string>
+    <string name="draw_bitmap_border_sub">Näytä ohut reunus piirustus- ja pyyhkimiskankaan ympärillä</string>
 </resources>

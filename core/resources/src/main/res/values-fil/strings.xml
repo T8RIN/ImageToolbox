@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">I-save ang kasalukuyang profile</string>
     <string name="delete_export_profile">Tanggalin ang profile sa pag-export</string>
     <string name="delete_export_profile_sub">Gusto mo bang tanggalin ang export na profile \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Pagguhit ng hangganan</string>
+    <string name="draw_bitmap_border_sub">Magpakita ng manipis na hangganan sa paligid ng drawing at burahin ang canvas</string>
 </resources>

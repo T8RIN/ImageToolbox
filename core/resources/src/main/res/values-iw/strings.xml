@@ -3283,4 +3283,6 @@
     <string name="save_export_profile">שמור את הפרופיל הנוכחי</string>
     <string name="delete_export_profile">מחק את פרופיל הייצוא</string>
     <string name="delete_export_profile_sub">האם ברצונך למחוק את פרופיל הייצוא \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">ציור גבול</string>
+    <string name="draw_bitmap_border_sub">הצג גבול דק מסביב לקנבס הציור והמחק</string>
 </resources>

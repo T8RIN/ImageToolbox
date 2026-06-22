@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Az aktuális profil mentése</string>
     <string name="delete_export_profile">Exportálási profil törlése</string>
     <string name="delete_export_profile_sub">Törli a \\"%1$s\\" exportprofilt?</string>
+    <string name="draw_bitmap_border">Rajz szegély</string>
+    <string name="draw_bitmap_border_sub">Mutasson vékony szegélyt a rajz- és törlésvászon körül</string>
 </resources>

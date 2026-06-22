@@ -3283,4 +3283,6 @@
     <string name="save_export_profile">Zapisz bieżący profil</string>
     <string name="delete_export_profile">Usuń profil eksportu</string>
     <string name="delete_export_profile_sub">Czy chcesz usunąć profil eksportu „%1$s”?</string>
+    <string name="draw_bitmap_border">Granica rysunku</string>
+    <string name="draw_bitmap_border_sub">Pokaż cienką ramkę wokół płótna do rysowania i wymazywania</string>
 </resources>

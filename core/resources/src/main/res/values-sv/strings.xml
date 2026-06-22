@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Spara aktuell profil</string>
     <string name="delete_export_profile">Ta bort exportprofil</string>
     <string name="delete_export_profile_sub">Vill du ta bort exportprofilen \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Rita kant</string>
+    <string name="draw_bitmap_border_sub">Visa en tunn ram runt ritnings- och raderingsduken</string>
 </resources>

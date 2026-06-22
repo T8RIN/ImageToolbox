@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Gorde uneko profila</string>
     <string name="delete_export_profile">Ezabatu esportazio-profila</string>
     <string name="delete_export_profile_sub">\\"%1$s\\" esportazio profila ezabatu nahi duzu?</string>
+    <string name="draw_bitmap_border">Marrazketa ertza</string>
+    <string name="draw_bitmap_border_sub">Erakutsi ertz mehe bat marrazteko eta ezabatzeko mihisearen inguruan</string>
 </resources>

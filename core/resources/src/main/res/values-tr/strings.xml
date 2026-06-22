@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Mevcut profili kaydet</string>
     <string name="delete_export_profile">Dışa aktarma profilini sil</string>
     <string name="delete_export_profile_sub">\\"%1$s\\" dışa aktarma profilini silmek istiyor musunuz?</string>
+    <string name="draw_bitmap_border">Kenarlık çizme</string>
+    <string name="draw_bitmap_border_sub">Çizim ve silme tuvalinin çevresinde ince bir kenarlık gösterme</string>
 </resources>

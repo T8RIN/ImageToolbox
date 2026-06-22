@@ -3280,4 +3280,6 @@
     <string name="save_export_profile">Lưu hồ sơ hiện tại</string>
     <string name="delete_export_profile">Xóa hồ sơ xuất</string>
     <string name="delete_export_profile_sub">Bạn có muốn xóa hồ sơ xuất \\"%1$s\\" không?</string>
+    <string name="draw_bitmap_border">Vẽ đường viền</string>
+    <string name="draw_bitmap_border_sub">Hiển thị đường viền mỏng xung quanh bản vẽ và xóa canvas</string>
 </resources>

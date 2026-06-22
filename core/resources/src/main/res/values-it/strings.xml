@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">Salva il profilo corrente</string>
     <string name="delete_export_profile">Elimina il profilo di esportazione</string>
     <string name="delete_export_profile_sub">Vuoi eliminare il profilo di esportazione \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border" />
+    <string name="draw_bitmap_border_sub">Mostra un bordo sottile attorno al disegno e cancella la tela</string>
 </resources>

@@ -3282,4 +3282,6 @@
     <string name="save_export_profile">Сачувајте тренутни профил</string>
     <string name="delete_export_profile">Избришите профил за извоз</string>
     <string name="delete_export_profile_sub">Да ли желите да избришете профил за извоз \\"__ПХ_0__\\"?</string>
+    <string name="draw_bitmap_border">Цртање границе</string>
+    <string name="draw_bitmap_border_sub">Покажите танку ивицу око платна за цртање и брисање</string>
 </resources>

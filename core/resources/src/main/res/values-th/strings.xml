@@ -3280,4 +3280,6 @@
     <string name="save_export_profile">บันทึกโปรไฟล์ปัจจุบัน</string>
     <string name="delete_export_profile">ลบโปรไฟล์การส่งออก</string>
     <string name="delete_export_profile_sub">คุณต้องการลบโปรไฟล์การส่งออก \\"%1$s\\" หรือไม่</string>
+    <string name="draw_bitmap_border">การวาดเส้นขอบ</string>
+    <string name="draw_bitmap_border_sub">แสดงเส้นขอบบางๆ รอบภาพวาดและการลบผืนผ้าใบ</string>
 </resources>

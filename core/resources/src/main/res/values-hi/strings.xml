@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">वर्तमान प्रोफ़ाइल सहेजें</string>
     <string name="delete_export_profile">निर्यात प्रोफ़ाइल हटाएँ</string>
     <string name="delete_export_profile_sub">क्या आप निर्यात प्रोफ़ाइल \\"%1$s\\" को हटाना चाहते हैं?</string>
+    <string name="draw_bitmap_border">सीमा रेखा खींचना</string>
+    <string name="draw_bitmap_border_sub">ड्राइंग और मिटाए गए कैनवास के चारों ओर एक पतली सीमा दिखाएं</string>
 </resources>

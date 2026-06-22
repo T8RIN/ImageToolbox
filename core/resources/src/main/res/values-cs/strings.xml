@@ -3283,4 +3283,6 @@
     <string name="save_export_profile">Uložit aktuální profil</string>
     <string name="delete_export_profile">Smazat exportní profil</string>
     <string name="delete_export_profile_sub">Chcete smazat exportní profil \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Hranice kreslení</string>
+    <string name="draw_bitmap_border_sub">Ukažte tenký okraj kolem kreslicího a mazacího plátna</string>
 </resources>

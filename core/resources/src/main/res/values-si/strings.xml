@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">වත්මන් පැතිකඩ සුරකින්න</string>
     <string name="delete_export_profile">අපනයන පැතිකඩ මකන්න</string>
     <string name="delete_export_profile_sub">ඔබට \\"%1$s\\" නිර්යාත පැතිකඩ මැකීමට අවශ්‍යද?</string>
+    <string name="draw_bitmap_border">මායිම් ඇඳීම</string>
+    <string name="draw_bitmap_border_sub">ඇඳීම සහ මැකීමේ කැන්වසය වටා තුනී මායිමක් පෙන්වන්න</string>
 </resources>

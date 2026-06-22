@@ -3281,4 +3281,6 @@
     <string name="save_export_profile">தற்போதைய சுயவிவரத்தை சேமிக்கவும்</string>
     <string name="delete_export_profile">ஏற்றுமதி சுயவிவரத்தை நீக்கவும்</string>
     <string name="delete_export_profile_sub">\\"%1$s\\" என்ற ஏற்றுமதி சுயவிவரத்தை நீக்க விரும்புகிறீர்களா?</string>
+    <string name="draw_bitmap_border">வரைதல் எல்லை</string>
+    <string name="draw_bitmap_border_sub">வரைதல் மற்றும் அழிக்கும் கேன்வாஸைச் சுற்றி ஒரு மெல்லிய பார்டரைக் காட்டு</string>
 </resources>

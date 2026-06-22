@@ -3280,4 +3280,6 @@
     <string name="save_export_profile">現在のプロファイルを保存する</string>
     <string name="delete_export_profile">エクスポートプロファイルの削除</string>
     <string name="delete_export_profile_sub">エクスポート プロファイル「%1$s」を削除しますか?</string>
+    <string name="draw_bitmap_border">枠線を描く</string>
+    <string name="draw_bitmap_border_sub">描画および消去キャンバスの周囲に細い境界線を表示します</string>
 </resources>

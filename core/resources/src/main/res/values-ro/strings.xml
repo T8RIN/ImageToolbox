@@ -3282,4 +3282,6 @@
     <string name="save_export_profile">Salvați profilul curent</string>
     <string name="delete_export_profile">Ștergeți profilul de export</string>
     <string name="delete_export_profile_sub">Doriți să ștergeți profilul de export \\"%1$s\\"?</string>
+    <string name="draw_bitmap_border">Chenar de desen</string>
+    <string name="draw_bitmap_border_sub">Afișați un chenar subțire în jurul desenului și ștergeți pânza</string>
 </resources>
