@@ -62,7 +62,7 @@ fun Long.getDate(
                 } else {
                     SimpleDateFormat(format, Locale.getDefault())
                 }
-            }.format(mediaDate)
+            }.format(mediaDate.time)
         }
     }.replaceFirstChar { it.titlecase(Locale.getDefault()) }
 }
