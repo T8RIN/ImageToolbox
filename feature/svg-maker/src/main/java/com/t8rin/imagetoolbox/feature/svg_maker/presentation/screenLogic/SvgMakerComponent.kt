@@ -19,6 +19,8 @@
 
 package com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -49,6 +51,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 
+@NavigationNode(screen = Screen.SvgMaker::class)
 class SvgMakerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,

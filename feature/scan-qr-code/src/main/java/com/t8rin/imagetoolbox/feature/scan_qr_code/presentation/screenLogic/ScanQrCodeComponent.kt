@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -56,6 +58,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@NavigationNode(screen = Screen.ScanQrCode::class)
 class ScanQrCodeComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted initialQrCodeContent: String?,

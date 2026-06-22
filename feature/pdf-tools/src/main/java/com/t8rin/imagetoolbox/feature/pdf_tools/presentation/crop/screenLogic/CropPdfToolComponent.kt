@@ -28,6 +28,8 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
@@ -38,6 +40,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+@NavigationNode(screen = Screen.PdfTools.Crop::class, mode = NavigationMode.REPLACE)
 class CropPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,

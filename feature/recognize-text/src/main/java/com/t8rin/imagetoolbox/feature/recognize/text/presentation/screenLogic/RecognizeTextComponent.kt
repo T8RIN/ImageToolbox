@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -94,6 +95,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import coil3.transform.Transformation as CoilTransformation
 
+@NavigationNode(screen = Screen.RecognizeText::class)
 class RecognizeTextComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.RecognizeText.Type?,

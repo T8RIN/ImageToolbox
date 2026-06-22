@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.crop.presentation
 
-
 import android.net.Uri
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -47,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.cropper.model.OutlineType
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
@@ -89,6 +89,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@NavigationContent
 @Composable
 fun CropContent(
     component: CropComponent

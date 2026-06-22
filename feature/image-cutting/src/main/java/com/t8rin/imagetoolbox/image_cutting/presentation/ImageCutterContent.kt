@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -71,6 +72,7 @@ import com.t8rin.imagetoolbox.image_cutting.presentation.components.CutPreview
 import com.t8rin.imagetoolbox.image_cutting.presentation.components.rememberCutTransformations
 import com.t8rin.imagetoolbox.image_cutting.presentation.screenLogic.ImageCutterComponent
 
+@NavigationContent
 @Composable
 fun ImageCutterContent(
     component: ImageCutterComponent

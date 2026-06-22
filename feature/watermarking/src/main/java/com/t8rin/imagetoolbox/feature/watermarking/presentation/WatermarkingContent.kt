@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.watermarking.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -79,6 +80,7 @@ import com.t8rin.imagetoolbox.feature.watermarking.presentation.components.Water
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.components.WatermarkingTypeSelector
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.WatermarkingComponent
 
+@NavigationContent
 @Composable
 fun WatermarkingContent(
     component: WatermarkingComponent

@@ -60,6 +60,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
@@ -100,6 +101,7 @@ import com.t8rin.imagetoolbox.core.utils.isApng
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.components.ApngParamsSelector
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 
+@NavigationContent
 @Composable
 fun ApngToolsContent(
     component: ApngToolsComponent

@@ -41,6 +41,8 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
@@ -54,6 +56,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onCompletion
 
+@NavigationNode(screen = Screen.PdfTools.ExtractPages::class, mode = NavigationMode.REPLACE)
 class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,

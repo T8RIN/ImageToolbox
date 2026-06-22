@@ -40,6 +40,7 @@ import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
 import com.mikepenz.aboutlibraries.ui.compose.util.author
 import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import com.mikepenz.aboutlibraries.util.withContext
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
@@ -54,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.libraries_info.presentation.screenLogic.Li
 import kotlinx.collections.immutable.toPersistentList
 
 
+@NavigationContent
 @Composable
 fun LibrariesInfoContent(
     component: LibrariesInfoComponent

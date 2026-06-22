@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -71,6 +72,7 @@ import com.t8rin.imagetoolbox.feature.limits_resize.presentation.components.Auto
 import com.t8rin.imagetoolbox.feature.limits_resize.presentation.components.LimitsResizeSelector
 import com.t8rin.imagetoolbox.feature.limits_resize.presentation.screenLogic.LimitsResizeComponent
 
+@NavigationContent
 @Composable
 fun LimitsResizeContent(
     component: LimitsResizeComponent

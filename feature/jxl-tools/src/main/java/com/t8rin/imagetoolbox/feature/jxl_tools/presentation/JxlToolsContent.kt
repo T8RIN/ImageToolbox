@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
@@ -49,6 +50,7 @@ import com.t8rin.imagetoolbox.feature.jxl_tools.presentation.components.JxlTools
 import com.t8rin.imagetoolbox.feature.jxl_tools.presentation.components.JxlToolsTopAppBarActions
 import com.t8rin.imagetoolbox.feature.jxl_tools.presentation.screenLogic.JxlToolsComponent
 
+@NavigationContent
 @Composable
 fun JxlToolsContent(
     component: JxlToolsComponent

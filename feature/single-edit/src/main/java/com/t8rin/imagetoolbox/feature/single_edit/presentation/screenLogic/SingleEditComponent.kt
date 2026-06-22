@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -89,6 +90,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
+@NavigationNode(screen = Screen.SingleEdit::class)
 class SingleEditComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,

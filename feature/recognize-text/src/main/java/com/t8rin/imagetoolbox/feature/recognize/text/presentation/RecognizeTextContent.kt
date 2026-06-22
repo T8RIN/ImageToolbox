@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
@@ -69,6 +70,7 @@ import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.Re
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.CropEditOption
 
 
+@NavigationContent
 @Composable
 fun RecognizeTextContent(
     component: RecognizeTextComponent

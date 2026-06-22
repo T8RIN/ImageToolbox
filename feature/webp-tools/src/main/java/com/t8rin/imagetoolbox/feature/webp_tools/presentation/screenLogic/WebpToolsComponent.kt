@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -52,6 +53,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 
+@NavigationNode(screen = Screen.WebpTools::class)
 class WebpToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.WebpTools.Type?,

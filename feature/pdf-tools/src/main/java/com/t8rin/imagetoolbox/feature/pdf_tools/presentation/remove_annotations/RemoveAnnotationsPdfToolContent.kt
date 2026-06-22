@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_annotations
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -35,6 +36,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_annotations.
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_annotations.components.RemoveAnnotationsPreview
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_annotations.screenLogic.RemoveAnnotationsPdfToolComponent
 
+@NavigationContent
 @Composable
 fun RemoveAnnotationsPdfToolContent(
     component: RemoveAnnotationsPdfToolComponent

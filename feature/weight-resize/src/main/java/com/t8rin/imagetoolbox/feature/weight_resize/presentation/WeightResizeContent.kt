@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.weight_resize.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -85,6 +86,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.weight_resize.presentation.components.ImageFormatAlert
 import com.t8rin.imagetoolbox.feature.weight_resize.presentation.screenLogic.WeightResizeComponent
 
+@NavigationContent
 @Composable
 fun WeightResizeContent(
     component: WeightResizeComponent

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewIt
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.components.PdfPagesRemoveGrid
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.screenLogic.RemovePagesPdfToolComponent
 
+@NavigationContent
 @Composable
 fun RemovePagesPdfToolContent(
     component: RemovePagesPdfToolComponent

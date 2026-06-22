@@ -27,6 +27,8 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
@@ -35,6 +37,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
+@NavigationNode(screen = Screen.PdfTools.Grayscale::class, mode = NavigationMode.REPLACE)
 class GrayscalePdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,

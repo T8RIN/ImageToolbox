@@ -69,6 +69,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -92,6 +93,7 @@ import kotlinx.coroutines.isActive
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
+@NavigationContent
 @Composable
 fun EasterEggContent(
     component: EasterEggComponent

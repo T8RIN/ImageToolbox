@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
@@ -70,6 +71,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("StringFormatInvalid")
+@NavigationContent
 @Composable
 fun ScanQrCodeContent(
     component: ScanQrCodeComponent

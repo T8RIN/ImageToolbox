@@ -18,12 +18,14 @@
 package com.t8rin.imagetoolbox.feature.help.presentation
 
 import androidx.compose.runtime.Composable
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.feature.help.presentation.components.HelpListContent
 import com.t8rin.imagetoolbox.feature.help.presentation.components.HelpState
 import com.t8rin.imagetoolbox.feature.help.presentation.components.TutorialCategoryContent
 import com.t8rin.imagetoolbox.feature.help.presentation.components.TutorialDetailContent
 import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponent
 
+@NavigationContent
 @Composable
 fun HelpContent(
     component: HelpComponent

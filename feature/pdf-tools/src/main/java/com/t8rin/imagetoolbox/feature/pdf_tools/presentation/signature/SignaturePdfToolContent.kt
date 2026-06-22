@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,6 +43,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.component
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.components.SignatureSelector
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
 
+@NavigationContent
 @Composable
 fun SignaturePdfToolContent(
     component: SignaturePdfToolComponent

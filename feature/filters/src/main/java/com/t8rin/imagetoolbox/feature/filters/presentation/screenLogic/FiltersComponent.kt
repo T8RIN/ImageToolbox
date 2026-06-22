@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
@@ -92,6 +93,7 @@ import kotlinx.coroutines.withContext
 import android.graphics.Color as NativeColor
 import android.graphics.Paint as NativePaint
 
+@NavigationNode(screen = Screen.Filter::class)
 class FiltersComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.Filter.Type?,

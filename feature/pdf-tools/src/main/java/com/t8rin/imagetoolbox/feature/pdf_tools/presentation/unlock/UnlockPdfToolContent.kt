@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.unlock
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,6 +44,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolC
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.unlock.screenLogic.UnlockPdfToolComponent
 
+@NavigationContent
 @Composable
 fun UnlockPdfToolContent(
     component: UnlockPdfToolComponent

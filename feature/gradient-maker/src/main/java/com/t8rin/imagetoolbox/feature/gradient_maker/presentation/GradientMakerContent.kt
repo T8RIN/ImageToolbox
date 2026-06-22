@@ -29,6 +29,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -49,6 +50,7 @@ import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.Gra
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.model.GradientMakerType
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 
+@NavigationContent
 @Composable
 fun GradientMakerContent(
     component: GradientMakerComponent

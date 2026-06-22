@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.svg_maker.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -55,6 +56,7 @@ import com.t8rin.imagetoolbox.feature.svg_maker.presentation.components.SvgParam
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
 
 
+@NavigationContent
 @Composable
 fun SvgMakerContent(
     component: SvgMakerComponent

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.resize_convert.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -92,6 +93,7 @@ import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
 
+@NavigationContent
 @Composable
 fun ResizeAndConvertContent(
     component: ResizeAndConvertComponent

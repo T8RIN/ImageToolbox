@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
@@ -34,6 +35,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewIt
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import kotlin.math.roundToInt
 
+@NavigationContent
 @Composable
 fun CompressPdfToolContent(
     component: CompressPdfToolComponent

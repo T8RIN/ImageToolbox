@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,6 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BorderHorizontal
 import com.t8rin.imagetoolbox.core.resources.icons.BorderVertical
@@ -39,6 +40,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolC
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.components.CropPreview
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
 
+@NavigationContent
 @Composable
 fun CropPdfToolContent(
     component: CropPdfToolComponent

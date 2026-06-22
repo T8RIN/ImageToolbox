@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.usage_statistics.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.plus
@@ -50,6 +51,7 @@ import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components.U
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components.UsageStatisticsInfoDialog
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.UsageStatisticsComponent
 
+@NavigationContent
 @Composable
 fun UsageStatisticsContent(
     component: UsageStatisticsComponent

@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.data.coil.PdfImageRequest
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
@@ -36,6 +37,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.component
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.components.PdfPagesRearrangeGrid
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
 
+@NavigationContent
 @Composable
 fun RearrangePdfToolContent(
     component: RearrangePdfToolComponent

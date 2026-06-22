@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.shader_studio.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -54,6 +55,7 @@ import dev.hossain.highlight.ui.HighlightThemeProvider
 import dev.hossain.highlight.ui.rememberTomorrowNightTheme
 import dev.hossain.highlight.ui.rememberTomorrowTheme
 
+@NavigationContent
 @Composable
 fun ShaderStudioContent(
     component: ShaderStudioComponent

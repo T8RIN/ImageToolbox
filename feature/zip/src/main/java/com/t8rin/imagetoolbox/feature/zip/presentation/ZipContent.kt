@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.zip.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,6 +46,7 @@ import com.t8rin.imagetoolbox.feature.zip.presentation.components.ZipControls
 import com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic.ZipComponent
 
 
+@NavigationContent
 @Composable
 fun ZipContent(
     component: ZipComponent

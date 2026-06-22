@@ -59,6 +59,9 @@ val CoreProjects.crash
 val CoreProjects.utils
     get(): ProjectLibrary = project(":core:utils")
 
+val CoreProjects.ksp
+    get(): ProjectLibrary = project(":core:ksp")
+
 fun DependencyHandlerScope.debugImplementation(
     dependency: Library
 ) = add("debugImplementation", dependency)
@@ -77,6 +80,10 @@ fun DependencyHandlerScope.implementation(
 
 fun DependencyHandlerScope.ksp(
     dependency: Library
+) = add("ksp", dependency)
+
+fun DependencyHandlerScope.ksp(
+    dependency: ProjectLibrary
 ) = add("ksp", dependency)
 
 fun DependencyHandlerScope.detektPlugins(

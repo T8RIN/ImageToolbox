@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.handleDeeplinks
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.NavigationHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
@@ -94,7 +95,9 @@ class RootComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
     resourceManager: ResourceManager,
-) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
+) : BaseComponent(dispatchersHolder, componentContext),
+    ResourceManager by resourceManager,
+    NavigationHost {
 
     private var updatesJob: Job? by smartJob()
 
@@ -102,7 +105,7 @@ class RootComponent @AssistedInject internal constructor(
     val backupRestoredEvents: Flow<Boolean> = _backupRestoredEvents.receiveAsFlow()
 
     private val _isUpdateAvailable: MutableValue<Boolean> = MutableValue(false)
-    val isUpdateAvailable: Value<Boolean> = _isUpdateAvailable
+    override val isUpdateAvailable: Value<Boolean> = _isUpdateAvailable
 
     private val _concealBackdropChannel: Channel<Boolean> = Channel(Channel.BUFFERED)
     val concealBackdropFlow: Flow<Boolean> = _concealBackdropChannel.receiveAsFlow()
@@ -233,6 +236,11 @@ class RootComponent @AssistedInject internal constructor(
         _showUpdateDialog.value = false
     }
 
+    override fun tryGetUpdate(isNewRequest: Boolean) = tryGetUpdate(
+        isNewRequest = isNewRequest,
+        onNoUpdates = null
+    )
+
     fun tryGetUpdate(
         isNewRequest: Boolean = false,
         onNoUpdates: (() -> Unit)? = {
@@ -297,7 +305,7 @@ class RootComponent @AssistedInject internal constructor(
         _uris.update { null }
     }
 
-    fun updateUris(uris: List<Uri>) {
+    override fun updateUris(uris: List<Uri>) {
         _uris.value = uris
 
         if (uris.isNotEmpty() || extraDataType != null) {
@@ -405,7 +413,7 @@ class RootComponent @AssistedInject internal constructor(
         }
     }
 
-    fun navigateTo(screen: Screen) {
+    override fun navigateTo(screen: Screen) {
         componentScope.launch {
             delay(100)
             screen.saveToHistory().simpleName.makeLog("Navigator")
@@ -415,7 +423,7 @@ class RootComponent @AssistedInject internal constructor(
         }
     }
 
-    fun replaceTo(screen: Screen) {
+    override fun replaceTo(screen: Screen) {
         componentScope.launch {
             delay(100)
             screen.saveToHistory().simpleName.makeLog("Navigator")
@@ -429,7 +437,7 @@ class RootComponent @AssistedInject internal constructor(
         }
     }
 
-    fun navigateToNew(screen: Screen) {
+    override fun navigateToNew(screen: Screen) {
         if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
             navigateBack()
         }
@@ -440,7 +448,7 @@ class RootComponent @AssistedInject internal constructor(
 
     private val backEventsObservers: MutableList<BackEventObserver> = mutableListOf()
 
-    fun navigateBack() {
+    override fun navigateBack() {
         val closedScreen = childStack.items.lastOrNull()?.configuration
         backEventsObservers.forEach { observer ->
             observer.onBack(closedScreen)

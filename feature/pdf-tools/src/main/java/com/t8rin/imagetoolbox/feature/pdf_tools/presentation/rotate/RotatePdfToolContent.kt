@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewIt
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.components.PdfPagesRotationGrid
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
 
+@NavigationContent
 @Composable
 fun RotatePdfToolContent(
     component: RotatePdfToolComponent

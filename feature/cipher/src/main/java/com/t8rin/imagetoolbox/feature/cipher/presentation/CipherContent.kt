@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
@@ -60,6 +61,7 @@ import com.t8rin.imagetoolbox.feature.cipher.presentation.components.CipherTipSh
 import com.t8rin.imagetoolbox.feature.cipher.presentation.screenLogic.CipherComponent
 
 
+@NavigationContent
 @Composable
 fun CipherContent(
     component: CipherComponent

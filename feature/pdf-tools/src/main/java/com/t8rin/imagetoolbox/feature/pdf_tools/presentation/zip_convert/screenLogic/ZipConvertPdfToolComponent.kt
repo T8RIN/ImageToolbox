@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.zip_convert.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -39,6 +41,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
+@NavigationNode(screen = Screen.PdfTools.ZipConvert::class, mode = NavigationMode.REPLACE)
 class ZipConvertPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,

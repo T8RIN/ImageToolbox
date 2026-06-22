@@ -15,6 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.root.presentation.components.navigation
+package com.t8rin.imagetoolbox.core.ksp.annotations
 
-internal typealias NavigationChild = com.t8rin.imagetoolbox.core.ui.utils.navigation.NavigationChild
+import kotlin.reflect.KClass
+
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.SOURCE)
+annotation class NavigationNode(
+    val screen: KClass<*>,
+    val mode: NavigationMode = NavigationMode.DEFAULT
+)
+
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.SOURCE)
+annotation class NavigationContent
+
+enum class NavigationMode {
+    DEFAULT,
+    NEW,
+    REPLACE
+}

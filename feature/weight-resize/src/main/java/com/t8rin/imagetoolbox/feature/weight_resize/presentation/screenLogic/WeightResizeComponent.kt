@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.weight_resize.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -59,6 +60,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 
 
+@NavigationNode(screen = Screen.WeightResize::class)
 class WeightResizeComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,

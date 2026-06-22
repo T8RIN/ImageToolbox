@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import com.t8rin.imagetoolbox.data
 import com.t8rin.imagetoolbox.di
 import com.t8rin.imagetoolbox.domain
 import com.t8rin.imagetoolbox.implementation
+import com.t8rin.imagetoolbox.ksp
 import com.t8rin.imagetoolbox.projects
 import com.t8rin.imagetoolbox.resources
 import com.t8rin.imagetoolbox.settings
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.ui
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
@@ -36,6 +38,7 @@ import org.gradle.kotlin.dsl.getByType
 class ImageToolboxLibraryFeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            apply(plugin = "com.google.devtools.ksp")
             configureDetekt(extensions.getByType<DetektExtension>())
             dependencies {
                 implementation(projects.core.data)
@@ -45,6 +48,8 @@ class ImageToolboxLibraryFeaturePlugin : Plugin<Project> {
                 implementation(projects.core.settings)
                 implementation(projects.core.di)
                 implementation(projects.core.crash)
+                implementation(projects.core.ksp)
+                ksp(projects.core.ksp)
             }
         }
     }

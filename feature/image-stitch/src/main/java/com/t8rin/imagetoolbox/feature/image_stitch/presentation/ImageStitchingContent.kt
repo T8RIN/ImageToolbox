@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -81,6 +82,7 @@ import com.t8rin.imagetoolbox.feature.image_stitch.presentation.screenLogic.Imag
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
+@NavigationContent
 @Composable
 fun ImageStitchingContent(
     component: ImageStitchingComponent

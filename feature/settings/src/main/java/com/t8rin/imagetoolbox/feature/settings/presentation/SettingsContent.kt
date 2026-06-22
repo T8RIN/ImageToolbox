@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.RepeatMode
@@ -113,6 +114,7 @@ import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
 
+@NavigationContent
 @Composable
 fun SettingsContent(
     component: SettingsComponent,

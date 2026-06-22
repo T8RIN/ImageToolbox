@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -71,6 +73,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import java.util.Locale
 
+@NavigationNode(screen = Screen.Settings::class, mode = NavigationMode.NEW)
 class SettingsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted private val onTryGetUpdate: (Boolean) -> Unit,

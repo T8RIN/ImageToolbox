@@ -44,6 +44,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.parser.ColorNameParser
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
@@ -68,6 +69,7 @@ import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickCol
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import kotlinx.coroutines.launch
 
+@NavigationContent
 @Composable
 fun PickColorFromImageContent(
     component: PickColorFromImageComponent

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -71,6 +72,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 
+@NavigationNode(screen = Screen.ResizeAndConvert::class)
 class ResizeAndConvertComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,

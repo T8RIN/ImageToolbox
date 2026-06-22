@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -40,6 +42,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+@NavigationNode(screen = Screen.PdfTools.Watermark::class, mode = NavigationMode.REPLACE)
 class WatermarkPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,

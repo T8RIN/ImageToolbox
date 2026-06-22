@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.gif_tools.presentation
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.WindowInsets
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Gif
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -55,6 +56,7 @@ import com.t8rin.imagetoolbox.feature.gif_tools.presentation.components.GifTools
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.components.GifToolsTopAppBarActions
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 
+@NavigationContent
 @Composable
 fun GifToolsContent(
     component: GifToolsComponent

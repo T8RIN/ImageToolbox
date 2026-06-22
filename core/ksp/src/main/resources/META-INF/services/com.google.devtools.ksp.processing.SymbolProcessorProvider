@@ -17,3 +17,4 @@
 
 com.t8rin.imagetoolbox.core.ksp.processor.FilterInjectProcessor
 com.t8rin.imagetoolbox.core.ksp.processor.UiFilterInjectProcessor
+com.t8rin.imagetoolbox.core.ksp.processor.NavigationNodeProcessor

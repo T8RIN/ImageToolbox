@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.single_edit.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import android.net.Uri
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -85,6 +86,7 @@ import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.Filter
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.ToneCurvesEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 
+@NavigationContent
 @Composable
 fun SingleEditContent(
     component: SingleEditComponent,

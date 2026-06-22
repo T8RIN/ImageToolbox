@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -51,6 +52,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.component
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import kotlin.math.roundToInt
 
+@NavigationContent
 @Composable
 fun WatermarkPdfToolContent(
     component: WatermarkPdfToolComponent

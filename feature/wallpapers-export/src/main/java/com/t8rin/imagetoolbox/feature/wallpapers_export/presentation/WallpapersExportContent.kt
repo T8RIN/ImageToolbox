@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.wallpapers_export.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +44,7 @@ import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.components.
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.components.WallpapersPreview
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
 
+@NavigationContent
 @Composable
 fun WallpapersExportContent(
     component: WallpapersExportComponent

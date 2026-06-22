@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.webp_tools.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -98,6 +99,7 @@ import com.t8rin.imagetoolbox.core.utils.isWebp
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.components.WebpParamsSelector
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
 
+@NavigationContent
 @Composable
 fun WebpToolsContent(
     component: WebpToolsComponent

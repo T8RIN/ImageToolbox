@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeUnless
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -44,6 +45,7 @@ import com.t8rin.imagetoolbox.feature.load_net_image.presentation.components.Par
 import com.t8rin.imagetoolbox.feature.load_net_image.presentation.components.ParsedImagesSelection
 import com.t8rin.imagetoolbox.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 
+@NavigationContent
 @Composable
 fun LoadNetImageContent(
     component: LoadNetImageComponent

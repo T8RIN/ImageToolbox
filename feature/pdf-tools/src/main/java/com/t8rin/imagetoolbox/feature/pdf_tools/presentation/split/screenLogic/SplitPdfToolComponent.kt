@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationNode
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -37,6 +39,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+@NavigationNode(screen = Screen.PdfTools.Split::class, mode = NavigationMode.REPLACE)
 class SplitPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,

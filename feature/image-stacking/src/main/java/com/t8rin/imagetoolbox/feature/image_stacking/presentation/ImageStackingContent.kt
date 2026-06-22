@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
@@ -75,6 +76,7 @@ import com.t8rin.imagetoolbox.feature.image_stacking.presentation.components.Sta
 import com.t8rin.imagetoolbox.feature.image_stacking.presentation.components.StackingParamsSelector
 import com.t8rin.imagetoolbox.feature.image_stacking.presentation.screenLogic.ImageStackingComponent
 
+@NavigationContent
 @Composable
 fun ImageStackingContent(
     component: ImageStackingComponent

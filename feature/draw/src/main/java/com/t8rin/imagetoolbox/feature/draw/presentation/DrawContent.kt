@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation
 
-
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.domain.model.coerceIn
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -84,6 +84,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.Draw
 import com.t8rin.imagetoolbox.feature.draw.presentation.screenLogic.DrawComponent
 import kotlinx.coroutines.launch
 
+@NavigationContent
 @Composable
 fun DrawContent(
     component: DrawComponent,

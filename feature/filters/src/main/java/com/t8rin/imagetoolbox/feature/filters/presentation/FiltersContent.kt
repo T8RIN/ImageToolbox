@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.filters.presentation
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
@@ -77,6 +78,7 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.components.FiltersCon
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.FiltersContentTopAppBarActions
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
 
+@NavigationContent
 @Composable
 fun FiltersContent(
     component: FiltersComponent

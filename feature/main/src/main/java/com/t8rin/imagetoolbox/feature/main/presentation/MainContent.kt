@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.t8rin.imagetoolbox.core.ksp.annotations.NavigationContent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
@@ -82,6 +83,7 @@ import com.t8rin.snowfall.snowfall
 import com.t8rin.snowfall.types.FlakeType
 import kotlinx.coroutines.delay
 
+@NavigationContent
 @Composable
 fun MainContent(
     component: MainComponent
