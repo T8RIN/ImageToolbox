@@ -372,8 +372,14 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun setQuality(quality: Quality) {
+        val currentQuality = imageInfo.quality
         val coercedQuality = quality.coerceIn(imageInfo.imageFormat)
-        if (imageInfo.quality != coercedQuality) {
+        if (
+            quality::class != coercedQuality::class &&
+            currentQuality::class == coercedQuality::class
+        ) return
+
+        if (currentQuality != coercedQuality) {
             beginPendingHistoryTransaction()
             _imageInfo.update {
                 it.copy(quality = coercedQuality)
