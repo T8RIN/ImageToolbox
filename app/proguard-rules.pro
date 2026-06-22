@@ -92,6 +92,27 @@
 -keep class  com.t8rin.imagetoolbox.feature.markup_layers.data.project.**
 -keep class  com.t8rin.imagetoolbox.feature.markup_layers.data.project.*
 
+# Moshi reflects image export preset models when saving/loading presets.
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfiles { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.Preset { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.Preset$* { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.ResizeType { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.ResizeType$* { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.Quality { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.image.model.Quality$* { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.model.IntegerSize { *; }
+-keep class com.t8rin.imagetoolbox.core.data.json.PresetJson { *; }
+-keep class com.t8rin.imagetoolbox.core.data.json.ResizeTypeJson { *; }
+-keep class com.t8rin.imagetoolbox.core.data.json.ImageScaleModeJson { *; }
+
+# Moshi reflects app history/statistics models for recent tools.
+-keep class com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.history.model.AppUsageStatistics { *; }
+-keep class com.t8rin.imagetoolbox.core.data.history.LastUsedTools { *; }
+-keep class com.t8rin.imagetoolbox.core.data.history.SavedFormatCounters { *; }
+
 # coil-resvg uses JNA/Uniffi generated names at runtime.
 -keep class com.hashsequence.coilresvg.** { *; }
 -keep class com.sun.jna.** { *; }

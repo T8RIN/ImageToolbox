@@ -193,6 +193,7 @@ fun ImageExportProfileSelector(
             ) {
                 Text(stringResource(R.string.cancel))
             }
-        }
+        },
+        placeAboveAll = true
     )
 }
