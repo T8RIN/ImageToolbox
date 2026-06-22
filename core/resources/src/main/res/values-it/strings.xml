@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -3281,6 +3279,5 @@
     <string name="save_export_profile">Salva il profilo corrente</string>
     <string name="delete_export_profile">Elimina il profilo di esportazione</string>
     <string name="delete_export_profile_sub">Vuoi eliminare il profilo di esportazione \\"%1$s\\"?</string>
-    <string name="draw_bitmap_border" />
     <string name="draw_bitmap_border_sub">Mostra un bordo sottile attorno al disegno e cancella la tela</string>
 </resources>
