@@ -41,5 +41,4 @@ class AppActivity : ComposeActivity() {
     @Composable
     override fun Content() = RootContent(component = component)
 
-
 }
