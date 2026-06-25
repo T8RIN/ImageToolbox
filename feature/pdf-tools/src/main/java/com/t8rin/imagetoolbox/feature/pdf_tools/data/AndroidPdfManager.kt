@@ -425,15 +425,23 @@ internal class AndroidPdfManager @Inject constructor(
 
         usePdf(uri) { document ->
             val font = document.defaultFont
+            val fontDescriptor = font.fontDescriptor
 
             params.pages.orAll(document).forEach { pageIndex ->
                 val page = document.getPageSafe(pageIndex)
+                val text = params.text
 
-                val textWidth =
-                    font.getStringWidth(params.text) / 1000f * params.fontSize
+                if (text.isBlank()) return@forEach
 
                 val radians = Math.toRadians(-params.rotation.toDouble())
                 val cropBox = page.cropBox
+                val glyphWidthEm = (font.getStringWidth(text) / 1000f).coerceAtLeast(0.001f)
+                val fontSize = cropBox.width * params.fontSize / 100f / glyphWidthEm
+
+                val textWidth =
+                    glyphWidthEm * fontSize
+                val textVerticalCenter =
+                    (fontDescriptor.ascent + fontDescriptor.descent) / 2000f * fontSize
 
                 val originX = cropBox.lowerLeftX
                 val originY = cropBox.lowerLeftY
@@ -449,11 +457,11 @@ internal class AndroidPdfManager @Inject constructor(
 
                 document.writePage(page) {
                     beginText()
-                    setFont(font, params.fontSize)
+                    setFont(font, fontSize)
                     setColor(color.copy(params.opacity))
                     setTextMatrix(matrix)
-                    newLineAtOffset(-textWidth / 2f, 0f)
-                    showText(params.text)
+                    newLineAtOffset(-textWidth / 2f, -textVerticalCenter)
+                    showText(text)
                     endText()
                 }
             }

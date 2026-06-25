@@ -22,7 +22,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -34,6 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.data.coil.PdfImageRequest
@@ -41,7 +48,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
 
@@ -90,26 +96,51 @@ internal fun WatermarkPreview(
                     BoxWithConstraints(
                         modifier = Modifier.matchParentSize()
                     ) {
+                        val density = LocalDensity.current
+                        val textMeasurer = rememberTextMeasurer()
+                        val watermarkTextStyle = MaterialTheme.typography.bodyMedium.copy(
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        val targetWidth = maxWidth * params.fontSize / 100f
+                        val textLayoutWidth = targetWidth + 8.dp
                         val scaledFontSize = remember(
+                            density,
                             params.fontSize,
-                            maxWidth
+                            params.text,
+                            targetWidth,
+                            watermarkTextStyle
                         ) {
-                            val scaleFactor = maxWidth.value / 300f
-                            (params.fontSize * scaleFactor).sp
+                            val baseFontSize = 100.sp
+                            val textWidth = textMeasurer.measure(
+                                text = params.text,
+                                style = watermarkTextStyle.copy(fontSize = baseFontSize),
+                                maxLines = 1,
+                                softWrap = false
+                            ).size.width.coerceAtLeast(1)
+
+                            with(density) {
+                                baseFontSize * (targetWidth.toPx() / textWidth)
+                            }
                         }
 
-                        AutoSizeText(
-                            key = { maxWidth },
+                        Text(
                             text = params.text,
                             modifier = Modifier
                                 .align(Alignment.Center)
+                                .requiredWidth(textLayoutWidth)
                                 .graphicsLayer {
                                     rotationZ = params.rotation
                                     alpha = params.opacity
                                 },
                             color = Color(params.color),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontSize = scaledFontSize
+                            maxLines = 1,
+                            softWrap = false,
+                            textAlign = TextAlign.Center,
+                            style = watermarkTextStyle.copy(
+                                fontSize = scaledFontSize,
+                                lineHeight = scaledFontSize * 1.2f
                             )
                         )
                     }
