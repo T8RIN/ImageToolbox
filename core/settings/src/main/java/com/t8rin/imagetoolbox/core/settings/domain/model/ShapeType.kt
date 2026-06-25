@@ -27,6 +27,7 @@ sealed interface ShapeType {
         is Rounded -> Rounded(strength = strength)
         is Squircle -> Squircle(strength = strength)
         is Smooth -> Smooth(strength = strength)
+        is Wavy -> Wavy(strength = strength)
     }
 
     class Rounded(
@@ -45,10 +46,18 @@ sealed interface ShapeType {
         override val strength: Float = 1f
     ) : ShapeType
 
+    class Wavy(
+        override val strength: Float = 1f
+    ) : ShapeType
+
     companion object {
         val entries by lazy {
             listOf(
-                Rounded(), Cut(), Squircle(), Smooth()
+                Rounded(),
+                Cut(),
+                Squircle(),
+                Smooth(),
+                Wavy()
             )
         }
     }

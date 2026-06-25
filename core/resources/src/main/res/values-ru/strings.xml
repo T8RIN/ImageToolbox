@@ -2067,6 +2067,8 @@
     <string name="shape_by_interaction_throttle">Задержка анимации углов</string>
     <string name="squircle">Сквиркл</string>
     <string name="squircle_shapes_sub">Элегантные закругленные элементы пользовательского интерфейса</string>
+    <string name="wavy">Волнистая</string>
+    <string name="wavy_shapes_sub">Закругленные элементы интерфейса с мягким волнистым краем</string>
     <string name="filename_format">Формат имени файла</string>
     <string name="prefix_pattern_description">Пользовательский текст, размещаемый в самом начале имени файла, идеально подходит для названий проектов, брендов или личных тегов.</string>
     <string name="original_filename_pattern_description">Использует исходное имя файла без расширения, что помогает сохранить идентификацию источника без изменений.</string>

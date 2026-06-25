@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
@@ -133,6 +133,7 @@ fun ShapeTypeSettingItem(
                                         size = when (type) {
                                             is ShapeType.Smooth -> 8.dp
                                             is ShapeType.Squircle -> 24.dp
+                                            is ShapeType.Wavy -> 20.dp
                                             else -> 6.dp
                                         },
                                         shapesType = type
@@ -171,6 +172,7 @@ private fun ShapeType.title() = when (this) {
     is ShapeType.Rounded -> R.string.rounded
     is ShapeType.Smooth -> R.string.smooth
     is ShapeType.Squircle -> R.string.squircle
+    is ShapeType.Wavy -> R.string.wavy
 }
 
 private fun ShapeType.subtitle() = when (this) {
@@ -178,4 +180,5 @@ private fun ShapeType.subtitle() = when (this) {
     is ShapeType.Rounded -> R.string.rounded_shapes_sub
     is ShapeType.Smooth -> R.string.smooth_shapes_sub
     is ShapeType.Squircle -> R.string.squircle_shapes_sub
+    is ShapeType.Wavy -> R.string.wavy_shapes_sub
 }

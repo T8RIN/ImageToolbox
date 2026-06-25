@@ -168,6 +168,13 @@ fun AutoCornersShape(
             bottomStartCorner = bottomStart.toAuto(shapesType),
             smoothing = smoothing
         )
+
+        is ShapeType.Wavy -> WavyShape(
+            topStart = topStart.toAuto(shapesType),
+            topEnd = topEnd.toAuto(shapesType),
+            bottomEnd = bottomEnd.toAuto(shapesType),
+            bottomStart = bottomStart.toAuto(shapesType)
+        )
     }
 }
 
@@ -177,6 +184,7 @@ fun AutoCircleShape(shapesType: ShapeType) = when (shapesType) {
     is ShapeType.Rounded -> CircleShape
     is ShapeType.Smooth -> SmoothCircleShape
     is ShapeType.Squircle -> SquircleCircleShape
+    is ShapeType.Wavy -> WavyCircleShape
 }.let { shape ->
     if (shapesType.strength >= 1f) {
         shape
@@ -302,6 +310,9 @@ val SquircleCircleShape = SquircleShape(
     percent = 50,
     smoothing = smoothing
 )
+
+@Stable
+val WavyCircleShape = WavyShape(percent = 50)
 
 @Stable
 val CornerBasedRectangleShape = RoundedCornerShape(0.dp)

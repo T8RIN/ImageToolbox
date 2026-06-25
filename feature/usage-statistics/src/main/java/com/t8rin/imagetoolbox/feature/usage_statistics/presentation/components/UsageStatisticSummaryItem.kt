@@ -39,7 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.WavyShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.SimpleWavyShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -54,10 +54,8 @@ internal fun UsageStatisticSummaryItem(
             .widthIn(min = 172.dp)
             .container(
                 shape = remember {
-                    WavyShape(
-                        cornerRadius = 20.dp,
-                        waveLength = 12.dp,
-                        waveHeight = 0.9.dp
+                    SimpleWavyShape(
+                        size = 20.dp
                     )
                 },
                 resultPadding = 12.dp,

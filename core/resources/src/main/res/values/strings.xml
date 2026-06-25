@@ -2896,6 +2896,8 @@
     <string name="shape_by_interaction_throttle">Corners Animation Throttle</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">Elegant rounded UI elements</string>
+    <string name="wavy">Wavy</string>
+    <string name="wavy_shapes_sub">Rounded UI elements with a soft wavy edge</string>
     <string name="filename_format">Filename Format</string>
     <string name="prefix_pattern_description">Custom text placed at the very beginning of the filename, perfect for project names, brands, or personal tags.</string>
     <string name="original_filename_pattern_description">Uses the original file name without extension, helping you keep source identification intact.</string>
