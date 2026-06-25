@@ -37,8 +37,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -50,6 +48,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfTextStyle
 
 @Composable
 internal fun WatermarkPreview(
@@ -98,10 +97,7 @@ internal fun WatermarkPreview(
                     ) {
                         val density = LocalDensity.current
                         val textMeasurer = rememberTextMeasurer()
-                        val watermarkTextStyle = MaterialTheme.typography.bodyMedium.copy(
-                            fontFamily = FontFamily.SansSerif,
-                            fontWeight = FontWeight.Bold
-                        )
+                        val watermarkTextStyle = PdfTextStyle
 
                         val targetWidth = maxWidth * params.fontSize / 100f
                         val textLayoutWidth = targetWidth + 8.dp
@@ -138,10 +134,7 @@ internal fun WatermarkPreview(
                             maxLines = 1,
                             softWrap = false,
                             textAlign = TextAlign.Center,
-                            style = watermarkTextStyle.copy(
-                                fontSize = scaledFontSize,
-                                lineHeight = scaledFontSize * 1.2f
-                            )
+                            style = watermarkTextStyle.copy(fontSize = scaledFontSize)
                         )
                     }
                 }
