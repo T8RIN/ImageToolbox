@@ -129,3 +129,7 @@
 -dontwarn javax.naming.directory.InitialDirContext
 -dontwarn javax.naming.directory.SearchControls
 -dontwarn javax.naming.directory.SearchResult
+
+-assumevalues public class androidx.compose.runtime.ComposeRuntimeFlags {
+    static boolean isLinkBufferComposerEnabled return true;
+}

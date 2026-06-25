@@ -19,11 +19,15 @@ package com.t8rin.imagetoolbox.app.presentation.components.functions
 
 import androidx.compose.foundation.ComposeFoundationFlags
 import androidx.compose.material3.ComposeMaterial3Flags
+import androidx.compose.runtime.ComposeRuntimeFlags
 import androidx.compose.runtime.Composer
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.tooling.ComposeStackTraceMode
 import com.arkivanov.decompose.DecomposeSettings
 
+@OptIn(ExperimentalComposeApi::class)
 internal fun setupFlags() {
+    ComposeRuntimeFlags.isLinkBufferComposerEnabled = true
     ComposeFoundationFlags.isPausableCompositionInPrefetchEnabled = true
     ComposeMaterial3Flags.isCheckboxStylingFixEnabled = true
     Composer.setDiagnosticStackTraceMode(ComposeStackTraceMode.GroupKeys)
