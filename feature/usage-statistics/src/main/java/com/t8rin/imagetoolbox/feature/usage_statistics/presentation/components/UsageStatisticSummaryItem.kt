@@ -20,20 +20,26 @@ package com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.resources.icons.Save
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.WavyShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -47,7 +53,13 @@ internal fun UsageStatisticSummaryItem(
         modifier = modifier
             .widthIn(min = 172.dp)
             .container(
-                shape = ShapeDefaults.small,
+                shape = remember {
+                    WavyShape(
+                        cornerRadius = 20.dp,
+                        waveLength = 12.dp,
+                        waveHeight = 0.9.dp
+                    )
+                },
                 resultPadding = 12.dp,
                 color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.75f)
             ),
@@ -81,4 +93,15 @@ internal fun UsageStatisticSummaryItem(
             )
         }
     }
+}
+
+@Composable
+@Preview
+private fun Preview() = ImageToolboxThemeForPreview(true) {
+    UsageStatisticSummaryItem(
+        icon = Icons.Rounded.Save,
+        title = "Test card",
+        value = "1231",
+        modifier = Modifier.padding(20.dp)
+    )
 }

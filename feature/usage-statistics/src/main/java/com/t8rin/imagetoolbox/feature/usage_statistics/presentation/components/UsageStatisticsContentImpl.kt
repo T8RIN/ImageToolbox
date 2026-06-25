@@ -80,8 +80,8 @@ internal fun UsageStatisticsContentImpl(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(3.dp),
+            verticalArrangement = Arrangement.spacedBy(3.dp)
         ) {
             UsageStatisticSummaryItem(
                 icon = Icons.Rounded.TouchApp,
