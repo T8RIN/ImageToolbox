@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,6 +45,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -128,7 +128,10 @@ fun ConfettiHarmonizationColorSettingItem(
                 items.forEach { harmonizer ->
                     val colorScheme = MaterialTheme.colorScheme
                     val selectedColor = when (harmonizer) {
-                        is ColorHarmonizer.Custom -> Color(value.ordinal)
+                        is ColorHarmonizer.Custom -> ((value as? ColorHarmonizer.Custom)
+                            ?.color
+                            ?.toColor()
+                            ?: colorScheme.primary)
                             .blend(
                                 color = colorScheme.surface,
                                 fraction = 0.1f

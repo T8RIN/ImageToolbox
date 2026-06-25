@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -183,7 +184,9 @@ fun EnhancedSwitch(
                         enabled = enabled,
                         interactionSource = interactionSource,
                         colors = CupertinoSwitchDefaults.colors(),
-                        backgroundColor = colorUnderSwitch
+                        backgroundColor = colorUnderSwitch.takeOrElse {
+                            MaterialTheme.colorScheme.surface
+                        }
                     )
                 }
 

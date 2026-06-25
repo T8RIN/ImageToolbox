@@ -55,6 +55,7 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -204,7 +205,9 @@ fun LiquidGlassSwitch(
             LiquidToggle(
                 checked = { checked },
                 onCheckedChange = onCheckedChange,
-                backdrop = rememberCanvasBackdrop { drawRect(backgroundColor) },
+                backdrop = rememberCanvasBackdrop {
+                    drawRect(backgroundColor.takeOrElse { Color.Transparent })
+                },
                 enabled = enabled,
                 colors = colors,
                 interactionSource = realInteractionSource,

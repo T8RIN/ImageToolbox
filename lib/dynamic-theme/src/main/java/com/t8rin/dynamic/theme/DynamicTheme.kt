@@ -81,6 +81,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
@@ -518,6 +519,17 @@ data class ColorTuple(
         "ColorTuple(primary=${primary.toArgb()}, secondary=${secondary?.toArgb()}, tertiary=${tertiary?.toArgb()}, surface=${surface?.toArgb()}, neutralVariant=${neutralVariant?.toArgb()}, error=${error?.toArgb()})"
 }
 
+private fun Color.asSrgb(): Color = if (isSpecified) Color(toArgb()) else Color.Transparent
+
+private fun ColorTuple.asSrgb(): ColorTuple = ColorTuple(
+    primary = primary.asSrgb(),
+    secondary = secondary?.asSrgb(),
+    tertiary = tertiary?.asSrgb(),
+    surface = surface?.asSrgb(),
+    neutralVariant = neutralVariant?.asSrgb(),
+    error = error?.asSrgb()
+)
+
 /**
  * Creates and remember [DynamicThemeState] instance
  * */
@@ -567,15 +579,15 @@ val DynamicThemeStateSaver = listSaver(
 class DynamicThemeState(
     initialColorTuple: ColorTuple
 ) {
-    private val _colorTuple: MutableState<ColorTuple> = mutableStateOf(initialColorTuple)
+    private val _colorTuple: MutableState<ColorTuple> = mutableStateOf(initialColorTuple.asSrgb())
     val colorTuple: State<ColorTuple> = _colorTuple
 
     fun updateColor(color: Color) {
-        _colorTuple.value = ColorTuple(primary = color, secondary = null, tertiary = null)
+        _colorTuple.value = ColorTuple(primary = color.asSrgb(), secondary = null, tertiary = null)
     }
 
     fun updateColorTuple(newColorTuple: ColorTuple) {
-        _colorTuple.value = newColorTuple
+        _colorTuple.value = newColorTuple.asSrgb()
     }
 
     fun updateColorByImage(bitmap: Bitmap) {
