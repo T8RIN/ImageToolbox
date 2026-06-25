@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -129,15 +130,16 @@ fun ShapeTypeSettingItem(
                                 .border(
                                     width = 2.dp,
                                     color = LocalContentColor.current,
-                                    shape = AutoCornersShape(
-                                        size = when (type) {
-                                            is ShapeType.Smooth -> 8.dp
-                                            is ShapeType.Squircle -> 24.dp
-                                            is ShapeType.Wavy -> 20.dp
-                                            else -> 6.dp
-                                        },
-                                        shapesType = type
-                                    )
+                                    shape = remember(type) {
+                                        AutoCornersShape(
+                                            size = when (type) {
+                                                is ShapeType.Smooth -> 8.dp
+                                                is ShapeType.Squircle -> 24.dp
+                                                else -> 6.dp
+                                            },
+                                            shapesType = type
+                                        )
+                                    }
                                 )
                         )
                     },
