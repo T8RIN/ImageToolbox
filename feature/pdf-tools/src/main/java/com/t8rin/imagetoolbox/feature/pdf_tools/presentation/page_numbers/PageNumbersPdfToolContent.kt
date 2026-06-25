@@ -31,12 +31,14 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PositionSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -103,6 +105,23 @@ fun PageNumbersPdfToolContent(
                     )
                 },
                 color = Color.Unspecified
+            )
+            Spacer(Modifier.height(8.dp))
+            EnhancedSliderItem(
+                value = params.fontSize,
+                title = stringResource(R.string.just_size),
+                internalStateTransformation = {
+                    it.roundToTwoDigits()
+                },
+                onValueChange = {
+                    component.updateParams(
+                        params.copy(
+                            fontSize = it
+                        )
+                    )
+                },
+                valueRange = 5f..100f,
+                shape = ShapeDefaults.large
             )
             Spacer(Modifier.height(8.dp))
             ColorRowSelector(

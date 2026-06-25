@@ -332,6 +332,7 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         usePdf(uri) { document ->
             val font = document.defaultFont
+            val fontDescriptor = font.fontDescriptor
             val totalPages = document.numberOfPages
             val label = params.labelFormat
                 .replace("{total}", totalPages.toString())
@@ -345,7 +346,13 @@ internal class AndroidPdfManager @Inject constructor(
                 val originX = cropBox.lowerLeftX
                 val originY = cropBox.lowerLeftY
 
-                val textWidth = font.getStringWidth(text) / 1000f * 12f
+                val glyphWidthEm = (font.getStringWidth(text) / 1000f).coerceAtLeast(0.001f)
+                val fontSize = pageWidth * params.fontSize / 100f / glyphWidthEm
+                val textWidth = glyphWidthEm * fontSize
+                val textAscent = fontDescriptor.ascent / 1000f * fontSize
+                val textDescent = fontDescriptor.descent / 1000f * fontSize
+                val textVerticalCenter =
+                    (fontDescriptor.ascent + fontDescriptor.descent) / 2000f * fontSize
 
                 val baseX = when (params.position) {
                     Position.TopLeft,
@@ -388,11 +395,17 @@ internal class AndroidPdfManager @Inject constructor(
                 }
 
                 val adjustedY = when (params.position) {
+                    Position.TopLeft,
+                    Position.TopCenter,
+                    Position.TopRight -> baseY - textAscent
+
                     Position.CenterLeft,
                     Position.Center,
-                    Position.CenterRight -> baseY - 6f
+                    Position.CenterRight -> baseY - textVerticalCenter
 
-                    else -> baseY
+                    Position.BottomLeft,
+                    Position.BottomCenter,
+                    Position.BottomRight -> baseY - textDescent
                 }
 
                 val adjustedXWithOrigin = adjustedX + originX
@@ -400,7 +413,7 @@ internal class AndroidPdfManager @Inject constructor(
 
                 document.writePage(page) {
                     beginText()
-                    setFont(font, 12f)
+                    setFont(font, fontSize)
                     setColor(params.color)
                     newLineAtOffset(adjustedXWithOrigin, adjustedYWithOrigin)
                     showText(text)
