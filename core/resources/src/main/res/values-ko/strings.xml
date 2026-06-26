@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -274,7 +272,7 @@
     <string name="decryption">복호화</string>
     <string name="features">특징</string>
     <string name="implementation">구현</string>
-    <string name="cache">은닉처</string>
+    <string name="cache">캐시</string>
     <string name="cache_size">캐시 크기</string>
     <string name="found_s">발견 %1$s</string>
     <string name="auto_cache_clearing">자동 캐시 지우기</string>
@@ -289,7 +287,7 @@
     <string name="skip">건너뛰다</string>
     <string name="copy">복사</string>
     <string name="warning_bytes">%1$s 모드는 무손실 형식이므로 저장이 불안정할 수 있습니다.</string>
-    <string name="draw">그리다</string>
+    <string name="draw">그리기</string>
     <string name="pick_file">파일 선택</string>
     <string name="encryption">암호화</string>
     <string name="file_size_sub">최대 파일 크기는 Android OS 및 사용 가능한 메모리에 의해 제한되며 이는 분명히 장치에 따라 다릅니다. \n참고: 메모리는 스토리지가 아닙니다.</string>
@@ -793,7 +791,7 @@
     <string name="fading_edges">페이딩 엣지</string>
     <string name="disabled">장애가 있는</string>
     <string name="invert_colors">색상 반전</string>
-    <string name="exit">출구</string>
+    <string name="exit">나가기</string>
     <string name="preview_closing">지금 미리보기를 종료하면 이미지를 다시 추가해야 합니다.</string>
     <string name="image_format">이미지 형식</string>
     <string name="material_you_sub">이미지에서\"Material You \"팔레트를 만듭니다</string>
@@ -1343,14 +1341,14 @@
     <string name="links_preview_sub">텍스트(QRCode, OCR 등)를 얻을 수 있는 위치에서 링크 미리보기 검색을 활성화합니다.</string>
     <string name="links">모래밭</string>
     <string name="ico_size_warning">ICO 파일은 최대 256 x 256 크기로만 저장할 수 있습니다.</string>
-    <string name="gif_type_to_webp">WEBP로 GIF</string>
+    <string name="gif_type_to_webp">GIF를 WEBP로</string>
     <string name="gif_type_to_webp_sub">GIF 이미지를 WEBP 애니메이션 사진으로 변환</string>
     <string name="webp_tools">WEBP 도구</string>
     <string name="webp_tools_sub">이미지를 WEBP 애니메이션 그림으로 변환하거나 특정 WEBP 애니메이션에서 프레임을 추출합니다.</string>
     <string name="webp_type_to_image">WEBP를 이미지로</string>
     <string name="webp_type_to_image_sub">WEBP 파일을 사진 배치로 변환</string>
     <string name="webp_type_to_webp_sub">이미지 배치를 WEBP 파일로 변환</string>
-    <string name="webp_type_to_webp">WEBP에 대한 이미지</string>
+    <string name="webp_type_to_webp">이미지 → WEBP</string>
     <string name="select_webp_image_to_start">시작하려면 WEBP 이미지를 선택하세요.</string>
     <string name="manage_storage_extra_types">파일에 대한 전체 액세스 권한이 없습니다.</string>
     <string name="manage_storage_extra_types_sub">안드로이드에서 이미지로 인식되지 않는 JXL, QOI 등의 이미지를 보려면 모든 파일 접근을 허용하세요. 권한이 없으면 Image Toolbox가 해당 이미지를 표시할 수 없습니다.</string>
@@ -1382,7 +1380,7 @@
     <string name="show_all">모두 표시</string>
     <string name="hide_nav_bar">탐색 모음 숨기기</string>
     <string name="hide_status_bar">상태 표시줄 숨기기</string>
-    <string name="noise_generation">소음 발생</string>
+    <string name="noise_generation">노이즈 생성</string>
     <string name="noise_generation_sub">Perlin이나 다른 유형과 같은 다양한 노이즈 생성</string>
     <string name="frequency">빈도</string>
     <string name="noise_type">소음 유형</string>
@@ -1417,7 +1415,7 @@
     <string name="custom_options">맞춤 옵션</string>
     <string name="custom_params_info">옵션은 다음 패턴에 따라 입력해야 합니다: \"--{option_name} {value}\"</string>
     <string name="auto_crop">자동 자르기</string>
-    <string name="free_corners">무료 코너</string>
+    <string name="free_corners">자유로운 모서리 설정</string>
     <string name="free_corners_sub">다각형으로 이미지 자르기, 원근감도 수정됩니다.</string>
     <string name="coerce_points_to_image_bounds">포인트를 이미지 경계로 강제 변환</string>
     <string name="coerce_points_to_image_bounds_sub">포인트는 이미지 경계에 의해 제한되지 않으며 이는 보다 정확한 원근 교정에 유용합니다.</string>
@@ -1468,7 +1466,7 @@
     <string name="compact_selectors">컴팩트 셀렉터</string>
     <string name="compact_selectors_sub">일부 선택 컨트롤은 공간을 덜 차지하기 위해 컴팩트한 레이아웃을 사용합니다.</string>
     <string name="grant_camera_permission_to_capture_image">이미지를 캡처하려면 설정에서 카메라 권한을 부여하세요.</string>
-    <string name="layout">공들여 나열한 것</string>
+    <string name="layout">레이아웃</string>
     <string name="main_screen_title">메인 화면 제목</string>
     <string name="constant_rate_factor">고정율 인자(CRF)</string>
     <string name="crf_sub">%1$s 값은 압축 속도가 느려 파일 크기가 상대적으로 작아짐을 의미합니다. %2$s은 압축 속도가 빨라져 파일 크기가 커진다는 의미입니다.</string>
