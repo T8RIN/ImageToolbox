@@ -39,7 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.SimpleWavyShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.WavyShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -54,7 +54,7 @@ internal fun UsageStatisticSummaryItem(
             .widthIn(min = 172.dp)
             .container(
                 shape = remember {
-                    SimpleWavyShape(
+                    WavyShape(
                         size = 20.dp
                     )
                 },
@@ -95,7 +95,7 @@ internal fun UsageStatisticSummaryItem(
 
 @Composable
 @Preview
-private fun Preview() = ImageToolboxThemeForPreview(true) {
+private fun Preview() = ImageToolboxThemeForPreview(false) {
     UsageStatisticSummaryItem(
         icon = Icons.Rounded.Save,
         title = "Test card",

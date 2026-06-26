@@ -42,7 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Paint
@@ -149,31 +149,36 @@ fun EnhancedToggleButton(
 private fun Modifier.toggleButtonShadow(
     shape: Shape,
     elevation: Dp
-) = drawBehind {
-    if (elevation <= 0.dp) return@drawBehind
-
-    val shadowColor = Color.Black.copy(alpha = 0.24f).toArgb()
-    val transparentColor = Color.Transparent.toArgb()
-    val outline = shape.createOutline(size, layoutDirection, this)
-    val path = Path().apply {
-        when (outline) {
-            is Outline.Rectangle -> addRect(outline.rect)
-            is Outline.Rounded -> addRoundRect(outline.roundRect)
-            is Outline.Generic -> addPath(outline.path)
+) = this then if (elevation <= 0.dp) {
+    Modifier
+} else {
+    Modifier.drawWithCache {
+        val shadowColor = Color.Black.copy(alpha = 0.18f).toArgb()
+        val transparentColor = Color.Transparent.toArgb()
+        val outline = shape.createOutline(size, layoutDirection, this)
+        val path = Path().apply {
+            when (outline) {
+                is Outline.Rectangle -> addRect(outline.rect)
+                is Outline.Rounded -> addRoundRect(outline.roundRect)
+                is Outline.Generic -> addPath(outline.path)
+            }
         }
-    }
+        val radius = elevation.toPx()
+        val paint = Paint().apply {
+            nativePaint.color = transparentColor
+            nativePaint.setShadowLayer(
+                radius * 1f,
+                0f,
+                radius * 0.9f,
+                shadowColor
+            )
+        }
 
-    drawIntoCanvas {
-        val paint = Paint()
-        val frameworkPaint = paint.nativePaint
-        frameworkPaint.color = transparentColor
-        frameworkPaint.setShadowLayer(
-            elevation.toPx() * 3f,
-            0f,
-            elevation.toPx(),
-            shadowColor
-        )
-        it.drawPath(path, paint)
+        onDrawBehind {
+            drawIntoCanvas {
+                it.drawPath(path, paint)
+            }
+        }
     }
 }
 

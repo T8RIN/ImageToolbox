@@ -47,7 +47,9 @@ class WavyShape(
     bottomEnd: CornerSize,
     bottomStart: CornerSize,
     private val waveLength: Dp = DefaultWaveLength,
-    private val waveHeight: Dp = DefaultWaveHeight
+    private val waveHeight: Dp = DefaultWaveHeight,
+    private val maxPathPoints: Float = MAX_PATH_POINTS,
+    private val sampleStepsPerWave: Float = SAMPLE_STEPS_PER_WAVE
 ) : CornerBasedShape(
     topStart = topStart,
     topEnd = topEnd,
@@ -134,9 +136,12 @@ class WavyShape(
                     it.density == density
         }?.let { return it.outline }
 
-        val wavelength = (waveLength.value * density).coerceAtLeast(1f)
-        val amplitude = (waveHeight.value * density)
-            .coerceAtMost(min(size.width, size.height) / 4f)
+        val minDimension = min(size.width, size.height)
+        val waveScale = (minDimension / (MIN_ADAPTIVE_SIZE.value * density))
+            .coerceIn(MIN_WAVE_SCALE, 1f)
+        val wavelength = (waveLength.value * density * waveScale).coerceAtLeast(1f)
+        val amplitude = (waveHeight.value * density * waveScale)
+            .coerceAtMost(minDimension / 4f)
             .coerceAtLeast(0f)
         val topWaveAmplitude = sideAmplitude(
             firstRadius = topLeftRadius,
@@ -265,14 +270,18 @@ class WavyShape(
         val waves = ceil(perimeter / wavelength).toInt().coerceAtLeast(1)
         val actualWavelength = perimeter / waves
         val sampleStep = maxOf(
-            actualWavelength / 4f,
-            perimeter / MAX_PATH_POINTS,
+            actualWavelength / sampleStepsPerWave,
+            perimeter / maxPathPoints,
             1f
         )
 
         val path = Path().apply {
             var distance = 0f
-            var isFirstPoint = true
+            var hasPreviousPoint = false
+            var firstPointX = 0f
+            var firstPointY = 0f
+            var previousPointX = 0f
+            var previousPointY = 0f
 
             fun addPoint(
                 x: Float,
@@ -288,12 +297,22 @@ class WavyShape(
                 val pointX = x + normalX * wave
                 val pointY = y + normalY * wave
 
-                if (isFirstPoint) {
+                if (!hasPreviousPoint) {
                     moveTo(pointX, pointY)
-                    isFirstPoint = false
+                    hasPreviousPoint = true
+                    firstPointX = pointX
+                    firstPointY = pointY
                 } else {
-                    lineTo(pointX, pointY)
+                    quadraticTo(
+                        x1 = previousPointX,
+                        y1 = previousPointY,
+                        x2 = (previousPointX + pointX) / 2f,
+                        y2 = (previousPointY + pointY) / 2f
+                    )
                 }
+
+                previousPointX = pointX
+                previousPointY = pointY
             }
 
             fun addLine(
@@ -308,7 +327,7 @@ class WavyShape(
             ) {
                 val steps = ceil(length / sampleStep).toInt().coerceAtLeast(1)
 
-                val firstIndex = if (isFirstPoint) 0 else 1
+                val firstIndex = if (!hasPreviousPoint) 0 else 1
                 for (index in firstIndex..steps) {
                     val progress = index / steps.toFloat()
                     addPoint(
@@ -334,7 +353,7 @@ class WavyShape(
                 val length = abs(sweepAngle) * radius
                 val steps = ceil(length / sampleStep).toInt().coerceAtLeast(1)
 
-                val firstIndex = if (isFirstPoint) 0 else 1
+                val firstIndex = if (!hasPreviousPoint) 0 else 1
                 for (index in firstIndex..steps) {
                     val progress = index / steps.toFloat()
                     val angle = startAngle + sweepAngle * progress
@@ -424,6 +443,12 @@ class WavyShape(
                 sweepAngle = PI.toFloat() / 2f,
                 waveAmplitude = amplitude
             )
+            quadraticTo(
+                x1 = previousPointX,
+                y1 = previousPointY,
+                x2 = firstPointX,
+                y2 = firstPointY
+            )
             close()
         }
         return Outline.Generic(path).cache(
@@ -497,7 +522,9 @@ class WavyShape(
             bottomEnd = bottomEnd,
             bottomStart = bottomStart,
             waveLength = waveLength,
-            waveHeight = waveHeight
+            waveHeight = waveHeight,
+            maxPathPoints = maxPathPoints,
+            sampleStepsPerWave = sampleStepsPerWave
         )
     }
 
@@ -515,7 +542,9 @@ class WavyShape(
             bottomEnd = bottomEnd,
             bottomStart = bottomStart,
             waveLength = waveLength,
-            waveHeight = waveHeight
+            waveHeight = waveHeight,
+            maxPathPoints = maxPathPoints,
+            sampleStepsPerWave = sampleStepsPerWave
         )
     }
 
@@ -529,6 +558,8 @@ class WavyShape(
         if (bottomStart != other.bottomStart) return false
         if (waveLength != other.waveLength) return false
         if (waveHeight != other.waveHeight) return false
+        if (maxPathPoints != other.maxPathPoints) return false
+        if (sampleStepsPerWave != other.sampleStepsPerWave) return false
 
         return true
     }
@@ -540,18 +571,24 @@ class WavyShape(
         result = 31 * result + bottomStart.hashCode()
         result = 31 * result + waveLength.hashCode()
         result = 31 * result + waveHeight.hashCode()
+        result = 31 * result + maxPathPoints.hashCode()
+        result = 31 * result + sampleStepsPerWave.hashCode()
         return result
     }
 
     override fun toString(): String {
         return "WavyShape(topStart=$topStart, topEnd=$topEnd, bottomEnd=$bottomEnd, " +
-                "bottomStart=$bottomStart, waveLength=$waveLength, waveHeight=$waveHeight)"
+                "bottomStart=$bottomStart, waveLength=$waveLength, waveHeight=$waveHeight, " +
+                "maxPathPoints=$maxPathPoints, sampleStepsPerWave=$sampleStepsPerWave)"
     }
 
     companion object {
         val DefaultWaveLength = 12.dp
         val DefaultWaveHeight = 0.9.dp
         private const val MAX_PATH_POINTS = 360f
+        private const val SAMPLE_STEPS_PER_WAVE = 8f
+        private const val MIN_WAVE_SCALE = 0.42f
+        private val MIN_ADAPTIVE_SIZE = 48.dp
     }
 }
 

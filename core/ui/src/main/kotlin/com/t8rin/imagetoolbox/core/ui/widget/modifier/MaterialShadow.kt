@@ -24,11 +24,17 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativePaint
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
@@ -76,17 +82,61 @@ fun Modifier.materialShadow(
                 }
             } else shape
         }
-        val isConcavePath = remember(shape) {
-            shape.createOutline(
-                size = Size(1f, 1f),
-                layoutDirection = LayoutDirection.Ltr,
-                density = Density(1f)
-            ).let {
-                it is Outline.Generic && !it.path.isConvex
+        val isWavy =
+            shape is WavyShape || (shape is AnimatedShape && shape.shapesType is ShapeType.Wavy)
+
+        val isConcavePath = remember(shape, isWavy) {
+            if (isWavy) {
+                false
+            } else {
+                shape.createOutline(
+                    size = Size(1f, 1f),
+                    layoutDirection = LayoutDirection.Ltr,
+                    density = Density(1f)
+                ).let {
+                    it is Outline.Generic && !it.path.isConvex
+                }
             }
         }
 
         when {
+            isWavy -> {
+                if (elevation.value <= 0.dp) {
+                    Modifier
+                } else {
+                    Modifier.drawWithCache {
+                        val shadowColor = Color.Black.copy(alpha = 0.18f).toArgb()
+                        val transparentColor = Color.Transparent.toArgb()
+                        val outline = shape.createOutline(
+                            size = size,
+                            layoutDirection = layoutDirection,
+                            density = this
+                        )
+                        val path = when (outline) {
+                            is Outline.Rectangle -> Path().apply { addRect(outline.rect) }
+                            is Outline.Rounded -> Path().apply { addRoundRect(outline.roundRect) }
+                            is Outline.Generic -> outline.path
+                        }
+                        val radius = elevation.value.toPx()
+                        val paint = Paint().apply {
+                            nativePaint.color = transparentColor
+                            nativePaint.setShadowLayer(
+                                radius * 1f,
+                                0f,
+                                radius * 0.9f,
+                                shadowColor
+                            )
+                        }
+
+                        onDrawBehind {
+                            drawIntoCanvas {
+                                it.drawPath(path, paint)
+                            }
+                        }
+                    }
+                }
+            }
+
             isConcavePath && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
                 val api21Shadow = Modifier.rsBlurShadow(
                     shape = shape,
