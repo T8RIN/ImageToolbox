@@ -33,11 +33,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
-import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
-import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.FancyRangeSlider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.FancySlider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.HyperOSRangeSlider
@@ -46,6 +43,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.sliders.M2RangeSlider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.M2Slider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.M3RangeSlider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.M3Slider
+import com.t8rin.imagetoolbox.core.ui.widget.sliders.fancyThumbShape
 
 @Composable
 fun EnhancedSlider(
@@ -112,15 +110,7 @@ fun EnhancedSlider(
                 enabled = enabled,
                 colors = realColors,
                 interactionSource = interactionSource,
-                thumbShape = if (settingsState.shapesType is ShapeType.Cut) {
-                    AutoCircleShape(
-                        shapesType = settingsState.shapesType.copy(
-                            strength = settingsState.shapesType.strength.coerceAtLeast(0.5f)
-                        )
-                    )
-                } else {
-                    MaterialStarShape
-                },
+                thumbShape = fancyThumbShape(),
                 modifier = modifier,
                 onValueChange = onValueChange,
                 onValueChangeFinished = onValueChangeFinished,
@@ -234,15 +224,7 @@ fun EnhancedRangeSlider(
                 colors = realColors,
                 startInteractionSource = startInteractionSource,
                 endInteractionSource = endInteractionSource,
-                thumbShape = if (settingsState.shapesType is ShapeType.Cut) {
-                    AutoCircleShape(
-                        shapesType = settingsState.shapesType.copy(
-                            strength = settingsState.shapesType.strength.coerceAtLeast(0.5f)
-                        )
-                    )
-                } else {
-                    MaterialStarShape
-                },
+                thumbShape = fancyThumbShape(),
                 modifier = modifier,
                 onValueChange = onValueChange,
                 onValueChangeFinished = onValueChangeFinished,

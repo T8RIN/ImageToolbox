@@ -53,12 +53,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animateFloatingRangeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.materialShadow
@@ -291,6 +294,23 @@ internal fun SliderColors.toCustom(): CustomSliderColors = CustomSliderColors(
     disabledInactiveTrackColor = disabledInactiveTrackColor,
     disabledInactiveTickColor = disabledInactiveTickColor
 )
+
+@Composable
+internal fun fancyThumbShape(): Shape {
+    val shapesType = LocalSettingsState.current.shapesType
+
+    return if (shapesType is ShapeType.Cut || shapesType is ShapeType.Scoop || shapesType is ShapeType.Notch) {
+        remember(shapesType) {
+            AutoCircleShape(
+                shapesType = shapesType.copy(
+                    strength = shapesType.strength.coerceAtLeast(0.5f)
+                )
+            )
+        }
+    } else {
+        MaterialStarShape
+    }
+}
 
 @Composable
 private fun FancyTrack(
