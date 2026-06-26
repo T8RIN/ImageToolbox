@@ -2887,9 +2887,13 @@
     <string name="smooth_shapes_sub">Use superellipses instead of standard rounded rectangles for smoother, more natural shapes</string>
     <string name="shape_type">Shape Type</string>
     <string name="cut">Cut</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">Notch</string>
     <string name="rounded">Rounded</string>
     <string name="smooth">Smooth</string>
     <string name="cut_shapes_sub">Sharp edges without rounding</string>
+    <string name="scoop_shapes_sub">Rounded corners carved inward</string>
+    <string name="notch_shapes_sub">Stepped corners with a double cut</string>
     <string name="rounded_shapes_sub">Classic rounded corners</string>
     <string name="shapes_type">Shapes Type</string>
     <string name="corners_size">Corners Size</string>

@@ -28,6 +28,8 @@ sealed interface ShapeType {
         is Squircle -> Squircle(strength = strength)
         is Smooth -> Smooth(strength = strength)
         is Wavy -> Wavy(strength = strength)
+        is Scoop -> Scoop(strength = strength)
+        is Notch -> Notch(strength = strength)
     }
 
     class Rounded(
@@ -50,6 +52,14 @@ sealed interface ShapeType {
         override val strength: Float = 1f
     ) : ShapeType
 
+    class Scoop(
+        override val strength: Float = 1f
+    ) : ShapeType
+
+    class Notch(
+        override val strength: Float = 1f
+    ) : ShapeType
+
     companion object {
         val entries by lazy {
             listOf(
@@ -57,7 +67,9 @@ sealed interface ShapeType {
                 Cut(),
                 Squircle(),
                 Smooth(),
-                Wavy()
+                Wavy(),
+                Scoop(),
+                Notch(),
             )
         }
     }

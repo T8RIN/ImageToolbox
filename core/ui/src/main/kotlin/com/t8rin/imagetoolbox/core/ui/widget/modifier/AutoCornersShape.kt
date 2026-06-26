@@ -175,6 +175,20 @@ fun AutoCornersShape(
             bottomEnd = bottomEnd.toAuto(shapesType),
             bottomStart = bottomStart.toAuto(shapesType)
         )
+
+        is ShapeType.Scoop -> ScoopShape(
+            topStart = topStart.toAuto(shapesType),
+            topEnd = topEnd.toAuto(shapesType),
+            bottomEnd = bottomEnd.toAuto(shapesType),
+            bottomStart = bottomStart.toAuto(shapesType),
+        )
+
+        is ShapeType.Notch -> NotchShape(
+            topStart = topStart.toAuto(shapesType),
+            topEnd = topEnd.toAuto(shapesType),
+            bottomEnd = bottomEnd.toAuto(shapesType),
+            bottomStart = bottomStart.toAuto(shapesType),
+        )
     }
 }
 
@@ -185,6 +199,8 @@ fun AutoCircleShape(shapesType: ShapeType) = when (shapesType) {
     is ShapeType.Smooth -> SmoothCircleShape
     is ShapeType.Squircle -> SquircleCircleShape
     is ShapeType.Wavy -> WavyCircleShape
+    is ShapeType.Scoop -> ScoopCircleShape
+    is ShapeType.Notch -> NotchCircleShape
 }.let { shape ->
     if (shapesType.strength >= 1f) {
         shape
@@ -313,6 +329,12 @@ val SquircleCircleShape = SquircleShape(
 
 @Stable
 val WavyCircleShape = WavyShape(percent = 50)
+
+@Stable
+val ScoopCircleShape = ScoopShape(percent = 50)
+
+@Stable
+val NotchCircleShape = NotchShape(percent = 50)
 
 @Stable
 val CornerBasedRectangleShape = RoundedCornerShape(0.dp)

@@ -135,6 +135,7 @@ fun ShapeTypeSettingItem(
                                             size = when (type) {
                                                 is ShapeType.Smooth -> 8.dp
                                                 is ShapeType.Squircle -> 24.dp
+                                                is ShapeType.Notch -> 4.dp
                                                 else -> 6.dp
                                             },
                                             shapesType = type
@@ -175,6 +176,8 @@ private fun ShapeType.title() = when (this) {
     is ShapeType.Smooth -> R.string.smooth
     is ShapeType.Squircle -> R.string.squircle
     is ShapeType.Wavy -> R.string.wavy
+    is ShapeType.Scoop -> R.string.scoop
+    is ShapeType.Notch -> R.string.notch
 }
 
 private fun ShapeType.subtitle() = when (this) {
@@ -183,4 +186,6 @@ private fun ShapeType.subtitle() = when (this) {
     is ShapeType.Smooth -> R.string.smooth_shapes_sub
     is ShapeType.Squircle -> R.string.squircle_shapes_sub
     is ShapeType.Wavy -> R.string.wavy_shapes_sub
+    is ShapeType.Scoop -> R.string.scoop_shapes_sub
+    is ShapeType.Notch -> R.string.notch_shapes_sub
 }

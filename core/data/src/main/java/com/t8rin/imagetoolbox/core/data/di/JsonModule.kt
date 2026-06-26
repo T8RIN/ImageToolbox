@@ -68,6 +68,8 @@ internal interface JsonModule {
                     .withSubtype(ShapeType.Squircle::class.java, "squircle")
                     .withSubtype(ShapeType.Smooth::class.java, "smooth")
                     .withSubtype(ShapeType.Wavy::class.java, "wavy")
+                    .withSubtype(ShapeType.Scoop::class.java, "scoop")
+                    .withSubtype(ShapeType.Notch::class.java, "notch")
                     .withDefaultValue(ShapeType.Rounded())
             )
             .add(
