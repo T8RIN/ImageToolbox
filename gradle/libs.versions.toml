@@ -40,12 +40,12 @@ decompose = "3.5.0"
 
 kotlin = "2.4.0"
 agp = "9.2.1"
-hilt = "2.59.2"
+hilt = "2.60"
 gms = "4.5.0"
 
 ktor = "3.5.1"
 coil = "3.5.0"
-dotlottieAndroid = "0.14.2"
+dotlottieAndroid = "0.14.3"
 appCompat = "1.8.0-alpha01"
 androidxCore = "1.19.0"
 desugaring = "2.1.5"
@@ -81,7 +81,7 @@ zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 
 onnx = "1.26.0"
-opencv = "5.0.0"
+opencv = "5.0.0.1"
 
 tiffdecoder = "1.0.5"
 materialKolor = "5.0.0-alpha07"
