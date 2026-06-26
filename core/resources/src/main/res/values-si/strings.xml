@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
     <string name="loading">මොහොතක් සිටින්න…</string>
