@@ -82,7 +82,9 @@ internal fun ToolUsageStatisticItem(
                         top = if (progress >= 1f) 8.dp else 12.dp
                     )
                     .fillMaxWidth(),
-                amplitude = { 0.8f }
+                amplitude = {
+                    if (it >= 0.05f) 0.8f else 0f
+                }
             )
         }
     )
