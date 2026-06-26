@@ -3282,4 +3282,6 @@
     <string name="delete_export_profile_sub">Apakah Anda ingin menghapus profil ekspor \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Menggambar garis tepi</string>
     <string name="draw_bitmap_border_sub">Tampilkan garis tepi tipis di sekeliling kanvas menggambar dan menghapus</string>
+    <string name="wavy">Bergelombang</string>
+    <string name="wavy_shapes_sub">Elemen UI bulat dengan tepi bergelombang lembut</string>
 </resources>

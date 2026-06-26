@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Gusto mo bang tanggalin ang export na profile \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Pagguhit ng hangganan</string>
     <string name="draw_bitmap_border_sub">Magpakita ng manipis na hangganan sa paligid ng drawing at burahin ang canvas</string>
+    <string name="wavy">Wavy</string>
+    <string name="wavy_shapes_sub">Mga bilugan na elemento ng UI na may malambot na kulot na gilid</string>
 </resources>

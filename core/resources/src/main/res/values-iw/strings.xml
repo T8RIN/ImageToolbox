@@ -3285,4 +3285,6 @@
     <string name="delete_export_profile_sub">האם ברצונך למחוק את פרופיל הייצוא \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">ציור גבול</string>
     <string name="draw_bitmap_border_sub">הצג גבול דק מסביב לקנבס הציור והמחק</string>
+    <string name="wavy">גַלִי</string>
+    <string name="wavy_shapes_sub">רכיבי ממשק משתמש מעוגלים עם קצה גלי רך</string>
 </resources>

@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Haluatko poistaa vientiprofiilin \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Piirrä reunus</string>
     <string name="draw_bitmap_border_sub">Näytä ohut reunus piirustus- ja pyyhkimiskankaan ympärillä</string>
+    <string name="wavy">Aaltoileva</string>
+    <string name="wavy_shapes_sub">Pyöristetyt käyttöliittymäelementit pehmeällä aaltoilevalla reunalla</string>
 </resources>

@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">क्या आप निर्यात प्रोफ़ाइल \\"%1$s\\" को हटाना चाहते हैं?</string>
     <string name="draw_bitmap_border">सीमा रेखा खींचना</string>
     <string name="draw_bitmap_border_sub">ड्राइंग और मिटाए गए कैनवास के चारों ओर एक पतली सीमा दिखाएं</string>
+    <string name="wavy">लहरदार</string>
+    <string name="wavy_shapes_sub">नरम लहरदार किनारे के साथ गोल यूआई तत्व</string>
 </resources>

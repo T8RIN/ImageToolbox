@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Deseja excluir o perfil de exportação \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Desenho de borda</string>
     <string name="draw_bitmap_border_sub">Mostrar uma borda fina ao redor da tela de desenho e apagamento</string>
+    <string name="wavy">Ondulado</string>
+    <string name="wavy_shapes_sub">Elementos de UI arredondados com bordas suaves e onduladas</string>
 </resources>

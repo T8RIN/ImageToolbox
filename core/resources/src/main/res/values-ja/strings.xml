@@ -3282,4 +3282,6 @@
     <string name="delete_export_profile_sub">エクスポート プロファイル「%1$s」を削除しますか?</string>
     <string name="draw_bitmap_border">枠線を描く</string>
     <string name="draw_bitmap_border_sub">描画および消去キャンバスの周囲に細い境界線を表示します</string>
+    <string name="wavy">波状</string>
+    <string name="wavy_shapes_sub">柔らかい波状のエッジを持つ丸みを帯びた UI 要素</string>
 </resources>

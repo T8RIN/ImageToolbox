@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">ਕੀ ਤੁਸੀਂ ਨਿਰਯਾਤ ਪ੍ਰੋਫਾਈਲ \\"%1$s\\" ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
     <string name="draw_bitmap_border">ਡਰਾਇੰਗ ਬਾਰਡਰ</string>
     <string name="draw_bitmap_border_sub">ਡਰਾਇੰਗ ਅਤੇ ਮਿਟਾਉਣ ਵਾਲੇ ਕੈਨਵਸ ਦੇ ਦੁਆਲੇ ਇੱਕ ਪਤਲੀ ਬਾਰਡਰ ਦਿਖਾਓ</string>
+    <string name="wavy">ਵੇਵੀ</string>
+    <string name="wavy_shapes_sub">ਨਰਮ ਵੇਵੀ ਕਿਨਾਰੇ ਵਾਲੇ ਗੋਲ UI ਤੱਤ</string>
 </resources>

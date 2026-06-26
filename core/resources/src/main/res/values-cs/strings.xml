@@ -3285,4 +3285,6 @@
     <string name="delete_export_profile_sub">Chcete smazat exportní profil \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Hranice kreslení</string>
     <string name="draw_bitmap_border_sub">Ukažte tenký okraj kolem kreslicího a mazacího plátna</string>
+    <string name="wavy">Zvlněný</string>
+    <string name="wavy_shapes_sub">Zaoblené prvky uživatelského rozhraní s měkkým zvlněným okrajem</string>
 </resources>

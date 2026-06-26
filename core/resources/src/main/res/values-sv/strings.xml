@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Vill du ta bort exportprofilen \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Rita kant</string>
     <string name="draw_bitmap_border_sub">Visa en tunn ram runt ritnings- och raderingsduken</string>
+    <string name="wavy">Vågig</string>
+    <string name="wavy_shapes_sub">Rundade UI-element med en mjuk vågig kant</string>
 </resources>

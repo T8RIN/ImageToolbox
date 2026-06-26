@@ -3284,4 +3284,6 @@
     <string name="delete_export_profile_sub">Doriți să ștergeți profilul de export \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Chenar de desen</string>
     <string name="draw_bitmap_border_sub">Afișați un chenar subțire în jurul desenului și ștergeți pânza</string>
+    <string name="wavy">Ondulat</string>
+    <string name="wavy_shapes_sub">Elemente UI rotunjite cu o margine ondulată moale</string>
 </resources>

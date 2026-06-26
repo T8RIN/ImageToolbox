@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">మీరు \\"%1$s\\" ఎగుమతి ప్రొఫైల్‌ని తొలగించాలనుకుంటున్నారా?</string>
     <string name="draw_bitmap_border">డ్రాయింగ్ సరిహద్దు</string>
     <string name="draw_bitmap_border_sub">డ్రాయింగ్ మరియు ఎరేసింగ్ కాన్వాస్ చుట్టూ సన్నని అంచుని చూపండి</string>
+    <string name="wavy">ఉంగరాల</string>
+    <string name="wavy_shapes_sub">మృదువైన వేవీ అంచుతో గుండ్రని UI మూలకాలు</string>
 </resources>

@@ -3285,4 +3285,6 @@
     <string name="delete_export_profile_sub">Ar norite ištrinti eksporto profilį \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Krašto piešimas</string>
     <string name="draw_bitmap_border_sub">Parodykite ploną kraštelį aplink piešimo ir ištrynimo drobę</string>
+    <string name="wavy">Banguotas</string>
+    <string name="wavy_shapes_sub">Suapvalinti vartotojo sąsajos elementai su minkštu banguotu kraštu</string>
 </resources>

@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">\\"%1$s\\" dışa aktarma profilini silmek istiyor musunuz?</string>
     <string name="draw_bitmap_border">Kenarlık çizme</string>
     <string name="draw_bitmap_border_sub">Çizim ve silme tuvalinin çevresinde ince bir kenarlık gösterme</string>
+    <string name="wavy">Dalgalı</string>
+    <string name="wavy_shapes_sub">Yumuşak dalgalı kenarlı yuvarlak UI öğeleri</string>
 </resources>

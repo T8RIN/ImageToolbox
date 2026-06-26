@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">আপনি কি রপ্তানি প্রোফাইল \\"%1$s\\" মুছতে চান?</string>
     <string name="draw_bitmap_border">সীমানা অঙ্কন</string>
     <string name="draw_bitmap_border_sub">অঙ্কন এবং ক্যানভাস মুছে ফেলার চারপাশে একটি পাতলা সীমানা দেখান</string>
+    <string name="wavy">তরঙ্গায়িত</string>
+    <string name="wavy_shapes_sub">একটি নরম তরঙ্গায়িত প্রান্ত সহ গোলাকার UI উপাদান</string>
 </resources>

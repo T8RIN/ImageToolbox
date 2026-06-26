@@ -3284,4 +3284,6 @@
     <string name="delete_export_profile_sub">Да ли желите да избришете профил за извоз \\"__ПХ_0__\\"?</string>
     <string name="draw_bitmap_border">Цртање границе</string>
     <string name="draw_bitmap_border_sub">Покажите танку ивицу око платна за цртање и брисање</string>
+    <string name="wavy">Таласаста</string>
+    <string name="wavy_shapes_sub">Заобљени елементи корисничког интерфејса са меком таласастом ивицом</string>
 </resources>

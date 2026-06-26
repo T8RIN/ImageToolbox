@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Törli a \\"%1$s\\" exportprofilt?</string>
     <string name="draw_bitmap_border">Rajz szegély</string>
     <string name="draw_bitmap_border_sub">Mutasson vékony szegélyt a rajz- és törlésvászon körül</string>
+    <string name="wavy">Hullámos</string>
+    <string name="wavy_shapes_sub">Lekerekített felhasználói felület elemek lágy hullámos éllel</string>
 </resources>

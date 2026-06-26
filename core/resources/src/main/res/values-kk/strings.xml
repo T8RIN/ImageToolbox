@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">\\"%1$s\\" экспорттау профилін жойғыңыз келе ме?</string>
     <string name="draw_bitmap_border">Жиек сызу</string>
     <string name="draw_bitmap_border_sub">Суреттің айналасында жіңішке жиекті көрсетіңіз және кенепті өшіріңіз</string>
+    <string name="wavy">Толқынды</string>
+    <string name="wavy_shapes_sub">Жұмсақ толқынды жиегі бар дөңгелектенген UI элементтері</string>
 </resources>

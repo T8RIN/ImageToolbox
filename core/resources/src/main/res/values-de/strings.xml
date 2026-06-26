@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Möchten Sie das Exportprofil „%1$s“ löschen?</string>
     <string name="draw_bitmap_border">Rahmen zeichnen</string>
     <string name="draw_bitmap_border_sub">Zeigen Sie einen dünnen Rand um die Zeichen- und Löschfläche an</string>
+    <string name="wavy">Wellig</string>
+    <string name="wavy_shapes_sub">Abgerundete UI-Elemente mit einer weichen, gewellten Kante</string>
 </resources>

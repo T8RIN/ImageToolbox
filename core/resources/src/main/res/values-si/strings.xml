@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">ඔබට \\"%1$s\\" නිර්යාත පැතිකඩ මැකීමට අවශ්‍යද?</string>
     <string name="draw_bitmap_border">මායිම් ඇඳීම</string>
     <string name="draw_bitmap_border_sub">ඇඳීම සහ මැකීමේ කැන්වසය වටා තුනී මායිමක් පෙන්වන්න</string>
+    <string name="wavy">රැලි සහිත</string>
+    <string name="wavy_shapes_sub">මෘදු රැලි සහිත දාරයක් සහිත වටකුරු UI මූලද්‍රව්‍ය</string>
 </resources>

@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">آیا می‌خواهید نمایه صادراتی \\"%1$s\\" را حذف کنید؟</string>
     <string name="draw_bitmap_border">ترسیم حاشیه</string>
     <string name="draw_bitmap_border_sub">یک حاشیه نازک در اطراف نقاشی نشان دهید و بوم پاک کنید</string>
+    <string name="wavy">موج دار</string>
+    <string name="wavy_shapes_sub">عناصر رابط کاربری گرد با لبه موج دار نرم</string>
 </resources>

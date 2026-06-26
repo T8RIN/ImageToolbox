@@ -3287,4 +3287,6 @@
     <string name="delete_export_profile_sub">هل تريد حذف ملف تعريف التصدير \\"%1$s\\"؟</string>
     <string name="draw_bitmap_border">رسم الحدود</string>
     <string name="draw_bitmap_border_sub">إظهار حد رفيع حول لوحة الرسم ومسح القماش</string>
+    <string name="wavy">مائج</string>
+    <string name="wavy_shapes_sub">عناصر واجهة المستخدم مدورة مع حافة متموجة ناعمة</string>
 </resources>

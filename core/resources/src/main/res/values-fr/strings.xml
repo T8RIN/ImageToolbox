@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Voulez-vous supprimer le profil d\'exportation \\"%1$s\\" ?</string>
     <string name="draw_bitmap_border">Bordure de dessin</string>
     <string name="draw_bitmap_border_sub">Afficher une fine bordure autour de la toile de dessin et d\'effacement</string>
+    <string name="wavy">Ondulé</string>
+    <string name="wavy_shapes_sub">Éléments d\'interface utilisateur arrondis avec un bord légèrement ondulé</string>
 </resources>

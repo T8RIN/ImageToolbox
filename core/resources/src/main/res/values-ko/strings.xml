@@ -3282,4 +3282,6 @@
     <string name="delete_export_profile_sub">내보내기 프로필 \\"%1$s\\"을(를) 삭제하시겠습니까?</string>
     <string name="draw_bitmap_border">도면 경계</string>
     <string name="draw_bitmap_border_sub">그리기 및 지우기 캔버스 주위에 얇은 테두리를 표시합니다</string>
+    <string name="wavy">떨리는</string>
+    <string name="wavy_shapes_sub">부드러운 물결 모양의 가장자리가 있는 둥근 UI 요소</string>
 </resources>

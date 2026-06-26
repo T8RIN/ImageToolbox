@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Vil du slette eksportprofilen \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Tegning kant</string>
     <string name="draw_bitmap_border_sub">Vis en tynd kant rundt om tegne- og viskelærredet</string>
+    <string name="wavy">Bølget</string>
+    <string name="wavy_shapes_sub">Afrundede UI-elementer med en blød bølget kant</string>
 </resources>

@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">ئېكسپورت ئارخىپىنى ئۆچۈرمەكچىمۇ؟ \ \"__ PH_0 __ \\"?</string>
     <string name="draw_bitmap_border">چېگرا سىزىش</string>
     <string name="draw_bitmap_border_sub">رەسىم سىزىش ۋە كاناينى ئۆچۈرۈش ئەتراپىدا نېپىز چېگرانى كۆرسىتىڭ</string>
+    <string name="wavy">دولقۇن</string>
+    <string name="wavy_shapes_sub">يۇمىلاق دولقۇنلۇق گىرۋەكلىك UI ئېلېمېنتلىرى</string>
 </resources>

@@ -3285,4 +3285,6 @@
     <string name="delete_export_profile_sub">Ви бажаєте видалити профіль експорту \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Малювання кордону</string>
     <string name="draw_bitmap_border_sub">Покажіть тонку рамку навколо малюнка та стирання полотна</string>
+    <string name="wavy">хвилясті</string>
+    <string name="wavy_shapes_sub">Заокруглені елементи інтерфейсу користувача з м’яким хвилястим краєм</string>
 </resources>

@@ -3285,4 +3285,6 @@
     <string name="delete_export_profile_sub">Czy chcesz usunąć profil eksportu „%1$s”?</string>
     <string name="draw_bitmap_border">Granica rysunku</string>
     <string name="draw_bitmap_border_sub">Pokaż cienką ramkę wokół płótna do rysowania i wymazywania</string>
+    <string name="wavy">Falisty</string>
+    <string name="wavy_shapes_sub">Zaokrąglone elementy interfejsu użytkownika z miękką falistą krawędzią</string>
 </resources>

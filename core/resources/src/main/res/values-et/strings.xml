@@ -3283,4 +3283,6 @@
     <string name="delete_export_profile_sub">Kas soovite kustutada ekspordiprofiili \\"%1$s\\"?</string>
     <string name="draw_bitmap_border">Piiri joonistamine</string>
     <string name="draw_bitmap_border_sub">Näidake joonistus- ja kustutamislõuendi ümber õhukest äärist</string>
+    <string name="wavy">Laineline</string>
+    <string name="wavy_shapes_sub">Ümardatud kasutajaliidese elemendid pehme lainelise servaga</string>
 </resources>
