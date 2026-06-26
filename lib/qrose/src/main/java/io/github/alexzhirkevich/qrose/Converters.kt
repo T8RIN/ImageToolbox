@@ -1,46 +1,30 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
 package io.github.alexzhirkevich.qrose
 
-import android.graphics.Bitmap
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import java.io.ByteArrayOutputStream
-
-enum class ImageFormat {
-    PNG, JPEG, WEBP
-}
-
-/**
- * Converts [ImageBitmap] to image with desired [format] and returns its bytes.
- * */
-fun ImageBitmap.toByteArray(format: ImageFormat = ImageFormat.PNG): ByteArray =
-    asAndroidBitmap().run {
-        ByteArrayOutputStream().use {
-            compress(
-                when (format) {
-                    ImageFormat.PNG -> Bitmap.CompressFormat.PNG
-                    ImageFormat.JPEG -> Bitmap.CompressFormat.JPEG
-                    ImageFormat.WEBP -> Bitmap.CompressFormat.WEBP
-                },
-                100,
-                it
-            )
-
-            it.toByteArray()
-        }
-    }
-
-/**
- * Converts [Painter] to image with desired [width], [height] and [format] and returns its bytes.
- * */
-fun Painter.toByteArray(width: Int, height: Int, format: ImageFormat = ImageFormat.PNG): ByteArray =
-    toImageBitmap(width, height).toByteArray(format)
 
 /**
  * Converts [Painter] to [ImageBitmap] with desired [width], [height], [alpha] and [colorFilter]
