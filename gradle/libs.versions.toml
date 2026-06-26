@@ -81,7 +81,7 @@ zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 
 onnx = "1.26.0"
-opencv = "5.0.0"
+opencv = "5.0.0.1"
 
 tiffdecoder = "1.0.5"
 materialKolor = "5.0.0-alpha07"
