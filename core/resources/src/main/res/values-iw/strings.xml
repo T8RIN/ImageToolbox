@@ -3287,4 +3287,8 @@
     <string name="draw_bitmap_border_sub">הצג גבול דק מסביב לקנבס הציור והמחק</string>
     <string name="wavy">גַלִי</string>
     <string name="wavy_shapes_sub">רכיבי ממשק משתמש מעוגלים עם קצה גלי רך</string>
+    <string name="scoop">סְקוּפּ</string>
+    <string name="notch">לַחֲרוֹץ</string>
+    <string name="scoop_shapes_sub">פינות מעוגלות מגולפות פנימה</string>
+    <string name="notch_shapes_sub">פינות מדורגות בחיתוך כפול</string>
 </resources>

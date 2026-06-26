@@ -3289,4 +3289,8 @@
     <string name="draw_bitmap_border_sub">إظهار حد رفيع حول لوحة الرسم ومسح القماش</string>
     <string name="wavy">مائج</string>
     <string name="wavy_shapes_sub">عناصر واجهة المستخدم مدورة مع حافة متموجة ناعمة</string>
+    <string name="scoop">مغرفة</string>
+    <string name="notch">الشق</string>
+    <string name="scoop_shapes_sub">زوايا مستديرة منحوتة إلى الداخل</string>
+    <string name="notch_shapes_sub">زوايا متدرجة بقطع مزدوج</string>
 </resources>

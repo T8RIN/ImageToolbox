@@ -3284,4 +3284,8 @@
     <string name="draw_bitmap_border_sub">描画および消去キャンバスの周囲に細い境界線を表示します</string>
     <string name="wavy">波状</string>
     <string name="wavy_shapes_sub">柔らかい波状のエッジを持つ丸みを帯びた UI 要素</string>
+    <string name="scoop">スクープ</string>
+    <string name="notch">ノッチ</string>
+    <string name="scoop_shapes_sub">内側に彫られた丸い角</string>
+    <string name="notch_shapes_sub">ダブルカットの段付きコーナー</string>
 </resources>

@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Zeigen Sie einen dünnen Rand um die Zeichen- und Löschfläche an</string>
     <string name="wavy">Wellig</string>
     <string name="wavy_shapes_sub">Abgerundete UI-Elemente mit einer weichen, gewellten Kante</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">Kerbe</string>
+    <string name="scoop_shapes_sub">Abgerundete Ecken nach innen geschnitzt</string>
+    <string name="notch_shapes_sub">Abgesetzte Ecken mit Doppelschnitt</string>
 </resources>

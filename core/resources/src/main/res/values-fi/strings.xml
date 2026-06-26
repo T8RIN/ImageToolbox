@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Näytä ohut reunus piirustus- ja pyyhkimiskankaan ympärillä</string>
     <string name="wavy">Aaltoileva</string>
     <string name="wavy_shapes_sub">Pyöristetyt käyttöliittymäelementit pehmeällä aaltoilevalla reunalla</string>
+    <string name="scoop">Kauha</string>
+    <string name="notch">Lovi</string>
+    <string name="scoop_shapes_sub">Pyöristetyt kulmat sisäänpäin kaiverrettu</string>
+    <string name="notch_shapes_sub">Porrastetut kulmat kaksoisleikkauksella</string>
 </resources>

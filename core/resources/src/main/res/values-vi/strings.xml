@@ -3284,4 +3284,8 @@
     <string name="draw_bitmap_border_sub">Hiển thị đường viền mỏng xung quanh bản vẽ và xóa canvas</string>
     <string name="wavy">Lượn sóng</string>
     <string name="wavy_shapes_sub">Các phần tử giao diện người dùng được làm tròn với cạnh lượn sóng mềm mại</string>
+    <string name="scoop">muỗng</string>
+    <string name="notch">Notch</string>
+    <string name="scoop_shapes_sub">Các góc tròn được khoét vào trong</string>
+    <string name="notch_shapes_sub">Các góc bậc thang có đường cắt đôi</string>
 </resources>

@@ -3287,4 +3287,8 @@
     <string name="delete_export_profile_sub">Вы хотите удалить профиль экспорта \"%1$s\"?</string>
     <string name="draw_bitmap_border">Рисование границы</string>
     <string name="draw_bitmap_border_sub">Показывает тонкую рамку вокруг изображения в рисовании и удалении фона</string>
+    <string name="scoop">Совок</string>
+    <string name="notch">Нотч</string>
+    <string name="scoop_shapes_sub">Закругленные углы, вырезанные внутрь</string>
+    <string name="notch_shapes_sub">Ступенчатые углы с двойным срезом</string>
 </resources>

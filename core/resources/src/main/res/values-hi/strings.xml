@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">ड्राइंग और मिटाए गए कैनवास के चारों ओर एक पतली सीमा दिखाएं</string>
     <string name="wavy">लहरदार</string>
     <string name="wavy_shapes_sub">नरम लहरदार किनारे के साथ गोल यूआई तत्व</string>
+    <string name="scoop">स्कूप</string>
+    <string name="notch">निशान</string>
+    <string name="scoop_shapes_sub">अंदर की ओर गोल कोने खुदे हुए</string>
+    <string name="notch_shapes_sub">डबल कट के साथ स्टेप्ड कोने</string>
 </resources>

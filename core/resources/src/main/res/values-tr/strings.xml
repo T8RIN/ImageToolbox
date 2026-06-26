@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Çizim ve silme tuvalinin çevresinde ince bir kenarlık gösterme</string>
     <string name="wavy">Dalgalı</string>
     <string name="wavy_shapes_sub">Yumuşak dalgalı kenarlı yuvarlak UI öğeleri</string>
+    <string name="scoop">Kepçe</string>
+    <string name="notch">Çentik</string>
+    <string name="scoop_shapes_sub">İçe doğru oyulmuş yuvarlatılmış köşeler</string>
+    <string name="notch_shapes_sub">Çift kesimli basamaklı köşeler</string>
 </resources>

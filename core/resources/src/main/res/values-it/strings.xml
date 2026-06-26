@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border">Bordo del disegno</string>
     <string name="wavy">Ondulato</string>
     <string name="wavy_shapes_sub">Elementi dell\'interfaccia utente arrotondati con un bordo ondulato morbido</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">Tacca</string>
+    <string name="scoop_shapes_sub">Angoli arrotondati intagliati verso l\'interno</string>
+    <string name="notch_shapes_sub">Angoli a gradino con doppio taglio</string>
 </resources>

@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Näidake joonistus- ja kustutamislõuendi ümber õhukest äärist</string>
     <string name="wavy">Laineline</string>
     <string name="wavy_shapes_sub">Ümardatud kasutajaliidese elemendid pehme lainelise servaga</string>
+    <string name="scoop">Kühvel</string>
+    <string name="notch">Sälk</string>
+    <string name="scoop_shapes_sub">Sissepoole nikerdatud ümarad nurgad</string>
+    <string name="notch_shapes_sub">Topeltlõikega astmelised nurgad</string>
 </resources>

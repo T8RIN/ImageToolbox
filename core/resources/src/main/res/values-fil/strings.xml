@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Magpakita ng manipis na hangganan sa paligid ng drawing at burahin ang canvas</string>
     <string name="wavy">Wavy</string>
     <string name="wavy_shapes_sub">Mga bilugan na elemento ng UI na may malambot na kulot na gilid</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">bingaw</string>
+    <string name="scoop_shapes_sub">Ang mga bilog na sulok ay inukit sa loob</string>
+    <string name="notch_shapes_sub">Mga stepped corner na may double cut</string>
 </resources>

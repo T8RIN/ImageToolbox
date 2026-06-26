@@ -3286,4 +3286,8 @@
     <string name="draw_bitmap_border_sub">Покажите танку ивицу око платна за цртање и брисање</string>
     <string name="wavy">Таласаста</string>
     <string name="wavy_shapes_sub">Заобљени елементи корисничког интерфејса са меком таласастом ивицом</string>
+    <string name="scoop">Сцооп</string>
+    <string name="notch">Нотцх</string>
+    <string name="scoop_shapes_sub">Заобљени углови урезани према унутра</string>
+    <string name="notch_shapes_sub">Степени углови са двоструким резом</string>
 </resources>

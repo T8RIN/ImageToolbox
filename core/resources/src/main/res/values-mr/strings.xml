@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">रेखांकन आणि कॅनव्हास मिटवण्याभोवती एक पातळ सीमा दर्शवा</string>
     <string name="wavy">लहरी</string>
     <string name="wavy_shapes_sub">गोलाकार UI घटक मऊ लहरी काठासह</string>
+    <string name="scoop">स्कूप</string>
+    <string name="notch">खाच</string>
+    <string name="scoop_shapes_sub">आतील बाजूस कोरलेले गोलाकार कोपरे</string>
+    <string name="notch_shapes_sub">दुहेरी कट सह चरणबद्ध कोपरे</string>
 </resources>

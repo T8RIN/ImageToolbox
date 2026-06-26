@@ -3287,4 +3287,8 @@
     <string name="draw_bitmap_border_sub">Покажіть тонку рамку навколо малюнка та стирання полотна</string>
     <string name="wavy">хвилясті</string>
     <string name="wavy_shapes_sub">Заокруглені елементи інтерфейсу користувача з м’яким хвилястим краєм</string>
+    <string name="scoop">Совок</string>
+    <string name="notch">Виїмка</string>
+    <string name="scoop_shapes_sub">Заокруглені кути, різьблені всередину</string>
+    <string name="notch_shapes_sub">Ступінчасті кути з подвійним зрізом</string>
 </resources>

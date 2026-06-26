@@ -3284,4 +3284,8 @@
     <string name="draw_bitmap_border_sub">Tampilkan garis tepi tipis di sekeliling kanvas menggambar dan menghapus</string>
     <string name="wavy">Bergelombang</string>
     <string name="wavy_shapes_sub">Elemen UI bulat dengan tepi bergelombang lembut</string>
+    <string name="scoop">Sendok</string>
+    <string name="notch">Takik</string>
+    <string name="scoop_shapes_sub">Sudut membulat diukir ke dalam</string>
+    <string name="notch_shapes_sub">Sudut berundak dengan potongan ganda</string>
 </resources>

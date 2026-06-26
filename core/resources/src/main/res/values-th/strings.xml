@@ -3284,4 +3284,8 @@
     <string name="draw_bitmap_border_sub">แสดงเส้นขอบบางๆ รอบภาพวาดและการลบผืนผ้าใบ</string>
     <string name="wavy">หยัก</string>
     <string name="wavy_shapes_sub">องค์ประกอบ UI แบบโค้งมนพร้อมขอบหยักอันนุ่มนวล</string>
+    <string name="scoop">ตัก</string>
+    <string name="notch">รอยบาก</string>
+    <string name="scoop_shapes_sub">มุมโค้งมนแกะสลักเข้าด้านใน</string>
+    <string name="notch_shapes_sub">ก้าวมุมด้วยการตัดสองครั้ง</string>
 </resources>

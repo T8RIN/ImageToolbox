@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Toon een dunne rand rond het teken- en wisdoek</string>
     <string name="wavy">Golvend</string>
     <string name="wavy_shapes_sub">Afgeronde UI-elementen met een zachte golvende rand</string>
+    <string name="scoop">Lepel</string>
+    <string name="notch">Inkeping</string>
+    <string name="scoop_shapes_sub">Afgeronde hoeken naar binnen gesneden</string>
+    <string name="notch_shapes_sub">Getrapte hoeken met een dubbele snede</string>
 </resources>
