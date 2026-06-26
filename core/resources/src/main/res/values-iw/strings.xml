@@ -3291,4 +3291,6 @@
     <string name="notch">לַחֲרוֹץ</string>
     <string name="scoop_shapes_sub">פינות מעוגלות מגולפות פנימה</string>
     <string name="notch_shapes_sub">פינות מדורגות בחיתוך כפול</string>
+    <string name="watermark_filename_placeholder">מציין מקום</string>
+    <string name="watermark_filename_placeholder_sub">השתמש ב-{filename} כדי להוסיף את שם הקובץ המקורי ללא סיומת</string>
 </resources>

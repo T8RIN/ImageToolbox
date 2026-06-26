@@ -3289,4 +3289,6 @@
     <string name="notch">නොච්</string>
     <string name="scoop_shapes_sub">වටකුරු කොන් ඇතුලට කැටයම් කර ඇත</string>
     <string name="notch_shapes_sub">ද්විත්ව කප්පාදුවක් සහිත පියවර සහිත කොන්</string>
+    <string name="watermark_filename_placeholder">ස්ථාන දරන්නා</string>
+    <string name="watermark_filename_placeholder_sub">දිගුවකින් තොරව මුල් ගොනු නාමය ඇතුළත් කිරීමට {filename} භාවිතා කරන්න</string>
 </resources>

@@ -3291,4 +3291,6 @@
     <string name="notch">Zárez</string>
     <string name="scoop_shapes_sub">Zaoblené rohy vyrezané dovnútra</string>
     <string name="notch_shapes_sub">Stupňovité rohy s dvojitým rezom</string>
+    <string name="watermark_filename_placeholder">Zástupný symbol</string>
+    <string name="watermark_filename_placeholder_sub">Použite {filename} na vloženie pôvodného súboru bez prípony</string>
 </resources>

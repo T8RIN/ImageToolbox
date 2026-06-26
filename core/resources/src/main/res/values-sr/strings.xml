@@ -3290,4 +3290,6 @@
     <string name="notch">Нотцх</string>
     <string name="scoop_shapes_sub">Заобљени углови урезани према унутра</string>
     <string name="notch_shapes_sub">Степени углови са двоструким резом</string>
+    <string name="watermark_filename_placeholder">Чувар места</string>
+    <string name="watermark_filename_placeholder_sub">Користите {филенаме} да бисте уметнули оригинално име датотеке без екстензије</string>
 </resources>

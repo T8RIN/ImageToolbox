@@ -3288,4 +3288,6 @@
     <string name="notch">รอยบาก</string>
     <string name="scoop_shapes_sub">มุมโค้งมนแกะสลักเข้าด้านใน</string>
     <string name="notch_shapes_sub">ก้าวมุมด้วยการตัดสองครั้ง</string>
+    <string name="watermark_filename_placeholder">ตัวยึดตำแหน่ง</string>
+    <string name="watermark_filename_placeholder_sub">ใช้ {filename} เพื่อแทรกชื่อไฟล์ต้นฉบับโดยไม่มีนามสกุล</string>
 </resources>

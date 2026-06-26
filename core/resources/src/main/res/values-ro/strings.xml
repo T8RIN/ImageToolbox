@@ -3290,4 +3290,6 @@
     <string name="notch">Crestătură</string>
     <string name="scoop_shapes_sub">Colțuri rotunjite sculptate spre interior</string>
     <string name="notch_shapes_sub">Colțuri trepte cu tăietură dublă</string>
+    <string name="watermark_filename_placeholder">Substituent</string>
+    <string name="watermark_filename_placeholder_sub">Utilizați {filename} pentru a insera numele fișierului original fără extensie</string>
 </resources>

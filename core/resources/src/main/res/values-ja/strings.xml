@@ -3288,4 +3288,6 @@
     <string name="notch">ノッチ</string>
     <string name="scoop_shapes_sub">内側に彫られた丸い角</string>
     <string name="notch_shapes_sub">ダブルカットの段付きコーナー</string>
+    <string name="watermark_filename_placeholder">プレースホルダー</string>
+    <string name="watermark_filename_placeholder_sub">拡張子なしの元のファイル名を挿入するには、{filename} を使用します</string>
 </resources>

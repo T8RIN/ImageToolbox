@@ -3289,4 +3289,6 @@
     <string name="notch">நாட்ச்</string>
     <string name="scoop_shapes_sub">உள்நோக்கி செதுக்கப்பட்ட வட்டமான மூலைகள்</string>
     <string name="notch_shapes_sub">இரட்டை வெட்டு கொண்ட மூலைகள்</string>
+    <string name="watermark_filename_placeholder">ப்ளேஸ்ஹோல்டர்</string>
+    <string name="watermark_filename_placeholder_sub">அசல் கோப்பு பெயரை நீட்டிப்பு இல்லாமல் செருக {filename} ஐப் பயன்படுத்தவும்</string>
 </resources>

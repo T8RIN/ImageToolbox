@@ -3288,4 +3288,6 @@
     <string name="notch">Notch</string>
     <string name="scoop_shapes_sub">Các góc tròn được khoét vào trong</string>
     <string name="notch_shapes_sub">Các góc bậc thang có đường cắt đôi</string>
+    <string name="watermark_filename_placeholder">Trình giữ chỗ</string>
+    <string name="watermark_filename_placeholder_sub">Sử dụng {filename} để chèn tên tệp gốc không có phần mở rộng</string>
 </resources>

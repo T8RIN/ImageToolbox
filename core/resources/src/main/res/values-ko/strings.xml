@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -3286,4 +3288,6 @@
     <string name="notch">골짜기</string>
     <string name="scoop_shapes_sub">둥근 모서리가 안쪽으로 새겨져 있습니다.</string>
     <string name="notch_shapes_sub">이중 절단이 있는 계단형 모서리</string>
+    <string name="watermark_filename_placeholder">자리 표시자</string>
+    <string name="watermark_filename_placeholder_sub">확장자 없이 원본 파일 이름을 삽입하려면 {filename}을 사용하세요.</string>
 </resources>

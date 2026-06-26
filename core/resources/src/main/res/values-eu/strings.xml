@@ -3289,4 +3289,6 @@
     <string name="notch">Notch</string>
     <string name="scoop_shapes_sub">Barrualdera zizelkaturiko ertz biribilduak</string>
     <string name="notch_shapes_sub">Ebaki bikoitzarekin ertz mailakatuak</string>
+    <string name="watermark_filename_placeholder">Leku-marka</string>
+    <string name="watermark_filename_placeholder_sub">Erabili {filename} jatorrizko fitxategi-izena luzapenik gabe txertatzeko</string>
 </resources>

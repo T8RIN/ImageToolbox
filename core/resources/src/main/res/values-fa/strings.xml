@@ -3289,4 +3289,6 @@
     <string name="notch">شکاف</string>
     <string name="scoop_shapes_sub">گوشه های گرد حک شده به داخل</string>
     <string name="notch_shapes_sub">گوشه های پلکانی با برش دوتایی</string>
+    <string name="watermark_filename_placeholder">جای جای</string>
+    <string name="watermark_filename_placeholder_sub">از {filename} برای درج نام فایل اصلی بدون پسوند استفاده کنید</string>
 </resources>

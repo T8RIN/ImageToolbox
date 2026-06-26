@@ -3289,4 +3289,6 @@
     <string name="notch">ਨੌਚ</string>
     <string name="scoop_shapes_sub">ਗੋਲ ਕੋਨੇ ਅੰਦਰ ਵੱਲ ਉੱਕਰੀ</string>
     <string name="notch_shapes_sub">ਡਬਲ ਕੱਟ ਦੇ ਨਾਲ ਸਟੈਪਡ ਕੋਨੇ</string>
+    <string name="watermark_filename_placeholder">ਪਲੇਸਹੋਲਡਰ</string>
+    <string name="watermark_filename_placeholder_sub">ਬਿਨਾਂ ਐਕਸਟੈਂਸ਼ਨ ਦੇ ਅਸਲੀ ਫਾਈਲ ਨਾਮ ਪਾਉਣ ਲਈ {filename} ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
 </resources>

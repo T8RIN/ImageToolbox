@@ -3288,4 +3288,6 @@
     <string name="notch">缺口</string>
     <string name="scoop_shapes_sub">圓角向內雕刻</string>
     <string name="notch_shapes_sub">雙切階梯角</string>
+    <string name="watermark_filename_placeholder">佔位符</string>
+    <string name="watermark_filename_placeholder_sub">使用 {filename} 插入不含副檔名的原始檔名</string>
 </resources>

@@ -3291,4 +3291,6 @@
     <string name="notch">Karb</string>
     <string name="scoop_shapes_sub">Zaokrąglone rogi rzeźbione do wewnątrz</string>
     <string name="notch_shapes_sub">Narożniki schodkowe z podwójnym ścięciem</string>
+    <string name="watermark_filename_placeholder">Symbol zastępczy</string>
+    <string name="watermark_filename_placeholder_sub">Użyj {filename}, aby wstawić oryginalną nazwę pliku bez rozszerzenia</string>
 </resources>

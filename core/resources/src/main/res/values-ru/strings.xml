@@ -3291,4 +3291,6 @@
     <string name="notch">Нотч</string>
     <string name="scoop_shapes_sub">Закругленные углы, вырезанные внутрь</string>
     <string name="notch_shapes_sub">Ступенчатые углы с двойным срезом</string>
+    <string name="watermark_filename_placeholder">Заполнитель</string>
+    <string name="watermark_filename_placeholder_sub">Используйте {filename}, чтобы вставить исходное имя файла без расширения.</string>
 </resources>

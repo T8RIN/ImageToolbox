@@ -3291,4 +3291,6 @@
     <string name="notch">Įpjova</string>
     <string name="scoop_shapes_sub">Suapvalinti kampai išraižyti į vidų</string>
     <string name="notch_shapes_sub">Pakopiniai kampai su dvigubu pjūviu</string>
+    <string name="watermark_filename_placeholder">Vietos rezervuaras</string>
+    <string name="watermark_filename_placeholder_sub">Naudokite {filename}, kad įterptumėte originalų failo pavadinimą be plėtinio</string>
 </resources>

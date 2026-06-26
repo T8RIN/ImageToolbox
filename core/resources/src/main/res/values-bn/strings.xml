@@ -3289,4 +3289,6 @@
     <string name="notch">খাঁজ</string>
     <string name="scoop_shapes_sub">গোলাকার কোণগুলি ভিতরের দিকে খোদাই করা</string>
     <string name="notch_shapes_sub">একটি ডবল কাটা সঙ্গে ধাপ কোণ</string>
+    <string name="watermark_filename_placeholder">স্থানধারক</string>
+    <string name="watermark_filename_placeholder_sub">এক্সটেনশন ছাড়াই আসল ফাইলের নাম সন্নিবেশ করতে {filename} ব্যবহার করুন</string>
 </resources>

@@ -3289,4 +3289,6 @@
     <string name="notch">Osca</string>
     <string name="scoop_shapes_sub">Cantons arrodonits tallats cap a dins</string>
     <string name="notch_shapes_sub">Cantonades esglaonades amb doble tall</string>
+    <string name="watermark_filename_placeholder">Marcador de posició</string>
+    <string name="watermark_filename_placeholder_sub">Utilitzeu {filename} per inserir el nom de fitxer original sense extensió</string>
 </resources>

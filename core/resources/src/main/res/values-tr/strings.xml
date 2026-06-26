@@ -3289,4 +3289,6 @@
     <string name="notch">Çentik</string>
     <string name="scoop_shapes_sub">İçe doğru oyulmuş yuvarlatılmış köşeler</string>
     <string name="notch_shapes_sub">Çift kesimli basamaklı köşeler</string>
+    <string name="watermark_filename_placeholder">Yer tutucu</string>
+    <string name="watermark_filename_placeholder_sub">Orijinal dosya adını uzantısız eklemek için {filename} kullanın</string>
 </resources>

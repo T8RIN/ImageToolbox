@@ -3291,4 +3291,6 @@
     <string name="notch">Виїмка</string>
     <string name="scoop_shapes_sub">Заокруглені кути, різьблені всередину</string>
     <string name="notch_shapes_sub">Ступінчасті кути з подвійним зрізом</string>
+    <string name="watermark_filename_placeholder">Заповнювач</string>
+    <string name="watermark_filename_placeholder_sub">Використовуйте {filename}, щоб вставити вихідну назву файлу без розширення</string>
 </resources>

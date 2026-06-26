@@ -3289,4 +3289,6 @@
     <string name="notch">bingaw</string>
     <string name="scoop_shapes_sub">Ang mga bilog na sulok ay inukit sa loob</string>
     <string name="notch_shapes_sub">Mga stepped corner na may double cut</string>
+    <string name="watermark_filename_placeholder">Placeholder</string>
+    <string name="watermark_filename_placeholder_sub">Gamitin ang {filename} upang ipasok ang orihinal na filename nang walang extension</string>
 </resources>

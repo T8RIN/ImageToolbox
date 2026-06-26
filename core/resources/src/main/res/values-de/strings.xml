@@ -3289,4 +3289,6 @@
     <string name="notch">Kerbe</string>
     <string name="scoop_shapes_sub">Abgerundete Ecken nach innen geschnitzt</string>
     <string name="notch_shapes_sub">Abgesetzte Ecken mit Doppelschnitt</string>
+    <string name="watermark_filename_placeholder">Platzhalter</string>
+    <string name="watermark_filename_placeholder_sub">Verwenden Sie {filename}, um den ursprünglichen Dateinamen ohne Erweiterung einzufügen</string>
 </resources>

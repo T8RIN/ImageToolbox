@@ -3293,4 +3293,6 @@
     <string name="notch">الشق</string>
     <string name="scoop_shapes_sub">زوايا مستديرة منحوتة إلى الداخل</string>
     <string name="notch_shapes_sub">زوايا متدرجة بقطع مزدوج</string>
+    <string name="watermark_filename_placeholder">العنصر النائب</string>
+    <string name="watermark_filename_placeholder_sub">استخدم {filename} لإدراج اسم الملف الأصلي بدون ملحق</string>
 </resources>

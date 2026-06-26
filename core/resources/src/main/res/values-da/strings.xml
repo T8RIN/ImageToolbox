@@ -3289,4 +3289,6 @@
     <string name="notch">Hak</string>
     <string name="scoop_shapes_sub">Afrundede hjørner udskåret indad</string>
     <string name="notch_shapes_sub">Aftrappede hjørner med dobbelt snit</string>
+    <string name="watermark_filename_placeholder">Pladsholder</string>
+    <string name="watermark_filename_placeholder_sub">Brug {filnavn} til at indsætte det originale filnavn uden filtypenavn</string>
 </resources>

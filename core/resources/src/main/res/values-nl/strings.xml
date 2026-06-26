@@ -3289,4 +3289,6 @@
     <string name="notch">Inkeping</string>
     <string name="scoop_shapes_sub">Afgeronde hoeken naar binnen gesneden</string>
     <string name="notch_shapes_sub">Getrapte hoeken met een dubbele snede</string>
+    <string name="watermark_filename_placeholder">Tijdelijke aanduiding</string>
+    <string name="watermark_filename_placeholder_sub">Gebruik {filename} om de originele bestandsnaam zonder extensie in te voegen</string>
 </resources>

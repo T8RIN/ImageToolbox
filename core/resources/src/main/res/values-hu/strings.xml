@@ -3228,7 +3228,7 @@
     <string name="search_keywords_collage_maker">kollázs rács elrendezés kombinálni</string>
     <string name="search_keywords_markup_layers">a jelölőrétegek a fedvény szerkesztését jegyzik</string>
     <string name="search_keywords_base64_tools">base64 kódolja az adatok uri dekódolását</string>
-    <string name="search_keywords_checksum_tools">checksum hash md5 sha sha1 sha256 ellenőrizni</string>
+    <string name="search_keywords_checksum_tools">checksum hash md5 sha1 sha256 ellenőrizni</string>
     <string name="search_keywords_mesh_gradients">háló gradiens háttér</string>
     <string name="search_keywords_edit_exif">exif metaadatok szerkesztés gps dátum kamera</string>
     <string name="search_keywords_image_cutter">vágott osztott rács darab csempe</string>
@@ -3289,4 +3289,6 @@
     <string name="notch">Bemetszés</string>
     <string name="scoop_shapes_sub">Lekerekített sarkok befelé faragva</string>
     <string name="notch_shapes_sub">Lépcsős sarkok dupla vágással</string>
+    <string name="watermark_filename_placeholder">Helyőrző</string>
+    <string name="watermark_filename_placeholder_sub">A(z) {filename} használatával illessze be az eredeti fájlnevet kiterjesztés nélkül</string>
 </resources>

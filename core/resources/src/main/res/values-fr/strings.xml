@@ -3289,4 +3289,6 @@
     <string name="notch">Entailler</string>
     <string name="scoop_shapes_sub">Coins arrondis sculptés vers l\'intérieur</string>
     <string name="notch_shapes_sub">Coins étagés avec une double coupe</string>
+    <string name="watermark_filename_placeholder">Espace réservé</string>
+    <string name="watermark_filename_placeholder_sub">Utilisez {filename} pour insérer le nom de fichier d\'origine sans extension</string>
 </resources>

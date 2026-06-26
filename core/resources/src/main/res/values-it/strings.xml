@@ -3289,4 +3289,6 @@
     <string name="notch">Tacca</string>
     <string name="scoop_shapes_sub">Angoli arrotondati intagliati verso l\'interno</string>
     <string name="notch_shapes_sub">Angoli a gradino con doppio taglio</string>
+    <string name="watermark_filename_placeholder">Segnaposto</string>
+    <string name="watermark_filename_placeholder_sub">Utilizza {filename} per inserire il nome file originale senza estensione</string>
 </resources>

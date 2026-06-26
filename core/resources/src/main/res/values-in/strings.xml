@@ -3288,4 +3288,6 @@
     <string name="notch">Takik</string>
     <string name="scoop_shapes_sub">Sudut membulat diukir ke dalam</string>
     <string name="notch_shapes_sub">Sudut berundak dengan potongan ganda</string>
+    <string name="watermark_filename_placeholder">Penampung</string>
+    <string name="watermark_filename_placeholder_sub">Gunakan {filename} untuk memasukkan nama file asli tanpa ekstensi</string>
 </resources>
