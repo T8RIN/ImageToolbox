@@ -38,8 +38,10 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Save
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.WavyShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -49,13 +51,15 @@ internal fun UsageStatisticSummaryItem(
     value: String,
     modifier: Modifier
 ) {
+    val strength = LocalSettingsState.current.shapesType.strength
     Row(
         modifier = modifier
             .widthIn(min = 172.dp)
             .container(
-                shape = remember {
-                    WavyShape(
-                        size = 20.dp
+                shape = remember(strength) {
+                    AutoCornersShape(
+                        size = 20.dp,
+                        shapesType = ShapeType.Wavy(strength)
                     )
                 },
                 resultPadding = 12.dp,
