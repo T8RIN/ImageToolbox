@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Mostrar un borde fino alrededor del lienzo de dibujo y borrado.</string>
     <string name="wavy">Ondulado</string>
     <string name="wavy_shapes_sub">Elementos de interfaz de usuario redondeados con un borde ondulado suave</string>
+    <string name="scoop">Cuchara</string>
+    <string name="notch">Muesca</string>
+    <string name="scoop_shapes_sub">Esquinas redondeadas talladas hacia adentro</string>
+    <string name="notch_shapes_sub">Esquinas escalonadas con doble corte.</string>
 </resources>

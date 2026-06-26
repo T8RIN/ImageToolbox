@@ -21,7 +21,6 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -80,6 +79,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Search
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.resources.icons.Verified
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton

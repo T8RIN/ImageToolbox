@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -39,7 +38,6 @@ import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -66,6 +64,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BoldLine
 import com.t8rin.imagetoolbox.core.resources.icons.DashedLine
@@ -74,6 +73,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.StampedLine
 import com.t8rin.imagetoolbox.core.resources.icons.ZigzagLine
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.IconShape
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton

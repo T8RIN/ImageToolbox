@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">డ్రాయింగ్ మరియు ఎరేసింగ్ కాన్వాస్ చుట్టూ సన్నని అంచుని చూపండి</string>
     <string name="wavy">ఉంగరాల</string>
     <string name="wavy_shapes_sub">మృదువైన వేవీ అంచుతో గుండ్రని UI మూలకాలు</string>
+    <string name="scoop">స్కూప్</string>
+    <string name="notch">గీత</string>
+    <string name="scoop_shapes_sub">గుండ్రని మూలలు లోపలికి చెక్కబడ్డాయి</string>
+    <string name="notch_shapes_sub">డబుల్ కట్‌తో స్టెప్డ్ మూలలు</string>
 </resources>

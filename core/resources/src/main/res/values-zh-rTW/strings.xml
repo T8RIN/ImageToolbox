@@ -3284,4 +3284,8 @@
     <string name="draw_bitmap_border_sub">在繪圖和擦除畫布周圍顯示細邊框</string>
     <string name="wavy">波浪形</string>
     <string name="wavy_shapes_sub">帶有柔和波浪邊緣的圓形 UI 元素</string>
+    <string name="scoop">舀</string>
+    <string name="notch">缺口</string>
+    <string name="scoop_shapes_sub">圓角向內雕刻</string>
+    <string name="notch_shapes_sub">雙切階梯角</string>
 </resources>

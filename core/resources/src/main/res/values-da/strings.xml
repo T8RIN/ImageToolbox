@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Vis en tynd kant rundt om tegne- og viskelærredet</string>
     <string name="wavy">Bølget</string>
     <string name="wavy_shapes_sub">Afrundede UI-elementer med en blød bølget kant</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">Hak</string>
+    <string name="scoop_shapes_sub">Afrundede hjørner udskåret indad</string>
+    <string name="notch_shapes_sub">Aftrappede hjørner med dobbelt snit</string>
 </resources>

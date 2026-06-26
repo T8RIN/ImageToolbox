@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.sheets
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.LocalIndication
@@ -75,6 +74,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MotionMode
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.resources.shapes.SquircleShape
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults

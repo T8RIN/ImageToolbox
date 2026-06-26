@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.crop.presentation.components
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -63,6 +62,7 @@ import com.t8rin.cropper.model.RoundedCornerCropShape
 import com.t8rin.cropper.settings.CropOutlineProperty
 import com.t8rin.cropper.widget.CropFrameDisplayCard
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker

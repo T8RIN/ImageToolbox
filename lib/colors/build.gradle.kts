@@ -23,6 +23,8 @@ plugins {
 android.namespace = "com.t8rin.colors"
 
 dependencies {
+    implementation(projects.core.resources)
+
     implementation(libs.androidx.palette.ktx)
 
     implementation(projects.lib.gesture)

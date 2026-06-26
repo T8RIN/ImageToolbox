@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">অঙ্কন এবং ক্যানভাস মুছে ফেলার চারপাশে একটি পাতলা সীমানা দেখান</string>
     <string name="wavy">তরঙ্গায়িত</string>
     <string name="wavy_shapes_sub">একটি নরম তরঙ্গায়িত প্রান্ত সহ গোলাকার UI উপাদান</string>
+    <string name="scoop">স্কুপ</string>
+    <string name="notch">খাঁজ</string>
+    <string name="scoop_shapes_sub">গোলাকার কোণগুলি ভিতরের দিকে খোদাই করা</string>
+    <string name="notch_shapes_sub">একটি ডবল কাটা সঙ্গে ধাপ কোণ</string>
 </resources>

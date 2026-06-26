@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Visa en tunn ram runt ritnings- och raderingsduken</string>
     <string name="wavy">Vågig</string>
     <string name="wavy_shapes_sub">Rundade UI-element med en mjuk vågig kant</string>
+    <string name="scoop">Skopa</string>
+    <string name="notch">Hack</string>
+    <string name="scoop_shapes_sub">Rundade hörn ristade inåt</string>
+    <string name="notch_shapes_sub">Avtrappade hörn med dubbelt snitt</string>
 </resources>

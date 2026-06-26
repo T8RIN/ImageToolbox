@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.image
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -69,6 +68,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CropFree
 import com.t8rin.imagetoolbox.core.resources.icons.DashboardCustomize
 import com.t8rin.imagetoolbox.core.resources.icons.Image
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior

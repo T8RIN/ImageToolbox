@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Mutasson vékony szegélyt a rajz- és törlésvászon körül</string>
     <string name="wavy">Hullámos</string>
     <string name="wavy_shapes_sub">Lekerekített felhasználói felület elemek lágy hullámos éllel</string>
+    <string name="scoop">Gombóc</string>
+    <string name="notch">Bemetszés</string>
+    <string name="scoop_shapes_sub">Lekerekített sarkok befelé faragva</string>
+    <string name="notch_shapes_sub">Lépcsős sarkok dupla vágással</string>
 </resources>

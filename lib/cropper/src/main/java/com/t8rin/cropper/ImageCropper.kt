@@ -19,7 +19,6 @@ package com.t8rin.cropper
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -61,6 +60,7 @@ import com.t8rin.cropper.settings.CropStyle
 import com.t8rin.cropper.settings.CropType
 import com.t8rin.cropper.state.DynamicCropState
 import com.t8rin.cropper.state.rememberCropState
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow

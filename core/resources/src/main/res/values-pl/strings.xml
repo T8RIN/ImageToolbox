@@ -3287,4 +3287,8 @@
     <string name="draw_bitmap_border_sub">Pokaż cienką ramkę wokół płótna do rysowania i wymazywania</string>
     <string name="wavy">Falisty</string>
     <string name="wavy_shapes_sub">Zaokrąglone elementy interfejsu użytkownika z miękką falistą krawędzią</string>
+    <string name="scoop">Szufelka</string>
+    <string name="notch">Karb</string>
+    <string name="scoop_shapes_sub">Zaokrąglone rogi rzeźbione do wewnątrz</string>
+    <string name="notch_shapes_sub">Narożniki schodkowe z podwójnym ścięciem</string>
 </resources>

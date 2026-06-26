@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">یک حاشیه نازک در اطراف نقاشی نشان دهید و بوم پاک کنید</string>
     <string name="wavy">موج دار</string>
     <string name="wavy_shapes_sub">عناصر رابط کاربری گرد با لبه موج دار نرم</string>
+    <string name="scoop">اسکوپ</string>
+    <string name="notch">شکاف</string>
+    <string name="scoop_shapes_sub">گوشه های گرد حک شده به داخل</string>
+    <string name="notch_shapes_sub">گوشه های پلکانی با برش دوتایی</string>
 </resources>

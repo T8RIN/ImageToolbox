@@ -20,7 +20,6 @@
 package com.t8rin.imagetoolbox.core.ui.theme
 
 import androidx.annotation.FloatRange
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,6 +29,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 
 fun ColorScheme.outlineVariant(

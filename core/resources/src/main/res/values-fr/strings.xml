@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Afficher une fine bordure autour de la toile de dessin et d\'effacement</string>
     <string name="wavy">Ondulé</string>
     <string name="wavy_shapes_sub">Éléments d\'interface utilisateur arrondis avec un bord légèrement ondulé</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">Entailler</string>
+    <string name="scoop_shapes_sub">Coins arrondis sculptés vers l\'intérieur</string>
+    <string name="notch_shapes_sub">Coins étagés avec une double coupe</string>
 </resources>

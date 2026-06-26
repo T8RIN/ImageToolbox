@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Mostrar uma borda fina ao redor da tela de desenho e apagamento</string>
     <string name="wavy">Ondulado</string>
     <string name="wavy_shapes_sub">Elementos de UI arredondados com bordas suaves e onduladas</string>
+    <string name="scoop">Colher</string>
+    <string name="notch">Entalhe</string>
+    <string name="scoop_shapes_sub">Cantos arredondados esculpidos para dentro</string>
+    <string name="notch_shapes_sub">Cantos escalonados com corte duplo</string>
 </resources>

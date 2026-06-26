@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +39,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -60,6 +58,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Download
@@ -72,6 +71,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ModelTraining
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost

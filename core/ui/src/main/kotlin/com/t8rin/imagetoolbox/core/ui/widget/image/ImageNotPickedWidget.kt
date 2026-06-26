@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
@@ -53,16 +52,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.graphics.shapes.Morph
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.Image
 import com.t8rin.imagetoolbox.core.resources.shapes.MorphShape
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.utils.provider.currentScreenTwoToneIcon
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -157,21 +160,49 @@ fun ClickableActionIcon(
         }
     }
 
+    val shapesType = LocalSettingsState.current.shapesType
+
+    val nonPressedProgress = when (shapesType) {
+        is ShapeType.Rounded,
+        is ShapeType.Smooth,
+        is ShapeType.Squircle -> 0.2f
+
+        else -> 0f
+    }
+    val pressedScale = when (shapesType) {
+        is ShapeType.Rounded,
+        is ShapeType.Smooth,
+        is ShapeType.Squircle -> 1f
+
+        else -> 1.1f
+    }
+
     val percentage = animateFloatAsState(
-        targetValue = if (pressed) 1f else 0.2f,
+        targetValue = if (pressed) 1f else nonPressedProgress,
         animationSpec = springySpec()
     )
     val scale by animateFloatAsState(
-        if (pressed) 1f
+        if (pressed) pressedScale
         else 1.1f
     )
-    val morph = remember {
+
+    val morph = remember(shapesType) {
+        val (start, end) = when (shapesType) {
+            is ShapeType.Cut -> MaterialShapes.Gem to MaterialShapes.Diamond
+            is ShapeType.Wavy -> MaterialShapes.Cookie12Sided to MaterialShapes.Clover4Leaf
+            is ShapeType.Scoop -> MaterialShapes.Clover8Leaf to MaterialShapes.Bun
+            is ShapeType.Notch -> MaterialShapes.PixelCircle to ShapeDefaults.polygonSquare
+
+            is ShapeType.Rounded,
+            is ShapeType.Smooth,
+            is ShapeType.Squircle -> MaterialShapes.Cookie4Sided to MaterialShapes.Square
+        }
         Morph(
-            start = MaterialShapes.Cookie4Sided,
-            end = MaterialShapes.Square
+            start = start,
+            end = end
         )
     }
-    val shape = remember {
+    val shape = remember(morph) {
         MorphShape(
             morph = morph,
             percentage = { percentage.value }

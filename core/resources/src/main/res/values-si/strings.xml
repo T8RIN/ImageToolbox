@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">ඇඳීම සහ මැකීමේ කැන්වසය වටා තුනී මායිමක් පෙන්වන්න</string>
     <string name="wavy">රැලි සහිත</string>
     <string name="wavy_shapes_sub">මෘදු රැලි සහිත දාරයක් සහිත වටකුරු UI මූලද්‍රව්‍ය</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">නොච්</string>
+    <string name="scoop_shapes_sub">වටකුරු කොන් ඇතුලට කැටයම් කර ඇත</string>
+    <string name="notch_shapes_sub">ද්විත්ව කප්පාදුවක් සහිත පියවර සහිත කොන්</string>
 </resources>

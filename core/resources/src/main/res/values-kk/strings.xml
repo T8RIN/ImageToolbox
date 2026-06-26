@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Суреттің айналасында жіңішке жиекті көрсетіңіз және кенепті өшіріңіз</string>
     <string name="wavy">Толқынды</string>
     <string name="wavy_shapes_sub">Жұмсақ толқынды жиегі бар дөңгелектенген UI элементтері</string>
+    <string name="scoop">Кескіш</string>
+    <string name="notch">ойық</string>
+    <string name="scoop_shapes_sub">Дөңгеленген бұрыштар ішке қарай ойылған</string>
+    <string name="notch_shapes_sub">Қосарланған кесілген бұрыштар</string>
 </resources>

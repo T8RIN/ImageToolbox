@@ -3286,4 +3286,8 @@
     <string name="draw_bitmap_border_sub">Afișați un chenar subțire în jurul desenului și ștergeți pânza</string>
     <string name="wavy">Ondulat</string>
     <string name="wavy_shapes_sub">Elemente UI rotunjite cu o margine ondulată moale</string>
+    <string name="scoop">Chiuretă</string>
+    <string name="notch">Crestătură</string>
+    <string name="scoop_shapes_sub">Colțuri rotunjite sculptate spre interior</string>
+    <string name="notch_shapes_sub">Colțuri trepte cu tăietură dublă</string>
 </resources>

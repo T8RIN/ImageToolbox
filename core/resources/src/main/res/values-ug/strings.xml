@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">رەسىم سىزىش ۋە كاناينى ئۆچۈرۈش ئەتراپىدا نېپىز چېگرانى كۆرسىتىڭ</string>
     <string name="wavy">دولقۇن</string>
     <string name="wavy_shapes_sub">يۇمىلاق دولقۇنلۇق گىرۋەكلىك UI ئېلېمېنتلىرى</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">Notch</string>
+    <string name="scoop_shapes_sub">ئىچىگە ئويۇلغان يۇمىلاق بۇلۇڭلار</string>
+    <string name="notch_shapes_sub">قوش كېسىلگەن قەدەملەر</string>
 </resources>

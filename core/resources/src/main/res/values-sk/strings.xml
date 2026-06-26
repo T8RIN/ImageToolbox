@@ -3287,4 +3287,8 @@
     <string name="draw_bitmap_border_sub">Zobrazte tenký okraj okolo kresliaceho a mazacieho plátna</string>
     <string name="wavy">Vlnitý</string>
     <string name="wavy_shapes_sub">Zaoblené prvky používateľského rozhrania s jemným zvlneným okrajom</string>
+    <string name="scoop">Naberačka</string>
+    <string name="notch">Zárez</string>
+    <string name="scoop_shapes_sub">Zaoblené rohy vyrezané dovnútra</string>
+    <string name="notch_shapes_sub">Stupňovité rohy s dvojitým rezom</string>
 </resources>

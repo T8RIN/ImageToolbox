@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults

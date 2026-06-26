@@ -24,6 +24,8 @@ android.namespace = "com.t8rin.dynamic.theme"
 
 
 dependencies {
+    implementation(projects.core.resources)
+
     implementation(libs.androidx.palette.ktx)
     implementation(libs.materialKolor)
 }

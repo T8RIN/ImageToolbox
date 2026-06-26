@@ -3287,4 +3287,8 @@
     <string name="draw_bitmap_border_sub">Parodykite ploną kraštelį aplink piešimo ir ištrynimo drobę</string>
     <string name="wavy">Banguotas</string>
     <string name="wavy_shapes_sub">Suapvalinti vartotojo sąsajos elementai su minkštu banguotu kraštu</string>
+    <string name="scoop">Samtelis</string>
+    <string name="notch">Įpjova</string>
+    <string name="scoop_shapes_sub">Suapvalinti kampai išraižyti į vidų</string>
+    <string name="notch_shapes_sub">Pakopiniai kampai su dvigubu pjūviu</string>
 </resources>

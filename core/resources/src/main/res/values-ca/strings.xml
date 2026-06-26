@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">Mostra una vora fina al voltant del dibuix i esborra el llenç</string>
     <string name="wavy">Ondulat</string>
     <string name="wavy_shapes_sub">Elements d\'interfície d\'usuari arrodonits amb una vora ondulada suau</string>
+    <string name="scoop">Scoop</string>
+    <string name="notch">Osca</string>
+    <string name="scoop_shapes_sub">Cantons arrodonits tallats cap a dins</string>
+    <string name="notch_shapes_sub">Cantonades esglaonades amb doble tall</string>
 </resources>

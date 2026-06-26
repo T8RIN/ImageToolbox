@@ -25,7 +25,6 @@ import android.net.Uri
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -88,6 +87,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.RoundedCorner
 import com.t8rin.imagetoolbox.core.resources.icons.SwapHoriz
 import com.t8rin.imagetoolbox.core.resources.icons.SwipeVertical
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker

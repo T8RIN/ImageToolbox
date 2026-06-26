@@ -17,12 +17,10 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -42,11 +40,13 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteBox
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.theme.inverse

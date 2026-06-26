@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.other
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.animation.CombinedMutableInteractionSource

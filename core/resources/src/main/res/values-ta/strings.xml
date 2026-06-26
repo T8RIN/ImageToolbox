@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">வரைதல் மற்றும் அழிக்கும் கேன்வாஸைச் சுற்றி ஒரு மெல்லிய பார்டரைக் காட்டு</string>
     <string name="wavy">அலை அலையானது</string>
     <string name="wavy_shapes_sub">மென்மையான அலை அலையான விளிம்புடன் வட்டமான UI கூறுகள்</string>
+    <string name="scoop">ஸ்கூப்</string>
+    <string name="notch">நாட்ச்</string>
+    <string name="scoop_shapes_sub">உள்நோக்கி செதுக்கப்பட்ட வட்டமான மூலைகள்</string>
+    <string name="notch_shapes_sub">இரட்டை வெட்டு கொண்ட மூலைகள்</string>
 </resources>

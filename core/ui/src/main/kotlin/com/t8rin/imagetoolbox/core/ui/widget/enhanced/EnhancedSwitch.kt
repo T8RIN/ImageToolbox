@@ -30,7 +30,6 @@ import androidx.compose.material.minimumInteractiveComponentSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
@@ -48,6 +47,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.switches.ComposeSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.CupertinoSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.CupertinoSwitchDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.switches.FluentSwitch
@@ -131,7 +131,7 @@ fun EnhancedSwitch(
                 }
 
                 is SwitchType.Compose -> {
-                    Switch(
+                    ComposeSwitch(
                         modifier = switchModifier,
                         colors = switchColors,
                         checked = checked,

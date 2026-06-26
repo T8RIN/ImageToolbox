@@ -3285,4 +3285,8 @@
     <string name="draw_bitmap_border_sub">ਡਰਾਇੰਗ ਅਤੇ ਮਿਟਾਉਣ ਵਾਲੇ ਕੈਨਵਸ ਦੇ ਦੁਆਲੇ ਇੱਕ ਪਤਲੀ ਬਾਰਡਰ ਦਿਖਾਓ</string>
     <string name="wavy">ਵੇਵੀ</string>
     <string name="wavy_shapes_sub">ਨਰਮ ਵੇਵੀ ਕਿਨਾਰੇ ਵਾਲੇ ਗੋਲ UI ਤੱਤ</string>
+    <string name="scoop">ਸਕੂਪ</string>
+    <string name="notch">ਨੌਚ</string>
+    <string name="scoop_shapes_sub">ਗੋਲ ਕੋਨੇ ਅੰਦਰ ਵੱਲ ਉੱਕਰੀ</string>
+    <string name="notch_shapes_sub">ਡਬਲ ਕੱਟ ਦੇ ਨਾਲ ਸਟੈਪਡ ਕੋਨੇ</string>
 </resources>

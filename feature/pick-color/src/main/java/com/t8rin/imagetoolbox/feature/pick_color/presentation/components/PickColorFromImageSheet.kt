@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.pick_color.presentation.components
 
 import android.graphics.Bitmap
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -60,6 +59,7 @@ import com.t8rin.colors.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant

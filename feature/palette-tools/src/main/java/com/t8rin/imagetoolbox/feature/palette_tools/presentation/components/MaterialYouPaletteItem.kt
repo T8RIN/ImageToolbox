@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +36,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable

@@ -20,7 +20,6 @@ package com.t8rin.colors
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import androidx.compose.animation.Animatable
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -79,6 +78,7 @@ import androidx.core.graphics.get
 import com.t8rin.gesture.observePointersCountWithOffset
 import com.t8rin.gesture.pointerMotionEvents
 import com.t8rin.image.ImageWithConstraints
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap

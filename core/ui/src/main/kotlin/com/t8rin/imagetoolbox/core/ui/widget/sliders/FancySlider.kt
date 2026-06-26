@@ -17,13 +17,15 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.sliders
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
@@ -37,24 +39,36 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animateFloatingRangeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.materialShadow
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomRangeSlider
+import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomRangeSliderState
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomSlider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomSliderColors
-import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomSliderDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomSliderState
 
 @Composable
@@ -143,7 +157,7 @@ fun FancySlider(
             valueRange = valueRange,
             steps = steps,
             track = { sliderState ->
-                CustomSliderDefaults.Track(
+                FancyTrack(
                     sliderState = sliderState,
                     colors = colors.toCustom(),
                     trackHeight = 38.dp,
@@ -256,7 +270,7 @@ fun FancyRangeSlider(
             },
             steps = steps,
             track = { sliderState ->
-                CustomSliderDefaults.Track(
+                FancyTrack(
                     rangeSliderState = sliderState,
                     colors = colors.toCustom(),
                     trackHeight = 38.dp,
@@ -280,3 +294,178 @@ internal fun SliderColors.toCustom(): CustomSliderColors = CustomSliderColors(
     disabledInactiveTrackColor = disabledInactiveTrackColor,
     disabledInactiveTickColor = disabledInactiveTickColor
 )
+
+@Composable
+internal fun fancyThumbShape(): Shape {
+    val shapesType = LocalSettingsState.current.shapesType
+
+    return if (shapesType is ShapeType.Cut || shapesType is ShapeType.Scoop || shapesType is ShapeType.Notch) {
+        remember(shapesType) {
+            AutoCircleShape(
+                shapesType = shapesType.copy(
+                    strength = shapesType.strength.coerceAtLeast(0.5f)
+                )
+            )
+        }
+    } else {
+        MaterialStarShape
+    }
+}
+
+@Composable
+private fun FancyTrack(
+    sliderState: CustomSliderState,
+    colors: CustomSliderColors,
+    enabled: Boolean,
+    trackHeight: Dp
+) {
+    FancyTrack(
+        tickFractions = sliderState.tickFractions,
+        activeRangeStart = 0f,
+        activeRangeEnd = sliderState.coercedValueAsFraction,
+        colors = colors,
+        enabled = enabled,
+        trackHeight = trackHeight
+    )
+}
+
+@Composable
+private fun FancyTrack(
+    rangeSliderState: CustomRangeSliderState,
+    colors: CustomSliderColors,
+    enabled: Boolean,
+    trackHeight: Dp
+) {
+    FancyTrack(
+        tickFractions = rangeSliderState.tickFractions,
+        activeRangeStart = rangeSliderState.coercedActiveRangeStartAsFraction,
+        activeRangeEnd = rangeSliderState.coercedActiveRangeEndAsFraction,
+        colors = colors,
+        enabled = enabled,
+        trackHeight = trackHeight
+    )
+}
+
+@Composable
+private fun FancyTrack(
+    tickFractions: FloatArray,
+    activeRangeStart: Float,
+    activeRangeEnd: Float,
+    colors: CustomSliderColors,
+    enabled: Boolean,
+    trackHeight: Dp,
+    shape: Shape = ShapeDefaults.circle
+) {
+    val inactiveTrackColor = colors.trackColor(enabled, active = false)
+    val activeTrackColor = colors.trackColor(enabled, active = true)
+    val inactiveTickColor = colors.tickColor(enabled, active = false)
+    val activeTickColor = colors.tickColor(enabled, active = true)
+
+    Canvas(
+        Modifier
+            .fillMaxWidth()
+            .height(trackHeight)
+    ) {
+        drawFancyTrack(
+            tickFractions = tickFractions,
+            activeRangeStart = activeRangeStart,
+            activeRangeEnd = activeRangeEnd,
+            inactiveTrackColor = inactiveTrackColor,
+            activeTrackColor = activeTrackColor,
+            inactiveTickColor = inactiveTickColor,
+            activeTickColor = activeTickColor,
+            shape = shape
+        )
+    }
+}
+
+private fun DrawScope.drawFancyTrack(
+    tickFractions: FloatArray,
+    activeRangeStart: Float,
+    activeRangeEnd: Float,
+    inactiveTrackColor: Color,
+    activeTrackColor: Color,
+    inactiveTickColor: Color,
+    activeTickColor: Color,
+    shape: Shape
+) {
+    val isRtl = layoutDirection == LayoutDirection.Rtl
+    val activeStart = if (isRtl) 1f - activeRangeEnd else activeRangeStart
+    val activeEnd = if (isRtl) 1f - activeRangeStart else activeRangeEnd
+    val tickSize = TickSize.toPx()
+
+    drawFancyTrackSegment(
+        startFraction = 0f,
+        endFraction = 1f,
+        color = inactiveTrackColor,
+        shape = shape
+    )
+    drawFancyTrackSegment(
+        startFraction = activeStart,
+        endFraction = activeEnd,
+        color = activeTrackColor,
+        shape = shape
+    )
+
+    for (tick in tickFractions) {
+        val outsideFraction = tick !in activeRangeStart..activeRangeEnd
+        val visualTick = if (isRtl) 1f - tick else tick
+        drawCircle(
+            color = if (outsideFraction) inactiveTickColor else activeTickColor,
+            center = Offset(size.width * visualTick, center.y),
+            radius = tickSize / 2f
+        )
+    }
+}
+
+private fun DrawScope.drawFancyTrackSegment(
+    startFraction: Float,
+    endFraction: Float,
+    color: Color,
+    shape: Shape
+) {
+    val capRadius = size.height / 2f
+    val left = size.width * startFraction.coerceIn(0f, 1f) - capRadius
+    val right = size.width * endFraction.coerceIn(0f, 1f) + capRadius
+    val width = right - left
+
+    if (width <= 0f) return
+
+    val outline = shape.createOutline(
+        size = Size(
+            width = width,
+            height = size.height
+        ),
+        layoutDirection = layoutDirection,
+        density = this
+    )
+
+    translate(left = left) {
+        drawFancyTrackOutline(outline, color)
+    }
+}
+
+private fun DrawScope.drawFancyTrackOutline(
+    outline: Outline,
+    color: Color
+) {
+    when (outline) {
+        is Outline.Rectangle -> drawRect(
+            color = color,
+            topLeft = outline.rect.topLeft,
+            size = outline.rect.size
+        )
+
+        is Outline.Rounded -> drawPath(
+            path = Path().apply { addRoundRect(outline.roundRect) },
+            color = color
+        )
+
+        is Outline.Generic -> drawPath(
+            path = outline.path,
+            color = color
+        )
+    }
+}
+
+private val TickSize = 2.dp
