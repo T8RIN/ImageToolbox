@@ -99,7 +99,7 @@ internal fun UsageStatisticSummaryItem(
 
 @Composable
 @Preview
-private fun Preview() = ImageToolboxThemeForPreview(false) {
+private fun Preview() = ImageToolboxThemeForPreview(true) {
     UsageStatisticSummaryItem(
         icon = Icons.Rounded.Save,
         title = "Test card",
