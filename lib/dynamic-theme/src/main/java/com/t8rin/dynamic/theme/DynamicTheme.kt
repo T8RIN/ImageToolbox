@@ -31,7 +31,6 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import android.os.Build
 import androidx.annotation.FloatRange
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -112,6 +111,7 @@ import com.materialkolor.scheme.SchemeRainbow
 import com.materialkolor.scheme.SchemeVibrant
 import com.materialkolor.scheme.Variant
 import com.materialkolor.toColorScheme
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

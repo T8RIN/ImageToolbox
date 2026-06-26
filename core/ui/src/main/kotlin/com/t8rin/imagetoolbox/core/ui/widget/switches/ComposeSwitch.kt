@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.switches
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -43,9 +42,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
@@ -118,10 +117,10 @@ fun ComposeSwitch(
             .requiredSize(SwitchWidth, SwitchHeight)
             .border(
                 width = TrackOutlineWidth,
-                color = borderColor.takeOrElse { Color.Transparent },
+                color = borderColor,
                 shape = circleShape
             )
-            .background(trackColor.takeOrElse { Color.Transparent }, circleShape)
+            .background(trackColor, circleShape)
     ) {
         Box(
             modifier = Modifier
@@ -134,7 +133,7 @@ fun ComposeSwitch(
                         radius = StateLayerSize / 2f
                     )
                 )
-                .background(thumbColor.takeOrElse { Color.Transparent }, circleShape)
+                .background(thumbColor, circleShape)
                 .size(thumbSize),
             contentAlignment = Alignment.Center
         ) {

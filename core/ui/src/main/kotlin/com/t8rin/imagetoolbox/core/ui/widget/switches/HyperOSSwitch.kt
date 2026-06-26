@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.switches
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -60,6 +59,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.utils.animation.PointToPointEasing
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import kotlinx.coroutines.delay

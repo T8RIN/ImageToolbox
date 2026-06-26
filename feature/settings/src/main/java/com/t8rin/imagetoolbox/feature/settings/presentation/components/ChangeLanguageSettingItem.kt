@@ -25,7 +25,6 @@ import android.os.Build
 import android.os.LocaleList
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,6 +50,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Language
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getCurrentLocaleString
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getDisplayName
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getLanguages
