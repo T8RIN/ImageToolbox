@@ -44,6 +44,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
+import androidx.graphics.shapes.RoundedPolygon
+import androidx.graphics.shapes.rectangle
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.t8rin.imagetoolbox.core.domain.utils.autoCast
 import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
@@ -198,6 +200,13 @@ object ShapeDefaults {
     val extremeLarge @Composable get() = AutoCornersShape(28.dp)
 
     val circle @Composable get() = AutoCircleShape()
+
+    val polygonSquare by lazy {
+        RoundedPolygon.rectangle(
+            width = 1f,
+            height = 1f
+        ).normalized()
+    }
 
     @Composable
     private inline fun CornerSize.animate(): Dp = animateDpAsState(
