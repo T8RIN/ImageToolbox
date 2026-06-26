@@ -202,10 +202,12 @@ fun AutoCircleShape(shapesType: ShapeType) = when (shapesType) {
     is ShapeType.Scoop -> ScoopCircleShape
     is ShapeType.Notch -> NotchCircleShape
 }.let { shape ->
-    if (shapesType.strength >= 1f) {
+    val strength = shapesType.effectiveStrength
+
+    if (strength >= 1f) {
         shape
     } else {
-        shape.copy(shape.topStart.toAuto(shapesType))
+        shape.copy(shape.topStart.toAuto(strength))
     }
 }
 
@@ -353,7 +355,7 @@ private fun rememberSettings(
 }
 
 @Stable
-private fun CornerSize.toAuto(shapeType: ShapeType) = toAuto(shapeType.strength)
+private fun CornerSize.toAuto(shapeType: ShapeType) = toAuto(shapeType.effectiveStrength)
 
 @Stable
 private fun CornerSize.toAuto(strength: Float) =

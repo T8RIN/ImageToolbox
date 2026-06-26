@@ -22,6 +22,17 @@ sealed interface ShapeType {
 
     val strength: Float
 
+    val scaleRatio: Float
+        get() = when (this) {
+            is Notch,
+            is Scoop -> 0.65f
+
+            else -> 1f
+        }
+
+    val effectiveStrength: Float
+        get() = strength * scaleRatio
+
     fun copy(strength: Float): ShapeType = when (this) {
         is Cut -> Cut(strength = strength)
         is Rounded -> Rounded(strength = strength)
