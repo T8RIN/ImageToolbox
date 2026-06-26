@@ -85,17 +85,30 @@ fun Modifier.materialShadow(
         val isWavy =
             shape is WavyShape || (shape is AnimatedShape && shape.shapesType is ShapeType.Wavy)
 
-        val isConcavePath = remember(shape, isWavy) {
-            if (isWavy) {
-                false
+        val api21Shadow = {
+            Modifier.rsBlurShadow(
+                shape = shape,
+                radius = elevation.value,
+                isAlphaContentClip = isClipped,
+                color = color
+            )
+        }
+
+        val api29Shadow = {
+            if (isClipped) {
+                Modifier.clippedShadow(
+                    shape = shape,
+                    elevation = elevation.value,
+                    ambientColor = color,
+                    spotColor = color
+                )
             } else {
-                shape.createOutline(
-                    size = Size(1f, 1f),
-                    layoutDirection = LayoutDirection.Ltr,
-                    density = Density(1f)
-                ).let {
-                    it is Outline.Generic && !it.path.isConvex
-                }
+                Modifier.shadow(
+                    shape = shape,
+                    elevation = elevation.value,
+                    ambientColor = color,
+                    spotColor = color
+                )
             }
         }
 
@@ -137,36 +150,21 @@ fun Modifier.materialShadow(
                 }
             }
 
-            isConcavePath && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
-                val api21Shadow = Modifier.rsBlurShadow(
-                    shape = shape,
-                    radius = elevation.value,
-                    isAlphaContentClip = isClipped,
-                    color = color
-                )
-
-                api21Shadow
-            }
-
-            else -> {
-                val api29Shadow = if (isClipped) {
-                    Modifier.clippedShadow(
-                        shape = shape,
-                        elevation = elevation.value,
-                        ambientColor = color,
-                        spotColor = color
-                    )
-                } else {
-                    Modifier.shadow(
-                        shape = shape,
-                        elevation = elevation.value,
-                        ambientColor = color,
-                        spotColor = color
-                    )
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
+                val isConcavePath = remember(shape) {
+                    shape.createOutline(
+                        size = Size(1f, 1f),
+                        layoutDirection = LayoutDirection.Ltr,
+                        density = Density(1f)
+                    ).let {
+                        it is Outline.Generic && !it.path.isConvex
+                    }
                 }
 
-                api29Shadow
+                if (isConcavePath) api21Shadow() else api29Shadow()
             }
+
+            else -> api29Shadow()
         }
     } else Modifier
 }
