@@ -3274,7 +3274,7 @@
     <string name="search_keywords_collage_maker">collage grid layout combine</string>
     <string name="search_keywords_markup_layers">markup layers annotate overlay edit</string>
     <string name="search_keywords_base64_tools">base64 encode decode data uri</string>
-    <string name="search_keywords_checksum_tools">checksum hash md5 sha sha1 sha256 verify</string>
+    <string name="search_keywords_checksum_tools">checksum hash md5 sha1 sha256 verify</string>
     <string name="search_keywords_mesh_gradients">mesh gradient background</string>
     <string name="search_keywords_edit_exif">exif metadata edit gps date camera</string>
     <string name="search_keywords_image_cutter">cut split grid pieces tiles</string>
@@ -3314,4 +3314,6 @@
     <string name="save_export_profile">Save current profile</string>
     <string name="delete_export_profile">Delete export profile</string>
     <string name="delete_export_profile_sub">Do you want to delete export profile \"%1$s\"?</string>
+    <string name="watermark_filename_placeholder">Placeholder</string>
+    <string name="watermark_filename_placeholder_sub">Use {filename} to insert the original filename without extension</string>
 </resources>

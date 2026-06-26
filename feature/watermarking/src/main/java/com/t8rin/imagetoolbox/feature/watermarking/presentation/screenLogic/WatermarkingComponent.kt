@@ -51,9 +51,11 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkApplier
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
+import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkingType
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.WatermarkingComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -211,8 +213,43 @@ class WatermarkingComponent @AssistedInject internal constructor(
             watermarkApplier.applyWatermark(
                 image = image,
                 originalSize = originalSize,
-                params = watermarkParams
+                params = watermarkParams.resolveFilenamePlaceholder(data)
             )
+        }
+    }
+
+    private fun WatermarkParams.resolveFilenamePlaceholder(data: Any): WatermarkParams {
+        val text = when (val type = watermarkingType) {
+            is WatermarkingType.Text -> type.text
+            is WatermarkingType.Stamp.Text -> type.text
+            else -> return this
+        }
+        if (FILENAME_PLACEHOLDER !in text) return this
+
+        val sourceUri = when (data) {
+            is Uri -> data
+            is String -> data.toUri()
+            else -> selectedUri
+        }
+        val filename = sourceUri.filename()
+            ?.substringBeforeLast('.')
+            ?.takeIf(String::isNotEmpty)
+            ?: return this
+
+        return when (val type = watermarkingType) {
+            is WatermarkingType.Text -> copy(
+                watermarkingType = type.copy(
+                    text = type.text.replace(FILENAME_PLACEHOLDER, filename)
+                )
+            )
+
+            is WatermarkingType.Stamp.Text -> copy(
+                watermarkingType = type.copy(
+                    text = type.text.replace(FILENAME_PLACEHOLDER, filename)
+                )
+            )
+
+            else -> this
         }
     }
 
@@ -223,7 +260,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
             _done.value = 0
             _left.value = uris.size
             shareProvider.shareImages(
-                uris.map { it.toString() },
+                uris = uris.map { it.toString() },
                 imageLoader = { uri ->
                     getWatermarkedBitmap(
                         data = uri,
@@ -497,5 +534,9 @@ class WatermarkingComponent @AssistedInject internal constructor(
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): WatermarkingComponent
+    }
+
+    private companion object {
+        const val FILENAME_PLACEHOLDER = "{filename}"
     }
 }

@@ -25,7 +25,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,6 +34,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.JAVA_FORMAT_SPECIFICATION
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
@@ -95,6 +95,9 @@ fun WatermarkDataSelector(
                         },
                         label = {
                             Text(stringResource(R.string.text))
+                        },
+                        endIcon = {
+                            WatermarkPlaceholderInfoButton()
                         }
                     )
                 }
@@ -120,6 +123,9 @@ fun WatermarkDataSelector(
                         },
                         label = {
                             Text(stringResource(R.string.text))
+                        },
+                        endIcon = {
+                            WatermarkPlaceholderInfoButton()
                         }
                     )
                 }
