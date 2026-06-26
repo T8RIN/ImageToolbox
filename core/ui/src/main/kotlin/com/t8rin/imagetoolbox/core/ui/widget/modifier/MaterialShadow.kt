@@ -85,31 +85,27 @@ fun Modifier.materialShadow(
         val isWavy =
             shape is WavyShape || (shape is AnimatedShape && shape.shapesType is ShapeType.Wavy)
 
-        val api21Shadow = {
-            Modifier.rsBlurShadow(
-                shape = shape,
-                radius = elevation.value,
-                isAlphaContentClip = isClipped,
-                color = color
-            )
-        }
+        fun api21Shadow() = Modifier.rsBlurShadow(
+            shape = shape,
+            radius = elevation.value,
+            isAlphaContentClip = isClipped,
+            color = color
+        )
 
-        val api29Shadow = {
-            if (isClipped) {
-                Modifier.clippedShadow(
-                    shape = shape,
-                    elevation = elevation.value,
-                    ambientColor = color,
-                    spotColor = color
-                )
-            } else {
-                Modifier.shadow(
-                    shape = shape,
-                    elevation = elevation.value,
-                    ambientColor = color,
-                    spotColor = color
-                )
-            }
+        fun api29Shadow() = if (isClipped) {
+            Modifier.clippedShadow(
+                shape = shape,
+                elevation = elevation.value,
+                ambientColor = color,
+                spotColor = color
+            )
+        } else {
+            Modifier.shadow(
+                shape = shape,
+                elevation = elevation.value,
+                ambientColor = color,
+                spotColor = color
+            )
         }
 
         when {
