@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.unit.Dp
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -143,7 +143,7 @@ fun FancySlider(
                                     .copy(0.3f),
                                 color = SafeLocalContainerColor
                                     .copy(0.5f)
-                                    .compositeOver(MaterialTheme.colorScheme.surface)
+                                    .compositeOverSafe(MaterialTheme.colorScheme.surface)
                                     .copy(colors.activeTrackColor.alpha),
                                 composeColorOnTopOfBackground = false
                             )
@@ -214,7 +214,7 @@ fun FancyRangeSlider(
                                     .copy(0.3f),
                                 color = SafeLocalContainerColor
                                     .copy(0.5f)
-                                    .compositeOver(MaterialTheme.colorScheme.surface)
+                                    .compositeOverSafe(MaterialTheme.colorScheme.surface)
                                     .copy(colors.activeTrackColor.alpha),
                                 composeColorOnTopOfBackground = false
                             )

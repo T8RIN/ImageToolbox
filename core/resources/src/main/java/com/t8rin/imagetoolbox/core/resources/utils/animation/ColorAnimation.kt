@@ -36,27 +36,25 @@ fun animateColorAsState(
     label: String = "ColorAnimation",
     finishedListener: ((Color) -> Unit)? = null
 ): State<Color> = animateValueAsState(
-    targetValue = targetValue.toDrawableColor(),
-    typeConverter = DrawableColorVectorConverter,
+    targetValue = targetValue,
+    typeConverter = SafeColorVectorConverter,
     animationSpec = animationSpec,
     label = label,
     finishedListener = finishedListener
 )
 
 @Stable
-private fun Color.toDrawableColor(fallback: Color = Color.Transparent): Color {
-    val color = if (isSpecified) this else fallback
-
-    return runCatching {
-        Color(color.toArgb())
-    }.getOrElse {
-        fallback
-    }
+internal fun Color.toSafeSrgb(
+    fallback: Color = Color.Transparent
+): Color = if (isSpecified) {
+    runCatching { Color(toArgb()) }.getOrDefault(fallback)
+} else {
+    fallback
 }
 
-private val DrawableColorVectorConverter = TwoWayConverter<Color, AnimationVector4D>(
+private val SafeColorVectorConverter = TwoWayConverter<Color, AnimationVector4D>(
     convertToVector = { color ->
-        color.toDrawableColor().run {
+        color.toSafeSrgb().run {
             AnimationVector4D(
                 v1 = red,
                 v2 = green,
@@ -75,8 +73,4 @@ private val DrawableColorVectorConverter = TwoWayConverter<Color, AnimationVecto
     }
 )
 
-private fun Float.toColorComponent(): Float = if (isFinite()) {
-    coerceIn(0f, 1f)
-} else {
-    0f
-}
+private fun Float.toColorComponent(): Float = if (isFinite()) coerceIn(0f, 1f) else 0f

@@ -32,13 +32,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.takeOrElse
+import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerBrush
@@ -71,7 +71,7 @@ fun Modifier.container(
     val containerColor = if (color.isUnspecified) {
         SafeLocalContainerColor
     } else if (composeColorOnTopOfBackground) {
-        color.compositeOver(colorScheme.background)
+        color.compositeOverSafe(colorScheme.background)
     } else color
 
     val enableShadow = if (isStandaloneContainer) settingsState.drawContainerShadows else true

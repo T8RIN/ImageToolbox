@@ -79,7 +79,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.toArgb
@@ -112,6 +111,7 @@ import com.materialkolor.scheme.SchemeVibrant
 import com.materialkolor.scheme.Variant
 import com.materialkolor.toColorScheme
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -754,7 +754,7 @@ fun Context.getColorScheme(
             copy(
                 outlineVariant = onSecondaryContainer
                     .copy(alpha = 0.2f)
-                    .compositeOver(surfaceColorAtElevation(6.dp))
+                    .compositeOverSafe(surfaceColorAtElevation(6.dp))
             )
         }
 }

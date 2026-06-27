@@ -53,7 +53,6 @@ import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.font.FontWeight
@@ -62,6 +61,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
@@ -306,7 +306,7 @@ fun EnhancedButtonGroup(
 
     val disabledColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = DisabledAlpha)
-        .compositeOver(MaterialTheme.colorScheme.surface)
+        .compositeOverSafe(MaterialTheme.colorScheme.surface)
 
     ProvideTextStyle(
         value = LocalTextStyle.current.copy(

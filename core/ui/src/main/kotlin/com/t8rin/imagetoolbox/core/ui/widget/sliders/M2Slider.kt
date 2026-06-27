@@ -25,8 +25,8 @@ import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -76,7 +76,7 @@ fun M2Slider(
                                 .copy(0.3f),
                             color = SafeLocalContainerColor
                                 .copy(0.3f)
-                                .compositeOver(
+                                .compositeOverSafe(
                                     takeColorFromScheme {
                                         if (it) {
                                             tertiaryContainer
@@ -157,7 +157,7 @@ fun M2RangeSlider(
                                 .copy(0.3f),
                             color = SafeLocalContainerColor
                                 .copy(0.3f)
-                                .compositeOver(
+                                .compositeOverSafe(
                                     takeColorFromScheme {
                                         if (it) {
                                             tertiaryContainer

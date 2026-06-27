@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -46,6 +45,7 @@ import com.t8rin.cropper.model.CropShape
 import com.t8rin.cropper.util.drawGrid
 import com.t8rin.cropper.util.drawWithLayer
 import com.t8rin.cropper.util.scaleAndTranslatePath
+import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 
 /**
  * Draw overlay composed of 9 rectangles. When [drawHandles]
@@ -320,7 +320,7 @@ private fun DrawScope.drawOverlay(
 
             drawPath(
                 path = middlePathHandles,
-                color = handleColor.copy(0.9f).compositeOver(Color.Black),
+                color = handleColor.copy(0.9f).compositeOverSafe(Color.Black),
                 style = Stroke(
                     width = strokeWidth * 4,
                     cap = StrokeCap.Round,

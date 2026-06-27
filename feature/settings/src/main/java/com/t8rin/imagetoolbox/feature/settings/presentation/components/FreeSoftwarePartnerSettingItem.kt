@@ -22,7 +22,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -30,6 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.PARTNER_FREE_SOFTWARE
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.HandshakeAlt
+import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 
@@ -48,7 +48,7 @@ fun FreeSoftwarePartnerSettingItem(
         title = stringResource(R.string.free_software_partner),
         subtitle = stringResource(R.string.free_software_partner_sub),
         color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f)
-            .compositeOver(MaterialTheme.colorScheme.surface),
+            .compositeOverSafe(MaterialTheme.colorScheme.surface),
         contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.9f),
         modifier = modifier
     )

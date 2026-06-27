@@ -35,11 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -95,7 +95,7 @@ fun EnhancedChip(
                     borderColor = if (!selected) MaterialTheme.colorScheme.outlineVariant()
                     else selectedColor
                         .copy(alpha = 0.9f)
-                        .compositeOver(Color.Black),
+                        .compositeOverSafe(Color.Black),
                     shape = resultShape,
                     autoShadowElevation = 0.5.dp
                 )
