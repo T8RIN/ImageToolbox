@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Icon
@@ -82,6 +81,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.onSwipeDown
@@ -327,6 +327,9 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                     sheetShadowElevation = 0.dp,
                     sheetSwipeEnabled = sheetSwipeEnabled,
                     sheetContent = {
+                        val animatedShape = AutoCornersShape(
+                            (32.dp * (animatedPredictiveBackProgress * 10f)).coerceIn(0.dp, 32.dp)
+                        )
                         Scaffold(
                             modifier = Modifier
                                 .heightIn(max = screenHeight * 0.7f)
@@ -338,9 +341,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                         pivotFractionX = 0.5f,
                                         pivotFractionY = 1f
                                     )
-                                    shape = RoundedCornerShape(
-                                        (32.dp * (progress * 10f)).coerceIn(0.dp, 32.dp)
-                                    )
+                                    shape = animatedShape
                                     clip = progress > 0f
                                 }
                                 .clearFocusOnTap(),

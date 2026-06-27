@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -55,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
@@ -254,6 +254,15 @@ internal fun MarkupLayersSideMenu(
                                                             isFlippedVertically =
                                                                 !isFlippedVertically
                                                         }
+                                                    }
+                                                },
+                                                onAlignLayer = { x, y ->
+                                                    activeLayer?.let { layer ->
+                                                        component.setLayerNormalizedPosition(
+                                                            layer = layer,
+                                                            x = x,
+                                                            y = y
+                                                        )
                                                     }
                                                 },
                                                 onMoveLayerBy = { dx, dy ->

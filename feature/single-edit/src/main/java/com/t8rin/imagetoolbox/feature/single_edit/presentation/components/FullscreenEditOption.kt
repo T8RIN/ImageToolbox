@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
@@ -81,6 +80,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
@@ -230,6 +230,11 @@ fun FullscreenEditOption(
                         sheetShadowElevation = 0.dp,
                         sheetSwipeEnabled = sheetSwipeEnabled,
                         sheetContent = {
+                            val animatedShape = AutoCornersShape(
+                                (32.dp * (animatedBottomSheetPredictiveBackProgress * 10f))
+                                    .coerceIn(0.dp, 32.dp)
+                            )
+
                             Scaffold(
                                 modifier = modifier
                                     .heightIn(max = screenHeight * 0.7f)
@@ -241,9 +246,7 @@ fun FullscreenEditOption(
                                             pivotFractionX = 0.5f,
                                             pivotFractionY = 1f
                                         )
-                                        shape = RoundedCornerShape(
-                                            (32.dp * (progress * 10f)).coerceIn(0.dp, 32.dp)
-                                        )
+                                        shape = animatedShape
                                         clip = progress > 0f
                                     }
                                     .clearFocusOnTap(),

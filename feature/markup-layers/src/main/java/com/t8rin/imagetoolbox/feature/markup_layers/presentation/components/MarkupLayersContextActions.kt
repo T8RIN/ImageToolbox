@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,6 +49,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowDropDown
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowDropUp
@@ -92,6 +92,7 @@ internal fun BoxScope.MarkupLayersContextActions(
     groupingSelectionCount: Int,
     onFlipLayerHorizontally: () -> Unit,
     onFlipLayerVertically: () -> Unit,
+    onAlignLayer: (Float, Float) -> Unit,
     onMoveLayerBy: (Float, Float) -> Unit,
     onResetLayerPosition: () -> Unit,
     onNormalizedPositionXChange: (Float) -> Unit,
@@ -310,6 +311,12 @@ internal fun BoxScope.MarkupLayersContextActions(
             }
 
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                LayerAlignmentSelector(
+                    normalizedPositionX = normalizedPositionX,
+                    normalizedPositionY = normalizedPositionY,
+                    enabled = transformActionsEnabled,
+                    onAlignLayer = onAlignLayer
+                )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier
