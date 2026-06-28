@@ -533,7 +533,7 @@
     <string name="heji_burgess_tone_mapping">מיפוי טון הייל בורגס</string>
     <string name="aces_filmic_tone_mapping">מיפוי טון סרטי ACES</string>
     <string name="aces_hill_tone_mapping">מיפוי הטון של ACES Hill</string>
-    <string name="current">נוֹכְחִי</string>
+    <string name="current">נוכחי</string>
     <string name="all">את כל</string>
     <string name="email">אימייל</string>
     <string name="full_filter">מסנן מלא</string>
@@ -550,7 +550,7 @@
     <string name="images_to_pdf_sub">ארוז תמונות שניתנו לקובץ PDF פלט</string>
     <string name="gradient_maker">יוצר צבע</string>
     <string name="gradient_maker_sub">צור שיפוע של גודל פלט נתון עם צבעים וסוג מראה מותאמים אישית</string>
-    <string name="speed">מְהִירוּת</string>
+    <string name="speed">מהירות</string>
     <string name="dehaze">מעורפל</string>
     <string name="omega">אוֹמֶגָה</string>
     <string name="pdf_tools">כלי PDF</string>
@@ -651,7 +651,7 @@
     <string name="scale_small_images_to_large">קנה מידה של תמונות קטנות לגדולות</string>
     <string name="scale_small_images_to_large_sub">תמונות קטנות יותאמו לגדולה ברצף אם מופעלת</string>
     <string name="images_order">סדר תמונות</string>
-    <string name="grain">תְבוּאָה</string>
+    <string name="grain">תבואה</string>
     <string name="unsharp">לא חד</string>
     <string name="purple_mist">ערפל סגול</string>
     <string name="sunrise">זריחה</string>
@@ -728,7 +728,7 @@
     <string name="slide">שקופית</string>
     <string name="side_by_side">זה לצד זה</string>
     <string name="toggle_tap">החלף הקש</string>
-    <string name="transparency">שְׁקִיפוּת</string>
+    <string name="transparency">שקיפות</string>
     <string name="saved_to_original">קובץ שהוחלף עם השם %1$s ביעד המקורי</string>
     <string name="magnifier">זכוכית מגדלת</string>
     <string name="magnifier_sub">מאפשר זכוכית מגדלת בחלק העליון של האצבע במצבי ציור עבור נגישות טובה יותר</string>
@@ -899,7 +899,7 @@
     <string name="path_scale">סולם נתיב</string>
     <string name="reset_properties">אפס מאפיינים</string>
     <string name="reset_properties_sub">כל המאפיינים יוגדרו לערכי ברירת מחדל, שימו לב שלא ניתן לבטל פעולה זו</string>
-    <string name="detailed">מְפוֹרָט</string>
+    <string name="detailed">מפורט</string>
     <string name="default_line_width">ברירת המחדל של רוחב קו</string>
     <string name="engine_mode">מצב מנוע</string>
     <string name="legacy">מוֹרֶשֶׁת</string>
@@ -909,7 +909,7 @@
     <string name="convert_sub">המרת קבוצות תמונות לפורמט נתון</string>
     <string name="add_new_folder">הוסף תיקיה חדשה</string>
     <string name="tag_bits_per_sample">ביטים לדגימה</string>
-    <string name="tag_compression">דְחִיסָה</string>
+    <string name="tag_compression">דחיסה</string>
     <string name="tag_photometric_interpretation">פרשנות פוטומטרית</string>
     <string name="tag_samples_per_pixel">דגימות לכל פיקסל</string>
     <string name="tag_planar_configuration">תצורה מישורית</string>
@@ -934,7 +934,7 @@
     <string name="tag_model">דֶגֶם</string>
     <string name="tag_software">תוֹכנָה</string>
     <string name="tag_artist">אָמָן</string>
-    <string name="tag_copyright">זְכוּת יְוֹצרִים</string>
+    <string name="tag_copyright">זכויות יוצרים</string>
     <string name="tag_exif_version">גרסת ה-Exif</string>
     <string name="tag_flashpix_version">גרסת פלאשפיקס</string>
     <string name="tag_color_space">מרחב צבע</string>
@@ -992,7 +992,7 @@
     <string name="tag_focal_length_in_35mm_film">אורך מוקד בסרט 35 מ\"מ</string>
     <string name="tag_scene_capture_type">סוג לכידת סצנה</string>
     <string name="tag_gain_control">השג שליטה</string>
-    <string name="tag_contrast">לְהַשְׁווֹת</string>
+    <string name="tag_contrast">השווה</string>
     <string name="tag_saturation">רִוּוּי</string>
     <string name="tag_sharpness">חַדוּת</string>
     <string name="tag_device_setting_description">תיאור הגדרת ההתקן</string>
@@ -1058,9 +1058,9 @@
     <string name="outlined_triangle_sub">מצייר משולש מתאר מנקודת ההתחלה לנקודת הסיום</string>
     <string name="triangle_sub">מצייר משולש מתאר מנקודת ההתחלה לנקודת הסיום</string>
     <string name="outlined_triangle">משולש מתואר</string>
-    <string name="triangle">מְשּוּלָשׁ</string>
+    <string name="triangle">משולש</string>
     <string name="polygon_sub">מצייר מצולע מנקודת התחלה לנקודת סיום</string>
-    <string name="polygon">מְצוּלָע</string>
+    <string name="polygon">מצולע</string>
     <string name="outlined_polygon">מצולע מתואר</string>
     <string name="outlined_polygon_sub">מצייר מצולע מתואר מנקודת התחלה לנקודת סיום</string>
     <string name="vertices">קודקודים</string>
@@ -1129,7 +1129,7 @@
     <string name="min">מינימום</string>
     <string name="grant_camera_permission_to_scan_qr_code">הענק הרשאה למצלמה בהגדרות לסרוק קוד QR</string>
     <string name="grant_camera_permission_to_scan_document_scanner">הענק הרשאה למצלמה בהגדרות כדי לסרוק את סורק המסמכים</string>
-    <string name="cubic">מְעוּקָב</string>
+    <string name="cubic">מעוקב</string>
     <string name="bspline">B-Spline</string>
     <string name="hamming">האמינג</string>
     <string name="hanning">האנינג</string>
@@ -1215,7 +1215,7 @@
     <string name="equalize_histogram_adaptive_hsl">השוואת היסטוגרמה אדפטיבית HSL</string>
     <string name="equalize_histogram_adaptive_hsv">השוואת היסטוגרמה HSV אדפטיבית</string>
     <string name="edge_mode">מצב קצה</string>
-    <string name="clip">לְקַצֵץ</string>
+    <string name="clip">קליפ</string>
     <string name="wrap">לַעֲטוֹף</string>
     <string name="color_blind_scheme">עיוורון צבעים</string>
     <string name="color_blind_scheme_sub">בחר מצב כדי להתאים את צבעי הנושא לגרסה של עיוורון צבעים שנבחרה</string>
@@ -1258,10 +1258,10 @@
     <string name="fit_to_bounds_sub">שלב מצב שינוי גודל חיתוך עם פרמטר זה כדי להשיג התנהגות רצויה (חיתוך/התאמה ליחס רוחב-גובה)</string>
     <string name="languages_imported">שפות יובאו בהצלחה</string>
     <string name="backup_ocr_models">גיבוי דגמי OCR</string>
-    <string name="import_word">יְבוּא</string>
-    <string name="export">יְצוּא</string>
+    <string name="import_word">ייבוא</string>
+    <string name="export">ייצוא</string>
     <string name="position">מַצָב</string>
-    <string name="center">מֶרְכָּז</string>
+    <string name="center">מרכז</string>
     <string name="top_left">שמאל למעלה</string>
     <string name="top_right">למעלה מימין</string>
     <string name="bottom_left">שמאל למטה</string>
@@ -1292,11 +1292,11 @@
     <string name="no_favorite_options_selected">לא נבחרו אפשרויות מועדפות, הוסף אותן בדף הכלים</string>
     <string name="add_favorites">הוסף מועדפים</string>
     <string name="harmony_complementary">מַשׁלִים</string>
-    <string name="harmony_analogous">מַקְבִּיל</string>
+    <string name="harmony_analogous">מקביל</string>
     <string name="harmony_triadic">טריאדי</string>
     <string name="harmony_split_complementary">פיצול משלים</string>
     <string name="harmony_tetradic">טטראדי</string>
-    <string name="harmony_square">מְרוּבָּע</string>
+    <string name="harmony_square">מרובע</string>
     <string name="harmony_analogous_complementary">אנלוגי + משלים</string>
     <string name="color_tools">כלי צבע</string>
     <string name="color_tools_sub">לערבב, ליצור גוונים, ליצור גוונים ועוד</string>
@@ -1664,7 +1664,7 @@
     <string name="diffuse">מְפוּזָר</string>
     <string name="dog">כֶּלֶב</string>
     <string name="second_radius">רדיוס שני</string>
-    <string name="equalize">לְהַשְׁווֹת</string>
+    <string name="equalize">להשוות</string>
     <string name="glow">לַהַט</string>
     <string name="whirl_and_pinch">מערבלים וצבטים</string>
     <string name="pointillize">פוינטיליזציה</string>
@@ -2323,13 +2323,13 @@
     <string name="debug_menu_sub">תפריט לבדיקת פונקציות האפליקציה, זה לא נועד להופיע במהדורת הייצור</string>
     <string name="provider">ספק</string>
     <string name="download_paddle_ocr_description">PaddleOCR דורש דגמי ONNX נוספים במכשיר שלך. האם ברצונך להוריד נתונים %1$s?</string>
-    <string name="paddle_ocr_model_universal">אוּנִיבֶרְסָלִי</string>
+    <string name="paddle_ocr_model_universal">אוניברסלי</string>
     <string name="paddle_ocr_model_korean">קוריאנית</string>
     <string name="paddle_ocr_model_latin">לָטִינִית</string>
     <string name="paddle_ocr_model_east_slavic">מזרח סלאבי</string>
     <string name="paddle_ocr_model_thai">תאילנדית</string>
     <string name="paddle_ocr_model_greek">יוונית</string>
-    <string name="paddle_ocr_model_english">אַנגְלִית</string>
+    <string name="paddle_ocr_model_english">אנגלית</string>
     <string name="paddle_ocr_model_cyrillic">קירילי</string>
     <string name="paddle_ocr_model_arabic">עֲרָבִית</string>
     <string name="paddle_ocr_model_devanagari">דוואנגרי</string>
@@ -3263,7 +3263,7 @@
     <string name="search_keywords_pdf_extract_pages">pdf לתמונות דפי ייצוא jpg png</string>
     <string name="search_keywords_pdf_remove_annotations">pdf הערות הערות להסיר נקי</string>
     <string name="neutral_variant">וריאנט ניטרלי</string>
-    <string name="error">שְׁגִיאָה</string>
+    <string name="error">שגיאה</string>
     <string name="drop_shadow">צל</string>
     <string name="tooth_height">גובה השן</string>
     <string name="horizontal_tooth_range">טווח שיניים אופקי</string>
