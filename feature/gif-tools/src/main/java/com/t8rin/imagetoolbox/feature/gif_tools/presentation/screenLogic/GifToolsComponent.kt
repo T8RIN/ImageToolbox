@@ -112,8 +112,6 @@ class GifToolsComponent @AssistedInject internal constructor(
     private val _webpQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base())
     val webpQuality by _webpQuality
 
-    private var gifData: ByteArray? = null
-
     fun setType(type: Screen.GifTools.Type) {
         when (type) {
             is Screen.GifTools.Type.GifToImage -> {
@@ -177,7 +175,6 @@ class GifToolsComponent @AssistedInject internal constructor(
         collectionJob = null
         _type.update { null }
         _convertedImageUris.update { emptyList() }
-        gifData = null
         savingJob?.cancel()
         savingJob = null
         updateParams(GifParams.Default)
@@ -197,23 +194,45 @@ class GifToolsComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
+    fun createTargetFilename(): String = "GIF_${timestamp()}.gif"
+
     fun saveGifTo(uri: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
-            gifData?.let { byteArray ->
-                fileController.writeBytes(
-                    uri = uri.toString(),
-                    block = { it.writeBytes(byteArray) }
+            _done.value = 0
+            val imageUris = (type as? Screen.GifTools.Type.ImageToGif)
+                ?.imageUris
+                ?.map(Uri::toString)
+                ?: run {
+                    _isSaving.value = false
+                    return@trackProgress
+                }
+            _left.value = imageUris.size
+            gifConverter.createGifFromImageUris(
+                imageUris = imageUris,
+                params = params,
+                onProgress = {
+                    _done.update { it + 1 }
+                    updateProgress(
+                        done = done,
+                        total = left
+                    )
+                },
+                onFailure = {
+                    parseSaveResults(listOf(SaveResult.Error.Exception(it)))
+                }
+            )?.let { gifUri ->
+                fileController.transferBytes(
+                    fromUri = gifUri,
+                    toUri = uri.toString()
                 ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
-            gifData = null
         }
     }
 
     fun saveBitmaps(
-        oneTimeSaveLocationUri: String?,
-        onGifSaveResult: (filename: String) -> Unit
+        oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
@@ -286,27 +305,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                     }
                 }
 
-                is Screen.GifTools.Type.ImageToGif -> {
-                    _left.value = type.imageUris?.size ?: -1
-                    gifData = type.imageUris?.map { it.toString() }?.let { list ->
-                        gifConverter.createGifFromImageUris(
-                            imageUris = list,
-                            params = params,
-                            onProgress = {
-                                _done.update { it + 1 }
-                                updateProgress(
-                                    done = done,
-                                    total = left
-                                )
-                            },
-                            onFailure = {
-                                parseSaveResults(listOf(SaveResult.Error.Exception(it)))
-                            }
-                        )?.also {
-                            onGifSaveResult("GIF_${timestamp()}.gif")
-                        }
-                    }
-                }
+                is Screen.GifTools.Type.ImageToGif -> Unit
 
                 is Screen.GifTools.Type.GifToJxl -> {
                     val results = mutableListOf<SaveResult>()
@@ -508,10 +507,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 )
                             },
                             onFailure = AppToastHost::showFailureToast
-                        )?.also { byteArray ->
-                            shareProvider.shareByteArray(
-                                byteArray = byteArray,
-                                filename = "GIF_${timestamp()}.gif",
+                        )?.also { uri ->
+                            shareProvider.shareUri(
+                                uri = uri,
+                                type = ImageFormat.Gif.mimeType,
                                 onComplete = AppToastHost::showConfetti
                             )
                         }

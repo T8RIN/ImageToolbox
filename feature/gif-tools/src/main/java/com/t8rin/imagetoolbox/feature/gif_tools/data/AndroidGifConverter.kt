@@ -32,6 +32,7 @@ import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.gif_converter.GifEncoder
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
+import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -54,7 +55,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 
@@ -93,70 +93,73 @@ internal class AndroidGifConverter @Inject constructor(
         params: GifParams,
         onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray? = withContext(defaultDispatcher) {
-        runSuspendCatching {
-            val out = ByteArrayOutputStream()
-            val encoder = GifEncoder().apply {
-                params.size?.let { size ->
-                    if (size.width <= 0 || size.height <= 0) {
-                        onFailure(IllegalArgumentException("Width and height must be > 0"))
-                        return@withContext null
-                    }
-
-                    setSize(
-                        size.width,
-                        size.height
-                    )
-                }
-                setRepeat(params.repeatCount)
-                setQuality(
-                    (100 - ((params.quality.qualityValue - 1) * (100 / 19f))).toInt()
-                )
-                setFrameRate(params.fps.toFloat())
-                setDispose(
-                    if (params.dontStack) 2 else 0
-                )
-                setTransparent(Color.Transparent.toArgb())
-                start(out)
+    ): String? = withContext(defaultDispatcher) {
+        params.size?.let { size ->
+            if (size.width <= 0 || size.height <= 0) {
+                onFailure(IllegalArgumentException("Width and height must be > 0"))
+                return@withContext null
             }
-            imageUris.forEachIndexed { index, uri ->
-                imageGetter.getImage(
-                    data = uri,
-                    size = params.size
-                )!!.apply { setHasAlpha(true) }.let { frame ->
-                    encoder.addFrame(frame)
-                    if (params.crossfadeCount > 1) {
-                        val list = mutableSetOf(0, 255)
-                        for (a in 0..255 step (255 / params.crossfadeCount)) {
-                            list.add(a)
-                        }
-                        val alphas = list.sortedDescending()
+        }
+
+        runSuspendCatching {
+            imageShareProvider.cacheDataOrThrow(
+                filename = "temp_gif.gif"
+            ) { writeable ->
+                val encoder = GifEncoder().apply {
+                    params.size?.let { size ->
+                        setSize(
+                            size.width,
+                            size.height
+                        )
+                    }
+                    setRepeat(params.repeatCount)
+                    setQuality(
+                        (100 - ((params.quality.qualityValue - 1) * (100 / 19f))).toInt()
+                    )
+                    setFrameRate(params.fps.toFloat())
+                    setDispose(
+                        if (params.dontStack) 2 else 0
+                    )
+                    setTransparent(Color.Transparent.toArgb())
+                    start(writeable.outputStream())
+                }
+                imageUris.forEachIndexed { index, uri ->
+                    imageGetter.getImage(
+                        data = uri,
+                        size = params.size
+                    )!!.apply { setHasAlpha(true) }.let { frame ->
+                        encoder.addFrame(frame)
+                        if (params.crossfadeCount > 1) {
+                            val list = mutableSetOf(0, 255)
+                            for (a in 0..255 step (255 / params.crossfadeCount)) {
+                                list.add(a)
+                            }
+                            val alphas = list.sortedDescending()
 
 
-                        imageGetter.getImage(
-                            data = imageUris.getOrNull(index + 1) ?: Unit,
-                            size = params.size
-                        )?.let { next ->
-                            alphas.forEach { alpha ->
-                                encoder.addFrame(
-                                    next.overlay(
-                                        frame.copy(frame.safeConfig, true).applyCanvas {
-                                            drawColor(
-                                                Color.Black.copy(alpha / 255f).toArgb(),
-                                                PorterDuff.Mode.DST_IN
-                                            )
-                                        }
+                            imageGetter.getImage(
+                                data = imageUris.getOrNull(index + 1) ?: Unit,
+                                size = params.size
+                            )?.let { next ->
+                                alphas.forEach { alpha ->
+                                    encoder.addFrame(
+                                        next.overlay(
+                                            frame.copy(frame.safeConfig, true).applyCanvas {
+                                                drawColor(
+                                                    Color.Black.copy(alpha / 255f).toArgb(),
+                                                    PorterDuff.Mode.DST_IN
+                                                )
+                                            }
+                                        )
                                     )
-                                )
+                                }
                             }
                         }
                     }
+                    onProgress()
                 }
-                onProgress()
+                encoder.finish()
             }
-            encoder.finish()
-
-            out.toByteArray()
         }.onFailure {
             onFailure(it)
         }.getOrNull()
