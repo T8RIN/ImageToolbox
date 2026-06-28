@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -76,10 +75,10 @@ internal fun LayerAlignmentSupportingButton(
             if (enabled) onClick()
         },
         containerColor = takeColorFromScheme {
-            if (selected) tertiary else tertiaryContainer
+            if (selected) secondary else secondaryContainer
         },
         contentColor = takeColorFromScheme {
-            if (selected) onTertiary else onTertiaryContainer
+            if (selected) onSecondary else onSecondaryContainer
         },
         shape = ShapeDefaults.circle,
         modifier = Modifier
@@ -133,7 +132,10 @@ internal fun LayerAlignmentDialog(
             }
         },
         confirmButton = {
-            EnhancedButton(onClick = onDismiss) {
+            EnhancedButton(
+                onClick = onDismiss,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            ) {
                 Text(stringResource(R.string.close))
             }
         }
@@ -188,11 +190,19 @@ private fun RowScope.AlignmentTile(
     onClick: () -> Unit,
     shape: Shape
 ) {
+    val contentColor = takeColorFromScheme {
+        if (selected) {
+            onSecondary
+        } else {
+            onSurface
+        }
+    }
+
     ClickableTile(
         onClick = onClick,
         containerColor = takeColorFromScheme {
             if (selected) {
-                tertiaryContainer
+                secondary
             } else {
                 surfaceContainerLow
             }
@@ -200,8 +210,6 @@ private fun RowScope.AlignmentTile(
         shape = shape,
         modifier = Modifier.weight(1f)
     ) {
-        val contentColor = LocalContentColor.current
-
         Box(
             contentAlignment = position.contentAlignment,
             modifier = Modifier
@@ -248,7 +256,7 @@ private fun Float?.isAlignmentValue(): Boolean = this != null &&
 
 private const val ALIGNMENT_GRID_COLUMN_COUNT = 3
 private const val NORMALIZED_CENTER = 0.5f
-private const val ALIGNMENT_TOLERANCE = 0.001
+private const val ALIGNMENT_TOLERANCE = 0.0001
 
 @Preview
 @Composable
@@ -260,8 +268,8 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
             .padding(24.dp)
     ) {
         LayerAlignmentSelector(
-            normalizedPositionX = null,
-            normalizedPositionY = null,
+            normalizedPositionX = 0.5f,
+            normalizedPositionY = 0.5f,
             onAlignLayer = { _, _ -> }
         )
     }
