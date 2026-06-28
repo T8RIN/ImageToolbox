@@ -39,6 +39,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -51,12 +52,41 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Place
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import kotlin.math.abs
+
+@Composable
+internal fun LayerAlignmentSupportingButton(
+    normalizedPositionX: Float?,
+    normalizedPositionY: Float?,
+    enabled: Boolean,
+    onClick: () -> Unit
+) {
+    val selected = normalizedPositionX.isAlignmentValue() &&
+            normalizedPositionY.isAlignmentValue()
+
+    SupportingButton(
+        icon = Icons.Outlined.Place,
+        onClick = {
+            if (enabled) onClick()
+        },
+        containerColor = takeColorFromScheme {
+            if (selected) tertiary else tertiaryContainer
+        },
+        contentColor = takeColorFromScheme {
+            if (selected) onTertiary else onTertiaryContainer
+        },
+        shape = ShapeDefaults.circle,
+        modifier = Modifier
+            .padding(4.dp)
+            .alpha(if (enabled) 1f else 0.5f)
+    )
+}
 
 @Composable
 internal fun LayerAlignmentDialog(
@@ -212,6 +242,9 @@ private val Position.contentAlignment: Alignment
     }
 
 private fun Float.isNear(value: Float): Boolean = abs(this - value) < ALIGNMENT_TOLERANCE
+
+private fun Float?.isAlignmentValue(): Boolean = this != null &&
+        normalizedAlignmentValues.any(::isNear)
 
 private const val ALIGNMENT_GRID_COLUMN_COUNT = 3
 private const val NORMALIZED_CENTER = 0.5f
