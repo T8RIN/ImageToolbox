@@ -64,7 +64,12 @@ internal class KeepAliveForegroundService : Service() {
         if (intent == null) {
             startForeground()
             Handler(Looper.getMainLooper()).postDelayed(
-                ::stopForegroundSafe,
+                {
+                    runCatching {
+                        stopForegroundSafe()
+                        stopSelfResult(startId)
+                    }.onFailure { it.makeLog("KeepAliveForegroundService") }
+                },
                 1000
             )
             return START_NOT_STICKY
@@ -141,6 +146,12 @@ internal class KeepAliveForegroundService : Service() {
             }
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    override fun onTimeout(startId: Int, fgsType: Int) {
+        "Timeout: startId = $startId, fgsType = $fgsType".makeLog("KeepAliveForegroundService")
+        removeNotification = true
+        stopForegroundSafe()
     }
 
     @Suppress("DEPRECATION")

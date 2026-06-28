@@ -96,7 +96,6 @@ internal class AiProcessor @Inject constructor(
                     listener = object : AiProgressListener {
                         override fun onError(error: String) {
                             listener.onError(error)
-                            service.stop()
                         }
 
                         override fun onProgress(currentChunkIndex: Int, totalChunks: Int) {
