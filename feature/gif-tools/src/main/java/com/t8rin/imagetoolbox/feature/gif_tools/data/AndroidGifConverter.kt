@@ -55,7 +55,6 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 import javax.inject.Inject
 
 
@@ -249,14 +248,12 @@ internal class AndroidGifConverter @Inject constructor(
         failureNotifier.send(it)
     }
 
-    private val String.inputStream: InputStream?
+    private val String.bytes: ByteArray?
         get() = context
             .contentResolver
             .openInputStream(toUri())
-
-    private val String.bytes: ByteArray?
-        get() = inputStream?.use {
-            it.readBytes()
-        }
+            ?.use {
+                it.readBytes()
+            }
 
 }
