@@ -23,92 +23,173 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.Position
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Place
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import kotlin.math.abs
+
+@Composable
+internal fun LayerAlignmentDialog(
+    visible: Boolean,
+    normalizedPositionX: Float?,
+    normalizedPositionY: Float?,
+    onAlignLayer: (Float, Float) -> Unit,
+    onDismiss: () -> Unit
+) {
+    EnhancedAlertDialog(
+        visible = visible,
+        onDismissRequest = onDismiss,
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Place,
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(stringResource(R.string.position))
+        },
+        text = {
+            val state = rememberScrollState()
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fadingEdges(
+                        scrollableState = state,
+                        isVertical = true
+                    )
+                    .enhancedVerticalScroll(state),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                CompositionLocalProvider(
+                    LocalLayoutDirection provides LayoutDirection.Ltr
+                ) {
+                    LayerAlignmentSelector(
+                        normalizedPositionX = normalizedPositionX,
+                        normalizedPositionY = normalizedPositionY,
+                        onAlignLayer = onAlignLayer
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            EnhancedButton(onClick = onDismiss) {
+                Text(stringResource(R.string.close))
+            }
+        }
+    )
+}
 
 @Composable
 internal fun LayerAlignmentSelector(
     normalizedPositionX: Float?,
     normalizedPositionY: Float?,
-    enabled: Boolean,
     onAlignLayer: (Float, Float) -> Unit
 ) {
+    val positions = Position.entriesSorted
+    val entries = remember {
+        positions.chunked(ALIGNMENT_GRID_COLUMN_COUNT)
+    }
+
     Column(
+        modifier = Modifier
+            .widthIn(max = 400.dp)
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Position.entriesSorted.chunked(ALIGNMENT_GRID_COLUMN_COUNT)
-            .forEachIndexed { rowIndex, rowPositions ->
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    rowPositions.forEachIndexed { columnIndex, position ->
-                        val x = normalizedAlignmentValues[columnIndex]
-                        val y = normalizedAlignmentValues[rowIndex]
-                        AlignmentTile(
-                            position = position,
-                            selected = normalizedPositionX?.isNear(x) == true &&
-                                    normalizedPositionY?.isNear(y) == true,
-                            enabled = enabled,
-                            onClick = { onAlignLayer(x, y) }
+        entries.forEachIndexed { rowIndex, rowPositions ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                rowPositions.forEachIndexed { columnIndex, position ->
+                    val x = normalizedAlignmentValues[columnIndex]
+                    val y = normalizedAlignmentValues[rowIndex]
+                    AlignmentTile(
+                        position = position,
+                        selected = normalizedPositionX?.isNear(x) == true &&
+                                normalizedPositionY?.isNear(y) == true,
+                        onClick = { onAlignLayer(x, y) },
+                        shape = ShapeDefaults.byGridIndex(
+                            index = rowIndex * ALIGNMENT_GRID_COLUMN_COUNT + columnIndex,
+                            size = positions.size,
+                            crossAxisCount = ALIGNMENT_GRID_COLUMN_COUNT
                         )
-                    }
+                    )
                 }
             }
+        }
     }
 }
 
 @Composable
-private fun AlignmentTile(
+private fun RowScope.AlignmentTile(
     position: Position,
     selected: Boolean,
-    enabled: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    shape: Shape
 ) {
     ClickableTile(
         onClick = onClick,
-        enabled = enabled,
-        containerColor = if (selected) {
-            MaterialTheme.colorScheme.tertiaryContainer
-        } else {
-            MaterialTheme.colorScheme.surfaceContainerLow
+        containerColor = takeColorFromScheme {
+            if (selected) {
+                tertiaryContainer
+            } else {
+                surfaceContainerLow
+            }
         },
-        modifier = Modifier
-            .size(
-                width = 66.dp,
-                height = 48.dp
-            )
+        shape = shape,
+        modifier = Modifier.weight(1f)
     ) {
         val contentColor = LocalContentColor.current
 
         Box(
             contentAlignment = position.contentAlignment,
             modifier = Modifier
-                .size(24.dp)
+                .padding(12.dp)
+                .size(32.dp)
                 .border(
-                    width = 1.5.dp,
+                    width = 2.dp,
                     color = contentColor.copy(alpha = 0.6f),
-                    shape = ShapeDefaults.extraSmall
+                    shape = ShapeDefaults.pressed
                 )
                 .padding(4.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(6.dp)
+                    .size(12.dp)
                     .background(
                         color = contentColor,
-                        shape = AutoCornersShape(1.dp)
+                        shape = ShapeDefaults.extremeSmall
                     )
             )
         }
@@ -139,10 +220,16 @@ private const val ALIGNMENT_TOLERANCE = 0.001
 @Preview
 @Composable
 private fun Preview() = ImageToolboxThemeForPreview(true) {
-    LayerAlignmentSelector(
-        normalizedPositionX = null,
-        normalizedPositionY = null,
-        enabled = true,
-        onAlignLayer = { _, _ -> }
-    )
+    Button({}) { }
+    Box(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(24.dp)
+    ) {
+        LayerAlignmentSelector(
+            normalizedPositionX = null,
+            normalizedPositionY = null,
+            onAlignLayer = { _, _ -> }
+        )
+    }
 }

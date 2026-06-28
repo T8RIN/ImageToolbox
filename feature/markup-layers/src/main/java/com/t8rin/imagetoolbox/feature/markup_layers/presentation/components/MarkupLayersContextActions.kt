@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.FlipVertical
 import com.t8rin.imagetoolbox.core.resources.icons.Lock
 import com.t8rin.imagetoolbox.core.resources.icons.LockOpen
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.resources.icons.Place
 import com.t8rin.imagetoolbox.core.resources.icons.ScreenRotationAlt
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
@@ -106,13 +107,17 @@ internal fun BoxScope.MarkupLayersContextActions(
     onRotationDegreesChange: (Float) -> Unit,
     onRotationDegreesChangeFinished: () -> Unit
 ) {
+    val transformActionsEnabled = !isLayerLocked && !isGroupingSelectionMode
+
     var expandedAdjustableAction by rememberSaveable {
         mutableStateOf(AdjustableActionType.None)
     }
     var valueDialogType by rememberSaveable {
         mutableStateOf(ValueDialogType.None)
     }
-    val transformActionsEnabled = !isLayerLocked && !isGroupingSelectionMode
+    var showAlignmentDialog by rememberSaveable(transformActionsEnabled) {
+        mutableStateOf(false)
+    }
 
     EnhancedDropdownMenu(
         expanded = visible,
@@ -311,12 +316,6 @@ internal fun BoxScope.MarkupLayersContextActions(
             }
 
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                LayerAlignmentSelector(
-                    normalizedPositionX = normalizedPositionX,
-                    normalizedPositionY = normalizedPositionY,
-                    enabled = transformActionsEnabled,
-                    onAlignLayer = onAlignLayer
-                )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier
@@ -449,6 +448,21 @@ internal fun BoxScope.MarkupLayersContextActions(
                         )
                     }
                     SupportingButton(
+                        icon = Icons.Outlined.Place,
+                        onClick = {
+                            if (transformActionsEnabled) {
+                                onDismiss()
+                                showAlignmentDialog = true
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        shape = ShapeDefaults.circle,
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .alpha(if (transformActionsEnabled) 1f else 0.5f)
+                    )
+                    SupportingButton(
                         icon = Icons.Rounded.CenterFocusStrong,
                         onClick = {
                             if (transformActionsEnabled) {
@@ -517,6 +531,14 @@ internal fun BoxScope.MarkupLayersContextActions(
                 ValueDialogType.None -> Unit
             }
         }
+    )
+
+    LayerAlignmentDialog(
+        visible = showAlignmentDialog,
+        normalizedPositionX = normalizedPositionX,
+        normalizedPositionY = normalizedPositionY,
+        onAlignLayer = onAlignLayer,
+        onDismiss = { showAlignmentDialog = false }
     )
 }
 

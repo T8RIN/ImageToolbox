@@ -83,6 +83,83 @@ object ShapeDefaults {
         )
     }
 
+    @Composable
+    fun byGridIndex(
+        index: Int,
+        size: Int,
+        crossAxisCount: Int,
+        forceDefault: Boolean = false,
+        vertical: Boolean = true
+    ): Shape {
+        if (
+            index == -1 ||
+            index !in 0 until size ||
+            size <= 1 ||
+            forceDefault ||
+            crossAxisCount <= 1
+        ) {
+            return byIndex(
+                index = index,
+                size = size,
+                forceDefault = forceDefault,
+                vertical = vertical
+            )
+        }
+
+        val mainAxisIndex = index / crossAxisCount
+        val crossAxisIndex = index % crossAxisCount
+
+        fun hasItem(
+            mainAxisIndex: Int,
+            crossAxisIndex: Int
+        ): Boolean {
+            if (crossAxisIndex !in 0 until crossAxisCount) return false
+
+            val itemIndex = mainAxisIndex * crossAxisCount + crossAxisIndex
+            return itemIndex in 0 until size
+        }
+
+        val hasTop: Boolean
+        val hasBottom: Boolean
+        val hasStart: Boolean
+        val hasEnd: Boolean
+
+        if (vertical) {
+            hasTop = hasItem(mainAxisIndex - 1, crossAxisIndex)
+            hasBottom = hasItem(mainAxisIndex + 1, crossAxisIndex)
+            hasStart = hasItem(mainAxisIndex, crossAxisIndex - 1)
+            hasEnd = hasItem(mainAxisIndex, crossAxisIndex + 1)
+        } else {
+            hasTop = hasItem(mainAxisIndex, crossAxisIndex - 1)
+            hasBottom = hasItem(mainAxisIndex, crossAxisIndex + 1)
+            hasStart = hasItem(mainAxisIndex - 1, crossAxisIndex)
+            hasEnd = hasItem(mainAxisIndex + 1, crossAxisIndex)
+        }
+
+        return AutoCornersShape(
+            topStart = if (!hasTop && !hasStart) {
+                default.topStart.animate()
+            } else {
+                center.topStart.animate()
+            },
+            topEnd = if (!hasTop && !hasEnd) {
+                default.topEnd.animate()
+            } else {
+                center.topEnd.animate()
+            },
+            bottomStart = if (!hasBottom && !hasStart) {
+                default.bottomStart.animate()
+            } else {
+                center.bottomStart.animate()
+            },
+            bottomEnd = if (!hasBottom && !hasEnd) {
+                default.bottomEnd.animate()
+            } else {
+                center.bottomEnd.animate()
+            }
+        )
+    }
+
     val top
         @Composable get() = AutoCornersShape(
             topStart = 16.dp,

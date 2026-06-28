@@ -17,9 +17,12 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -34,10 +37,12 @@ import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -46,6 +51,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 internal fun ClickableTile(
@@ -106,10 +112,12 @@ internal fun ClickableTile(
     enabled: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     onHoldStep: (() -> Unit)? = null,
+    shape: Shape = ShapeDefaults.extraSmall,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
+    val interactionSource = remember { MutableInteractionSource() }
 
     val interactionModifier = if (!enabled) {
         Modifier
@@ -118,6 +126,9 @@ internal fun ClickableTile(
             awaitEachGesture {
                 val down = awaitFirstDown(requireUnconsumed = false)
                 down.consume()
+
+                val press = PressInteraction.Press(down.position)
+                interactionSource.tryEmit(press)
 
                 haptics.longPress()
                 onClick()
@@ -130,6 +141,7 @@ internal fun ClickableTile(
                 }
                 if (up != null) {
                     up.consume()
+                    interactionSource.tryEmit(PressInteraction.Release(press))
                     return@awaitEachGesture
                 }
 
@@ -157,11 +169,22 @@ internal fun ClickableTile(
                     }
                 }
                 up.consume()
+                interactionSource.tryEmit(PressInteraction.Release(press))
             }
         }
     } else {
-        Modifier.hapticsClickable(onClick = onClick)
+        Modifier.hapticsClickable(
+            interactionSource = interactionSource,
+            indication = LocalIndication.current,
+            onClick = onClick
+        )
     }
+
+    val animatedShape = shapeByInteraction(
+        shape = shape,
+        pressedShape = ShapeDefaults.pressed,
+        interactionSource = interactionSource
+    )
 
     Column(
         modifier = Modifier
@@ -176,7 +199,7 @@ internal fun ClickableTile(
                 }
             )
             .container(
-                shape = ShapeDefaults.extraSmall,
+                shape = animatedShape,
                 color = containerColor,
                 resultPadding = 0.dp
             )
