@@ -23,11 +23,9 @@ import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.isSpecified
-import androidx.compose.ui.graphics.toArgb
+import com.t8rin.imagetoolbox.core.resources.utils.toSafeSrgb
 
 @Composable
 fun animateColorAsState(
@@ -42,15 +40,6 @@ fun animateColorAsState(
     label = label,
     finishedListener = finishedListener
 )
-
-@Stable
-internal fun Color.toSafeSrgb(
-    fallback: Color = Color.Transparent
-): Color = if (isSpecified) {
-    runCatching { Color(toArgb()) }.getOrDefault(fallback)
-} else {
-    fallback
-}
 
 private val SafeColorVectorConverter = TwoWayConverter<Color, AnimationVector4D>(
     convertToVector = { color ->

@@ -23,6 +23,7 @@ import androidx.annotation.FloatRange
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.takeOrElse
@@ -30,8 +31,10 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
+import com.t8rin.imagetoolbox.core.resources.utils.toSafeSrgb
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 
+@Stable
 fun ColorScheme.outlineVariant(
     luminance: Float = 0.3f,
     onTopOf: Color = surfaceContainer
@@ -50,7 +53,7 @@ inline fun takeColorFromScheme(
     }
 ).value
 
-
+@Stable
 fun ColorScheme.suggestContainerColorBy(color: Color) = when (color) {
     onPrimary -> primary
     onSecondary -> secondary
@@ -114,14 +117,17 @@ inline val ColorScheme.onMixedContainer: Color
         )
     }
 
+@Stable
 inline fun Color.takeIf(predicate: Boolean) = if (predicate) this else Color.Unspecified
 
+@Stable
 inline fun Color.takeUnless(predicate: Boolean) = takeIf(!predicate)
 
+@Stable
 fun Color.blend(
     color: Color,
     @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
-): Color = Color(ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction))
+): Color = ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction).toSafeSrgb(this)
 
 @Composable
 fun Color.inverse(
@@ -130,6 +136,7 @@ fun Color.inverse(
 ): Color = if (darkMode) blend(Color.White, fraction(true))
 else blend(Color.Black, fraction(false))
 
+@Stable
 fun Color.inverseByLuma(
     fraction: (Boolean) -> Float = { 0.5f },
 ): Color = if (luminance() < 0.3f) blend(Color.White, fraction(true))
@@ -143,7 +150,7 @@ fun Color.inverse(
 ): Color = if (darkMode) blend(color(true), fraction(true))
 else blend(color(true), fraction(false))
 
-
+@Stable
 fun Int.blend(
     color: Color,
     @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
@@ -157,8 +164,8 @@ fun Color.harmonizeWithPrimary(
     ) fraction: Float = 0.2f
 ): Color = blend(MaterialTheme.colorScheme.primary, fraction)
 
-
-fun Int.toColor() = Color(this)
+@Stable
+fun Int.toColor() = toSafeSrgb()
 
 inline val Green: Color
     @Composable get() = Color(0xFFBADB94).harmonizeWithPrimary(0.2f)

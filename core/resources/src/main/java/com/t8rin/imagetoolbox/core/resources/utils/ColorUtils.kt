@@ -20,9 +20,24 @@ package com.t8rin.imagetoolbox.core.resources.utils
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
-import com.t8rin.imagetoolbox.core.resources.utils.animation.toSafeSrgb
+import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.graphics.toArgb
 
 @Stable
 fun Color.compositeOverSafe(
     background: Color
 ): Color = toSafeSrgb().compositeOver(background.toSafeSrgb())
+
+@Stable
+fun Color.toSafeSrgb(
+    fallback: Color = Color.Transparent
+): Color = if (isSpecified) {
+    runCatching { Color(toArgb()) }.getOrDefault(fallback)
+} else {
+    fallback
+}
+
+@Stable
+fun Int.toSafeSrgb(
+    fallback: Color = Color.Transparent
+): Color = runCatching { Color(this) }.getOrDefault(fallback)
