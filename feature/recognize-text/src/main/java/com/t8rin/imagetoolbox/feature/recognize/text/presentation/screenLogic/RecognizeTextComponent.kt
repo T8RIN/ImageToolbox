@@ -948,9 +948,9 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         languagesJob = componentScope.launch {
             _isExporting.value = true
             imageTextReader.exportLanguagesToZip()?.let { zipUri ->
-                fileController.writeBytes(
-                    uri = uri.toString(),
-                    block = { it.writeBytes(fileController.readBytes(zipUri)) }
+                fileController.transferBytes(
+                    fromUri = zipUri,
+                    toUri = uri.toString()
                 ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
             _isExporting.value = false

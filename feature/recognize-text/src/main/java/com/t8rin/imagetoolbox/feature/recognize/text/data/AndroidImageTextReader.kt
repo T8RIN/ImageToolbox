@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
 import com.googlecode.tesseract.android.TessBaseAPI
+import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -50,7 +51,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -369,22 +369,20 @@ internal class AndroidImageTextReader @Inject constructor(
     }
 
     override suspend fun exportLanguagesToZip(): String? = withContext(ioDispatcher) {
-        val zipBytes = ByteArrayOutputStream().apply {
-            createZip { zip ->
-                RecognitionType.entries.forEach { type ->
-                    File(getPathFromMode(type), "tessdata").listFiles()?.forEach { file ->
-                        zip.putEntry(
-                            name = "${type.displayName}/tessdata/${file.name}",
-                            input = FileInputStream(file)
-                        )
+        shareProvider.cacheData(
+            filename = "exported_languages.zip",
+            writeData = { writeable ->
+                writeable.outputStream().createZip { zip ->
+                    RecognitionType.entries.forEach { type ->
+                        File(getPathFromMode(type), "tessdata").listFiles()?.forEach { file ->
+                            zip.putEntry(
+                                name = "${type.displayName}/tessdata/${file.name}",
+                                input = FileInputStream(file)
+                            )
+                        }
                     }
                 }
             }
-        }.toByteArray()
-
-        shareProvider.cacheByteArray(
-            byteArray = zipBytes,
-            filename = "exported_languages.zip"
         )
     }
 

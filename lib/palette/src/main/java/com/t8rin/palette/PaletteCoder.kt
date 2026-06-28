@@ -55,4 +55,4 @@ fun PaletteCoder.encode(palette: Palette): ByteArray = ByteArrayOutputStream().u
 inline fun <T> PaletteCoder.use(action: PaletteCoder.() -> T): Result<T> = runCatching { action() }
 
 fun PaletteCoder.decode(uri: Uri, context: Context) =
-    decode(context.contentResolver.openInputStream(uri)!!)
+    context.contentResolver.openInputStream(uri)!!.use { decode(it) }

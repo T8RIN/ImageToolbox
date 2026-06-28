@@ -96,20 +96,4 @@ internal class AndroidAudioCoverRetriever @Inject constructor(
         }
     }
 
-    override suspend fun loadCover(
-        audioData: ByteArray
-    ): AudioCoverResult {
-        val audioUri = shareProvider.cacheData(
-            writeData = {
-                it.writeBytes(audioData)
-            },
-            filename = "Audio_data_${System.currentTimeMillis()}.mp3"
-        ) ?: return AudioCoverResult.Failure((getString(R.string.filename_is_not_set)))
-
-        return loadCover(
-            audioUri = audioUri
-        )
-    }
-
-
 }

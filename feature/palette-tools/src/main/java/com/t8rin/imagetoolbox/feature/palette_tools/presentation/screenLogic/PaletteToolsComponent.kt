@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -33,6 +34,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PaletteType
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedPalette
@@ -41,7 +43,6 @@ import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.mode
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.toPalette
 import com.t8rin.palette.PaletteFormat
 import com.t8rin.palette.decode
-import com.t8rin.palette.encode
 import com.t8rin.palette.getCoder
 import com.t8rin.palette.use
 import dagger.assisted.Assisted
@@ -108,12 +109,16 @@ class PaletteToolsComponent @AssistedInject internal constructor(
             if (bitmap == null || paletteType == PaletteType.Edit) {
                 _bitmap.update { null }
                 withContext(defaultDispatcher) {
-                    val data = fileController.readBytes(uri.toString())
                     val entries =
                         PaletteFormatHelper.entriesFor(uri.filename() ?: uri.toString())
 
                     for (format in entries) {
-                        format.getCoder().use { decode(data) }.onSuccess { palette ->
+                        format.getCoder().use {
+                            decode(
+                                uri = uri,
+                                context = appContext
+                            )
+                        }.onSuccess { palette ->
                             palette.toNamed()?.let { named ->
                                 _palette.update { named }
                                 updatePaletteFormat(format)
@@ -136,8 +141,9 @@ class PaletteToolsComponent @AssistedInject internal constructor(
             fileController.writeBytes(
                 uri = uri.toString(),
                 block = {
-                    it.writeBytes(
-                        format.getCoder().encode(palette.toPalette())
+                    format.getCoder().encode(
+                        palette = palette.toPalette(),
+                        output = it.outputStream()
                     )
                 }
             ).also(::parseFileSaveResult).onSuccess(::registerSave)
@@ -150,20 +156,24 @@ class PaletteToolsComponent @AssistedInject internal constructor(
 
         savingJob = trackProgress {
             _isSaving.value = true
-            val data = withContext(defaultDispatcher) {
-                format.getCoder().use {
-                    encode(palette.toPalette())
-                }.getOrNull()
-            }
 
-            if (data == null) {
-                _isSaving.update { false }
+            val uri = shareProvider.cacheData(
+                writeData = {
+                    format.getCoder().encode(
+                        palette = palette.toPalette(),
+                        output = it.outputStream()
+                    )
+                },
+                filename = createPaletteFilename()
+            )
+
+            if (uri == null) {
+                _isSaving.value = false
                 return@trackProgress
             }
 
-            shareProvider.shareByteArray(
-                byteArray = data,
-                filename = createPaletteFilename(),
+            shareProvider.shareUri(
+                uri = uri,
                 onComplete = {
                     _isSaving.value = false
                     AppToastHost.showConfetti()
