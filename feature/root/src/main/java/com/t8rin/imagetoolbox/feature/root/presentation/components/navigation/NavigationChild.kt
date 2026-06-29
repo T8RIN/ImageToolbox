@@ -154,6 +154,8 @@ import com.t8rin.imagetoolbox.feature.svg_maker.presentation.SvgMakerContent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.UsageStatisticsContent
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.UsageStatisticsComponent
+import com.t8rin.imagetoolbox.feature.vector_canvas.presentation.VectorCanvasContent
+import com.t8rin.imagetoolbox.feature.vector_canvas.presentation.screenLogic.VectorCanvasComponent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.WallpapersExportContent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.WatermarkingContent
@@ -225,6 +227,11 @@ internal sealed interface NavigationChild {
     class Draw(private val component: DrawComponent) : NavigationChild {
         @Composable
         override fun Content() = DrawContent(component)
+    }
+
+    class VectorCanvas(private val component: VectorCanvasComponent) : NavigationChild {
+        @Composable
+        override fun Content() = VectorCanvasContent(component)
     }
 
     class EasterEgg(private val component: EasterEggComponent) : NavigationChild {

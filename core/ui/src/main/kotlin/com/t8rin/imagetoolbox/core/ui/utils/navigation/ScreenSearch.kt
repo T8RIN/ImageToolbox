@@ -69,6 +69,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.UsageStatistics
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.VectorCanvas
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WallpapersExport
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Watermarking
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WebpTools
@@ -173,6 +174,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is AiTools -> R.string.search_keywords_ai_tools
     is ColorLibrary -> R.string.search_keywords_color_library
     is ShaderStudio -> R.string.search_keywords_shader_studio
+    is VectorCanvas -> R.string.search_keywords_vector_canvas
     is PdfTools.Merge -> R.string.search_keywords_pdf_merge
     is PdfTools.Split -> R.string.search_keywords_pdf_split
     is PdfTools.Rotate -> R.string.search_keywords_pdf_rotate

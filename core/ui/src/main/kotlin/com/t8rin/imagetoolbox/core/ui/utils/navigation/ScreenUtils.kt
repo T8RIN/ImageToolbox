@@ -139,6 +139,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.UsageStatistics
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.VectorCanvas
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WallpapersExport
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Watermarking
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WebpTools
@@ -208,6 +209,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is AiTools -> "Ai_Tools"
     is ColorLibrary -> "ColorLibrary"
     is ShaderStudio -> "Shader_Studio"
+    is VectorCanvas -> "Vector_Canvas"
     is Help -> "Help_Tips"
     is UsageStatistics -> "Usage_Statistics"
     is PdfTools.Merge -> "PdfTools_Merge"
@@ -292,6 +294,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is AiTools -> Icons.Outlined.Neurology
     is ColorLibrary -> Icons.Outlined.FormatPaintVariant
     is ShaderStudio -> Icons.Rounded.EvShadow
+    is VectorCanvas -> Icons.Outlined.VectorPolyline
     is PdfTools.Merge -> Icons.Rounded.ImageCombine
     is PdfTools.Split -> Icons.Outlined.SplitAlt
     is PdfTools.Rotate -> Icons.Outlined.Rotate90Cw
@@ -374,6 +377,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is AiTools -> Icons.TwoTone.Neurology
     is ColorLibrary -> Icons.TwoTone.FormatPaintVariant
     is ShaderStudio -> Icons.TwoTone.EvShadow
+    is VectorCanvas -> Icons.TwoTone.VectorPolyline
     is PdfTools.Merge -> Icons.TwoTone.ImageCombine
     is PdfTools.Split -> Icons.TwoTone.SplitAlt
     is PdfTools.Rotate -> Icons.TwoTone.Rotate90Cw
@@ -448,6 +452,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                 entries = listOf(
                     Filter(),
                     Draw(),
+                    VectorCanvas,
                     EraseBackground(),
                     MarkupLayers(),
                     AiTools(),
@@ -511,5 +516,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 83 + PdfTools.options.size
+    override val FEATURES_COUNT = 84 + PdfTools.options.size
 }

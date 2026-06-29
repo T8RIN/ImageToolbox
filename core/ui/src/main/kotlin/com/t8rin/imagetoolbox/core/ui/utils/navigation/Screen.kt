@@ -1067,6 +1067,13 @@ sealed class Screen(
         subtitle = R.string.shader_studio_sub
     )
 
+    @Serializable
+    data object VectorCanvas : Screen(
+        id = 84,
+        title = R.string.vector_canvas,
+        subtitle = R.string.vector_canvas_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

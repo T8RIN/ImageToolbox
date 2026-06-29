@@ -95,7 +95,8 @@ fun DrawLineStyleSelector(
     modifier: Modifier,
     value: DrawLineStyle,
     onValueChange: (DrawLineStyle) -> Unit,
-    values: List<DrawLineStyle> = DrawLineStyle.entries
+    values: List<DrawLineStyle> = DrawLineStyle.entries,
+    showStyleParams: Boolean = true
 ) {
     var isSheetVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -145,7 +146,7 @@ fun DrawLineStyleSelector(
         }
 
         AnimatedVisibility(
-            visible = value is DrawLineStyle.Dashed,
+            visible = value is DrawLineStyle.Dashed && showStyleParams,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -208,7 +209,7 @@ fun DrawLineStyleSelector(
         }
 
         AnimatedVisibility(
-            visible = value is DrawLineStyle.ZigZag,
+            visible = value is DrawLineStyle.ZigZag && showStyleParams,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -252,7 +253,7 @@ fun DrawLineStyleSelector(
         }
 
         AnimatedVisibility(
-            visible = value is DrawLineStyle.Stamped<*>,
+            visible = value is DrawLineStyle.Stamped<*> && showStyleParams,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {

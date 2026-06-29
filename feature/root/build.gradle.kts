@@ -40,6 +40,7 @@ dependencies {
     implementation(projects.feature.singleEdit)
     implementation(projects.feature.eraseBackground)
     implementation(projects.feature.draw)
+    implementation(projects.feature.vectorCanvas)
     implementation(projects.feature.filters)
     implementation(projects.feature.imageStitch)
     implementation(projects.feature.pickColor)

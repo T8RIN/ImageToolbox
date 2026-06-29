@@ -40,6 +40,7 @@ sealed class MimeType(
         val All = Single("*/*")
 
         val Txt = Single("text/plain")
+        val Json = Single("application/json")
         val Pdf = Single("application/pdf")
         val Zip = Single("application/zip")
         val Webp = Single("image/webp")

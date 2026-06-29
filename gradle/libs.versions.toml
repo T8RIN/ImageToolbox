@@ -15,6 +15,7 @@ evaluator = "1.0.0"
 quickie = "1.18.1"
 fadingEdges = "1.0.4"
 composeHighlight = "0.31.0"
+drawbox = "2.1.0-alpha01"
 
 avifCoder = "2.2.1"
 avifCoderCoil = "2.2.1"
@@ -95,6 +96,7 @@ coilResvg = "1.0.0"
 
 [libraries]
 coil-resvg = { module = "com.hashsequence:coil-resvg", version.ref = "coilResvg" }
+drawbox = { module = "io.ak1:drawbox", version.ref = "drawbox" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
