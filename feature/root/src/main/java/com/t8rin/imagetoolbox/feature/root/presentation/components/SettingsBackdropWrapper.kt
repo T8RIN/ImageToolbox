@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
 import androidx.compose.material.Surface
@@ -103,6 +104,7 @@ internal fun SettingsBackdropWrapper(
     }
 
     val isTargetRevealed = scaffoldState.targetValue == BackdropValue.Revealed
+    val gridState = rememberLazyStaggeredGridState()
 
     BackdropScaffold(
         scaffoldState = scaffoldState,
@@ -186,7 +188,8 @@ internal fun SettingsBackdropWrapper(
                         .alpha(1f - animatedPredictiveBackProgress)
                 ) {
                     SettingsContent(
-                        component = settingsComponent
+                        component = settingsComponent,
+                        gridState = gridState
                     )
                 }
             }

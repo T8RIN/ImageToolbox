@@ -51,6 +51,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -117,6 +118,7 @@ import kotlin.time.Duration.Companion.seconds
 fun SettingsContent(
     component: SettingsComponent,
     disableBottomInsets: Boolean = false,
+    gridState: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
     appBarNavigationIcon: (@Composable (Boolean, () -> Unit) -> Unit)? = null
 ) {
     val isStandaloneScreen = appBarNavigationIcon == null
@@ -130,8 +132,6 @@ fun SettingsContent(
     val settings = component.filteredSettings
     val loading = component.isFilteringSettings
     val targetSetting = component.targetSetting
-
-    val gridState = rememberLazyStaggeredGridState()
 
     var showTargetHighlight by rememberSaveable {
         mutableStateOf(false)
