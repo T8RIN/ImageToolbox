@@ -220,8 +220,12 @@ class WeightResizeComponent @AssistedInject internal constructor(
             _done.value = 0
             uris?.forEach { uri ->
                 runSuspendCatching {
-                    imageGetter.getImage(uri.toString())
-                }.getOrNull()?.image?.let { bitmap ->
+                    checkNotNull(imageGetter.getImage(uri.toString()))
+                }.onFailure {
+                    results.add(
+                        SaveResult.Error.Exception(it)
+                    )
+                }.onSuccess { (bitmap) ->
                     runSuspendCatching {
                         if (handMode) {
                             imageScaler.scaleByMaxBytes(
@@ -255,9 +259,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                             )
                         )
                     }
-                } ?: results.add(
-                    SaveResult.Error.Exception(Throwable())
-                )
+                }
+
                 _done.value += 1
                 updateProgress(
                     done = done,

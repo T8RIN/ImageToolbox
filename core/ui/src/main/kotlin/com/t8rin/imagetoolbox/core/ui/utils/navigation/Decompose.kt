@@ -25,6 +25,7 @@ import com.arkivanov.essenty.lifecycle.Lifecycle
 import com.arkivanov.essenty.lifecycle.LifecycleOwner
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,9 +47,11 @@ val ComponentContext.coroutineScope: CoroutineScope
  */
 fun LifecycleOwner.coroutineScope(
     context: CoroutineContext = Dispatchers.Main.immediate + SupervisorJob() + CoroutineExceptionHandler { _, t ->
-        t.makeLog(
-            "Component CRITICAL ISSUE"
-        )
+        if (t !is CancellationException) {
+            t.makeLog(
+                "Component CRITICAL ISSUE"
+            )
+        }
     },
 ): CoroutineScope =
     CoroutineScope(context = context).withLifecycle(lifecycle)

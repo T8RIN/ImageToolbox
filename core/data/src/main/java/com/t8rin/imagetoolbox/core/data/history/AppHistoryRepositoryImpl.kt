@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.history.model.AppUsageStatistics
 import com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -162,10 +163,12 @@ internal class AppHistoryRepositoryImpl @Inject constructor(
             val format = savedFormat.lowercase().trim()
             if (format.isNotEmpty()) {
                 val current = preferences[SAVED_FORMAT_COUNTERS]?.let {
-                    jsonParser.fromJson(
-                        json = it,
-                        type = SavedFormatCounters::class.java
-                    )
+                    runSuspendCatching {
+                        jsonParser.fromJson<SavedFormatCounters>(
+                            json = it,
+                            type = SavedFormatCounters::class.java
+                        )
+                    }.getOrNull()
                 } ?: SavedFormatCounters(emptyMap())
 
                 preferences[SAVED_FORMAT_COUNTERS] = jsonParser.toJson(
