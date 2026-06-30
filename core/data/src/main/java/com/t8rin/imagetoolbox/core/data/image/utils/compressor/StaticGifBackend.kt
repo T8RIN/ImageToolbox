@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,20 +31,18 @@ internal data object StaticGifBackend : ImageCompressorBackend {
         image: Bitmap,
         quality: Quality
     ): ByteArray = ByteArrayOutputStream().use { out ->
-        GifEncoder().apply {
-            setSize(
-                image.width,
-                image.height
+        GifEncoder()
+            .setSize(
+                width = image.width,
+                height = image.height
             )
-            setRepeat(1)
-            setQuality(
-                (100 - ((quality.qualityValue - 1) * (100 / 19f))).toInt()
-            )
-            setTransparent(Color.Transparent.toArgb())
-            start(out)
-            addFrame(image)
-            finish()
-        }
+            .setRepeat(1)
+            .setQuality(quality.qualityValue)
+            .setTransparent(Color.Transparent.toArgb()).apply {
+                start(out)
+                addFrame(image)
+                finish()
+            }
 
         out.toByteArray()
     }

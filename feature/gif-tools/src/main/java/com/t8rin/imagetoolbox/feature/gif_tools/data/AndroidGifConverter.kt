@@ -105,23 +105,20 @@ internal class AndroidGifConverter @Inject constructor(
             imageShareProvider.cacheDataOrThrow(
                 filename = "temp_gif.gif"
             ) { writeable ->
-                val encoder = GifEncoder().apply {
-                    params.size?.let { size ->
-                        setSize(
-                            size.width,
-                            size.height
-                        )
-                    }
-                    setRepeat(params.repeatCount)
-                    setQuality(
-                        (100 - ((params.quality.qualityValue - 1) * (100 / 19f))).toInt()
-                    )
-                    setFrameRate(params.fps.toFloat())
-                    setDispose(
-                        if (params.dontStack) 2 else 0
-                    )
-                    setTransparent(Color.Transparent.toArgb())
-                    start(writeable.outputStream())
+                val encoder = GifEncoder()
+                    .setRepeat(params.repeatCount)
+                    .setQuality(params.quality.qualityValue)
+                    .setFrameRate(params.fps.toFloat())
+                    .setDispose(if (params.dontStack) 2 else 0)
+                    .setTransparent(Color.Transparent.toArgb())
+                    .apply {
+                        params.size?.let { size ->
+                            setSize(
+                                width = size.width,
+                                height = size.height
+                            )
+                        }
+                        start(writeable.outputStream())
                 }
                 imageUris.forEachIndexed { index, uri ->
                     imageGetter.getImage(
