@@ -106,7 +106,7 @@ opencv = { module = "org.opencv:opencv", version.ref = "opencv" }
 onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
-flinger = { module = "com.github.iamjosephmj.flinger:flinger", version.ref = "flinger" }
+flinger = { module = "com.github.iamjosephmj:flinger", version.ref = "flinger" }
 squircle-shape = { group = "com.stoyanvuchev", name = "squircle-shape-android", version.ref = "squircle-shape" }
 capsule = { module = "io.github.kyant0:capsule", version.ref = "capsule" }
 backdrop = { module = "io.github.kyant0:backdrop", version.ref = "backdrop" }
