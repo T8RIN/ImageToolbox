@@ -3324,7 +3324,7 @@
     <string name="x_wavelength">X lainepikkus</string>
     <string name="y_wavelength">Y lainepikkus</string>
     <string name="adaptive_blur">Kohanduv hägu</string>
-    <string name="search_keywords_texture_generation">tekstuurigeneraator jhlabs harjatud metall kaustikud raku malelaud marmor plasmatekk puit</string>
+    <string name="search_keywords_texture_generation">tekstuurigeneraator harjatud metall kaustikud raku malelaud marmor plasmatekk puit</string>
     <string name="texture_generation">Tekstuuri genereerimine</string>
     <string name="texture_generation_sub">Looge erinevaid protseduurilisi tekstuure ja salvestage need piltidena</string>
     <string name="texture_type">Tekstuuri tüüp</string>

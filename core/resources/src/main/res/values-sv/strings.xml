@@ -3324,7 +3324,7 @@
     <string name="x_wavelength">X våglängd</string>
     <string name="y_wavelength">Y våglängd</string>
     <string name="adaptive_blur">Adaptiv oskärpa</string>
-    <string name="search_keywords_texture_generation">textur generator jhlabs borstad metall kaustik cellulär schackruta marmor plasma quilt trä</string>
+    <string name="search_keywords_texture_generation">textur generator borstad metall kaustik cellulär schackruta marmor plasma quilt trä</string>
     <string name="texture_generation">Texturgenerering</string>
     <string name="texture_generation_sub">Skapa olika procedurstrukturer och spara dem som bilder</string>
     <string name="texture_type">Textur typ</string>

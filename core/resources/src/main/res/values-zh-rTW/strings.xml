@@ -3323,7 +3323,7 @@
     <string name="x_wavelength">X波長</string>
     <string name="y_wavelength">Y波長</string>
     <string name="adaptive_blur">自適應模糊</string>
-    <string name="search_keywords_texture_generation">紋理產生器 jhlabs 拉絲金屬焦散 蜂巢棋盤格 大理石 等離子 被子 木材</string>
+    <string name="search_keywords_texture_generation">紋理產生器 拉絲金屬焦散 蜂巢棋盤格 大理石 等離子 被子 木材</string>
     <string name="texture_generation">紋理生成</string>
     <string name="texture_generation_sub">生成各種程式紋理並將其儲存為圖像</string>
     <string name="texture_type">紋理類型</string>

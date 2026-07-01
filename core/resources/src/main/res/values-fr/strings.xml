@@ -3324,7 +3324,7 @@
     <string name="x_wavelength">Longueur d\'onde X</string>
     <string name="y_wavelength">Longueur d\'onde Y</string>
     <string name="adaptive_blur">Flou adaptatif</string>
-    <string name="search_keywords_texture_generation">générateur de texture jhlabs métal brossé caustiques cellulaire damier marbre plasma courtepointe bois</string>
+    <string name="search_keywords_texture_generation">générateur de texture métal brossé caustiques cellulaire damier marbre plasma courtepointe bois</string>
     <string name="texture_generation">Génération de textures</string>
     <string name="texture_generation_sub">Générez diverses textures procédurales et enregistrez-les sous forme d\'images</string>
     <string name="texture_type">Type de texture</string>

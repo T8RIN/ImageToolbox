@@ -3324,7 +3324,7 @@
     <string name="x_wavelength">X hullámhossz</string>
     <string name="y_wavelength">Y hullámhossz</string>
     <string name="adaptive_blur">Adaptív elmosódás</string>
-    <string name="search_keywords_texture_generation">textúra generátor jhlabs csiszolt fém maróanyag cellás sakktábla márvány plazma paplan fa</string>
+    <string name="search_keywords_texture_generation">textúra generátor csiszolt fém maróanyag cellás sakktábla márvány plazma paplan fa</string>
     <string name="texture_generation">Textúra generálása</string>
     <string name="texture_generation_sub">Különféle eljárási textúrák létrehozása és képként való mentése</string>
     <string name="texture_type">Textúra típusa</string>

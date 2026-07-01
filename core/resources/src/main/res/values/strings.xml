@@ -3350,7 +3350,7 @@
     <string name="delete_export_profile_sub">Do you want to delete export profile \"%1$s\"?</string>
     <string name="watermark_filename_placeholder">Placeholder</string>
     <string name="watermark_filename_placeholder_sub">Use {filename} to insert the original filename without extension</string>
-    <string name="search_keywords_texture_generation">texture generator jhlabs brushed metal caustics cellular checkerboard marble plasma quilt wood</string>
+    <string name="search_keywords_texture_generation">texture generator brushed metal caustics cellular checkerboard marble plasma quilt wood</string>
     <string name="texture_generation">Texture Generation</string>
     <string name="texture_generation_sub">Generate various procedural textures and save them as images</string>
     <string name="texture_type">Texture Type</string>

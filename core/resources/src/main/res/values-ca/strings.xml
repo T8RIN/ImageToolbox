@@ -3324,7 +3324,7 @@
     <string name="x_wavelength">X longitud d\'ona</string>
     <string name="y_wavelength">Longitud d\'ona Y</string>
     <string name="adaptive_blur">Desenfocament adaptatiu</string>
-    <string name="search_keywords_texture_generation">generador de textures jhlabs metall raspallat càustics cel·lular tauler d\'escacs marbre plasma edredó fusta</string>
+    <string name="search_keywords_texture_generation">generador de textures metall raspallat càustics cel·lular tauler d\'escacs marbre plasma edredó fusta</string>
     <string name="texture_generation">Generació de textures</string>
     <string name="texture_generation_sub">Genereu diverses textures procedimentals i deseu-les com a imatges</string>
     <string name="texture_type">Tipus de textura</string>

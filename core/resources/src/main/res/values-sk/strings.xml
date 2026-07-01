@@ -3326,7 +3326,7 @@
     <string name="x_wavelength">X vlnová dĺžka</string>
     <string name="y_wavelength">Y vlnová dĺžka</string>
     <string name="adaptive_blur">Adaptívne rozostrenie</string>
-    <string name="search_keywords_texture_generation">generátor textúr jhlabs kartáčovaný kov žieraviny bunková šachovnica mramorová plazmová deka drevo</string>
+    <string name="search_keywords_texture_generation">generátor textúr kartáčovaný kov žieraviny bunková šachovnica mramorová plazmová deka drevo</string>
     <string name="texture_generation">Generovanie textúry</string>
     <string name="texture_generation_sub">Vytvorte rôzne procedurálne textúry a uložte ich ako obrázky</string>
     <string name="texture_type">Typ textúry</string>

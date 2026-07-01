@@ -3324,7 +3324,7 @@
     <string name="x_wavelength">Lunghezza d\'onda X</string>
     <string name="y_wavelength">Lunghezza d\'onda Y</string>
     <string name="adaptive_blur">Sfocatura adattiva</string>
-    <string name="search_keywords_texture_generation">generatore di texture jhlabs metallo spazzolato caustiche cellulare scacchiera marmo trapunta al plasma legno</string>
+    <string name="search_keywords_texture_generation">generatore di texture metallo spazzolato caustiche cellulare scacchiera marmo trapunta al plasma legno</string>
     <string name="texture_generation">Generazione di texture</string>
     <string name="texture_generation_sub">Genera varie texture procedurali e salvale come immagini</string>
     <string name="texture_type">Tipo di trama</string>

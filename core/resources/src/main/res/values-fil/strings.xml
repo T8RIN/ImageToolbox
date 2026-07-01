@@ -3324,7 +3324,7 @@
     <string name="x_wavelength">X wavelength</string>
     <string name="y_wavelength">Y wavelength</string>
     <string name="adaptive_blur">Adaptive Blur</string>
-    <string name="search_keywords_texture_generation">texture generator jhlabs brushed metal caustics cellular checkerboard marble plasma quilt wood</string>
+    <string name="search_keywords_texture_generation">texture generator brushed metal caustics cellular checkerboard marble plasma quilt wood</string>
     <string name="texture_generation">Pagbuo ng Texture</string>
     <string name="texture_generation_sub">Bumuo ng iba\'t ibang mga texture ng pamamaraan at i-save ang mga ito bilang mga imahe</string>
     <string name="texture_type">Uri ng Texture</string>

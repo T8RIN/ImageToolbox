@@ -3328,7 +3328,7 @@
     <string name="x_wavelength">الطول الموجي X</string>
     <string name="y_wavelength">الطول الموجي Y</string>
     <string name="adaptive_blur">طمس التكيف</string>
-    <string name="search_keywords_texture_generation">مولد الملمس Jhlabs، المعدن المصقول، المواد الكاوية الخلوية، رقعة الشطرنج، الرخام، البلازما، الخشب</string>
+    <string name="search_keywords_texture_generation">مولد الملمس، المعدن المصقول، المواد الكاوية الخلوية، رقعة الشطرنج، الرخام، البلازما، الخشب</string>
     <string name="texture_generation">جيل الملمس</string>
     <string name="texture_generation_sub">إنشاء مواد إجرائية متنوعة وحفظها كصور</string>
     <string name="texture_type">نوع الملمس</string>

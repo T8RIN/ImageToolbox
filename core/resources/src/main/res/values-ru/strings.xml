@@ -3326,7 +3326,7 @@
     <string name="x_wavelength">длина волны X</string>
     <string name="y_wavelength">Длина волны Y</string>
     <string name="adaptive_blur">Адаптивное размытие</string>
-    <string name="search_keywords_texture_generation">генератор текстур jhlabs матовый металл каустика сотовая шахматная доска мрамор плазма лоскутное одеяло дерево</string>
+    <string name="search_keywords_texture_generation">генератор текстур матовый металл каустика сотовая шахматная доска мрамор плазма лоскутное одеяло дерево</string>
     <string name="texture_generation">Генерация текстур</string>
     <string name="texture_generation_sub">Создавайте различные процедурные текстуры и сохраняйте их как изображения.</string>
     <string name="texture_type">Тип текстуры</string>
@@ -3349,7 +3349,7 @@
     <string name="texture_brushed_metal">Матовый металл</string>
     <string name="texture_caustics">Каустика</string>
     <string name="texture_cellular">Сотовая связь</string>
-    <string name="texture_checkerboard">шахматная доска</string>
+    <string name="texture_checkerboard">Шахматная доска</string>
     <string name="texture_fbm">ФБМ</string>
     <string name="texture_marble">Мрамор</string>
     <string name="texture_plasma">Плазма</string>

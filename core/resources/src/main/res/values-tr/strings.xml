@@ -3324,7 +3324,7 @@
     <string name="x_wavelength">X dalga boyu</string>
     <string name="y_wavelength">Y dalga boyu</string>
     <string name="adaptive_blur">Uyarlanabilir Bulanıklaştırma</string>
-    <string name="search_keywords_texture_generation">doku oluşturucu jhlabs fırçalanmış metal kostik hücresel dama tahtası mermer plazma yorgan ahşap</string>
+    <string name="search_keywords_texture_generation">doku oluşturucu fırçalanmış metal kostik hücresel dama tahtası mermer plazma yorgan ahşap</string>
     <string name="texture_generation">Doku Üretimi</string>
     <string name="texture_generation_sub">Çeşitli prosedür dokuları oluşturun ve bunları görüntü olarak kaydedin</string>
     <string name="texture_type">Doku Türü</string>
