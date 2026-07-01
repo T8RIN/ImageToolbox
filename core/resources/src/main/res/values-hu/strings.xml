@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
@@ -3291,4 +3274,20 @@
     <string name="notch_shapes_sub">Lépcsős sarkok dupla vágással</string>
     <string name="watermark_filename_placeholder">Helyőrző</string>
     <string name="watermark_filename_placeholder_sub">A(z) {filename} használatával illessze be az eredeti fájlnevet kiterjesztés nélkül</string>
+    <string name="flare">Fellobbanás</string>
+    <string name="base_amount">Alapösszeg</string>
+    <string name="ring_amount">A gyűrű mennyisége</string>
+    <string name="ray_amount">Sugármennyiség</string>
+    <string name="ring_width">Gyűrű szélessége</string>
+    <string name="distort_perspective">Perspektíva torzítása</string>
+    <string name="java_look_and_feel">Java megjelenés és érzés</string>
+    <string name="shear">Nyírás</string>
+    <string name="x_angle">X szög</string>
+    <string name="y_angle">és szög</string>
+    <string name="resize">Kimenet átméretezése</string>
+    <string name="water_drop">Vízi vadászatra betanított kutya</string>
+    <string name="wavelength">Hullámhossz</string>
+    <string name="phase">Fázis</string>
+    <string name="high_pass">High Pass</string>
+    <string name="color_mask">Színes maszk</string>
 </resources>

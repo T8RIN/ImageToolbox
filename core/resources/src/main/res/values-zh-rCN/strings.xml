@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3288,4 +3273,20 @@
     <string name="notch_shapes_sub">双切阶梯角</string>
     <string name="watermark_filename_placeholder">占位符</string>
     <string name="watermark_filename_placeholder_sub">使用 {filename} 插入不带扩展名的原始文件名</string>
+    <string name="flare">耀斑</string>
+    <string name="base_amount">基础金额</string>
+    <string name="ring_amount">环量</string>
+    <string name="ray_amount">射线量</string>
+    <string name="ring_width">环宽</string>
+    <string name="distort_perspective">扭曲视角</string>
+    <string name="java_look_and_feel">Java 外观和感觉</string>
+    <string name="shear">剪切</string>
+    <string name="x_angle">X角</string>
+    <string name="y_angle">和角度</string>
+    <string name="resize">调整输出大小</string>
+    <string name="water_drop">水滴</string>
+    <string name="wavelength">波长</string>
+    <string name="phase">阶段</string>
+    <string name="high_pass">高通</string>
+    <string name="color_mask">彩色面膜</string>
 </resources>

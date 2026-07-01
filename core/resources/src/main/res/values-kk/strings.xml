@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
     <string name="image_not_saved_sub">Қазір шықсаңыз, барлық сақталмаған өңдеме жоғалады</string>
@@ -3289,4 +3274,20 @@
     <string name="notch_shapes_sub">Қосарланған кесілген бұрыштар</string>
     <string name="watermark_filename_placeholder">Толтырғыш</string>
     <string name="watermark_filename_placeholder_sub">Түпнұсқа файл атауын кеңейтусіз енгізу үшін {filename} пайдаланыңыз</string>
+    <string name="flare">Алау</string>
+    <string name="base_amount">Негізгі сома</string>
+    <string name="ring_amount">Қоңырау сомасы</string>
+    <string name="ray_amount">Сәуле мөлшері</string>
+    <string name="ring_width">Сақина ені</string>
+    <string name="distort_perspective">Перспективаны бұрмалау</string>
+    <string name="java_look_and_feel">Java көрінісі мен сезімі</string>
+    <string name="shear">Қырқу</string>
+    <string name="x_angle">X бұрышы</string>
+    <string name="y_angle">және бұрыш</string>
+    <string name="resize">Шығарылым өлшемін өзгерту</string>
+    <string name="water_drop">Су тамшысы</string>
+    <string name="wavelength">Толқын ұзындығы</string>
+    <string name="phase">Кезең</string>
+    <string name="high_pass">Жоғары асу</string>
+    <string name="color_mask">Түс маскасы</string>
 </resources>

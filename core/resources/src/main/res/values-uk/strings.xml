@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -3291,4 +3276,20 @@
     <string name="notch_shapes_sub">Ступінчасті кути з подвійним зрізом</string>
     <string name="watermark_filename_placeholder">Заповнювач</string>
     <string name="watermark_filename_placeholder_sub">Використовуйте {filename}, щоб вставити вихідну назву файлу без розширення</string>
+    <string name="flare">Відблиск</string>
+    <string name="base_amount">Базова сума</string>
+    <string name="ring_amount">Сума кільця</string>
+    <string name="ray_amount">Сума променя</string>
+    <string name="ring_width">Ширина кільця</string>
+    <string name="distort_perspective">Спотворити перспективу</string>
+    <string name="java_look_and_feel">Вигляд і відчуття Java</string>
+    <string name="shear">Зсув</string>
+    <string name="x_angle">Кут X</string>
+    <string name="y_angle">і кут</string>
+    <string name="resize">Змінити розмір виведення</string>
+    <string name="water_drop">Крапля води</string>
+    <string name="wavelength">Довжина хвилі</string>
+    <string name="phase">Фаза</string>
+    <string name="high_pass">Високий пас</string>
+    <string name="color_mask">Кольорова маска</string>
 </resources>

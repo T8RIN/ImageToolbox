@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -3291,4 +3276,20 @@
     <string name="notch_shapes_sub">Ступеністыя куткі з падвойным зрэзам</string>
     <string name="watermark_filename_placeholder">Запаўняльнік</string>
     <string name="watermark_filename_placeholder_sub">Выкарыстоўвайце {filename}, каб уставіць зыходнае імя файла без пашырэння</string>
+    <string name="flare">Успышка</string>
+    <string name="base_amount">Базавая велічыня</string>
+    <string name="ring_amount">Сума кальца</string>
+    <string name="ray_amount">Рэй сума</string>
+    <string name="ring_width">Шырыня кольца</string>
+    <string name="distort_perspective">Скажаць перспектыву</string>
+    <string name="java_look_and_feel">Выгляд і адчуванне Java</string>
+    <string name="shear">Зрух</string>
+    <string name="x_angle">Вугал X</string>
+    <string name="y_angle">і кут</string>
+    <string name="resize">Змяніць памер вываду</string>
+    <string name="water_drop">Кропля вады</string>
+    <string name="wavelength">Даўжыня хвалі</string>
+    <string name="phase">Фаза</string>
+    <string name="high_pass">Высокі перавал</string>
+    <string name="color_mask">Каляровая маска</string>
 </resources>

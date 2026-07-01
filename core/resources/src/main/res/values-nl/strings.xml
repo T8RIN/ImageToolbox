@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -3289,4 +3274,20 @@
     <string name="notch_shapes_sub">Getrapte hoeken met een dubbele snede</string>
     <string name="watermark_filename_placeholder">Tijdelijke aanduiding</string>
     <string name="watermark_filename_placeholder_sub">Gebruik {filename} om de originele bestandsnaam zonder extensie in te voegen</string>
+    <string name="flare">Gloed</string>
+    <string name="base_amount">Basisbedrag</string>
+    <string name="ring_amount">Ringbedrag</string>
+    <string name="ray_amount">Ray bedrag</string>
+    <string name="ring_width">Ringbreedte</string>
+    <string name="distort_perspective">Perspectief vervormen</string>
+    <string name="java_look_and_feel">Java-look en feel</string>
+    <string name="shear">Scheer</string>
+    <string name="x_angle">X-hoek</string>
+    <string name="y_angle">en hoek</string>
+    <string name="resize">Formaat van uitvoer wijzigen</string>
+    <string name="water_drop">Waterdruppel</string>
+    <string name="wavelength">Golflengte</string>
+    <string name="phase">Fase</string>
+    <string name="high_pass">Hoge pas</string>
+    <string name="color_mask">Kleur masker</string>
 </resources>

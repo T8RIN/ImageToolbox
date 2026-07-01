@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -3289,4 +3274,20 @@
     <string name="notch_shapes_sub">Çift kesimli basamaklı köşeler</string>
     <string name="watermark_filename_placeholder">Yer tutucu</string>
     <string name="watermark_filename_placeholder_sub">Orijinal dosya adını uzantısız eklemek için {filename} kullanın</string>
+    <string name="flare">parlama</string>
+    <string name="base_amount">Baz tutar</string>
+    <string name="ring_amount">Zil miktarı</string>
+    <string name="ray_amount">Işın miktarı</string>
+    <string name="ring_width">Halka genişliği</string>
+    <string name="distort_perspective">Perspektifi Deforme Et</string>
+    <string name="java_look_and_feel">Java Görünümü ve Hissi</string>
+    <string name="shear">Kırpmak</string>
+    <string name="x_angle">X açısı</string>
+    <string name="y_angle">ve açı</string>
+    <string name="resize">Çıktıyı yeniden boyutlandır</string>
+    <string name="water_drop">Su Damlası</string>
+    <string name="wavelength">Dalgaboyu</string>
+    <string name="phase">Faz</string>
+    <string name="high_pass">Yüksek Geçiş</string>
+    <string name="color_mask">Renk Maskesi</string>
 </resources>

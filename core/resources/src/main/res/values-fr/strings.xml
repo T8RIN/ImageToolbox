@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+<resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -3289,4 +3274,20 @@
     <string name="notch_shapes_sub">Coins étagés avec une double coupe</string>
     <string name="watermark_filename_placeholder">Espace réservé</string>
     <string name="watermark_filename_placeholder_sub">Utilisez {filename} pour insérer le nom de fichier d\'origine sans extension</string>
+    <string name="flare">Éclater</string>
+    <string name="base_amount">Montant de base</string>
+    <string name="ring_amount">Montant de la bague</string>
+    <string name="ray_amount">Quantité de rayons</string>
+    <string name="ring_width">Largeur de l\'anneau</string>
+    <string name="distort_perspective">Perspective de distorsion</string>
+    <string name="java_look_and_feel">Apparence et convivialité Java</string>
+    <string name="shear">Tondre</string>
+    <string name="x_angle">Angle X</string>
+    <string name="y_angle">et angle</string>
+    <string name="resize">Redimensionner la sortie</string>
+    <string name="water_drop">Goutte d\'eau</string>
+    <string name="wavelength">Longueur d\'onde</string>
+    <string name="phase">Phase</string>
+    <string name="high_pass">Passe-haut</string>
+    <string name="color_mask">Masque de couleur</string>
 </resources>

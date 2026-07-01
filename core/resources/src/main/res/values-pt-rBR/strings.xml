@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -3289,4 +3274,20 @@
     <string name="notch_shapes_sub">Cantos escalonados com corte duplo</string>
     <string name="watermark_filename_placeholder">Espaço reservado</string>
     <string name="watermark_filename_placeholder_sub">Use {filename} para inserir o nome do arquivo original sem extensão</string>
+    <string name="flare">Sinalizador</string>
+    <string name="base_amount">Valor base</string>
+    <string name="ring_amount">Valor do anel</string>
+    <string name="ray_amount">Quantidade de raios</string>
+    <string name="ring_width">Largura do anel</string>
+    <string name="distort_perspective">Distorcer Perspectiva</string>
+    <string name="java_look_and_feel">Aparência e comportamento do Java</string>
+    <string name="shear">Cisalhamento</string>
+    <string name="x_angle">Ângulo X</string>
+    <string name="y_angle">e ângulo</string>
+    <string name="resize">Redimensionar saída</string>
+    <string name="water_drop">Gota d\'água</string>
+    <string name="wavelength">Comprimento de onda</string>
+    <string name="phase">Fase</string>
+    <string name="high_pass">Passa alta</string>
+    <string name="color_mask">Máscara colorida</string>
 </resources>

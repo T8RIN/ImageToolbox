@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+<resources>
     <string name="flexible">Fleksibel</string>
     <string name="ok">OK</string>
     <string name="crop">Beskær</string>
@@ -3289,4 +3274,20 @@
     <string name="notch_shapes_sub">Aftrappede hjørner med dobbelt snit</string>
     <string name="watermark_filename_placeholder">Pladsholder</string>
     <string name="watermark_filename_placeholder_sub">Brug {filnavn} til at indsætte det originale filnavn uden filtypenavn</string>
+    <string name="flare">Flare</string>
+    <string name="base_amount">Grundbeløb</string>
+    <string name="ring_amount">Ring beløb</string>
+    <string name="ray_amount">Ray mængde</string>
+    <string name="ring_width">Ringbredde</string>
+    <string name="distort_perspective">Forvrænget perspektiv</string>
+    <string name="java_look_and_feel">Java Look and Feel</string>
+    <string name="shear">Klippe</string>
+    <string name="x_angle">X vinkel</string>
+    <string name="y_angle">og vinkel</string>
+    <string name="resize">Ændr størrelse på output</string>
+    <string name="water_drop">Vanddråbe</string>
+    <string name="wavelength">Bølgelængde</string>
+    <string name="phase">Fase</string>
+    <string name="high_pass">Højpas</string>
+    <string name="color_mask">Farve maske</string>
 </resources>

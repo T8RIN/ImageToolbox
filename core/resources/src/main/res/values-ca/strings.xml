@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
     <string name="pick_image">Trieu la imatge per començar</string>
@@ -3289,4 +3274,20 @@
     <string name="notch_shapes_sub">Cantonades esglaonades amb doble tall</string>
     <string name="watermark_filename_placeholder">Marcador de posició</string>
     <string name="watermark_filename_placeholder_sub">Utilitzeu {filename} per inserir el nom de fitxer original sense extensió</string>
+    <string name="flare">Flare</string>
+    <string name="base_amount">Import base</string>
+    <string name="ring_amount">Import de l\'anell</string>
+    <string name="ray_amount">Quantitat de raigs</string>
+    <string name="ring_width">Ample de l\'anell</string>
+    <string name="distort_perspective">Distorsionar la perspectiva</string>
+    <string name="java_look_and_feel">Aspecte i sensació de Java</string>
+    <string name="shear">Cisalla</string>
+    <string name="x_angle">angle X</string>
+    <string name="y_angle">I angle</string>
+    <string name="resize">Canvia la mida de la sortida</string>
+    <string name="water_drop">Gota d\'aigua</string>
+    <string name="wavelength">Longitud d\'ona</string>
+    <string name="phase">Fase</string>
+    <string name="high_pass">Pas alt</string>
+    <string name="color_mask">Màscara de color</string>
 </resources>

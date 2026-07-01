@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -3289,4 +3274,20 @@
     <string name="notch_shapes_sub">இரட்டை வெட்டு கொண்ட மூலைகள்</string>
     <string name="watermark_filename_placeholder">ப்ளேஸ்ஹோல்டர்</string>
     <string name="watermark_filename_placeholder_sub">அசல் கோப்பு பெயரை நீட்டிப்பு இல்லாமல் செருக {filename} ஐப் பயன்படுத்தவும்</string>
+    <string name="flare">ஃப்ளேர்</string>
+    <string name="base_amount">அடிப்படை தொகை</string>
+    <string name="ring_amount" />
+    <string name="ray_amount">கதிர் அளவு</string>
+    <string name="ring_width">வளைய அகலம்</string>
+    <string name="distort_perspective">பார்வையை சிதைக்கவும்</string>
+    <string name="java_look_and_feel">ஜாவா லுக் அண்ட் ஃபீல்</string>
+    <string name="shear">வெட்டு</string>
+    <string name="x_angle" />
+    <string name="y_angle">மற்றும் கோணம்</string>
+    <string name="resize">வெளியீட்டின் அளவை மாற்றவும்</string>
+    <string name="water_drop">நீர் துளி</string>
+    <string name="wavelength">அலைநீளம்</string>
+    <string name="phase">கட்டம்</string>
+    <string name="high_pass">உயர் பாஸ்</string>
+    <string name="color_mask" />
 </resources>

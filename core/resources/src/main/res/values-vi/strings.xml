@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -3288,4 +3273,20 @@
     <string name="notch_shapes_sub">Các góc bậc thang có đường cắt đôi</string>
     <string name="watermark_filename_placeholder">Trình giữ chỗ</string>
     <string name="watermark_filename_placeholder_sub">Sử dụng {filename} để chèn tên tệp gốc không có phần mở rộng</string>
+    <string name="flare">Bùng phát</string>
+    <string name="base_amount">Số tiền cơ bản</string>
+    <string name="ring_amount">Số lượng chuông</string>
+    <string name="ray_amount">Lượng tia</string>
+    <string name="ring_width">Chiều rộng vòng</string>
+    <string name="distort_perspective">Quan điểm bóp méo</string>
+    <string name="java_look_and_feel">Giao diện Java</string>
+    <string name="shear">cắt</string>
+    <string name="x_angle">góc X</string>
+    <string name="y_angle">và góc</string>
+    <string name="resize">Thay đổi kích thước đầu ra</string>
+    <string name="water_drop">Giọt Nước</string>
+    <string name="wavelength">Bước sóng</string>
+    <string name="phase">Giai đoạn</string>
+    <string name="high_pass">Đèo cao</string>
+    <string name="color_mask">Mặt nạ màu</string>
 </resources>
