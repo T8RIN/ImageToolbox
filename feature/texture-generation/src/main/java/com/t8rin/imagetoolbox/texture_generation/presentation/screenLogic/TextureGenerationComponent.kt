@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -246,9 +247,11 @@ class TextureGenerationComponent @AssistedInject internal constructor(
             _isImageLoading.update { true }
             _previewBitmap.update { null }
             debouncedImageCalculation {
+                val previewSize = textureSize.flexibleResize(512, 512)
+
                 textureGenerator.generateTexture(
-                    width = textureSize.width,
-                    height = textureSize.height,
+                    width = previewSize.width,
+                    height = previewSize.height,
                     textureParams = textureParams
                 )?.let {
                     imageScaler.scaleImage(

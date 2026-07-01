@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.texture_generation.presentation.components.TextureParamsSelection
 import com.t8rin.imagetoolbox.texture_generation.presentation.screenLogic.TextureGenerationComponent
 
@@ -101,6 +102,10 @@ fun TextureGenerationContent(
             onNavigate = component.onNavigate
         )
     }
+
+    AutoContentBasedColors(
+        model = component.previewBitmap
+    )
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,

@@ -30,6 +30,13 @@ internal fun CausticsParams(
     onValueChange: (TextureParams) -> Unit
 ) {
     ParamColumn {
+        ColorParam(
+            title = stringResource(R.string.color),
+            value = value.backgroundColor.toColor(),
+            onValueChange = {
+                onValueChange(value.copy(backgroundColor = it.toModel()))
+            }
+        )
         FloatParam(
             value = value.scale,
             title = stringResource(R.string.scale),
@@ -71,13 +78,6 @@ internal fun CausticsParams(
             title = stringResource(R.string.samples),
             range = 1f..32f,
             onValueChange = { onValueChange(value.copy(samples = it)) }
-        )
-        ColorParam(
-            title = stringResource(R.string.color),
-            value = value.backgroundColor.toColor(),
-            onValueChange = {
-                onValueChange(value.copy(backgroundColor = it.toModel()))
-            }
         )
     }
 }
