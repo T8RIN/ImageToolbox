@@ -524,6 +524,16 @@ or click one of the badges below.
     - You can create filter from any filter chain
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
+- Texture generation:
+    - Brushed Metal
+    - Caustics
+    - Cellular
+    - Checkerboard
+    - FBM
+    - Marble
+    - Plasma
+    - Quilt
+    - Wood
 - Files encryption and decryption with 100+ different algorithms available
 - Adding Stickers and Text (Markup Layers Mode)
 - Extract Text From Images (OCR)
