@@ -3274,20 +3274,4 @@
     <string name="notch_shapes_sub">قوش كېسىلگەن قەدەملەر</string>
     <string name="watermark_filename_placeholder">ئورۇن ئىگىسى</string>
     <string name="watermark_filename_placeholder_sub">كېڭەيتىلمەي ئەسلى ھۆججەت نامىنى قىستۇرۇش ئۈچۈن {ھۆججەت ئىسمى} نى ئىشلىتىڭ</string>
-    <string name="flare" />
-    <string name="base_amount" />
-    <string name="ring_amount" />
-    <string name="ray_amount" />
-    <string name="ring_width" />
-    <string name="distort_perspective" />
-    <string name="java_look_and_feel" />
-    <string name="shear" />
-    <string name="x_angle" />
-    <string name="y_angle" />
-    <string name="resize" />
-    <string name="water_drop" />
-    <string name="wavelength" />
-    <string name="phase" />
-    <string name="high_pass" />
-    <string name="color_mask" />
 </resources>
