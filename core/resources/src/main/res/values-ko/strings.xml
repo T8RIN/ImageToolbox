@@ -3275,7 +3275,6 @@
     <string name="watermark_filename_placeholder_sub">확장자 없이 원본 파일 이름을 삽입하려면 {filename}을 사용하세요.</string>
     <string name="flare">플레어</string>
     <string name="base_amount">기본 금액</string>
-    <string name="ring_amount" />
     <string name="ray_amount">광선량</string>
     <string name="ring_width">링 폭</string>
     <string name="distort_perspective">왜곡된 관점</string>
@@ -3287,6 +3286,5 @@
     <string name="water_drop">물방울</string>
     <string name="wavelength">파장</string>
     <string name="phase">단계</string>
-    <string name="high_pass" />
     <string name="color_mask">컬러 마스크</string>
 </resources>

@@ -3276,18 +3276,11 @@
     <string name="watermark_filename_placeholder_sub">এক্সটেনশন ছাড়াই আসল ফাইলের নাম সন্নিবেশ করতে {filename} ব্যবহার করুন</string>
     <string name="flare">ফ্লেয়ার</string>
     <string name="base_amount">ভিত্তি পরিমাণ</string>
-    <string name="ring_amount" />
-    <string name="ray_amount" />
     <string name="ring_width">রিং প্রস্থ</string>
-    <string name="distort_perspective" />
-    <string name="java_look_and_feel" />
     <string name="shear">শিয়ার</string>
-    <string name="x_angle" />
     <string name="y_angle">এবং কোণ</string>
-    <string name="resize" />
     <string name="water_drop">জলের ফোঁটা</string>
     <string name="wavelength">তরঙ্গদৈর্ঘ্য</string>
     <string name="phase">পর্যায়</string>
     <string name="high_pass">হাই পাস</string>
-    <string name="color_mask" />
 </resources>
