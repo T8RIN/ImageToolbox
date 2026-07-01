@@ -3283,4 +3283,11 @@
     <string name="wavelength">তরঙ্গদৈর্ঘ্য</string>
     <string name="phase">পর্যায়</string>
     <string name="high_pass">হাই পাস</string>
+    <string name="ring_amount">রিং পরিমাণ</string>
+    <string name="ray_amount">রে পরিমাণ</string>
+    <string name="distort_perspective">দৃষ্টিকোণ বিকৃত করুন</string>
+    <string name="java_look_and_feel">জাভা লুক অ্যান্ড ফিল</string>
+    <string name="x_angle">X কোণ</string>
+    <string name="resize">আউটপুটের আকার পরিবর্তন করুন</string>
+    <string name="color_mask">কালার মাস্ক</string>
 </resources>

@@ -3274,4 +3274,20 @@
     <string name="notch_shapes_sub">Ebaki bikoitzarekin ertz mailakatuak</string>
     <string name="watermark_filename_placeholder">Leku-marka</string>
     <string name="watermark_filename_placeholder_sub">Erabili {filename} jatorrizko fitxategi-izena luzapenik gabe txertatzeko</string>
+    <string name="flare">Erlantz</string>
+    <string name="base_amount">Oinarrizko zenbatekoa</string>
+    <string name="ring_amount">Eraztun kopurua</string>
+    <string name="ray_amount">Izpi kopurua</string>
+    <string name="ring_width">Eraztunaren zabalera</string>
+    <string name="distort_perspective">Perspektiba desitxuratu</string>
+    <string name="java_look_and_feel">Java itxura eta sentipena</string>
+    <string name="shear">Zizaila</string>
+    <string name="x_angle">X angelua</string>
+    <string name="y_angle">eta angelua</string>
+    <string name="resize">Aldatu irteeraren tamaina</string>
+    <string name="water_drop">Ur Tanta</string>
+    <string name="wavelength">Uhin-luzera</string>
+    <string name="phase">Fasea</string>
+    <string name="high_pass">Goi Mendatea</string>
+    <string name="color_mask">Kolore Maskara</string>
 </resources>

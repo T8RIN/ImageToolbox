@@ -3287,4 +3287,6 @@
     <string name="wavelength">파장</string>
     <string name="phase">단계</string>
     <string name="color_mask">컬러 마스크</string>
+    <string name="ring_amount">링 금액</string>
+    <string name="high_pass">하이패스</string>
 </resources>

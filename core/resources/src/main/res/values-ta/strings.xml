@@ -3287,4 +3287,7 @@
     <string name="wavelength">அலைநீளம்</string>
     <string name="phase">கட்டம்</string>
     <string name="high_pass">உயர் பாஸ்</string>
+    <string name="ring_amount">மோதிர அளவு</string>
+    <string name="x_angle">எக்ஸ் கோணம்</string>
+    <string name="color_mask">வண்ண முகமூடி</string>
 </resources>
