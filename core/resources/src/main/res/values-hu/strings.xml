@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -3352,4 +3354,12 @@
     <string name="grid_octagonal">Nyolcszögű</string>
     <string name="grid_triangular">Háromszögű</string>
     <string name="fbm_ridged">Barázdás</string>
+    <string name="bias">Elfogultság</string>
+    <string name="gradient_coefficient">Gradiens együttható</string>
+    <string name="grid_type">Rács típusa</string>
+    <string name="basis_type">Alaptípus</string>
+    <string name="texture_brushed_metal">Szálcsiszolt fém</string>
+    <string name="texture_checkerboard">Sakktábla</string>
+    <string name="fbm_vl_noise">VL Zaj</string>
+    <string name="fbm_sc_noise">SC Zaj</string>
 </resources>
