@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Strié</string>
     <string name="fbm_vl_noise">Bruit VL</string>
     <string name="fbm_sc_noise">Bruit SC</string>
+    <string name="recent">Récent</string>
+    <string name="no_recent_filters">Aucun filtre récemment utilisé pour l\'instant</string>
 </resources>

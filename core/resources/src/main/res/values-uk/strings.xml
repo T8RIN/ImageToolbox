@@ -3363,4 +3363,6 @@
     <string name="fbm_ridged">Гребеневий</string>
     <string name="fbm_vl_noise">В. Л. Шум</string>
     <string name="fbm_sc_noise">SC Шум</string>
+    <string name="recent">Останні</string>
+    <string name="no_recent_filters">Нещодавно використаних фільтрів ще немає</string>
 </resources>

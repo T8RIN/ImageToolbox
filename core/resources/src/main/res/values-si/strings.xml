@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">රිජ්ඩ්</string>
     <string name="fbm_vl_noise">VL ශබ්දය</string>
     <string name="fbm_sc_noise">SC ශබ්දය</string>
+    <string name="recent">මෑත</string>
+    <string name="no_recent_filters">මෑතදී භාවිත කළ පෙරහන් තවමත් නැත</string>
 </resources>

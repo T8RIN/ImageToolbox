@@ -3363,4 +3363,6 @@
     <string name="fbm_ridged">Грабяныя</string>
     <string name="fbm_vl_noise">В. Л. Шум</string>
     <string name="fbm_sc_noise">SC Noise</string>
+    <string name="recent">Апошнія</string>
+    <string name="no_recent_filters">Нядаўна выкарыстаных фільтраў пакуль няма</string>
 </resources>

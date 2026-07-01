@@ -3360,4 +3360,6 @@
     <string name="fbm_ridged">うねのある</string>
     <string name="fbm_vl_noise">VLノイズ</string>
     <string name="fbm_sc_noise">SCノイズ</string>
+    <string name="recent">最近の</string>
+    <string name="no_recent_filters">最近使用したフィルタはまだありません</string>
 </resources>

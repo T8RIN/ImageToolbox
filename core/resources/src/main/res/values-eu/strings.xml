@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Ertzatua</string>
     <string name="fbm_vl_noise">VL Zarata</string>
     <string name="fbm_sc_noise">SC Zarata</string>
+    <string name="recent">Duela gutxi</string>
+    <string name="no_recent_filters">Oraindik ez dago erabili berri den iragazkirik</string>
 </resources>

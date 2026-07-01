@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">ਰੱਜਿਆ ਹੋਇਆ</string>
     <string name="fbm_vl_noise">VL ਸ਼ੋਰ</string>
     <string name="fbm_sc_noise">SC ਸ਼ੋਰ</string>
+    <string name="recent">ਹਾਲੀਆ</string>
+    <string name="no_recent_filters">ਹਾਲੇ ਤੱਕ ਕੋਈ ਹਾਲ ਹੀ ਵਿੱਚ ਵਰਤੇ ਗਏ ਫਿਲਟਰ ਨਹੀਂ ਹਨ</string>
 </resources>

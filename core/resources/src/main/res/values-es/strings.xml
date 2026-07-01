@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Puntiagudo</string>
     <string name="fbm_vl_noise">Ruido VL</string>
     <string name="fbm_sc_noise">Ruido SC</string>
+    <string name="recent">Reciente</string>
+    <string name="no_recent_filters">Aún no hay filtros usados ​​recientemente</string>
 </resources>

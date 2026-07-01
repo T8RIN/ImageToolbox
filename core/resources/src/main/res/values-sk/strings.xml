@@ -3363,4 +3363,6 @@
     <string name="fbm_ridged">Ridged</string>
     <string name="fbm_vl_noise">Hluk VL</string>
     <string name="fbm_sc_noise">SC Hluk</string>
+    <string name="recent">Nedávne</string>
+    <string name="no_recent_filters">Zatiaľ žiadne nedávno použité filtre</string>
 </resources>

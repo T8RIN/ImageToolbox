@@ -3363,4 +3363,6 @@
     <string name="fbm_ridged">Rieduotas</string>
     <string name="fbm_vl_noise">VL triukšmas</string>
     <string name="fbm_sc_noise">SC triukšmas</string>
+    <string name="recent">Neseniai</string>
+    <string name="no_recent_filters">Dar nėra neseniai naudotų filtrų</string>
 </resources>

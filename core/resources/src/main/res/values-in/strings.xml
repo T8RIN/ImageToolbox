@@ -3360,4 +3360,6 @@
     <string name="fbm_ridged">Berpuncak runcing</string>
     <string name="fbm_vl_noise">Kebisingan VL</string>
     <string name="fbm_sc_noise">Kebisingan SC</string>
+    <string name="recent">Terkini</string>
+    <string name="no_recent_filters">Belum ada filter yang digunakan baru-baru ini</string>
 </resources>

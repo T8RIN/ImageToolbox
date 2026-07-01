@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">రిడ్జ్డ్</string>
     <string name="fbm_vl_noise">VL శబ్దం</string>
     <string name="fbm_sc_noise">SC శబ్దం</string>
+    <string name="recent">ఇటీవలి</string>
+    <string name="no_recent_filters">ఇంకా ఇటీవల ఉపయోగించిన ఫిల్టర్‌లు లేవు</string>
 </resources>

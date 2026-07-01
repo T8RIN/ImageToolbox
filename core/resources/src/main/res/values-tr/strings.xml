@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">çıkıntılı</string>
     <string name="fbm_vl_noise">VL Gürültüsü</string>
     <string name="fbm_sc_noise">SC Gürültüsü</string>
+    <string name="recent">Son</string>
+    <string name="no_recent_filters">Henüz yakın zamanda kullanılan filtre yok</string>
 </resources>

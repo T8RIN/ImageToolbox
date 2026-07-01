@@ -3360,4 +3360,6 @@
     <string name="fbm_ridged">สัน</string>
     <string name="fbm_vl_noise">เสียง VL</string>
     <string name="fbm_sc_noise">เอสซี นอยส์</string>
+    <string name="recent">ล่าสุด</string>
+    <string name="no_recent_filters">ยังไม่มีตัวกรองที่ใช้ล่าสุด</string>
 </resources>

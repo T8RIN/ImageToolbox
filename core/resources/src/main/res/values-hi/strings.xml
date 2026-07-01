@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">चोटी वाला</string>
     <string name="fbm_vl_noise">वीएल शोर</string>
     <string name="fbm_sc_noise">एससी शोर</string>
+    <string name="recent">हाल ही का</string>
+    <string name="no_recent_filters">अभी तक कोई हाल ही में उपयोग किया गया फ़िल्टर नहीं</string>
 </resources>

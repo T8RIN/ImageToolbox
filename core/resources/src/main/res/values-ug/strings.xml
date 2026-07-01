@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Ridged</string>
     <string name="fbm_vl_noise">VL شاۋقۇن</string>
     <string name="fbm_sc_noise">SC شاۋقۇن</string>
+    <string name="recent">يېقىنقى</string>
+    <string name="no_recent_filters">يېقىندا ئىشلىتىلمىگەن سۈزگۈچ يوق</string>
 </resources>

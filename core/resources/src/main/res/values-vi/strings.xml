@@ -3360,4 +3360,6 @@
     <string name="fbm_ridged">có đường gờ</string>
     <string name="fbm_vl_noise">Tiếng ồn VL</string>
     <string name="fbm_sc_noise">SC tiếng ồn</string>
+    <string name="recent">Gần đây</string>
+    <string name="no_recent_filters">Chưa có bộ lọc nào được sử dụng gần đây</string>
 </resources>

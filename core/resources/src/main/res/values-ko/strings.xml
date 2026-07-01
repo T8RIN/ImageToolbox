@@ -3360,4 +3360,6 @@
     <string name="fbm_ridged">능선</string>
     <string name="fbm_vl_noise">VL 노이즈</string>
     <string name="fbm_sc_noise">SC 소음</string>
+    <string name="recent">최근의</string>
+    <string name="no_recent_filters">최근에 사용한 필터가 아직 없습니다.</string>
 </resources>

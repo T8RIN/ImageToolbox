@@ -3363,4 +3363,6 @@
     <string name="fbm_ridged">Prążkowany</string>
     <string name="fbm_vl_noise">Hałas VL</string>
     <string name="fbm_sc_noise">Hałas SC</string>
+    <string name="recent">Ostatni</string>
+    <string name="no_recent_filters">Brak jeszcze ostatnio używanych filtrów</string>
 </resources>

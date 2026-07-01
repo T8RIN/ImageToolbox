@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Geriffelt</string>
     <string name="fbm_vl_noise">VL-Rauschen</string>
     <string name="fbm_sc_noise">SC-Rauschen</string>
+    <string name="recent">Jüngste</string>
+    <string name="no_recent_filters">Noch keine kürzlich verwendeten Filter</string>
 </resources>

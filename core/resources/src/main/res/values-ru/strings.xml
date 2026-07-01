@@ -3363,4 +3363,6 @@
     <string name="fbm_ridged">Ребристый</string>
     <string name="fbm_vl_noise">ВЛ Шум</string>
     <string name="fbm_sc_noise">СК Шум</string>
+    <string name="recent">Недавние</string>
+    <string name="no_recent_filters">Недавно использованных фильтров пока нет.</string>
 </resources>

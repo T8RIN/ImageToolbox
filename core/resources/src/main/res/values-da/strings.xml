@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Rammet</string>
     <string name="fbm_vl_noise">VL Støj</string>
     <string name="fbm_sc_noise">SC Støj</string>
+    <string name="recent">Nylig</string>
+    <string name="no_recent_filters">Ingen nyligt brugte filtre endnu</string>
 </resources>

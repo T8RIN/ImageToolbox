@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">முகடு</string>
     <string name="fbm_vl_noise">VL சத்தம்</string>
     <string name="fbm_sc_noise">எஸ்சி சத்தம்</string>
+    <string name="recent">சமீபத்திய</string>
+    <string name="no_recent_filters">இதுவரை எந்த வடிப்பான்களும் சமீபத்தில் பயன்படுத்தப்படவில்லை</string>
 </resources>

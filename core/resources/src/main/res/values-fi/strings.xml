@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Uurteinen</string>
     <string name="fbm_vl_noise">VL Melu</string>
     <string name="fbm_sc_noise">SC Melu</string>
+    <string name="recent">Viimeaikaiset</string>
+    <string name="no_recent_filters">Ei vielä äskettäin käytettyjä suodattimia</string>
 </resources>

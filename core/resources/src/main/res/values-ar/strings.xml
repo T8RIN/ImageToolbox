@@ -3365,4 +3365,6 @@
     <string name="fbm_ridged">مخفف</string>
     <string name="fbm_vl_noise">الضوضاء VL</string>
     <string name="fbm_sc_noise">الضوضاء SC</string>
+    <string name="recent">مؤخرًا</string>
+    <string name="no_recent_filters">لا توجد مرشحات مستخدمة مؤخرًا حتى الآن</string>
 </resources>

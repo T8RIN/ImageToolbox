@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">لبه دار</string>
     <string name="fbm_vl_noise">نویز VL</string>
     <string name="fbm_sc_noise">نویز SC</string>
+    <string name="recent">اخیر</string>
+    <string name="no_recent_filters">هنوز فیلتری که اخیراً استفاده شده است وجود ندارد</string>
 </resources>

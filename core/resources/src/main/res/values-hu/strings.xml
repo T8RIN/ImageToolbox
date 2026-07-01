@@ -3362,4 +3362,6 @@
     <string name="texture_checkerboard">Sakktábla</string>
     <string name="fbm_vl_noise">VL Zaj</string>
     <string name="fbm_sc_noise">SC Zaj</string>
+    <string name="recent">Legutóbbi</string>
+    <string name="no_recent_filters">Még nincsenek nemrégiben használt szűrők</string>
 </resources>

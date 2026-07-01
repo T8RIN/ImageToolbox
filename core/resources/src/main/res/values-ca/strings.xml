@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Crestada</string>
     <string name="fbm_vl_noise">VL Soroll</string>
     <string name="fbm_sc_noise">SC Soroll</string>
+    <string name="recent">Recent</string>
+    <string name="no_recent_filters">Encara no hi ha cap filtre utilitzat recentment</string>
 </resources>

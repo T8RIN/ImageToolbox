@@ -3360,4 +3360,6 @@
     <string name="fbm_ridged">脊状</string>
     <string name="fbm_vl_noise">VL 噪声</string>
     <string name="fbm_sc_noise">超导噪声</string>
+    <string name="recent">最近的</string>
+    <string name="no_recent_filters">还没有最近使用过的过滤器</string>
 </resources>

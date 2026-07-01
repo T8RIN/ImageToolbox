@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">রিজড</string>
     <string name="fbm_vl_noise">ভিএল নয়েজ</string>
     <string name="fbm_sc_noise">এসসি গোলমাল</string>
+    <string name="recent">সাম্প্রতিক</string>
+    <string name="no_recent_filters">কোনো সম্প্রতি ব্যবহৃত ফিল্টার এখনো</string>
 </resources>

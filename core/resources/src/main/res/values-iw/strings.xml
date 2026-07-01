@@ -3363,4 +3363,6 @@
     <string name="fbm_ridged">מְתוּלָם</string>
     <string name="fbm_vl_noise">VL רעש</string>
     <string name="fbm_sc_noise">רעש SC</string>
+    <string name="recent">לאחרונה</string>
+    <string name="no_recent_filters">עדיין אין מסננים בשימוש לאחרונה</string>
 </resources>

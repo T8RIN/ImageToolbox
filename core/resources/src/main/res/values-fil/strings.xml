@@ -3361,4 +3361,6 @@
     <string name="fbm_ridged">Ridged</string>
     <string name="fbm_vl_noise">Ingay ng VL</string>
     <string name="fbm_sc_noise">SC Ingay</string>
+    <string name="recent">Kamakailan</string>
+    <string name="no_recent_filters">Wala pang kamakailang ginamit na mga filter</string>
 </resources>

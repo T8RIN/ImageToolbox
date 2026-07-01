@@ -3362,4 +3362,6 @@
     <string name="fbm_ridged">Crestată</string>
     <string name="fbm_vl_noise">VL Zgomot</string>
     <string name="fbm_sc_noise">SC Zgomot</string>
+    <string name="recent">Recent</string>
+    <string name="no_recent_filters">Nu există încă filtre utilizate recent</string>
 </resources>
