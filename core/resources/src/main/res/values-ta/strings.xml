@@ -3276,18 +3276,15 @@
     <string name="watermark_filename_placeholder_sub">அசல் கோப்பு பெயரை நீட்டிப்பு இல்லாமல் செருக {filename} ஐப் பயன்படுத்தவும்</string>
     <string name="flare">ஃப்ளேர்</string>
     <string name="base_amount">அடிப்படை தொகை</string>
-    <string name="ring_amount" />
     <string name="ray_amount">கதிர் அளவு</string>
     <string name="ring_width">வளைய அகலம்</string>
     <string name="distort_perspective">பார்வையை சிதைக்கவும்</string>
     <string name="java_look_and_feel">ஜாவா லுக் அண்ட் ஃபீல்</string>
     <string name="shear">வெட்டு</string>
-    <string name="x_angle" />
     <string name="y_angle">மற்றும் கோணம்</string>
     <string name="resize">வெளியீட்டின் அளவை மாற்றவும்</string>
     <string name="water_drop">நீர் துளி</string>
     <string name="wavelength">அலைநீளம்</string>
     <string name="phase">கட்டம்</string>
     <string name="high_pass">உயர் பாஸ்</string>
-    <string name="color_mask" />
 </resources>
