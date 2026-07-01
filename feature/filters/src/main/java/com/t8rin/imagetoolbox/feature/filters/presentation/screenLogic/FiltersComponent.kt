@@ -616,8 +616,11 @@ class FiltersComponent @AssistedInject internal constructor(
                                 transformations = _basicFilterState.value.filters.map {
                                     filterProvider.filterToTransformation(it)
                                 }
-                            )?.let {
-                                it.image to it.imageInfo
+                            )?.let { imageData ->
+                                imageData.image to imageData.imageInfo.copy(
+                                    imageFormat = imageInfo.imageFormat,
+                                    quality = imageInfo.quality
+                                )
                             }
                         },
                         onProgressChange = {
@@ -900,10 +903,13 @@ class FiltersComponent @AssistedInject internal constructor(
                         transformations = _basicFilterState.value.filters.map {
                             filterProvider.filterToTransformation(it)
                         }
-                    )?.let { (image, imageInfo) ->
+                    )?.let { (image, sourceImageInfo) ->
                         shareProvider.cacheImage(
                             image = image,
-                            imageInfo = imageInfo
+                            imageInfo = sourceImageInfo.copy(
+                                imageFormat = imageInfo.imageFormat,
+                                quality = imageInfo.quality
+                            )
                         )?.let {
                             onComplete(it.toUri())
                         }
@@ -967,10 +973,13 @@ class FiltersComponent @AssistedInject internal constructor(
                             transformations = _basicFilterState.value.filters.map {
                                 filterProvider.filterToTransformation(it)
                             }
-                        )?.let { (image, imageInfo) ->
+                        )?.let { (image, sourceImageInfo) ->
                             shareProvider.cacheImage(
                                 image = image,
-                                imageInfo = imageInfo
+                                imageInfo = sourceImageInfo.copy(
+                                    imageFormat = imageInfo.imageFormat,
+                                    quality = imageInfo.quality
+                                )
                             )?.let {
                                 list.add(it.toUri())
                             }

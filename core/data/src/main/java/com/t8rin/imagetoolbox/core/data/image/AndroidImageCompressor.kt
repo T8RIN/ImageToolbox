@@ -53,12 +53,11 @@ internal class AndroidImageCompressor @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val shareProvider: Lazy<ShareProvider>,
-    settingsProvider: SettingsProvider,
+    private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageCompressor<Bitmap> {
 
-    private val _settingsState = settingsProvider.settingsState
-    private val settingsState get() = _settingsState.value
+    private val settingsState get() = settingsProvider.settingsState.value
 
     override suspend fun compress(
         image: Bitmap,
