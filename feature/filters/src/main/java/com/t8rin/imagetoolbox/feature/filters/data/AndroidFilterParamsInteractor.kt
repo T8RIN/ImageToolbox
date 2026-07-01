@@ -59,6 +59,20 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>
 ) : FilterParamsInteractor {
 
+    override fun getRecentFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
+        prefs[RECENT_FILTERS]?.toFiltersList(false) ?: emptyList()
+    }
+
+    override suspend fun addRecentFilter(filter: Filter<*>) {
+        dataStore.edit { prefs ->
+            val currentFilters = prefs[RECENT_FILTERS]?.toFiltersList(false) ?: emptyList()
+            val newList = listOf(filter) + currentFilters.filter {
+                !it::class.java.isInstance(filter)
+            }
+            prefs[RECENT_FILTERS] = newList.take(10).toDatastoreString()
+        }
+    }
+
     override fun getFavoriteFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
         prefs[FAVORITE_FILTERS]?.toFiltersList(false) ?: emptyList()
     }
@@ -203,6 +217,7 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
 private const val LINK_HEADER: String = "https://github.com/T8RIN/ImageToolbox?"
 
 private val FAVORITE_FILTERS = stringPreferencesKey("FAVORITE_FILTERS")
+private val RECENT_FILTERS = stringPreferencesKey("RECENT_FILTERS")
 private val TEMPLATE_FILTERS = stringPreferencesKey("TEMPLATE_FILTERS")
 private val PREVIEW_MODEL = stringPreferencesKey("PREVIEW_MODEL")
 private val CAN_SET_DYNAMIC_FILTER_PREVIEW = booleanPreferencesKey("CAN_SET_DYNAMIC_FILTER_PREVIEW")

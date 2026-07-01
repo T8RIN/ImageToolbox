@@ -154,6 +154,9 @@ internal fun FiltersContentControls(
                                         onRemove = {
                                             component.removeFilterAtIndex(index)
                                         },
+                                        onDuplicate = {
+                                            component.duplicateFilterAtIndex(index)
+                                        },
                                         onCreateTemplate = {
                                             showTemplateCreationSheet = true
                                             component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(

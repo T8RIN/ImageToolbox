@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
+import com.t8rin.imagetoolbox.core.resources.icons.Bolt
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
@@ -48,7 +49,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.FilterHdr
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
-import com.t8rin.imagetoolbox.core.resources.icons.Speed
+import com.t8rin.imagetoolbox.core.resources.icons.Schedule
 import com.t8rin.imagetoolbox.core.resources.icons.TableEye
 import com.t8rin.imagetoolbox.core.utils.appContext
 
@@ -120,8 +121,18 @@ sealed class UiFilter<T : Any>(
             override fun toString(): String = "Favorite"
         }
 
+        class Recent(
+            data: List<UiFilter<*>>
+        ) : Group(
+            icon = Icons.Rounded.Schedule,
+            title = R.string.recent,
+            data = data
+        ) {
+            override fun toString(): String = "Recent"
+        }
+
         data object Simple : Group(
-            icon = Icons.Rounded.Speed,
+            icon = Icons.Rounded.Bolt,
             title = R.string.simple_effects,
             data = simpleGroupFilters()
         )

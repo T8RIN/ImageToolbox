@@ -115,12 +115,18 @@ fun AddFiltersSheet(
     canAddTemplates: Boolean = true
 ) {
     val favoriteFilters by component.favoritesFlow.collectAsStateWithLifecycle()
+    val recentFilters by component.recentFiltersFlow.collectAsStateWithLifecycle()
 
-    val tabs: List<UiFilter.Group> = remember(canAddTemplates, favoriteFilters) {
+    val tabs: List<UiFilter.Group> = remember(
+        canAddTemplates,
+        favoriteFilters,
+        recentFilters
+    ) {
         buildList {
             if (canAddTemplates) {
                 add(UiFilter.Group.Template)
             }
+            add(UiFilter.Group.Recent(recentFilters))
             add(UiFilter.Group.Favorite(favoriteFilters))
             addAll(UiFilter.groups)
         }
@@ -132,8 +138,17 @@ fun AddFiltersSheet(
     val haptics = LocalHapticFeedback.current
     val pagerState = rememberPagerState(
         pageCount = { tabs.size },
-        initialPage = if (canAddTemplates) 2 else 1
+        initialPage = if (canAddTemplates) 3 else 2
     )
+
+    val pickFilter: (UiFilter<*>) -> Unit = { filter ->
+        component.addRecentFilter(filter)
+        onFilterPicked(filter)
+    }
+    val pickFilterWithParams: (UiFilter<*>) -> Unit = { filter ->
+        component.addRecentFilter(filter)
+        onFilterPickedWithParams(filter)
+    }
 
     var isSearching by rememberSaveable {
         mutableStateOf(false)
@@ -287,7 +302,7 @@ fun AddFiltersSheet(
                                         },
                                         onClick = {
                                             onVisibleChange(false)
-                                            onFilterPicked(filter)
+                                            pickFilter(filter)
                                         },
                                         onRequestFilterMapping = component::filterToTransformation,
                                         shape = ShapeDefaults.byIndex(
@@ -346,7 +361,7 @@ fun AddFiltersSheet(
                                     component = component,
                                     filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent,
                                     onVisibleChange = onVisibleChange,
-                                    onFilterPickedWithParams = onFilterPickedWithParams,
+                                    onFilterPickedWithParams = pickFilterWithParams,
                                     showPreviewImages = showPreviewImages
                                 )
                             }
@@ -357,8 +372,22 @@ fun AddFiltersSheet(
                                     favoriteFilters = favoriteFilters,
                                     favoriteFilterKeys = favoriteFilterKeys,
                                     onVisibleChange = onVisibleChange,
-                                    onFilterPickedWithParams = onFilterPickedWithParams,
-                                    onFilterPicked = onFilterPicked,
+                                    onFilterPickedWithParams = pickFilterWithParams,
+                                    onFilterPicked = pickFilter,
+                                    previewBitmap = previewBitmap,
+                                    showPreviewImages = showPreviewImages
+                                )
+                            }
+
+                            is UiFilter.Group.Recent -> {
+                                OtherContent(
+                                    component = component,
+                                    currentGroup = group,
+                                    filters = recentFilters,
+                                    favoriteFilterKeys = favoriteFilterKeys,
+                                    onVisibleChange = onVisibleChange,
+                                    onFilterPickedWithParams = pickFilterWithParams,
+                                    onFilterPicked = pickFilter,
                                     previewBitmap = previewBitmap,
                                     showPreviewImages = showPreviewImages
                                 )
@@ -374,8 +403,8 @@ fun AddFiltersSheet(
                                     filters = filters,
                                     favoriteFilterKeys = favoriteFilterKeys,
                                     onVisibleChange = onVisibleChange,
-                                    onFilterPickedWithParams = onFilterPickedWithParams,
-                                    onFilterPicked = onFilterPicked,
+                                    onFilterPickedWithParams = pickFilterWithParams,
+                                    onFilterPicked = pickFilter,
                                     previewBitmap = previewBitmap,
                                     showPreviewImages = showPreviewImages
                                 )
@@ -481,7 +510,7 @@ fun AddFiltersSheet(
 
     FilterPreviewSheet(
         component = component,
-        onFilterPickedWithParams = onFilterPickedWithParams,
+        onFilterPickedWithParams = pickFilterWithParams,
         onVisibleChange = onVisibleChange,
         previewBitmap = previewBitmap
     )

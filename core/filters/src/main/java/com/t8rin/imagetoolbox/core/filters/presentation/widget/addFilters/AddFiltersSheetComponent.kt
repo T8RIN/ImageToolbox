@@ -291,6 +291,17 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             initialValue = emptyList()
         )
 
+    val recentFiltersFlow: StateFlow<List<UiFilter<*>>> = favoriteInteractor.getRecentFilters()
+        .map { list ->
+            list.map {
+                it.toUiFilter()
+            }
+        }.stateIn(
+            scope = componentScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
+
     val shaderPresets = shaderPresetRepository.getPresets()
         .stateIn(
             scope = componentScope,
@@ -322,6 +333,12 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     fun toggleFavorite(filter: UiFilter<*>) {
         componentScope.launch {
             favoriteInteractor.toggleFavorite(filter)
+        }
+    }
+
+    fun addRecentFilter(filter: UiFilter<*>) {
+        componentScope.launch {
+            favoriteInteractor.addRecentFilter(filter)
         }
     }
 

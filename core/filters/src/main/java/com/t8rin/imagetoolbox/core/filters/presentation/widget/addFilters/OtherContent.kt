@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,6 +36,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,12 +48,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCubeLutFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
+import com.t8rin.imagetoolbox.core.resources.HistoryToggleOff
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
@@ -86,6 +92,13 @@ internal fun OtherContent(
     showPreviewImages: Boolean
 ) {
     val onRequestFilterMapping = component::filterToTransformation
+
+    if (currentGroup is UiFilter.Group.Recent && filters.isEmpty()) {
+        NoRecentFiltersSection(
+            icon = Icons.Outlined.HistoryToggleOff
+        )
+        return
+    }
 
     LazyColumn(
         state = rememberRetainedLazyListState("sheet$currentGroup"),
@@ -137,6 +150,36 @@ internal fun OtherContent(
                 }
             )
         }
+    }
+}
+
+@Composable
+private fun NoRecentFiltersSection(
+    icon: ImageVector
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.5f),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Spacer(Modifier.weight(1f))
+        Text(
+            text = stringResource(R.string.no_recent_filters),
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(24.dp)
+        )
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier
+                .weight(2f)
+                .size(140.dp)
+                .fillMaxSize()
+        )
+        Spacer(Modifier.weight(1f))
     }
 }
 

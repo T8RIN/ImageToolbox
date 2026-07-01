@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
@@ -68,7 +69,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
+import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -90,6 +93,7 @@ fun <T : Any> FilterItem(
     previewOnly: Boolean = false,
     onFilterChange: (value: Any) -> Unit,
     onCreateTemplate: (() -> Unit)?,
+    onDuplicate: (() -> Unit)? = null,
     backgroundColor: Color = Color.Unspecified,
     shape: Shape = MaterialTheme.shapes.extraLarge,
     canHide: Boolean = true,
@@ -196,6 +200,30 @@ fun <T : Any> FilterItem(
                                             Text(stringResource(R.string.remove))
                                         }
                                         Spacer(Modifier.height(4.dp))
+                                        onDuplicate?.let {
+                                            EnhancedButton(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                onClick = {
+                                                    onDuplicate()
+                                                    showPopup = false
+                                                },
+                                                shape = ShapeDefaults.center,
+                                                containerColor = takeColorFromScheme {
+                                                    secondary.blend(primary)
+                                                },
+                                                contentColor = takeColorFromScheme {
+                                                    onSecondary.blend(onPrimary)
+                                                }
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.ContentCopy,
+                                                    contentDescription = stringResource(R.string.duplicate)
+                                                )
+                                                Spacer(Modifier.width(8.dp))
+                                                Text(stringResource(R.string.duplicate))
+                                            }
+                                            Spacer(Modifier.height(4.dp))
+                                        }
                                         EnhancedButton(
                                             modifier = Modifier.fillMaxWidth(),
                                             onClick = {

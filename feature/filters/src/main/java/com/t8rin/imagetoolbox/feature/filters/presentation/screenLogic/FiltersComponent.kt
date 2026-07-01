@@ -599,6 +599,28 @@ class FiltersComponent @AssistedInject internal constructor(
         commitHistoryFrom(beforeSnapshot)
     }
 
+    fun duplicateFilterAtIndex(index: Int) {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
+        _basicFilterState.update {
+            it.copy(
+                filters = it.filters.toMutableList().apply {
+                    val filter = get(index)
+                    add(
+                        index = index + 1,
+                        element = filter.copy(filter.value).apply {
+                            isVisible = filter.isVisible
+                        }
+                    )
+                }
+            )
+        }
+        updateCanSave()
+        filterJob = null
+        updatePreview()
+        commitHistoryFrom(beforeSnapshot)
+    }
+
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
     fun performSharing() {
