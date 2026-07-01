@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -3328,26 +3327,20 @@
     <string name="texture_generation">Textúra generálása</string>
     <string name="texture_generation_sub">Különféle eljárási textúrák létrehozása és képként való mentése</string>
     <string name="texture_type">Textúra típusa</string>
-    <string name="bias" />
     <string name="time">Idő</string>
     <string name="shine">Ragyog</string>
     <string name="dispersion">Diszperzió</string>
     <string name="samples">Minták</string>
     <string name="angle_coefficient">Szögegyüttható</string>
-    <string name="gradient_coefficient" />
-    <string name="grid_type" />
     <string name="distance_power">Távolsági teljesítmény</string>
     <string name="scale_y">Y skála</string>
     <string name="fuzziness">Elmosódottság</string>
-    <string name="basis_type" />
     <string name="turbulence_factor">Turbulencia tényező</string>
     <string name="scaling">Méretezés</string>
     <string name="iterations">Iterációk</string>
     <string name="rings">Gyűrűk</string>
-    <string name="texture_brushed_metal" />
     <string name="texture_caustics">Marószerek</string>
     <string name="texture_cellular">Sejtes</string>
-    <string name="texture_checkerboard" />
     <string name="texture_fbm">fBm</string>
     <string name="texture_marble">Márvány</string>
     <string name="texture_plasma">Vérplazma</string>
@@ -3359,6 +3352,4 @@
     <string name="grid_octagonal">Nyolcszögű</string>
     <string name="grid_triangular">Háromszögű</string>
     <string name="fbm_ridged">Barázdás</string>
-    <string name="fbm_vl_noise" />
-    <string name="fbm_sc_noise" />
 </resources>
