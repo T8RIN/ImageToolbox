@@ -181,7 +181,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 310 various filters)
+- Applying filter chains (More than 320 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -500,6 +500,13 @@ or click one of the badges below.
     - [x] Shader
     - [x] Torn Edge
     - [x] Drop Shadow 
+    - [x] Flare
+    - [x] Distort Perspective
+    - [x] Java Look And Feel
+    - [x] Shear
+    - [x] Water Drop
+    - [x] High Pass
+    - [x] Color Mask
 
 
   </details>
