@@ -23,10 +23,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.DisabledVisible
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -64,7 +64,11 @@ internal fun DigitalParamsContent(
                         )
                     )
                 },
-                shape = ShapeDefaults.large,
+                shape = if (isInvisible) {
+                    ShapeDefaults.default
+                } else {
+                    ShapeDefaults.bottom
+                },
                 containerColor = MaterialTheme.colorScheme.surface
             )
 //            AnimatedVisibility(visible = isInvisible) {

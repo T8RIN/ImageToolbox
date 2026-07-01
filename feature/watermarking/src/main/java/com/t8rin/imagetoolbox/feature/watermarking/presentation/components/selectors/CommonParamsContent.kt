@@ -27,13 +27,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Repeat
 import com.t8rin.imagetoolbox.core.resources.icons.TextRotationAngleup
@@ -73,7 +73,7 @@ internal fun CommonParamsContent(
                     onValueChange(params.copy(positionX = it))
                 },
                 valueRange = 0f..1f,
-                shape = ShapeDefaults.large,
+                shape = ShapeDefaults.top,
                 containerColor = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -87,7 +87,7 @@ internal fun CommonParamsContent(
                     onValueChange(params.copy(positionY = it))
                 },
                 valueRange = 0f..1f,
-                shape = ShapeDefaults.large,
+                shape = ShapeDefaults.center,
                 containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
@@ -108,7 +108,11 @@ internal fun CommonParamsContent(
             onValueChange = {
                 onValueChange(params.copy(rotation = it.roundToInt()))
             },
-            shape = ShapeDefaults.large,
+            shape = if (params.isRepeated) {
+                ShapeDefaults.top
+            } else {
+                ShapeDefaults.center
+            },
             containerColor = MaterialTheme.colorScheme.surface
         )
     }
@@ -124,7 +128,11 @@ internal fun CommonParamsContent(
                 onValueChange(params.copy(alpha = it))
             },
             modifier = Modifier.fillMaxWidth(),
-            shape = ShapeDefaults.large,
+            shape = if (params.watermarkingType.isStamp()) {
+                ShapeDefaults.top
+            } else {
+                ShapeDefaults.center
+            },
             color = MaterialTheme.colorScheme.surface
         )
     }
@@ -143,7 +151,7 @@ internal fun CommonParamsContent(
                 onClick = {
                     onValueChange(params.copy(isRepeated = it))
                 },
-                shape = ShapeDefaults.large,
+                shape = ShapeDefaults.center,
                 containerColor = MaterialTheme.colorScheme.surface
             )
             Spacer(Modifier.height(4.dp))
@@ -153,7 +161,8 @@ internal fun CommonParamsContent(
                     onValueChange(
                         params.copy(overlayMode = it)
                     )
-                }
+                },
+                shape = ShapeDefaults.center
             )
         }
     }

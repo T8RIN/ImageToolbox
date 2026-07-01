@@ -71,7 +71,8 @@ internal fun TextParamsContent(
                             )
                         )
                     )
-                }
+                },
+                shape = ShapeDefaults.center
             )
             Spacer(modifier = Modifier.height(4.dp))
             EnhancedSliderItem(
@@ -90,7 +91,7 @@ internal fun TextParamsContent(
                     )
                 },
                 valueRange = 0.01f..1f,
-                shape = ShapeDefaults.large,
+                shape = ShapeDefaults.center,
                 containerColor = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -107,7 +108,7 @@ internal fun TextParamsContent(
                 },
                 title = stringResource(R.string.text_color),
                 modifier = Modifier.container(
-                    shape = ShapeDefaults.large,
+                    shape = ShapeDefaults.center,
                     color = MaterialTheme.colorScheme.surface
                 )
             )
@@ -125,7 +126,7 @@ internal fun TextParamsContent(
                 },
                 title = stringResource(R.string.background_color),
                 modifier = Modifier.container(
-                    shape = ShapeDefaults.large,
+                    shape = ShapeDefaults.center,
                     color = MaterialTheme.colorScheme.surface
                 )
             )

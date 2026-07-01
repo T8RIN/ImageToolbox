@@ -72,7 +72,8 @@ internal fun StampParamsContent(
                             )
                         )
                     )
-                }
+                },
+                shape = ShapeDefaults.center
             )
             Spacer(modifier = Modifier.height(4.dp))
             PositionSelector(
@@ -86,7 +87,8 @@ internal fun StampParamsContent(
                         )
                     )
                 },
-                selectedItemColor = MaterialTheme.colorScheme.primary
+                selectedItemColor = MaterialTheme.colorScheme.primary,
+                shape = ShapeDefaults.center
             )
             Spacer(modifier = Modifier.height(4.dp))
             EnhancedSliderItem(
@@ -105,7 +107,7 @@ internal fun StampParamsContent(
                     )
                 },
                 valueRange = 0f..50f,
-                shape = ShapeDefaults.large,
+                shape = ShapeDefaults.center,
                 containerColor = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -127,7 +129,7 @@ internal fun StampParamsContent(
                     )
                 },
                 valueRange = 0.01f..1f,
-                shape = ShapeDefaults.large,
+                shape = ShapeDefaults.center,
                 containerColor = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -146,7 +148,7 @@ internal fun StampParamsContent(
                 },
                 title = stringResource(R.string.text_color),
                 modifier = Modifier.container(
-                    shape = ShapeDefaults.large,
+                    shape = ShapeDefaults.center,
                     color = MaterialTheme.colorScheme.surface
                 )
             )
@@ -166,7 +168,7 @@ internal fun StampParamsContent(
                 },
                 title = stringResource(R.string.background_color),
                 modifier = Modifier.container(
-                    shape = ShapeDefaults.large,
+                    shape = ShapeDefaults.bottom,
                     color = MaterialTheme.colorScheme.surface
                 )
             )

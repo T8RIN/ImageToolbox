@@ -63,7 +63,7 @@ internal fun ImageParamsContent(
                 )
             },
             valueRange = 0.01f..1f,
-            shape = ShapeDefaults.large,
+            shape = ShapeDefaults.center,
             containerColor = MaterialTheme.colorScheme.surface
         )
     }
