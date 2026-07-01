@@ -40,8 +40,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
@@ -50,12 +52,14 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterDropParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asDomain
@@ -169,6 +173,50 @@ internal fun Any.toPair(): Pair<String, String>? {
                 frequencyY,
                 amplitudeX,
                 amplitudeY
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is FlareParams -> {
+            FlareParams::class.simpleName() to listOf(
+                radius,
+                baseAmount,
+                ringAmount,
+                rayAmount,
+                ringWidth,
+                color.colorInt
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is DistortPerspectiveParams -> {
+            DistortPerspectiveParams::class.simpleName() to listOf(
+                topLeft.first,
+                topLeft.second,
+                topRight.first,
+                topRight.second,
+                bottomLeft.first,
+                bottomLeft.second,
+                bottomRight.first,
+                bottomRight.second,
+                clip
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is ShearParams -> {
+            ShearParams::class.simpleName() to listOf(
+                xAngle,
+                yAngle,
+                resize
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is WaterDropParams -> {
+            WaterDropParams::class.simpleName() to listOf(
+                wavelength,
+                amplitude,
+                phase,
+                centreX,
+                centreY,
+                radius
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -558,6 +606,64 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 frequencyY = frequencyY.toFloat(),
                 amplitudeX = amplitudeX.toFloat(),
                 amplitudeY = amplitudeY.toFloat()
+            )
+        }
+
+        name == FlareParams::class.simpleName -> {
+            val (radius, baseAmount, ringAmount, rayAmount, ringWidth, color) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+            FlareParams(
+                radius = radius.toFloat(),
+                baseAmount = baseAmount.toFloat(),
+                ringAmount = ringAmount.toFloat(),
+                rayAmount = rayAmount.toFloat(),
+                ringWidth = ringWidth.toFloat(),
+                color = color.toInt().toColorModel()
+            )
+        }
+
+        name == DistortPerspectiveParams::class.simpleName -> {
+            val (
+                topLeftX,
+                topLeftY,
+                topRightX,
+                topRightY,
+                bottomLeftX,
+                bottomLeftY,
+                bottomRightX,
+                bottomRightY,
+                clip
+            ) = value.split(PROPERTIES_SEPARATOR)
+            DistortPerspectiveParams(
+                topLeft = topLeftX.toFloat() to topLeftY.toFloat(),
+                topRight = topRightX.toFloat() to topRightY.toFloat(),
+                bottomLeft = bottomLeftX.toFloat() to bottomLeftY.toFloat(),
+                bottomRight = bottomRightX.toFloat() to bottomRightY.toFloat(),
+                clip = clip.toBoolean()
+            )
+        }
+
+        name == ShearParams::class.simpleName -> {
+            val (xAngle, yAngle, resize) = value.split(PROPERTIES_SEPARATOR)
+            ShearParams(
+                xAngle = xAngle.toFloat(),
+                yAngle = yAngle.toFloat(),
+                resize = resize.toBoolean()
+            )
+        }
+
+        name == WaterDropParams::class.simpleName -> {
+            val (wavelength, amplitude, phase, centreX, centreY, radius) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+            WaterDropParams(
+                wavelength = wavelength.toFloat(),
+                amplitude = amplitude.toFloat(),
+                phase = phase.toFloat(),
+                centreX = centreX.toFloat(),
+                centreY = centreY.toFloat(),
+                radius = radius.toFloat()
             )
         }
 

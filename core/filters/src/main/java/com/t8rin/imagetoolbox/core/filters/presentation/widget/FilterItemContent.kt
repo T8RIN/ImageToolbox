@@ -34,8 +34,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
@@ -46,12 +48,14 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftPa
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterDropParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
@@ -64,9 +68,11 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Boolea
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ChannelMixParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ClaheParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.CropOrPerspectiveParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.DistortPerspectiveParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.DropShadowParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.EnhancedZoomBlurParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FilterValueWrapperItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FlareParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatArrayItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.GlitchParamsItem
@@ -82,6 +88,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Radial
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RubberStampParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SeamCarvingParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ShaderParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ShearParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SmearParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SparkleParamsItem
@@ -89,6 +96,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ToneCu
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TornEdgeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TripleItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.VoronoiCrystallizeParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.WaterDropParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.WaterParamsItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 
@@ -362,6 +370,42 @@ internal fun <T : Any> FilterItemContent(
 
             is CropOrPerspectiveParams -> {
                 CropOrPerspectiveParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is DistortPerspectiveParams -> {
+                DistortPerspectiveParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is FlareParams -> {
+                FlareParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is ShearParams -> {
+                ShearParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is WaterDropParams -> {
+                WaterDropParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

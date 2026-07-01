@@ -36,8 +36,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
@@ -48,12 +50,14 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftPa
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterDropParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 
 
@@ -379,6 +383,13 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface ExpandImage : QuadFloatFilter
     interface DropShadow : Filter<DropShadowParams>
     interface TornEdge : Filter<TornEdgeParams>
+    interface Flare : Filter<FlareParams>
+    interface DistortPerspective : Filter<DistortPerspectiveParams>
+    interface JavaLookAndFeel : SimpleFilter
+    interface Shear : Filter<ShearParams>
+    interface WaterDrop : Filter<WaterDropParams>
+    interface HighPass : FloatFilter
+    interface ColorMask : ColorValueFilter
 }
 
 interface SimpleFilter : Filter<Unit>
