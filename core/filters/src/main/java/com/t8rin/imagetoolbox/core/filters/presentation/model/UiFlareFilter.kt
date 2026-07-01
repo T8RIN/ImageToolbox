@@ -33,6 +33,8 @@ class UiFlareFilter(
         R.string.ring_amount paramTo 0f..2f,
         R.string.ray_amount paramTo 0f..2f,
         R.string.ring_width paramTo 0.01f..5f,
+        R.string.center_x paramTo 0f..1f,
+        R.string.center_y paramTo 0f..1f,
         R.string.color paramTo 0f..0f
     ),
     value = value

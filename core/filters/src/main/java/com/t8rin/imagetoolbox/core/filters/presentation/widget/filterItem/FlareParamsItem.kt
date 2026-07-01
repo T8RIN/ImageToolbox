@@ -58,6 +58,12 @@ internal fun FlareParamsItem(
         FlareSlider(value.ringWidth, filter.paramsInfo[4], !previewOnly) {
             onFilterChange(value.copy(ringWidth = it))
         }
+        FlareSlider(value.centreX, filter.paramsInfo[5], !previewOnly) {
+            onFilterChange(value.copy(centreX = it))
+        }
+        FlareSlider(value.centreY, filter.paramsInfo[6], !previewOnly) {
+            onFilterChange(value.copy(centreY = it))
+        }
         ColorSelectionRow(
             value = value.color.toColor(),
             defaultColors = ColorSelectionRowDefaults.colorList,

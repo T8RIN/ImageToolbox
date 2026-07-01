@@ -37,7 +37,10 @@ internal class FlareFilter(
 
     override fun createFilter(): JhFilter = FlareFilter()
 
-    override fun createFilter(image: Bitmap): JhFilter = FlareFilter().apply {
+    override fun createFilter(image: Bitmap): JhFilter = FlareFilter(
+        (value.centreX * image.width).roundToInt(),
+        (value.centreY * image.height).roundToInt()
+    ).apply {
         radius = (value.radius * (max(image.width, image.height) / 2f)).roundToInt()
         baseAmount = value.baseAmount
         ringAmount = value.ringAmount

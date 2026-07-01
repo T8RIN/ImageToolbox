@@ -28,6 +28,8 @@ data class FlareParams(
     val ringAmount: Float,
     val rayAmount: Float,
     val ringWidth: Float,
+    val centreX: Float,
+    val centreY: Float,
     val color: ColorModel
 ) {
     companion object {
@@ -37,6 +39,8 @@ data class FlareParams(
             ringAmount = 0.2f,
             rayAmount = 0.1f,
             ringWidth = 1.6f,
+            centreX = 0.5f,
+            centreY = 0.5f,
             color = Color.White.toArgb().toColorModel()
         )
     }

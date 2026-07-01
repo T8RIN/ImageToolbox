@@ -183,6 +183,8 @@ internal fun Any.toPair(): Pair<String, String>? {
                 ringAmount,
                 rayAmount,
                 ringWidth,
+                centreX,
+                centreY,
                 color.colorInt
             ).joinToString(PROPERTIES_SEPARATOR)
         }
@@ -610,7 +612,7 @@ internal fun Pair<String, String>.fromPair(): Any? {
         }
 
         name == FlareParams::class.simpleName -> {
-            val (radius, baseAmount, ringAmount, rayAmount, ringWidth, color) = value.split(
+            val (radius, baseAmount, ringAmount, rayAmount, ringWidth, centreX, centreY, color) = value.split(
                 PROPERTIES_SEPARATOR
             )
             FlareParams(
@@ -619,6 +621,8 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 ringAmount = ringAmount.toFloat(),
                 rayAmount = rayAmount.toFloat(),
                 ringWidth = ringWidth.toFloat(),
+                centreX = centreX.toFloat(),
+                centreY = centreY.toFloat(),
                 color = color.toInt().toColorModel()
             )
         }
