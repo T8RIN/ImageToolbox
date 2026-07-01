@@ -22,7 +22,8 @@
         com.google.mlkit.vision.segmentation.subject,
         androidx.pdf,
         androidx.pdf.viewer.fragment,
-        androidx.pdf.document.service" />
+        androidx.pdf.document.service,
+        androidx.pdf.core" />
 
     <uses-feature
         android:name="android.hardware.camera"
