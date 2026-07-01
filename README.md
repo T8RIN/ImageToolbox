@@ -181,7 +181,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 320 various filters)
+- Applying filter chains (More than 330 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -507,6 +507,15 @@ or click one of the badges below.
     - [x] Water Drop
     - [x] High Pass
     - [x] Color Mask
+    - [x] Adaptive Blur
+    - [x] Chrome
+    - [x] Dissolve
+    - [x] Feedback
+    - [x] Lens Blur
+    - [x] Levels
+    - [x] Light Effects
+    - [x] Rays
+    - [x] Ripple
 
 
   </details>
