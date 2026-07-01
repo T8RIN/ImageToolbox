@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
@@ -3292,4 +3308,22 @@
     <string name="phase">Faza</string>
     <string name="high_pass">Wysoka Przełęcz</string>
     <string name="color_mask">Maska koloru</string>
+    <string name="chrome">Chrom</string>
+    <string name="dissolve">Rozwiązać</string>
+    <string name="softness">Miękkość</string>
+    <string name="feedback">Informacja zwrotna</string>
+    <string name="lens_blur">Rozmycie obiektywu</string>
+    <string name="low_input">Niskie wejście</string>
+    <string name="high_input">Wysokie wejście</string>
+    <string name="low_output">Niska wydajność</string>
+    <string name="high_output">Wysoka wydajność</string>
+    <string name="light_effects">Efekty świetlne</string>
+    <string name="bump_height">Wysokość guza</string>
+    <string name="bump_softness">Miękkość uderzenia</string>
+    <string name="ripple">Marszczyć</string>
+    <string name="x_amplitude">Amplituda X</string>
+    <string name="y_amplitude">Amplituda Y</string>
+    <string name="x_wavelength">Długość fali X</string>
+    <string name="y_wavelength">Długość fali Y</string>
+    <string name="adaptive_blur">Rozmycie adaptacyjne</string>
 </resources>

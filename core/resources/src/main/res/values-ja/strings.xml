@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
@@ -3289,4 +3305,22 @@
     <string name="phase">段階</string>
     <string name="high_pass">ハイパス</string>
     <string name="color_mask">カラーマスク</string>
+    <string name="chrome">クロム</string>
+    <string name="dissolve">溶解する</string>
+    <string name="softness">柔らかさ</string>
+    <string name="feedback">フィードバック</string>
+    <string name="lens_blur">レンズのぼやけ</string>
+    <string name="low_input">低入力</string>
+    <string name="high_input">高入力</string>
+    <string name="low_output">低出力</string>
+    <string name="high_output">高出力</string>
+    <string name="light_effects">光の効果</string>
+    <string name="bump_height">バンプ高さ</string>
+    <string name="bump_softness">バンプの柔らかさ</string>
+    <string name="ripple">リップル</string>
+    <string name="x_amplitude">X振幅</string>
+    <string name="y_amplitude">Y振幅</string>
+    <string name="x_wavelength">X波長</string>
+    <string name="y_wavelength">Y波長</string>
+    <string name="adaptive_blur">適応ブラー</string>
 </resources>

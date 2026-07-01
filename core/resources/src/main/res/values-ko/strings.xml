@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
@@ -3289,4 +3305,22 @@
     <string name="color_mask">컬러 마스크</string>
     <string name="ring_amount">링 금액</string>
     <string name="high_pass">하이패스</string>
+    <string name="chrome">크롬</string>
+    <string name="dissolve">디졸브</string>
+    <string name="softness">연성</string>
+    <string name="feedback">피드백</string>
+    <string name="lens_blur">렌즈 흐림</string>
+    <string name="low_input">낮은 입력</string>
+    <string name="high_input">높은 입력</string>
+    <string name="low_output">낮은 출력</string>
+    <string name="high_output">고출력</string>
+    <string name="light_effects">조명 효과</string>
+    <string name="bump_height">범프 높이</string>
+    <string name="bump_softness">범프 부드러움</string>
+    <string name="ripple">리플</string>
+    <string name="x_amplitude">X 진폭</string>
+    <string name="y_amplitude">Y 진폭</string>
+    <string name="x_wavelength">X 파장</string>
+    <string name="y_wavelength">Y 파장</string>
+    <string name="adaptive_blur">적응형 흐림</string>
 </resources>

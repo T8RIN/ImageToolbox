@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
@@ -3290,4 +3306,22 @@
     <string name="phase">Fase</string>
     <string name="high_pass">Pas alt</string>
     <string name="color_mask">Màscara de color</string>
+    <string name="chrome">Chrome</string>
+    <string name="dissolve">Dissoldre</string>
+    <string name="softness">Suavitat</string>
+    <string name="feedback">Feedback</string>
+    <string name="lens_blur">Desenfocament de la lent</string>
+    <string name="low_input">Entrada baixa</string>
+    <string name="high_input">Entrada alta</string>
+    <string name="low_output">Sortida baixa</string>
+    <string name="high_output">Alt rendiment</string>
+    <string name="light_effects">Efectes de llum</string>
+    <string name="bump_height">Alçada de cop</string>
+    <string name="bump_softness">Suavitat de cops</string>
+    <string name="ripple">Onda</string>
+    <string name="x_amplitude">X amplitud</string>
+    <string name="y_amplitude">Amplitud Y</string>
+    <string name="x_wavelength">X longitud d\'ona</string>
+    <string name="y_wavelength">Longitud d\'ona Y</string>
+    <string name="adaptive_blur">Desenfocament adaptatiu</string>
 </resources>

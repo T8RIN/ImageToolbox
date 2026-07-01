@@ -3308,4 +3308,22 @@
     <string name="phase">Фаза</string>
     <string name="high_pass">Высокий проход</string>
     <string name="color_mask">Цветовая маска</string>
+    <string name="chrome">Хром</string>
+    <string name="dissolve">Растворить</string>
+    <string name="softness">Мягкость</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="lens_blur">Размытие объектива</string>
+    <string name="low_input">Низкий входной сигнал</string>
+    <string name="high_input">Высокий вход</string>
+    <string name="low_output">Низкая мощность</string>
+    <string name="high_output">Высокая производительность</string>
+    <string name="light_effects">Световые эффекты</string>
+    <string name="bump_height">Высота выступа</string>
+    <string name="bump_softness">Мягкость удара</string>
+    <string name="ripple">Пульсация</string>
+    <string name="x_amplitude">X-амплитуда</string>
+    <string name="y_amplitude">Амплитуда Y</string>
+    <string name="x_wavelength">длина волны X</string>
+    <string name="y_wavelength">Длина волны Y</string>
+    <string name="adaptive_blur">Адаптивное размытие</string>
 </resources>

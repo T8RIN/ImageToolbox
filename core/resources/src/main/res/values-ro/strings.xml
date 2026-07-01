@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
@@ -3291,4 +3307,22 @@
     <string name="phase">Fază</string>
     <string name="high_pass">High Pass</string>
     <string name="color_mask">Mască de culoare</string>
+    <string name="chrome">Chrome</string>
+    <string name="dissolve">Dizolva</string>
+    <string name="softness">Moliciune</string>
+    <string name="feedback">Feedback</string>
+    <string name="lens_blur">Încețoșarea obiectivului</string>
+    <string name="low_input">Intrare scăzută</string>
+    <string name="high_input">Intrare mare</string>
+    <string name="low_output">Putere scăzută</string>
+    <string name="high_output">Randament ridicat</string>
+    <string name="light_effects">Efecte de lumină</string>
+    <string name="bump_height">Înălțimea denivelării</string>
+    <string name="bump_softness">Moliciunea bumpului</string>
+    <string name="ripple">Clipoci</string>
+    <string name="x_amplitude">X amplitudine</string>
+    <string name="y_amplitude">Amplitudinea Y</string>
+    <string name="x_wavelength">lungime de undă X</string>
+    <string name="y_wavelength">lungime de undă Y</string>
+    <string name="adaptive_blur">Blur adaptiv</string>
 </resources>

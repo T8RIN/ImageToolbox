@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
@@ -3290,4 +3306,22 @@
     <string name="phase">Fas</string>
     <string name="high_pass">Högpass</string>
     <string name="color_mask">Färgmask</string>
+    <string name="chrome">Krom</string>
+    <string name="dissolve">Upplösa</string>
+    <string name="softness">Mjukhet</string>
+    <string name="feedback">Feed-back</string>
+    <string name="lens_blur">Linsoskärpa</string>
+    <string name="low_input">Låg ingång</string>
+    <string name="high_input">Hög input</string>
+    <string name="low_output">Låg effekt</string>
+    <string name="high_output">Hög effekt</string>
+    <string name="light_effects">Ljuseffekter</string>
+    <string name="bump_height">Bumphöjd</string>
+    <string name="bump_softness">Bump mjukhet</string>
+    <string name="ripple">Krusning</string>
+    <string name="x_amplitude">X amplitud</string>
+    <string name="y_amplitude">Y amplitud</string>
+    <string name="x_wavelength">X våglängd</string>
+    <string name="y_wavelength">Y våglängd</string>
+    <string name="adaptive_blur">Adaptiv oskärpa</string>
 </resources>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
@@ -3294,4 +3310,22 @@
     <string name="phase">مرحلة</string>
     <string name="high_pass">تمريرة عالية</string>
     <string name="color_mask">قناع اللون</string>
+    <string name="chrome">الكروم</string>
+    <string name="dissolve">حل</string>
+    <string name="softness">نعومة</string>
+    <string name="feedback">تعليق</string>
+    <string name="lens_blur">طمس العدسة</string>
+    <string name="low_input">مدخلات منخفضة</string>
+    <string name="high_input">مدخلات عالية</string>
+    <string name="low_output">انخفاض الناتج</string>
+    <string name="high_output">ارتفاع الناتج</string>
+    <string name="light_effects">تأثيرات ضوئية</string>
+    <string name="bump_height">ارتفاع نتوء</string>
+    <string name="bump_softness">نعومة عثرة</string>
+    <string name="ripple">تموج</string>
+    <string name="x_amplitude">السعة X</string>
+    <string name="y_amplitude">السعة Y</string>
+    <string name="x_wavelength">الطول الموجي X</string>
+    <string name="y_wavelength">الطول الموجي Y</string>
+    <string name="adaptive_blur">طمس التكيف</string>
 </resources>

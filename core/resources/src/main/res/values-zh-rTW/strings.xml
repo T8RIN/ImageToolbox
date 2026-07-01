@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
@@ -3289,4 +3305,22 @@
     <string name="phase">階段</string>
     <string name="high_pass">高通</string>
     <string name="color_mask">彩色面膜</string>
+    <string name="chrome">鉻合金</string>
+    <string name="dissolve">溶解</string>
+    <string name="softness">柔軟度</string>
+    <string name="feedback">回饋</string>
+    <string name="lens_blur">鏡頭模糊</string>
+    <string name="low_input">低輸入</string>
+    <string name="high_input">高投入</string>
+    <string name="low_output">輸出低</string>
+    <string name="high_output">高輸出</string>
+    <string name="light_effects">燈光效果</string>
+    <string name="bump_height">凸塊高度</string>
+    <string name="bump_softness">凹凸柔軟度</string>
+    <string name="ripple">波紋</string>
+    <string name="x_amplitude">X振幅</string>
+    <string name="y_amplitude">Y振幅</string>
+    <string name="x_wavelength">X波長</string>
+    <string name="y_wavelength">Y波長</string>
+    <string name="adaptive_blur">自適應模糊</string>
 </resources>

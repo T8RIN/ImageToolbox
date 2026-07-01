@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
@@ -3291,4 +3307,22 @@
     <string name="phase">Фаза</string>
     <string name="high_pass">Хигх Пасс</string>
     <string name="color_mask">Цолор Маск</string>
+    <string name="chrome">Цхроме</string>
+    <string name="dissolve">Растворити се</string>
+    <string name="softness">Мекоћа</string>
+    <string name="feedback">Повратне информације</string>
+    <string name="lens_blur">Ленс Блур</string>
+    <string name="low_input">Лов инпут</string>
+    <string name="high_input">Хигх инпут</string>
+    <string name="low_output">Низак излаз</string>
+    <string name="high_output">Хигх оутпут</string>
+    <string name="light_effects">Лигхт Еффецтс</string>
+    <string name="bump_height">Висина ударца</string>
+    <string name="bump_softness">Бумп софтнесс</string>
+    <string name="ripple">Риппле</string>
+    <string name="x_amplitude">Кс амплитуда</string>
+    <string name="y_amplitude">И амплитуда</string>
+    <string name="x_wavelength">Кс таласна дужина</string>
+    <string name="y_wavelength">И таласна дужина</string>
+    <string name="adaptive_blur">Адаптиве Блур</string>
 </resources>

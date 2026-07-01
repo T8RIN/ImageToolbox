@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
@@ -3290,4 +3306,22 @@
     <string name="phase">අදියර</string>
     <string name="high_pass">උසස් සමත්</string>
     <string name="color_mask">වර්ණ මාස්ක්</string>
+    <string name="chrome">Chrome</string>
+    <string name="dissolve">විසුරුවා හරින්න</string>
+    <string name="softness">මෘදු බව</string>
+    <string name="feedback">ප්රතිපෝෂණ</string>
+    <string name="lens_blur">කාච බොඳවීම</string>
+    <string name="low_input">අඩු ආදානය</string>
+    <string name="high_input">ඉහළ ආදානය</string>
+    <string name="low_output">අඩු ප්රතිදානය</string>
+    <string name="high_output">ඉහළ ප්රතිදානය</string>
+    <string name="light_effects">සැහැල්ලු බලපෑම්</string>
+    <string name="bump_height">ගැටිති උස</string>
+    <string name="bump_softness">ගැටිති මෘදු බව</string>
+    <string name="ripple">Ripple</string>
+    <string name="x_amplitude">X විස්තාරය</string>
+    <string name="y_amplitude">Y විස්තාරය</string>
+    <string name="x_wavelength">X තරංග ආයාමය</string>
+    <string name="y_wavelength">Y තරංග ආයාමය</string>
+    <string name="adaptive_blur">අනුවර්තන බොඳවීම</string>
 </resources>

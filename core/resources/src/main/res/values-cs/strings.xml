@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
@@ -3292,4 +3308,22 @@
     <string name="phase">Fáze</string>
     <string name="high_pass">Vysoký průsmyk</string>
     <string name="color_mask">Barevná maska</string>
+    <string name="chrome">Chrome</string>
+    <string name="dissolve">Rozpustit</string>
+    <string name="softness">Měkkost</string>
+    <string name="feedback">Zpětná vazba</string>
+    <string name="lens_blur">Rozostření objektivu</string>
+    <string name="low_input">Nízký vstup</string>
+    <string name="high_input">Vysoký vstup</string>
+    <string name="low_output">Nízký výkon</string>
+    <string name="high_output">Vysoký výkon</string>
+    <string name="light_effects">Světelné efekty</string>
+    <string name="bump_height">Výška nárazu</string>
+    <string name="bump_softness">Měkkost nárazu</string>
+    <string name="ripple">Vlnění</string>
+    <string name="x_amplitude">X amplituda</string>
+    <string name="y_amplitude">Y amplituda</string>
+    <string name="x_wavelength">X vlnová délka</string>
+    <string name="y_wavelength">Y vlnová délka</string>
+    <string name="adaptive_blur">Adaptivní rozostření</string>
 </resources>
