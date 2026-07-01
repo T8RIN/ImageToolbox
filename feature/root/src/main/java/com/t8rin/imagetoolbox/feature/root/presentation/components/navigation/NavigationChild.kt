@@ -174,6 +174,8 @@ import com.t8rin.imagetoolbox.noise_generation.presentation.NoiseGenerationConte
 import com.t8rin.imagetoolbox.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 import com.t8rin.imagetoolbox.presentation.app_logs.AppLogsContent
 import com.t8rin.imagetoolbox.presentation.app_logs.screenLogic.AppLogsComponent
+import com.t8rin.imagetoolbox.texture_generation.presentation.TextureGenerationContent
+import com.t8rin.imagetoolbox.texture_generation.presentation.screenLogic.TextureGenerationComponent
 
 
 internal sealed interface NavigationChild {
@@ -305,6 +307,11 @@ internal sealed interface NavigationChild {
     class NoiseGeneration(private val component: NoiseGenerationComponent) : NavigationChild {
         @Composable
         override fun Content() = NoiseGenerationContent(component)
+    }
+
+    class TextureGeneration(private val component: TextureGenerationComponent) : NavigationChild {
+        @Composable
+        override fun Content() = TextureGenerationContent(component)
     }
 
     class RootPdfTools(private val component: RootPdfToolsComponent) : NavigationChild {

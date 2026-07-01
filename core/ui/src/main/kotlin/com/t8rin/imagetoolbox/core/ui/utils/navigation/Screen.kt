@@ -1062,9 +1062,16 @@ sealed class Screen(
 
     @Serializable
     data object ShaderStudio : Screen(
-        id = 83,
+        id = 68,
         title = R.string.shader_studio,
         subtitle = R.string.shader_studio_sub
+    )
+
+    @Serializable
+    data object TextureGeneration : Screen(
+        id = 69,
+        title = R.string.texture_generation,
+        subtitle = R.string.texture_generation_sub
     )
 
     companion object : ScreenConstants by ScreenConstants

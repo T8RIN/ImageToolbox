@@ -150,6 +150,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SingleEdit
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SplitPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SvgMaker
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.TextureGeneration
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.UnlockPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.UsageStatistics
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WallpapersExport
@@ -176,6 +177,7 @@ import com.t8rin.imagetoolbox.image_splitting.presentation.screenLogic.ImageSpli
 import com.t8rin.imagetoolbox.library_details.presentation.screenLogic.LibraryDetailsComponent
 import com.t8rin.imagetoolbox.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 import com.t8rin.imagetoolbox.presentation.app_logs.screenLogic.AppLogsComponent
+import com.t8rin.imagetoolbox.texture_generation.presentation.screenLogic.TextureGenerationComponent
 import javax.inject.Inject
 
 internal class ChildProvider @Inject constructor(
@@ -201,6 +203,7 @@ internal class ChildProvider @Inject constructor(
     private val limitResizeComponentFactory: LimitsResizeComponent.Factory,
     private val loadNetImageComponentFactory: LoadNetImageComponent.Factory,
     private val noiseGenerationComponentFactory: NoiseGenerationComponent.Factory,
+    private val textureGenerationComponentFactory: TextureGenerationComponent.Factory,
     private val rootPdfToolsComponentFactory: RootPdfToolsComponent.Factory,
     private val pickColorFromImageComponentFactory: PickColorFromImageComponent.Factory,
     private val recognizeTextComponentFactory: RecognizeTextComponent.Factory,
@@ -476,6 +479,14 @@ internal class ChildProvider @Inject constructor(
 
         Screen.NoiseGeneration -> NoiseGeneration(
             noiseGenerationComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
+            )
+        )
+
+        Screen.TextureGeneration -> TextureGeneration(
+            textureGenerationComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo,

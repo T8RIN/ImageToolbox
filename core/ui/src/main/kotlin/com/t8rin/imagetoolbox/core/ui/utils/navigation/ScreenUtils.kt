@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Ascii
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
+import com.t8rin.imagetoolbox.core.resources.icons.Brick
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleDelete
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
@@ -138,6 +139,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.TextureGeneration
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.UsageStatistics
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WallpapersExport
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Watermarking
@@ -192,6 +194,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is ColorTools -> "Color_Tools"
     is WebpTools -> "WEBP_Tools"
     is NoiseGeneration -> "Noise_Generation"
+    is TextureGeneration -> "Texture_Generation"
     is CollageMaker -> "Collage_Maker"
     is AppLogs -> "App_Logs"
     is LibrariesInfo -> "Libraries_Info"
@@ -280,6 +283,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ColorTools -> Icons.Outlined.Palette
     is WebpTools -> Icons.Outlined.WebpBox
     is NoiseGeneration -> Icons.Outlined.NoiseAlt
+    is TextureGeneration -> Icons.Outlined.Brick
     is CollageMaker -> Icons.Outlined.Collage
     is MarkupLayers -> Icons.Outlined.Stacks
     is Base64Tools -> Icons.Outlined.Base64
@@ -362,6 +366,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ColorTools -> Icons.TwoTone.Palette
     is WebpTools -> Icons.TwoTone.WebpBox
     is NoiseGeneration -> Icons.Outlined.NoiseAlt
+    is TextureGeneration -> Icons.TwoTone.Brick
     is CollageMaker -> Icons.TwoTone.Collage
     is MarkupLayers -> Icons.TwoTone.Stacks
     is Base64Tools -> Icons.TwoTone.Base64
@@ -459,6 +464,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     GradientMaker(),
                     ShaderStudio,
                     NoiseGeneration,
+                    TextureGeneration,
                 ),
                 title = R.string.create,
                 selectedIcon = Icons.Rounded.WandShine,
@@ -511,5 +517,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 83 + PdfTools.options.size
+    override val FEATURES_COUNT = 84 + PdfTools.options.size
 }

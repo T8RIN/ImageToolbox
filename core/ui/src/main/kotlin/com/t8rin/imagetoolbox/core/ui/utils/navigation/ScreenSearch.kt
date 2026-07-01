@@ -68,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.TextureGeneration
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.UsageStatistics
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WallpapersExport
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Watermarking
@@ -160,6 +161,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is ColorTools -> R.string.search_keywords_color_tools
     is WebpTools -> R.string.search_keywords_webp_tools
     is NoiseGeneration -> R.string.search_keywords_noise_generation
+    is TextureGeneration -> R.string.search_keywords_texture_generation
     is CollageMaker -> R.string.search_keywords_collage_maker
     is MarkupLayers -> R.string.search_keywords_markup_layers
     is Base64Tools -> R.string.search_keywords_base64_tools
