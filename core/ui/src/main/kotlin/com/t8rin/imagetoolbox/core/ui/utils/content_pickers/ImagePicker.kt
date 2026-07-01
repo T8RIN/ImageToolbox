@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.CameraAlt
 import com.t8rin.imagetoolbox.core.settings.presentation.model.PicturePickerMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.takePersistablePermission
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelableArrayList
 import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
@@ -133,6 +134,11 @@ private class ImagePickerImpl(
             val intent = Intent().apply {
                 type = "image/$imageExtension"
                 action = Intent.ACTION_OPEN_DOCUMENT
+                addFlags(
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
+                            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                )
                 putExtra(
                     Intent.EXTRA_ALLOW_MULTIPLE,
                     mode == ImagePickerMode.GetContentMultiple
@@ -348,7 +354,11 @@ fun rememberImagePicker(
 
             scope.launch {
                 delay(300)
-                resultList.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
+                resultList.let { uris ->
+                    if (mode == ImagePickerMode.GetContentSingle || mode == ImagePickerMode.GetContentMultiple) {
+                        uris.map { it.takePersistablePermission() }
+                    } else uris
+                }.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
             }
         }
     )

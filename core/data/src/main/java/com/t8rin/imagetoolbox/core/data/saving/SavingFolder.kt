@@ -135,10 +135,23 @@ internal data class SavingFolder private constructor(
                 )
             }
 
-            val uri = contentResolver.insert(
-                MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY),
-                contentValues
-            ) ?: return null
+            val collectionUri = when {
+                mimeType.startsWith("image/") -> MediaStore.Images.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL_PRIMARY
+                )
+
+                mimeType.startsWith("video/") -> MediaStore.Video.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL_PRIMARY
+                )
+
+                mimeType.startsWith("audio/") -> MediaStore.Audio.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL_PRIMARY
+                )
+
+                else -> MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            }
+
+            val uri = contentResolver.insert(collectionUri, contentValues) ?: return null
 
             return SavingFolder(
                 outputStream = contentResolver.openOutputStream(uri)
@@ -204,6 +217,8 @@ internal data class SavingFolder private constructor(
                 ?.tryExtractOriginal()
                 ?: return null
 
+            originalUri.externalStorageRelativePath(context)?.let { return it }
+
             return context.contentResolver.query(
                 originalUri,
                 arrayOf(MediaStore.MediaColumns.RELATIVE_PATH),
@@ -220,6 +235,20 @@ internal data class SavingFolder private constructor(
                 it.isNotBlank() && ".transforms" !in it
             }
         }
+
+        private fun Uri.externalStorageRelativePath(context: Context): String? = runCatching {
+            if (!DocumentsContract.isDocumentUri(context, this)) return@runCatching null
+
+            val documentId = DocumentsContract.getDocumentId(this)
+            val type = documentId.substringBefore(':')
+            val path = documentId.substringAfter(':', "")
+
+            if (type.equals("primary", ignoreCase = true)) {
+                path.substringBeforeLast('/', "")
+                    .takeIf { it.isNotBlank() }
+                    ?.plus('/')
+            } else null
+        }.onFailure { it.makeLog("externalStorageRelativePath") }.getOrNull()
 
         private fun Uri.externalStoragePath(context: Context): String? = runCatching {
             if (!DocumentsContract.isDocumentUri(context, this)) return@runCatching null

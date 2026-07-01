@@ -204,14 +204,23 @@ internal class AndroidFileController @Inject constructor(
                     providedMetadata
                 }
 
-                runCatching {
+                val parcel = runCatching {
                     if (originalUri == Uri.EMPTY) throw IllegalStateException()
 
                     context.openFileDescriptor(
                         uri = originalUri,
                         mode = FileMode.WriteTruncate
                     )
-                }.getOrNull()?.use { parcel ->
+                }.getOrNull()
+
+                if (parcel == null) {
+                    settingsManager.setImagePickerMode(FILE_EXPLORER_PICKER_MODE)
+                    return@withContext SaveResult.Error.Exception(
+                        Throwable(getString(R.string.overwrite_file_requirements))
+                    )
+                }
+
+                parcel.use {
                     FileOutputStream(parcel.fileDescriptor).use { out ->
                         out.write(data)
 
@@ -593,3 +602,5 @@ internal class AndroidFileController @Inject constructor(
         mode = FileMode.ReadWrite
     )
 }
+
+private const val FILE_EXPLORER_PICKER_MODE = 3
