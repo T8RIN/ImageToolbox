@@ -747,6 +747,10 @@ fun Context.getColorScheme(
 
 
     return colorScheme
+        .withContrastingSurfaces(
+            surfaceSeed = colorTuple.surface,
+            isDarkTheme = isDarkTheme
+        )
         .toAmoled(amoledMode && isDarkTheme)
         .toColorBlind(colorBlindType)
         .invertColors(isInvertColors && !dynamicColor)
@@ -754,9 +758,38 @@ fun Context.getColorScheme(
             copy(
                 outlineVariant = onSecondaryContainer
                     .copy(alpha = 0.2f)
-                    .compositeOverSafe(surfaceColorAtElevation(6.dp))
+                    .compositeOverSafe(surfaceColorAtElevation(6.dp)),
+                background = surface
             )
         }
+}
+
+private fun ColorScheme.withContrastingSurfaces(
+    surfaceSeed: Color?,
+    isDarkTheme: Boolean
+): ColorScheme {
+    if (isDarkTheme) return this
+
+    val seed = Hct.fromInt((surfaceSeed ?: surface).toArgb())
+
+    fun surfaceColor(tone: Int, chromaMultiplier: Double = 1.0): Color {
+        val chroma = (seed.chroma * chromaMultiplier).coerceAtMost(12.0)
+        return Color(
+            TonalPalette.fromHueAndChroma(seed.hue, chroma).tone(tone)
+        )
+    }
+
+    return copy(
+        surface = surfaceColor(97),
+        surfaceBright = surfaceColor(99),
+        surfaceDim = surfaceColor(82, 1.8),
+        surfaceContainerLowest = surfaceColor(100),
+        surfaceContainerLow = surfaceColor(94, 1.2),
+        surfaceContainer = surfaceColor(91, 1.4),
+        surfaceContainerHigh = surfaceColor(88, 1.6),
+        surfaceContainerHighest = surfaceColor(85, 1.8),
+        surfaceVariant = surfaceColor(85, 1.8)
+    )
 }
 
 private fun ColorScheme.withDynamicErrorColors(
