@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.texture_generation.presentation.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
 @Composable
@@ -56,7 +57,8 @@ internal fun MarbleParams(
             value = value.turbulenceFactor,
             title = stringResource(R.string.turbulence_factor),
             range = 0f..5f,
-            onValueChange = { onValueChange(value.copy(turbulenceFactor = it)) }
+            onValueChange = { onValueChange(value.copy(turbulenceFactor = it)) },
+            shape = ShapeDefaults.bottom
         )
     }
 }

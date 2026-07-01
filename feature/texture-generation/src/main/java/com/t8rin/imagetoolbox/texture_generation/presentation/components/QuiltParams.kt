@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.texture_generation.presentation.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
 @Composable
@@ -62,7 +63,8 @@ internal fun QuiltParams(
             value = value.k,
             title = "K",
             range = 0f..20f,
-            onValueChange = { onValueChange(value.copy(k = it)) }
+            onValueChange = { onValueChange(value.copy(k = it)) },
+            shape = ShapeDefaults.bottom
         )
     }
 }

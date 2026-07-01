@@ -70,7 +70,7 @@ internal fun BrushedMetalParams(
                 onValueChange(value.copy(monochrome = it))
             },
             applyHorizontalPadding = false,
-            shape = ShapeDefaults.extraLarge
+            shape = ShapeDefaults.bottom
         )
     }
 }

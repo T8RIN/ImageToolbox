@@ -19,12 +19,15 @@ package com.t8rin.imagetoolbox.texture_generation.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -38,10 +41,14 @@ import kotlin.math.roundToInt
 internal fun ParamColumn(
     content: @Composable () -> Unit
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ProvideContainerDefaults(
+        color = MaterialTheme.colorScheme.surface
     ) {
-        content()
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            content()
+        }
     }
 }
 
@@ -50,7 +57,8 @@ internal fun FloatParam(
     value: Float,
     title: String,
     range: ClosedFloatingPointRange<Float>,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
+    shape: Shape = ShapeDefaults.center
 ) {
     EnhancedSliderItem(
         value = value,
@@ -60,7 +68,7 @@ internal fun FloatParam(
             it.roundToTwoDigits()
         },
         onValueChange = onValueChange,
-        shape = ShapeDefaults.extraLarge
+        shape = shape
     )
 }
 
@@ -69,7 +77,8 @@ internal fun IntParam(
     value: Int,
     title: String,
     range: ClosedFloatingPointRange<Float>,
-    onValueChange: (Int) -> Unit
+    onValueChange: (Int) -> Unit,
+    shape: Shape = ShapeDefaults.center
 ) {
     EnhancedSliderItem(
         value = value,
@@ -81,7 +90,7 @@ internal fun IntParam(
         onValueChange = {
             onValueChange(it.roundToInt())
         },
-        shape = ShapeDefaults.extraLarge
+        shape = shape
     )
 }
 
@@ -89,14 +98,15 @@ internal fun IntParam(
 internal fun ColorParam(
     title: String,
     value: Color,
-    onValueChange: (Color) -> Unit
+    onValueChange: (Color) -> Unit,
+    shape: Shape = ShapeDefaults.center
 ) {
     ColorRowSelector(
         value = value,
         onValueChange = onValueChange,
         title = title,
         modifier = Modifier.container(
-            shape = ShapeDefaults.extraLarge
+            shape = shape
         )
     )
 }

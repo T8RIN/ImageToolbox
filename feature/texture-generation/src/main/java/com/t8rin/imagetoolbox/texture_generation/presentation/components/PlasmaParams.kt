@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
 @Composable
@@ -45,7 +46,8 @@ internal fun PlasmaParams(
             value = value.scaling,
             title = stringResource(R.string.scaling),
             range = 0f..10f,
-            onValueChange = { onValueChange(value.copy(scaling = it)) }
+            onValueChange = { onValueChange(value.copy(scaling = it)) },
+            shape = ShapeDefaults.bottom
         )
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.FbmBasisType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
@@ -97,7 +98,8 @@ internal fun FbmParams(
                 stringResource(it.titleRes())
             },
             spanCount = 1,
-            containerColor = Color.Unspecified
+            containerColor = Color.Unspecified,
+            shape = ShapeDefaults.bottom
         )
     }
 }

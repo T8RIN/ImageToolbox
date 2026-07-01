@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
 @Composable
@@ -77,7 +78,8 @@ internal fun CausticsParams(
             value = value.samples,
             title = stringResource(R.string.samples),
             range = 1f..32f,
-            onValueChange = { onValueChange(value.copy(samples = it)) }
+            onValueChange = { onValueChange(value.copy(samples = it)) },
+            shape = ShapeDefaults.bottom
         )
     }
 }

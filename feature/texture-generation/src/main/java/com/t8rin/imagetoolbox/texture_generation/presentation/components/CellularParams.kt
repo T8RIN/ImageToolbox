@@ -24,6 +24,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.CellularGridType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
@@ -110,7 +111,8 @@ internal fun CellularParams(
                 stringResource(it.titleRes())
             },
             spanCount = 1,
-            containerColor = Color.Unspecified
+            containerColor = Color.Unspecified,
+            shape = ShapeDefaults.center
         )
         FloatParam(
             value = value.distancePower,
@@ -140,7 +142,8 @@ internal fun CellularParams(
             value = value.bias,
             title = stringResource(R.string.bias),
             range = 0f..1f,
-            onValueChange = { onValueChange(value.copy(bias = it)) }
+            onValueChange = { onValueChange(value.copy(bias = it)) },
+            shape = ShapeDefaults.bottom
         )
     }
 }

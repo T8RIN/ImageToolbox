@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.texture_generation.presentation.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
 @Composable
@@ -68,7 +69,8 @@ internal fun WoodParams(
             value = value.angle,
             title = stringResource(R.string.angle),
             range = -360f..360f,
-            onValueChange = { onValueChange(value.copy(angle = it)) }
+            onValueChange = { onValueChange(value.copy(angle = it)) },
+            shape = ShapeDefaults.bottom
         )
     }
 }

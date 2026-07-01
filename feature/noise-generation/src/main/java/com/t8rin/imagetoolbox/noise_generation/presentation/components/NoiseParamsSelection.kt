@@ -20,9 +20,7 @@ package com.t8rin.imagetoolbox.noise_generation.presentation.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import com.t8rin.imagetoolbox.core.resources.Icons
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,13 +28,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.RampLeft
 import com.t8rin.imagetoolbox.core.resources.icons.SettingsEthernet
 import com.t8rin.imagetoolbox.core.resources.icons.Waves
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.noise_generation.domain.model.CellularDistanceFunction
 import com.t8rin.imagetoolbox.noise_generation.domain.model.CellularReturnType
 import com.t8rin.imagetoolbox.noise_generation.domain.model.DomainWarpType
@@ -51,8 +53,20 @@ fun NoiseParamsSelection(
     onValueChange: (NoiseParams) -> Unit
 ) {
     Column(
+        modifier = Modifier.container(
+            shape = ShapeDefaults.large,
+            resultPadding = 12.dp
+        ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        TitleItem(
+            text = stringResource(R.string.params),
+            icon = Icons.Rounded.Build,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
         EnhancedSliderItem(
             value = value.seed,
             icon = Icons.Rounded.SettingsEthernet,
@@ -64,7 +78,7 @@ fun NoiseParamsSelection(
             onValueChange = {
                 onValueChange(value.copy(seed = it.toInt()))
             },
-            shape = ShapeDefaults.extraLarge
+            shape = ShapeDefaults.top
         )
         EnhancedSliderItem(
             value = value.frequency,
@@ -77,7 +91,7 @@ fun NoiseParamsSelection(
             onValueChange = {
                 onValueChange(value.copy(frequency = it))
             },
-            shape = ShapeDefaults.extraLarge
+            shape = ShapeDefaults.center
         )
         DataSelector(
             value = value.noiseType,
@@ -91,7 +105,8 @@ fun NoiseParamsSelection(
                 it.name
             },
             spanCount = 2,
-            containerColor = Color.Unspecified
+            containerColor = Color.Unspecified,
+            shape = ShapeDefaults.center
         )
         DataSelector(
             value = value.fractalType,
@@ -105,11 +120,12 @@ fun NoiseParamsSelection(
                 it.name
             },
             spanCount = 2,
-            containerColor = Color.Unspecified
+            containerColor = Color.Unspecified,
+            shape = ShapeDefaults.center
         )
         AnimatedVisibility(value.fractalType != FractalType.None) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 EnhancedSliderItem(
                     value = value.fractalOctaves,
@@ -122,7 +138,7 @@ fun NoiseParamsSelection(
                     onValueChange = {
                         onValueChange(value.copy(fractalOctaves = it.toInt()))
                     },
-                    shape = ShapeDefaults.extraLarge
+                    shape = ShapeDefaults.center
                 )
                 EnhancedSliderItem(
                     value = value.fractalLacunarity,
@@ -134,7 +150,7 @@ fun NoiseParamsSelection(
                     onValueChange = {
                         onValueChange(value.copy(fractalLacunarity = it))
                     },
-                    shape = ShapeDefaults.extraLarge
+                    shape = ShapeDefaults.center
                 )
                 EnhancedSliderItem(
                     value = value.fractalGain,
@@ -146,7 +162,7 @@ fun NoiseParamsSelection(
                     onValueChange = {
                         onValueChange(value.copy(fractalGain = it))
                     },
-                    shape = ShapeDefaults.extraLarge
+                    shape = ShapeDefaults.center
                 )
                 EnhancedSliderItem(
                     value = value.fractalWeightedStrength,
@@ -158,7 +174,7 @@ fun NoiseParamsSelection(
                     onValueChange = {
                         onValueChange(value.copy(fractalWeightedStrength = it))
                     },
-                    shape = ShapeDefaults.extraLarge
+                    shape = ShapeDefaults.center
                 )
                 AnimatedVisibility(value.fractalType == FractalType.PingPong) {
                     EnhancedSliderItem(
@@ -171,11 +187,13 @@ fun NoiseParamsSelection(
                         onValueChange = {
                             onValueChange(value.copy(fractalPingPongStrength = it))
                         },
-                        shape = ShapeDefaults.extraLarge
+                        shape = ShapeDefaults.center
                     )
                 }
                 AnimatedVisibility(value.noiseType == NoiseType.Cellular) {
-                    Column {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         DataSelector(
                             value = value.cellularDistanceFunction,
                             onValueChange = {
@@ -188,9 +206,9 @@ fun NoiseParamsSelection(
                                 it.name
                             },
                             spanCount = 2,
-                            containerColor = Color.Unspecified
+                            containerColor = Color.Unspecified,
+                            shape = ShapeDefaults.center
                         )
-                        Spacer(Modifier.height(8.dp))
                         DataSelector(
                             value = value.cellularReturnType,
                             onValueChange = {
@@ -203,9 +221,9 @@ fun NoiseParamsSelection(
                                 it.name
                             },
                             spanCount = 2,
-                            containerColor = Color.Unspecified
+                            containerColor = Color.Unspecified,
+                            shape = ShapeDefaults.center
                         )
-                        Spacer(Modifier.height(8.dp))
                         EnhancedSliderItem(
                             value = value.cellularJitter,
                             title = stringResource(R.string.jitter),
@@ -216,7 +234,7 @@ fun NoiseParamsSelection(
                             onValueChange = {
                                 onValueChange(value.copy(cellularJitter = it))
                             },
-                            shape = ShapeDefaults.extraLarge
+                            shape = ShapeDefaults.center
                         )
                     }
                 }
@@ -234,7 +252,8 @@ fun NoiseParamsSelection(
                 it.name
             },
             spanCount = 2,
-            containerColor = Color.Unspecified
+            containerColor = Color.Unspecified,
+            shape = ShapeDefaults.center
         )
         EnhancedSliderItem(
             value = value.domainWarpAmp,
@@ -247,7 +266,8 @@ fun NoiseParamsSelection(
             onValueChange = {
                 onValueChange(value.copy(domainWarpAmp = it))
             },
-            shape = ShapeDefaults.extraLarge
+            shape = ShapeDefaults.bottom
         )
+        }
     }
 }

@@ -21,13 +21,19 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 import com.t8rin.imagetoolbox.texture_generation.domain.model.withDefaultsFor
@@ -38,28 +44,41 @@ fun TextureParamsSelection(
     onValueChange: (TextureParams) -> Unit
 ) {
     Column(
+        modifier = Modifier.container(
+            shape = ShapeDefaults.large,
+            resultPadding = 12.dp
+        ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        DataSelector(
-            value = value.textureFilterType,
-            onValueChange = {
-                onValueChange(value.withDefaultsFor(it))
-            },
-            entries = TextureFilterType.entries,
-            title = stringResource(R.string.texture_type),
-            titleIcon = null,
-            itemContentText = {
-                stringResource(it.titleRes())
-            },
-            spanCount = 1,
-            containerColor = Color.Unspecified
+        TitleItem(
+            text = stringResource(R.string.params),
+            icon = Icons.Rounded.Build,
+            modifier = Modifier.padding(bottom = 8.dp)
         )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            DataSelector(
+                value = value.textureFilterType,
+                onValueChange = {
+                    onValueChange(value.withDefaultsFor(it))
+                },
+                entries = TextureFilterType.entries,
+                title = stringResource(R.string.texture_type),
+                titleIcon = null,
+                itemContentText = {
+                    stringResource(it.titleRes())
+                },
+                spanCount = 1,
+                containerColor = MaterialTheme.colorScheme.surface,
+                shape = ShapeDefaults.top
+            )
 
-        AnimatedContent(
-            targetState = value.textureFilterType,
-            modifier = Modifier.fillMaxWidth()
-        ) { textureFilterType ->
-            when (textureFilterType) {
+            AnimatedContent(
+                targetState = value.textureFilterType,
+                modifier = Modifier.fillMaxWidth()
+            ) { textureFilterType ->
+                when (textureFilterType) {
                 TextureFilterType.BrushedMetal -> {
                     BrushedMetalParams(
                         value = value,
@@ -121,6 +140,7 @@ fun TextureParamsSelection(
                         value = value,
                         onValueChange = onValueChange
                     )
+                }
                 }
             }
         }
