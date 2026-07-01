@@ -21,6 +21,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +35,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.RampLeft
 import com.t8rin.imagetoolbox.core.resources.icons.SettingsEthernet
 import com.t8rin.imagetoolbox.core.resources.icons.Waves
+import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -64,210 +66,214 @@ fun NoiseParamsSelection(
             icon = Icons.Rounded.Build,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ProvideContainerDefaults(
+            color = MaterialTheme.colorScheme.surface
         ) {
-        EnhancedSliderItem(
-            value = value.seed,
-            icon = Icons.Rounded.SettingsEthernet,
-            title = stringResource(R.string.seed),
-            valueRange = -10000f..10000f,
-            internalStateTransformation = {
-                it.roundToInt()
-            },
-            onValueChange = {
-                onValueChange(value.copy(seed = it.toInt()))
-            },
-            shape = ShapeDefaults.top
-        )
-        EnhancedSliderItem(
-            value = value.frequency,
-            icon = Icons.Rounded.Waves,
-            title = stringResource(R.string.frequency),
-            valueRange = -0.5f..0.5f,
-            internalStateTransformation = {
-                it.roundTo(3)
-            },
-            onValueChange = {
-                onValueChange(value.copy(frequency = it))
-            },
-            shape = ShapeDefaults.center
-        )
-        DataSelector(
-            value = value.noiseType,
-            onValueChange = {
-                onValueChange(value.copy(noiseType = it))
-            },
-            entries = NoiseType.entries,
-            title = stringResource(R.string.noise_type),
-            titleIcon = null,
-            itemContentText = {
-                it.name
-            },
-            spanCount = 2,
-            containerColor = Color.Unspecified,
-            shape = ShapeDefaults.center
-        )
-        DataSelector(
-            value = value.fractalType,
-            onValueChange = {
-                onValueChange(value.copy(fractalType = it))
-            },
-            entries = FractalType.entries,
-            title = stringResource(R.string.fractal_type),
-            titleIcon = null,
-            itemContentText = {
-                it.name
-            },
-            spanCount = 2,
-            containerColor = Color.Unspecified,
-            shape = ShapeDefaults.center
-        )
-        AnimatedVisibility(value.fractalType != FractalType.None) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 EnhancedSliderItem(
-                    value = value.fractalOctaves,
-                    title = stringResource(R.string.octaves),
-                    valueRange = 1f..5f,
-                    steps = 3,
+                    value = value.seed,
+                    icon = Icons.Rounded.SettingsEthernet,
+                    title = stringResource(R.string.seed),
+                    valueRange = -10000f..10000f,
                     internalStateTransformation = {
                         it.roundToInt()
                     },
                     onValueChange = {
-                        onValueChange(value.copy(fractalOctaves = it.toInt()))
+                        onValueChange(value.copy(seed = it.toInt()))
                     },
-                    shape = ShapeDefaults.center
+                    shape = ShapeDefaults.top
                 )
                 EnhancedSliderItem(
-                    value = value.fractalLacunarity,
-                    title = stringResource(R.string.lacunarity),
-                    valueRange = -50f..50f,
+                    value = value.frequency,
+                    icon = Icons.Rounded.Waves,
+                    title = stringResource(R.string.frequency),
+                    valueRange = -0.5f..0.5f,
                     internalStateTransformation = {
-                        it.roundToTwoDigits()
+                        it.roundTo(3)
                     },
                     onValueChange = {
-                        onValueChange(value.copy(fractalLacunarity = it))
+                        onValueChange(value.copy(frequency = it))
                     },
                     shape = ShapeDefaults.center
                 )
-                EnhancedSliderItem(
-                    value = value.fractalGain,
-                    title = stringResource(R.string.gain),
-                    valueRange = -10f..10f,
-                    internalStateTransformation = {
-                        it.roundToTwoDigits()
-                    },
+                DataSelector(
+                    value = value.noiseType,
                     onValueChange = {
-                        onValueChange(value.copy(fractalGain = it))
+                        onValueChange(value.copy(noiseType = it))
                     },
+                    entries = NoiseType.entries,
+                    title = stringResource(R.string.noise_type),
+                    titleIcon = null,
+                    itemContentText = {
+                        it.name
+                    },
+                    spanCount = 2,
+                    containerColor = Color.Unspecified,
                     shape = ShapeDefaults.center
                 )
-                EnhancedSliderItem(
-                    value = value.fractalWeightedStrength,
-                    title = stringResource(R.string.weighted_strength),
-                    valueRange = -3f..3f,
-                    internalStateTransformation = {
-                        it.roundToTwoDigits()
-                    },
+                DataSelector(
+                    value = value.fractalType,
                     onValueChange = {
-                        onValueChange(value.copy(fractalWeightedStrength = it))
+                        onValueChange(value.copy(fractalType = it))
                     },
+                    entries = FractalType.entries,
+                    title = stringResource(R.string.fractal_type),
+                    titleIcon = null,
+                    itemContentText = {
+                        it.name
+                    },
+                    spanCount = 2,
+                    containerColor = Color.Unspecified,
                     shape = ShapeDefaults.center
                 )
-                AnimatedVisibility(value.fractalType == FractalType.PingPong) {
-                    EnhancedSliderItem(
-                        value = value.fractalPingPongStrength,
-                        title = stringResource(R.string.ping_pong_strength),
-                        valueRange = 0f..20f,
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
-                        onValueChange = {
-                            onValueChange(value.copy(fractalPingPongStrength = it))
-                        },
-                        shape = ShapeDefaults.center
-                    )
-                }
-                AnimatedVisibility(value.noiseType == NoiseType.Cellular) {
+                AnimatedVisibility(value.fractalType != FractalType.None) {
                     Column(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        DataSelector(
-                            value = value.cellularDistanceFunction,
+                        EnhancedSliderItem(
+                            value = value.fractalOctaves,
+                            title = stringResource(R.string.octaves),
+                            valueRange = 1f..5f,
+                            steps = 3,
+                            internalStateTransformation = {
+                                it.roundToInt()
+                            },
                             onValueChange = {
-                                onValueChange(value.copy(cellularDistanceFunction = it))
+                                onValueChange(value.copy(fractalOctaves = it.toInt()))
                             },
-                            entries = CellularDistanceFunction.entries,
-                            title = stringResource(R.string.distance_function),
-                            titleIcon = null,
-                            itemContentText = {
-                                it.name
-                            },
-                            spanCount = 2,
-                            containerColor = Color.Unspecified,
-                            shape = ShapeDefaults.center
-                        )
-                        DataSelector(
-                            value = value.cellularReturnType,
-                            onValueChange = {
-                                onValueChange(value.copy(cellularReturnType = it))
-                            },
-                            entries = CellularReturnType.entries,
-                            title = stringResource(R.string.return_type),
-                            titleIcon = null,
-                            itemContentText = {
-                                it.name
-                            },
-                            spanCount = 2,
-                            containerColor = Color.Unspecified,
                             shape = ShapeDefaults.center
                         )
                         EnhancedSliderItem(
-                            value = value.cellularJitter,
-                            title = stringResource(R.string.jitter),
+                            value = value.fractalLacunarity,
+                            title = stringResource(R.string.lacunarity),
+                            valueRange = -50f..50f,
+                            internalStateTransformation = {
+                                it.roundToTwoDigits()
+                            },
+                            onValueChange = {
+                                onValueChange(value.copy(fractalLacunarity = it))
+                            },
+                            shape = ShapeDefaults.center
+                        )
+                        EnhancedSliderItem(
+                            value = value.fractalGain,
+                            title = stringResource(R.string.gain),
                             valueRange = -10f..10f,
                             internalStateTransformation = {
                                 it.roundToTwoDigits()
                             },
                             onValueChange = {
-                                onValueChange(value.copy(cellularJitter = it))
+                                onValueChange(value.copy(fractalGain = it))
                             },
                             shape = ShapeDefaults.center
                         )
+                        EnhancedSliderItem(
+                            value = value.fractalWeightedStrength,
+                            title = stringResource(R.string.weighted_strength),
+                            valueRange = -3f..3f,
+                            internalStateTransformation = {
+                                it.roundToTwoDigits()
+                            },
+                            onValueChange = {
+                                onValueChange(value.copy(fractalWeightedStrength = it))
+                            },
+                            shape = ShapeDefaults.center
+                        )
+                        AnimatedVisibility(value.fractalType == FractalType.PingPong) {
+                            EnhancedSliderItem(
+                                value = value.fractalPingPongStrength,
+                                title = stringResource(R.string.ping_pong_strength),
+                                valueRange = 0f..20f,
+                                internalStateTransformation = {
+                                    it.roundToTwoDigits()
+                                },
+                                onValueChange = {
+                                    onValueChange(value.copy(fractalPingPongStrength = it))
+                                },
+                                shape = ShapeDefaults.center
+                            )
+                        }
+                        AnimatedVisibility(value.noiseType == NoiseType.Cellular) {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                DataSelector(
+                                    value = value.cellularDistanceFunction,
+                                    onValueChange = {
+                                        onValueChange(value.copy(cellularDistanceFunction = it))
+                                    },
+                                    entries = CellularDistanceFunction.entries,
+                                    title = stringResource(R.string.distance_function),
+                                    titleIcon = null,
+                                    itemContentText = {
+                                        it.name
+                                    },
+                                    spanCount = 1,
+                                    containerColor = Color.Unspecified,
+                                    shape = ShapeDefaults.center
+                                )
+                                DataSelector(
+                                    value = value.cellularReturnType,
+                                    onValueChange = {
+                                        onValueChange(value.copy(cellularReturnType = it))
+                                    },
+                                    entries = CellularReturnType.entries,
+                                    title = stringResource(R.string.return_type),
+                                    titleIcon = null,
+                                    itemContentText = {
+                                        it.name
+                                    },
+                                    spanCount = 2,
+                                    containerColor = Color.Unspecified,
+                                    shape = ShapeDefaults.center
+                                )
+                                EnhancedSliderItem(
+                                    value = value.cellularJitter,
+                                    title = stringResource(R.string.jitter),
+                                    valueRange = -10f..10f,
+                                    internalStateTransformation = {
+                                        it.roundToTwoDigits()
+                                    },
+                                    onValueChange = {
+                                        onValueChange(value.copy(cellularJitter = it))
+                                    },
+                                    shape = ShapeDefaults.center
+                                )
+                            }
+                        }
                     }
                 }
+                DataSelector(
+                    value = value.domainWarpType,
+                    onValueChange = {
+                        onValueChange(value.copy(domainWarpType = it))
+                    },
+                    entries = DomainWarpType.entries,
+                    title = stringResource(R.string.domain_warp),
+                    titleIcon = null,
+                    itemContentText = {
+                        it.name
+                    },
+                    spanCount = 1,
+                    containerColor = Color.Unspecified,
+                    shape = ShapeDefaults.center
+                )
+                EnhancedSliderItem(
+                    value = value.domainWarpAmp,
+                    icon = Icons.Rounded.RampLeft,
+                    title = stringResource(R.string.amplitude),
+                    valueRange = -2000f..2000f,
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
+                    onValueChange = {
+                        onValueChange(value.copy(domainWarpAmp = it))
+                    },
+                    shape = ShapeDefaults.bottom
+                )
             }
-        }
-        DataSelector(
-            value = value.domainWarpType,
-            onValueChange = {
-                onValueChange(value.copy(domainWarpType = it))
-            },
-            entries = DomainWarpType.entries,
-            title = stringResource(R.string.domain_warp),
-            titleIcon = null,
-            itemContentText = {
-                it.name
-            },
-            spanCount = 2,
-            containerColor = Color.Unspecified,
-            shape = ShapeDefaults.center
-        )
-        EnhancedSliderItem(
-            value = value.domainWarpAmp,
-            icon = Icons.Rounded.RampLeft,
-            title = stringResource(R.string.amplitude),
-            valueRange = -2000f..2000f,
-            internalStateTransformation = {
-                it.roundToTwoDigits()
-            },
-            onValueChange = {
-                onValueChange(value.copy(domainWarpAmp = it))
-            },
-            shape = ShapeDefaults.bottom
-        )
         }
     }
 }
