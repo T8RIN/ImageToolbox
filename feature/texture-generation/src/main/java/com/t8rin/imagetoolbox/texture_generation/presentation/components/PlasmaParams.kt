@@ -45,7 +45,7 @@ internal fun PlasmaParams(
         FloatParam(
             value = value.scaling,
             title = stringResource(R.string.scaling),
-            range = 0f..10f,
+            range = 0f..1f,
             onValueChange = { onValueChange(value.copy(scaling = it)) },
             shape = ShapeDefaults.bottom
         )

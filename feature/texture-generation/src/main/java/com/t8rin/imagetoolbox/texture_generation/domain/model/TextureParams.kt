@@ -211,12 +211,12 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
 
         TextureFilterType.Wood -> copy(
             textureFilterType = textureFilterType,
-            rings = 0.5f,
+            rings = 2f,
             turbulence = 1f,
-            gain = 0.8f,
-            bias = 0.1f,
-            scale = 200f,
-            stretch = 10f,
+            gain = 0.5f,
+            bias = 0.5f,
+            scale = 32f,
+            stretch = 1f,
             angle = 0f
         )
     }

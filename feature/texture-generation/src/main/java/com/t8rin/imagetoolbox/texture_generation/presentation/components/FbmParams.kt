@@ -18,12 +18,9 @@
 package com.t8rin.imagetoolbox.texture_generation.presentation.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.texture_generation.domain.model.FbmBasisType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
 @Composable
@@ -35,7 +32,7 @@ internal fun FbmParams(
         FloatParam(
             value = value.amount,
             title = stringResource(R.string.amount),
-            range = -10f..10f,
+            range = 0.01f..10f,
             onValueChange = { onValueChange(value.copy(amount = it)) }
         )
         FloatParam(
@@ -54,51 +51,7 @@ internal fun FbmParams(
             value = value.angle,
             title = stringResource(R.string.angle),
             range = -360f..360f,
-            onValueChange = { onValueChange(value.copy(angle = it)) }
-        )
-        FloatParam(
-            value = value.octaves,
-            title = stringResource(R.string.octaves),
-            range = 1f..12f,
-            onValueChange = { onValueChange(value.copy(octaves = it)) }
-        )
-        FloatParam(
-            value = value.h,
-            title = "H",
-            range = 0f..5f,
-            onValueChange = { onValueChange(value.copy(h = it)) }
-        )
-        FloatParam(
-            value = value.lacunarity,
-            title = stringResource(R.string.lacunarity),
-            range = 0f..10f,
-            onValueChange = { onValueChange(value.copy(lacunarity = it)) }
-        )
-        FloatParam(
-            value = value.gain,
-            title = stringResource(R.string.gain),
-            range = 0f..1f,
-            onValueChange = { onValueChange(value.copy(gain = it)) }
-        )
-        FloatParam(
-            value = value.bias,
-            title = stringResource(R.string.bias),
-            range = 0f..1f,
-            onValueChange = { onValueChange(value.copy(bias = it)) }
-        )
-        DataSelector(
-            value = value.basisType,
-            onValueChange = {
-                onValueChange(value.copy(basisType = it))
-            },
-            entries = FbmBasisType.entries,
-            title = stringResource(R.string.basis_type),
-            titleIcon = null,
-            itemContentText = {
-                stringResource(it.titleRes())
-            },
-            spanCount = 1,
-            containerColor = Color.Unspecified,
+            onValueChange = { onValueChange(value.copy(angle = it)) },
             shape = ShapeDefaults.bottom
         )
     }
