@@ -108,6 +108,9 @@ class CropComponent @AssistedInject internal constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
+    private val _saveExif: MutableState<Boolean> = mutableStateOf(false)
+    val saveExif: Boolean by _saveExif
+
     fun updateBitmap(
         bitmap: Bitmap?,
         newBitmap: Boolean = false
@@ -125,6 +128,10 @@ class CropComponent @AssistedInject internal constructor(
 
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.value = imageFormat
+    }
+
+    fun setSaveExif(saveExif: Boolean) {
+        _saveExif.value = saveExif
     }
 
     private var savingJob: Job? by smartJob {
@@ -164,7 +171,7 @@ class CropComponent @AssistedInject internal constructor(
                             sequenceNumber = null,
                             data = byteArray
                         ),
-                        keepOriginalMetadata = false,
+                        keepOriginalMetadata = saveExif,
                         oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     )
                 )

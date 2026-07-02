@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -291,6 +292,12 @@ fun CropContent(
                         )
                     }
                 }
+                SaveExifWidget(
+                    modifier = Modifier.fillMaxWidth(),
+                    checked = component.saveExif,
+                    imageFormat = component.imageFormat,
+                    onCheckedChange = component::setSaveExif
+                )
                 ImageFormatSelector(
                     modifier = Modifier.navigationBarsPadding(),
                     entries = if (component.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
