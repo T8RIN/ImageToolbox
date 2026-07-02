@@ -21,8 +21,6 @@ package com.t8rin.imagetoolbox.core.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
@@ -71,14 +69,10 @@ internal class AndroidImageCompressor @Inject constructor(
 
             if (isNonAlpha || coercedQuality.isNonAlpha() || enableForAlpha) {
                 withContext(defaultDispatcher) {
-                    if (isNonAlpha && settingsState.backgroundForNoAlphaImageFormats.colorInt == Color.Black.toArgb()) {
-                        software
-                    } else {
-                        Trickle.drawColorBehind(
-                            color = settingsState.backgroundForNoAlphaImageFormats.colorInt,
-                            input = software
-                        )
-                    }
+                    Trickle.drawColorBehind(
+                        color = settingsState.backgroundForNoAlphaImageFormats.colorInt,
+                        input = software
+                    )
                 }
             } else software
         }
