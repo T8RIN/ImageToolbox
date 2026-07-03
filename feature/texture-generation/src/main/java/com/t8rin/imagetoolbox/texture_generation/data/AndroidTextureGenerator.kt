@@ -569,7 +569,8 @@ internal class AndroidTextureGenerator @Inject constructor(
                     stretch = values[3],
                     contrast = values[4],
                     darkColor = colors[0],
-                    lightColor = colors[1]
+                    lightColor = colors[1],
+                    poreColor = colors[2]
                 )
             )
 

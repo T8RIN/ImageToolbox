@@ -371,7 +371,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         unit(R.string.contrast),
         colors = intArrayOf(
             R.string.texture_dark_color,
-            R.string.texture_light_color
+            R.string.texture_light_color,
+            R.string.texture_pore_color
         )
     )
 
