@@ -3362,7 +3362,7 @@
     <string name="fbm_sc_noise">SC Gürültüsü</string>
     <string name="recent">Son</string>
     <string name="no_recent_filters">Henüz yakın zamanda kullanılan filtre yok</string>
-    <string name="search_keywords_texture_generation">doku jeneratör fırçalanmış metal kostik hücresel dama tahtası mermer plazma yorgan ahşap tuğla kamuflaj hücre bulut çatlak kumaş yeşillik petek buz lav nebula kağıt pas kum duman taş arazi topografya su dalgalanma</string>
+    <string name="search_keywords_texture_generation">doku jeneratör fırçalanmış metal kostik hücresel dama tahtası mermer plazma yorgan ahşap tuğla kamuflaj hücre bulut çatlak kumaş yeşillik petek buz lav nebula kâğıt pas kum duman taş arazi topografya su dalgalanma</string>
     <string name="texture_brick">Tuğla</string>
     <string name="texture_camouflage">Kamuflaj</string>
     <string name="texture_cell">Hücre</string>
@@ -3374,7 +3374,7 @@
     <string name="texture_ice">Buz</string>
     <string name="texture_lava">Lav</string>
     <string name="texture_nebula">Bulutsusu</string>
-    <string name="texture_paper">Kağıt</string>
+    <string name="texture_paper">Kâğıt</string>
     <string name="texture_rust">Pas</string>
     <string name="texture_sand">Kum</string>
     <string name="texture_smoke">Duman</string>
