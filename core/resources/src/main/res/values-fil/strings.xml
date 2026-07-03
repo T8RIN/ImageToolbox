@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -3486,10 +3485,8 @@
     <string name="texture_oil_slick">Oil Slick</string>
     <string name="texture_watercolor">Watercolor</string>
     <string name="texture_abstract_flow">Abstract na Daloy</string>
-    <string name="texture_opal" />
     <string name="texture_damascus_steel">Damascus Steel</string>
     <string name="texture_lightning">Kidlat</string>
-    <string name="texture_velvet" />
     <string name="texture_ink_marbling">Ink Marbling</string>
     <string name="texture_holographic_foil">Holographic Foil</string>
     <string name="texture_bioluminescence">Bioluminescence</string>
@@ -3499,7 +3496,6 @@
     <string name="texture_fractal_bloom">Fractal Bloom</string>
     <string name="texture_chromatic_tunnel">Chromatic Tunnel</string>
     <string name="texture_eclipse_corona">Eclipse Corona</string>
-    <string name="texture_strange_attractor" />
     <string name="texture_ferrofluid_crown">Ferrofluid Crown</string>
     <string name="texture_supernova">Supernova</string>
     <string name="texture_iris">Iris</string>
@@ -3511,7 +3507,6 @@
     <string name="texture_wind">Hangin</string>
     <string name="texture_patchiness">Pachiness</string>
     <string name="texture_clumps">Mga kumpol</string>
-    <string name="texture_moisture" />
     <string name="texture_pebbles">Pebbles</string>
     <string name="texture_wrinkles">Mga wrinkles</string>
     <string name="texture_pores">Mga pores</string>
@@ -3530,7 +3525,6 @@
     <string name="texture_darkness">Kadiliman</string>
     <string name="texture_blooms">Namumulaklak</string>
     <string name="texture_pigment">Pigment</string>
-    <string name="texture_edges" />
     <string name="texture_paper_amount">Papel</string>
     <string name="texture_diffusion">Pagsasabog</string>
     <string name="texture_symmetry">Simetrya</string>
@@ -3544,21 +3538,17 @@
     <string name="texture_direction">Direksyon</string>
     <string name="texture_sheen">Sheen</string>
     <string name="texture_folds">Tupi</string>
-    <string name="texture_feathering" />
     <string name="texture_ink_balance">Balanse ng tinta</string>
     <string name="texture_spectrum">Spectrum</string>
     <string name="texture_crinkles">Crinkles</string>
     <string name="texture_diffraction">Diffraction</string>
     <string name="texture_arms">Mga armas</string>
     <string name="texture_twist">I-twist</string>
-    <string name="texture_core_glow" />
     <string name="texture_blobs">Mga patak</string>
     <string name="texture_disk_tilt">Ikiling ng disc</string>
-    <string name="texture_horizon_size" />
     <string name="texture_disk_width">Lapad ng disk</string>
     <string name="texture_lensing">Lensing</string>
     <string name="texture_petals">Mga talulot</string>
-    <string name="texture_curl" />
     <string name="texture_filigree">Piligree</string>
     <string name="texture_facets">Facets</string>
     <string name="texture_curvature">Curvature</string>
@@ -3574,8 +3564,6 @@
     <string name="texture_body_size">Laki ng katawan</string>
     <string name="texture_metallic">Metallic</string>
     <string name="texture_shock_radius">Shock radius</string>
-    <string name="texture_shell_width" />
-    <string name="texture_ejecta" />
     <string name="texture_pupil_size">Laki ng mag-aaral</string>
     <string name="texture_iris_size">Laki ng iris</string>
     <string name="texture_color_variation">Pagkakaiba-iba ng kulay</string>
@@ -3584,12 +3572,10 @@
     <string name="texture_barb_density">Densidad ng barb</string>
     <string name="texture_turns">lumiliko</string>
     <string name="texture_chambers">Mga Kamara</string>
-    <string name="texture_opening" />
     <string name="texture_ridges">Mga tagaytay</string>
     <string name="texture_pearlescence">Perlas</string>
     <string name="texture_planet_size">Laki ng planeta</string>
     <string name="texture_ring_tilt">Ikiling ang singsing</string>
-    <string name="texture_ring_width" />
     <string name="texture_atmosphere">Atmospera</string>
     <string name="texture_dirt_color">Kulay ng dumi</string>
     <string name="texture_dark_grass_color">Kulay ng madilim na damo</string>
@@ -3602,25 +3588,20 @@
     <string name="texture_concrete_color">Konkretong kulay</string>
     <string name="texture_tar_color">Kulay ng tar</string>
     <string name="texture_asphalt_color">Kulay ng aspalto</string>
-    <string name="texture_stone_color" />
     <string name="texture_dust_color">Kulay ng alikabok</string>
-    <string name="texture_soil_color" />
     <string name="texture_dark_moss_color">Madilim na kulay ng lumot</string>
     <string name="texture_moss_color">Kulay ng lumot</string>
     <string name="texture_red_color">Kulay pula</string>
     <string name="texture_core_color">Kulay ng core</string>
     <string name="texture_green_color">Kulay berde</string>
     <string name="texture_cyan_color">Kulay cyan</string>
-    <string name="texture_magenta_color" />
     <string name="texture_gold_color">Kulay ginto</string>
     <string name="texture_paper_color">Kulay ng papel</string>
-    <string name="texture_pigment_color" />
     <string name="texture_secondary_color">Pangalawang kulay</string>
     <string name="texture_first_color">Unang kulay</string>
     <string name="texture_second_color">Pangalawang kulay</string>
     <string name="texture_pink_color">Kulay pink</string>
     <string name="texture_dark_steel_color">Madilim na kulay ng bakal</string>
-    <string name="texture_steel_color" />
     <string name="texture_light_steel_color">Banayad na kulay ng bakal</string>
     <string name="texture_oxide_color">Kulay ng oxide</string>
     <string name="texture_halo_color">Kulay ng halo</string>
@@ -3631,7 +3612,6 @@
     <string name="texture_red_ink_color">Kulay ng pulang tinta</string>
     <string name="texture_dark_ink_color">Madilim na kulay ng tinta</string>
     <string name="texture_silver_color">Kulay pilak</string>
-    <string name="texture_yellow_color" />
     <string name="texture_tissue_color">Kulay ng tissue</string>
     <string name="texture_disk_color">Kulay ng disk</string>
     <string name="texture_hot_color">Mainit na kulay</string>
@@ -3644,7 +3624,6 @@
     <string name="texture_cloud_color">Kulay ng ulap</string>
     <string name="texture_flame_color">Kulay ng apoy</string>
     <string name="texture_feather_color">Kulay ng balahibo</string>
-    <string name="texture_shell_color" />
     <string name="texture_pearl_color">Kulay perlas</string>
     <string name="texture_planet_color">Kulay ng planeta</string>
     <string name="texture_ring_color">Kulay ng singsing</string>
