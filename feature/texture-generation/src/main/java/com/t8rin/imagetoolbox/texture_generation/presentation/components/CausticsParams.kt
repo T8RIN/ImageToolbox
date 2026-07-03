@@ -36,7 +36,8 @@ internal fun CausticsParams(
             value = value.backgroundColor.toColor(),
             onValueChange = {
                 onValueChange(value.copy(backgroundColor = it.toModel()))
-            }
+            },
+            shape = ShapeDefaults.top
         )
         FloatParam(
             value = value.scale,

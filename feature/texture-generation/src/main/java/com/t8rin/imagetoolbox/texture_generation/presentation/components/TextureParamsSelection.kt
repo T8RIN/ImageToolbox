@@ -71,7 +71,7 @@ fun TextureParamsSelection(
                 },
                 spanCount = 1,
                 containerColor = MaterialTheme.colorScheme.surface,
-                shape = ShapeDefaults.top
+                shape = ShapeDefaults.default
             )
 
             AnimatedContent(
@@ -79,68 +79,75 @@ fun TextureParamsSelection(
                 modifier = Modifier.fillMaxWidth()
             ) { textureFilterType ->
                 when (textureFilterType) {
-                TextureFilterType.BrushedMetal -> {
-                    BrushedMetalParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.BrushedMetal -> {
+                        BrushedMetalParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
 
-                TextureFilterType.Caustics -> {
-                    CausticsParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.Caustics -> {
+                        CausticsParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
 
-                TextureFilterType.Cellular -> {
-                    CellularParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.Cellular -> {
+                        CellularParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
 
-                TextureFilterType.Check -> {
-                    CheckParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.Check -> {
+                        CheckParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
 
-                TextureFilterType.FBM -> {
-                    FbmParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.FBM -> {
+                        FbmParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
 
-                TextureFilterType.Marble -> {
-                    MarbleParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.Marble -> {
+                        MarbleParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
 
-                TextureFilterType.Plasma -> {
-                    PlasmaParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.Plasma -> {
+                        PlasmaParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
 
-                TextureFilterType.Quilt -> {
-                    QuiltParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.Quilt -> {
+                        QuiltParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
 
-                TextureFilterType.Wood -> {
-                    WoodParams(
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
+                    TextureFilterType.Wood -> {
+                        WoodParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
+
+                    else -> {
+                        FastNoiseParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
                 }
             }
         }

@@ -3324,7 +3324,6 @@
     <string name="x_wavelength">longitud de onda X</string>
     <string name="y_wavelength">longitud de onda Y</string>
     <string name="adaptive_blur">Desenfoque adaptativo</string>
-    <string name="search_keywords_texture_generation">generador de texturas metal cepillado cáusticos celular tablero de ajedrez mármol plasma colcha madera</string>
     <string name="texture_generation">Generación de texturas</string>
     <string name="texture_generation_sub">Genere varias texturas procesales y guárdelas como imágenes.</string>
     <string name="texture_type">Tipo de textura</string>

@@ -3326,7 +3326,6 @@
     <string name="x_wavelength">Długość fali X</string>
     <string name="y_wavelength">Długość fali Y</string>
     <string name="adaptive_blur">Rozmycie adaptacyjne</string>
-    <string name="search_keywords_texture_generation">generator tekstur szczotkowany metal kaustyka komórkowa szachownica marmurowa kołdra plazmowa drewno</string>
     <string name="texture_generation">Generowanie tekstur</string>
     <string name="texture_generation_sub">Generuj różne tekstury proceduralne i zapisuj je jako obrazy</string>
     <string name="texture_type">Typ tekstury</string>

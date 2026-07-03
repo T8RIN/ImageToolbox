@@ -62,7 +62,8 @@ data class TextureParams(
     val c: Float,
     val d: Float,
     val k: Int,
-    val rings: Float
+    val rings: Float,
+    val fastNoiseParams: FastNoiseTextureParams? = null
 ) {
     companion object {
         val Default by lazy {
@@ -116,14 +117,20 @@ data class TextureParams(
 }
 
 fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): TextureParams =
-    when (textureFilterType) {
+    if (textureFilterType.isFastNoise) {
+        copy(
+            textureFilterType = textureFilterType,
+            fastNoiseParams = FastNoiseTextureParams.defaultFor(textureFilterType)
+        )
+    } else when (textureFilterType) {
         TextureFilterType.BrushedMetal -> copy(
             textureFilterType = textureFilterType,
             color = ColorModel(-7829368),
             radius = 10,
             amount = 0.1f,
             monochrome = true,
-            shine = 0.1f
+            shine = 0.1f,
+            fastNoiseParams = null
         )
 
         TextureFilterType.Caustics -> copy(
@@ -135,7 +142,8 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             dispersion = 0f,
             time = 0f,
             samples = 2,
-            backgroundColor = ColorModel(-8806401)
+            backgroundColor = ColorModel(-8806401),
+            fastNoiseParams = null
         )
 
         TextureFilterType.Cellular -> copy(
@@ -156,7 +164,8 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             turbulence = 1f,
             amount = 1f,
             gain = 0.5f,
-            bias = 0.5f
+            bias = 0.5f,
+            fastNoiseParams = null
         )
 
         TextureFilterType.Check -> copy(
@@ -166,7 +175,8 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             xScale = 8,
             yScale = 8,
             fuzziness = 0,
-            angle = 0f
+            angle = 0f,
+            fastNoiseParams = null
         )
 
         TextureFilterType.FBM -> copy(
@@ -180,7 +190,8 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             lacunarity = 2f,
             gain = 0.5f,
             bias = 0.5f,
-            basisType = FbmBasisType.Noise
+            basisType = FbmBasisType.Noise,
+            fastNoiseParams = null
         )
 
         TextureFilterType.Marble -> copy(
@@ -189,14 +200,16 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             stretch = 1f,
             angle = 0f,
             turbulence = 1f,
-            turbulenceFactor = 0.4f
+            turbulenceFactor = 0.4f,
+            fastNoiseParams = null
         )
 
         TextureFilterType.Plasma -> copy(
             textureFilterType = textureFilterType,
             color = ColorModel(-16777216),
             turbulence = 1f,
-            scaling = 0f
+            scaling = 0f,
+            fastNoiseParams = null
         )
 
         TextureFilterType.Quilt -> copy(
@@ -206,7 +219,8 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             b = 0.2f,
             c = 0.1f,
             d = 0f,
-            k = 0
+            k = 0,
+            fastNoiseParams = null
         )
 
         TextureFilterType.Wood -> copy(
@@ -217,6 +231,9 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             bias = 0.5f,
             scale = 32f,
             stretch = 1f,
-            angle = 0f
+            angle = 0f,
+            fastNoiseParams = null
         )
+
+        else -> error("Unsupported JH Labs texture type: $textureFilterType")
     }

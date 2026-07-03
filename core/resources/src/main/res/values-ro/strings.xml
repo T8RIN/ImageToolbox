@@ -3325,7 +3325,6 @@
     <string name="x_wavelength">lungime de undă X</string>
     <string name="y_wavelength">lungime de undă Y</string>
     <string name="adaptive_blur">Blur adaptiv</string>
-    <string name="search_keywords_texture_generation">generator de textură metal periat caustics celular șah marmură plasmă pilota lemn</string>
     <string name="texture_generation">Generarea texturii</string>
     <string name="texture_generation_sub">Generați diverse texturi procedurale și salvați-le ca imagini</string>
     <string name="texture_type">Tip textura</string>

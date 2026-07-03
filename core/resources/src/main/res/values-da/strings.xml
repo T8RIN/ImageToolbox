@@ -3324,7 +3324,6 @@
     <string name="x_wavelength">X bølgelængde</string>
     <string name="y_wavelength">Y bølgelængde</string>
     <string name="adaptive_blur">Adaptiv sløring</string>
-    <string name="search_keywords_texture_generation">tekstur generator børstet metal kaustics cellulært skakternet marmor plasma quilt træ</string>
     <string name="texture_generation">Teksturgenerering</string>
     <string name="texture_generation_sub">Generer forskellige proceduremæssige teksturer og gem dem som billeder</string>
     <string name="texture_type">Tekstur type</string>

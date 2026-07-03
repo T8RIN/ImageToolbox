@@ -3326,7 +3326,6 @@
     <string name="x_wavelength">Х даўжыня хвалі</string>
     <string name="y_wavelength">Даўжыня хвалі Y</string>
     <string name="adaptive_blur">Адаптыўнае размыццё</string>
-    <string name="search_keywords_texture_generation">генератар тэкстур шліфаваны метал каўстыка ячэістая шахматная дошка мармур плазма коўдра дрэва</string>
     <string name="texture_generation">Генерацыя тэкстур</string>
     <string name="texture_generation_sub">Стварайце розныя працэдурныя тэкстуры і захоўвайце іх як выявы</string>
     <string name="texture_type">Тып тэкстуры</string>

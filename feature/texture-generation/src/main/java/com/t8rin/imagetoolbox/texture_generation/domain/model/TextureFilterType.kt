@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.texture_generation.domain.model
 
-enum class TextureFilterType {
+enum class TextureFilterType(val isFastNoise: Boolean = false) {
     BrushedMetal,
     Caustics,
     Cellular,
@@ -26,5 +26,25 @@ enum class TextureFilterType {
     Marble,
     Plasma,
     Quilt,
-    Wood
+    Wood,
+    Brick(true),
+    Camouflage(true),
+    Cell(true),
+    Cloud(true),
+    Crack(true),
+    Fabric(true),
+    Foliage(true),
+    Honeycomb(true),
+    Ice(true),
+    Lava(true),
+    Nebula(true),
+    Paper(true),
+    Rust(true),
+    Sand(true),
+    Smoke(true),
+    Stone(true),
+    Terrain(true),
+    Topography(true),
+    WaterRipple(true),
+    AdvancedWood(true)
 }

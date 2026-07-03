@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
@@ -58,6 +58,7 @@ internal fun FloatParam(
     title: String,
     range: ClosedFloatingPointRange<Float>,
     onValueChange: (Float) -> Unit,
+    roundTo: Int = 2,
     shape: Shape = ShapeDefaults.center
 ) {
     EnhancedSliderItem(
@@ -65,7 +66,7 @@ internal fun FloatParam(
         title = title,
         valueRange = range,
         internalStateTransformation = {
-            it.roundToTwoDigits()
+            it.roundTo(roundTo)
         },
         onValueChange = onValueChange,
         shape = shape
@@ -121,6 +122,26 @@ internal fun TextureFilterType.titleRes(): Int = when (this) {
     TextureFilterType.Plasma -> R.string.texture_plasma
     TextureFilterType.Quilt -> R.string.texture_quilt
     TextureFilterType.Wood -> R.string.texture_wood
+    TextureFilterType.Brick -> R.string.texture_brick
+    TextureFilterType.Camouflage -> R.string.texture_camouflage
+    TextureFilterType.Cell -> R.string.texture_cell
+    TextureFilterType.Cloud -> R.string.texture_cloud
+    TextureFilterType.Crack -> R.string.texture_crack
+    TextureFilterType.Fabric -> R.string.texture_fabric
+    TextureFilterType.Foliage -> R.string.texture_foliage
+    TextureFilterType.Honeycomb -> R.string.texture_honeycomb
+    TextureFilterType.Ice -> R.string.texture_ice
+    TextureFilterType.Lava -> R.string.texture_lava
+    TextureFilterType.Nebula -> R.string.texture_nebula
+    TextureFilterType.Paper -> R.string.texture_paper
+    TextureFilterType.Rust -> R.string.texture_rust
+    TextureFilterType.Sand -> R.string.texture_sand
+    TextureFilterType.Smoke -> R.string.texture_smoke
+    TextureFilterType.Stone -> R.string.texture_stone
+    TextureFilterType.Terrain -> R.string.texture_terrain
+    TextureFilterType.Topography -> R.string.texture_topography
+    TextureFilterType.WaterRipple -> R.string.texture_water_ripple
+    TextureFilterType.AdvancedWood -> R.string.texture_advanced_wood
 }
 
 internal fun CellularGridType.titleRes(): Int = when (this) {

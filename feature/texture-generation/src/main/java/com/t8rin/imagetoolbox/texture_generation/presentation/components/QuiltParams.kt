@@ -33,7 +33,8 @@ internal fun QuiltParams(
             value = value.iterations,
             title = stringResource(R.string.iterations),
             range = 1f..50000f,
-            onValueChange = { onValueChange(value.copy(iterations = it)) }
+            onValueChange = { onValueChange(value.copy(iterations = it)) },
+            shape = ShapeDefaults.top
         )
         FloatParam(
             value = value.a,

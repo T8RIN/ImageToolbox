@@ -3324,7 +3324,6 @@
     <string name="x_wavelength">طول موج X</string>
     <string name="y_wavelength">طول موج Y</string>
     <string name="adaptive_blur">تاری تطبیقی</string>
-    <string name="search_keywords_texture_generation">مولد بافت براش فلزی سوزاننده سلولی شطرنجی مرمر پلاسما چوب لحاف</string>
     <string name="texture_generation">تولید بافت</string>
     <string name="texture_generation_sub">بافت های رویه ای مختلف را ایجاد کنید و آنها را به عنوان تصویر ذخیره کنید</string>
     <string name="texture_type">نوع بافت</string>

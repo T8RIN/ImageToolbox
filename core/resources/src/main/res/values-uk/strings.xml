@@ -3326,7 +3326,6 @@
     <string name="x_wavelength">довжина хвилі X</string>
     <string name="y_wavelength">Довжина хвилі Y</string>
     <string name="adaptive_blur">Адаптивне розмиття</string>
-    <string name="search_keywords_texture_generation">генератор текстури шліфований метал каустика стільниковий шашка мармур плазма ковдра деревина</string>
     <string name="texture_generation">Генерація текстур</string>
     <string name="texture_generation_sub">Створюйте різноманітні процедурні текстури та зберігайте їх як зображення</string>
     <string name="texture_type">Тип текстури</string>

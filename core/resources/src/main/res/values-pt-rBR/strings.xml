@@ -3324,7 +3324,6 @@
     <string name="x_wavelength">Comprimento de onda X</string>
     <string name="y_wavelength">Comprimento de onda Y</string>
     <string name="adaptive_blur">Desfoque adaptativo</string>
-    <string name="search_keywords_texture_generation">gerador de textura metal escovado cáusticos xadrez celular mármore colcha de plasma madeira</string>
     <string name="texture_generation">Geração de Textura</string>
     <string name="texture_generation_sub">Gere várias texturas procedurais e salve-as como imagens</string>
     <string name="texture_type">Tipo de textura</string>

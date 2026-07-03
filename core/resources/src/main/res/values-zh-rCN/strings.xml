@@ -3323,7 +3323,6 @@
     <string name="x_wavelength">X波长</string>
     <string name="y_wavelength">Y波长</string>
     <string name="adaptive_blur">自适应模糊</string>
-    <string name="search_keywords_texture_generation">纹理生成器 拉丝金属焦散 蜂窝棋盘格 大理石 等离子 被子 木材</string>
     <string name="texture_generation">纹理生成</string>
     <string name="texture_generation_sub">生成各种程序纹理并将其保存为图像</string>
     <string name="texture_type">纹理类型</string>

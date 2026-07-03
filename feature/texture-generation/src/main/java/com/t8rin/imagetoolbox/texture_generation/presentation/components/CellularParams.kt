@@ -37,7 +37,8 @@ internal fun CellularParams(
         ColorParam(
             title = stringResource(R.string.color),
             value = value.color.toColor(),
-            onValueChange = { onValueChange(value.copy(color = it.toModel())) }
+            onValueChange = { onValueChange(value.copy(color = it.toModel())) },
+            shape = ShapeDefaults.top
         )
         FloatParam(
             value = value.scale,

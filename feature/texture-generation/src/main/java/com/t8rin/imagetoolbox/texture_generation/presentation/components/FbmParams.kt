@@ -33,7 +33,8 @@ internal fun FbmParams(
             value = value.amount,
             title = stringResource(R.string.amount),
             range = 0.01f..10f,
-            onValueChange = { onValueChange(value.copy(amount = it)) }
+            onValueChange = { onValueChange(value.copy(amount = it)) },
+            shape = ShapeDefaults.top
         )
         FloatParam(
             value = value.scale,

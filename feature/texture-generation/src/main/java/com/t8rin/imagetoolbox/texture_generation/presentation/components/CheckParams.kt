@@ -36,7 +36,8 @@ internal fun CheckParams(
             value = value.foregroundColor.toColor(),
             onValueChange = {
                 onValueChange(value.copy(foregroundColor = it.toModel()))
-            }
+            },
+            shape = ShapeDefaults.top
         )
         ColorParam(
             title = stringResource(R.string.dark_color),

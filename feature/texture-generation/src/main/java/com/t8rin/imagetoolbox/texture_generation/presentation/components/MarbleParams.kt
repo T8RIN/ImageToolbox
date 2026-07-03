@@ -33,7 +33,8 @@ internal fun MarbleParams(
             value = value.scale,
             title = stringResource(R.string.scale),
             range = 1f..512f,
-            onValueChange = { onValueChange(value.copy(scale = it)) }
+            onValueChange = { onValueChange(value.copy(scale = it)) },
+            shape = ShapeDefaults.top
         )
         FloatParam(
             value = value.stretch,

@@ -3323,7 +3323,6 @@
     <string name="x_wavelength">X 파장</string>
     <string name="y_wavelength">Y 파장</string>
     <string name="adaptive_blur">적응형 흐림</string>
-    <string name="search_keywords_texture_generation">질감 생성기 닦았 금속 가성 세포질의 체커보드 대리석 플라즈마 퀼트 나무</string>
     <string name="texture_generation">텍스처 생성</string>
     <string name="texture_generation_sub">다양한 절차적 텍스처를 생성하여 이미지로 저장</string>
     <string name="texture_type">텍스처 유형</string>

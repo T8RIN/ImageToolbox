@@ -3324,7 +3324,6 @@
     <string name="x_wavelength">X-Wellenlänge</string>
     <string name="y_wavelength">Y-Wellenlänge</string>
     <string name="adaptive_blur">Adaptive Unschärfe</string>
-    <string name="search_keywords_texture_generation">Texturgenerator gebürstetes Metall Ätzmittel Zellular Schachbrett Marmor Plasma Steppdecke Holz</string>
     <string name="texture_generation">Texturgenerierung</string>
     <string name="texture_generation_sub">Generieren Sie verschiedene prozedurale Texturen und speichern Sie sie als Bilder</string>
     <string name="texture_type">Texturtyp</string>

@@ -3323,7 +3323,6 @@
     <string name="x_wavelength">ความยาวคลื่นเอ็กซ์</string>
     <string name="y_wavelength">ความยาวคลื่น Y</string>
     <string name="adaptive_blur">ปรับเบลอ</string>
-    <string name="search_keywords_texture_generation">เครื่องกำเนิดพื้นผิว แปรงโลหะ โซดาไฟ กระดานหมากรุก กระดานหมากรุก หินอ่อน พลาสมา ผ้านวม ไม้</string>
     <string name="texture_generation">การสร้างพื้นผิว</string>
     <string name="texture_generation_sub">สร้างพื้นผิวขั้นตอนต่างๆ และบันทึกเป็นรูปภาพ</string>
     <string name="texture_type">ประเภทพื้นผิว</string>

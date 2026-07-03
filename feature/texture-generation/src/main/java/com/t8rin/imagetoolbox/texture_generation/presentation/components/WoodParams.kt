@@ -33,7 +33,8 @@ internal fun WoodParams(
             value = value.rings,
             title = stringResource(R.string.rings),
             range = 0f..5f,
-            onValueChange = { onValueChange(value.copy(rings = it)) }
+            onValueChange = { onValueChange(value.copy(rings = it)) },
+            shape = ShapeDefaults.top
         )
         FloatParam(
             value = value.turbulence,

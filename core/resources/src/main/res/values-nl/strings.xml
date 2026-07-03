@@ -3324,7 +3324,6 @@
     <string name="x_wavelength">X-golflengte</string>
     <string name="y_wavelength">Y-golflengte</string>
     <string name="adaptive_blur">Adaptieve vervaging</string>
-    <string name="search_keywords_texture_generation">textuurgenerator geborsteld metaal bijtende stoffen cellulair dambord marmer plasma quilt hout</string>
     <string name="texture_generation">Textuur generatie</string>
     <string name="texture_generation_sub">Genereer verschillende procedurele texturen en sla ze op als afbeeldingen</string>
     <string name="texture_type">Textuurtype</string>

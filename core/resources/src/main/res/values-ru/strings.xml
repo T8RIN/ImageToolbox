@@ -3325,7 +3325,6 @@
     <string name="x_wavelength">длина волны X</string>
     <string name="y_wavelength">Длина волны Y</string>
     <string name="adaptive_blur">Адаптивное размытие</string>
-    <string name="search_keywords_texture_generation">генератор текстур матовый металл каустика сотовая шахматная доска мрамор плазма лоскутное одеяло дерево</string>
     <string name="texture_generation">Генерация текстур</string>
     <string name="texture_generation_sub">Создавайте различные процедурные текстуры и сохраняйте их как изображения.</string>
     <string name="texture_type">Тип текстуры</string>

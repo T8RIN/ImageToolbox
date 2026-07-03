@@ -37,7 +37,8 @@ internal fun BrushedMetalParams(
             value = value.color.toColor(),
             onValueChange = {
                 onValueChange(value.copy(color = it.toModel()))
-            }
+            },
+            shape = ShapeDefaults.top
         )
         IntParam(
             value = value.radius,
