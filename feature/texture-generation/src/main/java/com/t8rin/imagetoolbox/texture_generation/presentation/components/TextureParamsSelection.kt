@@ -98,7 +98,7 @@ fun TextureParamsSelection(
                                     .build()
                             },
                             modifier = Modifier
-                                .size(24.dp)
+                                .size(28.dp)
                                 .offset(x = (-2).dp),
                             shape = ShapeDefaults.mini
                         )
@@ -108,8 +108,9 @@ fun TextureParamsSelection(
 
                     null
                 },
-                chipHeight = 42.dp,
-                spanCount = 3,
+                chipHeight = 46.dp,
+                minSpanCount = 2,
+                spanCount = 4,
                 containerColor = MaterialTheme.colorScheme.surface,
                 shape = ShapeDefaults.default
             )

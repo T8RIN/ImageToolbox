@@ -26,13 +26,3 @@ enum class CellularGridType(
     Octagonal(3),
     Triangular(4)
 }
-
-enum class FbmBasisType(
-    val value: Int
-) {
-    Noise(0),
-    Ridged(1),
-    VlNoise(2),
-    ScNoise(3),
-    Cellular(4)
-}

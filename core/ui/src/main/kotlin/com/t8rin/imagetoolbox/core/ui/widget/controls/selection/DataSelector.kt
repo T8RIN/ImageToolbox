@@ -79,6 +79,7 @@ fun <T : Any> DataSelector(
     itemContentText: @Composable (T) -> String?,
     itemContentIcon: ((T, Boolean) -> ImageVector?)? = null,
     itemEqualityDelegate: (T, T) -> Boolean = { t, o -> t == o },
+    minSpanCount: Int = 1,
     spanCount: Int = 3,
     modifier: Modifier = Modifier,
     badgeContent: (@Composable RowScope.() -> Unit)? = null,
@@ -190,14 +191,14 @@ fun <T : Any> DataSelector(
                 ),
                 state = state,
                 horizontalItemSpacing = 8.dp,
-                rows = StaggeredGridCells.Adaptive(30.dp),
+                rows = StaggeredGridCells.Adaptive(chipHeight - 6.dp),
                 modifier = Modifier
                     .heightIn(
                         max = animateDpAsState(
                             if (expanded) {
                                 (chipHeight + 16.dp) * realSpanCount - 8.dp * (realSpanCount - 1)
                             } else {
-                                chipHeight + 16.dp
+                                (chipHeight + 16.dp) * minSpanCount - 8.dp * (minSpanCount - 1)
                             }
                         ).value
                     )

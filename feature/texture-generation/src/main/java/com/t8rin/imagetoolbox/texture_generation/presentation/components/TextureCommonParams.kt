@@ -33,7 +33,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.texture_generation.domain.model.CellularGridType
-import com.t8rin.imagetoolbox.texture_generation.domain.model.FbmBasisType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
 import kotlin.math.roundToInt
 
@@ -142,6 +141,37 @@ internal fun TextureFilterType.titleRes(): Int = when (this) {
     TextureFilterType.Topography -> R.string.texture_topography
     TextureFilterType.WaterRipple -> R.string.texture_water_ripple
     TextureFilterType.AdvancedWood -> R.string.texture_advanced_wood
+    TextureFilterType.Grass -> R.string.texture_grass
+    TextureFilterType.Dirt -> R.string.texture_dirt
+    TextureFilterType.Leather -> R.string.texture_leather
+    TextureFilterType.Concrete -> R.string.texture_concrete
+    TextureFilterType.Asphalt -> R.string.texture_asphalt
+    TextureFilterType.Moss -> R.string.texture_moss
+    TextureFilterType.Fire -> R.string.texture_fire
+    TextureFilterType.Aurora -> R.string.texture_aurora
+    TextureFilterType.OilSlick -> R.string.texture_oil_slick
+    TextureFilterType.Watercolor -> R.string.texture_watercolor
+    TextureFilterType.AbstractFlow -> R.string.texture_abstract_flow
+    TextureFilterType.Opal -> R.string.texture_opal
+    TextureFilterType.DamascusSteel -> R.string.texture_damascus_steel
+    TextureFilterType.Lightning -> R.string.texture_lightning
+    TextureFilterType.Velvet -> R.string.texture_velvet
+    TextureFilterType.InkMarbling -> R.string.texture_ink_marbling
+    TextureFilterType.HolographicFoil -> R.string.texture_holographic_foil
+    TextureFilterType.Bioluminescence -> R.string.texture_bioluminescence
+    TextureFilterType.CosmicVortex -> R.string.texture_cosmic_vortex
+    TextureFilterType.LavaLamp -> R.string.texture_lava_lamp
+    TextureFilterType.EventHorizon -> R.string.texture_event_horizon
+    TextureFilterType.FractalBloom -> R.string.texture_fractal_bloom
+    TextureFilterType.ChromaticTunnel -> R.string.texture_chromatic_tunnel
+    TextureFilterType.EclipseCorona -> R.string.texture_eclipse_corona
+    TextureFilterType.StrangeAttractor -> R.string.texture_strange_attractor
+    TextureFilterType.FerrofluidCrown -> R.string.texture_ferrofluid_crown
+    TextureFilterType.Supernova -> R.string.texture_supernova
+    TextureFilterType.Iris -> R.string.texture_iris
+    TextureFilterType.PeacockFeather -> R.string.texture_peacock_feather
+    TextureFilterType.NautilusShell -> R.string.texture_nautilus_shell
+    TextureFilterType.RingedPlanet -> R.string.texture_ringed_planet
 }
 
 internal fun CellularGridType.titleRes(): Int = when (this) {
@@ -150,12 +180,4 @@ internal fun CellularGridType.titleRes(): Int = when (this) {
     CellularGridType.Hexagonal -> R.string.grid_hexagonal
     CellularGridType.Octagonal -> R.string.grid_octagonal
     CellularGridType.Triangular -> R.string.grid_triangular
-}
-
-internal fun FbmBasisType.titleRes(): Int = when (this) {
-    FbmBasisType.Noise -> R.string.noise
-    FbmBasisType.Ridged -> R.string.fbm_ridged
-    FbmBasisType.VlNoise -> R.string.fbm_vl_noise
-    FbmBasisType.ScNoise -> R.string.fbm_sc_noise
-    FbmBasisType.Cellular -> R.string.texture_cellular
 }

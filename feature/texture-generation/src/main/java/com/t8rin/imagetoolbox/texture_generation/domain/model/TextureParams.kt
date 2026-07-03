@@ -53,7 +53,6 @@ data class TextureParams(
     val lacunarity: Float,
     val gain: Float,
     val bias: Float,
-    val basisType: FbmBasisType,
     val turbulenceFactor: Float,
     val scaling: Float,
     val iterations: Int,
@@ -101,7 +100,6 @@ data class TextureParams(
                 lacunarity = 2f,
                 gain = 0.5f,
                 bias = 0.5f,
-                basisType = FbmBasisType.Noise,
                 turbulenceFactor = 0.4f,
                 scaling = 0f,
                 iterations = 25000,
@@ -190,7 +188,6 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             lacunarity = 2f,
             gain = 0.5f,
             bias = 0.5f,
-            basisType = FbmBasisType.Noise,
             fastNoiseParams = null
         )
 

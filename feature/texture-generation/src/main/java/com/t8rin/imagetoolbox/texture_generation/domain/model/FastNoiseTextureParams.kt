@@ -127,6 +127,161 @@ data class FastNoiseTextureParams(
                 -12969717, -4624846, -14873337
             )
 
+            TextureFilterType.Grass -> create(
+                0.012f, 1f, 50f, 1f, 0.35f, 0.45f,
+                -12965096, -14857953, -11695566, -6568870
+            )
+
+            TextureFilterType.Dirt -> create(
+                0.009f, 0.62f, 0.35f, 0.22f, 0.68f, 0.52f,
+                -14018290, -9879002, -6195635, -5135732
+            )
+
+            TextureFilterType.Leather -> create(
+                0.011f, 0.58f, 0.42f, 0.5f, 0.38f, 0.035f,
+                -13625841, -8700635, -5018813, -14939128
+            )
+
+            TextureFilterType.Concrete -> create(
+                0.014f, 0.45f, 0.28f, 0.65f, 0.14f, 1.08f,
+                -10856107, -6711666, -3685447, -13290190
+            )
+
+            TextureFilterType.Asphalt -> create(
+                0.02f, 0.72f, 0.44f, 0.28f, 0.48f, 1.3f,
+                -15263462, -12697022, -7763067, -5199467
+            )
+
+            TextureFilterType.Moss -> create(
+                0.018f, 0.74f, 0.58f, 0.38f, 0.62f, 0.46f,
+                -14080746, -14072548, -10190780, -5128855
+            )
+
+            TextureFilterType.Fire -> create(
+                0.006f, 8f, 36f, 0.78f, 0.18f, 0.62f,
+                -15726585, -4908280, -34294, -5750
+            )
+
+            TextureFilterType.Aurora -> create(
+                0.004f, 7f, 34f, 0.72f, 0.2f, 1.32f,
+                -16379353, -12396128, -10099480, -5935646
+            )
+
+            TextureFilterType.OilSlick -> create(
+                0.008f, 13f, 32f, 0.82f, 0.3f, 1.2f,
+                -15724518, -2805093, -14297904, -998596
+            )
+
+            TextureFilterType.Watercolor -> create(
+                0.006f, 0.72f, 0.65f, 0.38f, 0.22f, 0.62f,
+                -726056, -13402189, -2597511, -11976842
+            )
+
+            TextureFilterType.AbstractFlow -> create(
+                0.006f, 12f, 46f, 0.3f, 1.25f, 0.62f,
+                -15658712, -11446823, -2208845, -8457497
+            )
+
+            TextureFilterType.Opal -> create(
+                0.007f, 0.82f, 0.48f, 8f, 28f, 0.62f,
+                -2234145, -11545135, -1019210, -14249
+            )
+
+            TextureFilterType.DamascusSteel -> create(
+                0.006f, 22f, 0.72f, 34f, 0.58f, 1.4f,
+                -15262688, -10063238, -3616558, -13611945
+            )
+
+            TextureFilterType.Lightning -> create(
+                0.006f, 7f, 42f, 0.055f, 0.82f, 0.9f,
+                -16579054, -14334296, -9909761, -852737
+            )
+
+            TextureFilterType.Velvet -> create(
+                0.014f, 0.78f, 0.18f, 0.7f, 0.62f, 0.34f,
+                -15268578, -10610838, -4110152, -1005864
+            )
+
+            TextureFilterType.InkMarbling -> create(
+                0.006f, 14f, 48f, 0.52f, 0.5f, 1.25f,
+                -792109, -15316104, -6477495, -14936015
+            )
+
+            TextureFilterType.HolographicFoil -> create(
+                0.008f, 12f, 0.7f, 0.82f, 0.3f, 0.72f,
+                -3287842, -11672094, -1484088, -529806
+            )
+
+            TextureFilterType.Bioluminescence -> create(
+                0.009f, 0.72f, 0.58f, 30f, 0.86f, 0.62f,
+                -16573926, -16035507, -14620990, -3866639
+            )
+
+            TextureFilterType.CosmicVortex -> create(
+                0.008f, 5f, 12f, 0.52f, 0.28f, 0.82f,
+                -16645365, -14202200, -7520574, -8800
+            )
+
+            TextureFilterType.LavaLamp -> create(
+                0.007f, 6f, 0.24f, 32f, 0.58f, 1.3f,
+                -14939863, -49791, -30172, -11172
+            )
+
+            TextureFilterType.EventHorizon -> create(
+                0.008f, 0.72f, 0.15f, 0.065f, 0.82f, 0.22f,
+                -16711417, -42472, -8029, -8632065
+            )
+
+            TextureFilterType.FractalBloom -> create(
+                0.01f, 7f, 5f, 4.2f, 0.7f, 0.72f,
+                -16185829, -10927914, -49517, -6006
+            )
+
+            TextureFilterType.ChromaticTunnel -> create(
+                0.009f, 18f, 5.5f, 7f, 0.48f, 0.78f,
+                -16579306, -16722433, -54116, -3656
+            )
+
+            TextureFilterType.EclipseCorona -> create(
+                0.008f, 0.23f, 0.2f, 34f, 0.62f, 0.8f,
+                -16645366, -9020417, -25787, -1
+            )
+
+            TextureFilterType.StrangeAttractor -> create(
+                0.01f, 3f, 18f, 6f, 0.035f, 0.8f,
+                -16579311, -15410747, -50567, -3659
+            )
+
+            TextureFilterType.FerrofluidCrown -> create(
+                0.012f, 19f, 0.14f, 0.22f, 0.86f, 0.42f,
+                -1515052, -16316148, -13288125, -2492417
+            )
+
+            TextureFilterType.Supernova -> create(
+                0.01f, 0.27f, 0.075f, 0.72f, 0.68f, 0.24f,
+                -16645365, -9886793, -45790, -3387
+            )
+
+            TextureFilterType.Iris -> create(
+                0.014f, 0.12f, 0.38f, 46f, 0.72f, 0.82f,
+                -16250355, -15583674, -13125979, -1657264
+            )
+
+            TextureFilterType.PeacockFeather -> create(
+                0.012f, 0.24f, 54f, 0.58f, 0.8f, 0.42f,
+                -16378609, -15303339, -15578948, -1786811
+            )
+
+            TextureFilterType.NautilusShell -> create(
+                0.011f, 3.4f, 19f, 0.13f, 0.68f, 0.46f,
+                -15392216, -11915998, -2511495, -3887
+            )
+
+            TextureFilterType.RingedPlanet -> create(
+                0.009f, 0.24f, 0.72f, 0.16f, 0.62f, 0.25f,
+                -16645107, -15391923, -1733534, -7770
+            )
+
             else -> error("Unsupported fast-noise texture type: $type")
         }
 

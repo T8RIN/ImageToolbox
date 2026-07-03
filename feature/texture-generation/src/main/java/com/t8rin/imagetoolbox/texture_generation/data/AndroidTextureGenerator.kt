@@ -30,30 +30,84 @@ import com.jhlabs.MarbleTexFilter
 import com.jhlabs.PlasmaFilter
 import com.jhlabs.QuiltFilter
 import com.jhlabs.WoodFilter
+import com.t8rin.fast_noise.texture.AsphaltTextureGenerator
+import com.t8rin.fast_noise.texture.AsphaltTextureParameters
+import com.t8rin.fast_noise.texture.AuroraTextureGenerator
+import com.t8rin.fast_noise.texture.AuroraTextureParameters
+import com.t8rin.fast_noise.texture.BioluminescenceTextureGenerator
+import com.t8rin.fast_noise.texture.BioluminescenceTextureParameters
 import com.t8rin.fast_noise.texture.BrickTextureGenerator
 import com.t8rin.fast_noise.texture.BrickTextureParameters
 import com.t8rin.fast_noise.texture.CamouflageTextureGenerator
 import com.t8rin.fast_noise.texture.CamouflageTextureParameters
 import com.t8rin.fast_noise.texture.CellTextureGenerator
 import com.t8rin.fast_noise.texture.CellTextureParameters
+import com.t8rin.fast_noise.texture.ChromaticTunnelTextureGenerator
+import com.t8rin.fast_noise.texture.ChromaticTunnelTextureParameters
 import com.t8rin.fast_noise.texture.CloudTextureGenerator
 import com.t8rin.fast_noise.texture.CloudTextureParameters
+import com.t8rin.fast_noise.texture.ConcreteTextureGenerator
+import com.t8rin.fast_noise.texture.ConcreteTextureParameters
+import com.t8rin.fast_noise.texture.CosmicVortexTextureGenerator
+import com.t8rin.fast_noise.texture.CosmicVortexTextureParameters
 import com.t8rin.fast_noise.texture.CrackTextureGenerator
 import com.t8rin.fast_noise.texture.CrackTextureParameters
+import com.t8rin.fast_noise.texture.DamascusTextureGenerator
+import com.t8rin.fast_noise.texture.DamascusTextureParameters
+import com.t8rin.fast_noise.texture.DirtTextureGenerator
+import com.t8rin.fast_noise.texture.DirtTextureParameters
+import com.t8rin.fast_noise.texture.EclipseCoronaTextureGenerator
+import com.t8rin.fast_noise.texture.EclipseCoronaTextureParameters
+import com.t8rin.fast_noise.texture.EventHorizonTextureGenerator
+import com.t8rin.fast_noise.texture.EventHorizonTextureParameters
 import com.t8rin.fast_noise.texture.FabricTextureGenerator
 import com.t8rin.fast_noise.texture.FabricTextureParameters
+import com.t8rin.fast_noise.texture.FerrofluidCrownTextureGenerator
+import com.t8rin.fast_noise.texture.FerrofluidCrownTextureParameters
+import com.t8rin.fast_noise.texture.FireTextureGenerator
+import com.t8rin.fast_noise.texture.FireTextureParameters
+import com.t8rin.fast_noise.texture.FlowTextureGenerator
+import com.t8rin.fast_noise.texture.FlowTextureParameters
 import com.t8rin.fast_noise.texture.FoliageTextureGenerator
 import com.t8rin.fast_noise.texture.FoliageTextureParameters
+import com.t8rin.fast_noise.texture.FractalBloomTextureGenerator
+import com.t8rin.fast_noise.texture.FractalBloomTextureParameters
+import com.t8rin.fast_noise.texture.GrassTextureGenerator
+import com.t8rin.fast_noise.texture.GrassTextureParameters
+import com.t8rin.fast_noise.texture.HolographicTextureGenerator
+import com.t8rin.fast_noise.texture.HolographicTextureParameters
 import com.t8rin.fast_noise.texture.HoneycombTextureGenerator
 import com.t8rin.fast_noise.texture.HoneycombTextureParameters
 import com.t8rin.fast_noise.texture.IceTextureGenerator
 import com.t8rin.fast_noise.texture.IceTextureParameters
+import com.t8rin.fast_noise.texture.InkMarblingTextureGenerator
+import com.t8rin.fast_noise.texture.InkMarblingTextureParameters
+import com.t8rin.fast_noise.texture.IrisTextureGenerator
+import com.t8rin.fast_noise.texture.IrisTextureParameters
+import com.t8rin.fast_noise.texture.LavaLampTextureGenerator
+import com.t8rin.fast_noise.texture.LavaLampTextureParameters
 import com.t8rin.fast_noise.texture.LavaTextureGenerator
 import com.t8rin.fast_noise.texture.LavaTextureParameters
+import com.t8rin.fast_noise.texture.LeatherTextureGenerator
+import com.t8rin.fast_noise.texture.LeatherTextureParameters
+import com.t8rin.fast_noise.texture.LightningTextureGenerator
+import com.t8rin.fast_noise.texture.LightningTextureParameters
+import com.t8rin.fast_noise.texture.MossTextureGenerator
+import com.t8rin.fast_noise.texture.MossTextureParameters
+import com.t8rin.fast_noise.texture.NautilusShellTextureGenerator
+import com.t8rin.fast_noise.texture.NautilusShellTextureParameters
 import com.t8rin.fast_noise.texture.NebulaTextureGenerator
 import com.t8rin.fast_noise.texture.NebulaTextureParameters
+import com.t8rin.fast_noise.texture.OilSlickTextureGenerator
+import com.t8rin.fast_noise.texture.OilSlickTextureParameters
+import com.t8rin.fast_noise.texture.OpalTextureGenerator
+import com.t8rin.fast_noise.texture.OpalTextureParameters
 import com.t8rin.fast_noise.texture.PaperTextureGenerator
 import com.t8rin.fast_noise.texture.PaperTextureParameters
+import com.t8rin.fast_noise.texture.PeacockFeatherTextureGenerator
+import com.t8rin.fast_noise.texture.PeacockFeatherTextureParameters
+import com.t8rin.fast_noise.texture.RingedPlanetTextureGenerator
+import com.t8rin.fast_noise.texture.RingedPlanetTextureParameters
 import com.t8rin.fast_noise.texture.RustTextureGenerator
 import com.t8rin.fast_noise.texture.RustTextureParameters
 import com.t8rin.fast_noise.texture.SandTextureGenerator
@@ -62,12 +116,20 @@ import com.t8rin.fast_noise.texture.SmokeTextureGenerator
 import com.t8rin.fast_noise.texture.SmokeTextureParameters
 import com.t8rin.fast_noise.texture.StoneTextureGenerator
 import com.t8rin.fast_noise.texture.StoneTextureParameters
+import com.t8rin.fast_noise.texture.StrangeAttractorTextureGenerator
+import com.t8rin.fast_noise.texture.StrangeAttractorTextureParameters
+import com.t8rin.fast_noise.texture.SupernovaTextureGenerator
+import com.t8rin.fast_noise.texture.SupernovaTextureParameters
 import com.t8rin.fast_noise.texture.TerrainTextureGenerator
 import com.t8rin.fast_noise.texture.TerrainTextureParameters
 import com.t8rin.fast_noise.texture.TopographyTextureGenerator
 import com.t8rin.fast_noise.texture.TopographyTextureParameters
+import com.t8rin.fast_noise.texture.VelvetTextureGenerator
+import com.t8rin.fast_noise.texture.VelvetTextureParameters
 import com.t8rin.fast_noise.texture.WaterRippleTextureGenerator
 import com.t8rin.fast_noise.texture.WaterRippleTextureParameters
+import com.t8rin.fast_noise.texture.WatercolorTextureGenerator
+import com.t8rin.fast_noise.texture.WatercolorTextureParameters
 import com.t8rin.fast_noise.texture.WoodTextureGenerator
 import com.t8rin.fast_noise.texture.WoodTextureParameters
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -173,7 +235,6 @@ internal class AndroidTextureGenerator @Inject constructor(
             lacunarity = textureParams.lacunarity
             gain = textureParams.gain
             bias = textureParams.bias
-            basisType = textureParams.basisType.value
         }
 
         TextureFilterType.Marble -> MarbleTexFilter().apply {
@@ -571,6 +632,564 @@ internal class AndroidTextureGenerator @Inject constructor(
                     darkColor = colors[0],
                     lightColor = colors[1],
                     poreColor = colors[2]
+                )
+            )
+
+            TextureFilterType.Grass -> GrassTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = GrassTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    bladeDensity = values[0],
+                    bladeLength = values[1],
+                    wind = values[2],
+                    patchiness = values[3],
+                    highlights = values[4],
+                    dirtColor = colors[0],
+                    darkGrassColor = colors[1],
+                    grassColor = colors[2],
+                    tipColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Dirt -> DirtTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = DirtTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    clumps = values[0],
+                    moisture = values[1],
+                    pebbles = values[2],
+                    roughness = values[3],
+                    variation = values[4],
+                    darkEarthColor = colors[0],
+                    earthColor = colors[1],
+                    dryColor = colors[2],
+                    pebbleColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Leather -> LeatherTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = LeatherTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    wrinkles = values[0],
+                    pores = values[1],
+                    grain = values[2],
+                    softness = values[3],
+                    shine = values[4],
+                    shadowColor = colors[0],
+                    leatherColor = colors[1],
+                    lightColor = colors[2],
+                    poreColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Concrete -> ConcreteTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = ConcreteTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    aggregate = values[0],
+                    stains = values[1],
+                    roughness = values[2],
+                    cracks = values[3],
+                    contrast = values[4],
+                    darkColor = colors[0],
+                    concreteColor = colors[1],
+                    lightColor = colors[2],
+                    crackColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Asphalt -> AsphaltTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = AsphaltTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    aggregate = values[0],
+                    tar = values[1],
+                    wear = values[2],
+                    speckles = values[3],
+                    contrast = values[4],
+                    tarColor = colors[0],
+                    asphaltColor = colors[1],
+                    stoneColor = colors[2],
+                    dustColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Moss -> MossTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = MossTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    density = values[0],
+                    fibers = values[1],
+                    moisture = values[2],
+                    variation = values[3],
+                    clumps = values[4],
+                    soilColor = colors[0],
+                    darkMossColor = colors[1],
+                    mossColor = colors[2],
+                    tipColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Fire -> FireTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = FireTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    flameFrequency = values[0],
+                    turbulence = values[1],
+                    intensity = values[2],
+                    smoke = values[3],
+                    detail = values[4],
+                    backgroundColor = colors[0],
+                    redColor = colors[1],
+                    orangeColor = colors[2],
+                    coreColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Aurora -> AuroraTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = AuroraTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    ribbons = values[0],
+                    distortion = values[1],
+                    glow = values[2],
+                    stars = values[3],
+                    contrast = values[4],
+                    skyColor = colors[0],
+                    greenColor = colors[1],
+                    cyanColor = colors[2],
+                    violetColor = colors[3]
+                )
+            )
+
+            TextureFilterType.OilSlick -> OilSlickTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = OilSlickTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    bands = values[0],
+                    distortion = values[1],
+                    iridescence = values[2],
+                    darkness = values[3],
+                    contrast = values[4],
+                    darkColor = colors[0],
+                    magentaColor = colors[1],
+                    cyanColor = colors[2],
+                    goldColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Watercolor -> WatercolorTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = WatercolorTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    blooms = values[0],
+                    pigment = values[1],
+                    edges = values[2],
+                    paper = values[3],
+                    diffusion = values[4],
+                    paperColor = colors[0],
+                    pigmentColor = colors[1],
+                    secondaryColor = colors[2],
+                    edgeColor = colors[3]
+                )
+            )
+
+            TextureFilterType.AbstractFlow -> FlowTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = FlowTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    frequency = values[0],
+                    distortion = values[1],
+                    symmetry = values[2],
+                    sharpness = values[3],
+                    glow = values[4],
+                    backgroundColor = colors[0],
+                    firstColor = colors[1],
+                    secondColor = colors[2],
+                    glowColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Opal -> OpalTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = OpalTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    colorPlay = values[0],
+                    milkiness = values[1],
+                    bands = values[2],
+                    distortion = values[3],
+                    glow = values[4],
+                    baseColor = colors[0],
+                    cyanColor = colors[1],
+                    pinkColor = colors[2],
+                    goldColor = colors[3]
+                )
+            )
+
+            TextureFilterType.DamascusSteel -> DamascusTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = DamascusTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    layers = values[0],
+                    folding = values[1],
+                    distortion = values[2],
+                    polish = values[3],
+                    contrast = values[4],
+                    darkSteelColor = colors[0],
+                    steelColor = colors[1],
+                    lightSteelColor = colors[2],
+                    oxideColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Lightning -> LightningTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = LightningTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    branches = values[0],
+                    turbulence = values[1],
+                    width = values[2],
+                    glow = values[3],
+                    intensity = values[4],
+                    backgroundColor = colors[0],
+                    haloColor = colors[1],
+                    boltColor = colors[2],
+                    coreColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Velvet -> VelvetTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = VelvetTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    fibers = values[0],
+                    direction = values[1],
+                    softness = values[2],
+                    sheen = values[3],
+                    folds = values[4],
+                    shadowColor = colors[0],
+                    velvetColor = colors[1],
+                    sheenColor = colors[2],
+                    highlightColor = colors[3]
+                )
+            )
+
+            TextureFilterType.InkMarbling -> InkMarblingTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = InkMarblingTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    ribbons = values[0],
+                    turbulence = values[1],
+                    feathering = values[2],
+                    inkBalance = values[3],
+                    contrast = values[4],
+                    paperColor = colors[0],
+                    blueInkColor = colors[1],
+                    redInkColor = colors[2],
+                    darkInkColor = colors[3]
+                )
+            )
+
+            TextureFilterType.HolographicFoil -> HolographicTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = HolographicTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    spectrum = values[0],
+                    crinkles = values[1],
+                    diffraction = values[2],
+                    angle = values[3],
+                    shine = values[4],
+                    silverColor = colors[0],
+                    cyanColor = colors[1],
+                    magentaColor = colors[2],
+                    yellowColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Bioluminescence -> BioluminescenceTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = BioluminescenceTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    veins = values[0],
+                    branching = values[1],
+                    turbulence = values[2],
+                    glow = values[3],
+                    depth = values[4],
+                    backgroundColor = colors[0],
+                    tissueColor = colors[1],
+                    glowColor = colors[2],
+                    coreColor = colors[3]
+                )
+            )
+
+            TextureFilterType.CosmicVortex -> CosmicVortexTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = CosmicVortexTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    arms = values[0],
+                    twist = values[1],
+                    turbulence = values[2],
+                    stars = values[3],
+                    coreGlow = values[4],
+                    spaceColor = colors[0],
+                    blueColor = colors[1],
+                    violetColor = colors[2],
+                    coreColor = colors[3]
+                )
+            )
+
+            TextureFilterType.LavaLamp -> LavaLampTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = LavaLampTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    blobs = values[0],
+                    softness = values[1],
+                    distortion = values[2],
+                    glow = values[3],
+                    contrast = values[4],
+                    backgroundColor = colors[0],
+                    firstColor = colors[1],
+                    secondColor = colors[2],
+                    glowColor = colors[3]
+                )
+            )
+
+            TextureFilterType.EventHorizon -> EventHorizonTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = EventHorizonTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    diskTilt = values[0],
+                    horizonSize = values[1],
+                    diskWidth = values[2],
+                    lensing = values[3],
+                    stars = values[4],
+                    spaceColor = colors[0],
+                    diskColor = colors[1],
+                    hotColor = colors[2],
+                    lensColor = colors[3]
+                )
+            )
+
+            TextureFilterType.FractalBloom -> FractalBloomTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = FractalBloomTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    petals = values[0],
+                    layers = values[1],
+                    curl = values[2],
+                    filigree = values[3],
+                    glow = values[4],
+                    backgroundColor = colors[0],
+                    outerColor = colors[1],
+                    innerColor = colors[2],
+                    coreColor = colors[3]
+                )
+            )
+
+            TextureFilterType.ChromaticTunnel -> ChromaticTunnelTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = ChromaticTunnelTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    depth = values[0],
+                    twist = values[1],
+                    facets = values[2],
+                    curvature = values[3],
+                    glow = values[4],
+                    deepColor = colors[0],
+                    cyanColor = colors[1],
+                    magentaColor = colors[2],
+                    lightColor = colors[3]
+                )
+            )
+
+            TextureFilterType.EclipseCorona -> EclipseCoronaTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = EclipseCoronaTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    moonSize = values[0],
+                    coronaSize = values[1],
+                    rays = values[2],
+                    turbulence = values[3],
+                    diamondRing = values[4],
+                    spaceColor = colors[0],
+                    coronaColor = colors[1],
+                    hotColor = colors[2],
+                    lightColor = colors[3]
+                )
+            )
+
+            TextureFilterType.StrangeAttractor -> StrangeAttractorTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = StrangeAttractorTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    lobes = values[0],
+                    orbitDensity = values[1],
+                    curvature = values[2],
+                    thickness = values[3],
+                    glow = values[4],
+                    backgroundColor = colors[0],
+                    coldColor = colors[1],
+                    warmColor = colors[2],
+                    coreColor = colors[3]
+                )
+            )
+
+            TextureFilterType.FerrofluidCrown -> FerrofluidCrownTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = FerrofluidCrownTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    spikes = values[0],
+                    spikeLength = values[1],
+                    bodySize = values[2],
+                    metallic = values[3],
+                    distortion = values[4],
+                    backgroundColor = colors[0],
+                    shadowColor = colors[1],
+                    metalColor = colors[2],
+                    highlightColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Supernova -> SupernovaTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = SupernovaTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    shockRadius = values[0],
+                    shellWidth = values[1],
+                    ejecta = values[2],
+                    turbulence = values[3],
+                    stars = values[4],
+                    spaceColor = colors[0],
+                    cloudColor = colors[1],
+                    flameColor = colors[2],
+                    coreColor = colors[3]
+                )
+            )
+
+            TextureFilterType.Iris -> IrisTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = IrisTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    pupilSize = values[0],
+                    irisSize = values[1],
+                    fibers = values[2],
+                    colorVariation = values[3],
+                    catchlight = values[4],
+                    backgroundColor = colors[0],
+                    outerColor = colors[1],
+                    innerColor = colors[2],
+                    goldColor = colors[3]
+                )
+            )
+
+            TextureFilterType.PeacockFeather -> PeacockFeatherTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = PeacockFeatherTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    eyeSize = values[0],
+                    barbDensity = values[1],
+                    curvature = values[2],
+                    iridescence = values[3],
+                    softness = values[4],
+                    backgroundColor = colors[0],
+                    featherColor = colors[1],
+                    blueColor = colors[2],
+                    goldColor = colors[3]
+                )
+            )
+
+            TextureFilterType.NautilusShell -> NautilusShellTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = NautilusShellTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    turns = values[0],
+                    chambers = values[1],
+                    opening = values[2],
+                    ridges = values[3],
+                    pearlescence = values[4],
+                    backgroundColor = colors[0],
+                    shadowColor = colors[1],
+                    shellColor = colors[2],
+                    pearlColor = colors[3]
+                )
+            )
+
+            TextureFilterType.RingedPlanet -> RingedPlanetTextureGenerator().generate(
+                width = width,
+                height = height,
+                parameters = RingedPlanetTextureParameters(
+                    seed = params.seed,
+                    scale = params.scale,
+                    planetSize = values[0],
+                    ringTilt = values[1],
+                    ringWidth = values[2],
+                    atmosphere = values[3],
+                    stars = values[4],
+                    spaceColor = colors[0],
+                    shadowColor = colors[1],
+                    planetColor = colors[2],
+                    ringColor = colors[3]
                 )
             )
 

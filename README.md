@@ -524,7 +524,12 @@ or click one of the badges below.
     - You can create filter from any filter chain
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
-- Texture generation with 25+ presets:
+- Texture generation with more than 60 presets
+
+  <details>
+  <summary>Available textures</summary>
+  <br>
+  
     - Brushed Metal
     - Caustics
     - Cellular
@@ -554,6 +559,40 @@ or click one of the badges below.
     - Topography
     - Water Ripple
     - Advanced Wood
+    - Grass
+    - Dirt
+    - Leather
+    - Concrete
+    - Asphalt
+    - Moss
+    - Fire
+    - Aurora
+    - Oil slick
+    - Watercolor
+    - Abstract flow
+    - Opal
+    - Damascus Steel
+    - Lightning
+    - Velvet
+    - Ink Marbling
+    - Holographic Foil
+    - Bioluminescence
+    - Cosmic Vortex
+    - Lava Lamp
+    - Event Horizon
+    - Fractal Bloom
+    - Chromatic Tunnel
+    - Eclipse Corona
+    - Strange Attractor
+    - Ferrofluid Crown
+    - Supernova
+    - Iris
+    - Peacock Feather
+    - Nautilus Shell
+    - Ringed Planet
+
+  </details>
+
 - Fragment Shader creation
 - Files encryption and decryption with 100+ different algorithms available
 - Adding Stickers and Text (Markup Layers Mode)
