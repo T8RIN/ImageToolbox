@@ -3492,8 +3492,8 @@
     <string name="texture_opal">Опал</string>
     <string name="texture_damascus_steel">Дамасская сталь</string>
     <string name="texture_lightning">Молния</string>
-    <string name="texture_velvet">бархат</string>
-    <string name="texture_ink_marbling">Чернила Мраморность</string>
+    <string name="texture_velvet">Бархат</string>
+    <string name="texture_ink_marbling">Мраморные чернила</string>
     <string name="texture_holographic_foil">Голографическая фольга</string>
     <string name="texture_bioluminescence">Биолюминесценция</string>
     <string name="texture_cosmic_vortex">Космический вихрь</string>
@@ -3504,8 +3504,8 @@
     <string name="texture_eclipse_corona">Затмение Корона</string>
     <string name="texture_strange_attractor">Странный аттрактор</string>
     <string name="texture_ferrofluid_crown">Феррожидкостная корона</string>
-    <string name="texture_supernova">сверхновая</string>
-    <string name="texture_iris">Ирис</string>
+    <string name="texture_supernova">Сверхновая</string>
+    <string name="texture_iris">Глаз</string>
     <string name="texture_peacock_feather">Павлинье перо</string>
     <string name="texture_nautilus_shell">Наутилус Шелл</string>
     <string name="texture_ringed_planet">Кольцевая планета</string>
