@@ -135,23 +135,29 @@ internal data class SavingFolder private constructor(
                 )
             }
 
-            val collectionUri = when {
-                mimeType.startsWith("image/") -> MediaStore.Images.Media.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL_PRIMARY
-                )
+            val collectionUri = if (relativePath == null) {
+                MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            } else {
+                when {
+                    mimeType.startsWith("image/") -> MediaStore.Images.Media.getContentUri(
+                        MediaStore.VOLUME_EXTERNAL_PRIMARY
+                    )
 
-                mimeType.startsWith("video/") -> MediaStore.Video.Media.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL_PRIMARY
-                )
+                    mimeType.startsWith("video/") -> MediaStore.Video.Media.getContentUri(
+                        MediaStore.VOLUME_EXTERNAL_PRIMARY
+                    )
 
-                mimeType.startsWith("audio/") -> MediaStore.Audio.Media.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL_PRIMARY
-                )
+                    mimeType.startsWith("audio/") -> MediaStore.Audio.Media.getContentUri(
+                        MediaStore.VOLUME_EXTERNAL_PRIMARY
+                    )
 
-                else -> MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                    else -> MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                }
             }
 
-            val uri = contentResolver.insert(collectionUri, contentValues) ?: return null
+            val uri = runCatching {
+                contentResolver.insert(collectionUri, contentValues)
+            }.getOrNull() ?: return null
 
             return SavingFolder(
                 outputStream = contentResolver.openOutputStream(uri)
