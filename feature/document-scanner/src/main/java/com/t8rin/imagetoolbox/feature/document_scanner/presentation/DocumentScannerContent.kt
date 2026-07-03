@@ -84,8 +84,7 @@ fun DocumentScannerContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (component.haveChanges) showExitDialog = true
-        else component.onGoBack()
+        showExitDialog = true
     }
 
     val savePdfLauncher = rememberFileCreator(
@@ -145,7 +144,7 @@ fun DocumentScannerContent(
     }
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !component.haveChanges,
+        shouldDisableBackHandler = false,
         title = {
             Text(
                 text = stringResource(R.string.document_scanner),
