@@ -36,16 +36,9 @@ internal fun FastNoiseParams(
     val config = value.textureFilterType.fastNoiseConfig()
 
     ParamColumn {
-        IntParam(
-            value = params.seed,
-            title = stringResource(R.string.seed),
-            range = -10000f..10000f,
-            onValueChange = { seed ->
-                onValueChange(value.copy(fastNoiseParams = params.copy(seed = seed)))
-            },
-            shape = ShapeDefaults.top
-        )
-        if (value.textureFilterType != TextureFilterType.RingedPlanet) {
+        val showScale = value.textureFilterType != TextureFilterType.RingedPlanet
+
+        if (showScale) {
             FloatParam(
                 value = params.scale,
                 title = stringResource(R.string.scale),
@@ -53,7 +46,8 @@ internal fun FastNoiseParams(
                 roundTo = 4,
                 onValueChange = { scale ->
                     onValueChange(value.copy(fastNoiseParams = params.copy(scale = scale)))
-                }
+                },
+                shape = ShapeDefaults.top
             )
         }
         config.values.forEachIndexed { index, info ->
@@ -70,7 +64,8 @@ internal fun FastNoiseParams(
                             )
                         )
                     )
-                }
+                },
+                shape = if (!showScale && index == 0) ShapeDefaults.top else ShapeDefaults.center
             )
         }
         config.colors.forEachIndexed { index, title ->
@@ -86,11 +81,18 @@ internal fun FastNoiseParams(
                         )
                     )
                 },
-                shape = if (index == config.colors.lastIndex) {
-                    ShapeDefaults.bottom
-                } else ShapeDefaults.center
+                shape = ShapeDefaults.center
             )
         }
+        IntParam(
+            value = params.seed,
+            title = stringResource(R.string.seed),
+            range = -10000f..10000f,
+            onValueChange = { seed ->
+                onValueChange(value.copy(fastNoiseParams = params.copy(seed = seed)))
+            },
+            shape = ShapeDefaults.bottom
+        )
     }
 }
 

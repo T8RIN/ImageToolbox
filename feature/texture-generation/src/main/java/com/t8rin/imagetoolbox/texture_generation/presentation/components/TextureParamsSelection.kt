@@ -41,6 +41,7 @@ import coil3.request.transformations
 import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Brick
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
@@ -82,7 +83,10 @@ fun TextureParamsSelection(
                 },
                 entries = TextureFilterType.entries,
                 title = stringResource(R.string.texture_type),
-                titleIcon = null,
+                titleIcon = Icons.TwoTone.Brick,
+                badgeContent = {
+                    Text(TextureFilterType.entries.size.toString())
+                },
                 itemContentText = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically

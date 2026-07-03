@@ -80,7 +80,7 @@ class TextureGenerationComponent @AssistedInject internal constructor(
     private val _textureSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(1000, 1000))
     val textureSize: IntegerSize by _textureSize
 
-    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default)
+    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
     val imageFormat: ImageFormat by _imageFormat
 
     private val _quality: MutableState<Quality> = mutableStateOf(Quality.Base(100))

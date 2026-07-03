@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -100,8 +101,10 @@ fun NoiseGenerationContent(
         )
     }
 
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = true,
+        shouldDisableBackHandler = false,
         title = {
             Text(
                 text = stringResource(R.string.noise_generation),
@@ -109,7 +112,9 @@ fun NoiseGenerationContent(
                 modifier = Modifier.marquee()
             )
         },
-        onGoBack = component.onGoBack,
+        onGoBack = {
+            showExitDialog = true
+        },
         actions = {
             if (!isPortrait) {
                 UndoRedoButtons(
@@ -205,6 +210,12 @@ fun NoiseGenerationContent(
             )
         },
         canShowScreenData = true
+    )
+
+    ExitWithoutSavingDialog(
+        onExit = component.onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
     )
 
     LoadingDialog(

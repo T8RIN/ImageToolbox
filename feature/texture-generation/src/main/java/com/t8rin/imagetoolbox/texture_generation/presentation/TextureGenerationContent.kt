@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -102,8 +103,10 @@ fun TextureGenerationContent(
         )
     }
 
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = true,
+        shouldDisableBackHandler = false,
         title = {
             Text(
                 text = stringResource(R.string.texture_generation),
@@ -111,7 +114,9 @@ fun TextureGenerationContent(
                 modifier = Modifier.marquee()
             )
         },
-        onGoBack = component.onGoBack,
+        onGoBack = {
+            showExitDialog = true
+        },
         actions = {
             if (!isPortrait) {
                 UndoRedoButtons(
@@ -211,6 +216,12 @@ fun TextureGenerationContent(
             )
         },
         canShowScreenData = true
+    )
+
+    ExitWithoutSavingDialog(
+        onExit = component.onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
     )
 
     LoadingDialog(

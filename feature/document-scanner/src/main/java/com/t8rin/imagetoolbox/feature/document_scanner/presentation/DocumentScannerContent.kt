@@ -83,10 +83,6 @@ fun DocumentScannerContent(
 ) {
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val onBack = {
-        showExitDialog = true
-    }
-
     val savePdfLauncher = rememberFileCreator(
         mimeType = MimeType.Pdf,
         onSuccess = component::savePdfTo
@@ -154,7 +150,9 @@ fun DocumentScannerContent(
         topAppBarPersistentActions = {
             TopAppBarEmoji()
         },
-        onGoBack = onBack,
+        onGoBack = {
+            showExitDialog = true
+        },
         actions = {},
         imagePreview = {
             if (!isPortrait) previewBlock()
