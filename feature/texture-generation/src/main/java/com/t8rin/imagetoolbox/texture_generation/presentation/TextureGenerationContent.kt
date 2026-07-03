@@ -168,7 +168,8 @@ fun TextureGenerationContent(
                 )
                 TextureParamsSelection(
                     value = component.textureParams,
-                    onValueChange = component::updateParams
+                    onValueChange = component::updateParams,
+                    previewProvider = component::getTextureTransformation
                 )
                 Spacer(Modifier.height(4.dp))
                 ImageFormatSelector(

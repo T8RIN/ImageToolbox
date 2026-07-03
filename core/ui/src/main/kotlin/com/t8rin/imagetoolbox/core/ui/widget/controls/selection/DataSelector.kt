@@ -35,7 +35,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGri
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -54,7 +53,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
@@ -75,7 +76,7 @@ fun <T : Any> DataSelector(
     entries: List<T>,
     title: String?,
     titleIcon: ImageVector?,
-    itemContentText: @Composable (T) -> String,
+    itemContentText: @Composable (T) -> String?,
     itemContentIcon: ((T, Boolean) -> ImageVector?)? = null,
     itemEqualityDelegate: (T, T) -> Boolean = { t, o -> t == o },
     spanCount: Int = 3,
@@ -92,7 +93,8 @@ fun <T : Any> DataSelector(
         top = 12.dp,
         start = 12.dp,
         bottom = 8.dp
-    )
+    ),
+    chipHeight: Dp = 36.dp
 ) {
     val realSpanCount = spanCount.coerceAtLeast(1)
 
@@ -193,8 +195,10 @@ fun <T : Any> DataSelector(
                     .heightIn(
                         max = animateDpAsState(
                             if (expanded) {
-                                52.dp * realSpanCount - 8.dp * (realSpanCount - 1)
-                            } else 52.dp
+                                (chipHeight + 16.dp) * realSpanCount - 8.dp * (realSpanCount - 1)
+                            } else {
+                                chipHeight + 16.dp
+                            }
                         ).value
                     )
                     .fadingEdges(
@@ -213,7 +217,8 @@ fun <T : Any> DataSelector(
                         itemContentText = itemContentText,
                         itemContentIcon = itemContentIcon,
                         itemEqualityDelegate = itemEqualityDelegate,
-                        selectedItemColor = selectedItemColor
+                        selectedItemColor = selectedItemColor,
+                        chipHeight = chipHeight
                     )
                 }
             }
@@ -237,7 +242,8 @@ fun <T : Any> DataSelector(
                         itemContentText = itemContentText,
                         itemContentIcon = itemContentIcon,
                         itemEqualityDelegate = itemEqualityDelegate,
-                        selectedItemColor = selectedItemColor
+                        selectedItemColor = selectedItemColor,
+                        chipHeight = chipHeight
                     )
                 }
             }
@@ -250,10 +256,11 @@ private fun <T> ChipItem(
     item: T,
     value: T,
     onValueChange: (T) -> Unit,
-    itemContentText: @Composable (T) -> String,
+    itemContentText: @Composable (T) -> String?,
     itemContentIcon: ((T, Boolean) -> ImageVector?)?,
     itemEqualityDelegate: (T, T) -> Boolean,
     selectedItemColor: Color,
+    chipHeight: Dp = 36.dp
 ) {
     val selected by remember(item, value) {
         derivedStateOf {
@@ -270,7 +277,8 @@ private fun <T> ChipItem(
             horizontal = 12.dp,
             vertical = 8.dp
         ),
-        modifier = Modifier.height(36.dp)
+        modifier = Modifier.height(chipHeight),
+        defaultMinSize = chipHeight
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -289,9 +297,11 @@ private fun <T> ChipItem(
                     )
                 }
             }
-            Text(
-                text = itemContentText(item)
-            )
+            itemContentText(item)?.let { text ->
+                Text(
+                    text = text
+                )
+            }
         }
     }
 }

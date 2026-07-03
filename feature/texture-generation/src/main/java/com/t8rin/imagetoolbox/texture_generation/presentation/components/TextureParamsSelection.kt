@@ -20,20 +20,34 @@ package com.t8rin.imagetoolbox.texture_generation.presentation.components
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
+import coil3.request.ImageRequest
+import coil3.request.transformations
+import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 import com.t8rin.imagetoolbox.texture_generation.domain.model.withDefaultsFor
@@ -41,7 +55,8 @@ import com.t8rin.imagetoolbox.texture_generation.domain.model.withDefaultsFor
 @Composable
 fun TextureParamsSelection(
     value: TextureParams,
-    onValueChange: (TextureParams) -> Unit
+    onValueChange: (TextureParams) -> Unit,
+    previewProvider: (TextureParams) -> Transformation
 ) {
     Column(
         modifier = Modifier.container(
@@ -58,6 +73,8 @@ fun TextureParamsSelection(
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            val empty = remember { createBitmap(1, 1) }
+
             DataSelector(
                 value = value.textureFilterType,
                 onValueChange = {
@@ -67,9 +84,32 @@ fun TextureParamsSelection(
                 title = stringResource(R.string.texture_type),
                 titleIcon = null,
                 itemContentText = {
-                    stringResource(it.titleRes())
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Picture(
+                            model = remember(empty, it) {
+                                ImageRequest.Builder(appContext)
+                                    .data(empty)
+                                    .memoryCacheKey(it.name)
+                                    .diskCacheKey(it.name)
+                                    .size(128, 128)
+                                    .transformations(listOf(previewProvider(value.withDefaultsFor(it))))
+                                    .build()
+                            },
+                            modifier = Modifier
+                                .size(24.dp)
+                                .offset(x = (-2).dp),
+                            shape = ShapeDefaults.mini
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(stringResource(it.titleRes()))
+                    }
+
+                    null
                 },
-                spanCount = 1,
+                chipHeight = 42.dp,
+                spanCount = 3,
                 containerColor = MaterialTheme.colorScheme.surface,
                 shape = ShapeDefaults.default
             )

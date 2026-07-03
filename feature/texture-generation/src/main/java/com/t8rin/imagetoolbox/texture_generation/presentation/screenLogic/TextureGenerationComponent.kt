@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
+import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -38,10 +39,12 @@ import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.texture_generation.domain.TextureGenerator
@@ -241,6 +244,16 @@ class TextureGenerationComponent @AssistedInject internal constructor(
             schedulePendingHistoryCommit()
         }
     }
+
+    fun getTextureTransformation(targetParams: TextureParams): Transformation =
+        GenericTransformation<Bitmap> { _, size ->
+            textureGenerator.generateTexture(
+                width = size.width,
+                height = size.height,
+                textureParams = targetParams,
+                onFailure = {}
+            )!!
+        }.toCoil()
 
     private fun updatePreview() {
         componentScope.launch {

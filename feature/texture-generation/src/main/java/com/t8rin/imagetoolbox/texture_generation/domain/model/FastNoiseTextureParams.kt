@@ -28,7 +28,7 @@ data class FastNoiseTextureParams(
     companion object {
         fun defaultFor(type: TextureFilterType): FastNoiseTextureParams = when (type) {
             TextureFilterType.Brick -> create(
-                0.012f, 2.15f, 0.09f, 0.18f, 0.42f, 0.55f,
+                0.02f, 2.15f, 0.09f, 0.18f, 0.42f, 0.55f,
                 -4674151, -9493480, -4830158, -2655659
             )
 
