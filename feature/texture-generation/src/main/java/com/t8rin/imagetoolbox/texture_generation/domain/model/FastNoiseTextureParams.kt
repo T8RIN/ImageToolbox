@@ -123,7 +123,7 @@ data class FastNoiseTextureParams(
             )
 
             TextureFilterType.AdvancedWood -> create(
-                0.0039f, 11.4f, 0.75f, 15f, 7.42f, 0.17f,
+                0.0039f, 11.4f, 0.3f, 15f, 7.42f, 0.17f,
                 -12969717, -4624846, -14873337
             )
 
