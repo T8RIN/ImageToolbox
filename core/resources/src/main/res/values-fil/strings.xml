@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -3627,4 +3629,24 @@
     <string name="texture_pearl_color">Kulay perlas</string>
     <string name="texture_planet_color">Kulay ng planeta</string>
     <string name="texture_ring_color">Kulay ng singsing</string>
+    <string name="texture_opal">Opal</string>
+    <string name="texture_velvet">Velvet</string>
+    <string name="texture_strange_attractor">Kakaibang Attractor</string>
+    <string name="texture_moisture">Halumigmig</string>
+    <string name="texture_edges">Mga gilid</string>
+    <string name="texture_feathering">Pagpapabalahibo</string>
+    <string name="texture_core_glow">Core glow</string>
+    <string name="texture_horizon_size">Laki ng abot-tanaw</string>
+    <string name="texture_curl">Kulot</string>
+    <string name="texture_shell_width">Lapad ng shell</string>
+    <string name="texture_ejecta">Itinapon</string>
+    <string name="texture_opening">Pagbubukas</string>
+    <string name="texture_ring_width">Lapad ng singsing</string>
+    <string name="texture_stone_color">Kulay ng bato</string>
+    <string name="texture_soil_color">Kulay ng lupa</string>
+    <string name="texture_magenta_color">Kulay ng magenta</string>
+    <string name="texture_pigment_color">Kulay ng pigment</string>
+    <string name="texture_steel_color">Kulay ng bakal</string>
+    <string name="texture_yellow_color">Kulay dilaw</string>
+    <string name="texture_shell_color">Kulay ng shell</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -3575,4 +3577,76 @@
     <string name="texture_flame_color">జ్వాల రంగు</string>
     <string name="texture_feather_color">ఈక రంగు</string>
     <string name="texture_shell_color">షెల్ రంగు</string>
+    <string name="texture_abstract_flow">వియుక్త ప్రవాహం</string>
+    <string name="texture_ink_marbling">ఇంక్ మార్బ్లింగ్</string>
+    <string name="texture_fractal_bloom">ఫ్రాక్టల్ బ్లూమ్</string>
+    <string name="texture_chromatic_tunnel">క్రోమాటిక్ టన్నెల్</string>
+    <string name="texture_eclipse_corona">గ్రహణం కరోనా</string>
+    <string name="texture_ferrofluid_crown">ఫెర్రోఫ్లూయిడ్ క్రౌన్</string>
+    <string name="texture_ringed_planet">రింగ్డ్ ప్లానెట్</string>
+    <string name="texture_blade_density">బ్లేడ్ సాంద్రత</string>
+    <string name="texture_patchiness">అతుకులు</string>
+    <string name="texture_flame_frequency">జ్వాల ఫ్రీక్వెన్సీ</string>
+    <string name="texture_milkiness">మిల్కీనెస్</string>
+    <string name="texture_ink_balance">ఇంక్ బ్యాలెన్స్</string>
+    <string name="texture_core_glow">కోర్ గ్లో</string>
+    <string name="texture_disk_tilt">డిస్క్ టిల్ట్</string>
+    <string name="texture_horizon_size">హోరిజోన్ పరిమాణం</string>
+    <string name="texture_disk_width">డిస్క్ వెడల్పు</string>
+    <string name="texture_moon_size">చంద్రుని పరిమాణం</string>
+    <string name="texture_corona_size">కరోనా పరిమాణం</string>
+    <string name="texture_orbit_density">కక్ష్య సాంద్రత</string>
+    <string name="texture_spike_length">స్పైక్ పొడవు</string>
+    <string name="texture_shock_radius">షాక్ వ్యాసార్థం</string>
+    <string name="texture_shell_width">షెల్ వెడల్పు</string>
+    <string name="texture_ejecta">బయట పడేశారు</string>
+    <string name="texture_iris_size">కనుపాప పరిమాణం</string>
+    <string name="texture_catchlight">క్యాచ్‌లైట్</string>
+    <string name="texture_barb_density">బార్బ్ సాంద్రత</string>
+    <string name="texture_pearlescence">ముత్యాలముత్యము</string>
+    <string name="texture_ring_tilt">రింగ్ టిల్ట్</string>
+    <string name="texture_dirt_color">మురికి రంగు</string>
+    <string name="texture_dark_grass_color">ముదురు గడ్డి రంగు</string>
+    <string name="texture_dry_color">పొడి రంగు</string>
+    <string name="texture_pebble_color">గులకరాయి రంగు</string>
+    <string name="texture_leather_color">లెదర్ రంగు</string>
+    <string name="texture_concrete_color">కాంక్రీటు రంగు</string>
+    <string name="texture_tar_color">తారు రంగు</string>
+    <string name="texture_asphalt_color">తారు రంగు</string>
+    <string name="texture_stone_color">రాతి రంగు</string>
+    <string name="texture_dust_color">దుమ్ము రంగు</string>
+    <string name="texture_dark_moss_color">ముదురు నాచు రంగు</string>
+    <string name="texture_moss_color">నాచు రంగు</string>
+    <string name="texture_core_color">కోర్ రంగు</string>
+    <string name="texture_cyan_color">సియాన్ రంగు</string>
+    <string name="texture_magenta_color">మెజెంటా రంగు</string>
+    <string name="texture_gold_color">బంగారు రంగు</string>
+    <string name="texture_paper_color">కాగితం రంగు</string>
+    <string name="texture_pigment_color">వర్ణద్రవ్యం రంగు</string>
+    <string name="texture_first_color">మొదటి రంగు</string>
+    <string name="texture_second_color">రెండవ రంగు</string>
+    <string name="texture_dark_steel_color">ముదురు ఉక్కు రంగు</string>
+    <string name="texture_steel_color">ఉక్కు రంగు</string>
+    <string name="texture_light_steel_color">లేత ఉక్కు రంగు</string>
+    <string name="texture_oxide_color">ఆక్సైడ్ రంగు</string>
+    <string name="texture_halo_color">హాలో రంగు</string>
+    <string name="texture_bolt_color">బోల్ట్ రంగు</string>
+    <string name="texture_velvet_color">వెల్వెట్ రంగు</string>
+    <string name="texture_sheen_color">షీన్ రంగు</string>
+    <string name="texture_blue_ink_color">నీలం సిరా రంగు</string>
+    <string name="texture_red_ink_color">ఎరుపు సిరా రంగు</string>
+    <string name="texture_dark_ink_color">ముదురు సిరా రంగు</string>
+    <string name="texture_tissue_color">కణజాల రంగు</string>
+    <string name="texture_disk_color">డిస్క్ రంగు</string>
+    <string name="texture_hot_color">వేడి రంగు</string>
+    <string name="texture_lens_color">లెన్స్ రంగు</string>
+    <string name="texture_outer_color">బాహ్య రంగు</string>
+    <string name="texture_inner_color">లోపలి రంగు</string>
+    <string name="texture_corona_color">కరోనా రంగు</string>
+    <string name="texture_cold_color">చల్లని రంగు</string>
+    <string name="texture_warm_color">వెచ్చని రంగు</string>
+    <string name="texture_cloud_color">మేఘం రంగు</string>
+    <string name="texture_pearl_color">పెర్ల్ రంగు</string>
+    <string name="texture_planet_color">గ్రహం రంగు</string>
+    <string name="texture_ring_color">రింగ్ రంగు</string>
 </resources>
