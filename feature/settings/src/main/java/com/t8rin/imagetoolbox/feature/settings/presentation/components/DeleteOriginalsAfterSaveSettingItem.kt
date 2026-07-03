@@ -25,30 +25,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun OverwriteFilesSettingItem(
+fun DeleteOriginalsAfterSaveSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.center,
+    shape: Shape = ShapeDefaults.default,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
+
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        onClick = {
-            onClick()
-        },
-        enabled = !settingsState.deleteOriginalsAfterSave && !settingsState.saveToOriginalFolder &&
-                (settingsState.filenameBehavior is FilenameBehavior.None || settingsState.filenameBehavior is FilenameBehavior.Overwrite),
-        title = stringResource(R.string.overwrite_files),
-        subtitle = stringResource(R.string.overwrite_files_sub),
-        checked = settingsState.filenameBehavior is FilenameBehavior.Overwrite,
-        startIcon = Icons.Outlined.FileReplace
+        onClick = { onClick() },
+        enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+        title = stringResource(R.string.delete_originals_after_save),
+        subtitle = stringResource(R.string.delete_originals_after_save_sub),
+        checked = settingsState.deleteOriginalsAfterSave,
+        startIcon = Icons.Outlined.Delete
     )
 }

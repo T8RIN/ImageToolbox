@@ -64,6 +64,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
+import com.t8rin.imagetoolbox.core.utils.UriReplacements
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getPath
@@ -92,6 +93,7 @@ internal class AndroidFileController @Inject constructor(
     private val jsonParser: JsonParser,
     private val appHistoryRepository: AppHistoryRepository,
     private val appScope: AppScope,
+    private val originalFileDeletionHelper: OriginalFileDeletionHelper,
     private val dataStore: DataStore<Preferences>,
     private val imageLoader: ImageLoader,
     dispatchersHolder: DispatchersHolder,
@@ -183,7 +185,7 @@ internal class AndroidFileController @Inject constructor(
                 )
             }
 
-            val originalUri = saveTarget.originalUri.toUri()
+            val originalUri = UriReplacements.resolve(saveTarget.originalUri.toUri())
 
             if (saveTarget is ImageSaveTarget && saveTarget.canSkipIfLarger && settingsState.allowSkipIfLarger) {
                 val originalSize = originalUri.fileSize()
@@ -319,6 +321,13 @@ internal class AndroidFileController @Inject constructor(
                     originalUri = saveTarget.originalUri.toUri()
                 )
 
+                if (settingsState.deleteOriginalsAfterSave && settingsState.filenameBehavior !is FilenameBehavior.Overwrite) {
+                    originalFileDeletionHelper.deleteAfterSuccessfulSave(
+                        originalUri = saveTarget.originalUri,
+                        outputUri = savingFolder.fileUri
+                    )
+                }
+
                 savingFolder.fileUri.path?.takeIf {
                     savingFolder.fileUri.scheme == "file"
                 }?.let { path ->
@@ -410,7 +419,9 @@ internal class AndroidFileController @Inject constructor(
         uri: String,
     ): ByteArray = withContext(ioDispatcher) {
         runSuspendCatching {
-            context.contentResolver.openInputStream(uri.toUri())?.use {
+            context.contentResolver.openInputStream(
+                UriReplacements.resolve(uri.toUri())
+            )?.use {
                 it.buffered().readBytes()
             }
         }.onFailure {
@@ -468,7 +479,7 @@ internal class AndroidFileController @Inject constructor(
     ): SaveResult = withContext(ioDispatcher) {
         runSuspendCatching {
             UriReadable(
-                uri = fromUri.toUri(),
+                uri = UriReplacements.resolve(fromUri.toUri()),
                 context = context
             ).copyTo(to)
         }.onSuccess {
@@ -527,18 +538,22 @@ internal class AndroidFileController @Inject constructor(
         imageUri: String,
         metadata: Metadata?
     ) {
-        copyMetadata(
-            initialExif = metadata,
-            fileUri = imageUri.toUri(),
-            keepOriginalMetadata = false,
-            originalUri = imageUri.toUri()
-        )
+        UriReplacements.resolve(imageUri.toUri()).let { resolvedUri ->
+            copyMetadata(
+                initialExif = metadata,
+                fileUri = resolvedUri,
+                keepOriginalMetadata = false,
+                originalUri = resolvedUri
+            )
+        }
     }
 
     override suspend fun readMetadata(
         imageUri: String
     ): Metadata? = runSuspendCatching {
-        context.contentResolver.openInputStream(imageUri.toUri().tryExtractOriginal())?.use {
+        context.contentResolver.openInputStream(
+            UriReplacements.resolve(imageUri.toUri())
+        )?.use {
             ExifInterface(it).toMetadata().readOnly().makeLog("readMetadata")
         }
     }.getOrNull()

@@ -48,6 +48,7 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.LinkedList
 import java.util.Locale
+import java.util.concurrent.ConcurrentHashMap
 
 fun Uri?.uiPath(
     default: String,
@@ -221,27 +222,32 @@ fun Uri.imageSize(): IntegerSize? = tryExtractOriginal().run {
 
 private fun IntegerSize.isValidImageSize(): Boolean = width > 0 && height > 0
 
-fun Uri.tryExtractOriginal(): Uri = try {
-    if ("com.android.externalstorage.documents" in this.toString()) {
-        return this.makeLog("tryExtractOriginal") { "already ok - $it" }
+fun Uri.tryExtractOriginal(): Uri = UriReplacements.resolve(this).run {
+    try {
+        if ("com.android.externalstorage.documents" in this.toString()) {
+            return this.makeLog("tryExtractOriginal") { "already ok - $it" }
+        }
+
+        val mimeType = getStringColumn(MediaStore.MediaColumns.MIME_TYPE).orEmpty()
+
+        val contentUri = when {
+            "image" in mimeType -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            "video" in mimeType -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            "audio" in mimeType -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            else -> return this
+        }
+
+        UriReplacements.resolve(
+            ContentUris.withAppendedId(
+                contentUri,
+                this.toString().decodeEscaped().substringAfterLast('/').filter { it.isDigit() }
+                    .toLong()
+            )
+        )
+    } catch (e: Throwable) {
+        e.makeLog("tryExtractOriginal")
+        this.makeLog("tryExtractOriginal") { "failed - $it" }
     }
-
-    val mimeType = getStringColumn(MediaStore.MediaColumns.MIME_TYPE).orEmpty()
-
-    val contentUri = when {
-        "image" in mimeType -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        "video" in mimeType -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-        "audio" in mimeType -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        else -> return this
-    }
-
-    ContentUris.withAppendedId(
-        contentUri,
-        this.toString().decodeEscaped().substringAfterLast('/').filter { it.isDigit() }.toLong()
-    )
-} catch (e: Throwable) {
-    e.makeLog("tryExtractOriginal")
-    this.makeLog("tryExtractOriginal") { "failed - $it" }
 }
 
 suspend fun List<Uri>.sortedByType(
@@ -440,3 +446,28 @@ private fun Uri.getStringColumn(column: String): String? =
             if (index != -1 && !cursor.isNull(index)) cursor.getString(index) else null
         } else null
     }
+
+object UriReplacements {
+    private val replacements = ConcurrentHashMap<String, String>()
+
+    fun register(
+        originalUri: Uri,
+        replacementUri: Uri
+    ) {
+        if (originalUri == Uri.EMPTY || originalUri == replacementUri) return
+        replacements[originalUri.toString()] = resolve(replacementUri.toString())
+    }
+
+    fun resolve(uri: String): String {
+        var current = uri
+        val visited = mutableSetOf<String>()
+
+        while (visited.add(current)) {
+            current = replacements[current] ?: break
+        }
+
+        return current
+    }
+
+    fun resolve(uri: Uri): Uri = resolve(uri.toString()).toUri()
+}

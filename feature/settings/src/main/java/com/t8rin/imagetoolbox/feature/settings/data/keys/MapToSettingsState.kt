@@ -65,6 +65,8 @@ internal fun Preferences.toSettingsState(
     addSequenceNumber = this[ADD_SEQ_NUM_TO_FILENAME] ?: default.addSequenceNumber,
     saveFolderUri = this[SAVE_FOLDER_URI],
     saveToOriginalFolder = this[SAVE_TO_ORIGINAL_FOLDER] ?: default.saveToOriginalFolder,
+    deleteOriginalsAfterSave = this[DELETE_ORIGINALS_AFTER_SAVE]
+        ?: default.deleteOriginalsAfterSave,
     presets = Preset.createListFromInts(this[PRESETS]) ?: default.presets,
     colorTupleList = this[COLOR_TUPLES],
     allowChangeColorByImage = this[ALLOW_IMAGE_MONET] ?: default.allowChangeColorByImage,

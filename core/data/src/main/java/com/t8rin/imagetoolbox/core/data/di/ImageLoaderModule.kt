@@ -42,6 +42,7 @@ import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.imagetoolbox.core.data.coil.Base64Fetcher
 import com.t8rin.imagetoolbox.core.data.coil.CoilLogger
 import com.t8rin.imagetoolbox.core.data.coil.NefDecoder
+import com.t8rin.imagetoolbox.core.data.coil.OriginalUriMapper
 import com.t8rin.imagetoolbox.core.data.coil.PdfDecoder
 import com.t8rin.imagetoolbox.core.data.coil.SvgDecoderCompat
 import com.t8rin.imagetoolbox.core.data.coil.TiffDecoder
@@ -104,6 +105,7 @@ internal object ImageLoaderModule {
         client: HttpClient
     ): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
+            add(OriginalUriMapper)
             add(
                 KtorNetworkFetcherFactory(
                     httpClient = client,

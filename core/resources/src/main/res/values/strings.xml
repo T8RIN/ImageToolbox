@@ -3674,4 +3674,9 @@
     <string name="texture_pearl_color">Pearl color</string>
     <string name="texture_planet_color">Planet color</string>
     <string name="texture_ring_color">Ring color</string>
+    <string name="delete_originals_after_save">Delete original files after saving</string>
+    <string name="delete_originals_after_save_sub">Only successfully processed source files will be deleted</string>
+    <string name="original_files_deleted">Original files deleted: %1$d</string>
+    <string name="original_files_delete_failed">Failed to delete original files: %1$d</string>
+    <string name="original_files_delete_result">Original files deleted: %1$d, failed: %2$d</string>
 </resources>

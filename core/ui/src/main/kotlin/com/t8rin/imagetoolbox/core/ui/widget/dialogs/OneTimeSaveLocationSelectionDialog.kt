@@ -381,6 +381,23 @@ fun OneTimeSaveLocationSelectionDialog(
                         .padding(horizontal = 4.dp, vertical = 2.dp),
                     containerColor = MaterialTheme.colorScheme.surfaceContainer
                 )
+
+                PreferenceRowSwitch(
+                    title = stringResource(id = R.string.delete_originals_after_save),
+                    subtitle = stringResource(id = R.string.delete_originals_after_save_sub),
+                    startIcon = Icons.Outlined.Delete,
+                    enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+                    shape = ShapeDefaults.default,
+                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+                    checked = settingsState.deleteOriginalsAfterSave,
+                    onClick = {
+                        scope.launch { settingsInteractor.toggleDeleteOriginalsAfterSave() }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer
+                )
             }
         }
     )

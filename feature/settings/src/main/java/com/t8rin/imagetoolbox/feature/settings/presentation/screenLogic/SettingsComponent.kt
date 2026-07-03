@@ -370,6 +370,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleSaveToOriginalFolder() = settingsScope { toggleSaveToOriginalFolder() }
 
+    fun toggleDeleteOriginalsAfterSave() = settingsScope { toggleDeleteOriginalsAfterSave() }
+
     fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) =
         settingsScope { setDefaultImageScaleMode(imageScaleMode) }
 

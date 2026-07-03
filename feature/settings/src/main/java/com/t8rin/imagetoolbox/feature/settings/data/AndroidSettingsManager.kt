@@ -98,6 +98,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_DRAW_PATH_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_IMAGE_FORMAT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_QUALITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_RESIZE_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.DELETE_ORIGINALS_AFTER_SAVE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DONATE_DIALOG_OPEN_COUNT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAG_HANDLE_WIDTH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_APPBAR_SHADOWS
@@ -478,6 +479,12 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleSaveToOriginalFolder() = toggle(
         key = SAVE_TO_ORIGINAL_FOLDER,
         defaultValue = default.saveToOriginalFolder,
+        predicate = { it.filenameBehavior !is FilenameBehavior.Overwrite }
+    )
+
+    override suspend fun toggleDeleteOriginalsAfterSave() = toggle(
+        key = DELETE_ORIGINALS_AFTER_SAVE,
+        defaultValue = default.deleteOriginalsAfterSave,
         predicate = { it.filenameBehavior !is FilenameBehavior.Overwrite }
     )
 

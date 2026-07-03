@@ -350,6 +350,12 @@ internal fun SettingItem(
                 SaveToOriginalFolderSettingItem(onClick = component::toggleSaveToOriginalFolder)
             }
 
+            Setting.DeleteOriginalsAfterSave -> {
+                DeleteOriginalsAfterSaveSettingItem(
+                    onClick = component::toggleDeleteOriginalsAfterSave
+                )
+            }
+
             Setting.ScreenOrder -> {
                 ScreenOrderSettingItem(onValueChange = component::setScreenOrder)
             }

@@ -228,6 +228,7 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.SavingFolder,
             Setting.SaveToOriginalFolder,
+            Setting.DeleteOriginalsAfterSave,
             Setting.OneTimeSaveLocation
         ),
         initialState = false

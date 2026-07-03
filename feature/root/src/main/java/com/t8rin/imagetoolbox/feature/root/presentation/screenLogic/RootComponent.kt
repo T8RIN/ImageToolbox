@@ -33,6 +33,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.t8rin.imagetoolbox.core.data.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.domain.APP_CHANGELOG
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
@@ -94,7 +95,10 @@ class RootComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
     resourceManager: ResourceManager,
-) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
+    fileControllerEventEmitter: FileControllerEventEmitter
+) : BaseComponent(dispatchersHolder, componentContext),
+    ResourceManager by resourceManager,
+    FileControllerEventEmitter by fileControllerEventEmitter {
 
     private var updatesJob: Job? by smartJob()
 
