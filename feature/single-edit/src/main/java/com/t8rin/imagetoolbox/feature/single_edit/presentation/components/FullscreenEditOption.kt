@@ -72,6 +72,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
@@ -120,6 +121,8 @@ fun FullscreenEditOption(
     ),
     content: @Composable () -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
+
     var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
     }
@@ -176,7 +179,8 @@ fun FullscreenEditOption(
                 if (useScaffold) {
                     val screenHeight = LocalScreenSize.current.height
                     val sheetSwipeEnabled =
-                        scaffoldState.bottomSheetState.currentValue == SheetValue.PartiallyExpanded
+                        settingsState.enableSheetGestures ||
+                                scaffoldState.bottomSheetState.currentValue == SheetValue.PartiallyExpanded
                                 && !scaffoldState.bottomSheetState.isAnimationRunning && showControls
 
                     var bottomSheetPredictiveBackProgress by remember {

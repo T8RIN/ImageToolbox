@@ -3655,4 +3655,6 @@
     <string name="original_files_deleted">Ištrinti originalūs failai: %1$d</string>
     <string name="original_files_delete_failed">Nepavyko ištrinti originalių failų: %1$d</string>
     <string name="original_files_delete_result">Originalūs failai ištrinti: %1$d, nepavyko: %2$d</string>
+    <string name="sheet_gestures">Lakšto gestai</string>
+    <string name="sheet_gestures_sub">Leisti vilkti išplėstų parinkčių lapus</string>
 </resources>

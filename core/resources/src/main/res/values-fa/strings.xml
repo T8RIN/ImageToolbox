@@ -3653,4 +3653,6 @@
     <string name="original_files_deleted">فایل های اصلی حذف شده: %1$d</string>
     <string name="original_files_delete_failed">فایل های اصلی حذف نشد: %1$d</string>
     <string name="original_files_delete_result">فایل های اصلی حذف شدند: %1$d، ناموفق: %2$d</string>
+    <string name="sheet_gestures">حرکات ورق</string>
+    <string name="sheet_gestures_sub">کشیدن برگه‌های گزینه گسترش یافته مجاز است</string>
 </resources>

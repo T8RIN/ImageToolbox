@@ -3655,4 +3655,6 @@
     <string name="original_files_deleted">Původní soubory byly smazány: %1$d</string>
     <string name="original_files_delete_failed">Nepodařilo se odstranit původní soubory: %1$d</string>
     <string name="original_files_delete_result">Původní soubory byly smazány: %1$d, neúspěšné: %2$d</string>
+    <string name="sheet_gestures">Gesta s listem</string>
+    <string name="sheet_gestures_sub">Povolit přetahování rozbalených listů možností</string>
 </resources>

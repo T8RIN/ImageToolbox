@@ -25,27 +25,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Preview
+import com.t8rin.imagetoolbox.core.resources.icons.SwipeDown
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun GeneratePreviewsSettingItem(
+fun EnableSheetGesturesSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.center,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
-        modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.generate_previews),
-        subtitle = stringResource(R.string.generate_previews_sub),
-        checked = settingsState.generatePreviews,
-        onClick = {
-            onClick()
-        },
-        startIcon = Icons.Outlined.Preview
+        modifier = modifier,
+        onClick = { onClick() },
+        title = stringResource(R.string.sheet_gestures),
+        subtitle = stringResource(R.string.sheet_gestures_sub),
+        checked = settingsState.enableSheetGestures,
+        startIcon = Icons.Outlined.SwipeDown
     )
 }

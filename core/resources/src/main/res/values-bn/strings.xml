@@ -3653,4 +3653,6 @@
     <string name="original_files_deleted">মূল ফাইল মুছে ফেলা হয়েছে: %1$d</string>
     <string name="original_files_delete_failed">আসল ফাইলগুলি মুছতে ব্যর্থ হয়েছে: %1$d</string>
     <string name="original_files_delete_result">মূল ফাইল মুছে ফেলা হয়েছে: %1$d, ব্যর্থ হয়েছে: %2$d</string>
+    <string name="sheet_gestures">শীট অঙ্গভঙ্গি</string>
+    <string name="sheet_gestures_sub">প্রসারিত বিকল্প শীট টেনে আনার অনুমতি দিন</string>
 </resources>

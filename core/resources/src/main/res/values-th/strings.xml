@@ -3652,4 +3652,6 @@
     <string name="original_files_deleted">ไฟล์ต้นฉบับที่ถูกลบ: %1$d</string>
     <string name="original_files_delete_failed">ไม่สามารถลบไฟล์ต้นฉบับ: %1$d</string>
     <string name="original_files_delete_result">ไฟล์ต้นฉบับที่ถูกลบ: %1$d, ล้มเหลว: %2$d</string>
+    <string name="sheet_gestures">ท่าทางของแผ่นงาน</string>
+    <string name="sheet_gestures_sub">อนุญาตให้ลากแผ่นตัวเลือกที่ขยายออก</string>
 </resources>
