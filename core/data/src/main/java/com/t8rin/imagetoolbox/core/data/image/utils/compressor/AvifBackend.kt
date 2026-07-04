@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@
 package com.t8rin.imagetoolbox.core.data.image.utils.compressor
 
 import android.graphics.Bitmap
-import com.radzivon.bartoshyk.avif.coder.AvifSpeed
-import com.radzivon.bartoshyk.avif.coder.HeifCoder
+import com.radzivon.bartoshyk.avif.coder.AvKind
+import com.radzivon.bartoshyk.avif.coder.Coder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
@@ -34,7 +34,7 @@ internal data class AvifBackend(
     ): ByteArray {
         val avifQuality = quality as? Quality.Avif ?: Quality.Avif()
 
-        return HeifCoder().encodeAvif(
+        return Coder().encodeAvif(
             bitmap = image,
             quality = avifQuality.qualityValue,
             preciseMode = if (isLossless) {
@@ -42,9 +42,10 @@ internal data class AvifBackend(
             } else {
                 PreciseMode.LOSSY
             },
-            speed = AvifSpeed.entries.firstOrNull {
-                it.ordinal == (10 - avifQuality.effort)
-            } ?: AvifSpeed.TEN
+            avKind = AvKind.AV2
+//            speed = AvifSpeed.entries.firstOrNull {
+//                it.ordinal == (10 - avifQuality.effort)
+//            } ?: AvifSpeed.TEN
         )
     }
 

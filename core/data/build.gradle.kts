@@ -37,9 +37,6 @@ dependencies {
     api(libs.datastore.preferences.android)
     api(libs.datastore.core.android)
 
-    implementation(libs.avif.coder.coil) {
-        exclude(module = "com.github.awxkee:avif-coder")
-    }
     implementation(libs.avif.coder)
     implementation(libs.jxl.coder.coil) {
         exclude(module = "com.github.awxkee:jxl-coder")
