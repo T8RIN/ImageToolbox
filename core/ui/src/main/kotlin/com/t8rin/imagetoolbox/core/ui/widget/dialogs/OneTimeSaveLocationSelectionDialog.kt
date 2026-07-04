@@ -351,7 +351,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     title = stringResource(id = R.string.overwrite_files),
                     subtitle = stringResource(id = R.string.overwrite_files_sub_short),
                     startIcon = Icons.Outlined.FileReplace,
-                    enabled = !settingsState.saveToOriginalFolder &&
+                    enabled = !settingsState.deleteOriginalsAfterSave && !settingsState.saveToOriginalFolder &&
                             (settingsState.filenameBehavior is FilenameBehavior.Overwrite || settingsState.filenameBehavior is FilenameBehavior.None),
                     shape = ShapeDefaults.default,
                     titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,

@@ -1033,7 +1033,13 @@ internal class AndroidSettingsManager @Inject constructor(
     private suspend fun toggleFilenameBehavior(
         behavior: FilenameBehavior
     ) = edit {
-        if (behavior is FilenameBehavior.Overwrite && currentSettings.saveToOriginalFolder) return@edit
+        if (behavior is FilenameBehavior.Overwrite) {
+            val canOverwrite =
+                !currentSettings.deleteOriginalsAfterSave && !currentSettings.saveToOriginalFolder &&
+                        (currentSettings.filenameBehavior is FilenameBehavior.Overwrite || currentSettings.filenameBehavior is FilenameBehavior.None)
+
+            if (!canOverwrite) return@edit
+        }
 
         val useToggle = behavior is FilenameBehavior.Checksum
                 || !currentSettings.filenameBehavior::class.isInstance(behavior)
