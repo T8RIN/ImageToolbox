@@ -139,7 +139,7 @@ class WallpapersExportComponent @AssistedInject internal constructor(
                                 imageFormat = imageFormat,
                                 quality = quality
                             ),
-                            originalUri = "_",
+                            originalUri = "",
                             sequenceNumber = null,
                             data = imageCompressor.compress(
                                 image = bitmap,

@@ -122,7 +122,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
                             width = bitmap.width,
                             height = bitmap.height
                         ),
-                        originalUri = "_",
+                        originalUri = "",
                         sequenceNumber = null,
                         data = imageCompressor.compress(
                             image = bitmap,

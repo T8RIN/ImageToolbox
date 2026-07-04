@@ -143,7 +143,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
                                     height = bitmap.height,
                                     imageFormat = ImageFormat.Png.Lossless
                                 ),
-                                originalUri = "_",
+                                originalUri = "",
                                 sequenceNumber = null,
                                 data = imageCompressor.compress(
                                     image = bitmap,

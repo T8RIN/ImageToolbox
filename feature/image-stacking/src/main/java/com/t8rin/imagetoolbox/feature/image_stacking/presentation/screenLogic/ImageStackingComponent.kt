@@ -186,7 +186,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
                             metadata = null,
-                            originalUri = "Stacked",
+                            originalUri = "",
                             sequenceNumber = null,
                             data = imageCompressor.compressAndTransform(
                                 image = image,

@@ -206,7 +206,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                         fileController.save(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo,
-                                originalUri = "Gradient",
+                                originalUri = "",
                                 sequenceNumber = null,
                                 data = imageCompressor.compressAndTransform(
                                     image = localBitmap,

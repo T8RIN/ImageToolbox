@@ -208,7 +208,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
                         saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
                             metadata = null,
-                            originalUri = "Combined",
+                            originalUri = "",
                             sequenceNumber = null,
                             data = imageCompressor.compressAndTransform(
                                 image = image,

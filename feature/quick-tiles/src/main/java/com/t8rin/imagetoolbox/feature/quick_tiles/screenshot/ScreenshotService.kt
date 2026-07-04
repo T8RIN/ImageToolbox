@@ -213,7 +213,7 @@ class ScreenshotService : Service() {
                         fileController.save(
                             saveTarget = FileSaveTarget(
                                 filename = "screenshot-${timestamp()}.png",
-                                originalUri = "screenshot",
+                                originalUri = "",
                                 imageFormat = ImageFormat.Png.Lossless,
                                 data = imageCompressor.compress(
                                     image = resultBitmap,
