@@ -18,14 +18,17 @@
 package com.t8rin.imagetoolbox.core.data.saving
 
 import android.app.RecoverableSecurityException
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.content.IntentSender
 import android.net.Uri
 import android.os.Build
+import android.os.ParcelFileDescriptor
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.system.Os
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
@@ -75,16 +78,35 @@ internal class OriginalFileDeletionHelper @Inject constructor(
             ?: return
         val resolvedUri = UriReplacements.resolve(sourceUri)
 
-        if (resolvedUri == Uri.EMPTY || resolvedUri == outputUri) return
+        if (resolvedUri.scheme !in DELETABLE_URI_SCHEMES) return
+        if (resolvedUri == outputUri) return
 
         val mediaStoreUri = resolvedUri.toMediaStoreItemUri()
-        if (mediaStoreUri != null && mediaStoreUri == outputUri.toMediaStoreItemUri()) return
+        val outputMediaStoreUri = outputUri.toMediaStoreItemUri()
+        if (mediaStoreUri != null && outputMediaStoreUri != null) {
+            if (mediaStoreUri == outputMediaStoreUri) return
+        } else if (resolvedUri.refersToSameFileAs(outputUri)) {
+            return
+        }
 
         val replacement = UriReplacement(
             sourceUri = sourceUri,
             originalUri = resolvedUri,
             outputUri = outputUri
         )
+
+        if (resolvedUri.scheme == ContentResolver.SCHEME_FILE) {
+            val file = resolvedUri.path?.let(::File) ?: return
+            if (!file.exists()) return
+
+            if (file.delete() || !file.exists()) {
+                onOriginalDeleted(replacement)
+            } else {
+                emitDeleteResult(deleted = 0, failed = 1)
+            }
+            return
+        }
+
         val documentDeleteResult = runCatching {
             DocumentFile.fromSingleUri(context, resolvedUri)?.delete() == true
         }
@@ -360,9 +382,52 @@ internal class OriginalFileDeletionHelper @Inject constructor(
 
         return ContentUris.withAppendedId(collection, id)
     }
+
+    private fun Uri.refersToSameFileAs(other: Uri): Boolean {
+        if (this == other) return true
+
+        val firstFile = takeIf { scheme == ContentResolver.SCHEME_FILE }
+            ?.path
+            ?.let(::File)
+        val secondFile = other.takeIf { it.scheme == ContentResolver.SCHEME_FILE }
+            ?.path
+            ?.let(::File)
+        if (firstFile != null && secondFile != null) {
+            return runCatching {
+                firstFile.canonicalFile == secondFile.canonicalFile
+            }.getOrDefault(false)
+        }
+
+        return runCatching {
+            openFileDescriptor()?.use { firstDescriptor ->
+                other.openFileDescriptor()?.use { secondDescriptor ->
+                    val firstStat = Os.fstat(firstDescriptor.fileDescriptor)
+                    val secondStat = Os.fstat(secondDescriptor.fileDescriptor)
+
+                    firstStat.st_ino != 0L &&
+                            firstStat.st_dev == secondStat.st_dev &&
+                            firstStat.st_ino == secondStat.st_ino
+                }
+            }
+        }.getOrNull() == true
+    }
+
+    private fun Uri.openFileDescriptor(): ParcelFileDescriptor? = when (scheme) {
+        ContentResolver.SCHEME_FILE -> path?.let(::File)?.let {
+            ParcelFileDescriptor.open(it, ParcelFileDescriptor.MODE_READ_ONLY)
+        }
+
+        ContentResolver.SCHEME_CONTENT -> context.contentResolver.openFileDescriptor(this, "r")
+        else -> null
+    }
 }
 
 private const val MEDIA_DOCUMENTS_AUTHORITY = "com.android.providers.media.documents"
+
+private val DELETABLE_URI_SCHEMES = setOf(
+    ContentResolver.SCHEME_CONTENT,
+    ContentResolver.SCHEME_FILE
+)
 
 private data class UriReplacement(
     val sourceUri: Uri,

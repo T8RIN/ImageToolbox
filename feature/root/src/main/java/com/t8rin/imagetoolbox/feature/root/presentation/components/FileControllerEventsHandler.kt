@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.root.presentation.components
 
 import android.app.Activity
+import android.content.IntentSender
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,7 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.data.saving.FileControllerEvent
 import com.t8rin.imagetoolbox.core.data.saving.FileControllerEventEmitter
@@ -39,9 +41,9 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 internal fun FileControllerEventsHandler(
     eventEmitter: FileControllerEventEmitter
 ) {
-    var activeRequestId by remember { mutableStateOf<Long?>(null) }
-    var pendingRequests by remember {
-        mutableStateOf(emptyList<FileControllerEvent.RequestDeleteOriginalsPermission>())
+    var activeRequestId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var pendingRequests by rememberSaveable(stateSaver = deleteRequestsSaver) {
+        mutableStateOf(emptyList())
     }
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -101,3 +103,20 @@ internal fun FileControllerEventsHandler(
         }
     }
 }
+
+private val deleteRequestsSaver = listSaver(
+    save = { requests ->
+        requests.flatMap { request ->
+            listOf(request.requestId, request.intentSender, request.count)
+        }
+    },
+    restore = { values ->
+        values.chunked(3).map { request ->
+            FileControllerEvent.RequestDeleteOriginalsPermission(
+                requestId = request[0] as Long,
+                intentSender = request[1] as IntentSender,
+                count = request[2] as Int
+            )
+        }
+    }
+)
