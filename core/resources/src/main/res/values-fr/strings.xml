@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">Couleur perle</string>
     <string name="texture_planet_color">Couleur de la planète</string>
     <string name="texture_ring_color">Couleur de la bague</string>
+    <string name="delete_originals_after_save">Supprimer les fichiers originaux après l\'enregistrement</string>
+    <string name="delete_originals_after_save_sub">Seuls les fichiers sources traités avec succès seront supprimés</string>
+    <string name="original_files_deleted">Fichiers originaux supprimés : %1$d</string>
+    <string name="original_files_delete_failed">Échec de la suppression des fichiers d\'origine : %1$d</string>
+    <string name="original_files_delete_result">Fichiers d\'origine supprimés : %1$d, échec : %2$d</string>
 </resources>

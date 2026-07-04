@@ -3647,4 +3647,9 @@
     <string name="texture_pearl_color">สีมุก</string>
     <string name="texture_planet_color">สีดาวเคราะห์</string>
     <string name="texture_ring_color">สีแหวน</string>
+    <string name="delete_originals_after_save">ลบไฟล์ต้นฉบับหลังจากบันทึก</string>
+    <string name="delete_originals_after_save_sub">เฉพาะไฟล์ต้นฉบับที่ประมวลผลสำเร็จเท่านั้นที่จะถูกลบ</string>
+    <string name="original_files_deleted">ไฟล์ต้นฉบับที่ถูกลบ: %1$d</string>
+    <string name="original_files_delete_failed">ไม่สามารถลบไฟล์ต้นฉบับ: %1$d</string>
+    <string name="original_files_delete_result">ไฟล์ต้นฉบับที่ถูกลบ: %1$d, ล้มเหลว: %2$d</string>
 </resources>

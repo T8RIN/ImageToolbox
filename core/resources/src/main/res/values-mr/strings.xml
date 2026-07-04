@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">मोत्याचा रंग</string>
     <string name="texture_planet_color">ग्रह रंग</string>
     <string name="texture_ring_color">रिंग रंग</string>
+    <string name="delete_originals_after_save">सेव्ह केल्यानंतर मूळ फाइल्स हटवा</string>
+    <string name="delete_originals_after_save_sub">केवळ यशस्वीरित्या प्रक्रिया केलेल्या स्त्रोत फायली हटविल्या जातील</string>
+    <string name="original_files_deleted">मूळ फायली हटवल्या: %1$d</string>
+    <string name="original_files_delete_failed">मूळ फाइल हटवण्यात अयशस्वी: %1$d</string>
+    <string name="original_files_delete_result">मूळ फाइल हटवल्या: %1$d, अयशस्वी: %2$d</string>
 </resources>

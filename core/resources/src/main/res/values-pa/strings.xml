@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">ਮੋਤੀ ਰੰਗ</string>
     <string name="texture_planet_color">ਗ੍ਰਹਿ ਰੰਗ</string>
     <string name="texture_ring_color">ਰਿੰਗ ਰੰਗ</string>
+    <string name="delete_originals_after_save">ਸੁਰੱਖਿਅਤ ਕਰਨ ਤੋਂ ਬਾਅਦ ਅਸਲੀ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾਓ</string>
+    <string name="delete_originals_after_save_sub">ਸਿਰਫ਼ ਸਫਲਤਾਪੂਰਵਕ ਪ੍ਰੋਸੈਸ ਕੀਤੀਆਂ ਸਰੋਤ ਫ਼ਾਈਲਾਂ ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ</string>
+    <string name="original_files_deleted">ਮੂਲ ਫ਼ਾਈਲਾਂ ਮਿਟਾਈਆਂ ਗਈਆਂ: %1$d</string>
+    <string name="original_files_delete_failed">ਅਸਲ ਫ਼ਾਈਲਾਂ ਨੂੰ ਮਿਟਾਉਣ ਵਿੱਚ ਅਸਫਲ: %1$d</string>
+    <string name="original_files_delete_result">ਮੂਲ ਫ਼ਾਈਲਾਂ ਮਿਟਾਈਆਂ ਗਈਆਂ: %1$d, ਅਸਫਲ: %2$d</string>
 </resources>

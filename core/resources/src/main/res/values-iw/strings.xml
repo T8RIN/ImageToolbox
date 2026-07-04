@@ -3650,4 +3650,9 @@
     <string name="texture_pearl_color">צבע פנינה</string>
     <string name="texture_planet_color">צבע כוכב הלכת</string>
     <string name="texture_ring_color">צבע טבעת</string>
+    <string name="delete_originals_after_save">מחק קבצים מקוריים לאחר השמירה</string>
+    <string name="delete_originals_after_save_sub">רק קובצי מקור שעובדו בהצלחה יימחקו</string>
+    <string name="original_files_deleted">קבצים מקוריים שנמחקו: %1$d</string>
+    <string name="original_files_delete_failed">מחיקת הקבצים המקוריים נכשלה: %1$d</string>
+    <string name="original_files_delete_result">קבצים מקוריים שנמחקו: %1$d, נכשלו: %2$d</string>
 </resources>

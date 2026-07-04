@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">Perle farve</string>
     <string name="texture_planet_color">Planet farve</string>
     <string name="texture_ring_color">Ring farve</string>
+    <string name="delete_originals_after_save">Slet originale filer efter lagring</string>
+    <string name="delete_originals_after_save_sub">Kun vellykket behandlede kildefiler vil blive slettet</string>
+    <string name="original_files_deleted">Originale filer slettet: %1$d</string>
+    <string name="original_files_delete_failed">Kunne ikke slette originale filer: %1$d</string>
+    <string name="original_files_delete_result">Originale filer slettet: %1$d, mislykkedes: %2$d</string>
 </resources>

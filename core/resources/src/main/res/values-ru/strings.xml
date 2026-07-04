@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -3649,4 +3651,9 @@
     <string name="texture_pearl_color">Жемчужный цвет</string>
     <string name="texture_planet_color">Цвет планеты</string>
     <string name="texture_ring_color">Цвет кольца</string>
+    <string name="delete_originals_after_save">Удалить исходные файлы после сохранения</string>
+    <string name="delete_originals_after_save_sub">Будут удалены только успешно обработанные исходные файлы.</string>
+    <string name="original_files_deleted">Исходные файлы удалены: %1$d</string>
+    <string name="original_files_delete_failed">Не удалось удалить исходные файлы: %1$d.</string>
+    <string name="original_files_delete_result">Исходные файлы удалены: %1$d, ошибка: %2$d.</string>
 </resources>

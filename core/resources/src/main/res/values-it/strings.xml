@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">Colore perla</string>
     <string name="texture_planet_color">Colore del pianeta</string>
     <string name="texture_ring_color">Colore dell\'anello</string>
+    <string name="delete_originals_after_save">Elimina i file originali dopo il salvataggio</string>
+    <string name="delete_originals_after_save_sub">Verranno eliminati solo i file di origine elaborati correttamente</string>
+    <string name="original_files_deleted">File originali eliminati: %1$d</string>
+    <string name="original_files_delete_failed">Impossibile eliminare i file originali: %1$d</string>
+    <string name="original_files_delete_result">File originali eliminati: %1$d, errore: %2$d</string>
 </resources>

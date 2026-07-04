@@ -3649,4 +3649,9 @@
     <string name="texture_pearl_color">Color perla</string>
     <string name="texture_planet_color">Color del planeta</string>
     <string name="texture_ring_color">Color de l\'anell</string>
+    <string name="delete_originals_after_save">Suprimeix els fitxers originals després de desar-los</string>
+    <string name="delete_originals_after_save_sub">Només se suprimiran els fitxers font processats correctament</string>
+    <string name="original_files_deleted">Fitxers originals suprimits: %1$d</string>
+    <string name="original_files_delete_failed">No s\'han pogut suprimir els fitxers originals: %1$d</string>
+    <string name="original_files_delete_result">Fitxers originals suprimits: %1$d, error: %2$d</string>
 </resources>

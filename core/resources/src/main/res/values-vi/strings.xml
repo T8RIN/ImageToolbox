@@ -3647,4 +3647,9 @@
     <string name="texture_pearl_color">Màu ngọc trai</string>
     <string name="texture_planet_color">Màu hành tinh</string>
     <string name="texture_ring_color">Màu nhẫn</string>
+    <string name="delete_originals_after_save">Xóa file gốc sau khi lưu</string>
+    <string name="delete_originals_after_save_sub">Chỉ các tệp nguồn được xử lý thành công mới bị xóa</string>
+    <string name="original_files_deleted">Tệp gốc đã bị xóa: %1$d</string>
+    <string name="original_files_delete_failed">Không xóa được tệp gốc: %1$d</string>
+    <string name="original_files_delete_result">Tệp gốc đã bị xóa: %1$d, không thành công: %2$d</string>
 </resources>

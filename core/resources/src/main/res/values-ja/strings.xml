@@ -3647,4 +3647,9 @@
     <string name="texture_pearl_color">パールカラー</string>
     <string name="texture_planet_color">惑星の色</string>
     <string name="texture_ring_color">リングカラー</string>
+    <string name="delete_originals_after_save">保存後に元のファイルを削除する</string>
+    <string name="delete_originals_after_save_sub">正常に処理されたソース ファイルのみが削除されます</string>
+    <string name="original_files_deleted">削除された元のファイル: %1$d</string>
+    <string name="original_files_delete_failed">元のファイルの削除に失敗しました: %1$d</string>
+    <string name="original_files_delete_result">元のファイルが削除されました: %1$d、失敗しました: %2$d</string>
 </resources>

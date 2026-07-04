@@ -3652,4 +3652,9 @@
     <string name="texture_pearl_color">لون اللؤلؤ</string>
     <string name="texture_planet_color">لون الكوكب</string>
     <string name="texture_ring_color">لون الخاتم</string>
+    <string name="delete_originals_after_save">حذف الملفات الأصلية بعد الحفظ</string>
+    <string name="delete_originals_after_save_sub">سيتم حذف الملفات المصدر التي تمت معالجتها بنجاح فقط</string>
+    <string name="original_files_deleted">الملفات الأصلية المحذوفة: %1$d</string>
+    <string name="original_files_delete_failed">فشل في حذف الملفات الأصلية: %1$d</string>
+    <string name="original_files_delete_result">الملفات الأصلية المحذوفة: %1$d، الفاشلة: %2$d</string>
 </resources>

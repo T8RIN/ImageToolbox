@@ -3650,4 +3650,9 @@
     <string name="texture_shell_color">Culoarea carcasei</string>
     <string name="texture_planet_color">Culoarea planetei</string>
     <string name="texture_ring_color">Culoarea inelului</string>
+    <string name="delete_originals_after_save">Ștergeți fișierele originale după salvare</string>
+    <string name="delete_originals_after_save_sub">Doar fișierele sursă procesate cu succes vor fi șterse</string>
+    <string name="original_files_deleted">Fișiere originale șterse: %1$d</string>
+    <string name="original_files_delete_failed">Nu s-au șters fișierele originale: %1$d</string>
+    <string name="original_files_delete_result">Fișiere originale șterse: %1$d, eșuate: %2$d</string>
 </resources>

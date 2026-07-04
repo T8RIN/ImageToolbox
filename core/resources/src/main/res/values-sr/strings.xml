@@ -3650,4 +3650,9 @@
     <string name="texture_pearl_color">Бисерна боја</string>
     <string name="texture_planet_color">Боја планете</string>
     <string name="texture_ring_color">Боја прстена</string>
+    <string name="delete_originals_after_save">Избришите оригиналне датотеке након чувања</string>
+    <string name="delete_originals_after_save_sub">Само успешно обрађене изворне датотеке ће бити избрисане</string>
+    <string name="original_files_deleted">Оригиналне датотеке су избрисане: __ПХ_0__</string>
+    <string name="original_files_delete_failed">Брисање оригиналних датотека није успело: __ПХ_0__</string>
+    <string name="original_files_delete_result">Оригиналне датотеке избрисане: __ПХ_0__, неуспешно: __ПХ_1__</string>
 </resources>

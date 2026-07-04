@@ -3647,4 +3647,9 @@
     <string name="texture_pearl_color">진주색</string>
     <string name="texture_planet_color">행성의 색</string>
     <string name="texture_ring_color">링 색상</string>
+    <string name="delete_originals_after_save">저장 후 원본 파일 삭제</string>
+    <string name="delete_originals_after_save_sub">성공적으로 처리된 소스 파일만 삭제됩니다.</string>
+    <string name="original_files_deleted">삭제된 원본 파일: %1$d</string>
+    <string name="original_files_delete_failed">원본 파일 삭제 실패: %1$d</string>
+    <string name="original_files_delete_result">삭제된 원본 파일: %1$d, 실패: %2$d</string>
 </resources>

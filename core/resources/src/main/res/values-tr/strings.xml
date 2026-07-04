@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">İnci rengi</string>
     <string name="texture_planet_color">Gezegen rengi</string>
     <string name="texture_ring_color">Halka rengi</string>
+    <string name="delete_originals_after_save">Kaydettikten sonra orijinal dosyaları silin</string>
+    <string name="delete_originals_after_save_sub">Yalnızca başarıyla işlenen kaynak dosyalar silinecek</string>
+    <string name="original_files_deleted">Orijinal dosyalar silindi: %1$d</string>
+    <string name="original_files_delete_failed">Orijinal dosyalar silinemedi: %1$d</string>
+    <string name="original_files_delete_result">Orijinal dosyalar silindi: %1$d, başarısız oldu: %2$d</string>
 </resources>

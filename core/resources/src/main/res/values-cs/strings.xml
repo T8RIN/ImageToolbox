@@ -3650,4 +3650,9 @@
     <string name="texture_pearl_color">Barva perleťová</string>
     <string name="texture_planet_color">Barva planety</string>
     <string name="texture_ring_color">Barva prstenu</string>
+    <string name="delete_originals_after_save">Po uložení smažte původní soubory</string>
+    <string name="delete_originals_after_save_sub">Smazány budou pouze úspěšně zpracované zdrojové soubory</string>
+    <string name="original_files_deleted">Původní soubory byly smazány: %1$d</string>
+    <string name="original_files_delete_failed">Nepodařilo se odstranit původní soubory: %1$d</string>
+    <string name="original_files_delete_result">Původní soubory byly smazány: %1$d, neúspěšné: %2$d</string>
 </resources>

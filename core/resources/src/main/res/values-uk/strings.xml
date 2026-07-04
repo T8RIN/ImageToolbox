@@ -3650,4 +3650,9 @@
     <string name="texture_pearl_color">Колір перловий</string>
     <string name="texture_planet_color">Колір планети</string>
     <string name="texture_ring_color">Колір кільця</string>
+    <string name="delete_originals_after_save">Видаліть оригінальні файли після збереження</string>
+    <string name="delete_originals_after_save_sub">Будуть видалені лише успішно оброблені вихідні файли</string>
+    <string name="original_files_deleted">Оригінальні файли видалено: %1$d</string>
+    <string name="original_files_delete_failed">Не вдалося видалити оригінальні файли: %1$d</string>
+    <string name="original_files_delete_result">Оригінальні файли видалено: %1$d, не вдалося: %2$d</string>
 </resources>

@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">Pärlfärg</string>
     <string name="texture_planet_color">Planet färg</string>
     <string name="texture_ring_color">Ring färg</string>
+    <string name="delete_originals_after_save">Ta bort originalfiler efter att du har sparat</string>
+    <string name="delete_originals_after_save_sub">Endast framgångsrikt bearbetade källfiler kommer att raderas</string>
+    <string name="original_files_deleted">Originalfiler raderade: %1$d</string>
+    <string name="original_files_delete_failed">Det gick inte att ta bort originalfilerna: %1$d</string>
+    <string name="original_files_delete_result">Originalfiler raderade: %1$d, misslyckades: %2$d</string>
 </resources>

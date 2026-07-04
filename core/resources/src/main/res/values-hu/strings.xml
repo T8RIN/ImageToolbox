@@ -3649,4 +3649,9 @@
     <string name="texture_pearl_color">Gyöngy színű</string>
     <string name="texture_planet_color">Bolygó színe</string>
     <string name="texture_ring_color">Gyűrű színe</string>
+    <string name="delete_originals_after_save">Mentés után törölje az eredeti fájlokat</string>
+    <string name="delete_originals_after_save_sub">Csak a sikeresen feldolgozott forrásfájlok törlődnek</string>
+    <string name="original_files_deleted">Eredeti fájlok törölve: %1$d</string>
+    <string name="original_files_delete_failed">Nem sikerült törölni az eredeti fájlokat: %1$d</string>
+    <string name="original_files_delete_result">Eredeti fájlok törölve: %1$d, sikertelen: %2$d</string>
 </resources>

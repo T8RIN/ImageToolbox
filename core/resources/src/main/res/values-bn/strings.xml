@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">মুক্তার রঙ</string>
     <string name="texture_planet_color">গ্রহের রঙ</string>
     <string name="texture_ring_color">রিং রঙ</string>
+    <string name="delete_originals_after_save">সংরক্ষণ করার পরে মূল ফাইল মুছুন</string>
+    <string name="delete_originals_after_save_sub">শুধুমাত্র সফলভাবে প্রক্রিয়াকৃত উৎস ফাইল মুছে ফেলা হবে</string>
+    <string name="original_files_deleted">মূল ফাইল মুছে ফেলা হয়েছে: %1$d</string>
+    <string name="original_files_delete_failed">আসল ফাইলগুলি মুছতে ব্যর্থ হয়েছে: %1$d</string>
+    <string name="original_files_delete_result">মূল ফাইল মুছে ফেলা হয়েছে: %1$d, ব্যর্থ হয়েছে: %2$d</string>
 </resources>

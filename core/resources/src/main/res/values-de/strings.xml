@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">Perlenfarbe</string>
     <string name="texture_planet_color">Planetenfarbe</string>
     <string name="texture_ring_color">Ringfarbe</string>
+    <string name="delete_originals_after_save">Originaldateien nach dem Speichern löschen</string>
+    <string name="delete_originals_after_save_sub">Nur erfolgreich verarbeitete Quelldateien werden gelöscht</string>
+    <string name="original_files_deleted">Originaldateien gelöscht: %1$d</string>
+    <string name="original_files_delete_failed">Originaldateien konnten nicht gelöscht werden: %1$d</string>
+    <string name="original_files_delete_result">Originaldateien gelöscht: %1$d, fehlgeschlagen: %2$d</string>
 </resources>

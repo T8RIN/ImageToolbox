@@ -3648,4 +3648,9 @@
     <string name="texture_pearl_color">رنگ مرواریدی</string>
     <string name="texture_planet_color">رنگ سیاره</string>
     <string name="texture_ring_color">رنگ انگشتر</string>
+    <string name="delete_originals_after_save">پس از ذخیره فایل های اصلی را حذف کنید</string>
+    <string name="delete_originals_after_save_sub">فقط فایل های منبع با موفقیت پردازش شده حذف خواهند شد</string>
+    <string name="original_files_deleted">فایل های اصلی حذف شده: %1$d</string>
+    <string name="original_files_delete_failed">فایل های اصلی حذف نشد: %1$d</string>
+    <string name="original_files_delete_result">فایل های اصلی حذف شدند: %1$d، ناموفق: %2$d</string>
 </resources>

@@ -3649,4 +3649,9 @@
     <string name="texture_pearl_color">పెర్ల్ రంగు</string>
     <string name="texture_planet_color">గ్రహం రంగు</string>
     <string name="texture_ring_color">రింగ్ రంగు</string>
+    <string name="delete_originals_after_save">సేవ్ చేసిన తర్వాత అసలు ఫైల్‌లను తొలగించండి</string>
+    <string name="delete_originals_after_save_sub">విజయవంతంగా ప్రాసెస్ చేయబడిన సోర్స్ ఫైల్‌లు మాత్రమే తొలగించబడతాయి</string>
+    <string name="original_files_deleted">అసలు ఫైల్‌లు తొలగించబడ్డాయి: %1$d</string>
+    <string name="original_files_delete_failed">అసలు ఫైల్‌లను తొలగించడంలో విఫలమైంది: %1$d</string>
+    <string name="original_files_delete_result">అసలు ఫైల్‌లు తొలగించబడ్డాయి: %1$d, విఫలమయ్యాయి: %2$d</string>
 </resources>
