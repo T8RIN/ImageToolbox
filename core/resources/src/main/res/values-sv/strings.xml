@@ -3653,4 +3653,6 @@
     <string name="original_files_deleted">Originalfiler raderade: %1$d</string>
     <string name="original_files_delete_failed">Det gick inte att ta bort originalfilerna: %1$d</string>
     <string name="original_files_delete_result">Originalfiler raderade: %1$d, misslyckades: %2$d</string>
+    <string name="sheet_gestures">Ark gester</string>
+    <string name="sheet_gestures_sub">Tillåt att utökade tillvalsark dras</string>
 </resources>

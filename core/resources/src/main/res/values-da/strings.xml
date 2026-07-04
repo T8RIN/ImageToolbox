@@ -3653,4 +3653,6 @@
     <string name="original_files_deleted">Originale filer slettet: %1$d</string>
     <string name="original_files_delete_failed">Kunne ikke slette originale filer: %1$d</string>
     <string name="original_files_delete_result">Originale filer slettet: %1$d, mislykkedes: %2$d</string>
+    <string name="sheet_gestures">Arkbevægelser</string>
+    <string name="sheet_gestures_sub">Tillad at trække udvidede indstillingsark</string>
 </resources>

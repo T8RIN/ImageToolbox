@@ -3653,4 +3653,6 @@
     <string name="original_files_deleted">Түпнұсқа файлдар жойылды: %1$d</string>
     <string name="original_files_delete_failed">Түпнұсқа файлдар жойылмады: %1$d</string>
     <string name="original_files_delete_result">Түпнұсқа файлдар жойылды: %1$d, орындалмады: %2$d</string>
+    <string name="sheet_gestures">Парақ қимылдары</string>
+    <string name="sheet_gestures_sub">Кеңейтілген опция парақтарын сүйреп апаруға рұқсат етіңіз</string>
 </resources>

@@ -3653,4 +3653,6 @@
     <string name="original_files_deleted">ਮੂਲ ਫ਼ਾਈਲਾਂ ਮਿਟਾਈਆਂ ਗਈਆਂ: %1$d</string>
     <string name="original_files_delete_failed">ਅਸਲ ਫ਼ਾਈਲਾਂ ਨੂੰ ਮਿਟਾਉਣ ਵਿੱਚ ਅਸਫਲ: %1$d</string>
     <string name="original_files_delete_result">ਮੂਲ ਫ਼ਾਈਲਾਂ ਮਿਟਾਈਆਂ ਗਈਆਂ: %1$d, ਅਸਫਲ: %2$d</string>
+    <string name="sheet_gestures">ਸ਼ੀਟ ਇਸ਼ਾਰੇ</string>
+    <string name="sheet_gestures_sub">ਵਿਸਤ੍ਰਿਤ ਵਿਕਲਪ ਸ਼ੀਟਾਂ ਨੂੰ ਖਿੱਚਣ ਦੀ ਆਗਿਆ ਦਿਓ</string>
 </resources>

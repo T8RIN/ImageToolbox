@@ -505,6 +505,10 @@ internal fun SettingItem(
                 GeneratePreviewsSettingItem(onClick = component::toggleGeneratePreviews)
             }
 
+            Setting.EnableSheetGestures -> {
+                EnableSheetGesturesSettingItem(onClick = component::toggleEnableSheetGestures)
+            }
+
             Setting.SkipFilePicking -> {
                 SkipImagePickingSettingItem(onClick = component::toggleSkipImagePicking)
             }

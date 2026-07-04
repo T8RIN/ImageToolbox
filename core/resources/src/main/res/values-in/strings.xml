@@ -3652,4 +3652,6 @@
     <string name="original_files_deleted">File asli dihapus: %1$d</string>
     <string name="original_files_delete_failed">Gagal menghapus file asli: %1$d</string>
     <string name="original_files_delete_result">File asli dihapus: %1$d, gagal: %2$d</string>
+    <string name="sheet_gestures">Gerakan lembar</string>
+    <string name="sheet_gestures_sub">Izinkan menyeret lembar opsi yang diperluas</string>
 </resources>

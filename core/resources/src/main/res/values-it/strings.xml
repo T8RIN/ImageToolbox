@@ -3653,4 +3653,6 @@
     <string name="original_files_deleted">File originali eliminati: %1$d</string>
     <string name="original_files_delete_failed">Impossibile eliminare i file originali: %1$d</string>
     <string name="original_files_delete_result">File originali eliminati: %1$d, errore: %2$d</string>
+    <string name="sheet_gestures">Gesti del foglio</string>
+    <string name="sheet_gestures_sub">Consenti il ​​trascinamento dei fogli delle opzioni espansi</string>
 </resources>

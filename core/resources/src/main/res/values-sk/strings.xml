@@ -3655,4 +3655,6 @@
     <string name="original_files_deleted">Pôvodné súbory boli odstránené: %1$d</string>
     <string name="original_files_delete_failed">Pôvodné súbory sa nepodarilo odstrániť: %1$d</string>
     <string name="original_files_delete_result">Pôvodné súbory boli odstránené: %1$d, zlyhalo: %2$d</string>
+    <string name="sheet_gestures">Listové gestá</string>
+    <string name="sheet_gestures_sub">Povoliť presúvanie hárkov rozbalených možností</string>
 </resources>

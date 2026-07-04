@@ -170,6 +170,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleGeneratePreviews()
 
+    suspend fun toggleEnableSheetGestures()
+
     suspend fun toggleSkipImagePicking()
 
     suspend fun toggleShowSettingsInLandscape()

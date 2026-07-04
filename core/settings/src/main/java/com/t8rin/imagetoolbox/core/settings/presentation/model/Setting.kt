@@ -488,6 +488,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object EnableSheetGestures : Setting(
+        title = R.string.sheet_gestures,
+        subtitle = R.string.sheet_gestures_sub
+    )
+
+    @Serializable
     data object ShowSettingsInLandscape : Setting(
         title = R.string.show_settings_in_landscape,
         subtitle = R.string.show_settings_in_landscape_sub
