@@ -173,36 +173,15 @@ sealed class ImageFormat(
         )
     }
 
-    sealed class Heif(
-        title: String,
-        compressionTypes: List<CompressionType>
-    ) : ImageFormat(
-        title = title,
-        extension = "heif",
-        mimeType = MimeType.Heif,
-        compressionTypes = compressionTypes,
-        canChangeCompressionValue = true
-    ) {
-        data object Lossless : Heif(
-            title = "HEIF Lossless",
-            compressionTypes = listOf()
-        ), LosslessMarker
-
-        data object Lossy : Heif(
-            title = "HEIF Lossy",
-            compressionTypes = listOf(
-                CompressionType.Quality(0..100)
-            )
-        )
-    }
-
     sealed class Heic(
         title: String,
-        compressionTypes: List<CompressionType>
+        compressionTypes: List<CompressionType>,
+        extension: String = "heic",
+        mimeType: MimeType.Single = MimeType.Heic
     ) : ImageFormat(
         title = title,
-        extension = "heic",
-        mimeType = MimeType.Heic,
+        extension = extension,
+        mimeType = mimeType,
         compressionTypes = compressionTypes,
         canChangeCompressionValue = true
     ) {
@@ -215,6 +194,38 @@ sealed class ImageFormat(
             title = "HEIC Lossy",
             compressionTypes = listOf(
                 CompressionType.Quality(0..100)
+            )
+        )
+
+        data object HeifLossless : Heic(
+            title = "HEIF Lossless",
+            compressionTypes = emptyList(),
+            extension = "heif",
+            mimeType = MimeType.Heif
+        ), LosslessMarker
+
+        data object HeifLossy : Heic(
+            title = "HEIF Lossy",
+            compressionTypes = listOf(
+                CompressionType.Quality(0..100)
+            ),
+            extension = "heif",
+            mimeType = MimeType.Heif
+        )
+
+        data object VvcLossless : Heic(
+            title = "VVC Lossless",
+            extension = "heif",
+            mimeType = MimeType.Heif,
+            compressionTypes = emptyList()
+        ), LosslessMarker
+
+        data object VvcLossy : Heic(
+            title = "VVC Lossy",
+            extension = "heif",
+            mimeType = MimeType.Heif,
+            compressionTypes = listOf(
+                CompressionType.Quality(1..100)
             )
         )
     }
@@ -343,7 +354,7 @@ sealed class ImageFormat(
             typeString.contains("jpg") -> Jpg
             typeString.contains("webp") -> Webp.Lossless
             typeString.contains("avif") -> Avif.LosslessAv2
-            typeString.contains("heif") -> Heif.Lossless
+            typeString.contains("heif") -> Heic.HeifLossless
             typeString.contains("heic") -> Heic.Lossless
             typeString.contains("qoi") -> Qoi
             typeString.contains("ico") -> Ico
@@ -371,8 +382,10 @@ sealed class ImageFormat(
                 Avif.LossyAv2,
                 Heic.Lossless,
                 Heic.Lossy,
-                Heif.Lossless,
-                Heif.Lossy,
+                Heic.HeifLossless,
+                Heic.HeifLossy,
+                Heic.VvcLossless,
+                Heic.VvcLossy,
                 Jxl.Lossless,
                 Jxl.Lossy,
                 Tif,

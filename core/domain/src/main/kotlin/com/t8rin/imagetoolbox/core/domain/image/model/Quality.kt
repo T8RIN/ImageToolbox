@@ -63,12 +63,20 @@ sealed interface Quality {
                 )
             }
 
-            is ImageFormat.Heic,
-            is ImageFormat.Heif -> {
-                val value = this as? Heic
-                    ?: Heic(qualityValue = qualityValue)
+            ImageFormat.Heic.VvcLossless,
+            ImageFormat.Heic.VvcLossy -> {
+                val value = this as? Vvc
+                    ?: Vvc(qualityValue = this@Quality.qualityValue.coerceIn(1..100))
                 value.copy(
-                    qualityValue = qualityValue.coerceIn(0..100)
+                    qualityValue = value.qualityValue.coerceIn(1..100)
+                )
+            }
+
+            is ImageFormat.Heic -> {
+                val value = this as? Heic
+                    ?: Heic(qualityValue = this@Quality.qualityValue)
+                value.copy(
+                    qualityValue = this@Quality.qualityValue.coerceIn(0..100)
                 )
             }
 
@@ -81,10 +89,10 @@ sealed interface Quality {
                 )
             }
 
-            is ImageFormat.Jpeg2000 -> Base(qualityValue.coerceIn(20..100))
+            is ImageFormat.Jpeg2000 -> Base(this@Quality.qualityValue.coerceIn(20..100))
 
             else -> {
-                Base(qualityValue.coerceIn(0..100))
+                Base(this@Quality.qualityValue.coerceIn(0..100))
             }
         }
     }
@@ -97,6 +105,7 @@ sealed interface Quality {
         is Base -> this == Base()
         is Avif -> this == Avif()
         is Heic -> this == Heic()
+        is Vvc -> this == Vvc()
         is Jxl -> this == Jxl()
         is PngLossy -> this == PngLossy()
         is Tiff -> this == Tiff()
@@ -125,6 +134,13 @@ sealed interface Quality {
         @IntRange(from = 0, to = 100)
         override val qualityValue: Int = 100,
         val chromaSubsampling: HeicChromaSubsampling = HeicChromaSubsampling.Yuv420
+    ) : Quality
+
+    data class Vvc(
+        @IntRange(from = 1, to = 100)
+        override val qualityValue: Int = 50,
+        val chroma: VvcChroma = VvcChroma.YUV_420,
+        val bitDepth: VvcBitDepth = VvcBitDepth.EIGHT
     ) : Quality
 
     data class PngLossy(

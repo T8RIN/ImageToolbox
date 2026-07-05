@@ -71,8 +71,10 @@ sealed class ImageFormatGroup(
         formats = listOf(
             ImageFormat.Heic.Lossless,
             ImageFormat.Heic.Lossy,
-            ImageFormat.Heif.Lossless,
-            ImageFormat.Heif.Lossy
+            ImageFormat.Heic.HeifLossless,
+            ImageFormat.Heic.HeifLossy,
+            ImageFormat.Heic.VvcLossless,
+            ImageFormat.Heic.VvcLossy,
         )
     )
 

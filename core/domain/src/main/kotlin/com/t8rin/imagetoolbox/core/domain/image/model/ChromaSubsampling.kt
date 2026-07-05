@@ -31,3 +31,16 @@ enum class HeicChromaSubsampling {
     Yuv422,
     Yuv444
 }
+
+enum class VvcChroma {
+    MONOCHROME,
+    YUV_420,
+    YUV_422,
+    YUV_444
+}
+
+enum class VvcBitDepth {
+    EIGHT,
+    TEN,
+    TWELVE
+}

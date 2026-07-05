@@ -59,6 +59,8 @@ import com.t8rin.imagetoolbox.core.domain.image.model.HeicChromaSubsampling
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.TiffCompressionScheme
+import com.t8rin.imagetoolbox.core.domain.image.model.VvcBitDepth
+import com.t8rin.imagetoolbox.core.domain.image.model.VvcChroma
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
@@ -165,6 +167,7 @@ fun QualitySelector(
                                     is Quality.PngLossy -> quality.compressionLevel
                                     is Quality.Avif -> quality.effort
                                     is Quality.Heic -> quality.qualityValue
+                                    is Quality.Vvc -> quality.qualityValue
                                     is Quality.Tiff -> quality.qualityValue
                                     is Quality.PngQuant -> quality.qualityValue
                                 }
@@ -191,6 +194,7 @@ fun QualitySelector(
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                             is Quality.Avif -> quality.copy(effort = it.toInt())
                                             is Quality.Heic -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.Vvc -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                             is Quality.PngQuant -> quality.copy(quality = it.toInt())
                                         }.coerceIn(actualImageFormat)
@@ -205,6 +209,7 @@ fun QualitySelector(
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                             is Quality.Avif -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Heic -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.Vvc -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                             is Quality.PngQuant -> quality.copy(quality = it.toInt())
                                         }.coerceIn(actualImageFormat)
@@ -239,13 +244,47 @@ fun QualitySelector(
                     }
                 }
                 when (actualImageFormat) {
+                    ImageFormat.Heic.VvcLossless,
+                    ImageFormat.Heic.VvcLossy -> {
+                        val vvcQuality = quality as? Quality.Vvc
+                        Column {
+                            QualityOptionSelector(
+                                entries = VvcChroma.entries,
+                                value = vvcQuality?.chroma ?: VvcChroma.YUV_420,
+                                title = stringResource(R.string.chroma_subsampling),
+                                itemTitle = { it.title },
+                                onValueChange = {
+                                    vvcQuality?.copy(chroma = it)
+                                        ?.coerceIn(actualImageFormat)
+                                        ?.let(onQualityChange)
+                                },
+                                inactiveButtonColor = inactiveButtonColor,
+                                activeButtonColor = activeButtonColor
+                            )
+                            QualityOptionSelector(
+                                entries = VvcBitDepth.entries,
+                                value = vvcQuality?.bitDepth ?: VvcBitDepth.EIGHT,
+                                title = "Bit depth",
+                                itemTitle = { it.title },
+                                onValueChange = {
+                                    vvcQuality?.copy(bitDepth = it)
+                                        ?.coerceIn(actualImageFormat)
+                                        ?.let(onQualityChange)
+                                },
+                                inactiveButtonColor = inactiveButtonColor,
+                                activeButtonColor = activeButtonColor
+                            )
+                        }
+                    }
+
                     is ImageFormat.Heic -> {
                         val heicQuality = quality as? Quality.Heic
                         Column {
-                            ChromaSubsamplingSelector(
+                            QualityOptionSelector(
                                 entries = HeicChromaSubsampling.entries,
                                 value = heicQuality?.chromaSubsampling
                                     ?: HeicChromaSubsampling.Yuv420,
+                                title = stringResource(R.string.chroma_subsampling),
                                 itemTitle = { it.title },
                                 onValueChange = {
                                     heicQuality?.copy(chromaSubsampling = it)
@@ -261,10 +300,11 @@ fun QualitySelector(
                     is ImageFormat.Avif -> {
                         val avifQuality = quality as? Quality.Avif
                         Column {
-                            ChromaSubsamplingSelector(
+                            QualityOptionSelector(
                                 entries = AvifChromaSubsampling.entries,
                                 value = avifQuality?.chromaSubsampling
                                     ?: AvifChromaSubsampling.Auto,
+                                title = stringResource(R.string.chroma_subsampling),
                                 itemTitle = { it.title },
                                 onValueChange = {
                                     avifQuality?.copy(chromaSubsampling = it)
@@ -516,6 +556,8 @@ private val ImageFormat.qualitySelectorContentKey: QualitySelectorContentKey
     get() = QualitySelectorContentKey(
         compressionTypes = compressionTypes,
         additionalControls = when (this) {
+            ImageFormat.Heic.VvcLossless,
+            ImageFormat.Heic.VvcLossy -> AdditionalQualityControls.Vvc
             is ImageFormat.Heic -> AdditionalQualityControls.Heic
             is ImageFormat.Avif -> AdditionalQualityControls.Avif
             is ImageFormat.Jxl -> AdditionalQualityControls.Jxl
@@ -535,6 +577,7 @@ private data class QualitySelectorContentKey(
 
 private enum class AdditionalQualityControls {
     None,
+    Vvc,
     Heic,
     Avif,
     Jxl,
@@ -544,9 +587,10 @@ private enum class AdditionalQualityControls {
 }
 
 @Composable
-private fun <T : Any> ChromaSubsamplingSelector(
+private fun <T : Any> QualityOptionSelector(
     entries: List<T>,
     value: T,
+    title: String,
     itemTitle: (T) -> String,
     onValueChange: (T) -> Unit,
     inactiveButtonColor: Color,
@@ -564,7 +608,7 @@ private fun <T : Any> ChromaSubsamplingSelector(
                 color = MaterialTheme.colorScheme.surface
             )
             .padding(4.dp),
-        title = stringResource(R.string.chroma_subsampling),
+        title = title,
         onValueChange = onValueChange,
         inactiveButtonColor = inactiveButtonColor,
         activeButtonColor = activeButtonColor
@@ -603,4 +647,19 @@ private val HeicChromaSubsampling.title: String
         HeicChromaSubsampling.Yuv420 -> "4:2:0"
         HeicChromaSubsampling.Yuv422 -> "4:2:2"
         HeicChromaSubsampling.Yuv444 -> "4:4:4"
+    }
+
+private val VvcChroma.title: String
+    get() = when (this) {
+        VvcChroma.MONOCHROME -> "4:0:0"
+        VvcChroma.YUV_420 -> "4:2:0"
+        VvcChroma.YUV_422 -> "4:2:2"
+        VvcChroma.YUV_444 -> "4:4:4"
+    }
+
+private val VvcBitDepth.title: String
+    get() = when (this) {
+        VvcBitDepth.EIGHT -> "8-bit"
+        VvcBitDepth.TEN -> "10-bit"
+        VvcBitDepth.TWELVE -> "12-bit"
     }

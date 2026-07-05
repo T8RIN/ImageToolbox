@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.data.coil.PdfDecoder
 import com.t8rin.imagetoolbox.core.data.coil.SvgDecoderCompat
 import com.t8rin.imagetoolbox.core.data.coil.TiffDecoder
 import com.t8rin.imagetoolbox.core.data.coil.TimeMeasureInterceptor
+import com.t8rin.imagetoolbox.core.data.coil.VVCDecoder
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.psd.coil.PsdDecoder
@@ -119,6 +120,7 @@ internal object ImageLoaderModule {
                 add(AnimatedWebPDecoder.Factory())
             }
             add(SvgDecoderCompat.Factory())
+            add(VVCDecoder.Factory())
             add(HeifDecoder.Factory())
             add(AnimatedJxlDecoder.Factory())
             add(Jpeg2000Decoder.Factory())

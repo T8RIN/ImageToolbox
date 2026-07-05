@@ -56,6 +56,7 @@ internal interface JsonModule {
                     .withSubtype(Quality.Jxl::class.java, "jxl")
                     .withSubtype(Quality.Avif::class.java, "avif")
                     .withSubtype(Quality.Heic::class.java, "heic")
+                    .withSubtype(Quality.Vvc::class.java, "vvc")
                     .withSubtype(Quality.PngLossy::class.java, "png")
                     .withSubtype(Quality.PngQuant::class.java, "pngquant")
                     .withSubtype(Quality.Tiff::class.java, "tiff")
