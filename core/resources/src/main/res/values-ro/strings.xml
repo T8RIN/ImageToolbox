@@ -3657,4 +3657,5 @@
     <string name="original_files_delete_result">Fișiere originale șterse: %1$d, eșuate: %2$d</string>
     <string name="sheet_gestures">Gesturi de foi</string>
     <string name="sheet_gestures_sub">Permite tragerea foilor de opțiuni extinse</string>
+    <string name="chroma_subsampling">Subeșantionarea cromatică</string>
 </resources>

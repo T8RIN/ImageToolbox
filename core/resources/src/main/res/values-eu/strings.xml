@@ -3655,4 +3655,5 @@
     <string name="original_files_delete_result">Jatorrizko fitxategiak ezabatu dira: %1$d, huts egin dute: %2$d</string>
     <string name="sheet_gestures">Xafla keinuak</string>
     <string name="sheet_gestures_sub">Baimendu zabaldutako aukera-orriak arrastatzea</string>
+    <string name="chroma_subsampling">Kroma azpilaginketa</string>
 </resources>

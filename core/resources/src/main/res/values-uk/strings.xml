@@ -3657,4 +3657,5 @@
     <string name="original_files_delete_result">Оригінальні файли видалено: %1$d, не вдалося: %2$d</string>
     <string name="sheet_gestures">Жести аркуша</string>
     <string name="sheet_gestures_sub">Дозволити перетягувати розгорнуті аркуші параметрів</string>
+    <string name="chroma_subsampling">Субдискретизація кольоровості</string>
 </resources>

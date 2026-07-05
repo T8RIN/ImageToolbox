@@ -3656,4 +3656,5 @@
     <string name="original_files_delete_result">అసలు ఫైల్‌లు తొలగించబడ్డాయి: %1$d, విఫలమయ్యాయి: %2$d</string>
     <string name="sheet_gestures">షీట్ సంజ్ఞలు</string>
     <string name="sheet_gestures_sub">విస్తరించిన ఎంపిక షీట్‌లను లాగడాన్ని అనుమతించండి</string>
+    <string name="chroma_subsampling">క్రోమా ఉప నమూనా</string>
 </resources>

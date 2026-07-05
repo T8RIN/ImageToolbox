@@ -3655,4 +3655,5 @@
     <string name="original_files_delete_result">Alkuperäiset tiedostot poistettu: %1$d, epäonnistuneet: %2$d</string>
     <string name="sheet_gestures">Arkkieleet</string>
     <string name="sheet_gestures_sub">Salli laajennettujen asetusarkkien vetäminen</string>
+    <string name="chroma_subsampling">Chroma alinäytteenotto</string>
 </resources>

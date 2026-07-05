@@ -3655,4 +3655,5 @@
     <string name="original_files_delete_result">ਮੂਲ ਫ਼ਾਈਲਾਂ ਮਿਟਾਈਆਂ ਗਈਆਂ: %1$d, ਅਸਫਲ: %2$d</string>
     <string name="sheet_gestures">ਸ਼ੀਟ ਇਸ਼ਾਰੇ</string>
     <string name="sheet_gestures_sub">ਵਿਸਤ੍ਰਿਤ ਵਿਕਲਪ ਸ਼ੀਟਾਂ ਨੂੰ ਖਿੱਚਣ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="chroma_subsampling">ਕ੍ਰੋਮਾ ਸਬ-ਸੈਪਲਿੰਗ</string>
 </resources>

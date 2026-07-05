@@ -3654,4 +3654,5 @@
     <string name="original_files_delete_result">元のファイルが削除されました: %1$d、失敗しました: %2$d</string>
     <string name="sheet_gestures">シートジェスチャ</string>
     <string name="sheet_gestures_sub">展開されたオプション シートのドラッグを許可する</string>
+    <string name="chroma_subsampling">クロマサブサンプリング</string>
 </resources>

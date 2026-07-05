@@ -3654,4 +3654,5 @@
     <string name="original_files_delete_result">原始檔案已刪除：%1$d，失敗：%2$d</string>
     <string name="sheet_gestures">表單手勢</string>
     <string name="sheet_gestures_sub">允許拖曳展開的選項表</string>
+    <string name="chroma_subsampling">色度子取樣</string>
 </resources>
