@@ -3681,4 +3681,5 @@
     <string name="original_files_delete_result">Original files deleted: %1$d, failed: %2$d</string>
     <string name="sheet_gestures">Sheet gestures</string>
     <string name="sheet_gestures_sub">Allow dragging expanded option sheets</string>
+    <string name="chroma_subsampling">Chroma subsampling</string>
 </resources>

@@ -22,7 +22,9 @@ import com.radzivon.bartoshyk.avif.coder.Coder
 import com.radzivon.bartoshyk.avif.coder.HeifQualityArg
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
+import com.t8rin.imagetoolbox.core.domain.image.model.HeicChromaSubsampling
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.radzivon.bartoshyk.avif.coder.HeicChromaSubsampling as BackendChromaSubsampling
 
 internal data class HeicBackend(
     private val isLossless: Boolean
@@ -32,15 +34,26 @@ internal data class HeicBackend(
         image: Bitmap,
         quality: Quality
     ): ByteArray {
+        val heicQuality = quality as? Quality.Heic ?: Quality.Heic(
+            qualityValue = quality.qualityValue
+        )
+
         return Coder().encodeHeic(
             bitmap = image,
-            quality = HeifQualityArg.Quality(quality.qualityValue),
+            quality = HeifQualityArg.Quality(heicQuality.qualityValue),
             preciseMode = if (isLossless) {
                 PreciseMode.LOSSLESS
             } else {
                 PreciseMode.LOSSY
-            }
+            },
+            chromaSubsampling = heicQuality.chromaSubsampling.toBackend()
         )
     }
 
+}
+
+private fun HeicChromaSubsampling.toBackend(): BackendChromaSubsampling = when (this) {
+    HeicChromaSubsampling.Yuv420 -> BackendChromaSubsampling.YUV420
+    HeicChromaSubsampling.Yuv422 -> BackendChromaSubsampling.YUV422
+    HeicChromaSubsampling.Yuv444 -> BackendChromaSubsampling.YUV444
 }

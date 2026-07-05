@@ -53,6 +53,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.domain.image.model.AvifChromaSubsampling
+import com.t8rin.imagetoolbox.core.domain.image.model.HeicChromaSubsampling
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.TiffCompressionScheme
@@ -158,6 +160,7 @@ fun QualitySelector(
                                 is Quality.Jxl -> quality.effort
                                 is Quality.PngLossy -> quality.compressionLevel
                                 is Quality.Avif -> quality.effort
+                                is Quality.Heic -> quality.qualityValue
                                 is Quality.Tiff -> quality.qualityValue
                                 is Quality.PngQuant -> quality.qualityValue
                             }
@@ -183,6 +186,7 @@ fun QualitySelector(
                                         is Quality.Jxl -> quality.copy(effort = it.toInt())
                                         is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                         is Quality.Avif -> quality.copy(effort = it.toInt())
+                                        is Quality.Heic -> quality.copy(qualityValue = it.toInt())
                                         is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                         is Quality.PngQuant -> quality.copy(quality = it.toInt())
                                     }.coerceIn(actualImageFormat)
@@ -196,6 +200,7 @@ fun QualitySelector(
                                         is Quality.Jxl -> quality.copy(qualityValue = it.toInt())
                                         is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                         is Quality.Avif -> quality.copy(qualityValue = it.toInt())
+                                        is Quality.Heic -> quality.copy(qualityValue = it.toInt())
                                         is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                         is Quality.PngQuant -> quality.copy(quality = it.toInt())
                                     }.coerceIn(actualImageFormat)
@@ -227,6 +232,38 @@ fun QualitySelector(
                                 .padding(6.dp)
                         )
                     }
+                }
+            }
+            AnimatedVisibility(actualImageFormat is ImageFormat.Heic) {
+                val heicQuality = quality as? Quality.Heic
+                Column {
+                    ChromaSubsamplingSelector(
+                        entries = HeicChromaSubsampling.entries,
+                        value = heicQuality?.chromaSubsampling ?: HeicChromaSubsampling.Yuv420,
+                        itemTitle = { it.title },
+                        onValueChange = {
+                            heicQuality?.copy(chromaSubsampling = it)?.coerceIn(actualImageFormat)
+                                ?.let(onQualityChange)
+                        },
+                        inactiveButtonColor = inactiveButtonColor,
+                        activeButtonColor = activeButtonColor
+                    )
+                }
+            }
+            AnimatedVisibility(actualImageFormat is ImageFormat.Avif) {
+                val avifQuality = quality as? Quality.Avif
+                Column {
+                    ChromaSubsamplingSelector(
+                        entries = AvifChromaSubsampling.entries,
+                        value = avifQuality?.chromaSubsampling ?: AvifChromaSubsampling.Auto,
+                        itemTitle = { it.title },
+                        onValueChange = {
+                            avifQuality?.copy(chromaSubsampling = it)?.coerceIn(actualImageFormat)
+                                ?.let(onQualityChange)
+                        },
+                        inactiveButtonColor = inactiveButtonColor,
+                        activeButtonColor = activeButtonColor
+                    )
                 }
             }
             AnimatedVisibility(actualImageFormat is ImageFormat.Jxl) {
@@ -454,6 +491,34 @@ private fun ImageFormat.isMidQuality(quality: Int): Boolean {
     return quality > range * (2 / 5f)
 }
 
+@Composable
+private fun <T : Any> ChromaSubsamplingSelector(
+    entries: List<T>,
+    value: T,
+    itemTitle: (T) -> String,
+    onValueChange: (T) -> Unit,
+    inactiveButtonColor: Color,
+    activeButtonColor: Color
+) {
+    EnhancedButtonGroup(
+        entries = entries,
+        value = value,
+        itemContent = { Text(itemTitle(it)) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)
+            .container(
+                shape = ShapeDefaults.large,
+                color = MaterialTheme.colorScheme.surface
+            )
+            .padding(4.dp),
+        title = stringResource(R.string.chroma_subsampling),
+        onValueChange = onValueChange,
+        inactiveButtonColor = inactiveButtonColor,
+        activeButtonColor = activeButtonColor
+    )
+}
+
 private val TiffCompressionScheme.title: String
     get() = when (this) {
         TiffCompressionScheme.CCITTRLE -> "RLE"
@@ -469,4 +534,21 @@ private val Quality.Channels.title
         Quality.Channels.RGBA -> "RGBA"
         Quality.Channels.RGB -> "RGB"
         Quality.Channels.Monochrome -> stringResource(R.string.monochrome)
+    }
+
+private val AvifChromaSubsampling.title: String
+    get() = when (this) {
+        AvifChromaSubsampling.Auto -> "Auto"
+        AvifChromaSubsampling.Yuv420 -> "4:2:0"
+        AvifChromaSubsampling.Yuv422 -> "4:2:2"
+        AvifChromaSubsampling.Yuv444 -> "4:4:4"
+        AvifChromaSubsampling.Yuv400 -> "4:0:0"
+        AvifChromaSubsampling.Lossless -> "Lossless"
+    }
+
+private val HeicChromaSubsampling.title: String
+    get() = when (this) {
+        HeicChromaSubsampling.Yuv420 -> "4:2:0"
+        HeicChromaSubsampling.Yuv422 -> "4:2:2"
+        HeicChromaSubsampling.Yuv444 -> "4:4:4"
     }

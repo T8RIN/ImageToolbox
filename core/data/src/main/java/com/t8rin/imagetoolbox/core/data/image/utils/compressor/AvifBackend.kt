@@ -23,7 +23,9 @@ import com.radzivon.bartoshyk.avif.coder.AvSpeed
 import com.radzivon.bartoshyk.avif.coder.Coder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
+import com.t8rin.imagetoolbox.core.domain.image.model.AvifChromaSubsampling
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.radzivon.bartoshyk.avif.coder.AvifChromaSubsampling as BackendChromaSubsampling
 
 internal data class AvifBackend(
     private val isLossless: Boolean,
@@ -44,6 +46,7 @@ internal data class AvifBackend(
             } else {
                 PreciseMode.LOSSY
             },
+            avifChromaSubsampling = avifQuality.chromaSubsampling.toBackend(),
             avKind = if (isAv1) {
                 AvKind.AV1
             } else {
@@ -55,4 +58,13 @@ internal data class AvifBackend(
         )
     }
 
+}
+
+private fun AvifChromaSubsampling.toBackend(): BackendChromaSubsampling = when (this) {
+    AvifChromaSubsampling.Auto -> BackendChromaSubsampling.AUTO
+    AvifChromaSubsampling.Yuv420 -> BackendChromaSubsampling.YUV420
+    AvifChromaSubsampling.Yuv422 -> BackendChromaSubsampling.YUV422
+    AvifChromaSubsampling.Yuv444 -> BackendChromaSubsampling.YUV444
+    AvifChromaSubsampling.Yuv400 -> BackendChromaSubsampling.YUV400
+    AvifChromaSubsampling.Lossless -> BackendChromaSubsampling.LOSELESS
 }

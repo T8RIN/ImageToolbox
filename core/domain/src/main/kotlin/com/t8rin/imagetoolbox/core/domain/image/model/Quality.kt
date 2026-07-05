@@ -63,6 +63,15 @@ sealed interface Quality {
                 )
             }
 
+            is ImageFormat.Heic,
+            is ImageFormat.Heif -> {
+                val value = this as? Heic
+                    ?: Heic(qualityValue = qualityValue)
+                value.copy(
+                    qualityValue = qualityValue.coerceIn(0..100)
+                )
+            }
+
             is ImageFormat.Tif,
             is ImageFormat.Tiff -> {
                 val value = this as? Tiff
@@ -87,6 +96,7 @@ sealed interface Quality {
     fun isDefault(): Boolean = when (this) {
         is Base -> this == Base()
         is Avif -> this == Avif()
+        is Heic -> this == Heic()
         is Jxl -> this == Jxl()
         is PngLossy -> this == PngLossy()
         is Tiff -> this == Tiff()
@@ -107,7 +117,14 @@ sealed interface Quality {
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
         @IntRange(from = 0, to = 2)
-        val effort: Int = 0
+        val effort: Int = 0,
+        val chromaSubsampling: AvifChromaSubsampling = AvifChromaSubsampling.Auto
+    ) : Quality
+
+    data class Heic(
+        @IntRange(from = 0, to = 100)
+        override val qualityValue: Int = 100,
+        val chromaSubsampling: HeicChromaSubsampling = HeicChromaSubsampling.Yuv420
     ) : Quality
 
     data class PngLossy(

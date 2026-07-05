@@ -181,7 +181,7 @@ sealed class ImageFormat(
         extension = "heif",
         mimeType = MimeType.Heif,
         compressionTypes = compressionTypes,
-        canChangeCompressionValue = compressionTypes.isNotEmpty()
+        canChangeCompressionValue = true
     ) {
         data object Lossless : Heif(
             title = "HEIF Lossless",
@@ -204,7 +204,7 @@ sealed class ImageFormat(
         extension = "heic",
         mimeType = MimeType.Heic,
         compressionTypes = compressionTypes,
-        canChangeCompressionValue = compressionTypes.isNotEmpty()
+        canChangeCompressionValue = true
     ) {
         data object Lossless : Heic(
             title = "HEIC Lossless",

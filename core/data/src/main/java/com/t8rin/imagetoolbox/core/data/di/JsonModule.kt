@@ -55,6 +55,7 @@ internal interface JsonModule {
                 PolymorphicJsonAdapterFactory.of(Quality::class.java, "quality_type")
                     .withSubtype(Quality.Jxl::class.java, "jxl")
                     .withSubtype(Quality.Avif::class.java, "avif")
+                    .withSubtype(Quality.Heic::class.java, "heic")
                     .withSubtype(Quality.PngLossy::class.java, "png")
                     .withSubtype(Quality.PngQuant::class.java, "pngquant")
                     .withSubtype(Quality.Tiff::class.java, "tiff")
