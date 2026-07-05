@@ -59,8 +59,10 @@ sealed class ImageFormatGroup(
     data object Avif : ImageFormatGroup(
         title = "AVIF",
         formats = listOf(
-            ImageFormat.Avif.Lossless,
-            ImageFormat.Avif.Lossy
+            ImageFormat.Avif.LosslessAv1,
+            ImageFormat.Avif.LossyAv1,
+            ImageFormat.Avif.LosslessAv2,
+            ImageFormat.Avif.LossyAv2
         )
     )
 

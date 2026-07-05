@@ -26,7 +26,8 @@ import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 
 internal data class AvifBackend(
-    private val isLossless: Boolean
+    private val isLossless: Boolean,
+    private val isAv1: Boolean
 ) : ImageCompressorBackend {
 
     override suspend fun compress(
@@ -43,7 +44,11 @@ internal data class AvifBackend(
             } else {
                 PreciseMode.LOSSY
             },
-            avKind = AvKind.AV2,
+            avKind = if (isAv1) {
+                AvKind.AV1
+            } else {
+                AvKind.AV2
+            },
             speed = AvSpeed.entries.firstOrNull {
                 it.ordinal == (3 - avifQuality.effort)
             } ?: AvSpeed.FAST

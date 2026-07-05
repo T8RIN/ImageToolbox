@@ -142,15 +142,30 @@ sealed class ImageFormat(
         canChangeCompressionValue = true,
         compressionTypes = compressionTypes
     ) {
-        data object Lossless : Avif(
-            title = "AVIF Lossless",
+        data object LosslessAv1 : Avif(
+            title = "AV1 Lossless",
             compressionTypes = listOf(
                 CompressionType.Effort(0..2)
             )
         ), LosslessMarker
 
-        data object Lossy : Avif(
-            title = "AVIF Lossy",
+        data object LossyAv1 : Avif(
+            title = "AV1 Lossy",
+            compressionTypes = listOf(
+                CompressionType.Quality(1..100),
+                CompressionType.Effort(0..2)
+            )
+        )
+
+        data object LosslessAv2 : Avif(
+            title = "AV2 Lossless",
+            compressionTypes = listOf(
+                CompressionType.Effort(0..2)
+            )
+        ), LosslessMarker
+
+        data object LossyAv2 : Avif(
+            title = "AV2 Lossy",
             compressionTypes = listOf(
                 CompressionType.Quality(1..100),
                 CompressionType.Effort(0..2)
@@ -309,6 +324,12 @@ sealed class ImageFormat(
     companion object {
         val Default: ImageFormat by lazy { Jpg }
 
+        fun fromTitle(title: String?): ImageFormat? = when (title) {
+            "AVIF Lossless" -> Avif.LosslessAv2
+            "AVIF Lossy" -> Avif.LossyAv2
+            else -> entries.firstOrNull { it.title == title }
+        }
+
         operator fun get(typeString: String?): ImageFormat = when {
             typeString == null -> Default
             typeString.contains("tiff") -> Tiff
@@ -321,7 +342,7 @@ sealed class ImageFormat(
             typeString.contains("jpeg") -> Jpeg
             typeString.contains("jpg") -> Jpg
             typeString.contains("webp") -> Webp.Lossless
-            typeString.contains("avif") -> Avif.Lossless
+            typeString.contains("avif") -> Avif.LosslessAv2
             typeString.contains("heif") -> Heif.Lossless
             typeString.contains("heic") -> Heic.Lossless
             typeString.contains("qoi") -> Qoi
@@ -344,8 +365,10 @@ sealed class ImageFormat(
                 Bmp,
                 Webp.Lossless,
                 Webp.Lossy,
-                Avif.Lossless,
-                Avif.Lossy,
+                Avif.LosslessAv1,
+                Avif.LossyAv1,
+                Avif.LosslessAv2,
+                Avif.LossyAv2,
                 Heic.Lossless,
                 Heic.Lossy,
                 Heif.Lossless,

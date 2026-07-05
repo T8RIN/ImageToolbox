@@ -226,7 +226,7 @@ internal fun Preferences.toSettingsState(
         if (title.isNullOrBlank()) {
             null
         } else {
-            ImageFormat.entries.find { it.title == title } ?: default.defaultImageFormat
+            ImageFormat.fromTitle(title) ?: default.defaultImageFormat
         }
     },
     defaultQuality = this[DEFAULT_QUALITY]?.let {

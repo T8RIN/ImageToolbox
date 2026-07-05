@@ -31,9 +31,8 @@ import com.t8rin.imagetoolbox.core.domain.model.Position
 internal class ImageFormatJsonAdapter {
 
     @FromJson
-    fun fromJson(value: String?): ImageFormat = ImageFormat.entries.firstOrNull {
-        it.title == value
-    } ?: ImageFormat.Default
+    fun fromJson(value: String?): ImageFormat =
+        ImageFormat.fromTitle(value) ?: ImageFormat.Default
 
     @ToJson
     fun toJson(value: ImageFormat): String = value.title

@@ -80,8 +80,14 @@ internal interface ImageCompressorBackend {
             ImageFormat.Heic.Lossy,
             ImageFormat.Heif.Lossy -> HeicBackend(isLossless = imageFormat.isLossless)
 
-            ImageFormat.Avif.Lossless,
-            ImageFormat.Avif.Lossy -> AvifBackend(isLossless = imageFormat.isLossless)
+            ImageFormat.Avif.LosslessAv1,
+            ImageFormat.Avif.LossyAv1,
+            ImageFormat.Avif.LosslessAv2,
+            ImageFormat.Avif.LossyAv2 -> AvifBackend(
+                isLossless = imageFormat.isLossless,
+                isAv1 = imageFormat == ImageFormat.Avif.LosslessAv1 ||
+                        imageFormat == ImageFormat.Avif.LossyAv1
+            )
 
             ImageFormat.Jpeg2000.J2k -> Jpeg2000Backend(isJ2K = true)
             ImageFormat.Jpeg2000.Jp2 -> Jpeg2000Backend(isJ2K = false)
