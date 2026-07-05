@@ -3660,6 +3660,6 @@
     <string name="sheet_gestures_sub">Разрешить перетаскивание развёрнутых шторок с опциями</string>
     <string name="chroma_subsampling">Подвыборка цветности</string>
     <string name="bit_depth">Разрядность</string>
-    <string name="lossless">без потерь</string>
+    <string name="lossless">Без потерь</string>
     <string name="bit_depth_value">%1$d-бит</string>
 </resources>
