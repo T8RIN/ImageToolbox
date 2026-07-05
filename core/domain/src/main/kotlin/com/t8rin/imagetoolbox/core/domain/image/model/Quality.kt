@@ -59,7 +59,7 @@ sealed interface Quality {
                     ?: return Avif()
                 value.copy(
                     qualityValue = qualityValue.coerceIn(1..100),
-                    effort = effort.coerceIn(0..9)
+                    effort = effort.coerceIn(0..2)
                 )
             }
 
@@ -106,7 +106,7 @@ sealed interface Quality {
     data class Avif(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
-        @IntRange(from = 0, to = 9)
+        @IntRange(from = 0, to = 2)
         val effort: Int = 0
     ) : Quality
 

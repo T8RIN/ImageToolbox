@@ -145,7 +145,7 @@ sealed class ImageFormat(
         data object Lossless : Avif(
             title = "AVIF Lossless",
             compressionTypes = listOf(
-                CompressionType.Effort(0..10)
+                CompressionType.Effort(0..2)
             )
         ), LosslessMarker
 
@@ -153,7 +153,7 @@ sealed class ImageFormat(
             title = "AVIF Lossy",
             compressionTypes = listOf(
                 CompressionType.Quality(1..100),
-                CompressionType.Effort(0..10)
+                CompressionType.Effort(0..2)
             )
         )
     }
