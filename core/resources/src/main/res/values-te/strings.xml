@@ -3657,4 +3657,7 @@
     <string name="sheet_gestures">షీట్ సంజ్ఞలు</string>
     <string name="sheet_gestures_sub">విస్తరించిన ఎంపిక షీట్‌లను లాగడాన్ని అనుమతించండి</string>
     <string name="chroma_subsampling">క్రోమా ఉప నమూనా</string>
+    <string name="bit_depth">బిట్ లోతు</string>
+    <string name="lossless">నష్టం లేని</string>
+    <string name="bit_depth_value">%1$d-బిట్</string>
 </resources>

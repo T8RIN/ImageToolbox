@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">Gestos de planilha</string>
     <string name="sheet_gestures_sub">Permitir arrastar folhas de opções expandidas</string>
     <string name="chroma_subsampling">Subamostragem de croma</string>
+    <string name="bit_depth">Profundidade de bits</string>
+    <string name="lossless">Sem perdas</string>
+    <string name="bit_depth_value">%1$d bits</string>
 </resources>

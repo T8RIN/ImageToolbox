@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">Arkkieleet</string>
     <string name="sheet_gestures_sub">Salli laajennettujen asetusarkkien vetäminen</string>
     <string name="chroma_subsampling">Chroma alinäytteenotto</string>
+    <string name="bit_depth">Bittinen syvyys</string>
+    <string name="lossless">Häviötön</string>
+    <string name="bit_depth_value">%1$d-bittiä</string>
 </resources>

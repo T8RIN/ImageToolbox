@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">Gesti del foglio</string>
     <string name="sheet_gestures_sub">Consenti il ​​trascinamento dei fogli delle opzioni espansi</string>
     <string name="chroma_subsampling">Sottocampionamento della crominanza</string>
+    <string name="bit_depth">Profondità di bit</string>
+    <string name="lossless">Senza perdite</string>
+    <string name="bit_depth_value">%1$dbit</string>
 </resources>

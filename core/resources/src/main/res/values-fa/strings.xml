@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">حرکات ورق</string>
     <string name="sheet_gestures_sub">کشیدن برگه‌های گزینه گسترش یافته مجاز است</string>
     <string name="chroma_subsampling">زیر نمونه برداری کروما</string>
+    <string name="bit_depth">عمق بیت</string>
+    <string name="lossless">بدون ضرر</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

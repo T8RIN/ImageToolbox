@@ -3655,4 +3655,7 @@
     <string name="sheet_gestures">ท่าทางของแผ่นงาน</string>
     <string name="sheet_gestures_sub">อนุญาตให้ลากแผ่นตัวเลือกที่ขยายออก</string>
     <string name="chroma_subsampling">การสุ่มตัวอย่างโครมา</string>
+    <string name="bit_depth">ความลึกบิต</string>
+    <string name="lossless">ไม่มีการสูญเสีย</string>
+    <string name="bit_depth_value">%1$d-บิต</string>
 </resources>

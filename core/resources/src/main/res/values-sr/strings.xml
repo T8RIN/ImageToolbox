@@ -3658,4 +3658,7 @@
     <string name="sheet_gestures">Покрети са листова</string>
     <string name="sheet_gestures_sub">Дозволите превлачење проширених листова опција</string>
     <string name="chroma_subsampling">Подузорковање боје</string>
+    <string name="bit_depth">Дубина бита</string>
+    <string name="lossless">Без губитака</string>
+    <string name="bit_depth_value">__ПХ_0__-бит</string>
 </resources>

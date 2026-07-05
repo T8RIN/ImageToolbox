@@ -264,7 +264,7 @@ fun QualitySelector(
                             QualityOptionSelector(
                                 entries = VvcBitDepth.entries,
                                 value = vvcQuality?.bitDepth ?: VvcBitDepth.EIGHT,
-                                title = "Bit depth",
+                                title = stringResource(R.string.bit_depth),
                                 itemTitle = { it.title },
                                 onValueChange = {
                                     vvcQuality?.copy(bitDepth = it)
@@ -591,7 +591,7 @@ private fun <T : Any> QualityOptionSelector(
     entries: List<T>,
     value: T,
     title: String,
-    itemTitle: (T) -> String,
+    itemTitle: @Composable (T) -> String,
     onValueChange: (T) -> Unit,
     inactiveButtonColor: Color,
     activeButtonColor: Color
@@ -633,13 +633,14 @@ private val Quality.Channels.title
     }
 
 private val AvifChromaSubsampling.title: String
+    @Composable
     get() = when (this) {
-        AvifChromaSubsampling.Auto -> "Auto"
+        AvifChromaSubsampling.Auto -> stringResource(R.string.auto)
         AvifChromaSubsampling.Yuv420 -> "4:2:0"
         AvifChromaSubsampling.Yuv422 -> "4:2:2"
         AvifChromaSubsampling.Yuv444 -> "4:4:4"
-        AvifChromaSubsampling.Yuv400 -> "4:0:0"
-        AvifChromaSubsampling.Lossless -> "Lossless"
+        AvifChromaSubsampling.Yuv400 -> stringResource(R.string.monochrome)
+        AvifChromaSubsampling.Lossless -> stringResource(R.string.lossless)
     }
 
 private val HeicChromaSubsampling.title: String
@@ -650,16 +651,21 @@ private val HeicChromaSubsampling.title: String
     }
 
 private val VvcChroma.title: String
+    @Composable
     get() = when (this) {
-        VvcChroma.MONOCHROME -> "4:0:0"
+        VvcChroma.MONOCHROME -> stringResource(R.string.monochrome)
         VvcChroma.YUV_420 -> "4:2:0"
         VvcChroma.YUV_422 -> "4:2:2"
         VvcChroma.YUV_444 -> "4:4:4"
     }
 
 private val VvcBitDepth.title: String
-    get() = when (this) {
-        VvcBitDepth.EIGHT -> "8-bit"
-        VvcBitDepth.TEN -> "10-bit"
-        VvcBitDepth.TWELVE -> "12-bit"
-    }
+    @Composable
+    get() = stringResource(
+        R.string.bit_depth_value,
+        when (this) {
+            VvcBitDepth.EIGHT -> 8
+            VvcBitDepth.TEN -> 10
+            VvcBitDepth.TWELVE -> 12
+        }
+    )

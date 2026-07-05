@@ -3655,4 +3655,7 @@
     <string name="sheet_gestures">Gerakan lembar</string>
     <string name="sheet_gestures_sub">Izinkan menyeret lembar opsi yang diperluas</string>
     <string name="chroma_subsampling">Subsampling kroma</string>
+    <string name="bit_depth">Kedalaman sedikit</string>
+    <string name="lossless">Tanpa kerugian</string>
+    <string name="bit_depth_value">%1$d-sedikit</string>
 </resources>

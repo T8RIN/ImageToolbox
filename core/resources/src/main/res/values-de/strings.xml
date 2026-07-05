@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">Blattgesten</string>
     <string name="sheet_gestures_sub">Erlauben Sie das Ziehen erweiterter Optionsblätter</string>
     <string name="chroma_subsampling">Chroma-Unterabtastung</string>
+    <string name="bit_depth">Bittiefe</string>
+    <string name="lossless">Verlustfrei</string>
+    <string name="bit_depth_value">%1$d-Bit</string>
 </resources>

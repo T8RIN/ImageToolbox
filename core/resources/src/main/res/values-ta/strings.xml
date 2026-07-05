@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">தாள் சைகைகள்</string>
     <string name="sheet_gestures_sub">விரிவாக்கப்பட்ட விருப்பத் தாள்களை இழுக்க அனுமதிக்கவும்</string>
     <string name="chroma_subsampling">குரோமா துணை மாதிரி</string>
+    <string name="bit_depth">பிட் ஆழம்</string>
+    <string name="lossless">இழப்பற்றது</string>
+    <string name="bit_depth_value">%1$d-பிட்</string>
 </resources>

@@ -3658,4 +3658,7 @@
     <string name="sheet_gestures">מחוות גיליון</string>
     <string name="sheet_gestures_sub">אפשר גרירת גיליונות אפשרויות מורחבים</string>
     <string name="chroma_subsampling">תת-דגימת כרומה</string>
+    <string name="bit_depth">קצת עומק</string>
+    <string name="lossless">ללא אובדן</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

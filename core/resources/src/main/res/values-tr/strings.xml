@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">Sayfa hareketleri</string>
     <string name="sheet_gestures_sub">Genişletilmiş seçenek sayfalarının sürüklenmesine izin ver</string>
     <string name="chroma_subsampling">Renk alt örneklemesi</string>
+    <string name="bit_depth">Bit derinliği</string>
+    <string name="lossless">Kayıpsız</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

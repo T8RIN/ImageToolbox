@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">ਸ਼ੀਟ ਇਸ਼ਾਰੇ</string>
     <string name="sheet_gestures_sub">ਵਿਸਤ੍ਰਿਤ ਵਿਕਲਪ ਸ਼ੀਟਾਂ ਨੂੰ ਖਿੱਚਣ ਦੀ ਆਗਿਆ ਦਿਓ</string>
     <string name="chroma_subsampling">ਕ੍ਰੋਮਾ ਸਬ-ਸੈਪਲਿੰਗ</string>
+    <string name="bit_depth">ਬਿੱਟ ਡੂੰਘਾਈ</string>
+    <string name="lossless">ਨੁਕਸਾਨ ਰਹਿਤ</string>
+    <string name="bit_depth_value">%1$d-ਬਿੱਟ</string>
 </resources>

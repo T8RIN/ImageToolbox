@@ -3657,4 +3657,7 @@
     <string name="sheet_gestures">Mga galaw sa sheet</string>
     <string name="sheet_gestures_sub">Payagan ang pag-drag ng pinalawak na mga sheet ng opsyon</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
+    <string name="bit_depth">Bit depth</string>
+    <string name="lossless">Lossless</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

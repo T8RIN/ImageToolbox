@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">Ark gester</string>
     <string name="sheet_gestures_sub">Tillåt att utökade tillvalsark dras</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
+    <string name="bit_depth">Lite djup</string>
+    <string name="lossless">Förlustfri</string>
+    <string name="bit_depth_value">%1$d-bitar</string>
 </resources>

@@ -3682,4 +3682,7 @@
     <string name="sheet_gestures">Sheet gestures</string>
     <string name="sheet_gestures_sub">Allow dragging expanded option sheets</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
+    <string name="bit_depth">Bit depth</string>
+    <string name="lossless">Lossless</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

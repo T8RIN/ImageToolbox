@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">Lehe žestid</string>
     <string name="sheet_gestures_sub">Laiendatud valikulehtede lohistamise lubamine</string>
     <string name="chroma_subsampling">Kroomi alamproovide võtmine</string>
+    <string name="bit_depth">Biti sügavus</string>
+    <string name="lossless">Kadudeta</string>
+    <string name="bit_depth_value">%1$d-bitine</string>
 </resources>

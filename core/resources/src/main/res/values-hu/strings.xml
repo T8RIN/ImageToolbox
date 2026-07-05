@@ -3657,4 +3657,7 @@
     <string name="sheet_gestures">Lapmozdulatok</string>
     <string name="sheet_gestures_sub">A kibontott beállítási lapok húzásának engedélyezése</string>
     <string name="chroma_subsampling">Chroma részmintavétel</string>
+    <string name="bit_depth">Bitmélység</string>
+    <string name="lossless">Veszteségmentes</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

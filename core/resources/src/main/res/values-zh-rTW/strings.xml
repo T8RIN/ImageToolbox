@@ -3655,4 +3655,7 @@
     <string name="sheet_gestures">表單手勢</string>
     <string name="sheet_gestures_sub">允許拖曳展開的選項表</string>
     <string name="chroma_subsampling">色度子取樣</string>
+    <string name="bit_depth">位元深度</string>
+    <string name="lossless">無損</string>
+    <string name="bit_depth_value">%1$d 位</string>
 </resources>

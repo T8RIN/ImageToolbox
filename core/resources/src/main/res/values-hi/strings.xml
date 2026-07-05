@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">शीट इशारे</string>
     <string name="sheet_gestures_sub">विस्तारित विकल्प पत्रक को खींचने की अनुमति दें</string>
     <string name="chroma_subsampling">क्रोमा सबसैंपलिंग</string>
+    <string name="bit_depth">थोड़ी गहराई</string>
+    <string name="lossless">दोषरहित</string>
+    <string name="bit_depth_value">%1$d-बिट</string>
 </resources>

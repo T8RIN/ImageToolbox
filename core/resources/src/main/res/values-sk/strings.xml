@@ -3658,4 +3658,7 @@
     <string name="sheet_gestures">Listové gestá</string>
     <string name="sheet_gestures_sub">Povoliť presúvanie hárkov rozbalených možností</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
+    <string name="bit_depth">Bitová hĺbka</string>
+    <string name="lossless">Bezstratový</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

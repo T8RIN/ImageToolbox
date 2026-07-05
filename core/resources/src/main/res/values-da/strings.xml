@@ -3656,4 +3656,7 @@
     <string name="sheet_gestures">Arkbevægelser</string>
     <string name="sheet_gestures_sub">Tillad at trække udvidede indstillingsark</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
+    <string name="bit_depth">Lidt dybde</string>
+    <string name="lossless">Tabsfri</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

@@ -3658,4 +3658,7 @@
     <string name="sheet_gestures">Gesturi de foi</string>
     <string name="sheet_gestures_sub">Permite tragerea foilor de opțiuni extinse</string>
     <string name="chroma_subsampling">Subeșantionarea cromatică</string>
+    <string name="bit_depth">Adâncime de biți</string>
+    <string name="lossless">Fără pierderi</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

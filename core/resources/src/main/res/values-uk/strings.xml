@@ -3658,4 +3658,7 @@
     <string name="sheet_gestures">Жести аркуша</string>
     <string name="sheet_gestures_sub">Дозволити перетягувати розгорнуті аркуші параметрів</string>
     <string name="chroma_subsampling">Субдискретизація кольоровості</string>
+    <string name="bit_depth">Бітова глибина</string>
+    <string name="lossless">Без втрат</string>
+    <string name="bit_depth_value">%1$d-біт</string>
 </resources>
