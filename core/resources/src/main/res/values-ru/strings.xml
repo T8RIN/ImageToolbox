@@ -3656,4 +3656,6 @@
     <string name="original_files_deleted">Исходные файлы удалены: %1$d</string>
     <string name="original_files_delete_failed">Не удалось удалить исходные файлы: %1$d.</string>
     <string name="original_files_delete_result">Исходные файлы удалены: %1$d, ошибка: %2$d.</string>
+    <string name="sheet_gestures">Жесты шторок</string>
+    <string name="sheet_gestures_sub">Разрешить перетаскивание развёрнутых шторок с опциями</string>
 </resources>

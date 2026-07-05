@@ -135,24 +135,36 @@ internal data class SavingFolder private constructor(
                 )
             }
 
-            val collectionUri = if (relativePath == null) {
-                MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            } else {
-                when {
-                    mimeType.startsWith("image/") -> MediaStore.Images.Media.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL_PRIMARY
-                    )
+            val primaryDirectory = relativePath
+                ?.trimStart('/')
+                ?.substringBefore('/')
 
-                    mimeType.startsWith("video/") -> MediaStore.Video.Media.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL_PRIMARY
-                    )
+            val collectionUri = when {
+                relativePath == null -> MediaStore.Files.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL_PRIMARY
+                )
 
-                    mimeType.startsWith("audio/") -> MediaStore.Audio.Media.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL_PRIMARY
-                    )
-
-                    else -> MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                primaryDirectory.equals(Environment.DIRECTORY_DOWNLOADS, ignoreCase = true) -> {
+                    MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
                 }
+
+                primaryDirectory.equals(Environment.DIRECTORY_DOCUMENTS, ignoreCase = true) -> {
+                    MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                }
+
+                mimeType.startsWith("image/") -> MediaStore.Images.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL_PRIMARY
+                )
+
+                mimeType.startsWith("video/") -> MediaStore.Video.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL_PRIMARY
+                )
+
+                mimeType.startsWith("audio/") -> MediaStore.Audio.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL_PRIMARY
+                )
+
+                else -> MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
             }
 
             val uri = runCatching {

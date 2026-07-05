@@ -286,7 +286,8 @@ fun AdaptiveBottomScaffoldLayoutScreen(
             if (useScaffold) {
                 val screenHeight = LocalScreenSize.current.height
                 val sheetSwipeEnabled =
-                    scaffoldState.bottomSheetState.currentValue == SheetValue.PartiallyExpanded
+                    settingsState.enableSheetGestures ||
+                            scaffoldState.bottomSheetState.currentValue == SheetValue.PartiallyExpanded
                             && !scaffoldState.bottomSheetState.isAnimationRunning
 
                 var predictiveBackProgress by remember {

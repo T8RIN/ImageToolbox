@@ -501,12 +501,16 @@ object ContextUtils {
             .setData("package:${packageName}".toUri())
     }
 
-    fun Uri.takePersistablePermission(): Uri = apply {
+    fun Uri.takePersistablePermission(
+        modeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+    ): Uri = apply {
+        if (modeFlags == 0) return@apply
+
         runCatching {
             appContext.contentResolver.takePersistableUriPermission(
                 this,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                modeFlags
             )
         }.onFailure {
             it.makeLog("takePersistablePermission")

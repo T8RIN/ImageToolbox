@@ -135,6 +135,8 @@ internal fun Preferences.toSettingsState(
         ?: default.skipImagePicking,
     generatePreviews = this[GENERATE_PREVIEWS]
         ?: default.generatePreviews,
+    enableSheetGestures = this[ENABLE_SHEET_GESTURES]
+        ?: default.enableSheetGestures,
     showSettingsInLandscape = this[SHOW_SETTINGS_IN_LANDSCAPE]
         ?: default.showSettingsInLandscape,
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]

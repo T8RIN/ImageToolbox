@@ -3655,4 +3655,6 @@
     <string name="original_files_deleted">Oryginalne pliki usunięte: %1$d</string>
     <string name="original_files_delete_failed">Nie udało się usunąć oryginalnych plików: %1$d</string>
     <string name="original_files_delete_result">Oryginalne pliki usunięte: %1$d, błąd: %2$d</string>
+    <string name="sheet_gestures">Gesty arkusza</string>
+    <string name="sheet_gestures_sub">Zezwalaj na przeciąganie rozwiniętych arkuszy opcji</string>
 </resources>

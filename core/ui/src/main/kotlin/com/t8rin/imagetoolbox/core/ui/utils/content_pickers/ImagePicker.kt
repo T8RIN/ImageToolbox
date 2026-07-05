@@ -356,7 +356,12 @@ fun rememberImagePicker(
                 delay(300)
                 resultList.let { uris ->
                     if (mode == ImagePickerMode.GetContentSingle || mode == ImagePickerMode.GetContentMultiple) {
-                        uris.map { it.takePersistablePermission() }
+                        val modeFlags = intent?.flags?.and(
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        ) ?: 0
+
+                        uris.map { it.takePersistablePermission(modeFlags) }
                     } else uris
                 }.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
             }

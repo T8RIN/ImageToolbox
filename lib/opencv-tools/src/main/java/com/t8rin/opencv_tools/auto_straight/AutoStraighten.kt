@@ -29,10 +29,10 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import org.opencv.core.Core
 import org.opencv.core.Mat
-import org.opencv.core.MatOfPoint
 import org.opencv.core.MatOfPoint2f
 import org.opencv.core.Point
 import org.opencv.core.Rect
+import org.opencv.core.Scalar
 import org.opencv.core.Size
 import org.opencv.geometry.Geometry
 import org.opencv.imgproc.Imgproc
@@ -169,41 +169,11 @@ object AutoStraighten : OpenCV() {
 
     private suspend fun autoPerspective(input: Bitmap): Bitmap = coroutineScope {
         ensureActive()
-        val srcMat = input.toMat()
-        val gray = Mat()
-        Imgproc.cvtColor(srcMat, gray, Imgproc.COLOR_BGR2GRAY)
-        Photo.fastNlMeansDenoising(gray, gray, 3f)
-
-        val binary = Mat()
-        Imgproc.threshold(
-            gray, binary, 0.0, 255.0,
-            Imgproc.THRESH_BINARY or Imgproc.THRESH_OTSU
-        )
-
-        val contours = mutableListOf<MatOfPoint>()
-        Imgproc.findContours(
-            binary.clone(),
-            contours,
-            Mat(),
-            Imgproc.RETR_EXTERNAL,
-            Imgproc.CHAIN_APPROX_SIMPLE
-        )
+        val corners = PerspectiveDetector.findCorners(input)
+            ?: return@coroutineScope input
         ensureActive()
 
-        val biggest = contours
-            .mapNotNull { contour ->
-                ensureActive()
-                val approx = MatOfPoint2f()
-                val c2f = MatOfPoint2f(*contour.toArray())
-                Geometry.approxPolyDP(c2f, approx, Geometry.arcLength(c2f, true) * 0.02, true)
-                if (approx.total() == 4L && Geometry.isContourConvex(MatOfPoint(*approx.toArray())))
-                    approx
-                else null
-            }
-            .maxByOrNull { Geometry.contourArea(MatOfPoint(*it.toArray())) }
-            ?: return@coroutineScope input
-
-        val sorted = sortCorners(biggest.toArray())
+        val sorted = corners.clone()
         val widthA = distance(sorted[0], sorted[1])
         val widthB = distance(sorted[2], sorted[3])
         val maxWidth = maxOf(widthA, widthB).toInt()
@@ -211,6 +181,7 @@ object AutoStraighten : OpenCV() {
         val heightA = distance(sorted[0], sorted[3])
         val heightB = distance(sorted[1], sorted[2])
         val maxHeight = maxOf(heightA, heightB).toInt()
+        if (maxWidth < 2 || maxHeight < 2) return@coroutineScope input
 
         val dst = MatOfPoint2f(
             Point(0.0, 0.0),
@@ -219,17 +190,36 @@ object AutoStraighten : OpenCV() {
             Point(0.0, maxHeight.toDouble())
         )
 
-        val transform = Geometry.getPerspectiveTransform(MatOfPoint2f(*sorted), dst)
-        val out = Mat()
-        ensureActive()
-        Imgproc.warpPerspective(
-            srcMat,
-            out,
-            transform,
-            Size(maxWidth.toDouble(), maxHeight.toDouble())
-        )
+        val srcMat = input.toMat()
+        val src = MatOfPoint2f(*sorted)
+        try {
+            val transform = Geometry.getPerspectiveTransform(src, dst)
+            try {
+                val out = Mat()
+                try {
+                    ensureActive()
+                    Imgproc.warpPerspective(
+                        srcMat,
+                        out,
+                        transform,
+                        Size(maxWidth.toDouble(), maxHeight.toDouble()),
+                        Imgproc.INTER_LINEAR,
+                        Core.BORDER_REPLICATE,
+                        Scalar(0.0)
+                    )
 
-        out.toBitmap()
+                    out.toBitmap()
+                } finally {
+                    out.release()
+                }
+            } finally {
+                transform.release()
+            }
+        } finally {
+            srcMat.release()
+            src.release()
+            dst.release()
+        }
     }
 
     private suspend fun perspectiveFromPoints(
@@ -261,17 +251,6 @@ object AutoStraighten : OpenCV() {
         FreeCrop.crop(
             bitmap = input,
             points = absPoints
-        )
-    }
-
-    private fun sortCorners(pts: Array<Point>): Array<Point> {
-        val sum = pts.sortedBy { it.y + it.x }
-        val diff = pts.sortedBy { it.y - it.x }
-        return arrayOf(
-            sum.first(),
-            diff.first(),
-            sum.last(),
-            diff.last()
         )
     }
 

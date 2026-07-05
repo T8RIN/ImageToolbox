@@ -3655,4 +3655,6 @@
     <string name="original_files_deleted">Оригиналне датотеке су избрисане: __ПХ_0__</string>
     <string name="original_files_delete_failed">Брисање оригиналних датотека није успело: __ПХ_0__</string>
     <string name="original_files_delete_result">Оригиналне датотеке избрисане: __ПХ_0__, неуспешно: __ПХ_1__</string>
+    <string name="sheet_gestures">Покрети са листова</string>
+    <string name="sheet_gestures_sub">Дозволите превлачење проширених листова опција</string>
 </resources>

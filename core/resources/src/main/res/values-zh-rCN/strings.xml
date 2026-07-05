@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3582,7 +3581,7 @@
     <string name="texture_eye_size">眼睛大小</string>
     <string name="texture_barb_density">倒刺密度</string>
     <string name="texture_turns">转弯</string>
-    <string name="texture_chambers">钱伯斯</string>
+    <string name="texture_chambers">腔体</string>
     <string name="texture_opening">开幕</string>
     <string name="texture_ridges">山脊</string>
     <string name="texture_pearlescence">珠光</string>
@@ -3638,7 +3637,7 @@
     <string name="texture_outer_color">外观颜色</string>
     <string name="texture_inner_color">内色</string>
     <string name="texture_corona_color">电晕颜色</string>
-    <string name="texture_cold_color">冷色系</string>
+    <string name="texture_cold_color">冷色</string>
     <string name="texture_warm_color">暖色</string>
     <string name="texture_cloud_color">云色</string>
     <string name="texture_flame_color">火焰颜色</string>
@@ -3652,4 +3651,6 @@
     <string name="original_files_deleted">已删除的原始文件：%1$d</string>
     <string name="original_files_delete_failed">无法删除原始文件：%1$d</string>
     <string name="original_files_delete_result">原始文件已删除：%1$d，失败：%2$d</string>
+    <string name="sheet_gestures">表单手势</string>
+    <string name="sheet_gestures_sub">允许拖动展开的选项表</string>
 </resources>

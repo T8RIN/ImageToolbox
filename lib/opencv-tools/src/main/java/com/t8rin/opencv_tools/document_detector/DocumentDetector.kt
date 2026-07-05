@@ -65,65 +65,74 @@ object DocumentDetector : OpenCV() {
      * @return a list with document corners (top left, top right, bottom right, bottom left)
      */
     fun findDocumentCorners(image: Bitmap): List<Point>? {
-
         // convert bitmap to OpenCV matrix
         val source = image.toMat()
-
-        // shrink photo to make it easier to find document corners
-        val maxSide = max(image.width, image.height).toDouble()
-        val resizeScale = if (maxSide > RESIZE_THRESHOLD) {
-            maxSide / RESIZE_THRESHOLD
-        } else {
-            1.0
-        }
-        val scaledWidth = image.width / resizeScale
-        val scaledHeight = image.height / resizeScale
         val resized = Mat()
-        Imgproc.resize(source, resized, Size(scaledWidth, scaledHeight))
-
         val rgbImage = Mat()
-        when (resized.channels()) {
-            4 -> Imgproc.cvtColor(resized, rgbImage, Imgproc.COLOR_RGBA2RGB)
-            1 -> Imgproc.cvtColor(resized, rgbImage, Imgproc.COLOR_GRAY2RGB)
-            else -> resized.copyTo(rgbImage)
-        }
-
         val blurredImage = Mat()
-        Imgproc.medianBlur(rgbImage, blurredImage, 9)
-
-        val candidates = mutableListOf<DocumentCandidate>()
         val imageSplitByColorChannel = mutableListOf<Mat>()
-        Core.split(blurredImage, imageSplitByColorChannel)
-
         val luvImage = Mat()
         val imageSplitByLuvChannel = mutableListOf<Mat>()
-        Imgproc.cvtColor(blurredImage, luvImage, Imgproc.COLOR_RGB2Luv)
-        Core.split(luvImage, imageSplitByLuvChannel)
 
-        var weight = 3_000_000.0
-        (imageSplitByColorChannel + imageSplitByLuvChannel).forEach { channel ->
-            findCandidates(
-                image = channel,
-                imageWidth = scaledWidth,
-                imageHeight = scaledHeight,
-                candidates = candidates,
-                weight = weight
-            )
-            weight -= 1.0
-        }
+        try {
+            // shrink photo to make it easier to find document corners
+            val maxSide = max(image.width, image.height).toDouble()
+            val resizeScale = if (maxSide > RESIZE_THRESHOLD) {
+                maxSide / RESIZE_THRESHOLD
+            } else {
+                1.0
+            }
+            val scaledWidth = image.width / resizeScale
+            val scaledHeight = image.height / resizeScale
+            Imgproc.resize(source, resized, Size(scaledWidth, scaledHeight))
 
-        val documentCorners: List<Point>? = candidates
-            .maxByOrNull(DocumentCandidate::score)
-            ?.points
-            ?.map { point ->
-                Point(
-                    point.x * resizeScale,
-                    point.y * resizeScale
-                )
+            when (resized.channels()) {
+                4 -> Imgproc.cvtColor(resized, rgbImage, Imgproc.COLOR_RGBA2RGB)
+                1 -> Imgproc.cvtColor(resized, rgbImage, Imgproc.COLOR_GRAY2RGB)
+                else -> resized.copyTo(rgbImage)
             }
 
-        // sort points to force this order (top left, top right, bottom left, bottom right)
-        return documentCorners?.sortForCropper()
+            Imgproc.medianBlur(rgbImage, blurredImage, 9)
+
+            val candidates = mutableListOf<DocumentCandidate>()
+            Core.split(blurredImage, imageSplitByColorChannel)
+
+            Imgproc.cvtColor(blurredImage, luvImage, Imgproc.COLOR_RGB2Luv)
+            Core.split(luvImage, imageSplitByLuvChannel)
+
+            var weight = 3_000_000.0
+            (imageSplitByColorChannel + imageSplitByLuvChannel).forEach { channel ->
+                findCandidates(
+                    image = channel,
+                    imageWidth = scaledWidth,
+                    imageHeight = scaledHeight,
+                    candidates = candidates,
+                    weight = weight
+                )
+                weight -= 1.0
+            }
+
+            val documentCorners: List<Point>? = candidates
+                .maxByOrNull(DocumentCandidate::score)
+                ?.points
+                ?.map { point ->
+                    Point(
+                        point.x * resizeScale,
+                        point.y * resizeScale
+                    )
+                }
+
+            // sort points to force this order (top left, top right, bottom left, bottom right)
+            return documentCorners?.sortForCropper()
+        } finally {
+            source.release()
+            resized.release()
+            rgbImage.release()
+            blurredImage.release()
+            imageSplitByColorChannel.forEach(Mat::release)
+            luvImage.release()
+            imageSplitByLuvChannel.forEach(Mat::release)
+        }
     }
 
     private fun findCandidates(
@@ -136,68 +145,79 @@ object DocumentDetector : OpenCV() {
         val morphologyStruct = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, Size(4.0, 4.0))
         val dilateStruct = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, Size(3.0, 3.0))
         val thresholdImage = Mat()
-
-        Imgproc.threshold(
-            image,
-            thresholdImage,
-            THRESHOLD_VALUE,
-            THRESHOLD_MAX_VALUE,
-            Imgproc.THRESH_BINARY
-        )
-        Imgproc.morphologyEx(
-            thresholdImage,
-            thresholdImage,
-            Imgproc.MORPH_CLOSE,
-            morphologyStruct
-        )
-        Imgproc.dilate(thresholdImage, thresholdImage, dilateStruct)
-        collectCandidates(thresholdImage, imageWidth, imageHeight, candidates, weight)
-
         val otsuImage = Mat()
-        Imgproc.threshold(
-            image,
-            otsuImage,
-            0.0,
-            THRESHOLD_MAX_VALUE,
-            Imgproc.THRESH_BINARY + Imgproc.THRESH_OTSU
-        )
-        Imgproc.morphologyEx(
-            otsuImage,
-            otsuImage,
-            Imgproc.MORPH_CLOSE,
-            morphologyStruct
-        )
-        Imgproc.dilate(otsuImage, otsuImage, dilateStruct)
-        collectCandidates(otsuImage, imageWidth, imageHeight, candidates, weight - 0.25)
 
-        var threshold = 60
-        while (threshold >= 10) {
-            val edgeImage = Mat()
-            Imgproc.Canny(
+        try {
+            Imgproc.threshold(
                 image,
-                edgeImage,
-                threshold * 2.0,
-                threshold * 4.0
+                thresholdImage,
+                THRESHOLD_VALUE,
+                THRESHOLD_MAX_VALUE,
+                Imgproc.THRESH_BINARY
             )
-            Imgproc.dilate(edgeImage, edgeImage, dilateStruct)
-            collectCandidates(
-                image = edgeImage,
-                imageWidth = imageWidth,
-                imageHeight = imageHeight,
-                candidates = candidates,
-                weight = weight - (60 - threshold + 1)
+            Imgproc.morphologyEx(
+                thresholdImage,
+                thresholdImage,
+                Imgproc.MORPH_CLOSE,
+                morphologyStruct
             )
+            Imgproc.dilate(thresholdImage, thresholdImage, dilateStruct)
+            collectCandidates(thresholdImage, imageWidth, imageHeight, candidates, weight)
 
-            val bestCandidate = candidates.maxByOrNull(DocumentCandidate::score)
-            if (
-                bestCandidate != null &&
-                bestCandidate.maxCosine < EXPECTED_OPTIMAL_MAX_COSINE &&
-                bestCandidate.area > imageWidth * imageHeight * EXPECTED_AREA_FACTOR
-            ) {
-                break
+            Imgproc.threshold(
+                image,
+                otsuImage,
+                0.0,
+                THRESHOLD_MAX_VALUE,
+                Imgproc.THRESH_BINARY + Imgproc.THRESH_OTSU
+            )
+            Imgproc.morphologyEx(
+                otsuImage,
+                otsuImage,
+                Imgproc.MORPH_CLOSE,
+                morphologyStruct
+            )
+            Imgproc.dilate(otsuImage, otsuImage, dilateStruct)
+            collectCandidates(otsuImage, imageWidth, imageHeight, candidates, weight - 0.25)
+
+            var threshold = 60
+            while (threshold >= 10) {
+                val edgeImage = Mat()
+                try {
+                    Imgproc.Canny(
+                        image,
+                        edgeImage,
+                        threshold * 2.0,
+                        threshold * 4.0
+                    )
+                    Imgproc.dilate(edgeImage, edgeImage, dilateStruct)
+                    collectCandidates(
+                        image = edgeImage,
+                        imageWidth = imageWidth,
+                        imageHeight = imageHeight,
+                        candidates = candidates,
+                        weight = weight - (60 - threshold + 1)
+                    )
+                } finally {
+                    edgeImage.release()
+                }
+
+                val bestCandidate = candidates.maxByOrNull(DocumentCandidate::score)
+                if (
+                    bestCandidate != null &&
+                    bestCandidate.maxCosine < EXPECTED_OPTIMAL_MAX_COSINE &&
+                    bestCandidate.area > imageWidth * imageHeight * EXPECTED_AREA_FACTOR
+                ) {
+                    break
+                }
+
+                threshold -= 10
             }
-
-            threshold -= 10
+        } finally {
+            morphologyStruct.release()
+            dilateStruct.release()
+            thresholdImage.release()
+            otsuImage.release()
         }
     }
 
@@ -209,48 +229,64 @@ object DocumentDetector : OpenCV() {
         weight: Double
     ) {
         val contours: MutableList<MatOfPoint> = mutableListOf()
-        Imgproc.findContours(
-            image,
-            contours,
-            Mat(),
-            Imgproc.RETR_TREE,
-            Imgproc.CHAIN_APPROX_SIMPLE
-        )
+        val hierarchy = Mat()
 
-        val minArea = imageWidth * imageHeight * MIN_AREA_FACTOR
-        val maxArea = imageWidth * imageHeight * MAX_AREA_FACTOR
-
-        contours.forEach { contour ->
-            val contourArea = Geometry.contourArea(contour)
-            if (contourArea < minArea || contourArea >= maxArea) return@forEach
-
-            val approxContour = MatOfPoint2f()
-            val contour2f = MatOfPoint2f(*contour.toArray())
-            val arcLength = Geometry.arcLength(contour2f, true)
-            if (arcLength < 100) return@forEach
-
-            Geometry.approxPolyDP(
-                contour2f,
-                approxContour,
-                APPROX_EPSILON_FACTOR * arcLength,
-                true
+        try {
+            Imgproc.findContours(
+                image,
+                contours,
+                hierarchy,
+                Imgproc.RETR_TREE,
+                Imgproc.CHAIN_APPROX_SIMPLE
             )
 
-            if (approxContour.total() != 4L) return@forEach
+            val minArea = imageWidth * imageHeight * MIN_AREA_FACTOR
+            val maxArea = imageWidth * imageHeight * MAX_AREA_FACTOR
 
-            val approx = MatOfPoint(*approxContour.toArray())
-            if (!Geometry.isContourConvex(approx)) return@forEach
+            contours.forEach { contour ->
+                val contourArea = Geometry.contourArea(contour)
+                if (contourArea !in minArea..<maxArea) return@forEach
 
-            val points = approx.toList()
-            val maxCosine = points.maxCornerCosine()
-            if (maxCosine >= EXPECTED_MAX_COSINE) return@forEach
+                val approxContour = MatOfPoint2f()
+                val contour2f = MatOfPoint2f(*contour.toArray())
+                try {
+                    val arcLength = Geometry.arcLength(contour2f, true)
+                    if (arcLength < 100) return@forEach
 
-            candidates += DocumentCandidate(
-                points = points,
-                area = contourArea,
-                maxCosine = maxCosine,
-                weight = weight
-            )
+                    Geometry.approxPolyDP(
+                        contour2f,
+                        approxContour,
+                        APPROX_EPSILON_FACTOR * arcLength,
+                        true
+                    )
+
+                    if (approxContour.total() != 4L) return@forEach
+
+                    val approx = MatOfPoint(*approxContour.toArray())
+                    try {
+                        if (!Geometry.isContourConvex(approx)) return@forEach
+
+                        val points = approx.toList()
+                        val maxCosine = points.maxCornerCosine()
+                        if (maxCosine >= EXPECTED_MAX_COSINE) return@forEach
+
+                        candidates += DocumentCandidate(
+                            points = points,
+                            area = contourArea,
+                            maxCosine = maxCosine,
+                            weight = weight
+                        )
+                    } finally {
+                        approx.release()
+                    }
+                } finally {
+                    approxContour.release()
+                    contour2f.release()
+                }
+            }
+        } finally {
+            contours.forEach(Mat::release)
+            hierarchy.release()
         }
     }
 

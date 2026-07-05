@@ -3654,4 +3654,6 @@
     <string name="original_files_deleted">Ang mga orihinal na file ay tinanggal: %1$d</string>
     <string name="original_files_delete_failed">Nabigong tanggalin ang mga orihinal na file: %1$d</string>
     <string name="original_files_delete_result">Ang mga orihinal na file ay tinanggal: %1$d, nabigo: %2$d</string>
+    <string name="sheet_gestures">Mga galaw sa sheet</string>
+    <string name="sheet_gestures_sub">Payagan ang pag-drag ng pinalawak na mga sheet ng opsyon</string>
 </resources>

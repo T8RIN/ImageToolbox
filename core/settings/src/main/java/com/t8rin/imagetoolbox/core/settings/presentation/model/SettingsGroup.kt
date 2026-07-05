@@ -410,7 +410,8 @@ sealed class SettingsGroup(
             Setting.OpenEditInsteadOfPreview,
             Setting.SnowfallMode,
             Setting.EnableLinksPreview,
-            Setting.GeneratePreviews
+            Setting.GeneratePreviews,
+            Setting.EnableSheetGestures
         ),
         initialState = false
     )

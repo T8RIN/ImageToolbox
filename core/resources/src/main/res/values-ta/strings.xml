@@ -3653,4 +3653,6 @@
     <string name="original_files_deleted">அசல் கோப்புகள் நீக்கப்பட்டன: %1$d</string>
     <string name="original_files_delete_failed">அசல் கோப்புகளை நீக்க முடியவில்லை: %1$d</string>
     <string name="original_files_delete_result">அசல் கோப்புகள் நீக்கப்பட்டன: %1$d, தோல்வியடைந்தது: %2$d</string>
+    <string name="sheet_gestures">தாள் சைகைகள்</string>
+    <string name="sheet_gestures_sub">விரிவாக்கப்பட்ட விருப்பத் தாள்களை இழுக்க அனுமதிக்கவும்</string>
 </resources>
