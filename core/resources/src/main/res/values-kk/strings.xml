@@ -3655,4 +3655,8 @@
     <string name="original_files_delete_result">Түпнұсқа файлдар жойылды: %1$d, орындалмады: %2$d</string>
     <string name="sheet_gestures">Парақ қимылдары</string>
     <string name="sheet_gestures_sub">Кеңейтілген опция парақтарын сүйреп апаруға рұқсат етіңіз</string>
+    <string name="chroma_subsampling">Хроманың ішкі сынамасы</string>
+    <string name="bit_depth">Бит тереңдігі</string>
+    <string name="lossless">Жоғалсыз</string>
+    <string name="bit_depth_value">%1$d-бит</string>
 </resources>

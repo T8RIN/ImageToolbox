@@ -3659,4 +3659,8 @@
     <string name="original_files_delete_result">الملفات الأصلية المحذوفة: %1$d، الفاشلة: %2$d</string>
     <string name="sheet_gestures">إيماءات الورقة</string>
     <string name="sheet_gestures_sub">السماح بسحب أوراق الخيارات الموسعة</string>
+    <string name="chroma_subsampling">أخذ عينات فرعية من الكروما</string>
+    <string name="bit_depth">عمق بت</string>
+    <string name="lossless">ضياع</string>
+    <string name="bit_depth_value">%1$d-بت</string>
 </resources>

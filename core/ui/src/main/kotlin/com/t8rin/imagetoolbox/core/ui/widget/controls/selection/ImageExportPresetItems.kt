@@ -335,6 +335,8 @@ private fun Quality.qualityLabel(showQuality: Boolean): String? {
     return when (this) {
         is Quality.Avif -> "${qualityValue}%, E$effort"
         is Quality.Base -> "${qualityValue}%"
+        is Quality.Heic -> "${qualityValue}%"
+        is Quality.Vvc -> "${qualityValue}%"
         is Quality.Jxl -> "${qualityValue}%, E$effort"
         is Quality.PngLossy -> "L$compressionLevel, ${maxColors}c"
         is Quality.PngQuant -> "${quality}%, ${maxColors}c"

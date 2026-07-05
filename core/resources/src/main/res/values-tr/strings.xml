@@ -3531,7 +3531,7 @@
     <string name="texture_blooms">çiçek açar</string>
     <string name="texture_pigment">Pigment</string>
     <string name="texture_edges">Kenarlar</string>
-    <string name="texture_paper_amount">Kağıt</string>
+    <string name="texture_paper_amount">Kâğıt</string>
     <string name="texture_diffusion">Difüzyon</string>
     <string name="texture_symmetry">Simetri</string>
     <string name="texture_sharpness">Keskinlik</string>
@@ -3613,7 +3613,7 @@
     <string name="texture_cyan_color">Camgöbeği rengi</string>
     <string name="texture_magenta_color">Macenta rengi</string>
     <string name="texture_gold_color">Altın rengi</string>
-    <string name="texture_paper_color">Kağıt rengi</string>
+    <string name="texture_paper_color">Kâğıt rengi</string>
     <string name="texture_pigment_color">Pigment rengi</string>
     <string name="texture_secondary_color">İkincil renk</string>
     <string name="texture_first_color">İlk renk</string>
@@ -3655,4 +3655,8 @@
     <string name="original_files_delete_result">Orijinal dosyalar silindi: %1$d, başarısız oldu: %2$d</string>
     <string name="sheet_gestures">Sayfa hareketleri</string>
     <string name="sheet_gestures_sub">Genişletilmiş seçenek sayfalarının sürüklenmesine izin ver</string>
+    <string name="chroma_subsampling">Renk alt örneklemesi</string>
+    <string name="bit_depth">Bit derinliği</string>
+    <string name="lossless">Kayıpsız</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

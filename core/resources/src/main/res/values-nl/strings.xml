@@ -3655,4 +3655,8 @@
     <string name="original_files_delete_result">Originele bestanden verwijderd: %1$d, mislukt: %2$d</string>
     <string name="sheet_gestures">Bladgebaren</string>
     <string name="sheet_gestures_sub">Sta het slepen van uitgebreide optiebladen toe</string>
+    <string name="chroma_subsampling">Chroma-subsampling</string>
+    <string name="bit_depth">Beetje diepte</string>
+    <string name="lossless">Zonder verlies</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

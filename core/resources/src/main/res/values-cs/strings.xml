@@ -3657,4 +3657,8 @@
     <string name="original_files_delete_result">Původní soubory byly smazány: %1$d, neúspěšné: %2$d</string>
     <string name="sheet_gestures">Gesta s listem</string>
     <string name="sheet_gestures_sub">Povolit přetahování rozbalených listů možností</string>
+    <string name="chroma_subsampling">Chroma subsampling</string>
+    <string name="bit_depth">Bitová hloubka</string>
+    <string name="lossless">Bezztrátový</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

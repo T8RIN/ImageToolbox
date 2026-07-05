@@ -3655,4 +3655,8 @@
     <string name="original_files_delete_result">මුල් ගොනු මකා ඇත: %1$d, අසාර්ථක විය: %2$d</string>
     <string name="sheet_gestures">පත්ර අභිනයන්</string>
     <string name="sheet_gestures_sub">පුළුල් කළ විකල්ප පත්‍ර ඇදගෙන යාමට ඉඩ දෙන්න</string>
+    <string name="chroma_subsampling">ක්‍රෝමා උප නියැදීම</string>
+    <string name="bit_depth">ටිකක් ගැඹුර</string>
+    <string name="lossless">පාඩු නැති</string>
+    <string name="bit_depth_value">%1$d-බිට්</string>
 </resources>

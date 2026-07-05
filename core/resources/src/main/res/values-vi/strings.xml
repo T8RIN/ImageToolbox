@@ -3654,4 +3654,8 @@
     <string name="original_files_delete_result">Tệp gốc đã bị xóa: %1$d, không thành công: %2$d</string>
     <string name="sheet_gestures">Cử chỉ trang tính</string>
     <string name="sheet_gestures_sub">Cho phép kéo các trang tùy chọn mở rộng</string>
+    <string name="chroma_subsampling">Lấy mẫu phụ sắc độ</string>
+    <string name="bit_depth">Độ sâu bit</string>
+    <string name="lossless">không mất dữ liệu</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

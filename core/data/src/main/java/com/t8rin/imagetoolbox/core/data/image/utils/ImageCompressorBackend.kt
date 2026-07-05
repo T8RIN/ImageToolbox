@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.compressor.PngLossyBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.QoiBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.StaticGifBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.TiffBackend
+import com.t8rin.imagetoolbox.core.data.image.utils.compressor.VvcBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.WebpBackend
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
@@ -76,12 +77,21 @@ internal interface ImageCompressorBackend {
             ImageFormat.Tiff -> TiffBackend(context)
 
             ImageFormat.Heic.Lossless,
-            ImageFormat.Heif.Lossless,
+            ImageFormat.Heic.HeifLossless,
             ImageFormat.Heic.Lossy,
-            ImageFormat.Heif.Lossy -> HeicBackend(isLossless = imageFormat.isLossless)
+            ImageFormat.Heic.HeifLossy -> HeicBackend(isLossless = imageFormat.isLossless)
 
-            ImageFormat.Avif.Lossless,
-            ImageFormat.Avif.Lossy -> AvifBackend(isLossless = imageFormat.isLossless)
+            ImageFormat.Heic.VvcLossless,
+            ImageFormat.Heic.VvcLossy -> VvcBackend(isLossless = imageFormat.isLossless)
+
+            ImageFormat.Avif.LosslessAv1,
+            ImageFormat.Avif.LossyAv1,
+            ImageFormat.Avif.LosslessAv2,
+            ImageFormat.Avif.LossyAv2 -> AvifBackend(
+                isLossless = imageFormat.isLossless,
+                isAv1 = imageFormat == ImageFormat.Avif.LosslessAv1 ||
+                        imageFormat == ImageFormat.Avif.LossyAv1
+            )
 
             ImageFormat.Jpeg2000.J2k -> Jpeg2000Backend(isJ2K = true)
             ImageFormat.Jpeg2000.Jp2 -> Jpeg2000Backend(isJ2K = false)

@@ -3655,4 +3655,8 @@
     <string name="original_files_delete_result">मूळ फाइल हटवल्या: %1$d, अयशस्वी: %2$d</string>
     <string name="sheet_gestures">पत्रक जेश्चर</string>
     <string name="sheet_gestures_sub">विस्तारित पर्याय पत्रके ड्रॅग करण्यास अनुमती द्या</string>
+    <string name="chroma_subsampling">क्रोमा सबसॅम्पलिंग</string>
+    <string name="bit_depth">थोडी खोली</string>
+    <string name="lossless">दोषरहित</string>
+    <string name="bit_depth_value">%1$d-बिट</string>
 </resources>

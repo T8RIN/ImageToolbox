@@ -36,17 +36,18 @@ import coil3.size.Size
 import coil3.util.Logger
 import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
-import com.github.awxkee.avifcoil.decoder.HeifDecoder
 import com.t8rin.awebp.coil.AnimatedWebPDecoder
 import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.imagetoolbox.core.data.coil.Base64Fetcher
 import com.t8rin.imagetoolbox.core.data.coil.CoilLogger
+import com.t8rin.imagetoolbox.core.data.coil.HeifDecoder
 import com.t8rin.imagetoolbox.core.data.coil.NefDecoder
 import com.t8rin.imagetoolbox.core.data.coil.OriginalUriMapper
 import com.t8rin.imagetoolbox.core.data.coil.PdfDecoder
 import com.t8rin.imagetoolbox.core.data.coil.SvgDecoderCompat
 import com.t8rin.imagetoolbox.core.data.coil.TiffDecoder
 import com.t8rin.imagetoolbox.core.data.coil.TimeMeasureInterceptor
+import com.t8rin.imagetoolbox.core.data.coil.VVCDecoder
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.psd.coil.PsdDecoder
@@ -119,6 +120,7 @@ internal object ImageLoaderModule {
                 add(AnimatedWebPDecoder.Factory())
             }
             add(SvgDecoderCompat.Factory())
+            add(VVCDecoder.Factory())
             add(HeifDecoder.Factory())
             add(AnimatedJxlDecoder.Factory())
             add(Jpeg2000Decoder.Factory())

@@ -3655,4 +3655,8 @@
     <string name="original_files_delete_result">Fichiers d\'origine supprimés : %1$d, échec : %2$d</string>
     <string name="sheet_gestures">Gestes de feuille</string>
     <string name="sheet_gestures_sub">Autoriser le glissement des feuilles d\'options développées</string>
+    <string name="chroma_subsampling">Sous-échantillonnage de chrominance</string>
+    <string name="bit_depth">Profondeur de bits</string>
+    <string name="lossless">Sans perte</string>
+    <string name="bit_depth_value">%1$d-bit</string>
 </resources>

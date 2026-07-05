@@ -3657,4 +3657,8 @@
     <string name="original_files_delete_result">Originalūs failai ištrinti: %1$d, nepavyko: %2$d</string>
     <string name="sheet_gestures">Lakšto gestai</string>
     <string name="sheet_gestures_sub">Leisti vilkti išplėstų parinkčių lapus</string>
+    <string name="chroma_subsampling">Chroma atranka</string>
+    <string name="bit_depth">Bitelio gylis</string>
+    <string name="lossless">Be nuostolių</string>
+    <string name="bit_depth_value">%1$d bitų</string>
 </resources>

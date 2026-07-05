@@ -889,7 +889,8 @@ or click one of the badges below.
 - Format Conversion
     - HEIF
     - HEIC
-    - AVIF
+    - VVC
+    - AVIF (AV1/AV2)
     - WEBP
     - JPEG
     - JPG

@@ -3655,4 +3655,8 @@
     <string name="original_files_delete_result">ئۆچۈرۈلگەن ئەسلى ھۆججەتلەر: %1$d ، مەغلۇپ بولدى: %2$d</string>
     <string name="sheet_gestures">ۋاراق ئىشارەتلىرى</string>
     <string name="sheet_gestures_sub">كېڭەيتىلگەن تاللاش جەدۋىلىنى سۆرەشكە يول قويۇڭ</string>
+    <string name="chroma_subsampling">Chroma subampling</string>
+    <string name="bit_depth">Bit چوڭقۇرلۇقى</string>
+    <string name="lossless">زىيانسىز</string>
+    <string name="bit_depth_value">__PH_0 __- bit</string>
 </resources>

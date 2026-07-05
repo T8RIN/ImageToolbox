@@ -15,13 +15,32 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.data.image.utils
+package com.t8rin.imagetoolbox.core.domain.image.model
 
-import coil3.gif.repeatCount
-import coil3.request.ImageRequest
-import com.awxkee.jxlcoder.coil.enableJxlAnimation
-import com.t8rin.imagetoolbox.core.data.coil.SvgDecoderCompat
+enum class AvifChromaSubsampling {
+    Auto,
+    Yuv420,
+    Yuv422,
+    Yuv444,
+    Yuv400,
+    Lossless
+}
 
-fun ImageRequest.Builder.static() = repeatCount(0)
-    .enableJxlAnimation(false)
-    .decoderFactory(SvgDecoderCompat.Factory(minimumSize = 2048))
+enum class HeicChromaSubsampling {
+    Yuv420,
+    Yuv422,
+    Yuv444
+}
+
+enum class VvcChroma {
+    MONOCHROME,
+    YUV_420,
+    YUV_422,
+    YUV_444
+}
+
+enum class VvcBitDepth {
+    EIGHT,
+    TEN,
+    TWELVE
+}

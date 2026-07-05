@@ -3657,4 +3657,8 @@
     <string name="original_files_delete_result">Арыгінальныя файлы выдалены: %1$d, не ўдалося: %2$d</string>
     <string name="sheet_gestures">Жэсты ліста</string>
     <string name="sheet_gestures_sub">Дазволіць перацягванне разгорнутых аркушаў параметраў</string>
+    <string name="chroma_subsampling">Падвыбарка каляровасці</string>
+    <string name="bit_depth">Разрадная глыбіня</string>
+    <string name="lossless">Без страт</string>
+    <string name="bit_depth_value">%1$d-біт</string>
 </resources>
