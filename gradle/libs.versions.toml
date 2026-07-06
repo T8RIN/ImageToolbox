@@ -14,7 +14,7 @@ trickle = "1.8.6"
 evaluator = "1.0.0"
 quickie = "1.18.1"
 fadingEdges = "1.0.4"
-composeHighlight = "0.31.0"
+composeHighlight = "0.32.0"
 
 avifCoder = "3.0.0-alpha06"
 aire = "0.18.1"
