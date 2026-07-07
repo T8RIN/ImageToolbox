@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -3660,4 +3662,28 @@
     <string name="bit_depth">קצת עומק</string>
     <string name="lossless">ללא אובדן</string>
     <string name="bit_depth_value">%1$d-bit</string>
+    <string name="batch_rename">שינוי שם אצווה</string>
+    <string name="batch_rename_sub">שנה שמות של קבצים מרובים באמצעות דפוסי שמות קבצים</string>
+    <string name="search_keywords_batch_rename">שינוי שם קבצים שם קובץ דפוס רצף סיומת תאריך</string>
+    <string name="pick_files_to_rename">בחר קבצים לשינוי שמות</string>
+    <string name="filename_pattern">דפוס שם קובץ</string>
+    <string name="rename">שנה שם</string>
+    <string name="date_source">מקור תאריך</string>
+    <string name="date_source_exif">תאריך EXIF ​​שנלקח</string>
+    <string name="date_source_modified">תאריך שינוי הקובץ</string>
+    <string name="date_source_created">תאריך יצירת הקובץ</string>
+    <string name="date_source_current">תאריך נוכחי</string>
+    <string name="date_source_manual">תאריך ידני</string>
+    <string name="manual_date">תאריך ידני</string>
+    <string name="manual_time">זמן ידני</string>
+    <string name="date_source_fallback">התאריך שנבחר אינו זמין עבור חלק מהקבצים. התאריך הנוכחי ישמש עבורם.</string>
+    <string name="rename_error_empty_pattern">הזן דפוס של שם קובץ</string>
+    <string name="rename_error_invalid_name">התבנית מייצרת שם קובץ לא חוקי או ארוך מדי</string>
+    <string name="rename_error_duplicate_name">הדפוס מייצר שמות קבצים כפולים</string>
+    <string name="rename_error_no_changes">כל שמות הקבצים כבר תואמים לדפוס</string>
+    <string name="rename_error_unsupported_pattern">דפוס זה משתמש באסימונים שאינם זמינים לשינוי שם אצווה</string>
+    <string name="rename_unchanged">השם יישאר זהה</string>
+    <string name="batch_rename_success">שמות הקבצים שונו בהצלחה</string>
+    <string name="batch_rename_failed">לא ניתן היה לשנות את שמם של חלק מהקבצים</string>
+    <string name="permission_not_granted">הרשות לא ניתנה</string>
 </resources>
