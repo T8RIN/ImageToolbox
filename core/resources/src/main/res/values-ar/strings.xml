@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -53,8 +52,8 @@
     <string name="copied">نُسخ إلى الحافظة</string>
     <string name="exception">إستثناء</string>
     <string name="edit_exif">حرِّر البيانات الوصفية</string>
-    <string name="ok">حسناً</string>
-    <string name="no_exif">لم يتم العثور على بيانات وصفية</string>
+    <string name="ok">حسنًا</string>
+    <string name="no_exif">لم يُعثر على بيانات وصفية</string>
     <string name="add_tag">أضف وسم</string>
     <string name="save">احفظ</string>
     <string name="clear">امحُ</string>
@@ -63,14 +62,14 @@
     <string name="clear_exif_sub">سيتم مسح جميع البيانات الوصفية للصورة. لا يمكن التراجع عن هذا الإجراء!</string>
     <string name="presets">الإعدادات المسبقة</string>
     <string name="crop">اقتصاص</string>
-    <string name="image_not_saved">جارِ الحفظ..</string>
+    <string name="image_not_saved">يحفظ...</string>
     <string name="image_not_saved_sub">ستفقد جميع التغييرات غير المحفوظة، إذا غادرت الآن.</string>
     <string name="check_source_code">شفرة المصدر</string>
     <string name="check_source_code_sub">احصل على آخر التحديثات وتناقش عن البرنامج من أعطال ومما يتعلق به</string>
     <string name="single_edit">تحرير واحد</string>
     <string name="single_edit_sub">تعديل وتحجيم وتحرير صورة واحدة</string>
     <string name="pick_color">منتقي الألوان</string>
-    <string name="pick_color_sub">حدد لونًا من صورة، انسخ أو شارك</string>
+    <string name="pick_color_sub">حدّد لونًا من صورة، انسخ أو شارك</string>
     <string name="image">صورة</string>
     <string name="color">اللون</string>
     <string name="color_copied">نُسخ اللون</string>
@@ -90,21 +89,21 @@
     <string name="original">الاصلية</string>
     <string name="folder">مجلد الحفظ</string>
     <string name="def">الافتراضي</string>
-    <string name="custom">مخصص</string>
-    <string name="unspecified">غير محدد</string>
+    <string name="custom">مخصّص</string>
+    <string name="unspecified">غير محدّد</string>
     <string name="device_storage">تخزين الجهاز</string>
     <string name="by_bytes_resize">تغيير حجم الصورة بناء على حجم الملف</string>
     <string name="max_bytes">الحجم الأقصى بالكيلو بايت</string>
-    <string name="by_bytes_resize_sub">غيّر حجم الصورة باتباع الحجم المحدد بالكيلو بايت</string>
+    <string name="by_bytes_resize_sub">غيّر حجم الصورة باتباع الحجم المحدّد بالكيلو بايت</string>
     <string name="compare">قارن</string>
     <string name="compare_sub">قارن بين صورتين معينتين</string>
     <string name="pick_two_images">اختر صورتين للبدء</string>
     <string name="pick_images">اختر الصور</string>
     <string name="settings">الاعدادات</string>
     <string name="night_mode">الوضع الليلي</string>
-    <string name="dark">مظلم</string>
-    <string name="light">مضيء</string>
-    <string name="system">نظام</string>
+    <string name="dark">داكن</string>
+    <string name="light">فاتح</string>
+    <string name="system">النظام</string>
     <string name="dynamic_colors">ألوان ديناميكية</string>
     <string name="customization">التخصيص</string>
     <string name="allow_image_monet">وفقا لالوان الصورة المختارة</string>
@@ -112,11 +111,11 @@
     <string name="about_app">حول التطبيق</string>
     <string name="issue_tracker">متعقب المشاكل</string>
     <string name="help_translate">مساعدة في الترجمة</string>
-    <string name="no_updates">لم يتم العثور على تحديثات</string>
+    <string name="no_updates">لم يُعثر على تحديثات</string>
     <string name="issue_tracker_sub">أرسل تقرير بمشكلتك وطلباتك من هنا</string>
     <string name="search_here">ابحث هنا</string>
     <string name="help_translate_sub">تصحيح أخطاء الترجمة أو ترجمة المشروع إلى لغات أخرى</string>
-    <string name="nothing_found_by_search">لم يتم العثور على شيء من خلال الاستعلام الخاص بك</string>
+    <string name="nothing_found_by_search">لم يُعثر على شيء من خلال استعلامك</string>
     <string name="dynamic_colors_sub">إذا فعّلته، فسيتم تكييف ألوان التطبيق مع ألوان خلفية الشاشة</string>
     <string name="failed_to_save">فشل حفظ %d صورة (صور)</string>
     <string name="surface">سطح</string>
@@ -133,7 +132,7 @@
     <string name="grant">منح</string>
     <string name="permission_sub">يحتاج التطبيق إلى الوصول إلى وحدة التخزين الخاصة بك لحفظ الصور لكي يعمل، وهذا أمر ضروري. يُرجى منح الإذن في مربع الحوار التالي.</string>
     <string name="grant_permission_manual">يحتاج التطبيق إلى هذا الإذن للعمل، يُرجى منحه يدويًا</string>
-    <string name="border_thickness">سمك الحدود</string>
+    <string name="border_thickness">سُمك الحدود</string>
     <string name="external_storage">تخزين خارجي</string>
     <string name="monet_colors">ألوان مونيه</string>
     <string name="zoom">تقريب الصورة</string>
@@ -281,7 +280,7 @@
     <string name="file_proceed">متابعة الملف</string>
     <string name="store_file_desc">خزّن هذا الملف على جهازك أو استخدم إجراء المشاركة لوضعه في أي مكان تريده</string>
     <string name="features">سمات</string>
-    <string name="compatibility_sub">يرجى ملاحظة أن التوافق مع برامج أو خدمات تشفير الملفات الأخرى غير مضمون. قد يكون هناك اختلاف طفيف في معالجة المفتاح أو تكوين التشفير من أسباب عدم التوافق.</string>
+    <string name="compatibility_sub">يُرجى ملاحظة أن التوافق مع برامج أو خدمات تعمية الملفات الأخرى غير مضمون. قد يكون هناك اختلاف طفيف في معالجة المفتاح أو تكوين التشفير من أسباب عدم التوافق.</string>
     <string name="implementation">تطبيق</string>
     <string name="compatibility">التوافق</string>
     <string name="features_sub">تشفير الملفات على أساس كلمة المرور. يمكن تخزين الملفات التي تمت متابعتها في دليل Crypto أو مشاركتها. يمكن أيضًا فتح الملفات التي تم فك تشفيرها مباشرة.</string>
@@ -303,7 +302,7 @@
     <string name="secondary_customization">التخصيص الثانوي</string>
     <string name="fallback_option">الخيار الاحتياطي</string>
     <string name="skip">يتخطى</string>
-    <string name="copy">ينسخ</string>
+    <string name="copy">انسخ</string>
     <string name="warning_bytes">يمكن أن يكون الحفظ في وضع %1$s غير مستقر، لأنه تنسيق غير ضياع</string>
     <string name="invalid_password_or_not_encrypted">كلمة مرور غير صالحة أو الملف المختار غير مشفر</string>
     <string name="cache">مخبأ</string>
@@ -375,7 +374,7 @@
     <string name="activities">أنشطة</string>
     <string name="draw_arrows_sub">إذا فُعِّل مسار الرسم فسيتم تمثيله كسهم يشير</string>
     <string name="crop_description">سيتم اقتصاص الصور من المنتصف حسب الحجم الذي تم إدخاله. سيتم توسيع اللوحة القماشية بلون الخلفية المحدد إذا كانت الصورة أصغر من الأبعاد المدخلة.</string>
-    <string name="donation">هبة</string>
+    <string name="donation">تبرع</string>
     <string name="horizontal">أفقي</string>
     <string name="vertical">رَأسِيّ</string>
     <string name="scale_small_images_to_large_sub">سيتم تغيير حجم الصور الصغيرة إلى أكبر صورة في التسلسل إذا تم تمكينها</string>
@@ -465,7 +464,7 @@
     <string name="segmentation_mode_single_column">عمود فردي</string>
     <string name="segmentation_mode_single_block_vert_text">نص عمودي كتلة واحدة</string>
     <string name="segmentation_mode_sparse_text">نص متفرق</string>
-    <string name="delete_language_sub">هل تريد حذف بيانات تدريب التعرف الضوئي على الحروف \"%1$s\" اللغوية لجميع أنواع التعرف، أم للنوع المحدد فقط (%2$s)؟</string>
+    <string name="delete_language_sub">أتريد حذف بيانات تدريب التعرف الضوئي على الحروف \"%1$s\" اللغوية لجميع أنواع التعرُّف، أم للنوع المحدّد فقط (%2$s)؟</string>
     <string name="current">حاضِر</string>
     <string name="all">الجميع</string>
     <string name="gradient_maker_sub">أنشئ تدرج لحجم الإخراج المحدد بألوان مخصّصة ونوع المظهر</string>
@@ -751,7 +750,7 @@
     <string name="recognize_text_sub">التعرف على النص من صورة معينة، دعم أكثر من 120 لغة</string>
     <string name="picture_has_no_text">الصورة لا تحتوي على نص، أو أن التطبيق لم يعثر عليها</string>
     <string name="accuracy">Accuracy: %1$s</string>
-    <string name="recognition_type">نوع الاعتراف</string>
+    <string name="recognition_type">نوع التعرُّف</string>
     <string name="fast">سريع</string>
     <string name="standard">معيار</string>
     <string name="best">أفضل</string>
@@ -790,7 +789,7 @@
     <string name="attention">انتباه</string>
     <string name="fading_edges">حواف باهتة</string>
     <string name="invert_colors">عكس الألوان</string>
-    <string name="exit">غادر</string>
+    <string name="exit">غادِر</string>
     <string name="preview_closing">إذا تركت المعاينة الآن، فسوف تحتاج إلى إضافة الصور مرة أخرى</string>
     <string name="lasso">لاسو</string>
     <string name="lasso_sub">رسم مسارًا مغلقًا ومملوءًا بمسار معين</string>
@@ -821,11 +820,11 @@
     <string name="explode">الانفجار</string>
     <string name="rain">مطر</string>
     <string name="corners">الحواف</string>
-    <string name="jxl_tools_sub">قم بإجراء تحويل ترميز JXL ~ JPEG دون فقدان الجودة، أو قم بتحويل GIF/APNG إلى رسوم متحركة JXL</string>
+    <string name="jxl_tools_sub">اجري تحويل ترميز JXL ~ JPEG دون فقدان الجودة، أو قم بتحويل GIF/APNG إلى رسوم متحركة JXL</string>
     <string name="jxl_type_to_jpeg">من JXL إلى JPEG</string>
-    <string name="jxl_type_to_jpeg_sub">قم بإجراء تحويل بدون فقدان الترميز من JXL إلى JPEG</string>
-    <string name="jxl_tools">أدوات جي إكس إل</string>
-    <string name="jpeg_type_to_jxl_sub">قم بإجراء تحويل بدون فقدان الترميز من JPEG الى JXL</string>
+    <string name="jxl_type_to_jpeg_sub">اجري تحويل بدون فقدان الترميز من JXL إلى JPEG</string>
+    <string name="jxl_tools">أدوات JXL</string>
+    <string name="jpeg_type_to_jxl_sub">اجري تحويل بدون فقدان الترميز من JPEG الى JXL</string>
     <string name="fast_gaussian_blur_2d">تمويه غاوسي سريع 2D</string>
     <string name="fast_gaussian_blur_3d">طمس غاوسي سريع 3D</string>
     <string name="fast_gaussian_blur_4d">تمويه غاوسي سريع 4D</string>
@@ -865,7 +864,7 @@
     <string name="embedded_picker">المنتقى المضمن</string>
     <string name="embedded_picker_sub">يستخدم منتقي الصور الخاص بـ Image Toolbox بدلاً من الصور المحددة مسبقًا في النظام</string>
     <string name="no_permissions">لا أذونات</string>
-    <string name="request">الطلب</string>
+    <string name="request">اطلب</string>
     <string name="pick_multiple_media">اختر صور متعددة</string>
     <string name="pick">اختر</string>
     <string name="pick_single_media">اختر صورة واحدة</string>
@@ -896,7 +895,7 @@
     <string name="coordinates_rounding_tolerance">إحداثيات التقريب التسامح</string>
     <string name="path_scale">مقياس المسار</string>
     <string name="reset_properties">صفّر الخصائص</string>
-    <string name="images_to_svg">الصور إلى Svg</string>
+    <string name="images_to_svg">الصور إلى SVG</string>
     <string name="use_sampled_palette_sub">سيتم أخذ عينات من لوحة القياس إذا فُعّل هذا الخيار</string>
     <string name="svg_warning">لا يُنصح باستخدام هذه الأداة لتتبع الصور الكبيرة دون تقليصها، حيث يمكن أن تتسبب في حدوث إنهيار وزيادة وقت المعالجة</string>
     <string name="reset_properties_sub">سيصفّر كافة الخصائص إلى القيم الافتراضية، لاحظ أنه لا يمكن التراجع عن هذا الإجراء</string>
@@ -990,7 +989,7 @@
     <string name="tag_sensing_method">طريقة الاستشعار</string>
     <string name="tag_file_source">مصدر الملف</string>
     <string name="tag_cfa_pattern">نمط CFA</string>
-    <string name="tag_custom_rendered">المقدمة المخصصة</string>
+    <string name="tag_custom_rendered">المقدمة المخصّصة</string>
     <string name="tag_exposure_mode">وضع التعريض</string>
     <string name="tag_white_balance">توازن اللون الأبيض</string>
     <string name="tag_digital_zoom_ratio">نسبة التقريب الرقمي</string>
@@ -1352,7 +1351,7 @@
     <string name="webp_type_to_webp">الصور إلى WEBP</string>
     <string name="select_webp_image_to_start">اختر صورة WEBP للبدء</string>
     <string name="manage_storage_extra_types">لا يوجد وصول كامل إلى الملفات</string>
-    <string name="manage_storage_extra_types_sub">السماح لجميع الملفات بالوصول لرؤية JXL وQOI والصور الأخرى التي لم يتم التعرف عليها كصور على Android. بدون إذن، يتعذر على Image Toolbox عرض تلك الصور</string>
+    <string name="manage_storage_extra_types_sub">السماح لجميع الملفات بالوصول لرؤية JXL و QOI والصور الأخرى التي لم يتم التعرف عليها كصور على أندرويد. بدون إذن، يتعذر على Image Toolbox عرض تلك الصور</string>
     <string name="default_draw_color">لون الرسم الافتراضي</string>
     <string name="default_draw_path_mode">وضع رسم المسار الافتراضي</string>
     <string name="add_timestamp">أضف الطابع الزمني</string>
@@ -1371,10 +1370,10 @@
     <string name="fit_description">لائم الصورة مع أبعاد معينة وطبّق التمويه أو اللون على الخلفية</string>
     <string name="tools_arrangement">ترتيب الأدوات</string>
     <string name="group_tools_by_type">أدوات المجموعة حسب النوع</string>
-    <string name="group_tools_by_type_sub">تجميع الأدوات على الشاشة الرئيسية حسب نوعها بدلاً من ترتيب القائمة المخصصة</string>
+    <string name="group_tools_by_type_sub">تجميع الأدوات على الشاشة الرئيسية حسب نوعها بدلاً من ترتيب القائمة المخصّصة</string>
     <string name="default_values">القيم الافتراضية</string>
     <string name="system_bars_visibility">رؤية أشرطة النظام</string>
-    <string name="show_system_bars_by_swipe">إظهار أشرطة النظام عن طريق السحب</string>
+    <string name="show_system_bars_by_swipe">أظهر أشرطة النظام عن طريق السحب</string>
     <string name="show_system_bars_by_swipe_sub">يفعّل الضرب لإظهار أشرطة النظام إذا كانت مخفية</string>
     <string name="auto">آلي</string>
     <string name="hide_all">إخفاء الكل</string>
@@ -1397,7 +1396,7 @@
     <string name="jitter">غضب</string>
     <string name="domain_warp">تشوه المجال</string>
     <string name="alignment">تنسيق</string>
-    <string name="custom_filename">اسم الملف المخصص</string>
+    <string name="custom_filename">اسم الملف المخصّص</string>
     <string name="custom_filename_sub">حدد الموقع واسم الملف الذي سيتم استخدامه لحفظ الصورة الحالية</string>
     <string name="saved_to_custom">حُفظ في المجلد باسم مخصّص</string>
     <string name="collage_maker">صانع الكولاج</string>
@@ -1413,7 +1412,7 @@
     <string name="image_for_histogram">سيتم استخدام هذه الصورة لتوليد رسوم بيانية RGB والسطوع</string>
     <string name="tesseract_options">خيارات تسراكت</string>
     <string name="tesseract_options_sub">تطبيق بعض متغيرات الإدخال لمحرك tesseract</string>
-    <string name="custom_options">خيارات مخصصة</string>
+    <string name="custom_options">خيارات مخصّصة</string>
     <string name="custom_params_info">يجب إدخال الخيارات باتباع هذا النمط: \"--{option_name} {value}\"</string>
     <string name="auto_crop">الاقتصاص التلقائي</string>
     <string name="free_corners">زوايا حرة</string>
@@ -1553,7 +1552,7 @@
     <string name="error_while_saving">حدث خطأ أثناء حفظ المحاولة، حاول تغيير مجلد الإخراج</string>
     <string name="filename_is_not_set">لم يتم تعيين اسم الملف</string>
     <string name="none">لا أحد</string>
-    <string name="custom_pages">الصفحات المخصصة</string>
+    <string name="custom_pages">الصفحات المخصّصة</string>
     <string name="pages_selection">اختيار الصفحات</string>
     <string name="tool_exit_confirmation">تأكيد خروج الأداة</string>
     <string name="tool_exit_confirmation_sub">إذا كانت لديك تغييرات غير محفوظة أثناء استخدام أدوات معينة وحاولت إغلاقها، فسيتم عرض مربع حوار التأكيد</string>
@@ -1580,7 +1579,7 @@
     <string name="inverse_vertical_selection_sub">سيتم ترك الجزء المقطوع عموديًا، بدلاً من دمج الأجزاء حول منطقة القطع</string>
     <string name="inverse_horizontal_selection_sub">سيتم ترك الجزء المقطوع أفقيًا، بدلاً من دمج الأجزاء حول منطقة القطع</string>
     <string name="collection_mesh_gradients">مجموعة من التدرجات شبكة</string>
-    <string name="mesh_gradients_sub">أنشئ تدرجًا شبكيًا بكمية مخصصة من العقد والدقة</string>
+    <string name="mesh_gradients_sub">أنشئ تدرجًا شبكيًا بكمية مخصّصة من العقد والدقة</string>
     <string name="gradient_maker_type_image_mesh">شبكة تراكب التدرج</string>
     <string name="gradient_maker_type_image_mesh_sub">إنشاء تدرج شبكي أعلى الصور المعطاة</string>
     <string name="points_customization">تخصيص النقاط</string>
@@ -1603,7 +1602,7 @@
     <string name="audio_cover_extractor_sub">استخرج صور غلاف الألبوم من الملفات الصوتية، ويدعم معظم التنسيقات الشائعة</string>
     <string name="pick_audio_to_start">اختر الصوت للبدء</string>
     <string name="pick_audio">اختر الصوت</string>
-    <string name="no_covers_found">لم يتم العثور على أي أغطية</string>
+    <string name="no_covers_found">لم يُعثر على أي أغطية</string>
     <string name="send_logs">إرسال السجلات</string>
     <string name="send_logs_sub">انقر لمشاركة ملف سجلات التطبيق، حيث يمكن أن يساعدني هذا في اكتشاف المشاكل وإصلاحها</string>
     <string name="crash_title">عفوًا… حدث خطأ ما</string>
@@ -1939,7 +1938,7 @@
     <string name="failed_to_open_session">فشل فتح الجلسة</string>
     <string name="only_onnx_models">يمكن استيراد نماذج .onnx/.ort فقط</string>
     <string name="import_model">استورد نموذج</string>
-    <string name="import_model_sub">استورد نموذج onnx مخصص لمزيد من الاستخدام، يتم قبول نماذج onnx/ort فقط، ويدعم جميع المتغيرات المشابهة لـ esrgan تقريبًا</string>
+    <string name="import_model_sub">استورد نموذج onnx مخصّص لمزيد من الاستخدام، يتم قبول نماذج onnx/ort فقط، ويدعم جميع المتغيرات المشابهة لـ esrgan تقريبًا</string>
     <string name="imported_models">نماذج مستوردة</string>
     <string name="model_scunet_color_15_fp16">الضوضاء العامة والصور الملونة</string>
     <string name="model_scunet_color_25_fp16">الضوضاء العامة، الصور الملونة، أقوى</string>
@@ -1995,8 +1994,8 @@
     <string name="model_ultrasharp_v2_lite_x4">X4 ألتراشارب V2 لايت؛ أسرع وأصغر، ويحافظ على التفاصيل مع استخدام ذاكرة GPU أقل.</string>
     <string name="model_rmbg_1_4">نموذج خفيف الوزن لإزالة الخلفية بسرعة. الأداء المتوازن والدقة. يعمل مع الصور والأشياء والمشاهد. يوصى به لمعظم حالات الاستخدام.</string>
     <string name="type_removebg">أزِل الخلفية</string>
-    <string name="horizontal_border_thickness">سمك الحدود الأفقية</string>
-    <string name="vertical_border_thickness">سمك الحدود العمودية</string>
+    <string name="horizontal_border_thickness">سُمك الحدود الأفقية</string>
+    <string name="vertical_border_thickness">سُمك الحدود العمودية</string>
     <plurals name="color_count">
         <item quantity="zero">لا لون</item>
         <item quantity="one">لون</item>
@@ -2053,7 +2052,7 @@
     <string name="squircle">سكويركل</string>
     <string name="squircle_shapes_sub">عناصر واجهة المستخدم مدورة أنيقة</string>
     <string name="filename_format">تنسيق اسم الملف</string>
-    <string name="prefix_pattern_description">نص مخصص يتم وضعه في بداية اسم الملف، وهو مثالي لأسماء المشاريع أو العلامات التجارية أو العلامات الشخصية.</string>
+    <string name="prefix_pattern_description">نص مخصّص يتم وضعه في بداية اسم الملف، وهو مثالي لأسماء المشاريع أو العلامات التجارية أو العلامات الشخصية.</string>
     <string name="original_filename_pattern_description">يستخدم اسم الملف الأصلي بدون امتداد، مما يساعدك على الحفاظ على تعريف المصدر سليمًا.</string>
     <string name="width_pattern_description">عرض الصورة بالبكسل، مفيد لتتبع تغييرات الدقة أو قياس النتائج.</string>
     <string name="height_pattern_description">ارتفاع الصورة بالبكسل، وهو أمر مفيد عند التعامل مع نسب العرض إلى الارتفاع أو عمليات التصدير.</string>
@@ -2061,7 +2060,7 @@
     <string name="sequence_number_pattern_description">عداد متزايد تلقائيًا لصادرات الدُفعات، وهو مثالي عند حفظ صور متعدّدة في جلسة واحدة.</string>
     <string name="preset_info_pattern_description">يقوم بإدراج اسم الإعداد المسبق المطبق في اسم الملف حتى تتمكن من تذكر كيفية معالجة الصورة بسهولة.</string>
     <string name="scale_mode_pattern_description">يعرض وضع تغيير حجم الصورة المستخدم أثناء المعالجة، مما يساعد على تمييز الصور التي تم تغيير حجمها أو اقتصاصها أو تركيبها.</string>
-    <string name="suffix_pattern_description">نص مخصص يتم وضعه في نهاية اسم الملف، وهو مفيد لإصدارات مثل _v2، أو _edited، أو _final.</string>
+    <string name="suffix_pattern_description">نص مخصّص يتم وضعه في نهاية اسم الملف، وهو مفيد لإصدارات مثل _v2، أو _edited، أو _final.</string>
     <string name="extension_pattern_description">امتداد الملف (png، jpg، webp، وما إلى ذلك)، يطابق تلقائيًا التنسيق الفعلي المحفوظ.</string>
     <string name="formatted_timestamp_pattern_description">طابع زمني قابل للتخصيص يتيح لك تحديد التنسيق الخاص بك من خلال مواصفات جافا للفرز المثالي.</string>
     <string name="fling_type">نوع القذف</string>
@@ -2089,7 +2088,7 @@
     <string name="accessibility_aware_sub">يحترم إعدادات إمكانية الوصول إلى النظام</string>
     <string name="reduced_motion_sub">الحد الأدنى من الحركة لتلبية احتياجات الوصول</string>
     <string name="primary_lines">الخطوط الأولية</string>
-    <string name="primary_lines_sub">يضيف خطًا أكثر سمكًا في كل سطر خامس</string>
+    <string name="primary_lines_sub">يضيف خطًا أكثر سُمكًا في كل سطر خامس</string>
     <string name="fill_color">لون التعبئة</string>
     <string name="hidden_tools">الأدوات المخفية</string>
     <string name="hidden_for_share">أدوات مخفية للمشاركة</string>
@@ -2127,7 +2126,7 @@
     <string name="label_format">تنسيق التسمية</string>
     <string name="pdf_to_text">PDF إلى نص (OCR)</string>
     <string name="pdf_to_text_sub">استخرج نص عادي من مستندات PDF الخاصة بك</string>
-    <string name="watermark_pdf_sub">تراكب نص مخصص للعلامة التجارية أو الأمان</string>
+    <string name="watermark_pdf_sub">تراكب نص مخصّص للعلامة التجارية أو الأمان</string>
     <string name="signature">إمضاء</string>
     <string name="signature_sub">أضف توقيعك الإلكتروني إلى أي مستند</string>
     <string name="will_be_for_signature">سيتم استخدام هذا كتوقيع</string>
@@ -2166,7 +2165,7 @@
     <string name="crop_pdf_sub">قص صفحات المستند إلى أي حدود</string>
     <string name="flatten_pdf">سطح PDF</string>
     <string name="flatten_pdf_sub">اجعل ملف PDF غير قابل للتعديل عن طريق تنقيط صفحات المستند</string>
-    <string name="camera_failed_to_open">تعذر تشغيل الكاميرا. يرجى التحقق من الأذونات والتأكد من عدم استخدامها بواسطة تطبيق آخر.</string>
+    <string name="camera_failed_to_open">تعذر تشغيل الكاميرا. يُرجى التحقق من الأذونات والتأكد من عدم استخدامها بواسطة تطبيق آخر.</string>
     <string name="extract_images">استخرج صور</string>
     <string name="extract_images_sub">استخرج الصور المضمّنة في ملفات PDF بدقتها الأصلية</string>
     <string name="pdf_no_embedded">لا يحتوي ملف PDF هذا على أي صور مضمنة</string>
@@ -2206,8 +2205,8 @@
     <string name="ocr_write_to_searchable_pdf">الكتابة إلى ملف PDF قابل للبحث</string>
     <string name="ocr_write_to_searchable_pdf_sub">تعرف على النص من مجموعة الصور واحفظ ملف PDF القابل للبحث مع الصورة وطبقة النص القابلة للتحديد</string>
     <string name="layer_alpha">طبقة ألفا</string>
-    <string name="horizontal_flip">الوجه الأفقي</string>
-    <string name="vertical_flip">الوجه العمودي</string>
+    <string name="horizontal_flip">قلب أفقي</string>
+    <string name="vertical_flip">قلب رأسي</string>
     <string name="lock">قفل</string>
     <string name="add_shadow">أضف الظل</string>
     <string name="shadow_color">لون الظل</string>
@@ -2232,7 +2231,7 @@
     <string name="ungroup">فك التجميع</string>
     <string name="add_shadow_sub">أضف ظلًا ضبابيًا خلف الطبقة مع لون وإزاحات قابلة للتكوين</string>
     <string name="distortion_filter">تشويه المحتوى المدرك</string>
-    <string name="oom_description">لا توجد ذاكرة كافية لإكمال هذا الإجراء. يرجى محاولة استخدام صورة أصغر أو إغلاق التطبيقات الأخرى أو إعادة تشغيل التطبيق.</string>
+    <string name="oom_description">لا توجد ذاكرة كافية لإكمال هذا الإجراء. يُرجى محاولة استخدام صورة أصغر أو إغلاق التطبيقات الأخرى أو إعادة تشغيل التطبيق.</string>
     <string name="parallel_workers">العمال الموازيون</string>
     <string name="skipped_images_warning">لم يتم حفظ هذه الصور لأن الملفات المحولة ستكون أكبر من الملفات الأصلية. تحقق من هذه القائمة قبل حذف الصور الأصلية.</string>
     <string name="skipped_saving_count">الملفات التي تم تخطيها: %1$s</string>
@@ -2342,7 +2341,7 @@
     <string name="shader_preset">تظليل مسبقا</string>
     <string name="no_shader_selected">لم يتم تحديد تظليل</string>
     <string name="shader_studio">ستوديو شادر</string>
-    <string name="shader_studio_sub">إنشاء وتحرير والتحقق من صحة واستيراد وتصدير تظليل الأجزاء المخصصة</string>
+    <string name="shader_studio_sub">أنشئ وحرِّر والتحقق من صحة واستيراد وتصدير تظليل الأجزاء المخصّصة</string>
     <string name="saved_shaders">تظليل المحفوظة</string>
     <string name="shader_library_sub">افتح التظليلات المحفوظة أو قم بتكرارها أو تصديرها أو مشاركتها أو حذفها</string>
     <string name="new_shader">تظليل جديد</string>
@@ -2402,7 +2401,7 @@
     <string name="shader_parse_error_color_channel_range_expected">يجب أن يكون %1$s بين 0 و255.</string>
     <string name="shader_parse_error_vec2_expected">يجب أن يكون %1$s عبارة عن مصفوفة مكونة من رقمين أو كائن يحتوي على x وy.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s يجب أن يحتوي على رقمين بالضبط.</string>
-    <string name="duplicate">ينسخ</string>
+    <string name="duplicate">كرّر</string>
     <string name="always_clear_exif">امسح ملف EXIF دائمًا</string>
     <string name="always_clear_exif_sub">أزِل بيانات EXIF الخاصة بالصورة عند الحفظ، حتى عندما تطلب الأداة الاحتفاظ بالبيانات التعريفية</string>
     <string name="help_tips">مساعدة ونصائح</string>
@@ -2438,12 +2437,12 @@
     <string name="help_tip_import_save_share_description">تتبع معظم الأدوات نفس الإيقاع: اختر الإدخال، واضبط الخيارات، وقم بالمعاينة، ثم احفظ أو شارك. التفاصيل المهمة هي أن الحفظ ينشئ ملف إخراج، بينما تكون المشاركة عادةً هي الأفضل للتسليم السريع إلى تطبيق آخر.</string>
     <string name="help_tip_import_save_share_step_1">اختر ملفًا واحدًا لأدوات الصورة الواحدة أو عدة ملفات للأدوات المجمعة عندما يسمح المنتقي بذلك.</string>
     <string name="help_tip_import_save_share_step_2">تحقق من عناصر التحكم في المعاينة والإخراج قبل الحفظ، وخاصة خيارات التنسيق والجودة واسم الملف.</string>
-    <string name="help_tip_import_save_share_step_3">استخدم المشاركة للتسليم السريع، أو احفظ عندما تحتاج إلى نسخة دائمة في المجلد المحدد.</string>
+    <string name="help_tip_import_save_share_step_3">استخدم المشاركة للتسليم السريع، أو احفظ عندما تحتاج إلى نسخة دائمة في المجلد المحدّد.</string>
     <string name="help_tip_batch_workflow_title">العمل مع العديد من الصور في وقت واحد</string>
     <string name="help_tip_batch_workflow_subtitle">تعد الأدوات المجمعة هي الأفضل لمهام تغيير الحجم والتحويل والضغط والتسمية المتكررة</string>
     <string name="help_tip_batch_workflow_page_title">إعداد دفعة يمكن التنبؤ بها</string>
     <string name="help_tip_batch_workflow_description">تكون المعالجة المجمعة هي الأسرع عندما يجب أن يتبع كل مخرج نفس القواعد. كما أنه المكان الأسهل لارتكاب خطأ كبير، لذا اختر التسمية والجودة والبيانات التعريفية وسلوك المجلد قبل بدء عملية تصدير طويلة.</string>
-    <string name="help_tip_batch_workflow_step_1">حدد جميع الصور ذات الصلة معًا واحتفظ بالترتيب إذا كان الإخراج يعتمد على التسلسل.</string>
+    <string name="help_tip_batch_workflow_step_1">حدّد جميع الصور ذات الصلة معًا واحتفظ بالترتيب إذا كان الإخراج يعتمد على التسلسل.</string>
     <string name="help_tip_batch_workflow_step_2">عيّن قواعد تغيير الحجم والتنسيق والجودة وبيانات التعريف واسم الملف مرة واحدة قبل بدء التصدير.</string>
     <string name="help_tip_batch_workflow_step_3">شغّل مجموعة اختبار صغيرة أولاً عندما تكون الملفات المصدر كبيرة أو عندما يكون التنسيق المستهدف جديدًا بالنسبة لك.</string>
     <string name="help_tip_single_edit_title">تحرير واحد سريع</string>
@@ -2452,7 +2451,7 @@
     <string name="help_tip_single_edit_description">يعد التحرير الفردي مفيدًا عندما تحتاج الصورة إلى سلسلة صغيرة من التغييرات بدلاً من عملية واحدة متخصصة. عادةً ما يكون أسرع في التنظيف السريع، ومعاينتها، وتصدير نسخة نهائية واحدة دون إنشاء سير عمل مجمع.</string>
     <string name="help_tip_single_edit_step_1">افتح تحريرًا فرديًا لصورة واحدة تحتاج إلى تعديلات أو علامات أو اقتصاص أو تدوير أو تغييرات شائعة.</string>
     <string name="help_tip_single_edit_step_2">طبّق التعديلات بالترتيب الذي يغير أقل عدد من وحدات البكسل أولاً، مثل الاقتصاص قبل المرشحات والمرشحات قبل الضغط النهائي.</string>
-    <string name="help_tip_single_edit_step_3">استخدم أداة متخصصة بدلاً من ذلك عندما تحتاج إلى معالجة مجمعة أو أهداف محددة لحجم الملف أو إخراج PDF أو التعرف الضوئي على الحروف أو تنظيف البيانات التعريفية.</string>
+    <string name="help_tip_single_edit_step_3">استخدم أداة متخصّصة بدلاً من ذلك عندما تحتاج إلى معالجة مجمعة أو أهداف محدّدة لحجم الملف أو إخراج PDF أو التعرف الضوئي على الحروف أو تنظيف البيانات التعريفية.</string>
     <string name="help_tip_presets_settings_title">استخدم الإعدادات المسبقة والإعدادات</string>
     <string name="help_tip_presets_settings_subtitle">احفظ الاختيارات المتكررة وقم بضبط التطبيق ليناسب سير العمل المفضل لديك</string>
     <string name="help_tip_presets_settings_page_title">تجنب تكرار نفس الإعداد</string>
@@ -2500,8 +2499,8 @@
     <string name="help_tip_resize_convert_page_title">إنشاء نسخ تم تغيير حجمها</string>
     <string name="help_tip_resize_convert_description">يعد تغيير الحجم والتحويل الأداة الرئيسية للأبعاد المتوقعة وملفات الإخراج الأخف. استخدمه عندما يكون حجم الصورة وتنسيق الإخراج وسلوك البيانات التعريفية مهمًا في نفس الوقت.</string>
     <string name="help_tip_resize_convert_step_1">اختر صورة واحدة أو أكثر، ثم اختر ما إذا كانت الأبعاد أو المقياس أو حجم الملف هو الأكثر أهمية.</string>
-    <string name="help_tip_resize_convert_step_2">حدد تنسيق الإخراج والجودة؛ استخدم PNG أو WebP عندما يجب الحفاظ على الشفافية.</string>
-    <string name="help_tip_resize_convert_step_3">قم بمعاينة النتيجة، ثم قم بحفظ النسخ التي تم إنشاؤها أو مشاركتها دون تغيير النسخ الأصلية.</string>
+    <string name="help_tip_resize_convert_step_2">حدّد تنسيق الإخراج والجودة؛ استخدم PNG أو WebP عندما يجب الحفاظ على الشفافية.</string>
+    <string name="help_tip_resize_convert_step_3">معاينة النتيجة، ثم احفظ النُسخ التي تم أُنشئت أو مشاركتها دون تغيير النسخ الأصلية.</string>
     <string name="help_tip_resize_by_file_size_title">تغيير الحجم حسب حجم الملف</string>
     <string name="help_tip_resize_by_file_size_subtitle">استهدف حدًا للحجم عندما يرفض موقع ويب أو برنامج مراسلة أو نموذج الصور الثقيلة</string>
     <string name="help_tip_resize_by_file_size_page_title">تناسب حدود التحميل الصارمة</string>
@@ -2558,15 +2557,15 @@
     <string name="help_tip_draw_defaults_step_1">قم بتعيين عرض الخط الافتراضي وارسم اللون على القيم التي تستخدمها كثيرًا للأسهم أو التمييزات أو التوقيعات.</string>
     <string name="help_tip_draw_defaults_step_2">استخدم وضع المسار الافتراضي عندما ترسم عادةً نفس النوع من الحدود أو الأشكال أو العلامات.</string>
     <string name="help_tip_draw_defaults_step_3">قم بتمكين قفل الاتجاه أو المكبر عندما يؤدي إدخال الإصبع إلى صعوبة وضع التفاصيل الصغيرة بدقة.</string>
-    <string name="help_tip_collage_stitch_stack_title">تخطيطات متعددة الصور</string>
-    <string name="help_tip_collage_stitch_stack_subtitle">اختر أداة الصور المتعددة المناسبة قبل ترتيب لقطات الشاشة أو عمليات المسح أو شرائط المقارنة</string>
+    <string name="help_tip_collage_stitch_stack_title">تخطيطات متعدّدة الصور</string>
+    <string name="help_tip_collage_stitch_stack_subtitle">اختر أداة الصور المتعدّدة المناسبة قبل ترتيب لقطات الشاشة أو عمليات المسح أو شرائط المقارنة</string>
     <string name="help_tip_collage_stitch_stack_page_title">استخدم أداة التخطيط الصحيحة</string>
-    <string name="help_tip_collage_stitch_stack_description">تبدو هذه الأدوات متشابهة، ولكن يتم ضبط كل واحدة منها لنوع مختلف من مخرجات الصور المتعددة. يؤدي اختيار الخيار الصحيح أولاً إلى تجنب محاربة عناصر التحكم في التخطيط التي تم تصميمها للحصول على نتيجة مختلفة.</string>
+    <string name="help_tip_collage_stitch_stack_description">تبدو هذه الأدوات متشابهة، ولكن يتم ضبط كل واحدة منها لنوع مختلف من مخرجات الصور المتعدّدة. يؤدي اختيار الخيار الصحيح أولاً إلى تجنب محاربة عناصر التحكم في التخطيط التي صُمّمت للحصول على نتيجة مختلفة.</string>
     <string name="help_tip_collage_stitch_stack_step_1">استخدم Collage Maker للتخطيطات المصممة بعدة صور في تركيبة واحدة.</string>
     <string name="help_tip_collage_stitch_stack_step_2">استخدم دمج الصور أو تكديسها عندما تصبح الصور شريطًا رأسيًا أو أفقيًا طويلًا.</string>
     <string name="help_tip_collage_stitch_stack_step_3">استخدم تقسيم الصور عندما تحتاج الصورة الكبيرة إلى عدة قطع أصغر.</string>
     <string name="help_tip_format_conversion_title">تحويل صيغ الصور</string>
-    <string name="help_tip_format_conversion_subtitle">قم بإنشاء نسخ JPEG وPNG وWebP وAVIF وJXL ونسخ أخرى دون تحرير وحدات البكسل يدويًا</string>
+    <string name="help_tip_format_conversion_subtitle">أنشئ نسخ JPEG وPNG وWebP وAVIF وJXL ونسخ أخرى دون تحرير وحدات البكسل يدويًا</string>
     <string name="help_tip_format_conversion_page_title">اختر التنسيق للوظيفة</string>
     <string name="help_tip_format_conversion_description">تعد التنسيقات المختلفة أفضل للصور أو لقطات الشاشة أو الشفافية أو الضغط أو التوافق. يكون التحويل أكثر أمانًا عندما تفهم ما يدعمه التطبيق الوجهة وما إذا كان المصدر يحتوي على ألفا أو رسوم متحركة أو بيانات تعريف تريد الاحتفاظ بها.</string>
     <string name="help_tip_format_conversion_step_1">استخدم JPEG للصور المتوافقة، وPNG للصور غير المفقودة وAlpha، وWebP للمشاركة المدمجة.</string>
@@ -2610,7 +2609,7 @@
     <string name="help_tip_save_location_title">اختر مكان حفظ الملفات</string>
     <string name="help_tip_save_location_subtitle">تجنب فقدان الصادرات عن طريق تعيين المجلدات وحفظ المجلد الأصلي ومواقع الحفظ لمرة واحدة</string>
     <string name="help_tip_save_location_page_title">اجعل النواتج قابلة للتنبؤ بها</string>
-    <string name="help_tip_save_location_description">يعتبر سلوك الحفظ أكثر أهمية عند معالجة العديد من الملفات أو مشاركة الملفات من موفري الخدمات السحابية. تحدد إعدادات المجلد ما إذا كانت المخرجات ستتجمع في مكان واحد معروف، أو تظهر بجانب النسخ الأصلية، أو تنتقل مؤقتًا إلى مكان آخر لمهمة محددة.</string>
+    <string name="help_tip_save_location_description">يعتبر سلوك الحفظ أكثر أهمية عند معالجة العديد من الملفات أو مشاركة الملفات من موفري الخدمات السحابية. تحدد إعدادات المجلد ما إذا كانت المخرجات ستتجمع في مكان واحد معروف، أو تظهر بجانب النسخ الأصلية، أو تنتقل مؤقتًا إلى مكان آخر لمهمة محدّدة.</string>
     <string name="help_tip_save_location_step_1">قم بتعيين مجلد حفظ افتراضي إذا كنت تريد دائمًا التصدير في مكان واحد.</string>
     <string name="help_tip_save_location_step_2">استخدم الحفظ في المجلد الأصلي لسير عمل التنظيف حيث يجب أن يظل الإخراج بالقرب من الملف المصدر.</string>
     <string name="help_tip_save_location_step_3">استخدم موقع الحفظ لمرة واحدة عندما تحتاج مهمة واحدة إلى وجهة مختلفة دون تغيير الإعداد الافتراضي.</string>
@@ -2645,21 +2644,21 @@
     <string name="help_tip_pdf_hub_title">استخدم مركز أدوات PDF</string>
     <string name="help_tip_pdf_hub_subtitle">دمج، تقسيم، تدوير، إزالة الصفحات، ضغط، حماية، التعرف الضوئي على الحروف، ووضع علامة مائية على ملفات PDF</string>
     <string name="help_tip_pdf_hub_page_title">اختر عملية PDF</string>
-    <string name="help_tip_pdf_hub_description">يقوم مركز PDF بتجميع إجراءات المستند خلف نقطة إدخال واحدة حتى تتمكن من اختيار العملية المحددة. ابدأ من هناك عندما يكون الملف عبارة عن ملف PDF بالفعل، واستخدم Images to PDF أو Document Scanner عندما يكون المصدر الخاص بك لا يزال عبارة عن مجموعة من الصور.</string>
+    <string name="help_tip_pdf_hub_description">يقوم مركز PDF بتجميع إجراءات المستند خلف نقطة إدخال واحدة حتى تتمكن من اختيار العملية المحددة. ابدأ من هناك عندما يكون الملف عبارة عن ملف PDF بالفعل، واستخدم «صور إلى PDF» أو «ماسح ضوئي للمستندات» عندما يكون مصدرك لا يزال عبارة عن مجموعة من الصور.</string>
     <string name="help_tip_pdf_hub_step_1">افتح أدوات PDF واختر العملية التي تتوافق مع هدفك.</string>
-    <string name="help_tip_pdf_hub_step_2">حدد ملف PDF أو الصور المصدر، ثم راجع خيارات ترتيب الصفحات أو التدوير أو الحماية أو التعرف الضوئي على الحروف.</string>
-    <string name="help_tip_pdf_hub_step_3">احفظ ملف PDF الذي تم إنشاؤه وافتحه مرة واحدة لتأكيد عدد الصفحات وترتيبها وسهولة قراءتها.</string>
+    <string name="help_tip_pdf_hub_step_2">حدّد ملف PDF أو الصور المصدر، ثم راجع خيارات ترتيب الصفحات أو التدوير أو الحماية أو التعرف الضوئي على الحروف.</string>
+    <string name="help_tip_pdf_hub_step_3">احفظ ملف PDF الذي أُنشئ وافتحه مرة واحدة لتأكيد عدد الصفحات وترتيبها وسهولة قراءتها.</string>
     <string name="help_tip_images_to_pdf_title">تحويل الصور إلى ملف PDF</string>
     <string name="help_tip_images_to_pdf_subtitle">اجمع بين عمليات المسح أو لقطات الشاشة أو الإيصالات أو الصور في مستند واحد قابل للمشاركة</string>
     <string name="help_tip_images_to_pdf_page_title">إنشاء مستند نظيف</string>
     <string name="help_tip_images_to_pdf_description">تصبح الصور صفحات PDF أفضل عندما يتم قصها وترتيبها وحجمها بشكل متسق. تعامل مع قائمة الصور كمجموعة صفحات: يؤثر كل اختيار للتدوير والهامش وحجم الصفحة على مدى سهولة قراءة المستند النهائي.</string>
     <string name="help_tip_images_to_pdf_step_1">قم بقص الصور أو تدويرها أولاً عندما تكون حواف الصفحة أو الظلال أو الاتجاه غير صحيح.</string>
-    <string name="help_tip_images_to_pdf_step_2">حدد الصور بترتيب الصفحة المقصود واضبط حجم الصفحة أو الهوامش إذا كانت الأداة توفرها.</string>
+    <string name="help_tip_images_to_pdf_step_2">حدّد الصور بترتيب الصفحة المقصود واضبط حجم الصفحة أو الهوامش إذا كانت الأداة توفرها.</string>
     <string name="help_tip_images_to_pdf_step_3">قم بتصدير ملف PDF، ثم تأكد من أن جميع الصفحات قابلة للقراءة قبل إرسالها.</string>
     <string name="help_tip_document_scanner_title">مسح المستندات ضوئيًا</string>
     <string name="help_tip_document_scanner_subtitle">التقط الصفحات الورقية وقم بإعدادها لملفات PDF أو OCR أو للمشاركة</string>
     <string name="help_tip_document_scanner_page_title">التقاط صفحات قابلة للقراءة</string>
-    <string name="help_tip_document_scanner_description">يعمل المسح الضوئي للمستندات بشكل أفضل مع الصفحات المسطحة والإضاءة الجيدة والمنظور المصحح. يؤدي المسح النظيف قبل تصدير OCR أو PDF إلى توفير الوقت لأن التعرف على النص وضغطه يعتمدان على جودة الصفحة.</string>
+    <string name="help_tip_document_scanner_description">يعمل المسح الضوئي للمستندات بشكل أفضل مع الصفحات المسطحة والإضاءة الجيدة والمنظور المصحح. يؤدي المسح النظيف قبل تصدير OCR أو PDF إلى توفير الوقت لأن التعرُّف على النص وضغطه يعتمدان على جودة الصفحة.</string>
     <string name="help_tip_document_scanner_step_1">ضع المستند على سطح متباين به ما يكفي من الضوء والحد الأدنى من الظلال.</string>
     <string name="help_tip_document_scanner_step_2">اضبط الزوايا المكتشفة أو قم بالقص يدويًا حتى تملأ الصفحة الإطار بشكل نظيف.</string>
     <string name="help_tip_document_scanner_step_3">قم بالتصدير كصور أو PDF، ثم قم بتشغيل OCR إذا كنت بحاجة إلى نص قابل للتحديد.</string>
@@ -2688,16 +2687,16 @@
     <string name="help_tip_ocr_subtitle">استخرج النص من الصور باستخدام محركات ولغات التعرف الضوئي على الحروف القابلة للتحديد</string>
     <string name="help_tip_ocr_page_title">احصل على نتائج أفضل للتعرف الضوئي على الحروف</string>
     <string name="help_tip_ocr_description">تعتمد دقة التعرف الضوئي على الحروف (OCR) على حدة الصورة وبيانات اللغة والتباين واتجاه الصفحة. عادةً ما تأتي أفضل النتائج من إعداد الصورة أولاً: إزالة الضوضاء، وتدويرها بشكل مستقيم، وزيادة إمكانية القراءة، ثم التعرف على النص.</string>
-    <string name="help_tip_ocr_step_1">قم بقص الصورة إلى منطقة النص وقم بتدويرها في وضع مستقيم قبل التعرف عليها.</string>
+    <string name="help_tip_ocr_step_1">قص الصورة إلى منطقة النص دوّرها في وضع مستقيم قبل التعرُّف عليها.</string>
     <string name="help_tip_ocr_step_2">اختر اللغة الصحيحة وقم بتنزيل بيانات اللغة إذا طلب التطبيق ذلك.</string>
     <string name="help_tip_ocr_step_3">انسخ النص الذي تم التعرف عليه أو شاركه، ثم تحقق يدويًا من الأسماء والأرقام وعلامات الترقيم.</string>
     <string name="help_tip_ocr_language_data_title">اختر بيانات لغة التعرف الضوئي على الحروف</string>
-    <string name="help_tip_ocr_language_data_subtitle">تحسين التعرف عن طريق مطابقة البرامج النصية واللغات ونماذج التعرف الضوئي على الحروف التي تم تنزيلها</string>
+    <string name="help_tip_ocr_language_data_subtitle">تحسين التعرُّف عن طريق مطابقة البرامج النصية واللغات ونماذج التعرف الضوئي على الحروف المُنزّلة</string>
     <string name="help_tip_ocr_language_data_page_title">مطابقة التعرف الضوئي على الحروف (OCR) مع النص</string>
-    <string name="help_tip_ocr_language_data_description">يمكن أن تؤدي لغة التعرف الضوئي على الحروف الخاطئة إلى جعل الصور الجيدة تبدو وكأنها التعرف السيئ. تعتبر بيانات اللغة مهمة بالنسبة للنصوص البرمجية وعلامات الترقيم والأرقام والمستندات المختلطة، لذا اختر اللغة التي تظهر في الصورة بدلاً من لغة واجهة مستخدم الهاتف.</string>
+    <string name="help_tip_ocr_language_data_description">يمكن أن تؤدي لغة التعرف الضوئي على الحروف الخاطئة إلى جعل الصور الجيدة تبدو وكأنها التعرُّف السيئ. تعتبر بيانات اللغة مهمة بالنسبة للنصوص البرمجية وعلامات الترقيم والأرقام والمستندات المختلطة، لذا اختر اللغة التي تظهر في الصورة بدلاً من لغة واجهة مستخدم الهاتف.</string>
     <string name="help_tip_ocr_language_data_step_1">اختر اللغة أو النص الذي يظهر في الصورة، وليس لغة الهاتف فقط.</string>
     <string name="help_tip_ocr_language_data_step_2">قم بتنزيل البيانات المفقودة قبل العمل دون اتصال أو معالجة دفعة.</string>
-    <string name="help_tip_ocr_language_data_step_3">بالنسبة للمستندات متعددة اللغات، قم بتشغيل اللغة الأكثر أهمية أولاً وتحقق يدويًا من الأسماء والأرقام.</string>
+    <string name="help_tip_ocr_language_data_step_3">بالنسبة للمستندات متعدّدة اللغات، شغّل اللغة الأكثر أهمية أولاً وتحقق يدويًا من الأسماء والأرقام.</string>
     <string name="help_tip_searchable_pdf_title">ملفات PDF قابلة للبحث</string>
     <string name="help_tip_searchable_pdf_subtitle">قم بكتابة نص التعرف الضوئي على الحروف (OCR) مرة أخرى في الملفات حتى يمكن البحث في الصفحات الممسوحة ضوئيًا ونسخها</string>
     <string name="help_tip_searchable_pdf_page_title">تحويل عمليات المسح إلى مستندات قابلة للبحث</string>
@@ -2724,7 +2723,7 @@
     <string name="help_tip_cipher_zip_page_title">احتفظ بالملفات ذات الصلة معًا</string>
     <string name="help_tip_cipher_zip_description">تكون أدوات التغليف مفيدة عندما يجب أن تنتقل عدة مخرجات كملف واحد. كما أنها مفيدة للاحتفاظ بالصور وملفات PDF والسجلات والبيانات التعريفية التي تم إنشاؤها معًا عندما تحتاج إلى إرسال مجموعة نتائج كاملة.</string>
     <string name="help_tip_cipher_zip_step_1">استخدم ZIP عندما تحتاج إلى إرسال العديد من الصور أو المستندات المصدرة معًا.</string>
-    <string name="help_tip_cipher_zip_step_2">استخدم أدوات التشفير فقط عندما تفهم الطريقة المحددة ويمكنك تخزين المفاتيح المطلوبة بأمان.</string>
+    <string name="help_tip_cipher_zip_step_2">استخدم أدوات التشفير فقط عندما تفهم الطريقة المحدّدة ويمكنك تخزين المفاتيح المطلوبة بأمان.</string>
     <string name="help_tip_cipher_zip_step_3">اختبر الأرشيف الذي تم إنشاؤه أو النص المحول قبل حذف الملفات المصدر.</string>
     <string name="help_tip_checksums_for_names_title">المجموع الاختباري في الأسماء</string>
     <string name="help_tip_checksums_for_names_subtitle">استخدم أسماء الملفات المستندة إلى المجموع الاختباري عندما يكون التفرد والنزاهة أكثر أهمية من سهولة القراءة</string>
@@ -2817,7 +2816,7 @@
     <string name="help_tip_svg_ascii_description">تخدم أدوات SVG وASCII أهدافًا مختلفة: رسومات قابلة للتطوير أو عرض نمط النص. كلاهما عبارة عن تحويلات إبداعية، لذا فإن المعاينة بالحجم النهائي أكثر أهمية من الحكم على النتيجة من خلال صورة مصغرة صغيرة.</string>
     <string name="help_tip_svg_ascii_step_1">استخدم SVG Maker عندما يجب تغيير حجم النتيجة بشكل واضح أو إعادة استخدامها في سير عمل التصميم.</string>
     <string name="help_tip_svg_ascii_step_2">استخدم ASCII Art عندما تريد تمثيلاً نصيًا منمقًا لصورة ما.</string>
-    <string name="help_tip_svg_ascii_step_3">قم بالمعاينة بالحجم النهائي لأن التفاصيل الصغيرة يمكن أن تختفي في المخرجات التي تم إنشاؤها.</string>
+    <string name="help_tip_svg_ascii_step_3">معاينة بالحجم النهائي لأن التفاصيل الصغيرة يمكن أن تختفي في المخرجات التي أُنشئت.</string>
     <string name="help_tip_noise_generation_title">توليد القوام الضوضاء</string>
     <string name="help_tip_noise_generation_subtitle">قم بإنشاء أنسجة إجرائية للخلفيات أو الأقنعة أو التراكبات أو التجارب</string>
     <string name="help_tip_noise_generation_page_title">ضبط المخرجات الإجرائية</string>
@@ -2900,7 +2899,7 @@
     <string name="help_tip_skip_file_picking_title">تخطي اختيار الملف</string>
     <string name="help_tip_skip_file_picking_subtitle">افتح الأدوات بشكل أسرع عندما يأتي الإدخال عادةً من المشاركة أو الحافظة أو شاشة سابقة</string>
     <string name="help_tip_skip_file_picking_page_title">اجعل عمليات تشغيل الأداة المتكررة أسرع</string>
-    <string name="help_tip_skip_file_picking_description">يؤدي تخطي انتقاء الملفات إلى تغيير الخطوة الأولى للأدوات المدعومة. يكون ذلك مفيدًا عندما تقوم عادةً بإدخال أداة تحتوي على صورة محددة بالفعل أو من إجراءات مشاركة Android، ولكن قد يكون الأمر مربكًا إذا كنت تتوقع أن تطلب كل أداة ملفًا على الفور.</string>
+    <string name="help_tip_skip_file_picking_description">يؤدي تخطي انتقاء الملفات إلى تغيير الخطوة الأولى للأدوات المدعومة. يكون ذلك مفيدًا عندما تقوم عادةً بإدخال أداة تحتوي على صورة محدّدة بالفعل أو من إجراءات مشاركة أندرويد، ولكن قد يكون الأمر مربكًا إذا كنت تتوقع أن تطلب كل أداة ملفًا على الفور.</string>
     <string name="help_tip_skip_file_picking_step_1">فعِّل فقط عندما يوفر التدفق المعتاد الصورة المصدر بالفعل قبل فتح الأداة.</string>
     <string name="help_tip_skip_file_picking_step_2">أبقِه معطلاً أثناء تعلم التطبيق، لأن الانتقاء الصريح يجعل فهم كل أداة أسهل.</string>
     <string name="help_tip_skip_file_picking_step_3">إذا تم فتح أداة بدون إدخال واضح، فقم بتعطيل هذا الإعداد أو ابدأ من مشاركة/فتح باستخدام حتى يقوم Android بتمرير الملف أولاً.</string>
@@ -2912,9 +2911,9 @@
     <string name="help_tip_open_edit_directly_step_2">اترك المعاينة أولاً عندما تقوم غالبًا بفحص البيانات التعريفية أو الأبعاد أو الشفافية أو جودة الصورة قبل اتخاذ القرار.</string>
     <string name="help_tip_open_edit_directly_step_3">استخدم هذا مع المفضلة حتى تصل الصور المشتركة إلى الأدوات التي تستخدمها بالفعل.</string>
     <string name="help_tip_preset_text_entry_title">إدخال النص مسبقا</string>
-    <string name="help_tip_preset_text_entry_subtitle">أدخل القيم المحددة مسبقًا بدلاً من ضبط عناصر التحكم بشكل متكرر</string>
+    <string name="help_tip_preset_text_entry_subtitle">أدخل القيم المحدّدة مسبقًا بدلاً من ضبط عناصر التحكم بشكل متكرر</string>
     <string name="help_tip_preset_text_entry_page_title">استخدم قيمًا دقيقة عندما تكون أشرطة التمرير بطيئة</string>
-    <string name="help_tip_preset_text_entry_description">يساعد إدخال النص المحدد مسبقًا عندما تحتاج إلى أرقام دقيقة للعمل المتكرر: أحجام الصور الاجتماعية، أو هوامش المستندات، أو أهداف الضغط، أو عروض الخطوط، أو القيم الأخرى التي يصعب الوصول إليها بالإيماءات. وهو مفيد أيضًا على الشاشات الصغيرة حيث تكون حركة شريط التمرير الدقيقة أكثر صعوبة.</string>
+    <string name="help_tip_preset_text_entry_description">يساعد إدخال النص المحدّد مسبقًا عندما تحتاج إلى أرقام دقيقة للعمل المتكرر: أحجام الصور الاجتماعية، أو هوامش المستندات، أو أهداف الضغط، أو عروض الخطوط، أو القيم الأخرى التي يصعب الوصول إليها بالإيماءات. وهو مفيد أيضًا على الشاشات الصغيرة حيث تكون حركة شريط التمرير الدقيقة أكثر صعوبة.</string>
     <string name="help_tip_preset_text_entry_step_1">قم بتمكين إدخال النص إذا كنت تعيد استخدام الأحجام أو النسب المئوية أو قيم الجودة أو معلمات الأداة بشكل متكرر.</string>
     <string name="help_tip_preset_text_entry_step_2">احفظ القيمة كإعداد مسبق بعد كتابتها مرة واحدة، ثم أعد استخدامها بدلاً من إعادة بناء نفس الإعداد.</string>
     <string name="help_tip_preset_text_entry_step_3">احتفظ بعناصر التحكم في الإيماءات للضبط البصري التقريبي والقيم المكتوبة لمتطلبات الإخراج الصارمة.</string>
@@ -2947,16 +2946,16 @@
     <string name="help_tip_compact_controls_step_2">اضبط جانب الإعدادات السريعة إذا كان من السهل الوصول إلى عناصر التحكم في الأداة من جانب واحد من الشاشة.</string>
     <string name="help_tip_compact_controls_step_3">ارجع إلى عناصر التحكم الأكثر اتساعًا إذا كنت لا تزال تتعلم التطبيق أو تفوتك النقر على الخيارات الكثيفة بشكل متكرر.</string>
     <string name="help_tip_load_net_image_title">تحميل الصور من الويب</string>
-    <string name="help_tip_load_net_image_subtitle">الصق عنوان URL لصفحة أو صورة، وقم بمعاينة الصور التي تم تحليلها، ثم احفظ النتائج المحددة أو شاركها</string>
+    <string name="help_tip_load_net_image_subtitle">الصق عنوان URL لصفحة أو صورة، وقم بمعاينة الصور التي تم تحليلها، ثم احفظ النتائج المحدّدة أو شاركها</string>
     <string name="help_tip_load_net_image_page_title">استخدم صور الويب عمدا</string>
-    <string name="help_tip_load_net_image_description">تقوم ميزة تحميل صور الويب بتوزيع مصادر الصور من عنوان URL المقدم، ومعاينة أول صورة متاحة، وتتيح لك حفظ الصور المحددة التي تم تحليلها أو مشاركتها. تستخدم بعض المواقع روابط مؤقتة أو محمية أو تم إنشاؤها بواسطة برنامج نصي، لذا قد لا تعرض الصفحة التي تعمل في المتصفح أي صور قابلة للاستخدام.</string>
+    <string name="help_tip_load_net_image_description">تقوم ميزة تحميل صور الويب بتوزيع مصادر الصور من عنوان URL المقدم، ومعاينة أول صورة متاحة، وتتيح لك حفظ أو مشاركة الصور المحدّدة التي حُلّلت. تستخدم بعض المواقع روابط مؤقتة أو محمية أو أُنشئت بواسطة برنامج نصي، لذا قد لا تعرض الصفحة التي تعمل في المتصفح أي صور قابلة للاستخدام.</string>
     <string name="help_tip_load_net_image_step_1">الصق عنوان URL المباشر للصورة أو عنوان URL للصفحة وانتظر حتى تظهر قائمة الصور التي تم تحليلها.</string>
     <string name="help_tip_load_net_image_step_2">استخدم عناصر التحكم في الإطار أو التحديد عندما تحتوي الصفحة على عدة صور وتحتاج إلى بعضها فقط.</string>
     <string name="help_tip_load_net_image_step_3">إذا لم يتم تحميل أي شيء، فجرّب رابط الصورة المباشر أو قم بالتنزيل من خلال المتصفح أولاً؛ قد يقوم الموقع بحظر التحليل أو استخدام الروابط الخاصة.</string>
     <string name="help_tip_resize_type_title">اختر نوع تغيير الحجم</string>
     <string name="help_tip_resize_type_subtitle">فهم الصريح والمرن والقص والملاءمة قبل فرض الصورة على أبعاد جديدة</string>
     <string name="help_tip_resize_type_page_title">التحكم في الشكل والقماش ونسبة العرض إلى الارتفاع</string>
-    <string name="help_tip_resize_type_description">يحدد نوع تغيير الحجم ما يحدث عندما لا يتطابق العرض والارتفاع المطلوبان مع نسبة العرض إلى الارتفاع الأصلية. إنه الفرق بين تمديد وحدات البكسل أو الحفاظ على النسب أو اقتصاص مساحة إضافية أو إضافة لوحة خلفية.</string>
+    <string name="help_tip_resize_type_description">يحدّد نوع تغيير الحجم ما يحدث عندما لا يتطابق العرض والارتفاع المطلوبان مع نسبة العرض إلى الارتفاع الأصلية. إنه الفرق بين تمديد وحدات البكسل أو الحفاظ على النسب أو اقتصاص مساحة إضافية أو إضافة لوحة خلفية.</string>
     <string name="help_tip_resize_type_step_1">استخدم Explicit فقط عندما يكون التشويه مقبولاً أو عندما يكون للمصدر نفس نسبة العرض إلى الارتفاع مثل الهدف.</string>
     <string name="help_tip_resize_type_step_2">استخدم المرونة للحفاظ على التناسب عن طريق تغيير الحجم من الجانب المهم، خاصة للصور والدفعات المختلطة.</string>
     <string name="help_tip_resize_type_step_3">استخدم Crop للإطارات الصارمة بدون حدود، أو Fit عندما يجب أن تظل الصورة بأكملها مرئية داخل لوحة قماشية ثابتة.</string>
@@ -2977,14 +2976,14 @@
     <string name="help_tip_limit_resize_modes_title">الحد من أوضاع تغيير الحجم</string>
     <string name="help_tip_limit_resize_modes_subtitle">اعرف متى يجب تخطي الصور ذات الحد الزائد أو إعادة ترميزها أو تصغيرها لتناسبها</string>
     <string name="help_tip_limit_resize_modes_page_title">اختر ما يحدث عند الحد الأقصى</string>
-    <string name="help_tip_limit_resize_modes_description">إن Limit Resize ليس مجرد أداة أصغر حجمًا للصور. يحدد وضعه ما يفعله التطبيق عندما يكون المصدر بالفعل داخل حدودك أو عندما يخالف جانب واحد فقط القاعدة، وهو أمر مهم للمجلدات المختلطة والتحضير للتحميل.</string>
+    <string name="help_tip_limit_resize_modes_description">إن الحد من تغيير الحجم ليس مجرد أداة أصغر حجمًا للصور. يحدّد وضعه ما يفعله التطبيق عندما يكون المصدر بالفعل داخل حدودك أو عندما يخالف جانب واحد فقط القاعدة، وهو أمر مهم للمجلدات المختلطة والتحضير للتحميل.</string>
     <string name="help_tip_limit_resize_modes_step_1">استخدم \"تخطي\" عندما يجب ترك الصور الموجودة داخل الحدود دون تغيير وعدم تصديرها مرة أخرى.</string>
     <string name="help_tip_limit_resize_modes_step_2">استخدم إعادة الترميز عندما تكون الأبعاد مقبولة ولكنك لا تزال بحاجة إلى تنسيق جديد أو سلوك بيانات التعريف أو الجودة أو اسم الملف.</string>
     <string name="help_tip_limit_resize_modes_step_3">استخدم Zoom عندما يجب تصغير حجم الصور التي تكسر الحدود بشكل متناسب حتى تناسب المربع المسموح به.</string>
     <string name="help_tip_aspect_ratio_targets_title">أهداف نسبة العرض إلى الارتفاع</string>
     <string name="help_tip_aspect_ratio_targets_subtitle">تجنب الوجوه الممتدة والحواف المقطوعة والحدود غير المتوقعة في أحجام المخرجات الصارمة</string>
     <string name="help_tip_aspect_ratio_targets_page_title">مطابقة الشكل قبل تغيير الحجم</string>
-    <string name="help_tip_aspect_ratio_targets_description">العرض والارتفاع ليسا سوى نصف هدف تغيير الحجم. تحدد نسبة العرض إلى الارتفاع ما إذا كانت الصورة يمكن ملاءمتها بشكل طبيعي، أو تحتاج إلى اقتصاص، أو تحتاج إلى لوحة قماشية حولها. التحقق من الشكل أولاً يمنع نتائج تغيير الحجم الأكثر إثارة للدهشة.</string>
+    <string name="help_tip_aspect_ratio_targets_description">العرض والارتفاع ليسا سوى نصف هدف تغيير الحجم. تُحدّد نسبة العرض إلى الارتفاع ما إذا كانت الصورة يمكن ملاءمتها بشكل طبيعي، أو تحتاج إلى اقتصاص، أو تحتاج إلى لوحة قماشية حولها. التحقق من الشكل أولاً يمنع نتائج تغيير الحجم الأكثر إثارة للدهشة.</string>
     <string name="help_tip_aspect_ratio_targets_step_1">قارن الشكل المصدر بالشكل المستهدف قبل اختيار Explicit أو Crop أو Fit.</string>
     <string name="help_tip_aspect_ratio_targets_step_2">قم بالقص أولاً عندما يفقد الهدف خلفية إضافية وتحتاج الوجهة إلى إطار صارم.</string>
     <string name="help_tip_aspect_ratio_targets_step_3">استخدم Fit أو Elastic عندما يجب أن يظل كل جزء من الصورة الأصلية مرئيًا.</string>
@@ -3019,16 +3018,16 @@
     <string name="help_tip_image_splitting_title">تقسيم صورة واحدة إلى البلاط</string>
     <string name="help_tip_image_splitting_subtitle">قص صورة واحدة حسب الصفوف والأعمدة والنسب المئوية المخصصة والتنسيق والجودة</string>
     <string name="help_tip_image_splitting_page_title">تحضير الشبكات والقطع المطلوبة</string>
-    <string name="help_tip_image_splitting_description">يؤدي تقسيم الصور إلى إنشاء مخرجات متعددة من صورة مصدر واحدة. ويمكنه التقسيم حسب عدد الصفوف والأعمدة، وضبط النسب المئوية للصفوف أو الأعمدة، وحفظ القطع بتنسيق وجودة الإخراج المحددين، وهو أمر مفيد للشبكات وشرائح الصفحة والصور البانورامية والمشاركات الاجتماعية المرتبة.</string>
-    <string name="help_tip_image_splitting_step_1">اختر الصورة المصدر، ثم قم بتعيين عدد الصفوف والأعمدة التي تحتاجها.</string>
+    <string name="help_tip_image_splitting_description">يؤدي تقسيم الصور إلى إنشاء مخرجات متعدّدة من صورة مصدر واحدة. ويمكنه التقسيم حسب عدد الصفوف والأعمدة، وضبط النسب المئوية للصفوف أو الأعمدة، وحفظ القطع بتنسيق وجودة الإخراج المحدّدين، وهو أمر مفيد للشبكات وشرائح الصفحة والصور البانورامية والمشاركات الاجتماعية المرتبة.</string>
+    <string name="help_tip_image_splitting_step_1">اختر الصورة المصدر، ثم عيّن عدد الصفوف والأعمدة التي تحتاجها.</string>
     <string name="help_tip_image_splitting_step_2">اضبط النسب المئوية للصفوف أو الأعمدة عندما لا تكون جميع القطع متساوية الحجم.</string>
     <string name="help_tip_image_splitting_step_3">اختر تنسيق الإخراج وجودته قبل الحفظ بحيث تستخدم كل قطعة تم إنشاؤها نفس قواعد التصدير.</string>
     <string name="help_tip_image_cutting_title">قطع شرائط الصورة</string>
     <string name="help_tip_image_cutting_subtitle">قم بإزالة المناطق الرأسية أو الأفقية ودمج الأجزاء المتبقية معًا مرة أخرى</string>
     <string name="help_tip_image_cutting_page_title">قم بإزالة المنطقة دون ترك فجوة</string>
-    <string name="help_tip_image_cutting_description">يختلف قطع الصور عن الاقتصاص العادي. يمكنه إزالة شريط رأسي أو أفقي محدد، ثم دمج أجزاء الصورة المتبقية معًا. يحافظ الوضع العكسي على المنطقة المحددة بدلاً من ذلك، واستخدام كلا الاتجاهين العكسيين يحافظ على المستطيل المحدد.</string>
+    <string name="help_tip_image_cutting_description">يختلف قطع الصور عن الاقتصاص العادي. يمكنه إزالة شريط رأسي أو أفقي محدّد، ثم دمج أجزاء الصورة المتبقية معًا. يحافظ الوضع العكسي على المنطقة المحدّدة بدلاً من ذلك، واستخدام كلا الاتجاهين العكسيين يحافظ على المستطيل المحدّد.</string>
     <string name="help_tip_image_cutting_step_1">استخدم القطع الرأسي للمناطق الجانبية أو الأعمدة أو الشرائط الوسطى؛ استخدم القطع الأفقي لللافتات أو الفجوات أو الصفوف.</string>
-    <string name="help_tip_image_cutting_step_2">قم بتمكين العكس على المحور عندما تريد الاحتفاظ بالجزء المحدد بدلاً من إزالته.</string>
+    <string name="help_tip_image_cutting_step_2">فعّل العكس على المحور عندما تريد الاحتفاظ بالجزء المحدّد بدلاً من إزالته.</string>
     <string name="help_tip_image_cutting_step_3">قم بمعاينة الحواف بعد القطع لأن المحتوى المدمج قد يبدو مفاجئًا عندما تتقاطع المنطقة التي تمت إزالتها مع تفاصيل مهمة.</string>
     <string name="help_tip_format_choice_title">اختر تنسيق الإخراج</string>
     <string name="help_tip_format_choice_subtitle">اختر JPEG أو PNG أو WebP أو AVIF أو JXL أو PDF بناءً على المحتوى والوجهة</string>
@@ -3041,9 +3040,9 @@
     <string name="help_tip_audio_cover_extractor_subtitle">احفظ صورة الألبوم المضمنة أو إطارات الوسائط المتاحة من الملفات الصوتية كصور PNG</string>
     <string name="help_tip_audio_cover_extractor_page_title">سحب العمل الفني من الملفات الصوتية</string>
     <string name="help_tip_audio_cover_extractor_description">يستخدم Audio Covers بيانات تعريف وسائط Android لقراءة الأعمال الفنية المضمنة من الملفات الصوتية. عندما لا يتوفر العمل الفني المضمن، قد يعود المسترد إلى إطار الوسائط إذا تمكن Android من توفيره؛ وفي حالة عدم وجود أي منهما، تشير الأداة إلى عدم وجود صورة لاستخراجها.</string>
-    <string name="help_tip_audio_cover_extractor_step_1">افتح أغلفة الصوت وحدد ملفًا صوتيًا واحدًا أو أكثر مع صورة الغلاف المتوقعة.</string>
+    <string name="help_tip_audio_cover_extractor_step_1">افتح أغلفة الصوت وحدّد ملفًا صوتيًا واحدًا أو أكثر مع صورة الغلاف المتوقعة.</string>
     <string name="help_tip_audio_cover_extractor_step_2">قم بمراجعة الغلاف المستخرج قبل الحفظ أو المشاركة، خاصة بالنسبة للملفات من تطبيقات البث أو التسجيل.</string>
-    <string name="help_tip_audio_cover_extractor_step_3">إذا لم يتم العثور على صورة، فمن المحتمل أن الملف الصوتي لا يحتوي على غلاف مضمن أو أن Android لا يمكنه الكشف عن إطار قابل للاستخدام.</string>
+    <string name="help_tip_audio_cover_extractor_step_3">إذا لم يُعثر على صورة، فمن المحتمل أن الملف الصوتي لا يحتوي على غلاف مضمن أو أن أندرويد لا يمكنه الكشف عن إطار قابل للاستخدام.</string>
     <string name="help_tip_metadata_dates_location_title">التواريخ والبيانات الوصفية للموقع</string>
     <string name="help_tip_metadata_dates_location_subtitle">قرر ما تريد الاحتفاظ به عندما يكون وقت الالتقاط مهمًا ولكن لا ينبغي أن يتسرب نظام تحديد المواقع العالمي (GPS) أو بيانات الجهاز</string>
     <string name="help_tip_metadata_dates_location_page_title">افصل البيانات الوصفية المفيدة عن البيانات الوصفية الخاصة</string>
@@ -3054,7 +3053,7 @@
     <string name="help_tip_filename_collision_safety_title">تجنب تضارب أسماء الملفات</string>
     <string name="help_tip_filename_collision_safety_subtitle">قم بحماية مخرجات الدفعات عندما تشترك العديد من الملفات بأسماء مثل image.jpg أو Screenshot.png</string>
     <string name="help_tip_filename_collision_safety_page_title">اجعل كل اسم مخرجات فريدًا</string>
-    <string name="help_tip_filename_collision_safety_description">تعد أسماء الملفات المكررة شائعة عندما تأتي الصور من برامج المراسلة أو لقطات الشاشة أو المجلدات السحابية أو الكاميرات المتعددة. يمنع النمط الجيد الاستبدال العرضي ويحافظ على إمكانية إرجاع المخرجات إلى مصادرها.</string>
+    <string name="help_tip_filename_collision_safety_description">تعد أسماء الملفات المكررة شائعة عندما تأتي الصور من برامج المراسلة أو لقطات الشاشة أو المجلدات السحابية أو الكاميرات المتعدّدة. يمنع النمط الجيد الاستبدال العرضي ويحافظ على إمكانية إرجاع المخرجات إلى مصادرها.</string>
     <string name="help_tip_filename_collision_safety_step_1">قم بتضمين الاسم الأصلي بالإضافة إلى لاحقة عندما يكون من الممكن التعرف على النسخة المحررة.</string>
     <string name="help_tip_filename_collision_safety_step_2">أضف التسلسل أو الطابع الزمني أو الإعداد المسبق أو الأبعاد عند معالجة دفعات مختلطة كبيرة.</string>
     <string name="help_tip_filename_collision_safety_step_3">تجنب الكتابة فوق سير العمل حتى تتأكد من عدم إمكانية تعارض نمط التسمية.</string>
@@ -3068,7 +3067,7 @@
     <string name="help_tip_pdf_page_size_margins_title">حجم صفحة PDF والهوامش</string>
     <string name="help_tip_pdf_page_size_margins_subtitle">اختر حجم الورق والسلوك الملائم ومساحة التنفس قبل إنشاء مستند</string>
     <string name="help_tip_pdf_page_size_margins_page_title">جعل صفحات الصور قابلة للطباعة والقراءة</string>
-    <string name="help_tip_pdf_page_size_margins_description">يمكن أن تصبح الصور صفحات PDF غريبة عندما لا يتطابق شكلها مع حجم الورق المختار. تحدد الهوامش ووضع الملاءمة واتجاه الصفحة ما إذا كان المحتوى مقتصًا أو صغيرًا أو ممتدًا أو مريحًا للقراءة.</string>
+    <string name="help_tip_pdf_page_size_margins_description">يمكن أن تصبح الصور صفحات PDF غريبة عندما لا يتطابق شكلها مع حجم الورق المختار. تُحدّد الهوامش ووضع الملاءمة واتجاه الصفحة ما إذا كان المحتوى مقتصًا أو صغيرًا أو ممتدًا أو مريحًا للقراءة.</string>
     <string name="help_tip_pdf_page_size_margins_step_1">استخدم حجم ورق حقيقي عندما يكون من الممكن طباعة ملف PDF أو إرساله إلى نموذج.</string>
     <string name="help_tip_pdf_page_size_margins_step_2">استخدم الهوامش لعمليات المسح ولقطات الشاشة حتى لا يجلس النص على حافة الصفحة.</string>
     <string name="help_tip_pdf_page_size_margins_step_3">قم بمعاينة الصفحات الرأسية والأفقية معًا عندما يكون للصور المصدر اتجاهات مختلطة.</string>
@@ -3099,12 +3098,12 @@
     <string name="help_tip_pdf_metadata_flatten_print_description">تعمل بيانات تعريف PDF والتسوية وإعداد الطباعة على حل مشكلات المرحلة النهائية المختلفة. تتحكم البيانات التعريفية في خصائص المستند، ويعمل خيار Flatten PDF على تحويل الصفحات إلى مخرجات أقل قابلية للتحرير، ويعمل خيار Print PDF على إعداد تخطيط جديد مع حجم الصفحة، والاتجاه، والهامش، وعناصر التحكم لكل صفحة في الورقة.</string>
     <string name="help_tip_pdf_metadata_flatten_print_step_1">استخدم بيانات التعريف عندما يكون المؤلف أو العنوان أو الكلمات الرئيسية أو المنتج أو تنظيف الخصوصية أمرًا مهمًا.</string>
     <string name="help_tip_pdf_metadata_flatten_print_step_2">استخدم Flatten PDF عندما يصبح من الصعب تحرير محتوى الصفحة المرئي ككائنات PDF منفصلة.</string>
-    <string name="help_tip_pdf_metadata_flatten_print_step_3">استخدم طباعة PDF عندما تحتاج إلى حجم صفحة مخصص، أو اتجاه، أو هوامش، أو صفحات متعددة لكل ورقة.</string>
+    <string name="help_tip_pdf_metadata_flatten_print_step_3">استخدم طباعة PDF عندما تحتاج إلى حجم صفحة مخصّص أو اتجاه أو هوامش أو صفحات متعدّدة لكل ورقة.</string>
     <string name="help_tip_ocr_preprocessing_title">تحضير الصور للتعرف الضوئي على الحروف</string>
     <string name="help_tip_ocr_preprocessing_subtitle">استخدم الاقتصاص والتدوير والتباين وتقليل التشويش وتغيير الحجم قبل أن تطلب التعرف الضوئي على الحروف لقراءة النص</string>
     <string name="help_tip_ocr_preprocessing_page_title">إعطاء بكسلات أنظف للتعرف الضوئي على الحروف</string>
-    <string name="help_tip_ocr_preprocessing_description">غالبًا ما تأتي أخطاء التعرف الضوئي على الحروف من الصورة المدخلة وليس من محرك التعرف الضوئي على الحروف. الصفحات الملتوية والتباين المنخفض والضبابية والظلال والنص الصغير والخلفيات المختلطة كلها تقلل من جودة التعرف.</string>
-    <string name="help_tip_ocr_preprocessing_step_1">قم بالقص إلى منطقة النص وقم بتدوير الصورة بحيث تكون الخطوط أفقية قبل التعرف عليها.</string>
+    <string name="help_tip_ocr_preprocessing_description">غالبًا ما تأتي أخطاء التعرف الضوئي على الحروف من الصورة المدخلة وليس من محرك التعرف الضوئي على الحروف. الصفحات الملتوية والتباين المنخفض والضبابية والظلال والنص الصغير والخلفيات المختلطة كلها تقلل من جودة التعرُّف.</string>
+    <string name="help_tip_ocr_preprocessing_step_1">قص إلى منطقة النص ودوّر الصورة بحيث تكون الخطوط أفقية قبل التعرُّف عليها.</string>
     <string name="help_tip_ocr_preprocessing_step_2">قم بزيادة التباين أو التحويل إلى أبيض وأسود أكثر وضوحًا فقط عندما يجعل قراءة الحروف أسهل.</string>
     <string name="help_tip_ocr_preprocessing_step_3">قم بتغيير حجم النص الصغير لأعلى بشكل معتدل، ولكن تجنب التوضيح الشديد الذي يؤدي إلى إنشاء حواف زائفة.</string>
     <string name="help_tip_qr_content_safety_title">تحقق من محتوى QR</string>
@@ -3201,14 +3200,14 @@
     <string name="search_keywords_crop">تقليم المحاصيل نسبة العرض إلى الارتفاع</string>
     <string name="search_keywords_filter">تصحيح لون تأثير المرشح وضبط قناع Lut</string>
     <string name="search_keywords_draw">رسم فرشاة الطلاء بالقلم الرصاص والتعليق التوضيحي</string>
-    <string name="search_keywords_cipher">تشفير تشفير فك تشفير كلمة المرور السرية</string>
+    <string name="search_keywords_cipher">تشفير تعمية فك تشفير فك تعمية كلمة المرور السرية</string>
     <string name="search_keywords_erase_background">مزيل الخلفية محو إزالة انقطاع ألفا شفافة</string>
     <string name="search_keywords_image_preview">معاينة معرض العارض فحص مفتوح</string>
     <string name="search_keywords_image_stitching">غرزة دمج الجمع بين لقطة شاشة بانوراما طويلة</string>
     <string name="search_keywords_load_net_image">رابط تحميل الويب رابط الصورة على الإنترنت</string>
     <string name="search_keywords_pick_color_from_image">عينة قطارة المنتقى ذات اللون السداسي rgb</string>
     <string name="search_keywords_palette_tools">لوحة الألوان حوامل استخراج المهيمنة</string>
-    <string name="search_keywords_delete_exif">خصوصية البيانات الوصفية exif، قم بإزالة موقع GPS النظيف</string>
+    <string name="search_keywords_delete_exif">خصوصية البيانات الوصفية exif، إزالة موقع GPS النظيف</string>
     <string name="search_keywords_compare">قارن الفرق قبل وبعد</string>
     <string name="search_keywords_limit_resize">الحد الأقصى لتغيير الحجم والحد الأدنى لأبعاد الميجابكسل</string>
     <string name="search_keywords_pdf_tools">أدوات صفحات وثيقة pdf</string>
@@ -3219,11 +3218,11 @@
     <string name="search_keywords_apng_tools">apng الرسوم المتحركة المتحركة png تحويل الإطارات</string>
     <string name="search_keywords_zip">أرشيف مضغوط، حزمة ضغط، فك ضغط الملفات</string>
     <string name="search_keywords_jxl_tools">jxl jpeg xl تحويل تنسيق الصورة jpg</string>
-    <string name="search_keywords_svg_maker">تتبع ناقلات SVG تحويل XML</string>
+    <string name="search_keywords_svg_maker">تتبع ناقلات svg تحويل xml</string>
     <string name="search_keywords_format_conversion">تحويل التنسيق jpg jpeg png webp heic avif jxl bmp</string>
-    <string name="search_keywords_document_scanner">وثيقة الماسح الضوئي مسح الورق منظور المحاصيل</string>
+    <string name="search_keywords_document_scanner">وثيقة مستند مسح الماسح الضوئي مسح الورق منظور المحاصيل</string>
     <string name="search_keywords_scan_qr_code">مسح ماسح الباركود qr</string>
-    <string name="search_keywords_image_stacking">التراص تراكب متوسط ​​التصوير الفلكي المتوسط</string>
+    <string name="search_keywords_image_stacking">التراص تراكب متوسط التصوير الفلكي المتوسط</string>
     <string name="search_keywords_image_splitting">تقسيم أجزاء شريحة شبكة البلاط</string>
     <string name="search_keywords_color_tools">تحويل الألوان إلى مختبر Hex rgb وhsl وhsv cmyk</string>
     <string name="search_keywords_webp_tools">webp تحويل تنسيق الصور المتحركة</string>
@@ -3236,7 +3235,7 @@
     <string name="search_keywords_edit_exif">exif البيانات الوصفية تحرير كاميرا تاريخ GPS</string>
     <string name="search_keywords_image_cutter">قطع البلاط قطع الشبكة الانقسام</string>
     <string name="search_keywords_audio_cover_extractor">الغلاف الصوتي للألبوم الفني والبيانات الوصفية للموسيقى</string>
-    <string name="search_keywords_wallpapers_export">خلفية خلفية التصدير</string>
+    <string name="search_keywords_wallpapers_export">خلفية شاشة خلفية التصدير</string>
     <string name="search_keywords_ascii_art">شخصيات فن النص ascii</string>
     <string name="search_keywords_ai_tools">ai ml العصبية تعزز الجزء الراقي</string>
     <string name="search_keywords_color_library">لوحة مواد مكتبة الألوان تسمى الألوان</string>
@@ -3248,7 +3247,7 @@
     <string name="search_keywords_pdf_page_numbers">ترقيم صفحات ارقام صفحات pdf</string>
     <string name="search_keywords_pdf_ocr">يتعرف نص pdf ocr على المستخرج القابل للبحث</string>
     <string name="search_keywords_pdf_watermark">pdf نص شعار ختم العلامة المائية</string>
-    <string name="search_keywords_pdf_signature">pdf التوقيع التوقيع الرسم</string>
+    <string name="search_keywords_pdf_signature">pdf التوقيع وقع الرسم</string>
     <string name="search_keywords_pdf_protect">pdf حماية كلمة المرور قفل التشفير</string>
     <string name="search_keywords_pdf_unlock">فتح pdf فك تشفير كلمة المرور وإزالة الحماية</string>
     <string name="search_keywords_pdf_compress">ضغط pdf تصغير الحجم تحسين</string>
@@ -3427,7 +3426,7 @@
     <string name="texture_erosion">تآكل</string>
     <string name="texture_snow_level">مستوى الثلوج</string>
     <string name="texture_line_count">عدد الخطوط</string>
-    <string name="texture_line_thickness">سمك الخط</string>
+    <string name="texture_line_thickness">سُمك الخط</string>
     <string name="texture_shading">تظليل</string>
     <string name="texture_pore_color">لون المسام</string>
     <string name="texture_mortar_color">لون الملاط</string>
