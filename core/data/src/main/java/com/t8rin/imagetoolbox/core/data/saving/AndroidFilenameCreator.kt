@@ -33,8 +33,6 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.DateUpper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Extension
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ExtensionUpper
-import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.FileSize
-import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.FileSizeUpper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Height
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalName
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalNameUpper
@@ -55,13 +53,11 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Width
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replace
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.slice
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.domain.utils.transliterate
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
-import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.path
@@ -281,25 +277,6 @@ internal class AndroidFilenameCreator @Inject constructor(
             } else ""
         }.orEmpty()
 
-        val fileSizeRaw = if (isOriginalEmpty) 0L
-        else saveTarget.originalUri.toUri().fileSize() ?: 0L
-
-        runCatching {
-            result = result.replace("""\\z\{([^}]*)\}""".toRegex()) { match ->
-                val unit = match.groupValues[1].lowercase()
-                when (unit) {
-                    "b" -> fileSizeRaw.toString()
-                    "kb" -> (fileSizeRaw / 1024.0).let { "%.1f".format(it) }
-                    "mb" -> (fileSizeRaw / (1024.0 * 1024.0)).let { "%.1f".format(it) }
-                    else -> humanFileSize(fileSizeRaw)
-                }
-            }
-        }.onFailure {
-            it.makeLog("pattern file size")
-        }
-
-        val fileSize = humanFileSize(fileSizeRaw)
-
         return result
             .replace(Width, widthString)
             .replace(Height, heightString)
@@ -313,7 +290,6 @@ internal class AndroidFilenameCreator @Inject constructor(
             .replace(Rand, randomNumber(4))
             .replace(Date, timestampString)
             .replace(ParentFolder, parentFolder)
-            .replace(FileSize, fileSize)
             .replace(Uuid, UUID.random().toString())
             .replace(PrefixUpper, prefix.uppercase())
             .replace(SuffixUpper, suffix.uppercase())
@@ -323,7 +299,6 @@ internal class AndroidFilenameCreator @Inject constructor(
             .replace(ExtensionUpper, extension.uppercase())
             .replace(DateUpper, timestampString.uppercase())
             .replace(ParentFolderUpper, parentFolder.uppercase())
-            .replace(FileSizeUpper, fileSize.uppercase())
             .replace(UuidUpper, UUID.random().toString().uppercase())
             .clean()
             .let { str ->
