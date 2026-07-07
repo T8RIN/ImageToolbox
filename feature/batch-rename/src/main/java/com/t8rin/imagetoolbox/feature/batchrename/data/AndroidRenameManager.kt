@@ -33,9 +33,11 @@ import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.get
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.lastModified
@@ -46,6 +48,7 @@ import com.t8rin.imagetoolbox.feature.batchrename.domain.model.RenameFile
 import com.t8rin.imagetoolbox.feature.batchrename.domain.model.RenameResult
 import com.t8rin.imagetoolbox.feature.batchrename.domain.model.RenameTarget
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.nio.file.Files
@@ -73,14 +76,22 @@ internal class AndroidRenameManager @Inject constructor(
                     ?: return@mapNotNull null
                 val size = uri.imageSize()
                 val providerDates = uri.tryExtractOriginal().providerDates()
+                val metadata =
+                    runCatching { fileController.readMetadata(uri.toString()) }.getOrNull()
                 RenameFile(
                     uri = uri.toString(),
                     originalName = name,
                     width = size?.width,
                     height = size?.height,
-                    exifDateTaken = uri.exifDateTaken() ?: providerDates.dateTaken,
+                    exifDateTaken = metadata?.exifDateTaken() ?: providerDates.dateTaken,
                     modifiedDate = uri.lastModified() ?: providerDates.modified,
-                    createdDate = uri.creationDate() ?: providerDates.created
+                    createdDate = uri.creationDate() ?: providerDates.created,
+                    fileSize = uri.fileSize(),
+                    parentFolder = uri.path()?.let { path ->
+                        if ('/' in path) {
+                            path.substringBeforeLast('/').substringAfterLast('/')
+                        } else ""
+                    }.orEmpty()
                 )
             }
         }
@@ -97,6 +108,38 @@ internal class AndroidRenameManager @Inject constructor(
         )
 
         requestMediaStorePermissionIfNeeded(changed, writableUris)?.let { return@withContext it }
+
+        val originalNames = changed.map { it.file.originalName.lowercase() }.toSet()
+        val hasCycleOrOverlap = changed.any { target ->
+            target.newName.lowercase() != target.file.originalName.lowercase() &&
+                    target.newName.lowercase() in originalNames
+        }
+
+        if (!hasCycleOrOverlap) {
+            val renamed = mutableListOf<Pair<RenameTarget, Uri>>()
+            changed.forEach { target ->
+                val result = runCatching {
+                    renameOne(target.file.uri.toUri(), target.newName)
+                }
+                result.onSuccess { finalUri ->
+                    renamed += target to finalUri
+                }.onFailure { cause ->
+                    renamed.asReversed().forEach { (completed, finalUri) ->
+                        runCatching { renameOne(finalUri, completed.file.originalName) }
+                    }
+                    return@withContext result.permissionResult(target.file.uri.toUri())
+                        ?: RenameResult.Failure(
+                            renamed = 0,
+                            failedNames = changed.map { it.file.originalName },
+                            cause = cause
+                        )
+                }
+            }
+            return@withContext RenameResult.Success(
+                renamed = renamed.size,
+                unchanged = unchanged
+            )
+        }
 
         val staged = mutableListOf<StagedRename>()
         for (target in changed) {
@@ -171,12 +214,9 @@ internal class AndroidRenameManager @Inject constructor(
         )
     }
 
-    private suspend fun Uri.exifDateTaken(): Long? {
-        val metadata = runCatching {
-            fileController.readMetadata(toString())
-        }.getOrNull() ?: return null
-        val rawDate = metadata[MetadataTag.DatetimeOriginal]
-            ?: metadata[MetadataTag.DatetimeDigitized]
+    private fun Metadata.exifDateTaken(): Long? {
+        val rawDate = this[MetadataTag.DatetimeOriginal]
+            ?: this[MetadataTag.DatetimeDigitized]
             ?: return null
         return EXIF_DATE_FORMATS.firstNotNullOfOrNull { format ->
             runCatching {
@@ -222,13 +262,13 @@ internal class AndroidRenameManager @Inject constructor(
         }
     }.getOrNull() ?: ProviderDates()
 
-    private fun rollback(staged: List<StagedRename>) {
+    private suspend fun rollback(staged: List<StagedRename>) {
         staged.asReversed().forEach { item ->
             runCatching { renameOne(item.temporaryUri, item.originalName) }
         }
     }
 
-    private fun renameOne(uri: Uri, newName: String): Uri {
+    private suspend fun renameOne(uri: Uri, newName: String): Uri {
         if (uri.scheme == ContentResolver.SCHEME_FILE) {
             val file = uri.path?.let(::File)?.takeIf(File::exists)
                 ?: error("File does not exist: $uri")
@@ -239,8 +279,18 @@ internal class AndroidRenameManager @Inject constructor(
 
         val providerResult = runCatching {
             if (DocumentsContract.isDocumentUri(context, uri)) {
-                DocumentsContract.renameDocument(contentResolver, uri, newName)
-                    ?.let { return@runCatching it }
+                var lastException: Throwable? = null
+                repeat(3) { attempt ->
+                    runCatching {
+                        DocumentsContract.renameDocument(contentResolver, uri, newName)
+                    }.onSuccess {
+                        if (it != null) return@runCatching it
+                    }.onFailure {
+                        lastException = it
+                    }
+                    if (attempt < 2) delay(100)
+                }
+                lastException?.let { throw it }
             }
             val values = ContentValues(1).apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, newName)
@@ -251,12 +301,7 @@ internal class AndroidRenameManager @Inject constructor(
                 ?: error("The content provider did not rename the file")
         }
 
-        providerResult.getOrNull()?.let { renamedUri ->
-            check(renamedUri.filename(context) == newName) {
-                "The content provider changed the requested filename"
-            }
-            return renamedUri
-        }
+        providerResult.getOrNull()?.let { return it }
 
         directFile(uri)?.let { return renameFile(it, newName) }
         throw providerResult.exceptionOrNull() ?: error("Failed to rename $uri")

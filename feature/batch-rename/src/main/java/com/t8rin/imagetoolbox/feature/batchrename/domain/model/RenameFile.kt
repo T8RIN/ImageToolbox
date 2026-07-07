@@ -24,7 +24,9 @@ data class RenameFile(
     val height: Int? = null,
     val exifDateTaken: Long? = null,
     val modifiedDate: Long? = null,
-    val createdDate: Long? = null
+    val createdDate: Long? = null,
+    val fileSize: Long? = null,
+    val parentFolder: String? = null
 ) {
     val extension: String
         get() = originalName.substringAfterLast('.', missingDelimiterValue = "")

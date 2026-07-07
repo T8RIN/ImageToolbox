@@ -2938,12 +2938,15 @@
     <string name="wavy_shapes_sub">Rounded UI elements with a soft wavy edge</string>
     <string name="filename_format">Filename Format</string>
     <string name="prefix_pattern_description">Custom text placed at the very beginning of the filename, perfect for project names, brands, or personal tags.</string>
-    <string name="original_filename_pattern_description">Uses the original file name without extension, helping you keep source identification intact. Also supports slicing with \\o{start:end} syntax (e.g. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Uses the original file name without extension, helping you keep source identification intact. Also supports slicing with \\o{start:end}, transliteration with \\o{t} and replace with \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Auto-incrementing counter. Supports custom formatting: \\c{padding} (e.g. \\c{3} -> 001), \\c{start:step} or \\c{start:step:padding}.</string>
     <string name="width_pattern_description">The image width in pixels, useful for tracking resolution changes or scaling results.</string>
     <string name="height_pattern_description">The image height in pixels, helpful when working with aspect ratios or exports.</string>
     <string name="formatted_timestamp_pattern_description">A customizable timestamp that lets you define your own format by Java specification for perfect sorting.</string>
     <string name="random_numbers_pattern_description">Generates random digits to guarantee unique filenames; add more digits for extra safety against duplicates.</string>
-    <string name="sequence_number_pattern_description">Auto-incrementing counter for batch exports, ideal when saving multiple images in one session.</string>
+    <string name="parent_folder_pattern_description">The name of the parent folder where the original file was located.</string>
+    <string name="file_size_pattern_description">The size of the original file. Supports units: \\z{b}, \\z{kb}, \\z{mb} or just \\z for human readable format.</string>
+    <string name="uuid_pattern_description">Generates a random Universally Unique Identifier (UUID) to ensure filename uniqueness.</string>
     <string name="preset_info_pattern_description">Inserts the applied preset name into the filename so you can easily remember how the image was processed.</string>
     <string name="scale_mode_pattern_description">Displays the image scaling mode used during processing, helping distinguish resized, cropped, or fitted images.</string>
     <string name="suffix_pattern_description">Custom text placed at the end of the filename, useful for versioning like _v2, _edited, or _final.</string>
