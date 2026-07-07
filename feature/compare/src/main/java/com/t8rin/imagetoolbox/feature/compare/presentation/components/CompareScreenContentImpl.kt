@@ -33,6 +33,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,7 +71,7 @@ internal fun CompareScreenContentImpl(
     compareType: CompareType,
     bitmapPair: CompareData,
     pixelByPixelCompareState: PixelByPixelCompareState,
-    compareProgress: () -> Float,
+    compareProgressState: MutableFloatState,
     onCompareProgressChange: (Float) -> Unit,
     isPortrait: Boolean,
     isLabelsEnabled: Boolean,
@@ -93,7 +94,8 @@ internal fun CompareScreenContentImpl(
 
                         BeforeAfterLayout(
                             modifier = modifier,
-                            progress = compareProgress,
+                            progress = { compareProgressState.floatValue },
+                            sharedProgress = compareProgressState,
                             onProgressChange = onCompareProgressChange,
                             beforeContent = {
                                 Picture(
@@ -321,7 +323,7 @@ internal fun CompareScreenContentImpl(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .graphicsLayer {
-                                    alpha = compareProgress() / 100f
+                                    alpha = compareProgressState.floatValue / 100f
                                 }
                         )
                     }
@@ -343,7 +345,7 @@ internal fun CompareScreenContentImpl(
                         CompareLabel(
                             uri = bitmapPair.second?.uri,
                             modifier = Modifier.graphicsLayer {
-                                alpha = compareProgress() / 100f
+                                alpha = compareProgressState.floatValue / 100f
                             },
                             alignment = Alignment.BottomEnd,
                             enabled = isLabelsEnabled,
@@ -380,7 +382,7 @@ internal fun CompareScreenContentImpl(
                                 second,
                                 pixelByPixelCompareState
                             ) {
-                                snapshotFlow { compareProgress() }.collectLatest {
+                                snapshotFlow { compareProgressState.floatValue }.collectLatest {
                                     delay(300)
                                     transformations = listOf(
                                         createPixelByPixelTransformation()

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.compare.presentation.components.beforeaft
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -100,6 +101,7 @@ internal fun BeforeAfterLayout(
     enableProgressWithTouch: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     progress: () -> Float = { 50f },
+    sharedProgress: MutableFloatState? = null,
     onProgressChange: ((Float) -> Unit)? = null,
     overlayStyle: OverlayStyle = OverlayStyle(),
     beforeContent: @Composable () -> Unit,
@@ -115,6 +117,7 @@ internal fun BeforeAfterLayout(
         beforeLabel = beforeLabel,
         afterLabel = afterLabel,
         progress = progress,
+        sharedProgress = sharedProgress,
         onProgressChange = onProgressChange,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,

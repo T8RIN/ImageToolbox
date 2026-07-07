@@ -46,10 +46,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -117,6 +121,15 @@ internal fun CompareScreenContent(
         bitmapData.takeIf { !noData }?.let { bitmapPair ->
             var showOneTimeImagePickingDialog by rememberSaveable {
                 mutableStateOf(false)
+            }
+
+            val progressState = remember { mutableFloatStateOf(compareProgress()) }
+            LaunchedEffect(compareProgress) {
+                snapshotFlow { compareProgress() }.collect { value ->
+                    if (progressState.floatValue != value) {
+                        progressState.floatValue = value
+                    }
+                }
             }
 
             val zoomEnabled = compareType != CompareType.SideBySide
@@ -236,7 +249,7 @@ internal fun CompareScreenContent(
                             CompareScreenContentImpl(
                                 compareType = compareType,
                                 bitmapPair = bitmapPair,
-                                compareProgress = compareProgress,
+                                compareProgressState = progressState,
                                 onCompareProgressChange = onCompareProgressChange,
                                 isPortrait = true,
                                 isLabelsEnabled = isLabelsEnabled,
@@ -317,8 +330,11 @@ internal fun CompareScreenContent(
                                             .padding(horizontal = 16.dp)
                                             .weight(100f, true)
                                             .offset(y = (-2).dp),
-                                        value = compareProgress(),
-                                        onValueChange = onCompareProgressChange,
+                                        value = progressState.floatValue,
+                                        onValueChange = { progressState.floatValue = it },
+                                        onValueChangeFinished = {
+                                            onCompareProgressChange(progressState.floatValue)
+                                        },
                                         valueRange = 0f..100f,
                                         isAnimated = false
                                     )
@@ -349,7 +365,7 @@ internal fun CompareScreenContent(
                             CompareScreenContentImpl(
                                 compareType = compareType,
                                 bitmapPair = bitmapPair,
-                                compareProgress = compareProgress,
+                                compareProgressState = progressState,
                                 onCompareProgressChange = onCompareProgressChange,
                                 isPortrait = false,
                                 isLabelsEnabled = isLabelsEnabled,
@@ -450,8 +466,11 @@ internal fun CompareScreenContent(
 
                                 EnhancedSlider(
                                     modifier = modifier,
-                                    value = compareProgress(),
-                                    onValueChange = onCompareProgressChange,
+                                    value = progressState.floatValue,
+                                    onValueChange = { progressState.floatValue = it },
+                                    onValueChangeFinished = {
+                                        onCompareProgressChange(progressState.floatValue)
+                                    },
                                     valueRange = 0f..100f,
                                     isAnimated = false
                                 )

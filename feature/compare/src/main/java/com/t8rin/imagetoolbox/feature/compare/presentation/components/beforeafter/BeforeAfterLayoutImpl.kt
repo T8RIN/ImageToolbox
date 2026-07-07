@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,26 +32,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.LayoutDirection
 import com.t8rin.gesture.detectMotionEvents
-import kotlinx.coroutines.flow.collectLatest
-
 
 @Composable
 internal fun Layout(
     modifier: Modifier = Modifier,
     @FloatRange(from = 0.0, to = 100.0) progress: () -> Float = { 50f },
+    sharedProgress: MutableFloatState? = null,
     onProgressChange: ((Float) -> Unit)? = null,
     enableProgressWithTouch: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
@@ -63,155 +58,154 @@ internal fun Layout(
     DimensionSubcomposeLayout(
         modifier = modifier,
         placeMainContent = false,
-        mainContent = {
-            beforeContent()
-        },
-        dependentContent = { contentSize: Size ->
-
-            val boxWidth = contentSize.width
-            val boxHeight = contentSize.height
-
-            val boxWidthInDp: Dp
-            val boxHeightInDp: Dp
-
-            with(LocalDensity.current) {
-                boxWidthInDp = boxWidth.toDp()
-                boxHeightInDp = boxHeight.toDp()
-            }
-
-            // Sales and interpolates from offset from dragging to user value in valueRange
-            fun scaleToUserValue(offset: Float) =
-                scale(0f, boxWidth, offset, 0f, 100f)
-
-            // Scales user value using valueRange to position on x axis on screen
-            fun scaleToOffset(userValue: Float) =
-                scale(0f, 100f, userValue, 0f, boxWidth)
-
-            var rawOffset by remember {
-                mutableStateOf(
-                    Offset(
-                        x = scaleToOffset(progress()),
-                        y = boxHeight / 2f,
-                    )
-                )
-            }
-
-            LaunchedEffect(progress) {
-                snapshotFlow { progress() }.collectLatest { progress ->
-                    rawOffset = rawOffset.copy(x = scaleToOffset(progress))
-                }
-            }
-
-            var isHandleTouched by remember { mutableStateOf(false) }
-
-            val touchModifier = Modifier.pointerInput(Unit) {
-                detectMotionEvents(
-                    onDown = {
-                        val position = it.position
-                        val xPos = position.x
-
-                        isHandleTouched =
-                            ((rawOffset.x - xPos) * (rawOffset.x - xPos) < 5000)
-                    },
-                    onMove = {
-                        if (isHandleTouched) {
-                            rawOffset = it.position
-                            onProgressChange?.invoke(
-                                scaleToUserValue(rawOffset.x)
-                            )
-                            it.consume()
-                        }
-                    },
-                    onUp = {
-                        isHandleTouched = false
-                    }
-                )
-            }
-
-            val parentModifier = Modifier
-                .size(boxWidthInDp, boxHeightInDp)
-                .clipToBounds()
-                .then(if (enableProgressWithTouch) touchModifier else Modifier)
-
-
-            val beforeModifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    this.clip = true
-                    this.shape = SplitClipShape(
-                        isBefore = true,
-                        clipX = rawOffset.x
-                    )
-                }
-
-
-            val afterModifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    this.clip = true
-                    this.shape = SplitClipShape(
-                        isBefore = false,
-                        clipX = rawOffset.x
-                    )
-                }
-
-            LayoutImpl(
-                modifier = parentModifier,
-                beforeModifier = beforeModifier,
-                afterModifier = afterModifier,
-                graphicsModifier = Modifier,
+        mainContent = beforeContent,
+        dependentContent = { contentSize ->
+            BeforeAfterSplitLayout(
+                contentSize = contentSize,
+                progress = progress,
+                sharedProgress = sharedProgress,
+                onProgressChange = onProgressChange,
+                enableProgressWithTouch = enableProgressWithTouch,
+                contentOrder = contentOrder,
                 beforeContent = beforeContent,
                 afterContent = afterContent,
                 beforeLabel = beforeLabel,
                 afterLabel = afterLabel,
                 overlay = overlay,
-                contentOrder = contentOrder,
-                boxWidthInDp = boxWidthInDp,
-                boxHeightInDp = boxHeightInDp,
-                rawOffset = rawOffset
             )
         }
     )
 }
 
 @Composable
-private fun LayoutImpl(
-    modifier: Modifier,
-    beforeModifier: Modifier,
-    afterModifier: Modifier,
-    graphicsModifier: Modifier,
+private fun BeforeAfterSplitLayout(
+    contentSize: Size,
+    progress: () -> Float,
+    sharedProgress: MutableFloatState?,
+    onProgressChange: ((Float) -> Unit)?,
+    enableProgressWithTouch: Boolean,
+    contentOrder: ContentOrder,
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
-    beforeLabel: @Composable (BoxScope.() -> Unit)? = null,
-    afterLabel: @Composable (BoxScope.() -> Unit)? = null,
-    overlay: @Composable ((DpSize, Offset) -> Unit)? = null,
-    contentOrder: ContentOrder,
-    boxWidthInDp: Dp,
-    boxHeightInDp: Dp,
-    rawOffset: Offset,
+    beforeLabel: @Composable (BoxScope.() -> Unit)?,
+    afterLabel: @Composable (BoxScope.() -> Unit)?,
+    overlay: @Composable ((DpSize, Offset) -> Unit)?,
 ) {
-    Box(modifier = modifier) {
+    val boxWidth = contentSize.width
+    val boxHeight = contentSize.height
 
-        // BEFORE
-        val before = @Composable {
-            Box(if (contentOrder == ContentOrder.BeforeAfter) beforeModifier else afterModifier) {
-                Box(
-                    modifier = Modifier.then(graphicsModifier)
-                ) {
-                    beforeContent()
+    val boxWidthInDp = with(LocalDensity.current) { boxWidth.toDp() }
+    val boxHeightInDp = with(LocalDensity.current) { boxHeight.toDp() }
+
+    fun scaleToUserValue(offset: Float) =
+        scale(0f, boxWidth, offset, 0f, 100f)
+
+    fun scaleToOffset(userValue: Float) =
+        scale(0f, 100f, userValue, 0f, boxWidth)
+
+    var rawOffset by remember(boxWidth, boxHeight) {
+        mutableStateOf(
+            Offset(
+                x = scaleToOffset(progress()),
+                y = boxHeight / 2f,
+            )
+        )
+    }
+
+    var isHandleTouched by remember { mutableStateOf(false) }
+
+    LaunchedEffect(boxWidth, boxHeight, progress, sharedProgress) {
+        if (sharedProgress != null) return@LaunchedEffect
+        snapshotFlow {
+            progress() to isHandleTouched
+        }.collect { (value, isTouched) ->
+            if (!isTouched) {
+                rawOffset = rawOffset.copy(x = scaleToOffset(value))
+            }
+        }
+    }
+
+    val clipX = if (sharedProgress != null && !isHandleTouched) {
+        scaleToOffset(sharedProgress.floatValue)
+    } else {
+        rawOffset.x
+    }
+
+    val overlayOffset = if (isHandleTouched) {
+        rawOffset
+    } else {
+        Offset(x = clipX, y = rawOffset.y)
+    }
+
+    val touchModifier = Modifier.pointerInput(boxWidth, boxHeight) {
+        detectMotionEvents(
+            onDown = {
+                val position = it.position
+                val xPos = position.x
+                val currentX = if (sharedProgress != null && !isHandleTouched) {
+                    scaleToOffset(sharedProgress.floatValue)
+                } else {
+                    rawOffset.x
                 }
+
+                isHandleTouched =
+                    ((currentX - xPos) * (currentX - xPos) < 5000)
+
+                if (isHandleTouched) {
+                    rawOffset = Offset(
+                        x = currentX,
+                        y = boxHeight / 2f,
+                    )
+                }
+            },
+            onMove = {
+                if (isHandleTouched) {
+                    rawOffset = it.position
+                    sharedProgress?.floatValue = scaleToUserValue(rawOffset.x)
+                    it.consume()
+                }
+            },
+            onUp = {
+                if (isHandleTouched) {
+                    onProgressChange?.invoke(scaleToUserValue(rawOffset.x))
+                }
+                isHandleTouched = false
+            }
+        )
+    }
+
+    val parentModifier = Modifier
+        .size(boxWidthInDp, boxHeightInDp)
+        .clipToBounds()
+        .then(if (enableProgressWithTouch) touchModifier else Modifier)
+
+    val beforeClipModifier = Modifier
+        .fillMaxSize()
+        .drawWithContent {
+            clipRect(left = 0f, top = 0f, right = clipX, bottom = size.height) {
+                this@drawWithContent.drawContent()
+            }
+        }
+
+    val afterClipModifier = Modifier
+        .fillMaxSize()
+        .drawWithContent {
+            clipRect(left = clipX, top = 0f, right = size.width, bottom = size.height) {
+                this@drawWithContent.drawContent()
+            }
+        }
+
+    Box(modifier = parentModifier) {
+        val before = @Composable {
+            Box(if (contentOrder == ContentOrder.BeforeAfter) beforeClipModifier else afterClipModifier) {
+                beforeContent()
                 beforeLabel?.invoke(this)
             }
         }
 
-        // AFTER
         val after = @Composable {
-            Box(if (contentOrder == ContentOrder.BeforeAfter) afterModifier else beforeModifier) {
-                Box(
-                    modifier = Modifier.then(graphicsModifier)
-                ) {
-                    afterContent()
-                }
+            Box(if (contentOrder == ContentOrder.BeforeAfter) afterClipModifier else beforeClipModifier) {
+                afterContent()
                 afterLabel?.invoke(this)
             }
         }
@@ -226,32 +220,6 @@ private fun LayoutImpl(
     }
 
     overlay?.invoke(
-        DpSize(boxWidthInDp, boxHeightInDp), rawOffset
-    )
-}
-
-private class SplitClipShape(
-    private val isBefore: Boolean,
-    private val clipX: Float,
-) : Shape {
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density
-    ): Outline = Outline.Generic(
-        Path().apply {
-            if (isBefore) {
-                moveTo(0f, 0f)
-                lineTo(clipX, 0f)
-                lineTo(clipX, size.height)
-                lineTo(0f, size.height)
-            } else {
-                moveTo(clipX, 0f)
-                lineTo(size.width, 0f)
-                lineTo(size.width, size.height)
-                lineTo(clipX, size.height)
-            }
-            close()
-        }
+        DpSize(boxWidthInDp, boxHeightInDp), overlayOffset
     )
 }
