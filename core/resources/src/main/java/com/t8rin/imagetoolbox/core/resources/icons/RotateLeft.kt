@@ -17,12 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Rounded.RotateLeft: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -31,7 +31,7 @@ val Icons.Rounded.RotateLeft: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         defaultHeight = 24.dp,
         viewportWidth = 960f,
         viewportHeight = 960f,
-        autoMirror = true
+        autoMirror = false
     ).apply {
         path(fill = SolidColor(Color.Black)) {
             moveTo(170f, 482f)
