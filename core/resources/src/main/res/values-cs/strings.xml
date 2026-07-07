@@ -2055,7 +2055,6 @@
     <string name="width_pattern_description">Šířka obrázku v pixelech, užitečné pro sledování změn rozlišení nebo změny měřítka výsledků.</string>
     <string name="height_pattern_description">Výška obrázku v pixelech, užitečná při práci s poměry stran nebo exportu.</string>
     <string name="random_numbers_pattern_description">Generuje náhodné číslice pro zaručení jedinečných názvů souborů; přidejte další číslice pro větší bezpečnost proti duplikátům.</string>
-    <string name="sequence_number_pattern_description">Automatické počítadlo pro dávkové exporty, ideální při ukládání více obrázků v jedné relaci.</string>
     <string name="preset_info_pattern_description">Vloží použitý název předvolby do názvu souboru, abyste si snadno zapamatovali, jak byl obrázek zpracován.</string>
     <string name="scale_mode_pattern_description">Zobrazuje režim změny velikosti obrazu použitý během zpracování a pomáhá rozlišovat obrazy se změněnou velikostí, oříznuté nebo přizpůsobené obrazy.</string>
     <string name="suffix_pattern_description">Vlastní text umístěný na konci názvu souboru, užitečný pro verzování jako _v2, _edited nebo _final.</string>
@@ -3684,5 +3683,9 @@
     <string name="batch_rename_success">Soubory byly úspěšně přejmenovány</string>
     <string name="batch_rename_failed">Některé soubory se nepodařilo přejmenovat</string>
     <string name="permission_not_granted">Povolení nebylo uděleno</string>
-    <string name="original_filename_pattern_description">Používá původní název souboru bez přípony, což vám pomáhá zachovat identifikaci zdroje nedotčenou. Podporuje také dělení se syntaxí \\o{start:end} (např. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Používá původní název souboru bez přípony, což vám pomáhá zachovat identifikaci zdroje nedotčenou. Podporuje také krájení pomocí \\o{start:end}, transliteraci pomocí \\o{t} a nahrazení \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Automaticky se zvyšující počítadlo. Podporuje vlastní formátování: \\c{padding} (např. \\c{3} -&amp;gt; 001), \\c{start:step} nebo \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">Název nadřazené složky, kde byl umístěn původní soubor.</string>
+    <string name="file_size_pattern_description">Velikost původního souboru. Podporuje jednotky: \\z{b}, \\z{kb}, \\z{mb} nebo jen \\z pro formát čitelný člověkem.</string>
+    <string name="uuid_pattern_description">Generuje náhodný Universally Unique Identifier (UUID), aby byla zajištěna jedinečnost názvu souboru.</string>
 </resources>

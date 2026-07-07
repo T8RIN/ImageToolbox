@@ -2052,7 +2052,6 @@
     <string name="width_pattern_description">ความกว้างของภาพเป็นพิกเซล มีประโยชน์สำหรับการติดตามการเปลี่ยนแปลงความละเอียดหรือการปรับขนาดผลลัพธ์</string>
     <string name="height_pattern_description">ความสูงของรูปภาพเป็นพิกเซล ซึ่งมีประโยชน์เมื่อทำงานกับอัตราส่วนภาพหรือการส่งออก</string>
     <string name="random_numbers_pattern_description">สร้างตัวเลขสุ่มเพื่อรับประกันชื่อไฟล์ที่ไม่ซ้ำใคร เพิ่มตัวเลขเพิ่มเติมเพื่อความปลอดภัยเป็นพิเศษจากการซ้ำซ้อน</string>
-    <string name="sequence_number_pattern_description">ตัวนับที่เพิ่มขึ้นอัตโนมัติสำหรับการส่งออกเป็นชุด เหมาะอย่างยิ่งเมื่อบันทึกหลายภาพในเซสชันเดียว</string>
     <string name="preset_info_pattern_description">แทรกชื่อที่ตั้งไว้ล่วงหน้าที่ใช้ลงในชื่อไฟล์ เพื่อให้คุณสามารถจดจำวิธีการประมวลผลภาพได้อย่างง่ายดาย</string>
     <string name="scale_mode_pattern_description">แสดงโหมดการปรับขนาดภาพที่ใช้ในระหว่างการประมวลผล ช่วยแยกแยะความแตกต่างของภาพที่ปรับขนาด ครอบตัด หรือพอดี</string>
     <string name="suffix_pattern_description">ข้อความที่กำหนดเองวางไว้ท้ายชื่อไฟล์ ซึ่งมีประโยชน์สำหรับการกำหนดเวอร์ชัน เช่น _v2, _edited หรือ _final</string>
@@ -3681,5 +3680,9 @@
     <string name="batch_rename_success">เปลี่ยนชื่อไฟล์สำเร็จแล้ว</string>
     <string name="batch_rename_failed">ไม่สามารถเปลี่ยนชื่อไฟล์บางไฟล์ได้</string>
     <string name="permission_not_granted">ไม่ได้รับอนุญาต</string>
-    <string name="original_filename_pattern_description">ใช้ชื่อไฟล์ต้นฉบับโดยไม่มีนามสกุล ช่วยให้การระบุแหล่งที่มาไม่เสียหาย นอกจากนี้ยังรองรับการแบ่งส่วนด้วยไวยากรณ์ \\o{start:end} (เช่น \\o{0:5}, \\o{-3:}, \\o{:2})</string>
+    <string name="original_filename_pattern_description">ใช้ชื่อไฟล์ต้นฉบับโดยไม่มีนามสกุล ช่วยให้การระบุแหล่งที่มาไม่เสียหาย นอกจากนี้ยังรองรับการแบ่งส่วนด้วย \\o{start:end} การทับศัพท์ด้วย \\o{t} และแทนที่ด้วย \\o{s/old/new/}</string>
+    <string name="sequence_number_pattern_description">เคาน์เตอร์เพิ่มขึ้นอัตโนมัติ รองรับการจัดรูปแบบที่กำหนดเอง: \\c{padding} (เช่น \\c{3} -&amp;gt; 001), \\c{start:step} หรือ \\c{start:step:padding}</string>
+    <string name="parent_folder_pattern_description">ชื่อของโฟลเดอร์หลักที่มีไฟล์ต้นฉบับอยู่</string>
+    <string name="file_size_pattern_description">ขนาดของไฟล์ต้นฉบับ รองรับหน่วย: \\z{b}, \\z{kb}, \\z{mb} หรือเพียง \\z สำหรับรูปแบบที่มนุษย์สามารถอ่านได้</string>
+    <string name="uuid_pattern_description">สร้าง Universally Unique Identifier (UUID) แบบสุ่มเพื่อให้แน่ใจว่าชื่อไฟล์ไม่ซ้ำกัน</string>
 </resources>

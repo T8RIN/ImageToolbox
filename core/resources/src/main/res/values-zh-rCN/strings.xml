@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">图像宽度（以像素为单位），可用于跟踪分辨率变化或缩放结果。</string>
     <string name="height_pattern_description">图像高度（以像素为单位），在处理宽高比或导出时很有帮助。</string>
     <string name="random_numbers_pattern_description">生成随机数字以保证唯一的文件名；添加更多数字以提高安全性，防止重复。</string>
-    <string name="sequence_number_pattern_description">用于批量导出的自动递增计数器，非常适合在一个会话中保存多个图像时。</string>
     <string name="preset_info_pattern_description">将应用的预设名称插入文件名中，以便您可以轻松记住图像的处理方式。</string>
     <string name="scale_mode_pattern_description">显示处理过程中使用的图像缩放模式，帮助区分调整大小、裁剪或拟合的图像。</string>
     <string name="suffix_pattern_description">放置在文件名末尾的自定义文本，对于 _v2、_edited 或 _final 等版本控制很有用。</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">文件重命名成功</string>
     <string name="batch_rename_failed">某些文件无法重命名</string>
     <string name="permission_not_granted">未获得许可</string>
-    <string name="original_filename_pattern_description">使用不带扩展名的原始文件名，帮助您保持源标识完整。还支持使用 \\o{start:end} 语法进行切片（例如 \\o{0:5}、\\o{-3:}、\\o{:2}）。</string>
+    <string name="original_filename_pattern_description">使用不带扩展名的原始文件名，帮助您保持源标识完整。还支持使用 \\o{start:end} 进行切片、使用 \\o{t} 进行音译以及使用 \\o{s/old/new/} 进行替换。</string>
+    <string name="sequence_number_pattern_description">自动递增计数器。支持自定义格式：\\c{padding}（例如 \\c{3} -&amp;gt; 001）、\\c{start:step} 或 \\c{start:step:padding}。</string>
+    <string name="parent_folder_pattern_description">原始文件所在的父文件夹的名称。</string>
+    <string name="file_size_pattern_description">原始文件的大小。支持单位：\\z{b}、\\z{kb}、\\z{mb} 或仅 \\z 以供人类可读格式。</string>
+    <string name="uuid_pattern_description">生成随机的通用唯一标识符 (UUID) 以确保文件名的唯一性。</string>
 </resources>

@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">Die Bildbreite in Pixel, nützlich zum Verfolgen von Auflösungsänderungen oder zum Skalieren von Ergebnissen.</string>
     <string name="height_pattern_description">Die Bildhöhe in Pixel, hilfreich beim Arbeiten mit Seitenverhältnissen oder Exporten.</string>
     <string name="random_numbers_pattern_description">Erzeugt zufällige Ziffern, um eindeutige Dateinamen zu gewährleisten; Fügen Sie weitere Ziffern hinzu, um die Sicherheit vor Duplikaten zu erhöhen.</string>
-    <string name="sequence_number_pattern_description">Automatisch inkrementierender Zähler für Batch-Exporte, ideal beim Speichern mehrerer Bilder in einer Sitzung.</string>
     <string name="preset_info_pattern_description">Fügt den Namen der angewendeten Voreinstellung in den Dateinamen ein, damit Sie sich leicht daran erinnern können, wie das Bild verarbeitet wurde.</string>
     <string name="scale_mode_pattern_description">Zeigt den Bildskalierungsmodus an, der während der Verarbeitung verwendet wird, und hilft dabei, in der Größe veränderte, zugeschnittene oder angepasste Bilder zu unterscheiden.</string>
     <string name="suffix_pattern_description">Benutzerdefinierter Text am Ende des Dateinamens, nützlich für die Versionierung, z. B. _v2, _edited oder _final.</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">Dateien erfolgreich umbenannt</string>
     <string name="batch_rename_failed">Einige Dateien konnten nicht umbenannt werden</string>
     <string name="permission_not_granted">Die Erlaubnis wurde nicht erteilt</string>
-    <string name="original_filename_pattern_description">Verwendet den ursprünglichen Dateinamen ohne Erweiterung, sodass die Quellenidentifizierung erhalten bleibt. Unterstützt auch Slicing mit der \\o{start:end}-Syntax (z. B. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Verwendet den ursprünglichen Dateinamen ohne Erweiterung, sodass die Quellenidentifizierung erhalten bleibt. Unterstützt auch Slicing mit \\o{start:end}, Transliteration mit \\o{t} und Ersetzen durch \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Automatisch inkrementierender Zähler. Unterstützt benutzerdefinierte Formatierung: \\c{padding} (z. B. \\c{3} -&amp;gt; 001), \\c{start:step} oder \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">Der Name des übergeordneten Ordners, in dem sich die Originaldatei befand.</string>
+    <string name="file_size_pattern_description">Die Größe der Originaldatei. Unterstützt Einheiten: \\z{b}, \\z{kb}, \\z{mb} oder einfach \\z für ein menschenlesbares Format.</string>
+    <string name="uuid_pattern_description">Erzeugt einen zufälligen Universally Unique Identifier (UUID), um die Eindeutigkeit des Dateinamens sicherzustellen.</string>
 </resources>

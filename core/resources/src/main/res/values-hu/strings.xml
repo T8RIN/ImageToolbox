@@ -2054,7 +2054,6 @@
     <string name="width_pattern_description">A kép szélessége pixelben, hasznos a felbontás változásainak követéséhez vagy az eredmények méretezéséhez.</string>
     <string name="height_pattern_description">A képmagasság pixelben, ami hasznos a képarányok vagy az exportálás során.</string>
     <string name="random_numbers_pattern_description">Véletlen számjegyeket generál az egyedi fájlnevek garantálása érdekében; adjon hozzá több számjegyet az ismétlődések elleni fokozott biztonság érdekében.</string>
-    <string name="sequence_number_pattern_description">Automatikusan növekvő számláló kötegelt exportáláshoz, ideális több kép mentéséhez egy munkamenetben.</string>
     <string name="preset_info_pattern_description">Az alkalmazott előre beállított nevet beszúrja a fájlnévbe, így könnyen megjegyezheti, hogyan dolgozták fel a képet.</string>
     <string name="scale_mode_pattern_description">Megjeleníti a feldolgozás során használt képméretezési módot, segítve az átméretezett, vágott vagy illesztett képek megkülönböztetését.</string>
     <string name="suffix_pattern_description">A fájlnév végén elhelyezett egyéni szöveg, amely hasznos a verziószámításhoz, például a _v2, _edited vagy _final.</string>
@@ -3683,5 +3682,9 @@
     <string name="batch_rename_success">A fájlok átnevezése sikeres volt</string>
     <string name="batch_rename_failed">Egyes fájlokat nem lehetett átnevezni</string>
     <string name="permission_not_granted">Az engedélyt nem adták meg</string>
-    <string name="original_filename_pattern_description">Az eredeti fájlnevet használja kiterjesztés nélkül, így segít megőrizni a forrás azonosítását. Támogatja a \\o{start:end} szintaxisú szeletelést is (pl. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Az eredeti fájlnevet használja kiterjesztés nélkül, így segít megőrizni a forrás azonosítását. Támogatja a \\o{start:end} karakterrel történő szeletelést, \\o{t} átírást és \\o{s/old/new/} cserét.</string>
+    <string name="sequence_number_pattern_description">Automatikusan növekvő számláló. Támogatja az egyéni formázást: \\c{padding} (pl. \\c{3} -&amp;gt; 001), \\c{start:step} vagy \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">A szülőmappa neve, ahol az eredeti fájl található.</string>
+    <string name="file_size_pattern_description">Az eredeti fájl mérete. Támogatja a következő egységeket: \\z{b}, \\z{kb}, \\z{mb} vagy csak \\z az ember által olvasható formátumhoz.</string>
+    <string name="uuid_pattern_description">Véletlenszerű, univerzálisan egyedi azonosítót (UUID) generál a fájlnév egyediségének biztosítása érdekében.</string>
 </resources>

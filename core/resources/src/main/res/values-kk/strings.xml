@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">Ажыратымдылық өзгерістерін немесе масштабтау нәтижелерін бақылау үшін пайдалы пиксельдегі кескін ені.</string>
     <string name="height_pattern_description">Пиксельдегі кескін биіктігі, пропорциялармен немесе экспорттармен жұмыс істегенде пайдалы.</string>
     <string name="random_numbers_pattern_description">Бірегей файл атауларына кепілдік беру үшін кездейсоқ сандарды жасайды; көшірмелерден қосымша қауіпсіздік үшін қосымша сандарды қосыңыз.</string>
-    <string name="sequence_number_pattern_description">Пакеттік экспортқа арналған автоматты ұлғайту есептегіші, бір сеанста бірнеше кескінді сақтау үшін өте қолайлы.</string>
     <string name="preset_info_pattern_description">Кескіннің қалай өңделгенін оңай есте сақтау үшін қолданылатын алдын ала орнатылған атауды файл атауына енгізеді.</string>
     <string name="scale_mode_pattern_description">Өлшемі өзгертілген, қиылған немесе орнатылған кескіндерді ажыратуға көмектесетін өңдеу кезінде пайдаланылатын кескін масштабтау режимін көрсетеді.</string>
     <string name="suffix_pattern_description">Файл атауының соңында орналастырылған теңшелетін мәтін, _v2, _edited немесе _final сияқты нұсқалар үшін пайдалы.</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">Файлдардың атауы сәтті өзгертілді</string>
     <string name="batch_rename_failed">Кейбір файлдардың атын өзгерту мүмкін болмады</string>
     <string name="permission_not_granted">Рұқсат берілмеді</string>
-    <string name="original_filename_pattern_description">Бастапқы файл атауын кеңейтусіз пайдаланады, бұл бастапқы идентификацияны сақтауыңызға көмектеседі. Сондай-ақ \\o{start:end} синтаксисі арқылы кесуді қолдайды (мысалы: \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Бастапқы файл атауын кеңейтусіз пайдаланады, бұл бастапқы идентификацияны сақтауыңызға көмектеседі. Сондай-ақ \\o{start:end} арқылы кесуді, \\o{t} арқылы транслитерациялауды және \\o{s/old/new/} арқылы ауыстыруды қолдайды.</string>
+    <string name="sequence_number_pattern_description">Автоматты ұлғайту есептегіші. Арнаулы пішімдеуді қолдайды: \\c{padding} (мысалы, \\c{3} -&amp;gt; 001), \\c{start:step} немесе \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">Бастапқы файл орналасқан негізгі қалтаның атауы.</string>
+    <string name="file_size_pattern_description">Бастапқы файлдың өлшемі. Бірліктерді қолдайды: \\z{b}, \\z{kb}, \\z{mb} немесе адам оқи алатын пішім үшін жай \\z.</string>
+    <string name="uuid_pattern_description">Файл атауының бірегейлігін қамтамасыз ету үшін кездейсоқ әмбебап бірегей идентификаторды (UUID) жасайды.</string>
 </resources>

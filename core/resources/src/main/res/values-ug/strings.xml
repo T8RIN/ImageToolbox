@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">پىكسېلدىكى رەسىم كەڭلىكى ، ئېنىقلىق دەرىجىسىنى ئۆزگەرتىش ياكى ئۆلچەش نەتىجىسىنى ئىز قوغلاشقا پايدىلىق.</string>
     <string name="height_pattern_description">رەسىمنىڭ ئېگىزلىكى پېكسىل بولۇپ ، تەرەپ نىسبىتى ياكى ئېكسپورتى بىلەن ئىشلىگەندە پايدىلىق.</string>
     <string name="random_numbers_pattern_description">ئۆزگىچە ھۆججەت نامىغا كاپالەتلىك قىلىش ئۈچۈن ئىختىيارى سان ھاسىل قىلىدۇ. كۆپەيتىلگەنگە قارشى قوشۇمچە بىخەتەرلىك ئۈچۈن تېخىمۇ كۆپ رەقەم قوشۇڭ.</string>
-    <string name="sequence_number_pattern_description">تۈركۈملەپ ئېكسپورت قىلىش ئۈچۈن ئاپتوماتىك كۆپەيتىش ھېساباتى ، بىر بۆلەكتە كۆپ رەسىمنى ساقلىغاندا كۆڭۈلدىكىدەك.</string>
     <string name="preset_info_pattern_description">قوللىنىشچان ئالدىن بېكىتىلگەن ئىسىمنى ھۆججەت نامىغا قىستۇرۇڭ ، بۇنداق بولغاندا رەسىمنىڭ قانداق بىر تەرەپ قىلىنغانلىقىنى ئاسانلا ئەستە ساقلىيالايسىز.</string>
     <string name="scale_mode_pattern_description">بىر تەرەپ قىلىش جەريانىدا ئىشلىتىلگەن رەسىمنى كىچىكلىتىش ھالىتىنى كۆرسىتىدۇ ، چوڭ-كىچىكلىكى ، كېسىلگەن ياكى ماسلاشتۇرۇلغان رەسىملەرنى پەرقلەندۈرۈشكە ياردەم بېرىدۇ.</string>
     <string name="suffix_pattern_description">ھۆججەت نامىنىڭ ئاخىرىغا قويۇلغان ئىختىيارى تېكىست ، _v2 ، _edited ياكى _final غا ئوخشاش نەشىر قىلىشقا پايدىلىق.</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">ھۆججەتلەر مۇۋەپپەقىيەتلىك ئۆزگەرتىلدى</string>
     <string name="batch_rename_failed">بەزى ھۆججەتلەرنىڭ ئىسمىنى ئۆزگەرتەلمىدى</string>
     <string name="permission_not_granted">ئىجازەت بېرىلمىگەن</string>
-    <string name="original_filename_pattern_description">ئەسلى ھۆججەت نامىنى كېڭەيتمەيلا ئىشلىتىڭ ، مەنبە پەرقلەندۈرۈشنى ساقلىشىڭىزغا ياردەم بېرىدۇ. \\ o {باشلاش: end} گرامماتىكىسى (مەسىلەن \\ o {0: 5} ، \\ o {-3:}, \\ o {: 2}) بىلەن كېسىشنى قوللايدۇ.</string>
+    <string name="original_filename_pattern_description">ئەسلى ھۆججەت نامىنى كېڭەيتمەيلا ئىشلىتىڭ ، مەنبە پەرقلەندۈرۈشنى ساقلىشىڭىزغا ياردەم بېرىدۇ. \\ o {باشلاش: ئاخىرلىشىش} ، \\ o {t with بىلەن تەرجىمە قىلىشنى ۋە \\ o {s / old / new /} بىلەن ئالماشتۇرۇشنى قوللايدۇ.</string>
+    <string name="sequence_number_pattern_description">ئاپتوماتىك كۆپەيتىش ساندۇقى. ئىختىيارى فورماتلاشنى قوللايدۇ: \\ c {padding} (مەسىلەن \\ c {3} -&amp;gt; 001) ، \\ c {باشلاش: قەدەم} ياكى \\ c {باشلاش: قەدەم: padding}.</string>
+    <string name="parent_folder_pattern_description">ئەسلى ھۆججەت جايلاشقان ئانا ھۆججەت قىسقۇچنىڭ ئىسمى.</string>
+    <string name="file_size_pattern_description">ئەسلى ھۆججەتنىڭ چوڭلۇقى. بىرلىكلەرنى قوللايدۇ: \\ z {b}, \\ z {kb}, \\ z {mb} ياكى ئىنسانلارنىڭ ئوقۇغىلى بولىدىغان فورماتى ئۈچۈن پەقەت \\ z.</string>
+    <string name="uuid_pattern_description">ئىختىيارىي ئۇنىۋېرسال پەرقلىگۈچ (UUID) ھاسىل قىلىپ ، ھۆججەت نامىنىڭ خاسلىقىغا كاپالەتلىك قىلىدۇ.</string>
 </resources>

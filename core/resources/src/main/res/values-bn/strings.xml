@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">ছবির প্রস্থ পিক্সেলে, রেজোলিউশন পরিবর্তন বা স্কেলিং ফলাফল ট্র্যাক করার জন্য দরকারী।</string>
     <string name="height_pattern_description">চিত্রের উচ্চতা পিক্সেলে, আকৃতির অনুপাত বা রপ্তানির সাথে কাজ করার সময় সহায়ক।</string>
     <string name="random_numbers_pattern_description">অনন্য ফাইলের নাম নিশ্চিত করতে র্যান্ডম সংখ্যা তৈরি করে; ডুপ্লিকেটের বিরুদ্ধে অতিরিক্ত নিরাপত্তার জন্য আরও সংখ্যা যোগ করুন।</string>
-    <string name="sequence_number_pattern_description">ব্যাচ রপ্তানির জন্য স্বয়ংক্রিয়-বর্ধিত কাউন্টার, এক সেশনে একাধিক ছবি সংরক্ষণ করার সময় আদর্শ।</string>
     <string name="preset_info_pattern_description">ফাইলের নামের মধ্যে প্রয়োগকৃত প্রিসেট নাম সন্নিবেশ করান যাতে আপনি সহজেই মনে রাখতে পারেন কিভাবে চিত্রটি প্রক্রিয়া করা হয়েছিল।</string>
     <string name="scale_mode_pattern_description">প্রসেসিং এর সময় ব্যবহৃত ইমেজ স্কেলিং মোড প্রদর্শন করে, রিসাইজ করা, ক্রপ করা বা ফিট করা ছবিগুলিকে আলাদা করতে সাহায্য করে।</string>
     <string name="suffix_pattern_description">ফাইলের নামের শেষে কাস্টম টেক্সট রাখা, _v2, _edited বা _final-এর মত সংস্করণের জন্য উপযোগী।</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">ফাইলগুলি সফলভাবে পুনঃনামকরণ করা হয়েছে৷</string>
     <string name="batch_rename_failed">কিছু ফাইলের নাম পরিবর্তন করা যায়নি</string>
     <string name="permission_not_granted">অনুমতি দেওয়া হয়নি</string>
-    <string name="original_filename_pattern_description">এক্সটেনশন ছাড়াই মূল ফাইলের নাম ব্যবহার করে, আপনাকে উৎস সনাক্তকরণ অক্ষত রাখতে সাহায্য করে। এছাড়াও \\o{start:end} সিনট্যাক্সের সাথে স্লাইসিং সমর্থন করে (যেমন \\o{0:5}, \\o{-3:}, \\o{:2})।</string>
+    <string name="original_filename_pattern_description">এক্সটেনশন ছাড়াই মূল ফাইলের নাম ব্যবহার করে, আপনাকে উৎস সনাক্তকরণ অক্ষত রাখতে সাহায্য করে। এছাড়াও \\o{start:end} দিয়ে স্লাইসিং, \\o{t} দিয়ে প্রতিস্থাপন এবং \\o{s/old/new/} দিয়ে প্রতিস্থাপন সমর্থন করে।</string>
+    <string name="sequence_number_pattern_description">স্বয়ংক্রিয় বৃদ্ধি পাল্টা. কাস্টম ফর্ম্যাটিং সমর্থন করে: \\c{প্যাডিং} (যেমন \\c{3} -&amp;gt; 001), \\c{start:step} বা \\c{start:step:padding}।</string>
+    <string name="parent_folder_pattern_description">মূল ফাইলের নাম যেখানে মূল ফাইলটি ছিল।</string>
+    <string name="file_size_pattern_description">আসল ফাইলের আকার। একক সমর্থন করে: \\z{b}, \\z{kb}, \\z{mb} অথবা মানুষের পঠনযোগ্য বিন্যাসের জন্য শুধুমাত্র \\z।</string>
+    <string name="uuid_pattern_description">ফাইলের নামের স্বতন্ত্রতা নিশ্চিত করতে একটি র্যান্ডম ইউনিভার্সলি ইউনিক আইডেন্টিফায়ার (UUID) তৈরি করে।</string>
 </resources>

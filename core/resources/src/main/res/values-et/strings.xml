@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">Pildi laius pikslites, kasulik eraldusvõime muutuste jälgimiseks või tulemuste skaleerimiseks.</string>
     <string name="height_pattern_description">Pildi kõrgus pikslites, abiks kuvasuhtega töötamisel või eksportimisel.</string>
     <string name="random_numbers_pattern_description">Genereerib juhuslikud numbrid, et tagada unikaalsed failinimed; lisage rohkem numbreid, et kaitsta end duplikaatide eest.</string>
-    <string name="sequence_number_pattern_description">Automaatselt suurenev loendur partiide eksportimiseks, ideaalne mitme pildi salvestamiseks ühe seansi jooksul.</string>
     <string name="preset_info_pattern_description">Lisab rakendatud eelseadistuse nime failinimesse, et saaksite hõlpsasti meeles pidada, kuidas pilti töödeldakse.</string>
     <string name="scale_mode_pattern_description">Kuvab töötlemise ajal kasutatava pildi skaleerimise režiimi, aidates eristada muudetud suurusega, kärbitud või kohandatud pilte.</string>
     <string name="suffix_pattern_description">Failinime lõppu paigutatud kohandatud tekst, mis on kasulik versioonide loomiseks, nagu _v2, _edited või _final.</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">Failide ümbernimetamine õnnestus</string>
     <string name="batch_rename_failed">Mõnda faili ei saanud ümber nimetada</string>
     <string name="permission_not_granted">Luba ei antud</string>
-    <string name="original_filename_pattern_description">Kasutab algset failinime ilma laiendita, mis aitab teil hoida allika identifitseerimist puutumata. Toetab ka viilutamist süntaksiga \\o{start:end} (nt \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Kasutab algset failinime ilma laiendita, mis aitab teil hoida allika identifitseerimist puutumata. Toetab ka viilutamist \\o{start:end}, transliteratsiooni \\o{t}-ga ja asendamist \\o{s/old/new/}-ga.</string>
+    <string name="sequence_number_pattern_description">Automaatselt suurenev loendur. Toetab kohandatud vormingut: \\c{padding} (nt \\c{3} -&amp;gt; 001), \\c{start:step} või \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">Selle ülemkausta nimi, kus algne fail asus.</string>
+    <string name="file_size_pattern_description">Algfaili suurus. Toetab ühikuid: \\z{b}, \\z{kb}, \\z{mb} või lihtsalt \\z inimloetava vormingu jaoks.</string>
+    <string name="uuid_pattern_description">Loob juhusliku universaalse unikaalse identifikaatori (UUID), et tagada failinime kordumatus.</string>
 </resources>

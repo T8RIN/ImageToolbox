@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">प्रतिमेची रुंदी पिक्सेलमध्ये, रिझोल्यूशन बदलांचा मागोवा घेण्यासाठी किंवा परिणाम स्केलिंगसाठी उपयुक्त.</string>
     <string name="height_pattern_description">प्रतिमेची उंची पिक्सेलमध्ये, गुणोत्तर किंवा निर्यातीसह कार्य करताना उपयुक्त.</string>
     <string name="random_numbers_pattern_description">अद्वितीय फाइलनावांची हमी देण्यासाठी यादृच्छिक अंक व्युत्पन्न करते; डुप्लिकेट विरूद्ध अतिरिक्त सुरक्षिततेसाठी अधिक अंक जोडा.</string>
-    <string name="sequence_number_pattern_description">बॅच निर्यातीसाठी स्वयं-वाढीव काउंटर, एका सत्रात एकाधिक प्रतिमा जतन करताना आदर्श.</string>
     <string name="preset_info_pattern_description">फाइलनावामध्ये लागू केलेले प्रीसेट नाव समाविष्ट करते जेणेकरुन तुम्ही इमेजवर प्रक्रिया कशी केली हे सहज लक्षात ठेवू शकता.</string>
     <string name="scale_mode_pattern_description">प्रक्रिया करताना वापरलेला प्रतिमा स्केलिंग मोड प्रदर्शित करते, आकार बदललेल्या, क्रॉप केलेल्या किंवा फिट केलेल्या प्रतिमा वेगळे करण्यात मदत करते.</string>
     <string name="suffix_pattern_description">फाइल नावाच्या शेवटी ठेवलेला सानुकूल मजकूर, _v2, _edited किंवा _final सारख्या आवृत्तीसाठी उपयुक्त.</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">फायली यशस्वीरित्या पुनर्नामित केल्या</string>
     <string name="batch_rename_failed">काही फाइल्सचे नाव बदलता आले नाही</string>
     <string name="permission_not_granted">परवानगी मिळाली नाही</string>
-    <string name="original_filename_pattern_description">मूळ फाइल नाव विस्ताराशिवाय वापरते, तुम्हाला स्त्रोत ओळख अबाधित ठेवण्यास मदत करते. \\o{start:end} वाक्यरचना (उदा. \\o{0:5}, \\o{-3:}, \\o{:2}) सह स्लाइसिंगला देखील समर्थन देते.</string>
+    <string name="original_filename_pattern_description">मूळ फाइल नाव विस्ताराशिवाय वापरते, तुम्हाला स्त्रोत ओळख अबाधित ठेवण्यास मदत करते. \\o{start:end} सह स्लाइसिंग, \\o{t} सह लिप्यंतरण आणि \\o{s/old/new/} सह बदलण्यास देखील समर्थन देते.</string>
+    <string name="sequence_number_pattern_description">स्वयं-वाढीव काउंटर. कस्टम फॉरमॅटिंगला सपोर्ट करते: \\c{padding} (उदा. \\c{3} -&amp;gt; 001), \\c{start:step} किंवा \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">मूळ फाईल जिथे होती त्या मूळ फोल्डरचे नाव.</string>
+    <string name="file_size_pattern_description">मूळ फाइलचा आकार. एककांना सपोर्ट करते: \\z{b}, \\z{kb}, \\z{mb} किंवा फक्त \\z मानवी वाचनीय फॉरमॅटसाठी.</string>
+    <string name="uuid_pattern_description">फाइलनावाची विशिष्टता सुनिश्चित करण्यासाठी यादृच्छिक युनिव्हर्सली युनिक आयडेंटिफायर (UUID) व्युत्पन्न करते.</string>
 </resources>

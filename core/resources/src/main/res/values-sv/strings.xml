@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">Bildbredden i pixlar, användbar för att spåra upplösningsändringar eller skalningsresultat.</string>
     <string name="height_pattern_description">Bildhöjden i pixlar, användbart när du arbetar med bildförhållanden eller exporter.</string>
     <string name="random_numbers_pattern_description">Genererar slumpmässiga siffror för att garantera unika filnamn; lägg till fler siffror för extra säkerhet mot dubbletter.</string>
-    <string name="sequence_number_pattern_description">Automatisk inkrementerande räknare för batchexport, perfekt när du sparar flera bilder i en session.</string>
     <string name="preset_info_pattern_description">Infogar det använda förinställningsnamnet i filnamnet så att du enkelt kan komma ihåg hur bilden bearbetades.</string>
     <string name="scale_mode_pattern_description">Visar bildskalningsläget som används under bearbetningen, vilket hjälper till att särskilja bilder som har ändrats, beskurna eller anpassade.</string>
     <string name="suffix_pattern_description">Anpassad text placerad i slutet av filnamnet, användbar för versionshantering som _v2, _edited eller _final.</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">Filer har bytt namn</string>
     <string name="batch_rename_failed">Vissa filer kunde inte döpas om</string>
     <string name="permission_not_granted">Tillstånd gavs inte</string>
-    <string name="original_filename_pattern_description">Använder det ursprungliga filnamnet utan förlängning, vilket hjälper dig att hålla källidentifieringen intakt. Stöder även skivning med \\o{start:slut}-syntax (t.ex. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Använder det ursprungliga filnamnet utan förlängning, vilket hjälper dig att hålla källidentifieringen intakt. Stöder även skivning med \\o{start:slut}, translitteration med \\o{t} och ersätt med \\o{s/gammal/ny/}.</string>
+    <string name="sequence_number_pattern_description">Auto-inkrementerande räknare. Stöder anpassad formatering: \\c{utfyllnad} (t.ex. \\c{3} -&amp;gt; 001), \\c{start:steg} eller \\c{start:steg:utfyllnad}.</string>
+    <string name="parent_folder_pattern_description">Namnet på den överordnade mappen där den ursprungliga filen fanns.</string>
+    <string name="file_size_pattern_description">Storleken på originalfilen. Stöder enheter: \\z{b}, \\z{kb}, \\z{mb} eller bara \\z för läsbart format.</string>
+    <string name="uuid_pattern_description">Genererar en slumpmässig Universally Unique Identifier (UUID) för att säkerställa filnamnets unikhet.</string>
 </resources>

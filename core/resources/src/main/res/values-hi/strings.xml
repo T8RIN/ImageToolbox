@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">पिक्सेल में छवि की चौड़ाई, रिज़ॉल्यूशन परिवर्तन या स्केलिंग परिणामों को ट्रैक करने के लिए उपयोगी है।</string>
     <string name="height_pattern_description">पिक्सेल में छवि की ऊंचाई, पहलू अनुपात या निर्यात के साथ काम करते समय सहायक होती है।</string>
     <string name="random_numbers_pattern_description">अद्वितीय फ़ाइल नामों की गारंटी के लिए यादृच्छिक अंक उत्पन्न करता है; डुप्लिकेट के विरुद्ध अतिरिक्त सुरक्षा के लिए अधिक अंक जोड़ें।</string>
-    <string name="sequence_number_pattern_description">बैच निर्यात के लिए ऑटो-इंक्रीमेंटिंग काउंटर, एक सत्र में एकाधिक छवियों को सहेजते समय आदर्श।</string>
     <string name="preset_info_pattern_description">लागू प्रीसेट नाम को फ़ाइल नाम में सम्मिलित करता है ताकि आप आसानी से याद रख सकें कि छवि कैसे संसाधित की गई थी।</string>
     <string name="scale_mode_pattern_description">प्रसंस्करण के दौरान उपयोग किए गए छवि स्केलिंग मोड को प्रदर्शित करता है, जो आकार, क्रॉप या फिट की गई छवियों को अलग करने में मदद करता है।</string>
     <string name="suffix_pattern_description">फ़ाइल नाम के अंत में कस्टम टेक्स्ट रखा गया है, जो _v2, _edited, या _final जैसे संस्करण के लिए उपयोगी है।</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">फ़ाइलों का नाम सफलतापूर्वक बदला गया</string>
     <string name="batch_rename_failed">कुछ फ़ाइलों का नाम नहीं बदला जा सका</string>
     <string name="permission_not_granted">अनुमति नहीं दी गई</string>
-    <string name="original_filename_pattern_description">बिना एक्सटेंशन के मूल फ़ाइल नाम का उपयोग करता है, जिससे आपको स्रोत पहचान बरकरार रखने में मदद मिलती है। \\o{start:end} सिंटैक्स (उदाहरण के लिए \\o{0:5}, \\o{-3:}, \\o{:2}) के साथ स्लाइसिंग का भी समर्थन करता है।</string>
+    <string name="original_filename_pattern_description">बिना एक्सटेंशन के मूल फ़ाइल नाम का उपयोग करता है, जिससे आपको स्रोत पहचान बरकरार रखने में मदद मिलती है। \\o{start:end} के साथ स्लाइसिंग, \\o{t} के साथ लिप्यंतरण और \\o{s/old/new/} के साथ बदलने का भी समर्थन करता है।</string>
+    <string name="sequence_number_pattern_description">स्वत: वृद्धिशील काउंटर. कस्टम फ़ॉर्मेटिंग का समर्थन करता है: \\c{padding} (उदा. \\c{3} -&amp;gt; 001), \\c{start:step} या \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">मूल फ़ोल्डर का नाम जहां मूल फ़ाइल स्थित थी.</string>
+    <string name="file_size_pattern_description">मूल फ़ाइल का आकार. इकाइयों का समर्थन करता है: \\z{b}, \\z{kb}, \\z{mb} या मानव पठनीय प्रारूप के लिए बस \\z।</string>
+    <string name="uuid_pattern_description">फ़ाइल नाम की विशिष्टता सुनिश्चित करने के लिए एक यादृच्छिक सार्वभौमिक विशिष्ट पहचानकर्ता (यूयूआईडी) उत्पन्न करता है।</string>
 </resources>

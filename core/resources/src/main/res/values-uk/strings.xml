@@ -2055,7 +2055,6 @@
     <string name="width_pattern_description">Ширина зображення в пікселях, корисна для відстеження змін роздільної здатності або масштабування результатів.</string>
     <string name="height_pattern_description">Висота зображення в пікселях, корисна під час роботи зі співвідношенням сторін або експорту.</string>
     <string name="random_numbers_pattern_description">Генерує випадкові цифри, щоб гарантувати унікальні імена файлів; додайте більше цифр для додаткового захисту від дублікатів.</string>
-    <string name="sequence_number_pattern_description">Лічильник із автоматичним збільшенням для пакетного експорту, ідеальний під час збереження кількох зображень за один сеанс.</string>
     <string name="preset_info_pattern_description">Вставляє застосовану назву попереднього налаштування в назву файлу, щоб ви могли легко запам’ятати, як було оброблено зображення.</string>
     <string name="scale_mode_pattern_description">Відображає режим масштабування зображення, що використовується під час обробки, допомагаючи розрізняти зображення зі зміненим розміром, обрізані чи підібрані.</string>
     <string name="suffix_pattern_description">Спеціальний текст, розміщений у кінці назви файлу, корисний для керування версіями, наприклад _v2, _edited або _final.</string>
@@ -3684,5 +3683,9 @@
     <string name="batch_rename_success">Файли успішно перейменовано</string>
     <string name="batch_rename_failed">Деякі файли не вдалося перейменувати</string>
     <string name="permission_not_granted">Дозвіл не надано</string>
-    <string name="original_filename_pattern_description">Використовує оригінальну назву файлу без розширення, що допомагає зберегти ідентифікацію джерела. Також підтримує нарізку за допомогою синтаксису \\o{start:end} (наприклад, \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Використовує оригінальну назву файлу без розширення, що допомагає зберегти ідентифікацію джерела. Також підтримує нарізку за допомогою \\o{start:end}, транслітерацію за допомогою \\o{t} і заміну на \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Лічильник з автоматичним збільшенням. Підтримує спеціальне форматування: \\c{padding} (наприклад, \\c{3} -&amp;gt; 001), \\c{start:step} або \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">Ім\'я батьківської папки, де знаходився вихідний файл.</string>
+    <string name="file_size_pattern_description">Розмір вихідного файлу. Підтримує одиниці вимірювання: \\z{b}, \\z{kb}, \\z{mb} або просто \\z для читабельного формату.</string>
+    <string name="uuid_pattern_description">Генерує випадковий універсальний унікальний ідентифікатор (UUID), щоб гарантувати унікальність імені файлу.</string>
 </resources>
