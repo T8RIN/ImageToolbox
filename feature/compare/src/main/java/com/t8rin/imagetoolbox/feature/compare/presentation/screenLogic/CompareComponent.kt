@@ -159,6 +159,7 @@ class CompareComponent @AssistedInject internal constructor(
         onFailure: () -> Unit,
     ) {
         componentScope.launch {
+            _isImageLoading.value = true
             val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
             if (data.first == null || data.second == null) onFailure()
             else {
@@ -177,6 +178,7 @@ class CompareComponent @AssistedInject internal constructor(
                     else 50f
                 )
             }
+            _isImageLoading.value = false
         }
     }
 

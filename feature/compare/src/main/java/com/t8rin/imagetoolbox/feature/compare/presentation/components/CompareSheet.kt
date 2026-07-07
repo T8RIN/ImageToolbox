@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.compare.presentation.components
 
 import android.graphics.Bitmap
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -62,7 +61,7 @@ fun CompareSheet(
                 val after = remember(data) { a?.asImageBitmap() }
                 if (before != null && after != null) {
                     BeforeAfterLayout(
-                        progress = animateFloatAsState(targetValue = progress).value,
+                        progress = { progress },
                         onProgressChange = {
                             progress = it
                         },
@@ -107,7 +106,7 @@ fun CompareSheet(
         }
     ) {
         BeforeAfterLayout(
-            progress = animateFloatAsState(targetValue = progress).value,
+            progress = { progress },
             onProgressChange = {
                 progress = it
             },

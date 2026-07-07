@@ -99,7 +99,7 @@ internal fun CompareScreenContent(
     compareType: CompareType,
     onCompareTypeSelected: (CompareType) -> Unit,
     isPortrait: Boolean,
-    compareProgress: Float,
+    compareProgress: () -> Float,
     onCompareProgressChange: (Float) -> Unit,
     pixelByPixelCompareState: PixelByPixelCompareState,
     onPixelByPixelCompareStateChange: (PixelByPixelCompareState) -> Unit,
@@ -317,7 +317,7 @@ internal fun CompareScreenContent(
                                             .padding(horizontal = 16.dp)
                                             .weight(100f, true)
                                             .offset(y = (-2).dp),
-                                        value = compareProgress,
+                                        value = compareProgress(),
                                         onValueChange = onCompareProgressChange,
                                         valueRange = 0f..100f,
                                         isAnimated = false
@@ -450,7 +450,7 @@ internal fun CompareScreenContent(
 
                                 EnhancedSlider(
                                     modifier = modifier,
-                                    value = compareProgress,
+                                    value = compareProgress(),
                                     onValueChange = onCompareProgressChange,
                                     valueRange = 0f..100f,
                                     isAnimated = false

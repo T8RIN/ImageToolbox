@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.compare.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
@@ -39,12 +38,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.transform.Transformation
@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.feature.compare.presentation.components.beforeafte
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.CompareData
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.ifNotEmpty
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
@@ -69,7 +70,7 @@ internal fun CompareScreenContentImpl(
     compareType: CompareType,
     bitmapPair: CompareData,
     pixelByPixelCompareState: PixelByPixelCompareState,
-    compareProgress: Float,
+    compareProgress: () -> Float,
     onCompareProgressChange: (Float) -> Unit,
     isPortrait: Boolean,
     isLabelsEnabled: Boolean,
@@ -92,7 +93,7 @@ internal fun CompareScreenContentImpl(
 
                         BeforeAfterLayout(
                             modifier = modifier,
-                            progress = animateFloatAsState(targetValue = compareProgress).value,
+                            progress = compareProgress,
                             onProgressChange = onCompareProgressChange,
                             beforeContent = {
                                 Picture(
@@ -319,7 +320,9 @@ internal fun CompareScreenContentImpl(
                             contentScale = ContentScale.Fit,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .alpha(compareProgress / 100f)
+                                .graphicsLayer {
+                                    alpha = compareProgress() / 100f
+                                }
                         )
                     }
                     Box(
@@ -339,7 +342,9 @@ internal fun CompareScreenContentImpl(
                     ) {
                         CompareLabel(
                             uri = bitmapPair.second?.uri,
-                            modifier = Modifier.alpha(compareProgress / 100f),
+                            modifier = Modifier.graphicsLayer {
+                                alpha = compareProgress() / 100f
+                            },
                             alignment = Alignment.BottomEnd,
                             enabled = isLabelsEnabled,
                             shape = ShapeDefaults.small.only(
@@ -373,13 +378,14 @@ internal fun CompareScreenContentImpl(
                             LaunchedEffect(
                                 first,
                                 second,
-                                compareProgress,
                                 pixelByPixelCompareState
                             ) {
-                                delay(300)
-                                transformations = listOf(
-                                    createPixelByPixelTransformation()
-                                )
+                                snapshotFlow { compareProgress() }.collectLatest {
+                                    delay(300)
+                                    transformations = listOf(
+                                        createPixelByPixelTransformation()
+                                    )
+                                }
                             }
 
                             Picture(

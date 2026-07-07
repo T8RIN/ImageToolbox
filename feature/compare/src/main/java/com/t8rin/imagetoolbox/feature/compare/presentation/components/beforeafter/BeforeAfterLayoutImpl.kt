@@ -22,29 +22,35 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import com.t8rin.gesture.detectMotionEvents
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
 internal fun Layout(
     modifier: Modifier = Modifier,
-    @FloatRange(from = 0.0, to = 100.0) progress: Float = 50f,
+    @FloatRange(from = 0.0, to = 100.0) progress: () -> Float = { 50f },
     onProgressChange: ((Float) -> Unit)? = null,
     enableProgressWithTouch: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
@@ -84,13 +90,17 @@ internal fun Layout(
             var rawOffset by remember {
                 mutableStateOf(
                     Offset(
-                        x = scaleToOffset(progress),
+                        x = scaleToOffset(progress()),
                         y = boxHeight / 2f,
                     )
                 )
             }
 
-            rawOffset = rawOffset.copy(x = scaleToOffset(progress))
+            LaunchedEffect(progress) {
+                snapshotFlow { progress() }.collectLatest { progress ->
+                    rawOffset = rawOffset.copy(x = scaleToOffset(progress))
+                }
+            }
 
             var isHandleTouched by remember { mutableStateOf(false) }
 
@@ -118,32 +128,6 @@ internal fun Layout(
                 )
             }
 
-            val handlePosition = rawOffset.x
-
-            val shapeBefore by remember(handlePosition) {
-                mutableStateOf(
-                    GenericShape { size: Size, _: LayoutDirection ->
-                        moveTo(0f, 0f)
-                        lineTo(handlePosition, 0f)
-                        lineTo(handlePosition, size.height)
-                        lineTo(0f, size.height)
-                        close()
-                    }
-                )
-            }
-
-            val shapeAfter by remember(handlePosition) {
-                mutableStateOf(
-                    GenericShape { size: Size, _: LayoutDirection ->
-                        moveTo(handlePosition, 0f)
-                        lineTo(size.width, 0f)
-                        lineTo(size.width, size.height)
-                        lineTo(handlePosition, size.height)
-                        close()
-                    }
-                )
-            }
-
             val parentModifier = Modifier
                 .size(boxWidthInDp, boxHeightInDp)
                 .clipToBounds()
@@ -154,7 +138,10 @@ internal fun Layout(
                 .fillMaxSize()
                 .graphicsLayer {
                     this.clip = true
-                    this.shape = shapeBefore
+                    this.shape = SplitClipShape(
+                        isBefore = true,
+                        clipX = rawOffset.x
+                    )
                 }
 
 
@@ -162,7 +149,10 @@ internal fun Layout(
                 .fillMaxSize()
                 .graphicsLayer {
                     this.clip = true
-                    this.shape = shapeAfter
+                    this.shape = SplitClipShape(
+                        isBefore = false,
+                        clipX = rawOffset.x
+                    )
                 }
 
             LayoutImpl(
@@ -237,5 +227,31 @@ private fun LayoutImpl(
 
     overlay?.invoke(
         DpSize(boxWidthInDp, boxHeightInDp), rawOffset
+    )
+}
+
+private class SplitClipShape(
+    private val isBefore: Boolean,
+    private val clipX: Float,
+) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline = Outline.Generic(
+        Path().apply {
+            if (isBefore) {
+                moveTo(0f, 0f)
+                lineTo(clipX, 0f)
+                lineTo(clipX, size.height)
+                lineTo(0f, size.height)
+            } else {
+                moveTo(clipX, 0f)
+                lineTo(size.width, 0f)
+                lineTo(size.width, size.height)
+                lineTo(clipX, size.height)
+            }
+            close()
+        }
     )
 }
