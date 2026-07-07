@@ -1074,6 +1074,15 @@ sealed class Screen(
         subtitle = R.string.texture_generation_sub
     )
 
+    @Serializable
+    data class BatchRename(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 70,
+        title = R.string.batch_rename,
+        subtitle = R.string.batch_rename_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

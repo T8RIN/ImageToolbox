@@ -47,9 +47,13 @@ internal fun List<Uri>.screenList(
     val filesAvailableScreens by remember(uris) {
         derivedStateOf {
             if (uris.size > 1) {
-                listOf(Screen.Zip(uris))
+                listOf(
+                    Screen.BatchRename(uris),
+                    Screen.Zip(uris)
+                )
             } else {
                 listOf(
+                    Screen.BatchRename(uris),
                     Screen.Cipher(uris.firstOrNull()),
                     Screen.ChecksumTools(uris.firstOrNull()),
                     Screen.Zip(uris)

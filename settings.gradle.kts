@@ -120,6 +120,7 @@ include(":feature:app-logs")
 include(":feature:shader-studio")
 include(":feature:help")
 include(":feature:usage-statistics")
+include(":feature:batch-rename")
 
 include(":feature:root")
 

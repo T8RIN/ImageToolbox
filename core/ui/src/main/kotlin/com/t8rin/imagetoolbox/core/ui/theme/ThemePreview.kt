@@ -35,8 +35,10 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.createBitmap
 import coil3.asImage
+import coil3.compose.AsyncImagePainter
 import coil3.compose.AsyncImagePreviewHandler
 import coil3.compose.LocalAsyncImagePreviewHandler
+import coil3.request.ErrorResult
 import coil3.request.ImageRequest
 import coil3.size.pxOrElse
 import com.t8rin.dynamic.theme.ColorTuple
@@ -65,6 +67,7 @@ import kotlin.math.max
 fun ImageToolboxThemeForPreview(
     isDarkTheme: Boolean,
     keyColor: Color? = defaultColorTuple.primary,
+    isImageError: Boolean = false,
     shapesType: ShapeType = ShapeType.Rounded(),
     mapSettings: (SettingsState) -> SettingsState = { it },
     content: @Composable () -> Unit
@@ -72,7 +75,10 @@ fun ImageToolboxThemeForPreview(
     LocalContext.current.applicationContext.initAppContext()
 
     FakeLoader(
-        ColorTuple(keyColor ?: Color.Transparent)
+        isImageError = isImageError,
+        tuple = ColorTuple(
+            keyColor ?: Color.Transparent
+        )
     ) {
         DynamicTheme(
             state = rememberDynamicThemeState(
@@ -109,6 +115,7 @@ fun ImageToolboxThemeForPreview(
 
 @Composable
 private fun FakeLoader(
+    isImageError: Boolean,
     tuple: ColorTuple,
     content: @Composable () -> Unit
 ) {
@@ -120,96 +127,102 @@ private fun FakeLoader(
         val colorScheme = MaterialTheme.colorScheme
 
         val fakeLoader = remember(colorScheme) {
-            AsyncImagePreviewHandler(
-                image = { request: ImageRequest ->
-                    val size = request.sizeResolver.size()
-
-                    val width = size.width.pxOrElse { 800 }.coerceAtLeast(600) - 200
-                    val height = size.height.pxOrElse { 800 }.coerceAtLeast(600)
-
-                    val bitmap = createBitmap(width, height)
-                    val canvas = Canvas(bitmap)
-
-                    val base = LinearGradient(
-                        0f,
-                        0f,
-                        width.toFloat(),
-                        height.toFloat(),
-                        intArrayOf(
-                            colorScheme.primary.toArgb(),
-                            colorScheme.tertiary.toArgb(),
-                            colorScheme.secondary.toArgb(),
-                            colorScheme.error.toArgb(),
-                        ),
-                        floatArrayOf(0f, 0.3f, 0.7f, 1f),
-                        Shader.TileMode.CLAMP
-                    )
-
-                    canvas.drawRect(
-                        0f,
-                        0f,
-                        width.toFloat(),
-                        height.toFloat(),
-                        Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                            shader = base
-                        }
-                    )
-
-                    val blurPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                        color = colorScheme.primaryContainer.toArgb()
-                        maskFilter = BlurMaskFilter(height * 0.08f, BlurMaskFilter.Blur.NORMAL)
-                    }
-
-                    canvas.drawOval(
-                        width * 0.1f,
-                        height * 0.2f,
-                        width * 0.7f,
-                        height * 0.8f,
-                        blurPaint
-                    )
-
-                    canvas.drawOval(
-                        width * 0.5f,
-                        height * 0.1f,
-                        width * 0.95f,
-                        height * 0.6f,
-                        blurPaint
-                    )
-
-                    val noisePaint = Paint().apply {
-                        color = colorScheme.tertiaryContainer.copy(0.5f).toArgb()
-                    }
-
-                    repeat((width * height) / 6) {
-                        val x = (Math.random() * width).toFloat()
-                        val y = (Math.random() * height).toFloat()
-                        canvas.drawPoint(x, y, noisePaint)
-                    }
-
-                    val vignette = RadialGradient(
-                        width / 2f,
-                        height / 2f,
-                        max(width, height) * 0.9f,
-                        intArrayOf(
-                            Color.Transparent.toArgb(),
-                            colorScheme.tertiaryContainer.copy(0.5f).toArgb(),
-                            Color.Transparent.toArgb(),
-                        ),
-                        floatArrayOf(0.6f, 0.85f, 1f),
-                        Shader.TileMode.CLAMP
-                    )
-
-                    canvas.drawRect(
-                        0f,
-                        0f,
-                        width.toFloat(),
-                        height.toFloat(),
-                        Paint().apply { shader = vignette }
-                    )
-
-                    bitmap.asImage()
+            if (isImageError) {
+                AsyncImagePreviewHandler { _, request ->
+                    AsyncImagePainter.State.Error(null, ErrorResult(null, request, Throwable()))
                 }
-            )
+            } else {
+                AsyncImagePreviewHandler(
+                    image = { request: ImageRequest ->
+                        val size = request.sizeResolver.size()
+
+                        val width = size.width.pxOrElse { 800 }.coerceAtLeast(600) - 200
+                        val height = size.height.pxOrElse { 800 }.coerceAtLeast(600)
+
+                        val bitmap = createBitmap(width, height)
+                        val canvas = Canvas(bitmap)
+
+                        val base = LinearGradient(
+                            0f,
+                            0f,
+                            width.toFloat(),
+                            height.toFloat(),
+                            intArrayOf(
+                                colorScheme.primary.toArgb(),
+                                colorScheme.tertiary.toArgb(),
+                                colorScheme.secondary.toArgb(),
+                                colorScheme.error.toArgb(),
+                            ),
+                            floatArrayOf(0f, 0.3f, 0.7f, 1f),
+                            Shader.TileMode.CLAMP
+                        )
+
+                        canvas.drawRect(
+                            0f,
+                            0f,
+                            width.toFloat(),
+                            height.toFloat(),
+                            Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                                shader = base
+                            }
+                        )
+
+                        val blurPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                            color = colorScheme.primaryContainer.toArgb()
+                            maskFilter = BlurMaskFilter(height * 0.08f, BlurMaskFilter.Blur.NORMAL)
+                        }
+
+                        canvas.drawOval(
+                            width * 0.1f,
+                            height * 0.2f,
+                            width * 0.7f,
+                            height * 0.8f,
+                            blurPaint
+                        )
+
+                        canvas.drawOval(
+                            width * 0.5f,
+                            height * 0.1f,
+                            width * 0.95f,
+                            height * 0.6f,
+                            blurPaint
+                        )
+
+                        val noisePaint = Paint().apply {
+                            color = colorScheme.tertiaryContainer.copy(0.5f).toArgb()
+                        }
+
+                        repeat((width * height) / 6) {
+                            val x = (Math.random() * width).toFloat()
+                            val y = (Math.random() * height).toFloat()
+                            canvas.drawPoint(x, y, noisePaint)
+                        }
+
+                        val vignette = RadialGradient(
+                            width / 2f,
+                            height / 2f,
+                            max(width, height) * 0.9f,
+                            intArrayOf(
+                                Color.Transparent.toArgb(),
+                                colorScheme.tertiaryContainer.copy(0.5f).toArgb(),
+                                Color.Transparent.toArgb(),
+                            ),
+                            floatArrayOf(0.6f, 0.85f, 1f),
+                            Shader.TileMode.CLAMP
+                        )
+
+                        canvas.drawRect(
+                            0f,
+                            0f,
+                            width.toFloat(),
+                            height.toFloat(),
+                            Paint().apply { shader = vignette }
+                        )
+
+                        bitmap.asImage()
+                    }
+                )
+            }
         }
 
         CompositionLocalProvider(

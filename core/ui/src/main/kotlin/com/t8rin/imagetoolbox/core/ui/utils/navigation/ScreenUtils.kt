@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.FileImage
+import com.t8rin.imagetoolbox.core.resources.icons.FileRename
 import com.t8rin.imagetoolbox.core.resources.icons.FilterBAndW
 import com.t8rin.imagetoolbox.core.resources.icons.FindInPage
 import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
@@ -97,6 +98,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AppLogs
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AsciiArt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AudioCoverExtractor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.BatchRename
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ChecksumTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Cipher
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CollageMaker
@@ -200,6 +202,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is LibrariesInfo -> "Libraries_Info"
     is MarkupLayers -> "Markup_Layers"
     is Base64Tools -> "Base64_Tools"
+    is BatchRename -> "Batch_Rename"
     is ChecksumTools -> "Checksum_Tools"
     is MeshGradients -> "Mesh_Gradients"
     is EditExif -> "Edit_EXIF"
@@ -287,6 +290,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is CollageMaker -> Icons.Outlined.Collage
     is MarkupLayers -> Icons.Outlined.Stacks
     is Base64Tools -> Icons.Outlined.Base64
+    is BatchRename -> Icons.Outlined.FileRename
     is ChecksumTools -> Icons.Rounded.HashTag
     is EditExif -> Icons.Outlined.ExifEdit
     is ImageCutter -> Icons.Outlined.ScissorsSmall
@@ -370,6 +374,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is CollageMaker -> Icons.TwoTone.Collage
     is MarkupLayers -> Icons.TwoTone.Stacks
     is Base64Tools -> Icons.TwoTone.Base64
+    is BatchRename -> Icons.TwoTone.FileRename
     is ChecksumTools -> Icons.Rounded.HashTag
     is EditExif -> Icons.TwoTone.ExifEdit
     is ImageCutter -> Icons.TwoTone.ScissorsSmall
@@ -444,6 +449,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     LimitResize(),
                     EditExif(),
                     DeleteExif(),
+                    BatchRename(),
                 ),
                 title = R.string.edit,
                 selectedIcon = Icons.Rounded.MiniEditLarge,
@@ -517,5 +523,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 84 + PdfTools.options.size
+    override val FEATURES_COUNT = 86 + PdfTools.options.size
 }

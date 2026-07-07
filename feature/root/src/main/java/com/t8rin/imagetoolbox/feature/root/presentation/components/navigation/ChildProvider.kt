@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngTo
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
+import com.t8rin.imagetoolbox.feature.batchrename.presentation.screenLogic.BatchRenameComponent
 import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 import com.t8rin.imagetoolbox.feature.cipher.presentation.screenLogic.CipherComponent
 import com.t8rin.imagetoolbox.feature.compare.presentation.screenLogic.CompareComponent
@@ -87,6 +88,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AsciiArt
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AudioCoverExtractor
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Base64Tools
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.BatchRename
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ChecksumTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Cipher
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CollageMaker
@@ -260,6 +262,7 @@ internal class ChildProvider @Inject constructor(
     private val extractPagesPdfToolComponentFactory: ExtractPagesPdfToolComponent.Factory,
     private val removeAnnotationsPdfToolComponentFactory: RemoveAnnotationsPdfToolComponent.Factory,
     private val helpComponentFactory: HelpComponent.Factory,
+    private val batchRenameComponentFactory: BatchRenameComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -955,6 +958,14 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.BatchRename -> BatchRename(
+            batchRenameComponentFactory(
+                componentContext = componentContext,
+                initialUris = config.uris,
+                onGoBack = ::navigateBack
             )
         )
 

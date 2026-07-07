@@ -82,6 +82,54 @@ data class PatternHighlightTransformation(
                 )
             }
         }
+
+        @Composable
+        fun forPatterns(
+            allowedPatterns: List<FilenamePattern>
+        ): PatternHighlightTransformation {
+            val color = takeColorFromScheme {
+                primary.blend(primaryContainer, 0.1f)
+            }
+            val colorUpper = takeColorFromScheme {
+                tertiary.blend(tertiaryContainer, 0.1f)
+            }
+
+            return remember(color, colorUpper, allowedPatterns) {
+                val lowerLetters = allowedPatterns
+                    .map { it.value.last() }
+                    .distinct()
+                    .sorted()
+                    .joinToString("")
+                val upperLetters = FilenamePattern.upperEntries
+                    .asSequence()
+                    .filter { upper ->
+                        allowedPatterns.any { pattern ->
+                            pattern.value.equals(upper.value, ignoreCase = true)
+                        }
+                    }
+                    .map { it.value.last() }
+                    .distinct()
+                    .sorted()
+                    .joinToString("")
+
+                PatternHighlightTransformation(
+                    buildMap {
+                        if (lowerLetters.isNotEmpty()) {
+                            put(
+                                Regex("""\\[$lowerLetters](\{[^}]*\})?"""),
+                                color
+                            )
+                        }
+                        if (upperLetters.isNotEmpty()) {
+                            put(
+                                Regex("""\\[$upperLetters](\{[^}]*\})?"""),
+                                colorUpper
+                            )
+                        }
+                    }
+                )
+            }
+        }
     }
 
 }

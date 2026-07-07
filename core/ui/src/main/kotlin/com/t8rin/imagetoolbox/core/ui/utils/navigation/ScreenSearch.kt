@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AppLogs
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AsciiArt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AudioCoverExtractor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.BatchRename
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ChecksumTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Cipher
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CollageMaker
@@ -165,6 +166,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is CollageMaker -> R.string.search_keywords_collage_maker
     is MarkupLayers -> R.string.search_keywords_markup_layers
     is Base64Tools -> R.string.search_keywords_base64_tools
+    is BatchRename -> R.string.search_keywords_batch_rename
     is ChecksumTools -> R.string.search_keywords_checksum_tools
     is MeshGradients -> R.string.search_keywords_mesh_gradients
     is EditExif -> R.string.search_keywords_edit_exif

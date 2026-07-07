@@ -34,6 +34,8 @@ import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.AudioCoverExtract
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.Base64ToolsContent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
+import com.t8rin.imagetoolbox.feature.batchrename.presentation.BatchRenameContent
+import com.t8rin.imagetoolbox.feature.batchrename.presentation.screenLogic.BatchRenameComponent
 import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.ChecksumToolsContent
 import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 import com.t8rin.imagetoolbox.feature.cipher.presentation.CipherContent
@@ -217,6 +219,11 @@ internal sealed interface NavigationChild {
     class DeleteExif(private val component: DeleteExifComponent) : NavigationChild {
         @Composable
         override fun Content() = DeleteExifContent(component)
+    }
+
+    class BatchRename(private val component: BatchRenameComponent) : NavigationChild {
+        @Composable
+        override fun Content() = BatchRenameContent(component)
     }
 
     class DocumentScanner(private val component: DocumentScannerComponent) : NavigationChild {

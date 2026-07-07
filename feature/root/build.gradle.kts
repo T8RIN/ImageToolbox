@@ -80,4 +80,5 @@ dependencies {
     implementation(projects.feature.shaderStudio)
     implementation(projects.feature.help)
     implementation(projects.feature.usageStatistics)
+    implementation(projects.feature.batchRename)
 }
