@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("TooManyFunctions", "MagicNumber")
+@file:Suppress("TooManyFunctions", "MagicNumber", "SameParameterValue")
 
 package com.t8rin.neural_tools.ocr
 
@@ -245,12 +245,6 @@ object PaddleOCR : NeuralTool() {
     }
 }
 
-data class PaddleOCRResult(
-    val text: String,
-    val accuracy: Int,
-    val hocr: String
-)
-
 private data class ModelFiles(
     val detectionModel: File,
     val recognitionModel: File,
@@ -324,7 +318,7 @@ private fun String.escapeHocr(): String = buildString {
 }
 
 private class OcrProcessor(
-    private val modelFiles: ModelFiles,
+    modelFiles: ModelFiles,
     private val ortEnv: OrtEnvironment
 ) {
 
@@ -448,11 +442,6 @@ private class OcrProcessor(
         classificationSession.close()
     }
 }
-
-private data class DetectionCandidate(
-    val box: TextBox,
-    val score: Float
-)
 
 private class TextDetector(
     private val session: OrtSession,
