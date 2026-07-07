@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -473,7 +472,7 @@
     <string name="tent_blur">טשטוש אוהל</string>
     <string name="deutaromaly">דאוטרנומליה</string>
     <string name="protonomaly">פרוטנומליה</string>
-    <string name="vintage">בָּצִיר</string>
+    <string name="vintage">בציר</string>
     <string name="browni">בראוני</string>
     <string name="coda_chrome">קודה כרום</string>
     <string name="night_vision">ראיית לילה</string>
@@ -553,7 +552,7 @@
     <string name="gradient_maker_sub">צור שיפוע של גודל פלט נתון עם צבעים וסוג מראה מותאמים אישית</string>
     <string name="speed">מהירות</string>
     <string name="dehaze">מעורפל</string>
-    <string name="omega">אוֹמֶגָה</string>
+    <string name="omega">אומגה</string>
     <string name="pdf_tools">כלי PDF</string>
     <string name="rate_app">דרג אפליקציה</string>
     <string name="rate">ציון</string>
@@ -708,7 +707,7 @@
     <string name="picture_has_no_text">לתמונה אין טקסט, או שהאפליקציה לא מצאה אותה</string>
     <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">סוג זיהוי</string>
-    <string name="fast">מָהִיר</string>
+    <string name="fast">מהיר</string>
     <string name="standard">תֶקֶן</string>
     <string name="best">הטוב ביותר</string>
     <string name="no_data">אין מידע</string>
@@ -933,8 +932,8 @@
     <string name="tag_image_description">תיאור תמונה</string>
     <string name="tag_make">לַעֲשׂוֹת</string>
     <string name="tag_model">דֶגֶם</string>
-    <string name="tag_software">תוֹכנָה</string>
-    <string name="tag_artist">אָמָן</string>
+    <string name="tag_software">תוכנה</string>
+    <string name="tag_artist">אמן</string>
     <string name="tag_copyright">זכויות יוצרים</string>
     <string name="tag_exif_version">גרסת ה-Exif</string>
     <string name="tag_flashpix_version">גרסת פלאשפיקס</string>
@@ -1068,7 +1067,7 @@
     <string name="draw_regular_polygon">צייר מצולע רגיל</string>
     <string name="draw_regular_polygon_sub">צייר מצולע שיהיה רגיל במקום צורה חופשית</string>
     <string name="star_sub">מצייר כוכב מנקודת התחלה לנקודת סיום</string>
-    <string name="star">כּוֹכָב</string>
+    <string name="star">כוכב</string>
     <string name="outlined_star">כוכב מתואר</string>
     <string name="outlined_star_sub">מצייר כוכב מסומן מנקודת ההתחלה לנקודת הסיום</string>
     <string name="inner_radius_ratio">יחס רדיוס פנימי</string>
@@ -1145,9 +1144,9 @@
     <string name="spline16">ספליין 16</string>
     <string name="spline36">ספליין 36</string>
     <string name="spline64">ספליין 64</string>
-    <string name="kaiser">קֵיסָר</string>
+    <string name="kaiser">קיסר</string>
     <string name="bartlett_hann">בארטלט-היי</string>
-    <string name="box">קוּפסָה</string>
+    <string name="box">קופסא</string>
     <string name="bohman">בוהמן</string>
     <string name="lanczos2">לנצ\'וס 2</string>
     <string name="lanczos3">לנצ\'וס 3</string>
@@ -1261,7 +1260,7 @@
     <string name="backup_ocr_models">גיבוי דגמי OCR</string>
     <string name="import_word">ייבוא</string>
     <string name="export">ייצוא</string>
-    <string name="position">מַצָב</string>
+    <string name="position">מצב</string>
     <string name="center">מרכז</string>
     <string name="top_left">שמאל למעלה</string>
     <string name="top_right">למעלה מימין</string>
@@ -1303,7 +1302,7 @@
     <string name="color_tools_sub">לערבב, ליצור גוונים, ליצור גוונים ועוד</string>
     <string name="color_harmonies">הרמוניות צבע</string>
     <string name="color_shading">הצללת צבע</string>
-    <string name="variation">וָרִיאַצִיָה</string>
+    <string name="variation">וריאציה</string>
     <string name="tints">גוונים</string>
     <string name="tones">צלילים</string>
     <string name="shades">מִשְׁקפֵי שֶׁמֶשׁ</string>
@@ -1334,7 +1333,7 @@
     <string name="save_empty_lut_sub">ראשית, השתמש באפליקציית עריכת התמונות המועדפת עליך כדי להחיל מסנן על LUT ניטרלי שתוכל להשיג כאן. כדי שזה יעבוד כמו שצריך, אסור שכל צבע פיקסל יהיה תלוי בפיקסלים אחרים (למשל, טשטוש לא יעבוד). ברגע שאתה מוכן, השתמש בתמונת LUT החדשה שלך כקלט עבור מסנן 512*512 LUT</string>
     <string name="pop_art">פופ ארט</string>
     <string name="celluloid">צִיבִית</string>
-    <string name="coffee">קָפֶה</string>
+    <string name="coffee">‫קפה</string>
     <string name="golden_forest">יער הזהב</string>
     <string name="greenish">יְרַקרַק</string>
     <string name="retro_yellow">רטרו צהוב</string>
@@ -1364,7 +1363,7 @@
     <string name="one_time_save_location_sub">הצג וערוך מיקומי שמירה חד-פעמיים שבהם תוכל להשתמש בלחיצה ארוכה על כפתור השמירה ברוב האפשרויות</string>
     <string name="recently_used">בשימוש לאחרונה</string>
     <string name="ci_channel">ערוץ CI</string>
-    <string name="group">קְבוּצָה</string>
+    <string name="group">קבוצה</string>
     <string name="image_toolbox_in_telegram">ארגז כלים לתמונה בטלגרם 🎉</string>
     <string name="image_toolbox_in_telegram_sub">הצטרף לצ\'אט שלנו שבו אתה יכול לדון בכל מה שאתה רוצה וגם להסתכל בערוץ CI שבו אני מפרסם בטא והודעות</string>
     <string name="ci_channel_sub">קבל הודעה על גרסאות חדשות של האפליקציה וקרא הודעות</string>
@@ -1396,7 +1395,7 @@
     <string name="return_type">סוג החזרה</string>
     <string name="jitter">לְהִתְעַצְבֵּן</string>
     <string name="domain_warp">עיוות דומיין</string>
-    <string name="alignment">מַעֲרָך</string>
+    <string name="alignment">מערך</string>
     <string name="custom_filename">שם קובץ מותאם אישית</string>
     <string name="custom_filename_sub">בחר מיקום ושם קובץ אשר ישמשו לשמירת התמונה הנוכחית</string>
     <string name="saved_to_custom">נשמר בתיקייה עם שם מותאם אישית</string>
@@ -1420,12 +1419,12 @@
     <string name="free_corners_sub">חתוך תמונה לפי מצולע, זה גם מתקן פרספקטיבה</string>
     <string name="coerce_points_to_image_bounds">כפייה מצביע על גבולות תמונה</string>
     <string name="coerce_points_to_image_bounds_sub">נקודות לא יוגבלו על ידי גבולות התמונה, זה שימושי לתיקון פרספקטיבה מדויק יותר</string>
-    <string name="mask">מַסֵכָה</string>
+    <string name="mask">מסכה</string>
     <string name="spot_heal_sub">מילוי מודע לתוכן תחת נתיב מצויר</string>
     <string name="spot_heal">נקודת ריפוי</string>
     <string name="use_circle_kernel">השתמש ב- Circle Kernel</string>
-    <string name="opening">פְּתִיחָה</string>
-    <string name="closing">סְגִירָה</string>
+    <string name="opening">פתיחה</string>
+    <string name="closing">סגירה</string>
     <string name="morphological_gradient">שיפוע מורפולוגי</string>
     <string name="top_hat">כּוֹבַע צִילִינדר</string>
     <string name="black_hat">כובע שחור</string>
@@ -1436,7 +1435,7 @@
     <string name="gap_size">גודל פער</string>
     <string name="dashed">מקווקו</string>
     <string name="dot_dashed">דוט מקווקו</string>
-    <string name="stamped">חָתוּם</string>
+    <string name="stamped">חתום</string>
     <string name="zigzag">לְזַגזֵג</string>
     <string name="dashed_sub">מצייר קו מקווקו לאורך הנתיב המצויר עם גודל הרווח שצוין</string>
     <string name="dot_dashed_sub">מצייר נקודות וקו מקווקו לאורך הנתיב הנתון</string>
@@ -1467,7 +1466,7 @@
     <string name="compact_selectors">בוררים קומפקטיים</string>
     <string name="compact_selectors_sub">חלק מפקדי הבחירה ישתמשו בפריסה קומפקטית כדי לקחת פחות מקום</string>
     <string name="grant_camera_permission_to_capture_image">הענק הרשאה למצלמה בהגדרות לצילום תמונה</string>
-    <string name="layout">מַעֲרָך</string>
+    <string name="layout">פריסה</string>
     <string name="main_screen_title">כותרת המסך הראשית</string>
     <string name="constant_rate_factor">פקטור קצב קבוע (CRF)</string>
     <string name="crf_sub">ערך של %1$s פירושו דחיסה איטית, וכתוצאה מכך גודל קובץ קטן יחסית. %2$s פירושו דחיסה מהירה יותר, וכתוצאה מכך קובץ גדול.</string>
@@ -1525,7 +1524,7 @@
     <string name="add_outline_sub">הוסף קווי מתאר סביב טקסט עם צבע ורוחב שצוינו</string>
     <string name="outline_color">צבע מתאר</string>
     <string name="outline_size">גודל מתאר</string>
-    <string name="rotation">רוֹטַציָה</string>
+    <string name="rotation">סיבוב</string>
     <string name="checksum_as_filename">בדיקת סכום כשם קובץ</string>
     <string name="checksum_as_filename_sub">לתמונות הפלט יהיה שם המתאים לסכום הבדיקה שלהן</string>
     <string name="free_software_partner">תוכנה חופשית (שותף)</string>
@@ -1552,7 +1551,7 @@
     <string name="imported_fonts">גופנים מיובאים</string>
     <string name="error_while_saving">שגיאה בעת שמירת הניסיון, נסה לשנות את תיקיית הפלט</string>
     <string name="filename_is_not_set">שם הקובץ לא מוגדר</string>
-    <string name="none">אַף לֹא אֶחָד</string>
+    <string name="none">ללא</string>
     <string name="custom_pages">דפים מותאמים אישית</string>
     <string name="pages_selection">בחירת דפים</string>
     <string name="tool_exit_confirmation">אישור יציאת הכלי</string>
@@ -1587,7 +1586,7 @@
     <string name="grid_size">גודל רשת</string>
     <string name="resolution_x">רזולוציה X</string>
     <string name="resolution_y">החלטה Y</string>
-    <string name="resolution">הַחְלָטָה</string>
+    <string name="resolution">רזולוציה</string>
     <string name="pixel_by_pixel">Pixel By Pixel</string>
     <string name="highlight_color">הדגש צבע</string>
     <string name="pixel_comparison_type">סוג השוואת פיקסלים</string>
@@ -1617,7 +1616,7 @@
     <string name="use_lsb">השתמש ב-LSB</string>
     <string name="use_lsb_sub">ייעשה שימוש בשיטת סטגנוגרפיה LSB (Less Significant Bit), אחרת FD (דומיין תדר)</string>
     <string name="auto_remove_red_eyes">הסרה אוטומטית של עיניים אדומות</string>
-    <string name="password">סִיסמָה</string>
+    <string name="password">סיסמה</string>
     <string name="unlock">לִפְתוֹחַ</string>
     <string name="pdf_is_protected">PDF מוגן</string>
     <string name="operation_almost_complete">המבצע כמעט הושלם. ביטול כעת יחייב הפעלה מחדש</string>
@@ -1627,7 +1626,7 @@
     <string name="sort_by_size_reversed">גודל (הפוך)</string>
     <string name="sort_by_mime_type">סוג MIME</string>
     <string name="sort_by_mime_type_reversed">סוג MIME (הפוך)</string>
-    <string name="sort_by_extension">הַרחָבָה</string>
+    <string name="sort_by_extension">הרחבה</string>
     <string name="sort_by_extension_reversed">הרחבה (הפוכה)</string>
     <string name="sort_by_date_added">תאריך נוסף</string>
     <string name="sort_by_date_added_reversed">תאריך הוספה (הפוך)</string>
@@ -1640,7 +1639,7 @@
     <string name="pick_image_or_base64">בחר תמונה או הדבק/ייבא נתוני Base64 למטה</string>
     <string name="type_image_link">הקלד קישור לתמונה כדי להתחיל</string>
     <string name="paste_link">הדבק קישור</string>
-    <string name="kaleidoscope">קָלֵידוֹסקוֹפּ</string>
+    <string name="kaleidoscope">קלידוסקופ</string>
     <string name="secondary_angle">זווית משנית</string>
     <string name="sides">צדדים</string>
     <string name="channel_mix">מיקס ערוץ</string>
@@ -1651,18 +1650,18 @@
     <string name="into_green">לתוך ירוק</string>
     <string name="into_blue">לתוך כחול</string>
     <string name="cyan">ציאן</string>
-    <string name="magenta">מַגֶנטָה</string>
-    <string name="yellow">צָהוֹב</string>
+    <string name="magenta">מגנטה</string>
+    <string name="yellow">צהוב</string>
     <string name="color_halftone">צבע חצי טון</string>
     <string name="contour">קוֹנטוּר</string>
     <string name="levels">רמות</string>
     <string name="offset">לְקַזֵז</string>
     <string name="voronoi_crystallize">Voronoi להתגבש</string>
-    <string name="shape">צוּרָה</string>
+    <string name="shape">צורה</string>
     <string name="stretch">לִמְתוֹחַ</string>
     <string name="randomness">אקראיות</string>
     <string name="despeckle">משחרר כתמים</string>
-    <string name="diffuse">מְפוּזָר</string>
+    <string name="diffuse">מפוזר</string>
     <string name="dog">כֶּלֶב</string>
     <string name="second_radius">רדיוס שני</string>
     <string name="equalize">להשוות</string>
@@ -2326,13 +2325,13 @@
     <string name="download_paddle_ocr_description">PaddleOCR דורש דגמי ONNX נוספים במכשיר שלך. האם ברצונך להוריד נתונים %1$s?</string>
     <string name="paddle_ocr_model_universal">אוניברסלי</string>
     <string name="paddle_ocr_model_korean">קוריאנית</string>
-    <string name="paddle_ocr_model_latin">לָטִינִית</string>
+    <string name="paddle_ocr_model_latin">לטינית</string>
     <string name="paddle_ocr_model_east_slavic">מזרח סלאבי</string>
     <string name="paddle_ocr_model_thai">תאילנדית</string>
     <string name="paddle_ocr_model_greek">יוונית</string>
     <string name="paddle_ocr_model_english">אנגלית</string>
     <string name="paddle_ocr_model_cyrillic">קירילי</string>
-    <string name="paddle_ocr_model_arabic">עֲרָבִית</string>
+    <string name="paddle_ocr_model_arabic">ערבית</string>
     <string name="paddle_ocr_model_devanagari">דוואנגרי</string>
     <string name="paddle_ocr_model_tamil">טמילית</string>
     <string name="paddle_ocr_model_telugu">טלוגו</string>
@@ -3305,13 +3304,13 @@
     <string name="resize">שנה את גודל הפלט</string>
     <string name="water_drop">טיפת מים</string>
     <string name="wavelength">אֹרֶך גַל</string>
-    <string name="phase">שָׁלָב</string>
+    <string name="phase">שלב</string>
     <string name="high_pass">High Pass</string>
     <string name="color_mask">מסכת צבע</string>
     <string name="chrome">כרום</string>
     <string name="dissolve">לְהִתְמוֹסֵס</string>
     <string name="softness">רוֹך</string>
-    <string name="feedback">מָשׁוֹב</string>
+    <string name="feedback">משוב</string>
     <string name="lens_blur">טשטוש עדשה</string>
     <string name="low_input">קלט נמוך</string>
     <string name="high_input">קלט גבוה</string>
