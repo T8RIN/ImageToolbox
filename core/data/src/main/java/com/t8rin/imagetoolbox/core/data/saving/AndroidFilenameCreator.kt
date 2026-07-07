@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Width
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replace
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
+import com.t8rin.imagetoolbox.core.domain.utils.slice
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
@@ -185,6 +186,30 @@ internal class AndroidFilenameCreator @Inject constructor(
             }
         }.onFailure {
             it.makeLog("pattern random")
+        }
+
+        runCatching {
+            result = result.replace("""\\o\{(-?\d+)?:(-?\d+)?\}""".toRegex()) { match ->
+                if (settingsState.addOriginalFilename && !isOriginalEmpty) {
+                    val start = match.groupValues[1].toIntOrNull()
+                    val end = match.groupValues[2].toIntOrNull()
+                    originalName.slice(start, end)
+                } else {
+                    ""
+                }
+            }
+
+            result = result.replace("""\\O\{(-?\d+)?:(-?\d+)?\}""".toRegex()) { match ->
+                if (settingsState.addOriginalFilename && !isOriginalEmpty) {
+                    val start = match.groupValues[1].toIntOrNull()
+                    val end = match.groupValues[2].toIntOrNull()
+                    originalName.uppercase().slice(start, end)
+                } else {
+                    ""
+                }
+            }
+        }.onFailure {
+            it.makeLog("pattern original slice")
         }
 
         return result

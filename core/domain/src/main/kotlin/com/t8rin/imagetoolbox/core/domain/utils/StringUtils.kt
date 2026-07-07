@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,4 +76,18 @@ private fun diffHelper(
         lookup[key] = value
     }
     return lookup.getOrElse(key) { "" to "" }
+}
+
+fun String.slice(start: Int?, end: Int?): String {
+    val len = length
+    val realStart = if (start == null) 0
+    else if (start < 0) (len + start).coerceAtLeast(0)
+    else start.coerceAtLeast(0)
+
+    val realEnd = if (end == null) len
+    else if (end < 0) (len + end).coerceAtLeast(0)
+    else end.coerceAtMost(len)
+
+    if (realStart >= realEnd || realStart >= len) return ""
+    return substring(realStart, realEnd)
 }

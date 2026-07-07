@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.batchrename.domain.helper
 
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replace
+import com.t8rin.imagetoolbox.core.domain.utils.slice
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.feature.batchrename.domain.model.RenameFile
 import kotlin.random.Random
@@ -62,6 +63,18 @@ class FilenamePatternResolver(
         val originalName = file.nameWithoutExtension
         val defaultDate = timestamp(date = dateMillis)
 
+        result = runCatching {
+            result.replace(ORIGINAL_NAME_SLICE_PATTERN) { match ->
+                val start = match.groupValues[1].toIntOrNull()
+                val end = match.groupValues[2].toIntOrNull()
+                originalName.slice(start, end)
+            }.replace(ORIGINAL_NAME_SLICE_PATTERN_UPPER) { match ->
+                val start = match.groupValues[1].toIntOrNull()
+                val end = match.groupValues[2].toIntOrNull()
+                originalName.uppercase().slice(start, end)
+            }
+        }.getOrDefault(result)
+
         return result
             .replace(FilenamePattern.Width, file.width?.toString().orEmpty())
             .replace(FilenamePattern.Height, file.height?.toString().orEmpty())
@@ -85,5 +98,7 @@ class FilenamePatternResolver(
         val DATE_PATTERN = """\\d[{]([^}]*)[}]""".toRegex()
         val DATE_PATTERN_UPPER = """\\D[{]([^}]*)[}]""".toRegex()
         val RANDOM_PATTERN = """\\r[{](\d+)[}]""".toRegex()
+        val ORIGINAL_NAME_SLICE_PATTERN = """\\o\{(-?\d+)?:(-?\d+)?\}""".toRegex()
+        val ORIGINAL_NAME_SLICE_PATTERN_UPPER = """\\O\{(-?\d+)?:(-?\d+)?\}""".toRegex()
     }
 }

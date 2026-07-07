@@ -2938,7 +2938,7 @@
     <string name="wavy_shapes_sub">Rounded UI elements with a soft wavy edge</string>
     <string name="filename_format">Filename Format</string>
     <string name="prefix_pattern_description">Custom text placed at the very beginning of the filename, perfect for project names, brands, or personal tags.</string>
-    <string name="original_filename_pattern_description">Uses the original file name without extension, helping you keep source identification intact.</string>
+    <string name="original_filename_pattern_description">Uses the original file name without extension, helping you keep source identification intact. Also supports slicing with \\o{start:end} syntax (e.g. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
     <string name="width_pattern_description">The image width in pixels, useful for tracking resolution changes or scaling results.</string>
     <string name="height_pattern_description">The image height in pixels, helpful when working with aspect ratios or exports.</string>
     <string name="formatted_timestamp_pattern_description">A customizable timestamp that lets you define your own format by Java specification for perfect sorting.</string>

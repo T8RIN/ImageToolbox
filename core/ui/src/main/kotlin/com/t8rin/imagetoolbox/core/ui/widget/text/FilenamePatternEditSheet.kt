@@ -151,6 +151,7 @@ fun FilenamePatternEditSheet(
                         title = when (pattern) {
                             Date -> pattern.value + "{pattern}"
                             Rand -> pattern.value + "{count}"
+                            OriginalName -> pattern.value + "{start:end}"
                             else -> pattern.value
                         },
                         subtitle = when (pattern) {
