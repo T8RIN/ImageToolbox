@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">ਚਿੱਤਰ ਦੀ ਚੌੜਾਈ ਪਿਕਸਲਾਂ ਵਿੱਚ, ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਤਬਦੀਲੀਆਂ ਜਾਂ ਨਤੀਜਿਆਂ ਨੂੰ ਸਕੇਲਿੰਗ ਕਰਨ ਲਈ ਉਪਯੋਗੀ।</string>
     <string name="height_pattern_description">ਚਿੱਤਰ ਦੀ ਉਚਾਈ ਪਿਕਸਲ ਵਿੱਚ, ਆਕਾਰ ਅਨੁਪਾਤ ਜਾਂ ਨਿਰਯਾਤ ਨਾਲ ਕੰਮ ਕਰਨ ਵੇਲੇ ਮਦਦਗਾਰ।</string>
     <string name="random_numbers_pattern_description">ਵਿਲੱਖਣ ਫਾਈਲਨਾਮਾਂ ਦੀ ਗਰੰਟੀ ਦੇਣ ਲਈ ਬੇਤਰਤੀਬ ਅੰਕ ਤਿਆਰ ਕਰਦਾ ਹੈ; ਡੁਪਲੀਕੇਟ ਦੇ ਵਿਰੁੱਧ ਵਾਧੂ ਸੁਰੱਖਿਆ ਲਈ ਹੋਰ ਅੰਕ ਜੋੜੋ।</string>
-    <string name="sequence_number_pattern_description">ਬੈਚ ਨਿਰਯਾਤ ਲਈ ਸਵੈ-ਵਧਾਉਣ ਵਾਲਾ ਕਾਊਂਟਰ, ਇੱਕ ਸੈਸ਼ਨ ਵਿੱਚ ਕਈ ਚਿੱਤਰਾਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਵੇਲੇ ਆਦਰਸ਼।</string>
     <string name="preset_info_pattern_description">ਲਾਗੂ ਕੀਤੇ ਪ੍ਰੀਸੈਟ ਨਾਮ ਨੂੰ ਫਾਈਲ ਨਾਮ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰਦਾ ਹੈ ਤਾਂ ਜੋ ਤੁਸੀਂ ਆਸਾਨੀ ਨਾਲ ਯਾਦ ਰੱਖ ਸਕੋ ਕਿ ਚਿੱਤਰ ਦੀ ਪ੍ਰਕਿਰਿਆ ਕਿਵੇਂ ਕੀਤੀ ਗਈ ਸੀ।</string>
     <string name="scale_mode_pattern_description">ਪ੍ਰੋਸੈਸਿੰਗ ਦੌਰਾਨ ਵਰਤੇ ਗਏ ਚਿੱਤਰ ਸਕੇਲਿੰਗ ਮੋਡ ਨੂੰ ਪ੍ਰਦਰਸ਼ਿਤ ਕਰਦਾ ਹੈ, ਮੁੜ ਆਕਾਰ, ਕੱਟੇ ਜਾਂ ਫਿੱਟ ਕੀਤੇ ਚਿੱਤਰਾਂ ਨੂੰ ਵੱਖ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ।</string>
     <string name="suffix_pattern_description">ਫਾਈਲ ਨਾਮ ਦੇ ਅੰਤ ਵਿੱਚ ਰੱਖਿਆ ਕਸਟਮ ਟੈਕਸਟ, _v2, _edited, ਜਾਂ _final ਵਰਗੇ ਸੰਸਕਰਣ ਲਈ ਉਪਯੋਗੀ।</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">ਫਾਈਲਾਂ ਦਾ ਨਾਮ ਸਫਲਤਾਪੂਰਵਕ ਬਦਲਿਆ ਗਿਆ</string>
     <string name="batch_rename_failed">ਕੁਝ ਫ਼ਾਈਲਾਂ ਦਾ ਨਾਮ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ</string>
     <string name="permission_not_granted">ਦੀ ਇਜਾਜ਼ਤ ਨਹੀਂ ਦਿੱਤੀ ਗਈ</string>
-    <string name="original_filename_pattern_description">ਸਰੋਤ ਪਛਾਣ ਨੂੰ ਬਰਕਰਾਰ ਰੱਖਣ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰਦੇ ਹੋਏ, ਐਕਸਟੈਂਸ਼ਨ ਦੇ ਬਿਨਾਂ ਮੂਲ ਫਾਈਲ ਨਾਮ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ। \\o{start:end} ਸੰਟੈਕਸ (ਉਦਾਹਰਨ ਲਈ \\o{0:5}, \\o{-3:}, \\o{:2}) ਨਾਲ ਕੱਟਣ ਦਾ ਸਮਰਥਨ ਵੀ ਕਰਦਾ ਹੈ।</string>
+    <string name="original_filename_pattern_description">ਸਰੋਤ ਪਛਾਣ ਨੂੰ ਬਰਕਰਾਰ ਰੱਖਣ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰਦੇ ਹੋਏ, ਐਕਸਟੈਂਸ਼ਨ ਦੇ ਬਿਨਾਂ ਮੂਲ ਫਾਈਲ ਨਾਮ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ। \\o{start:end} ਨਾਲ ਕੱਟਣ, \\o{t} ਨਾਲ ਲਿਪੀਅੰਤਰਨ ਅਤੇ \\o{s/old/new/} ਨਾਲ ਬਦਲਣ ਦਾ ਵੀ ਸਮਰਥਨ ਕਰਦਾ ਹੈ।</string>
+    <string name="sequence_number_pattern_description">ਸਵੈ-ਵਧਾਉਣ ਵਾਲਾ ਕਾਊਂਟਰ। ਕਸਟਮ ਫਾਰਮੈਟਿੰਗ ਦਾ ਸਮਰਥਨ ਕਰਦਾ ਹੈ: \\c{ਪੈਡਿੰਗ} (ਉਦਾਹਰਨ ਲਈ \\c{3} -&amp;gt; 001), \\c{start:step} ਜਾਂ \\c{start:step:padding}।</string>
+    <string name="parent_folder_pattern_description">ਮੂਲ ਫੋਲਡਰ ਦਾ ਨਾਮ ਜਿੱਥੇ ਅਸਲ ਫ਼ਾਈਲ ਸਥਿਤ ਸੀ।</string>
+    <string name="file_size_pattern_description">ਅਸਲ ਫ਼ਾਈਲ ਦਾ ਆਕਾਰ। ਇਕਾਈਆਂ ਦਾ ਸਮਰਥਨ ਕਰਦਾ ਹੈ: \\z{b}, \\z{kb}, \\z{mb} ਜਾਂ ਮਨੁੱਖੀ ਪੜ੍ਹਨਯੋਗ ਫਾਰਮੈਟ ਲਈ ਸਿਰਫ਼ \\z।</string>
+    <string name="uuid_pattern_description">ਫਾਈਲ ਨਾਮ ਦੀ ਵਿਲੱਖਣਤਾ ਨੂੰ ਯਕੀਨੀ ਬਣਾਉਣ ਲਈ ਇੱਕ ਬੇਤਰਤੀਬ ਯੂਨੀਵਰਸਲੀ ਯੂਨੀਕ ਆਈਡੈਂਟੀਫਾਇਰ (UUID) ਤਿਆਰ ਕਰਦਾ ਹੈ।</string>
 </resources>

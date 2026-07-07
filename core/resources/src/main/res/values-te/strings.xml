@@ -2054,7 +2054,6 @@
     <string name="width_pattern_description">పిక్సెల్‌లలో ఇమేజ్ వెడల్పు, రిజల్యూషన్ మార్పులు లేదా స్కేలింగ్ ఫలితాలను ట్రాక్ చేయడానికి ఉపయోగపడుతుంది.</string>
     <string name="height_pattern_description">పిక్సెల్‌లలో ఇమేజ్ ఎత్తు, కారక నిష్పత్తులు లేదా ఎగుమతులతో పని చేస్తున్నప్పుడు సహాయకరంగా ఉంటుంది.</string>
     <string name="random_numbers_pattern_description">ప్రత్యేకమైన ఫైల్ పేర్లకు హామీ ఇవ్వడానికి యాదృచ్ఛిక అంకెలను రూపొందిస్తుంది; నకిలీలకు వ్యతిరేకంగా అదనపు భద్రత కోసం మరిన్ని అంకెలను జోడించండి.</string>
-    <string name="sequence_number_pattern_description">బ్యాచ్ ఎగుమతుల కోసం ఆటో-ఇంక్రిమెంటింగ్ కౌంటర్, ఒక సెషన్‌లో బహుళ చిత్రాలను సేవ్ చేసేటప్పుడు అనువైనది.</string>
     <string name="preset_info_pattern_description">ఫైల్ పేరులో వర్తింపజేయబడిన ప్రీసెట్ పేరును చొప్పిస్తుంది, తద్వారా చిత్రం ఎలా ప్రాసెస్ చేయబడిందో మీరు సులభంగా గుర్తుంచుకోగలరు.</string>
     <string name="scale_mode_pattern_description">ప్రాసెసింగ్ సమయంలో ఉపయోగించిన ఇమేజ్ స్కేలింగ్ మోడ్‌ను ప్రదర్శిస్తుంది, పరిమాణం మార్చబడిన, కత్తిరించిన లేదా అమర్చిన చిత్రాలను వేరు చేయడంలో సహాయపడుతుంది.</string>
     <string name="suffix_pattern_description">_v2, _edited లేదా _final వంటి సంస్కరణకు ఉపయోగపడే అనుకూల వచనం ఫైల్ పేరు చివరిలో ఉంచబడుతుంది.</string>
@@ -3683,5 +3682,9 @@
     <string name="batch_rename_success">ఫైల్‌లు విజయవంతంగా పేరు మార్చబడ్డాయి</string>
     <string name="batch_rename_failed">కొన్ని ఫైల్‌ల పేరు మార్చడం సాధ్యపడలేదు</string>
     <string name="permission_not_granted">అనుమతి లభించలేదు</string>
-    <string name="original_filename_pattern_description">పొడిగింపు లేకుండా అసలు ఫైల్ పేరును ఉపయోగిస్తుంది, సోర్స్ గుర్తింపును అలాగే ఉంచడంలో మీకు సహాయపడుతుంది. \\o{start:end} సింటాక్స్ (ఉదా. \\o{0:5}, \\o{-3:}, \\o{:2})తో స్లైసింగ్‌కు కూడా మద్దతు ఇస్తుంది.</string>
+    <string name="original_filename_pattern_description">పొడిగింపు లేకుండా అసలు ఫైల్ పేరును ఉపయోగిస్తుంది, సోర్స్ గుర్తింపును అలాగే ఉంచడంలో మీకు సహాయపడుతుంది. \\o{start:end}తో స్లైసింగ్, \\o{t}తో లిప్యంతరీకరణ మరియు \\o{s/old/new/}తో భర్తీ చేయడానికి కూడా మద్దతు ఇస్తుంది.</string>
+    <string name="sequence_number_pattern_description">ఆటో-పెరుగుదల కౌంటర్. అనుకూల ఫార్మాటింగ్‌కు మద్దతు ఇస్తుంది: \\c{padding} (ఉదా. \\c{3} -&amp;gt; 001), \\c{start:step} లేదా \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">అసలు ఫైల్ ఉన్న పేరెంట్ ఫోల్డర్ పేరు.</string>
+    <string name="file_size_pattern_description">అసలు ఫైల్ పరిమాణం. యూనిట్‌లకు మద్దతు ఇస్తుంది: \\z{b}, \\z{kb}, \\z{mb} లేదా కేవలం \\z మానవ రీడబుల్ ఫార్మాట్ కోసం.</string>
+    <string name="uuid_pattern_description">ఫైల్ పేరు ప్రత్యేకతను నిర్ధారించడానికి యాదృచ్ఛికంగా యూనివర్సల్లీ యూనిక్ ఐడెంటిఫైయర్ (UUID)ని రూపొందిస్తుంది.</string>
 </resources>

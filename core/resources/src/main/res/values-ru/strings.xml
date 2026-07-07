@@ -2071,12 +2071,15 @@
     <string name="wavy_shapes_sub">Закругленные элементы интерфейса с мягким волнистым краем</string>
     <string name="filename_format">Формат имени файла</string>
     <string name="prefix_pattern_description">Пользовательский текст, размещаемый в самом начале имени файла, идеально подходит для названий проектов, брендов или личных тегов.</string>
-    <string name="original_filename_pattern_description">Использует исходное имя файла без расширения, что помогает сохранить идентификацию источника без изменений. Также поддерживает срезы синтаксисом \\o{start:end} (напр. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Использует исходное имя файла без расширения, что помогает сохранить идентификацию источника без изменений. Также поддерживает срезы синтаксисом \\o{start:end}, транслитерацию \\o{t} и замену \\o{s/old/new/}.</string>
     <string name="width_pattern_description">Ширина изображения в пикселях, полезная для отслеживания изменений разрешения или масштабирования результатов.</string>
     <string name="height_pattern_description">Высота изображения в пикселях, полезная при работе с пропорциями или экспорте.</string>
     <string name="random_numbers_pattern_description">Генерирует случайные цифры, чтобы гарантировать уникальные имена файлов; добавьте больше цифр для дополнительной защиты от дубликатов.</string>
-    <string name="sequence_number_pattern_description">Автоматически увеличивающийся счетчик для пакетного экспорта идеален при сохранении нескольких изображений за один сеанс.</string>
     <string name="preset_info_pattern_description">Вставляет имя примененной предустановки в имя файла, чтобы вы могли легко запомнить, как было обработано изображение.</string>
+    <string name="parent_folder_pattern_description">Имя родительской папки, в которой находился исходный файл.</string>
+    <string name="file_size_pattern_description">Размер исходного файла. Поддерживает единицы измерения: \\z{b}, \\z{kb}, \\z{mb} или просто \\z для удобного формата.</string>
+    <string name="uuid_pattern_description">Генерирует случайный уникальный идентификатор (UUID) для обеспечения уникальности имени файла.</string>
+    <string name="sequence_number_pattern_description">Автоинкрементный счетчик. Поддерживает форматирование: \\c{padding} (напр. \\c{3} -&gt; 001), \\c{start:step} или \\c{start:step:padding}.</string>
     <string name="scale_mode_pattern_description">Отображает режим масштабирования изображения, используемый во время обработки, помогая различать изображения с измененным размером, обрезанные или подогнанные.</string>
     <string name="suffix_pattern_description">Пользовательский текст, помещаемый в конце имени файла, полезный для управления версиями, например _v2, _edited или _final.</string>
     <string name="extension_pattern_description">Расширение файла (png, jpg, webp и т. д.) автоматически соответствует фактическому сохраненному формату.</string>

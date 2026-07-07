@@ -20,12 +20,15 @@ package com.t8rin.imagetoolbox.feature.batchrename.domain.helper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Date
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Extension
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.FileSize
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Height
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalName
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ParentFolder
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Prefix
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Rand
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Sequence
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Suffix
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Uuid
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Width
 
 internal object RenamePatterns {
@@ -38,6 +41,9 @@ internal object RenamePatterns {
         Date,
         Rand,
         Sequence,
+        ParentFolder,
+        FileSize,
+        Uuid,
         Suffix,
         Extension
     )

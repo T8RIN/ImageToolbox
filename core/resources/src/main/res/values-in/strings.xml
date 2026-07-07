@@ -2052,7 +2052,6 @@
     <string name="width_pattern_description">Lebar gambar dalam piksel, berguna untuk melacak perubahan resolusi atau menskalakan hasil.</string>
     <string name="height_pattern_description">Tinggi gambar dalam piksel, berguna saat bekerja dengan rasio aspek atau ekspor.</string>
     <string name="random_numbers_pattern_description">Menghasilkan digit acak untuk menjamin nama file unik; tambahkan lebih banyak digit untuk keamanan ekstra terhadap duplikat.</string>
-    <string name="sequence_number_pattern_description">Penghitung penambahan otomatis untuk ekspor batch, ideal saat menyimpan banyak gambar dalam satu sesi.</string>
     <string name="preset_info_pattern_description">Menyisipkan nama preset yang diterapkan ke dalam nama file sehingga Anda dapat dengan mudah mengingat bagaimana gambar diproses.</string>
     <string name="scale_mode_pattern_description">Menampilkan mode penskalaan gambar yang digunakan selama pemrosesan, membantu membedakan gambar yang diubah ukurannya, dipotong, atau dipasang.</string>
     <string name="suffix_pattern_description">Teks khusus ditempatkan di akhir nama file, berguna untuk pembuatan versi seperti _v2, _edited, atau _final.</string>
@@ -3681,5 +3680,9 @@
     <string name="batch_rename_success">File berhasil diganti namanya</string>
     <string name="batch_rename_failed">Beberapa file tidak dapat diganti namanya</string>
     <string name="permission_not_granted">Izin tidak diberikan</string>
-    <string name="original_filename_pattern_description">Menggunakan nama file asli tanpa ekstensi, membantu Anda menjaga identifikasi sumber tetap utuh. Juga mendukung pemotongan dengan sintaks \\o{start:end} (misalnya \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Menggunakan nama file asli tanpa ekstensi, membantu Anda menjaga identifikasi sumber tetap utuh. Juga mendukung pemotongan dengan \\o{start:end}, transliterasi dengan \\o{t} dan mengganti dengan \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Penghitung kenaikan otomatis. Mendukung pemformatan khusus: \\c{padding} (misalnya \\c{3} -&amp;gt; 001), \\c{start:step} atau \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">Nama folder induk tempat file asli berada.</string>
+    <string name="file_size_pattern_description">Ukuran file aslinya. Mendukung unit: \\z{b}, \\z{kb}, \\z{mb} atau hanya \\z untuk format yang dapat dibaca manusia.</string>
+    <string name="uuid_pattern_description">Menghasilkan Pengidentifikasi Unik Universal (UUID) acak untuk memastikan keunikan nama file.</string>
 </resources>

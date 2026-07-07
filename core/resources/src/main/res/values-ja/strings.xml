@@ -2052,7 +2052,6 @@
     <string name="width_pattern_description">ピクセル単位の画像幅。解像度の変更の追跡や結果のスケーリングに役立ちます。</string>
     <string name="height_pattern_description">画像の高さ (ピクセル単位)。アスペクト比やエクスポートを操作するときに役立ちます。</string>
     <string name="random_numbers_pattern_description">ランダムな数字を生成して、一意のファイル名を保証します。重複に対する安全性を高めるために、さらに桁を追加します。</string>
-    <string name="sequence_number_pattern_description">バッチエクスポート用の自動インクリメントカウンター。1 つのセッションで複数の画像を保存する場合に最適です。</string>
     <string name="preset_info_pattern_description">適用されたプリセット名をファイル名に挿入すると、画像がどのように処理されたかを簡単に思い出すことができます。</string>
     <string name="scale_mode_pattern_description">処理中に使用される画像スケーリング モードを表示し、サイズ変更、トリミング、またはフィットした画像を区別するのに役立ちます。</string>
     <string name="suffix_pattern_description">ファイル名の末尾に配置されるカスタム テキスト。_v2、_edited、_final などのバージョン管理に役立ちます。</string>
@@ -3681,5 +3680,9 @@
     <string name="batch_rename_success">ファイルの名前が正常に変更されました</string>
     <string name="batch_rename_failed">一部のファイルの名前を変更できませんでした</string>
     <string name="permission_not_granted">許可が与えられませんでした</string>
-    <string name="original_filename_pattern_description">拡張子なしの元のファイル名を使用するため、ソースの識別をそのまま維持できます。 \\o{start:end} 構文によるスライスもサポートしています (例: \\o{0:5}、\\o{-3:}、\\o{:2})。</string>
+    <string name="original_filename_pattern_description">拡張子なしの元のファイル名を使用するため、ソースの識別をそのまま維持できます。 \\o{start:end} によるスライス、\\o{t} による音訳、\\o{s/old/new/} による置換もサポートしています。</string>
+    <string name="sequence_number_pattern_description">自動増加カウンター。カスタム書式設定をサポートします: \\c{padding} (例: \\c{3} -&amp;gt; 001)、\\c{start:step} または \\c{start:step:padding}。</string>
+    <string name="parent_folder_pattern_description">元のファイルが存在する親フォルダーの名前。</string>
+    <string name="file_size_pattern_description">元のファイルのサイズ。サポートされる単位: \\z{b}、\\z{kb}、\\z{mb}、または人間が判読できる形式の \\z のみ。</string>
+    <string name="uuid_pattern_description">ファイル名の一意性を確保するために、ランダムな Universally Unique Identifier (UUID) を生成します。</string>
 </resources>

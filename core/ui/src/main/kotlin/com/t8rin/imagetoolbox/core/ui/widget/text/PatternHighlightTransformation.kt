@@ -135,11 +135,11 @@ data class PatternHighlightTransformation(
 }
 
 private val PATTERN_TOKENS = Regex(
-    """\\[pwdhrcoimse](\{[^}]*\})?"""
+    """\\[pwdhrcoimsefu](\{[^}]*\})?"""
 )
 
 private val UPPER_PATTERN_TOKENS = Regex(
-    """\\[PDOIMSE](\{[^}]*\})?"""
+    """\\[PDOIMSEFU](\{[^}]*\})?"""
 )
 
 @Preview

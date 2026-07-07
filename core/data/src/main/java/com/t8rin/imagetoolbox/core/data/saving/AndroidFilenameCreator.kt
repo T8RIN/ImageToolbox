@@ -36,6 +36,8 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Height
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalName
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalNameUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ParentFolder
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ParentFolderUpper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Prefix
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PrefixUpper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PresetInfo
@@ -46,20 +48,25 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Sequence
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Suffix
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.SuffixUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Uuid
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.UuidUpper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Width
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replace
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.slice
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.domain.utils.transliterate
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.imagetoolbox.core.utils.path
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.random.Random
+import kotlin.uuid.Uuid as UUID
 
 internal class AndroidFilenameCreator @Inject constructor(
     private val randomStringGenerator: RandomStringGenerator,
@@ -189,6 +196,21 @@ internal class AndroidFilenameCreator @Inject constructor(
         }
 
         runCatching {
+            result = result.replace("""\\c\{([^}]*)\}""".toRegex()) { match ->
+                val params = match.groupValues[1].split(":")
+                val start = params.getOrNull(0)?.toIntOrNull() ?: 1
+                val step = params.getOrNull(1)?.toIntOrNull() ?: 1
+                val padding = params.getOrNull(2)?.toIntOrNull()
+                    ?: if (params.size == 1) params[0].toIntOrNull() ?: 0 else 0
+
+                val current = start + ((saveTarget.sequenceNumber ?: 1) - 1) * step
+                current.toString().padStart(padding, '0')
+            }
+        }.onFailure {
+            it.makeLog("pattern sequence")
+        }
+
+        runCatching {
             result = result.replace("""\\o\{(-?\d+)?:(-?\d+)?\}""".toRegex()) { match ->
                 if (settingsState.addOriginalFilename && !isOriginalEmpty) {
                     val start = match.groupValues[1].toIntOrNull()
@@ -208,9 +230,52 @@ internal class AndroidFilenameCreator @Inject constructor(
                     ""
                 }
             }
+
+            result = result.replace("""\\o\{t\}""".toRegex()) {
+                if (settingsState.addOriginalFilename && !isOriginalEmpty) {
+                    originalName.transliterate()
+                } else {
+                    ""
+                }
+            }
+
+            result = result.replace("""\\O\{t\}""".toRegex()) {
+                if (settingsState.addOriginalFilename && !isOriginalEmpty) {
+                    originalName.uppercase().transliterate()
+                } else {
+                    ""
+                }
+            }
+
+            result = result.replace("""\\o\{s/(.*?)/(.*?)/\}""".toRegex()) { match ->
+                if (settingsState.addOriginalFilename && !isOriginalEmpty) {
+                    val old = match.groupValues[1]
+                    val new = match.groupValues[2]
+                    originalName.replace(old, new)
+                } else {
+                    ""
+                }
+            }
+
+            result = result.replace("""\\O\{s/(.*?)/(.*?)/\}""".toRegex()) { match ->
+                if (settingsState.addOriginalFilename && !isOriginalEmpty) {
+                    val old = match.groupValues[1]
+                    val new = match.groupValues[2]
+                    originalName.uppercase().replace(old, new)
+                } else {
+                    ""
+                }
+            }
         }.onFailure {
             it.makeLog("pattern original slice")
         }
+
+        val parentFolder = if (isOriginalEmpty) ""
+        else saveTarget.originalUri.toUri().path()?.let { path ->
+            if ('/' in path) {
+                path.substringBeforeLast('/').substringAfterLast('/')
+            } else ""
+        }.orEmpty()
 
         return result
             .replace(Width, widthString)
@@ -224,6 +289,8 @@ internal class AndroidFilenameCreator @Inject constructor(
             .replace(Extension, extension)
             .replace(Rand, randomNumber(4))
             .replace(Date, timestampString)
+            .replace(ParentFolder, parentFolder)
+            .replace(Uuid, UUID.random().toString())
             .replace(PrefixUpper, prefix.uppercase())
             .replace(SuffixUpper, suffix.uppercase())
             .replace(OriginalNameUpper, originalName.uppercase())
@@ -231,6 +298,8 @@ internal class AndroidFilenameCreator @Inject constructor(
             .replace(ScaleModeUpper, scaleModeInfo.uppercase())
             .replace(ExtensionUpper, extension.uppercase())
             .replace(DateUpper, timestampString.uppercase())
+            .replace(ParentFolderUpper, parentFolder.uppercase())
+            .replace(UuidUpper, UUID.random().toString().uppercase())
             .clean()
             .let { str ->
                 if (str.split(".").filter { it.isNotBlank() }.size < 2) {

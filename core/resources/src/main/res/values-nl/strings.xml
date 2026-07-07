@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">De afbeeldingsbreedte in pixels, handig voor het volgen van resolutiewijzigingen of schaalresultaten.</string>
     <string name="height_pattern_description">De afbeeldingshoogte in pixels, handig bij het werken met beeldverhoudingen of exporten.</string>
     <string name="random_numbers_pattern_description">Genereert willekeurige cijfers om unieke bestandsnamen te garanderen; voeg meer cijfers toe voor extra veiligheid tegen duplicaten.</string>
-    <string name="sequence_number_pattern_description">Automatisch oplopende teller voor batchexports, ideaal bij het opslaan van meerdere afbeeldingen in één sessie.</string>
     <string name="preset_info_pattern_description">Voegt de toegepaste voorinstellingsnaam in de bestandsnaam in, zodat u gemakkelijk kunt onthouden hoe de afbeelding is verwerkt.</string>
     <string name="scale_mode_pattern_description">Toont de afbeeldingsschaalmodus die wordt gebruikt tijdens de verwerking, zodat afbeeldingen waarvan het formaat is aangepast, bijgesneden of passend zijn gemaakt, beter te onderscheiden zijn.</string>
     <string name="suffix_pattern_description">Aangepaste tekst aan het einde van de bestandsnaam, handig voor versiebeheer zoals _v2, _edited of _final.</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">Bestanden zijn succesvol hernoemd</string>
     <string name="batch_rename_failed">Sommige bestanden konden niet worden hernoemd</string>
     <string name="permission_not_granted">Er werd geen toestemming verleend</string>
-    <string name="original_filename_pattern_description">Gebruikt de originele bestandsnaam zonder extensie, zodat u de bronidentificatie intact kunt houden. Ondersteunt ook segmenteren met de syntaxis \\o{start:end} (bijvoorbeeld \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Gebruikt de originele bestandsnaam zonder extensie, zodat u de bronidentificatie intact kunt houden. Ondersteunt ook segmenteren met \\o{start:end}, transliteratie met \\o{t} en vervangen door \\o{s/oud/nieuw/}.</string>
+    <string name="sequence_number_pattern_description">Automatisch oplopende teller. Ondersteunt aangepaste opmaak: \\c{padding} (bijvoorbeeld \\c{3} -&amp;gt; 001), \\c{start:step} of \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">De naam van de bovenliggende map waarin het oorspronkelijke bestand zich bevond.</string>
+    <string name="file_size_pattern_description">De grootte van het originele bestand. Ondersteunt eenheden: \\z{b}, \\z{kb}, \\z{mb} of gewoon \\z voor een voor mensen leesbaar formaat.</string>
+    <string name="uuid_pattern_description">Genereert een willekeurige Universally Unique Identifier (UUID) om de uniciteit van de bestandsnaam te garanderen.</string>
 </resources>

@@ -2056,7 +2056,6 @@
     <string name="width_pattern_description">רוחב התמונה בפיקסלים, שימושי למעקב אחר שינויים ברזולוציה או שינוי קנה מידה של תוצאות.</string>
     <string name="height_pattern_description">גובה התמונה בפיקסלים, מועיל בעבודה עם יחסי גובה-רוחב או ייצוא.</string>
     <string name="random_numbers_pattern_description">יוצר ספרות אקראיות כדי להבטיח שמות קבצים ייחודיים; הוסף ספרות נוספות לבטיחות נוספת מפני כפילויות.</string>
-    <string name="sequence_number_pattern_description">מונה הגדלה אוטומטית ליצוא אצווה, אידיאלי בעת שמירת תמונות מרובות בסשן אחד.</string>
     <string name="preset_info_pattern_description">מכניס את השם המוגדר מראש שהוחל לשם הקובץ כך שתוכל לזכור בקלות כיצד עבדה התמונה.</string>
     <string name="scale_mode_pattern_description">מציג את מצב קנה המידה של התמונה המשמש במהלך העיבוד, ועוזר להבחין בין תמונות שגודלו, חתכו או הותאמו.</string>
     <string name="suffix_pattern_description">טקסט מותאם אישית ממוקם בסוף שם הקובץ, שימושי לניהול גרסאות כמו _v2, _edited או _final.</string>
@@ -3685,5 +3684,9 @@
     <string name="batch_rename_success">שמות הקבצים שונו בהצלחה</string>
     <string name="batch_rename_failed">לא ניתן היה לשנות את שמם של חלק מהקבצים</string>
     <string name="permission_not_granted">הרשות לא ניתנה</string>
-    <string name="original_filename_pattern_description">משתמש בשם הקובץ המקורי ללא סיומת, ועוזר לך לשמור על זיהוי המקור ללא פגע. תומך גם בחיתוך עם תחביר \\o{start:end} (למשל \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">משתמש בשם הקובץ המקורי ללא סיומת, ועוזר לך לשמור על זיהוי המקור ללא פגע. תומך גם בחיתוך עם \\o{start:end}, תעתיק עם \\o{t} והחלפה ב-\\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">מונה הגדלה אוטומטית. תומך בעיצוב מותאם אישית: \\c{padding} (למשל \\c{3} -&amp;gt; 001), \\c{start:step} או \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">שם תיקיית האב שבה נמצא הקובץ המקורי.</string>
+    <string name="file_size_pattern_description">גודל הקובץ המקורי. תומך ביחידות: \\z{b}, \\z{kb}, \\z{mb} או רק \\z עבור פורמט קריא אנושי.</string>
+    <string name="uuid_pattern_description">יוצר מזהה אקראי אוניברסלי ייחודי (UUID) כדי להבטיח ייחודיות של שם הקובץ.</string>
 </resources>

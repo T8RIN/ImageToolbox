@@ -2053,7 +2053,6 @@
     <string name="width_pattern_description">La largeur de l\'image en pixels, utile pour suivre les changements de résolution ou la mise à l\'échelle des résultats.</string>
     <string name="height_pattern_description">La hauteur de l\'image en pixels, utile lorsque vous travaillez avec des proportions ou des exportations.</string>
     <string name="random_numbers_pattern_description">Génère des chiffres aléatoires pour garantir des noms de fichiers uniques ; ajoutez plus de chiffres pour plus de sécurité contre les doublons.</string>
-    <string name="sequence_number_pattern_description">Compteur à incrémentation automatique pour les exportations par lots, idéal lors de l\'enregistrement de plusieurs images en une seule session.</string>
     <string name="preset_info_pattern_description">Insère le nom du préréglage appliqué dans le nom de fichier afin que vous puissiez facilement vous rappeler comment l\'image a été traitée.</string>
     <string name="scale_mode_pattern_description">Affiche le mode de mise à l\'échelle de l\'image utilisé pendant le traitement, permettant de distinguer les images redimensionnées, recadrées ou ajustées.</string>
     <string name="suffix_pattern_description">Texte personnalisé placé à la fin du nom de fichier, utile pour le versioning comme _v2, _edited ou _final.</string>
@@ -3682,5 +3681,9 @@
     <string name="batch_rename_success">Fichiers renommés avec succès</string>
     <string name="batch_rename_failed">Certains fichiers n\'ont pas pu être renommés</string>
     <string name="permission_not_granted">L\'autorisation n\'a pas été accordée</string>
-    <string name="original_filename_pattern_description">Utilise le nom de fichier d\'origine sans extension, vous aidant ainsi à conserver l\'identification de la source intacte. Prend également en charge le découpage avec la syntaxe \\o{start:end} (par exemple \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Utilise le nom de fichier d\'origine sans extension, vous aidant ainsi à conserver l\'identification de la source intacte. Prend également en charge le découpage avec \\o{start:end}, la translittération avec \\o{t} et le remplacement par \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Compteur à incrémentation automatique. Prend en charge le formatage personnalisé : \\c{padding} (par exemple \\c{3} -&amp;gt; 001), \\c{start:step} ou \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">Le nom du dossier parent où se trouvait le fichier d\'origine.</string>
+    <string name="file_size_pattern_description">La taille du fichier d\'origine. Prend en charge les unités : \\z{b}, \\z{kb}, \\z{mb} ou simplement \\z pour un format lisible par l\'homme.</string>
+    <string name="uuid_pattern_description">Génère un identifiant unique universel (UUID) aléatoire pour garantir l\'unicité du nom de fichier.</string>
 </resources>

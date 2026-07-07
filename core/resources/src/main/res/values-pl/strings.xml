@@ -2055,7 +2055,6 @@
     <string name="width_pattern_description">Szerokość obrazu w pikselach, przydatna do śledzenia zmian rozdzielczości lub wyników skalowania.</string>
     <string name="height_pattern_description">Wysokość obrazu w pikselach, pomocna podczas pracy ze współczynnikami proporcji lub eksportami.</string>
     <string name="random_numbers_pattern_description">Generuje losowe cyfry, aby zagwarantować unikalne nazwy plików; dodaj więcej cyfr, aby zapewnić dodatkowe bezpieczeństwo przed duplikatami.</string>
-    <string name="sequence_number_pattern_description">Automatycznie zwiększający się licznik do eksportu wsadowego, idealny przy zapisywaniu wielu obrazów w jednej sesji.</string>
     <string name="preset_info_pattern_description">Wstawia zastosowaną nazwę ustawienia wstępnego do nazwy pliku, dzięki czemu można łatwo zapamiętać sposób przetwarzania obrazu.</string>
     <string name="scale_mode_pattern_description">Wyświetla tryb skalowania obrazu używany podczas przetwarzania, pomagając rozróżnić obrazy o zmienionym rozmiarze, przycięte lub dopasowane.</string>
     <string name="suffix_pattern_description">Niestandardowy tekst umieszczony na końcu nazwy pliku, przydatny przy wersjonowaniu, takim jak _v2, _edited lub _final.</string>
@@ -3684,5 +3683,9 @@
     <string name="batch_rename_success">Pomyślnie zmieniono nazwy plików</string>
     <string name="batch_rename_failed">Nie udało się zmienić nazwy niektórych plików</string>
     <string name="permission_not_granted">Pozwolenie nie zostało wydane</string>
-    <string name="original_filename_pattern_description">Używa oryginalnej nazwy pliku bez rozszerzenia, pomagając zachować nienaruszoną identyfikację źródła. Obsługuje również cięcie ze składnią \\o{start:end} (np. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
+    <string name="original_filename_pattern_description">Używa oryginalnej nazwy pliku bez rozszerzenia, pomagając zachować nienaruszoną identyfikację źródła. Obsługuje także cięcie za pomocą \\o{start:end}, transliterację za pomocą \\o{t} i zastępowanie przez \\o{s/stare/nowe}.</string>
+    <string name="sequence_number_pattern_description">Licznik automatycznie zwiększający się. Obsługuje niestandardowe formatowanie: \\c{padding} (np. \\c{3} -&amp;gt; 001), \\c{start:step} lub \\c{start:step:padding}.</string>
+    <string name="parent_folder_pattern_description">Nazwa folderu nadrzędnego, w którym znajdował się oryginalny plik.</string>
+    <string name="file_size_pattern_description">Rozmiar oryginalnego pliku. Obsługuje jednostki: \\z{b}, \\z{kb}, \\z{mb} lub po prostu \\z w formacie czytelnym dla człowieka.</string>
+    <string name="uuid_pattern_description">Generuje losowy uniwersalny unikalny identyfikator (UUID), aby zapewnić niepowtarzalność nazwy pliku.</string>
 </resources>

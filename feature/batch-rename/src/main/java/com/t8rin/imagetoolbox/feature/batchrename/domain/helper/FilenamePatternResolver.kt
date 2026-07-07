@@ -19,10 +19,13 @@ package com.t8rin.imagetoolbox.feature.batchrename.domain.helper
 
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replace
+import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.slice
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.domain.utils.transliterate
 import com.t8rin.imagetoolbox.feature.batchrename.domain.model.RenameFile
 import kotlin.random.Random
+import kotlin.uuid.Uuid
 
 class FilenamePatternResolver(
     private val prefix: String,
@@ -54,6 +57,19 @@ class FilenamePatternResolver(
         }.getOrDefault(result)
 
         result = runCatching {
+            result.replace(SEQUENCE_PATTERN) { match ->
+                val params = match.groupValues[1].split(":")
+                val start = params.getOrNull(0)?.toIntOrNull() ?: 1
+                val step = params.getOrNull(1)?.toIntOrNull() ?: 1
+                val padding = params.getOrNull(2)?.toIntOrNull()
+                    ?: if (params.size == 1) params[0].toIntOrNull() ?: 0 else 0
+
+                val current = start + (sequence - 1) * step
+                current.toString().padStart(padding, '0')
+            }
+        }.getOrDefault(result)
+
+        result = runCatching {
             result.replace(RANDOM_PATTERN) { match ->
                 randomDigits(match.groupValues[1].toIntOrNull() ?: DEFAULT_RANDOM_LENGTH)
             }
@@ -72,8 +88,36 @@ class FilenamePatternResolver(
                 val start = match.groupValues[1].toIntOrNull()
                 val end = match.groupValues[2].toIntOrNull()
                 originalName.uppercase().slice(start, end)
+            }.replace(ORIGINAL_NAME_TRANS_PATTERN) {
+                originalName.transliterate()
+            }.replace(ORIGINAL_NAME_TRANS_PATTERN_UPPER) {
+                originalName.uppercase().transliterate()
+            }.replace(ORIGINAL_NAME_REPLACE_PATTERN) { match ->
+                val old = match.groupValues[1]
+                val new = match.groupValues[2]
+                originalName.replace(old, new)
+            }.replace(ORIGINAL_NAME_REPLACE_PATTERN_UPPER) { match ->
+                val old = match.groupValues[1]
+                val new = match.groupValues[2]
+                originalName.uppercase().replace(old, new)
             }
         }.getOrDefault(result)
+        val parentFolder = file.parentFolder.orEmpty()
+
+        val fileSizeRaw = file.fileSize ?: 0L
+        result = runCatching {
+            result.replace(FILE_SIZE_PATTERN) { match ->
+                val unit = match.groupValues[1].lowercase()
+                when (unit) {
+                    "b" -> fileSizeRaw.toString()
+                    "kb" -> (fileSizeRaw / 1024.0).let { "%.1f".format(it) }
+                    "mb" -> (fileSizeRaw / (1024.0 * 1024.0)).let { "%.1f".format(it) }
+                    else -> humanFileSize(fileSizeRaw)
+                }
+            }
+        }.getOrDefault(result)
+
+        val fileSize = humanFileSize(fileSizeRaw)
 
         return result
             .replace(FilenamePattern.Width, file.width?.toString().orEmpty())
@@ -85,11 +129,17 @@ class FilenamePatternResolver(
             .replace(FilenamePattern.Extension, extension)
             .replace(FilenamePattern.Rand, randomDigits(DEFAULT_RANDOM_LENGTH))
             .replace(FilenamePattern.Date, defaultDate)
+            .replace(FilenamePattern.ParentFolder, parentFolder)
+            .replace(FilenamePattern.FileSize, fileSize)
+            .replace(FilenamePattern.Uuid, Uuid.random().toString())
             .replace(FilenamePattern.PrefixUpper, prefix.uppercase())
             .replace(FilenamePattern.SuffixUpper, suffix.uppercase())
             .replace(FilenamePattern.OriginalNameUpper, originalName.uppercase())
             .replace(FilenamePattern.ExtensionUpper, extension.uppercase())
             .replace(FilenamePattern.DateUpper, defaultDate.uppercase())
+            .replace(FilenamePattern.ParentFolderUpper, parentFolder.uppercase())
+            .replace(FilenamePattern.FileSizeUpper, fileSize.uppercase())
+            .replace(FilenamePattern.UuidUpper, Uuid.random().toString().uppercase())
     }
 
     private companion object {
@@ -100,5 +150,11 @@ class FilenamePatternResolver(
         val RANDOM_PATTERN = """\\r[{](\d+)[}]""".toRegex()
         val ORIGINAL_NAME_SLICE_PATTERN = """\\o\{(-?\d+)?:(-?\d+)?\}""".toRegex()
         val ORIGINAL_NAME_SLICE_PATTERN_UPPER = """\\O\{(-?\d+)?:(-?\d+)?\}""".toRegex()
+        val ORIGINAL_NAME_TRANS_PATTERN = """\\o\{t\}""".toRegex()
+        val ORIGINAL_NAME_TRANS_PATTERN_UPPER = """\\O\{t\}""".toRegex()
+        val ORIGINAL_NAME_REPLACE_PATTERN = """\\o\{s/(.*?)/(.*?)/\}""".toRegex()
+        val ORIGINAL_NAME_REPLACE_PATTERN_UPPER = """\\O\{s/(.*?)/(.*?)/\}""".toRegex()
+        val SEQUENCE_PATTERN = """\\c\{([^}]*)\}""".toRegex()
+        val FILE_SIZE_PATTERN = """\\z\{([^}]*)\}""".toRegex()
     }
 }

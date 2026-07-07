@@ -41,6 +41,9 @@ value class FilenamePattern(
         val ScaleMode = FilenamePattern("\\m")
         val Suffix = FilenamePattern("\\s")
         val Extension = FilenamePattern("\\e")
+        val ParentFolder = FilenamePattern("\\f")
+        val FileSize = FilenamePattern("\\z")
+        val Uuid = FilenamePattern("\\u")
 
         val PrefixUpper = FilenamePattern("\\p").upper()
         val OriginalNameUpper = FilenamePattern("\\o").upper()
@@ -49,6 +52,9 @@ value class FilenamePattern(
         val ScaleModeUpper = FilenamePattern("\\m").upper()
         val SuffixUpper = FilenamePattern("\\s").upper()
         val ExtensionUpper = FilenamePattern("\\e").upper()
+        val ParentFolderUpper = FilenamePattern("\\f").upper()
+        val FileSizeUpper = FilenamePattern("\\z").upper()
+        val UuidUpper = FilenamePattern("\\u").upper()
 
         val Default =
             "${Prefix}_$OriginalName($Width)x($Height)${Date}{yyyy-MM-dd_HH-mm-ss}_${Rand}{4}[${Sequence}]_${PresetInfo}_${ScaleMode}_${Suffix}.$Extension"
@@ -76,6 +82,8 @@ value class FilenamePattern(
                 Date,
                 Rand,
                 Sequence,
+                ParentFolder,
+                Uuid,
                 PresetInfo,
                 ScaleMode,
                 Suffix,
@@ -88,6 +96,8 @@ value class FilenamePattern(
                 PrefixUpper,
                 OriginalNameUpper,
                 DateUpper,
+                ParentFolderUpper,
+                UuidUpper,
                 PresetInfoUpper,
                 ScaleModeUpper,
                 SuffixUpper,

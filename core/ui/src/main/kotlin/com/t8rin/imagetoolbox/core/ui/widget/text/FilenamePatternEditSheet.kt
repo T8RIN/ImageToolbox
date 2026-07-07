@@ -38,14 +38,17 @@ import com.t8rin.imagetoolbox.core.domain.JAVA_FORMAT_SPECIFICATION
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Date
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Extension
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.FileSize
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Height
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalName
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ParentFolder
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Prefix
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PresetInfo
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Rand
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ScaleMode
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Sequence
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Suffix
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Uuid
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Width
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -152,6 +155,8 @@ fun FilenamePatternEditSheet(
                             Date -> pattern.value + "{pattern}"
                             Rand -> pattern.value + "{count}"
                             OriginalName -> pattern.value + "{start:end}"
+                            Sequence -> pattern.value + "{start:step:padding}"
+                            FileSize -> pattern.value + "{unit}"
                             else -> pattern.value
                         },
                         subtitle = when (pattern) {
@@ -162,6 +167,9 @@ fun FilenamePatternEditSheet(
                             Date -> stringResource(R.string.formatted_timestamp_pattern_description)
                             Rand -> stringResource(R.string.random_numbers_pattern_description)
                             Sequence -> stringResource(R.string.sequence_number_pattern_description)
+                            ParentFolder -> stringResource(R.string.parent_folder_pattern_description)
+                            FileSize -> stringResource(R.string.file_size_pattern_description)
+                            Uuid -> stringResource(R.string.uuid_pattern_description)
                             PresetInfo -> stringResource(R.string.preset_info_pattern_description)
                             ScaleMode -> stringResource(R.string.scale_mode_pattern_description)
                             Suffix -> stringResource(R.string.suffix_pattern_description)
