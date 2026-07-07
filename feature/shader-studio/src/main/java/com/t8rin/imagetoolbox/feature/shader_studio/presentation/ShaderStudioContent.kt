@@ -51,8 +51,8 @@ import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.Shad
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.ShaderStudioButtons
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
 import dev.hossain.highlight.ui.HighlightThemeProvider
+import dev.hossain.highlight.ui.rememberTomorrowLightTheme
 import dev.hossain.highlight.ui.rememberTomorrowNightTheme
-import dev.hossain.highlight.ui.rememberTomorrowTheme
 
 @Composable
 fun ShaderStudioContent(
@@ -68,7 +68,7 @@ fun ShaderStudioContent(
     )
 
     HighlightThemeProvider(
-        lightHighlightTheme = rememberTomorrowTheme(),
+        lightHighlightTheme = rememberTomorrowLightTheme(),
         darkHighlightTheme = rememberTomorrowNightTheme()
     ) {
         AdaptiveLayoutScreen(
