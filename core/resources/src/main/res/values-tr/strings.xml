@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -3675,4 +3677,11 @@
     <string name="rename_error_invalid_name">Desen geçersiz veya aşırı uzun bir dosya adı üretiyor</string>
     <string name="rename_error_unsupported_pattern">Bu model, toplu yeniden adlandırma için kullanılamayan belirteçleri kullanır</string>
     <string name="rename_unchanged">İsim aynı kalacak</string>
+    <string name="batch_rename_sub">Dosya adı kalıplarını kullanarak birden fazla dosyayı yeniden adlandırın</string>
+    <string name="date_source_fallback">Seçilen tarih bazı dosyalar için kullanılamıyor. Onlar için güncel tarih kullanılacaktır.</string>
+    <string name="rename_error_duplicate_name">Desen yinelenen dosya adları üretiyor</string>
+    <string name="rename_error_no_changes">Tüm dosya adları zaten kalıpla eşleşiyor</string>
+    <string name="batch_rename_success">Dosyalar başarıyla yeniden adlandırıldı</string>
+    <string name="batch_rename_failed">Bazı dosyalar yeniden adlandırılamadı</string>
+    <string name="permission_not_granted">İzin verilmedi</string>
 </resources>
