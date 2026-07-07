@@ -339,7 +339,6 @@ internal class AndroidRenameManager @Inject constructor(
             .filterNot { writableUris.contains(it.toString()) }
             .filterNot(::canWriteWithoutRequest)
             .distinct()
-            .take(MAX_WRITE_REQUEST_SIZE)
             .toList()
         if (uris.isEmpty()) return null
 
@@ -441,7 +440,6 @@ internal class AndroidRenameManager @Inject constructor(
     )
 
     private companion object {
-        const val MAX_WRITE_REQUEST_SIZE = 2000
         const val MILLIS_IN_SECOND = 1000
         const val MEDIA_DOCUMENTS_AUTHORITY = "com.android.providers.media.documents"
         val EXIF_DATE_FORMATS = listOf(
