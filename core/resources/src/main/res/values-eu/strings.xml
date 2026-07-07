@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">Jatorrizko fitxategia dagoen karpeta nagusiaren izena.</string>
     <string name="file_size_pattern_description">Jatorrizko fitxategiaren tamaina. Unitateak onartzen ditu: \\z{b}, \\z{kb}, \\z{mb} edo besterik gabe \\z gizakiak irakurtzeko moduko formatuan.</string>
     <string name="uuid_pattern_description">Ausazko Identifikatzaile Unibertsal Bakarra (UUID) sortzen du fitxategi-izenen berezitasuna ziurtatzeko.</string>
+    <string name="rename_cannot_undone">Fitxategien izena aldatzea ezin da desegin. Jarraitu aurretik, ziurtatu izen berriak zuzenak direla.</string>
+    <string name="confirm_rename_title">Berretsi izena aldatu</string>
 </resources>

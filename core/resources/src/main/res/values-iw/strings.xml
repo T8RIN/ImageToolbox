@@ -3689,4 +3689,6 @@
     <string name="parent_folder_pattern_description">שם תיקיית האב שבה נמצא הקובץ המקורי.</string>
     <string name="file_size_pattern_description">גודל הקובץ המקורי. תומך ביחידות: \\z{b}, \\z{kb}, \\z{mb} או רק \\z עבור פורמט קריא אנושי.</string>
     <string name="uuid_pattern_description">יוצר מזהה אקראי אוניברסלי ייחודי (UUID) כדי להבטיח ייחודיות של שם הקובץ.</string>
+    <string name="rename_cannot_undone">לא ניתן לבטל שינוי שם של קבצים. ודא שהשמות החדשים נכונים לפני שתמשיך.</string>
+    <string name="confirm_rename_title">אשר את שינוי השם</string>
 </resources>

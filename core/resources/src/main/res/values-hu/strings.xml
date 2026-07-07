@@ -3687,4 +3687,6 @@
     <string name="parent_folder_pattern_description">A szülőmappa neve, ahol az eredeti fájl található.</string>
     <string name="file_size_pattern_description">Az eredeti fájl mérete. Támogatja a következő egységeket: \\z{b}, \\z{kb}, \\z{mb} vagy csak \\z az ember által olvasható formátumhoz.</string>
     <string name="uuid_pattern_description">Véletlenszerű, univerzálisan egyedi azonosítót (UUID) generál a fájlnév egyediségének biztosítása érdekében.</string>
+    <string name="rename_cannot_undone">A fájlok átnevezése nem vonható vissza. Mielőtt folytatná, győződjön meg arról, hogy az új nevek helyesek.</string>
+    <string name="confirm_rename_title">Átnevezés megerősítése</string>
 </resources>

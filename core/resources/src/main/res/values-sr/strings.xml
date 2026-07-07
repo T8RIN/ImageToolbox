@@ -3688,4 +3688,6 @@
     <string name="parent_folder_pattern_description">Име надређене фасцикле у којој се налазила оригинална датотека.</string>
     <string name="file_size_pattern_description">Величина оригиналне датотеке. Подржава јединице: \\з{б}, \\з{кб}, \\з{мб} или само \\з за људски читљив формат.</string>
     <string name="uuid_pattern_description">Генерише насумични универзално јединствени идентификатор (УУИД) да би се обезбедила јединственост имена датотеке.</string>
+    <string name="rename_cannot_undone">Преименовање датотека се не може опозвати. Уверите се да су нова имена тачна пре него што наставите.</string>
+    <string name="confirm_rename_title">Потврдите преименовање</string>
 </resources>

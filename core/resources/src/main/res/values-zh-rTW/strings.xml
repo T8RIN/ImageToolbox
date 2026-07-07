@@ -3685,4 +3685,6 @@
     <string name="parent_folder_pattern_description">原始檔案所在的父資料夾的名稱。</string>
     <string name="file_size_pattern_description">原始文件的大小。支援單位：\\z{b}、\\z{kb}、\\z{mb} 或僅 \\z 以供人類可讀格式。</string>
     <string name="uuid_pattern_description">產生隨機的通用唯一識別碼 (UUID) 以確保檔案名稱的唯一性。</string>
+    <string name="rename_cannot_undone">重新命名檔案無法撤銷。在繼續之前請確保新名稱正確。</string>
+    <string name="confirm_rename_title">確認重命名</string>
 </resources>

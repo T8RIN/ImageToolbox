@@ -3688,4 +3688,6 @@
     <string name="parent_folder_pattern_description">Nazwa folderu nadrzędnego, w którym znajdował się oryginalny plik.</string>
     <string name="file_size_pattern_description">Rozmiar oryginalnego pliku. Obsługuje jednostki: \\z{b}, \\z{kb}, \\z{mb} lub po prostu \\z w formacie czytelnym dla człowieka.</string>
     <string name="uuid_pattern_description">Generuje losowy uniwersalny unikalny identyfikator (UUID), aby zapewnić niepowtarzalność nazwy pliku.</string>
+    <string name="rename_cannot_undone">Zmiany nazw plików nie można cofnąć. Przed kontynuowaniem upewnij się, że nowe nazwy są poprawne.</string>
+    <string name="confirm_rename_title">Potwierdź zmianę nazwy</string>
 </resources>

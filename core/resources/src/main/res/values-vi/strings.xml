@@ -3685,4 +3685,6 @@
     <string name="parent_folder_pattern_description">Tên của thư mục mẹ nơi chứa tệp gốc.</string>
     <string name="file_size_pattern_description">Kích thước của tập tin gốc. Hỗ trợ các đơn vị: \\z{b}, \\z{kb}, \\z{mb} hoặc chỉ \\z cho định dạng con người có thể đọc được.</string>
     <string name="uuid_pattern_description">Tạo Mã định danh duy nhất toàn cầu (UUID) ngẫu nhiên để đảm bảo tính duy nhất của tên tệp.</string>
+    <string name="rename_cannot_undone">Việc đổi tên tập tin không thể hoàn tác được. Đảm bảo tên mới là chính xác trước khi tiếp tục.</string>
+    <string name="confirm_rename_title">Xác nhận đổi tên</string>
 </resources>

@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">මුල් ගොනුව තිබූ මව් ෆෝල්ඩරයේ නම.</string>
     <string name="file_size_pattern_description">මුල් ගොනුවේ විශාලත්වය. සහායක ඒකක: \\z{b}, \\z{kb}, \\z{mb} හෝ මිනිසුන්ට කියවිය හැකි ආකෘතිය සඳහා \\z.</string>
     <string name="uuid_pattern_description">ගොනු නාමයේ සුවිශේෂත්වය සහතික කිරීම සඳහා අහඹු විශ්වීය අනන්‍ය හඳුනාගැනීමක් (UUID) ජනනය කරයි.</string>
+    <string name="rename_cannot_undone">ගොනු නැවත නම් කිරීම පසුගමනය කළ නොහැක. ඉදිරියට යාමට පෙර නව නම් නිවැරදි බව තහවුරු කර ගන්න.</string>
+    <string name="confirm_rename_title">නැවත නම් කිරීම තහවුරු කරන්න</string>
 </resources>

@@ -3687,4 +3687,6 @@
     <string name="parent_folder_pattern_description">Orijinal dosyanın bulunduğu ana klasörün adı.</string>
     <string name="file_size_pattern_description">Orijinal dosyanın boyutu. Birimleri destekler: \\z{b}, \\z{kb}, \\z{mb} veya insan tarafından okunabilir format için yalnızca \\z.</string>
     <string name="uuid_pattern_description">Dosya adının benzersizliğini sağlamak için rastgele bir Evrensel Benzersiz Tanımlayıcı (UUID) oluşturur.</string>
+    <string name="rename_cannot_undone">Dosyaları yeniden adlandırma işlemi geri alınamaz. Devam etmeden önce yeni adların doğru olduğundan emin olun.</string>
+    <string name="confirm_rename_title">Yeniden adlandırmayı onayla</string>
 </resources>

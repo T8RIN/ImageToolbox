@@ -3685,4 +3685,6 @@
     <string name="parent_folder_pattern_description">원본 파일이 위치한 상위 폴더의 이름입니다.</string>
     <string name="file_size_pattern_description">원본 파일의 크기입니다. 지원되는 단위는 \\z{b}, \\z{kb}, \\z{mb} 또는 사람이 읽을 수 있는 형식의 경우 \\z입니다.</string>
     <string name="uuid_pattern_description">파일 이름의 고유성을 보장하기 위해 임의의 UUID(Universally Unique Identifier)를 생성합니다.</string>
+    <string name="rename_cannot_undone">파일 이름 변경은 취소할 수 없습니다. 계속하기 전에 새 이름이 올바른지 확인하세요.</string>
+    <string name="confirm_rename_title">이름 변경 확인</string>
 </resources>

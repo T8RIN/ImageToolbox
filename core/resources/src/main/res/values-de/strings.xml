@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">Der Name des übergeordneten Ordners, in dem sich die Originaldatei befand.</string>
     <string name="file_size_pattern_description">Die Größe der Originaldatei. Unterstützt Einheiten: \\z{b}, \\z{kb}, \\z{mb} oder einfach \\z für ein menschenlesbares Format.</string>
     <string name="uuid_pattern_description">Erzeugt einen zufälligen Universally Unique Identifier (UUID), um die Eindeutigkeit des Dateinamens sicherzustellen.</string>
+    <string name="rename_cannot_undone">Das Umbenennen von Dateien kann nicht rückgängig gemacht werden. Stellen Sie sicher, dass die neuen Namen korrekt sind, bevor Sie fortfahren.</string>
+    <string name="confirm_rename_title">Umbenennen bestätigen</string>
 </resources>

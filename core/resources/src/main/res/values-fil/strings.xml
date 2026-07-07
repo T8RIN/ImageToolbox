@@ -3687,4 +3687,6 @@
     <string name="parent_folder_pattern_description">Ang pangalan ng parent folder kung saan matatagpuan ang orihinal na file.</string>
     <string name="file_size_pattern_description">Ang laki ng orihinal na file. Sinusuportahan ang mga unit: \\z{b}, \\z{kb}, \\z{mb} o \\z lang para sa format na nababasa ng tao.</string>
     <string name="uuid_pattern_description">Bumubuo ng random na Universally Unique Identifier (UUID) para matiyak ang pagiging natatangi ng filename.</string>
+    <string name="rename_cannot_undone">Ang pagpapalit ng pangalan ng mga file ay hindi maaaring i-undo. Tiyaking tama ang mga bagong pangalan bago magpatuloy.</string>
+    <string name="confirm_rename_title">Kumpirmahin ang pagpapalit ng pangalan</string>
 </resources>

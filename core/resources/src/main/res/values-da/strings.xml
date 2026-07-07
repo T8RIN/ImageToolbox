@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">Navnet på den overordnede mappe, hvor den originale fil var placeret.</string>
     <string name="file_size_pattern_description">Størrelsen af ​​den originale fil. Understøtter enheder: \\z{b}, \\z{kb}, \\z{mb} eller bare \\z for mennesker, der kan læses.</string>
     <string name="uuid_pattern_description">Genererer en tilfældig Universally Unique Identifier (UUID) for at sikre filnavnets unikke karakter.</string>
+    <string name="rename_cannot_undone">Omdøbning af filer kan ikke fortrydes. Sørg for, at de nye navne er korrekte, før du fortsætter.</string>
+    <string name="confirm_rename_title">Bekræft omdøb</string>
 </resources>

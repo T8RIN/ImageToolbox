@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">ئەسلى ھۆججەت جايلاشقان ئانا ھۆججەت قىسقۇچنىڭ ئىسمى.</string>
     <string name="file_size_pattern_description">ئەسلى ھۆججەتنىڭ چوڭلۇقى. بىرلىكلەرنى قوللايدۇ: \\ z {b}, \\ z {kb}, \\ z {mb} ياكى ئىنسانلارنىڭ ئوقۇغىلى بولىدىغان فورماتى ئۈچۈن پەقەت \\ z.</string>
     <string name="uuid_pattern_description">ئىختىيارىي ئۇنىۋېرسال پەرقلىگۈچ (UUID) ھاسىل قىلىپ ، ھۆججەت نامىنىڭ خاسلىقىغا كاپالەتلىك قىلىدۇ.</string>
+    <string name="rename_cannot_undone">ھۆججەتلەرنىڭ نامىنى بىكار قىلىشقا بولمايدۇ. داۋاملاشتۇرۇشتىن بۇرۇن يېڭى ئىسىملارنىڭ توغرا ئىكەنلىكىنى جەزملەشتۈرۈڭ.</string>
+    <string name="confirm_rename_title">نامىنى جەزملەشتۈرۈڭ</string>
 </resources>

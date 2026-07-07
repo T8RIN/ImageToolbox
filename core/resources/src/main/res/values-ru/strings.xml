@@ -3689,4 +3689,6 @@
     <string name="batch_rename_success">Файлы успешно переименованы</string>
     <string name="batch_rename_failed">Не удалось переименовать некоторые файлы</string>
     <string name="permission_not_granted">Разрешение не предоставлено</string>
+    <string name="rename_cannot_undone">Переименование файлов невозможно отменить. Прежде чем продолжить, убедитесь, что новые имена верны.</string>
+    <string name="confirm_rename_title">Подтвердить переименование</string>
 </resources>

@@ -3685,4 +3685,6 @@
     <string name="parent_folder_pattern_description">Nama folder induk tempat file asli berada.</string>
     <string name="file_size_pattern_description">Ukuran file aslinya. Mendukung unit: \\z{b}, \\z{kb}, \\z{mb} atau hanya \\z untuk format yang dapat dibaca manusia.</string>
     <string name="uuid_pattern_description">Menghasilkan Pengidentifikasi Unik Universal (UUID) acak untuk memastikan keunikan nama file.</string>
+    <string name="rename_cannot_undone">Penggantian nama file tidak dapat dibatalkan. Pastikan nama baru sudah benar sebelum melanjutkan.</string>
+    <string name="confirm_rename_title">Konfirmasikan penggantian nama</string>
 </resources>

@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">Бастапқы файл орналасқан негізгі қалтаның атауы.</string>
     <string name="file_size_pattern_description">Бастапқы файлдың өлшемі. Бірліктерді қолдайды: \\z{b}, \\z{kb}, \\z{mb} немесе адам оқи алатын пішім үшін жай \\z.</string>
     <string name="uuid_pattern_description">Файл атауының бірегейлігін қамтамасыз ету үшін кездейсоқ әмбебап бірегей идентификаторды (UUID) жасайды.</string>
+    <string name="rename_cannot_undone">Файлдардың атын өзгертуді қайтару мүмкін емес. Жалғастырмас бұрын жаңа атаулардың дұрыс екеніне көз жеткізіңіз.</string>
+    <string name="confirm_rename_title">Атын өзгертуді растаңыз</string>
 </resources>

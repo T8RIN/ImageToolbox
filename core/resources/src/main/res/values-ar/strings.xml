@@ -3691,4 +3691,6 @@
     <string name="parent_folder_pattern_description">اسم المجلد الأصلي حيث يوجد الملف الأصلي.</string>
     <string name="file_size_pattern_description">حجم الملف الأصلي. يدعم الوحدات: \\z{b}، \\z{kb}، \\z{mb} أو \\z فقط للتنسيق الذي يمكن قراءته بواسطة الإنسان.</string>
     <string name="uuid_pattern_description">ينشئ معرفًا فريدًا عالميًا عشوائيًا (UUID) لضمان تفرد اسم الملف.</string>
+    <string name="rename_cannot_undone">لا يمكن التراجع عن إعادة تسمية الملفات. تأكد من صحة الأسماء الجديدة قبل المتابعة.</string>
+    <string name="confirm_rename_title">تأكيد إعادة التسمية</string>
 </resources>

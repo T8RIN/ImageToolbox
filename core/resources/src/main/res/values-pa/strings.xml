@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">ਮੂਲ ਫੋਲਡਰ ਦਾ ਨਾਮ ਜਿੱਥੇ ਅਸਲ ਫ਼ਾਈਲ ਸਥਿਤ ਸੀ।</string>
     <string name="file_size_pattern_description">ਅਸਲ ਫ਼ਾਈਲ ਦਾ ਆਕਾਰ। ਇਕਾਈਆਂ ਦਾ ਸਮਰਥਨ ਕਰਦਾ ਹੈ: \\z{b}, \\z{kb}, \\z{mb} ਜਾਂ ਮਨੁੱਖੀ ਪੜ੍ਹਨਯੋਗ ਫਾਰਮੈਟ ਲਈ ਸਿਰਫ਼ \\z।</string>
     <string name="uuid_pattern_description">ਫਾਈਲ ਨਾਮ ਦੀ ਵਿਲੱਖਣਤਾ ਨੂੰ ਯਕੀਨੀ ਬਣਾਉਣ ਲਈ ਇੱਕ ਬੇਤਰਤੀਬ ਯੂਨੀਵਰਸਲੀ ਯੂਨੀਕ ਆਈਡੈਂਟੀਫਾਇਰ (UUID) ਤਿਆਰ ਕਰਦਾ ਹੈ।</string>
+    <string name="rename_cannot_undone">ਫਾਈਲਾਂ ਦਾ ਨਾਮ ਬਦਲਣਾ ਅਣਕੀਤਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਜਾਰੀ ਰੱਖਣ ਤੋਂ ਪਹਿਲਾਂ ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਨਵੇਂ ਨਾਮ ਸਹੀ ਹਨ।</string>
+    <string name="confirm_rename_title">ਨਾਮ ਬਦਲਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ</string>
 </resources>

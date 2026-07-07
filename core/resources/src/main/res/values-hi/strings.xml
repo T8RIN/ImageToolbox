@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">मूल फ़ोल्डर का नाम जहां मूल फ़ाइल स्थित थी.</string>
     <string name="file_size_pattern_description">मूल फ़ाइल का आकार. इकाइयों का समर्थन करता है: \\z{b}, \\z{kb}, \\z{mb} या मानव पठनीय प्रारूप के लिए बस \\z।</string>
     <string name="uuid_pattern_description">फ़ाइल नाम की विशिष्टता सुनिश्चित करने के लिए एक यादृच्छिक सार्वभौमिक विशिष्ट पहचानकर्ता (यूयूआईडी) उत्पन्न करता है।</string>
+    <string name="rename_cannot_undone">फ़ाइलों का नाम बदलना पूर्ववत नहीं किया जा सकता. जारी रखने से पहले सुनिश्चित करें कि नए नाम सही हैं।</string>
+    <string name="confirm_rename_title">नाम बदलने की पुष्टि करें</string>
 </resources>

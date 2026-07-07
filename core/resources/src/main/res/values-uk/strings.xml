@@ -3688,4 +3688,6 @@
     <string name="parent_folder_pattern_description">Ім\'я батьківської папки, де знаходився вихідний файл.</string>
     <string name="file_size_pattern_description">Розмір вихідного файлу. Підтримує одиниці вимірювання: \\z{b}, \\z{kb}, \\z{mb} або просто \\z для читабельного формату.</string>
     <string name="uuid_pattern_description">Генерує випадковий універсальний унікальний ідентифікатор (UUID), щоб гарантувати унікальність імені файлу.</string>
+    <string name="rename_cannot_undone">Перейменування файлів не можна скасувати. Перш ніж продовжити, переконайтеся, що нові імена правильні.</string>
+    <string name="confirm_rename_title">Підтвердити перейменування</string>
 </resources>

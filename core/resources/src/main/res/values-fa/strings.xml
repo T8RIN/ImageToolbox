@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">نام پوشه والد که فایل اصلی در آن قرار داشت.</string>
     <string name="file_size_pattern_description">اندازه فایل اصلی پشتیبانی از واحدهای: \\z{b}، \\z{kb}، \\z{mb} یا فقط \\z برای قالب قابل خواندن توسط انسان.</string>
     <string name="uuid_pattern_description">برای اطمینان از منحصر به فرد بودن نام فایل، یک شناسه منحصر به فرد جهانی (UUID) تصادفی ایجاد می کند.</string>
+    <string name="rename_cannot_undone">تغییر نام فایل ها قابل بازگشت نیست. قبل از ادامه از صحت نام های جدید مطمئن شوید.</string>
+    <string name="confirm_rename_title">تغییر نام را تأیید کنید</string>
 </resources>

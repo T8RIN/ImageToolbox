@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">Namnet på den överordnade mappen där den ursprungliga filen fanns.</string>
     <string name="file_size_pattern_description">Storleken på originalfilen. Stöder enheter: \\z{b}, \\z{kb}, \\z{mb} eller bara \\z för läsbart format.</string>
     <string name="uuid_pattern_description">Genererar en slumpmässig Universally Unique Identifier (UUID) för att säkerställa filnamnets unikhet.</string>
+    <string name="rename_cannot_undone">Att byta namn på filer kan inte ångras. Se till att de nya namnen är korrekta innan du fortsätter.</string>
+    <string name="confirm_rename_title">Bekräfta byta namn</string>
 </resources>

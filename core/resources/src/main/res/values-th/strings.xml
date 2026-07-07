@@ -3685,4 +3685,6 @@
     <string name="parent_folder_pattern_description">ชื่อของโฟลเดอร์หลักที่มีไฟล์ต้นฉบับอยู่</string>
     <string name="file_size_pattern_description">ขนาดของไฟล์ต้นฉบับ รองรับหน่วย: \\z{b}, \\z{kb}, \\z{mb} หรือเพียง \\z สำหรับรูปแบบที่มนุษย์สามารถอ่านได้</string>
     <string name="uuid_pattern_description">สร้าง Universally Unique Identifier (UUID) แบบสุ่มเพื่อให้แน่ใจว่าชื่อไฟล์ไม่ซ้ำกัน</string>
+    <string name="rename_cannot_undone">การเปลี่ยนชื่อไฟล์ไม่สามารถยกเลิกได้ ตรวจสอบให้แน่ใจว่าชื่อใหม่ถูกต้องก่อนดำเนินการต่อ</string>
+    <string name="confirm_rename_title">ยืนยันการเปลี่ยนชื่อ</string>
 </resources>

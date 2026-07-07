@@ -3688,4 +3688,6 @@
     <string name="parent_folder_pattern_description">Pirminio aplanko, kuriame buvo pradinis failas, pavadinimas.</string>
     <string name="file_size_pattern_description">Originalaus failo dydis. Palaiko vienetus: \\z{b}, \\z{kb}, \\z{mb} arba tiesiog \\z, kad būtų skaitomas žmogus.</string>
     <string name="uuid_pattern_description">Sugeneruoja atsitiktinį universalų unikalų identifikatorių (UUID), kad užtikrintų failo pavadinimo unikalumą.</string>
+    <string name="rename_cannot_undone">Failų pervadinimo anuliuoti negalima. Prieš tęsdami įsitikinkite, kad nauji pavadinimai yra teisingi.</string>
+    <string name="confirm_rename_title">Patvirtinkite pervadinimą</string>
 </resources>

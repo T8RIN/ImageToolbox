@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">De naam van de bovenliggende map waarin het oorspronkelijke bestand zich bevond.</string>
     <string name="file_size_pattern_description">De grootte van het originele bestand. Ondersteunt eenheden: \\z{b}, \\z{kb}, \\z{mb} of gewoon \\z voor een voor mensen leesbaar formaat.</string>
     <string name="uuid_pattern_description">Genereert een willekeurige Universally Unique Identifier (UUID) om de uniciteit van de bestandsnaam te garanderen.</string>
+    <string name="rename_cannot_undone">Het hernoemen van bestanden kan niet ongedaan worden gemaakt. Zorg ervoor dat de nieuwe namen correct zijn voordat u verdergaat.</string>
+    <string name="confirm_rename_title">Bevestig hernoemen</string>
 </resources>

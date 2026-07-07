@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">O nome da pasta pai onde o arquivo original estava localizado.</string>
     <string name="file_size_pattern_description">O tamanho do arquivo original. Suporta unidades: \\z{b}, \\z{kb}, \\z{mb} ou apenas \\z para formato legível por humanos.</string>
     <string name="uuid_pattern_description">Gera um identificador universalmente exclusivo (UUID) aleatório para garantir a exclusividade do nome do arquivo.</string>
+    <string name="rename_cannot_undone">A renomeação de arquivos não pode ser desfeita. Certifique-se de que os novos nomes estejam corretos antes de continuar.</string>
+    <string name="confirm_rename_title">Confirmar renomeação</string>
 </resources>

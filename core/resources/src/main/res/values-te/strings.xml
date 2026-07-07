@@ -3687,4 +3687,6 @@
     <string name="parent_folder_pattern_description">అసలు ఫైల్ ఉన్న పేరెంట్ ఫోల్డర్ పేరు.</string>
     <string name="file_size_pattern_description">అసలు ఫైల్ పరిమాణం. యూనిట్‌లకు మద్దతు ఇస్తుంది: \\z{b}, \\z{kb}, \\z{mb} లేదా కేవలం \\z మానవ రీడబుల్ ఫార్మాట్ కోసం.</string>
     <string name="uuid_pattern_description">ఫైల్ పేరు ప్రత్యేకతను నిర్ధారించడానికి యాదృచ్ఛికంగా యూనివర్సల్లీ యూనిక్ ఐడెంటిఫైయర్ (UUID)ని రూపొందిస్తుంది.</string>
+    <string name="rename_cannot_undone">ఫైల్‌ల పేరు మార్చడం రద్దు చేయబడదు. కొనసాగించడానికి ముందు కొత్త పేర్లు సరైనవని నిర్ధారించుకోండి.</string>
+    <string name="confirm_rename_title">పేరు మార్చడాన్ని నిర్ధారించండి</string>
 </resources>

@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">El nombre de la carpeta principal donde se encontraba el archivo original.</string>
     <string name="file_size_pattern_description">El tamaño del archivo original. Admite unidades: \\z{b}, \\z{kb}, \\z{mb} o simplemente \\z para formato legible por humanos.</string>
     <string name="uuid_pattern_description">Genera un identificador único universal (UUID) aleatorio para garantizar la unicidad del nombre de archivo.</string>
+    <string name="rename_cannot_undone">El cambio de nombre de archivos no se puede deshacer. Asegúrese de que los nuevos nombres sean correctos antes de continuar.</string>
+    <string name="confirm_rename_title">Confirmar cambio de nombre</string>
 </resources>

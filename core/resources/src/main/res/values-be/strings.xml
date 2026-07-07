@@ -3688,4 +3688,6 @@
     <string name="parent_folder_pattern_description">Назва бацькоўскай папкі, у якой знаходзіўся зыходны файл.</string>
     <string name="file_size_pattern_description">Памер зыходнага файла. Падтрымлівае адзінкі: \\z{b}, \\z{kb}, \\z{mb} або проста \\z для фармату, які чытаецца чалавекам.</string>
     <string name="uuid_pattern_description">Стварае выпадковы універсальны ўнікальны ідэнтыфікатар (UUID), каб забяспечыць унікальнасць імя файла.</string>
+    <string name="rename_cannot_undone">Перайменаванне файлаў не можа быць адменена. Перш чым працягнуць, пераканайцеся, што новыя імёны правільныя.</string>
+    <string name="confirm_rename_title">Пацвердзіце перайменаванне</string>
 </resources>

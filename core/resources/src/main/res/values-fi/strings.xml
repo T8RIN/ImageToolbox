@@ -3686,4 +3686,6 @@
     <string name="parent_folder_pattern_description">Pääkansion nimi, jossa alkuperäinen tiedosto sijaitsi.</string>
     <string name="file_size_pattern_description">Alkuperäisen tiedoston koko. Tukee yksiköitä: \\z{b}, \\z{kb}, \\z{mb} tai vain \\z ihmisen luettavassa muodossa.</string>
     <string name="uuid_pattern_description">Luo satunnaisen UUID-tunnisteen (Universally Unique Identifier) ​​varmistaakseen tiedostonimen ainutlaatuisuuden.</string>
+    <string name="rename_cannot_undone">Tiedostojen uudelleennimeämistä ei voi kumota. Varmista, että uudet nimet ovat oikein ennen kuin jatkat.</string>
+    <string name="confirm_rename_title">Vahvista uudelleennimeäminen</string>
 </resources>

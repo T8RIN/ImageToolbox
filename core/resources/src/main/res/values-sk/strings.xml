@@ -3688,4 +3688,6 @@
     <string name="parent_folder_pattern_description">Názov nadradeného priečinka, v ktorom sa nachádzal pôvodný súbor.</string>
     <string name="file_size_pattern_description">Veľkosť pôvodného súboru. Podporuje jednotky: \\z{b}, \\z{kb}, \\z{mb} alebo len \\z pre ľudsky čitateľný formát.</string>
     <string name="uuid_pattern_description">Generuje náhodný univerzálny jedinečný identifikátor (UUID), aby sa zabezpečila jedinečnosť súboru.</string>
+    <string name="rename_cannot_undone">Premenovanie súborov nie je možné vrátiť späť. Pred pokračovaním sa uistite, že sú nové názvy správne.</string>
+    <string name="confirm_rename_title">Potvrďte premenovanie</string>
 </resources>
