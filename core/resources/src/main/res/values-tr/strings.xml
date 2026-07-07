@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -3660,7 +3659,6 @@
     <string name="lossless">Kayıpsız</string>
     <string name="bit_depth_value">%1$d-bit</string>
     <string name="batch_rename">Toplu Yeniden Adlandırma</string>
-    <string name="batch_rename_sub" />
     <string name="search_keywords_batch_rename">dosyaları toplu olarak yeniden adlandırın dosya adı desen sıra tarih uzantısı</string>
     <string name="pick_files_to_rename">Yeniden adlandırılacak dosyaları seçin</string>
     <string name="filename_pattern">Dosya adı modeli</string>
@@ -3673,14 +3671,8 @@
     <string name="date_source_manual">Manuel tarih</string>
     <string name="manual_date">Manuel tarih</string>
     <string name="manual_time">Manuel süre</string>
-    <string name="date_source_fallback" />
     <string name="rename_error_empty_pattern">Bir dosya adı modeli girin</string>
     <string name="rename_error_invalid_name">Desen geçersiz veya aşırı uzun bir dosya adı üretiyor</string>
-    <string name="rename_error_duplicate_name" />
-    <string name="rename_error_no_changes" />
     <string name="rename_error_unsupported_pattern">Bu model, toplu yeniden adlandırma için kullanılamayan belirteçleri kullanır</string>
     <string name="rename_unchanged">İsim aynı kalacak</string>
-    <string name="batch_rename_success" />
-    <string name="batch_rename_failed" />
-    <string name="permission_not_granted" />
 </resources>
