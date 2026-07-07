@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Done
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
@@ -39,6 +39,7 @@ fun ResetDialog(
     visible: Boolean,
     onDismiss: () -> Unit,
     onReset: () -> Unit,
+    dismissText: String? = null,
     title: String = stringResource(R.string.reset_image),
     text: String = stringResource(R.string.reset_image_sub),
     icon: ImageVector = Icons.Rounded.ImageReset
@@ -72,13 +73,15 @@ fun ResetDialog(
                 onClick = {
                     onReset()
                     onDismiss()
-                    AppToastHost.showToast(
-                        message = getString(R.string.values_reset),
-                        icon = Icons.Rounded.Done
-                    )
+                    if (dismissText == null) {
+                        AppToastHost.showToast(
+                            message = getString(R.string.values_reset),
+                            icon = Icons.Rounded.Done
+                        )
+                    }
                 }
             ) {
-                Text(stringResource(R.string.reset))
+                Text(dismissText ?: stringResource(R.string.reset))
             }
         }
     )

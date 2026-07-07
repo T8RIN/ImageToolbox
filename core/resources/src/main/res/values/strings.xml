@@ -3712,4 +3712,6 @@
     <string name="batch_rename_success">Files renamed successfully</string>
     <string name="batch_rename_failed">Some files could not be renamed</string>
     <string name="permission_not_granted">Permission was not granted</string>
+    <string name="rename_cannot_undone">Renaming files cannot be undone. Make sure the new names are correct before continuing.</string>
+    <string name="confirm_rename_title">Confirm rename</string>
 </resources>

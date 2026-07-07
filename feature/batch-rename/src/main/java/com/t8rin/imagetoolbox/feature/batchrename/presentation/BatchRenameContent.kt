@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
@@ -117,6 +118,10 @@ fun BatchRenameContent(component: BatchRenameComponent) {
             )
         },
         buttons = {
+            var showConfirmDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+
             BottomButtonsBlock(
                 isNoData = component.files.isEmpty(),
                 onSecondaryButtonClick = if (component.files.isEmpty()) {
@@ -126,7 +131,7 @@ fun BatchRenameContent(component: BatchRenameComponent) {
                 },
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_files),
-                onPrimaryButtonClick = component::rename,
+                onPrimaryButtonClick = { showConfirmDialog = true },
                 primaryButtonIcon = Icons.Outlined.FileRename,
                 primaryButtonText = stringResource(R.string.rename),
                 isPrimaryButtonEnabled = validationError == null,
@@ -142,6 +147,16 @@ fun BatchRenameContent(component: BatchRenameComponent) {
                         }
                     }
                 }
+            )
+
+            ResetDialog(
+                visible = showConfirmDialog,
+                onDismiss = { showConfirmDialog = false },
+                onReset = component::rename,
+                title = stringResource(R.string.confirm_rename_title),
+                text = stringResource(R.string.rename_cannot_undone),
+                icon = Icons.Outlined.FileRename,
+                dismissText = stringResource(R.string.rename)
             )
         },
         canShowScreenData = component.files.isNotEmpty()
