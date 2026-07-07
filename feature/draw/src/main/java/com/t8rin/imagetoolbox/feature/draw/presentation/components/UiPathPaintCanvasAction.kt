@@ -73,6 +73,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.transfo
 import com.t8rin.trickle.WarpBrush
 import com.t8rin.trickle.WarpEngine
 import com.t8rin.trickle.WarpMode
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -97,6 +98,8 @@ internal fun Canvas.UiPathPaintCanvasAction(
     onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
     spotHealCache: Map<Int, Bitmap>,
     onCacheSpotHealPathResult: (Int, Bitmap) -> Unit,
+    onCancel: (UiPathPaint) -> Unit,
+    scope: CoroutineScope
 ) = with(nativeCanvas) {
     val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle) = uiPathPaint
 
@@ -256,7 +259,16 @@ internal fun Canvas.UiPathPaintCanvasAction(
 
         LoadingDialog(
             visible = isLoading,
-            canCancel = false,
+            onCancelLoading = {
+                scope.launch {
+                    isLoading = false
+                    delay(400)
+                    onClearDrawPath()
+                    onCancel(uiPathPaint)
+                    onInvalidate()
+                }
+            },
+            canCancel = true,
             progress = { progress },
             loaderSize = 72.dp,
             additionalContent = {

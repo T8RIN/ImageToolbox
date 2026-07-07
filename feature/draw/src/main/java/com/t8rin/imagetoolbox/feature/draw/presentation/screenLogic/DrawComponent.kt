@@ -407,6 +407,12 @@ class DrawComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun removePath(pathPaint: UiPathPaint) {
+        _paths.update { it - pathPaint }
+        _spotHealCache.remove(pathPaint.hashCode())
+        registerChanges()
+    }
+
     fun cacheSpotHealPathResult(
         key: Int,
         bitmap: Bitmap

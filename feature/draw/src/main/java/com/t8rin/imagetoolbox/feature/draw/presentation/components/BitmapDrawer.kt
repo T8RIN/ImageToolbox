@@ -117,6 +117,7 @@ fun BitmapDrawer(
     showLineAngle: Boolean = false,
     spotHealCache: Map<Int, Bitmap> = emptyMap(),
     onCacheSpotHealPathResult: (Int, Bitmap) -> Unit = { _, _ -> },
+    onRemovePath: (UiPathPaint) -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
 
@@ -328,7 +329,9 @@ fun BitmapDrawer(
                             onRequestFiltering = onRequestFiltering,
                             spotHealCache = spotHealCache,
                             onCacheSpotHealPathResult = onCacheSpotHealPathResult,
-                            canvasSize = canvasSize
+                            onCancel = onRemovePath,
+                            canvasSize = canvasSize,
+                            scope = scope
                         )
                     }
 

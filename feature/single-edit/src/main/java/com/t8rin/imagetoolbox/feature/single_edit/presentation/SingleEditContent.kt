@@ -461,7 +461,8 @@ fun SingleEditContent(
         drawLineStyle = component.drawLineStyle,
         onUpdateDrawLineStyle = component::updateDrawLineStyle,
         helperGridParams = component.helperGridParams,
-        onUpdateHelperGridParams = component::updateHelperGridParams
+        onUpdateHelperGridParams = component::updateHelperGridParams,
+        onRemovePath = component::removePath
     )
 
     EraseBackgroundEditOption(

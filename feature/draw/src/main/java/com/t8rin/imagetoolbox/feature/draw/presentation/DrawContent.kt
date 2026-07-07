@@ -292,7 +292,8 @@ fun DrawContent(
                     helperGridParams = component.helperGridParams,
                     showLineAngle = showLineAngle,
                     spotHealCache = component.spotHealCache,
-                    onCacheSpotHealPathResult = component::cacheSpotHealPathResult
+                    onCacheSpotHealPathResult = component::cacheSpotHealPathResult,
+                    onRemovePath = component::removePath
                 )
             }
         },

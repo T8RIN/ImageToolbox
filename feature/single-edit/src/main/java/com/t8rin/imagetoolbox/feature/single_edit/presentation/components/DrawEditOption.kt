@@ -129,7 +129,8 @@ fun DrawEditOption(
     helperGridParams: HelperGridParams,
     onUpdateHelperGridParams: (HelperGridParams) -> Unit,
     addFiltersSheetComponent: AddFiltersSheetComponent,
-    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent
+    filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent,
+    onRemovePath: (UiPathPaint) -> Unit
 ) {
     bitmap?.let {
         var panEnabled by rememberSaveable { mutableStateOf(false) }
@@ -487,7 +488,8 @@ fun DrawEditOption(
                         helperGridParams = helperGridParams,
                         showLineAngle = showLineAngle,
                         spotHealCache = spotHealCache,
-                        onCacheSpotHealPathResult = onCacheSpotHealPathResult
+                        onCacheSpotHealPathResult = onCacheSpotHealPathResult,
+                        onRemovePath = onRemovePath
                     )
                 }
             }

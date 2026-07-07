@@ -842,6 +842,12 @@ class SingleEditComponent @AssistedInject internal constructor(
         _drawSpotHealCache[key] = bitmap
     }
 
+    fun removePath(pathPaint: UiPathPaint) {
+        _drawPaths.update { it - pathPaint }
+        _drawSpotHealCache.remove(pathPaint.hashCode())
+        registerChanges()
+    }
+
     fun clearErasing(canUndo: Boolean = false) {
         componentScope.launch {
             delay(250L)
