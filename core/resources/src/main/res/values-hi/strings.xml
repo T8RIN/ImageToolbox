@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">सुंदर गोलाकार यूआई तत्व</string>
     <string name="filename_format">फ़ाइल नाम प्रारूप</string>
     <string name="prefix_pattern_description">फ़ाइल नाम की शुरुआत में कस्टम टेक्स्ट रखा गया है, जो प्रोजेक्ट नाम, ब्रांड या व्यक्तिगत टैग के लिए बिल्कुल उपयुक्त है।</string>
-    <string name="original_filename_pattern_description">बिना एक्सटेंशन के मूल फ़ाइल नाम का उपयोग करता है, जिससे आपको स्रोत पहचान बरकरार रखने में मदद मिलती है।</string>
     <string name="width_pattern_description">पिक्सेल में छवि की चौड़ाई, रिज़ॉल्यूशन परिवर्तन या स्केलिंग परिणामों को ट्रैक करने के लिए उपयोगी है।</string>
     <string name="height_pattern_description">पिक्सेल में छवि की ऊंचाई, पहलू अनुपात या निर्यात के साथ काम करते समय सहायक होती है।</string>
     <string name="random_numbers_pattern_description">अद्वितीय फ़ाइल नामों की गारंटी के लिए यादृच्छिक अंक उत्पन्न करता है; डुप्लिकेट के विरुद्ध अतिरिक्त सुरक्षा के लिए अधिक अंक जोड़ें।</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">फ़ाइलों का नाम सफलतापूर्वक बदला गया</string>
     <string name="batch_rename_failed">कुछ फ़ाइलों का नाम नहीं बदला जा सका</string>
     <string name="permission_not_granted">अनुमति नहीं दी गई</string>
+    <string name="original_filename_pattern_description">बिना एक्सटेंशन के मूल फ़ाइल नाम का उपयोग करता है, जिससे आपको स्रोत पहचान बरकरार रखने में मदद मिलती है। \\o{start:end} सिंटैक्स (उदाहरण के लिए \\o{0:5}, \\o{-3:}, \\o{:2}) के साथ स्लाइसिंग का भी समर्थन करता है।</string>
 </resources>

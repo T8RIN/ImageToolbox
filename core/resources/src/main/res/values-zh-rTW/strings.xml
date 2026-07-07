@@ -2049,7 +2049,6 @@
     <string name="squircle_shapes_sub">優雅的圓形 UI 元素</string>
     <string name="filename_format">檔名格式</string>
     <string name="prefix_pattern_description">自定義文字放置在檔名的開頭，非常適合項目名稱、品牌或個人標籤。</string>
-    <string name="original_filename_pattern_description">使用不帶副檔名的原始檔名，幫助您保持源標識完整。</string>
     <string name="width_pattern_description">圖像寬度（以像素為單位），可用於跟蹤解析度變化或縮放結果。</string>
     <string name="height_pattern_description">圖像高度（以像素為單位），在處理寬高比或匯出時很有幫助。</string>
     <string name="random_numbers_pattern_description">生成隨機數字以保證唯一的檔名；添加更多數字以提高安全性，防止重複。</string>
@@ -3682,4 +3681,5 @@
     <string name="batch_rename_success">文件重命名成功</string>
     <string name="batch_rename_failed">某些檔案無法重新命名</string>
     <string name="permission_not_granted">未獲得許可</string>
+    <string name="original_filename_pattern_description">使用不含副檔名的原始檔名，幫助您保持來源標識完整。也支援使用 \\o{start:end} 語法進行切片（例如 \\o{0:5}、\\o{-3:}、\\o{:2}）。</string>
 </resources>

@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">Elementos de UI elegantes e arredondados</string>
     <string name="filename_format">Formato do nome do arquivo</string>
     <string name="prefix_pattern_description">Texto personalizado colocado logo no início do nome do arquivo, perfeito para nomes de projetos, marcas ou tags pessoais.</string>
-    <string name="original_filename_pattern_description">Usa o nome do arquivo original sem extensão, ajudando a manter intacta a identificação da fonte.</string>
     <string name="width_pattern_description">A largura da imagem em pixels, útil para rastrear alterações de resolução ou resultados de dimensionamento.</string>
     <string name="height_pattern_description">A altura da imagem em pixels, útil ao trabalhar com proporções ou exportações.</string>
     <string name="random_numbers_pattern_description">Gera dígitos aleatórios para garantir nomes de arquivos exclusivos; adicione mais dígitos para segurança extra contra duplicatas.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Arquivos renomeados com sucesso</string>
     <string name="batch_rename_failed">Alguns arquivos não puderam ser renomeados</string>
     <string name="permission_not_granted">A permissão não foi concedida</string>
+    <string name="original_filename_pattern_description">Usa o nome do arquivo original sem extensão, ajudando a manter intacta a identificação da fonte. Também suporta fatiamento com sintaxe \\o{start:end} (por exemplo, \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

@@ -2052,7 +2052,6 @@
     <string name="squircle_shapes_sub">Елегантни заобљени елементи корисничког интерфејса</string>
     <string name="filename_format">Формат имена датотеке</string>
     <string name="prefix_pattern_description">Прилагођени текст постављен на самом почетку назива датотеке, савршен за називе пројеката, брендове или личне ознаке.</string>
-    <string name="original_filename_pattern_description">Користи оригинално име датотеке без екстензије, помажући вам да идентификацију извора сачувате нетакнутом.</string>
     <string name="width_pattern_description">Ширина слике у пикселима, корисна за праћење промена резолуције или скалирања резултата.</string>
     <string name="height_pattern_description">Висина слике у пикселима, корисна када радите са пропорцијама или извозима.</string>
     <string name="random_numbers_pattern_description">Генерише насумичне цифре да гарантује јединствена имена датотека; додајте још цифара за додатну сигурност од дупликата.</string>
@@ -3685,4 +3684,5 @@
     <string name="batch_rename_success">Датотеке су успешно преименоване</string>
     <string name="batch_rename_failed">Неке датотеке се не могу преименовати</string>
     <string name="permission_not_granted">Дозвола није дата</string>
+    <string name="original_filename_pattern_description">Користи оригинално име датотеке без екстензије, помажући вам да идентификацију извора сачувате нетакнутом. Такође подржава сечење са \\о{старт:енд} синтаксом (нпр. \\о{0:5}, \\о{-3:}, \\о{:2}).</string>
 </resources>

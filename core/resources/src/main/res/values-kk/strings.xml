@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">Керемет дөңгелектенген UI элементтері</string>
     <string name="filename_format">Файл атауы пішімі</string>
     <string name="prefix_pattern_description">Жоба атаулары, брендтер немесе жеке тегтер үшін тамаша файл атауының ең басында орналастырылған теңшелетін мәтін.</string>
-    <string name="original_filename_pattern_description">Бастапқы файл атауын кеңейтусіз пайдаланады, бұл бастапқы идентификацияны сақтауыңызға көмектеседі.</string>
     <string name="width_pattern_description">Ажыратымдылық өзгерістерін немесе масштабтау нәтижелерін бақылау үшін пайдалы пиксельдегі кескін ені.</string>
     <string name="height_pattern_description">Пиксельдегі кескін биіктігі, пропорциялармен немесе экспорттармен жұмыс істегенде пайдалы.</string>
     <string name="random_numbers_pattern_description">Бірегей файл атауларына кепілдік беру үшін кездейсоқ сандарды жасайды; көшірмелерден қосымша қауіпсіздік үшін қосымша сандарды қосыңыз.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Файлдардың атауы сәтті өзгертілді</string>
     <string name="batch_rename_failed">Кейбір файлдардың атын өзгерту мүмкін болмады</string>
     <string name="permission_not_granted">Рұқсат берілмеді</string>
+    <string name="original_filename_pattern_description">Бастапқы файл атауын кеңейтусіз пайдаланады, бұл бастапқы идентификацияны сақтауыңызға көмектеседі. Сондай-ақ \\o{start:end} синтаксисі арқылы кесуді қолдайды (мысалы: \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

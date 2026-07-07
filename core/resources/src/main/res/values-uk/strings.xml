@@ -2052,7 +2052,6 @@
     <string name="squircle_shapes_sub">Елегантні округлі елементи інтерфейсу користувача</string>
     <string name="filename_format">Формат імені файлу</string>
     <string name="prefix_pattern_description">Спеціальний текст, розміщений на самому початку назви файлу, ідеально підходить для назв проектів, брендів або особистих тегів.</string>
-    <string name="original_filename_pattern_description">Використовує оригінальну назву файлу без розширення, що допомагає зберегти ідентифікацію джерела.</string>
     <string name="width_pattern_description">Ширина зображення в пікселях, корисна для відстеження змін роздільної здатності або масштабування результатів.</string>
     <string name="height_pattern_description">Висота зображення в пікселях, корисна під час роботи зі співвідношенням сторін або експорту.</string>
     <string name="random_numbers_pattern_description">Генерує випадкові цифри, щоб гарантувати унікальні імена файлів; додайте більше цифр для додаткового захисту від дублікатів.</string>
@@ -3685,4 +3684,5 @@
     <string name="batch_rename_success">Файли успішно перейменовано</string>
     <string name="batch_rename_failed">Деякі файли не вдалося перейменувати</string>
     <string name="permission_not_granted">Дозвіл не надано</string>
+    <string name="original_filename_pattern_description">Використовує оригінальну назву файлу без розширення, що допомагає зберегти ідентифікацію джерела. Також підтримує нарізку за допомогою синтаксису \\o{start:end} (наприклад, \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

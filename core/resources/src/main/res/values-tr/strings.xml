@@ -2051,7 +2051,6 @@
     <string name="squircle_shapes_sub">Zarif yuvarlak kullanıcı arayüzü öğeleri</string>
     <string name="filename_format">Dosya Adı Formatı</string>
     <string name="prefix_pattern_description">Dosya adının en başına yerleştirilen özel metin; proje adları, markalar veya kişisel etiketler için mükemmeldir.</string>
-    <string name="original_filename_pattern_description">Orijinal dosya adını uzantısız olarak kullanarak kaynak kimliğini olduğu gibi korumanıza yardımcı olur.</string>
     <string name="width_pattern_description">Çözünürlük değişikliklerini izlemek veya sonuçları ölçeklendirmek için yararlı olan piksel cinsinden görüntü genişliği.</string>
     <string name="height_pattern_description">Görüntünün piksel cinsinden yüksekliği, en boy oranlarıyla veya dışa aktarmalarla çalışırken faydalıdır.</string>
     <string name="random_numbers_pattern_description">Benzersiz dosya adlarını garanti etmek için rastgele rakamlar üretir; kopyalara karşı ekstra güvenlik için daha fazla rakam ekleyin.</string>
@@ -3684,4 +3683,5 @@
     <string name="batch_rename_success">Dosyalar başarıyla yeniden adlandırıldı</string>
     <string name="batch_rename_failed">Bazı dosyalar yeniden adlandırılamadı</string>
     <string name="permission_not_granted">İzin verilmedi</string>
+    <string name="original_filename_pattern_description">Orijinal dosya adını uzantısız olarak kullanarak kaynak kimliğini olduğu gibi korumanıza yardımcı olur. Ayrıca \\o{start:end} söz dizimi ile dilimlemeyi de destekler (ör. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">Elegantsed ümarad kasutajaliidese elemendid</string>
     <string name="filename_format">Failinime vorming</string>
     <string name="prefix_pattern_description">Kohandatud tekst, mis asetatakse failinime algusesse, sobib ideaalselt projektinimede, kaubamärkide või isiklike siltide jaoks.</string>
-    <string name="original_filename_pattern_description">Kasutab algset failinime ilma laiendita, mis aitab teil hoida allika identifitseerimist puutumata.</string>
     <string name="width_pattern_description">Pildi laius pikslites, kasulik eraldusvõime muutuste jälgimiseks või tulemuste skaleerimiseks.</string>
     <string name="height_pattern_description">Pildi kõrgus pikslites, abiks kuvasuhtega töötamisel või eksportimisel.</string>
     <string name="random_numbers_pattern_description">Genereerib juhuslikud numbrid, et tagada unikaalsed failinimed; lisage rohkem numbreid, et kaitsta end duplikaatide eest.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Failide ümbernimetamine õnnestus</string>
     <string name="batch_rename_failed">Mõnda faili ei saanud ümber nimetada</string>
     <string name="permission_not_granted">Luba ei antud</string>
+    <string name="original_filename_pattern_description">Kasutab algset failinime ilma laiendita, mis aitab teil hoida allika identifitseerimist puutumata. Toetab ka viilutamist süntaksiga \\o{start:end} (nt \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

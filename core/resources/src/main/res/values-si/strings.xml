@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">අලංකාර වටකුරු UI මූලද්‍රව්‍ය</string>
     <string name="filename_format">ගොනු නාමය ආකෘතිය</string>
     <string name="prefix_pattern_description">ව්‍යාපෘති නම්, වෙළඳ නාම, හෝ පුද්ගලික ටැග් සඳහා පරිපූර්ණ, ගොනු නාමයේ ආරම්භයේම තබා ඇති අභිරුචි පෙළ.</string>
-    <string name="original_filename_pattern_description">මුල් ගොනු නාමය දිගුවකින් තොරව භාවිත කරයි, මූලාශ්‍ර හඳුනාගැනීම නොවෙනස්ව තබා ගැනීමට ඔබට උදවු කරයි.</string>
     <string name="width_pattern_description">පික්සලවල රූපයේ පළල, විභේදන වෙනස්කම් හඹා යාමට හෝ ප්‍රතිඵල පරිමාණය කිරීමට ප්‍රයෝජනවත් වේ.</string>
     <string name="height_pattern_description">පික්සලවල රූපයේ උස, දර්ශන අනුපාත හෝ අපනයන සමඟ වැඩ කිරීමේදී උපකාරී වේ.</string>
     <string name="random_numbers_pattern_description">අද්විතීය ගොනු නාම සහතික කිරීම සඳහා අහඹු ඉලක්කම් ජනනය කරයි; අනුපිටපත් වලට එරෙහිව අමතර ආරක්ෂාවක් සඳහා තවත් ඉලක්කම් එකතු කරන්න.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">ගොනු සාර්ථකව නැවත නම් කරන ලදී</string>
     <string name="batch_rename_failed">සමහර ගොනු නැවත නම් කළ නොහැක</string>
     <string name="permission_not_granted">අවසර ලැබුණේ නැහැ</string>
+    <string name="original_filename_pattern_description">මුල් ගොනු නාමය දිගුවකින් තොරව භාවිත කරයි, මූලාශ්‍ර හඳුනාගැනීම නොවෙනස්ව තබා ගැනීමට ඔබට උදවු කරයි. එසේම \\o{start:end} සින්ටැක්ස් (උදා. \\o{0:5}, \\o{-3:}, \\o{:2}) සමඟ පෙති කැපීම සඳහා සහය දක්වයි.</string>
 </resources>

@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">UI elementu biribildu dotoreak</string>
     <string name="filename_format">Fitxategi-izenen formatua</string>
     <string name="prefix_pattern_description">Fitxategi-izenaren hasieran jarritako testu pertsonalizatua, ezin hobea proiektuen izenetarako, marketarako edo etiketa pertsonaletarako.</string>
-    <string name="original_filename_pattern_description">Jatorrizko fitxategi-izena luzapenik gabe erabiltzen du, iturriaren identifikazioa osorik mantentzen lagunduko dizu.</string>
     <string name="width_pattern_description">Irudiaren zabalera pixeletan, erabilgarria bereizmen-aldaketen jarraipena egiteko edo emaitzak eskalatzeko.</string>
     <string name="height_pattern_description">Irudiaren altuera pixeletan, lagungarria aspektu-erlazioekin edo esportazioekin lan egiteko.</string>
     <string name="random_numbers_pattern_description">Ausazko zifrak sortzen ditu fitxategi-izen bakarrak bermatzeko; Gehitu zifra gehiago bikoiztuen aurkako segurtasun gehigarrirako.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Fitxategiak ongi aldatu dira izena</string>
     <string name="batch_rename_failed">Fitxategi batzuei ezin izan zaie izena aldatu</string>
     <string name="permission_not_granted">Ez zen baimenik eman</string>
+    <string name="original_filename_pattern_description">Jatorrizko fitxategi-izena luzapenik gabe erabiltzen du, iturriaren identifikazioa osorik mantentzen lagunduko dizu. \\o{start:end} sintaxiarekin zatitzea ere onartzen du (adibidez, \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

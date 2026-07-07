@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">মার্জিত গোলাকার UI উপাদান</string>
     <string name="filename_format">ফাইলের নাম বিন্যাস</string>
     <string name="prefix_pattern_description">কাস্টম টেক্সট ফাইলের নামের একেবারে শুরুতে, প্রকল্পের নাম, ব্র্যান্ড বা ব্যক্তিগত ট্যাগের জন্য উপযুক্ত।</string>
-    <string name="original_filename_pattern_description">এক্সটেনশন ছাড়াই মূল ফাইলের নাম ব্যবহার করে, আপনাকে উৎস সনাক্তকরণ অক্ষত রাখতে সাহায্য করে।</string>
     <string name="width_pattern_description">ছবির প্রস্থ পিক্সেলে, রেজোলিউশন পরিবর্তন বা স্কেলিং ফলাফল ট্র্যাক করার জন্য দরকারী।</string>
     <string name="height_pattern_description">চিত্রের উচ্চতা পিক্সেলে, আকৃতির অনুপাত বা রপ্তানির সাথে কাজ করার সময় সহায়ক।</string>
     <string name="random_numbers_pattern_description">অনন্য ফাইলের নাম নিশ্চিত করতে র্যান্ডম সংখ্যা তৈরি করে; ডুপ্লিকেটের বিরুদ্ধে অতিরিক্ত নিরাপত্তার জন্য আরও সংখ্যা যোগ করুন।</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">ফাইলগুলি সফলভাবে পুনঃনামকরণ করা হয়েছে৷</string>
     <string name="batch_rename_failed">কিছু ফাইলের নাম পরিবর্তন করা যায়নি</string>
     <string name="permission_not_granted">অনুমতি দেওয়া হয়নি</string>
+    <string name="original_filename_pattern_description">এক্সটেনশন ছাড়াই মূল ফাইলের নাম ব্যবহার করে, আপনাকে উৎস সনাক্তকরণ অক্ষত রাখতে সাহায্য করে। এছাড়াও \\o{start:end} সিনট্যাক্সের সাথে স্লাইসিং সমর্থন করে (যেমন \\o{0:5}, \\o{-3:}, \\o{:2})।</string>
 </resources>

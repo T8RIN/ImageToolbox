@@ -2052,7 +2052,6 @@
     <string name="squircle_shapes_sub">Elemente elegante de UI rotunjite</string>
     <string name="filename_format">Format nume de fișier</string>
     <string name="prefix_pattern_description">Text personalizat plasat chiar la începutul numelui fișierului, perfect pentru numele proiectelor, mărci sau etichete personale.</string>
-    <string name="original_filename_pattern_description">Folosește numele fișierului original fără extensie, ajutându-vă să păstrați intactă identificarea sursei.</string>
     <string name="width_pattern_description">Lățimea imaginii în pixeli, utilă pentru urmărirea modificărilor rezoluției sau scalarea rezultatelor.</string>
     <string name="height_pattern_description">Înălțimea imaginii în pixeli, utilă atunci când lucrați cu raporturi de aspect sau exporturi.</string>
     <string name="random_numbers_pattern_description">Generează cifre aleatorii pentru a garanta nume de fișiere unice; adăugați mai multe cifre pentru mai multă siguranță împotriva duplicatelor.</string>
@@ -3685,4 +3684,5 @@
     <string name="batch_rename_success">Fișierele au fost redenumite cu succes</string>
     <string name="batch_rename_failed">Unele fișiere nu au putut fi redenumite</string>
     <string name="permission_not_granted">Permisiunea nu a fost acordată</string>
+    <string name="original_filename_pattern_description">Folosește numele fișierului original fără extensie, ajutându-vă să păstrați intactă identificarea sursei. De asemenea, acceptă tăierea cu sintaxa \\o{start:end} (de exemplu, \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

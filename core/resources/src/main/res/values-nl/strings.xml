@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">Elegante afgeronde UI-elementen</string>
     <string name="filename_format">Bestandsnaamformaat</string>
     <string name="prefix_pattern_description">Aangepaste tekst helemaal aan het begin van de bestandsnaam, perfect voor projectnamen, merken of persoonlijke tags.</string>
-    <string name="original_filename_pattern_description">Gebruikt de originele bestandsnaam zonder extensie, zodat u de bronidentificatie intact kunt houden.</string>
     <string name="width_pattern_description">De afbeeldingsbreedte in pixels, handig voor het volgen van resolutiewijzigingen of schaalresultaten.</string>
     <string name="height_pattern_description">De afbeeldingshoogte in pixels, handig bij het werken met beeldverhoudingen of exporten.</string>
     <string name="random_numbers_pattern_description">Genereert willekeurige cijfers om unieke bestandsnamen te garanderen; voeg meer cijfers toe voor extra veiligheid tegen duplicaten.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Bestanden zijn succesvol hernoemd</string>
     <string name="batch_rename_failed">Sommige bestanden konden niet worden hernoemd</string>
     <string name="permission_not_granted">Er werd geen toestemming verleend</string>
+    <string name="original_filename_pattern_description">Gebruikt de originele bestandsnaam zonder extensie, zodat u de bronidentificatie intact kunt houden. Ondersteunt ook segmenteren met de syntaxis \\o{start:end} (bijvoorbeeld \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

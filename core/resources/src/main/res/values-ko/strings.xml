@@ -2049,7 +2049,6 @@
     <string name="squircle_shapes_sub">우아한 둥근 UI 요소</string>
     <string name="filename_format">파일 이름 형식</string>
     <string name="prefix_pattern_description">파일 이름 맨 앞에 배치되는 사용자 정의 텍스트로 프로젝트 이름, 브랜드 또는 개인 태그에 적합합니다.</string>
-    <string name="original_filename_pattern_description">확장자 없이 원본 파일 이름을 사용하므로 소스 식별을 그대로 유지하는 데 도움이 됩니다.</string>
     <string name="width_pattern_description">해상도 변경을 추적하거나 결과를 조정하는 데 유용한 이미지 너비(픽셀)입니다.</string>
     <string name="height_pattern_description">픽셀 단위의 이미지 높이. 종횡비 작업이나 내보내기 작업 시 유용합니다.</string>
     <string name="random_numbers_pattern_description">고유한 파일 이름을 보장하기 위해 임의의 숫자를 생성합니다. 중복에 대한 추가 안전을 위해 더 많은 숫자를 추가하십시오.</string>
@@ -3682,4 +3681,5 @@
     <string name="batch_rename_success">파일 이름이 성공적으로 변경되었습니다.</string>
     <string name="batch_rename_failed">일부 파일의 이름을 바꿀 수 없습니다</string>
     <string name="permission_not_granted">권한이 부여되지 않았습니다.</string>
+    <string name="original_filename_pattern_description">확장자 없이 원본 파일 이름을 사용하므로 소스 식별을 그대로 유지하는 데 도움이 됩니다. \\o{start:end} 구문(예: \\o{0:5}, \\o{-3:}, \\o{:2})을 사용한 슬라이싱도 지원합니다.</string>
 </resources>

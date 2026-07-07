@@ -2051,7 +2051,6 @@
     <string name="squircle_shapes_sub">Elegáns, lekerekített felhasználói felület elemei</string>
     <string name="filename_format">Fájlnév formátum</string>
     <string name="prefix_pattern_description">A fájlnév legelején elhelyezett egyéni szöveg, tökéletes projektnevekhez, márkákhoz vagy személyes címkékhez.</string>
-    <string name="original_filename_pattern_description">Az eredeti fájlnevet használja kiterjesztés nélkül, így segít megőrizni a forrás azonosítását.</string>
     <string name="width_pattern_description">A kép szélessége pixelben, hasznos a felbontás változásainak követéséhez vagy az eredmények méretezéséhez.</string>
     <string name="height_pattern_description">A képmagasság pixelben, ami hasznos a képarányok vagy az exportálás során.</string>
     <string name="random_numbers_pattern_description">Véletlen számjegyeket generál az egyedi fájlnevek garantálása érdekében; adjon hozzá több számjegyet az ismétlődések elleni fokozott biztonság érdekében.</string>
@@ -3684,4 +3683,5 @@
     <string name="batch_rename_success">A fájlok átnevezése sikeres volt</string>
     <string name="batch_rename_failed">Egyes fájlokat nem lehetett átnevezni</string>
     <string name="permission_not_granted">Az engedélyt nem adták meg</string>
+    <string name="original_filename_pattern_description">Az eredeti fájlnevet használja kiterjesztés nélkül, így segít megőrizni a forrás azonosítását. Támogatja a \\o{start:end} szintaxisú szeletelést is (pl. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

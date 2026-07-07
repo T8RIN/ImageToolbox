@@ -2051,7 +2051,6 @@
     <string name="squircle_shapes_sub">Mga eleganteng bilugan na elemento ng UI</string>
     <string name="filename_format">Format ng Filename</string>
     <string name="prefix_pattern_description">Custom na text na inilagay sa pinakadulo simula ng filename, perpekto para sa mga pangalan ng proyekto, brand, o personal na tag.</string>
-    <string name="original_filename_pattern_description">Gumagamit ng orihinal na pangalan ng file nang walang extension, na tumutulong sa iyong panatilihing buo ang pagkakakilanlan ng pinagmulan.</string>
     <string name="width_pattern_description">Ang lapad ng imahe sa mga pixel, kapaki-pakinabang para sa pagsubaybay sa mga pagbabago sa resolution o pag-scale ng mga resulta.</string>
     <string name="height_pattern_description">Ang taas ng larawan sa mga pixel, nakakatulong kapag nagtatrabaho sa mga aspect ratio o pag-export.</string>
     <string name="random_numbers_pattern_description">Bumubuo ng mga random na digit upang magarantiya ang mga natatanging filename; magdagdag ng higit pang mga digit para sa karagdagang kaligtasan laban sa mga duplicate.</string>
@@ -3684,4 +3683,5 @@
     <string name="batch_rename_success">Matagumpay na napalitan ng pangalan ang mga file</string>
     <string name="batch_rename_failed">Hindi mapalitan ng pangalan ang ilang file</string>
     <string name="permission_not_granted">Hindi ibinigay ang pahintulot</string>
+    <string name="original_filename_pattern_description">Gumagamit ng orihinal na pangalan ng file nang walang extension, na tumutulong sa iyong panatilihing buo ang pagkakakilanlan ng pinagmulan. Sinusuportahan din ang paghiwa gamit ang \\o{start:end} syntax (hal. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

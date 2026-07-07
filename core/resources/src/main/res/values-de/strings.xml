@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">Elegante abgerundete UI-Elemente</string>
     <string name="filename_format">Dateinamenformat</string>
     <string name="prefix_pattern_description">Benutzerdefinierter Text wird ganz am Anfang des Dateinamens platziert, ideal für Projektnamen, Marken oder persönliche Tags.</string>
-    <string name="original_filename_pattern_description">Verwendet den ursprünglichen Dateinamen ohne Erweiterung, sodass die Quellenidentifizierung erhalten bleibt.</string>
     <string name="width_pattern_description">Die Bildbreite in Pixel, nützlich zum Verfolgen von Auflösungsänderungen oder zum Skalieren von Ergebnissen.</string>
     <string name="height_pattern_description">Die Bildhöhe in Pixel, hilfreich beim Arbeiten mit Seitenverhältnissen oder Exporten.</string>
     <string name="random_numbers_pattern_description">Erzeugt zufällige Ziffern, um eindeutige Dateinamen zu gewährleisten; Fügen Sie weitere Ziffern hinzu, um die Sicherheit vor Duplikaten zu erhöhen.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Dateien erfolgreich umbenannt</string>
     <string name="batch_rename_failed">Einige Dateien konnten nicht umbenannt werden</string>
     <string name="permission_not_granted">Die Erlaubnis wurde nicht erteilt</string>
+    <string name="original_filename_pattern_description">Verwendet den ursprünglichen Dateinamen ohne Erweiterung, sodass die Quellenidentifizierung erhalten bleibt. Unterstützt auch Slicing mit der \\o{start:end}-Syntax (z. B. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

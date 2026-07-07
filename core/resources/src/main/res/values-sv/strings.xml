@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">Eleganta rundade UI-element</string>
     <string name="filename_format">Filnamnsformat</string>
     <string name="prefix_pattern_description">Anpassad text placerad i början av filnamnet, perfekt för projektnamn, varumärken eller personliga taggar.</string>
-    <string name="original_filename_pattern_description">Använder det ursprungliga filnamnet utan förlängning, vilket hjälper dig att hålla källidentifieringen intakt.</string>
     <string name="width_pattern_description">Bildbredden i pixlar, användbar för att spåra upplösningsändringar eller skalningsresultat.</string>
     <string name="height_pattern_description">Bildhöjden i pixlar, användbart när du arbetar med bildförhållanden eller exporter.</string>
     <string name="random_numbers_pattern_description">Genererar slumpmässiga siffror för att garantera unika filnamn; lägg till fler siffror för extra säkerhet mot dubbletter.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Filer har bytt namn</string>
     <string name="batch_rename_failed">Vissa filer kunde inte döpas om</string>
     <string name="permission_not_granted">Tillstånd gavs inte</string>
+    <string name="original_filename_pattern_description">Använder det ursprungliga filnamnet utan förlängning, vilket hjälper dig att hålla källidentifieringen intakt. Stöder även skivning med \\o{start:slut}-syntax (t.ex. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

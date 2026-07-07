@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">Tyylikkäät pyöristetyt käyttöliittymäelementit</string>
     <string name="filename_format">Tiedostonimen muoto</string>
     <string name="prefix_pattern_description">Muokattu teksti sijoitetaan aivan tiedostonimen alkuun, täydellinen projektinimille, tuotemerkeille tai henkilökohtaisille tunnisteille.</string>
-    <string name="original_filename_pattern_description">Käyttää alkuperäistä tiedostonimeä ilman päätettä, mikä auttaa sinua pitämään lähteen tunnisteen ennallaan.</string>
     <string name="width_pattern_description">Kuvan leveys pikseleinä, hyödyllinen tarkkuuden muutosten seurannassa tai tulosten skaalaus.</string>
     <string name="height_pattern_description">Kuvan korkeus pikseleinä, hyödyllinen kuvasuhteita tai vientiä käytettäessä.</string>
     <string name="random_numbers_pattern_description">Luo satunnaisia ​​numeroita ainutlaatuisten tiedostonimien takaamiseksi; lisää numeroita lisäturvaaksesi kaksoiskappaleita vastaan.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Tiedostojen uudelleennimeäminen onnistui</string>
     <string name="batch_rename_failed">Joitakin tiedostoja ei voitu nimetä uudelleen</string>
     <string name="permission_not_granted">Lupaa ei myönnetty</string>
+    <string name="original_filename_pattern_description">Käyttää alkuperäistä tiedostonimeä ilman päätettä, mikä auttaa sinua pitämään lähteen tunnisteen ennallaan. Tukee myös viipalointia \\o{aloitus:end}-syntaksilla (esim. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

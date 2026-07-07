@@ -2049,7 +2049,6 @@
     <string name="squircle_shapes_sub">องค์ประกอบ UI แบบโค้งมนที่หรูหรา</string>
     <string name="filename_format">รูปแบบชื่อไฟล์</string>
     <string name="prefix_pattern_description">ข้อความแบบกำหนดเองวางไว้ที่จุดเริ่มต้นของชื่อไฟล์ เหมาะสำหรับชื่อโปรเจ็กต์ แบรนด์ หรือแท็กส่วนตัว</string>
-    <string name="original_filename_pattern_description">ใช้ชื่อไฟล์ต้นฉบับโดยไม่มีนามสกุล ช่วยให้การระบุแหล่งที่มาไม่เสียหาย</string>
     <string name="width_pattern_description">ความกว้างของภาพเป็นพิกเซล มีประโยชน์สำหรับการติดตามการเปลี่ยนแปลงความละเอียดหรือการปรับขนาดผลลัพธ์</string>
     <string name="height_pattern_description">ความสูงของรูปภาพเป็นพิกเซล ซึ่งมีประโยชน์เมื่อทำงานกับอัตราส่วนภาพหรือการส่งออก</string>
     <string name="random_numbers_pattern_description">สร้างตัวเลขสุ่มเพื่อรับประกันชื่อไฟล์ที่ไม่ซ้ำใคร เพิ่มตัวเลขเพิ่มเติมเพื่อความปลอดภัยเป็นพิเศษจากการซ้ำซ้อน</string>
@@ -3682,4 +3681,5 @@
     <string name="batch_rename_success">เปลี่ยนชื่อไฟล์สำเร็จแล้ว</string>
     <string name="batch_rename_failed">ไม่สามารถเปลี่ยนชื่อไฟล์บางไฟล์ได้</string>
     <string name="permission_not_granted">ไม่ได้รับอนุญาต</string>
+    <string name="original_filename_pattern_description">ใช้ชื่อไฟล์ต้นฉบับโดยไม่มีนามสกุล ช่วยให้การระบุแหล่งที่มาไม่เสียหาย นอกจากนี้ยังรองรับการแบ่งส่วนด้วยไวยากรณ์ \\o{start:end} (เช่น \\o{0:5}, \\o{-3:}, \\o{:2})</string>
 </resources>

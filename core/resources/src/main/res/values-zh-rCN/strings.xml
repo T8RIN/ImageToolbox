@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">雅致的圆角UI元素</string>
     <string name="filename_format">文件名格式</string>
     <string name="prefix_pattern_description">自定义文本放置在文件名的开头，非常适合项目名称、品牌或个人标签。</string>
-    <string name="original_filename_pattern_description">使用不带扩展名的原始文件名，帮助您保持源标识完整。</string>
     <string name="width_pattern_description">图像宽度（以像素为单位），可用于跟踪分辨率变化或缩放结果。</string>
     <string name="height_pattern_description">图像高度（以像素为单位），在处理宽高比或导出时很有帮助。</string>
     <string name="random_numbers_pattern_description">生成随机数字以保证唯一的文件名；添加更多数字以提高安全性，防止重复。</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">文件重命名成功</string>
     <string name="batch_rename_failed">某些文件无法重命名</string>
     <string name="permission_not_granted">未获得许可</string>
+    <string name="original_filename_pattern_description">使用不带扩展名的原始文件名，帮助您保持源标识完整。还支持使用 \\o{start:end} 语法进行切片（例如 \\o{0:5}、\\o{-3:}、\\o{:2}）。</string>
 </resources>

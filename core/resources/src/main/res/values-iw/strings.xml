@@ -2053,7 +2053,6 @@
     <string name="squircle_shapes_sub">רכיבי ממשק משתמש מעוגלים ואלגנטיים</string>
     <string name="filename_format">פורמט שם קובץ</string>
     <string name="prefix_pattern_description">טקסט מותאם אישית ממוקם ממש בתחילת שם הקובץ, מושלם עבור שמות פרויקטים, מותגים או תגים אישיים.</string>
-    <string name="original_filename_pattern_description">משתמש בשם הקובץ המקורי ללא סיומת, ועוזר לך לשמור על זיהוי המקור ללא פגע.</string>
     <string name="width_pattern_description">רוחב התמונה בפיקסלים, שימושי למעקב אחר שינויים ברזולוציה או שינוי קנה מידה של תוצאות.</string>
     <string name="height_pattern_description">גובה התמונה בפיקסלים, מועיל בעבודה עם יחסי גובה-רוחב או ייצוא.</string>
     <string name="random_numbers_pattern_description">יוצר ספרות אקראיות כדי להבטיח שמות קבצים ייחודיים; הוסף ספרות נוספות לבטיחות נוספת מפני כפילויות.</string>
@@ -3686,4 +3685,5 @@
     <string name="batch_rename_success">שמות הקבצים שונו בהצלחה</string>
     <string name="batch_rename_failed">לא ניתן היה לשנות את שמם של חלק מהקבצים</string>
     <string name="permission_not_granted">הרשות לא ניתנה</string>
+    <string name="original_filename_pattern_description">משתמש בשם הקובץ המקורי ללא סיומת, ועוזר לך לשמור על זיהוי המקור ללא פגע. תומך גם בחיתוך עם תחביר \\o{start:end} (למשל \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

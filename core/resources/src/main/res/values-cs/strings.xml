@@ -2052,7 +2052,6 @@
     <string name="squircle_shapes_sub">Elegantní zaoblené prvky uživatelského rozhraní</string>
     <string name="filename_format">Formát názvu souboru</string>
     <string name="prefix_pattern_description">Vlastní text umístěný na samém začátku názvu souboru, ideální pro názvy projektů, značky nebo osobní značky.</string>
-    <string name="original_filename_pattern_description">Používá původní název souboru bez přípony, což vám pomáhá zachovat identifikaci zdroje nedotčenou.</string>
     <string name="width_pattern_description">Šířka obrázku v pixelech, užitečné pro sledování změn rozlišení nebo změny měřítka výsledků.</string>
     <string name="height_pattern_description">Výška obrázku v pixelech, užitečná při práci s poměry stran nebo exportu.</string>
     <string name="random_numbers_pattern_description">Generuje náhodné číslice pro zaručení jedinečných názvů souborů; přidejte další číslice pro větší bezpečnost proti duplikátům.</string>
@@ -3685,4 +3684,5 @@
     <string name="batch_rename_success">Soubory byly úspěšně přejmenovány</string>
     <string name="batch_rename_failed">Některé soubory se nepodařilo přejmenovat</string>
     <string name="permission_not_granted">Povolení nebylo uděleno</string>
+    <string name="original_filename_pattern_description">Používá původní název souboru bez přípony, což vám pomáhá zachovat identifikaci zdroje nedotčenou. Podporuje také dělení se syntaxí \\o{start:end} (např. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

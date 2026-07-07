@@ -2049,7 +2049,6 @@
     <string name="squircle_shapes_sub">エレガントな丸みを帯びた UI 要素</string>
     <string name="filename_format">ファイル名の形式</string>
     <string name="prefix_pattern_description">ファイル名の先頭に配置されるカスタム テキスト。プロジェクト名、ブランド、個人タグに最適です。</string>
-    <string name="original_filename_pattern_description">拡張子なしの元のファイル名を使用するため、ソースの識別をそのまま維持できます。</string>
     <string name="width_pattern_description">ピクセル単位の画像幅。解像度の変更の追跡や結果のスケーリングに役立ちます。</string>
     <string name="height_pattern_description">画像の高さ (ピクセル単位)。アスペクト比やエクスポートを操作するときに役立ちます。</string>
     <string name="random_numbers_pattern_description">ランダムな数字を生成して、一意のファイル名を保証します。重複に対する安全性を高めるために、さらに桁を追加します。</string>
@@ -3682,4 +3681,5 @@
     <string name="batch_rename_success">ファイルの名前が正常に変更されました</string>
     <string name="batch_rename_failed">一部のファイルの名前を変更できませんでした</string>
     <string name="permission_not_granted">許可が与えられませんでした</string>
+    <string name="original_filename_pattern_description">拡張子なしの元のファイル名を使用するため、ソースの識別をそのまま維持できます。 \\o{start:end} 構文によるスライスもサポートしています (例: \\o{0:5}、\\o{-3:}、\\o{:2})。</string>
 </resources>

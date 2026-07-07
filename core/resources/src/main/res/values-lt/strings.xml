@@ -2052,7 +2052,6 @@
     <string name="squircle_shapes_sub">Elegantiški suapvalinti vartotojo sąsajos elementai</string>
     <string name="filename_format">Failo vardo formatas</string>
     <string name="prefix_pattern_description">Pasirinktinis tekstas, patalpintas pačioje failo pavadinimo pradžioje, puikiai tinka projektų pavadinimams, prekių ženklams ar asmeninėms žymoms.</string>
-    <string name="original_filename_pattern_description">Naudoja originalų failo pavadinimą be plėtinio, padedantį išlaikyti šaltinio identifikavimo duomenis.</string>
     <string name="width_pattern_description">Vaizdo plotis pikseliais, naudingas stebint skiriamosios gebos pokyčius arba keičiant mastelio rezultatus.</string>
     <string name="height_pattern_description">Vaizdo aukštis pikseliais, naudinga dirbant su formato koeficientu arba eksportuojant.</string>
     <string name="random_numbers_pattern_description">Generuoja atsitiktinius skaitmenis, kad garantuotų unikalius failų pavadinimus; pridėkite daugiau skaitmenų, kad išvengtumėte dublikatų.</string>
@@ -3685,4 +3684,5 @@
     <string name="batch_rename_success">Failai sėkmingai pervardyti</string>
     <string name="batch_rename_failed">Kai kurių failų pervardyti nepavyko</string>
     <string name="permission_not_granted">Leidimas nebuvo suteiktas</string>
+    <string name="original_filename_pattern_description">Naudoja originalų failo pavadinimą be plėtinio, padedantį išlaikyti šaltinio identifikavimo duomenis. Taip pat palaikomas pjaustymas naudojant \\o{start:end} sintaksę (pvz., \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

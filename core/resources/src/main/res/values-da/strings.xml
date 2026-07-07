@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">Elegante afrundede UI-elementer</string>
     <string name="filename_format">Filnavn format</string>
     <string name="prefix_pattern_description">Brugerdefineret tekst placeret helt i begyndelsen af ​​filnavnet, perfekt til projektnavne, mærker eller personlige tags.</string>
-    <string name="original_filename_pattern_description">Bruger det originale filnavn uden filtypenavn, hvilket hjælper dig med at holde kildeidentifikationen intakt.</string>
     <string name="width_pattern_description">Billedbredden i pixels, nyttig til sporing af opløsningsændringer eller skalering af resultater.</string>
     <string name="height_pattern_description">Billedhøjden i pixels, nyttigt, når du arbejder med billedformater eller eksporter.</string>
     <string name="random_numbers_pattern_description">Genererer tilfældige cifre for at garantere unikke filnavne; tilføje flere cifre for ekstra sikkerhed mod dubletter.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">Filer blev omdøbt</string>
     <string name="batch_rename_failed">Nogle filer kunne ikke omdøbes</string>
     <string name="permission_not_granted">Tilladelse blev ikke givet</string>
+    <string name="original_filename_pattern_description">Bruger det originale filnavn uden filtypenavn, hvilket hjælper dig med at holde kildeidentifikationen intakt. Understøtter også udskæring med \\o{start:slut}-syntaks (f.eks. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

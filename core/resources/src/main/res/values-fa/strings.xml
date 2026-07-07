@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">عناصر رابط کاربری گرد و زیبا</string>
     <string name="filename_format">فرمت نام فایل</string>
     <string name="prefix_pattern_description">متن سفارشی قرار داده شده در همان ابتدای نام فایل، مناسب برای نام پروژه، مارک ها، یا برچسب های شخصی.</string>
-    <string name="original_filename_pattern_description">از نام فایل اصلی بدون پسوند استفاده می کند و به شما کمک می کند تا شناسایی منبع را دست نخورده نگه دارید.</string>
     <string name="width_pattern_description">عرض تصویر بر حسب پیکسل، برای ردیابی تغییرات وضوح یا مقیاس بندی نتایج مفید است.</string>
     <string name="height_pattern_description">ارتفاع تصویر بر حسب پیکسل، هنگام کار با نسبت ابعاد یا صادرات مفید است.</string>
     <string name="random_numbers_pattern_description">ارقام تصادفی را برای تضمین نام فایل های منحصر به فرد تولید می کند. برای ایمنی بیشتر در برابر موارد تکراری، ارقام بیشتری اضافه کنید.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">فایل ها با موفقیت تغییر نام دادند</string>
     <string name="batch_rename_failed">برخی از فایل ها را نمی توان تغییر نام داد</string>
     <string name="permission_not_granted">اجازه داده نشد</string>
+    <string name="original_filename_pattern_description">از نام فایل اصلی بدون پسوند استفاده می کند و به شما کمک می کند تا شناسایی منبع را دست نخورده نگه دارید. همچنین از برش با نحو \\o{start:end} (به عنوان مثال \\o{0:5}، \\o{-3:}، \\o{:2}) پشتیبانی می‌کند.</string>
 </resources>

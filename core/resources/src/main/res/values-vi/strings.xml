@@ -2049,7 +2049,6 @@
     <string name="squircle_shapes_sub">Các thành phần UI được bo tròn trang nhã</string>
     <string name="filename_format">Định dạng tên tệp</string>
     <string name="prefix_pattern_description">Văn bản tùy chỉnh được đặt ở đầu tên tệp, hoàn hảo cho tên dự án, nhãn hiệu hoặc thẻ cá nhân.</string>
-    <string name="original_filename_pattern_description">Sử dụng tên tệp gốc không có phần mở rộng, giúp bạn giữ nguyên nhận dạng nguồn.</string>
     <string name="width_pattern_description">Chiều rộng hình ảnh tính bằng pixel, hữu ích để theo dõi các thay đổi về độ phân giải hoặc kết quả chia tỷ lệ.</string>
     <string name="height_pattern_description">Chiều cao hình ảnh tính bằng pixel, hữu ích khi làm việc với tỷ lệ khung hình hoặc xuất.</string>
     <string name="random_numbers_pattern_description">Tạo các chữ số ngẫu nhiên để đảm bảo tên tệp duy nhất; thêm nhiều chữ số để tăng cường an toàn chống lại sự trùng lặp.</string>
@@ -3682,4 +3681,5 @@
     <string name="batch_rename_success">Đã đổi tên tập tin thành công</string>
     <string name="batch_rename_failed">Không thể đổi tên một số tệp</string>
     <string name="permission_not_granted">Quyền không được cấp</string>
+    <string name="original_filename_pattern_description">Sử dụng tên tệp gốc không có phần mở rộng, giúp bạn giữ nguyên nhận dạng nguồn. Cũng hỗ trợ cắt bằng cú pháp \\o{start:end} (ví dụ \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

@@ -2055,7 +2055,6 @@
     <string name="squircle_shapes_sub">عناصر واجهة المستخدم مدورة أنيقة</string>
     <string name="filename_format">تنسيق اسم الملف</string>
     <string name="prefix_pattern_description">نص مخصّص يتم وضعه في بداية اسم الملف، وهو مثالي لأسماء المشاريع أو العلامات التجارية أو العلامات الشخصية.</string>
-    <string name="original_filename_pattern_description">يستخدم اسم الملف الأصلي بدون امتداد، مما يساعدك على الحفاظ على تعريف المصدر سليمًا.</string>
     <string name="width_pattern_description">عرض الصورة بالبكسل، مفيد لتتبع تغييرات الدقة أو قياس النتائج.</string>
     <string name="height_pattern_description">ارتفاع الصورة بالبكسل، وهو أمر مفيد عند التعامل مع نسب العرض إلى الارتفاع أو عمليات التصدير.</string>
     <string name="random_numbers_pattern_description">يولّد أرقام عشوائية لضمان أسماء ملفات فريدة من نوعها؛ أضف المزيد من الأرقام لمزيد من الأمان ضد التكرارات.</string>
@@ -3688,4 +3687,5 @@
     <string name="batch_rename_success">تمت إعادة تسمية الملفات بنجاح</string>
     <string name="batch_rename_failed">لا يمكن إعادة تسمية بعض الملفات</string>
     <string name="permission_not_granted">لم يتم منح الإذن</string>
+    <string name="original_filename_pattern_description">يستخدم اسم الملف الأصلي بدون امتداد، مما يساعدك على الحفاظ على تعريف المصدر سليمًا. يدعم أيضًا التقطيع باستخدام بناء جملة \\o{start:end} (على سبيل المثال \\o{0:5}، \\o{-3:}، \\o{:2}).</string>
 </resources>

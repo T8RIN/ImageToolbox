@@ -2051,7 +2051,6 @@
     <string name="squircle_shapes_sub">సొగసైన గుండ్రని UI మూలకాలు</string>
     <string name="filename_format">ఫైల్ పేరు ఫార్మాట్</string>
     <string name="prefix_pattern_description">ప్రాజెక్ట్ పేర్లు, బ్రాండ్‌లు లేదా వ్యక్తిగత ట్యాగ్‌ల కోసం అనుకూలమైన వచనం ఫైల్ పేరు ప్రారంభంలోనే ఉంచబడుతుంది.</string>
-    <string name="original_filename_pattern_description">పొడిగింపు లేకుండా అసలు ఫైల్ పేరును ఉపయోగిస్తుంది, సోర్స్ గుర్తింపును అలాగే ఉంచడంలో మీకు సహాయపడుతుంది.</string>
     <string name="width_pattern_description">పిక్సెల్‌లలో ఇమేజ్ వెడల్పు, రిజల్యూషన్ మార్పులు లేదా స్కేలింగ్ ఫలితాలను ట్రాక్ చేయడానికి ఉపయోగపడుతుంది.</string>
     <string name="height_pattern_description">పిక్సెల్‌లలో ఇమేజ్ ఎత్తు, కారక నిష్పత్తులు లేదా ఎగుమతులతో పని చేస్తున్నప్పుడు సహాయకరంగా ఉంటుంది.</string>
     <string name="random_numbers_pattern_description">ప్రత్యేకమైన ఫైల్ పేర్లకు హామీ ఇవ్వడానికి యాదృచ్ఛిక అంకెలను రూపొందిస్తుంది; నకిలీలకు వ్యతిరేకంగా అదనపు భద్రత కోసం మరిన్ని అంకెలను జోడించండి.</string>
@@ -3684,4 +3683,5 @@
     <string name="batch_rename_success">ఫైల్‌లు విజయవంతంగా పేరు మార్చబడ్డాయి</string>
     <string name="batch_rename_failed">కొన్ని ఫైల్‌ల పేరు మార్చడం సాధ్యపడలేదు</string>
     <string name="permission_not_granted">అనుమతి లభించలేదు</string>
+    <string name="original_filename_pattern_description">పొడిగింపు లేకుండా అసలు ఫైల్ పేరును ఉపయోగిస్తుంది, సోర్స్ గుర్తింపును అలాగే ఉంచడంలో మీకు సహాయపడుతుంది. \\o{start:end} సింటాక్స్ (ఉదా. \\o{0:5}, \\o{-3:}, \\o{:2})తో స్లైసింగ్‌కు కూడా మద్దతు ఇస్తుంది.</string>
 </resources>

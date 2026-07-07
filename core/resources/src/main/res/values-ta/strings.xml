@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">நேர்த்தியான வட்டமான UI கூறுகள்</string>
     <string name="filename_format">கோப்பு பெயர் வடிவம்</string>
     <string name="prefix_pattern_description">திட்டப் பெயர்கள், பிராண்டுகள் அல்லது தனிப்பட்ட குறிச்சொற்களுக்கு ஏற்றவாறு, கோப்பின் பெயரின் தொடக்கத்திலேயே தனிப்பயன் உரை வைக்கப்பட்டுள்ளது.</string>
-    <string name="original_filename_pattern_description">அசல் கோப்பு பெயரை நீட்டிப்பு இல்லாமல் பயன்படுத்துகிறது, இது மூல அடையாளத்தை அப்படியே வைத்திருக்க உதவுகிறது.</string>
     <string name="width_pattern_description">பிக்சல்களில் உள்ள படத்தின் அகலம், தெளிவுத்திறன் மாற்றங்கள் அல்லது அளவிடுதல் முடிவுகளைக் கண்காணிக்கப் பயன்படுகிறது.</string>
     <string name="height_pattern_description">பிக்சல்களில் உள்ள படத்தின் உயரம், விகிதங்கள் அல்லது ஏற்றுமதிகளுடன் பணிபுரியும் போது உதவியாக இருக்கும்.</string>
     <string name="random_numbers_pattern_description">தனிப்பட்ட கோப்புப் பெயர்களுக்கு உத்தரவாதம் அளிக்க சீரற்ற இலக்கங்களை உருவாக்குகிறது; நகல்களுக்கு எதிராக கூடுதல் பாதுகாப்பிற்காக அதிக இலக்கங்களைச் சேர்க்கவும்.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">கோப்புகள் வெற்றிகரமாக மறுபெயரிடப்பட்டன</string>
     <string name="batch_rename_failed">சில கோப்புகளை மறுபெயரிட முடியவில்லை</string>
     <string name="permission_not_granted">அனுமதி வழங்கப்படவில்லை</string>
+    <string name="original_filename_pattern_description">அசல் கோப்பு பெயரை நீட்டிப்பு இல்லாமல் பயன்படுத்துகிறது, இது மூல அடையாளத்தை அப்படியே வைத்திருக்க உதவுகிறது. \\o{start:end} தொடரியல் (எ.கா. \\o{0:5}, \\o{-3:}, \\o{:2}) உடன் வெட்டுவதையும் ஆதரிக்கிறது.</string>
 </resources>

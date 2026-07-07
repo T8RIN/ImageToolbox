@@ -2052,7 +2052,6 @@
     <string name="squircle_shapes_sub">Eleganckie zaokrąglone elementy interfejsu użytkownika</string>
     <string name="filename_format">Format nazwy pliku</string>
     <string name="prefix_pattern_description">Niestandardowy tekst umieszczany na samym początku nazwy pliku, idealny do nazw projektów, marek lub osobistych tagów.</string>
-    <string name="original_filename_pattern_description">Używa oryginalnej nazwy pliku bez rozszerzenia, pomagając zachować nienaruszoną identyfikację źródła.</string>
     <string name="width_pattern_description">Szerokość obrazu w pikselach, przydatna do śledzenia zmian rozdzielczości lub wyników skalowania.</string>
     <string name="height_pattern_description">Wysokość obrazu w pikselach, pomocna podczas pracy ze współczynnikami proporcji lub eksportami.</string>
     <string name="random_numbers_pattern_description">Generuje losowe cyfry, aby zagwarantować unikalne nazwy plików; dodaj więcej cyfr, aby zapewnić dodatkowe bezpieczeństwo przed duplikatami.</string>
@@ -3685,4 +3684,5 @@
     <string name="batch_rename_success">Pomyślnie zmieniono nazwy plików</string>
     <string name="batch_rename_failed">Nie udało się zmienić nazwy niektórych plików</string>
     <string name="permission_not_granted">Pozwolenie nie zostało wydane</string>
+    <string name="original_filename_pattern_description">Używa oryginalnej nazwy pliku bez rozszerzenia, pomagając zachować nienaruszoną identyfikację źródła. Obsługuje również cięcie ze składnią \\o{start:end} (np. \\o{0:5}, \\o{-3:}, \\o{:2}).</string>
 </resources>

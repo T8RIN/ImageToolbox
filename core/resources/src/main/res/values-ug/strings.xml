@@ -2050,7 +2050,6 @@
     <string name="squircle_shapes_sub">نەپىس يۇمىلاق UI ئېلېمېنتلىرى</string>
     <string name="filename_format">ھۆججەت ئىسمى فورماتى</string>
     <string name="prefix_pattern_description">ھۆججەت نامىنىڭ بېشىدا قويۇلغان ئىختىيارى تېكىست ، تۈر ئىسمى ، ماركا ياكى شەخسىي خەتكۈچلەرگە ماس كېلىدۇ.</string>
-    <string name="original_filename_pattern_description">ئەسلى ھۆججەت نامىنى كېڭەيتمەي ئىشلىتىڭ ، مەنبە پەرقلەندۈرۈشنى ساقلىشىڭىزغا ياردەم بېرىدۇ.</string>
     <string name="width_pattern_description">پىكسېلدىكى رەسىم كەڭلىكى ، ئېنىقلىق دەرىجىسىنى ئۆزگەرتىش ياكى ئۆلچەش نەتىجىسىنى ئىز قوغلاشقا پايدىلىق.</string>
     <string name="height_pattern_description">رەسىمنىڭ ئېگىزلىكى پېكسىل بولۇپ ، تەرەپ نىسبىتى ياكى ئېكسپورتى بىلەن ئىشلىگەندە پايدىلىق.</string>
     <string name="random_numbers_pattern_description">ئۆزگىچە ھۆججەت نامىغا كاپالەتلىك قىلىش ئۈچۈن ئىختىيارى سان ھاسىل قىلىدۇ. كۆپەيتىلگەنگە قارشى قوشۇمچە بىخەتەرلىك ئۈچۈن تېخىمۇ كۆپ رەقەم قوشۇڭ.</string>
@@ -3683,4 +3682,5 @@
     <string name="batch_rename_success">ھۆججەتلەر مۇۋەپپەقىيەتلىك ئۆزگەرتىلدى</string>
     <string name="batch_rename_failed">بەزى ھۆججەتلەرنىڭ ئىسمىنى ئۆزگەرتەلمىدى</string>
     <string name="permission_not_granted">ئىجازەت بېرىلمىگەن</string>
+    <string name="original_filename_pattern_description">ئەسلى ھۆججەت نامىنى كېڭەيتمەيلا ئىشلىتىڭ ، مەنبە پەرقلەندۈرۈشنى ساقلىشىڭىزغا ياردەم بېرىدۇ. \\ o {باشلاش: end} گرامماتىكىسى (مەسىلەن \\ o {0: 5} ، \\ o {-3:}, \\ o {: 2}) بىلەن كېسىشنى قوللايدۇ.</string>
 </resources>
