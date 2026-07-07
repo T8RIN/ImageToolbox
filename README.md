@@ -998,6 +998,7 @@ or click one of the badges below.
     - Embedded media picker
     - Wallpapers Export
     - Ascii Art
+    - Batch rename by pattern
 
 **And More!**
 
