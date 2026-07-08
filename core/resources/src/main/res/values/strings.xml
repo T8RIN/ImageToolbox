@@ -3717,4 +3717,6 @@
     <string name="markup_layers_side_menu_settings">Side menu settings</string>
     <string name="markup_layers_side_menu_scale">Menu scale</string>
     <string name="markup_layers_side_menu_alpha">Menu alpha</string>
+    <string name="auto_white_balance">Auto White Balance</string>
+    <string name="clipping">Clipping</string>
 </resources>

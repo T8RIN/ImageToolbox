@@ -393,13 +393,13 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface Chrome : PairFloatFilter
     interface Dissolve : PairFloatFilter
     interface Feedback : QuadFloatFilter
-    interface InvertAlpha : SimpleFilter
     interface LensBlur : QuadFloatFilter
     interface Levels : QuadFloatFilter
     interface LightEffects : PairFloatFilter
     interface Rays : TripleFloatFilter
     interface Ripple : QuadFloatFilter
     interface AdaptiveBlur : PairFloatFilter
+    interface AutoWhiteBalance : PairFloatFilter
 }
 
 interface SimpleFilter : Filter<Unit>
