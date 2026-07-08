@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -64,7 +62,7 @@
     <string name="clear_exif_sub">سيتم مسح جميع البيانات الوصفية للصورة. لا يمكن التراجع عن هذا الإجراء!</string>
     <string name="presets">الإعدادات المسبقة</string>
     <string name="crop">اقتصاص</string>
-    <string name="image_not_saved">يحفظ…</string>
+    <string name="image_not_saved">الحفظ</string>
     <string name="image_not_saved_sub">ستفقد جميع التغييرات غير المحفوظة، إذا غادرت الآن.</string>
     <string name="check_source_code">شفرة المصدر</string>
     <string name="check_source_code_sub">احصل على آخر التحديثات وتناقش عن البرنامج من أعطال ومما يتعلق به</string>
