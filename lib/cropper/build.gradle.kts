@@ -23,6 +23,8 @@ plugins {
 android.namespace = "com.t8rin.cropper"
 
 dependencies {
+    implementation(libs.coil)
+    implementation(libs.toolbox.exif)
     implementation(projects.lib.gesture)
     implementation(projects.core.resources)
 }

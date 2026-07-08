@@ -76,6 +76,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
+import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
@@ -88,6 +89,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 class SingleEditComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -207,6 +209,15 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo: ImageInfo by _imageInfo
 
+    val currentImageUri: Uri?
+        get() = currentImageUriString()?.toUri()
+
+    val currentImageSize: IntegerSize
+        get() = IntegerSize(
+            width = imageInfo.width,
+            height = imageInfo.height
+        )
+
     private var currentCachedBitmapUri: String? = null
 
     private val _showWarning: MutableState<Boolean> = mutableStateOf(false)
@@ -283,7 +294,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         finalizePendingHistoryTransaction()
         savingJob = trackProgress {
             _isSaving.update { true }
-            bitmap?.let { bitmap ->
+            getCurrentImageForExport()?.let { image ->
                 parseSaveResult(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
@@ -292,7 +303,7 @@ class SingleEditComponent @AssistedInject internal constructor(
                             originalUri = uri.toString(),
                             sequenceNumber = null,
                             data = imageCompressor.compressAndTransform(
-                                image = bitmap,
+                                image = image,
                                 imageInfo = imageInfo.copy(
                                     originalUri = uri.toString()
                                 )
@@ -399,6 +410,36 @@ class SingleEditComponent @AssistedInject internal constructor(
                         height = bitmap?.height ?: 0
                     )
                 }
+            }
+            debouncedImageCalculation {
+                checkBitmapAndUpdate(
+                    resetPreset = true
+                )
+            }
+            commitHistoryFrom(beforeSnapshot)
+        }
+    }
+
+    fun updateImageUriAfterEditing(uri: Uri) {
+        componentScope.launch {
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
+            val imageSize = uri.imageSize()
+            val preview = loadImagePreview(uri)
+
+            currentCachedBitmapUri = uri.toString()
+            imageSize?.let { size ->
+                _originalSize.update { size }
+            }
+            _drawSpotHealCache.clear()
+            _bitmap.update { preview }
+            _imageInfo.update { info ->
+                info.copy(
+                    rotationDegrees = 0f,
+                    width = imageSize?.width ?: preview?.width ?: info.width,
+                    height = imageSize?.height ?: preview?.height ?: info.height,
+                    originalUri = uri.toString()
+                )
             }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
@@ -610,7 +651,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     fun shareBitmap() {
         savingJob = trackProgress {
             _isSaving.update { true }
-            bitmap?.let { image ->
+            getCurrentImageForExport()?.let { image ->
                 shareProvider.shareImage(
                     image = image,
                     imageInfo = imageInfo.copy(originalUri = uri.toString()),
@@ -624,7 +665,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         savingJob = trackProgress {
             _isSaving.update { true }
-            bitmap?.let { image ->
+            getCurrentImageForExport()?.let { image ->
                 shareProvider.cacheImage(
                     image = image,
                     imageInfo = imageInfo.copy(originalUri = uri.toString())
@@ -756,6 +797,52 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     suspend fun loadImage(uri: Uri): Bitmap? = imageGetter.getImage(data = uri)
+
+    suspend fun loadImagePreview(uri: Uri): Bitmap? {
+        val targetSize = uri.imageSize()?.safePreviewSize()
+        val preview = if (targetSize != null) {
+            imageGetter.getImage(
+                data = uri,
+                size = targetSize
+            )
+        } else {
+            imageGetter.getImage(
+                uri = uri.toString(),
+                originalSize = false,
+                onFailure = AppToastHost::showFailureToast
+            )?.image
+        }
+
+        return imageScaler.scaleUntilCanShow(preview)
+    }
+
+    private suspend fun getCurrentImageForExport(): Bitmap? {
+        return currentImageUriString()?.let { uri ->
+            imageGetter.getImage(
+                uri = uri,
+                originalSize = true,
+                onFailure = AppToastHost::showFailureToast
+            )?.image
+        } ?: bitmap
+    }
+
+    private fun currentImageUriString(): String? = currentCachedBitmapUri
+        ?: uri.takeIf { it != Uri.EMPTY }?.toString()
+
+    private fun IntegerSize.safePreviewSize(): IntegerSize {
+        var targetWidth = width
+        var targetHeight = height
+
+        while (targetWidth * targetHeight * 4L >= PreviewMaxBytes) {
+            targetWidth = (targetWidth * 0.85f).roundToInt().coerceAtLeast(1)
+            targetHeight = (targetHeight * 0.85f).roundToInt().coerceAtLeast(1)
+        }
+
+        return IntegerSize(
+            width = targetWidth,
+            height = targetHeight
+        )
+    }
 
     fun getBackgroundRemover(): AutoBackgroundRemover<Bitmap> = autoBackgroundRemover
 
@@ -961,13 +1048,8 @@ class SingleEditComponent @AssistedInject internal constructor(
         job = componentScope.launch {
             _isImageLoading.update { true }
             _bitmap.value = snapshot.cachedUri
-                ?.let {
-                    imageGetter.getImage(
-                        uri = it,
-                        originalSize = false,
-                        onFailure = AppToastHost::showFailureToast
-                    )?.image
-                }
+                ?.toUri()
+                ?.let { loadImagePreview(it) }
                 ?: _internalBitmap.value
             checkBitmapAndUpdate(clearPreview = false)
             _isImageLoading.update { false }
@@ -992,6 +1074,10 @@ class SingleEditComponent @AssistedInject internal constructor(
         val preset: Preset = Preset.None,
         val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)
     )
+
+    private companion object {
+        const val PreviewMaxBytes = 3096L * 3096L * 3L
+    }
 
     @AssistedFactory
     fun interface Factory {

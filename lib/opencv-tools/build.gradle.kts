@@ -24,8 +24,11 @@ android.namespace = "com.t8rin.opencv_tools"
 
 dependencies {
     api(libs.opencv)
+    implementation(libs.coil)
     implementation(libs.coilCompose)
+    implementation(libs.toolbox.exif)
     implementation(projects.lib.image)
     implementation(projects.lib.zoomable)
     implementation(projects.lib.gesture)
+    implementation(projects.core.resources)
 }

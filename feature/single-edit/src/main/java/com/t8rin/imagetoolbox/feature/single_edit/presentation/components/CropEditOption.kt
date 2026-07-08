@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -51,12 +50,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.cropper.model.AspectRatio
 import com.t8rin.cropper.settings.CropOutlineProperty
 import com.t8rin.cropper.settings.CropProperties
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.utils.notNullAnd
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.Done
@@ -70,6 +71,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
 import com.t8rin.imagetoolbox.feature.crop.presentation.components.CropMaskSelection
 import com.t8rin.imagetoolbox.feature.crop.presentation.components.CropRotationSelector
@@ -86,12 +88,15 @@ fun CropEditOption(
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     bitmap: Bitmap?,
-    onGetBitmap: (Bitmap) -> Unit,
+    imageUri: Uri?,
+    imageSize: IntSize,
+    onGetImageUri: (Uri) -> Unit,
     cropProperties: CropProperties,
     selectedAspectRatio: DomainAspectRatio,
     setCropAspectRatio: (DomainAspectRatio, AspectRatio) -> Unit,
     setCropMask: (CropOutlineProperty) -> Unit,
-    loadImage: suspend (Uri) -> Bitmap?
+    loadImage: suspend (Uri) -> Bitmap?,
+    loadImagePreview: suspend (Uri) -> Bitmap?
 ) {
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
@@ -122,11 +127,14 @@ fun CropEditOption(
     }
 
     val scope = rememberCoroutineScope()
-    bitmap?.let {
+    if (bitmap != null && imageUri != null) {
         var crop by remember(visible) { mutableStateOf(false) }
-        var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
+        var stateBitmap by remember(bitmap, imageUri, visible) { mutableStateOf(bitmap) }
+        var stateUri by remember(imageUri, visible) { mutableStateOf(imageUri) }
+        var stateImageSize by remember(imageSize, imageUri, visible) { mutableStateOf(imageSize) }
+
         FullscreenEditOption(
-            canGoBack = stateBitmap == bitmap,
+            canGoBack = stateUri == imageUri,
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,
@@ -236,11 +244,11 @@ fun CropEditOption(
                     type = EnhancedTopAppBarType.Center,
                     navigationIcon = closeButton,
                     actions = {
-                        AnimatedVisibility(visible = stateBitmap != bitmap) {
+                        AnimatedVisibility(visible = stateUri != imageUri) {
                             EnhancedIconButton(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {
-                                    onGetBitmap(stateBitmap)
+                                    onGetImageUri(stateUri)
                                     onDismiss()
                                 }
                             ) {
@@ -264,19 +272,28 @@ fun CropEditOption(
             Box(contentAlignment = Alignment.Center) {
                 Cropper(
                     bitmap = stateBitmap,
+                    imageUri = stateUri,
+                    imageSize = stateImageSize,
                     crop = crop,
                     onImageCropStarted = { loading = true },
-                    onImageCropFinished = {
-                        if (it != null) {
-                            stateBitmap = it
+                    onImageCropFinished = { uri ->
+                        crop = false
+                        if (uri != null) {
+                            stateUri = uri
+                            stateImageSize = uri.imageSize()
+                                ?.let { IntSize(it.width, it.height) }
+                                ?: stateImageSize
                             scope.launch {
+                                loading = true
+                                loadImagePreview(uri)?.let { preview ->
+                                    stateBitmap = preview
+                                }
                                 delay(500)
                                 loading = false
                             }
                         } else {
                             loading = false
                         }
-                        crop = false
                     },
                     rotationState = rotationState,
                     cropProperties = cropProperties,

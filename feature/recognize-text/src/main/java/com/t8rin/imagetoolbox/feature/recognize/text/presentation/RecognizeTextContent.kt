@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -304,11 +305,14 @@ fun RecognizeTextContent(
         onDismiss = { showCropper = false },
         useScaffold = isPortrait,
         bitmap = component.previewBitmap,
-        onGetBitmap = component::updateBitmap,
+        imageUri = component.currentImageUri,
+        imageSize = component.currentImageSize.run { IntSize(width, height) },
+        onGetImageUri = component::updateImageUriAfterEditing,
         cropProperties = component.cropProperties,
         setCropAspectRatio = component::setCropAspectRatio,
         setCropMask = component::setCropMask,
         selectedAspectRatio = component.selectedAspectRatio,
-        loadImage = component::loadImage
+        loadImage = component::loadImage,
+        loadImagePreview = component::loadImagePreview
     )
 }

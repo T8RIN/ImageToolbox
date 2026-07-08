@@ -17,7 +17,11 @@
 
 package com.t8rin.cropper.crop
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.BitmapRegionDecoder
+import android.net.Uri
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.BlendMode
@@ -34,10 +38,22 @@ import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.graphics.scale
+import androidx.core.net.toUri
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.allowHardware
+import coil3.toBitmap
 import com.t8rin.cropper.model.CropImageMask
 import com.t8rin.cropper.model.CropOutline
 import com.t8rin.cropper.model.CropPath
 import com.t8rin.cropper.model.CropShape
+import com.t8rin.exif.ExifInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
+import android.graphics.Rect as AndroidRect
+import coil3.size.Size as CoilSize
 
 
 /**
@@ -76,6 +92,61 @@ internal class CropAgent {
 
             imageToCrop
         }.getOrNull() ?: imageBitmap
+    }
+
+    suspend fun cropToCache(
+        context: Context,
+        imageUri: Uri?,
+        fallbackImageBitmap: ImageBitmap,
+        fallbackCropRect: Rect,
+        sourceCropRect: Rect,
+        cropOutline: CropOutline,
+        layoutDirection: LayoutDirection,
+        density: Density,
+    ): Uri? = withContext(Dispatchers.Default) {
+        runCatching {
+            context.loadCroppedBitmap(imageUri, sourceCropRect)?.let { sourceBitmap ->
+                crop(
+                    imageBitmap = sourceBitmap.asImageBitmap(),
+                    cropRect = Rect(
+                        left = 0f,
+                        top = 0f,
+                        right = sourceBitmap.width.toFloat(),
+                        bottom = sourceBitmap.height.toFloat()
+                    ),
+                    cropOutline = cropOutline,
+                    layoutDirection = layoutDirection,
+                    density = density
+                ).asAndroidBitmap().cacheAsPng(context)
+            } ?: run {
+                val sourceBitmap = context.loadBitmap(imageUri)?.asImageBitmap()
+                crop(
+                    imageBitmap = sourceBitmap ?: fallbackImageBitmap,
+                    cropRect = if (sourceBitmap != null) {
+                        sourceCropRect.coerceIn(sourceBitmap.width, sourceBitmap.height)
+                    } else {
+                        fallbackCropRect.coerceIn(
+                            fallbackImageBitmap.width,
+                            fallbackImageBitmap.height
+                        )
+                    },
+                    cropOutline = cropOutline,
+                    layoutDirection = layoutDirection,
+                    density = density
+                ).asAndroidBitmap().cacheAsPng(context)
+            }
+        }.getOrNull() ?: runCatching {
+            crop(
+                imageBitmap = fallbackImageBitmap,
+                cropRect = fallbackCropRect.coerceIn(
+                    fallbackImageBitmap.width,
+                    fallbackImageBitmap.height
+                ),
+                cropOutline = cropOutline,
+                layoutDirection = layoutDirection,
+                density = density
+            ).asAndroidBitmap().cacheAsPng(context)
+        }.getOrNull()
     }
 
     private fun drawCroppedImage(
@@ -166,3 +237,89 @@ internal class CropAgent {
     }
 }
 
+@Suppress("DEPRECATION")
+private fun Context.loadCroppedBitmap(
+    uri: Uri?,
+    cropRect: Rect
+): Bitmap? {
+    uri ?: return null
+    if (!hasNormalExifOrientation(uri)) return null
+
+    return runCatching {
+        contentResolver.openInputStream(uri)?.use { input ->
+            val decoder = BitmapRegionDecoder.newInstance(input, false) ?: return null
+            try {
+                decoder.decodeRegion(
+                    cropRect.toAndroidRect(decoder.width, decoder.height),
+                    BitmapFactory.Options().apply {
+                        inPreferredConfig = Bitmap.Config.ARGB_8888
+                    }
+                )
+            } finally {
+                decoder.recycle()
+            }
+        }
+    }.getOrNull()
+}
+
+private fun Context.hasNormalExifOrientation(uri: Uri): Boolean {
+    return runCatching {
+        contentResolver.openInputStream(uri)?.use { input ->
+            ExifInterface(input).getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
+            )
+        } == ExifInterface.ORIENTATION_NORMAL
+    }.getOrDefault(true)
+}
+
+private suspend fun Context.loadBitmap(uri: Uri?): Bitmap? {
+    uri ?: return null
+
+    return imageLoader.execute(
+        ImageRequest.Builder(this)
+            .data(uri)
+            .size(CoilSize.ORIGINAL)
+            .allowHardware(false)
+            .build()
+    ).image?.toBitmap()
+}
+
+private fun Bitmap.cacheAsPng(context: Context): Uri {
+    val file = File(
+        File(context.cacheDir, "temp").apply(File::mkdirs),
+        "temp_crop_${System.currentTimeMillis()}.png"
+    )
+
+    FileOutputStream(file).use { output ->
+        check(compress(Bitmap.CompressFormat.PNG, 100, output))
+    }
+
+    return file.toUri()
+}
+
+private fun Rect.coerceIn(
+    width: Int,
+    height: Int
+): Rect {
+    val left = left.coerceIn(0f, (width - 1).coerceAtLeast(0).toFloat())
+    val top = top.coerceIn(0f, (height - 1).coerceAtLeast(0).toFloat())
+    val right = right.coerceIn(left + 1f, width.toFloat())
+    val bottom = bottom.coerceIn(top + 1f, height.toFloat())
+
+    return Rect(left, top, right, bottom)
+}
+
+private fun Rect.toAndroidRect(
+    width: Int,
+    height: Int
+): AndroidRect {
+    val safeRect = coerceIn(width, height)
+
+    return AndroidRect(
+        safeRect.left.toInt(),
+        safeRect.top.toInt(),
+        safeRect.right.toInt(),
+        safeRect.bottom.toInt()
+    )
+}

@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.feature.crop.presentation.components
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -41,15 +41,12 @@ import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toFile
 import com.t8rin.crop.advanced.compose.AdvancedCropper
 import com.t8rin.crop.advanced.compose.HorizontalWheelSliderConfig
 import com.t8rin.cropper.ImageCropper
@@ -63,16 +60,17 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ZoomBadge
 import com.t8rin.opencv_tools.free_corners_crop.compose.FreeCornersCropper
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
 fun Cropper(
     modifier: Modifier = Modifier,
     bitmap: Bitmap,
+    imageUri: Uri,
+    imageSize: IntSize,
     crop: Boolean,
     onImageCropStarted: () -> Unit,
-    onImageCropFinished: (Bitmap?) -> Unit,
+    onImageCropFinished: (Uri?) -> Unit,
     cropType: CropType,
     coercePointsToImageArea: Boolean,
     rotationState: MutableFloatState,
@@ -92,25 +90,19 @@ fun Cropper(
         when (type) {
             CropType.Default -> {
                 Box {
-                    val scope = rememberCoroutineScope()
                     var zoomLevel by remember {
                         mutableFloatStateOf(1f)
                     }
 
                     AdvancedCropper(
-                        imageModel = bitmap,
+                        imageModel = imageUri,
                         aspectRatio = if (cropProperties.aspectRatio != AspectRatio.Original) {
                             cropProperties.aspectRatio.value
                         } else null,
                         modifier = Modifier.transparencyChecker(),
                         containerModifier = Modifier.fillMaxSize(),
                         croppingTrigger = crop,
-                        onCropped = {
-                            scope.launch {
-                                BitmapFactory.decodeFile(it.toFile().absolutePath)
-                                    .apply(onImageCropFinished)
-                            }
-                        },
+                        onCropped = onImageCropFinished,
                         sliderConfig = remember {
                             HorizontalWheelSliderConfig(
                                 mirrorIcon = Icons.Outlined.Flip,
@@ -164,6 +156,8 @@ fun Cropper(
                         ImageCropper(
                             backgroundModifier = Modifier.transparencyChecker(),
                             imageBitmap = bmp,
+                            sourceImageUri = imageUri,
+                            sourceImageSize = imageSize,
                             contentDescription = null,
                             cropProperties = cropProperties.copy(
                                 fixedAspectRatio = fixedAspectRatio,
@@ -179,9 +173,7 @@ fun Cropper(
                             onZoomChange = { newZoom ->
                                 zoomLevel = newZoom
                             },
-                            onCropSuccess = { image ->
-                                onImageCropFinished(image.asAndroidBitmap())
-                            }
+                            onCropSuccess = onImageCropFinished
                         )
                         ZoomBadge(
                             zoomLevel = zoomLevel,
@@ -198,10 +190,10 @@ fun Cropper(
                     }
                     FreeCornersCropper(
                         bitmap = bitmap,
+                        sourceImageUri = imageUri,
+                        sourceImageSize = imageSize,
                         croppingTrigger = crop,
-                        onCropped = {
-                            onImageCropFinished(it)
-                        },
+                        onCropped = onImageCropFinished,
                         coercePointsToImageArea = coercePointsToImageArea,
                         modifier = Modifier.transparencyChecker(),
                         contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout)

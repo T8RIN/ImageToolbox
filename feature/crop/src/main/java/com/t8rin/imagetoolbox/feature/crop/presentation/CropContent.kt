@@ -214,23 +214,27 @@ fun CropContent(
         },
         mainContent = {
             component.bitmap?.let { bitmap ->
-                Cropper(
-                    bitmap = bitmap,
-                    crop = crop,
-                    onImageCropStarted = component::imageCropStarted,
-                    onImageCropFinished = {
-                        component.imageCropFinished()
-                        if (it != null) {
-                            component.updateBitmap(it)
-                        }
-                        crop = false
-                    },
-                    rotationState = rotationState,
-                    cropProperties = component.cropProperties,
-                    cropType = component.cropType,
-                    addVerticalInsets = !isPortrait,
-                    coercePointsToImageArea = coercePointsToImageArea
-                )
+                component.currentUri?.let { imageUri ->
+                    Cropper(
+                        bitmap = bitmap,
+                        imageUri = imageUri,
+                        imageSize = component.imageSize,
+                        crop = crop,
+                        onImageCropStarted = component::imageCropStarted,
+                        onImageCropFinished = { uri ->
+                            component.imageCropFinished()
+                            if (uri != null) {
+                                component.updateImageUri(uri)
+                            }
+                            crop = false
+                        },
+                        rotationState = rotationState,
+                        cropProperties = component.cropProperties,
+                        cropType = component.cropType,
+                        addVerticalInsets = !isPortrait,
+                        coercePointsToImageArea = coercePointsToImageArea
+                    )
+                }
             }
         },
         controls = {

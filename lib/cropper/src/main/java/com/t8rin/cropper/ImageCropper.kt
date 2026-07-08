@@ -18,6 +18,7 @@
 package com.t8rin.cropper
 
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -44,9 +45,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
 import com.t8rin.cropper.crop.CropAgent
 import com.t8rin.cropper.draw.DrawingOverlay
@@ -73,6 +76,8 @@ import kotlinx.coroutines.flow.onStart
 fun ImageCropper(
     modifier: Modifier = Modifier,
     imageBitmap: ImageBitmap,
+    sourceImageUri: Uri? = null,
+    sourceImageSize: IntSize = IntSize(imageBitmap.width, imageBitmap.height),
     contentDescription: String? = null,
     cropStyle: CropStyle = CropDefaults.style(),
     cropProperties: CropProperties,
@@ -81,7 +86,7 @@ fun ImageCropper(
     enableOneFingerZoom: Boolean = true,
     onCropStart: () -> Unit,
     onZoomChange: (Float) -> Unit,
-    onCropSuccess: (ImageBitmap) -> Unit,
+    onCropSuccess: (Uri?) -> Unit,
     backgroundModifier: Modifier = Modifier
 ) {
 
@@ -173,12 +178,16 @@ fun ImageCropper(
 
         // Crops image when user invokes crop operation
         Crop(
-            crop,
-            scaledImageBitmap,
-            cropState.cropRect,
-            cropOutline,
-            onCropStart,
-            onCropSuccess
+            crop = crop,
+            scaledImageBitmap = scaledImageBitmap,
+            sourceImageUri = sourceImageUri,
+            sourceImageSize = sourceImageSize,
+            sourceImageVisibleRect = rect,
+            previewImageSize = IntSize(imageBitmap.width, imageBitmap.height),
+            cropRect = cropState.cropRect,
+            cropOutline = cropOutline,
+            onCropStart = onCropStart,
+            onCropSuccess = onCropSuccess
         )
 
         val imageModifier = Modifier
@@ -325,12 +334,17 @@ private fun ImageCropperImpl(
 private fun Crop(
     crop: Boolean,
     scaledImageBitmap: ImageBitmap,
+    sourceImageUri: Uri?,
+    sourceImageSize: IntSize,
+    sourceImageVisibleRect: IntRect,
+    previewImageSize: IntSize,
     cropRect: Rect,
     cropOutline: CropOutline,
     onCropStart: () -> Unit,
-    onCropSuccess: (ImageBitmap) -> Unit
+    onCropSuccess: (Uri?) -> Unit
 ) {
 
+    val context = LocalContext.current
     val density = LocalDensity.current
     val layoutDirection = LocalLayoutDirection.current
 
@@ -340,13 +354,22 @@ private fun Crop(
     LaunchedEffect(crop) {
         if (crop) {
             flow {
+                val previewSize = IntSize(scaledImageBitmap.width, scaledImageBitmap.height)
                 emit(
-                    cropAgent.crop(
-                        scaledImageBitmap,
-                        cropRect,
-                        cropOutline,
-                        layoutDirection,
-                        density
+                    cropAgent.cropToCache(
+                        context = context,
+                        imageUri = sourceImageUri,
+                        fallbackImageBitmap = scaledImageBitmap,
+                        fallbackCropRect = cropRect,
+                        sourceCropRect = cropRect.scaleTo(
+                            sourceSize = sourceImageSize,
+                            previewSize = previewSize,
+                            sourceImageVisibleRect = sourceImageVisibleRect,
+                            previewImageSize = previewImageSize
+                        ),
+                        cropOutline = cropOutline,
+                        layoutDirection = layoutDirection,
+                        density = density
                     )
                 )
             }
@@ -361,6 +384,25 @@ private fun Crop(
                 .launchIn(this)
         }
     }
+}
+
+private fun Rect.scaleTo(
+    sourceSize: IntSize,
+    previewSize: IntSize,
+    sourceImageVisibleRect: IntRect,
+    previewImageSize: IntSize
+): Rect {
+    if (sourceSize == IntSize.Zero || previewSize == IntSize.Zero) return this
+
+    val widthScale = sourceSize.width.toFloat() / previewImageSize.width.coerceAtLeast(1)
+    val heightScale = sourceSize.height.toFloat() / previewImageSize.height.coerceAtLeast(1)
+
+    return Rect(
+        left = (sourceImageVisibleRect.left + left) * widthScale,
+        top = (sourceImageVisibleRect.top + top) * heightScale,
+        right = (sourceImageVisibleRect.left + right) * widthScale,
+        bottom = (sourceImageVisibleRect.top + bottom) * heightScale
+    )
 }
 
 @Composable

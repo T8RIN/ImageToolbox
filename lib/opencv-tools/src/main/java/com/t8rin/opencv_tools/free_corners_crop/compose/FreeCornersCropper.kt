@@ -18,11 +18,8 @@
 package com.t8rin.opencv_tools.free_corners_crop.compose
 
 import android.graphics.Bitmap
-import androidx.compose.animation.AnimatedContent
+import android.net.Uri
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -62,11 +59,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import coil3.imageLoader
-import coil3.request.ImageRequest
-import coil3.request.allowHardware
-import coil3.toBitmap
 import com.t8rin.gesture.observePointersCountWithOffset
 import com.t8rin.image.ImageWithConstraints
 import com.t8rin.opencv_tools.free_corners_crop.FreeCrop
@@ -76,65 +70,11 @@ import kotlin.math.roundToInt
 
 @Composable
 fun FreeCornersCropper(
-    imageModel: Any?,
-    croppingTrigger: Boolean,
-    onCropped: (Bitmap) -> Unit,
-    modifier: Modifier = Modifier,
-    showMagnifier: Boolean = true,
-    handlesSize: Dp = 8.dp,
-    frameStrokeWidth: Dp = 1.2.dp,
-    coercePointsToImageArea: Boolean = true,
-    onZoomChange: (Float) -> Unit = {},
-    overlayColor: Color = Color.Black.copy(0.5f),
-    contentPadding: PaddingValues = PaddingValues(24.dp),
-    containerModifier: Modifier = Modifier,
-    onLoadingStateChange: (Boolean) -> Unit = {}
-) {
-    var bitmap by remember {
-        mutableStateOf<Bitmap?>(null)
-    }
-    val context = LocalContext.current
-
-    LaunchedEffect(imageModel) {
-        bitmap = if (imageModel is Bitmap?) imageModel
-        else {
-            onLoadingStateChange(true)
-            context.imageLoader.execute(
-                ImageRequest.Builder(context).data(imageModel)
-                    .allowHardware(false).build()
-            ).image?.toBitmap()
-        }
-        onLoadingStateChange(false)
-    }
-
-    AnimatedContent(
-        targetState = bitmap,
-        modifier = containerModifier,
-        transitionSpec = { fadeIn() togetherWith fadeOut() }
-    ) { image ->
-        if (image != null) {
-            FreeCornersCropper(
-                bitmap = image,
-                croppingTrigger = croppingTrigger,
-                onCropped = onCropped,
-                modifier = modifier,
-                showMagnifier = showMagnifier,
-                contentPadding = contentPadding,
-                coercePointsToImageArea = coercePointsToImageArea,
-                handlesSize = handlesSize,
-                frameStrokeWidth = frameStrokeWidth,
-                overlayColor = overlayColor,
-                onZoomChange = onZoomChange
-            )
-        }
-    }
-}
-
-@Composable
-fun FreeCornersCropper(
     bitmap: Bitmap,
+    sourceImageUri: Uri? = null,
+    sourceImageSize: IntSize = IntSize(bitmap.width, bitmap.height),
     croppingTrigger: Boolean,
-    onCropped: (Bitmap) -> Unit,
+    onCropped: (Uri?) -> Unit,
     modifier: Modifier = Modifier,
     showMagnifier: Boolean = true,
     handlesSize: Dp = 8.dp,
@@ -145,6 +85,7 @@ fun FreeCornersCropper(
     contentPadding: PaddingValues = PaddingValues(24.dp)
 ) {
     val density = LocalDensity.current
+    val context = LocalContext.current
 
     val handleRadiusPx = with(density) {
         handlesSize.toPx()
@@ -247,19 +188,30 @@ fun FreeCornersCropper(
 
         LaunchedEffect(croppingTrigger) {
             if (croppingTrigger) {
-                val widthScale = bitmap.width.toFloat() / imageWidth
-                val heightScale = bitmap.height.toFloat() / imageHeight
+                fun scaledPointsFor(size: IntSize): List<Offset> {
+                    val widthScale = size.width.toFloat() / imageWidth.coerceAtLeast(1)
+                    val heightScale = size.height.toFloat() / imageHeight.coerceAtLeast(1)
+
+                    return drawPoints.value.map {
+                        Offset(
+                            x = ((it.x - startOffset) * widthScale).roundToInt()
+                                .coerceIn(0, size.width).toFloat(),
+                            y = ((it.y - topOffset) * heightScale).roundToInt()
+                                .coerceIn(0, size.height).toFloat()
+                        )
+                    }
+                }
+
                 onCropped(
-                    FreeCrop.crop(
-                        bitmap = bitmap,
-                        points = drawPoints.value.map {
-                            Offset(
-                                x = ((it.x - startOffset) * widthScale).roundToInt()
-                                    .coerceIn(0, bitmap.width).toFloat(),
-                                y = ((it.y - topOffset) * heightScale).roundToInt()
-                                    .coerceIn(0, bitmap.height).toFloat()
-                            )
-                        }
+                    FreeCrop.cropToCache(
+                        context = context,
+                        imageUri = sourceImageUri,
+                        fallbackBitmap = bitmap,
+                        fallbackPoints = scaledPointsFor(IntSize(bitmap.width, bitmap.height)),
+                        sourcePoints = scaledPointsFor(
+                            sourceImageSize.takeIf { it != IntSize.Zero }
+                                ?: IntSize(bitmap.width, bitmap.height)
+                        )
                     )
                 )
             }
