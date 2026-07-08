@@ -3690,4 +3690,6 @@
     <string name="markup_layers_side_menu_settings">Pengaturan menu samping</string>
     <string name="markup_layers_side_menu_scale">Skala menu</string>
     <string name="markup_layers_side_menu_alpha">Menu alfa</string>
+    <string name="auto_white_balance">Keseimbangan Putih Otomatis</string>
+    <string name="clipping">Guntingan</string>
 </resources>

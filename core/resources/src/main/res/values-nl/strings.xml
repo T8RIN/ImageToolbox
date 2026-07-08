@@ -3691,4 +3691,6 @@
     <string name="markup_layers_side_menu_settings">Instellingen zijmenu</string>
     <string name="markup_layers_side_menu_scale">Menuschaal</string>
     <string name="markup_layers_side_menu_alpha">Menu alfa</string>
+    <string name="auto_white_balance">Automatische witbalans</string>
+    <string name="clipping">Knippen</string>
 </resources>

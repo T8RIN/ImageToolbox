@@ -3692,4 +3692,6 @@
     <string name="markup_layers_side_menu_settings">Oldalmenü beállításai</string>
     <string name="markup_layers_side_menu_scale">Menü skála</string>
     <string name="markup_layers_side_menu_alpha">Alfa menü</string>
+    <string name="auto_white_balance">Automatikus fehéregyensúly</string>
+    <string name="clipping">Darabka</string>
 </resources>

@@ -3691,4 +3691,6 @@
     <string name="markup_layers_side_menu_settings">Configurações do menu lateral</string>
     <string name="markup_layers_side_menu_scale">Escala do menu</string>
     <string name="markup_layers_side_menu_alpha">Menu alfa</string>
+    <string name="auto_white_balance">Balanço de branco automático</string>
+    <string name="clipping">Recorte</string>
 </resources>

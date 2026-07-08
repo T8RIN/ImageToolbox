@@ -3694,4 +3694,6 @@
     <string name="markup_layers_side_menu_settings">הגדרות תפריט צד</string>
     <string name="markup_layers_side_menu_scale">סולם תפריטים</string>
     <string name="markup_layers_side_menu_alpha">תפריט אלפא</string>
+    <string name="auto_white_balance">איזון לבן אוטומטי</string>
+    <string name="clipping">גֶזֶר</string>
 </resources>

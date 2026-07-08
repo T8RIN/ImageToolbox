@@ -3691,4 +3691,6 @@
     <string name="markup_layers_side_menu_settings">يان تىزىملىك ​​تەڭشىكى</string>
     <string name="markup_layers_side_menu_scale">تىزىملىك ​​ئۆلچىمى</string>
     <string name="markup_layers_side_menu_alpha">تىزىملىك ​​ئالفا</string>
+    <string name="auto_white_balance">ئاپتوماتىك ئاق تەڭپۇڭلۇق</string>
+    <string name="clipping">Clipping</string>
 </resources>

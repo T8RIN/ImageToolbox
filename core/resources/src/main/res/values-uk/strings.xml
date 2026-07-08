@@ -3693,4 +3693,6 @@
     <string name="markup_layers_side_menu_settings">Налаштування бічного меню</string>
     <string name="markup_layers_side_menu_scale">Шкала меню</string>
     <string name="markup_layers_side_menu_alpha">Меню альфа</string>
+    <string name="auto_white_balance">Автоматичний баланс білого</string>
+    <string name="clipping">Вирізка</string>
 </resources>

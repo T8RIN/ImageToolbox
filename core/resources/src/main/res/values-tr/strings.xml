@@ -3692,4 +3692,6 @@
     <string name="markup_layers_side_menu_settings">Yan menü ayarları</string>
     <string name="markup_layers_side_menu_scale">Menü ölçeği</string>
     <string name="markup_layers_side_menu_alpha">Menü alfa</string>
+    <string name="auto_white_balance">Otomatik Beyaz Dengesi</string>
+    <string name="clipping">Kırpma</string>
 </resources>

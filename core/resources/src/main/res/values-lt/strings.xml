@@ -3693,4 +3693,6 @@
     <string name="markup_layers_side_menu_settings">Šoninio meniu nustatymai</string>
     <string name="markup_layers_side_menu_scale">Meniu skalė</string>
     <string name="markup_layers_side_menu_alpha">Alfa meniu</string>
+    <string name="auto_white_balance">Automatinis baltos spalvos balansas</string>
+    <string name="clipping">Apkarpymas</string>
 </resources>

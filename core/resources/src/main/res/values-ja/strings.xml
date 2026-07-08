@@ -3690,4 +3690,6 @@
     <string name="markup_layers_side_menu_settings">サイドメニューの設定</string>
     <string name="markup_layers_side_menu_scale">メニュースケール</string>
     <string name="markup_layers_side_menu_alpha">メニューアルファ</string>
+    <string name="auto_white_balance">オートホワイトバランス</string>
+    <string name="clipping">クリッピング</string>
 </resources>

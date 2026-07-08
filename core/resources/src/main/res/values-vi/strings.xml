@@ -3690,4 +3690,6 @@
     <string name="markup_layers_side_menu_settings">Cài đặt menu bên</string>
     <string name="markup_layers_side_menu_scale">quy mô thực đơn</string>
     <string name="markup_layers_side_menu_alpha">Thực đơn alpha</string>
+    <string name="auto_white_balance">Cân bằng trắng tự động</string>
+    <string name="clipping">cắt xén</string>
 </resources>

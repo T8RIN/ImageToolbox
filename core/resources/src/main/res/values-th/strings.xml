@@ -3690,4 +3690,6 @@
     <string name="markup_layers_side_menu_settings">การตั้งค่าเมนูด้านข้าง</string>
     <string name="markup_layers_side_menu_scale">ขนาดเมนู</string>
     <string name="markup_layers_side_menu_alpha">เมนูอัลฟ่า</string>
+    <string name="auto_white_balance">สมดุลสีขาวอัตโนมัติ</string>
+    <string name="clipping">การตัด</string>
 </resources>

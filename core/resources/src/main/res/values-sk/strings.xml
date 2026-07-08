@@ -3693,4 +3693,6 @@
     <string name="markup_layers_side_menu_settings">Nastavenia bočnej ponuky</string>
     <string name="markup_layers_side_menu_scale">Menu mierka</string>
     <string name="markup_layers_side_menu_alpha">Menu alfa</string>
+    <string name="auto_white_balance">Automatické vyváženie bielej</string>
+    <string name="clipping">Výstrižok</string>
 </resources>

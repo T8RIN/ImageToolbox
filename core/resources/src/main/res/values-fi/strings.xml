@@ -3691,4 +3691,6 @@
     <string name="markup_layers_side_menu_settings">Sivuvalikon asetukset</string>
     <string name="markup_layers_side_menu_scale">Valikko asteikko</string>
     <string name="markup_layers_side_menu_alpha">Valikko alfa</string>
+    <string name="auto_white_balance">Automaattinen valkotasapaino</string>
+    <string name="clipping">Leikkaaminen</string>
 </resources>

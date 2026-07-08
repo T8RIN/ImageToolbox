@@ -3691,4 +3691,6 @@
     <string name="markup_layers_side_menu_settings">تنظیمات منوی کناری</string>
     <string name="markup_layers_side_menu_scale">مقیاس منو</string>
     <string name="markup_layers_side_menu_alpha">منوی آلفا</string>
+    <string name="auto_white_balance">تراز سفیدی خودکار</string>
+    <string name="clipping">بریدن</string>
 </resources>

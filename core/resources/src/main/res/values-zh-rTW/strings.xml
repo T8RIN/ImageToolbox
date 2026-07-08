@@ -3690,4 +3690,6 @@
     <string name="markup_layers_side_menu_settings">側邊選單設置</string>
     <string name="markup_layers_side_menu_scale">菜單規模</string>
     <string name="markup_layers_side_menu_alpha">阿爾法菜單</string>
+    <string name="auto_white_balance">自動白平衡</string>
+    <string name="clipping">剪裁</string>
 </resources>

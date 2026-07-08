@@ -3691,4 +3691,6 @@
     <string name="markup_layers_side_menu_settings">Külgmenüü seaded</string>
     <string name="markup_layers_side_menu_scale">Menüü skaala</string>
     <string name="markup_layers_side_menu_alpha">Alfa menüü</string>
+    <string name="auto_white_balance">Automaatne valge tasakaal</string>
+    <string name="clipping">Lõikamine</string>
 </resources>

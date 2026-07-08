@@ -3691,4 +3691,6 @@
     <string name="markup_layers_side_menu_settings">பக்க மெனு அமைப்புகள்</string>
     <string name="markup_layers_side_menu_scale">மெனு அளவு</string>
     <string name="markup_layers_side_menu_alpha">மெனு ஆல்பா</string>
+    <string name="auto_white_balance">ஆட்டோ ஒயிட் பேலன்ஸ்</string>
+    <string name="clipping">கிளிப்பிங்</string>
 </resources>

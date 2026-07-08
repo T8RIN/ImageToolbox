@@ -3693,4 +3693,6 @@
     <string name="markup_layers_side_menu_settings">Setări din meniul lateral</string>
     <string name="markup_layers_side_menu_scale">Scara meniului</string>
     <string name="markup_layers_side_menu_alpha">Meniu alfa</string>
+    <string name="auto_white_balance">Balans de alb automat</string>
+    <string name="clipping">Tăiere</string>
 </resources>

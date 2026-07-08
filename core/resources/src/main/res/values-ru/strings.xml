@@ -3694,4 +3694,6 @@
     <string name="markup_layers_side_menu_settings">Настройки бокового меню</string>
     <string name="markup_layers_side_menu_scale">Масштаб меню</string>
     <string name="markup_layers_side_menu_alpha">Меню альфа</string>
+    <string name="auto_white_balance">Автоматический баланс белого</string>
+    <string name="clipping">Обрезка</string>
 </resources>

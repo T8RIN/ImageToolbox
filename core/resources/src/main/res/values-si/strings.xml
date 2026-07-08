@@ -3691,4 +3691,6 @@
     <string name="markup_layers_side_menu_settings">පැති මෙනු සැකසුම්</string>
     <string name="markup_layers_side_menu_scale">මෙනු පරිමාණය</string>
     <string name="markup_layers_side_menu_alpha">ඇල්ෆා මෙනුව</string>
+    <string name="auto_white_balance">ස්වයංක්‍රීය සුදු ශේෂය</string>
+    <string name="clipping">කපා හැරීම</string>
 </resources>

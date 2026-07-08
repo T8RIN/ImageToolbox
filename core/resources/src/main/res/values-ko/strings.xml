@@ -3690,4 +3690,6 @@
     <string name="markup_layers_side_menu_settings">사이드 메뉴 설정</string>
     <string name="markup_layers_side_menu_scale">메뉴 규모</string>
     <string name="markup_layers_side_menu_alpha">메뉴 알파</string>
+    <string name="auto_white_balance">자동 화이트 밸런스</string>
+    <string name="clipping">깎는</string>
 </resources>
