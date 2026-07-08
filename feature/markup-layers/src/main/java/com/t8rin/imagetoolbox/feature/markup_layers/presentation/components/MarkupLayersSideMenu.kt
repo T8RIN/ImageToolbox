@@ -20,10 +20,12 @@ package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -44,14 +46,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -78,43 +87,85 @@ internal fun MarkupLayersSideMenu(
     val layers = component.layers
 
     FullscreenPopup {
-        BoxWithConstraints(
+        var parentSize by remember {
+            mutableStateOf(IntSize.Zero)
+        }
+        var sideMenuSize by remember {
+            mutableStateOf(IntSize.Zero)
+        }
+
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn() + expandHorizontally(),
+            exit = fadeOut() + shrinkHorizontally(),
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.CenterEnd
         ) {
-            if (visible) {
-                BackHandler(onBack = onDismiss)
-
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .tappable { onDismiss() }
-                )
-            }
-
-            val maxHeightFull = this.maxHeight
-            AnimatedVisibility(
-                visible = visible,
-                enter = fadeIn() + expandHorizontally(),
-                exit = fadeOut() + shrinkHorizontally()
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        WindowInsets.systemBars
+                            .union(WindowInsets.displayCutout)
+                            .asPaddingValues()
+                    )
+                    .onSizeChanged {
+                        parentSize = it
+                    },
+                contentAlignment = Alignment.CenterEnd
             ) {
+                if (visible) {
+                    BackHandler(onBack = onDismiss)
+
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .tappable { onDismiss() }
+                    )
+                }
+
+                val maxHeightFull = this.maxHeight
+                val sideMenuScale by animateFloatAsState(component.sideMenuScale)
+                val sideMenuAlpha by animateFloatAsState(component.sideMenuAlpha)
+
+                LaunchedEffect(parentSize, sideMenuSize, sideMenuScale) {
+                    component.updateSideMenuTranslation(
+                        coerceSideMenuTranslation(
+                            currentTranslation = Offset(
+                                component.sideMenuTranslationX,
+                                component.sideMenuTranslationY
+                            ),
+                            dragAmount = Offset.Zero,
+                            parentSize = parentSize,
+                            menuSize = sideMenuSize,
+                            scale = sideMenuScale
+                        )
+                    )
+                }
+
                 Surface(
-                    color = Color.Transparent
+                    color = Color.Transparent,
+                    modifier = Modifier
+                        .onSizeChanged {
+                            sideMenuSize = it
+                        }
+                        .graphicsLayer {
+                            scaleX = sideMenuScale
+                            scaleY = sideMenuScale
+                            translationX = component.sideMenuTranslationX
+                            translationY = component.sideMenuTranslationY
+                        }
                 ) {
                     Column(
                         modifier = Modifier
                             .padding(8.dp)
-                            .padding(
-                                WindowInsets.systemBars
-                                    .union(WindowInsets.displayCutout)
-                                    .asPaddingValues()
-                            )
                             .height(
                                 minOf(maxHeightFull, 480.dp)
                             )
                             .width(168.dp)
                             .container(
-                                color = MaterialTheme.colorScheme.surfaceContainer.copy(0.9f),
+                                color = MaterialTheme.colorScheme.surfaceContainer.copy(
+                                    alpha = sideMenuAlpha
+                                ),
                                 composeColorOnTopOfBackground = false,
                                 resultPadding = 0.dp
                             ),
@@ -149,10 +200,32 @@ internal fun MarkupLayersSideMenu(
                         Scaffold(
                             topBar = {
                                 Column(
-                                    modifier = Modifier.container(
-                                        shape = RectangleShape,
-                                        color = MaterialTheme.colorScheme.surfaceContainerHigh
-                                    )
+                                    modifier = Modifier
+                                        .container(
+                                            shape = RectangleShape,
+                                            color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(
+                                                alpha = sideMenuAlpha * 0.9f
+                                            ),
+                                            composeColorOnTopOfBackground = false
+                                        )
+                                        .pointerInput(parentSize, sideMenuSize, sideMenuScale) {
+                                            detectDragGestures { change, dragAmount ->
+                                                change.consume()
+
+                                                component.updateSideMenuTranslation(
+                                                    coerceSideMenuTranslation(
+                                                        currentTranslation = Offset(
+                                                            component.sideMenuTranslationX,
+                                                            component.sideMenuTranslationY
+                                                        ),
+                                                        dragAmount = dragAmount,
+                                                        parentSize = parentSize,
+                                                        menuSize = sideMenuSize,
+                                                        scale = sideMenuScale
+                                                    )
+                                                )
+                                            }
+                                        }
                                 ) {
                                     val showContextActions =
                                         isContextOptionsVisible && (activeLayer != null || component.isGroupingSelectionMode)
@@ -349,6 +422,7 @@ internal fun MarkupLayersSideMenu(
                                     )
                                 }
                             },
+                            containerColor = Color.Transparent,
                             contentWindowInsets = WindowInsets(0)
                         ) { contentPadding ->
                             MarkupLayersSideMenuColumn(
@@ -376,6 +450,63 @@ internal fun MarkupLayersSideMenu(
                 }
             }
         }
+    }
+}
+
+private fun coerceSideMenuTranslation(
+    currentTranslation: Offset,
+    dragAmount: Offset,
+    parentSize: IntSize,
+    menuSize: IntSize,
+    scale: Float
+): Offset {
+    if (
+        parentSize.width <= 0 ||
+        parentSize.height <= 0 ||
+        menuSize.width <= 0 ||
+        menuSize.height <= 0
+    ) {
+        return currentTranslation + dragAmount * scale
+    }
+
+    val parentWidth = parentSize.width.toFloat()
+    val parentHeight = parentSize.height.toFloat()
+
+    val menuWidth = menuSize.width.toFloat()
+    val menuHeight = menuSize.height.toFloat()
+
+    val scaledHalfWidth = menuWidth * scale / 2f
+    val scaledHalfHeight = menuHeight * scale / 2f
+
+    val initialCenterX = parentWidth - menuWidth / 2f
+    val initialCenterY = parentHeight / 2f
+
+    val maxCenterX = parentWidth - scaledHalfWidth
+
+    val maxCenterY = parentHeight - scaledHalfHeight
+
+    val targetTranslation = currentTranslation + dragAmount * scale
+
+    val targetCenterX = initialCenterX + targetTranslation.x
+    val targetCenterY = initialCenterY + targetTranslation.y
+
+    val coercedCenterX = targetCenterX.coerceInSafe(scaledHalfWidth, maxCenterX)
+    val coercedCenterY = targetCenterY.coerceInSafe(scaledHalfHeight, maxCenterY)
+
+    return Offset(
+        x = coercedCenterX - initialCenterX,
+        y = coercedCenterY - initialCenterY
+    )
+}
+
+private fun Float.coerceInSafe(
+    minimumValue: Float,
+    maximumValue: Float
+): Float {
+    return if (minimumValue <= maximumValue) {
+        coerceIn(minimumValue, maximumValue)
+    } else {
+        (minimumValue + maximumValue) / 2f
     }
 }
 

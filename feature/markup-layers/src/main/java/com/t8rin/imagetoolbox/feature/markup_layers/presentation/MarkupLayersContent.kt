@@ -61,12 +61,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
+import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Archive
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
+import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
+import com.t8rin.imagetoolbox.core.resources.icons.Opacity
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
@@ -85,6 +88,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
@@ -355,7 +359,9 @@ fun MarkupLayersContent(
         },
         controls = {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .navigationBarsPadding(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -401,8 +407,31 @@ fun MarkupLayersContent(
                     modifier = Modifier.fillMaxWidth(),
                     shape = ShapeDefaults.large,
                 )
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    EnhancedSliderItem(
+                        value = component.sideMenuScale,
+                        title = stringResource(R.string.markup_layers_side_menu_scale),
+                        valueRange = 0.5f..1f,
+                        internalStateTransformation = { it.roundToTwoDigits() },
+                        onValueChange = component::updateSideMenuScale,
+                        shape = ShapeDefaults.top,
+                        icon = Icons.Outlined.ImageResize,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    EnhancedSliderItem(
+                        value = component.sideMenuAlpha,
+                        title = stringResource(R.string.markup_layers_side_menu_alpha),
+                        valueRange = 0.5f..1f,
+                        internalStateTransformation = { it.roundToTwoDigits() },
+                        onValueChange = component::updateSideMenuAlpha,
+                        shape = ShapeDefaults.bottom,
+                        icon = Icons.Rounded.Opacity,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
                 ImageFormatSelector(
-                    modifier = Modifier.navigationBarsPadding(),
                     forceEnabled = component.backgroundBehavior is BackgroundBehavior.Color,
                     value = component.imageFormat,
                     onValueChange = component::setImageFormat

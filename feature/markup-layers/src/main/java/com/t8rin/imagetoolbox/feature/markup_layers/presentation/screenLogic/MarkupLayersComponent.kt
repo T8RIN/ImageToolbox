@@ -42,7 +42,6 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
-import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -54,6 +53,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectEx
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.isMarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersParams
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectHistorySnapshot
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
@@ -107,11 +107,16 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
-    private val _isOptionsExpanded = fileController.savable(
+    private var _params by fileController.savable(
         scope = componentScope,
-        initial = false
+        initial = MarkupLayersParams(),
+        key = "markupLayersParams"
     )
-    val isOptionsExpanded: Boolean get() = _isOptionsExpanded.get()
+    val isOptionsExpanded: Boolean get() = _params.isOptionsExpanded
+    val sideMenuScale: Float get() = _params.sideMenuScale
+    val sideMenuAlpha: Float get() = _params.sideMenuAlpha
+    val sideMenuTranslationX: Float get() = _params.sideMenuTranslationX
+    val sideMenuTranslationY: Float get() = _params.sideMenuTranslationY
 
     private val _backgroundBehavior: MutableState<BackgroundBehavior> =
         mutableStateOf(BackgroundBehavior.None)
@@ -139,7 +144,22 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     val canRedo: Boolean get() = redoHistory.isNotEmpty()
 
     fun toggleExpandOptions() {
-        _isOptionsExpanded.update { !it }
+        _params = _params.copy(isOptionsExpanded = !_params.isOptionsExpanded)
+    }
+
+    fun updateSideMenuScale(scale: Float) {
+        _params = _params.copy(sideMenuScale = scale)
+    }
+
+    fun updateSideMenuAlpha(alpha: Float) {
+        _params = _params.copy(sideMenuAlpha = alpha)
+    }
+
+    fun updateSideMenuTranslation(offset: Offset) {
+        _params = _params.copy(
+            sideMenuTranslationX = offset.x,
+            sideMenuTranslationY = offset.y
+        )
     }
 
     fun undo() {
