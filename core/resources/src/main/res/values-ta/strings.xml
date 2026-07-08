@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">கோப்புப் பெயரின் தனித்துவத்தை உறுதிப்படுத்த, ஒரு சீரற்ற உலகளாவிய தனித்துவ அடையாளங்காட்டியை (UUID) உருவாக்குகிறது.</string>
     <string name="rename_cannot_undone">கோப்புகளை மறுபெயரிடுவதை செயல்தவிர்க்க முடியாது. தொடர்வதற்கு முன் புதிய பெயர்கள் சரியாக உள்ளதா என்பதை உறுதி செய்து கொள்ளவும்.</string>
     <string name="confirm_rename_title">மறுபெயரை உறுதிப்படுத்தவும்</string>
+    <string name="markup_layers_side_menu_settings">பக்க மெனு அமைப்புகள்</string>
+    <string name="markup_layers_side_menu_scale">மெனு அளவு</string>
+    <string name="markup_layers_side_menu_alpha">மெனு ஆல்பா</string>
 </resources>

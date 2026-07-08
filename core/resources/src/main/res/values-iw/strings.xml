@@ -3691,4 +3691,7 @@
     <string name="uuid_pattern_description">יוצר מזהה אקראי אוניברסלי ייחודי (UUID) כדי להבטיח ייחודיות של שם הקובץ.</string>
     <string name="rename_cannot_undone">לא ניתן לבטל שינוי שם של קבצים. ודא שהשמות החדשים נכונים לפני שתמשיך.</string>
     <string name="confirm_rename_title">אשר את שינוי השם</string>
+    <string name="markup_layers_side_menu_settings">הגדרות תפריט צד</string>
+    <string name="markup_layers_side_menu_scale">סולם תפריטים</string>
+    <string name="markup_layers_side_menu_alpha">תפריט אלפא</string>
 </resources>

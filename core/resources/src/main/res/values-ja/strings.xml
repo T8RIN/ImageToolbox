@@ -3687,4 +3687,7 @@
     <string name="uuid_pattern_description">ファイル名の一意性を確保するために、ランダムな Universally Unique Identifier (UUID) を生成します。</string>
     <string name="rename_cannot_undone">ファイル名の変更を元に戻すことはできません。続行する前に、新しい名前が正しいことを確認してください。</string>
     <string name="confirm_rename_title">名前変更の確認</string>
+    <string name="markup_layers_side_menu_settings">サイドメニューの設定</string>
+    <string name="markup_layers_side_menu_scale">メニュースケール</string>
+    <string name="markup_layers_side_menu_alpha">メニューアルファ</string>
 </resources>

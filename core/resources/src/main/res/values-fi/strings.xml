@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Luo satunnaisen UUID-tunnisteen (Universally Unique Identifier) ​​varmistaakseen tiedostonimen ainutlaatuisuuden.</string>
     <string name="rename_cannot_undone">Tiedostojen uudelleennimeämistä ei voi kumota. Varmista, että uudet nimet ovat oikein ennen kuin jatkat.</string>
     <string name="confirm_rename_title">Vahvista uudelleennimeäminen</string>
+    <string name="markup_layers_side_menu_settings">Sivuvalikon asetukset</string>
+    <string name="markup_layers_side_menu_scale">Valikko asteikko</string>
+    <string name="markup_layers_side_menu_alpha">Valikko alfa</string>
 </resources>

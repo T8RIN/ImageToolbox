@@ -3690,4 +3690,7 @@
     <string name="uuid_pattern_description">Sugeneruoja atsitiktinį universalų unikalų identifikatorių (UUID), kad užtikrintų failo pavadinimo unikalumą.</string>
     <string name="rename_cannot_undone">Failų pervadinimo anuliuoti negalima. Prieš tęsdami įsitikinkite, kad nauji pavadinimai yra teisingi.</string>
     <string name="confirm_rename_title">Patvirtinkite pervadinimą</string>
+    <string name="markup_layers_side_menu_settings">Šoninio meniu nustatymai</string>
+    <string name="markup_layers_side_menu_scale">Meniu skalė</string>
+    <string name="markup_layers_side_menu_alpha">Alfa meniu</string>
 </resources>

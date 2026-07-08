@@ -3690,4 +3690,7 @@
     <string name="uuid_pattern_description">Стварае выпадковы універсальны ўнікальны ідэнтыфікатар (UUID), каб забяспечыць унікальнасць імя файла.</string>
     <string name="rename_cannot_undone">Перайменаванне файлаў не можа быць адменена. Перш чым працягнуць, пераканайцеся, што новыя імёны правільныя.</string>
     <string name="confirm_rename_title">Пацвердзіце перайменаванне</string>
+    <string name="markup_layers_side_menu_settings">Налады бакавога меню</string>
+    <string name="markup_layers_side_menu_scale">Шкала меню</string>
+    <string name="markup_layers_side_menu_alpha">Альфа меню</string>
 </resources>

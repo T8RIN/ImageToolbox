@@ -3690,4 +3690,7 @@
     <string name="uuid_pattern_description">Генерує випадковий універсальний унікальний ідентифікатор (UUID), щоб гарантувати унікальність імені файлу.</string>
     <string name="rename_cannot_undone">Перейменування файлів не можна скасувати. Перш ніж продовжити, переконайтеся, що нові імена правильні.</string>
     <string name="confirm_rename_title">Підтвердити перейменування</string>
+    <string name="markup_layers_side_menu_settings">Налаштування бічного меню</string>
+    <string name="markup_layers_side_menu_scale">Шкала меню</string>
+    <string name="markup_layers_side_menu_alpha">Меню альфа</string>
 </resources>

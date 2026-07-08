@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Genererer en tilfældig Universally Unique Identifier (UUID) for at sikre filnavnets unikke karakter.</string>
     <string name="rename_cannot_undone">Omdøbning af filer kan ikke fortrydes. Sørg for, at de nye navne er korrekte, før du fortsætter.</string>
     <string name="confirm_rename_title">Bekræft omdøb</string>
+    <string name="markup_layers_side_menu_settings">Sidemenuindstillinger</string>
+    <string name="markup_layers_side_menu_scale">Menu skala</string>
+    <string name="markup_layers_side_menu_alpha">Menu alfa</string>
 </resources>

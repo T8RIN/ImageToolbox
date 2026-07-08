@@ -3689,4 +3689,7 @@
     <string name="uuid_pattern_description">Véletlenszerű, univerzálisan egyedi azonosítót (UUID) generál a fájlnév egyediségének biztosítása érdekében.</string>
     <string name="rename_cannot_undone">A fájlok átnevezése nem vonható vissza. Mielőtt folytatná, győződjön meg arról, hogy az új nevek helyesek.</string>
     <string name="confirm_rename_title">Átnevezés megerősítése</string>
+    <string name="markup_layers_side_menu_settings">Oldalmenü beállításai</string>
+    <string name="markup_layers_side_menu_scale">Menü skála</string>
+    <string name="markup_layers_side_menu_alpha">Alfa menü</string>
 </resources>

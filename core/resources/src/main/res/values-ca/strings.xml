@@ -3689,4 +3689,7 @@
     <string name="uuid_pattern_description">Genera un identificador únic universal (UUID) aleatori per garantir la singularitat del nom del fitxer.</string>
     <string name="rename_cannot_undone">El canvi de nom dels fitxers no es pot desfer. Assegureu-vos que els noms nous siguin correctes abans de continuar.</string>
     <string name="confirm_rename_title">Confirmeu el canvi de nom</string>
+    <string name="markup_layers_side_menu_settings">Configuració del menú lateral</string>
+    <string name="markup_layers_side_menu_scale">Escala del menú</string>
+    <string name="markup_layers_side_menu_alpha">Menú alfa</string>
 </resources>

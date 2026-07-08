@@ -3687,4 +3687,7 @@
     <string name="uuid_pattern_description">Menghasilkan Pengidentifikasi Unik Universal (UUID) acak untuk memastikan keunikan nama file.</string>
     <string name="rename_cannot_undone">Penggantian nama file tidak dapat dibatalkan. Pastikan nama baru sudah benar sebelum melanjutkan.</string>
     <string name="confirm_rename_title">Konfirmasikan penggantian nama</string>
+    <string name="markup_layers_side_menu_settings">Pengaturan menu samping</string>
+    <string name="markup_layers_side_menu_scale">Skala menu</string>
+    <string name="markup_layers_side_menu_alpha">Menu alfa</string>
 </resources>

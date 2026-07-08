@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Ausazko Identifikatzaile Unibertsal Bakarra (UUID) sortzen du fitxategi-izenen berezitasuna ziurtatzeko.</string>
     <string name="rename_cannot_undone">Fitxategien izena aldatzea ezin da desegin. Jarraitu aurretik, ziurtatu izen berriak zuzenak direla.</string>
     <string name="confirm_rename_title">Berretsi izena aldatu</string>
+    <string name="markup_layers_side_menu_settings">Alboko menuaren ezarpenak</string>
+    <string name="markup_layers_side_menu_scale">Menuen eskala</string>
+    <string name="markup_layers_side_menu_alpha">Menu alfa</string>
 </resources>

@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Файл атауының бірегейлігін қамтамасыз ету үшін кездейсоқ әмбебап бірегей идентификаторды (UUID) жасайды.</string>
     <string name="rename_cannot_undone">Файлдардың атын өзгертуді қайтару мүмкін емес. Жалғастырмас бұрын жаңа атаулардың дұрыс екеніне көз жеткізіңіз.</string>
     <string name="confirm_rename_title">Атын өзгертуді растаңыз</string>
+    <string name="markup_layers_side_menu_settings">Бүйірлік мәзір параметрлері</string>
+    <string name="markup_layers_side_menu_scale">Мәзір масштабы</string>
+    <string name="markup_layers_side_menu_alpha">Альфа мәзірі</string>
 </resources>

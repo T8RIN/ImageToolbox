@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">ਫਾਈਲ ਨਾਮ ਦੀ ਵਿਲੱਖਣਤਾ ਨੂੰ ਯਕੀਨੀ ਬਣਾਉਣ ਲਈ ਇੱਕ ਬੇਤਰਤੀਬ ਯੂਨੀਵਰਸਲੀ ਯੂਨੀਕ ਆਈਡੈਂਟੀਫਾਇਰ (UUID) ਤਿਆਰ ਕਰਦਾ ਹੈ।</string>
     <string name="rename_cannot_undone">ਫਾਈਲਾਂ ਦਾ ਨਾਮ ਬਦਲਣਾ ਅਣਕੀਤਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਜਾਰੀ ਰੱਖਣ ਤੋਂ ਪਹਿਲਾਂ ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਨਵੇਂ ਨਾਮ ਸਹੀ ਹਨ।</string>
     <string name="confirm_rename_title">ਨਾਮ ਬਦਲਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ</string>
+    <string name="markup_layers_side_menu_settings">ਸਾਈਡ ਮੀਨੂ ਸੈਟਿੰਗਾਂ</string>
+    <string name="markup_layers_side_menu_scale">ਮੀਨੂ ਸਕੇਲ</string>
+    <string name="markup_layers_side_menu_alpha">ਮੀਨੂ ਅਲਫ਼ਾ</string>
 </resources>

@@ -3689,4 +3689,7 @@
     <string name="uuid_pattern_description">Bumubuo ng random na Universally Unique Identifier (UUID) para matiyak ang pagiging natatangi ng filename.</string>
     <string name="rename_cannot_undone">Ang pagpapalit ng pangalan ng mga file ay hindi maaaring i-undo. Tiyaking tama ang mga bagong pangalan bago magpatuloy.</string>
     <string name="confirm_rename_title">Kumpirmahin ang pagpapalit ng pangalan</string>
+    <string name="markup_layers_side_menu_settings">Mga setting ng side menu</string>
+    <string name="markup_layers_side_menu_scale">Sukat ng menu</string>
+    <string name="markup_layers_side_menu_alpha">Menu alpha</string>
 </resources>

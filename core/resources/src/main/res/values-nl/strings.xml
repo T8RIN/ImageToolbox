@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Genereert een willekeurige Universally Unique Identifier (UUID) om de uniciteit van de bestandsnaam te garanderen.</string>
     <string name="rename_cannot_undone">Het hernoemen van bestanden kan niet ongedaan worden gemaakt. Zorg ervoor dat de nieuwe namen correct zijn voordat u verdergaat.</string>
     <string name="confirm_rename_title">Bevestig hernoemen</string>
+    <string name="markup_layers_side_menu_settings">Instellingen zijmenu</string>
+    <string name="markup_layers_side_menu_scale">Menuschaal</string>
+    <string name="markup_layers_side_menu_alpha">Menu alfa</string>
 </resources>

@@ -3689,4 +3689,7 @@
     <string name="uuid_pattern_description">Dosya adının benzersizliğini sağlamak için rastgele bir Evrensel Benzersiz Tanımlayıcı (UUID) oluşturur.</string>
     <string name="rename_cannot_undone">Dosyaları yeniden adlandırma işlemi geri alınamaz. Devam etmeden önce yeni adların doğru olduğundan emin olun.</string>
     <string name="confirm_rename_title">Yeniden adlandırmayı onayla</string>
+    <string name="markup_layers_side_menu_settings">Yan menü ayarları</string>
+    <string name="markup_layers_side_menu_scale">Menü ölçeği</string>
+    <string name="markup_layers_side_menu_alpha">Menü alfa</string>
 </resources>

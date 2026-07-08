@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Genererar en slumpmässig Universally Unique Identifier (UUID) för att säkerställa filnamnets unikhet.</string>
     <string name="rename_cannot_undone">Att byta namn på filer kan inte ångras. Se till att de nya namnen är korrekta innan du fortsätter.</string>
     <string name="confirm_rename_title">Bekräfta byta namn</string>
+    <string name="markup_layers_side_menu_settings">Sidomenyinställningar</string>
+    <string name="markup_layers_side_menu_scale">Meny skala</string>
+    <string name="markup_layers_side_menu_alpha">Meny alfa</string>
 </resources>

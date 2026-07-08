@@ -3687,4 +3687,7 @@
     <string name="uuid_pattern_description">Tạo Mã định danh duy nhất toàn cầu (UUID) ngẫu nhiên để đảm bảo tính duy nhất của tên tệp.</string>
     <string name="rename_cannot_undone">Việc đổi tên tập tin không thể hoàn tác được. Đảm bảo tên mới là chính xác trước khi tiếp tục.</string>
     <string name="confirm_rename_title">Xác nhận đổi tên</string>
+    <string name="markup_layers_side_menu_settings">Cài đặt menu bên</string>
+    <string name="markup_layers_side_menu_scale">quy mô thực đơn</string>
+    <string name="markup_layers_side_menu_alpha">Thực đơn alpha</string>
 </resources>

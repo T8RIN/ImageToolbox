@@ -3690,4 +3690,7 @@
     <string name="uuid_pattern_description">Generuje náhodný univerzálny jedinečný identifikátor (UUID), aby sa zabezpečila jedinečnosť súboru.</string>
     <string name="rename_cannot_undone">Premenovanie súborov nie je možné vrátiť späť. Pred pokračovaním sa uistite, že sú nové názvy správne.</string>
     <string name="confirm_rename_title">Potvrďte premenovanie</string>
+    <string name="markup_layers_side_menu_settings">Nastavenia bočnej ponuky</string>
+    <string name="markup_layers_side_menu_scale">Menu mierka</string>
+    <string name="markup_layers_side_menu_alpha">Menu alfa</string>
 </resources>

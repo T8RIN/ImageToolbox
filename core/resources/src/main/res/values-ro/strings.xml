@@ -3690,4 +3690,7 @@
     <string name="uuid_pattern_description">Generează un identificator unic universal (UUID) aleatoriu pentru a asigura unicitatea numelui de fișier.</string>
     <string name="rename_cannot_undone">Redenumirea fișierelor nu poate fi anulată. Asigurați-vă că noile nume sunt corecte înainte de a continua.</string>
     <string name="confirm_rename_title">Confirmați redenumirea</string>
+    <string name="markup_layers_side_menu_settings">Setări din meniul lateral</string>
+    <string name="markup_layers_side_menu_scale">Scara meniului</string>
+    <string name="markup_layers_side_menu_alpha">Meniu alfa</string>
 </resources>

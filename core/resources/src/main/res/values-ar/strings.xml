@@ -3693,4 +3693,7 @@
     <string name="uuid_pattern_description">ينشئ معرفًا فريدًا عالميًا عشوائيًا (UUID) لضمان تفرد اسم الملف.</string>
     <string name="rename_cannot_undone">لا يمكن التراجع عن إعادة تسمية الملفات. تأكد من صحة الأسماء الجديدة قبل المتابعة.</string>
     <string name="confirm_rename_title">تأكيد إعادة التسمية</string>
+    <string name="markup_layers_side_menu_settings">إعدادات القائمة الجانبية</string>
+    <string name="markup_layers_side_menu_scale">مقياس القائمة</string>
+    <string name="markup_layers_side_menu_alpha">القائمة ألفا</string>
 </resources>

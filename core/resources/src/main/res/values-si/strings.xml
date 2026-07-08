@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">ගොනු නාමයේ සුවිශේෂත්වය සහතික කිරීම සඳහා අහඹු විශ්වීය අනන්‍ය හඳුනාගැනීමක් (UUID) ජනනය කරයි.</string>
     <string name="rename_cannot_undone">ගොනු නැවත නම් කිරීම පසුගමනය කළ නොහැක. ඉදිරියට යාමට පෙර නව නම් නිවැරදි බව තහවුරු කර ගන්න.</string>
     <string name="confirm_rename_title">නැවත නම් කිරීම තහවුරු කරන්න</string>
+    <string name="markup_layers_side_menu_settings">පැති මෙනු සැකසුම්</string>
+    <string name="markup_layers_side_menu_scale">මෙනු පරිමාණය</string>
+    <string name="markup_layers_side_menu_alpha">ඇල්ෆා මෙනුව</string>
 </resources>

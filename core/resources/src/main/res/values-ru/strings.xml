@@ -3691,4 +3691,7 @@
     <string name="permission_not_granted">Разрешение не предоставлено</string>
     <string name="rename_cannot_undone">Переименование файлов невозможно отменить. Прежде чем продолжить, убедитесь, что новые имена верны.</string>
     <string name="confirm_rename_title">Подтвердить переименование</string>
+    <string name="markup_layers_side_menu_settings">Настройки бокового меню</string>
+    <string name="markup_layers_side_menu_scale">Масштаб меню</string>
+    <string name="markup_layers_side_menu_alpha">Меню альфа</string>
 </resources>

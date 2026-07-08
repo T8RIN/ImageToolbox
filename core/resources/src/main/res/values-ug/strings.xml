@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">ئىختىيارىي ئۇنىۋېرسال پەرقلىگۈچ (UUID) ھاسىل قىلىپ ، ھۆججەت نامىنىڭ خاسلىقىغا كاپالەتلىك قىلىدۇ.</string>
     <string name="rename_cannot_undone">ھۆججەتلەرنىڭ نامىنى بىكار قىلىشقا بولمايدۇ. داۋاملاشتۇرۇشتىن بۇرۇن يېڭى ئىسىملارنىڭ توغرا ئىكەنلىكىنى جەزملەشتۈرۈڭ.</string>
     <string name="confirm_rename_title">نامىنى جەزملەشتۈرۈڭ</string>
+    <string name="markup_layers_side_menu_settings">يان تىزىملىك ​​تەڭشىكى</string>
+    <string name="markup_layers_side_menu_scale">تىزىملىك ​​ئۆلچىمى</string>
+    <string name="markup_layers_side_menu_alpha">تىزىملىك ​​ئالفا</string>
 </resources>

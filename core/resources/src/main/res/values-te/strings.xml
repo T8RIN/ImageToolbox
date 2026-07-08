@@ -3689,4 +3689,7 @@
     <string name="uuid_pattern_description">ఫైల్ పేరు ప్రత్యేకతను నిర్ధారించడానికి యాదృచ్ఛికంగా యూనివర్సల్లీ యూనిక్ ఐడెంటిఫైయర్ (UUID)ని రూపొందిస్తుంది.</string>
     <string name="rename_cannot_undone">ఫైల్‌ల పేరు మార్చడం రద్దు చేయబడదు. కొనసాగించడానికి ముందు కొత్త పేర్లు సరైనవని నిర్ధారించుకోండి.</string>
     <string name="confirm_rename_title">పేరు మార్చడాన్ని నిర్ధారించండి</string>
+    <string name="markup_layers_side_menu_settings">సైడ్ మెను సెట్టింగ్‌లు</string>
+    <string name="markup_layers_side_menu_scale">మెనూ స్కేల్</string>
+    <string name="markup_layers_side_menu_alpha">మెనూ ఆల్ఫా</string>
 </resources>

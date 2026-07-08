@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">ফাইলের নামের স্বতন্ত্রতা নিশ্চিত করতে একটি র্যান্ডম ইউনিভার্সলি ইউনিক আইডেন্টিফায়ার (UUID) তৈরি করে।</string>
     <string name="rename_cannot_undone">ফাইল পুনঃনামকরণ পূর্বাবস্থায় ফেরানো যাবে না. চালিয়ে যাওয়ার আগে নিশ্চিত করুন যে নতুন নাম সঠিক।</string>
     <string name="confirm_rename_title">পুনঃনাম নিশ্চিত করুন</string>
+    <string name="markup_layers_side_menu_settings">সাইড মেনু সেটিংস</string>
+    <string name="markup_layers_side_menu_scale">মেনু স্কেল</string>
+    <string name="markup_layers_side_menu_alpha">মেনু আলফা</string>
 </resources>

@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">फाइलनावाची विशिष्टता सुनिश्चित करण्यासाठी यादृच्छिक युनिव्हर्सली युनिक आयडेंटिफायर (UUID) व्युत्पन्न करते.</string>
     <string name="rename_cannot_undone">फायलींचे नाव बदलणे पूर्ववत केले जाऊ शकत नाही. सुरू ठेवण्यापूर्वी नवीन नावे बरोबर असल्याची खात्री करा.</string>
     <string name="confirm_rename_title">नाव बदलण्याची पुष्टी करा</string>
+    <string name="markup_layers_side_menu_settings">साइड मेनू सेटिंग्ज</string>
+    <string name="markup_layers_side_menu_scale">मेनू स्केल</string>
+    <string name="markup_layers_side_menu_alpha">मेनू अल्फा</string>
 </resources>

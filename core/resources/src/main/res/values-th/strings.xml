@@ -3687,4 +3687,7 @@
     <string name="uuid_pattern_description">สร้าง Universally Unique Identifier (UUID) แบบสุ่มเพื่อให้แน่ใจว่าชื่อไฟล์ไม่ซ้ำกัน</string>
     <string name="rename_cannot_undone">การเปลี่ยนชื่อไฟล์ไม่สามารถยกเลิกได้ ตรวจสอบให้แน่ใจว่าชื่อใหม่ถูกต้องก่อนดำเนินการต่อ</string>
     <string name="confirm_rename_title">ยืนยันการเปลี่ยนชื่อ</string>
+    <string name="markup_layers_side_menu_settings">การตั้งค่าเมนูด้านข้าง</string>
+    <string name="markup_layers_side_menu_scale">ขนาดเมนู</string>
+    <string name="markup_layers_side_menu_alpha">เมนูอัลฟ่า</string>
 </resources>

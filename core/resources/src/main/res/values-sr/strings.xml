@@ -3690,4 +3690,7 @@
     <string name="uuid_pattern_description">Генерише насумични универзално јединствени идентификатор (УУИД) да би се обезбедила јединственост имена датотеке.</string>
     <string name="rename_cannot_undone">Преименовање датотека се не може опозвати. Уверите се да су нова имена тачна пре него што наставите.</string>
     <string name="confirm_rename_title">Потврдите преименовање</string>
+    <string name="markup_layers_side_menu_settings">Подешавања бочног менија</string>
+    <string name="markup_layers_side_menu_scale">Скала менија</string>
+    <string name="markup_layers_side_menu_alpha">Мени алфа</string>
 </resources>

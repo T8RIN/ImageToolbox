@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Génère un identifiant unique universel (UUID) aléatoire pour garantir l\'unicité du nom de fichier.</string>
     <string name="rename_cannot_undone">Le renommage des fichiers ne peut pas être annulé. Assurez-vous que les nouveaux noms sont corrects avant de continuer.</string>
     <string name="confirm_rename_title">Confirmer le changement de nom</string>
+    <string name="markup_layers_side_menu_settings">Paramètres du menu latéral</string>
+    <string name="markup_layers_side_menu_scale">Échelle des menus</string>
+    <string name="markup_layers_side_menu_alpha">Menu alpha</string>
 </resources>

@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Loob juhusliku universaalse unikaalse identifikaatori (UUID), et tagada failinime kordumatus.</string>
     <string name="rename_cannot_undone">Failide ümbernimetamist ei saa tagasi võtta. Enne jätkamist veenduge, et uued nimed on õiged.</string>
     <string name="confirm_rename_title">Kinnitage ümbernimetamine</string>
+    <string name="markup_layers_side_menu_settings">Külgmenüü seaded</string>
+    <string name="markup_layers_side_menu_scale">Menüü skaala</string>
+    <string name="markup_layers_side_menu_alpha">Alfa menüü</string>
 </resources>

@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">Gera um identificador universalmente exclusivo (UUID) aleatório para garantir a exclusividade do nome do arquivo.</string>
     <string name="rename_cannot_undone">A renomeação de arquivos não pode ser desfeita. Certifique-se de que os novos nomes estejam corretos antes de continuar.</string>
     <string name="confirm_rename_title">Confirmar renomeação</string>
+    <string name="markup_layers_side_menu_settings">Configurações do menu lateral</string>
+    <string name="markup_layers_side_menu_scale">Escala do menu</string>
+    <string name="markup_layers_side_menu_alpha">Menu alfa</string>
 </resources>

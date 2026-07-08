@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">برای اطمینان از منحصر به فرد بودن نام فایل، یک شناسه منحصر به فرد جهانی (UUID) تصادفی ایجاد می کند.</string>
     <string name="rename_cannot_undone">تغییر نام فایل ها قابل بازگشت نیست. قبل از ادامه از صحت نام های جدید مطمئن شوید.</string>
     <string name="confirm_rename_title">تغییر نام را تأیید کنید</string>
+    <string name="markup_layers_side_menu_settings">تنظیمات منوی کناری</string>
+    <string name="markup_layers_side_menu_scale">مقیاس منو</string>
+    <string name="markup_layers_side_menu_alpha">منوی آلفا</string>
 </resources>

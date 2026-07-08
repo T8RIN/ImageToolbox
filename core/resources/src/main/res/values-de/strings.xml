@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -3687,4 +3689,7 @@
     <string name="uuid_pattern_description">Erzeugt einen zufälligen Universally Unique Identifier (UUID), um die Eindeutigkeit des Dateinamens sicherzustellen.</string>
     <string name="rename_cannot_undone">Das Umbenennen von Dateien kann nicht rückgängig gemacht werden. Stellen Sie sicher, dass die neuen Namen korrekt sind, bevor Sie fortfahren.</string>
     <string name="confirm_rename_title">Umbenennen bestätigen</string>
+    <string name="markup_layers_side_menu_settings">Seitenmenüeinstellungen</string>
+    <string name="markup_layers_side_menu_scale">Menüskala</string>
+    <string name="markup_layers_side_menu_alpha">Menü Alpha</string>
 </resources>

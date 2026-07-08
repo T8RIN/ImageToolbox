@@ -3688,4 +3688,7 @@
     <string name="uuid_pattern_description">生成随机的通用唯一标识符 (UUID) 以确保文件名的唯一性。</string>
     <string name="rename_cannot_undone">重命名文件无法撤消。在继续之前请确保新名称正确。</string>
     <string name="confirm_rename_title">确认重命名</string>
+    <string name="markup_layers_side_menu_settings">侧面菜单设置</string>
+    <string name="markup_layers_side_menu_scale">菜单规模</string>
+    <string name="markup_layers_side_menu_alpha">阿尔法菜单</string>
 </resources>

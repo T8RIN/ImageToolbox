@@ -3690,4 +3690,7 @@
     <string name="uuid_pattern_description">Generuje losowy uniwersalny unikalny identyfikator (UUID), aby zapewnić niepowtarzalność nazwy pliku.</string>
     <string name="rename_cannot_undone">Zmiany nazw plików nie można cofnąć. Przed kontynuowaniem upewnij się, że nowe nazwy są poprawne.</string>
     <string name="confirm_rename_title">Potwierdź zmianę nazwy</string>
+    <string name="markup_layers_side_menu_settings">Ustawienia menu bocznego</string>
+    <string name="markup_layers_side_menu_scale">Skala menu</string>
+    <string name="markup_layers_side_menu_alpha">Menu alfa</string>
 </resources>
