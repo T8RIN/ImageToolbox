@@ -75,14 +75,10 @@ object FreeCrop : OpenCV() {
                 }
             } else {
                 val sourceBitmap = context.loadBitmap(imageUri)
-                try {
-                    crop(
-                        bitmap = sourceBitmap ?: fallbackBitmap,
-                        points = if (sourceBitmap != null) sourcePoints else fallbackPoints
-                    ).cacheAsPng(context)
-                } finally {
-                    sourceBitmap?.recycleIfNeeded()
-                }
+                crop(
+                    bitmap = sourceBitmap ?: fallbackBitmap,
+                    points = if (sourceBitmap != null) sourcePoints else fallbackPoints
+                ).cacheAsPng(context)
             }
         }.getOrNull() ?: runCatching {
             crop(
