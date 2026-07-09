@@ -516,6 +516,7 @@ or click one of the badges below.
     - [x] Light Effects
     - [x] Rays
     - [x] Ripple
+    - [x] Auto White Balance 
 
 
   </details>
