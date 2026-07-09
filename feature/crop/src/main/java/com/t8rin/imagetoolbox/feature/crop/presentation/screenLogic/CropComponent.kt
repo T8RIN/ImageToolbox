@@ -120,18 +120,30 @@ class CropComponent @AssistedInject internal constructor(
     private val _saveExif: MutableState<Boolean> = mutableStateOf(false)
     val saveExif: Boolean by _saveExif
 
+    private var isBitmapLoading = false
+    private var isCropperLoading = false
+
+    private fun updateImageLoadingState() {
+        _isImageLoading.value = isBitmapLoading || isCropperLoading
+    }
+
     fun updateBitmap(
         bitmap: Bitmap?,
         newBitmap: Boolean = false
     ) {
         componentScope.launch {
-            _isImageLoading.value = true
-            val bmp = imageScaler.scaleUntilCanShow(bitmap)
-            if (newBitmap) {
-                internalBitmap.value = bmp
+            isBitmapLoading = true
+            updateImageLoadingState()
+            try {
+                val bmp = imageScaler.scaleUntilCanShow(bitmap)
+                if (newBitmap) {
+                    internalBitmap.value = bmp
+                }
+                _bitmap.value = bmp
+            } finally {
+                isBitmapLoading = false
+                updateImageLoadingState()
             }
-            _bitmap.value = bmp
-            _isImageLoading.value = false
         }
     }
 
@@ -232,11 +244,13 @@ class CropComponent @AssistedInject internal constructor(
     }
 
     fun imageCropStarted() {
-        _isImageLoading.value = true
+        isCropperLoading = true
+        updateImageLoadingState()
     }
 
     fun imageCropFinished() {
-        _isImageLoading.value = false
+        isCropperLoading = false
+        updateImageLoadingState()
     }
 
     fun setUri(
