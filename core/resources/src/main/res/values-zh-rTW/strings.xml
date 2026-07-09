@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -1879,8 +1878,8 @@
     <string name="chroma">色度</string>
     <string name="pixel_melt">像素融化</string>
     <string name="max_drop">最大落差</string>
-    <string name="ai_tools">人工智能工具</string>
-    <string name="ai_tools_sub">通過人工智能模型處理圖像的各種工具，例如偽影消除或去噪</string>
+    <string name="ai_tools">AI 工具</string>
+    <string name="ai_tools_sub">供多種內建 AI 模型的影像處理工具，支援消除雜訊與去除不自然感等功能</string>
     <string name="model_anime_undeint">壓縮、鋸齒線</string>
     <string name="model_broadcast">卡通、廣播壓縮</string>
     <string name="model_rgb_max_denoise_fp16">一般壓縮、一般噪音</string>
@@ -2089,7 +2088,7 @@
     <string name="color_library">顏色庫</string>
     <string name="color_library_sub">瀏覽大量顏色</string>
     <string name="model_fatality_deblur">銳化並消除圖像模糊，同時保持自然細節，是修復失焦照片的理想選擇。</string>
-    <string name="model_unresize_v3">智能恢復之前調整過大小的圖像，恢復丟失的細節和紋理。</string>
+    <string name="model_unresize_v3">智慧修復曾遭縮放的圖片，精準重現流失的細節與紋理。</string>
     <string name="model_liveaction_v1_span">針對真人內容進行了最佳化，減少了壓縮偽影並增強了電影/電視節目幀中的精細細節。</string>
     <string name="model_vhs2hd_realplksr">將 VHS 品質的素材轉換為高清，消除磁帶噪音並提高解析度，同時保留復古感。</string>
     <string name="model_text2hd_v1">專門用於文字較多的圖像和屏幕截圖，銳化字符並提高可讀性。</string>

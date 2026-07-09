@@ -14,19 +14,17 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
     <string name="resize_type">Methode</string>
     <string name="explicit">Explizit</string>
-    <string name="no_palette">Kann Farbpalette aus gewähltem Bild nicht erzeugen</string>
+    <string name="no_palette">Kann Farbpalette nicht aus gewähltem Bild erzeugen</string>
     <string name="folder">Ausgabeordner</string>
     <string name="def">Standardeinstellung</string>
     <string name="custom">Benutzerdefiniert</string>
-    <string name="by_bytes_resize_sub">Ändern der Größe eines Bildes entsprechend der angegebenen Größe in KB</string>
+    <string name="by_bytes_resize_sub">Ändere die Größe eines Bildes entsprechend der angegebenen Größe in KB</string>
     <string name="settings">Einstellungen</string>
     <string name="system">Nach Systemvorgabe</string>
     <string name="night_mode">Nachtmodus</string>
@@ -58,7 +56,7 @@
     <string name="stay">Bleiben</string>
     <string name="add_tag">Tag hinzufügen</string>
     <string name="flexible">Flexibel</string>
-    <string name="pick_image_alt">Bild auswählen</string>
+    <string name="pick_image_alt">Bild wählen</string>
     <string name="app_closing">App wird geschlossen</string>
     <string name="reset">Zurücksetzen</string>
     <string name="app_closing_sub">Bist du sicher, dass du die App schließen willst?</string>
@@ -105,8 +103,8 @@
     <string name="max_bytes">Maximale Größe in KB</string>
     <string name="by_bytes_resize">Größe nach Gewicht ändern</string>
     <string name="compare">Vergleichen</string>
-    <string name="pick_two_images">Wähle zwei Bilder zum Starten</string>
-    <string name="pick_images">Wähle Bilder</string>
+    <string name="pick_two_images">Zwei Bilder zum Starten wählen</string>
+    <string name="pick_images">Bilder wählen</string>
     <string name="compare_sub">Vergleiche zwei Bilder</string>
     <string name="dynamic_colors">Dynamisches Farbschema</string>
     <string name="allow_image_monet_sub">Ändert das Farbschema der App automatisch zum gewählten Bild</string>
@@ -2426,12 +2424,12 @@
     <string name="help_tip_choose_tool_description">Image Toolbox verfügt über viele gezielte Tools, von denen sich viele auf den ersten Blick überschneiden. Beginnen Sie mit der Aufgabe, die Sie erledigen möchten, und wählen Sie dann das Tool aus, das den wichtigsten Teil des Ergebnisses steuert: Größe, Format, Metadaten, Text, PDF-Seiten, Farben oder Layout.</string>
     <string name="help_tip_choose_tool_step_1">Verwenden Sie die Suche, wenn Sie den Aktionsnamen kennen, z. B. Größenänderung, PDF, EXIF, OCR, QR oder Farbe.</string>
     <string name="help_tip_choose_tool_step_2">Öffnen Sie eine Kategorie, wenn Sie nur den Aufgabentyp kennen, und heften Sie dann häufig verwendete Tools als Favoriten an.</string>
-    <string name="help_tip_choose_tool_step_3">Wenn eine andere App ein Bild in der Image Toolbox teilt, wählen Sie das Tool aus dem Freigabeblatt-Flow aus.</string>
+    <string name="help_tip_choose_tool_step_3">Wenn eine andere App ein Bild in die Image Toolbox teilt, wähle das Tool aus dem Freigabeblatt-Flow aus.</string>
     <string name="help_tip_import_save_share_title">Ergebnisse importieren, speichern und teilen</string>
     <string name="help_tip_import_save_share_subtitle">Verstehen Sie den üblichen Ablauf von der Auswahl der Eingabe bis zum Exportieren der bearbeiteten Datei</string>
     <string name="help_tip_import_save_share_page_title">Befolgen Sie den allgemeinen Bearbeitungsablauf</string>
     <string name="help_tip_import_save_share_description">Die meisten Tools folgen demselben Rhythmus: Eingabe auswählen, Optionen anpassen, Vorschau anzeigen und dann speichern oder teilen. Das wichtige Detail ist, dass beim Speichern eine Ausgabedatei erstellt wird, während das Teilen normalerweise am besten für eine schnelle Übergabe an eine andere App geeignet ist.</string>
-    <string name="help_tip_import_save_share_step_1">Wählen Sie eine Datei für Einzelbild-Tools oder mehrere Dateien für Batch-Tools aus, wenn die Auswahl dies zulässt.</string>
+    <string name="help_tip_import_save_share_step_1">Wähle eine Datei für Einzelbild-Tools oder mehrere Dateien für Batch-Tools aus, wenn die Auswahl dies zulässt.</string>
     <string name="help_tip_import_save_share_step_2">Überprüfen Sie vor dem Speichern die Vorschau- und Ausgabesteuerung, insbesondere die Optionen für Format, Qualität und Dateinamen.</string>
     <string name="help_tip_import_save_share_step_3">Verwenden Sie die Freigabe für eine schnelle Übergabe oder speichern Sie, wenn Sie eine dauerhafte Kopie im ausgewählten Ordner benötigen.</string>
     <string name="help_tip_batch_workflow_title">Arbeiten Sie mit vielen Bildern gleichzeitig</string>
@@ -2465,17 +2463,17 @@
     <string name="help_tip_picker_launcher_title">Picker und Launcher</string>
     <string name="help_tip_picker_launcher_subtitle">Verwenden Sie Auswahleinstellungen, wenn die App zu viele Dialoge öffnet oder an der falschen Stelle startet</string>
     <string name="help_tip_picker_launcher_page_title">Passen Sie das Öffnen von Dateien an Ihre Gewohnheit an</string>
-    <string name="help_tip_picker_launcher_description">Die Auswahl- und Starteinstellungen steuern, ob Image Toolbox vom Hauptbildschirm, einem Tool oder einem Dateiauswahlablauf aus gestartet wird. Diese Optionen sind besonders nützlich, wenn Sie normalerweise über das Android-Freigabeblatt zugreifen oder wenn Sie möchten, dass sich die App eher wie ein Tool-Launcher anfühlt.</string>
+    <string name="help_tip_picker_launcher_description">Die Auswahl- und Starteinstellungen steuern, ob Image Toolbox vom Hauptbildschirm, einem Tool oder einem Dateiauswahlablauf aus gestartet wird. Diese Optionen sind besonders nützlich, wenn du normalerweise über das Android-Freigabemenü zugreifst oder wenn du möchtest, dass sich die App eher wie ein Tool-Launcher anfühlt.</string>
     <string name="help_tip_picker_launcher_step_1">Verwenden Sie die Fotoauswahleinstellungen, wenn die Systemauswahl Dateien verbirgt, zu viele aktuelle Elemente anzeigt oder Cloud-Dateien schlecht verarbeitet.</string>
     <string name="help_tip_picker_launcher_step_2">Aktivieren Sie die Option „Auswahl überspringen“ nur für Tools, bei denen Sie normalerweise aus der Freigabe eingeben oder die Quelldatei bereits kennen.</string>
-    <string name="help_tip_picker_launcher_step_3">Sehen Sie sich den Launcher-Modus an, wenn Sie möchten, dass sich Image Toolbox eher wie eine Werkzeugauswahl als wie ein normaler Startbildschirm verhält.</string>
+    <string name="help_tip_picker_launcher_step_3">Sieh dir den Launcher-Modus an, wenn du möchtest, dass sich Image Toolbox eher wie eine Werkzeugauswahl als wie ein normaler Startbildschirm verhält.</string>
     <string name="help_tip_image_source_title">Bildquelle</string>
-    <string name="help_tip_image_source_subtitle">Wählen Sie den Auswahlmodus, der am besten mit Galerien, Dateimanagern und Cloud-Dateien funktioniert</string>
-    <string name="help_tip_image_source_page_title">Wählen Sie Dateien aus der richtigen Quelle aus</string>
+    <string name="help_tip_image_source_subtitle">Wähle den Auswahlmodus, der am besten mit Galerien, Dateimanagern und Cloud-Dateien funktioniert</string>
+    <string name="help_tip_image_source_page_title">Wähle Dateien aus der richtigen Quelle aus</string>
     <string name="help_tip_image_source_description">Die Einstellungen für die Bildquelle beeinflussen, wie die App Android nach Bildern fragt. Die beste Wahl hängt davon ab, ob sich Ihre Dateien in der Systemgalerie, einem Dateimanagerordner, einem Cloud-Anbieter oder einer anderen App befinden, die temporäre Inhalte teilt.</string>
-    <string name="help_tip_image_source_step_1">Verwenden Sie die Standardauswahl, wenn Sie für gängige Galeriebilder ein möglichst systemintegriertes Erlebnis wünschen.</string>
-    <string name="help_tip_image_source_step_2">Wechseln Sie den Auswahlmodus, wenn Alben, Ordner, Cloud-Dateien oder nicht standardmäßige Formate nicht dort angezeigt werden, wo Sie es erwarten.</string>
-    <string name="help_tip_image_source_step_3">Wenn eine freigegebene Datei nach dem Verlassen der Quell-App verschwindet, öffnen Sie sie erneut über eine dauerhafte Auswahl oder speichern Sie zunächst eine lokale Kopie.</string>
+    <string name="help_tip_image_source_step_1">Verwende die Standardauswahl, wenn du für gängige Galeriebilder ein möglichst systemintegriertes Erlebnis wünschst.</string>
+    <string name="help_tip_image_source_step_2">Wechsel den Auswahlmodus, wenn Alben, Ordner, Cloud-Dateien oder nicht standardmäßige Formate nicht dort angezeigt werden, wo du es erwartest.</string>
+    <string name="help_tip_image_source_step_3">Wenn eine freigegebene Datei nach dem Verlassen der Quell-App verschwindet, öffne sie erneut über eine dauerhafte Auswahl oder speichere zunächst eine lokale Kopie.</string>
     <string name="help_tip_favorites_share_tools_title">Favoriten und Tools zum Teilen</string>
     <string name="help_tip_favorites_share_tools_subtitle">Behalten Sie den Fokus des Hauptbildschirms bei und blenden Sie Tools aus, die in Freigabeflüssen keinen Sinn ergeben</string>
     <string name="help_tip_favorites_share_tools_page_title">Reduzieren Sie das Rauschen der Werkzeugliste</string>
@@ -2494,7 +2492,7 @@
     <string name="help_tip_resize_convert_subtitle">Ändern Sie Größe, Format, Qualität und Metadaten für ein oder mehrere Bilder</string>
     <string name="help_tip_resize_convert_page_title">Erstellen Sie verkleinerte Kopien</string>
     <string name="help_tip_resize_convert_description">Resize and Convert ist das Hauptwerkzeug für vorhersehbare Abmessungen und kleinere Ausgabedateien. Verwenden Sie es, wenn die Größe des Bildes, das Ausgabeformat und das Metadatenverhalten gleichzeitig wichtig sind.</string>
-    <string name="help_tip_resize_convert_step_1">Wählen Sie ein oder mehrere Bilder aus und entscheiden Sie dann, ob Abmessungen, Maßstab oder Dateigröße am wichtigsten sind.</string>
+    <string name="help_tip_resize_convert_step_1">Wähle ein oder mehrere Bilder aus und entscheide dann, ob Abmessungen, Maßstab oder Dateigröße am wichtigsten sind.</string>
     <string name="help_tip_resize_convert_step_2">Wählen Sie das Ausgabeformat und die Qualität aus. Verwenden Sie PNG oder WebP, wenn die Transparenz erhalten bleiben muss.</string>
     <string name="help_tip_resize_convert_step_3">Zeigen Sie eine Vorschau des Ergebnisses an und speichern oder teilen Sie dann die erstellten Kopien, ohne die Originale zu ändern.</string>
     <string name="help_tip_resize_by_file_size_title">Größe nach Dateigröße ändern</string>
@@ -2895,8 +2893,8 @@
     <string name="help_tip_skip_file_picking_title">Überspringen Sie die Dateiauswahl</string>
     <string name="help_tip_skip_file_picking_subtitle">Öffnen Sie Tools schneller, wenn die Eingabe normalerweise aus der Freigabe, der Zwischenablage oder einem vorherigen Bildschirm stammt</string>
     <string name="help_tip_skip_file_picking_page_title">Beschleunigen Sie wiederholte Werkzeugstarts</string>
-    <string name="help_tip_skip_file_picking_description">„Dateiauswahl überspringen“ ändert den ersten Schritt der unterstützten Tools. Dies ist nützlich, wenn Sie normalerweise ein Tool mit einem bereits ausgewählten Bild oder über Android-Freigabeaktionen aufrufen. Es kann jedoch verwirrend sein, wenn Sie erwarten, dass jedes Tool sofort nach einer Datei fragt.</string>
-    <string name="help_tip_skip_file_picking_step_1">Aktivieren Sie es nur, wenn Ihr üblicher Ablauf bereits das Quellbild bereitstellt, bevor das Tool geöffnet wird.</string>
+    <string name="help_tip_skip_file_picking_description">„Dateiauswahl überspringen“ ändert den ersten Schritt der unterstützten Tools. Dies ist nützlich, wenn du normalerweise ein Tool mit einem bereits ausgewählten Bild oder über Android-Freigabeaktionen aufrufst. Es kann jedoch verwirrend sein, wenn du erwartest, dass jedes Tool sofort nach einer Datei fragt.</string>
+    <string name="help_tip_skip_file_picking_step_1">Aktiviere es nur, wenn dein üblicher Ablauf bereits das Quellbild bereitstellt, bevor das Tool geöffnet wird.</string>
     <string name="help_tip_skip_file_picking_step_2">Lassen Sie es beim Erlernen der App deaktiviert, da die explizite Auswahl den Ablauf jedes Werkzeugs leichter verständlich macht.</string>
     <string name="help_tip_skip_file_picking_step_3">Wenn ein Tool ohne offensichtliche Eingabe geöffnet wird, deaktivieren Sie diese Einstellung oder starten Sie mit „Teilen/Öffnen mit“, damit Android die Datei zuerst übergibt.</string>
     <string name="help_tip_open_edit_directly_title">Öffnen Sie zuerst den Editor</string>
@@ -2955,7 +2953,7 @@
     <string name="help_tip_resize_type_step_1">Verwenden Sie „Explizit“ nur, wenn die Verzerrung akzeptabel ist oder die Quelle bereits das gleiche Seitenverhältnis wie das Ziel hat.</string>
     <string name="help_tip_resize_type_step_2">Verwenden Sie „Flexibel“, um die Proportionen beizubehalten, indem Sie die Größe von der wichtigen Seite ändern, insbesondere bei Fotos und gemischten Stapeln.</string>
     <string name="help_tip_resize_type_step_3">Verwenden Sie „Zuschneiden“ für strenge Rahmen ohne Ränder oder „Anpassen“, wenn das gesamte Bild innerhalb einer festen Leinwand sichtbar bleiben muss.</string>
-    <string name="help_tip_image_scale_mode_title">Wählen Sie den Bildskalierungsmodus</string>
+    <string name="help_tip_image_scale_mode_title">Wähle den Bildskalierungsmodus</string>
     <string name="help_tip_image_scale_mode_subtitle">Wählen Sie den Resampling-Filter, der Schärfe, Glätte, Geschwindigkeit und Kantenartefakte steuert</string>
     <string name="help_tip_image_scale_mode_page_title">Ändern Sie die Größe ohne versehentliche Weichheit</string>
     <string name="help_tip_image_scale_mode_description">Der Bildskalierungsmodus steuert, wie neue Pixel bei der Größenänderung berechnet werden. Einfache Modi sind schnell und vorhersehbar, während erweiterte Filter Details besser bewahren können, aber möglicherweise Kanten schärfen, Lichthöfe erzeugen oder bei großen Bildern länger dauern.</string>
