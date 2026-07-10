@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.watermarking.domain.DigitalParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
@@ -186,7 +187,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
     ): HiddenWatermark? = runSuspendCatching {
         suspendCancellableCoroutine { continuation ->
             WatermarkDetector
-                .create(image, true)
+                .create(image)
                 .detect(
                     object : DetectFinishListener {
                         override fun onSuccess(
@@ -214,7 +215,9 @@ internal class AndroidWatermarkApplier @Inject constructor(
                     params.isLSB,
                     object : BuildFinishListener<Bitmap> {
                         override fun onSuccess(image: Bitmap) = continuation.resume(image)
-                        override fun onFailure(reason: String) = continuation.resume(null)
+                        override fun onFailure(reason: String) = (reason to params)
+                            .makeLog("WatermarkBuilder.generateImage")
+                            .run { continuation.resume(null) }
                     }
                 )
             }

@@ -34,6 +34,7 @@ import coil3.size.pxOrElse
 import com.radzivon.bartoshyk.avif.coder.Coder
 import com.radzivon.bartoshyk.avif.coder.PreferredColorConfig
 import com.radzivon.bartoshyk.avif.coder.ScaleMode
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import kotlinx.coroutines.runInterruptible
 import okio.ByteString.Companion.encodeUtf8
 
@@ -102,6 +103,7 @@ class HeifDecoder(
                 isSampled = true
             )
         } catch (e: Exception) {
+            e.makeLog("HeifDecoder")
             exceptionLogger?.invoke(e)
             return@runInterruptible null
         }
