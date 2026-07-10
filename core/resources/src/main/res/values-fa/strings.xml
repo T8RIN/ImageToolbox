@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">منوی آلفا</string>
     <string name="auto_white_balance">تراز سفیدی خودکار</string>
     <string name="clipping">بریدن</string>
+    <string name="checking_for_hidden_watermarks">بررسی واترمارک های پنهان</string>
 </resources>

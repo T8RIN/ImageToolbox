@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">ਮੀਨੂ ਅਲਫ਼ਾ</string>
     <string name="auto_white_balance">ਆਟੋ ਵ੍ਹਾਈਟ ਬੈਲੇਂਸ</string>
     <string name="clipping">ਕਲਿਪਿੰਗ</string>
+    <string name="checking_for_hidden_watermarks">ਲੁਕੇ ਹੋਏ ਵਾਟਰਮਾਰਕਸ ਦੀ ਜਾਂਚ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
 </resources>

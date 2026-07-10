@@ -3694,4 +3694,5 @@
     <string name="markup_layers_side_menu_alpha">Menú alfa</string>
     <string name="auto_white_balance">Balanç de blancs automàtic</string>
     <string name="clipping">Retall</string>
+    <string name="checking_for_hidden_watermarks">Comprovació de les marques d\'aigua amagades</string>
 </resources>

@@ -3694,4 +3694,5 @@
     <string name="markup_layers_side_menu_alpha">Alfa menü</string>
     <string name="auto_white_balance">Automatikus fehéregyensúly</string>
     <string name="clipping">Darabka</string>
+    <string name="checking_for_hidden_watermarks">Rejtett vízjelek keresése</string>
 </resources>

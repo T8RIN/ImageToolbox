@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">Valikko alfa</string>
     <string name="auto_white_balance">Automaattinen valkotasapaino</string>
     <string name="clipping">Leikkaaminen</string>
+    <string name="checking_for_hidden_watermarks">Tarkistaa piilotettuja vesileimoja</string>
 </resources>

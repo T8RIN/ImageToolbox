@@ -3692,4 +3692,5 @@
     <string name="markup_layers_side_menu_alpha">Menu alfa</string>
     <string name="auto_white_balance">Keseimbangan Putih Otomatis</string>
     <string name="clipping">Guntingan</string>
+    <string name="checking_for_hidden_watermarks">Memeriksa tanda air yang tersembunyi</string>
 </resources>

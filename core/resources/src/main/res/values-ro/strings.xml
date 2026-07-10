@@ -3695,4 +3695,5 @@
     <string name="markup_layers_side_menu_alpha">Meniu alfa</string>
     <string name="auto_white_balance">Balans de alb automat</string>
     <string name="clipping">Tăiere</string>
+    <string name="checking_for_hidden_watermarks">Verificarea filigranelor ascunse</string>
 </resources>

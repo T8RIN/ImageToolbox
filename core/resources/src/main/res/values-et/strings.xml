@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">Alfa menüü</string>
     <string name="auto_white_balance">Automaatne valge tasakaal</string>
     <string name="clipping">Lõikamine</string>
+    <string name="checking_for_hidden_watermarks">Peidetud vesimärkide kontrollimine</string>
 </resources>

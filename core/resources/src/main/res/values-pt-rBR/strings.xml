@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">Menu alfa</string>
     <string name="auto_white_balance">Balanço de branco automático</string>
     <string name="clipping">Recorte</string>
+    <string name="checking_for_hidden_watermarks">Verificando marcas d’água ocultas</string>
 </resources>

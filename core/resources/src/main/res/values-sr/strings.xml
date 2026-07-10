@@ -3695,4 +3695,5 @@
     <string name="markup_layers_side_menu_alpha">Мени алфа</string>
     <string name="auto_white_balance">Аутоматски баланс белог</string>
     <string name="clipping">Цлиппинг</string>
+    <string name="checking_for_hidden_watermarks">Провера скривених водених жигова</string>
 </resources>

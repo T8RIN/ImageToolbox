@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">মেনু আলফা</string>
     <string name="auto_white_balance">অটো হোয়াইট ব্যালেন্স</string>
     <string name="clipping">ক্লিপিং</string>
+    <string name="checking_for_hidden_watermarks">লুকানো ওয়াটারমার্কের জন্য পরীক্ষা করা হচ্ছে</string>
 </resources>

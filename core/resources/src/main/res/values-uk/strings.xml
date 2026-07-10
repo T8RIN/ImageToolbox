@@ -3695,4 +3695,5 @@
     <string name="markup_layers_side_menu_alpha">Меню альфа</string>
     <string name="auto_white_balance">Автоматичний баланс білого</string>
     <string name="clipping">Вирізка</string>
+    <string name="checking_for_hidden_watermarks">Перевірка прихованих водяних знаків</string>
 </resources>

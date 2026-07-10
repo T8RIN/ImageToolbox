@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">阿尔法菜单</string>
     <string name="auto_white_balance">自动白平衡</string>
     <string name="clipping">剪裁</string>
+    <string name="checking_for_hidden_watermarks">检查隐藏水印</string>
 </resources>

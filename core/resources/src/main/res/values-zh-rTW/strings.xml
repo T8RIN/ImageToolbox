@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -3691,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">阿爾法菜單</string>
     <string name="auto_white_balance">自動白平衡</string>
     <string name="clipping">剪裁</string>
+    <string name="checking_for_hidden_watermarks">檢查隱藏浮水印</string>
 </resources>

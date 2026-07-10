@@ -3695,4 +3695,5 @@
     <string name="markup_layers_side_menu_alpha">Menu alfa</string>
     <string name="auto_white_balance">Automatické vyváženie bielej</string>
     <string name="clipping">Výstrižok</string>
+    <string name="checking_for_hidden_watermarks">Kontrola skrytých vodoznakov</string>
 </resources>

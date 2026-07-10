@@ -3695,4 +3695,5 @@
     <string name="markup_layers_side_menu_alpha">Альфа меню</string>
     <string name="auto_white_balance">Аўтаматычны баланс белага</string>
     <string name="clipping">Выразанне</string>
+    <string name="checking_for_hidden_watermarks">Праверка схаваных вадзяных знакаў</string>
 </resources>

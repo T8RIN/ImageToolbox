@@ -3692,4 +3692,5 @@
     <string name="markup_layers_side_menu_alpha">เมนูอัลฟ่า</string>
     <string name="auto_white_balance">สมดุลสีขาวอัตโนมัติ</string>
     <string name="clipping">การตัด</string>
+    <string name="checking_for_hidden_watermarks">กำลังตรวจสอบลายน้ำที่ซ่อนอยู่</string>
 </resources>

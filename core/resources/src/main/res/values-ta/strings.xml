@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">மெனு ஆல்பா</string>
     <string name="auto_white_balance">ஆட்டோ ஒயிட் பேலன்ஸ்</string>
     <string name="clipping">கிளிப்பிங்</string>
+    <string name="checking_for_hidden_watermarks">மறைக்கப்பட்ட வாட்டர்மார்க்ஸைச் சரிபார்க்கிறது</string>
 </resources>

@@ -3696,4 +3696,5 @@
     <string name="markup_layers_side_menu_alpha">תפריט אלפא</string>
     <string name="auto_white_balance">איזון לבן אוטומטי</string>
     <string name="clipping">גֶזֶר</string>
+    <string name="checking_for_hidden_watermarks">בודק סימני מים נסתרים</string>
 </resources>

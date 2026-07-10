@@ -3692,4 +3692,5 @@
     <string name="markup_layers_side_menu_alpha">メニューアルファ</string>
     <string name="auto_white_balance">オートホワイトバランス</string>
     <string name="clipping">クリッピング</string>
+    <string name="checking_for_hidden_watermarks">隠れた透かしのチェック</string>
 </resources>

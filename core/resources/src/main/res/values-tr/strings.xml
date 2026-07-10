@@ -3694,4 +3694,5 @@
     <string name="markup_layers_side_menu_alpha">Menü alfa</string>
     <string name="auto_white_balance">Otomatik Beyaz Dengesi</string>
     <string name="clipping">Kırpma</string>
+    <string name="checking_for_hidden_watermarks">Gizli filigranlar kontrol ediliyor</string>
 </resources>

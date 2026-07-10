@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">Menu alpha</string>
     <string name="auto_white_balance">Balance des blancs automatique</string>
     <string name="clipping">Coupure</string>
+    <string name="checking_for_hidden_watermarks">Vérification des filigranes cachés</string>
 </resources>

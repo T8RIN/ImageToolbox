@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">Meny alfa</string>
     <string name="auto_white_balance">Automatisk vitbalans</string>
     <string name="clipping">Klippning</string>
+    <string name="checking_for_hidden_watermarks">Söker efter dolda vattenstämplar</string>
 </resources>

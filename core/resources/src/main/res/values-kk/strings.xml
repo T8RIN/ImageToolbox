@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">Альфа мәзірі</string>
     <string name="auto_white_balance">Автоматты ақ баланс</string>
     <string name="clipping">Қиып алу</string>
+    <string name="checking_for_hidden_watermarks">Жасырын су белгілерін тексеру</string>
 </resources>

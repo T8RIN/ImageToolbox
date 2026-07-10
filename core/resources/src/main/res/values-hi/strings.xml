@@ -3693,4 +3693,5 @@
     <string name="markup_layers_side_menu_alpha">मेनू अल्फा</string>
     <string name="auto_white_balance">ऑटो व्हाइट बैलेंस</string>
     <string name="clipping">कतरन</string>
+    <string name="checking_for_hidden_watermarks">छिपे हुए वॉटरमार्क की जाँच की जा रही है</string>
 </resources>

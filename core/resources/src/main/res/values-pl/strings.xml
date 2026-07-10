@@ -3695,4 +3695,5 @@
     <string name="markup_layers_side_menu_alpha">Menu alfa</string>
     <string name="auto_white_balance">Automatyczny balans bieli</string>
     <string name="clipping">Obrzynek</string>
+    <string name="checking_for_hidden_watermarks">Sprawdzanie ukrytych znaków wodnych</string>
 </resources>
