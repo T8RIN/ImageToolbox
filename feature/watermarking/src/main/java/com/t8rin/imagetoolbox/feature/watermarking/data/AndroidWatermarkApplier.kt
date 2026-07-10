@@ -35,8 +35,11 @@ import com.t8rin.imagetoolbox.core.data.utils.asDomain
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
+import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
@@ -72,6 +75,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, WatermarkApplier<Bitmap> {
 
@@ -185,24 +189,31 @@ internal class AndroidWatermarkApplier @Inject constructor(
     override suspend fun checkHiddenWatermark(
         image: Bitmap
     ): HiddenWatermark? = runSuspendCatching {
-        suspendCancellableCoroutine { continuation ->
+        val returnValue = suspendCancellableCoroutine<DetectionReturnValue?> { continuation ->
             WatermarkDetector
                 .create(image)
                 .detect(
                     object : DetectFinishListener {
-                        override fun onSuccess(
-                            returnValue: DetectionReturnValue
-                        ) = continuation.resume(
-                            returnValue.watermarkBitmap
-                                ?.let(HiddenWatermark::Image)
-                                ?: returnValue.watermarkString?.takeIf { it.isNotEmpty() }
-                                    ?.let(HiddenWatermark::Text)
-                        )
+                        override fun onSuccess(returnValue: DetectionReturnValue) =
+                            continuation.resume(returnValue)
 
                         override fun onFailure(message: String?) = continuation.resume(null)
                     }
                 )
-        }
+        } ?: return@runSuspendCatching null
+
+        returnValue.watermarkBitmap?.let { watermark ->
+            shareProvider.cacheImage(
+                image = watermark,
+                imageInfo = ImageInfo(
+                    width = watermark.width,
+                    height = watermark.height,
+                    imageFormat = ImageFormat.Png.Lossless
+                )
+            )?.let(HiddenWatermark::Image)
+        } ?: returnValue.watermarkString
+            ?.takeIf { it.isNotEmpty() }
+            ?.let(HiddenWatermark::Text)
     }.getOrNull()
 
     @OptIn(InternalCoroutinesApi::class)

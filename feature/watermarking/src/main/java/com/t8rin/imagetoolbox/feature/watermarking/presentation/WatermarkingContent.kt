@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
@@ -63,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -108,6 +110,7 @@ fun WatermarkingContent(
     var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
     var showCompareSheet by rememberSaveable { mutableStateOf(false) }
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
+    var hiddenWatermarkPreviewUri by remember { mutableStateOf<Uri?>(null) }
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
@@ -229,7 +232,9 @@ fun WatermarkingContent(
                     }
                 )
                 HiddenWatermarkInfo(
-                    hiddenWatermark = component.currentHiddenWatermark
+                    hiddenWatermark = component.currentHiddenWatermark,
+                    isLoading = component.isCheckingHiddenWatermark,
+                    onImageClick = { hiddenWatermarkPreviewUri = it.uri.toUri() }
                 )
                 WatermarkingTypeSelector(
                     value = component.watermarkParams,
@@ -353,6 +358,19 @@ fun WatermarkingContent(
         onDismiss = {
             showZoomSheet = false
         }
+    )
+
+    ImagePager(
+        visible = hiddenWatermarkPreviewUri != null,
+        selectedUri = hiddenWatermarkPreviewUri,
+        uris = listOfNotNull(hiddenWatermarkPreviewUri),
+        onNavigate = {
+            hiddenWatermarkPreviewUri = null
+            component.onNavigate(it)
+        },
+        onUriSelected = { hiddenWatermarkPreviewUri = it },
+        onShare = component::shareUri,
+        onDismiss = { hiddenWatermarkPreviewUri = null }
     )
 
     LoadingDialog(

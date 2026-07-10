@@ -18,6 +18,9 @@
 package com.t8rin.imagetoolbox.feature.watermarking.presentation.components
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,79 +41,140 @@ import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
 
 @Composable
 internal fun HiddenWatermarkInfo(
-    hiddenWatermark: HiddenWatermark?
+    hiddenWatermark: HiddenWatermark?,
+    isLoading: Boolean,
+    onImageClick: (HiddenWatermark.Image) -> Unit
 ) {
     AnimatedContent(
-        targetState = hiddenWatermark,
-        modifier = Modifier.fillMaxWidth()
-    ) { hidden ->
-        hidden?.let {
-            PreferenceItemOverload(
-                title = stringResource(
-                    when (hidden) {
-                        is HiddenWatermark.Text -> R.string.hidden_watermark_text_detected
-                        is HiddenWatermark.Image -> R.string.hidden_watermark_image_detected
-                    }
-                ),
-                subtitle = when (hidden) {
-                    is HiddenWatermark.Text -> hidden.text
-                    is HiddenWatermark.Image -> stringResource(R.string.this_image_was_hidden)
-                },
-                onClick = if (hidden is HiddenWatermark.Text) {
-                    { Clipboard.copy(hidden.text) }
-                } else null,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f),
-                titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
-                startIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null
-                    )
-                },
-                endIcon = {
-                    when (hidden) {
-                        is HiddenWatermark.Text -> {
-                            Icon(
-                                imageVector = Icons.Rounded.ContentCopy,
-                                contentDescription = null
-                            )
-                        }
+        targetState = isLoading to hiddenWatermark,
+        transitionSpec = { fadeIn() togetherWith fadeOut() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateContentSizeNoClip()
+    ) { (loading, hidden) ->
+        if (loading) {
+            HiddenWatermarkLoadingCard()
+        } else {
+            hidden?.let {
+                HiddenWatermarkResultCard(
+                    hiddenWatermark = it,
+                    onImageClick = onImageClick
+                )
+            }
+        }
+    }
+}
 
-                        is HiddenWatermark.Image -> {
-                            Picture(
-                                model = hidden.image,
-                                shape = CloverShape,
-                                modifier = Modifier.size(48.dp),
-                                error = {
-                                    Icon(
-                                        imageVector = Icons.TwoTone.AddPhotoAlt,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .clip(CloverShape)
-                                            .background(
-                                                color = MaterialTheme.colorScheme.secondaryContainer
-                                                    .copy(0.5f)
-                                                    .compositeOverSafe(MaterialTheme.colorScheme.surfaceContainer)
-                                            )
-                                            .padding(8.dp)
-                                    )
-                                }
+@Composable
+private fun HiddenWatermarkLoadingCard() {
+    HiddenWatermarkCard(
+        title = stringResource(R.string.loading),
+        subtitle = stringResource(R.string.checking_for_hidden_watermarks),
+        onClick = null,
+        endIcon = {
+            EnhancedCircularProgressIndicator(
+                modifier = Modifier.size(24.dp),
+                trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                strokeWidth = 3.dp
+            )
+        }
+    )
+}
+
+@Composable
+private fun HiddenWatermarkResultCard(
+    hiddenWatermark: HiddenWatermark,
+    onImageClick: (HiddenWatermark.Image) -> Unit
+) {
+    HiddenWatermarkCard(
+        title = stringResource(
+            when (hiddenWatermark) {
+                is HiddenWatermark.Text -> R.string.hidden_watermark_text_detected
+                is HiddenWatermark.Image -> R.string.hidden_watermark_image_detected
+            }
+        ),
+        subtitle = when (hiddenWatermark) {
+            is HiddenWatermark.Text -> hiddenWatermark.text
+            is HiddenWatermark.Image -> stringResource(R.string.this_image_was_hidden)
+        },
+        onClick = {
+            when (hiddenWatermark) {
+                is HiddenWatermark.Text -> Clipboard.copy(hiddenWatermark.text)
+                is HiddenWatermark.Image -> onImageClick(hiddenWatermark)
+            }
+        },
+        endIcon = {
+            HiddenWatermarkEndIcon(hiddenWatermark)
+        }
+    )
+}
+
+@Composable
+private fun HiddenWatermarkCard(
+    title: String,
+    subtitle: String,
+    onClick: (() -> Unit)?,
+    endIcon: @Composable () -> Unit
+) {
+    PreferenceItemOverload(
+        title = title,
+        subtitle = subtitle,
+        onClick = onClick,
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f),
+        titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+        startIcon = {
+            Icon(
+                imageVector = Icons.Outlined.Info,
+                contentDescription = null
+            )
+        },
+        endIcon = endIcon,
+        modifier = Modifier.fillMaxWidth(),
+        shape = ShapeDefaults.large
+    )
+}
+
+@Composable
+private fun HiddenWatermarkEndIcon(hiddenWatermark: HiddenWatermark) {
+    when (hiddenWatermark) {
+        is HiddenWatermark.Text -> {
+            Icon(
+                imageVector = Icons.Rounded.ContentCopy,
+                contentDescription = null
+            )
+        }
+
+        is HiddenWatermark.Image -> {
+            Picture(
+                model = hiddenWatermark.uri,
+                shape = CloverShape,
+                modifier = Modifier.size(48.dp),
+                error = {
+                    Icon(
+                        imageVector = Icons.TwoTone.AddPhotoAlt,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CloverShape)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondaryContainer
+                                    .copy(0.5f)
+                                    .compositeOverSafe(MaterialTheme.colorScheme.surfaceContainer)
                             )
-                        }
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                shape = ShapeDefaults.large
+                            .padding(8.dp)
+                    )
+                }
             )
         }
     }

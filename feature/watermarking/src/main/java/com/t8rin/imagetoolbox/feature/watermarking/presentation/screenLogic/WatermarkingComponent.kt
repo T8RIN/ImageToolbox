@@ -123,14 +123,20 @@ class WatermarkingComponent @AssistedInject internal constructor(
     private val _currentHiddenWatermark: MutableState<HiddenWatermark?> = mutableStateOf(null)
     val currentHiddenWatermark by _currentHiddenWatermark
 
+    private val _isCheckingHiddenWatermark = mutableStateOf(false)
+    val isCheckingHiddenWatermark by _isCheckingHiddenWatermark
+
+    private var hiddenWatermarkJob: Job? by smartJob()
+
     private fun updateBitmap(
         bitmap: Bitmap,
         onComplete: () -> Unit = {}
     ) {
-        componentScope.launch {
-            _currentHiddenWatermark.update {
-                watermarkApplier.checkHiddenWatermark(bitmap)
-            }
+        _currentHiddenWatermark.value = null
+        _isCheckingHiddenWatermark.value = true
+        hiddenWatermarkJob = componentScope.launch {
+            _currentHiddenWatermark.value = watermarkApplier.checkHiddenWatermark(bitmap)
+            _isCheckingHiddenWatermark.value = false
         }
         componentScope.launch {
             _isImageLoading.value = true
@@ -467,6 +473,15 @@ class WatermarkingComponent @AssistedInject internal constructor(
             }
             onComplete(list)
             _isSaving.value = false
+        }
+    }
+
+    fun shareUri(uri: Uri) {
+        componentScope.launch {
+            shareProvider.shareUri(
+                uri = uri.toString(),
+                onComplete = {}
+            )
         }
     }
 
