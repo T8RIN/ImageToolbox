@@ -193,44 +193,57 @@ fun Cropper(
             }
 
             CropType.FreeCorners -> {
-                Box {
-                    var zoomLevel by remember {
-                        mutableFloatStateOf(1f)
-                    }
-                    FreeCornersCropper(
-                        bitmap = bitmap,
-                        sourceImageUri = imageUri,
-                        sourceImageSize = imageSize,
-                        croppingTrigger = crop,
-                        onCropped = onImageCropFinished,
-                        coercePointsToImageArea = coercePointsToImageArea,
-                        modifier = Modifier.transparencyChecker(),
-                        contentPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout)
-                            .let {
-                                if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-                                else it.only(WindowInsetsSides.Horizontal)
-                            }
-                            .union(
-                                WindowInsets(
-                                    left = 16.dp,
-                                    top = 32.dp,
-                                    right = 16.dp,
-                                    bottom = 32.dp
+                AnimatedContent(
+                    targetState = bitmap,
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    modifier = modifier.fillMaxSize()
+                ) { bitmap ->
+                    Box {
+                        var zoomLevel by remember {
+                            mutableFloatStateOf(1f)
+                        }
+                        FreeCornersCropper(
+                            bitmap = bitmap,
+                            sourceImageUri = imageUri,
+                            sourceImageSize = imageSize,
+                            croppingTrigger = crop,
+                            onCropped = onImageCropFinished,
+                            coercePointsToImageArea = coercePointsToImageArea,
+                            modifier = Modifier.transparencyChecker(),
+                            contentPadding = WindowInsets.systemBars
+                                .union(WindowInsets.displayCutout)
+                                .let {
+                                    if (addVerticalInsets) {
+                                        it.only(
+                                            WindowInsetsSides.Horizontal +
+                                                    WindowInsetsSides.Bottom
+                                        )
+                                    } else {
+                                        it.only(WindowInsetsSides.Horizontal)
+                                    }
+                                }
+                                .union(
+                                    WindowInsets(
+                                        left = 16.dp,
+                                        top = 32.dp,
+                                        right = 16.dp,
+                                        bottom = 32.dp
+                                    )
                                 )
-                            )
-                            .asPaddingValues(),
-                        onZoomChange = { newZoom ->
-                            zoomLevel = newZoom
-                        },
-                        showMagnifier = settingsState.magnifierEnabled,
-                        isOverlayDraggable = settingsState.cropOverlayDraggable,
-                        gridColor = MaterialTheme.colorScheme.primaryFixed.copy(0.5f),
-                        handlesColor = MaterialTheme.colorScheme.primaryFixed
-                    )
-                    ZoomBadge(
-                        zoomLevel = zoomLevel,
-                        modifier = Modifier.align(Alignment.TopStart),
-                    )
+                                .asPaddingValues(),
+                            onZoomChange = { newZoom ->
+                                zoomLevel = newZoom
+                            },
+                            showMagnifier = settingsState.magnifierEnabled,
+                            isOverlayDraggable = settingsState.cropOverlayDraggable,
+                            gridColor = MaterialTheme.colorScheme.primaryFixed.copy(0.5f),
+                            handlesColor = MaterialTheme.colorScheme.primaryFixed
+                        )
+                        ZoomBadge(
+                            zoomLevel = zoomLevel,
+                            modifier = Modifier.align(Alignment.TopStart),
+                        )
+                    }
                 }
             }
         }

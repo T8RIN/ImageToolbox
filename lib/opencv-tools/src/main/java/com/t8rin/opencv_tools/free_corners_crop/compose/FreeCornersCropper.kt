@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
 import androidx.compose.ui.input.pointer.PointerEventPass
@@ -107,8 +108,7 @@ fun FreeCornersCropper(
     val scope = rememberCoroutineScope()
     val imageKey = FreeCornersCropperImageKey(
         bitmap = bitmap,
-        generationId = bitmap.generationId,
-        sourceImageUri = sourceImageUri
+        generationId = bitmap.generationId
     )
 
     val handleRadiusPx = with(density) {
@@ -594,6 +594,14 @@ fun FreeCornersCropper(
                 blendMode = BlendMode.Clear
             )
 
+            clipPath(framePath) {
+                drawPerspectiveGrid(
+                    points = drawPoints,
+                    color = gridColor,
+                    strokeWidth = frameStrokeWidthPx
+                )
+            }
+
             drawPath(
                 path = framePath,
                 brush = SolidColor(gridColor),
@@ -725,8 +733,7 @@ private suspend fun PointerInputScope.detectCropDragGestures(
 
 private data class FreeCornersCropperImageKey(
     val bitmap: Bitmap,
-    val generationId: Int,
-    val sourceImageUri: Uri?
+    val generationId: Int
 )
 
 private data class ImageTransform(
