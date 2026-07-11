@@ -85,8 +85,7 @@ class CropComponent @AssistedInject internal constructor(
 
     private val _cropProperties = mutableStateOf(
         CropDefaults.properties(
-            cropOutlineProperty = defaultOutline,
-            fling = true
+            cropOutlineProperty = defaultOutline
         )
     )
     val cropProperties by _cropProperties

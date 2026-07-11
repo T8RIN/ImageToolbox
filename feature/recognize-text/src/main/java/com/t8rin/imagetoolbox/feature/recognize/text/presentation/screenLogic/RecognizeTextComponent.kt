@@ -230,8 +230,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     id = 0,
                     title = OutlineType.Rect.name
                 )
-            ),
-            fling = true
+            )
         )
     )
     val cropProperties by _cropProperties
