@@ -45,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.cropper.model.AspectRatio
 import com.t8rin.cropper.model.OutlineType
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -61,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.CropOverlayDraggableSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -247,6 +249,17 @@ fun CropContent(
                     value = component.cropType == CropType.FreeCorners,
                     onClick = component::toggleFreeCornersCrop
                 )
+                BoxAnimatedVisibility(
+                    visible = component.cropType != CropType.Default ||
+                            component.cropProperties.aspectRatio == AspectRatio.Original,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    CropOverlayDraggableSelector(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = ShapeDefaults.extraLarge
+                    )
+                }
                 BoxAnimatedVisibility(
                     visible = component.cropType == CropType.Default,
                     enter = fadeIn() + expandVertically(),

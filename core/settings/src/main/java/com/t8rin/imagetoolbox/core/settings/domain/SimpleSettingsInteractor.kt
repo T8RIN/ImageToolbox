@@ -24,6 +24,8 @@ interface SimpleSettingsInteractor {
 
     suspend fun toggleMagnifierEnabled()
 
+    suspend fun toggleCropOverlayDraggable()
+
     suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>)
 
     suspend fun toggleRecentColor(

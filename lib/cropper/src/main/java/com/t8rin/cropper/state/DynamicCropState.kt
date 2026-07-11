@@ -64,6 +64,7 @@ class DynamicCropState internal constructor(
     limitPan: Boolean,
     private val minDimension: IntSize?,
     private val fixedAspectRatio: Boolean,
+    internal var isOverlayDraggable: Boolean,
 ) : CropState(
     imageSize = imageSize,
     containerSize = containerSize,
@@ -124,7 +125,9 @@ class DynamicCropState internal constructor(
             position = touchPositionOnScreen,
             rect = overlayRect,
             threshold = handleSize * 1.5f
-        )
+        ).let {
+            if (it == TouchRegion.Inside && !isOverlayDraggable) TouchRegion.None else it
+        }
 
         // This is the difference between touch position and edge
         // This is required for not moving edge of draw rect to touch position on move

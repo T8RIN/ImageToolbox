@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.Done
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.CropOverlayDraggableSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -155,6 +156,20 @@ fun CropEditOption(
                     value = cropType == CropType.FreeCorners,
                     onClick = toggleFreeCornersCrop
                 )
+                BoxAnimatedVisibility(
+                    visible = cropType != CropType.Default ||
+                            cropProperties.aspectRatio == AspectRatio.Original,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    CropOverlayDraggableSelector(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                            .padding(horizontal = 16.dp),
+                        shape = ShapeDefaults.extraLarge
+                    )
+                }
                 BoxAnimatedVisibility(
                     visible = cropType == CropType.Default,
                     enter = fadeIn() + expandVertically(),

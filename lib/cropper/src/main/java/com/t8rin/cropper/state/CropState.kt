@@ -41,6 +41,7 @@ fun rememberCropState(
     containerSize: IntSize,
     drawAreaSize: IntSize,
     cropProperties: CropProperties,
+    isOverlayDraggable: Boolean = true,
     vararg keys: Any?
 ): CropState {
 
@@ -91,6 +92,7 @@ fun rememberCropState(
                     limitPan = true,
                     minDimension = minDimension,
                     fixedAspectRatio = fixedAspectRatio,
+                    isOverlayDraggable = isOverlayDraggable,
                 )
             }
         }

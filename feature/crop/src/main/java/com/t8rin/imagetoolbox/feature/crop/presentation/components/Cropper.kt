@@ -114,7 +114,7 @@ fun Cropper(
                                 rotate90Icon = Icons.Outlined.Rotate90Ccw
                             )
                         },
-                        isOverlayDraggable = true,
+                        isOverlayDraggable = settingsState.cropOverlayDraggable,
                         rotationAngleState = rotationState,
                         onLoadingStateChange = {
                             if (it) {
@@ -181,7 +181,8 @@ fun Cropper(
                             onZoomChange = { newZoom ->
                                 zoomLevel = newZoom
                             },
-                            onCropSuccess = onImageCropFinished
+                            onCropSuccess = onImageCropFinished,
+                            isOverlayDraggable = settingsState.cropOverlayDraggable
                         )
                         ZoomBadge(
                             zoomLevel = zoomLevel,
@@ -221,7 +222,8 @@ fun Cropper(
                         onZoomChange = { newZoom ->
                             zoomLevel = newZoom
                         },
-                        showMagnifier = settingsState.magnifierEnabled
+                        showMagnifier = settingsState.magnifierEnabled,
+                        isOverlayDraggable = settingsState.cropOverlayDraggable
                     )
                     ZoomBadge(
                         zoomLevel = zoomLevel,

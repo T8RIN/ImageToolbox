@@ -94,6 +94,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.CONFETTI_HARMONIZATION_
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CONFETTI_HARMONIZER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CONFETTI_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.COPY_TO_CLIPBOARD_MODE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.CROP_OVERLAY_DRAGGABLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CUSTOM_FONTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_DRAW_COLOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_DRAW_LINE_WIDTH
@@ -521,6 +522,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleMagnifierEnabled() = toggle(
         key = MAGNIFIER_ENABLED,
         defaultValue = default.magnifierEnabled
+    )
+
+    override suspend fun toggleCropOverlayDraggable() = toggle(
+        key = CROP_OVERLAY_DRAGGABLE,
+        defaultValue = default.cropOverlayDraggable
     )
 
     override suspend fun toggleDrawBitmapBorder() = toggle(

@@ -235,6 +235,7 @@ private fun FakeLoader(
 
 private val FakeSettings = object : SimpleSettingsInteractor {
     override suspend fun toggleMagnifierEnabled() = Unit
+    override suspend fun toggleCropOverlayDraggable() = Unit
     override suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>) =
         Unit
 

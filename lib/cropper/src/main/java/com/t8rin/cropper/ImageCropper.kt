@@ -84,6 +84,7 @@ fun ImageCropper(
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     crop: Boolean = false,
     enableOneFingerZoom: Boolean = true,
+    isOverlayDraggable: Boolean = true,
     onCropStart: () -> Unit,
     onZoomChange: (Float) -> Unit,
     onCropSuccess: (Uri?) -> Unit,
@@ -155,8 +156,15 @@ fun ImageCropper(
             containerSize = IntSize(containerWidthPx, containerHeightPx),
             drawAreaSize = IntSize(imageWidthPx, imageHeightPx),
             cropProperties = cropProperties,
+            isOverlayDraggable = isOverlayDraggable,
             keys = resetKeys
         )
+
+        LaunchedEffect(cropState, isOverlayDraggable) {
+            if (cropState is DynamicCropState) {
+                cropState.isOverlayDraggable = isOverlayDraggable
+            }
+        }
 
         onZoomChange(cropState.zoom)
 

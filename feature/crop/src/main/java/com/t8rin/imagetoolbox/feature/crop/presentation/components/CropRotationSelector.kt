@@ -17,14 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.crop.presentation.components
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ScreenRotationAlt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun CropRotationSelector(
@@ -39,6 +40,7 @@ fun CropRotationSelector(
         icon = Icons.Rounded.ScreenRotationAlt,
         valueRange = -45f..45f,
         internalStateTransformation = { it.roundTo(1) },
-        onValueChange = onValueChange
+        onValueChange = onValueChange,
+        shape = ShapeDefaults.large
     )
 }
