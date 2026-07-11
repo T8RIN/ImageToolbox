@@ -51,6 +51,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
@@ -325,10 +326,22 @@ fun FreeCornersCropper(
             right = containerWidthPx - horizontalPointInset,
             bottom = containerHeightPx - verticalPointInset
         )
-        val selectedPointIndices = dragTarget.pointIndices
+        val selectedCornerIndex = (dragTarget as? DragTarget.Corner)?.index
+        val selectedEdge = dragTarget as? DragTarget.Edge
         val cropPointsInitialized = drawPoints.size == CROP_POINTS_COUNT
         val pointScales = List(drawPoints.size) {
-            animateFloatAsState(if (it in selectedPointIndices) 1.4f else 1f)
+            animateFloatAsState(if (it == selectedCornerIndex) 1.4f else 1f)
+        }
+        val edgeScales = edgeIndices.map { (firstIndex, secondIndex) ->
+            animateFloatAsState(
+                if (selectedEdge?.firstIndex == firstIndex &&
+                    selectedEdge.secondIndex == secondIndex
+                ) {
+                    1.4f
+                } else {
+                    1f
+                }
+            )
         }
 
         LaunchedEffect(croppingTrigger, baseImageBounds, cropPointsInitialized) {
@@ -600,6 +613,30 @@ fun FreeCornersCropper(
                 brush = SolidColor(gridColor),
                 style = Stroke(frameStrokeWidthPx)
             )
+
+            edgeIndices.forEachIndexed { index, (firstIndex, secondIndex) ->
+                val firstPoint = drawPoints[firstIndex]
+                val secondPoint = drawPoints[secondIndex]
+                val edgeVector = secondPoint - firstPoint
+                val edgeLength = edgeVector.getDistance()
+                if (edgeLength > 0f) {
+                    val center = (firstPoint + secondPoint) / 2f
+                    val halfHandleLength = minOf(
+                        handleRadiusPx * MIDDLE_HANDLE_LENGTH_MULTIPLIER *
+                                edgeScales[index].value,
+                        edgeLength / 2f
+                    )
+                    val handleVector = edgeVector / edgeLength * halfHandleLength
+
+                    drawLine(
+                        color = handlesColor,
+                        start = center - handleVector,
+                        end = center + handleVector,
+                        strokeWidth = frameStrokeWidthPx * 4f * edgeScales[index].value,
+                        cap = StrokeCap.Round
+                    )
+                }
+            }
 
             drawPoints.forEachIndexed { index, point ->
                 val scale = pointScales[index].value
@@ -1130,6 +1167,7 @@ private val MinEdgeTouchRadius = 22.dp
 private const val STRICT_CORNER_TOUCH_RADIUS_MULTIPLIER = 1.9f
 private const val CORNER_TOUCH_RADIUS_MULTIPLIER = 3.2f
 private const val EDGE_TOUCH_RADIUS_MULTIPLIER = 2.5f
+private const val MIDDLE_HANDLE_LENGTH_MULTIPLIER = 1.5f
 private const val DOUBLE_TAP_POSITION_TOLERANCE_MULTIPLIER = 4f
 private const val MINIMUM_CROP_ZOOM = 0.05f
 private const val CROP_POINTS_COUNT = 4
