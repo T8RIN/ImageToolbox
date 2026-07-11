@@ -223,7 +223,9 @@ fun Cropper(
                             zoomLevel = newZoom
                         },
                         showMagnifier = settingsState.magnifierEnabled,
-                        isOverlayDraggable = settingsState.cropOverlayDraggable
+                        isOverlayDraggable = settingsState.cropOverlayDraggable,
+                        gridColor = MaterialTheme.colorScheme.primaryFixed.copy(0.5f),
+                        handlesColor = MaterialTheme.colorScheme.primaryFixed
                     )
                     ZoomBadge(
                         zoomLevel = zoomLevel,

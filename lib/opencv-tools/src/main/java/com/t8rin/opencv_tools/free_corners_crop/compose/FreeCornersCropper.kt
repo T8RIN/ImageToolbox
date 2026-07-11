@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
@@ -97,7 +98,9 @@ fun FreeCornersCropper(
     coercePointsToImageArea: Boolean = true,
     isOverlayDraggable: Boolean = true,
     overlayColor: Color = Color.Black.copy(0.5f),
-    contentPadding: PaddingValues = PaddingValues(24.dp)
+    contentPadding: PaddingValues = PaddingValues(24.dp),
+    gridColor: Color,
+    handlesColor: Color
 ) {
     val density = LocalDensity.current
     val context = LocalContext.current
@@ -126,7 +129,6 @@ fun FreeCornersCropper(
     val frameStrokeWidthPx = with(density) {
         frameStrokeWidth.toPx()
     }
-    val colorScheme = MaterialTheme.colorScheme
     val imageBitmap = remember(imageKey) { bitmap.asImageBitmap() }
 
     var dragTarget by remember(imageKey) { mutableStateOf<DragTarget>(DragTarget.None) }
@@ -474,6 +476,11 @@ fun FreeCornersCropper(
             }
         }
 
+        val colorScheme = MaterialTheme.colorScheme
+        val handleOutlineColor = remember(gridColor, colorScheme) {
+            gridColor.compositeOver(colorScheme.onPrimaryFixed)
+        }
+
         Canvas(
             modifier = Modifier
                 .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
@@ -589,7 +596,7 @@ fun FreeCornersCropper(
 
             drawPath(
                 path = framePath,
-                brush = SolidColor(colorScheme.primaryContainer),
+                brush = SolidColor(gridColor),
                 style = Stroke(frameStrokeWidthPx)
             )
 
@@ -597,12 +604,12 @@ fun FreeCornersCropper(
                 val scale = pointScales[index].value
 
                 drawCircle(
-                    color = colorScheme.primary,
+                    color = handleOutlineColor,
                     center = point,
                     radius = handleRadiusPx * scale
                 )
                 drawCircle(
-                    color = colorScheme.primaryContainer,
+                    color = handlesColor,
                     center = point,
                     radius = handleRadiusPx * 0.8f * scale
                 )
