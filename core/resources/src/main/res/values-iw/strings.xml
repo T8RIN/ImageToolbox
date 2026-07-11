@@ -280,7 +280,6 @@
     <string name="image_size_warning">‌ניסיון לשמור תמונה עם רוחב וגובה נתונים עלול לגרום לשגיאת זיכרון מלא, עשה זאת על אחריותך בלבד.</string>
     <string name="cache">מטמון</string>
     <string name="found_s">נמצא %1$s</string>
-    <string name="auto_cache_clearing_sub">אם מופעלת מטמון האפליקציה ינוקה בעת הפעלת האפליקציה</string>
     <string name="tools">כלים</string>
     <string name="group_options_by_type">קבץ אפשרויות לפי סוג</string>
     <string name="group_options_by_type_sub">אפשרויות קבוצות במסך הראשי של סוגן במקום סידור רשימה מותאם אישית</string>

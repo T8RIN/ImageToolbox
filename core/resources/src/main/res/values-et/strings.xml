@@ -295,7 +295,6 @@
     <string name="cache_size">Vahemälu suurus</string>
     <string name="found_s">Leitud %1$s</string>
     <string name="auto_cache_clearing">Automaatne vahemälu tühjendamine</string>
-    <string name="auto_cache_clearing_sub">Kui see on lubatud, tühjendatakse rakenduse käivitamisel rakenduse vahemälu</string>
     <string name="create">Loo</string>
     <string name="tools">Tööriistad</string>
     <string name="group_options_by_type">Rühmitage valikud tüübi järgi</string>

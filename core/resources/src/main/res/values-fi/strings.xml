@@ -295,7 +295,6 @@
     <string name="cache_size">Välimuistin koko</string>
     <string name="found_s">Löydetty %1$s</string>
     <string name="auto_cache_clearing">Automaattinen välimuistin tyhjennys</string>
-    <string name="auto_cache_clearing_sub">Jos käytössä, välimuisti tyhjennetään kun sovellus käynnistetään</string>
     <string name="create">Luo</string>
     <string name="tools">Työkalut</string>
     <string name="group_options_by_type">Ryhmitä vaihtoehdot tyypin mukaan</string>

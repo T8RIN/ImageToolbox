@@ -286,7 +286,6 @@
     <string name="features">คุณสมบัติ</string>
     <string name="file_size_sub">ขนาดไฟล์สูงสุดถูกจำกัดโดยระบบปฏิบัติการ Android และหน่วยความจำที่มี ซึ่งขึ้นอยู่กับอุปกรณ์ของคุณ \nโปรดทราบ: หน่วยความจำไม่ใช่ที่เก็บข้อมูล</string>
     <string name="image_size_warning">การพยายามบันทึกรูปภาพด้วยความกว้างและความสูงที่กำหนดอาจทำให้เกิดข้อผิดพลาด OOM คุณต้องยอมรับความเสี่ยงเอง และอย่าหาว่าฉันไม่เตือนคุณ!</string>
-    <string name="auto_cache_clearing_sub">หากเปิดใช้งานแคชของแอปจะถูกล้างเมื่อเริ่มต้นแอป</string>
     <string name="screenshot">ภาพหน้าจอ</string>
     <string name="fallback_option">ตัวเลือกสำรอง</string>
     <string name="draw">วาด</string>

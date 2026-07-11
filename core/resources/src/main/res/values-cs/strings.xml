@@ -302,7 +302,6 @@
     <string name="cache_size">Velikost mezipaměti</string>
     <string name="found_s">Nalezeno %1$s</string>
     <string name="auto_cache_clearing">Automatické vymazání mezipaměti</string>
-    <string name="auto_cache_clearing_sub">Pokud je povoleno, mezipaměť aplikace se vymaže při spuštění aplikace</string>
     <string name="tools">Nástroje</string>
     <string name="group_options_by_type">Seskupit možnosti podle typu</string>
     <string name="group_options_by_type_sub">Seskupí možnosti na hlavní obrazovce svého typu namísto vlastního uspořádání seznamu</string>

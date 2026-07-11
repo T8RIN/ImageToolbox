@@ -295,7 +295,6 @@
     <string name="cache_size">හැඹිලි ප්රමාණය</string>
     <string name="found_s">%1$s හමු විය</string>
     <string name="auto_cache_clearing">ස්වයංක්‍රීය හැඹිලි ඉවත් කිරීම</string>
-    <string name="auto_cache_clearing_sub">සබල කර ඇත්නම් යෙදුම් හැඹිලිය යෙදුම් ආරම්භයේදී හිස් කරනු ඇත</string>
     <string name="create">නිර්මාණය කරන්න</string>
     <string name="tools">මෙවලම්</string>
     <string name="group_options_by_type">වර්ගය අනුව කණ්ඩායම් විකල්ප</string>

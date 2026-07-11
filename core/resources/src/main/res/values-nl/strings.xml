@@ -343,7 +343,6 @@
     <string name="cache_size">Cache grootte</string>
     <string name="found_s">Gevonden %1$s</string>
     <string name="auto_cache_clearing">Automatisch cache wissen</string>
-    <string name="auto_cache_clearing_sub">Indien ingeschakeld, wordt de app-cache gewist bij het opstarten van de app</string>
     <string name="create">Creëren</string>
     <string name="tools">Hulpmiddelen</string>
     <string name="group_options_by_type">Groepeer opties op type</string>

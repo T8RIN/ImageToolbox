@@ -278,7 +278,6 @@
     <string name="copy">Copiere</string>
     <string name="activate_files">Ați dezactivat aplicația Fișiere, activați-o pentru a utiliza această caracteristică</string>
     <string name="warning_bytes">Salvarea în modul %1$s poate fi instabilă, deoarece este un format fără pierderi</string>
-    <string name="auto_cache_clearing_sub">Dacă este activată, memoria cache a aplicației va fi ștearsă la pornirea aplicației</string>
     <string name="skip">Ocolire</string>
     <string name="cache_size">Mărimea cache-ului</string>
     <string name="create">Creare</string>

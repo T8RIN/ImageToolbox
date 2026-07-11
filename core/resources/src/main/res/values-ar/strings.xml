@@ -292,7 +292,6 @@
     <string name="group_options_by_type_sub">خيارات المجموعات على الشاشة الرئيسية من نوعها بدلاً من ترتيب القائمة المخصص</string>
     <string name="create">أنشئ</string>
     <string name="image_size_warning">محاولة حفظ الصورة بالعرض والارتفاع المحددين قد تتسبب في حدوث خطأ في الذاكرة. قم بذلك على مسؤوليتك الخاصة.</string>
-    <string name="auto_cache_clearing_sub">إذا فُعّل، سيتم مسح ذاكرة التخزين المؤقت للتطبيق عند بدء التشغيل</string>
     <string name="tools">أدوات</string>
     <string name="screenshot">لقطة شاشة</string>
     <string name="group_options_by_type">خيارات المجموعة حسب النوع</string>

@@ -295,7 +295,6 @@
     <string name="cache_size">ক্যাশে আকার</string>
     <string name="found_s">%1$s পাওয়া গেছে</string>
     <string name="auto_cache_clearing">স্বয়ংক্রিয় ক্যাশে ক্লিয়ারিং</string>
-    <string name="auto_cache_clearing_sub">সক্ষম হলে অ্যাপ ক্যাশে অ্যাপ স্টার্টআপে সাফ হয়ে যাবে</string>
     <string name="create">তৈরি করুন</string>
     <string name="tools">টুলস</string>
     <string name="group_options_by_type">টাইপ দ্বারা গ্রুপ বিকল্প</string>

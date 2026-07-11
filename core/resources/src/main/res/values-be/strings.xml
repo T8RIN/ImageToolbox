@@ -602,7 +602,6 @@
     <string name="cache_size">Памер кэша</string>
     <string name="found_s">Знойдзена %1$s</string>
     <string name="auto_cache_clearing">Аўтаматычная ачыстка кэша</string>
-    <string name="auto_cache_clearing_sub">Калі ўключана, кэш праграмы будзе ачышчаны пры запуску праграмы</string>
     <string name="create">Ствараць</string>
     <string name="tools">інструменты</string>
     <string name="edit_screenshot">Рэдагаваць скрыншот</string>

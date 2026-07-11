@@ -276,7 +276,6 @@
     <string name="cache_size">快取大小</string>
     <string name="found_s">已發現 %1$s</string>
     <string name="auto_cache_clearing">自動清除快取</string>
-    <string name="auto_cache_clearing_sub">如果啟用，應用程式快取將在應用程式啟動時清除</string>
     <string name="create">創作</string>
     <string name="draw_on_background_sub">選擇背景顏色並在其上繪畫</string>
     <string name="background_color">背景顏色</string>

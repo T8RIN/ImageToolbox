@@ -281,7 +281,6 @@
     <string name="compatibility_sub">他のファイル暗号化ソフトウェアやサービスとの互換性は保証されないことにご注意ください。キーの扱いや暗号の設定がわずかに異なると問題が発生する可能性があります</string>
     <string name="image_size_warning">指定した幅と高さで画像を保存しようとすると、メモリ不足のエラーが発生することがあります。 自己責任で行ってください。</string>
     <string name="cache_size">キャッシュサイズ</string>
-    <string name="auto_cache_clearing_sub">有効にするとアプリ起動時にアプリキャッシュがクリアされます</string>
     <string name="tools">ツール</string>
     <string name="group_options_by_type">タイプ別にオプションをグループ化</string>
     <string name="group_options_by_type_sub">メイン画面上のオプションをカスタムリスト配置ではなく、タイプ別にグループ化します</string>

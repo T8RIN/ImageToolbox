@@ -296,7 +296,6 @@
     <string name="cache_size">Önbellek boyutu</string>
     <string name="found_s">%1$s bulundu</string>
     <string name="auto_cache_clearing">Otomatik önbellek temizleme</string>
-    <string name="auto_cache_clearing_sub">Etkinleştirilirse uygulama önbelleği uygulama başlangıcında temizlenir</string>
     <string name="create">Oluştur</string>
     <string name="tools">Araçlar</string>
     <string name="group_options_by_type">Seçenekleri türe göre gruplandır</string>

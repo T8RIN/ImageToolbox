@@ -290,7 +290,6 @@
     <string name="background_color">Боја позадине</string>
     <string name="cipher">Ципхер</string>
     <string name="auto_cache_clearing">Аутоматско брисање кеша</string>
-    <string name="auto_cache_clearing_sub">Ако је омогућена, кеш апликације ће бити обрисан при покретању апликације</string>
     <string name="edit_screenshot">Уредите снимак екрана</string>
     <string name="secondary_customization">Секундарно прилагођавање</string>
     <string name="copy">Копирај</string>

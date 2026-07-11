@@ -323,7 +323,6 @@
     <string name="cache_size">Talpyklos dydis</string>
     <string name="found_s">Rasta %1$s</string>
     <string name="auto_cache_clearing">Automatinis talpyklos išvalymas</string>
-    <string name="auto_cache_clearing_sub">Jei įjungta, programos talpykla bus išvalyta paleidžiant programą</string>
     <string name="create">Sukurti</string>
     <string name="tools">Įrankiai</string>
     <string name="group_options_by_type">Grupuokite parinktis pagal tipą</string>

@@ -1077,7 +1077,6 @@
     <string name="cache_size">Cache size</string>
     <string name="found_s">Found %1$s</string>
     <string name="auto_cache_clearing">Auto cache clearing</string>
-    <string name="auto_cache_clearing_sub">If enabled app cache will be cleared on app startup</string>
     <string name="create">Create</string>
     <string name="tools">Tools</string>
     <string name="group_options_by_type">Group options by type</string>
@@ -3720,4 +3719,14 @@
     <string name="auto_white_balance">Auto White Balance</string>
     <string name="clipping">Clipping</string>
     <string name="checking_for_hidden_watermarks">Checking for hidden watermarks</string>
+    <string name="storage">Storage</string>
+    <string name="cache_auto_clear_limit">Cache limit</string>
+    <string name="cache_auto_clear_limit_sub">Clear the cache automatically when it grows beyond this size</string>
+    <string name="cache_auto_clear_interval">Cleanup interval</string>
+    <string name="cache_auto_clear_interval_sub">How often to check whether the cache should be cleared</string>
+    <string name="cache_auto_clear_on_app_launch">On app launch</string>
+    <string name="cache_auto_clear_after_day">1 day</string>
+    <string name="cache_auto_clear_after_week">1 week</string>
+    <string name="cache_auto_clear_after_month">1 month</string>
+    <string name="auto_cache_clearing_sub">Clear the app cache automatically according to the selected limit and interval</string>
 </resources>

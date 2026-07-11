@@ -279,7 +279,6 @@
     <string name="cache">Cache</string>
     <string name="found_s">Nájdené %1$s</string>
     <string name="auto_cache_clearing">Automatické vymazanie vyrovnávacej pamäte</string>
-    <string name="auto_cache_clearing_sub">Ak je povolená, vyrovnávacia pamäť aplikácie sa vymaže pri spustení aplikácie</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Nie je možné zmeniť usporiadanie, kým je povolené zoskupovanie možností</string>
     <string name="edit_screenshot">Upravte snímku obrazovky</string>
     <string name="secondary_customization">Sekundárne prispôsobenie</string>

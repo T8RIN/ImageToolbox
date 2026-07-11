@@ -295,7 +295,6 @@
     <string name="cache_size">Tamanho da memória cache</string>
     <string name="found_s">Encontrado %1$s</string>
     <string name="auto_cache_clearing">Limpeza automática de cache</string>
-    <string name="auto_cache_clearing_sub">Se ativado, o cache do aplicativo será limpo na inicialização do aplicativo</string>
     <string name="create">Criar</string>
     <string name="tools">Ferramentas</string>
     <string name="group_options_by_type">Opções de grupo por tipo</string>

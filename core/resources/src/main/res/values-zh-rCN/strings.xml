@@ -292,7 +292,6 @@
     <string name="cache_size">缓存区大小</string>
     <string name="found_s">已发现%1$s缓存</string>
     <string name="auto_cache_clearing">自动清理缓存</string>
-    <string name="auto_cache_clearing_sub">如果开启该选项，应用缓存将会在应用启动时自动清理</string>
     <string name="tools">工具</string>
     <string name="group_options_by_type">根据功能类型将功能分组</string>
     <string name="group_options_by_type_sub">对主屏幕上的选项按选项类型分组，代替按自定义列表排列</string>

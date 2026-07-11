@@ -294,7 +294,6 @@
     <string name="cache_size">Taille du cache</string>
     <string name="found_s">Trouvé %1$s</string>
     <string name="auto_cache_clearing">Effacement automatique du cache</string>
-    <string name="auto_cache_clearing_sub">Si activé, le cache de l\'application sera effacé au démarrage de l’application</string>
     <string name="create">Créer</string>
     <string name="tools">Outils</string>
     <string name="group_options_by_type">Grouper les options par type</string>

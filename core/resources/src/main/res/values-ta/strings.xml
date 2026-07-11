@@ -321,7 +321,6 @@
     <string name="cache_size">கேச் அளவு</string>
     <string name="found_s">கிடைத்தது %1$s</string>
     <string name="auto_cache_clearing">தானியங்கு கேச் அழிக்கும்</string>
-    <string name="auto_cache_clearing_sub">இயக்கப்பட்டால், ஆப்ஸ் துவக்கத்தில் ஆப் கேச் அழிக்கப்படும்</string>
     <string name="create">உருவாக்கு</string>
     <string name="tools">கருவிகள்</string>
     <string name="group_options_by_type_sub">தனிப்பயன் பட்டியல் ஏற்பாட்டிற்குப் பதிலாக முதன்மைத் திரையில் அவற்றின் வகையின்படி குழுக்கள் விருப்பங்கள்</string>

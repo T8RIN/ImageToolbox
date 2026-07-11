@@ -299,7 +299,6 @@
     <string name="auto_cache_clearing">Автоматическая очистка кэша</string>
     <string name="cache">Кэш</string>
     <string name="cache_size">Размер кэша</string>
-    <string name="auto_cache_clearing_sub">Если включено, кэш приложения будет очищаться при запуске приложения</string>
     <string name="create">Создать</string>
     <string name="edit_screenshot">Редактировать скриншот</string>
     <string name="secondary_customization">Вторичная кастомизация</string>
@@ -3697,4 +3696,13 @@
     <string name="auto_white_balance">Автоматический баланс белого</string>
     <string name="clipping">Обрезка</string>
     <string name="checking_for_hidden_watermarks">Проверка скрытых водяных знаков</string>
+    <string name="storage">Хранилище</string>
+    <string name="cache_auto_clear_limit">Лимит кэша</string>
+    <string name="cache_auto_clear_limit_sub">Автоматически очищать кэш, когда он превысит этот размер</string>
+    <string name="cache_auto_clear_interval">Интервал очистки</string>
+    <string name="cache_auto_clear_interval_sub">Как часто проверять необходимость очистки кэша</string>
+    <string name="cache_auto_clear_on_app_launch">При запуске приложения</string>
+    <string name="cache_auto_clear_after_day">1 день</string>
+    <string name="cache_auto_clear_after_week">1 неделя</string>
+    <string name="cache_auto_clear_after_month">1 месяц</string>
 </resources>

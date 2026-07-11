@@ -295,7 +295,6 @@
     <string name="cache_size">ਕੈਸ਼ ਆਕਾਰ</string>
     <string name="found_s">%1$s ਮਿਲਿਆ</string>
     <string name="auto_cache_clearing">ਆਟੋ ਕੈਸ਼ ਕਲੀਅਰਿੰਗ</string>
-    <string name="auto_cache_clearing_sub">ਜੇਕਰ ਸਮਰਥਿਤ ਐਪ ਕੈਸ਼ ਐਪ ਸਟਾਰਟਅਪ \'ਤੇ ਕਲੀਅਰ ਕੀਤਾ ਜਾਵੇਗਾ</string>
     <string name="create">ਬਣਾਓ</string>
     <string name="tools">ਸੰਦ</string>
     <string name="group_options_by_type">ਕਿਸਮ ਦੇ ਅਨੁਸਾਰ ਸਮੂਹ ਵਿਕਲਪ</string>

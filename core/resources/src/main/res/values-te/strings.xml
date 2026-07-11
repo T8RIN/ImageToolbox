@@ -303,7 +303,6 @@
     <string name="cache_size">కాష్ పరిమాణం</string>
     <string name="found_s">కనుగొనబడింది %1$s</string>
     <string name="auto_cache_clearing">ఆటో కాష్ క్లియరింగ్</string>
-    <string name="auto_cache_clearing_sub">ప్రారంభించబడితే యాప్ కాష్ యాప్ స్టార్టప్‌లో క్లియర్ చేయబడుతుంది</string>
     <string name="create">సృష్టించు</string>
     <string name="tools">ఉపకరణాలు</string>
     <string name="group_options_by_type">రకం ద్వారా సమూహ ఎంపికలు</string>

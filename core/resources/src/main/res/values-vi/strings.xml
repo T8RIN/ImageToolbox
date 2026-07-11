@@ -295,7 +295,6 @@
     <string name="cache_size">Kích thước bộ đệm</string>
     <string name="found_s">Đã tìm thấy %1$s</string>
     <string name="auto_cache_clearing">Tự động xóa bộ nhớ đệm</string>
-    <string name="auto_cache_clearing_sub">Nếu được bật bộ đệm ứng dụng sẽ bị xóa khi khởi động ứng dụng</string>
     <string name="create">Tạo</string>
     <string name="tools">Công cụ</string>
     <string name="group_options_by_type">Nhóm tùy chọn theo loại</string>

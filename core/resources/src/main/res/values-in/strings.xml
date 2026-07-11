@@ -278,7 +278,6 @@
     <string name="implementation_sub">AES-256, mode GCM, tanpa padding, infus acak 12 byte. Kunci digunakan sebagai hash SHA-3 (256 bit).</string>
     <string name="compatibility">Kesesuaian</string>
     <string name="found_s">Ditemukan %1$s</string>
-    <string name="auto_cache_clearing_sub">Jika diaktifkan, cache aplikasi akan dihapus saat memulai aplikasi</string>
     <string name="tools">Peralatan</string>
     <string name="group_options_by_type">Kelompokkan opsi berdasarkan jenis</string>
     <string name="group_options_by_type_sub">Opsi grup di layar utama jenisnya alih-alih pengaturan daftar kustom</string>

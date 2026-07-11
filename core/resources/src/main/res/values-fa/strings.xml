@@ -311,7 +311,6 @@
     <string name="cache_size">اندازه حافظه نهان</string>
     <string name="found_s">پیدا شد %1$s</string>
     <string name="auto_cache_clearing">پاک‌سازی خودکار حافظه نهان</string>
-    <string name="auto_cache_clearing_sub">در صورت فعال بودن حافظه پنهان برنامه هنگام راه اندازی برنامه پاک می شود</string>
     <string name="create">ساختن</string>
     <string name="tools">ابزارها</string>
     <string name="group_options_by_type">گروه‌بندی گزینه‌ها بر پایه نوع</string>

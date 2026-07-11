@@ -278,7 +278,6 @@
     <string name="cache_size">Cache size</string>
     <string name="found_s">تېپىلدى %1$s</string>
     <string name="auto_cache_clearing">ئاپتوماتىك ساقلىغۇچ تازىلاش</string>
-    <string name="auto_cache_clearing_sub">ئەگەر قوزغىتىلغان ئەپ غەملەكلىرى قوزغالغاندا تازىلىنىدۇ</string>
     <string name="create">قۇر</string>
     <string name="tools">قوراللار</string>
     <string name="group_options_by_type">گۇرۇپپا تاللانمىلىرى</string>

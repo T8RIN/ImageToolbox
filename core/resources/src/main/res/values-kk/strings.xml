@@ -692,7 +692,6 @@
     <string name="image_size_warning">Кескінді берілген ені мен биіктігімен сақтауға әрекет OOM қатесін тудыруы мүмкін. Мұны өз тәуекеліңізге байланысты жасаңыз және мен сізге ескертпедім деп айтпаңыз!</string>
     <string name="found_s">%1$s табылды</string>
     <string name="auto_cache_clearing">Автоматты кэшті тазалау</string>
-    <string name="auto_cache_clearing_sub">Қосылған болса, қолданбаның кэші қолданбаны іске қосқан кезде тазаланады</string>
     <string name="create">Жасау</string>
     <string name="group_options_by_type">Опцияларды түрі бойынша топтаңыз</string>
     <string name="group_options_by_type_sub">Негізгі экрандағы опцияларды реттелетін тізім реттеуінің орнына түрі бойынша топтайды</string>

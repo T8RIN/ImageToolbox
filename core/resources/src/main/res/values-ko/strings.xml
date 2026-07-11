@@ -278,7 +278,6 @@
     <string name="found_s">발견 %1$s</string>
     <string name="auto_cache_clearing">자동 캐시 지우기</string>
     <string name="group_options_by_type_sub">사용자 지정 목록 정렬 대신 해당 유형의 기본 화면에 있는 그룹 옵션</string>
-    <string name="auto_cache_clearing_sub">활성화된 경우 앱 시작 시 앱 캐시가 지워집니다.</string>
     <string name="tools">도구</string>
     <string name="secondary_customization">보조 사용자화</string>
     <string name="invalid_password_or_not_encrypted">비밀번호가 잘못되었거나 선택한 파일이 암호화되지 않았습니다.</string>

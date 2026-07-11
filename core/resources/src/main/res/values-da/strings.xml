@@ -290,7 +290,6 @@
     <string name="draw_on_background_sub">Vælg baggrundsfarve og tegn oven på den</string>
     <string name="background_color">Baggrundsfarve</string>
     <string name="cipher">Chiffer</string>
-    <string name="auto_cache_clearing_sub">Hvis aktiveret, vil app-cachen blive ryddet ved app-start</string>
     <string name="create">skab</string>
     <string name="group_options_by_type_sub">Grupper muligheder på hovedskærmen af deres type i stedet for tilpasset listearrangement</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Kan ikke ændre arrangement, mens valgmulighedsgruppering er aktiveret</string>

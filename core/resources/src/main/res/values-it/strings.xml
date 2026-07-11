@@ -290,7 +290,6 @@
     <string name="file_proceed">File elaborato</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Impossibile modificare la disposizione mentre il raggruppamento delle opzioni è abilitato</string>
     <string name="cache">Cache</string>
-    <string name="auto_cache_clearing_sub">Se abilitata, la cache dell\'app verrà cancellata all\'avvio dell\'app</string>
     <string name="create">Creare</string>
     <string name="compatibility_sub">Si prega di notare che la compatibilità con altri software o servizi di crittografia dei file non è garantita. Un trattamento della chiave o una configurazione di cifratura leggermente diversi possono causare incompatibilità.</string>
     <string name="image_size_warning">Il tentativo di salvare l\'immagine con una determinata larghezza e altezza potrebbe causare un errore OOM. Fallo a tuo rischio e non dire che non ti avevo avvertito!</string>

@@ -280,7 +280,6 @@
     <string name="cache_size">कैशे आकार</string>
     <string name="found_s">%1$s मिला</string>
     <string name="auto_cache_clearing">स्वचालित कैशे समाशोधन</string>
-    <string name="auto_cache_clearing_sub">यदि सक्षम किया गया है तो ऐप स्टार्टअप पर ऐप कैशे साफ हो जाएगा</string>
     <string name="tools">औजार</string>
     <string name="group_options_by_type">प्रकार के अनुसार विकल्पों को समूहित करें</string>
     <string name="group_options_by_type_sub">तदनुकूल सूची व्यवस्था के बजाय अपने प्रकार की मुख्य स्क्रीन पर समूह विकल्प</string>

@@ -287,7 +287,6 @@
     <string name="draw">Gumuhit</string>
     <string name="found_s">Natagpuan %1$s</string>
     <string name="auto_cache_clearing">Auto cache clearing</string>
-    <string name="auto_cache_clearing_sub">Kung pinagana ang cache ng app ay iki-clear sa pagsisimula ng app</string>
     <string name="group_options_by_type">Mga opsyon sa pangkat ayon sa uri</string>
     <string name="group_options_by_type_sub">Mga opsyon sa pangkat sa pangunahing screen ng kanilang uri sa halip na pasadyang pag-aayos ng listahan</string>
     <string name="draw_on_background">Gumuhit sa background</string>

@@ -275,7 +275,6 @@
     <string name="cache_size">Cachearen tamaina</string>
     <string name="found_s">Aurkitu %1$s</string>
     <string name="auto_cache_clearing">Cache garbiketa automatikoa</string>
-    <string name="auto_cache_clearing_sub">Gaituta badago, aplikazioaren cachea garbituko da aplikazioa abiaraztean</string>
     <string name="tools">Tresnak</string>
     <string name="group_options_by_type">Talde aukerak motaren arabera</string>
     <string name="group_options_by_type_sub">Taldeko aukerak bere motako pantaila nagusiko zerrenda pertsonalizatuaren ordez</string>

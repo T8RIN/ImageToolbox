@@ -287,7 +287,6 @@
     <string name="invalid_password_or_not_encrypted">Érvénytelen jelszó vagy a kiválasztott fájl nincs titkosítva</string>
     <string name="image_size_warning">A kép megadott szélességgel és magassággal történő mentése memóriahiány hibát okozhat. Csak saját felelősségre.</string>
     <string name="auto_cache_clearing">Automatikus gyorsítótár törlése</string>
-    <string name="auto_cache_clearing_sub">Ha engedélyezve van, az alkalmazás gyorsítótára törlődik az alkalmazás indításakor</string>
     <string name="create">Teremt</string>
     <string name="tools">Eszközök</string>
     <string name="group_options_by_type_sub">A főképernyőn megjelenő lehetőségeket típusuk szerint csoportosítja az egyéni listaelrendezés helyett</string>

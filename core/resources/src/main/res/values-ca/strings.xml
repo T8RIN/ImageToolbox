@@ -368,7 +368,6 @@
     <string name="cache_size">Mida de la memòria cau</string>
     <string name="found_s">S\'ha trobat %1$s</string>
     <string name="auto_cache_clearing">Esborrada automàtica de la memòria cau</string>
-    <string name="auto_cache_clearing_sub">Si està activada, la memòria cau de l\'aplicació s\'esborrarà a l\'inici de l\'aplicació</string>
     <string name="create">Crear</string>
     <string name="tools">Eines</string>
     <string name="group_options_by_type">Agrupa les opcions per tipus</string>

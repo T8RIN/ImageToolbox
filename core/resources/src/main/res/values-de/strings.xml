@@ -298,7 +298,6 @@
     <string name="image_size_warning">Das Versuchen, das Bild mit der angegebenen Breite und Höhe zu speichern, kann zu einem Fehler führen, wenn der Speicher voll ist. Dies geschieht auf eigene Gefahr.</string>
     <string name="cache">Cache</string>
     <string name="cache_size">Cache-Größe</string>
-    <string name="auto_cache_clearing_sub">Wenn aktiviert, wird der App-Cache beim Start der App geleert</string>
     <string name="auto_cache_clearing">Automatische Cache-Leerung</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Die Anordnung kann nicht geändert werden, wenn die Optionen gruppiert sind</string>
     <string name="edit_screenshot">Screenshot bearbeiten</string>

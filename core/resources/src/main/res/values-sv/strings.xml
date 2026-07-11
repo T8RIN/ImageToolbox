@@ -350,7 +350,6 @@
     <string name="cache_size">Cachestorlek</string>
     <string name="found_s">Hittade %1$s</string>
     <string name="auto_cache_clearing">Automatisk cacherensning</string>
-    <string name="auto_cache_clearing_sub">Om aktiverat rensas appcachen vid start av appen</string>
     <string name="create">Skapa</string>
     <string name="tools">Verktyg</string>
     <string name="group_options_by_type">Gruppera alternativ efter typ</string>

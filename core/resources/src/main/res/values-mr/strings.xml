@@ -303,7 +303,6 @@
     <string name="cache_size">कॅशे आकार</string>
     <string name="found_s">%1$s सापडले</string>
     <string name="auto_cache_clearing">ऑटो कॅशे क्लिअरिंग</string>
-    <string name="auto_cache_clearing_sub">सक्षम असल्यास ॲप कॅशे ॲप स्टार्टअपवर साफ केला जाईल</string>
     <string name="create">तयार करा</string>
     <string name="tools">साधने</string>
     <string name="group_options_by_type">प्रकारानुसार गट पर्याय</string>
