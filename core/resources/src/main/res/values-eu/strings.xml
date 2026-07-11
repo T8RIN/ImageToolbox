@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 aste</string>
     <string name="cache_auto_clear_after_month">1 hilabete</string>
     <string name="auto_cache_clearing_sub">Garbitu aplikazioaren cachea automatikoki hautatutako muga eta tartearen arabera</string>
+    <string name="crop_overlay_draggable">Laborantza eremu mugikorra</string>
+    <string name="crop_overlay_draggable_sub">Mozte-eremu osoa mugitzea ahalbidetzen du barruan arrastatuz</string>
 </resources>

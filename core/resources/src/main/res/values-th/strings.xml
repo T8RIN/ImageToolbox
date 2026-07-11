@@ -3702,4 +3702,6 @@
     <string name="cache_auto_clear_after_week">1 สัปดาห์</string>
     <string name="cache_auto_clear_after_month">1 เดือน</string>
     <string name="auto_cache_clearing_sub">ล้างแคชของแอปโดยอัตโนมัติตามขีดจำกัดและช่วงเวลาที่เลือก</string>
+    <string name="crop_overlay_draggable">พื้นที่เพาะปลูกที่สามารถเคลื่อนย้ายได้</string>
+    <string name="crop_overlay_draggable_sub">อนุญาตให้ย้ายพื้นที่ครอบตัดทั้งหมดโดยการลากเข้าไปข้างใน</string>
 </resources>

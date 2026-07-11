@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 सप्ताह</string>
     <string name="cache_auto_clear_after_month">1 महीना</string>
     <string name="auto_cache_clearing_sub">चयनित सीमा और अंतराल के अनुसार ऐप कैश को स्वचालित रूप से साफ़ करें</string>
+    <string name="crop_overlay_draggable">चल फसल क्षेत्र</string>
+    <string name="crop_overlay_draggable_sub">संपूर्ण फसल क्षेत्र को अंदर खींचकर ले जाने की अनुमति देता है</string>
 </resources>

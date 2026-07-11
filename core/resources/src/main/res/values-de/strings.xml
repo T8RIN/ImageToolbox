@@ -3704,4 +3704,6 @@
     <string name="cache_auto_clear_after_week">1 Woche</string>
     <string name="cache_auto_clear_after_month">1 Monat</string>
     <string name="auto_cache_clearing_sub">Leeren Sie den App-Cache automatisch entsprechend dem ausgewählten Limit und Intervall</string>
+    <string name="crop_overlay_draggable">Beweglicher Anbaubereich</string>
+    <string name="crop_overlay_draggable_sub">Ermöglicht das Verschieben des gesamten Zuschneidebereichs durch Ziehen innerhalb des Bereichs</string>
 </resources>

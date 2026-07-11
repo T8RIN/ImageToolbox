@@ -3702,4 +3702,6 @@
     <string name="cache_auto_clear_after_week">1 minggu</string>
     <string name="cache_auto_clear_after_month">1 bulan</string>
     <string name="auto_cache_clearing_sub">Hapus cache aplikasi secara otomatis sesuai batas dan interval yang dipilih</string>
+    <string name="crop_overlay_draggable">Area tanaman yang dapat dipindahkan</string>
+    <string name="crop_overlay_draggable_sub">Memungkinkan memindahkan seluruh area pemotongan dengan menyeret ke dalamnya</string>
 </resources>

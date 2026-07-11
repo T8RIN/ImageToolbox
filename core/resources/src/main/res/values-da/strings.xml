@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 uge</string>
     <string name="cache_auto_clear_after_month">1 måned</string>
     <string name="auto_cache_clearing_sub">Ryd appens cache automatisk i henhold til den valgte grænse og interval</string>
+    <string name="crop_overlay_draggable">Bevægeligt afgrødeareal</string>
+    <string name="crop_overlay_draggable_sub">Tillader flytning af hele beskæringsområdet ved at trække ind i det</string>
 </resources>

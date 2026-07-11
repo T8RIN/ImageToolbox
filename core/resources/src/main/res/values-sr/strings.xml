@@ -3705,4 +3705,6 @@
     <string name="cache_auto_clear_after_week">1 недеља</string>
     <string name="cache_auto_clear_after_month">1 месец</string>
     <string name="auto_cache_clearing_sub">Аутоматски обришите кеш апликације у складу са изабраним ограничењем и интервалом</string>
+    <string name="crop_overlay_draggable">Покретна површина усева</string>
+    <string name="crop_overlay_draggable_sub">Омогућава померање целе области усева превлачењем унутар ње</string>
 </resources>

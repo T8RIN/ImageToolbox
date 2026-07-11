@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 nädal</string>
     <string name="cache_auto_clear_after_month">1 kuu</string>
     <string name="auto_cache_clearing_sub">Tühjendage rakenduse vahemälu automaatselt vastavalt valitud limiidile ja intervallile</string>
+    <string name="crop_overlay_draggable">Teisaldatav põllukultuuri ala</string>
+    <string name="crop_overlay_draggable_sub">Võimaldab liigutada kogu kärpimisala selle sees lohistades</string>
 </resources>

@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 vecka</string>
     <string name="cache_auto_clear_after_month">1 månad</string>
     <string name="auto_cache_clearing_sub">Rensa appens cache automatiskt enligt den valda gränsen och intervallet</string>
+    <string name="crop_overlay_draggable">Rörlig odlingsyta</string>
+    <string name="crop_overlay_draggable_sub">Tillåter att hela beskärningsområdet flyttas genom att dra inuti det</string>
 </resources>

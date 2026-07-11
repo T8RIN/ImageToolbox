@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 ਹਫ਼ਤਾ</string>
     <string name="cache_auto_clear_after_month">1 ਮਹੀਨਾ</string>
     <string name="auto_cache_clearing_sub">ਚੁਣੀ ਗਈ ਸੀਮਾ ਅਤੇ ਅੰਤਰਾਲ ਦੇ ਅਨੁਸਾਰ ਆਪਣੇ ਆਪ ਐਪ ਕੈਸ਼ ਨੂੰ ਸਾਫ਼ ਕਰੋ</string>
+    <string name="crop_overlay_draggable">ਚਲਣਯੋਗ ਫਸਲ ਖੇਤਰ</string>
+    <string name="crop_overlay_draggable_sub">ਇਸ ਦੇ ਅੰਦਰ ਖਿੱਚ ਕੇ ਪੂਰੇ ਫਸਲ ਖੇਤਰ ਨੂੰ ਹਿਲਾਉਣ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ</string>
 </resources>

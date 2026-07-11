@@ -3704,4 +3704,6 @@
     <string name="cache_auto_clear_after_week">1 వారం</string>
     <string name="cache_auto_clear_after_month">1 నెల</string>
     <string name="auto_cache_clearing_sub">ఎంచుకున్న పరిమితి మరియు విరామం ప్రకారం యాప్ కాష్‌ని స్వయంచాలకంగా క్లియర్ చేయండి</string>
+    <string name="crop_overlay_draggable">కదిలే పంట ప్రాంతం</string>
+    <string name="crop_overlay_draggable_sub">దాని లోపలికి లాగడం ద్వారా మొత్తం పంట ప్రాంతాన్ని తరలించడానికి అనుమతిస్తుంది</string>
 </resources>

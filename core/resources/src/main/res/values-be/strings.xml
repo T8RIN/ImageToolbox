@@ -3705,4 +3705,6 @@
     <string name="cache_auto_clear_after_week">1 тыдзень</string>
     <string name="cache_auto_clear_after_month">1 месяц</string>
     <string name="auto_cache_clearing_sub">Аўтаматычна ачысціць кэш праграмы ў адпаведнасці з абраным лімітам і інтэрвалам</string>
+    <string name="crop_overlay_draggable">Рухомая зона ўраджаю</string>
+    <string name="crop_overlay_draggable_sub">Дазваляе перамяшчаць усю вобласць кадравання шляхам перацягвання ўнутр яе</string>
 </resources>

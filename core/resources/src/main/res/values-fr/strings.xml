@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 semaine</string>
     <string name="cache_auto_clear_after_month">1 mois</string>
     <string name="auto_cache_clearing_sub">Effacez automatiquement le cache de l\'application en fonction de la limite et de l\'intervalle sélectionnés</string>
+    <string name="crop_overlay_draggable">Surface de culture mobile</string>
+    <string name="crop_overlay_draggable_sub">Permet de déplacer toute la zone de recadrage en la faisant glisser à l\'intérieur</string>
 </resources>

@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 settimana</string>
     <string name="cache_auto_clear_after_month">1 mese</string>
     <string name="auto_cache_clearing_sub">Svuota automaticamente la cache dell\'app in base al limite e all\'intervallo selezionati</string>
+    <string name="crop_overlay_draggable">Area coltivata mobile</string>
+    <string name="crop_overlay_draggable_sub">Permette di spostare l\'intera area di ritaglio trascinandola al suo interno</string>
 </resources>

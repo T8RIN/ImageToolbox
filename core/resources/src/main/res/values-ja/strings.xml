@@ -3702,4 +3702,6 @@
     <string name="cache_auto_clear_after_week">1週間</string>
     <string name="cache_auto_clear_after_month">1ヶ月</string>
     <string name="auto_cache_clearing_sub">選択した制限と間隔に従ってアプリのキャッシュを自動的にクリアします</string>
+    <string name="crop_overlay_draggable">移動可能なクロップエリア</string>
+    <string name="crop_overlay_draggable_sub">トリミング領域内をドラッグしてトリミング領域全体を移動できるようにします</string>
 </resources>

@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1週</string>
     <string name="cache_auto_clear_after_month">1個月</string>
     <string name="auto_cache_clearing_sub">根據選擇的限制和間隔自動清除應用程式緩存</string>
+    <string name="crop_overlay_draggable" />
+    <string name="crop_overlay_draggable_sub">允許透過在裁剪區域內拖曳來移動整個裁剪區域</string>
 </resources>

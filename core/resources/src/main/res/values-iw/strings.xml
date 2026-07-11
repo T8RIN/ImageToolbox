@@ -3706,4 +3706,6 @@
     <string name="cache_auto_clear_after_week">שבוע אחד</string>
     <string name="cache_auto_clear_after_month">1 חודש</string>
     <string name="auto_cache_clearing_sub">נקה את מטמון האפליקציה באופן אוטומטי בהתאם למגבלה ולמרווח שנבחרו</string>
+    <string name="crop_overlay_draggable">שטח יבול נייד</string>
+    <string name="crop_overlay_draggable_sub">מאפשר להזיז את כל אזור החיתוך על ידי גרירה בתוכו</string>
 </resources>

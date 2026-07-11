@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 ھەپتە</string>
     <string name="cache_auto_clear_after_month">1 ئاي</string>
     <string name="auto_cache_clearing_sub">تاللانغان چەك ۋە ئارىلىققا ئاساسەن ئەپ ساقلىغۇچنى ئاپتوماتىك تازىلاڭ</string>
+    <string name="crop_overlay_draggable">يۆتكىلىشچان زىرائەت رايونى</string>
+    <string name="crop_overlay_draggable_sub">ئۇنىڭ ئىچىگە سۆرەپ پۈتكۈل زىرائەتلەرنى يۆتكەشكە يول قويىدۇ</string>
 </resources>

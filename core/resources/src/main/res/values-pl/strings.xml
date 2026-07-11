@@ -3705,4 +3705,6 @@
     <string name="cache_auto_clear_after_week">1 tydzień</string>
     <string name="cache_auto_clear_after_month">1 miesiąc</string>
     <string name="auto_cache_clearing_sub">Wyczyść pamięć podręczną aplikacji automatycznie zgodnie z wybranym limitem i interwałem</string>
+    <string name="crop_overlay_draggable">Ruchomy obszar upraw</string>
+    <string name="crop_overlay_draggable_sub">Umożliwia przesuwanie całego obszaru kadrowania poprzez przeciąganie wewnątrz niego</string>
 </resources>

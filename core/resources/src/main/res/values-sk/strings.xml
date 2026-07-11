@@ -3705,4 +3705,6 @@
     <string name="cache_auto_clear_after_week">1 týždeň</string>
     <string name="cache_auto_clear_after_month">1 mesiac</string>
     <string name="auto_cache_clearing_sub">Vymažte vyrovnávaciu pamäť aplikácie automaticky podľa zvoleného limitu a intervalu</string>
+    <string name="crop_overlay_draggable">Pohyblivá plocha obilia</string>
+    <string name="crop_overlay_draggable_sub">Umožňuje presunúť celú oblasť orezania potiahnutím dovnútra</string>
 </resources>

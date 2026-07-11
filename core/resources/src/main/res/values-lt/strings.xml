@@ -3705,4 +3705,6 @@
     <string name="cache_auto_clear_after_week">1 savaitė</string>
     <string name="cache_auto_clear_after_month">1 mėnuo</string>
     <string name="auto_cache_clearing_sub">Automatiškai išvalykite programos talpyklą pagal pasirinktą limitą ir intervalą</string>
+    <string name="crop_overlay_draggable">Kilnojamas pasėlių plotas</string>
+    <string name="crop_overlay_draggable_sub">Leidžia perkelti visą apkarpymo plotą tempiant į jį</string>
 </resources>

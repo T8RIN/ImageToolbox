@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 semana</string>
     <string name="cache_auto_clear_after_month">1 mes</string>
     <string name="auto_cache_clearing_sub">Borre el caché de la aplicación automáticamente según el límite y el intervalo seleccionados</string>
+    <string name="crop_overlay_draggable">Superficie de cultivo móvil</string>
+    <string name="crop_overlay_draggable_sub">Permite mover toda el área de cultivo arrastrando dentro de ella</string>
 </resources>

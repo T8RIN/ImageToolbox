@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 வாரம்</string>
     <string name="cache_auto_clear_after_month">1 மாதம்</string>
     <string name="auto_cache_clearing_sub">தேர்ந்தெடுக்கப்பட்ட வரம்பு மற்றும் இடைவெளிக்கு ஏற்ப ஆப்ஸ் தற்காலிக சேமிப்பை தானாக அழிக்கவும்</string>
+    <string name="crop_overlay_draggable">அசையும் பயிர் பகுதி</string>
+    <string name="crop_overlay_draggable_sub">அதன் உள்ளே இழுப்பதன் மூலம் முழு பயிர் பகுதியையும் நகர்த்த அனுமதிக்கிறது</string>
 </resources>

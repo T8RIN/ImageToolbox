@@ -3708,4 +3708,6 @@
     <string name="cache_auto_clear_after_week">1 أسبوع</string>
     <string name="cache_auto_clear_after_month">شهر واحد</string>
     <string name="auto_cache_clearing_sub">امسح ذاكرة التخزين المؤقت للتطبيق تلقائيًا وفقًا للحد والفاصل الزمني المحدد</string>
+    <string name="crop_overlay_draggable">منطقة المحاصيل المنقولة</string>
+    <string name="crop_overlay_draggable_sub">يسمح بتحريك منطقة الاقتصاص بأكملها عن طريق السحب بداخلها</string>
 </resources>

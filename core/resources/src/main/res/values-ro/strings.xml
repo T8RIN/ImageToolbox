@@ -3705,4 +3705,6 @@
     <string name="cache_auto_clear_after_week">1 saptamana</string>
     <string name="cache_auto_clear_after_month">1 luna</string>
     <string name="auto_cache_clearing_sub">Ștergeți automat memoria cache a aplicației în funcție de limita și intervalul selectat</string>
+    <string name="crop_overlay_draggable">Zona de cultură mobilă</string>
+    <string name="crop_overlay_draggable_sub">Permite mutarea întregii zone de decupare prin tragerea în interiorul acesteia</string>
 </resources>

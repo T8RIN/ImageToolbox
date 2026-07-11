@@ -3704,4 +3704,6 @@
     <string name="cache_auto_clear_after_week">1 hét</string>
     <string name="cache_auto_clear_after_month">1 hónap</string>
     <string name="auto_cache_clearing_sub">Az alkalmazás gyorsítótárának automatikus törlése a kiválasztott korlátnak és intervallumnak megfelelően</string>
+    <string name="crop_overlay_draggable">Mozgatható termőterület</string>
+    <string name="crop_overlay_draggable_sub">Lehetővé teszi a teljes kivágási terület mozgatását a benne lévő húzással</string>
 </resources>

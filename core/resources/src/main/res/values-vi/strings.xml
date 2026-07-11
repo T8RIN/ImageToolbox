@@ -3702,4 +3702,6 @@
     <string name="cache_auto_clear_after_week">1 tuần</string>
     <string name="cache_auto_clear_after_month">1 tháng</string>
     <string name="auto_cache_clearing_sub">Tự động xóa bộ nhớ cache ứng dụng theo giới hạn và khoảng thời gian đã chọn</string>
+    <string name="crop_overlay_draggable">Diện tích cây trồng có thể di chuyển</string>
+    <string name="crop_overlay_draggable_sub">Cho phép di chuyển toàn bộ vùng cắt bằng cách kéo vào bên trong nó</string>
 </resources>

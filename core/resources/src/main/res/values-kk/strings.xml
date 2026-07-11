@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 апта</string>
     <string name="cache_auto_clear_after_month">1 ай</string>
     <string name="auto_cache_clearing_sub">Таңдалған шектеу мен аралыққа сәйкес қолданба кэшін автоматты түрде тазалаңыз</string>
+    <string name="crop_overlay_draggable">Жылжымалы егістік алаңы</string>
+    <string name="crop_overlay_draggable_sub">Бүкіл кесу аймағын ішіне апару арқылы жылжытуға мүмкіндік береді</string>
 </resources>

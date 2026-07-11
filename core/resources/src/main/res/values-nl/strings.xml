@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 week</string>
     <string name="cache_auto_clear_after_month">1 maand</string>
     <string name="auto_cache_clearing_sub">Wis de app-cache automatisch volgens de geselecteerde limiet en interval</string>
+    <string name="crop_overlay_draggable">Verplaatsbaar gewasgebied</string>
+    <string name="crop_overlay_draggable_sub">Maakt het mogelijk om het hele bijsnijdgebied te verplaatsen door er naar binnen te slepen</string>
 </resources>

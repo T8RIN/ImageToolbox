@@ -3704,4 +3704,6 @@
     <string name="cache_auto_clear_after_week">1 setmana</string>
     <string name="cache_auto_clear_after_month">1 mes</string>
     <string name="auto_cache_clearing_sub">Esborra la memòria cau de l\'aplicació automàticament segons el límit i l\'interval seleccionats</string>
+    <string name="crop_overlay_draggable">Zona de cultiu mòbil</string>
+    <string name="crop_overlay_draggable_sub">Permet moure tota l\'àrea de retall arrossegant-hi dins</string>
 </resources>

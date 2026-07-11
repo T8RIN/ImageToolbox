@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">සති 1 යි</string>
     <string name="cache_auto_clear_after_month">මාස 1 යි</string>
     <string name="auto_cache_clearing_sub">තෝරාගත් සීමාව සහ පරතරය අනුව යෙදුම් හැඹිලිය ස්වයංක්‍රීයව හිස් කරන්න</string>
+    <string name="crop_overlay_draggable">චංචල භෝග ප්රදේශය</string>
+    <string name="crop_overlay_draggable_sub">එය තුළට ඇදගෙන යාමෙන් සම්පූර්ණ බෝග ප්‍රදේශය චලනය කිරීමට ඉඩ සලසයි</string>
 </resources>

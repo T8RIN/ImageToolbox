@@ -3705,4 +3705,6 @@
     <string name="cache_auto_clear_after_week">1 тиждень</string>
     <string name="cache_auto_clear_after_month">1 місяць</string>
     <string name="auto_cache_clearing_sub">Автоматично очищайте кеш програми відповідно до вибраного обмеження та інтервалу</string>
+    <string name="crop_overlay_draggable">Пересувна площа посіву</string>
+    <string name="crop_overlay_draggable_sub">Дозволяє переміщувати всю область кадрування шляхом перетягування всередину неї</string>
 </resources>

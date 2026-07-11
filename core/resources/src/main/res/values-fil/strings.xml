@@ -3704,4 +3704,6 @@
     <string name="cache_auto_clear_after_week">1 linggo</string>
     <string name="cache_auto_clear_after_month">1 buwan</string>
     <string name="auto_cache_clearing_sub">Awtomatikong i-clear ang cache ng app ayon sa napiling limitasyon at pagitan</string>
+    <string name="crop_overlay_draggable">Movable crop area</string>
+    <string name="crop_overlay_draggable_sub">Nagbibigay-daan sa paglipat ng buong lugar ng pananim sa pamamagitan ng pag-drag sa loob nito</string>
 </resources>

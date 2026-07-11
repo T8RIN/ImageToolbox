@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">১ সপ্তাহ</string>
     <string name="cache_auto_clear_after_month">1 মাস</string>
     <string name="auto_cache_clearing_sub">নির্বাচিত সীমা এবং ব্যবধান অনুযায়ী স্বয়ংক্রিয়ভাবে অ্যাপ ক্যাশে সাফ করুন</string>
+    <string name="crop_overlay_draggable">চলমান ফসল এলাকা</string>
+    <string name="crop_overlay_draggable_sub">এটি ভিতরে টেনে সমগ্র ফসল এলাকা সরানোর অনুমতি দেয়</string>
 </resources>

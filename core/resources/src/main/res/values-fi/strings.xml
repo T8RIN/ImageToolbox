@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 viikko</string>
     <string name="cache_auto_clear_after_month">1 kuukausi</string>
     <string name="auto_cache_clearing_sub">Tyhjennä sovellusvälimuisti automaattisesti valitun rajan ja aikavälin mukaisesti</string>
+    <string name="crop_overlay_draggable">Siirrettävä satoalue</string>
+    <string name="crop_overlay_draggable_sub">Mahdollistaa koko rajausalueen siirtämisen vetämällä sen sisällä</string>
 </resources>

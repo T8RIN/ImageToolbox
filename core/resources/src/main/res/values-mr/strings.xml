@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 आठवडा</string>
     <string name="cache_auto_clear_after_month">1 महिना</string>
     <string name="auto_cache_clearing_sub">निवडलेल्या मर्यादा आणि मध्यांतरानुसार ॲप कॅशे स्वयंचलितपणे साफ करा</string>
+    <string name="crop_overlay_draggable">जंगम पीक क्षेत्र</string>
+    <string name="crop_overlay_draggable_sub">संपूर्ण पीक क्षेत्र आत ड्रॅग करून हलविण्यास अनुमती देते</string>
 </resources>

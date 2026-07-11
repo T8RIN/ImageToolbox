@@ -3704,4 +3704,6 @@
     <string name="cache_auto_clear_after_week">1 hafta</string>
     <string name="cache_auto_clear_after_month">1 ay</string>
     <string name="auto_cache_clearing_sub">Seçilen sınıra ve aralığa göre uygulama önbelleğini otomatik olarak temizleyin</string>
+    <string name="crop_overlay_draggable">Hareketli mahsul alanı</string>
+    <string name="crop_overlay_draggable_sub">Kırpma alanının tamamının içine sürüklenerek taşınmasına olanak sağlar</string>
 </resources>

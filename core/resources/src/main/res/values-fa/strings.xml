@@ -3703,4 +3703,6 @@
     <string name="cache_auto_clear_after_week">1 هفته</string>
     <string name="cache_auto_clear_after_month">1 ماه</string>
     <string name="auto_cache_clearing_sub">کش برنامه را به طور خودکار با توجه به محدودیت و بازه انتخابی پاک کنید</string>
+    <string name="crop_overlay_draggable">منطقه کشت متحرک</string>
+    <string name="crop_overlay_draggable_sub">امکان جابجایی کل ناحیه برش را با کشیدن داخل آن فراهم می کند</string>
 </resources>
