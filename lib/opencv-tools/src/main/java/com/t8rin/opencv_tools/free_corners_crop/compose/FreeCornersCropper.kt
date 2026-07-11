@@ -140,13 +140,7 @@ fun FreeCornersCropper(
 
     fun updateImageTransform(scale: Float, translation: Offset) {
         imageScale = scale
-        imageTranslation = coerceImageTranslation(
-            translation = translation,
-            scale = scale,
-            imageBounds = baseImageBounds,
-            cropBounds = drawPoints.boundingRect(),
-            coerceToCrop = coercePointsToImageArea
-        )
+        imageTranslation = translation
     }
 
     onZoomChange(imageScale)
@@ -276,13 +270,7 @@ fun FreeCornersCropper(
                             transformCenter = baseImageBounds.center
                         )
                         imageScale = targetScale
-                        imageTranslation = coerceImageTranslation(
-                            translation = target.translation + pan,
-                            scale = targetScale,
-                            imageBounds = baseImageBounds,
-                            cropBounds = drawPoints.boundingRect(),
-                            coerceToCrop = coercePointsToImageArea
-                        )
+                        imageTranslation = target.translation + pan
                     },
                     onGestureEnd = {
                         if (!transformGestureActive) return@detectTransformGestures
@@ -419,16 +407,7 @@ fun FreeCornersCropper(
             }
         }
 
-        fun currentPointBounds(): Rect {
-            if (!coercePointsToImageArea) return containerBounds
-            return containerBounds.intersectionOrSelf(
-                other = baseImageBounds.transform(
-                    center = baseImageBounds.center,
-                    scale = imageScale,
-                    translation = imageTranslation
-                )
-            )
-        }
+        fun currentPointBounds(): Rect = containerBounds
 
         fun Offset.coerceToPointBounds(): Offset = currentPointBounds().let { bounds ->
             coerceIn(
@@ -468,22 +447,40 @@ fun FreeCornersCropper(
             }
         }
 
-        LaunchedEffect(drawPoints, coercePointsToImageArea) {
-            if (drawPoints.size == CROP_POINTS_COUNT && baseImageBounds.hasPositiveSize()) {
-                val minScale = calculateMinimumScale(
+        LaunchedEffect(drawPoints, coercePointsToImageArea, dragTarget) {
+            transformAnimationJob?.cancel()
+            if (!coercePointsToImageArea ||
+                dragTarget != DragTarget.None ||
+                drawPoints.size != CROP_POINTS_COUNT ||
+                !baseImageBounds.hasPositiveSize()
+            ) {
+                return@LaunchedEffect
+            }
+
+            val targetScale = imageScale.coerceAtLeast(
+                calculateMinimumScale(
                     cropBounds = drawPoints.boundingRect(),
                     imageBounds = baseImageBounds
                 )
-                if (imageScale < minScale) {
-                    imageScale = minScale
+            )
+            val targetTranslation = coerceImageTranslation(
+                translation = imageTranslation,
+                scale = targetScale,
+                imageBounds = baseImageBounds,
+                cropBounds = drawPoints.boundingRect(),
+                coerceToCrop = true
+            )
+
+            if (targetScale != imageScale || targetTranslation != imageTranslation) {
+                transformAnimationJob = scope.launch {
+                    animateTransformTo(
+                        startScale = imageScale,
+                        startTranslation = imageTranslation,
+                        targetScale = targetScale,
+                        targetTranslation = targetTranslation,
+                        onUpdate = ::updateImageTransform
+                    )
                 }
-                imageTranslation = coerceImageTranslation(
-                    translation = imageTranslation,
-                    scale = imageScale,
-                    imageBounds = baseImageBounds,
-                    cropBounds = drawPoints.boundingRect(),
-                    coerceToCrop = coercePointsToImageArea
-                )
             }
         }
 
@@ -1128,16 +1125,6 @@ private fun Rect.transform(
     topLeft = topLeft.transform(center, scale, translation),
     bottomRight = bottomRight.transform(center, scale, translation)
 )
-
-private fun Rect.intersectionOrSelf(other: Rect): Rect {
-    val intersection = Rect(
-        left = maxOf(left, other.left),
-        top = maxOf(top, other.top),
-        right = minOf(right, other.right),
-        bottom = minOf(bottom, other.bottom)
-    )
-    return intersection.takeIf(Rect::hasPositiveSize) ?: this
-}
 
 private fun Offset.transform(
     center: Offset,

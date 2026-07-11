@@ -149,7 +149,7 @@ open class TransformState(
         pan: Offset = Offset.Zero,
         zoom: Float = 1f,
         rotation: Float = 0f,
-        animationSpec: AnimationSpec<Float> = tween(400)
+        animationSpec: AnimationSpec<Float> = tween(250)
     ) = coroutineScope {
         launch { animatePanXto(pan.x, animationSpec) }
         launch { animatePanYto(pan.y, animationSpec) }
@@ -159,7 +159,7 @@ open class TransformState(
 
     internal suspend fun animatePanXto(
         panX: Float,
-        animationSpec: AnimationSpec<Float> = tween(400)
+        animationSpec: AnimationSpec<Float> = tween(250)
     ) {
         if (pannable && pan.x != panX) {
             animatablePanX.animateTo(panX, animationSpec)
@@ -168,7 +168,7 @@ open class TransformState(
 
     internal suspend fun animatePanYto(
         panY: Float,
-        animationSpec: AnimationSpec<Float> = tween(400)
+        animationSpec: AnimationSpec<Float> = tween(250)
     ) {
         if (pannable && pan.y != panY) {
             animatablePanY.animateTo(panY, animationSpec)
@@ -177,7 +177,7 @@ open class TransformState(
 
     internal suspend fun animateZoomTo(
         zoom: Float,
-        animationSpec: AnimationSpec<Float> = tween(400)
+        animationSpec: AnimationSpec<Float> = tween(250)
     ) {
         if (zoomable && this.zoom != zoom) {
             val newZoom = zoom.coerceIn(zoomMin, zoomMax)
@@ -187,7 +187,7 @@ open class TransformState(
 
     suspend fun animateRotationTo(
         rotation: Float,
-        animationSpec: AnimationSpec<Float> = tween(400)
+        animationSpec: AnimationSpec<Float> = tween(250)
     ) {
         if (rotatable && this.rotation != rotation) {
             animatableRotation.animateTo(rotation, animationSpec)

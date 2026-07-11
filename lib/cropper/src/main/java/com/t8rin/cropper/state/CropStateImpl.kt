@@ -190,7 +190,7 @@ abstract class CropState internal constructor(
      */
     internal suspend fun animateOverlayRectTo(
         rect: Rect,
-        animationSpec: AnimationSpec<Rect> = tween(400)
+        animationSpec: AnimationSpec<Rect> = tween(250)
     ) {
         animatableRectOverlay.animateTo(
             targetValue = rect,
@@ -300,7 +300,6 @@ abstract class CropState internal constructor(
         )
     }
 
-    // TODO Add resetting back to bounds for rotated state as well
     /**
      * Resets to bounds with animation and resets tracking for fling animation.
      * Changes pan, zoom and rotation to valid bounds based on [drawAreaRect] and [overlayRect]
@@ -308,7 +307,7 @@ abstract class CropState internal constructor(
     internal suspend fun animateTransformationToOverlayBounds(
         overlayRect: Rect,
         animate: Boolean,
-        animationSpec: AnimationSpec<Float> = tween(400)
+        animationSpec: AnimationSpec<Float> = tween(250)
     ) {
         // Keep current zoom
         // val zoom = zoom.coerceAtLeast(1f)
