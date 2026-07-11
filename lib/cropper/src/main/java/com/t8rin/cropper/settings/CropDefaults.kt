@@ -153,6 +153,6 @@ enum class CropTheme {
     System
 }
 
-private val DefaultBackgroundColor = Color(0x99000000)
+private val DefaultBackgroundColor = Color.Black.copy(0.55f)
 private val DefaultOverlayColor = Color.Gray
 private val DefaultHandleColor = Color.White

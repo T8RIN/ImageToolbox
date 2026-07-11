@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.magnifier
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,7 +52,6 @@ import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.graphicsLayer
@@ -98,7 +96,7 @@ fun FreeCornersCropper(
     onZoomChange: (Float) -> Unit = {},
     coercePointsToImageArea: Boolean = true,
     isOverlayDraggable: Boolean = true,
-    overlayColor: Color = Color.Black.copy(0.5f),
+    overlayColor: Color = Color.Black.copy(0.55f),
     contentPadding: PaddingValues = PaddingValues(24.dp),
     gridColor: Color,
     handlesColor: Color
@@ -476,11 +474,6 @@ fun FreeCornersCropper(
             }
         }
 
-        val colorScheme = MaterialTheme.colorScheme
-        val handleOutlineColor = remember(gridColor, colorScheme) {
-            gridColor.compositeOver(colorScheme.onPrimaryFixed)
-        }
-
         Canvas(
             modifier = Modifier
                 .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
@@ -612,14 +605,9 @@ fun FreeCornersCropper(
                 val scale = pointScales[index].value
 
                 drawCircle(
-                    color = handleOutlineColor,
-                    center = point,
-                    radius = handleRadiusPx * scale
-                )
-                drawCircle(
                     color = handlesColor,
                     center = point,
-                    radius = handleRadiusPx * 0.8f * scale
+                    radius = handleRadiusPx * scale
                 )
             }
         }
