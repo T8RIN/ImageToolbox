@@ -41,6 +41,7 @@ import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,6 +61,8 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ZoomBadge
 import com.t8rin.opencv_tools.free_corners_crop.compose.FreeCornersCropper
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
@@ -94,6 +97,8 @@ fun Cropper(
                         mutableFloatStateOf(1f)
                     }
 
+                    val scope = rememberCoroutineScope()
+
                     AdvancedCropper(
                         imageModel = imageUri,
                         aspectRatio = if (cropProperties.aspectRatio != AspectRatio.Original) {
@@ -116,7 +121,10 @@ fun Cropper(
                                 onImageCropStarted()
                             } else {
                                 rotationState.floatValue = 0f
-                                onImageCropFinished(null)
+                                scope.launch {
+                                    delay(300)
+                                    if (!crop) onImageCropFinished(null)
+                                }
                             }
                         },
                         onZoomChange = { newZoom ->
