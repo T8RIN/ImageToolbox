@@ -695,6 +695,18 @@ internal fun SettingItem(
             Setting.ShowToolsHistory -> {
                 ShowToolsHistorySettingItem(onClick = component::toggleShowToolsHistory)
             }
+
+            Setting.CacheAutoClearLimit -> {
+                CacheAutoClearLimitSettingItem(
+                    onValueChange = component::setCacheAutoClearLimitBytes
+                )
+            }
+
+            Setting.CacheAutoClearInterval -> {
+                CacheAutoClearIntervalSettingItem(
+                    onValueChange = component::setCacheAutoClearInterval
+                )
+            }
         }
     }
 }

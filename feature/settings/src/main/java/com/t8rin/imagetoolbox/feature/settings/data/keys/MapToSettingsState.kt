@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
@@ -58,6 +59,12 @@ internal fun Preferences.toSettingsState(
     }?.takeIf { it.isNotEmpty() } ?: default.screenList,
     emojisCount = this[EMOJI_COUNT] ?: default.emojisCount,
     clearCacheOnLaunch = this[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch,
+    cacheAutoClearLimitBytes = this[CACHE_AUTO_CLEAR_LIMIT_BYTES]
+        ?: default.cacheAutoClearLimitBytes,
+    cacheAutoClearInterval = CacheAutoClearInterval.fromKey(this[CACHE_AUTO_CLEAR_INTERVAL])
+        ?: default.cacheAutoClearInterval,
+    lastCacheAutoClearTimestampMillis = this[LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS]
+        ?: default.lastCacheAutoClearTimestampMillis,
     groupOptionsByTypes = this[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes,
     showFavoriteToolsInGroupedMode = this[SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE]
         ?: default.showFavoriteToolsInGroupedMode,

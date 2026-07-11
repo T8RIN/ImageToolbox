@@ -256,13 +256,15 @@ sealed class SettingsGroup(
         initialState = false
     )
 
-    data object Cache : SettingsGroup(
+    data object Storage : SettingsGroup(
         id = 14,
         icon = Icons.Rounded.Database,
-        titleId = R.string.cache,
+        titleId = R.string.storage,
         settingsList = listOf(
             Setting.ClearCache,
-            Setting.AutoCacheClear
+            Setting.AutoCacheClear,
+            Setting.CacheAutoClearLimit,
+            Setting.CacheAutoClearInterval
         ),
         initialState = false
     )
@@ -439,7 +441,7 @@ sealed class SettingsGroup(
                 Folder,
                 Filename,
                 Clipboard,
-                Cache,
+                Storage,
                 ImageSource,
                 BackupRestore,
                 Firebase.takeIf { !Flavor.isFoss() },

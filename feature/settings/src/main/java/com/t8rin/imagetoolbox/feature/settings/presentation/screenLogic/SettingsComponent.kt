@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
@@ -237,6 +238,14 @@ class SettingsComponent @AssistedInject internal constructor(
         settingsScope { setScreenOrder(data.joinToString("/") { it.id.toString() }) }
 
     fun toggleClearCacheOnLaunch() = settingsScope { toggleClearCacheOnLaunch() }
+
+    fun setCacheAutoClearLimitBytes(bytes: Long) = settingsScope {
+        setCacheAutoClearLimitBytes(bytes)
+    }
+
+    fun setCacheAutoClearInterval(interval: CacheAutoClearInterval) = settingsScope {
+        setCacheAutoClearInterval(interval)
+    }
 
     fun toggleGroupOptionsByType() = settingsScope { toggleGroupOptionsByTypes() }
 

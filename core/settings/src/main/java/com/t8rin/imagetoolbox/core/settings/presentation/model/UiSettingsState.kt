@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji.initEmoji
+import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
@@ -83,6 +84,9 @@ data class UiSettingsState(
     val selectedEmoji: Uri?,
     val picturePickerMode: PicturePickerMode,
     val clearCacheOnLaunch: Boolean,
+    val cacheAutoClearLimitBytes: Long,
+    val cacheAutoClearInterval: CacheAutoClearInterval,
+    val lastCacheAutoClearTimestampMillis: Long,
     val groupOptionsByTypes: Boolean,
     val showFavoriteToolsInGroupedMode: Boolean,
     val showFavoriteAsLast: Boolean,
@@ -347,6 +351,9 @@ fun SettingsState.toUiState(
                 selectedEmoji = selectedEmoji,
                 picturePickerMode = PicturePickerMode.fromInt(picturePickerModeInt),
                 clearCacheOnLaunch = clearCacheOnLaunch,
+                cacheAutoClearLimitBytes = cacheAutoClearLimitBytes,
+                cacheAutoClearInterval = cacheAutoClearInterval,
+                lastCacheAutoClearTimestampMillis = lastCacheAutoClearTimestampMillis,
                 groupOptionsByTypes = groupOptionsByTypes,
                 showFavoriteToolsInGroupedMode = showFavoriteToolsInGroupedMode,
                 showFavoriteAsLast = showFavoriteAsLast,

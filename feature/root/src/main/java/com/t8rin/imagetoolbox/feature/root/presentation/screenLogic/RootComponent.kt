@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadOff
 import com.t8rin.imagetoolbox.core.resources.icons.Error
+import com.t8rin.imagetoolbox.core.settings.domain.AutoCacheCleanupUseCase
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -92,6 +93,7 @@ class RootComponent @AssistedInject internal constructor(
     private val filterParamsInteractor: FilterParamsInteractor,
     private val fileController: FileController,
     private val appHistoryRepository: AppHistoryRepository,
+    private val autoCacheCleanupUseCase: AutoCacheCleanupUseCase,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
     resourceManager: ResourceManager,
@@ -183,10 +185,8 @@ class RootComponent @AssistedInject internal constructor(
 
     init {
         runBlocking {
-            _settingsState.value = settingsManager.getSettingsState()
-
-            if (settingsState.clearCacheOnLaunch && fileController.getCacheSize() > 20 * 1024 * 1024) {
-                fileController.clearCache()
+            _settingsState.value = settingsManager.getSettingsState().also {
+                autoCacheCleanupUseCase.clearCacheIfNeeded(it)
             }
         }
         settingsManager

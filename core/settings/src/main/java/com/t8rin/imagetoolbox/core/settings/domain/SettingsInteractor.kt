@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
@@ -77,6 +78,12 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setScreenOrder(data: String)
 
     suspend fun toggleClearCacheOnLaunch()
+
+    suspend fun setCacheAutoClearLimitBytes(bytes: Long)
+
+    suspend fun setCacheAutoClearInterval(interval: CacheAutoClearInterval)
+
+    suspend fun setLastCacheAutoClearTimestampMillis(timestampMillis: Long)
 
     suspend fun toggleGroupOptionsByTypes()
 

@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
@@ -82,6 +83,8 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ASCII_CUSTOM_GRADIENTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AUTO_CACHE_CLEAR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.BACKGROUND_COLOR_FOR_NA_FORMATS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.BORDER_WIDTH
+import com.t8rin.imagetoolbox.feature.settings.data.keys.CACHE_AUTO_CLEAR_INTERVAL
+import com.t8rin.imagetoolbox.feature.settings.data.keys.CACHE_AUTO_CLEAR_LIMIT_BYTES
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CAN_ENTER_PRESETS_BY_TEXT_FIELD
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CENTER_ALIGN_DIALOG_BUTTONS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.COLOR_BLIND_TYPE
@@ -141,6 +144,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_LINK_PREVIEW_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_SYSTEM_BARS_VISIBLE_BY_SWIPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_TELEGRAM_GROUP_OPENED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.KEEP_DATE_TIME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAIN_SCREEN_TITLE
@@ -333,6 +337,18 @@ internal class AndroidSettingsManager @Inject constructor(
         key = AUTO_CACHE_CLEAR,
         defaultValue = default.clearCacheOnLaunch
     )
+
+    override suspend fun setCacheAutoClearLimitBytes(bytes: Long) = edit {
+        it[CACHE_AUTO_CLEAR_LIMIT_BYTES] = bytes.coerceAtLeast(0L)
+    }
+
+    override suspend fun setCacheAutoClearInterval(interval: CacheAutoClearInterval) = edit {
+        it[CACHE_AUTO_CLEAR_INTERVAL] = interval.key
+    }
+
+    override suspend fun setLastCacheAutoClearTimestampMillis(timestampMillis: Long) = edit {
+        it[LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS] = timestampMillis.coerceAtLeast(0L)
+    }
 
     override suspend fun toggleGroupOptionsByTypes() = toggle(
         key = GROUP_OPTIONS_BY_TYPE,

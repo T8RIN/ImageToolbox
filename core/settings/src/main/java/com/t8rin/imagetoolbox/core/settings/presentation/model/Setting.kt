@@ -769,4 +769,16 @@ sealed class Setting(
         subtitle = R.string.show_recent_tools_sub
     )
 
+    @Serializable
+    data object CacheAutoClearLimit : Setting(
+        title = R.string.cache_auto_clear_limit,
+        subtitle = R.string.cache_auto_clear_limit_sub
+    )
+
+    @Serializable
+    data object CacheAutoClearInterval : Setting(
+        title = R.string.cache_auto_clear_interval,
+        subtitle = R.string.cache_auto_clear_interval_sub
+    )
+
 }

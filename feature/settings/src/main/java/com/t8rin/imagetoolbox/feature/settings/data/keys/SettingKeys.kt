@@ -47,6 +47,10 @@ internal val EMOJI_COUNT = intPreferencesKey("em_count")
 internal val ADD_ORIGINAL_NAME_TO_FILENAME = booleanPreferencesKey("ADD_ORIGINAL_NAME")
 internal val ADD_SEQ_NUM_TO_FILENAME = booleanPreferencesKey("ADD_SEQ_NUM")
 internal val AUTO_CACHE_CLEAR = booleanPreferencesKey("auto_clear")
+internal val CACHE_AUTO_CLEAR_LIMIT_BYTES = longPreferencesKey("CACHE_AUTO_CLEAR_LIMIT_BYTES")
+internal val CACHE_AUTO_CLEAR_INTERVAL = stringPreferencesKey("CACHE_AUTO_CLEAR_INTERVAL")
+internal val LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS =
+    longPreferencesKey("LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS")
 internal val GROUP_OPTIONS_BY_TYPE = booleanPreferencesKey("group_options")
 internal val SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE =
     booleanPreferencesKey("SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE")
