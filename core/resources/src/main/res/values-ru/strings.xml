@@ -3705,4 +3705,5 @@
     <string name="cache_auto_clear_after_day">1 день</string>
     <string name="cache_auto_clear_after_week">1 неделя</string>
     <string name="cache_auto_clear_after_month">1 месяц</string>
+    <string name="auto_cache_clearing_sub">Очищайте кеш приложения автоматически в соответствии с выбранным лимитом и интервалом.</string>
 </resources>

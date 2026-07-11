@@ -3695,4 +3695,14 @@
     <string name="auto_white_balance">Automatické vyvážení bílé</string>
     <string name="clipping">Výstřižek</string>
     <string name="checking_for_hidden_watermarks">Kontrola skrytých vodoznaků</string>
+    <string name="storage">Skladování</string>
+    <string name="cache_auto_clear_limit">Limit mezipaměti</string>
+    <string name="cache_auto_clear_limit_sub">Jakmile mezipaměť překročí tuto velikost, automaticky ji vymažte</string>
+    <string name="cache_auto_clear_interval">Interval čištění</string>
+    <string name="cache_auto_clear_interval_sub">Jak často kontrolovat, zda má být vymazána mezipaměť</string>
+    <string name="cache_auto_clear_on_app_launch">Při spuštění aplikace</string>
+    <string name="cache_auto_clear_after_day">1 den</string>
+    <string name="cache_auto_clear_after_week">1 týden</string>
+    <string name="cache_auto_clear_after_month">1 měsíc</string>
+    <string name="auto_cache_clearing_sub">Vymažte mezipaměť aplikace automaticky podle zvoleného limitu a intervalu</string>
 </resources>

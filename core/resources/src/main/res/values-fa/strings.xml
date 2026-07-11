@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">تراز سفیدی خودکار</string>
     <string name="clipping">بریدن</string>
     <string name="checking_for_hidden_watermarks">بررسی واترمارک های پنهان</string>
+    <string name="storage">ذخیره سازی</string>
+    <string name="cache_auto_clear_limit">محدودیت حافظه پنهان</string>
+    <string name="cache_auto_clear_limit_sub">هنگامی که حافظه پنهان از این اندازه بزرگتر شد، به طور خودکار پاک کنید</string>
+    <string name="cache_auto_clear_interval">فاصله پاکسازی</string>
+    <string name="cache_auto_clear_interval_sub">هر چند وقت یکبار بررسی شود که آیا حافظه پنهان باید پاک شود یا خیر</string>
+    <string name="cache_auto_clear_on_app_launch">در راه اندازی برنامه</string>
+    <string name="cache_auto_clear_after_day">1 روز</string>
+    <string name="cache_auto_clear_after_week">1 هفته</string>
+    <string name="cache_auto_clear_after_month">1 ماه</string>
+    <string name="auto_cache_clearing_sub">کش برنامه را به طور خودکار با توجه به محدودیت و بازه انتخابی پاک کنید</string>
 </resources>

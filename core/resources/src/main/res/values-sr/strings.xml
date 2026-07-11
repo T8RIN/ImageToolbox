@@ -3695,4 +3695,14 @@
     <string name="auto_white_balance">Аутоматски баланс белог</string>
     <string name="clipping">Цлиппинг</string>
     <string name="checking_for_hidden_watermarks">Провера скривених водених жигова</string>
+    <string name="storage">Складиштење</string>
+    <string name="cache_auto_clear_limit">Ограничење кеша</string>
+    <string name="cache_auto_clear_limit_sub">Аутоматски обришите кеш када пређе ову величину</string>
+    <string name="cache_auto_clear_interval">Интервал чишћења</string>
+    <string name="cache_auto_clear_interval_sub">Колико често треба проверити да ли кеш треба обрисати</string>
+    <string name="cache_auto_clear_on_app_launch">Приликом покретања апликације</string>
+    <string name="cache_auto_clear_after_day">1 дан</string>
+    <string name="cache_auto_clear_after_week">1 недеља</string>
+    <string name="cache_auto_clear_after_month">1 месец</string>
+    <string name="auto_cache_clearing_sub">Аутоматски обришите кеш апликације у складу са изабраним ограничењем и интервалом</string>
 </resources>

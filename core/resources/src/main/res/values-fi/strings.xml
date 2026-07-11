@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">Automaattinen valkotasapaino</string>
     <string name="clipping">Leikkaaminen</string>
     <string name="checking_for_hidden_watermarks">Tarkistaa piilotettuja vesileimoja</string>
+    <string name="storage">Varastointi</string>
+    <string name="cache_auto_clear_limit">Välimuistin raja</string>
+    <string name="cache_auto_clear_limit_sub">Tyhjennä välimuisti automaattisesti, kun se kasvaa tämän koon yli</string>
+    <string name="cache_auto_clear_interval">Puhdistusväli</string>
+    <string name="cache_auto_clear_interval_sub">Kuinka usein tarkistaa, pitäisikö välimuisti tyhjentää</string>
+    <string name="cache_auto_clear_on_app_launch">Sovelluksen käynnistyessä</string>
+    <string name="cache_auto_clear_after_day">1 päivä</string>
+    <string name="cache_auto_clear_after_week">1 viikko</string>
+    <string name="cache_auto_clear_after_month">1 kuukausi</string>
+    <string name="auto_cache_clearing_sub">Tyhjennä sovellusvälimuisti automaattisesti valitun rajan ja aikavälin mukaisesti</string>
 </resources>

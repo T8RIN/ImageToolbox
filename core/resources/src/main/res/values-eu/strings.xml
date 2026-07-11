@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">Zurien balantze automatikoa</string>
     <string name="clipping">Mozketa</string>
     <string name="checking_for_hidden_watermarks">Ezkutuko ur-markak egiaztatzea</string>
+    <string name="storage">Biltegiratzea</string>
+    <string name="cache_auto_clear_limit">Cache muga</string>
+    <string name="cache_auto_clear_limit_sub">Garbitu cachea automatikoki tamaina horretatik gora hazten denean</string>
+    <string name="cache_auto_clear_interval">Garbiketa tartea</string>
+    <string name="cache_auto_clear_interval_sub">Zenbat aldiz egiaztatu cachea garbitu behar den</string>
+    <string name="cache_auto_clear_on_app_launch">Aplikazioa abiaraztean</string>
+    <string name="cache_auto_clear_after_day">1 egun</string>
+    <string name="cache_auto_clear_after_week">1 aste</string>
+    <string name="cache_auto_clear_after_month">1 hilabete</string>
+    <string name="auto_cache_clearing_sub">Garbitu aplikazioaren cachea automatikoki hautatutako muga eta tartearen arabera</string>
 </resources>

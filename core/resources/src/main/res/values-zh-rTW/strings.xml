@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">自動白平衡</string>
     <string name="clipping">剪裁</string>
     <string name="checking_for_hidden_watermarks">檢查隱藏浮水印</string>
+    <string name="storage">貯存</string>
+    <string name="cache_auto_clear_limit">快取限制</string>
+    <string name="cache_auto_clear_limit_sub">當快取超過此大小時自動清除緩存</string>
+    <string name="cache_auto_clear_interval">清理間隔</string>
+    <string name="cache_auto_clear_interval_sub">多久檢查一次快取是否應該清除</string>
+    <string name="cache_auto_clear_on_app_launch">應用程式啟動時</string>
+    <string name="cache_auto_clear_after_day">1天</string>
+    <string name="cache_auto_clear_after_week">1週</string>
+    <string name="cache_auto_clear_after_month">1個月</string>
+    <string name="auto_cache_clearing_sub">根據選擇的限制和間隔自動清除應用程式緩存</string>
 </resources>

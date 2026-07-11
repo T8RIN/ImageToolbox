@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">Bilanciamento automatico del bianco</string>
     <string name="clipping">Ritaglio</string>
     <string name="checking_for_hidden_watermarks">Controllo delle filigrane nascoste</string>
+    <string name="storage">Magazzinaggio</string>
+    <string name="cache_auto_clear_limit">Limite della cache</string>
+    <string name="cache_auto_clear_limit_sub">Svuota automaticamente la cache quando supera questa dimensione</string>
+    <string name="cache_auto_clear_interval">Intervallo di pulizia</string>
+    <string name="cache_auto_clear_interval_sub">La frequenza con cui verificare se è necessario svuotare la cache</string>
+    <string name="cache_auto_clear_on_app_launch">All\'avvio dell\'app</string>
+    <string name="cache_auto_clear_after_day">1 giorno</string>
+    <string name="cache_auto_clear_after_week">1 settimana</string>
+    <string name="cache_auto_clear_after_month">1 mese</string>
+    <string name="auto_cache_clearing_sub">Svuota automaticamente la cache dell\'app in base al limite e all\'intervallo selezionati</string>
 </resources>

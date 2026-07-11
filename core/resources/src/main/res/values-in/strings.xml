@@ -3692,4 +3692,14 @@
     <string name="auto_white_balance">Keseimbangan Putih Otomatis</string>
     <string name="clipping">Guntingan</string>
     <string name="checking_for_hidden_watermarks">Memeriksa tanda air yang tersembunyi</string>
+    <string name="storage">Penyimpanan</string>
+    <string name="cache_auto_clear_limit">Batas cache</string>
+    <string name="cache_auto_clear_limit_sub">Hapus cache secara otomatis ketika ukurannya melebihi ukuran ini</string>
+    <string name="cache_auto_clear_interval">Interval pembersihan</string>
+    <string name="cache_auto_clear_interval_sub">Seberapa sering memeriksa apakah cache harus dibersihkan</string>
+    <string name="cache_auto_clear_on_app_launch">Saat peluncuran aplikasi</string>
+    <string name="cache_auto_clear_after_day">1 hari</string>
+    <string name="cache_auto_clear_after_week">1 minggu</string>
+    <string name="cache_auto_clear_after_month">1 bulan</string>
+    <string name="auto_cache_clearing_sub">Hapus cache aplikasi secara otomatis sesuai batas dan interval yang dipilih</string>
 </resources>

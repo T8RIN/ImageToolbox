@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">Balanço de branco automático</string>
     <string name="clipping">Recorte</string>
     <string name="checking_for_hidden_watermarks">Verificando marcas d’água ocultas</string>
+    <string name="storage">Armazenar</string>
+    <string name="cache_auto_clear_limit">Limite de cache</string>
+    <string name="cache_auto_clear_limit_sub">Limpe o cache automaticamente quando ele ultrapassar esse tamanho</string>
+    <string name="cache_auto_clear_interval">Intervalo de limpeza</string>
+    <string name="cache_auto_clear_interval_sub">Com que frequência verificar se o cache deve ser limpo</string>
+    <string name="cache_auto_clear_on_app_launch">No lançamento do aplicativo</string>
+    <string name="cache_auto_clear_after_day">1 dia</string>
+    <string name="cache_auto_clear_after_week">1 semana</string>
+    <string name="cache_auto_clear_after_month">1 mês</string>
+    <string name="auto_cache_clearing_sub">Limpe o cache do aplicativo automaticamente de acordo com o limite e intervalo selecionados</string>
 </resources>

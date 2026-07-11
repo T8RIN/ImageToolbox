@@ -3694,4 +3694,14 @@
     <string name="auto_white_balance">Automatikus fehéregyensúly</string>
     <string name="clipping">Darabka</string>
     <string name="checking_for_hidden_watermarks">Rejtett vízjelek keresése</string>
+    <string name="storage">Tárolás</string>
+    <string name="cache_auto_clear_limit">Gyorsítótár korlát</string>
+    <string name="cache_auto_clear_limit_sub">Automatikusan törölje a gyorsítótárat, ha az meghaladja ezt a méretet</string>
+    <string name="cache_auto_clear_interval">Tisztítási intervallum</string>
+    <string name="cache_auto_clear_interval_sub">Milyen gyakran ellenőrizze, hogy a gyorsítótárat törölni kell-e</string>
+    <string name="cache_auto_clear_on_app_launch">Az alkalmazás indításakor</string>
+    <string name="cache_auto_clear_after_day">1 nap</string>
+    <string name="cache_auto_clear_after_week">1 hét</string>
+    <string name="cache_auto_clear_after_month">1 hónap</string>
+    <string name="auto_cache_clearing_sub">Az alkalmazás gyorsítótárának automatikus törlése a kiválasztott korlátnak és intervallumnak megfelelően</string>
 </resources>

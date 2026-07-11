@@ -3692,4 +3692,14 @@
     <string name="auto_white_balance">オートホワイトバランス</string>
     <string name="clipping">クリッピング</string>
     <string name="checking_for_hidden_watermarks">隠れた透かしのチェック</string>
+    <string name="storage">ストレージ</string>
+    <string name="cache_auto_clear_limit">キャッシュ制限</string>
+    <string name="cache_auto_clear_limit_sub">このサイズを超えるとキャッシュを自動的にクリアします</string>
+    <string name="cache_auto_clear_interval">クリーンアップ間隔</string>
+    <string name="cache_auto_clear_interval_sub">キャッシュをクリアする必要があるかどうかを確認する頻度</string>
+    <string name="cache_auto_clear_on_app_launch">アプリ起動時</string>
+    <string name="cache_auto_clear_after_day">1日</string>
+    <string name="cache_auto_clear_after_week">1週間</string>
+    <string name="cache_auto_clear_after_month">1ヶ月</string>
+    <string name="auto_cache_clearing_sub">選択した制限と間隔に従ってアプリのキャッシュを自動的にクリアします</string>
 </resources>

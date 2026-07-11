@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">ऑटो व्हाइट बैलेंस</string>
     <string name="clipping">कतरन</string>
     <string name="checking_for_hidden_watermarks">छिपे हुए वॉटरमार्क की जाँच की जा रही है</string>
+    <string name="storage">भंडारण</string>
+    <string name="cache_auto_clear_limit">कैश सीमा</string>
+    <string name="cache_auto_clear_limit_sub">जब कैश इस आकार से अधिक बढ़ जाए तो स्वचालित रूप से साफ़ करें</string>
+    <string name="cache_auto_clear_interval">सफ़ाई अंतराल</string>
+    <string name="cache_auto_clear_interval_sub">कितनी बार जांचें कि कैश साफ़ होना चाहिए या नहीं</string>
+    <string name="cache_auto_clear_on_app_launch">ऐप लॉन्च पर</string>
+    <string name="cache_auto_clear_after_day">1 दिन</string>
+    <string name="cache_auto_clear_after_week">1 सप्ताह</string>
+    <string name="cache_auto_clear_after_month">1 महीना</string>
+    <string name="auto_cache_clearing_sub">चयनित सीमा और अंतराल के अनुसार ऐप कैश को स्वचालित रूप से साफ़ करें</string>
 </resources>

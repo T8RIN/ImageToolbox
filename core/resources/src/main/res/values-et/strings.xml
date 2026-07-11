@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">Automaatne valge tasakaal</string>
     <string name="clipping">Lõikamine</string>
     <string name="checking_for_hidden_watermarks">Peidetud vesimärkide kontrollimine</string>
+    <string name="storage">Säilitamine</string>
+    <string name="cache_auto_clear_limit">Vahemälu limiit</string>
+    <string name="cache_auto_clear_limit_sub">Tühjendage vahemälu automaatselt, kui see kasvab sellest suurusest kaugemale</string>
+    <string name="cache_auto_clear_interval">Puhastusintervall</string>
+    <string name="cache_auto_clear_interval_sub">Kui sageli kontrollida, kas vahemälu tuleks tühjendada</string>
+    <string name="cache_auto_clear_on_app_launch">Rakenduse käivitamisel</string>
+    <string name="cache_auto_clear_after_day">1 päev</string>
+    <string name="cache_auto_clear_after_week">1 nädal</string>
+    <string name="cache_auto_clear_after_month">1 kuu</string>
+    <string name="auto_cache_clearing_sub">Tühjendage rakenduse vahemälu automaatselt vastavalt valitud limiidile ja intervallile</string>
 </resources>

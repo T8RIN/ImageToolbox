@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">Автоматты ақ баланс</string>
     <string name="clipping">Қиып алу</string>
     <string name="checking_for_hidden_watermarks">Жасырын су белгілерін тексеру</string>
+    <string name="storage">Сақтау</string>
+    <string name="cache_auto_clear_limit">Кэш шегі</string>
+    <string name="cache_auto_clear_limit_sub">Бұл өлшемнен асып кеткен кезде кэшті автоматты түрде тазалаңыз</string>
+    <string name="cache_auto_clear_interval">Тазалау аралығы</string>
+    <string name="cache_auto_clear_interval_sub">Кэшті тазалау қаншалықты жиі болуы керек</string>
+    <string name="cache_auto_clear_on_app_launch">Қолданбаны іске қосу кезінде</string>
+    <string name="cache_auto_clear_after_day">1 күн</string>
+    <string name="cache_auto_clear_after_week">1 апта</string>
+    <string name="cache_auto_clear_after_month">1 ай</string>
+    <string name="auto_cache_clearing_sub">Таңдалған шектеу мен аралыққа сәйкес қолданба кэшін автоматты түрде тазалаңыз</string>
 </resources>

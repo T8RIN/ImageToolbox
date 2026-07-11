@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">ஆட்டோ ஒயிட் பேலன்ஸ்</string>
     <string name="clipping">கிளிப்பிங்</string>
     <string name="checking_for_hidden_watermarks">மறைக்கப்பட்ட வாட்டர்மார்க்ஸைச் சரிபார்க்கிறது</string>
+    <string name="storage">சேமிப்பு</string>
+    <string name="cache_auto_clear_limit">தற்காலிக சேமிப்பு வரம்பு</string>
+    <string name="cache_auto_clear_limit_sub">இந்த அளவுக்கு அதிகமாக வளரும்போது, ​​தற்காலிக சேமிப்பை தானாகவே அழிக்கவும்</string>
+    <string name="cache_auto_clear_interval">துப்புரவு இடைவெளி</string>
+    <string name="cache_auto_clear_interval_sub">கேச் அழிக்கப்பட வேண்டுமா என்பதை எத்தனை முறை சரிபார்க்க வேண்டும்</string>
+    <string name="cache_auto_clear_on_app_launch">ஆப்ஸ் துவக்கத்தில்</string>
+    <string name="cache_auto_clear_after_day">1 நாள்</string>
+    <string name="cache_auto_clear_after_week">1 வாரம்</string>
+    <string name="cache_auto_clear_after_month">1 மாதம்</string>
+    <string name="auto_cache_clearing_sub">தேர்ந்தெடுக்கப்பட்ட வரம்பு மற்றும் இடைவெளிக்கு ஏற்ப ஆப்ஸ் தற்காலிக சேமிப்பை தானாக அழிக்கவும்</string>
 </resources>

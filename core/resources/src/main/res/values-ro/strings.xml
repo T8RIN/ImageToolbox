@@ -3695,4 +3695,14 @@
     <string name="auto_white_balance">Balans de alb automat</string>
     <string name="clipping">Tăiere</string>
     <string name="checking_for_hidden_watermarks">Verificarea filigranelor ascunse</string>
+    <string name="storage">Depozitare</string>
+    <string name="cache_auto_clear_limit">Limită cache</string>
+    <string name="cache_auto_clear_limit_sub">Goliți automat memoria cache atunci când crește peste această dimensiune</string>
+    <string name="cache_auto_clear_interval">Interval de curățare</string>
+    <string name="cache_auto_clear_interval_sub">Cât de des să verificați dacă ar trebui șters memoria cache</string>
+    <string name="cache_auto_clear_on_app_launch">La lansarea aplicației</string>
+    <string name="cache_auto_clear_after_day">1 zi</string>
+    <string name="cache_auto_clear_after_week">1 saptamana</string>
+    <string name="cache_auto_clear_after_month">1 luna</string>
+    <string name="auto_cache_clearing_sub">Ștergeți automat memoria cache a aplicației în funcție de limita și intervalul selectat</string>
 </resources>

@@ -3696,4 +3696,14 @@
     <string name="auto_white_balance">איזון לבן אוטומטי</string>
     <string name="clipping">גֶזֶר</string>
     <string name="checking_for_hidden_watermarks">בודק סימני מים נסתרים</string>
+    <string name="storage">אִחסוּן</string>
+    <string name="cache_auto_clear_limit">מגבלת מטמון</string>
+    <string name="cache_auto_clear_limit_sub">נקה את המטמון באופן אוטומטי כאשר הוא גדל מעבר לגודל זה</string>
+    <string name="cache_auto_clear_interval">מרווח ניקוי</string>
+    <string name="cache_auto_clear_interval_sub">באיזו תדירות לבדוק אם יש לנקות את המטמון</string>
+    <string name="cache_auto_clear_on_app_launch">בהפעלת האפליקציה</string>
+    <string name="cache_auto_clear_after_day">יום אחד</string>
+    <string name="cache_auto_clear_after_week">שבוע אחד</string>
+    <string name="cache_auto_clear_after_month">1 חודש</string>
+    <string name="auto_cache_clearing_sub">נקה את מטמון האפליקציה באופן אוטומטי בהתאם למגבלה ולמרווח שנבחרו</string>
 </resources>

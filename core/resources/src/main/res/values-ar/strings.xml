@@ -3698,4 +3698,14 @@
     <string name="auto_white_balance">توازن اللون الأبيض التلقائي</string>
     <string name="clipping">لقطة</string>
     <string name="checking_for_hidden_watermarks">التحقق من العلامات المائية المخفية</string>
+    <string name="storage">تخزين</string>
+    <string name="cache_auto_clear_limit">حد ذاكرة التخزين المؤقت</string>
+    <string name="cache_auto_clear_limit_sub">امسح ذاكرة التخزين المؤقت تلقائيًا عندما يتجاوز هذا الحجم</string>
+    <string name="cache_auto_clear_interval">الفاصل الزمني للتنظيف</string>
+    <string name="cache_auto_clear_interval_sub">كم مرة للتحقق مما إذا كان يجب مسح ذاكرة التخزين المؤقت</string>
+    <string name="cache_auto_clear_on_app_launch">عند إطلاق التطبيق</string>
+    <string name="cache_auto_clear_after_day">يوم واحد</string>
+    <string name="cache_auto_clear_after_week">1 أسبوع</string>
+    <string name="cache_auto_clear_after_month">شهر واحد</string>
+    <string name="auto_cache_clearing_sub">امسح ذاكرة التخزين المؤقت للتطبيق تلقائيًا وفقًا للحد والفاصل الزمني المحدد</string>
 </resources>

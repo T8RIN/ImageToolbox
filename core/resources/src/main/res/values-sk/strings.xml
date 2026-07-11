@@ -3695,4 +3695,14 @@
     <string name="auto_white_balance">Automatické vyváženie bielej</string>
     <string name="clipping">Výstrižok</string>
     <string name="checking_for_hidden_watermarks">Kontrola skrytých vodoznakov</string>
+    <string name="storage">Skladovanie</string>
+    <string name="cache_auto_clear_limit">Limit vyrovnávacej pamäte</string>
+    <string name="cache_auto_clear_limit_sub">Vymažte vyrovnávaciu pamäť automaticky, keď presiahne túto veľkosť</string>
+    <string name="cache_auto_clear_interval">Interval čistenia</string>
+    <string name="cache_auto_clear_interval_sub">Ako často kontrolovať, či sa má vyrovnávacia pamäť vymazať</string>
+    <string name="cache_auto_clear_on_app_launch">Pri spustení aplikácie</string>
+    <string name="cache_auto_clear_after_day">1 deň</string>
+    <string name="cache_auto_clear_after_week">1 týždeň</string>
+    <string name="cache_auto_clear_after_month">1 mesiac</string>
+    <string name="auto_cache_clearing_sub">Vymažte vyrovnávaciu pamäť aplikácie automaticky podľa zvoleného limitu a intervalu</string>
 </resources>

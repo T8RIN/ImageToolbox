@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">ऑटो व्हाइट बॅलन्स</string>
     <string name="clipping">क्लिपिंग</string>
     <string name="checking_for_hidden_watermarks">लपलेले वॉटरमार्क तपासत आहे</string>
+    <string name="storage">स्टोरेज</string>
+    <string name="cache_auto_clear_limit">कॅशे मर्यादा</string>
+    <string name="cache_auto_clear_limit_sub">कॅशे या आकाराच्या पलीकडे वाढल्यावर स्वयंचलितपणे साफ करा</string>
+    <string name="cache_auto_clear_interval">साफसफाईचे अंतराल</string>
+    <string name="cache_auto_clear_interval_sub">कॅशे साफ करणे आवश्यक आहे की नाही हे किती वेळा तपासावे</string>
+    <string name="cache_auto_clear_on_app_launch">ॲप लाँच करताना</string>
+    <string name="cache_auto_clear_after_day">1 दिवस</string>
+    <string name="cache_auto_clear_after_week">1 आठवडा</string>
+    <string name="cache_auto_clear_after_month">1 महिना</string>
+    <string name="auto_cache_clearing_sub">निवडलेल्या मर्यादा आणि मध्यांतरानुसार ॲप कॅशे स्वयंचलितपणे साफ करा</string>
 </resources>

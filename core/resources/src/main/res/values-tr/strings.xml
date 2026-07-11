@@ -3694,4 +3694,14 @@
     <string name="auto_white_balance">Otomatik Beyaz Dengesi</string>
     <string name="clipping">Kırpma</string>
     <string name="checking_for_hidden_watermarks">Gizli filigranlar kontrol ediliyor</string>
+    <string name="storage">Depolamak</string>
+    <string name="cache_auto_clear_limit">Önbellek sınırı</string>
+    <string name="cache_auto_clear_limit_sub">Bu boyutun ötesine geçtiğinde önbelleği otomatik olarak temizleyin</string>
+    <string name="cache_auto_clear_interval">Temizleme aralığı</string>
+    <string name="cache_auto_clear_interval_sub">Önbelleğin temizlenmesi gerekip gerekmediğini kontrol etme sıklığı</string>
+    <string name="cache_auto_clear_on_app_launch">Uygulama başlatıldığında</string>
+    <string name="cache_auto_clear_after_day">1 gün</string>
+    <string name="cache_auto_clear_after_week">1 hafta</string>
+    <string name="cache_auto_clear_after_month">1 ay</string>
+    <string name="auto_cache_clearing_sub">Seçilen sınıra ve aralığa göre uygulama önbelleğini otomatik olarak temizleyin</string>
 </resources>

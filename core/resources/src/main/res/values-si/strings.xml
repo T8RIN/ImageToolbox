@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">ස්වයංක්‍රීය සුදු ශේෂය</string>
     <string name="clipping">කපා හැරීම</string>
     <string name="checking_for_hidden_watermarks">සැඟවුණු ජල සලකුණු සඳහා පරීක්ෂා කිරීම</string>
+    <string name="storage">ගබඩා කිරීම</string>
+    <string name="cache_auto_clear_limit">හැඹිලි සීමාව</string>
+    <string name="cache_auto_clear_limit_sub">මෙම ප්‍රමාණයෙන් ඔබ්බට වැඩෙන විට හැඹිලිය ස්වයංක්‍රීයව හිස් කරන්න</string>
+    <string name="cache_auto_clear_interval">පිරිසිදු කිරීමේ පරතරය</string>
+    <string name="cache_auto_clear_interval_sub">හැඹිලිය ඉවත් කළ යුතුද යන්න පරීක්ෂා කිරීමට කොපමණ වාරයක්</string>
+    <string name="cache_auto_clear_on_app_launch">යෙදුම දියත් කිරීමේදී</string>
+    <string name="cache_auto_clear_after_day">දින 1 යි</string>
+    <string name="cache_auto_clear_after_week">සති 1 යි</string>
+    <string name="cache_auto_clear_after_month">මාස 1 යි</string>
+    <string name="auto_cache_clearing_sub">තෝරාගත් සීමාව සහ පරතරය අනුව යෙදුම් හැඹිලිය ස්වයංක්‍රීයව හිස් කරන්න</string>
 </resources>

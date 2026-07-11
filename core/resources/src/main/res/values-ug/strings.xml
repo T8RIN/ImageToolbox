@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">ئاپتوماتىك ئاق تەڭپۇڭلۇق</string>
     <string name="clipping">Clipping</string>
     <string name="checking_for_hidden_watermarks">يوشۇرۇن سۇ بەلگىسىنى تەكشۈرۈش</string>
+    <string name="storage">ساقلاش</string>
+    <string name="cache_auto_clear_limit">غەملەك چېكى</string>
+    <string name="cache_auto_clear_limit_sub">غەملەك بۇ چوڭلۇقتىن ئېشىپ كەتكەندە ئاپتوماتىك تازىلاڭ</string>
+    <string name="cache_auto_clear_interval">تازىلاش ئارىلىقى</string>
+    <string name="cache_auto_clear_interval_sub">غەملەكنى تازىلاش كېرەكلىكىنى قانچە قېتىم تەكشۈرۈش كېرەك</string>
+    <string name="cache_auto_clear_on_app_launch">ئەپ ئاچقاندا</string>
+    <string name="cache_auto_clear_after_day">1 كۈن</string>
+    <string name="cache_auto_clear_after_week">1 ھەپتە</string>
+    <string name="cache_auto_clear_after_month">1 ئاي</string>
+    <string name="auto_cache_clearing_sub">تاللانغان چەك ۋە ئارىلىققا ئاساسەن ئەپ ساقلىغۇچنى ئاپتوماتىك تازىلاڭ</string>
 </resources>

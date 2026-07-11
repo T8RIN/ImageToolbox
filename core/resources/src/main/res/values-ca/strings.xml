@@ -3694,4 +3694,14 @@
     <string name="auto_white_balance">Balanç de blancs automàtic</string>
     <string name="clipping">Retall</string>
     <string name="checking_for_hidden_watermarks">Comprovació de les marques d\'aigua amagades</string>
+    <string name="storage">Emmagatzematge</string>
+    <string name="cache_auto_clear_limit">Límit de memòria cau</string>
+    <string name="cache_auto_clear_limit_sub">Esborra la memòria cau automàticament quan creixi més enllà d\'aquesta mida</string>
+    <string name="cache_auto_clear_interval">Interval de neteja</string>
+    <string name="cache_auto_clear_interval_sub">Amb quina freqüència comprovar si s\'ha d\'esborrar la memòria cau</string>
+    <string name="cache_auto_clear_on_app_launch">Al llançament de l\'aplicació</string>
+    <string name="cache_auto_clear_after_day">1 dia</string>
+    <string name="cache_auto_clear_after_week">1 setmana</string>
+    <string name="cache_auto_clear_after_month">1 mes</string>
+    <string name="auto_cache_clearing_sub">Esborra la memòria cau de l\'aplicació automàticament segons el límit i l\'interval seleccionats</string>
 </resources>

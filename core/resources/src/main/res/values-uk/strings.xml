@@ -3695,4 +3695,14 @@
     <string name="auto_white_balance">Автоматичний баланс білого</string>
     <string name="clipping">Вирізка</string>
     <string name="checking_for_hidden_watermarks">Перевірка прихованих водяних знаків</string>
+    <string name="storage">Зберігання</string>
+    <string name="cache_auto_clear_limit">Обмеження кешу</string>
+    <string name="cache_auto_clear_limit_sub">Автоматично очищайте кеш, коли він перевищує цей розмір</string>
+    <string name="cache_auto_clear_interval">Інтервал очищення</string>
+    <string name="cache_auto_clear_interval_sub">Як часто перевіряти, чи потрібно очищати кеш</string>
+    <string name="cache_auto_clear_on_app_launch">При запуску програми</string>
+    <string name="cache_auto_clear_after_day">1 день</string>
+    <string name="cache_auto_clear_after_week">1 тиждень</string>
+    <string name="cache_auto_clear_after_month">1 місяць</string>
+    <string name="auto_cache_clearing_sub">Автоматично очищайте кеш програми відповідно до вибраного обмеження та інтервалу</string>
 </resources>

@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">ਆਟੋ ਵ੍ਹਾਈਟ ਬੈਲੇਂਸ</string>
     <string name="clipping">ਕਲਿਪਿੰਗ</string>
     <string name="checking_for_hidden_watermarks">ਲੁਕੇ ਹੋਏ ਵਾਟਰਮਾਰਕਸ ਦੀ ਜਾਂਚ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
+    <string name="storage">ਸਟੋਰੇਜ</string>
+    <string name="cache_auto_clear_limit">ਕੈਸ਼ ਸੀਮਾ</string>
+    <string name="cache_auto_clear_limit_sub">ਕੈਸ਼ ਨੂੰ ਆਪਣੇ ਆਪ ਸਾਫ਼ ਕਰੋ ਜਦੋਂ ਇਹ ਇਸ ਆਕਾਰ ਤੋਂ ਵੱਧ ਜਾਂਦਾ ਹੈ</string>
+    <string name="cache_auto_clear_interval">ਸਫਾਈ ਅੰਤਰਾਲ</string>
+    <string name="cache_auto_clear_interval_sub">ਕਿੰਨੀ ਵਾਰ ਜਾਂਚ ਕਰਨੀ ਹੈ ਕਿ ਕੈਸ਼ ਕਲੀਅਰ ਕੀਤਾ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ ਜਾਂ ਨਹੀਂ</string>
+    <string name="cache_auto_clear_on_app_launch">ਐਪ ਲਾਂਚ ਹੋਣ \'ਤੇ</string>
+    <string name="cache_auto_clear_after_day">1 ਦਿਨ</string>
+    <string name="cache_auto_clear_after_week">1 ਹਫ਼ਤਾ</string>
+    <string name="cache_auto_clear_after_month">1 ਮਹੀਨਾ</string>
+    <string name="auto_cache_clearing_sub">ਚੁਣੀ ਗਈ ਸੀਮਾ ਅਤੇ ਅੰਤਰਾਲ ਦੇ ਅਨੁਸਾਰ ਆਪਣੇ ਆਪ ਐਪ ਕੈਸ਼ ਨੂੰ ਸਾਫ਼ ਕਰੋ</string>
 </resources>

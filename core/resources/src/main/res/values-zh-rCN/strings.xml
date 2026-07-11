@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">自动白平衡</string>
     <string name="clipping">剪裁</string>
     <string name="checking_for_hidden_watermarks">检查隐藏水印</string>
+    <string name="storage">贮存</string>
+    <string name="cache_auto_clear_limit">缓存限制</string>
+    <string name="cache_auto_clear_limit_sub">当缓存超过此大小时自动清除缓存</string>
+    <string name="cache_auto_clear_interval">清理间隔</string>
+    <string name="cache_auto_clear_interval_sub">多久检查一次缓存是否应该被清除</string>
+    <string name="cache_auto_clear_on_app_launch">应用程序启动时</string>
+    <string name="cache_auto_clear_after_day">1天</string>
+    <string name="cache_auto_clear_after_week">1周</string>
+    <string name="cache_auto_clear_after_month">1个月</string>
+    <string name="auto_cache_clearing_sub">根据选择的限制和间隔自动清除应用程序缓存</string>
 </resources>

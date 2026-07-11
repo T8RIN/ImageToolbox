@@ -3692,4 +3692,14 @@
     <string name="auto_white_balance">Cân bằng trắng tự động</string>
     <string name="clipping">cắt xén</string>
     <string name="checking_for_hidden_watermarks">Kiểm tra các hình mờ ẩn</string>
+    <string name="storage">Kho</string>
+    <string name="cache_auto_clear_limit">Giới hạn bộ nhớ đệm</string>
+    <string name="cache_auto_clear_limit_sub">Tự động xóa bộ nhớ đệm khi nó vượt quá kích thước này</string>
+    <string name="cache_auto_clear_interval">Khoảng thời gian dọn dẹp</string>
+    <string name="cache_auto_clear_interval_sub">Tần suất kiểm tra xem có nên xóa bộ nhớ đệm hay không</string>
+    <string name="cache_auto_clear_on_app_launch">Khi ra mắt ứng dụng</string>
+    <string name="cache_auto_clear_after_day">1 ngày</string>
+    <string name="cache_auto_clear_after_week">1 tuần</string>
+    <string name="cache_auto_clear_after_month">1 tháng</string>
+    <string name="auto_cache_clearing_sub">Tự động xóa bộ nhớ cache ứng dụng theo giới hạn và khoảng thời gian đã chọn</string>
 </resources>

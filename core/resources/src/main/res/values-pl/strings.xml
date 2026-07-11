@@ -3695,4 +3695,14 @@
     <string name="auto_white_balance">Automatyczny balans bieli</string>
     <string name="clipping">Obrzynek</string>
     <string name="checking_for_hidden_watermarks">Sprawdzanie ukrytych znaków wodnych</string>
+    <string name="storage">Składowanie</string>
+    <string name="cache_auto_clear_limit">Limit pamięci podręcznej</string>
+    <string name="cache_auto_clear_limit_sub">Wyczyść pamięć podręczną automatycznie, gdy przekroczy ten rozmiar</string>
+    <string name="cache_auto_clear_interval">Interwał czyszczenia</string>
+    <string name="cache_auto_clear_interval_sub">Jak często sprawdzać, czy pamięć podręczna powinna zostać wyczyszczona</string>
+    <string name="cache_auto_clear_on_app_launch">Podczas uruchamiania aplikacji</string>
+    <string name="cache_auto_clear_after_day">1 dzień</string>
+    <string name="cache_auto_clear_after_week">1 tydzień</string>
+    <string name="cache_auto_clear_after_month">1 miesiąc</string>
+    <string name="auto_cache_clearing_sub">Wyczyść pamięć podręczną aplikacji automatycznie zgodnie z wybranym limitem i interwałem</string>
 </resources>

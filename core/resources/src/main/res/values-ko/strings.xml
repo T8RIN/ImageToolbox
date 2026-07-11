@@ -3692,4 +3692,14 @@
     <string name="auto_white_balance">자동 화이트 밸런스</string>
     <string name="clipping">깎는</string>
     <string name="checking_for_hidden_watermarks">숨겨진 워터마크 확인</string>
+    <string name="storage">저장</string>
+    <string name="cache_auto_clear_limit">캐시 한도</string>
+    <string name="cache_auto_clear_limit_sub">캐시가 이 크기 이상으로 커지면 자동으로 캐시를 지웁니다.</string>
+    <string name="cache_auto_clear_interval">정리 간격</string>
+    <string name="cache_auto_clear_interval_sub">캐시를 지워야 하는지 확인하는 빈도</string>
+    <string name="cache_auto_clear_on_app_launch">앱 실행 시</string>
+    <string name="cache_auto_clear_after_day">1일</string>
+    <string name="cache_auto_clear_after_week">1주</string>
+    <string name="cache_auto_clear_after_month">1개월</string>
+    <string name="auto_cache_clearing_sub">선택한 제한 및 간격에 따라 자동으로 앱 캐시를 지웁니다.</string>
 </resources>

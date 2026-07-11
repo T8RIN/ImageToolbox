@@ -3693,4 +3693,14 @@
     <string name="auto_white_balance">Automatisk vitbalans</string>
     <string name="clipping">Klippning</string>
     <string name="checking_for_hidden_watermarks">Söker efter dolda vattenstämplar</string>
+    <string name="storage">Lagring</string>
+    <string name="cache_auto_clear_limit">Cachegräns</string>
+    <string name="cache_auto_clear_limit_sub">Rensa cachen automatiskt när den växer över denna storlek</string>
+    <string name="cache_auto_clear_interval">Rengöringsintervall</string>
+    <string name="cache_auto_clear_interval_sub">Hur ofta ska man kontrollera om cachen ska rensas</string>
+    <string name="cache_auto_clear_on_app_launch">Vid appstart</string>
+    <string name="cache_auto_clear_after_day">1 dag</string>
+    <string name="cache_auto_clear_after_week">1 vecka</string>
+    <string name="cache_auto_clear_after_month">1 månad</string>
+    <string name="auto_cache_clearing_sub">Rensa appens cache automatiskt enligt den valda gränsen och intervallet</string>
 </resources>
