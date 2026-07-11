@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AvTimer
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
@@ -67,7 +68,7 @@ fun CacheAutoClearIntervalSettingItem(
     PreferenceItem(
         modifier = modifier,
         title = stringResource(R.string.cache_auto_clear_interval),
-        startIcon = Icons.Outlined.Schedule,
+        startIcon = Icons.Outlined.AvTimer,
         subtitle = settingsState.cacheAutoClearInterval.title(),
         onClick = {
             showSheet = true

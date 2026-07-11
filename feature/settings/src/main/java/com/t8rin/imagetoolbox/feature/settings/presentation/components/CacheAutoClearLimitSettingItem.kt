@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.DataSaverOff
+import com.t8rin.imagetoolbox.core.resources.icons.Speed
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -59,7 +59,7 @@ fun CacheAutoClearLimitSettingItem(
         value = selectedIndex,
         title = stringResource(R.string.cache_auto_clear_limit),
         modifier = modifier,
-        icon = Icons.Rounded.DataSaverOff,
+        icon = Icons.Outlined.Speed,
         valueRange = 0f..CacheLimits.lastIndex.toFloat(),
         onValueChange = {
             selectedIndex = it.toCacheLimitIndex()
