@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">තෝරාගත් සීමාව සහ පරතරය අනුව යෙදුම් හැඹිලිය ස්වයංක්‍රීයව හිස් කරන්න</string>
     <string name="crop_overlay_draggable">චංචල භෝග ප්රදේශය</string>
     <string name="crop_overlay_draggable_sub">එය තුළට ඇදගෙන යාමෙන් සම්පූර්ණ බෝග ප්‍රදේශය චලනය කිරීමට ඉඩ සලසයි</string>
+    <string name="gif_type_merge">GIF ඒකාබද්ධ කරන්න</string>
+    <string name="gif_type_merge_sub">GIF ක්ලිප් කිහිපයක් එක් සජීවිකරණයකට ඒකාබද්ධ කරන්න</string>
+    <string name="gif_clips_order">GIF ක්ලිප් ඇණවුම</string>
+    <string name="reverse">ආපසු හැරවීම</string>
+    <string name="reverse_sub">ප්‍රතිලෝම ලෙස ක්‍රීඩා කරන්න</string>
+    <string name="boomerang">බූමරන්ග්</string>
+    <string name="boomerang_sub">ඉදිරියට සහ පසුව පසුපසට සෙල්ලම් කරන්න</string>
+    <string name="normalize_gif_frames">රාමු ප්රමාණය සාමාන්ය කරන්න</string>
+    <string name="normalize_gif_frames_sub">විශාලතම ක්ලිප් එකට ගැලපෙන පරිදි පරිමාණ රාමු; ඔවුන්ගේ මුල් පරිමාණය ආරක්ෂා කර ගැනීම සඳහා අක්රිය කරන්න</string>
+    <string name="delay_between_clips">ක්ලිප් අතර ප්‍රමාදය (ms)</string>
 </resources>

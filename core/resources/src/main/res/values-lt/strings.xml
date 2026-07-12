@@ -3707,4 +3707,14 @@
     <string name="auto_cache_clearing_sub">Automatiškai išvalykite programos talpyklą pagal pasirinktą limitą ir intervalą</string>
     <string name="crop_overlay_draggable">Kilnojamas pasėlių plotas</string>
     <string name="crop_overlay_draggable_sub">Leidžia perkelti visą apkarpymo plotą tempiant į jį</string>
+    <string name="gif_type_merge">Sujungti GIF</string>
+    <string name="gif_type_merge_sub">Sujunkite kelis GIF klipus į vieną animaciją</string>
+    <string name="gif_clips_order">GIF klipų užsakymas</string>
+    <string name="reverse">Atvirkščiai</string>
+    <string name="reverse_sub">Žaisti atvirkščiai</string>
+    <string name="boomerang">Bumerangas</string>
+    <string name="boomerang_sub">Žaisti pirmyn ir tada atgal</string>
+    <string name="normalize_gif_frames">Normalizuokite rėmo dydį</string>
+    <string name="normalize_gif_frames_sub">Pakeiskite rėmelius, kad tilptų didžiausias segtukas; išjunkite, kad išsaugotumėte pradinį mastelį</string>
+    <string name="delay_between_clips">Vėlavimas tarp klipų (ms)</string>
 </resources>

@@ -3704,4 +3704,14 @@
     <string name="auto_cache_clearing_sub">Hapus cache aplikasi secara otomatis sesuai batas dan interval yang dipilih</string>
     <string name="crop_overlay_draggable">Area tanaman yang dapat dipindahkan</string>
     <string name="crop_overlay_draggable_sub">Memungkinkan memindahkan seluruh area pemotongan dengan menyeret ke dalamnya</string>
+    <string name="gif_type_merge">Gabungkan GIF</string>
+    <string name="gif_type_merge_sub">Gabungkan beberapa klip GIF menjadi satu animasi</string>
+    <string name="gif_clips_order">Urutan klip GIF</string>
+    <string name="reverse">Balik</string>
+    <string name="reverse_sub">Mainkan secara terbalik</string>
+    <string name="boomerang">Bumerang</string>
+    <string name="boomerang_sub">Mainkan maju lalu mundur</string>
+    <string name="normalize_gif_frames">Normalisasikan ukuran bingkai</string>
+    <string name="normalize_gif_frames_sub">Skala bingkai agar sesuai dengan klip terbesar; matikan untuk mempertahankan skala aslinya</string>
+    <string name="delay_between_clips">Penundaan antar klip (ms)</string>
 </resources>

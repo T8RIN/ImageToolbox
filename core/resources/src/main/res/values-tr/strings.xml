@@ -3706,4 +3706,14 @@
     <string name="auto_cache_clearing_sub">Seçilen sınıra ve aralığa göre uygulama önbelleğini otomatik olarak temizleyin</string>
     <string name="crop_overlay_draggable">Hareketli mahsul alanı</string>
     <string name="crop_overlay_draggable_sub">Kırpma alanının tamamının içine sürüklenerek taşınmasına olanak sağlar</string>
+    <string name="gif_type_merge">GIF\'i birleştir</string>
+    <string name="gif_type_merge_sub">Birden fazla GIF klibini tek bir animasyonda birleştirin</string>
+    <string name="gif_clips_order">GIF klipleri sırası</string>
+    <string name="reverse">Tersi</string>
+    <string name="reverse_sub">Ters olarak oynat</string>
+    <string name="boomerang">Bumerang</string>
+    <string name="boomerang_sub">İleri ve geri oynat</string>
+    <string name="normalize_gif_frames">Çerçeve boyutunu normalleştir</string>
+    <string name="normalize_gif_frames_sub">Çerçeveleri en büyük klibe sığacak şekilde ölçeklendirin; orijinal ölçeklerini korumak için kapatın</string>
+    <string name="delay_between_clips">Klipler arasındaki gecikme (ms)</string>
 </resources>

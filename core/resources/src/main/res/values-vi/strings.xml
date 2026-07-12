@@ -3704,4 +3704,14 @@
     <string name="auto_cache_clearing_sub">Tự động xóa bộ nhớ cache ứng dụng theo giới hạn và khoảng thời gian đã chọn</string>
     <string name="crop_overlay_draggable">Diện tích cây trồng có thể di chuyển</string>
     <string name="crop_overlay_draggable_sub">Cho phép di chuyển toàn bộ vùng cắt bằng cách kéo vào bên trong nó</string>
+    <string name="gif_type_merge">Hợp nhất GIF</string>
+    <string name="gif_type_merge_sub">Kết hợp nhiều clip GIF thành một ảnh động</string>
+    <string name="gif_clips_order">Thứ tự các clip GIF</string>
+    <string name="reverse">Đảo ngược</string>
+    <string name="reverse_sub">Chơi như đảo ngược</string>
+    <string name="boomerang">Boomerang</string>
+    <string name="boomerang_sub">Chơi tiến rồi lùi</string>
+    <string name="normalize_gif_frames">Chuẩn hóa kích thước khung hình</string>
+    <string name="normalize_gif_frames_sub">Chia tỷ lệ khung hình để vừa với clip lớn nhất; tắt để duy trì quy mô ban đầu của họ</string>
+    <string name="delay_between_clips">Độ trễ giữa các clip (ms)</string>
 </resources>

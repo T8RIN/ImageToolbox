@@ -3707,4 +3707,14 @@
     <string name="auto_cache_clearing_sub">Wyczyść pamięć podręczną aplikacji automatycznie zgodnie z wybranym limitem i interwałem</string>
     <string name="crop_overlay_draggable">Ruchomy obszar upraw</string>
     <string name="crop_overlay_draggable_sub">Umożliwia przesuwanie całego obszaru kadrowania poprzez przeciąganie wewnątrz niego</string>
+    <string name="gif_type_merge">Połącz GIF</string>
+    <string name="gif_type_merge_sub">Połącz wiele klipów GIF w jedną animację</string>
+    <string name="gif_clips_order">Kolejność klipów GIF</string>
+    <string name="reverse">Odwracać</string>
+    <string name="reverse_sub">Graj w odwrotnej kolejności</string>
+    <string name="boomerang">Bumerang</string>
+    <string name="boomerang_sub">Graj do przodu, a następnie do tyłu</string>
+    <string name="normalize_gif_frames">Normalizuj rozmiar ramki</string>
+    <string name="normalize_gif_frames_sub">Skaluj klatki, aby dopasować je do największego klipu; wyłączyć, aby zachować oryginalną skalę</string>
+    <string name="delay_between_clips">Opóźnienie między klipami (ms)</string>
 </resources>

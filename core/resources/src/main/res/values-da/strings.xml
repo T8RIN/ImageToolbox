@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">Ryd appens cache automatisk i henhold til den valgte grænse og interval</string>
     <string name="crop_overlay_draggable">Bevægeligt afgrødeareal</string>
     <string name="crop_overlay_draggable_sub">Tillader flytning af hele beskæringsområdet ved at trække ind i det</string>
+    <string name="gif_type_merge">Flet GIF</string>
+    <string name="gif_type_merge_sub">Kombiner flere GIF-klip til én animation</string>
+    <string name="gif_clips_order">GIF-klip rækkefølge</string>
+    <string name="reverse">Bagside</string>
+    <string name="reverse_sub">Spil som omvendt</string>
+    <string name="boomerang">Boomerang</string>
+    <string name="boomerang_sub">Spil frem og derefter tilbage</string>
+    <string name="normalize_gif_frames">Normaliser rammestørrelsen</string>
+    <string name="normalize_gif_frames_sub">Skaler rammer, så de passer til den største klips; slukke for at bevare deres oprindelige skala</string>
+    <string name="delay_between_clips">Forsinkelse mellem klip (ms)</string>
 </resources>

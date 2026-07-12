@@ -3710,4 +3710,14 @@
     <string name="auto_cache_clearing_sub">امسح ذاكرة التخزين المؤقت للتطبيق تلقائيًا وفقًا للحد والفاصل الزمني المحدد</string>
     <string name="crop_overlay_draggable">منطقة المحاصيل المنقولة</string>
     <string name="crop_overlay_draggable_sub">يسمح بتحريك منطقة الاقتصاص بأكملها عن طريق السحب بداخلها</string>
+    <string name="gif_type_merge">دمج GIF</string>
+    <string name="gif_type_merge_sub">قم بدمج مقاطع GIF متعددة في رسم متحرك واحد</string>
+    <string name="gif_clips_order">ترتيب مقاطع GIF</string>
+    <string name="reverse">يعكس</string>
+    <string name="reverse_sub">العب كما هو معكوس</string>
+    <string name="boomerang">يرتد</string>
+    <string name="boomerang_sub">العب للأمام ثم للخلف</string>
+    <string name="normalize_gif_frames">تطبيع حجم الإطار</string>
+    <string name="normalize_gif_frames_sub">قم بقياس الإطارات لتناسب أكبر مقطع؛ إيقاف للحفاظ على حجمها الأصلي</string>
+    <string name="delay_between_clips">التأخير بين المقاطع (مللي ثانية)</string>
 </resources>

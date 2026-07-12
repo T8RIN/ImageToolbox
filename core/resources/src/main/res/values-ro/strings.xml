@@ -3707,4 +3707,14 @@
     <string name="auto_cache_clearing_sub">Ștergeți automat memoria cache a aplicației în funcție de limita și intervalul selectat</string>
     <string name="crop_overlay_draggable">Zona de cultură mobilă</string>
     <string name="crop_overlay_draggable_sub">Permite mutarea întregii zone de decupare prin tragerea în interiorul acesteia</string>
+    <string name="gif_type_merge">Îmbinați GIF</string>
+    <string name="gif_type_merge_sub">Combinați mai multe clipuri GIF într-o singură animație</string>
+    <string name="gif_clips_order">Comandă clipuri GIF</string>
+    <string name="reverse">Verso</string>
+    <string name="reverse_sub">Joacă invers</string>
+    <string name="boomerang">Bumerang</string>
+    <string name="boomerang_sub">Redați înainte și apoi înapoi</string>
+    <string name="normalize_gif_frames">Normalizați dimensiunea cadrului</string>
+    <string name="normalize_gif_frames_sub">Scala rame pentru a se potrivi celui mai mare clip; opriți pentru a-și păstra scara inițială</string>
+    <string name="delay_between_clips">Întârziere între clipuri (ms)</string>
 </resources>

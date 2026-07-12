@@ -3706,4 +3706,14 @@
     <string name="auto_cache_clearing_sub">Az alkalmazás gyorsítótárának automatikus törlése a kiválasztott korlátnak és intervallumnak megfelelően</string>
     <string name="crop_overlay_draggable">Mozgatható termőterület</string>
     <string name="crop_overlay_draggable_sub">Lehetővé teszi a teljes kivágási terület mozgatását a benne lévő húzással</string>
+    <string name="gif_type_merge">GIF egyesítése</string>
+    <string name="gif_type_merge_sub">Egyesítsen több GIF klipet egyetlen animációba</string>
+    <string name="gif_clips_order">GIF klipek rendelése</string>
+    <string name="reverse">Fordított</string>
+    <string name="reverse_sub">Játssz fordítva</string>
+    <string name="boomerang">Bumeráng</string>
+    <string name="boomerang_sub">Játssz előre, majd vissza</string>
+    <string name="normalize_gif_frames">A keret méretének normalizálása</string>
+    <string name="normalize_gif_frames_sub">Méretezze a kereteket a legnagyobb kliphez; kapcsolja ki, hogy megőrizze eredeti méretét</string>
+    <string name="delay_between_clips">A klipek közötti késleltetés (ms)</string>
 </resources>

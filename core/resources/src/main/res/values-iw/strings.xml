@@ -3708,4 +3708,14 @@
     <string name="auto_cache_clearing_sub">נקה את מטמון האפליקציה באופן אוטומטי בהתאם למגבלה ולמרווח שנבחרו</string>
     <string name="crop_overlay_draggable">שטח יבול נייד</string>
     <string name="crop_overlay_draggable_sub">מאפשר להזיז את כל אזור החיתוך על ידי גרירה בתוכו</string>
+    <string name="gif_type_merge">מיזוג GIF</string>
+    <string name="gif_type_merge_sub">שלב קטעי GIF מרובים לאנימציה אחת</string>
+    <string name="gif_clips_order">סדר קטעי GIF</string>
+    <string name="reverse">לַהֲפוֹך</string>
+    <string name="reverse_sub">שחק כהפוך</string>
+    <string name="boomerang">בּוּמֵרַנְג</string>
+    <string name="boomerang_sub">נגן קדימה ואז אחורה</string>
+    <string name="normalize_gif_frames">נרמל את גודל המסגרת</string>
+    <string name="normalize_gif_frames_sub">קנה מידה של מסגרות כך שיתאימו לקליפ הגדול ביותר; כבה כדי לשמר את הסולם המקורי שלהם</string>
+    <string name="delay_between_clips">השהיה בין קליפים (ms)</string>
 </resources>

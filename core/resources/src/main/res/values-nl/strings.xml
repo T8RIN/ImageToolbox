@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">Wis de app-cache automatisch volgens de geselecteerde limiet en interval</string>
     <string name="crop_overlay_draggable">Verplaatsbaar gewasgebied</string>
     <string name="crop_overlay_draggable_sub">Maakt het mogelijk om het hele bijsnijdgebied te verplaatsen door er naar binnen te slepen</string>
+    <string name="gif_type_merge">GIF samenvoegen</string>
+    <string name="gif_type_merge_sub">Combineer meerdere GIF-clips in één animatie</string>
+    <string name="gif_clips_order">GIF-clips bestellen</string>
+    <string name="reverse">Achteruit</string>
+    <string name="reverse_sub">Speel omgekeerd</string>
+    <string name="boomerang">Boemerang</string>
+    <string name="boomerang_sub">Speel vooruit en dan achteruit</string>
+    <string name="normalize_gif_frames">Normaliseer de framegrootte</string>
+    <string name="normalize_gif_frames_sub">Schaal frames zodat ze in de grootste clip passen; uitschakelen om hun oorspronkelijke schaal te behouden</string>
+    <string name="delay_between_clips">Vertraging tussen clips (ms)</string>
 </resources>

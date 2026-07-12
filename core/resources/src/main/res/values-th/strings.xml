@@ -3704,4 +3704,14 @@
     <string name="auto_cache_clearing_sub">ล้างแคชของแอปโดยอัตโนมัติตามขีดจำกัดและช่วงเวลาที่เลือก</string>
     <string name="crop_overlay_draggable">พื้นที่เพาะปลูกที่สามารถเคลื่อนย้ายได้</string>
     <string name="crop_overlay_draggable_sub">อนุญาตให้ย้ายพื้นที่ครอบตัดทั้งหมดโดยการลากเข้าไปข้างใน</string>
+    <string name="gif_type_merge">รวม GIF</string>
+    <string name="gif_type_merge_sub">รวมคลิป GIF หลาย ๆ คลิปให้เป็นภาพเคลื่อนไหวเดียว</string>
+    <string name="gif_clips_order">ลำดับคลิป GIF</string>
+    <string name="reverse">ย้อนกลับ</string>
+    <string name="reverse_sub">เล่นแบบย้อนกลับ</string>
+    <string name="boomerang">บูมเมอแรง</string>
+    <string name="boomerang_sub">เล่นไปข้างหน้าแล้วถอยหลัง</string>
+    <string name="normalize_gif_frames">ปรับขนาดเฟรมให้เป็นปกติ</string>
+    <string name="normalize_gif_frames_sub">ปรับขนาดเฟรมให้พอดีกับคลิปที่ใหญ่ที่สุด ปิดเพื่อรักษาขนาดเดิม</string>
+    <string name="delay_between_clips">ความล่าช้าระหว่างคลิป (มิลลิวินาที)</string>
 </resources>

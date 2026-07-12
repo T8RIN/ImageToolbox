@@ -3704,4 +3704,14 @@
     <string name="auto_cache_clearing_sub">選択した制限と間隔に従ってアプリのキャッシュを自動的にクリアします</string>
     <string name="crop_overlay_draggable">移動可能なクロップエリア</string>
     <string name="crop_overlay_draggable_sub">トリミング領域内をドラッグしてトリミング領域全体を移動できるようにします</string>
+    <string name="gif_type_merge">GIFを結合</string>
+    <string name="gif_type_merge_sub">複数の GIF クリップを 1 つのアニメーションに結合する</string>
+    <string name="gif_clips_order">GIF クリップの順序</string>
+    <string name="reverse">逆行する</string>
+    <string name="reverse_sub">逆向きにプレイする</string>
+    <string name="boomerang">ブーメラン</string>
+    <string name="boomerang_sub">順方向に再生してから逆方向に再生する</string>
+    <string name="normalize_gif_frames">フレームサイズを正規化する</string>
+    <string name="normalize_gif_frames_sub">最大のクリップに合わせてフレームをスケールします。元のスケールを維持するにはオフにします</string>
+    <string name="delay_between_clips">クリップ間の遅延 (ミリ秒)</string>
 </resources>

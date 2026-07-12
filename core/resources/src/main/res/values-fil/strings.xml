@@ -3706,4 +3706,14 @@
     <string name="auto_cache_clearing_sub">Awtomatikong i-clear ang cache ng app ayon sa napiling limitasyon at pagitan</string>
     <string name="crop_overlay_draggable">Movable crop area</string>
     <string name="crop_overlay_draggable_sub">Nagbibigay-daan sa paglipat ng buong lugar ng pananim sa pamamagitan ng pag-drag sa loob nito</string>
+    <string name="gif_type_merge">Pagsamahin ang GIF</string>
+    <string name="gif_type_merge_sub">Pagsamahin ang maraming GIF clip sa isang animation</string>
+    <string name="gif_clips_order">Pagkakasunod-sunod ng mga GIF clip</string>
+    <string name="reverse">Reverse</string>
+    <string name="reverse_sub">Maglaro bilang baligtad</string>
+    <string name="boomerang">Boomerang</string>
+    <string name="boomerang_sub">Maglaro pasulong at pagkatapos ay paatras</string>
+    <string name="normalize_gif_frames">I-normalize ang laki ng frame</string>
+    <string name="normalize_gif_frames_sub">I-scale ang mga frame upang magkasya sa pinakamalaking clip; patayin upang mapanatili ang kanilang orihinal na sukat</string>
+    <string name="delay_between_clips">Pagkaantala sa pagitan ng mga clip (ms)</string>
 </resources>

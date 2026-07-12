@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">निवडलेल्या मर्यादा आणि मध्यांतरानुसार ॲप कॅशे स्वयंचलितपणे साफ करा</string>
     <string name="crop_overlay_draggable">जंगम पीक क्षेत्र</string>
     <string name="crop_overlay_draggable_sub">संपूर्ण पीक क्षेत्र आत ड्रॅग करून हलविण्यास अनुमती देते</string>
+    <string name="gif_type_merge">GIF मर्ज करा</string>
+    <string name="gif_type_merge_sub">एका ॲनिमेशनमध्ये अनेक GIF क्लिप एकत्र करा</string>
+    <string name="gif_clips_order">GIF क्लिप ऑर्डर</string>
+    <string name="reverse">उलट</string>
+    <string name="reverse_sub">उलट खेळा</string>
+    <string name="boomerang">बूमरँग</string>
+    <string name="boomerang_sub">पुढे खेळा आणि नंतर मागे</string>
+    <string name="normalize_gif_frames">फ्रेम आकार सामान्य करा</string>
+    <string name="normalize_gif_frames_sub">सर्वात मोठी क्लिप फिट करण्यासाठी स्केल फ्रेम; त्यांचे मूळ स्केल जतन करण्यासाठी बंद करा</string>
+    <string name="delay_between_clips">क्लिप दरम्यान विलंब (ms)</string>
 </resources>

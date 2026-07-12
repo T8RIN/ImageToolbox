@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">தேர்ந்தெடுக்கப்பட்ட வரம்பு மற்றும் இடைவெளிக்கு ஏற்ப ஆப்ஸ் தற்காலிக சேமிப்பை தானாக அழிக்கவும்</string>
     <string name="crop_overlay_draggable">அசையும் பயிர் பகுதி</string>
     <string name="crop_overlay_draggable_sub">அதன் உள்ளே இழுப்பதன் மூலம் முழு பயிர் பகுதியையும் நகர்த்த அனுமதிக்கிறது</string>
+    <string name="gif_type_merge">GIF ஐ இணைக்கவும்</string>
+    <string name="gif_type_merge_sub">பல GIF கிளிப்களை ஒரு அனிமேஷனில் இணைக்கவும்</string>
+    <string name="gif_clips_order">GIF கிளிப்புகள் ஆர்டர்</string>
+    <string name="reverse">தலைகீழ்</string>
+    <string name="reverse_sub">தலைகீழாக விளையாடு</string>
+    <string name="boomerang">பூமராங்</string>
+    <string name="boomerang_sub">முன்னும் பின்னும் விளையாடுங்கள்</string>
+    <string name="normalize_gif_frames">சட்டத்தின் அளவை இயல்பாக்குங்கள்</string>
+    <string name="normalize_gif_frames_sub">மிகப்பெரிய கிளிப்புக்கு ஏற்றவாறு பிரேம்களை அளவிடவும்; அவற்றின் அசல் அளவைப் பாதுகாக்க அணைக்கவும்</string>
+    <string name="delay_between_clips">கிளிப்புகள் இடையே தாமதம் (மிசி)</string>
 </resources>

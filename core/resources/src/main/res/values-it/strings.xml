@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">Svuota automaticamente la cache dell\'app in base al limite e all\'intervallo selezionati</string>
     <string name="crop_overlay_draggable">Area coltivata mobile</string>
     <string name="crop_overlay_draggable_sub">Permette di spostare l\'intera area di ritaglio trascinandola al suo interno</string>
+    <string name="gif_type_merge">Unisci GIF</string>
+    <string name="gif_type_merge_sub">Combina più clip GIF in un\'unica animazione</string>
+    <string name="gif_clips_order">Ordine delle clip GIF</string>
+    <string name="reverse">Inversione</string>
+    <string name="reverse_sub">Gioca al contrario</string>
+    <string name="boomerang">Boomerang</string>
+    <string name="boomerang_sub">Gioca in avanti e poi indietro</string>
+    <string name="normalize_gif_frames">Normalizza le dimensioni del fotogramma</string>
+    <string name="normalize_gif_frames_sub">Ridimensiona le cornici per adattarle alla clip più grande; spegnere per preservare la scala originale</string>
+    <string name="delay_between_clips">Ritardo tra le clip (ms)</string>
 </resources>

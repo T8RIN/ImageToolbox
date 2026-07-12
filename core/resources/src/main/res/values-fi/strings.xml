@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">Tyhjennä sovellusvälimuisti automaattisesti valitun rajan ja aikavälin mukaisesti</string>
     <string name="crop_overlay_draggable">Siirrettävä satoalue</string>
     <string name="crop_overlay_draggable_sub">Mahdollistaa koko rajausalueen siirtämisen vetämällä sen sisällä</string>
+    <string name="gif_type_merge">Yhdistä GIF</string>
+    <string name="gif_type_merge_sub">Yhdistä useita GIF-leikkeitä yhdeksi animaatioksi</string>
+    <string name="gif_clips_order">GIF-leikkeiden tilaus</string>
+    <string name="reverse">Käänteinen</string>
+    <string name="reverse_sub">Pelaa toisinpäin</string>
+    <string name="boomerang">Bumerangi</string>
+    <string name="boomerang_sub">Toista eteenpäin ja sitten taaksepäin</string>
+    <string name="normalize_gif_frames">Normalisoi kehyksen koko</string>
+    <string name="normalize_gif_frames_sub">Skaalaa kehykset isoimpaan klipsiin sopivaksi; sammuta säilyttääksesi alkuperäisen mittakaavan</string>
+    <string name="delay_between_clips">Leikkeiden välinen viive (ms)</string>
 </resources>

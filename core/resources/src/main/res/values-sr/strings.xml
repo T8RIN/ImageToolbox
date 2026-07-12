@@ -3707,4 +3707,14 @@
     <string name="auto_cache_clearing_sub">Аутоматски обришите кеш апликације у складу са изабраним ограничењем и интервалом</string>
     <string name="crop_overlay_draggable">Покретна површина усева</string>
     <string name="crop_overlay_draggable_sub">Омогућава померање целе области усева превлачењем унутар ње</string>
+    <string name="gif_type_merge">Споји ГИФ</string>
+    <string name="gif_type_merge_sub">Комбинујте више ГИФ клипова у једну анимацију</string>
+    <string name="gif_clips_order">Ред ГИФ клипова</string>
+    <string name="reverse">Реверсе</string>
+    <string name="reverse_sub">Играјте обрнуто</string>
+    <string name="boomerang">Бумеранг</string>
+    <string name="boomerang_sub">Играјте унапред, а затим уназад</string>
+    <string name="normalize_gif_frames">Нормализујте величину оквира</string>
+    <string name="normalize_gif_frames_sub">Скалирајте оквире тако да одговарају највећем клипу; искључите да бисте сачували оригиналну размеру</string>
+    <string name="delay_between_clips">Кашњење између клипова (мс)</string>
 </resources>

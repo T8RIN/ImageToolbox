@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">根據選擇的限制和間隔自動清除應用程式緩存</string>
     <string name="crop_overlay_draggable" />
     <string name="crop_overlay_draggable_sub">允許透過在裁剪區域內拖曳來移動整個裁剪區域</string>
+    <string name="gif_type_merge">合併 GIF</string>
+    <string name="gif_type_merge_sub">將多個 GIF 剪輯合併為一個動畫</string>
+    <string name="gif_clips_order">GIF 剪輯順序</string>
+    <string name="reverse">反向</string>
+    <string name="reverse_sub">反向播放</string>
+    <string name="boomerang">迴力鏢</string>
+    <string name="boomerang_sub">向前播放然後向後播放</string>
+    <string name="normalize_gif_frames">規範化幀大小</string>
+    <string name="normalize_gif_frames_sub">縮放框架以適合最大的剪輯；關閉以保留其原始比例</string>
+    <string name="delay_between_clips">剪輯之間的延遲（毫秒）</string>
 </resources>

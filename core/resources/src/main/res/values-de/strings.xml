@@ -3706,4 +3706,14 @@
     <string name="auto_cache_clearing_sub">Leeren Sie den App-Cache automatisch entsprechend dem ausgewählten Limit und Intervall</string>
     <string name="crop_overlay_draggable">Beweglicher Anbaubereich</string>
     <string name="crop_overlay_draggable_sub">Ermöglicht das Verschieben des gesamten Zuschneidebereichs durch Ziehen innerhalb des Bereichs</string>
+    <string name="gif_type_merge">GIF zusammenführen</string>
+    <string name="gif_type_merge_sub">Kombinieren Sie mehrere GIF-Clips zu einer Animation</string>
+    <string name="gif_clips_order">Reihenfolge der GIF-Clips</string>
+    <string name="reverse">Umkehren</string>
+    <string name="reverse_sub">Spielen Sie umgekehrt</string>
+    <string name="boomerang">Boomerang</string>
+    <string name="boomerang_sub">Spielen Sie vorwärts und dann rückwärts</string>
+    <string name="normalize_gif_frames">Bildgröße normalisieren</string>
+    <string name="normalize_gif_frames_sub">Rahmen so skalieren, dass sie in den größten Clip passen; ausschalten, um den Originalmaßstab beizubehalten</string>
+    <string name="delay_between_clips">Verzögerung zwischen Clips (ms)</string>
 </resources>

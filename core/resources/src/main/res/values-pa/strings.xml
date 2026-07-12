@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">ਚੁਣੀ ਗਈ ਸੀਮਾ ਅਤੇ ਅੰਤਰਾਲ ਦੇ ਅਨੁਸਾਰ ਆਪਣੇ ਆਪ ਐਪ ਕੈਸ਼ ਨੂੰ ਸਾਫ਼ ਕਰੋ</string>
     <string name="crop_overlay_draggable">ਚਲਣਯੋਗ ਫਸਲ ਖੇਤਰ</string>
     <string name="crop_overlay_draggable_sub">ਇਸ ਦੇ ਅੰਦਰ ਖਿੱਚ ਕੇ ਪੂਰੇ ਫਸਲ ਖੇਤਰ ਨੂੰ ਹਿਲਾਉਣ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ</string>
+    <string name="gif_type_merge">GIF ਨੂੰ ਮਿਲਾਓ</string>
+    <string name="gif_type_merge_sub">ਇੱਕ ਐਨੀਮੇਸ਼ਨ ਵਿੱਚ ਕਈ GIF ਕਲਿੱਪਾਂ ਨੂੰ ਜੋੜੋ</string>
+    <string name="gif_clips_order">GIF ਕਲਿੱਪ ਆਰਡਰ</string>
+    <string name="reverse">ਉਲਟਾ</string>
+    <string name="reverse_sub">ਉਲਟਾ ਖੇਡੋ</string>
+    <string name="boomerang">ਬੂਮਰੈਂਗ</string>
+    <string name="boomerang_sub">ਅੱਗੇ ਅਤੇ ਫਿਰ ਪਿੱਛੇ ਖੇਡੋ</string>
+    <string name="normalize_gif_frames">ਫਰੇਮ ਦਾ ਆਕਾਰ ਆਮ ਬਣਾਓ</string>
+    <string name="normalize_gif_frames_sub">ਸਭ ਤੋਂ ਵੱਡੀ ਕਲਿੱਪ ਫਿੱਟ ਕਰਨ ਲਈ ਸਕੇਲ ਫਰੇਮ; ਆਪਣੇ ਅਸਲੀ ਸਕੇਲ ਨੂੰ ਸੁਰੱਖਿਅਤ ਰੱਖਣ ਲਈ ਬੰਦ ਕਰੋ</string>
+    <string name="delay_between_clips">ਕਲਿੱਪਾਂ ਵਿਚਕਾਰ ਦੇਰੀ (ms)</string>
 </resources>

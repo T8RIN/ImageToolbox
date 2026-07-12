@@ -3707,4 +3707,14 @@
     <string name="auto_cache_clearing_sub">Автоматично очищайте кеш програми відповідно до вибраного обмеження та інтервалу</string>
     <string name="crop_overlay_draggable">Пересувна площа посіву</string>
     <string name="crop_overlay_draggable_sub">Дозволяє переміщувати всю область кадрування шляхом перетягування всередину неї</string>
+    <string name="gif_type_merge">Об’єднати GIF</string>
+    <string name="gif_type_merge_sub">Об’єднайте кілька GIF-кліпів в одну анімацію</string>
+    <string name="gif_clips_order">Порядок кліпів GIF</string>
+    <string name="reverse">Зворотний</string>
+    <string name="reverse_sub">Грайте як навпаки</string>
+    <string name="boomerang">Бумеранг</string>
+    <string name="boomerang_sub">Грайте вперед, а потім назад</string>
+    <string name="normalize_gif_frames">Нормалізуйте розмір кадру</string>
+    <string name="normalize_gif_frames_sub">Масштаб кадрів, щоб відповідати найбільшому кліпу; вимкніть, щоб зберегти їхній початковий масштаб</string>
+    <string name="delay_between_clips">Затримка між кліпами (мс)</string>
 </resources>

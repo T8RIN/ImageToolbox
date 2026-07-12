@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">تاللانغان چەك ۋە ئارىلىققا ئاساسەن ئەپ ساقلىغۇچنى ئاپتوماتىك تازىلاڭ</string>
     <string name="crop_overlay_draggable">يۆتكىلىشچان زىرائەت رايونى</string>
     <string name="crop_overlay_draggable_sub">ئۇنىڭ ئىچىگە سۆرەپ پۈتكۈل زىرائەتلەرنى يۆتكەشكە يول قويىدۇ</string>
+    <string name="gif_type_merge">GIF نى بىرلەشتۈرۈش</string>
+    <string name="gif_type_merge_sub">كۆپ خىل GIF قىسقۇچنى بىر كارتونغا بىرلەشتۈرۈڭ</string>
+    <string name="gif_clips_order">GIF قىسقۇچ تەرتىپى</string>
+    <string name="reverse">تەتۈر</string>
+    <string name="reverse_sub">تەتۈر يۆنىلىشتە ئويناڭ</string>
+    <string name="boomerang">Boomerang</string>
+    <string name="boomerang_sub">ئالدىغا ئويناڭ</string>
+    <string name="normalize_gif_frames">رامكىنىڭ چوڭ-كىچىكلىكىنى نورماللاشتۇرۇش</string>
+    <string name="normalize_gif_frames_sub">ئەڭ چوڭ قىسمىغا ماس كېلىدىغان كۆلەم رامكىسى ئەسلىدىكى كۆلىمىنى ساقلاپ قېلىش ئۈچۈن ئېتىۋېتىڭ</string>
+    <string name="delay_between_clips">قىسقۇچ (ms) ئارىسىدا كېچىكىش</string>
 </resources>

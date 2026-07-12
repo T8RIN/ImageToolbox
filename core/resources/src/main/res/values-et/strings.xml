@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">Tühjendage rakenduse vahemälu automaatselt vastavalt valitud limiidile ja intervallile</string>
     <string name="crop_overlay_draggable">Teisaldatav põllukultuuri ala</string>
     <string name="crop_overlay_draggable_sub">Võimaldab liigutada kogu kärpimisala selle sees lohistades</string>
+    <string name="gif_type_merge">Ühendage GIF</string>
+    <string name="gif_type_merge_sub">Ühendage mitu GIF-klippi üheks animatsiooniks</string>
+    <string name="gif_clips_order">GIF-klippide tellimine</string>
+    <string name="reverse">Tagurpidi</string>
+    <string name="reverse_sub">Mängi tagurpidi</string>
+    <string name="boomerang">Bumerang</string>
+    <string name="boomerang_sub">Mängi edasi ja siis tagasi</string>
+    <string name="normalize_gif_frames">Normaliseerige raami suurus</string>
+    <string name="normalize_gif_frames_sub">Mõõtke raamid, et need sobiksid suurima klambriga; algse skaala säilitamiseks välja lülitada</string>
+    <string name="delay_between_clips">Klippide vaheline viivitus (ms)</string>
 </resources>

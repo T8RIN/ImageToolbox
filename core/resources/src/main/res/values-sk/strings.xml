@@ -3707,4 +3707,14 @@
     <string name="auto_cache_clearing_sub">Vymažte vyrovnávaciu pamäť aplikácie automaticky podľa zvoleného limitu a intervalu</string>
     <string name="crop_overlay_draggable">Pohyblivá plocha obilia</string>
     <string name="crop_overlay_draggable_sub">Umožňuje presunúť celú oblasť orezania potiahnutím dovnútra</string>
+    <string name="gif_type_merge">Zlúčiť GIF</string>
+    <string name="gif_type_merge_sub">Skombinujte viacero GIF klipov do jednej animácie</string>
+    <string name="gif_clips_order">poradie GIF klipov</string>
+    <string name="reverse">Obrátené</string>
+    <string name="reverse_sub">Hrajte naopak</string>
+    <string name="boomerang">bumerang</string>
+    <string name="boomerang_sub">Hrajte dopredu a potom dozadu</string>
+    <string name="normalize_gif_frames">Normalizujte veľkosť rámu</string>
+    <string name="normalize_gif_frames_sub">Prispôsobte rámy tak, aby sa zmestili na najväčšiu sponu; vypnite, aby sa zachovala ich pôvodná mierka</string>
+    <string name="delay_between_clips">Oneskorenie medzi klipmi (ms)</string>
 </resources>

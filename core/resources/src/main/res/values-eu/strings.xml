@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">Garbitu aplikazioaren cachea automatikoki hautatutako muga eta tartearen arabera</string>
     <string name="crop_overlay_draggable">Laborantza eremu mugikorra</string>
     <string name="crop_overlay_draggable_sub">Mozte-eremu osoa mugitzea ahalbidetzen du barruan arrastatuz</string>
+    <string name="gif_type_merge">Batu GIF</string>
+    <string name="gif_type_merge_sub">Konbinatu GIF hainbat klipak animazio batean</string>
+    <string name="gif_clips_order">GIF klipak ordena</string>
+    <string name="reverse">Alderantziz</string>
+    <string name="reverse_sub">Jokatu alderantziz bezala</string>
+    <string name="boomerang">Bumerang</string>
+    <string name="boomerang_sub">Erreproduzitu aurrera eta gero atzera</string>
+    <string name="normalize_gif_frames">Normalizatu markoaren tamaina</string>
+    <string name="normalize_gif_frames_sub">Eskalatu fotogramak klip handiena egokitzeko; itzali jatorrizko eskala gordetzeko</string>
+    <string name="delay_between_clips">Klipen arteko atzerapena (ms)</string>
 </resources>

@@ -3716,4 +3716,6 @@
     <string name="normalize_gif_frames">Нормализовать размер кадров</string>
     <string name="normalize_gif_frames_sub">Масштабировать кадры по самому большому фрагменту; выключите, чтобы сохранить исходный масштаб</string>
     <string name="delay_between_clips">Задержка между фрагментами (мс)</string>
+    <string name="reverse_sub">Играть наоборот</string>
+    <string name="boomerang_sub">Играйте вперед, а затем назад</string>
 </resources>

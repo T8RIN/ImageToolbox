@@ -3704,4 +3704,14 @@
     <string name="auto_cache_clearing_sub">선택한 제한 및 간격에 따라 자동으로 앱 캐시를 지웁니다.</string>
     <string name="crop_overlay_draggable">이동 가능한 작물 영역</string>
     <string name="crop_overlay_draggable_sub">전체 자르기 영역 내부를 드래그하여 이동할 수 있습니다.</string>
+    <string name="gif_type_merge">GIF 병합</string>
+    <string name="gif_type_merge_sub">여러 GIF 클립을 하나의 애니메이션으로 결합</string>
+    <string name="gif_clips_order">GIF 클립 순서</string>
+    <string name="reverse">뒤집다</string>
+    <string name="reverse_sub">역방향으로 재생</string>
+    <string name="boomerang">부메랑</string>
+    <string name="boomerang_sub">앞으로 재생한 다음 뒤로 재생</string>
+    <string name="normalize_gif_frames">프레임 크기 표준화</string>
+    <string name="normalize_gif_frames_sub">가장 큰 클립에 맞게 프레임 크기를 조정합니다. 원래 크기를 유지하려면 끄세요</string>
+    <string name="delay_between_clips">클립 간 지연(ms)</string>
 </resources>

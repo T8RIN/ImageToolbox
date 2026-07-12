@@ -3707,4 +3707,14 @@
     <string name="auto_cache_clearing_sub">Аўтаматычна ачысціць кэш праграмы ў адпаведнасці з абраным лімітам і інтэрвалам</string>
     <string name="crop_overlay_draggable">Рухомая зона ўраджаю</string>
     <string name="crop_overlay_draggable_sub">Дазваляе перамяшчаць усю вобласць кадравання шляхам перацягвання ўнутр яе</string>
+    <string name="gif_type_merge">Аб\'яднаць GIF</string>
+    <string name="gif_type_merge_sub">Аб\'яднайце некалькі GIF-кліпаў у адну анімацыю</string>
+    <string name="gif_clips_order">Заказ кліпаў GIF</string>
+    <string name="reverse">Рэверс</string>
+    <string name="reverse_sub">Гуляць у зваротным парадку</string>
+    <string name="boomerang">Бумеранг</string>
+    <string name="boomerang_sub">Гуляць наперад, а затым назад</string>
+    <string name="normalize_gif_frames">Нармалізаваць памер кадра</string>
+    <string name="normalize_gif_frames_sub">Маштаб кадраў, каб адпавядаць найбольшаму кліпу; выключыць, каб захаваць іх зыходны маштаб</string>
+    <string name="delay_between_clips">Затрымка паміж кліпамі (мс)</string>
 </resources>

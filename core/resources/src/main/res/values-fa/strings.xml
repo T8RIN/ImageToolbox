@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">کش برنامه را به طور خودکار با توجه به محدودیت و بازه انتخابی پاک کنید</string>
     <string name="crop_overlay_draggable">منطقه کشت متحرک</string>
     <string name="crop_overlay_draggable_sub">امکان جابجایی کل ناحیه برش را با کشیدن داخل آن فراهم می کند</string>
+    <string name="gif_type_merge">GIF را ادغام کنید</string>
+    <string name="gif_type_merge_sub">چندین کلیپ GIF را در یک انیمیشن ترکیب کنید</string>
+    <string name="gif_clips_order">سفارش کلیپ های GIF</string>
+    <string name="reverse">معکوس</string>
+    <string name="reverse_sub">به صورت معکوس بازی کنید</string>
+    <string name="boomerang">بومرنگ</string>
+    <string name="boomerang_sub">به جلو و سپس به عقب بازی کنید</string>
+    <string name="normalize_gif_frames">سایز فریم را عادی کنید</string>
+    <string name="normalize_gif_frames_sub">قاب‌ها را برای بزرگ‌ترین گیره تنظیم کنید. برای حفظ مقیاس اصلی خود را خاموش کنید</string>
+    <string name="delay_between_clips">تاخیر بین کلیپ ها (ms)</string>
 </resources>

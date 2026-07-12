@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">Effacez automatiquement le cache de l\'application en fonction de la limite et de l\'intervalle sélectionnés</string>
     <string name="crop_overlay_draggable">Surface de culture mobile</string>
     <string name="crop_overlay_draggable_sub">Permet de déplacer toute la zone de recadrage en la faisant glisser à l\'intérieur</string>
+    <string name="gif_type_merge">Fusionner les GIF</string>
+    <string name="gif_type_merge_sub">Combinez plusieurs clips GIF en une seule animation</string>
+    <string name="gif_clips_order">Ordre des clips GIF</string>
+    <string name="reverse">Inverse</string>
+    <string name="reverse_sub">Jouer à l\'envers</string>
+    <string name="boomerang">Boomerang</string>
+    <string name="boomerang_sub">Jouer en avant puis en arrière</string>
+    <string name="normalize_gif_frames">Normaliser la taille du cadre</string>
+    <string name="normalize_gif_frames_sub">Redimensionnez les images pour qu\'elles s\'adaptent au plus grand clip ; éteindre pour conserver leur échelle d\'origine</string>
+    <string name="delay_between_clips">Délai entre les clips (ms)</string>
 </resources>

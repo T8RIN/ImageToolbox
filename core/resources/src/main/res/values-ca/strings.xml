@@ -3706,4 +3706,14 @@
     <string name="auto_cache_clearing_sub">Esborra la memòria cau de l\'aplicació automàticament segons el límit i l\'interval seleccionats</string>
     <string name="crop_overlay_draggable">Zona de cultiu mòbil</string>
     <string name="crop_overlay_draggable_sub">Permet moure tota l\'àrea de retall arrossegant-hi dins</string>
+    <string name="gif_type_merge">Combina GIF</string>
+    <string name="gif_type_merge_sub">Combina diversos clips GIF en una sola animació</string>
+    <string name="gif_clips_order">Ordre de clips GIF</string>
+    <string name="reverse">Revés</string>
+    <string name="reverse_sub">Juga al revés</string>
+    <string name="boomerang">Bumerang</string>
+    <string name="boomerang_sub">Juga cap endavant i després cap enrere</string>
+    <string name="normalize_gif_frames">Normalitzar la mida del marc</string>
+    <string name="normalize_gif_frames_sub">Escala els marcs per adaptar-se al clip més gran; apagar per conservar la seva escala original</string>
+    <string name="delay_between_clips">Retard entre clips (ms)</string>
 </resources>

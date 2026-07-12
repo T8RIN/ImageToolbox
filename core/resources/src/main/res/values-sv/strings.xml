@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">Rensa appens cache automatiskt enligt den valda gränsen och intervallet</string>
     <string name="crop_overlay_draggable">Rörlig odlingsyta</string>
     <string name="crop_overlay_draggable_sub">Tillåter att hela beskärningsområdet flyttas genom att dra inuti det</string>
+    <string name="gif_type_merge">Slå ihop GIF</string>
+    <string name="gif_type_merge_sub">Kombinera flera GIF-klipp till en animation</string>
+    <string name="gif_clips_order">Beställning av GIF-klipp</string>
+    <string name="reverse">Motsatt</string>
+    <string name="reverse_sub">Spela omvänt</string>
+    <string name="boomerang">Bumerang</string>
+    <string name="boomerang_sub">Spela framåt och sedan bakåt</string>
+    <string name="normalize_gif_frames">Normalisera ramstorlek</string>
+    <string name="normalize_gif_frames_sub">Skala ramar för att passa det största klippet; stäng av för att bevara sin ursprungliga skala</string>
+    <string name="delay_between_clips">Fördröjning mellan klipp (ms)</string>
 </resources>

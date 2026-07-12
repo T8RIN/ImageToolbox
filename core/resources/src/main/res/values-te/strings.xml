@@ -3706,4 +3706,14 @@
     <string name="auto_cache_clearing_sub">ఎంచుకున్న పరిమితి మరియు విరామం ప్రకారం యాప్ కాష్‌ని స్వయంచాలకంగా క్లియర్ చేయండి</string>
     <string name="crop_overlay_draggable">కదిలే పంట ప్రాంతం</string>
     <string name="crop_overlay_draggable_sub">దాని లోపలికి లాగడం ద్వారా మొత్తం పంట ప్రాంతాన్ని తరలించడానికి అనుమతిస్తుంది</string>
+    <string name="gif_type_merge">GIFని విలీనం చేయండి</string>
+    <string name="gif_type_merge_sub">బహుళ GIF క్లిప్‌లను ఒక యానిమేషన్‌లో కలపండి</string>
+    <string name="gif_clips_order">GIF క్లిప్‌ల ఆర్డర్</string>
+    <string name="reverse">రివర్స్</string>
+    <string name="reverse_sub">రివర్స్‌గా ఆడండి</string>
+    <string name="boomerang">బూమరాంగ్</string>
+    <string name="boomerang_sub">ముందుకు ఆపై వెనుకకు ఆడండి</string>
+    <string name="normalize_gif_frames">ఫ్రేమ్ పరిమాణాన్ని సాధారణీకరించండి</string>
+    <string name="normalize_gif_frames_sub">అతిపెద్ద క్లిప్‌కు సరిపోయేలా ఫ్రేమ్‌లను స్కేల్ చేయండి; వాటి అసలు స్థాయిని కాపాడుకోవడానికి ఆఫ్ చేయండి</string>
+    <string name="delay_between_clips">క్లిప్‌ల మధ్య ఆలస్యం (మిసె)</string>
 </resources>

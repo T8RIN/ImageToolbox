@@ -3705,4 +3705,14 @@
     <string name="auto_cache_clearing_sub">चयनित सीमा और अंतराल के अनुसार ऐप कैश को स्वचालित रूप से साफ़ करें</string>
     <string name="crop_overlay_draggable">चल फसल क्षेत्र</string>
     <string name="crop_overlay_draggable_sub">संपूर्ण फसल क्षेत्र को अंदर खींचकर ले जाने की अनुमति देता है</string>
+    <string name="gif_type_merge">GIF मर्ज करें</string>
+    <string name="gif_type_merge_sub">एकाधिक GIF क्लिप को एक एनीमेशन में संयोजित करें</string>
+    <string name="gif_clips_order">जीआईएफ क्लिप ऑर्डर</string>
+    <string name="reverse">रिवर्स</string>
+    <string name="reverse_sub">उलटे की तरह खेलें</string>
+    <string name="boomerang">बुमेरांग</string>
+    <string name="boomerang_sub">आगे खेलें और फिर पीछे की ओर</string>
+    <string name="normalize_gif_frames">फ़्रेम का आकार सामान्य करें</string>
+    <string name="normalize_gif_frames_sub">सबसे बड़ी क्लिप को फिट करने के लिए स्केल फ़्रेम; उनके मूल पैमाने को संरक्षित करने के लिए बंद करें</string>
+    <string name="delay_between_clips">क्लिप के बीच विलंब (एमएस)</string>
 </resources>

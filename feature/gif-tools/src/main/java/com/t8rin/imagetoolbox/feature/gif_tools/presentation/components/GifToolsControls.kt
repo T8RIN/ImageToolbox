@@ -33,7 +33,12 @@ import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifTool
 @Composable
 internal fun GifToolsControls(component: GifToolsComponent) {
     when (val type = component.type) {
-        is Screen.GifTools.Type.MergeGif -> GifMergeControls(component, type)
+        is Screen.GifTools.Type.MergeGif -> {
+            GifMergeControls(
+                component = component,
+                type = type
+            )
+        }
 
         is Screen.GifTools.Type.GifToImage -> {
             Spacer(modifier = Modifier.height(16.dp))
@@ -48,7 +53,6 @@ internal fun GifToolsControls(component: GifToolsComponent) {
                 quality = component.params.quality,
                 onQualityChange = component::setQuality
             )
-            Spacer(modifier = Modifier.height(16.dp))
         }
 
         is Screen.GifTools.Type.ImageToGif -> {
@@ -67,7 +71,6 @@ internal fun GifToolsControls(component: GifToolsComponent) {
                 value = component.params,
                 onValueChange = component::updateParams
             )
-            Spacer(modifier = Modifier.height(16.dp))
         }
 
         is Screen.GifTools.Type.GifToJxl -> {
