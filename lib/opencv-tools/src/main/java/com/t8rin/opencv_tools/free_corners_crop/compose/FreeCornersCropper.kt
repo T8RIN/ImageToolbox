@@ -152,10 +152,14 @@ fun FreeCornersCropper(
                 detectOneFingerZoomGestures(
                     onDoubleTap = { position ->
                         transformAnimationJob?.cancel()
-                        val minScale = calculateMinimumScale(
-                            cropBounds = drawPoints.boundingRect(),
-                            imageBounds = baseImageBounds
-                        )
+                        val minScale = if (coercePointsToImageArea) {
+                            calculateMinimumScale(
+                                cropBounds = drawPoints.boundingRect(),
+                                imageBounds = baseImageBounds
+                            )
+                        } else {
+                            MINIMUM_CROP_ZOOM
+                        }
                         val zoomedScale = DEFAULT_DOUBLE_TAP_SCALE.coerceIn(minScale, MAX_ZOOM)
                         val targetScale = if (
                             imageScale >= zoomedScale - SCALE_COMPARISON_TOLERANCE
@@ -176,13 +180,17 @@ fun FreeCornersCropper(
                                 startScale = imageScale,
                                 startTranslation = imageTranslation,
                                 targetScale = targetScale,
-                                targetTranslation = coerceImageTranslation(
-                                    translation = target.translation,
-                                    scale = targetScale,
-                                    imageBounds = baseImageBounds,
-                                    cropBounds = drawPoints.boundingRect(),
-                                    coerceToCrop = coercePointsToImageArea
-                                ),
+                                targetTranslation = if (coercePointsToImageArea) {
+                                    coerceImageTranslation(
+                                        translation = target.translation,
+                                        scale = targetScale,
+                                        imageBounds = baseImageBounds,
+                                        cropBounds = drawPoints.boundingRect(),
+                                        coerceToCrop = true
+                                    )
+                                } else {
+                                    target.translation
+                                },
                                 onUpdate = ::updateImageTransform
                             )
                         }
@@ -191,10 +199,14 @@ fun FreeCornersCropper(
                         transformAnimationJob?.cancel()
                     },
                     onZoom = { centroid, zoom ->
-                        val minScale = calculateMinimumScale(
-                            cropBounds = drawPoints.boundingRect(),
-                            imageBounds = baseImageBounds
-                        )
+                        val minScale = if (coercePointsToImageArea) {
+                            calculateMinimumScale(
+                                cropBounds = drawPoints.boundingRect(),
+                                imageBounds = baseImageBounds
+                            )
+                        } else {
+                            MINIMUM_CROP_ZOOM
+                        }
                         val targetScale = (imageScale * zoom).coerceIn(
                             minimumValue = minScale * MIN_SCALE_GESTURE_RESISTANCE,
                             maximumValue = MAX_ZOOM
@@ -207,15 +219,23 @@ fun FreeCornersCropper(
                             transformCenter = baseImageBounds.center
                         )
                         imageScale = targetScale
-                        imageTranslation = coerceImageTranslation(
-                            translation = target.translation,
-                            scale = targetScale,
-                            imageBounds = baseImageBounds,
-                            cropBounds = drawPoints.boundingRect(),
-                            coerceToCrop = coercePointsToImageArea
-                        )
+                        imageTranslation = if (coercePointsToImageArea) {
+                            coerceImageTranslation(
+                                translation = target.translation,
+                                scale = targetScale,
+                                imageBounds = baseImageBounds,
+                                cropBounds = drawPoints.boundingRect(),
+                                coerceToCrop = true
+                            )
+                        } else {
+                            target.translation
+                        }
                     },
                     onZoomEnd = {
+                        if (!coercePointsToImageArea) {
+                            return@detectOneFingerZoomGestures
+                        }
+
                         transformAnimationJob = scope.launch {
                             val minScale = calculateMinimumScale(
                                 cropBounds = drawPoints.boundingRect(),
@@ -254,10 +274,14 @@ fun FreeCornersCropper(
                             transformGestureActive = true
                             transformAnimationJob?.cancel()
                         }
-                        val minScale = calculateMinimumScale(
-                            cropBounds = drawPoints.boundingRect(),
-                            imageBounds = baseImageBounds
-                        )
+                        val minScale = if (coercePointsToImageArea) {
+                            calculateMinimumScale(
+                                cropBounds = drawPoints.boundingRect(),
+                                imageBounds = baseImageBounds
+                            )
+                        } else {
+                            MINIMUM_CROP_ZOOM
+                        }
                         val targetScale = (imageScale * zoom).coerceIn(
                             minimumValue = minScale * MIN_SCALE_GESTURE_RESISTANCE,
                             maximumValue = MAX_ZOOM
@@ -273,7 +297,9 @@ fun FreeCornersCropper(
                         imageTranslation = target.translation + pan
                     },
                     onGestureEnd = {
-                        if (!transformGestureActive) return@detectTransformGestures
+                        if (!transformGestureActive || !coercePointsToImageArea) {
+                            return@detectTransformGestures
+                        }
 
                         transformAnimationJob = scope.launch {
                             val minScale = calculateMinimumScale(
