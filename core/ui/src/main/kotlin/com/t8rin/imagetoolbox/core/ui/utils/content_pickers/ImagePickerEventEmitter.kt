@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.content_pickers
 
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
@@ -24,7 +25,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -35,6 +40,8 @@ internal interface ImagePickerEventEmitter {
 
     fun onFolderProcessingStarted(): Long
 
+    fun onFolderProcessingProgress(requestId: Long, count: Int)
+
     fun onFolderProcessingFinished(requestId: Long)
 }
 
@@ -44,6 +51,7 @@ internal fun rememberImagePickerEventEmitter(): ImagePickerEventEmitter =
 
 internal sealed interface ImagePickerEvent {
     data class FolderProcessingStarted(val requestId: Long) : ImagePickerEvent
+    data class FolderProcessingProgress(val requestId: Long, val count: Int) : ImagePickerEvent
     data class FolderProcessingFinished(val requestId: Long) : ImagePickerEvent
 }
 
@@ -58,6 +66,10 @@ private class ImagePickerEventEmitterImpl : ImagePickerEventEmitter {
         eventChannel.trySend(ImagePickerEvent.FolderProcessingStarted(it))
     }
 
+    override fun onFolderProcessingProgress(requestId: Long, count: Int) {
+        eventChannel.trySend(ImagePickerEvent.FolderProcessingProgress(requestId, count))
+    }
+
     override fun onFolderProcessingFinished(requestId: Long) {
         eventChannel.trySend(ImagePickerEvent.FolderProcessingFinished(requestId))
     }
@@ -70,13 +82,17 @@ internal val LocalImagePickerEventEmitter = compositionLocalOf<ImagePickerEventE
 @Composable
 internal fun ImagePickerEventsHandler() {
     val eventEmitter = LocalImagePickerEventEmitter.current
-    var activeRequests by remember { mutableStateOf(emptySet<Long>()) }
+    var activeRequests by remember { mutableStateOf(emptyMap<Long, Int>()) }
 
     LaunchedEffect(eventEmitter) {
         eventEmitter.events.collect { event ->
             activeRequests = when (event) {
                 is ImagePickerEvent.FolderProcessingStarted -> {
-                    activeRequests + event.requestId
+                    activeRequests + (event.requestId to 0)
+                }
+
+                is ImagePickerEvent.FolderProcessingProgress -> {
+                    activeRequests + (event.requestId to event.count)
                 }
 
                 is ImagePickerEvent.FolderProcessingFinished -> {
@@ -86,9 +102,25 @@ internal fun ImagePickerEventsHandler() {
         }
     }
 
+    val count = remember(activeRequests) {
+        activeRequests.values.sum()
+    }
+
     LoadingDialog(
         visible = activeRequests.isNotEmpty(),
+        progress = { if (count <= 0) 1f else 0f },
         canCancel = false,
-        isForSaving = false
+        isLayoutSwappable = count <= 0,
+        additionalContent = { size ->
+            if (count > 0) {
+                AutoSizeText(
+                    text = count.toString(),
+                    maxLines = 1,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.width(size * 0.7f)
+                )
+            }
+        }
     )
 }

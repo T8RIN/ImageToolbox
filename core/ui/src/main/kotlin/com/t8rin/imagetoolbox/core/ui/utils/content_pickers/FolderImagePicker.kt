@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.ui.utils.content_pickers
 import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -29,12 +30,14 @@ import com.t8rin.imagetoolbox.core.utils.listFilesInDirectoryProgressive
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal fun interface FolderImagePicker {
-    fun pickFolder()
+    fun pickFolder(allowMultiple: Boolean)
 }
 
 @Composable
@@ -46,6 +49,7 @@ internal fun rememberFolderImagePicker(
     val context = LocalComponentActivity.current
     val eventEmitter = LocalImagePickerEventEmitter.current
     val scope = rememberCoroutineScope()
+    val allowMultiple = remember { mutableStateOf(false) }
 
     val folderPicker = rememberFolderPicker(
         onFailure = onFailure,
@@ -53,12 +57,22 @@ internal fun rememberFolderImagePicker(
             scope.launch {
                 val requestId = eventEmitter.onFolderProcessingStarted()
                 try {
+                    val targetAllowMultiple = allowMultiple.value
                     val uris = withContext(Dispatchers.IO) {
-                        folderUri.listFilesInDirectoryProgressive()
+                        var count = 0
+                        val flow = folderUri.listFilesInDirectoryProgressive()
                             .mapNotNull { uri ->
                                 uri.takeIf { it.isAcceptedImage(context) }
                             }
-                            .toList()
+                            .onEach {
+                                count++
+                                eventEmitter.onFolderProcessingProgress(
+                                    requestId = requestId,
+                                    count = count
+                                )
+                            }
+
+                        if (targetAllowMultiple) flow.toList() else flow.take(1).toList()
                     }
 
                     uris.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
@@ -75,7 +89,8 @@ internal fun rememberFolderImagePicker(
     )
 
     return remember(folderPicker, initialFolderUri) {
-        FolderImagePicker {
+        FolderImagePicker { targetAllowMultiple ->
+            allowMultiple.value = targetAllowMultiple
             folderPicker.pickFolder(initialFolderUri)
         }
     }

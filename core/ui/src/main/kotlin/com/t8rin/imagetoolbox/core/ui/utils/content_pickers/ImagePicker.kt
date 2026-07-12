@@ -153,7 +153,9 @@ private class ImagePickerImpl(
             )
         }
         val folderAction = {
-            folderPicker.pickFolder()
+            folderPicker.pickFolder(
+                allowMultiple = mode == ImagePickerMode.FolderMultiple
+            )
         }
 
         mode.makeLog("Image Picker Start")
@@ -173,7 +175,8 @@ private class ImagePickerImpl(
                 ImagePickerMode.Embedded,
                 ImagePickerMode.EmbeddedMultiple -> embeddedAction()
 
-                ImagePickerMode.Folder -> folderAction()
+                ImagePickerMode.FolderSingle,
+                ImagePickerMode.FolderMultiple -> folderAction()
             }
         }.onFailure {
             it.makeLog("Image Picker Failure")
@@ -196,7 +199,7 @@ private class ImagePickerImpl(
             PicturePickerMode.Gallery -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
             PicturePickerMode.GetContent -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
             PicturePickerMode.CameraCapture -> ImagePickerMode.CameraCapture
-            PicturePickerMode.Folder -> ImagePickerMode.Folder
+            PicturePickerMode.Folder -> if (multiple) ImagePickerMode.FolderMultiple else ImagePickerMode.FolderSingle
         }
 
         val basePicker = ImagePickerImpl(
@@ -242,7 +245,8 @@ enum class ImagePickerMode {
     GetContentSingle,
     GetContentMultiple,
     CameraCapture,
-    Folder
+    FolderSingle,
+    FolderMultiple
 }
 
 enum class Picker {
@@ -264,7 +268,7 @@ fun localImagePickerMode(
                 PicturePickerMode.Gallery -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
                 PicturePickerMode.GetContent -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
                 PicturePickerMode.CameraCapture -> ImagePickerMode.CameraCapture
-                PicturePickerMode.Folder -> ImagePickerMode.Folder
+                PicturePickerMode.Folder -> if (multiple) ImagePickerMode.FolderMultiple else ImagePickerMode.FolderSingle
             }
         }
     }.value
