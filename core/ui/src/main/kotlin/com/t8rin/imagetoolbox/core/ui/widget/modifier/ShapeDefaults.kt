@@ -224,6 +224,14 @@ object ShapeDefaults {
             bottomStart = 4.dp
         )
 
+    val bottomStart
+        @Composable get() = AutoCornersShape(
+            topEnd = 4.dp,
+            topStart = 4.dp,
+            bottomEnd = 4.dp,
+            bottomStart = 16.dp
+        )
+
     val smallTop
         @Composable get() = AutoCornersShape(
             topStart = 12.dp,

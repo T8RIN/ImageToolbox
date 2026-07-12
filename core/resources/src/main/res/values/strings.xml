@@ -3735,6 +3735,8 @@
     <string name="gif_type_merge_sub">Combine multiple GIF clips into one animation</string>
     <string name="gif_clips_order">GIF clips order</string>
     <string name="reverse">Reverse</string>
+    <string name="move_to_start">Move to start</string>
+    <string name="move_to_end">Move to end</string>
     <string name="reverse_sub">Play as reversed</string>
     <string name="boomerang">Boomerang</string>
     <string name="boomerang_sub">Play forward and then backward</string>

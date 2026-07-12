@@ -32,13 +32,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -58,12 +58,18 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -103,6 +109,7 @@ fun ImageReorderCarousel(
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
     val state = rememberReorderableLazyListState(
         lazyListState = listState,
         onMove = { from, to ->
@@ -156,7 +163,6 @@ fun ImageReorderCarousel(
                 )
             }
 
-            val scope = rememberCoroutineScope()
             SortButton(
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -259,20 +265,75 @@ fun ImageReorderCarousel(
                                 exit = shrinkVertically(tween(300)) + fadeOut(),
                                 modifier = Modifier.width(120.dp)
                             ) {
-                                EnhancedButton(
-                                    contentPadding = PaddingValues(),
-                                    onClick = { onNeedToRemoveImageAt(index) },
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        0.5f
-                                    ),
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    shape = ShapeDefaults.bottom,
+                                Row(
                                     modifier = Modifier
                                         .padding(top = 4.dp)
-                                        .height(30.dp)
-                                        .width(120.dp)
+                                        .width(120.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Text(stringResource(R.string.remove), fontSize = 11.sp)
+                                    EnhancedButton(
+                                        contentPadding = PaddingValues(),
+                                        onClick = { onNeedToRemoveImageAt(index) },
+                                        containerColor = MaterialTheme.colorScheme.errorContainer.copy(
+                                            0.5f
+                                        ),
+                                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                                        shape = ShapeDefaults.bottomStart,
+                                        modifier = Modifier
+                                            .height(30.dp)
+                                            .width(86.dp)
+                                    ) {
+                                        Text(
+                                            text = stringResource(id = R.string.remove),
+                                            fontSize = 11.sp
+                                        )
+                                    }
+                                    ReorderItemMoveMenu(
+                                        button = { onClick ->
+                                            EnhancedButton(
+                                                contentPadding = PaddingValues(),
+                                                onClick = onClick,
+                                                containerColor = MaterialTheme
+                                                    .colorScheme.secondaryContainer.copy(0.4f),
+                                                contentColor = MaterialTheme
+                                                    .colorScheme.onSecondaryContainer.copy(0.8f),
+                                                shape = ShapeDefaults.bottomEnd,
+                                                modifier = Modifier.size(30.dp)
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.MoreVert,
+                                                    contentDescription = null,
+                                                    modifier = Modifier
+                                                        .size(20.dp)
+                                                        .offset(
+                                                            x = (-0.5).dp,
+                                                            y = (-0.5).dp
+                                                        )
+                                                )
+                                            }
+                                        },
+                                        modifier = Modifier.size(30.dp),
+                                        canMoveToStart = index > 0,
+                                        canMoveToEnd = index < data.value.lastIndex,
+                                        onMoveToStart = {
+                                            data.value = data.value.toMutableList().apply {
+                                                add(0, removeAt(index))
+                                            }
+                                            onReorder(data.value)
+                                            scope.launch { listState.animateScrollToItem(0) }
+                                        },
+                                        onMoveToEnd = {
+                                            val targetIndex = data.value.lastIndex
+                                            data.value = data.value.toMutableList().apply {
+                                                add(removeAt(index))
+                                            }
+                                            onReorder(data.value)
+                                            scope.launch {
+                                                listState.animateScrollToItem(targetIndex)
+                                            }
+                                        }
+                                    )
                                 }
                             }
                         }
@@ -282,13 +343,27 @@ fun ImageReorderCarousel(
         }
     }
 
-    ImagePager(
-        visible = previewUri != null,
-        selectedUri = previewUri,
-        uris = images,
-        onNavigate = onNavigate,
-        onUriSelected = { previewUri = it },
-        onShare = { context.shareUris(listOf(it)) },
-        onDismiss = { previewUri = null }
+    if (!LocalInspectionMode.current) {
+        ImagePager(
+            visible = previewUri != null,
+            selectedUri = previewUri,
+            uris = images,
+            onNavigate = onNavigate,
+            onUriSelected = { previewUri = it },
+            onShare = { context.shareUris(listOf(it)) },
+            onDismiss = { previewUri = null }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = ImageToolboxThemeForPreview(true) {
+    ImageReorderCarousel(
+        images = List(10) { "$it".toUri() },
+        onReorder = {},
+        onNeedToAddImage = {},
+        onNavigate = {},
+        onNeedToRemoveImageAt = {}
     )
 }

@@ -43,7 +43,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -69,6 +68,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -120,6 +120,7 @@ fun FileReorderVerticalList(
 
     val haptics = LocalHapticFeedback.current
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
 
     val state = rememberReorderableLazyListState(
         lazyListState = listState,
@@ -187,7 +188,6 @@ fun FileReorderVerticalList(
                 )
             }
 
-            val scope = rememberCoroutineScope()
             SortButton(
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -315,6 +315,26 @@ fun FileReorderVerticalList(
                                 )
                             }
                             Spacer(Modifier.width(16.dp))
+                            ReorderItemMoveMenu(
+                                canMoveToStart = index > 0,
+                                canMoveToEnd = index < data.value.lastIndex,
+                                onMoveToStart = {
+                                    data.value = data.value.toMutableList().apply {
+                                        add(0, removeAt(index))
+                                    }
+                                    onReorder(data.value)
+                                    scope.launch { listState.animateScrollToItem(0) }
+                                },
+                                onMoveToEnd = {
+                                    val targetIndex = data.value.lastIndex
+                                    data.value = data.value.toMutableList().apply {
+                                        add(removeAt(index))
+                                    }
+                                    onReorder(data.value)
+                                    scope.launch { listState.animateScrollToItem(targetIndex) }
+                                }
+                            )
+                            Spacer(Modifier.width(8.dp))
                             BoxAnimatedVisibility(
                                 visible = showButton,
                                 enter = expandVertically(tween(300)) + fadeIn(),
@@ -325,8 +345,7 @@ fun FileReorderVerticalList(
                                     containerColor = MaterialTheme.colorScheme.errorContainer.copy(
                                         0.4f
                                     ),
-                                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                                    modifier = Modifier.padding(top = 4.dp)
+                                    contentColor = MaterialTheme.colorScheme.onErrorContainer
                                 ) {
                                     Icon(
                                         imageVector = Icons.Outlined.Delete,
