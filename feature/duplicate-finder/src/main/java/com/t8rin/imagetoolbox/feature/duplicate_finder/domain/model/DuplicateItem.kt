@@ -28,7 +28,8 @@ data class DuplicateItem(
     val sourceIndex: Int,
     val sha256: String,
     val dHash: Long,
-    val distance: Int? = null
+    val distance: Int? = null,
+    val isCorrectSize: Boolean = true
 ) {
     val pixelCount: Long
         get() = width.toLong() * height.toLong()

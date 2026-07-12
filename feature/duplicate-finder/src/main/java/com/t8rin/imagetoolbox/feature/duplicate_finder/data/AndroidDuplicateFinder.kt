@@ -179,7 +179,8 @@ internal class AndroidDuplicateFinder @Inject constructor(
             lastModified = uri.lastModified(),
             sourceIndex = sourceIndex,
             sha256 = sha256,
-            dHash = DHash.calculateFromArgb(pixels)
+            dHash = DHash.calculateFromArgb(pixels),
+            isCorrectSize = originalSize != null
         )
     }
 

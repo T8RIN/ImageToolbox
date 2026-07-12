@@ -67,10 +67,11 @@ internal fun DuplicateItemRow(
             item.height,
             item.sizeBytes,
             item.format,
-            item.distance
+            item.distance,
+            item.isCorrectSize
         ) {
             listOfNotNull(
-                "${item.width} × ${item.height}",
+                "${item.width} × ${item.height}".takeIf { item.isCorrectSize },
                 humanFileSize(item.sizeBytes),
                 item.format,
                 if (!isRecommended) "Δ = ${item.distance}" else null
