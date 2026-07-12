@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Crop
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DeleteExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DocumentScanner
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Draw
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DuplicateFinder
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EasterEgg
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EditExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EraseBackground
@@ -135,6 +136,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is Crop -> R.string.search_keywords_crop
     is Filter -> R.string.search_keywords_filter
     is Draw -> R.string.search_keywords_draw
+    is DuplicateFinder -> R.string.search_keywords_duplicate_finder
     is Cipher -> R.string.search_keywords_cipher
     is EraseBackground -> R.string.search_keywords_erase_background
     is ImagePreview -> R.string.search_keywords_image_preview

@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.feature.crop.presentation.screenLogic.CropComponen
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 import com.t8rin.imagetoolbox.feature.document_scanner.presentation.screenLogic.DocumentScannerComponent
 import com.t8rin.imagetoolbox.feature.draw.presentation.screenLogic.DrawComponent
+import com.t8rin.imagetoolbox.feature.duplicate_finder.presentation.screenLogic.DuplicateFinderComponent
 import com.t8rin.imagetoolbox.feature.easter_egg.presentation.screenLogic.EasterEggComponent
 import com.t8rin.imagetoolbox.feature.edit_exif.presentation.screenLogic.EditExifComponent
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
@@ -101,6 +102,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.DeleteExif
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.DocumentScanner
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Draw
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.DuplicateFinder
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.EasterEgg
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.EditExif
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.EraseBackground
@@ -191,6 +193,7 @@ internal class ChildProvider @Inject constructor(
     private val deleteExifComponentFactory: DeleteExifComponent.Factory,
     private val documentScannerComponentFactory: DocumentScannerComponent.Factory,
     private val drawComponentFactory: DrawComponent.Factory,
+    private val duplicateFinderComponentFactory: DuplicateFinderComponent.Factory,
     private val eraseBackgroundComponentFactory: EraseBackgroundComponent.Factory,
     private val filtersComponentFactory: FiltersComponent.Factory,
     private val formatConversionComponentFactory: FormatConversionComponent.Factory,
@@ -339,6 +342,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.DeleteExif -> DeleteExif(
             deleteExifComponentFactory(
+                componentContext = componentContext,
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.DuplicateFinder -> DuplicateFinder(
+            duplicateFinderComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
                 onGoBack = ::navigateBack,

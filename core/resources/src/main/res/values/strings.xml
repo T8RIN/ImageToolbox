@@ -3743,4 +3743,23 @@
     <string name="delay_between_clips">Delay between clips (ms)</string>
     <string name="folder_picker">Folder</string>
     <string name="folder_picker_sub">Select all images from a folder and its subfolders</string>
+    <string name="duplicate_finder">Duplicate Finder</string>
+    <string name="duplicate_finder_sub">Find exact copies and visually similar images</string>
+    <string name="search_keywords_duplicate_finder">duplicate finder similar images exact copies photos cleanup storage dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Pick images to find duplicates</string>
+    <string name="duplicate_finder_sensitivity">Similarity sensitivity</string>
+    <string name="exact_copies">Exact copies</string>
+    <string name="similar_images">Similar images</string>
+    <string name="select_all_duplicates">Select all exact duplicates</string>
+    <string name="select_all_except_best">Select all except recommended</string>
+    <string name="no_duplicates_found">No duplicates found</string>
+    <string name="no_duplicates_found_sub">Try adding more images or increasing similarity sensitivity</string>
+    <string name="duplicate_analysis_errors">Could not read %1$d image(s)</string>
+    <string name="duplicate_group_summary">%1$s • %2$s reclaimable</string>
+    <string name="duplicate_groups_summary">%1$d groups • %2$s reclaimable</string>
+    <string name="duplicate_selected_summary">%1$d selected • %2$s</string>
+    <string name="delete_selected_duplicates">Delete selected</string>
+    <string name="confirm_duplicate_deletion_title">Delete selected images?</string>
+    <string name="confirm_duplicate_deletion_text">This cannot be undone. Android may ask you to confirm deletion in a system dialog.</string>
+    <string name="not_found">Not Found</string>
 </resources>

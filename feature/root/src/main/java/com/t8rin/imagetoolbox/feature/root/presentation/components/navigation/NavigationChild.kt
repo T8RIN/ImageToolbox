@@ -50,6 +50,8 @@ import com.t8rin.imagetoolbox.feature.document_scanner.presentation.DocumentScan
 import com.t8rin.imagetoolbox.feature.document_scanner.presentation.screenLogic.DocumentScannerComponent
 import com.t8rin.imagetoolbox.feature.draw.presentation.DrawContent
 import com.t8rin.imagetoolbox.feature.draw.presentation.screenLogic.DrawComponent
+import com.t8rin.imagetoolbox.feature.duplicate_finder.presentation.DuplicateFinderContent
+import com.t8rin.imagetoolbox.feature.duplicate_finder.presentation.screenLogic.DuplicateFinderComponent
 import com.t8rin.imagetoolbox.feature.easter_egg.presentation.EasterEggContent
 import com.t8rin.imagetoolbox.feature.easter_egg.presentation.screenLogic.EasterEggComponent
 import com.t8rin.imagetoolbox.feature.edit_exif.presentation.EditExifContent
@@ -234,6 +236,11 @@ internal sealed interface NavigationChild {
     class Draw(private val component: DrawComponent) : NavigationChild {
         @Composable
         override fun Content() = DrawContent(component)
+    }
+
+    class DuplicateFinder(private val component: DuplicateFinderComponent) : NavigationChild {
+        @Composable
+        override fun Content() = DuplicateFinderContent(component)
     }
 
     class EasterEgg(private val component: EasterEggComponent) : NavigationChild {

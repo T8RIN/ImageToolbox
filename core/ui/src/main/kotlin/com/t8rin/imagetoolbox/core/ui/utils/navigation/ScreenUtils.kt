@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
+import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
@@ -109,6 +110,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Crop
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DeleteExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DocumentScanner
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Draw
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DuplicateFinder
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EasterEgg
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EditExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EraseBackground
@@ -166,6 +168,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Crop -> "Crop"
     is DeleteExif -> "Delete_Exif"
     is Draw -> "Draw"
+    is DuplicateFinder -> "Duplicate_Finder"
     is EasterEgg -> "Easter_Egg"
     is EraseBackground -> "Erase_Background"
     is Filter -> "Filter"
@@ -260,6 +263,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Crop -> Icons.Rounded.CropSmall
     is DeleteExif -> Icons.Outlined.Exif
     is Draw -> Icons.Outlined.Draw
+    is DuplicateFinder -> Icons.Outlined.ImageSearch
     is EraseBackground -> Icons.Rounded.Eraser
     is Filter -> Icons.Outlined.AutoFixHigh
     is PaletteTools -> Icons.Outlined.PaletteSwatch
@@ -344,6 +348,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Crop -> Icons.TwoTone.CropSmall
     is DeleteExif -> Icons.TwoTone.Exif
     is Draw -> Icons.TwoTone.Draw
+    is DuplicateFinder -> Icons.TwoTone.ImageSearch
     is EraseBackground -> Icons.TwoTone.Eraser
     is Filter -> Icons.TwoTone.AutoFixHigh
     is PaletteTools -> Icons.TwoTone.PaletteSwatch
@@ -481,6 +486,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     PickColorFromImage(),
                     RecognizeText(),
                     Compare(),
+                    DuplicateFinder(),
                     ImagePreview(),
                     WallpapersExport,
                     Base64Tools(),
@@ -523,5 +529,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 87 + PdfTools.options.size
+    override val FEATURES_COUNT = 88 + PdfTools.options.size
 }

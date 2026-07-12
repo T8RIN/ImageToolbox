@@ -54,24 +54,26 @@ fun Uri?.uiPath(
     default: String,
     context: Context = appContext
 ): String = this?.let { uri ->
-    if (DocumentFile.isDocumentUri(context, uri)) {
-        DocumentFile.fromSingleUri(context, uri)
-    } else {
-        DocumentFile.fromTreeUri(context, uri)
-    }?.uri?.path?.split(":")
-        ?.lastOrNull()?.let { p ->
-            val endPath = p.takeIf {
-                it.isNotEmpty()
-            }?.let { "/$it" } ?: ""
-            val startPath = if (
-                uri.toString()
-                    .split("%")[0]
-                    .contains("primary")
-            ) context.getString(R.string.device_storage)
-            else context.getString(R.string.external_storage)
+    runCatching {
+        if (DocumentFile.isDocumentUri(context, uri)) {
+            DocumentFile.fromSingleUri(context, uri)
+        } else {
+            DocumentFile.fromTreeUri(context, uri)
+        }?.uri?.path?.split(":")
+            ?.lastOrNull()?.let { p ->
+                val endPath = p.takeIf {
+                    it.isNotEmpty()
+                }?.let { "/$it" } ?: ""
+                val startPath = if (
+                    uri.toString()
+                        .split("%")[0]
+                        .contains("primary")
+                ) context.getString(R.string.device_storage)
+                else context.getString(R.string.external_storage)
 
-            startPath + endPath
-        }?.decodeEscaped()
+                startPath + endPath
+            }?.decodeEscaped()
+    }.getOrNull()
 } ?: default
 
 fun Uri.lastModified(): Long? = tryExtractOriginal().run {

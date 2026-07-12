@@ -81,4 +81,5 @@ dependencies {
     implementation(projects.feature.help)
     implementation(projects.feature.usageStatistics)
     implementation(projects.feature.batchRename)
+    implementation(projects.feature.duplicateFinder)
 }

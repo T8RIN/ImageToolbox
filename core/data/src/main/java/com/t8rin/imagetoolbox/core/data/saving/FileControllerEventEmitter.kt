@@ -23,11 +23,21 @@ import kotlinx.coroutines.flow.Flow
 interface FileControllerEventEmitter {
     val events: Flow<FileControllerEvent>
 
+    fun deleteFiles(
+        uris: List<String>,
+        onResult: (FileDeletionResult) -> Unit
+    )
+
     fun onDeleteOriginalsPermissionResult(
         requestId: Long,
         granted: Boolean
     )
 }
+
+data class FileDeletionResult(
+    val deletedUris: List<String>,
+    val failedUris: List<String>
+)
 
 sealed interface FileControllerEvent {
     data class RequestDeleteOriginalsPermission(

@@ -59,7 +59,7 @@ internal class OriginalFileDeletionHelper @Inject constructor(
 
     private val pendingDeleteUris = ConcurrentHashMap.newKeySet<Uri>()
     private val pendingDeleteRequests = ConcurrentHashMap<Long, List<Uri>>()
-    private val pendingDeleteReplacements = ConcurrentHashMap<Uri, UriReplacement>()
+    private val pendingDeleteOperations = ConcurrentHashMap<Uri, DeleteOperation>()
     private val nextDeleteRequestId = AtomicLong()
     private val pendingDeleteLock = Any()
     private var pendingDeleteJob: Job? = null
@@ -67,6 +67,40 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     private val pendingFailedCount = AtomicInteger()
     private val deleteResultLock = Any()
     private var deleteResultJob: Job? = null
+
+    override fun deleteFiles(
+        uris: List<String>,
+        onResult: (FileDeletionResult) -> Unit
+    ) {
+        val distinctUris = uris.distinct()
+        if (distinctUris.isEmpty()) {
+            onResult(FileDeletionResult(emptyList(), emptyList()))
+            return
+        }
+
+        val batch = DeleteBatch(
+            size = distinctUris.size,
+            onResult = onResult
+        )
+        appScope.launch {
+            distinctUris.forEach { source ->
+                val sourceUri = source.toUri()
+                val resolvedUri = UriReplacements.resolve(sourceUri)
+                deleteFile(
+                    DeleteOperation(
+                        originalUri = resolvedUri,
+                        onResult = { deleted ->
+                            emitDeleteResult(
+                                deleted = if (deleted) 1 else 0,
+                                failed = if (deleted) 0 else 1
+                            )
+                            batch.complete(source, deleted)
+                        }
+                    )
+                )
+            }
+        }
+    }
 
     fun deleteAfterSuccessfulSave(
         originalUri: String,
@@ -94,31 +128,52 @@ internal class OriginalFileDeletionHelper @Inject constructor(
             originalUri = resolvedUri,
             outputUri = outputUri
         )
+        deleteFile(
+            DeleteOperation(
+                originalUri = resolvedUri,
+                onResult = { deleted ->
+                    if (deleted) registerUriReplacement(replacement)
+                    emitDeleteResult(
+                        deleted = if (deleted) 1 else 0,
+                        failed = if (deleted) 0 else 1
+                    )
+                }
+            )
+        )
+    }
 
-        if (resolvedUri.scheme == ContentResolver.SCHEME_FILE) {
-            val file = resolvedUri.path?.let(::File) ?: return
-            if (!file.exists()) return
+    private fun deleteFile(operation: DeleteOperation) {
+        val resolvedUri = operation.originalUri
 
-            if (file.delete() || !file.exists()) {
-                onOriginalDeleted(replacement)
-            } else {
-                emitDeleteResult(deleted = 0, failed = 1)
-            }
+        if (resolvedUri.scheme !in DELETABLE_URI_SCHEMES) {
+            operation.complete(deleted = false)
             return
         }
 
+        if (resolvedUri.scheme == ContentResolver.SCHEME_FILE) {
+            val file = resolvedUri.path?.let(::File)
+            if (file == null) {
+                operation.complete(deleted = false)
+                return
+            }
+
+            operation.complete(deleted = !file.exists() || file.delete() || !file.exists())
+            return
+        }
+
+        val mediaStoreUri = resolvedUri.toMediaStoreItemUri()
         val documentDeleteResult = runCatching {
             DocumentFile.fromSingleUri(context, resolvedUri)?.delete() == true
         }
 
         if (documentDeleteResult.getOrDefault(false)) {
-            onOriginalDeleted(replacement)
+            operation.complete(deleted = true)
             return
         }
 
         documentDeleteResult.exceptionOrNull()?.let { throwable ->
             if (!resolvedUri.exists()) {
-                onOriginalDeleted(replacement)
+                operation.complete(deleted = true)
                 return
             }
 
@@ -126,7 +181,7 @@ internal class OriginalFileDeletionHelper @Inject constructor(
                 handleDeleteSecurityException(
                     throwable = throwable,
                     mediaStoreUri = mediaStoreUri,
-                    replacement = replacement
+                    operation = operation
                 )
                 return
             }
@@ -140,30 +195,30 @@ internal class OriginalFileDeletionHelper @Inject constructor(
             )
 
             if (deleted > 0 || !resolvedUri.exists()) {
-                onOriginalDeleted(replacement)
+                operation.complete(deleted = true)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && mediaStoreUri != null) {
                 enqueueDeletePermissionRequest(
                     uri = mediaStoreUri,
-                    replacement = replacement
+                    operation = operation
                 )
             } else {
-                emitDeleteResult(deleted = 0, failed = 1)
+                operation.complete(deleted = false)
             }
         } catch (throwable: SecurityException) {
             if (!resolvedUri.exists()) {
-                onOriginalDeleted(replacement)
+                operation.complete(deleted = true)
             } else {
                 handleDeleteSecurityException(
                     throwable = throwable,
                     mediaStoreUri = mediaStoreUri,
-                    replacement = replacement
+                    operation = operation
                 )
             }
         } catch (_: Throwable) {
             if (!resolvedUri.exists()) {
-                onOriginalDeleted(replacement)
+                operation.complete(deleted = true)
             } else {
-                emitDeleteResult(deleted = 0, failed = 1)
+                operation.complete(deleted = false)
             }
         }
     }
@@ -171,36 +226,36 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     private fun handleDeleteSecurityException(
         throwable: SecurityException,
         mediaStoreUri: Uri?,
-        replacement: UriReplacement
+        operation: DeleteOperation
     ) {
         when {
             Build.VERSION.SDK_INT == Build.VERSION_CODES.Q &&
                     throwable is RecoverableSecurityException -> {
                 emitRecoverableDeletePermissionRequest(
-                    uri = mediaStoreUri ?: replacement.originalUri,
+                    uri = mediaStoreUri ?: operation.originalUri,
                     throwable = throwable,
-                    replacement = replacement
+                    operation = operation
                 )
             }
 
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && mediaStoreUri != null -> {
                 enqueueDeletePermissionRequest(
                     uri = mediaStoreUri,
-                    replacement = replacement
+                    operation = operation
                 )
             }
 
-            else -> emitDeleteResult(deleted = 0, failed = 1)
+            else -> operation.complete(deleted = false)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun enqueueDeletePermissionRequest(
         uri: Uri,
-        replacement: UriReplacement
+        operation: DeleteOperation
     ) {
         pendingDeleteUris.add(uri)
-        pendingDeleteReplacements[uri] = replacement
+        pendingDeleteOperations[uri] = operation
         scheduleDeletePermissionRequest()
     }
 
@@ -226,8 +281,9 @@ internal class OriginalFileDeletionHelper @Inject constructor(
                             intentSender = intentSender
                         )
                     }.onFailure {
-                        uris.forEach(pendingDeleteReplacements::remove)
-                        emitDeleteResult(deleted = 0, failed = uris.size)
+                        uris.forEach { uri ->
+                            pendingDeleteOperations.remove(uri)?.complete(deleted = false)
+                        }
                     }
                 }
 
@@ -245,9 +301,9 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     private fun emitRecoverableDeletePermissionRequest(
         uri: Uri,
         throwable: RecoverableSecurityException,
-        replacement: UriReplacement
+        operation: DeleteOperation
     ) {
-        pendingDeleteReplacements[uri] = replacement
+        pendingDeleteOperations[uri] = operation
         emitDeletePermissionRequest(
             uris = listOf(uri),
             intentSender = throwable.userAction.actionIntent.intentSender
@@ -275,19 +331,8 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     ) {
         val uris = pendingDeleteRequests.remove(requestId) ?: return
         uris.forEach { uri ->
-            pendingDeleteReplacements.remove(uri)?.let { replacement ->
-                if (granted) registerUriReplacement(replacement)
-            }
+            pendingDeleteOperations.remove(uri)?.complete(deleted = granted)
         }
-        emitDeleteResult(
-            deleted = uris.size.takeIf { granted } ?: 0,
-            failed = uris.size.takeUnless { granted } ?: 0
-        )
-    }
-
-    private fun onOriginalDeleted(replacement: UriReplacement) {
-        registerUriReplacement(replacement)
-        emitDeleteResult(deleted = 1, failed = 0)
     }
 
     private fun registerUriReplacement(replacement: UriReplacement) {
@@ -420,6 +465,39 @@ internal class OriginalFileDeletionHelper @Inject constructor(
         ContentResolver.SCHEME_CONTENT -> context.contentResolver.openFileDescriptor(this, "r")
         else -> null
     }
+}
+
+private class DeleteBatch(
+    size: Int,
+    private val onResult: (FileDeletionResult) -> Unit
+) {
+    private val remaining = AtomicInteger(size)
+    private val deletedUris = mutableListOf<String>()
+    private val failedUris = mutableListOf<String>()
+
+    fun complete(
+        uri: String,
+        deleted: Boolean
+    ) {
+        val result = synchronized(this) {
+            if (deleted) deletedUris += uri else failedUris += uri
+
+            if (remaining.decrementAndGet() == 0) {
+                FileDeletionResult(
+                    deletedUris = deletedUris.toList(),
+                    failedUris = failedUris.toList()
+                )
+            } else null
+        }
+        result?.let(onResult)
+    }
+}
+
+private data class DeleteOperation(
+    val originalUri: Uri,
+    val onResult: (Boolean) -> Unit
+) {
+    fun complete(deleted: Boolean) = onResult(deleted)
 }
 
 private const val MEDIA_DOCUMENTS_AUTHORITY = "com.android.providers.media.documents"

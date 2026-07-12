@@ -160,6 +160,7 @@ internal fun List<Uri>.screenList(
                 ),
                 Screen.Base64Tools(uris.firstOrNull()),
                 Screen.ImagePreview(uris),
+                Screen.DuplicateFinder(uris),
                 Screen.PickColorFromImage(uris.firstOrNull()),
                 Screen.PaletteTools(uris.firstOrNull()),
                 Screen.AsciiArt(uris.firstOrNull()),
@@ -242,6 +243,7 @@ internal fun List<Uri>.screenList(
                 add(Screen.ImageStacking(uris))
                 add(Screen.ImageCutter(uris))
                 add(Screen.ImagePreview(uris))
+                add(Screen.DuplicateFinder(uris))
                 add(Screen.LimitResize(uris))
                 addAll(filesAvailableScreens)
                 add(Screen.SvgMaker(uris))

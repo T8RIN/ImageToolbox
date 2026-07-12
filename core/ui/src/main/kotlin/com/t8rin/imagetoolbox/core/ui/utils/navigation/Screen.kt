@@ -1094,6 +1094,15 @@ sealed class Screen(
         subtitle = R.string.batch_rename_sub
     )
 
+    @Serializable
+    data class DuplicateFinder(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 71,
+        title = R.string.duplicate_finder,
+        subtitle = R.string.duplicate_finder_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ fun AutoSizeText(
     maxLines: Int = 1,
     minLines: Int = 1,
     style: TextStyle = LocalTextStyle.current,
-    key: (String) -> Any? = { it }
+    key: (String) -> Any? = { it.length }
 ) {
     var sizedStyle by remember(style, key(text)) { mutableStateOf(style) }
     var readyToDraw by remember(minLines, key(text)) { mutableStateOf(false) }
