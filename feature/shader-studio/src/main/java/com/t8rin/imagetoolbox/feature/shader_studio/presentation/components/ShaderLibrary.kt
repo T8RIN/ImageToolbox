@@ -21,11 +21,14 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +37,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,6 +54,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.DownloadFile
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
 import com.t8rin.imagetoolbox.core.resources.icons.Share
+import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
@@ -61,7 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
 
 @Composable
-internal fun SavedShadersButton(
+internal fun SavedShadersItem(
     component: ShaderStudioComponent,
     onClick: () -> Unit
 ) {
@@ -77,7 +84,14 @@ internal fun SavedShadersButton(
                     contentDescription = null
                 )
             },
+            endIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.MiniEdit,
+                    contentDescription = null
+                )
+            },
             onClick = onClick,
+            shape = ShapeDefaults.large,
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -100,7 +114,8 @@ internal fun ShaderLibrarySheet(
         onDismiss = { if (!it) onDismiss() },
         confirmButton = {
             EnhancedButton(
-                onClick = onDismiss
+                onClick = onDismiss,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
             ) {
                 Text(stringResource(R.string.close))
             }
@@ -163,40 +178,64 @@ private fun ShaderLibrary(
                         }
                         EnhancedDropdownMenu(
                             expanded = showMenu,
-                            onDismissRequest = { showMenu = false }
+                            onDismissRequest = { showMenu = false },
+                            shape = ShapeDefaults.large
                         ) {
-                            ShaderMenuAction(
-                                title = R.string.edit,
-                                icon = Icons.Rounded.MiniEdit,
-                                onClick = {
-                                    showMenu = false
-                                    onEdit(preset)
-                                }
-                            )
-                            ShaderMenuAction(
-                                title = R.string.export,
-                                icon = Icons.Outlined.DownloadFile,
-                                onClick = {
-                                    showMenu = false
-                                    exportPicker.make("${preset.name}.$SHADER_EXT")
-                                }
-                            )
-                            ShaderMenuAction(
-                                title = R.string.share,
-                                icon = Icons.Rounded.Share,
-                                onClick = {
-                                    showMenu = false
-                                    onShare(preset)
-                                }
-                            )
-                            ShaderMenuAction(
-                                title = R.string.delete,
-                                icon = Icons.Rounded.Delete,
-                                onClick = {
-                                    showMenu = false
-                                    onDelete(preset)
-                                }
-                            )
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                modifier = Modifier
+                                    .width(IntrinsicSize.Max)
+                                    .padding(horizontal = 8.dp)
+                            ) {
+                                ShaderMenuAction(
+                                    title = R.string.edit,
+                                    icon = Icons.Rounded.MiniEdit,
+                                    shape = ShapeDefaults.top,
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                                    onClick = {
+                                        showMenu = false
+                                        onEdit(preset)
+                                    }
+                                )
+                                ShaderMenuAction(
+                                    title = R.string.export,
+                                    icon = Icons.Outlined.DownloadFile,
+                                    shape = ShapeDefaults.center,
+                                    containerColor = takeColorFromScheme {
+                                        secondary.blend(primary)
+                                    },
+                                    contentColor = takeColorFromScheme {
+                                        onSecondary.blend(onPrimary)
+                                    },
+                                    onClick = {
+                                        showMenu = false
+                                        exportPicker.make("${preset.name}.$SHADER_EXT")
+                                    }
+                                )
+                                ShaderMenuAction(
+                                    title = R.string.share,
+                                    icon = Icons.Outlined.Share,
+                                    shape = ShapeDefaults.center,
+                                    containerColor = MaterialTheme.colorScheme.tertiary,
+                                    contentColor = MaterialTheme.colorScheme.onTertiary,
+                                    onClick = {
+                                        showMenu = false
+                                        onShare(preset)
+                                    }
+                                )
+                                ShaderMenuAction(
+                                    title = R.string.delete,
+                                    icon = Icons.Rounded.Delete,
+                                    shape = ShapeDefaults.bottom,
+                                    containerColor = MaterialTheme.colorScheme.error,
+                                    contentColor = MaterialTheme.colorScheme.onError,
+                                    onClick = {
+                                        showMenu = false
+                                        onDelete(preset)
+                                    }
+                                )
+                            }
                         }
                     }
                 },
@@ -212,16 +251,23 @@ private fun ShaderLibrary(
 private fun ShaderMenuAction(
     title: Int,
     icon: ImageVector,
+    shape: Shape,
+    containerColor: Color,
+    contentColor: Color,
     onClick: () -> Unit
 ) {
-    DropdownMenuItem(
-        text = { Text(stringResource(title)) },
-        leadingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null
-            )
-        },
-        onClick = onClick
-    )
+    EnhancedButton(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick,
+        shape = shape,
+        containerColor = containerColor,
+        contentColor = contentColor
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null
+        )
+        Spacer(Modifier.width(8.dp))
+        Text(stringResource(title))
+    }
 }

@@ -18,17 +18,19 @@
 package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -42,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,6 +71,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -249,24 +253,36 @@ private fun ImagePresetItemMenu(
         }
         EnhancedDropdownMenu(
             expanded = showMenu,
-            onDismissRequest = { showMenu = false }
+            onDismissRequest = { showMenu = false },
+            shape = ShapeDefaults.large
         ) {
-            ImagePresetMenuAction(
-                title = R.string.export,
-                icon = Icons.Outlined.DownloadFile,
-                onClick = {
-                    showMenu = false
-                    exportPicker.make(preset.fileName)
-                }
-            )
-            ImagePresetMenuAction(
-                title = R.string.share,
-                icon = Icons.Rounded.Share,
-                onClick = {
-                    showMenu = false
-                    onShareProfile(preset)
-                }
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .width(IntrinsicSize.Max)
+                    .padding(horizontal = 8.dp)
+            ) {
+                ImagePresetMenuAction(
+                    title = R.string.export,
+                    icon = Icons.Outlined.DownloadFile,
+                    shape = ShapeDefaults.top,
+                    color = MaterialTheme.colorScheme.primary,
+                    onClick = {
+                        showMenu = false
+                        exportPicker.make(preset.fileName)
+                    }
+                )
+                ImagePresetMenuAction(
+                    title = R.string.share,
+                    icon = Icons.Outlined.Share,
+                    shape = ShapeDefaults.bottom,
+                    color = MaterialTheme.colorScheme.secondary,
+                    onClick = {
+                        showMenu = false
+                        onShareProfile(preset)
+                    }
+                )
+            }
         }
     }
 }
@@ -275,18 +291,23 @@ private fun ImagePresetItemMenu(
 private fun ImagePresetMenuAction(
     title: Int,
     icon: ImageVector,
+    shape: Shape,
+    color: Color,
     onClick: () -> Unit
 ) {
-    DropdownMenuItem(
-        text = { Text(stringResource(title)) },
-        leadingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null
-            )
-        },
-        onClick = onClick
-    )
+    EnhancedButton(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick,
+        shape = shape,
+        containerColor = color
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null
+        )
+        Spacer(Modifier.width(8.dp))
+        Text(stringResource(title))
+    }
 }
 
 @Composable

@@ -42,7 +42,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.SavedShadersButton
+import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.SavedShadersItem
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.ShaderLibrarySheet
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.ShaderParamsEditor
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.components.ShaderPresetEditor
@@ -111,7 +111,7 @@ fun ShaderStudioContent(
                     ShaderPreviewSourceSelector(component)
                     ShaderPresetEditor(component)
                     ShaderParamsEditor(component)
-                    SavedShadersButton(
+                    SavedShadersItem(
                         component = component,
                         onClick = { showShaderLibrary = true }
                     )

@@ -110,7 +110,8 @@ fun ImageExportProfileSelector(
                 EnhancedButton(
                     onClick = {
                         showSheet = false
-                    }
+                    },
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
                 ) {
                     Text(stringResource(R.string.close))
                 }
