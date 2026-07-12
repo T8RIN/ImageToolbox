@@ -3722,4 +3722,21 @@
     <string name="delay_between_clips">التأخير بين المقاطع (مللي ثانية)</string>
     <string name="folder_picker">مجلد</string>
     <string name="folder_picker_sub">حدد كافة الصور من مجلد ومجلداته الفرعية</string>
+    <string name="duplicate_finder">مكتشف مكررة</string>
+    <string name="duplicate_finder_sub">ابحث عن نسخ طبق الأصل وصور متشابهة بصريًا</string>
+    <string name="search_keywords_duplicate_finder">الباحث عن النسخ المكررة، الصور المماثلة، النسخ الدقيقة، تخزين الصور، dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">اختر الصور للعثور على التكرارات</string>
+    <string name="duplicate_finder_sensitivity">حساسية التشابه</string>
+    <string name="exact_copies">نسخ بالضبط</string>
+    <string name="similar_images">صور مماثلة</string>
+    <string name="select_all_duplicates">حدد كافة التكرارات بالضبط</string>
+    <string name="select_all_except_best">حدد الكل باستثناء الموصى به</string>
+    <string name="no_duplicates_found">لم يتم العثور على التكرارات</string>
+    <string name="no_duplicates_found_sub">حاول إضافة المزيد من الصور أو زيادة حساسية التشابه</string>
+    <string name="duplicate_analysis_errors">تعذر قراءة %1$d صورة (صور)</string>
+    <string name="duplicate_group_summary">%1$s • %2$s قابلة للاسترداد</string>
+    <string name="duplicate_groups_summary">%1$d المجموعات • %2$s قابلة للاسترداد</string>
+    <string name="duplicate_selected_summary">%1$d تم التحديد • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">لا يمكن التراجع عن هذا. قد يطلب منك Android تأكيد الحذف في مربع حوار النظام.</string>
+    <string name="not_found">لم يتم العثور عليه</string>
 </resources>

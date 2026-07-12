@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Leikkeiden välinen viive (ms)</string>
     <string name="folder_picker">Kansio</string>
     <string name="folder_picker_sub">Valitse kaikki kuvat kansiosta ja sen alikansioista</string>
+    <string name="duplicate_finder">Kaksoiskappaleetsin</string>
+    <string name="duplicate_finder_sub">Etsi tarkat kopiot ja visuaalisesti samankaltaiset kuvat</string>
+    <string name="search_keywords_duplicate_finder">kaksoiskappaleet etsivät samanlaisia ​​kuvia tarkat kopiot valokuvat puhdistus tallennustila dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Valitse kuvat löytääksesi kaksoiskappaleet</string>
+    <string name="duplicate_finder_sensitivity">Samankaltaisuusherkkyys</string>
+    <string name="exact_copies">Tarkat kopiot</string>
+    <string name="similar_images">Samanlaisia ​​kuvia</string>
+    <string name="select_all_duplicates">Valitse kaikki tarkat kaksoiskappaleet</string>
+    <string name="select_all_except_best">Valitse kaikki paitsi suositellut</string>
+    <string name="no_duplicates_found">Kopioita ei löytynyt</string>
+    <string name="no_duplicates_found_sub">Yritä lisätä kuvia tai lisätä samankaltaisuusherkkyyttä</string>
+    <string name="duplicate_analysis_errors">Ei voitu lukea %1$d kuvaa</string>
+    <string name="duplicate_group_summary">%1$s • %2$s palautettavissa</string>
+    <string name="duplicate_groups_summary">%1$d ryhmät • %2$s palautettavissa</string>
+    <string name="duplicate_selected_summary">%1$d valittu • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Tätä ei voi kumota. Android voi pyytää sinua vahvistamaan poiston järjestelmävalintaikkunassa.</string>
+    <string name="not_found">Ei löydy</string>
 </resources>

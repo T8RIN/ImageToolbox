@@ -3719,4 +3719,21 @@
     <string name="delay_between_clips">Întârziere între clipuri (ms)</string>
     <string name="folder_picker">Pliant</string>
     <string name="folder_picker_sub">Selectați toate imaginile dintr-un folder și subdosarele acestuia</string>
+    <string name="duplicate_finder">Finder duplicat</string>
+    <string name="duplicate_finder_sub">Găsiți copii exacte și imagini similare vizual</string>
+    <string name="search_keywords_duplicate_finder">duplicat finder imagini similare copii exacte fotografii curatare stocare dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Alegeți imagini pentru a găsi duplicate</string>
+    <string name="duplicate_finder_sensitivity">Sensibilitate la similaritate</string>
+    <string name="exact_copies">Copii exacte</string>
+    <string name="similar_images">Imagini similare</string>
+    <string name="select_all_duplicates">Selectați toate duplicatele exacte</string>
+    <string name="select_all_except_best">Selectați toate, cu excepția celor recomandate</string>
+    <string name="no_duplicates_found">Nu s-au găsit duplicate</string>
+    <string name="no_duplicates_found_sub">Încercați să adăugați mai multe imagini sau să creșteți sensibilitatea la similaritate</string>
+    <string name="duplicate_analysis_errors">Nu s-au putut citi %1$d imagini</string>
+    <string name="duplicate_group_summary">%1$s • %2$s recuperabil</string>
+    <string name="duplicate_groups_summary">%1$d grupuri • %2$s recuperabile</string>
+    <string name="duplicate_selected_summary">%1$d selectat • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Acest lucru nu poate fi anulat. Android vă poate cere să confirmați ștergerea într-un dialog de sistem.</string>
+    <string name="not_found">Nu a fost găsit</string>
 </resources>

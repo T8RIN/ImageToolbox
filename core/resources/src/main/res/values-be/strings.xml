@@ -3719,4 +3719,21 @@
     <string name="delay_between_clips">Затрымка паміж кліпамі (мс)</string>
     <string name="folder_picker">Папка</string>
     <string name="folder_picker_sub">Выберыце ўсе выявы з папкі і яе падтэчак</string>
+    <string name="duplicate_finder">Пошук дублікатаў</string>
+    <string name="duplicate_finder_sub">Знайдзіце дакладныя копіі і візуальна падобныя выявы</string>
+    <string name="search_keywords_duplicate_finder">пошук дублікатаў падобныя выявы дакладныя копіі фатаграфій ачыстка сховішча dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Выберыце выявы, каб знайсці дублікаты</string>
+    <string name="duplicate_finder_sensitivity">Адчувальнасць да падабенства</string>
+    <string name="exact_copies">Дакладныя копіі</string>
+    <string name="similar_images">Падобныя выявы</string>
+    <string name="select_all_duplicates">Выберыце ўсе дакладныя дублікаты</string>
+    <string name="select_all_except_best">Выберыце ўсе, акрамя рэкамендаваных</string>
+    <string name="no_duplicates_found">Дублікаты не знойдзены</string>
+    <string name="no_duplicates_found_sub">Паспрабуйце дадаць больш малюнкаў або павялічыць адчувальнасць да падабенства</string>
+    <string name="duplicate_analysis_errors">Немагчыма прачытаць %1$d відарыс(аў)</string>
+    <string name="duplicate_group_summary">%1$s • %2$s можна аднавіць</string>
+    <string name="duplicate_groups_summary">%1$d груп • %2$s можна вярнуць</string>
+    <string name="duplicate_selected_summary">%1$d выбрана • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Гэта нельга адмяніць. Android можа папрасіць вас пацвердзіць выдаленне ў сістэмным дыялогавым акне.</string>
+    <string name="not_found">Не знойдзены</string>
 </resources>

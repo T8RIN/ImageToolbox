@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Fördröjning mellan klipp (ms)</string>
     <string name="folder_picker">Mapp</string>
     <string name="folder_picker_sub">Välj alla bilder från en mapp och dess undermappar</string>
+    <string name="duplicate_finder">Duplicate Finder</string>
+    <string name="duplicate_finder_sub">Hitta exakta kopior och visuellt liknande bilder</string>
+    <string name="search_keywords_duplicate_finder">duplicate finder liknande bilder exakta kopior bilder sanering lagring dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Välj bilder för att hitta dubbletter</string>
+    <string name="duplicate_finder_sensitivity">Likhetskänslighet</string>
+    <string name="exact_copies">Exakta kopior</string>
+    <string name="similar_images">Liknande bilder</string>
+    <string name="select_all_duplicates">Välj alla exakta dubbletter</string>
+    <string name="select_all_except_best">Välj alla utom rekommenderade</string>
+    <string name="no_duplicates_found">Inga dubbletter hittades</string>
+    <string name="no_duplicates_found_sub">Försök att lägga till fler bilder eller öka likhetskänsligheten</string>
+    <string name="duplicate_analysis_errors">Kunde inte läsa %1$d bild(er)</string>
+    <string name="duplicate_group_summary">%1$s • %2$s kan återvinnas</string>
+    <string name="duplicate_groups_summary">%1$d grupper • %2$s kan återvinnas</string>
+    <string name="duplicate_selected_summary">%1$d har valts • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Detta kan inte ångras. Android kan be dig bekräfta borttagningen i en systemdialogruta.</string>
+    <string name="not_found">Hittade inte</string>
 </resources>

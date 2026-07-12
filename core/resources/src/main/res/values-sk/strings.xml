@@ -3719,4 +3719,21 @@
     <string name="delay_between_clips">Oneskorenie medzi klipmi (ms)</string>
     <string name="folder_picker">Priečinok</string>
     <string name="folder_picker_sub">Vyberte všetky obrázky z priečinka a jeho podpriečinkov</string>
+    <string name="duplicate_finder">Duplicate Finder</string>
+    <string name="duplicate_finder_sub">Nájdite presné kópie a vizuálne podobné obrázky</string>
+    <string name="search_keywords_duplicate_finder">vyhľadávač duplikátov podobné obrázky presné kópie fotografie čistenie úložisko dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Vyberte obrázky a nájdite duplikáty</string>
+    <string name="duplicate_finder_sensitivity">Citlivosť na podobnosť</string>
+    <string name="exact_copies">Presné kópie</string>
+    <string name="similar_images">Podobné obrázky</string>
+    <string name="select_all_duplicates">Vyberte všetky presné duplikáty</string>
+    <string name="select_all_except_best">Vyberte všetky okrem odporúčaných</string>
+    <string name="no_duplicates_found">Nenašli sa žiadne duplikáty</string>
+    <string name="no_duplicates_found_sub">Skúste pridať viac obrázkov alebo zvýšiť citlivosť na podobnosť</string>
+    <string name="duplicate_analysis_errors">Nepodarilo sa prečítať %1$d obrázky</string>
+    <string name="duplicate_group_summary">%1$s • %2$s regenerovateľné</string>
+    <string name="duplicate_groups_summary">%1$d skupín • %2$s je možné získať späť</string>
+    <string name="duplicate_selected_summary">%1$d vybraté • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Toto sa nedá vrátiť späť. Android vás môže požiadať o potvrdenie odstránenia v dialógovom okne systému.</string>
+    <string name="not_found">Nenájdené</string>
 </resources>

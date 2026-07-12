@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">क्लिप दरम्यान विलंब (ms)</string>
     <string name="folder_picker">फोल्डर</string>
     <string name="folder_picker_sub">फोल्डर आणि त्याच्या सबफोल्डर्समधून सर्व प्रतिमा निवडा</string>
+    <string name="duplicate_finder">डुप्लिकेट शोधक</string>
+    <string name="duplicate_finder_sub">अचूक प्रती आणि दृष्यदृष्ट्या समान प्रतिमा शोधा</string>
+    <string name="search_keywords_duplicate_finder">डुप्लिकेट फाइंडर समान प्रतिमा अचूक कॉपी फोटो क्लीनअप स्टोरेज dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">डुप्लिकेट शोधण्यासाठी प्रतिमा निवडा</string>
+    <string name="duplicate_finder_sensitivity">समानता संवेदनशीलता</string>
+    <string name="exact_copies">अचूक प्रती</string>
+    <string name="similar_images">तत्सम प्रतिमा</string>
+    <string name="select_all_duplicates">सर्व अचूक डुप्लिकेट निवडा</string>
+    <string name="select_all_except_best">शिफारस केलेले वगळता सर्व निवडा</string>
+    <string name="no_duplicates_found">कोणतेही डुप्लिकेट आढळले नाहीत</string>
+    <string name="no_duplicates_found_sub">अधिक प्रतिमा जोडण्याचा प्रयत्न करा किंवा समानतेची संवेदनशीलता वाढवा</string>
+    <string name="duplicate_analysis_errors">%1$d प्रतिमा वाचू शकलो नाही</string>
+    <string name="duplicate_group_summary">%1$s • %2$s पुन्हा दावा करण्यायोग्य</string>
+    <string name="duplicate_groups_summary">%1$d गट • %2$s पुन्हा दावा करण्यायोग्य</string>
+    <string name="duplicate_selected_summary">%1$d निवडले • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">हे पूर्ववत केले जाऊ शकत नाही. Android तुम्हाला सिस्टम डायलॉगमध्ये हटवण्याची पुष्टी करण्यास सांगू शकते.</string>
+    <string name="not_found">सापडले नाही</string>
 </resources>

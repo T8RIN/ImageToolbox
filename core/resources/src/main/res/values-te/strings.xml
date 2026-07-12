@@ -3718,4 +3718,21 @@
     <string name="delay_between_clips">క్లిప్‌ల మధ్య ఆలస్యం (మిసె)</string>
     <string name="folder_picker">ఫోల్డర్</string>
     <string name="folder_picker_sub">ఫోల్డర్ మరియు దాని సబ్ ఫోల్డర్‌ల నుండి అన్ని చిత్రాలను ఎంచుకోండి</string>
+    <string name="duplicate_finder">డూప్లికేట్ ఫైండర్</string>
+    <string name="duplicate_finder_sub">ఖచ్చితమైన కాపీలు మరియు దృశ్యమానంగా సారూప్య చిత్రాలను కనుగొనండి</string>
+    <string name="search_keywords_duplicate_finder">నకిలీ ఫైండర్ సారూప్య చిత్రాలు ఖచ్చితమైన కాపీలు ఫోటోలు శుభ్రపరిచే నిల్వ dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">నకిలీలను కనుగొనడానికి చిత్రాలను ఎంచుకోండి</string>
+    <string name="duplicate_finder_sensitivity">సారూప్యత సున్నితత్వం</string>
+    <string name="exact_copies">ఖచ్చితమైన కాపీలు</string>
+    <string name="similar_images">ఇలాంటి చిత్రాలు</string>
+    <string name="select_all_duplicates">అన్ని ఖచ్చితమైన నకిలీలను ఎంచుకోండి</string>
+    <string name="select_all_except_best">సిఫార్సు మినహా అన్నింటినీ ఎంచుకోండి</string>
+    <string name="no_duplicates_found">నకిలీలు ఏవీ కనుగొనబడలేదు</string>
+    <string name="no_duplicates_found_sub">మరిన్ని చిత్రాలను జోడించడానికి లేదా సారూప్యత సున్నితత్వాన్ని పెంచడానికి ప్రయత్నించండి</string>
+    <string name="duplicate_analysis_errors">%1$d చిత్రం(లు) చదవడం సాధ్యపడలేదు</string>
+    <string name="duplicate_group_summary">%1$s • %2$s తిరిగి పొందదగినది</string>
+    <string name="duplicate_groups_summary">%1$d సమూహాలు • %2$s తిరిగి పొందదగినవి</string>
+    <string name="duplicate_selected_summary">%1$d ఎంచుకోబడింది • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">ఇది రద్దు చేయబడదు. సిస్టమ్ డైలాగ్‌లో తొలగింపును నిర్ధారించమని Android మిమ్మల్ని అడగవచ్చు.</string>
+    <string name="not_found">దొరకలేదు</string>
 </resources>

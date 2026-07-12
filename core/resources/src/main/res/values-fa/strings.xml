@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">تاخیر بین کلیپ ها (ms)</string>
     <string name="folder_picker">پوشه</string>
     <string name="folder_picker_sub">همه تصاویر را از یک پوشه و زیرپوشه های آن انتخاب کنید</string>
+    <string name="duplicate_finder">یاب تکراری</string>
+    <string name="duplicate_finder_sub">کپی های دقیق و تصاویر مشابه بصری را پیدا کنید</string>
+    <string name="search_keywords_duplicate_finder">یاب تکراری تصاویر مشابه کپی های دقیق عکس پاکسازی ذخیره سازی dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">تصاویر را برای یافتن موارد تکراری انتخاب کنید</string>
+    <string name="duplicate_finder_sensitivity">حساسیت به شباهت</string>
+    <string name="exact_copies">کپی های دقیق</string>
+    <string name="similar_images">تصاویر مشابه</string>
+    <string name="select_all_duplicates">تمام موارد تکراری دقیق را انتخاب کنید</string>
+    <string name="select_all_except_best">همه به جز توصیه شده را انتخاب کنید</string>
+    <string name="no_duplicates_found">تکراری یافت نشد</string>
+    <string name="no_duplicates_found_sub">سعی کنید تصاویر بیشتری اضافه کنید یا حساسیت شباهت را افزایش دهید</string>
+    <string name="duplicate_analysis_errors">نمی توان %1$d تصویر(ها) را خواند</string>
+    <string name="duplicate_group_summary">%1$s • %2$s قابل بازیابی</string>
+    <string name="duplicate_groups_summary">%1$d گروه • %2$s قابل بازیابی</string>
+    <string name="duplicate_selected_summary">%1$d انتخاب شده • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">این قابل واگرد نیست. ممکن است اندروید از شما بخواهد که حذف را در یک گفتگوی سیستم تأیید کنید.</string>
+    <string name="not_found">یافت نشد</string>
 </resources>

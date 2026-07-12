@@ -3716,4 +3716,21 @@
     <string name="delay_between_clips">クリップ間の遅延 (ミリ秒)</string>
     <string name="folder_picker">フォルダ</string>
     <string name="folder_picker_sub">フォルダーとそのサブフォルダーからすべての画像を選択します</string>
+    <string name="duplicate_finder">重複ファインダー</string>
+    <string name="duplicate_finder_sub">正確なコピーや視覚的に類似した画像を検索します</string>
+    <string name="search_keywords_duplicate_finder">重複ファインダー 類似画像 正確なコピー 写真のクリーンアップ ストレージ dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">画像を選択して重複を見つけます</string>
+    <string name="duplicate_finder_sensitivity">類似性感度</string>
+    <string name="exact_copies">正確なコピー</string>
+    <string name="similar_images">類似画像</string>
+    <string name="select_all_duplicates">完全に重複するものをすべて選択します</string>
+    <string name="select_all_except_best">推奨以外をすべて選択してください</string>
+    <string name="no_duplicates_found">重複は見つかりませんでした</string>
+    <string name="no_duplicates_found_sub">さらに画像を追加するか、類似性の感度を上げてみてください</string>
+    <string name="duplicate_analysis_errors">%1$d 画像を読み取れませんでした</string>
+    <string name="duplicate_group_summary">%1$s • %2$s 回収可能</string>
+    <string name="duplicate_groups_summary">%1$d グループ • %2$s 再利用可能</string>
+    <string name="duplicate_selected_summary">%1$d 選択済み • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">これを元に戻すことはできません。 Android では、システム ダイアログで削除の確認を求める場合があります。</string>
+    <string name="not_found">見つかりません</string>
 </resources>

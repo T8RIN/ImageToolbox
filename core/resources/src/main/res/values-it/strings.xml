@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Ritardo tra le clip (ms)</string>
     <string name="folder_picker">Cartella</string>
     <string name="folder_picker_sub">Seleziona tutte le immagini da una cartella e dalle sue sottocartelle</string>
+    <string name="duplicate_finder">Ricerca duplicati</string>
+    <string name="duplicate_finder_sub">Trova copie esatte e immagini visivamente simili</string>
+    <string name="search_keywords_duplicate_finder">ricerca duplicati immagini simili copie esatte foto pulizia archiviazione dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Scegli le immagini per trovare i duplicati</string>
+    <string name="duplicate_finder_sensitivity">Sensibilità alla somiglianza</string>
+    <string name="exact_copies">Copie esatte</string>
+    <string name="similar_images">Immagini simili</string>
+    <string name="select_all_duplicates">Seleziona tutti i duplicati esatti</string>
+    <string name="select_all_except_best">Seleziona tutto tranne quelli consigliati</string>
+    <string name="no_duplicates_found">Nessun duplicato trovato</string>
+    <string name="no_duplicates_found_sub">Prova ad aggiungere più immagini o ad aumentare la sensibilità alla somiglianza</string>
+    <string name="duplicate_analysis_errors">Impossibile leggere le %1$d immagini</string>
+    <string name="duplicate_group_summary">%1$s • %2$s recuperabile</string>
+    <string name="duplicate_groups_summary">%1$d gruppi • %2$s recuperabile</string>
+    <string name="duplicate_selected_summary">%1$d selezionato • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Questa operazione non può essere annullata. Android potrebbe chiederti di confermare l\'eliminazione in una finestra di dialogo di sistema.</string>
+    <string name="not_found">Non trovato</string>
 </resources>

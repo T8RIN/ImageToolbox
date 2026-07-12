@@ -3716,4 +3716,21 @@
     <string name="delay_between_clips">Penundaan antar klip (ms)</string>
     <string name="folder_picker">Map</string>
     <string name="folder_picker_sub">Pilih semua gambar dari folder dan subfoldernya</string>
+    <string name="duplicate_finder">Pencari Duplikat</string>
+    <string name="duplicate_finder_sub">Temukan salinan persisnya dan gambar yang mirip secara visual</string>
+    <string name="search_keywords_duplicate_finder">pencari duplikat gambar serupa salinan persis foto pembersihan penyimpanan dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Pilih gambar untuk menemukan duplikat</string>
+    <string name="duplicate_finder_sensitivity">Sensitivitas kesamaan</string>
+    <string name="exact_copies">Salinan persisnya</string>
+    <string name="similar_images">Gambar serupa</string>
+    <string name="select_all_duplicates">Pilih semua duplikat yang tepat</string>
+    <string name="select_all_except_best">Pilih semua kecuali direkomendasikan</string>
+    <string name="no_duplicates_found">Tidak ada duplikat yang ditemukan</string>
+    <string name="no_duplicates_found_sub">Coba tambahkan lebih banyak gambar atau tingkatkan sensitivitas kesamaan</string>
+    <string name="duplicate_analysis_errors">Tidak dapat membaca %1$d gambar</string>
+    <string name="duplicate_group_summary">%1$s • %2$s dapat diklaim kembali</string>
+    <string name="duplicate_groups_summary">%1$d kelompok • %2$s dapat diklaim kembali</string>
+    <string name="duplicate_selected_summary">%1$d dipilih • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Hal ini tidak dapat dibatalkan. Android mungkin meminta Anda untuk mengonfirmasi penghapusan dalam dialog sistem.</string>
+    <string name="not_found">Tidak Ditemukan</string>
 </resources>

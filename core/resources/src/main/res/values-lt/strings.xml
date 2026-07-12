@@ -3719,4 +3719,21 @@
     <string name="delay_between_clips">Vėlavimas tarp klipų (ms)</string>
     <string name="folder_picker">Aplankas</string>
     <string name="folder_picker_sub">Pasirinkite visus vaizdus iš aplanko ir jo poaplankių</string>
+    <string name="duplicate_finder">Dublikatų ieškiklis</string>
+    <string name="duplicate_finder_sub">Raskite tikslias kopijas ir vizualiai panašius vaizdus</string>
+    <string name="search_keywords_duplicate_finder">dublikatų ieškiklis panašių vaizdų tikslios kopijos nuotraukų išvalymas saugykla dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Pasirinkite vaizdus, ​​​​kad rastumėte dublikatus</string>
+    <string name="duplicate_finder_sensitivity">Panašumo jautrumas</string>
+    <string name="exact_copies">Tikslios kopijos</string>
+    <string name="similar_images">Panašūs vaizdai</string>
+    <string name="select_all_duplicates">Pasirinkite visus tikslius dublikatus</string>
+    <string name="select_all_except_best">Pasirinkite visus, išskyrus rekomenduojamus</string>
+    <string name="no_duplicates_found">Pasikartojančių nerasta</string>
+    <string name="no_duplicates_found_sub">Pabandykite pridėti daugiau vaizdų arba padidinti panašumo jautrumą</string>
+    <string name="duplicate_analysis_errors">Nepavyko perskaityti %1$d vaizdo (-ų)</string>
+    <string name="duplicate_group_summary">%1$s • %2$s galima susigrąžinti</string>
+    <string name="duplicate_groups_summary">%1$d grupės • %2$s galima grąžinti</string>
+    <string name="duplicate_selected_summary">%1$d pasirinkta • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">To negalima anuliuoti. „Android“ gali paprašyti patvirtinti ištrynimą sistemos dialogo lange.</string>
+    <string name="not_found">Nerasta</string>
 </resources>

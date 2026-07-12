@@ -3716,4 +3716,21 @@
     <string name="delay_between_clips">Độ trễ giữa các clip (ms)</string>
     <string name="folder_picker">Thư mục</string>
     <string name="folder_picker_sub">Chọn tất cả hình ảnh từ một thư mục và các thư mục con của nó</string>
+    <string name="duplicate_finder">Trình tìm kiếm trùng lặp</string>
+    <string name="duplicate_finder_sub">Tìm bản sao chính xác và hình ảnh tương tự về mặt trực quan</string>
+    <string name="search_keywords_duplicate_finder">công cụ tìm trùng lặp hình ảnh tương tự bản sao chính xác ảnh dọn dẹp lưu trữ dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Chọn hình ảnh để tìm bản sao</string>
+    <string name="duplicate_finder_sensitivity">Độ nhạy tương tự</string>
+    <string name="exact_copies">Bản sao chính xác</string>
+    <string name="similar_images">Hình ảnh tương tự</string>
+    <string name="select_all_duplicates">Chọn tất cả các bản sao chính xác</string>
+    <string name="select_all_except_best">Chọn tất cả ngoại trừ được đề xuất</string>
+    <string name="no_duplicates_found">Không tìm thấy bản sao</string>
+    <string name="no_duplicates_found_sub">Hãy thử thêm nhiều hình ảnh hơn hoặc tăng độ nhạy tương tự</string>
+    <string name="duplicate_analysis_errors">Không thể đọc %1$d hình ảnh</string>
+    <string name="duplicate_group_summary">%1$s • %2$s có thể thu hồi được</string>
+    <string name="duplicate_groups_summary">%1$d nhóm • %2$s có thể thu hồi được</string>
+    <string name="duplicate_selected_summary">%1$d đã chọn • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Điều này không thể hoàn tác được. Android có thể yêu cầu bạn xác nhận việc xóa trong hộp thoại hệ thống.</string>
+    <string name="not_found">Không tìm thấy</string>
 </resources>

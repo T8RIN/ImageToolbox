@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Atraso entre clipes (ms)</string>
     <string name="folder_picker">Pasta</string>
     <string name="folder_picker_sub">Selecione todas as imagens de uma pasta e suas subpastas</string>
+    <string name="duplicate_finder">Localizador de duplicatas</string>
+    <string name="duplicate_finder_sub">Encontre cópias exatas e imagens visualmente semelhantes</string>
+    <string name="search_keywords_duplicate_finder">localizador de duplicatas imagens semelhantes cópias exatas limpeza de fotos armazenamento dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Escolha imagens para encontrar duplicatas</string>
+    <string name="duplicate_finder_sensitivity">Sensibilidade de similaridade</string>
+    <string name="exact_copies">Cópias exatas</string>
+    <string name="similar_images">Imagens semelhantes</string>
+    <string name="select_all_duplicates">Selecione todas as duplicatas exatas</string>
+    <string name="select_all_except_best">Selecione tudo, exceto recomendado</string>
+    <string name="no_duplicates_found">Nenhuma duplicata encontrada</string>
+    <string name="no_duplicates_found_sub">Tente adicionar mais imagens ou aumentar a sensibilidade de similaridade</string>
+    <string name="duplicate_analysis_errors">Não foi possível ler %1$d imagens</string>
+    <string name="duplicate_group_summary">%1$s • %2$s recuperável</string>
+    <string name="duplicate_groups_summary">%1$d grupos • %2$s recuperáveis</string>
+    <string name="duplicate_selected_summary">%1$d selecionado • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Isto não pode ser desfeito. O Android pode solicitar que você confirme a exclusão em uma caixa de diálogo do sistema.</string>
+    <string name="not_found">Não encontrado</string>
 </resources>

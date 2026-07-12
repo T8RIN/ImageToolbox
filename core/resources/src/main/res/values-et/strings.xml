@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Klippide vaheline viivitus (ms)</string>
     <string name="folder_picker">Kaust</string>
     <string name="folder_picker_sub">Valige kaustast ja selle alamkaustadest kõik pildid</string>
+    <string name="duplicate_finder">Duplikaatide otsija</string>
+    <string name="duplicate_finder_sub">Otsige täpseid koopiaid ja visuaalselt sarnaseid pilte</string>
+    <string name="search_keywords_duplicate_finder">duplikaatide leidja sarnased pildid täpsed koopiad fotod puhastus salvestusruum dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Duplikaatide leidmiseks valige pildid</string>
+    <string name="duplicate_finder_sensitivity">Sarnasuse tundlikkus</string>
+    <string name="exact_copies">Täpsed koopiad</string>
+    <string name="similar_images">Sarnased pildid</string>
+    <string name="select_all_duplicates">Valige kõik täpsed duplikaadid</string>
+    <string name="select_all_except_best">Valige kõik, välja arvatud soovitatav</string>
+    <string name="no_duplicates_found">Duplikaate ei leitud</string>
+    <string name="no_duplicates_found_sub">Proovige lisada rohkem pilte või suurendada sarnasuse tundlikkust</string>
+    <string name="duplicate_analysis_errors">%1$d pilti ei õnnestunud lugeda</string>
+    <string name="duplicate_group_summary">%1$s • %2$s tagasinõutav</string>
+    <string name="duplicate_groups_summary">%1$d rühmad • %2$s tagasinõutavad</string>
+    <string name="duplicate_selected_summary">%1$d valitud • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Seda ei saa tagasi võtta. Android võib paluda teil süsteemi dialoogiaknas kustutamise kinnitada.</string>
+    <string name="not_found">Ei leitud</string>
 </resources>

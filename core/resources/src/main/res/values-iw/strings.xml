@@ -3720,4 +3720,21 @@
     <string name="delay_between_clips">השהיה בין קליפים (ms)</string>
     <string name="folder_picker">תיקיה</string>
     <string name="folder_picker_sub">בחר את כל התמונות מתיקיה ומתיקיות המשנה שלה</string>
+    <string name="duplicate_finder">כפיל Finder</string>
+    <string name="duplicate_finder_sub">מצא עותקים מדויקים ותמונות דומות מבחינה ויזואלית</string>
+    <string name="search_keywords_duplicate_finder">מצא שכפול תמונות דומות עותקים מדויקים תמונות ניקוי אחסון dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">בחר תמונות כדי למצוא כפילויות</string>
+    <string name="duplicate_finder_sensitivity">רגישות לדמיון</string>
+    <string name="exact_copies">עותקים מדויקים</string>
+    <string name="similar_images">תמונות דומות</string>
+    <string name="select_all_duplicates">בחר את כל הכפילויות המדויקות</string>
+    <string name="select_all_except_best">בחר הכל מלבד מומלץ</string>
+    <string name="no_duplicates_found">לא נמצאו כפילויות</string>
+    <string name="no_duplicates_found_sub">נסה להוסיף עוד תמונות או להגביר את רגישות הדמיון</string>
+    <string name="duplicate_analysis_errors">לא ניתן היה לקרוא %1$d תמונות</string>
+    <string name="duplicate_group_summary">%1$s • %2$s ניתן לתביעה חוזרת</string>
+    <string name="duplicate_groups_summary">%1$d קבוצות • %2$s ניתנות לתביעה חוזרת</string>
+    <string name="duplicate_selected_summary">%1$d נבחרו • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">לא ניתן לבטל זאת. ייתכן ש-Android יבקש ממך לאשר את המחיקה בתיבת דו-שיח של מערכת.</string>
+    <string name="not_found">לא נמצא</string>
 </resources>

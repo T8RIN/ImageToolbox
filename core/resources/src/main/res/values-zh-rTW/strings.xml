@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">剪輯之間的延遲（毫秒）</string>
     <string name="folder_picker">資料夾</string>
     <string name="folder_picker_sub">選擇資料夾及其子資料夾中的所有影像</string>
+    <string name="duplicate_finder">重複查找器</string>
+    <string name="duplicate_finder_sub">尋找精確的副本和視覺上相似的圖像</string>
+    <string name="search_keywords_duplicate_finder">重複查找器 相似影像 精確副本 照片清理 儲存 dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">選擇圖像以查找重複項</string>
+    <string name="duplicate_finder_sensitivity">相似度敏感度</string>
+    <string name="exact_copies">精確的副本</string>
+    <string name="similar_images">類似影像</string>
+    <string name="select_all_duplicates">選擇所有精確的重複項</string>
+    <string name="select_all_except_best">除推薦外全部選擇</string>
+    <string name="no_duplicates_found">沒有發現重複項</string>
+    <string name="no_duplicates_found_sub">嘗試新增更多影像或提高相似度敏感度</string>
+    <string name="duplicate_analysis_errors">無法讀取 %1$d 影像</string>
+    <string name="duplicate_group_summary">%1$s • %2$s 可回收</string>
+    <string name="duplicate_groups_summary">%1$d 組 • %2$s 可回收</string>
+    <string name="duplicate_selected_summary">已選擇 %1$d • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">此操作無法撤銷。 Android 可能會要求您在系統對話方塊中確認刪除。</string>
+    <string name="not_found">未找到</string>
 </resources>

@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">قىسقۇچ (ms) ئارىسىدا كېچىكىش</string>
     <string name="folder_picker">ھۆججەت قىسقۇچ</string>
     <string name="folder_picker_sub">ھۆججەت قىسقۇچ ۋە ئۇنىڭ قىسقۇچتىن بارلىق رەسىملەرنى تاللاڭ</string>
+    <string name="duplicate_finder">كۆپەيتكۈچى</string>
+    <string name="duplicate_finder_sub">ئېنىق نۇسخا ۋە كۆرۈنۈشكە ئوخشايدىغان رەسىملەرنى تېپىڭ</string>
+    <string name="search_keywords_duplicate_finder">كۆپەيتكۈچى ئوخشاش رەسىملەر كۆپەيتىلگەن رەسىملەرنى تازىلاش ساقلاش dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">كۆپەيتىلگەن نۇسخىسىنى تېپىش ئۈچۈن رەسىم تاللاڭ</string>
+    <string name="duplicate_finder_sensitivity">ئوخشاشلىق سەزگۈرلىكى</string>
+    <string name="exact_copies">ھەقىقىي كۆپەيتىلگەن نۇسخىسى</string>
+    <string name="similar_images">مۇشۇنىڭغا ئوخشاش رەسىملەر</string>
+    <string name="select_all_duplicates">بارلىق كۆپەيتىلگەن نۇسخىسىنى تاللاڭ</string>
+    <string name="select_all_except_best">تەۋسىيە قىلىنغاندىن باشقا ھەممىسىنى تاللاڭ</string>
+    <string name="no_duplicates_found">كۆپەيتىلگەن نۇسخىسى تېپىلمىدى</string>
+    <string name="no_duplicates_found_sub">تېخىمۇ كۆپ رەسىم قوشۇش ياكى ئوخشاشلىق سەزگۈرلۈكىنى ئاشۇرۇش</string>
+    <string name="duplicate_analysis_errors">%1$d رەسىم (لەرنى) ئوقۇيالمىدى</string>
+    <string name="duplicate_group_summary">%1$s • %2$s قايتۇرۇۋالغىلى بولىدۇ</string>
+    <string name="duplicate_groups_summary">%1$d گۇرۇپپىلىرى • %2$s قايتۇرۇۋالغىلى بولىدۇ</string>
+    <string name="duplicate_selected_summary">%1$d تاللانغان • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">بۇنى ئەمەلدىن قالدۇرغىلى بولمايدۇ. ئاندىرويىد سىستېما دىئالوگىدا ئۆچۈرۈلگەنلىكىنى جەزملەشتۈرۈشىڭىزنى تەلەپ قىلىشى مۇمكىن.</string>
+    <string name="not_found">تېپىلمىدى</string>
 </resources>

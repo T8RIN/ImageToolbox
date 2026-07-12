@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Vertraging tussen clips (ms)</string>
     <string name="folder_picker">Map</string>
     <string name="folder_picker_sub">Selecteer alle afbeeldingen uit een map en de submappen ervan</string>
+    <string name="duplicate_finder">Dubbele zoeker</string>
+    <string name="duplicate_finder_sub">Vind exacte kopieën en visueel vergelijkbare afbeeldingen</string>
+    <string name="search_keywords_duplicate_finder">dubbele zoeker vergelijkbare afbeeldingen exacte kopieën foto\'s opruimen opslag dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Kies afbeeldingen om duplicaten te vinden</string>
+    <string name="duplicate_finder_sensitivity">Gelijkenisgevoeligheid</string>
+    <string name="exact_copies">Exacte kopieën</string>
+    <string name="similar_images">Soortgelijke afbeeldingen</string>
+    <string name="select_all_duplicates">Selecteer alle exacte duplicaten</string>
+    <string name="select_all_except_best">Selecteer alles behalve aanbevolen</string>
+    <string name="no_duplicates_found">Geen duplicaten gevonden</string>
+    <string name="no_duplicates_found_sub">Probeer meer afbeeldingen toe te voegen of de gelijkenisgevoeligheid te verhogen</string>
+    <string name="duplicate_analysis_errors">Kon %1$d afbeelding(en) niet lezen</string>
+    <string name="duplicate_group_summary">%1$s • %2$s terugvorderbaar</string>
+    <string name="duplicate_groups_summary">%1$d groepen • %2$s terugvorderbaar</string>
+    <string name="duplicate_selected_summary">%1$d geselecteerd • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Dit kan niet ongedaan worden gemaakt. Android kan u vragen om de verwijdering te bevestigen in een systeemdialoog.</string>
+    <string name="not_found">Niet gevonden</string>
 </resources>

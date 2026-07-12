@@ -3718,4 +3718,21 @@
     <string name="delay_between_clips">Retard entre clips (ms)</string>
     <string name="folder_picker">Carpeta</string>
     <string name="folder_picker_sub">Seleccioneu totes les imatges d\'una carpeta i les seves subcarpetes</string>
+    <string name="duplicate_finder">Cercador de duplicats</string>
+    <string name="duplicate_finder_sub">Trobeu còpies exactes i imatges visualment similars</string>
+    <string name="search_keywords_duplicate_finder">cercador duplicat imatges similars còpies exactes fotos neteja emmagatzematge dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Trieu imatges per trobar duplicats</string>
+    <string name="duplicate_finder_sensitivity">Sensibilitat de semblança</string>
+    <string name="exact_copies">Còpies exactes</string>
+    <string name="similar_images">Imatges semblants</string>
+    <string name="select_all_duplicates">Seleccioneu tots els duplicats exactes</string>
+    <string name="select_all_except_best">Seleccioneu-ho tot excepte els recomanats</string>
+    <string name="no_duplicates_found">No s\'han trobat duplicats</string>
+    <string name="no_duplicates_found_sub">Intenteu afegir més imatges o augmentar la sensibilitat de semblança</string>
+    <string name="duplicate_analysis_errors">No s\'han pogut llegir %1$d imatges</string>
+    <string name="duplicate_group_summary">%1$s • %2$s recuperable</string>
+    <string name="duplicate_groups_summary">%1$d grups • %2$s recuperables</string>
+    <string name="duplicate_selected_summary">%1$d seleccionat • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Això no es pot desfer. Android pot demanar-vos que confirmeu la supressió en un diàleg del sistema.</string>
+    <string name="not_found">No trobat</string>
 </resources>

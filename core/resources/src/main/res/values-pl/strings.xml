@@ -3719,4 +3719,21 @@
     <string name="delay_between_clips">Opóźnienie między klipami (ms)</string>
     <string name="folder_picker">Falcówka</string>
     <string name="folder_picker_sub">Wybierz wszystkie obrazy z folderu i jego podfolderów</string>
+    <string name="duplicate_finder">Wyszukiwarka duplikatów</string>
+    <string name="duplicate_finder_sub">Znajdź dokładne kopie i wizualnie podobne obrazy</string>
+    <string name="search_keywords_duplicate_finder">wyszukiwarka duplikatów podobne obrazy dokładne kopie zdjęć czyszczenie pamięci dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Wybierz obrazy, aby znaleźć duplikaty</string>
+    <string name="duplicate_finder_sensitivity">Wrażliwość na podobieństwo</string>
+    <string name="exact_copies">Dokładne kopie</string>
+    <string name="similar_images">Podobne obrazy</string>
+    <string name="select_all_duplicates">Wybierz wszystkie dokładne duplikaty</string>
+    <string name="select_all_except_best">Wybierz wszystkie oprócz zalecanych</string>
+    <string name="no_duplicates_found">Nie znaleziono duplikatów</string>
+    <string name="no_duplicates_found_sub">Spróbuj dodać więcej obrazów lub zwiększyć czułość podobieństwa</string>
+    <string name="duplicate_analysis_errors">Nie można odczytać obrazów %1$d</string>
+    <string name="duplicate_group_summary">%1$s • %2$s podlega recyklingowi</string>
+    <string name="duplicate_groups_summary">grupy %1$d • %2$s podlegają recyklingowi</string>
+    <string name="duplicate_selected_summary">%1$d wybrane • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Tego nie można cofnąć. Android może poprosić Cię o potwierdzenie usunięcia w oknie dialogowym systemu.</string>
+    <string name="not_found">Nie znaleziono</string>
 </resources>

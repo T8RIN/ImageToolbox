@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">ක්ලිප් අතර ප්‍රමාදය (ms)</string>
     <string name="folder_picker">ෆෝල්ඩරය</string>
     <string name="folder_picker_sub">ෆෝල්ඩරයකින් සහ එහි උප ෆෝල්ඩරවලින් සියලුම පින්තූර තෝරන්න</string>
+    <string name="duplicate_finder">අනුපිටපත් සොයන්නා</string>
+    <string name="duplicate_finder_sub">නිවැරදි පිටපත් සහ දෘශ්‍යමය වශයෙන් සමාන රූප සොයන්න</string>
+    <string name="search_keywords_duplicate_finder">අනුපිටපත් සොයන්නා සමාන පින්තූර නියම පිටපත් ඡායාරූප පිරිසිදු කිරීමේ ගබඩාව dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">අනුපිටපත් සොයා ගැනීමට පින්තූර තෝරන්න</string>
+    <string name="duplicate_finder_sensitivity">සමානතා සංවේදීතාව</string>
+    <string name="exact_copies">නියම පිටපත්</string>
+    <string name="similar_images">සමාන රූප</string>
+    <string name="select_all_duplicates">සියලුම නිවැරදි අනුපිටපත් තෝරන්න</string>
+    <string name="select_all_except_best">නිර්දේශිත හැර සියල්ල තෝරන්න</string>
+    <string name="no_duplicates_found">අනුපිටපත් හමු නොවීය</string>
+    <string name="no_duplicates_found_sub">තවත් පින්තූර එකතු කිරීමට හෝ සමානතා සංවේදීතාව වැඩි කිරීමට උත්සාහ කරන්න</string>
+    <string name="duplicate_analysis_errors">%1$d පින්තුර(ය) කියවීමට නොහැකි විය</string>
+    <string name="duplicate_group_summary">%1$s • %2$s නැවත ලබාගත හැක</string>
+    <string name="duplicate_groups_summary">%1$d කණ්ඩායම් • %2$s නැවත ලබාගත හැකි</string>
+    <string name="duplicate_selected_summary">%1$d තෝරාගත් • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">මෙය ආපසු හැරවිය නොහැක. පද්ධති සංවාදයක මකාදැමීම තහවුරු කිරීමට Android ඔබෙන් ඉල්ලා සිටිය හැක.</string>
+    <string name="not_found">හමු වුණේ නැහැ</string>
 </resources>

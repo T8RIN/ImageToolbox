@@ -3716,4 +3716,21 @@
     <string name="delay_between_clips">ความล่าช้าระหว่างคลิป (มิลลิวินาที)</string>
     <string name="folder_picker">โฟลเดอร์</string>
     <string name="folder_picker_sub">เลือกภาพทั้งหมดจากโฟลเดอร์และโฟลเดอร์ย่อย</string>
+    <string name="duplicate_finder">ตัวค้นหาซ้ำ</string>
+    <string name="duplicate_finder_sub">ค้นหาสำเนาที่ตรงกันและรูปภาพที่คล้ายกัน</string>
+    <string name="search_keywords_duplicate_finder">โปรแกรมค้นหาที่ซ้ำกัน รูปภาพที่คล้ายกัน สำเนาถูกต้อง การล้างข้อมูล การจัดเก็บ dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">เลือกภาพเพื่อค้นหารายการที่ซ้ำกัน</string>
+    <string name="duplicate_finder_sensitivity">ความไวต่อความคล้ายคลึงกัน</string>
+    <string name="exact_copies">สำเนาถูกต้อง</string>
+    <string name="similar_images">ภาพที่คล้ายกัน</string>
+    <string name="select_all_duplicates">เลือกรายการที่ซ้ำกันทุกประการ</string>
+    <string name="select_all_except_best">เลือกทั้งหมด ยกเว้นที่แนะนำ</string>
+    <string name="no_duplicates_found">ไม่พบรายการที่ซ้ำกัน</string>
+    <string name="no_duplicates_found_sub">ลองเพิ่มรูปภาพเพิ่มเติมหรือเพิ่มความละเอียดอ่อนของความคล้ายคลึงกัน</string>
+    <string name="duplicate_analysis_errors">ไม่สามารถอ่าน %1$d รูปภาพ</string>
+    <string name="duplicate_group_summary">%1$s • %2$s เรียกคืนได้</string>
+    <string name="duplicate_groups_summary">%1$d กลุ่ม • %2$s เรียกคืนได้</string>
+    <string name="duplicate_selected_summary">%1$d เลือกแล้ว • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">สิ่งนี้ไม่สามารถยกเลิกได้ Android อาจขอให้คุณยืนยันการลบในกล่องโต้ตอบของระบบ</string>
+    <string name="not_found">ไม่พบ</string>
 </resources>

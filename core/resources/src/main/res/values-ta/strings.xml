@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">கிளிப்புகள் இடையே தாமதம் (மிசி)</string>
     <string name="folder_picker">கோப்புறை</string>
     <string name="folder_picker_sub">ஒரு கோப்புறை மற்றும் அதன் துணை கோப்புறைகளில் இருந்து அனைத்து படங்களையும் தேர்ந்தெடுக்கவும்</string>
+    <string name="duplicate_finder">நகல் கண்டுபிடிப்பான்</string>
+    <string name="duplicate_finder_sub">துல்லியமான பிரதிகள் மற்றும் பார்வைக்கு ஒத்த படங்களைக் கண்டறியவும்</string>
+    <string name="search_keywords_duplicate_finder">டூப்ளிகேட் ஃபைண்டர் ஒத்த படங்கள் சரியான பிரதிகள் புகைப்படங்களை சுத்தம் செய்யும் சேமிப்பு dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">நகல்களைக் கண்டறிய படங்களைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="duplicate_finder_sensitivity">ஒற்றுமை உணர்திறன்</string>
+    <string name="exact_copies">சரியான பிரதிகள்</string>
+    <string name="similar_images">ஒத்த படங்கள்</string>
+    <string name="select_all_duplicates">அனைத்து துல்லியமான நகல்களையும் தேர்ந்தெடுக்கவும்</string>
+    <string name="select_all_except_best">பரிந்துரைக்கப்பட்டதைத் தவிர அனைத்தையும் தேர்ந்தெடுக்கவும்</string>
+    <string name="no_duplicates_found">நகல் எதுவும் இல்லை</string>
+    <string name="no_duplicates_found_sub">மேலும் படங்களைச் சேர்க்க அல்லது ஒற்றுமை உணர்திறனை அதிகரிக்க முயற்சிக்கவும்</string>
+    <string name="duplicate_analysis_errors">%1$d படத்தை(களை) படிக்க முடியவில்லை</string>
+    <string name="duplicate_group_summary">%1$s • %2$s மீட்டெடுக்கக்கூடியது</string>
+    <string name="duplicate_groups_summary">%1$d குழுக்கள் • %2$s மீட்டெடுக்கக்கூடியது</string>
+    <string name="duplicate_selected_summary">%1$d தேர்ந்தெடுக்கப்பட்டது • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">இதை செயல்தவிர்க்க முடியாது. கணினி உரையாடலில் நீக்குதலை உறுதிப்படுத்துமாறு Android உங்களிடம் கேட்கலாம்.</string>
+    <string name="not_found">கிடைக்கவில்லை</string>
 </resources>

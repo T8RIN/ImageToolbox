@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Forsinkelse mellem klip (ms)</string>
     <string name="folder_picker">Folder</string>
     <string name="folder_picker_sub">Vælg alle billeder fra en mappe og dens undermapper</string>
+    <string name="duplicate_finder">Duplicate Finder</string>
+    <string name="duplicate_finder_sub">Find nøjagtige kopier og visuelt lignende billeder</string>
+    <string name="search_keywords_duplicate_finder">duplicate finder lignende billeder nøjagtige kopier fotos oprydning opbevaring dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Vælg billeder for at finde dubletter</string>
+    <string name="duplicate_finder_sensitivity">Lighedsfølsomhed</string>
+    <string name="exact_copies">Præcise kopier</string>
+    <string name="similar_images">Lignende billeder</string>
+    <string name="select_all_duplicates">Vælg alle nøjagtige dubletter</string>
+    <string name="select_all_except_best">Vælg alle undtagen anbefalet</string>
+    <string name="no_duplicates_found">Ingen dubletter fundet</string>
+    <string name="no_duplicates_found_sub">Prøv at tilføje flere billeder eller øge lighedsfølsomheden</string>
+    <string name="duplicate_analysis_errors">Kunne ikke læse %1$d billede(r)</string>
+    <string name="duplicate_group_summary">%1$s • %2$s kan kræves tilbage</string>
+    <string name="duplicate_groups_summary">%1$d grupper • %2$s kan kræves tilbage</string>
+    <string name="duplicate_selected_summary">%1$d valgt • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Dette kan ikke fortrydes. Android beder dig muligvis om at bekræfte sletningen i en systemdialog.</string>
+    <string name="not_found">Ikke fundet</string>
 </resources>

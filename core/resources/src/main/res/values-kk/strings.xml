@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Клиптер арасындағы кідіріс (мс)</string>
     <string name="folder_picker">Қалта</string>
     <string name="folder_picker_sub">Қалтадағы және оның ішкі қалталарынан барлық кескіндерді таңдаңыз</string>
+    <string name="duplicate_finder">Қайталанатын іздеу құралы</string>
+    <string name="duplicate_finder_sub">Нақты көшірмелерді және көрнекі ұқсас кескіндерді табыңыз</string>
+    <string name="search_keywords_duplicate_finder">қайталанатын іздеу құралы ұқсас кескіндер дәл көшірмелер фотосуреттерді тазалау сақтау dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Көшірмелерді табу үшін кескіндерді таңдаңыз</string>
+    <string name="duplicate_finder_sensitivity">Ұқсастық сезімталдығы</string>
+    <string name="exact_copies">Нақты көшірмелер</string>
+    <string name="similar_images">Ұқсас суреттер</string>
+    <string name="select_all_duplicates">Барлық нақты көшірмелерді таңдаңыз</string>
+    <string name="select_all_except_best">Ұсынылғаннан басқа барлығын таңдаңыз</string>
+    <string name="no_duplicates_found">Көшірмелер табылмады</string>
+    <string name="no_duplicates_found_sub">Қосымша кескіндерді қосып көріңіз немесе ұқсастық сезімталдығын арттырыңыз</string>
+    <string name="duplicate_analysis_errors">%1$d суретті оқу мүмкін емес</string>
+    <string name="duplicate_group_summary">%1$s • %2$s қалпына келтіруге болады</string>
+    <string name="duplicate_groups_summary">%1$d топтар • %2$s қалпына келтіруге болады</string>
+    <string name="duplicate_selected_summary">%1$d таңдалды • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Бұл әрекетті қайтару мүмкін емес. Android жүйе диалогында жоюды растауды сұрауы мүмкін.</string>
+    <string name="not_found">Табылмады</string>
 </resources>

@@ -3716,4 +3716,21 @@
     <string name="delay_between_clips">클립 간 지연(ms)</string>
     <string name="folder_picker">접는 사람</string>
     <string name="folder_picker_sub">폴더와 하위 폴더에서 모든 이미지를 선택하세요.</string>
+    <string name="duplicate_finder">중복된 파인더</string>
+    <string name="duplicate_finder_sub">정확한 사본과 시각적으로 유사한 이미지 찾기</string>
+    <string name="search_keywords_duplicate_finder">중복 찾기 유사한 이미지 정확한 사본 사진 정리 저장 dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">중복된 이미지를 찾으려면 이미지를 선택하세요.</string>
+    <string name="duplicate_finder_sensitivity">유사성 민감도</string>
+    <string name="exact_copies">정확한 사본</string>
+    <string name="similar_images">유사한 이미지</string>
+    <string name="select_all_duplicates">정확한 중복 항목을 모두 선택하세요.</string>
+    <string name="select_all_except_best">권장사항을 제외한 모두 선택</string>
+    <string name="no_duplicates_found">중복된 항목이 없습니다.</string>
+    <string name="no_duplicates_found_sub">이미지를 더 추가하거나 유사성 민감도를 높여보세요.</string>
+    <string name="duplicate_analysis_errors">%1$d 이미지를 읽을 수 없습니다.</string>
+    <string name="duplicate_group_summary">%1$s • %2$s 회수 가능</string>
+    <string name="duplicate_groups_summary">%1$d 그룹 • %2$s 회수 가능</string>
+    <string name="duplicate_selected_summary">%1$d 선택됨 • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">이 작업은 취소할 수 없습니다. Android는 시스템 대화상자에서 삭제 확인을 요청할 수 있습니다.</string>
+    <string name="not_found">찾을 수 없음</string>
 </resources>

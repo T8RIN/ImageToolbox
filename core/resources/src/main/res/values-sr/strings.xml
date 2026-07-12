@@ -3719,4 +3719,21 @@
     <string name="delay_between_clips">Кашњење између клипова (мс)</string>
     <string name="folder_picker">Фолдер</string>
     <string name="folder_picker_sub">Изаберите све слике из фасцикле и њених потфасцикли</string>
+    <string name="duplicate_finder">Дуплицате Финдер</string>
+    <string name="duplicate_finder_sub">Пронађите тачне копије и визуелно сличне слике</string>
+    <string name="search_keywords_duplicate_finder">проналазач дупликата сличних слика тачне копије фотографија чишћење складиштење дХасх СХА-256</string>
+    <string name="pick_images_for_duplicates">Изаберите слике да бисте пронашли дупликате</string>
+    <string name="duplicate_finder_sensitivity">Осетљивост на сличност</string>
+    <string name="exact_copies">Тачне копије</string>
+    <string name="similar_images">Сличне слике</string>
+    <string name="select_all_duplicates">Изаберите све тачне дупликате</string>
+    <string name="select_all_except_best">Изаберите све осим препоручених</string>
+    <string name="no_duplicates_found">Није пронађен ниједан дупликат</string>
+    <string name="no_duplicates_found_sub">Покушајте да додате више слика или повећате осетљивост на сличност</string>
+    <string name="duplicate_analysis_errors">Није могуће прочитати __ПХ_0__ слике</string>
+    <string name="duplicate_group_summary">__ПХ_0__ • __ПХ_1__ може се повратити</string>
+    <string name="duplicate_groups_summary">__ПХ_0__ групе • __ПХ_1__ које се могу повратити</string>
+    <string name="duplicate_selected_summary">__ПХ_0__ изабрано • __ПХ_1__</string>
+    <string name="confirm_duplicate_deletion_text">Ово се не може поништити. Андроид може од вас тражити да потврдите брисање у системском дијалогу.</string>
+    <string name="not_found">Није пронађено</string>
 </resources>

@@ -3718,4 +3718,21 @@
     <string name="delay_between_clips">A klipek közötti késleltetés (ms)</string>
     <string name="folder_picker">Mappa</string>
     <string name="folder_picker_sub">Válassza ki az összes képet egy mappából és annak almappáiból</string>
+    <string name="duplicate_finder">Duplicate Finder</string>
+    <string name="duplicate_finder_sub">Keressen pontos másolatokat és vizuálisan hasonló képeket</string>
+    <string name="search_keywords_duplicate_finder">másodpéldány kereső hasonló képek pontos másolatok fotók tisztítás tárolás dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Válasszon képeket a másolatok kereséséhez</string>
+    <string name="duplicate_finder_sensitivity">Hasonlóság érzékenység</string>
+    <string name="exact_copies">Pontos másolatok</string>
+    <string name="similar_images">Hasonló képek</string>
+    <string name="select_all_duplicates">Válassza ki az összes pontos másolatot</string>
+    <string name="select_all_except_best">Válassza ki az összeset, kivéve az ajánlottakat</string>
+    <string name="no_duplicates_found">Nem található ismétlődés</string>
+    <string name="no_duplicates_found_sub">Próbáljon meg több képet hozzáadni, vagy növelje a hasonlóság érzékenységét</string>
+    <string name="duplicate_analysis_errors">%1$d kép nem olvasható</string>
+    <string name="duplicate_group_summary">%1$s • %2$s visszaigényelhető</string>
+    <string name="duplicate_groups_summary">%1$d csoport • %2$s visszaigényelhető</string>
+    <string name="duplicate_selected_summary">%1$d kiválasztva • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Ezt nem lehet visszavonni. Az Android rendszer párbeszédpanelen kérheti a törlés megerősítését.</string>
+    <string name="not_found">Nem található</string>
 </resources>

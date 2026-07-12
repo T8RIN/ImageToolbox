@@ -3720,4 +3720,21 @@
     <string name="boomerang_sub">Играйте вперед, а затем назад</string>
     <string name="folder_picker">Папка</string>
     <string name="folder_picker_sub">Выберите все изображения из папки и ее подпапок.</string>
+    <string name="duplicate_finder">Поиск дубликатов</string>
+    <string name="duplicate_finder_sub">Найдите точные копии и визуально похожие изображения</string>
+    <string name="search_keywords_duplicate_finder">Поиск дубликатов похожих изображений точные копии фотографий очистка хранилища dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Выбирайте изображения, чтобы найти дубликаты</string>
+    <string name="duplicate_finder_sensitivity">Чувствительность к сходству</string>
+    <string name="exact_copies">Точные копии</string>
+    <string name="similar_images">Похожие изображения</string>
+    <string name="select_all_duplicates">Выбрать все точные дубликаты</string>
+    <string name="select_all_except_best">Выбрать все, кроме рекомендованных</string>
+    <string name="no_duplicates_found">Дубликатов не обнаружено</string>
+    <string name="no_duplicates_found_sub">Попробуйте добавить больше изображений или повысить чувствительность к сходству.</string>
+    <string name="duplicate_analysis_errors">Не удалось прочитать %1$d изображений.</string>
+    <string name="duplicate_group_summary">%1$s • %2$s подлежит возврату</string>
+    <string name="duplicate_groups_summary">%1$d групп • %2$s можно вернуть</string>
+    <string name="duplicate_selected_summary">%1$d выбрано • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Это невозможно отменить. Android может попросить вас подтвердить удаление в системном диалоговом окне.</string>
+    <string name="not_found">Не найдено</string>
 </resources>

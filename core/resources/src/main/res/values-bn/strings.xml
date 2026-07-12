@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">ক্লিপগুলির মধ্যে বিলম্ব (ms)</string>
     <string name="folder_picker">ফোল্ডার</string>
     <string name="folder_picker_sub">একটি ফোল্ডার এবং এর সাবফোল্ডার থেকে সমস্ত ছবি নির্বাচন করুন</string>
+    <string name="duplicate_finder">ডুপ্লিকেট ফাইন্ডার</string>
+    <string name="duplicate_finder_sub">সঠিক কপি এবং দৃশ্যত অনুরূপ ছবি খুঁজুন</string>
+    <string name="search_keywords_duplicate_finder">ডুপ্লিকেট ফাইন্ডার অনুরূপ ছবি সঠিক কপি ফটো ক্লিনআপ স্টোরেজ dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">সদৃশ খুঁজে পেতে ছবি বাছুন</string>
+    <string name="duplicate_finder_sensitivity">সাদৃশ্য সংবেদনশীলতা</string>
+    <string name="exact_copies">সঠিক কপি</string>
+    <string name="similar_images">অনুরূপ ছবি</string>
+    <string name="select_all_duplicates">সব সঠিক সদৃশ নির্বাচন করুন</string>
+    <string name="select_all_except_best">প্রস্তাবিত ছাড়া সব নির্বাচন করুন</string>
+    <string name="no_duplicates_found">কোন সদৃশ পাওয়া যায়নি</string>
+    <string name="no_duplicates_found_sub">আরও ছবি যোগ করার চেষ্টা করুন বা মিলের সংবেদনশীলতা বাড়ানোর চেষ্টা করুন</string>
+    <string name="duplicate_analysis_errors">%1$d ছবি(গুলি) পড়া যায়নি</string>
+    <string name="duplicate_group_summary">%1$s • %2$s পুনরুদ্ধারযোগ্য</string>
+    <string name="duplicate_groups_summary">%1$d গোষ্ঠী • %2$s পুনরুদ্ধারযোগ্য</string>
+    <string name="duplicate_selected_summary">%1$d নির্বাচিত • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">এটি পূর্বাবস্থায় ফেরানো যাবে না। অ্যান্ড্রয়েড আপনাকে একটি সিস্টেম ডায়ালগে মুছে ফেলা নিশ্চিত করতে বলতে পারে।</string>
+    <string name="not_found">পাওয়া যায়নি</string>
 </resources>

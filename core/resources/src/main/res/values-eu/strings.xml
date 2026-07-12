@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Klipen arteko atzerapena (ms)</string>
     <string name="folder_picker">Karpeta</string>
     <string name="folder_picker_sub">Hautatu karpeta bateko eta bere azpikarpetetako irudi guztiak</string>
+    <string name="duplicate_finder">Bikoiztu bilatzailea</string>
+    <string name="duplicate_finder_sub">Bilatu kopia zehatzak eta ikusmen antzeko irudiak</string>
+    <string name="search_keywords_duplicate_finder">bikoiztu bilatzailea antzeko irudiak kopia zehatzak argazkiak garbiketa biltegiratzea dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Aukeratu irudiak bikoiztuak aurkitzeko</string>
+    <string name="duplicate_finder_sensitivity">Antzeko sentikortasuna</string>
+    <string name="exact_copies">Kopia zehatzak</string>
+    <string name="similar_images">Antzeko irudiak</string>
+    <string name="select_all_duplicates">Hautatu bikoiztu zehatz guztiak</string>
+    <string name="select_all_except_best">Hautatu guztiak gomendatuak izan ezik</string>
+    <string name="no_duplicates_found">Ez da bikoizturik aurkitu</string>
+    <string name="no_duplicates_found_sub">Saiatu irudi gehiago gehitzen edo antzekotasun-sentsibilitatea handitzen</string>
+    <string name="duplicate_analysis_errors">Ezin izan dira irakurri %1$d irudiak</string>
+    <string name="duplicate_group_summary">%1$s • %2$s berreskuragarria</string>
+    <string name="duplicate_groups_summary">%1$d taldeak • %2$s berreskuragarriak</string>
+    <string name="duplicate_selected_summary">%1$d hautatua • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Hau ezin da desegin. Baliteke Android-ek ezabatzea berresteko eskatuko dizu sistemako elkarrizketa-koadro batean.</string>
+    <string name="not_found">Ez da aurkitu</string>
 </resources>

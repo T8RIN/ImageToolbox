@@ -3719,4 +3719,21 @@
     <string name="delay_between_clips">Prodleva mezi klipy (ms)</string>
     <string name="folder_picker">Složka</string>
     <string name="folder_picker_sub">Vyberte všechny obrázky ze složky a jejích podsložek</string>
+    <string name="duplicate_finder">Duplicate Finder</string>
+    <string name="duplicate_finder_sub">Najděte přesné kopie a vizuálně podobné obrázky</string>
+    <string name="search_keywords_duplicate_finder">duplicitní vyhledávač podobné obrázky přesné kopie fotografie čištění úložiště dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Vyberte obrázky a najděte duplikáty</string>
+    <string name="duplicate_finder_sensitivity">Citlivost na podobnost</string>
+    <string name="exact_copies">Přesné kopie</string>
+    <string name="similar_images">Podobné obrázky</string>
+    <string name="select_all_duplicates">Vyberte všechny přesné duplikáty</string>
+    <string name="select_all_except_best">Vyberte vše kromě doporučených</string>
+    <string name="no_duplicates_found">Nebyly nalezeny žádné duplikáty</string>
+    <string name="no_duplicates_found_sub">Zkuste přidat více obrázků nebo zvýšit citlivost na podobnost</string>
+    <string name="duplicate_analysis_errors">Nelze přečíst %1$d obrázky</string>
+    <string name="duplicate_group_summary">%1$s • %2$s lze získat zpět</string>
+    <string name="duplicate_groups_summary">%1$d skupin • %2$s lze získat zpět</string>
+    <string name="duplicate_selected_summary">%1$d vybráno • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Toto nelze vrátit zpět. Android vás může požádat o potvrzení smazání v dialogovém okně systému.</string>
+    <string name="not_found">Nenalezeno</string>
 </resources>

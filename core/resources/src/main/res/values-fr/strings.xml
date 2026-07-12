@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Délai entre les clips (ms)</string>
     <string name="folder_picker">Dossier</string>
     <string name="folder_picker_sub">Sélectionnez toutes les images d\'un dossier et de ses sous-dossiers</string>
+    <string name="duplicate_finder">Recherche de doublons</string>
+    <string name="duplicate_finder_sub">Trouvez des copies exactes et des images visuellement similaires</string>
+    <string name="search_keywords_duplicate_finder">recherche de doublons images similaires copies exactes photos nettoyage stockage dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Choisissez des images pour trouver les doublons</string>
+    <string name="duplicate_finder_sensitivity">Sensibilité à la similarité</string>
+    <string name="exact_copies">Copies exactes</string>
+    <string name="similar_images">Images similaires</string>
+    <string name="select_all_duplicates">Sélectionnez tous les doublons exacts</string>
+    <string name="select_all_except_best">Sélectionner tout sauf recommandé</string>
+    <string name="no_duplicates_found">Aucun doublon trouvé</string>
+    <string name="no_duplicates_found_sub">Essayez d\'ajouter plus d\'images ou d\'augmenter la sensibilité de similarité</string>
+    <string name="duplicate_analysis_errors">Impossible de lire %1$d image(s)</string>
+    <string name="duplicate_group_summary">%1$s • %2$s récupérable</string>
+    <string name="duplicate_groups_summary">%1$d groupes • %2$s récupérables</string>
+    <string name="duplicate_selected_summary">%1$d sélectionné • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Cela ne peut pas être annulé. Android peut vous demander de confirmer la suppression dans une boîte de dialogue système.</string>
+    <string name="not_found">Introuvable</string>
 </resources>

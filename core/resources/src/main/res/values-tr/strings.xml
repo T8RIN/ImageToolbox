@@ -3718,4 +3718,21 @@
     <string name="delay_between_clips">Klipler arasındaki gecikme (ms)</string>
     <string name="folder_picker">Dosya</string>
     <string name="folder_picker_sub">Bir klasördeki ve alt klasörlerindeki tüm görüntüleri seç</string>
+    <string name="duplicate_finder">Yinelenen Bulucu</string>
+    <string name="duplicate_finder_sub">Tam kopyaları ve görsel olarak benzer görselleri bulun</string>
+    <string name="search_keywords_duplicate_finder">yinelenen bulucu benzer görseller tam kopyalar fotoğraf temizleme depolama dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Yinelenenleri bulmak için görselleri seçin</string>
+    <string name="duplicate_finder_sensitivity">Benzerlik duyarlılığı</string>
+    <string name="exact_copies">Tam kopyalar</string>
+    <string name="similar_images">Benzer görseller</string>
+    <string name="select_all_duplicates">Tüm tam kopyaları seç</string>
+    <string name="select_all_except_best">Önerilenler dışında tümünü seç</string>
+    <string name="no_duplicates_found">Kopya bulunamadı</string>
+    <string name="no_duplicates_found_sub">Daha fazla resim eklemeyi veya benzerlik hassasiyetini artırmayı deneyin</string>
+    <string name="duplicate_analysis_errors">%1$d resim okunamadı</string>
+    <string name="duplicate_group_summary">%1$s • %2$s geri kazanılabilir</string>
+    <string name="duplicate_groups_summary">%1$d grup • %2$s geri kazanılabilir</string>
+    <string name="duplicate_selected_summary">%1$d seçildi • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Bu geri alınamaz. Android, sistem iletişim kutusunda silme işlemini onaylamanızı isteyebilir.</string>
+    <string name="not_found">Bulunamadı</string>
 </resources>

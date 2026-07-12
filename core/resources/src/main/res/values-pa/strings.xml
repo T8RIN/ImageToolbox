@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">ਕਲਿੱਪਾਂ ਵਿਚਕਾਰ ਦੇਰੀ (ms)</string>
     <string name="folder_picker">ਫੋਲਡਰ</string>
     <string name="folder_picker_sub">ਇੱਕ ਫੋਲਡਰ ਅਤੇ ਇਸਦੇ ਸਬਫੋਲਡਰ ਤੋਂ ਸਾਰੀਆਂ ਤਸਵੀਰਾਂ ਚੁਣੋ</string>
+    <string name="duplicate_finder">ਡੁਪਲੀਕੇਟ ਖੋਜਕ</string>
+    <string name="duplicate_finder_sub">ਸਟੀਕ ਕਾਪੀਆਂ ਅਤੇ ਦ੍ਰਿਸ਼ਟੀਗਤ ਸਮਾਨ ਚਿੱਤਰ ਲੱਭੋ</string>
+    <string name="search_keywords_duplicate_finder">ਡੁਪਲੀਕੇਟ ਖੋਜੀ ਸਮਾਨ ਚਿੱਤਰਾਂ ਦੀਆਂ ਸਹੀ ਕਾਪੀਆਂ ਫੋਟੋਆਂ ਦੀ ਸਫਾਈ ਸਟੋਰੇਜ਼ dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">ਡੁਪਲੀਕੇਟ ਲੱਭਣ ਲਈ ਚਿੱਤਰ ਚੁਣੋ</string>
+    <string name="duplicate_finder_sensitivity">ਸਮਾਨਤਾ ਸੰਵੇਦਨਸ਼ੀਲਤਾ</string>
+    <string name="exact_copies">ਸਹੀ ਕਾਪੀਆਂ</string>
+    <string name="similar_images">ਮਿਲਦੇ-ਜੁਲਦੇ ਚਿੱਤਰ</string>
+    <string name="select_all_duplicates">ਸਾਰੇ ਸਹੀ ਡੁਪਲੀਕੇਟ ਚੁਣੋ</string>
+    <string name="select_all_except_best">ਸਿਫ਼ਾਰਸ਼ ਕੀਤੇ ਨੂੰ ਛੱਡ ਕੇ ਸਭ ਨੂੰ ਚੁਣੋ</string>
+    <string name="no_duplicates_found">ਕੋਈ ਡੁਪਲੀਕੇਟ ਨਹੀਂ ਮਿਲੇ</string>
+    <string name="no_duplicates_found_sub">ਹੋਰ ਚਿੱਤਰ ਜੋੜਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਸਮਾਨਤਾ ਦੀ ਸੰਵੇਦਨਸ਼ੀਲਤਾ ਵਧਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="duplicate_analysis_errors">%1$d ਚਿੱਤਰ(ਚਿੱਤਰਾਂ) ਨੂੰ ਪੜ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ</string>
+    <string name="duplicate_group_summary">%1$s • %2$s ਮੁੜ ਦਾਅਵਾ ਕਰਨ ਯੋਗ</string>
+    <string name="duplicate_groups_summary">%1$d ਸਮੂਹ • %2$s ਮੁੜ ਦਾਅਵਾ ਕਰਨ ਯੋਗ</string>
+    <string name="duplicate_selected_summary">%1$d ਚੁਣਿਆ ਗਿਆ • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">ਇਸ ਨੂੰ ਅਣਕੀਤਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। Android ਤੁਹਾਨੂੰ ਸਿਸਟਮ ਡਾਇਲਾਗ ਵਿੱਚ ਮਿਟਾਉਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ ਕਹਿ ਸਕਦਾ ਹੈ।</string>
+    <string name="not_found">ਨਹੀਂ ਲਭਿਆ</string>
 </resources>

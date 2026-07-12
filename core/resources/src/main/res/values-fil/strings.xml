@@ -3718,4 +3718,21 @@
     <string name="delay_between_clips">Pagkaantala sa pagitan ng mga clip (ms)</string>
     <string name="folder_picker">Folder</string>
     <string name="folder_picker_sub">Piliin ang lahat ng larawan mula sa isang folder at mga subfolder nito</string>
+    <string name="duplicate_finder">Duplicate Finder</string>
+    <string name="duplicate_finder_sub">Maghanap ng mga eksaktong kopya at mga visual na katulad na larawan</string>
+    <string name="search_keywords_duplicate_finder">duplicate finder katulad na mga larawan eksaktong kopya ng mga larawan sa paglilinis ng storage dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Pumili ng mga larawan upang makahanap ng mga duplicate</string>
+    <string name="duplicate_finder_sensitivity">Sensitivity ng pagkakatulad</string>
+    <string name="exact_copies">Mga eksaktong kopya</string>
+    <string name="similar_images">Mga katulad na larawan</string>
+    <string name="select_all_duplicates">Piliin ang lahat ng eksaktong duplicate</string>
+    <string name="select_all_except_best">Piliin ang lahat maliban sa inirerekomenda</string>
+    <string name="no_duplicates_found">Walang nakitang mga duplicate</string>
+    <string name="no_duplicates_found_sub">Subukang magdagdag ng higit pang mga larawan o pataasin ang pagiging sensitibo ng pagkakatulad</string>
+    <string name="duplicate_analysis_errors">Hindi mabasa ang %1$d (mga) larawan</string>
+    <string name="duplicate_group_summary">%1$s • %2$s maaaring i-reclaim</string>
+    <string name="duplicate_groups_summary">%1$d mga grupo • %2$s na maaaring i-reclaim</string>
+    <string name="duplicate_selected_summary">%1$d pinili • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Hindi na ito maaaring bawiin. Maaaring hilingin sa iyo ng Android na kumpirmahin ang pagtanggal sa isang dialog ng system.</string>
+    <string name="not_found">Hindi Nahanap</string>
 </resources>

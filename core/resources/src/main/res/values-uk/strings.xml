@@ -3719,4 +3719,21 @@
     <string name="delay_between_clips">Затримка між кліпами (мс)</string>
     <string name="folder_picker">Папка</string>
     <string name="folder_picker_sub">Виберіть усі зображення з папки та її вкладених папок</string>
+    <string name="duplicate_finder">Пошук дублікатів</string>
+    <string name="duplicate_finder_sub">Знайдіть точні копії та візуально схожі зображення</string>
+    <string name="search_keywords_duplicate_finder">пошук дублікатів схожі зображення точні копії фотографії очищення зберігання dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Виберіть зображення, щоб знайти дублікати</string>
+    <string name="duplicate_finder_sensitivity">Чутливість до подібності</string>
+    <string name="exact_copies">Точні копії</string>
+    <string name="similar_images">Подібні зображення</string>
+    <string name="select_all_duplicates">Виберіть усі точні копії</string>
+    <string name="select_all_except_best">Виберіть усі, крім рекомендованих</string>
+    <string name="no_duplicates_found">Дублікатів не знайдено</string>
+    <string name="no_duplicates_found_sub">Спробуйте додати більше зображень або збільшити чутливість до схожості</string>
+    <string name="duplicate_analysis_errors">Не вдалося прочитати %1$d зображень</string>
+    <string name="duplicate_group_summary">%1$s • %2$s можна повернути</string>
+    <string name="duplicate_groups_summary">%1$d груп • %2$s можна відновити</string>
+    <string name="duplicate_selected_summary">%1$d вибрано • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Це неможливо скасувати. Android може попросити вас підтвердити видалення в системному діалоговому вікні.</string>
+    <string name="not_found">Не знайдено</string>
 </resources>

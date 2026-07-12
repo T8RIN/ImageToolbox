@@ -3717,4 +3717,21 @@
     <string name="delay_between_clips">Retraso entre clips (ms)</string>
     <string name="folder_picker">Carpeta</string>
     <string name="folder_picker_sub">Seleccionar todas las imágenes de una carpeta y sus subcarpetas</string>
+    <string name="duplicate_finder">Buscador de duplicados</string>
+    <string name="duplicate_finder_sub">Encuentre copias exactas e imágenes visualmente similares</string>
+    <string name="search_keywords_duplicate_finder">buscador de duplicados imágenes similares copias exactas fotos limpieza almacenamiento dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Elija imágenes para encontrar duplicados</string>
+    <string name="duplicate_finder_sensitivity">Sensibilidad a la similitud</string>
+    <string name="exact_copies">Copias exactas</string>
+    <string name="similar_images">Imágenes similares</string>
+    <string name="select_all_duplicates">Seleccionar todos los duplicados exactos</string>
+    <string name="select_all_except_best">Seleccionar todo excepto recomendado</string>
+    <string name="no_duplicates_found">No se encontraron duplicados</string>
+    <string name="no_duplicates_found_sub">Intente agregar más imágenes o aumentar la sensibilidad a la similitud</string>
+    <string name="duplicate_analysis_errors">No se pudieron leer %1$d imágenes</string>
+    <string name="duplicate_group_summary">%1$s • %2$s recuperable</string>
+    <string name="duplicate_groups_summary">%1$d grupos • %2$s recuperable</string>
+    <string name="duplicate_selected_summary">%1$d seleccionado • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Esto no se puede deshacer. Es posible que Android le solicite que confirme la eliminación en un cuadro de diálogo del sistema.</string>
+    <string name="not_found">Extraviado</string>
 </resources>

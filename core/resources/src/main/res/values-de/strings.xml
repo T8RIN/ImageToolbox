@@ -3718,4 +3718,21 @@
     <string name="delay_between_clips">Verzögerung zwischen Clips (ms)</string>
     <string name="folder_picker">Ordner</string>
     <string name="folder_picker_sub">Wählen Sie alle Bilder aus einem Ordner und seinen Unterordnern aus</string>
+    <string name="duplicate_finder">Duplikat-Finder</string>
+    <string name="duplicate_finder_sub">Finden Sie exakte Kopien und optisch ähnliche Bilder</string>
+    <string name="search_keywords_duplicate_finder">Duplikat-Finder, ähnliche Bilder, exakte Kopien, Fotos, Bereinigung, Speicher, dHash SHA-256</string>
+    <string name="pick_images_for_duplicates">Wählen Sie Bilder aus, um Duplikate zu finden</string>
+    <string name="duplicate_finder_sensitivity">Ähnlichkeitsempfindlichkeit</string>
+    <string name="exact_copies">Exakte Kopien</string>
+    <string name="similar_images">Ähnliche Bilder</string>
+    <string name="select_all_duplicates">Wählen Sie alle exakten Duplikate aus</string>
+    <string name="select_all_except_best">Wählen Sie alle außer den empfohlenen aus</string>
+    <string name="no_duplicates_found">Keine Duplikate gefunden</string>
+    <string name="no_duplicates_found_sub">Versuchen Sie, weitere Bilder hinzuzufügen oder die Ähnlichkeitsempfindlichkeit zu erhöhen</string>
+    <string name="duplicate_analysis_errors">%1$d Bild(er) konnten nicht gelesen werden.</string>
+    <string name="duplicate_group_summary">%1$s • %2$s rückforderbar</string>
+    <string name="duplicate_groups_summary">%1$d Gruppen • %2$s rückgewinnbar</string>
+    <string name="duplicate_selected_summary">%1$d ausgewählt • %2$s</string>
+    <string name="confirm_duplicate_deletion_text">Dies kann nicht rückgängig gemacht werden. Android fordert Sie möglicherweise in einem Systemdialog auf, den Löschvorgang zu bestätigen.</string>
+    <string name="not_found">Nicht gefunden</string>
 </resources>
