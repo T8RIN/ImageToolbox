@@ -48,7 +48,7 @@ internal fun rememberFolderImagePicker(
 ): FolderImagePicker {
     val context = LocalComponentActivity.current
     val eventEmitter = LocalImagePickerEventEmitter.current
-    val scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope { Dispatchers.IO }
     val allowMultiple = remember { mutableStateOf(false) }
 
     val folderPicker = rememberFolderPicker(

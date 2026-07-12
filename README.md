@@ -1000,6 +1000,7 @@ or click one of the badges below.
     - Wallpapers Export
     - Ascii Art
     - Batch rename by pattern
+    - Duplicate Finder
 
 **And More!**
 
