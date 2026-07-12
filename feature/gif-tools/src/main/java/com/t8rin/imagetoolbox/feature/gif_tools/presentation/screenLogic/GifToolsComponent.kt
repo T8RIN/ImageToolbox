@@ -49,6 +49,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifConverter
+import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifMergeItem
+import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifMergeParams
 import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifParams
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -88,6 +90,11 @@ class GifToolsComponent @AssistedInject internal constructor(
     private val _params: MutableState<GifParams> = mutableStateOf(GifParams.Default)
     val params by _params
 
+    private val _mergeParams: MutableState<GifMergeParams> = mutableStateOf(GifMergeParams())
+    val mergeParams by _mergeParams
+
+    private val _mergeItems: MutableState<Map<String, GifMergeItem>> = mutableStateOf(emptyMap())
+
     private val _convertedImageUris: MutableState<List<String>> = mutableStateOf(emptyList())
     val convertedImageUris by _convertedImageUris
 
@@ -114,6 +121,15 @@ class GifToolsComponent @AssistedInject internal constructor(
 
     fun setType(type: Screen.GifTools.Type) {
         when (type) {
+            is Screen.GifTools.Type.MergeGif -> {
+                _type.update { type }
+                _mergeItems.update { current ->
+                    type.gifUris.orEmpty().associate { uri ->
+                        uri.toString() to (current[uri.toString()] ?: GifMergeItem(uri.toString()))
+                    }
+                }
+            }
+
             is Screen.GifTools.Type.GifToImage -> {
                 type.gifUri?.let { setGifUri(it) } ?: _type.update { null }
             }
@@ -175,6 +191,8 @@ class GifToolsComponent @AssistedInject internal constructor(
         collectionJob = null
         _type.update { null }
         _convertedImageUris.update { emptyList() }
+        _mergeItems.update { emptyMap() }
+        _mergeParams.update { GifMergeParams() }
         savingJob?.cancel()
         savingJob = null
         updateParams(GifParams.Default)
@@ -200,30 +218,41 @@ class GifToolsComponent @AssistedInject internal constructor(
         savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
-            val imageUris = (type as? Screen.GifTools.Type.ImageToGif)
-                ?.imageUris
-                ?.map(Uri::toString)
-                ?: run {
-                    _isSaving.value = false
-                    return@trackProgress
-                }
-            _left.value = imageUris.size
-            gifConverter.createGifFromImageUris(
-                imageUris = imageUris,
-                params = params,
-                onProgress = {
-                    _done.update { it + 1 }
-                    updateProgress(
-                        done = done,
-                        total = left
+            val progress = {
+                _done.update { it + 1 }
+                updateProgress(done = done, total = left)
+            }
+            val failure: (Throwable) -> Unit = {
+                parseSaveResults(listOf(SaveResult.Error.Exception(it)))
+            }
+            val gifUri = when (val type = type) {
+                is Screen.GifTools.Type.ImageToGif -> {
+                    val imageUris = type.imageUris.orEmpty().map(Uri::toString)
+                    _left.value = imageUris.size
+                    gifConverter.createGifFromImageUris(
+                        imageUris = imageUris,
+                        params = params,
+                        onProgress = progress,
+                        onFailure = failure
                     )
-                },
-                onFailure = {
-                    parseSaveResults(listOf(SaveResult.Error.Exception(it)))
                 }
-            )?.let { gifUri ->
+
+                is Screen.GifTools.Type.MergeGif -> {
+                    val items = type.mergeItems()
+                    _left.value = items.size
+                    gifConverter.mergeGifs(
+                        items = items,
+                        params = mergeParams,
+                        onProgress = progress,
+                        onFailure = failure
+                    )
+                }
+
+                else -> null
+            }
+            gifUri?.let {
                 fileController.transferBytes(
-                    fromUri = gifUri,
+                    fromUri = it,
                     toUri = uri.toString()
                 ).also(::parseFileSaveResult).onSuccess(::registerSave)
             }
@@ -239,6 +268,8 @@ class GifToolsComponent @AssistedInject internal constructor(
             _left.value = 1
             _done.value = 0
             when (val type = _type.value) {
+                is Screen.GifTools.Type.MergeGif -> Unit
+
                 is Screen.GifTools.Type.GifToImage -> {
                     val results = mutableListOf<SaveResult>()
                     type.gifUri?.toString()?.also { gifUri ->
@@ -436,6 +467,53 @@ class GifToolsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun reorderMergeUris(uris: List<Uri>) {
+        if (type is Screen.GifTools.Type.MergeGif) {
+            _type.update { Screen.GifTools.Type.MergeGif(uris) }
+            registerChanges()
+        }
+    }
+
+    fun addMergeUris(uris: List<Uri>) {
+        val type = type as? Screen.GifTools.Type.MergeGif ?: return
+        setType(
+            Screen.GifTools.Type.MergeGif(
+                type.gifUris.orEmpty().plus(uris).distinct()
+            )
+        )
+        registerChanges()
+    }
+
+    fun removeMergeUriAt(index: Int) {
+        val type = type as? Screen.GifTools.Type.MergeGif ?: return
+        setType(
+            Screen.GifTools.Type.MergeGif(
+                type.gifUris.orEmpty().toMutableList().apply { removeAt(index) }
+            )
+        )
+        registerChanges()
+    }
+
+    fun updateMergeItem(uri: Uri, reverse: Boolean? = null, boomerang: Boolean? = null) {
+        _mergeItems.update { items ->
+            val key = uri.toString()
+            val item = items[key] ?: GifMergeItem(key)
+            items + (key to item.copy(
+                reverse = reverse ?: item.reverse,
+                boomerang = boomerang ?: item.boomerang
+            ))
+        }
+        registerChanges()
+    }
+
+    fun mergeItem(uri: Uri): GifMergeItem =
+        _mergeItems.value[uri.toString()] ?: GifMergeItem(uri.toString())
+
+    fun updateMergeParams(params: GifMergeParams) {
+        _mergeParams.update { params }
+        registerChanges()
+    }
+
     fun addImageToUris(uris: List<Uri>) {
         val type = _type.value
         if (type is Screen.GifTools.Type.ImageToGif) {
@@ -482,6 +560,26 @@ class GifToolsComponent @AssistedInject internal constructor(
             _left.value = 1
             _done.value = 0
             when (val type = _type.value) {
+                is Screen.GifTools.Type.MergeGif -> {
+                    val items = type.mergeItems()
+                    _left.value = items.size
+                    gifConverter.mergeGifs(
+                        items = items,
+                        params = mergeParams,
+                        onProgress = {
+                            _done.update { it + 1 }
+                            updateProgress(done = done, total = left)
+                        },
+                        onFailure = AppToastHost::showFailureToast
+                    )?.also { uri ->
+                        shareProvider.shareUri(
+                            uri = uri,
+                            type = ImageFormat.Gif.mimeType,
+                            onComplete = AppToastHost::showConfetti
+                        )
+                    }
+                }
+
                 is Screen.GifTools.Type.GifToImage -> {
                     _left.value = -1
                     val positions =
@@ -590,6 +688,9 @@ class GifToolsComponent @AssistedInject internal constructor(
         }
         registerChanges()
     }
+
+    private fun Screen.GifTools.Type.MergeGif.mergeItems(): List<GifMergeItem> =
+        gifUris.orEmpty().map { mergeItem(it) }
 
     @AssistedFactory
     fun interface Factory {

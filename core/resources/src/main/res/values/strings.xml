@@ -3731,4 +3731,14 @@
     <string name="cache_auto_clear_after_week">1 week</string>
     <string name="cache_auto_clear_after_month">1 month</string>
     <string name="auto_cache_clearing_sub">Clear the app cache automatically according to the selected limit and interval</string>
+    <string name="gif_type_merge">Merge GIF</string>
+    <string name="gif_type_merge_sub">Combine multiple GIF clips into one animation</string>
+    <string name="gif_clips_order">GIF clips order</string>
+    <string name="reverse">Reverse</string>
+    <string name="reverse_sub">Play as reversed</string>
+    <string name="boomerang">Boomerang</string>
+    <string name="boomerang_sub">Play forward and then backward</string>
+    <string name="normalize_gif_frames">Normalize frame size</string>
+    <string name="normalize_gif_frames_sub">Scale frames to fit the largest clip; turn off to preserve their original scale</string>
+    <string name="delay_between_clips">Delay between clips (ms)</string>
 </resources>

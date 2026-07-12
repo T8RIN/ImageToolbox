@@ -54,6 +54,8 @@ internal fun GifToolsImagePreview(
                 EnhancedLoadingIndicator()
             } else {
                 when (type) {
+                    is Screen.GifTools.Type.MergeGif -> Unit
+
                     is Screen.GifTools.Type.GifToImage -> {
                         ImagesPreviewWithSelection(
                             imageUris = component.convertedImageUris,

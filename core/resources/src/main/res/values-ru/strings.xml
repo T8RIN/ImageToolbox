@@ -3708,4 +3708,12 @@
     <string name="auto_cache_clearing_sub">Очищайте кеш приложения автоматически в соответствии с выбранным лимитом и интервалом.</string>
     <string name="crop_overlay_draggable">Передвижная зона обрезки</string>
     <string name="crop_overlay_draggable_sub">Позволяет перемещать всю область обрезки, перетаскивая ее внутри</string>
+    <string name="gif_type_merge">Объединить GIF</string>
+    <string name="gif_type_merge_sub">Объединение нескольких GIF-фрагментов в одну анимацию</string>
+    <string name="gif_clips_order">Порядок GIF-фрагментов</string>
+    <string name="reverse">Реверс</string>
+    <string name="boomerang">Бумеранг</string>
+    <string name="normalize_gif_frames">Нормализовать размер кадров</string>
+    <string name="normalize_gif_frames_sub">Масштабировать кадры по самому большому фрагменту; выключите, чтобы сохранить исходный масштаб</string>
+    <string name="delay_between_clips">Задержка между фрагментами (мс)</string>
 </resources>

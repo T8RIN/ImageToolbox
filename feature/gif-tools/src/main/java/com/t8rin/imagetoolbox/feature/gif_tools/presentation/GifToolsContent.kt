@@ -75,6 +75,22 @@ fun GifToolsContent(
         }
     )
 
+    val pickMultipleGifToMergeLauncher = rememberFilePicker(
+        mimeType = MimeType.Gif,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isGif).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Rounded.Gif
+                    )
+                } else {
+                    component.setType(Screen.GifTools.Type.MergeGif(uris.distinct()))
+                }
+            }
+        }
+    )
+
     val pickMultipleGifToJxlLauncher = rememberFilePicker(
         mimeType = MimeType.Gif,
         onSuccess = { list: List<Uri> ->
@@ -194,7 +210,7 @@ fun GifToolsContent(
         },
         actions = {
             ShareButton(
-                enabled = !component.isLoading && component.type != null,
+                enabled = !component.isLoading && component.canSave,
                 onShare = component::performSharing
             )
         },
@@ -205,7 +221,8 @@ fun GifToolsContent(
                 onAddGifsToWebp = addGifsToWebpLauncher::pickFile
             )
         },
-        placeImagePreview = component.type !is Screen.GifTools.Type.ImageToGif,
+        placeImagePreview = component.type !is Screen.GifTools.Type.ImageToGif &&
+                component.type !is Screen.GifTools.Type.MergeGif,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
@@ -217,7 +234,9 @@ fun GifToolsContent(
         ).value,
         buttons = { actions ->
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
-                if (component.type is Screen.GifTools.Type.ImageToGif) {
+                if (component.type is Screen.GifTools.Type.ImageToGif ||
+                    component.type is Screen.GifTools.Type.MergeGif
+                ) {
                     saveGifLauncher.make(component.createTargetFilename())
                 } else {
                     component.saveBitmaps(oneTimeSaveLocationUri = it)
@@ -234,6 +253,7 @@ fun GifToolsContent(
                 isNoData = component.type == null,
                 onSecondaryButtonClick = {
                     when (component.type) {
+                        is Screen.GifTools.Type.MergeGif -> pickMultipleGifToMergeLauncher.pickFile()
                         is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.pickFile()
                         is Screen.GifTools.Type.GifToJxl -> pickMultipleGifToJxlLauncher.pickFile()
                         is Screen.GifTools.Type.GifToWebp -> pickMultipleGifToWebpLauncher.pickFile()
@@ -245,7 +265,9 @@ fun GifToolsContent(
                     saveBitmaps(null)
                 },
                 onPrimaryButtonLongClick = {
-                    if (component.type is Screen.GifTools.Type.ImageToGif) {
+                    if (component.type is Screen.GifTools.Type.ImageToGif ||
+                        component.type is Screen.GifTools.Type.MergeGif
+                    ) {
                         saveBitmaps(null)
                     } else showFolderSelectionDialog = true
                 },
@@ -277,6 +299,7 @@ fun GifToolsContent(
             GifToolsNoDataControls(
                 onClickType = { type ->
                     when (type) {
+                        is Screen.GifTools.Type.MergeGif -> pickMultipleGifToMergeLauncher.pickFile()
                         is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.pickFile()
                         is Screen.GifTools.Type.GifToJxl -> pickMultipleGifToJxlLauncher.pickFile()
                         is Screen.GifTools.Type.GifToWebp -> pickMultipleGifToWebpLauncher.pickFile()
@@ -303,6 +326,11 @@ fun GifToolsContent(
 }
 
 private val GifToolsComponent.canSave: Boolean
-    get() = (gifFrames == ImageFrames.All)
-        .or(type is Screen.GifTools.Type.ImageToGif)
-        .or((gifFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+    get() = when (val type = type) {
+        is Screen.GifTools.Type.MergeGif -> type.gifUris.orEmpty().size >= 2
+        is Screen.GifTools.Type.GifToImage -> gifFrames == ImageFrames.All ||
+                (gifFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true
+
+        null -> false
+        else -> true
+    }

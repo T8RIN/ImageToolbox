@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,21 @@
 package com.t8rin.imagetoolbox.feature.gif_tools.presentation.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -95,6 +93,17 @@ internal fun GifToolsNoDataControls(
             }
         )
     }
+    val preference5 = @Composable {
+        PreferenceItem(
+            title = stringResource(types[4].title),
+            subtitle = stringResource(types[4].subtitle),
+            startIcon = types[4].icon,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                onClickType(types[4])
+            }
+        )
+    }
     if (isPortrait) {
         Column {
             preference1()
@@ -104,31 +113,30 @@ internal fun GifToolsNoDataControls(
             preference3()
             Spacer(modifier = Modifier.height(8.dp))
             preference4()
+            Spacer(modifier = Modifier.height(8.dp))
+            preference5()
         }
     } else {
-        val direction = LocalLayoutDirection.current
-        val cutout = WindowInsets.displayCutout.asPaddingValues().let {
-            PaddingValues(
-                start = it.calculateStartPadding(direction),
-                end = it.calculateEndPadding(direction)
-            )
-        }
+        val cutout = WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal).asPaddingValues()
 
-        Column {
-            Row(
-                modifier = Modifier.padding(cutout)
-            ) {
+        Column(
+            Modifier.padding(cutout)
+        ) {
+            Row {
                 preference1.withModifier(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.width(8.dp))
                 preference2.withModifier(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.padding(cutout)
-            ) {
+            Row {
                 preference3.withModifier(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.width(8.dp))
                 preference4.withModifier(modifier = Modifier.weight(1f))
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row {
+                preference5.withModifier(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(1f))
             }
         }
     }

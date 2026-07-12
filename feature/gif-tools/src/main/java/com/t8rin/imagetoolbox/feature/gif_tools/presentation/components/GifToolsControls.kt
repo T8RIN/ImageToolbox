@@ -33,6 +33,8 @@ import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifTool
 @Composable
 internal fun GifToolsControls(component: GifToolsComponent) {
     when (val type = component.type) {
+        is Screen.GifTools.Type.MergeGif -> GifMergeControls(component, type)
+
         is Screen.GifTools.Type.GifToImage -> {
             Spacer(modifier = Modifier.height(16.dp))
             ImageFormatSelector(

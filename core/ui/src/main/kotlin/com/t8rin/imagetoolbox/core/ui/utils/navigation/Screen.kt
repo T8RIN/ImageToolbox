@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
 import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
+import com.t8rin.imagetoolbox.core.resources.icons.CompareArrows
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.FilePresent
 import com.t8rin.imagetoolbox.core.resources.icons.Gif
@@ -660,6 +661,7 @@ sealed class Screen(
 
             val icon: ImageVector
                 get() = when (this) {
+                    is MergeGif -> Icons.Rounded.CompareArrows
                     is GifToImage -> Icons.Outlined.ArtTrack
                     is GifToJxl -> Icons.Filled.Jxl
                     is ImageToGif -> Icons.Rounded.Gif
@@ -672,6 +674,14 @@ sealed class Screen(
             ) : Type(
                 title = R.string.gif_type_to_image,
                 subtitle = R.string.gif_type_to_image_sub
+            )
+
+            @Serializable
+            data class MergeGif(
+                val gifUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.gif_type_merge,
+                subtitle = R.string.gif_type_merge_sub
             )
 
             @Serializable
@@ -704,7 +714,8 @@ sealed class Screen(
                         ImageToGif(),
                         GifToImage(),
                         GifToJxl(),
-                        GifToWebp()
+                        GifToWebp(),
+                        MergeGif(),
                     )
                 }
             }

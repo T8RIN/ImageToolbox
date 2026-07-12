@@ -39,6 +39,13 @@ interface GifConverter {
         onProgress: () -> Unit
     ): String?
 
+    suspend fun mergeGifs(
+        items: List<GifMergeItem>,
+        params: GifMergeParams,
+        onFailure: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): String?
+
     suspend fun convertGifToJxl(
         gifUris: List<String>,
         quality: Quality.Jxl,
