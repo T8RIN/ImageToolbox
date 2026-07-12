@@ -56,6 +56,8 @@ import com.t8rin.imagetoolbox.core.settings.domain.toSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asColorTuple
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication.Companion.wrap
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.LocalImagePickerEventEmitter
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePickerEventEmitter
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.adjustFontSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
@@ -176,6 +178,7 @@ abstract class ComposeActivity : AppCompatActivity() {
                 LocalSimpleSettingsInteractor provides settingsManager.toSimpleSettingsInteractor(),
                 LocalMetadataProvider provides fileController.toMetadataProvider(),
                 LocalKeepAliveService provides keepAliveService,
+                LocalImagePickerEventEmitter provides rememberImagePickerEventEmitter(),
                 LocalResourceManager provides resourceManager,
                 LocalWindowSizeClass provides calculateWindowSizeClass(this),
                 content = ::Content

@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberEditPresetsController
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeSurface
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHost
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePickerEventsHandler
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberFilterPreviewProvider
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberSafeUriHandler
@@ -102,6 +103,8 @@ fun ImageToolboxCompositionLocals(
                 )
 
                 ConfettiHost()
+
+                ImagePickerEventsHandler()
 
                 ToastHost()
             }

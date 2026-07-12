@@ -3741,4 +3741,6 @@
     <string name="normalize_gif_frames">Normalize frame size</string>
     <string name="normalize_gif_frames_sub">Scale frames to fit the largest clip; turn off to preserve their original scale</string>
     <string name="delay_between_clips">Delay between clips (ms)</string>
+    <string name="folder_picker">Folder</string>
+    <string name="folder_picker_sub">Select all images from a folder and its subfolders</string>
 </resources>

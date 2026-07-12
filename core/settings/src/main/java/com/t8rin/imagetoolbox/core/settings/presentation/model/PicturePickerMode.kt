@@ -18,10 +18,11 @@
 package com.t8rin.imagetoolbox.core.settings.presentation.model
 
 import android.os.Build
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderImage
+import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEmbedded
 import com.t8rin.imagetoolbox.core.resources.icons.ImagesMode
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoCameraBack
@@ -68,6 +69,13 @@ sealed class PicturePickerMode(
         subtitle = R.string.camera_sub
     )
 
+    data object Folder : PicturePickerMode(
+        ordinal = 5,
+        icon = Icons.Outlined.FolderOpen,
+        title = R.string.folder_picker,
+        subtitle = R.string.folder_picker_sub
+    )
+
     companion object {
 
         val SafeEmbedded by lazy {
@@ -84,12 +92,13 @@ sealed class PicturePickerMode(
             2 -> Gallery
             3 -> GetContent
             4 -> CameraCapture
+            5 -> Folder
             else -> SafeEmbedded
         }
 
         val entries by lazy {
             listOf(
-                SafeEmbedded, PhotoPicker, Gallery, GetContent, CameraCapture
+                SafeEmbedded, PhotoPicker, Gallery, GetContent, CameraCapture, Folder
             ).distinct()
         }
     }

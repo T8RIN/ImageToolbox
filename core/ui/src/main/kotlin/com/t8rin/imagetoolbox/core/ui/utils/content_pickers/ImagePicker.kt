@@ -67,6 +67,7 @@ private class ImagePickerImpl(
     private val photoPickerMultiple: ManagedActivityResultLauncher<PickVisualMediaRequest, List<Uri>>,
     private val getContent: ManagedActivityResultLauncher<Intent, ActivityResult>,
     private val takePhoto: ManagedActivityResultLauncher<Uri, Boolean>,
+    private val folderPicker: FolderImagePicker,
     private val onCreateTakePhotoUri: (Uri) -> Unit,
     private val imageExtension: String,
     private val onFailure: (Throwable) -> Unit,
@@ -151,6 +152,9 @@ private class ImagePickerImpl(
                 )
             )
         }
+        val folderAction = {
+            folderPicker.pickFolder()
+        }
 
         mode.makeLog("Image Picker Start")
 
@@ -168,6 +172,8 @@ private class ImagePickerImpl(
 
                 ImagePickerMode.Embedded,
                 ImagePickerMode.EmbeddedMultiple -> embeddedAction()
+
+                ImagePickerMode.Folder -> folderAction()
             }
         }.onFailure {
             it.makeLog("Image Picker Failure")
@@ -190,6 +196,7 @@ private class ImagePickerImpl(
             PicturePickerMode.Gallery -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
             PicturePickerMode.GetContent -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
             PicturePickerMode.CameraCapture -> ImagePickerMode.CameraCapture
+            PicturePickerMode.Folder -> ImagePickerMode.Folder
         }
 
         val basePicker = ImagePickerImpl(
@@ -200,6 +207,7 @@ private class ImagePickerImpl(
             photoPickerMultiple = photoPickerMultiple,
             getContent = getContent,
             takePhoto = takePhoto,
+            folderPicker = folderPicker,
             onCreateTakePhotoUri = onCreateTakePhotoUri,
             imageExtension = imageExtension,
             onFailure = onFailure
@@ -233,7 +241,8 @@ enum class ImagePickerMode {
     GalleryMultiple,
     GetContentSingle,
     GetContentMultiple,
-    CameraCapture
+    CameraCapture,
+    Folder
 }
 
 enum class Picker {
@@ -255,6 +264,7 @@ fun localImagePickerMode(
                 PicturePickerMode.Gallery -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
                 PicturePickerMode.GetContent -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
                 PicturePickerMode.CameraCapture -> ImagePickerMode.CameraCapture
+                PicturePickerMode.Folder -> ImagePickerMode.Folder
             }
         }
     }.value
@@ -310,6 +320,10 @@ fun rememberImagePicker(
 ): ImagePicker {
     val scope = rememberCoroutineScope()
     val context = LocalComponentActivity.current
+    val folderPicker = rememberFolderImagePicker(
+        onFailure = onFailure,
+        onSuccess = onSuccess
+    )
 
     val photoPickerSingle = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -405,6 +419,7 @@ fun rememberImagePicker(
         photoPickerMultiple,
         getContent,
         takePhoto,
+        folderPicker,
         mode
     ) {
         derivedStateOf {
@@ -416,6 +431,7 @@ fun rememberImagePicker(
                 photoPickerMultiple = photoPickerMultiple,
                 getContent = getContent,
                 takePhoto = takePhoto,
+                folderPicker = folderPicker,
                 onCreateTakePhotoUri = {
                     takePhotoUri = it
                 },
