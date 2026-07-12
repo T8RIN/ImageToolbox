@@ -119,14 +119,29 @@ class DuplicateFinderDomainTest {
     @Test
     fun sensitivityIsClampedAndInclusiveAtBoundary() {
         assertEquals(0, DuplicateGrouping.normalizeSensitivity(-1))
-        assertEquals(12, DuplicateGrouping.normalizeSensitivity(99))
+        assertEquals(
+            DuplicateGrouping.MAX_SENSITIVITY,
+            DuplicateGrouping.normalizeSensitivity(99)
+        )
 
         val first = item(uri = "first", sha256 = "a", dHash = 0L)
-        val second = item(uri = "second", sha256 = "b", dHash = (1L shl 12) - 1)
-        assertTrue(DuplicateGrouping.regroup(listOf(first, second), sensitivity = 11).isEmpty())
+        val second = item(
+            uri = "second",
+            sha256 = "b",
+            dHash = (1L shl DuplicateGrouping.MAX_SENSITIVITY) - 1
+        )
+        assertTrue(
+            DuplicateGrouping.regroup(
+                listOf(first, second),
+                sensitivity = DuplicateGrouping.MAX_SENSITIVITY - 1
+            ).isEmpty()
+        )
         assertEquals(
             DuplicateType.Similar,
-            DuplicateGrouping.regroup(listOf(first, second), sensitivity = 12).single().type
+            DuplicateGrouping.regroup(
+                listOf(first, second),
+                sensitivity = DuplicateGrouping.MAX_SENSITIVITY
+            ).single().type
         )
     }
 

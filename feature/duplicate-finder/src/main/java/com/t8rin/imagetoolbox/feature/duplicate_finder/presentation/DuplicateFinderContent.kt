@@ -40,6 +40,7 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Refresh
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
@@ -53,6 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
@@ -82,6 +84,20 @@ fun DuplicateFinderContent(
     var previewUri by rememberSaveable { mutableStateOf<String?>(null) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
+    val refreshButton = @Composable {
+        if (component.sourceUris.isNotEmpty()) {
+            EnhancedIconButton(
+                onClick = component::analyze,
+                enabled = !component.isAnalyzing && !component.isDeleting
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Refresh,
+                    contentDescription = stringResource(R.string.refresh)
+                )
+            }
+        }
+    }
+
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = component.sourceUris.isEmpty(),
         onGoBack = {
@@ -96,6 +112,10 @@ fun DuplicateFinderContent(
         },
         actions = {},
         topAppBarPersistentActions = {
+            if (!isPortrait) {
+                refreshButton()
+            }
+
             if (component.groups.isNotEmpty()) {
                 DuplicateSelectionActions(
                     selectedCount = component.selectedUris.size,
@@ -146,7 +166,6 @@ fun DuplicateFinderContent(
                 onSecondaryButtonClick = pickImages,
                 onPrimaryButtonClick = { showDeleteConfirmation = true },
                 primaryButtonIcon = Icons.Outlined.Delete,
-                primaryButtonText = stringResource(R.string.delete_selected_duplicates),
                 isPrimaryButtonEnabled = component.selectedUris.isNotEmpty() && !component.isDeleting,
                 actions = {
                     AnimatedVisibility(component.selectedUris.isNotEmpty()) {
@@ -169,6 +188,9 @@ fun DuplicateFinderContent(
                             )
                         }
                     }
+                    if (isPortrait) {
+                        refreshButton()
+                    }
                 },
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
@@ -190,7 +212,8 @@ fun DuplicateFinderContent(
         visible = component.isAnalyzing,
         progress = { progress?.fraction ?: 1f },
         loaderSize = 72.dp,
-        canCancel = false,
+        canCancel = true,
+        onCancelLoading = component::cancelAnalysis,
         additionalContent = { size ->
             AutoSizeText(
                 text = "${progress?.processed ?: 0} / ${progress?.total ?: component.sourceUris.size}",
@@ -215,7 +238,7 @@ fun DuplicateFinderContent(
                 contentDescription = null
             )
         },
-        title = { Text(stringResource(R.string.confirm_duplicate_deletion_title)) },
+        title = { Text(stringResource(R.string.delete)) },
         text = {
             Text(stringResource(R.string.confirm_duplicate_deletion_text))
         },

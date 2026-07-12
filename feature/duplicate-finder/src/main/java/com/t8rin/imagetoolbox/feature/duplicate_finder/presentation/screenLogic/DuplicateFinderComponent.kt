@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.distinctUris
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.DuplicateFinder
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGrouping
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateAnalysisProgress
@@ -103,23 +104,25 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     }
 
     fun setUris(uris: List<Uri>) {
-        val distinctUris = uris.distinct()
-        _sourceUris.value = distinctUris
-        _selectedUris.value = emptySet()
-        if (distinctUris.isEmpty()) {
-            cancelAnalysis()
-            _analysisResult.value = null
-            _groups.value = emptyList()
-        } else {
-            analyze()
+        componentScope.launch {
+            val distinctUris = uris.distinctUris()
+            _sourceUris.value = distinctUris
+            _selectedUris.value = emptySet()
+            if (distinctUris.isEmpty()) {
+                cancelAnalysis()
+                _analysisResult.value = null
+                _groups.value = emptyList()
+            } else {
+                analyze()
+            }
         }
     }
 
     fun addUris(uris: List<Uri>) {
-        setUris((sourceUris + uris).distinct())
+        setUris(sourceUris + uris)
     }
 
-    private fun analyze() {
+    fun analyze() {
         if (sourceUris.isEmpty()) return
 
         val requestedUris = sourceUris.map(Uri::toString)

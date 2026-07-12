@@ -23,9 +23,11 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
+import android.os.ParcelFileDescriptor
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.system.Os
 import android.webkit.MimeTypeMap
 import androidx.core.net.toFile
 import androidx.core.net.toUri
@@ -44,6 +46,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import java.io.File
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.LinkedList
@@ -250,6 +253,63 @@ fun Uri.tryExtractOriginal(): Uri = UriReplacements.resolve(this).run {
         e.makeLog("tryExtractOriginal")
         this.makeLog("tryExtractOriginal") { "failed - $it" }
     }
+}
+
+fun List<Uri>.distinctUris(): List<Uri> {
+    val identities = HashSet<UriIdentity>(size)
+
+    return filter { uri ->
+        identities.add(uri.uriIdentity())
+    }
+}
+
+private fun Uri.uriIdentity(): UriIdentity {
+    val normalizedUri = tryExtractOriginal()
+
+    normalizedUri.fileDescriptorIdentity()?.let {
+        return it
+    }
+
+    if (normalizedUri.scheme == ContentResolver.SCHEME_FILE) {
+        normalizedUri.path?.let(::File)?.let { file ->
+            return UriIdentity.FilePath(
+                runCatching { file.canonicalPath }.getOrDefault(file.absolutePath)
+            )
+        }
+    }
+
+    return UriIdentity.NormalizedUri(normalizedUri.normalizeScheme().toString())
+}
+
+private fun Uri.fileDescriptorIdentity(): UriIdentity.FileDescriptor? = runCatching {
+    openFileDescriptor()?.use { descriptor ->
+        Os.fstat(descriptor.fileDescriptor).let { stat ->
+            UriIdentity.FileDescriptor(
+                device = stat.st_dev,
+                inode = stat.st_ino
+            ).takeIf { stat.st_ino != 0L }
+        }
+    }
+}.getOrNull()
+
+private fun Uri.openFileDescriptor(): ParcelFileDescriptor? = when (scheme) {
+    ContentResolver.SCHEME_FILE -> path?.let(::File)?.let { file ->
+        ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+    }
+
+    ContentResolver.SCHEME_CONTENT -> appContext.contentResolver.openFileDescriptor(this, "r")
+    else -> null
+}
+
+private sealed interface UriIdentity {
+    data class FileDescriptor(
+        val device: Long,
+        val inode: Long
+    ) : UriIdentity
+
+    data class FilePath(val path: String) : UriIdentity
+
+    data class NormalizedUri(val uri: String) : UriIdentity
 }
 
 suspend fun List<Uri>.sortedByType(

@@ -3758,8 +3758,6 @@
     <string name="duplicate_group_summary">%1$s • %2$s reclaimable</string>
     <string name="duplicate_groups_summary">%1$d groups • %2$s reclaimable</string>
     <string name="duplicate_selected_summary">%1$d selected • %2$s</string>
-    <string name="delete_selected_duplicates">Delete selected</string>
-    <string name="confirm_duplicate_deletion_title">Delete selected images?</string>
     <string name="confirm_duplicate_deletion_text">This cannot be undone. Android may ask you to confirm deletion in a system dialog.</string>
     <string name="not_found">Not Found</string>
 </resources>

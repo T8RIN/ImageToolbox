@@ -34,6 +34,8 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.utils.UriReplacements
+import com.t8rin.imagetoolbox.core.utils.distinctUris
+import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -72,7 +74,10 @@ internal class OriginalFileDeletionHelper @Inject constructor(
         uris: List<String>,
         onResult: (FileDeletionResult) -> Unit
     ) {
-        val distinctUris = uris.distinct()
+        val distinctUris = uris
+            .map { it.toUri().tryExtractOriginal() }
+            .distinctUris()
+            .map(Uri::toString)
         if (distinctUris.isEmpty()) {
             onResult(FileDeletionResult(emptyList(), emptyList()))
             return
@@ -80,7 +85,13 @@ internal class OriginalFileDeletionHelper @Inject constructor(
 
         val batch = DeleteBatch(
             size = distinctUris.size,
-            onResult = onResult
+            onResult = { result ->
+                emitDeleteResult(
+                    deleted = result.deletedUris.size,
+                    failed = result.failedUris.size
+                )
+                onResult(result)
+            }
         )
         appScope.launch {
             distinctUris.forEach { source ->
@@ -90,10 +101,6 @@ internal class OriginalFileDeletionHelper @Inject constructor(
                     DeleteOperation(
                         originalUri = resolvedUri,
                         onResult = { deleted ->
-                            emitDeleteResult(
-                                deleted = if (deleted) 1 else 0,
-                                failed = if (deleted) 0 else 1
-                            )
                             batch.complete(source, deleted)
                         }
                     )

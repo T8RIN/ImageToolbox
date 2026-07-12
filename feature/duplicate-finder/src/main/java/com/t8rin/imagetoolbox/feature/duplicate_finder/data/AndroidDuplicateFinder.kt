@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
+import com.t8rin.imagetoolbox.core.utils.distinctUris
 import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
@@ -61,7 +62,10 @@ internal class AndroidDuplicateFinder @Inject constructor(
         sensitivity: Int,
         onProgress: (DuplicateAnalysisProgress) -> Unit
     ): DuplicateAnalysisResult = withContext(defaultDispatcher) {
-        val targetUris = uris.distinct()
+        val targetUris = uris
+            .map(String::toUri)
+            .distinctUris()
+            .map(Uri::toString)
         val items = mutableListOf<DuplicateItem>()
         val errors = mutableListOf<DuplicateAnalysisError>()
         var processed = 0
