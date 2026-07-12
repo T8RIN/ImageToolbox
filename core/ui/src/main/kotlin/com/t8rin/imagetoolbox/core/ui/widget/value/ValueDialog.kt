@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,37 @@ package com.t8rin.imagetoolbox.core.ui.widget.value
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Counter
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
+import kotlinx.coroutines.android.awaitFrame
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -55,7 +63,23 @@ fun ValueDialog(
     onDismiss: () -> Unit,
     onValueUpdate: (Float) -> Unit
 ) {
-    var value by remember(valueState, expanded) { mutableStateOf(valueState.trimTrailingZero()) }
+    var value by remember(valueState, expanded) {
+        val text = valueState.trimTrailingZero()
+        mutableStateOf(
+            TextFieldValue(
+                text = text,
+                selection = TextRange(0, text.length)
+            )
+        )
+    }
+    val parsedValue = value.text.toFloatOrNull()?.takeIf(Float::isFinite)
+    val submit: () -> Unit = {
+        if (parsedValue != null) {
+            onDismiss()
+            onValueUpdate(parsedValue.roundTo(roundTo).coerceIn(valueRange))
+        }
+    }
+
     EnhancedAlertDialog(
         visible = expanded,
         modifier = Modifier.clearFocusOnTap(),
@@ -76,6 +100,13 @@ fun ValueDialog(
             )
         },
         text = {
+            val requester = remember { FocusRequester() }
+
+            LaunchedEffect(Unit) {
+                awaitFrame()
+                runCatching { requester.requestFocus() }
+            }
+
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -84,24 +115,34 @@ fun ValueDialog(
                 OutlinedTextField(
                     shape = ShapeDefaults.default,
                     value = value,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Decimal,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { submit() }
+                    ),
                     textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                     maxLines = 1,
                     onValueChange = { number ->
-                        value = number.filterDecimal()
-                    }
+                        val text = number.text.filterDecimal()
+                        value = number.copy(
+                            text = text,
+                            selection = TextRange(
+                                start = number.selection.start.coerceAtMost(text.length),
+                                end = number.selection.end.coerceAtMost(text.length)
+                            )
+                        )
+                    },
+                    modifier = Modifier.focusRequester(requester)
                 )
             }
         },
         confirmButton = {
             EnhancedButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    onDismiss()
-                    onValueUpdate(
-                        (value.toFloatOrNull() ?: 0f).roundTo(roundTo).coerceIn(valueRange)
-                    )
-                },
+                enabled = parsedValue != null,
+                onClick = submit,
             ) {
                 Text(stringResource(R.string.ok))
             }
@@ -110,7 +151,7 @@ fun ValueDialog(
 }
 
 fun String.filterDecimal(): String {
-    var tempS = trim {
+    var tempS = replace(',', '.').trim {
         it !in listOf(
             '1',
             '2',
