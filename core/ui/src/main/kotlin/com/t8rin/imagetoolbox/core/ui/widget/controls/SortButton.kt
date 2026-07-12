@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.SortType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FilterAlt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -143,4 +143,6 @@ private val SortType.title: String
         SortType.ExtensionReversed -> stringResource(R.string.sort_by_extension_reversed)
         SortType.DateAdded -> stringResource(R.string.sort_by_date_added)
         SortType.DateAddedReversed -> stringResource(R.string.sort_by_date_added_reversed)
+        SortType.Reverse -> stringResource(R.string.reverse)
+        SortType.Shuffle -> stringResource(R.string.shuffle)
     }

@@ -329,6 +329,8 @@ suspend fun List<Uri>.sortedByType(
         SortType.ExtensionReversed -> sortedByExtension(descending = true)
         SortType.DateAdded -> sortedByDateAdded()
         SortType.DateAddedReversed -> sortedByDateAdded(descending = true)
+        SortType.Reverse -> reversed()
+        SortType.Shuffle -> shuffled()
     }
 }
 
@@ -470,8 +472,60 @@ private fun List<Uri>.sortedByDateModified(
 
 private fun List<Uri>.sortedByName(
     descending: Boolean = false
-) = sortedByKey(descending) {
-    it.filename()
+): List<Uri> {
+    val comparator = Comparator<Pair<Uri, String?>> { first, second ->
+        first.second.orEmpty().naturalCompareTo(second.second.orEmpty())
+    }.let { if (descending) it.reversed() else it }
+
+    return map { it to it.filename() }
+        .sortedWith(comparator)
+        .map { it.first }
+}
+
+private fun String.naturalCompareTo(other: String): Int {
+    var firstIndex = 0
+    var secondIndex = 0
+
+    while (firstIndex < length && secondIndex < other.length) {
+        val firstChar = this[firstIndex]
+        val secondChar = other[secondIndex]
+
+        if (firstChar.isDigit() && secondChar.isDigit()) {
+            val firstEnd = indexOfFirstNonDigit(firstIndex)
+            val secondEnd = other.indexOfFirstNonDigit(secondIndex)
+            val firstNumber = substring(firstIndex, firstEnd)
+            val secondNumber = other.substring(secondIndex, secondEnd)
+            val firstSignificant = firstNumber.trimStart('0').ifEmpty { "0" }
+            val secondSignificant = secondNumber.trimStart('0').ifEmpty { "0" }
+
+            val lengthComparison = firstSignificant.length.compareTo(secondSignificant.length)
+            if (lengthComparison != 0) return lengthComparison
+
+            val numberComparison = firstSignificant.compareTo(secondSignificant)
+            if (numberComparison != 0) return numberComparison
+
+            val leadingZeroComparison = firstNumber.length.compareTo(secondNumber.length)
+            if (leadingZeroComparison != 0) return leadingZeroComparison
+
+            firstIndex = firstEnd
+            secondIndex = secondEnd
+        } else {
+            val characterComparison =
+                firstChar.lowercaseChar().compareTo(secondChar.lowercaseChar())
+            if (characterComparison != 0) return characterComparison
+
+            firstIndex++
+            secondIndex++
+        }
+    }
+
+    return length.compareTo(other.length)
+}
+
+private fun String.indexOfFirstNonDigit(startIndex: Int): Int {
+    var index = startIndex
+    while (index < length && this[index].isDigit()) index++
+    return index
 }
 
 private fun List<Uri>.sortedBySize(
