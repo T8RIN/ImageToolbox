@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -57,6 +57,7 @@ fun ValueText(
     valueSuffix: String = "",
     customText: String? = null,
     onClick: (() -> Unit)?,
+    onLongClick: (() -> Unit)? = null,
     backgroundColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         0.25f
     )
@@ -93,10 +94,11 @@ fun ValueText(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .then(
-                        if (onClick != null) {
-                            Modifier.hapticsClickable(
+                        if (onClick != null || onLongClick != null) {
+                            Modifier.hapticsCombinedClickable(
                                 enabled = enabled,
-                                onClick = onClick,
+                                onClick = { onClick?.invoke() },
+                                onLongClick = onLongClick,
                                 interactionSource = interactionSource,
                                 indication = LocalIndication.current
                             )

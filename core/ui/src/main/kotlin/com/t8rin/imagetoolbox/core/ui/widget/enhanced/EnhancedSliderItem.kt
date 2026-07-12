@@ -112,6 +112,13 @@ fun EnhancedSliderItem(
 
     var showValueDialog by rememberSaveable(canInputValue) { mutableStateOf(false) }
     val internalState = remember(value) { mutableStateOf(value) }
+    val resetValue = rememberSaveable { value.toFloat() }
+
+    val reset: () -> Unit = {
+        internalState.value = internalStateTransformation(resetValue)
+        onValueChange(resetValue)
+        onValueChangeFinished?.invoke(resetValue)
+    }
 
     val isCompactLayout = LocalSettingsState.current.isCompactSelectorsLayout
 
@@ -289,7 +296,8 @@ fun EnhancedSliderItem(
                                         ),
                                     onClick = if (canInputValue) {
                                         { showValueDialog = true }
-                                    } else null
+                                    } else null,
+                                    onLongClick = reset
                                 )
                             }
                         } else {
@@ -336,7 +344,8 @@ fun EnhancedSliderItem(
                                     ),
                                     onClick = if (canInputValue) {
                                         { showValueDialog = true }
-                                    } else null
+                                    } else null,
+                                    onLongClick = reset
                                 )
                             }
                             slider()

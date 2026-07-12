@@ -242,11 +242,15 @@ private fun ColorStopSelectionItem(
                     var showValueDialog by rememberSaveable {
                         mutableStateOf(false)
                     }
+                    val initialValue = rememberSaveable { value }
                     ValueText(
                         modifier = Modifier,
                         value = (value * 100).toInt(),
                         onClick = {
                             showValueDialog = true
+                        },
+                        onLongClick = {
+                            onValueChange(initialValue to color)
                         }
                     )
                     ValueDialog(

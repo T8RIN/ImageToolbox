@@ -547,6 +547,8 @@ private fun AdjustableActionCard(
     onValueChangeFinished: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val initialValue = rememberSaveable { value }
+
     Column(
         modifier = modifier
             .container(
@@ -573,6 +575,12 @@ private fun AdjustableActionCard(
                 value = value,
                 onClick = if (enabled) {
                     onValueClick
+                } else null,
+                onLongClick = if (enabled) {
+                    {
+                        onValueChange(initialValue)
+                        onValueChangeFinished()
+                    }
                 } else null,
                 modifier = Modifier
             )

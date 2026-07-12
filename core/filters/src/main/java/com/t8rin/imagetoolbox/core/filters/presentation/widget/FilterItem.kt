@@ -328,9 +328,14 @@ fun <T : Any> FilterItem(
                     }
                     if (filter.value is Number) {
                         var showValueDialog by remember { mutableStateOf(false) }
+                        val initialValue = rememberSaveable { sliderValue }
                         ValueText(
                             value = sliderValue,
-                            onClick = { showValueDialog = true }
+                            onClick = { showValueDialog = true },
+                            onLongClick = {
+                                sliderValue = initialValue
+                                onFilterChange(initialValue)
+                            }
                         )
                         ValueDialog(
                             roundTo = filter.paramsInfo[0].roundTo,
