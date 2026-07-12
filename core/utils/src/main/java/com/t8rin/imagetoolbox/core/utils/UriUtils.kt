@@ -46,6 +46,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -255,10 +256,10 @@ fun Uri.tryExtractOriginal(): Uri = UriReplacements.resolve(this).run {
     }
 }
 
-fun List<Uri>.distinctUris(): List<Uri> {
+suspend fun List<Uri>.distinctUris(): List<Uri> = withContext(Dispatchers.IO) {
     val identities = HashSet<UriIdentity>(size)
 
-    return filter { uri ->
+    return@withContext filter { uri ->
         identities.add(uri.uriIdentity())
     }
 }

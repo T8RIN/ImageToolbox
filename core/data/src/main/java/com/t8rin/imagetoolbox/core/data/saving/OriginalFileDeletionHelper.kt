@@ -70,7 +70,7 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     private val deleteResultLock = Any()
     private var deleteResultJob: Job? = null
 
-    override fun deleteFiles(
+    override suspend fun deleteFiles(
         uris: List<String>,
         onResult: (FileDeletionResult) -> Unit
     ) {

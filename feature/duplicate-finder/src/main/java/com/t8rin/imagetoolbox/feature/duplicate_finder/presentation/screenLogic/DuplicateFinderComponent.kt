@@ -105,6 +105,7 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
     fun setUris(uris: List<Uri>) {
         componentScope.launch {
+            _isAnalyzing.value = true
             val distinctUris = uris.distinctUris()
             _sourceUris.value = distinctUris
             _selectedUris.value = emptySet()
@@ -179,6 +180,21 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
         }
     }
 
+    fun toggleGroupSelection(group: DuplicateGroup) {
+        val groupUris = group.items.mapTo(mutableSetOf()) { it.uri }
+        val duplicateUris = groupUris - group.recommendedUri
+
+        _selectedUris.update { selected ->
+            val isGroupSelected =
+                duplicateUris.isNotEmpty() && duplicateUris.all(selected::contains)
+            if (isGroupSelected) {
+                selected - groupUris
+            } else {
+                (selected - groupUris) + duplicateUris
+            }
+        }
+    }
+
     fun selectExactDuplicates() {
         _selectedUris.value = DuplicateGrouping.selectAllDuplicates(
             groups.filter { it.type == DuplicateType.Exact }
@@ -198,8 +214,8 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
         val uris = selectedUris.toList()
         _isDeleting.value = true
-        fileControllerEventEmitter.deleteFiles(uris) { result ->
-            componentScope.launch {
+        componentScope.launch {
+            fileControllerEventEmitter.deleteFiles(uris) { result ->
                 handleDeletionResult(result)
             }
         }

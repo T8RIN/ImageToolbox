@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.Flow
 interface FileControllerEventEmitter {
     val events: Flow<FileControllerEvent>
 
-    fun deleteFiles(
+    suspend fun deleteFiles(
         uris: List<String>,
         onResult: (FileDeletionResult) -> Unit
     )

@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.plus
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -49,7 +48,9 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderMatch
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCheckbox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -140,6 +141,7 @@ internal fun DuplicateFinderControls(
                     type = DuplicateType.Exact,
                     groups = exactGroups,
                     selectedUris = component.selectedUris,
+                    onToggleGroupSelection = component::toggleGroupSelection,
                     onToggleSelection = component::toggleSelection,
                     onPreview = onPreview
                 )
@@ -147,6 +149,7 @@ internal fun DuplicateFinderControls(
                     type = DuplicateType.Similar,
                     groups = similarGroups,
                     selectedUris = component.selectedUris,
+                    onToggleGroupSelection = component::toggleGroupSelection,
                     onToggleSelection = component::toggleSelection,
                     onPreview = onPreview
                 )
@@ -159,11 +162,23 @@ private fun LazyListScope.duplicateGroups(
     type: DuplicateType,
     groups: List<DuplicateGroup>,
     selectedUris: Set<String>,
+    onToggleGroupSelection: (DuplicateGroup) -> Unit,
     onToggleSelection: (String) -> Unit,
     onPreview: (String) -> Unit
 ) {
     groups.forEachIndexed { groupIndex, group ->
         item(key = "group-title-${type.name}-$groupIndex-${group.recommendedUri}") {
+            val selectableUris = remember(group) {
+                group.items
+                    .map { it.uri }
+                    .filterNot { it == group.recommendedUri }
+            }
+            val isGroupSelected = remember(selectableUris, selectedUris) {
+                selectableUris.isNotEmpty() && selectableUris.all {
+                    it in selectedUris
+                }
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -171,7 +186,9 @@ private fun LazyListScope.duplicateGroups(
                     .container(
                         shape = ShapeDefaults.circle,
                         resultPadding = 0.dp,
-                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        color = takeColorFromScheme {
+                            if (isGroupSelected) secondaryContainer.copy(0.5f) else surfaceContainer
+                        }
                     )
                     .padding(
                         horizontal = 10.dp,
@@ -185,16 +202,16 @@ private fun LazyListScope.duplicateGroups(
                     else R.string.similar_images
                 )
 
+                Spacer(Modifier.width(8.dp))
                 Icon(
                     imageVector = if (type == DuplicateType.Exact) {
                         Icons.Rounded.FolderMatch
                     } else {
                         Icons.Rounded.ImageSearch
                     },
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp)
+                    contentDescription = null
                 )
-                Spacer(Modifier.width(4.dp))
+                Spacer(Modifier.width(8.dp))
                 Text(
                     text = stringResource(
                         R.string.duplicate_group_summary,
@@ -203,6 +220,10 @@ private fun LazyListScope.duplicateGroups(
                     ),
                     style = PreferenceItemDefaults.TitleFontStyle,
                     modifier = Modifier.weight(1f, false)
+                )
+                EnhancedCheckbox(
+                    checked = isGroupSelected,
+                    onCheckedChange = { onToggleGroupSelection(group) }
                 )
             }
         }
