@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d valgt • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Dette kan ikke fortrydes. Android beder dig muligvis om at bekræfte sletningen i en systemdialog.</string>
     <string name="not_found">Ikke fundet</string>
+    <string name="move_to_start">Flyt for at starte</string>
+    <string name="move_to_end">Flyt til slutningen</string>
 </resources>

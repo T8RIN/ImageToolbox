@@ -3736,4 +3736,6 @@
     <string name="duplicate_selected_summary">%1$d vybráno • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Toto nelze vrátit zpět. Android vás může požádat o potvrzení smazání v dialogovém okně systému.</string>
     <string name="not_found">Nenalezeno</string>
+    <string name="move_to_start">Začněte pohybem</string>
+    <string name="move_to_end">Přesunout na konec</string>
 </resources>

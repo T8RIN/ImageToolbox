@@ -3735,4 +3735,6 @@
     <string name="duplicate_selected_summary">%1$d seçildi • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Bu geri alınamaz. Android, sistem iletişim kutusunda silme işlemini onaylamanızı isteyebilir.</string>
     <string name="not_found">Bulunamadı</string>
+    <string name="move_to_start">Başlamak için taşıyın</string>
+    <string name="move_to_end">Sona taşı</string>
 </resources>

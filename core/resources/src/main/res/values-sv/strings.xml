@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d har valts • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Detta kan inte ångras. Android kan be dig bekräfta borttagningen i en systemdialogruta.</string>
     <string name="not_found">Hittade inte</string>
+    <string name="move_to_start">Flytta för att starta</string>
+    <string name="move_to_end">Flytta till slutet</string>
 </resources>

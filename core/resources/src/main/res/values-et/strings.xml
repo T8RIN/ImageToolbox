@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d valitud • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Seda ei saa tagasi võtta. Android võib paluda teil süsteemi dialoogiaknas kustutamise kinnitada.</string>
     <string name="not_found">Ei leitud</string>
+    <string name="move_to_start">Alustamiseks liigutage</string>
+    <string name="move_to_end">Liigu lõpuni</string>
 </resources>

@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d таңдалды • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Бұл әрекетті қайтару мүмкін емес. Android жүйе диалогында жоюды растауды сұрауы мүмкін.</string>
     <string name="not_found">Табылмады</string>
+    <string name="move_to_start">Бастау үшін жылжытыңыз</string>
+    <string name="move_to_end">Соңына қарай жылжытыңыз</string>
 </resources>

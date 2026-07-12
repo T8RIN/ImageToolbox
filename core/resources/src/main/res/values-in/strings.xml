@@ -3733,4 +3733,6 @@
     <string name="duplicate_selected_summary">%1$d dipilih • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Hal ini tidak dapat dibatalkan. Android mungkin meminta Anda untuk mengonfirmasi penghapusan dalam dialog sistem.</string>
     <string name="not_found">Tidak Ditemukan</string>
+    <string name="move_to_start">Pindah untuk memulai</string>
+    <string name="move_to_end">Pindah ke akhir</string>
 </resources>

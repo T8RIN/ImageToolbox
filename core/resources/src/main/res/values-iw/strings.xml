@@ -3737,4 +3737,6 @@
     <string name="duplicate_selected_summary">%1$d נבחרו • %2$s</string>
     <string name="confirm_duplicate_deletion_text">לא ניתן לבטל זאת. ייתכן ש-Android יבקש ממך לאשר את המחיקה בתיבת דו-שיח של מערכת.</string>
     <string name="not_found">לא נמצא</string>
+    <string name="move_to_start">העבר כדי להתחיל</string>
+    <string name="move_to_end">העבר לסוף</string>
 </resources>

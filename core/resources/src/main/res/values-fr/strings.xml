@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d sélectionné • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Cela ne peut pas être annulé. Android peut vous demander de confirmer la suppression dans une boîte de dialogue système.</string>
     <string name="not_found">Introuvable</string>
+    <string name="move_to_start">Déplacer pour commencer</string>
+    <string name="move_to_end">Passer à la fin</string>
 </resources>

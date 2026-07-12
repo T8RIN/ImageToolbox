@@ -3736,4 +3736,6 @@
     <string name="duplicate_selected_summary">%1$d selectat • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Acest lucru nu poate fi anulat. Android vă poate cere să confirmați ștergerea într-un dialog de sistem.</string>
     <string name="not_found">Nu a fost găsit</string>
+    <string name="move_to_start">Mutați pentru a începe</string>
+    <string name="move_to_end">Mutați la final</string>
 </resources>

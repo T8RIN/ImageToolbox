@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">已选择 %1$d • %2$s</string>
     <string name="confirm_duplicate_deletion_text">此操作无法撤消。 Android 可能会要求您在系统对话框中确认删除。</string>
     <string name="not_found">未找到</string>
+    <string name="move_to_start">移至开始</string>
+    <string name="move_to_end">移至末尾</string>
 </resources>

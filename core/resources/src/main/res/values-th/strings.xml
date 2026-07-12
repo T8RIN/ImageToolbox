@@ -3733,4 +3733,6 @@
     <string name="duplicate_selected_summary">%1$d เลือกแล้ว • %2$s</string>
     <string name="confirm_duplicate_deletion_text">สิ่งนี้ไม่สามารถยกเลิกได้ Android อาจขอให้คุณยืนยันการลบในกล่องโต้ตอบของระบบ</string>
     <string name="not_found">ไม่พบ</string>
+    <string name="move_to_start">ย้ายไปเริ่มต้น</string>
+    <string name="move_to_end">ย้ายไปสิ้นสุด</string>
 </resources>

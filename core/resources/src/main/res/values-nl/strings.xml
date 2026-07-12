@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d geselecteerd • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Dit kan niet ongedaan worden gemaakt. Android kan u vragen om de verwijdering te bevestigen in een systeemdialoog.</string>
     <string name="not_found">Niet gevonden</string>
+    <string name="move_to_start">Verplaats om te beginnen</string>
+    <string name="move_to_end">Verplaats naar einde</string>
 </resources>

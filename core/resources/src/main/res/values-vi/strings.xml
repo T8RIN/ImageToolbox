@@ -3733,4 +3733,6 @@
     <string name="duplicate_selected_summary">%1$d đã chọn • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Điều này không thể hoàn tác được. Android có thể yêu cầu bạn xác nhận việc xóa trong hộp thoại hệ thống.</string>
     <string name="not_found">Không tìm thấy</string>
+    <string name="move_to_start">Di chuyển để bắt đầu</string>
+    <string name="move_to_end">Chuyển đến cuối</string>
 </resources>

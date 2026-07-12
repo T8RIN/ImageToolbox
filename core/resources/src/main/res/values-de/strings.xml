@@ -3735,4 +3735,6 @@
     <string name="duplicate_selected_summary">%1$d ausgewählt • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Dies kann nicht rückgängig gemacht werden. Android fordert Sie möglicherweise in einem Systemdialog auf, den Löschvorgang zu bestätigen.</string>
     <string name="not_found">Nicht gefunden</string>
+    <string name="move_to_start">Zum Start bewegen</string>
+    <string name="move_to_end">Zum Ende bewegen</string>
 </resources>

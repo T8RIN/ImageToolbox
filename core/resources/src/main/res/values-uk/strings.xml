@@ -3736,4 +3736,6 @@
     <string name="duplicate_selected_summary">%1$d вибрано • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Це неможливо скасувати. Android може попросити вас підтвердити видалення в системному діалоговому вікні.</string>
     <string name="not_found">Не знайдено</string>
+    <string name="move_to_start">Перемістіть, щоб почати</string>
+    <string name="move_to_end">Перейти до кінця</string>
 </resources>

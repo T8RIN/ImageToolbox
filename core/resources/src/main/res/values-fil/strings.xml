@@ -3735,4 +3735,6 @@
     <string name="duplicate_selected_summary">%1$d pinili • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Hindi na ito maaaring bawiin. Maaaring hilingin sa iyo ng Android na kumpirmahin ang pagtanggal sa isang dialog ng system.</string>
     <string name="not_found">Hindi Nahanap</string>
+    <string name="move_to_start">Ilipat upang magsimula</string>
+    <string name="move_to_end">Ilipat sa dulo</string>
 </resources>

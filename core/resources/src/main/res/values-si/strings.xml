@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d තෝරාගත් • %2$s</string>
     <string name="confirm_duplicate_deletion_text">මෙය ආපසු හැරවිය නොහැක. පද්ධති සංවාදයක මකාදැමීම තහවුරු කිරීමට Android ඔබෙන් ඉල්ලා සිටිය හැක.</string>
     <string name="not_found">හමු වුණේ නැහැ</string>
+    <string name="move_to_start">ආරම්භයට ගෙන යන්න</string>
+    <string name="move_to_end">අවසානය දක්වා ගමන් කරන්න</string>
 </resources>

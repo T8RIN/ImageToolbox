@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d seleccionado • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Esto no se puede deshacer. Es posible que Android le solicite que confirme la eliminación en un cuadro de diálogo del sistema.</string>
     <string name="not_found">Extraviado</string>
+    <string name="move_to_start">Mover para empezar</string>
+    <string name="move_to_end">Mover al final</string>
 </resources>

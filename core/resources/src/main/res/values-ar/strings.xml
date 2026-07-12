@@ -3739,4 +3739,6 @@
     <string name="duplicate_selected_summary">%1$d تم التحديد • %2$s</string>
     <string name="confirm_duplicate_deletion_text">لا يمكن التراجع عن هذا. قد يطلب منك Android تأكيد الحذف في مربع حوار النظام.</string>
     <string name="not_found">لم يتم العثور عليه</string>
+    <string name="move_to_start">التحرك للبدء</string>
+    <string name="move_to_end">الانتقال إلى النهاية</string>
 </resources>

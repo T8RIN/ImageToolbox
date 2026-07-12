@@ -3737,4 +3737,6 @@
     <string name="duplicate_selected_summary">%1$d выбрано • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Это невозможно отменить. Android может попросить вас подтвердить удаление в системном диалоговом окне.</string>
     <string name="not_found">Не найдено</string>
+    <string name="move_to_start">Переместить в начало</string>
+    <string name="move_to_end">Переместить в конец</string>
 </resources>

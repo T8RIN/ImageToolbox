@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d selezionato • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Questa operazione non può essere annullata. Android potrebbe chiederti di confermare l\'eliminazione in una finestra di dialogo di sistema.</string>
     <string name="not_found">Non trovato</string>
+    <string name="move_to_start">Muoviti per iniziare</string>
+    <string name="move_to_end">Sposta alla fine</string>
 </resources>

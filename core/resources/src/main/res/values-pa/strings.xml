@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d ਚੁਣਿਆ ਗਿਆ • %2$s</string>
     <string name="confirm_duplicate_deletion_text">ਇਸ ਨੂੰ ਅਣਕੀਤਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। Android ਤੁਹਾਨੂੰ ਸਿਸਟਮ ਡਾਇਲਾਗ ਵਿੱਚ ਮਿਟਾਉਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ ਕਹਿ ਸਕਦਾ ਹੈ।</string>
     <string name="not_found">ਨਹੀਂ ਲਭਿਆ</string>
+    <string name="move_to_start">ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਮੂਵ ਕਰੋ</string>
+    <string name="move_to_end">ਅੰਤ ਵਿੱਚ ਭੇਜੋ</string>
 </resources>

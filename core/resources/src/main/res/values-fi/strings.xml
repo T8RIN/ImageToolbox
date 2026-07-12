@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d valittu • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Tätä ei voi kumota. Android voi pyytää sinua vahvistamaan poiston järjestelmävalintaikkunassa.</string>
     <string name="not_found">Ei löydy</string>
+    <string name="move_to_start">Aloita siirtymällä</string>
+    <string name="move_to_end">Siirrä loppuun</string>
 </resources>

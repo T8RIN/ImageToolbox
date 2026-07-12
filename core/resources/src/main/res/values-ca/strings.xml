@@ -3735,4 +3735,6 @@
     <string name="duplicate_selected_summary">%1$d seleccionat • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Això no es pot desfer. Android pot demanar-vos que confirmeu la supressió en un diàleg del sistema.</string>
     <string name="not_found">No trobat</string>
+    <string name="move_to_start">Mou per començar</string>
+    <string name="move_to_end">Mou al final</string>
 </resources>

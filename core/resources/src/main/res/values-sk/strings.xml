@@ -3736,4 +3736,6 @@
     <string name="duplicate_selected_summary">%1$d vybraté • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Toto sa nedá vrátiť späť. Android vás môže požiadať o potvrdenie odstránenia v dialógovom okne systému.</string>
     <string name="not_found">Nenájdené</string>
+    <string name="move_to_start">Začnite pohybom</string>
+    <string name="move_to_end">Presun na koniec</string>
 </resources>

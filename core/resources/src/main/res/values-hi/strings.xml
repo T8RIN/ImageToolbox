@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d चयनित • %2$s</string>
     <string name="confirm_duplicate_deletion_text">इसे असंपादित नहीं किया जा सकता है। एंड्रॉइड आपसे सिस्टम डायलॉग में डिलीट की पुष्टि करने के लिए कह सकता है।</string>
     <string name="not_found">नहीं मिला</string>
+    <string name="move_to_start">आरंभ करने के लिए आगे बढ़ें</string>
+    <string name="move_to_end">समाप्त करने के लिए ले जाएँ</string>
 </resources>

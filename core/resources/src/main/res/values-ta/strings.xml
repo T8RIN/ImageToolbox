@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d தேர்ந்தெடுக்கப்பட்டது • %2$s</string>
     <string name="confirm_duplicate_deletion_text">இதை செயல்தவிர்க்க முடியாது. கணினி உரையாடலில் நீக்குதலை உறுதிப்படுத்துமாறு Android உங்களிடம் கேட்கலாம்.</string>
     <string name="not_found">கிடைக்கவில்லை</string>
+    <string name="move_to_start">தொடங்குவதற்கு நகர்த்தவும்</string>
+    <string name="move_to_end">முடிவுக்கு நகர்த்தவும்</string>
 </resources>

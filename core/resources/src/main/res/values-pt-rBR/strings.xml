@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d selecionado • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Isto não pode ser desfeito. O Android pode solicitar que você confirme a exclusão em uma caixa de diálogo do sistema.</string>
     <string name="not_found">Não encontrado</string>
+    <string name="move_to_start">Mova para começar</string>
+    <string name="move_to_end">Mover para o fim</string>
 </resources>

@@ -3736,4 +3736,6 @@
     <string name="duplicate_selected_summary">%1$d выбрана • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Гэта нельга адмяніць. Android можа папрасіць вас пацвердзіць выдаленне ў сістэмным дыялогавым акне.</string>
     <string name="not_found">Не знойдзены</string>
+    <string name="move_to_start">Рухайцеся, каб пачаць</string>
+    <string name="move_to_end">Перайсці да канца</string>
 </resources>

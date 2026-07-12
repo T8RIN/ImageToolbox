@@ -3735,4 +3735,6 @@
     <string name="duplicate_selected_summary">%1$d ఎంచుకోబడింది • %2$s</string>
     <string name="confirm_duplicate_deletion_text">ఇది రద్దు చేయబడదు. సిస్టమ్ డైలాగ్‌లో తొలగింపును నిర్ధారించమని Android మిమ్మల్ని అడగవచ్చు.</string>
     <string name="not_found">దొరకలేదు</string>
+    <string name="move_to_start">ప్రారంభించడానికి తరలించండి</string>
+    <string name="move_to_end">ముగింపుకు తరలించండి</string>
 </resources>

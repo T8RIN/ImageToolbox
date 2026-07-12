@@ -3733,4 +3733,6 @@
     <string name="duplicate_selected_summary">%1$d 選択済み • %2$s</string>
     <string name="confirm_duplicate_deletion_text">これを元に戻すことはできません。 Android では、システム ダイアログで削除の確認を求める場合があります。</string>
     <string name="not_found">見つかりません</string>
+    <string name="move_to_start">開始位置に移動</string>
+    <string name="move_to_end">最後に移動</string>
 </resources>

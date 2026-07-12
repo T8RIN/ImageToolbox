@@ -3735,4 +3735,6 @@
     <string name="duplicate_selected_summary">%1$d kiválasztva • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Ezt nem lehet visszavonni. Az Android rendszer párbeszédpanelen kérheti a törlés megerősítését.</string>
     <string name="not_found">Nem található</string>
+    <string name="move_to_start">Mozgás az induláshoz</string>
+    <string name="move_to_end">Mozgás a végére</string>
 </resources>

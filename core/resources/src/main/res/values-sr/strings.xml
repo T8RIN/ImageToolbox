@@ -3736,4 +3736,6 @@
     <string name="duplicate_selected_summary">__ПХ_0__ изабрано • __ПХ_1__</string>
     <string name="confirm_duplicate_deletion_text">Ово се не може поништити. Андроид може од вас тражити да потврдите брисање у системском дијалогу.</string>
     <string name="not_found">Није пронађено</string>
+    <string name="move_to_start">Померите се за почетак</string>
+    <string name="move_to_end">Пређите до краја</string>
 </resources>

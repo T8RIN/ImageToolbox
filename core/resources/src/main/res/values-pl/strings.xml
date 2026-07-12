@@ -3736,4 +3736,6 @@
     <string name="duplicate_selected_summary">%1$d wybrane • %2$s</string>
     <string name="confirm_duplicate_deletion_text">Tego nie można cofnąć. Android może poprosić Cię o potwierdzenie usunięcia w oknie dialogowym systemu.</string>
     <string name="not_found">Nie znaleziono</string>
+    <string name="move_to_start">Przesuń, aby rozpocząć</string>
+    <string name="move_to_end">Przejdź do końca</string>
 </resources>

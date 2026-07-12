@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d انتخاب شده • %2$s</string>
     <string name="confirm_duplicate_deletion_text">این قابل واگرد نیست. ممکن است اندروید از شما بخواهد که حذف را در یک گفتگوی سیستم تأیید کنید.</string>
     <string name="not_found">یافت نشد</string>
+    <string name="move_to_start">برای شروع حرکت کنید</string>
+    <string name="move_to_end">حرکت به پایان</string>
 </resources>

@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d تاللانغان • %2$s</string>
     <string name="confirm_duplicate_deletion_text">بۇنى ئەمەلدىن قالدۇرغىلى بولمايدۇ. ئاندىرويىد سىستېما دىئالوگىدا ئۆچۈرۈلگەنلىكىنى جەزملەشتۈرۈشىڭىزنى تەلەپ قىلىشى مۇمكىن.</string>
     <string name="not_found">تېپىلمىدى</string>
+    <string name="move_to_start">باشلاڭ</string>
+    <string name="move_to_end">ئاخىرىغا يۆتكەڭ</string>
 </resources>

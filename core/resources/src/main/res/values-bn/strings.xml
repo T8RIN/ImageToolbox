@@ -3734,4 +3734,6 @@
     <string name="duplicate_selected_summary">%1$d নির্বাচিত • %2$s</string>
     <string name="confirm_duplicate_deletion_text">এটি পূর্বাবস্থায় ফেরানো যাবে না। অ্যান্ড্রয়েড আপনাকে একটি সিস্টেম ডায়ালগে মুছে ফেলা নিশ্চিত করতে বলতে পারে।</string>
     <string name="not_found">পাওয়া যায়নি</string>
+    <string name="move_to_start">শুরু করতে সরান</string>
+    <string name="move_to_end">শেষ পর্যন্ত সরান</string>
 </resources>
