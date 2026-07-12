@@ -3714,4 +3714,6 @@
     <string name="normalize_gif_frames">ปรับขนาดเฟรมให้เป็นปกติ</string>
     <string name="normalize_gif_frames_sub">ปรับขนาดเฟรมให้พอดีกับคลิปที่ใหญ่ที่สุด ปิดเพื่อรักษาขนาดเดิม</string>
     <string name="delay_between_clips">ความล่าช้าระหว่างคลิป (มิลลิวินาที)</string>
+    <string name="folder_picker">โฟลเดอร์</string>
+    <string name="folder_picker_sub">เลือกภาพทั้งหมดจากโฟลเดอร์และโฟลเดอร์ย่อย</string>
 </resources>

@@ -3716,4 +3716,6 @@
     <string name="normalize_gif_frames">Çerçeve boyutunu normalleştir</string>
     <string name="normalize_gif_frames_sub">Çerçeveleri en büyük klibe sığacak şekilde ölçeklendirin; orijinal ölçeklerini korumak için kapatın</string>
     <string name="delay_between_clips">Klipler arasındaki gecikme (ms)</string>
+    <string name="folder_picker">Dosya</string>
+    <string name="folder_picker_sub">Bir klasördeki ve alt klasörlerindeki tüm görüntüleri seç</string>
 </resources>

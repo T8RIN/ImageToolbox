@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normaliser la taille du cadre</string>
     <string name="normalize_gif_frames_sub">Redimensionnez les images pour qu\'elles s\'adaptent au plus grand clip ; éteindre pour conserver leur échelle d\'origine</string>
     <string name="delay_between_clips">Délai entre les clips (ms)</string>
+    <string name="folder_picker">Dossier</string>
+    <string name="folder_picker_sub">Sélectionnez toutes les images d\'un dossier et de ses sous-dossiers</string>
 </resources>

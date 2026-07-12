@@ -3714,4 +3714,6 @@
     <string name="normalize_gif_frames">프레임 크기 표준화</string>
     <string name="normalize_gif_frames_sub">가장 큰 클립에 맞게 프레임 크기를 조정합니다. 원래 크기를 유지하려면 끄세요</string>
     <string name="delay_between_clips">클립 간 지연(ms)</string>
+    <string name="folder_picker">접는 사람</string>
+    <string name="folder_picker_sub">폴더와 하위 폴더에서 모든 이미지를 선택하세요.</string>
 </resources>

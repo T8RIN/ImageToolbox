@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normalizza le dimensioni del fotogramma</string>
     <string name="normalize_gif_frames_sub">Ridimensiona le cornici per adattarle alla clip più grande; spegnere per preservare la scala originale</string>
     <string name="delay_between_clips">Ritardo tra le clip (ms)</string>
+    <string name="folder_picker">Cartella</string>
+    <string name="folder_picker_sub">Seleziona tutte le immagini da una cartella e dalle sue sottocartelle</string>
 </resources>

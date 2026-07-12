@@ -3714,4 +3714,6 @@
     <string name="normalize_gif_frames">フレームサイズを正規化する</string>
     <string name="normalize_gif_frames_sub">最大のクリップに合わせてフレームをスケールします。元のスケールを維持するにはオフにします</string>
     <string name="delay_between_clips">クリップ間の遅延 (ミリ秒)</string>
+    <string name="folder_picker">フォルダ</string>
+    <string name="folder_picker_sub">フォルダーとそのサブフォルダーからすべての画像を選択します</string>
 </resources>

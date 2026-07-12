@@ -3717,4 +3717,6 @@
     <string name="normalize_gif_frames">Нормалізуйте розмір кадру</string>
     <string name="normalize_gif_frames_sub">Масштаб кадрів, щоб відповідати найбільшому кліпу; вимкніть, щоб зберегти їхній початковий масштаб</string>
     <string name="delay_between_clips">Затримка між кліпами (мс)</string>
+    <string name="folder_picker">Папка</string>
+    <string name="folder_picker_sub">Виберіть усі зображення з папки та її вкладених папок</string>
 </resources>

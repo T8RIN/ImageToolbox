@@ -3714,4 +3714,6 @@
     <string name="normalize_gif_frames">Normalisasikan ukuran bingkai</string>
     <string name="normalize_gif_frames_sub">Skala bingkai agar sesuai dengan klip terbesar; matikan untuk mempertahankan skala aslinya</string>
     <string name="delay_between_clips">Penundaan antar klip (ms)</string>
+    <string name="folder_picker">Map</string>
+    <string name="folder_picker_sub">Pilih semua gambar dari folder dan subfoldernya</string>
 </resources>

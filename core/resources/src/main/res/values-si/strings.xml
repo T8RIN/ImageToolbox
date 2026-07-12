@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">රාමු ප්රමාණය සාමාන්ය කරන්න</string>
     <string name="normalize_gif_frames_sub">විශාලතම ක්ලිප් එකට ගැලපෙන පරිදි පරිමාණ රාමු; ඔවුන්ගේ මුල් පරිමාණය ආරක්ෂා කර ගැනීම සඳහා අක්රිය කරන්න</string>
     <string name="delay_between_clips">ක්ලිප් අතර ප්‍රමාදය (ms)</string>
+    <string name="folder_picker">ෆෝල්ඩරය</string>
+    <string name="folder_picker_sub">ෆෝල්ඩරයකින් සහ එහි උප ෆෝල්ඩරවලින් සියලුම පින්තූර තෝරන්න</string>
 </resources>

@@ -3720,4 +3720,6 @@
     <string name="normalize_gif_frames">تطبيع حجم الإطار</string>
     <string name="normalize_gif_frames_sub">قم بقياس الإطارات لتناسب أكبر مقطع؛ إيقاف للحفاظ على حجمها الأصلي</string>
     <string name="delay_between_clips">التأخير بين المقاطع (مللي ثانية)</string>
+    <string name="folder_picker">مجلد</string>
+    <string name="folder_picker_sub">حدد كافة الصور من مجلد ومجلداته الفرعية</string>
 </resources>

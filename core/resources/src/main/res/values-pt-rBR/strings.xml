@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normalizar o tamanho do quadro</string>
     <string name="normalize_gif_frames_sub">Dimensione os quadros para caber no clipe maior; desligue para preservar sua escala original</string>
     <string name="delay_between_clips">Atraso entre clipes (ms)</string>
+    <string name="folder_picker">Pasta</string>
+    <string name="folder_picker_sub">Selecione todas as imagens de uma pasta e suas subpastas</string>
 </resources>

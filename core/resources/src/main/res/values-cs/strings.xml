@@ -3717,4 +3717,6 @@
     <string name="normalize_gif_frames">Normalizujte velikost rámu</string>
     <string name="normalize_gif_frames_sub">Přizpůsobte rámy tak, aby se vešly do největšího klipu; vypněte, aby se zachovalo jejich původní měřítko</string>
     <string name="delay_between_clips">Prodleva mezi klipy (ms)</string>
+    <string name="folder_picker">Složka</string>
+    <string name="folder_picker_sub">Vyberte všechny obrázky ze složky a jejích podsložek</string>
 </resources>

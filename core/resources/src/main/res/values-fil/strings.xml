@@ -3716,4 +3716,6 @@
     <string name="normalize_gif_frames">I-normalize ang laki ng frame</string>
     <string name="normalize_gif_frames_sub">I-scale ang mga frame upang magkasya sa pinakamalaking clip; patayin upang mapanatili ang kanilang orihinal na sukat</string>
     <string name="delay_between_clips">Pagkaantala sa pagitan ng mga clip (ms)</string>
+    <string name="folder_picker">Folder</string>
+    <string name="folder_picker_sub">Piliin ang lahat ng larawan mula sa isang folder at mga subfolder nito</string>
 </resources>

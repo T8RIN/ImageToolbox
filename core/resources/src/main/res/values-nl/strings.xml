@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normaliseer de framegrootte</string>
     <string name="normalize_gif_frames_sub">Schaal frames zodat ze in de grootste clip passen; uitschakelen om hun oorspronkelijke schaal te behouden</string>
     <string name="delay_between_clips">Vertraging tussen clips (ms)</string>
+    <string name="folder_picker">Map</string>
+    <string name="folder_picker_sub">Selecteer alle afbeeldingen uit een map en de submappen ervan</string>
 </resources>

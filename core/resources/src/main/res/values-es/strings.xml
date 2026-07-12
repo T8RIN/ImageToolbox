@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normalizar el tamaño del marco</string>
     <string name="normalize_gif_frames_sub">Escale los marcos para que quepan en el clip más grande; apague para conservar su escala original</string>
     <string name="delay_between_clips">Retraso entre clips (ms)</string>
+    <string name="folder_picker">Carpeta</string>
+    <string name="folder_picker_sub">Seleccionar todas las imágenes de una carpeta y sus subcarpetas</string>
 </resources>

@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">சட்டத்தின் அளவை இயல்பாக்குங்கள்</string>
     <string name="normalize_gif_frames_sub">மிகப்பெரிய கிளிப்புக்கு ஏற்றவாறு பிரேம்களை அளவிடவும்; அவற்றின் அசல் அளவைப் பாதுகாக்க அணைக்கவும்</string>
     <string name="delay_between_clips">கிளிப்புகள் இடையே தாமதம் (மிசி)</string>
+    <string name="folder_picker">கோப்புறை</string>
+    <string name="folder_picker_sub">ஒரு கோப்புறை மற்றும் அதன் துணை கோப்புறைகளில் இருந்து அனைத்து படங்களையும் தேர்ந்தெடுக்கவும்</string>
 </resources>

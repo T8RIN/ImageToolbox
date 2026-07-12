@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">फ्रेम आकार सामान्य करा</string>
     <string name="normalize_gif_frames_sub">सर्वात मोठी क्लिप फिट करण्यासाठी स्केल फ्रेम; त्यांचे मूळ स्केल जतन करण्यासाठी बंद करा</string>
     <string name="delay_between_clips">क्लिप दरम्यान विलंब (ms)</string>
+    <string name="folder_picker">फोल्डर</string>
+    <string name="folder_picker_sub">फोल्डर आणि त्याच्या सबफोल्डर्समधून सर्व प्रतिमा निवडा</string>
 </resources>

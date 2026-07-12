@@ -3714,4 +3714,6 @@
     <string name="normalize_gif_frames">Chuẩn hóa kích thước khung hình</string>
     <string name="normalize_gif_frames_sub">Chia tỷ lệ khung hình để vừa với clip lớn nhất; tắt để duy trì quy mô ban đầu của họ</string>
     <string name="delay_between_clips">Độ trễ giữa các clip (ms)</string>
+    <string name="folder_picker">Thư mục</string>
+    <string name="folder_picker_sub">Chọn tất cả hình ảnh từ một thư mục và các thư mục con của nó</string>
 </resources>

@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">规范化帧大小</string>
     <string name="normalize_gif_frames_sub">缩放框架以适合最大的剪辑；关闭以保留其原始比例</string>
     <string name="delay_between_clips">剪辑之间的延迟（毫秒）</string>
+    <string name="folder_picker">文件夹</string>
+    <string name="folder_picker_sub">选择文件夹及其子文件夹中的所有图像</string>
 </resources>

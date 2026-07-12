@@ -3716,4 +3716,6 @@
     <string name="normalize_gif_frames">ఫ్రేమ్ పరిమాణాన్ని సాధారణీకరించండి</string>
     <string name="normalize_gif_frames_sub">అతిపెద్ద క్లిప్‌కు సరిపోయేలా ఫ్రేమ్‌లను స్కేల్ చేయండి; వాటి అసలు స్థాయిని కాపాడుకోవడానికి ఆఫ్ చేయండి</string>
     <string name="delay_between_clips">క్లిప్‌ల మధ్య ఆలస్యం (మిసె)</string>
+    <string name="folder_picker">ఫోల్డర్</string>
+    <string name="folder_picker_sub">ఫోల్డర్ మరియు దాని సబ్ ఫోల్డర్‌ల నుండి అన్ని చిత్రాలను ఎంచుకోండి</string>
 </resources>

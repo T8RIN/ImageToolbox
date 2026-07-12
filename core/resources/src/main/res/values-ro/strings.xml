@@ -3717,4 +3717,6 @@
     <string name="normalize_gif_frames">Normalizați dimensiunea cadrului</string>
     <string name="normalize_gif_frames_sub">Scala rame pentru a se potrivi celui mai mare clip; opriți pentru a-și păstra scara inițială</string>
     <string name="delay_between_clips">Întârziere între clipuri (ms)</string>
+    <string name="folder_picker">Pliant</string>
+    <string name="folder_picker_sub">Selectați toate imaginile dintr-un folder și subdosarele acestuia</string>
 </resources>

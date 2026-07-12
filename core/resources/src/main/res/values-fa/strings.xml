@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">سایز فریم را عادی کنید</string>
     <string name="normalize_gif_frames_sub">قاب‌ها را برای بزرگ‌ترین گیره تنظیم کنید. برای حفظ مقیاس اصلی خود را خاموش کنید</string>
     <string name="delay_between_clips">تاخیر بین کلیپ ها (ms)</string>
+    <string name="folder_picker">پوشه</string>
+    <string name="folder_picker_sub">همه تصاویر را از یک پوشه و زیرپوشه های آن انتخاب کنید</string>
 </resources>

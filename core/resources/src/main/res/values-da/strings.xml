@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normaliser rammestørrelsen</string>
     <string name="normalize_gif_frames_sub">Skaler rammer, så de passer til den største klips; slukke for at bevare deres oprindelige skala</string>
     <string name="delay_between_clips">Forsinkelse mellem klip (ms)</string>
+    <string name="folder_picker">Folder</string>
+    <string name="folder_picker_sub">Vælg alle billeder fra en mappe og dens undermapper</string>
 </resources>

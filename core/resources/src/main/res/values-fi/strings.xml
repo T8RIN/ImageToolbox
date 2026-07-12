@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normalisoi kehyksen koko</string>
     <string name="normalize_gif_frames_sub">Skaalaa kehykset isoimpaan klipsiin sopivaksi; sammuta säilyttääksesi alkuperäisen mittakaavan</string>
     <string name="delay_between_clips">Leikkeiden välinen viive (ms)</string>
+    <string name="folder_picker">Kansio</string>
+    <string name="folder_picker_sub">Valitse kaikki kuvat kansiosta ja sen alikansioista</string>
 </resources>

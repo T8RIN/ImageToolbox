@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">ਫਰੇਮ ਦਾ ਆਕਾਰ ਆਮ ਬਣਾਓ</string>
     <string name="normalize_gif_frames_sub">ਸਭ ਤੋਂ ਵੱਡੀ ਕਲਿੱਪ ਫਿੱਟ ਕਰਨ ਲਈ ਸਕੇਲ ਫਰੇਮ; ਆਪਣੇ ਅਸਲੀ ਸਕੇਲ ਨੂੰ ਸੁਰੱਖਿਅਤ ਰੱਖਣ ਲਈ ਬੰਦ ਕਰੋ</string>
     <string name="delay_between_clips">ਕਲਿੱਪਾਂ ਵਿਚਕਾਰ ਦੇਰੀ (ms)</string>
+    <string name="folder_picker">ਫੋਲਡਰ</string>
+    <string name="folder_picker_sub">ਇੱਕ ਫੋਲਡਰ ਅਤੇ ਇਸਦੇ ਸਬਫੋਲਡਰ ਤੋਂ ਸਾਰੀਆਂ ਤਸਵੀਰਾਂ ਚੁਣੋ</string>
 </resources>

@@ -3717,4 +3717,6 @@
     <string name="normalize_gif_frames">Normalizuj rozmiar ramki</string>
     <string name="normalize_gif_frames_sub">Skaluj klatki, aby dopasować je do największego klipu; wyłączyć, aby zachować oryginalną skalę</string>
     <string name="delay_between_clips">Opóźnienie między klipami (ms)</string>
+    <string name="folder_picker">Falcówka</string>
+    <string name="folder_picker_sub">Wybierz wszystkie obrazy z folderu i jego podfolderów</string>
 </resources>

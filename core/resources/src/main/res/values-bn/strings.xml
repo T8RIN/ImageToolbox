@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">ফ্রেমের আকার স্বাভাবিক করুন</string>
     <string name="normalize_gif_frames_sub">বৃহত্তম ক্লিপ মাপসই স্কেল ফ্রেম; তাদের আসল স্কেল সংরক্ষণের জন্য বন্ধ করুন</string>
     <string name="delay_between_clips">ক্লিপগুলির মধ্যে বিলম্ব (ms)</string>
+    <string name="folder_picker">ফোল্ডার</string>
+    <string name="folder_picker_sub">একটি ফোল্ডার এবং এর সাবফোল্ডার থেকে সমস্ত ছবি নির্বাচন করুন</string>
 </resources>

@@ -3717,4 +3717,6 @@
     <string name="normalize_gif_frames">Normalizuokite rėmo dydį</string>
     <string name="normalize_gif_frames_sub">Pakeiskite rėmelius, kad tilptų didžiausias segtukas; išjunkite, kad išsaugotumėte pradinį mastelį</string>
     <string name="delay_between_clips">Vėlavimas tarp klipų (ms)</string>
+    <string name="folder_picker">Aplankas</string>
+    <string name="folder_picker_sub">Pasirinkite visus vaizdus iš aplanko ir jo poaplankių</string>
 </resources>

@@ -3717,4 +3717,6 @@
     <string name="normalize_gif_frames">Normalizujte veľkosť rámu</string>
     <string name="normalize_gif_frames_sub">Prispôsobte rámy tak, aby sa zmestili na najväčšiu sponu; vypnite, aby sa zachovala ich pôvodná mierka</string>
     <string name="delay_between_clips">Oneskorenie medzi klipmi (ms)</string>
+    <string name="folder_picker">Priečinok</string>
+    <string name="folder_picker_sub">Vyberte všetky obrázky z priečinka a jeho podpriečinkov</string>
 </resources>

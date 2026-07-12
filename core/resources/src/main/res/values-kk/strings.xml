@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Жақтау өлшемін қалыпқа келтіру</string>
     <string name="normalize_gif_frames_sub">Ең үлкен клипке сәйкес келетін жақтауларды масштабтаңыз; бастапқы масштабын сақтау үшін өшіріңіз</string>
     <string name="delay_between_clips">Клиптер арасындағы кідіріс (мс)</string>
+    <string name="folder_picker">Қалта</string>
+    <string name="folder_picker_sub">Қалтадағы және оның ішкі қалталарынан барлық кескіндерді таңдаңыз</string>
 </resources>

@@ -3718,4 +3718,6 @@
     <string name="delay_between_clips">Задержка между фрагментами (мс)</string>
     <string name="reverse_sub">Играть наоборот</string>
     <string name="boomerang_sub">Играйте вперед, а затем назад</string>
+    <string name="folder_picker">Папка</string>
+    <string name="folder_picker_sub">Выберите все изображения из папки и ее подпапок.</string>
 </resources>

@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">رامكىنىڭ چوڭ-كىچىكلىكىنى نورماللاشتۇرۇش</string>
     <string name="normalize_gif_frames_sub">ئەڭ چوڭ قىسمىغا ماس كېلىدىغان كۆلەم رامكىسى ئەسلىدىكى كۆلىمىنى ساقلاپ قېلىش ئۈچۈن ئېتىۋېتىڭ</string>
     <string name="delay_between_clips">قىسقۇچ (ms) ئارىسىدا كېچىكىش</string>
+    <string name="folder_picker">ھۆججەت قىسقۇچ</string>
+    <string name="folder_picker_sub">ھۆججەت قىسقۇچ ۋە ئۇنىڭ قىسقۇچتىن بارلىق رەسىملەرنى تاللاڭ</string>
 </resources>

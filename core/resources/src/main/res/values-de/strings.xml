@@ -3716,4 +3716,6 @@
     <string name="normalize_gif_frames">Bildgröße normalisieren</string>
     <string name="normalize_gif_frames_sub">Rahmen so skalieren, dass sie in den größten Clip passen; ausschalten, um den Originalmaßstab beizubehalten</string>
     <string name="delay_between_clips">Verzögerung zwischen Clips (ms)</string>
+    <string name="folder_picker">Ordner</string>
+    <string name="folder_picker_sub">Wählen Sie alle Bilder aus einem Ordner und seinen Unterordnern aus</string>
 </resources>

@@ -3716,4 +3716,6 @@
     <string name="normalize_gif_frames">Normalitzar la mida del marc</string>
     <string name="normalize_gif_frames_sub">Escala els marcs per adaptar-se al clip més gran; apagar per conservar la seva escala original</string>
     <string name="delay_between_clips">Retard entre clips (ms)</string>
+    <string name="folder_picker">Carpeta</string>
+    <string name="folder_picker_sub">Seleccioneu totes les imatges d\'una carpeta i les seves subcarpetes</string>
 </resources>

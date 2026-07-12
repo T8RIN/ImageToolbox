@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normalizatu markoaren tamaina</string>
     <string name="normalize_gif_frames_sub">Eskalatu fotogramak klip handiena egokitzeko; itzali jatorrizko eskala gordetzeko</string>
     <string name="delay_between_clips">Klipen arteko atzerapena (ms)</string>
+    <string name="folder_picker">Karpeta</string>
+    <string name="folder_picker_sub">Hautatu karpeta bateko eta bere azpikarpetetako irudi guztiak</string>
 </resources>

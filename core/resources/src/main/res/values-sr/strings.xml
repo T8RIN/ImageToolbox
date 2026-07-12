@@ -3717,4 +3717,6 @@
     <string name="normalize_gif_frames">Нормализујте величину оквира</string>
     <string name="normalize_gif_frames_sub">Скалирајте оквире тако да одговарају највећем клипу; искључите да бисте сачували оригиналну размеру</string>
     <string name="delay_between_clips">Кашњење између клипова (мс)</string>
+    <string name="folder_picker">Фолдер</string>
+    <string name="folder_picker_sub">Изаберите све слике из фасцикле и њених потфасцикли</string>
 </resources>

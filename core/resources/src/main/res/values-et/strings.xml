@@ -3715,4 +3715,6 @@
     <string name="normalize_gif_frames">Normaliseerige raami suurus</string>
     <string name="normalize_gif_frames_sub">Mõõtke raamid, et need sobiksid suurima klambriga; algse skaala säilitamiseks välja lülitada</string>
     <string name="delay_between_clips">Klippide vaheline viivitus (ms)</string>
+    <string name="folder_picker">Kaust</string>
+    <string name="folder_picker_sub">Valige kaustast ja selle alamkaustadest kõik pildid</string>
 </resources>

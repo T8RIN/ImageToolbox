@@ -3718,4 +3718,6 @@
     <string name="normalize_gif_frames">נרמל את גודל המסגרת</string>
     <string name="normalize_gif_frames_sub">קנה מידה של מסגרות כך שיתאימו לקליפ הגדול ביותר; כבה כדי לשמר את הסולם המקורי שלהם</string>
     <string name="delay_between_clips">השהיה בין קליפים (ms)</string>
+    <string name="folder_picker">תיקיה</string>
+    <string name="folder_picker_sub">בחר את כל התמונות מתיקיה ומתיקיות המשנה שלה</string>
 </resources>
