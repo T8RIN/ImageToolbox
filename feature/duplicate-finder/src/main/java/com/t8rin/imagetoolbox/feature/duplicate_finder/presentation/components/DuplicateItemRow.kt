@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCheckbox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -78,10 +79,12 @@ internal fun DuplicateItemRow(
             ).joinToString(separator = " • ")
         },
         shape = shape,
-        containerColor = if (isSelected) {
-            MaterialTheme.colorScheme.secondaryContainer
-        } else {
-            MaterialTheme.colorScheme.surfaceContainer
+        containerColor = takeColorFromScheme {
+            if (isSelected) {
+                secondaryContainer
+            } else {
+                surfaceContainer
+            }
         },
         onClick = onToggleSelection,
         applyHorizontalPadding = false,
