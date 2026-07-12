@@ -18,18 +18,21 @@
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.MutatePriority
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.awaitLongPressOrCancellation
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.changedToUpIgnoreConsumed
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -41,8 +44,12 @@ import androidx.compose.ui.unit.toIntRect
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 
 /**
@@ -66,16 +73,6 @@ fun Modifier.dragHandler(
     val isRtl = !isVertical && LocalLayoutDirection.current == LayoutDirection.Rtl
 
     val autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
-    val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
-
-    LaunchedEffect(autoScrollSpeed.value) {
-        if (autoScrollSpeed.value != 0f) {
-            while (isActive) {
-                lazyGridState.scrollBy(autoScrollSpeed.value)
-                delay(10)
-            }
-        }
-    }
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -105,71 +102,150 @@ fun Modifier.dragHandler(
         }
         .pointerInput(key, shouldHandleLongTap, enabled, isRtl, isPortrait) {
             if (enabled) {
-                var initialKey: Int? = null
-                var currentKey: Int? = null
-                detectDragGesturesAfterLongPress(
-                    onDragStart = { offset ->
+                coroutineScope {
+                    var initialKey: Int? = null
+                    var currentKey: Int? = null
+                    var dragPosition: Offset?
+                    var autoScrollSpeed = 0f
+                    var autoScrollJob: Job? = null
+
+                    fun updateSelection(position: Offset) {
+                        val initial = initialKey ?: return
+
                         lazyGridState
-                            .gridItemKeyAtPosition(
-                                if (isRtl) offset.copy(x = size.width - offset.x) else offset
-                            )
+                            .gridItemKeyAtPosition(position)
                             ?.let { key ->
-                                if (!selectedItems.value.contains(key) && shouldHandleLongTap) {
-                                    initialKey = key
-                                    currentKey = key
-                                    val newItems = selectedItems.value + key
+                                if (currentKey != key) {
+                                    val newItems = selectedItems.value
+                                        .minus(initial..currentKey!!)
+                                        .minus(currentKey!!..initial)
+                                        .plus(initial..key)
+                                        .plus(key..initial)
+
                                     selectedItems.update { newItems }
                                     onSelectionChange(newItems)
+                                    currentKey = key
                                 }
-                                haptics.longPress()
-                                onLongTap(key - 1)
                             }
-                    },
-                    onDragCancel = {
+                    }
+
+                    fun stopDrag() {
                         initialKey = null
-                        autoScrollSpeed.value = 0f
-                    },
-                    onDragEnd = {
-                        initialKey = null
-                        autoScrollSpeed.value = 0f
-                    },
-                    onDrag = { change, _ ->
-                        if (initialKey != null) {
+                        currentKey = null
+                        dragPosition = null
+                        autoScrollSpeed = 0f
+                        autoScrollJob?.cancel()
+                        autoScrollJob = null
+                    }
+
+                    detectDragGesturesAfterLongPressInInitialPass(
+                        onDragStart = { offset ->
                             val position =
-                                if (isRtl) change.position.copy(x = size.width - change.position.x) else change.position
-
-                            val distFromBottom = if (isVertical) {
-                                lazyGridState.layoutInfo.viewportSize.height - position.y
-                            } else lazyGridState.layoutInfo.viewportSize.width - position.x
-                            val distFromTop = if (isVertical) {
-                                position.y
-                            } else position.x
-                            autoScrollSpeed.value = when {
-                                distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
-                                distFromTop < autoScrollThreshold -> -(autoScrollThreshold - distFromTop)
-                                else -> 0f
-                            }
-
+                                if (isRtl) offset.copy(x = size.width - offset.x) else offset
                             lazyGridState
                                 .gridItemKeyAtPosition(position)
                                 ?.let { key ->
-                                    if (currentKey != key) {
-                                        val newItems = selectedItems.value
-                                            .minus(initialKey!!..currentKey!!)
-                                            .minus(currentKey!!..initialKey!!)
-                                            .plus(initialKey!!..key)
-                                            .plus(key..initialKey!!)
-
+                                    if (!selectedItems.value.contains(key) && shouldHandleLongTap) {
+                                        initialKey = key
+                                        currentKey = key
+                                        dragPosition = position
+                                        val newItems = selectedItems.value + key
                                         selectedItems.update { newItems }
                                         onSelectionChange(newItems)
-                                        currentKey = key
+
+                                        autoScrollJob = launch {
+                                            lazyGridState.scroll(MutatePriority.PreventUserInput) {
+                                                while (isActive) {
+                                                    val speed = autoScrollSpeed
+                                                    if (speed != 0f) {
+                                                        scrollBy(speed)
+                                                        dragPosition?.let(::updateSelection)
+                                                    }
+                                                    delay(10)
+                                                }
+                                            }
+                                        }
                                     }
+                                    haptics.longPress()
+                                    onLongTap(key - 1)
                                 }
+                        },
+                        onDragCancel = ::stopDrag,
+                        onDragEnd = ::stopDrag,
+                        onDrag = { change, _ ->
+                            if (initialKey != null) {
+                                val position = if (isRtl) {
+                                    change.position.copy(x = size.width - change.position.x)
+                                } else {
+                                    change.position
+                                }
+
+                                dragPosition = position
+                                val distFromBottom = if (isVertical) {
+                                    lazyGridState.layoutInfo.viewportSize.height - position.y
+                                } else lazyGridState.layoutInfo.viewportSize.width - position.x
+                                val distFromTop = if (isVertical) {
+                                    position.y
+                                } else position.x
+                                autoScrollSpeed = when {
+                                    distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
+                                    distFromTop < autoScrollThreshold -> -(autoScrollThreshold - distFromTop)
+                                    else -> 0f
+                                }
+
+                                updateSelection(position)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
+}
+
+private suspend fun PointerInputScope.detectDragGesturesAfterLongPressInInitialPass(
+    onDragStart: (Offset) -> Unit,
+    onDragEnd: () -> Unit,
+    onDragCancel: () -> Unit,
+    onDrag: (change: PointerInputChange, dragAmount: Offset) -> Unit
+) {
+    awaitEachGesture {
+        try {
+            val down = awaitFirstDown(requireUnconsumed = false)
+            val longPress = awaitLongPressOrCancellation(down.id) ?: return@awaitEachGesture
+
+            onDragStart(longPress.position)
+            var pointerId = longPress.id
+            var isFinished = false
+
+            while (!isFinished) {
+                val event = awaitPointerEvent(PointerEventPass.Initial)
+                var change = event.changes.firstOrNull { it.id == pointerId }
+
+                if (change?.pressed != true) {
+                    change = event.changes.firstOrNull { it.pressed }
+                    if (change == null) {
+                        event.changes
+                            .filter(PointerInputChange::changedToUpIgnoreConsumed)
+                            .forEach(PointerInputChange::consume)
+                        isFinished = true
+                    } else {
+                        pointerId = change.id
+                    }
+                }
+
+                if (!isFinished && change != null) {
+                    val dragAmount = change.position - change.previousPosition
+                    onDrag(change, dragAmount)
+                    change.consume()
+                }
+            }
+
+            onDragEnd()
+        } catch (exception: CancellationException) {
+            onDragCancel()
+            throw exception
+        }
+    }
 }
 
 private fun LazyGridState.gridItemKeyAtPosition(hitPoint: Offset): Int? {
