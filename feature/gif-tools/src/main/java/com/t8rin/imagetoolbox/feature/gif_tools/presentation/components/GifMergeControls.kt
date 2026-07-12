@@ -50,6 +50,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.request.ImageRequest
+import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
@@ -74,6 +76,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.isGif
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import kotlinx.collections.immutable.persistentMapOf
@@ -145,7 +148,12 @@ internal fun GifMergeControls(
                                 )
                         ) {
                             Picture(
-                                model = uri,
+                                model = remember(uri) {
+                                    ImageRequest.Builder(appContext)
+                                        .data(uri)
+                                        .static()
+                                        .build()
+                                },
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 shape = RectangleShape,
