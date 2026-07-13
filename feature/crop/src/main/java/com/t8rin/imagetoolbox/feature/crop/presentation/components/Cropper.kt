@@ -42,7 +42,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -61,7 +63,6 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ZoomBadge
 import com.t8rin.opencv_tools.free_corners_crop.compose.FreeCornersCropper
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -98,6 +99,20 @@ fun Cropper(
                     }
 
                     val scope = rememberCoroutineScope()
+                    val currentCrop by rememberUpdatedState(crop)
+                    val currentOnImageCropFinished by rememberUpdatedState(onImageCropFinished)
+                    val onLoadingStateChange: (Boolean) -> Unit = remember {
+                        { isLoading ->
+                            if (!isLoading) {
+                                scope.launch {
+                                    withFrameNanos { }
+                                    if (currentCrop) {
+                                        currentOnImageCropFinished(null)
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     AdvancedCropper(
                         imageModel = imageUri,
@@ -116,17 +131,7 @@ fun Cropper(
                         },
                         isOverlayDraggable = settingsState.cropOverlayDraggable,
                         rotationAngleState = rotationState,
-                        onLoadingStateChange = {
-                            if (it) {
-                                onImageCropStarted()
-                            } else {
-                                rotationState.floatValue = 0f
-                                scope.launch {
-                                    delay(300)
-                                    if (!crop) onImageCropFinished(null)
-                                }
-                            }
-                        },
+                        onLoadingStateChange = onLoadingStateChange,
                         onZoomChange = { newZoom ->
                             zoomLevel = newZoom
                         },
