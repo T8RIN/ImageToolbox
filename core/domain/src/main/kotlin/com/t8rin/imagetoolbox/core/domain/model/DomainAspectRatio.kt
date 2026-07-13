@@ -69,25 +69,6 @@ sealed class DomainAspectRatio(
             )
         }
 
-        fun fromString(value: String): DomainAspectRatio? = when {
-            value == Free::class.simpleName -> Free
-            value == Original::class.simpleName -> Original
-            value.contains(Custom::class.simpleName!!) -> {
-                val (w, h) = value.split("|")[1].split(":").map { it.toFloat() }
-                Custom(w, h)
-            }
-
-            value.contains(Numeric::class.simpleName!!) -> {
-                val (w, h) = value.split("|")[1].split(":").map { it.toFloat() }
-                Numeric(w, h)
-            }
-
-            else -> null
-        }
     }
 
-    fun asString(): String = when {
-        this is Custom || this is Numeric -> "${this::class.simpleName}|${widthProportion}:${heightProportion}"
-        else -> this::class.simpleName!!
-    }
 }

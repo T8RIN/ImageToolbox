@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -147,7 +148,11 @@ fun AspectRatioSelector(
             (selectedAspectRatio as? DomainAspectRatio.Custom)?.takeUnless { it.isSaved }
         )
     }
+    var selectedAspectRatioOverride by remember {
+        mutableStateOf<DomainAspectRatio?>(null)
+    }
     LaunchedEffect(selectedAspectRatio) {
+        selectedAspectRatioOverride = null
         editingCustomAspectRatio?.let { editing ->
             val selectedValue = selectedAspectRatio?.value
             if (
@@ -158,7 +163,9 @@ fun AspectRatioSelector(
             }
         }
     }
-    val actualSelectedAspectRatio = editingCustomAspectRatio ?: selectedAspectRatio
+    val actualSelectedAspectRatio = selectedAspectRatioOverride
+        ?: editingCustomAspectRatio
+        ?: selectedAspectRatio
     val hasExactSelection = actualSelectedAspectRatio in aspectRatios
     val editingCustomSaved = editingCustomAspectRatio?.let { editing ->
         savedAspectRatios.any {
@@ -235,9 +242,11 @@ fun AspectRatioSelector(
                 )
 
                 if (isNumeric) {
-                    Box(modifier = Modifier
-                        .width(90.dp)
-                        .animateItem()) {
+                    Box(
+                        modifier = Modifier
+                            .width(90.dp)
+                            .animateItem()
+                    ) {
                         AspectRatioSelectionCard(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -258,6 +267,7 @@ fun AspectRatioSelector(
                                     interactionSource = interactionSource,
                                     indication = LocalIndication.current
                                 ) {
+                                    selectedAspectRatioOverride = item
                                     editingCustomAspectRatio = null
                                     onAspectRatioChange(
                                         aspectRatios[index],
@@ -303,7 +313,7 @@ fun AspectRatioSelector(
                     Box(
                         modifier = Modifier
                             .animateItem()
-                            .height(106.dp)
+                            .height(104.dp)
                             .container(
                                 resultPadding = 0.dp,
                                 color = animateColorAsState(
@@ -324,9 +334,13 @@ fun AspectRatioSelector(
                                 indication = LocalIndication.current
                             ) {
                                 if (!selected) {
-                                    editingCustomAspectRatio = item
-                                        .takeIf { isCustomEditor }
-                                            as? DomainAspectRatio.Custom
+                                    if (isCustomEditor) {
+                                        selectedAspectRatioOverride = null
+                                        editingCustomAspectRatio = item
+                                    } else {
+                                        selectedAspectRatioOverride = item
+                                        editingCustomAspectRatio = null
+                                    }
                                     onAspectRatioChange(
                                         aspectRatios[index],
                                         cropAspectRatio.aspectRatio
@@ -361,6 +375,7 @@ fun AspectRatioSelector(
                                     )
                                 }
                             }
+                            Spacer(Modifier.height(4.dp))
                             Text(
                                 text = cropAspectRatio.title,
                                 fontSize = 14.sp,
