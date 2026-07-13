@@ -128,6 +128,9 @@ fun FreeCornersCropper(
     val frameStrokeWidthPx = with(density) {
         frameStrokeWidth.toPx()
     }
+    val middleHandleStrokeWidthPx = with(density) {
+        MiddleHandleStrokeWidth.toPx()
+    }
     val imageBitmap = remember(imageKey) { bitmap.asImageBitmap() }
 
     var dragTarget by remember(imageKey) { mutableStateOf<DragTarget>(DragTarget.None) }
@@ -655,7 +658,7 @@ fun FreeCornersCropper(
                         color = handlesColor,
                         start = center - handleVector,
                         end = center + handleVector,
-                        strokeWidth = frameStrokeWidthPx * 4f * edgeScales[index].value,
+                        strokeWidth = middleHandleStrokeWidthPx * edgeScales[index].value,
                         cap = StrokeCap.Round
                     )
                 }
@@ -1181,6 +1184,7 @@ private const val STRICT_CORNER_TOUCH_RADIUS_MULTIPLIER = 1.9f
 private const val CORNER_TOUCH_RADIUS_MULTIPLIER = 3.2f
 private const val EDGE_TOUCH_RADIUS_MULTIPLIER = 2.5f
 private const val MIDDLE_HANDLE_LENGTH_MULTIPLIER = 1.5f
+private val MiddleHandleStrokeWidth = 3.5.dp
 private const val DOUBLE_TAP_POSITION_TOLERANCE_MULTIPLIER = 4f
 private const val MINIMUM_CROP_ZOOM = 0.05f
 private const val CROP_POINTS_COUNT = 4
