@@ -30,4 +30,6 @@ dependencies {
     implementation(libs.trickle)
     implementation(libs.aire)
     implementation(libs.pdfbox)
+
+    testImplementation(libs.junit)
 }

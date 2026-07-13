@@ -26,7 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.model.RectModel
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.applyUse
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
-import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.utils.DefaultPdfFont
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
@@ -106,7 +106,7 @@ internal fun PDDocument.setMetadata(value: PdfMetadata?) {
 
 internal val PDDocument.defaultFont
     get() = PDType0Font.load(
-        this, appContext.resources.openRawResource(R.raw.roboto_bold)
+        this, appContext.resources.openRawResource(DefaultPdfFont)
     )
 
 internal fun PDDocument.getPageSafe(index: Int): PDPage = getPage(

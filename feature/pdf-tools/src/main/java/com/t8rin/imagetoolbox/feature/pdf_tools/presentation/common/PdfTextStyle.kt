@@ -21,11 +21,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.utils.DefaultPdfFont
 
 val PdfTextStyle = TextStyle(
     fontFamily = FontFamily(
-        Font(R.raw.roboto_bold)
+        Font(DefaultPdfFont)
     ),
     fontWeight = FontWeight.Bold
 )
