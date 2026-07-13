@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -101,7 +102,7 @@ internal fun Preferences.toSettingsState(
     drawAppBarShadows = this[DRAW_APPBAR_SHADOWS]
         ?: default.drawAppBarShadows,
     appOpenCount = this[APP_OPEN_COUNT] ?: default.appOpenCount,
-    aspectRatios = default.aspectRatios,
+    aspectRatios = toAspectRatios(default.aspectRatios),
     lockDrawOrientation = this[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
     themeContrastLevel = this[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
     themeStyle = this[THEME_STYLE] ?: default.themeStyle,
@@ -274,6 +275,39 @@ internal fun Preferences.toSettingsState(
     motionDurationScale = (this[MOTION_DURATION_SCALE] ?: default.motionDurationScale)
         .coerceIn(0f, 5f)
 )
+
+private fun Preferences.toAspectRatios(
+    default: List<DomainAspectRatio>
+): List<DomainAspectRatio> {
+    val customAspectRatios = this[CUSTOM_ASPECT_RATIOS]
+        ?.split("*")
+        ?.mapNotNull(String::toCustomAspectRatio)
+        .orEmpty()
+
+    return default.take(CUSTOM_ASPECT_RATIO_POSITION) +
+            customAspectRatios +
+            default.drop(CUSTOM_ASPECT_RATIO_POSITION)
+}
+
+private fun String.toCustomAspectRatio(): DomainAspectRatio.Custom? {
+    val proportions = split(":").mapNotNull(String::toFloatOrNull)
+    if (proportions.size != 2) return null
+
+    val (width, height) = proportions
+    if (!width.isValidAspectRatioProportion() || !height.isValidAspectRatioProportion()) {
+        return null
+    }
+
+    return DomainAspectRatio.Custom(
+        widthProportion = width,
+        heightProportion = height,
+        isSaved = true
+    )
+}
+
+private fun Float.isValidAspectRatioProportion(): Boolean = isFinite() && this >= 1f
+
+private const val CUSTOM_ASPECT_RATIO_POSITION = 3
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {
     val scaleMode = this[IMAGE_SCALE_MODE]?.let {

@@ -29,9 +29,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -41,10 +44,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,24 +66,30 @@ import com.t8rin.cropper.model.CropAspectRatio
 import com.t8rin.cropper.util.createRectShape
 import com.t8rin.cropper.widget.AspectRatioSelectionCard
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
-import com.t8rin.imagetoolbox.core.domain.utils.ifCasts
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CropFree
 import com.t8rin.imagetoolbox.core.resources.icons.DashboardCustomize
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Image
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @Composable
@@ -112,8 +123,50 @@ fun AspectRatioSelector(
     onAspectRatioChange: (DomainAspectRatio, AspectRatio) -> Unit,
     color: Color = Color.Unspecified,
     shape: Shape = ShapeDefaults.extraLarge,
-    aspectRatios: List<DomainAspectRatio> = aspectRatios()
+    excludedAspectRatios: Set<DomainAspectRatio> = emptySet()
 ) {
+    val settingsState = LocalSettingsState.current
+    val settingsInteractor = LocalSimpleSettingsInteractor.current
+    val scope = rememberCoroutineScope()
+    val aspectRatios by remember(settingsState.aspectRatios, excludedAspectRatios) {
+        derivedStateOf {
+            settingsState.aspectRatios.filterNot(excludedAspectRatios::contains)
+        }
+    }
+    val savedAspectRatios by remember(settingsState.aspectRatios) {
+        derivedStateOf {
+            settingsState.aspectRatios
+                .filterIsInstance<DomainAspectRatio.Custom>()
+                .filter(DomainAspectRatio.Custom::isSaved)
+        }
+    }
+    val externalCustomSelected = selectedAspectRatio
+        .let { it is DomainAspectRatio.Custom && !it.isSaved }
+    var editingCustomAspectRatio by remember(externalCustomSelected) {
+        mutableStateOf(
+            (selectedAspectRatio as? DomainAspectRatio.Custom)?.takeUnless { it.isSaved }
+        )
+    }
+    LaunchedEffect(selectedAspectRatio) {
+        editingCustomAspectRatio?.let { editing ->
+            val selectedValue = selectedAspectRatio?.value
+            if (
+                selectedValue == null ||
+                abs(selectedValue - editing.value) >= ASPECT_RATIO_TOLERANCE
+            ) {
+                editingCustomAspectRatio = null
+            }
+        }
+    }
+    val actualSelectedAspectRatio = editingCustomAspectRatio ?: selectedAspectRatio
+    val hasExactSelection = actualSelectedAspectRatio in aspectRatios
+    val editingCustomSaved = editingCustomAspectRatio?.let { editing ->
+        savedAspectRatios.any {
+            it.widthProportion == editing.widthProportion &&
+                    it.heightProportion == editing.heightProportion
+        }
+    } == true
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -139,18 +192,28 @@ fun AspectRatioSelector(
         ) {
             itemsIndexed(
                 items = aspectRatios,
-                key = { _, a ->
-                    a.toCropAspectRatio(
-                        original = "0",
-                        free = "1",
-                        custom = "2"
-                    ).title
+                key = { _, aspectRatio ->
+                    "${aspectRatio::class.simpleName}-${aspectRatio.widthProportion}-" +
+                            "${aspectRatio.heightProportion}-" +
+                            "${(aspectRatio as? DomainAspectRatio.Custom)?.isSaved}"
                 }
             ) { index, item ->
-                val selected = (item == selectedAspectRatio)
-                    .or(
-                        item is DomainAspectRatio.Custom && selectedAspectRatio is DomainAspectRatio.Custom
-                    )
+                val isCustomEditor = item is DomainAspectRatio.Custom && !item.isSaved
+                val selected = when {
+                    isCustomEditor ->
+                        actualSelectedAspectRatio is DomainAspectRatio.Custom &&
+                                !actualSelectedAspectRatio.isSaved
+
+                    item == actualSelectedAspectRatio -> true
+                    hasExactSelection -> false
+                    item == DomainAspectRatio.Free || item == DomainAspectRatio.Original -> false
+                    actualSelectedAspectRatio == null -> false
+                    actualSelectedAspectRatio == DomainAspectRatio.Free -> false
+                    actualSelectedAspectRatio == DomainAspectRatio.Original -> false
+                    else -> abs(
+                        item.value - actualSelectedAspectRatio.value
+                    ) < ASPECT_RATIO_TOLERANCE
+                }
                 val cropAspectRatio = item.toCropAspectRatio(
                     original = stringResource(R.string.original),
                     free = stringResource(R.string.free),
@@ -158,7 +221,8 @@ fun AspectRatioSelector(
                 )
                 val isNumeric by remember(item) {
                     derivedStateOf {
-                        item != DomainAspectRatio.Original && item != DomainAspectRatio.Free && item !is DomainAspectRatio.Custom
+                        item is DomainAspectRatio.Numeric ||
+                                item is DomainAspectRatio.Custom && item.isSaved
                     }
                 }
 
@@ -171,46 +235,83 @@ fun AspectRatioSelector(
                 )
 
                 if (isNumeric) {
-                    AspectRatioSelectionCard(
-                        modifier = Modifier
-                            .width(90.dp)
-                            .container(
-                                resultPadding = 0.dp,
-                                color = animateColorAsState(
-                                    targetValue = if (selected) {
-                                        MaterialTheme.colorScheme.primaryContainer
-                                    } else unselectedCardColor,
-                                ).value,
-                                borderColor = takeColorFromScheme {
-                                    if (selected) onPrimaryContainer.copy(0.7f)
-                                    else outlineVariant()
+                    Box(modifier = Modifier
+                        .width(90.dp)
+                        .animateItem()) {
+                        AspectRatioSelectionCard(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .container(
+                                    resultPadding = 0.dp,
+                                    color = animateColorAsState(
+                                        targetValue = if (selected) {
+                                            MaterialTheme.colorScheme.primaryContainer
+                                        } else unselectedCardColor,
+                                    ).value,
+                                    borderColor = takeColorFromScheme {
+                                        if (selected) onPrimaryContainer.copy(0.7f)
+                                        else outlineVariant()
+                                    },
+                                    shape = cardShape
+                                )
+                                .hapticsClickable(
+                                    interactionSource = interactionSource,
+                                    indication = LocalIndication.current
+                                ) {
+                                    editingCustomAspectRatio = null
+                                    onAspectRatioChange(
+                                        aspectRatios[index],
+                                        cropAspectRatio.aspectRatio
+                                    )
+                                }
+                                .padding(
+                                    start = 12.dp,
+                                    top = 12.dp,
+                                    end = 12.dp,
+                                    bottom = 2.dp
+                                ),
+                            contentColor = Color.Transparent,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            cropAspectRatio = cropAspectRatio
+                        )
+                        if (item is DomainAspectRatio.Custom && item.isSaved) {
+                            EnhancedIconButton(
+                                onClick = {
+                                    scope.launch {
+                                        settingsInteractor.setAspectRatios(
+                                            savedAspectRatios.filterNot { it == item }
+                                        )
+                                    }
                                 },
-                                shape = cardShape
-                            )
-                            .hapticsClickable(
-                                interactionSource = interactionSource,
-                                indication = LocalIndication.current
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .offset(x = 2.dp, y = -(4.dp))
+                                    .size(22.dp),
+                                containerColor = MaterialTheme.colorScheme.errorContainer,
+                                contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                                forceMinimumInteractiveComponentSize = false
                             ) {
-                                onAspectRatioChange(
-                                    aspectRatios[index],
-                                    cropAspectRatio.aspectRatio
+                                Icon(
+                                    imageVector = Icons.Outlined.Delete,
+                                    contentDescription = stringResource(R.string.delete),
+                                    modifier = Modifier.size(16.dp)
                                 )
                             }
-                            .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 2.dp),
-                        contentColor = Color.Transparent,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        cropAspectRatio = cropAspectRatio
-                    )
+                        }
+                    }
                 } else {
                     Box(
                         modifier = Modifier
+                            .animateItem()
                             .height(106.dp)
                             .container(
                                 resultPadding = 0.dp,
                                 color = animateColorAsState(
-                                    targetValue = if (selected) {
-                                        MaterialTheme.colorScheme.primaryContainer
-                                    } else unselectedCardColor,
+                                    targetValue = when {
+                                        isCustomEditor && editingCustomSaved -> MaterialTheme.colorScheme.secondaryContainer
+                                        selected -> MaterialTheme.colorScheme.primaryContainer
+                                        else -> unselectedCardColor
+                                    },
                                 ).value,
                                 borderColor = takeColorFromScheme {
                                     if (selected) onPrimaryContainer.copy(0.7f)
@@ -222,7 +323,10 @@ fun AspectRatioSelector(
                                 interactionSource = interactionSource,
                                 indication = LocalIndication.current
                             ) {
-                                if (!item::class.isInstance(selectedAspectRatio)) {
+                                if (!selected) {
+                                    editingCustomAspectRatio = item
+                                        .takeIf { isCustomEditor }
+                                            as? DomainAspectRatio.Custom
                                     onAspectRatioChange(
                                         aspectRatios[index],
                                         cropAspectRatio.aspectRatio
@@ -267,103 +371,156 @@ fun AspectRatioSelector(
                 }
             }
         }
-        AnimatedVisibility(visible = selectedAspectRatio is DomainAspectRatio.Custom) {
-            Row(
-                Modifier
-                    .padding(8.dp)
-                    .container(
-                        shape = ShapeDefaults.extraLarge,
-                        color = unselectedCardColor
-                    )
+        AnimatedVisibility(visible = editingCustomAspectRatio != null) {
+            Column(
+                modifier = Modifier.padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 var tempWidth by remember {
-                    mutableStateOf(selectedAspectRatio?.widthProportion?.toString() ?: "1")
+                    mutableStateOf(editingCustomAspectRatio?.widthProportion?.toString() ?: "1")
                 }
                 var tempHeight by remember {
-                    mutableStateOf(selectedAspectRatio?.heightProportion?.toString() ?: "1")
+                    mutableStateOf(editingCustomAspectRatio?.heightProportion?.toString() ?: "1")
                 }
-                RoundedTextField(
-                    value = tempWidth,
-                    onValueChange = { value ->
-                        tempWidth = value
-                        val width = abs(value.toFloatOrNull() ?: 0f).coerceAtLeast(1f)
-
-                        selectedAspectRatio.ifCasts<DomainAspectRatio.Custom> { aspect ->
-                            onAspectRatioChange(
-                                aspect.copy(
-                                    widthProportion = width
-                                ),
-                                AspectRatio(
-                                    (width / aspect.heightProportion).takeIf { !it.isNaN() }
-                                        ?: 1f
-                                )
-                            )
-                        }
-                    },
-                    shape = ShapeDefaults.smallStart,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    label = {
-                        Text(stringResource(R.string.width, " "))
-                    },
-                    supportingText = abs(tempWidth.toFloatOrNull() ?: 0f).takeIf { it < 1f }?.let {
-                        {
-                            Text(stringResource(R.string.minimum_value_is, 1))
-                        }
-                    },
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(
-                            start = 8.dp,
-                            top = 8.dp,
-                            bottom = 8.dp,
-                            end = 2.dp
+                        .padding()
+                        .container(
+                            shape = AutoCornersShape(
+                                topStart = 24.dp,
+                                topEnd = 24.dp,
+                                bottomEnd = 4.dp,
+                                bottomStart = 4.dp
+                            ),
+                            color = unselectedCardColor
                         )
-                )
-                RoundedTextField(
-                    value = tempHeight,
-                    onValueChange = { value ->
-                        tempHeight = value
-                        val height = abs(value.toFloatOrNull() ?: 1f).coerceAtLeast(1f)
+                ) {
+                    RoundedTextField(
+                        value = tempWidth,
+                        onValueChange = { value ->
+                            tempWidth = value
+                            val width = abs(value.toFloatOrNull() ?: 0f).coerceAtLeast(1f)
 
-                        selectedAspectRatio.ifCasts<DomainAspectRatio.Custom> { aspect ->
-                            onAspectRatioChange(
-                                aspect.copy(
-                                    heightProportion = height
-                                ),
-                                AspectRatio(
-                                    (aspect.widthProportion / height).takeIf { !it.isNaN() }
-                                        ?: 1f
+                            editingCustomAspectRatio?.let { aspect ->
+                                val updatedAspectRatio = aspect.copy(widthProportion = width)
+                                editingCustomAspectRatio = updatedAspectRatio
+                                onAspectRatioChange(
+                                    updatedAspectRatio,
+                                    AspectRatio(
+                                        (width / aspect.heightProportion).takeIf { !it.isNaN() }
+                                            ?: 1f
+                                    )
                                 )
+                            }
+                        },
+                        shape = ShapeDefaults.smallStart,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        label = {
+                            Text(stringResource(R.string.width, " "))
+                        },
+                        supportingText = abs(tempWidth.toFloatOrNull() ?: 0f)
+                            .takeIf { it < 1f }
+                            ?.let {
+                                {
+                                    Text(stringResource(R.string.minimum_value_is, 1))
+                                }
+                            },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(
+                                start = 8.dp,
+                                top = 8.dp,
+                                bottom = 8.dp,
+                                end = 2.dp
+                            )
+                    )
+                    RoundedTextField(
+                        value = tempHeight,
+                        onValueChange = { value ->
+                            tempHeight = value
+                            val height = abs(value.toFloatOrNull() ?: 1f).coerceAtLeast(1f)
+
+                            editingCustomAspectRatio?.let { aspect ->
+                                val updatedAspectRatio = aspect.copy(heightProportion = height)
+                                editingCustomAspectRatio = updatedAspectRatio
+                                onAspectRatioChange(
+                                    updatedAspectRatio,
+                                    AspectRatio(
+                                        (aspect.widthProportion / height).takeIf { !it.isNaN() }
+                                            ?: 1f
+                                    )
+                                )
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        shape = ShapeDefaults.smallEnd,
+                        label = {
+                            Text(stringResource(R.string.height, " "))
+                        },
+                        supportingText = abs(tempHeight.toFloatOrNull() ?: 0f)
+                            .takeIf { it < 1f }
+                            ?.let {
+                                {
+                                    Text(stringResource(R.string.minimum_value_is, 1))
+                                }
+                            },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(
+                                start = 2.dp,
+                                top = 8.dp,
+                                bottom = 8.dp,
+                                end = 8.dp
+                            ),
+                    )
+                }
+                val width = tempWidth.toFloatOrNull()?.let(::abs)
+                val height = tempHeight.toFloatOrNull()?.let(::abs)
+                val canSave = width != null && height != null &&
+                        width.isFinite() && height.isFinite() &&
+                        width >= 1f && height >= 1f &&
+                        aspectRatios.none {
+                            it != DomainAspectRatio.Free &&
+                                    it != DomainAspectRatio.Original &&
+                                    (it !is DomainAspectRatio.Custom || it.isSaved) &&
+                                    abs(it.value - width / height) < ASPECT_RATIO_TOLERANCE
+                        }
+
+                EnhancedButton(
+                    onClick = {
+                        scope.launch {
+                            settingsInteractor.setAspectRatios(
+                                listOf(
+                                    DomainAspectRatio.Custom(
+                                        widthProportion = width ?: 1f,
+                                        heightProportion = height ?: 1f,
+                                        isSaved = true
+                                    )
+                                ) + savedAspectRatios
                             )
                         }
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = AutoCornersShape(
+                        topStart = 4.dp,
+                        topEnd = 4.dp,
+                        bottomEnd = 24.dp,
+                        bottomStart = 24.dp
                     ),
-                    shape = ShapeDefaults.smallEnd,
-                    label = {
-                        Text(stringResource(R.string.height, " "))
-                    },
-                    supportingText = abs(tempHeight.toFloatOrNull() ?: 0f).takeIf { it < 1f }?.let {
-                        {
-                            Text(stringResource(R.string.minimum_value_is, 1))
-                        }
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(
-                            start = 2.dp,
-                            top = 8.dp,
-                            bottom = 8.dp,
-                            end = 8.dp
-                        ),
-                )
+                    enabled = canSave
+                ) {
+                    Text(stringResource(R.string.save))
+                }
             }
         }
     }
 }
+
+private const val ASPECT_RATIO_TOLERANCE = 0.0001f
 
 fun DomainAspectRatio.toCropAspectRatio(
     original: String,
@@ -387,11 +544,21 @@ fun DomainAspectRatio.toCropAspectRatio(
     }
 
     is DomainAspectRatio.Custom -> {
-        CropAspectRatio(
-            title = custom,
-            shape = createRectShape(AspectRatio(value)),
-            aspectRatio = AspectRatio(value)
-        )
+        if (isSaved) {
+            val width = widthProportion.toString().trimTrailingZero()
+            val height = heightProportion.toString().trimTrailingZero()
+            CropAspectRatio(
+                title = "$width:$height",
+                shape = createRectShape(AspectRatio(value)),
+                aspectRatio = AspectRatio(value)
+            )
+        } else {
+            CropAspectRatio(
+                title = custom,
+                shape = createRectShape(AspectRatio(value)),
+                aspectRatio = AspectRatio(value)
+            )
+        }
     }
 
     else -> {

@@ -543,11 +543,8 @@ fun CollageMakerContent(
                         component.setAspectRatio(aspect)
                     },
                     unselectedCardColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-                    aspectRatios = remember {
-                        DomainAspectRatio.defaultList - setOf(
-                            DomainAspectRatio.Free,
-                            DomainAspectRatio.Original
-                        )
+                    excludedAspectRatios = remember {
+                        setOf(DomainAspectRatio.Original)
                     }
                 )
                 EnhancedSliderItem(

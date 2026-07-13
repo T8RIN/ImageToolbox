@@ -202,23 +202,18 @@ fun PresetSelector(
                 Spacer(Modifier.height(8.dp))
 
                 AnimatedVisibility(visible = value is Preset.AspectRatio && includeAspectRatioOption) {
-                    val aspectRatios = remember {
-                        DomainAspectRatio.defaultList.drop(3)
-                    }
-
                     Column(
                         modifier = Modifier.padding(horizontal = 8.dp)
                     ) {
                         AspectRatioSelector(
                             modifier = Modifier.fillMaxWidth(),
                             contentPadding = PaddingValues(8.dp),
-                            selectedAspectRatio = remember(value, aspectRatios) {
-                                derivedStateOf {
-                                    aspectRatios.firstOrNull {
-                                        it.value == (value as? Preset.AspectRatio)?.ratio
-                                    }
-                                }
-                            }.value,
+                            selectedAspectRatio = (value as? Preset.AspectRatio)?.let {
+                                DomainAspectRatio.Numeric(
+                                    widthProportion = it.ratio,
+                                    heightProportion = 1f
+                                )
+                            },
                             onAspectRatioChange = { domainAspectRatio, _ ->
                                 if (value is Preset.AspectRatio) {
                                     onValueChange(
@@ -234,7 +229,12 @@ fun PresetSelector(
                                 }
                             },
                             title = {},
-                            aspectRatios = aspectRatios,
+                            excludedAspectRatios = remember {
+                                setOf(
+                                    DomainAspectRatio.Free,
+                                    DomainAspectRatio.Original
+                                )
+                            },
                             shape = ShapeDefaults.top,
                             color = MaterialTheme.colorScheme.surface,
                             unselectedCardColor = MaterialTheme.colorScheme.surfaceContainerHigh

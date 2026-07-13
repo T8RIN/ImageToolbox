@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.settings.domain
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 
 interface SimpleSettingsInteractor {
@@ -54,6 +55,8 @@ interface SimpleSettingsInteractor {
     suspend fun setBackgroundColorForNoAlphaFormats(
         color: ColorModel
     )
+
+    suspend fun setAspectRatios(aspectRatios: List<DomainAspectRatio.Custom>)
 
     suspend fun toggleCustomAsciiGradient(gradient: String)
 

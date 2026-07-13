@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
@@ -95,6 +96,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.CONFETTI_HARMONIZER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CONFETTI_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.COPY_TO_CLIPBOARD_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CROP_OVERLAY_DRAGGABLE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.CUSTOM_ASPECT_RATIOS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CUSTOM_FONTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_DRAW_COLOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_DRAW_LINE_WIDTH
@@ -288,6 +290,18 @@ internal class AndroidSettingsManager @Inject constructor(
                 .reversed()
                 .joinToString("*")
         }
+    }
+
+    override suspend fun setAspectRatios(
+        aspectRatios: List<DomainAspectRatio.Custom>
+    ) = edit { preferences ->
+        preferences[CUSTOM_ASPECT_RATIOS] = aspectRatios
+            .filter {
+                it.widthProportion.isFinite() && it.heightProportion.isFinite() &&
+                        it.widthProportion >= 1f && it.heightProportion >= 1f
+            }
+            .distinctBy { it.widthProportion to it.heightProportion }
+            .joinToString("*") { "${it.widthProportion}:${it.heightProportion}" }
     }
 
     override suspend fun toggleDynamicColors() = edit {

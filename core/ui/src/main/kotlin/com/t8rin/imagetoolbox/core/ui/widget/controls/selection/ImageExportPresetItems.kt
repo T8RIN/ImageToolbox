@@ -69,13 +69,13 @@ import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.Share
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.image.aspectRatios
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.RevealDirection
@@ -385,10 +385,13 @@ private fun ImageScaleMode.titleOrNull(): String? =
 
 @Composable
 private fun Float.aspectRatioLabel(): String {
-    val ratios = aspectRatios()
+    val settingsState = LocalSettingsState.current
+    val ratios = settingsState.aspectRatios
 
     val ratio = remember(ratios, this) {
         ratios.filterIsInstance<DomainAspectRatio.Numeric>().firstOrNull {
+            abs(it.value - this) < 0.001f
+        } ?: ratios.filterIsInstance<DomainAspectRatio.Custom>().firstOrNull {
             abs(it.value - this) < 0.001f
         }
     } ?: return this.toString().trimTrailingZero()
