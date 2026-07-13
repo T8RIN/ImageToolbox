@@ -43,7 +43,7 @@ object CropDefaults {
     fun properties(
         cropType: CropType = CropType.Dynamic,
         handleSize: Float = 60f,
-        middleHandleSize: Float = handleSize * 1.5f,
+        middleHandleSize: Float = 24f,
         maxZoom: Float = 10f,
         contentScale: ContentScale = ContentScale.Fit,
         cropOutlineProperty: CropOutlineProperty,

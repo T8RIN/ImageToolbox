@@ -20,6 +20,7 @@ package com.t8rin.cropper
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -51,6 +52,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import com.t8rin.cropper.crop.CropAgent
 import com.t8rin.cropper.draw.DrawingOverlay
 import com.t8rin.cropper.draw.ImageDrawCanvas
@@ -90,10 +92,22 @@ fun ImageCropper(
     onCropSuccess: (Uri?) -> Unit,
     backgroundModifier: Modifier = Modifier
 ) {
+    val minCropDimension = with(LocalDensity.current) {
+        MinCropDimension.roundToPx()
+    }
+    val resolvedCropProperties = remember(cropProperties, minCropDimension) {
+        if (cropProperties.minDimension == null) {
+            cropProperties.copy(
+                minDimension = IntSize(minCropDimension, minCropDimension)
+            )
+        } else {
+            cropProperties
+        }
+    }
 
     ImageWithConstraints(
         modifier = modifier.clipToBounds(),
-        contentScale = cropProperties.contentScale,
+        contentScale = resolvedCropProperties.contentScale,
         contentDescription = contentDescription,
         filterQuality = filterQuality,
         imageBitmap = imageBitmap,
@@ -107,7 +121,7 @@ fun ImageCropper(
             imageHeight = imageHeight,
             rect = rect,
             bitmap = imageBitmap,
-            contentScale = cropProperties.contentScale,
+            contentScale = resolvedCropProperties.contentScale,
         )
 
         // Container Dimensions
@@ -134,10 +148,10 @@ fun ImageCropper(
             containerHeight = containerHeightPx.toDp()
         }
 
-        val cropType = cropProperties.cropType
-        val contentScale = cropProperties.contentScale
-        val fixedAspectRatio = cropProperties.fixedAspectRatio
-        val cropOutline = cropProperties.cropOutlineProperty.cropOutline
+        val cropType = resolvedCropProperties.cropType
+        val contentScale = resolvedCropProperties.contentScale
+        val fixedAspectRatio = resolvedCropProperties.fixedAspectRatio
+        val cropOutline = resolvedCropProperties.cropOutlineProperty.cropOutline
 
         // these keys are for resetting cropper when image width/height, contentScale or
         // overlay aspect ratio changes
@@ -155,7 +169,7 @@ fun ImageCropper(
             imageSize = IntSize(bitmapWidth, bitmapHeight),
             containerSize = IntSize(containerWidthPx, containerHeightPx),
             drawAreaSize = IntSize(imageWidthPx, imageHeightPx),
-            cropProperties = cropProperties,
+            cropProperties = resolvedCropProperties,
             isOverlayDraggable = isOverlayDraggable,
             keys = resetKeys
         )
@@ -171,6 +185,26 @@ fun ImageCropper(
         val isHandleTouched by remember(cropState) {
             derivedStateOf {
                 cropState is DynamicCropState && handlesTouched(cropState.touchRegion)
+            }
+        }
+        val selectedHandle = if (cropState is DynamicCropState) {
+            cropState.touchRegion
+        } else {
+            TouchRegion.None
+        }
+        var animatedHandle by remember(cropState) {
+            mutableStateOf(TouchRegion.None)
+        }
+        val selectedHandleScale = remember(cropState) {
+            Animatable(1f)
+        }
+        LaunchedEffect(selectedHandle) {
+            if (handlesTouched(selectedHandle)) {
+                animatedHandle = selectedHandle
+                selectedHandleScale.animateTo(1.4f)
+            } else {
+                selectedHandleScale.animateTo(1f)
+                animatedHandle = TouchRegion.None
             }
         }
 
@@ -206,8 +240,8 @@ fun ImageCropper(
                 enableOneFingerZoom = enableOneFingerZoom
             )
 
-        LaunchedEffect(key1 = cropProperties) {
-            cropState.updateProperties(cropProperties)
+        LaunchedEffect(key1 = resolvedCropProperties) {
+            cropState.updateProperties(resolvedCropProperties)
         }
 
         /// Create a MutableTransitionState<Boolean> for the AnimatedVisibility.
@@ -226,8 +260,9 @@ fun ImageCropper(
             containerHeight = containerHeight,
             imageWidthPx = imageWidthPx,
             imageHeightPx = imageHeightPx,
-            handleSize = cropProperties.handleSize,
-            middleHandleSize = cropProperties.middleHandleSize,
+            middleHandleSize = resolvedCropProperties.middleHandleSize,
+            selectedHandle = animatedHandle,
+            selectedHandleScale = selectedHandleScale.value,
             overlayRect = cropState.overlayRect,
             cropType = cropType,
             cropOutline = cropOutline,
@@ -247,8 +282,9 @@ private fun ImageCropper(
     containerHeight: Dp,
     imageWidthPx: Int,
     imageHeightPx: Int,
-    handleSize: Float,
     middleHandleSize: Float,
+    selectedHandle: TouchRegion,
+    selectedHandleScale: Float,
     cropType: CropType,
     cropOutline: CropOutline,
     cropStyle: CropStyle,
@@ -275,8 +311,9 @@ private fun ImageCropper(
                 imageHeightPx = imageHeightPx,
                 cropType = cropType,
                 cropOutline = cropOutline,
-                handleSize = handleSize,
                 middleHandleSize = middleHandleSize,
+                selectedHandle = selectedHandle,
+                selectedHandleScale = selectedHandleScale,
                 cropStyle = cropStyle,
                 rectOverlay = overlayRect,
                 transparentColor = transparentColor
@@ -295,8 +332,9 @@ private fun ImageCropperImpl(
     imageHeightPx: Int,
     cropType: CropType,
     cropOutline: CropOutline,
-    handleSize: Float,
     middleHandleSize: Float,
+    selectedHandle: TouchRegion,
+    selectedHandleScale: Float,
     cropStyle: CropStyle,
     transparentColor: Color,
     rectOverlay: Rect
@@ -330,8 +368,9 @@ private fun ImageCropperImpl(
             handleColor = handleColor,
             strokeWidth = strokeWidth,
             drawHandles = drawHandles,
-            handleSize = handleSize,
             middleHandleSize = middleHandleSize,
+            selectedHandle = selectedHandle,
+            selectedHandleScale = selectedHandleScale,
             transparentColor = transparentColor,
         )
 
@@ -438,3 +477,5 @@ private fun getResetKeys(
         fixedAspectRatio,
     )
 }
+
+private val MinCropDimension = 100.dp

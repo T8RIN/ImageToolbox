@@ -38,6 +38,8 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import com.t8rin.cropper.TouchRegion
 import com.t8rin.cropper.model.CropImageMask
 import com.t8rin.cropper.model.CropOutline
 import com.t8rin.cropper.model.CropPath
@@ -63,19 +65,28 @@ internal fun DrawingOverlay(
     handleColor: Color,
     strokeWidth: Dp,
     drawHandles: Boolean,
-    handleSize: Float,
     middleHandleSize: Float,
+    selectedHandle: TouchRegion,
+    selectedHandleScale: Float,
 ) {
     val density = LocalDensity.current
     val layoutDirection: LayoutDirection = LocalLayoutDirection.current
 
     val strokeWidthPx = LocalDensity.current.run { strokeWidth.toPx() }
+    val handleSizePx = with(density) { CornerHandleSize.toPx() }
+    val middleHandleSizePx = with(density) { middleHandleSize.dp.toPx() }
+    val handleStrokeWidthPx = with(density) { CornerHandleStrokeWidth.toPx() }
+    val middleHandleStrokeWidthPx = with(density) { MiddleHandleStrokeWidth.toPx() }
 
     val pathHandles = remember {
         Path()
     }
 
     val middlePathHandles = remember {
+        Path()
+    }
+
+    val selectedPathHandle = remember {
         Path()
     }
 
@@ -96,10 +107,15 @@ internal fun DrawingOverlay(
                 handleColor = handleColor,
                 strokeWidth = strokeWidthPx,
                 drawHandles = drawHandles,
-                handleSize = handleSize,
-                middleHandleSize = middleHandleSize,
+                handleSize = handleSizePx,
+                middleHandleSize = middleHandleSizePx,
+                handleStrokeWidth = handleStrokeWidthPx,
+                middleHandleStrokeWidth = middleHandleStrokeWidthPx,
+                selectedHandle = selectedHandle,
+                selectedHandleScale = selectedHandleScale,
                 pathHandles = pathHandles,
                 middlePathHandles = middlePathHandles,
+                selectedPathHandle = selectedPathHandle,
                 outline = outline
             )
         }
@@ -123,10 +139,15 @@ internal fun DrawingOverlay(
                 handleColor = handleColor,
                 strokeWidth = strokeWidthPx,
                 drawHandles = drawHandles,
-                handleSize = handleSize,
-                middleHandleSize = middleHandleSize,
+                handleSize = handleSizePx,
+                middleHandleSize = middleHandleSizePx,
+                handleStrokeWidth = handleStrokeWidthPx,
+                middleHandleStrokeWidth = middleHandleStrokeWidthPx,
+                selectedHandle = selectedHandle,
+                selectedHandleScale = selectedHandleScale,
                 pathHandles = pathHandles,
                 middlePathHandles = middlePathHandles,
+                selectedPathHandle = selectedPathHandle,
                 path = path
             )
         }
@@ -144,10 +165,15 @@ internal fun DrawingOverlay(
                 handleColor = handleColor,
                 strokeWidth = strokeWidthPx,
                 drawHandles = drawHandles,
-                handleSize = handleSize,
-                middleHandleSize = middleHandleSize,
+                handleSize = handleSizePx,
+                middleHandleSize = middleHandleSizePx,
+                handleStrokeWidth = handleStrokeWidthPx,
+                middleHandleStrokeWidth = middleHandleStrokeWidthPx,
+                selectedHandle = selectedHandle,
+                selectedHandleScale = selectedHandleScale,
                 pathHandles = pathHandles,
                 middlePathHandles = middlePathHandles,
+                selectedPathHandle = selectedPathHandle,
                 image = imageBitmap
             )
         }
@@ -167,8 +193,13 @@ private fun DrawingOverlayImpl(
     drawHandles: Boolean,
     handleSize: Float,
     middleHandleSize: Float,
+    handleStrokeWidth: Float,
+    middleHandleStrokeWidth: Float,
+    selectedHandle: TouchRegion,
+    selectedHandleScale: Float,
     pathHandles: Path,
     middlePathHandles: Path,
+    selectedPathHandle: Path,
     outline: Outline,
 ) {
     Canvas(modifier = modifier) {
@@ -183,8 +214,13 @@ private fun DrawingOverlayImpl(
             drawHandles = drawHandles,
             handleSize = handleSize,
             middleHandleSize = middleHandleSize,
+            handleStrokeWidth = handleStrokeWidth,
+            middleHandleStrokeWidth = middleHandleStrokeWidth,
+            selectedHandle = selectedHandle,
+            selectedHandleScale = selectedHandleScale,
             pathHandles = pathHandles,
-            middlePathHandles = middlePathHandles
+            middlePathHandles = middlePathHandles,
+            selectedPathHandle = selectedPathHandle
         ) {
             drawCropOutline(outline = outline)
         }
@@ -204,8 +240,13 @@ private fun DrawingOverlayImpl(
     drawHandles: Boolean,
     handleSize: Float,
     middleHandleSize: Float,
+    handleStrokeWidth: Float,
+    middleHandleStrokeWidth: Float,
+    selectedHandle: TouchRegion,
+    selectedHandleScale: Float,
     pathHandles: Path,
     middlePathHandles: Path,
+    selectedPathHandle: Path,
     path: Path,
 ) {
     Canvas(modifier = modifier) {
@@ -220,8 +261,13 @@ private fun DrawingOverlayImpl(
             drawHandles = drawHandles,
             handleSize = handleSize,
             middleHandleSize = middleHandleSize,
+            handleStrokeWidth = handleStrokeWidth,
+            middleHandleStrokeWidth = middleHandleStrokeWidth,
+            selectedHandle = selectedHandle,
+            selectedHandleScale = selectedHandleScale,
             pathHandles = pathHandles,
-            middlePathHandles = middlePathHandles
+            middlePathHandles = middlePathHandles,
+            selectedPathHandle = selectedPathHandle
         ) {
             drawCropPath(path)
         }
@@ -241,8 +287,13 @@ private fun DrawingOverlayImpl(
     drawHandles: Boolean,
     handleSize: Float,
     middleHandleSize: Float,
+    handleStrokeWidth: Float,
+    middleHandleStrokeWidth: Float,
+    selectedHandle: TouchRegion,
+    selectedHandleScale: Float,
     pathHandles: Path,
     middlePathHandles: Path,
+    selectedPathHandle: Path,
     image: ImageBitmap,
 ) {
     Canvas(modifier = modifier) {
@@ -257,8 +308,13 @@ private fun DrawingOverlayImpl(
             drawHandles = drawHandles,
             handleSize = handleSize,
             middleHandleSize = middleHandleSize,
+            handleStrokeWidth = handleStrokeWidth,
+            middleHandleStrokeWidth = middleHandleStrokeWidth,
+            selectedHandle = selectedHandle,
+            selectedHandleScale = selectedHandleScale,
             pathHandles = pathHandles,
-            middlePathHandles = middlePathHandles
+            middlePathHandles = middlePathHandles,
+            selectedPathHandle = selectedPathHandle
         ) {
             drawCropImage(rect, image)
         }
@@ -276,8 +332,13 @@ private fun DrawScope.drawOverlay(
     drawHandles: Boolean,
     handleSize: Float,
     middleHandleSize: Float,
+    handleStrokeWidth: Float,
+    middleHandleStrokeWidth: Float,
+    selectedHandle: TouchRegion,
+    selectedHandleScale: Float,
     pathHandles: Path,
     middlePathHandles: Path,
+    selectedPathHandle: Path,
     drawBlock: DrawScope.() -> Unit
 ) {
     drawWithLayer {
@@ -322,7 +383,7 @@ private fun DrawScope.drawOverlay(
                 path = middlePathHandles,
                 color = handleColor.copy(0.9f).compositeOverSafe(Color.Black),
                 style = Stroke(
-                    width = strokeWidth * 4,
+                    width = middleHandleStrokeWidth,
                     cap = StrokeCap.Round,
                     join = StrokeJoin.Round
                 )
@@ -332,11 +393,52 @@ private fun DrawScope.drawOverlay(
                 path = pathHandles,
                 color = handleColor,
                 style = Stroke(
-                    width = strokeWidth * 4,
+                    width = handleStrokeWidth,
                     cap = StrokeCap.Round,
                     join = StrokeJoin.Round
                 )
             )
+
+            val selectedHandleSize = when (selectedHandle) {
+                TouchRegion.TopCenter,
+                TouchRegion.CenterRight,
+                TouchRegion.BottomCenter,
+                TouchRegion.CenterLeft -> middleHandleSize
+
+                else -> handleSize
+            }
+            selectedPathHandle.apply {
+                reset()
+                updateSelectedHandlePath(
+                    rect = rect,
+                    handleSize = selectedHandleSize * selectedHandleScale,
+                    selectedHandle = selectedHandle
+                )
+            }
+
+            if (!selectedPathHandle.isEmpty) {
+                val middleHandleSelected = selectedHandle == TouchRegion.TopCenter ||
+                        selectedHandle == TouchRegion.CenterRight ||
+                        selectedHandle == TouchRegion.BottomCenter ||
+                        selectedHandle == TouchRegion.CenterLeft
+                drawPath(
+                    path = selectedPathHandle,
+                    color = if (middleHandleSelected) {
+                        handleColor.copy(0.9f).compositeOverSafe(Color.Black)
+                    } else {
+                        handleColor
+                    },
+                    style = Stroke(
+                        width = (if (middleHandleSelected) {
+                            middleHandleStrokeWidth
+                        } else {
+                            handleStrokeWidth
+                        }) * selectedHandleScale,
+                        cap = StrokeCap.Round,
+                        join = StrokeJoin.Round
+                    )
+                )
+            }
         }
     }
 }
@@ -425,3 +527,64 @@ private fun Path.updateMiddleHandlePath(
         lineTo(rect.centerLeft.x, rect.centerLeft.y + handleSize / 2)
     }
 }
+
+private fun Path.updateSelectedHandlePath(
+    rect: Rect,
+    handleSize: Float,
+    selectedHandle: TouchRegion
+) {
+    if (rect == Rect.Zero) return
+
+    when (selectedHandle) {
+        TouchRegion.TopLeft -> {
+            moveTo(rect.left, rect.top + handleSize)
+            lineTo(rect.left, rect.top)
+            lineTo(rect.left + handleSize, rect.top)
+        }
+
+        TouchRegion.TopRight -> {
+            moveTo(rect.right - handleSize, rect.top)
+            lineTo(rect.right, rect.top)
+            lineTo(rect.right, rect.top + handleSize)
+        }
+
+        TouchRegion.BottomRight -> {
+            moveTo(rect.right, rect.bottom - handleSize)
+            lineTo(rect.right, rect.bottom)
+            lineTo(rect.right - handleSize, rect.bottom)
+        }
+
+        TouchRegion.BottomLeft -> {
+            moveTo(rect.left + handleSize, rect.bottom)
+            lineTo(rect.left, rect.bottom)
+            lineTo(rect.left, rect.bottom - handleSize)
+        }
+
+        TouchRegion.TopCenter -> {
+            moveTo(rect.topCenter.x - handleSize / 2, rect.top)
+            lineTo(rect.topCenter.x + handleSize / 2, rect.top)
+        }
+
+        TouchRegion.CenterRight -> {
+            moveTo(rect.right, rect.centerRight.y - handleSize / 2)
+            lineTo(rect.right, rect.centerRight.y + handleSize / 2)
+        }
+
+        TouchRegion.BottomCenter -> {
+            moveTo(rect.bottomCenter.x - handleSize / 2, rect.bottom)
+            lineTo(rect.bottomCenter.x + handleSize / 2, rect.bottom)
+        }
+
+        TouchRegion.CenterLeft -> {
+            moveTo(rect.left, rect.centerLeft.y - handleSize / 2)
+            lineTo(rect.left, rect.centerLeft.y + handleSize / 2)
+        }
+
+        TouchRegion.Inside,
+        TouchRegion.None -> Unit
+    }
+}
+
+private val CornerHandleSize = 20.dp
+private val CornerHandleStrokeWidth = 4.dp
+private val MiddleHandleStrokeWidth = 3.5.dp

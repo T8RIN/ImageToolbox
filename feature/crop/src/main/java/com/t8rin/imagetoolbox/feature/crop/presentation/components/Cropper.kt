@@ -64,7 +64,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ZoomBadge
 import com.t8rin.opencv_tools.free_corners_crop.compose.FreeCornersCropper
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 @Composable
 fun Cropper(
@@ -161,11 +160,6 @@ fun Cropper(
                             mutableFloatStateOf(1f)
                         }
                         val bmp = remember(bitmap) { bitmap.asImageBitmap() }
-                        val minDimension = remember(cropProperties.handleSize) {
-                            (cropProperties.handleSize * 3).roundToInt().let {
-                                IntSize(it, it)
-                            }
-                        }
                         ImageCropper(
                             backgroundModifier = Modifier.transparencyChecker(),
                             imageBitmap = bmp,
@@ -174,7 +168,6 @@ fun Cropper(
                             contentDescription = null,
                             cropProperties = cropProperties.copy(
                                 fixedAspectRatio = fixedAspectRatio,
-                                minDimension = minDimension,
                                 maxZoom = 20f
                             ),
                             onCropStart = onImageCropStarted,
