@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.asPdfPreviewText
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.rememberPdfTextStyle
 
 @Composable
@@ -57,6 +58,7 @@ internal fun WatermarkPreview(
     pageCount: Int
 ) {
     val pdfTextStyle = rememberPdfTextStyle()
+    val previewText = params.text.asPdfPreviewText()
 
     PageSwitcher(
         activePages = params.pages,
@@ -105,13 +107,13 @@ internal fun WatermarkPreview(
                         val scaledFontSize = remember(
                             density,
                             params.fontSize,
-                            params.text,
+                            previewText,
                             targetWidth,
                             pdfTextStyle
                         ) {
                             val baseFontSize = 100.sp
                             val textWidth = textMeasurer.measure(
-                                text = params.text,
+                                text = previewText,
                                 style = pdfTextStyle.copy(fontSize = baseFontSize),
                                 maxLines = 1,
                                 softWrap = false
@@ -123,7 +125,7 @@ internal fun WatermarkPreview(
                         }
 
                         Text(
-                            text = params.text,
+                            text = previewText,
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .requiredWidth(textLayoutWidth)

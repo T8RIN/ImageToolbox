@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.asPdfPreviewText
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.rememberPdfTextStyle
 import kotlin.math.max
 import kotlin.math.min
@@ -85,6 +86,7 @@ internal fun PageNumbersPreview(
             val previewText = params.labelFormat
                 .replace("{n}", (page + 1).toString())
                 .replace("{total}", pageCount.toString())
+                .asPdfPreviewText()
 
             val previewAlignment = when (params.position) {
                 Position.TopLeft -> Alignment.TopStart

@@ -57,3 +57,5 @@ fun rememberPdfTextStyle(): TextStyle {
 
     return fontFile
 }
+
+internal fun String.asPdfPreviewText(): String = replace("\uFE0F", "")
