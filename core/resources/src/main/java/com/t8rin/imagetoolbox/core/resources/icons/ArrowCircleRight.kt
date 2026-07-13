@@ -17,12 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Rounded.ArrowCircleRight: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -30,7 +30,8 @@ val Icons.Rounded.ArrowCircleRight: ImageVector by lazy(LazyThreadSafetyMode.NON
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,
-        viewportHeight = 960f
+        viewportHeight = 960f,
+        autoMirror = true
     ).apply {
         path(fill = SolidColor(Color.Black)) {
             moveTo(480f, 880f)
