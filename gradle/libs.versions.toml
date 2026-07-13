@@ -83,7 +83,7 @@ onnx = "1.27.0"
 opencv = "5.0.0.1"
 
 tiffdecoder = "1.0.5"
-materialKolor = "5.0.0-alpha07"
+materialKolor = "5.0.0"
 paletteKtx = "1.0.0"
 kotlinxSerializationJson = "1.11.0"
 
