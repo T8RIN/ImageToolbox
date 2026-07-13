@@ -368,19 +368,21 @@ internal class AndroidPdfHelper @Inject constructor(
     }
 
     internal fun String.cleanPdfText(font: PDFont): String {
-        return replace(PDF_CONTROL_REGEX, "")
-            .take(2000)
-            .mapNotNull { char ->
-                char.takeIf {
-                    font.hasGlyph(it)
-                }
+        val text = replace(PDF_CONTROL_REGEX, "").take(2000)
+
+        return buildString(text.length) {
+            var index = 0
+            while (index < text.length) {
+                val codePoint = text.codePointAt(index)
+                if (font.canEncode(codePoint)) appendCodePoint(codePoint)
+                index += Character.charCount(codePoint)
             }
-            .joinToString("")
+        }
     }
 
-    private fun PDFont.hasGlyph(char: Char): Boolean {
+    private fun PDFont.canEncode(codePoint: Int): Boolean {
         return runCatching {
-            encode(char.toString())
+            encode(String(Character.toChars(codePoint)))
         }.isSuccess
     }
 

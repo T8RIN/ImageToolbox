@@ -17,6 +17,82 @@
 
 package com.t8rin.imagetoolbox.core.resources.utils
 
+import android.content.Context
 import com.t8rin.imagetoolbox.core.resources.R
+import java.io.File
+import java.util.zip.GZIPInputStream
 
 val DefaultPdfFont get() = R.raw.image_toolbox_universal_bold
+
+val Context.defaultPdfFontFile: File
+    get() = DefaultPdfFontCache.get(applicationContext)
+
+private object DefaultPdfFontCache {
+
+    @Volatile
+    private var cachedFile: File? = null
+
+    fun get(context: Context): File {
+        cachedFile?.takeIf { it.isValidFont() }?.let { return it }
+
+        return synchronized(this) {
+            cachedFile?.takeIf { it.isValidFont() } ?: unpack(context).also {
+                cachedFile = it
+            }
+        }
+    }
+
+    private fun unpack(context: Context): File {
+        val directory = File(context.cacheDir, "pdf-fonts")
+        check(directory.isDirectory || directory.mkdirs()) {
+            "Failed to create PDF font cache directory"
+        }
+
+        val target = File(
+            directory,
+            "$DefaultPdfFontName-$DefaultPdfFontCacheKey.ttf"
+        )
+        if (target.isValidFont()) return target
+
+        target.delete()
+        val temporary = File.createTempFile(DefaultPdfFontName, ".tmp", directory)
+
+        try {
+            context.resources.openRawResource(DefaultPdfFont).use { compressed ->
+                GZIPInputStream(compressed.buffered()).use { input ->
+                    temporary.outputStream().buffered().use { output ->
+                        input.copyTo(output)
+                    }
+                }
+            }
+
+            check(temporary.isValidFont()) {
+                "Invalid unpacked PDF font"
+            }
+            if (!temporary.renameTo(target)) {
+                temporary.copyTo(target, overwrite = true)
+            }
+            check(target.isValidFont()) {
+                "Failed to cache unpacked PDF font"
+            }
+
+            directory.listFiles()
+                ?.filter {
+                    it != target && it.extension == "ttf" && it.name.startsWith(
+                        DefaultPdfFontName
+                    )
+                }
+                ?.forEach(File::delete)
+
+            return target
+        } finally {
+            temporary.delete()
+        }
+    }
+
+    private fun File.isValidFont(): Boolean = isFile && length() == DefaultPdfFontSize
+}
+
+private const val DefaultPdfFontCacheKey = "5299e3b5fc3352dd"
+private const val DefaultPdfFontSize = 5_359_124L
+private const val DefaultPdfFontName = "image_toolbox_universal_bold"

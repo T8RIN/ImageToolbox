@@ -338,7 +338,11 @@ internal class AndroidPdfManager @Inject constructor(
                 .replace("{total}", totalPages.toString())
 
             document.pages.forEachIndexed { idx, page ->
-                val text = label.replace("{n}", (idx + 1).toString())
+                val text = label
+                    .replace("{n}", (idx + 1).toString())
+                    .cleanPdfText(font)
+
+                if (text.isBlank()) return@forEachIndexed
 
                 val cropBox = page.cropBox
                 val pageWidth = cropBox.width
@@ -442,7 +446,7 @@ internal class AndroidPdfManager @Inject constructor(
 
             params.pages.orAll(document).forEach { pageIndex ->
                 val page = document.getPageSafe(pageIndex)
-                val text = params.text
+                val text = params.text.cleanPdfText(font)
 
                 if (text.isBlank()) return@forEach
 

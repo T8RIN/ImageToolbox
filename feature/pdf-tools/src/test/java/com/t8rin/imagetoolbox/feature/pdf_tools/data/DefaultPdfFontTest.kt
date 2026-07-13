@@ -22,8 +22,10 @@ import com.t8rin.imagetoolbox.core.resources.utils.DefaultPdfFont
 import com.tom_roush.fontbox.ttf.TTFParser
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.io.ByteArrayInputStream
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.zip.GZIPInputStream
 import javax.xml.parsers.DocumentBuilderFactory
 import kotlin.io.path.nameWithoutExtension
 
@@ -31,30 +33,44 @@ class DefaultPdfFontTest {
 
     @Test
     fun `default PDF font covers every app language and special glyph`() {
-        val fontFile = defaultPdfFontFile()
-
-        val missingGlyphs = TTFParser(false, true).parse(fontFile.toFile()).use { font ->
-            val cmap = font.unicodeCmapLookup
-
-            (samples + localizedAppText()).flatMap { (group, text) ->
-                text.codePoints()
-                    .distinct()
-                    .filter { !Character.isWhitespace(it) && !Character.isISOControl(it) }
-                    .filter { cmap.getGlyphId(it) == 0 }
-                    .mapToObj { codePoint ->
-                        String.format(
-                            "%s: '%s' (U+%04X)",
-                            group,
-                            String(Character.toChars(codePoint)),
-                            codePoint
-                        )
-                    }
-                    .toList()
-            }
+        val fontResource = defaultPdfFontResource()
+        val fontBytes = GZIPInputStream(Files.newInputStream(fontResource)).use {
+            it.readBytes()
         }
 
         assertTrue(
-            "Missing glyphs in ${fontFile.fileName}:\n${missingGlyphs.joinToString("\n")}",
+            "Compressed PDF font must be smaller than the unpacked font",
+            Files.size(fontResource) < fontBytes.size
+        )
+
+        val missingGlyphs = TTFParser(false, true)
+            .parse(ByteArrayInputStream(fontBytes))
+            .use { font ->
+                assertTrue(
+                    "Expected the complete Noto Emoji glyph set",
+                    font.numberOfGlyphs >= 26_515
+                )
+                val cmap = font.unicodeCmapLookup
+
+                (samples + localizedAppText()).flatMap { (group, text) ->
+                    text.codePoints()
+                        .distinct()
+                        .filter { !Character.isWhitespace(it) && !Character.isISOControl(it) }
+                        .filter { cmap.getGlyphId(it) == 0 }
+                        .mapToObj { codePoint ->
+                            String.format(
+                                "%s: '%s' (U+%04X)",
+                                group,
+                                String(Character.toChars(codePoint)),
+                                codePoint
+                            )
+                        }
+                        .toList()
+                }
+            }
+
+        assertTrue(
+            "Missing glyphs in ${fontResource.fileName}:\n${missingGlyphs.joinToString("\n")}",
             missingGlyphs.isEmpty()
         )
     }
@@ -81,7 +97,7 @@ class DefaultPdfFontTest {
         }
     }
 
-    private fun defaultPdfFontFile(): Path {
+    private fun defaultPdfFontResource(): Path {
         val resourceName = R.raw::class.java.fields
             .first { it.getInt(null) == DefaultPdfFont }
             .name
@@ -124,7 +140,8 @@ class DefaultPdfFontTest {
             "Math and arrows" to "± × ÷ ≠ ≤ ≥ ∞ √ ∑ ∫ ≈ ← → ↔",
             "Punctuation" to "© ® ™ № … — – ‘ ’ “ ” « » ‹ ›",
             "Symbols" to "✓ ★ ● ○ ▾ ☀ ☂ ☺ ♠ ♣ ♥ ♦",
-            "Supplementary Unicode" to "😀 😄 🎉"
+            "Emoji" to "😀 😄 🎉 👀 👍 🏽 🚀 🔥 ❤ ❤️ ♥ ♥️ 🩷 💔 ☕ ⚠ " +
+                    "#️⃣ *️⃣ 0️⃣ 1️⃣ 🇺🇳 🇮🇴 🇭🇲 🇳🇴 🇸🇯 👨‍👩‍👧‍👦"
         )
     }
 }

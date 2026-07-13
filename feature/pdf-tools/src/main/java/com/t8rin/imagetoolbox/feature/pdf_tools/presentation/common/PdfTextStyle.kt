@@ -17,15 +17,43 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common
 
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
+import androidx.compose.ui.text.EmojiSupportMatch
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import com.t8rin.imagetoolbox.core.resources.utils.DefaultPdfFont
+import com.t8rin.imagetoolbox.core.resources.utils.defaultPdfFontFile
+import com.t8rin.imagetoolbox.core.utils.appContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-val PdfTextStyle = TextStyle(
-    fontFamily = FontFamily(
-        Font(DefaultPdfFont)
-    ),
-    fontWeight = FontWeight.Bold
-)
+@Composable
+fun rememberPdfTextStyle(): TextStyle {
+    val fontFile by produceState(initialValue = LocalTextStyle.current) {
+        val fontFile = withContext(Dispatchers.IO) {
+            runCatching { appContext.defaultPdfFontFile }.getOrNull()
+        }
+
+        value = TextStyle(
+            fontFamily = fontFile?.let {
+                FontFamily(
+                    Font(
+                        file = it,
+                        weight = FontWeight.Bold
+                    )
+                )
+            } ?: FontFamily.Default,
+            fontWeight = FontWeight.Bold,
+            platformStyle = PlatformTextStyle(
+                emojiSupportMatch = EmojiSupportMatch.None
+            )
+        )
+    }
+
+    return fontFile
+}

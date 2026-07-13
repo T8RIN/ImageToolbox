@@ -48,7 +48,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PageSwitcher
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfTextStyle
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.rememberPdfTextStyle
 
 @Composable
 internal fun WatermarkPreview(
@@ -56,6 +56,8 @@ internal fun WatermarkPreview(
     params: PdfWatermarkParams,
     pageCount: Int
 ) {
+    val pdfTextStyle = rememberPdfTextStyle()
+
     PageSwitcher(
         activePages = params.pages,
         pageCount = pageCount
@@ -97,7 +99,6 @@ internal fun WatermarkPreview(
                     ) {
                         val density = LocalDensity.current
                         val textMeasurer = rememberTextMeasurer()
-                        val watermarkTextStyle = PdfTextStyle
 
                         val targetWidth = maxWidth * params.fontSize / 100f
                         val textLayoutWidth = targetWidth + 8.dp
@@ -106,12 +107,12 @@ internal fun WatermarkPreview(
                             params.fontSize,
                             params.text,
                             targetWidth,
-                            watermarkTextStyle
+                            pdfTextStyle
                         ) {
                             val baseFontSize = 100.sp
                             val textWidth = textMeasurer.measure(
                                 text = params.text,
-                                style = watermarkTextStyle.copy(fontSize = baseFontSize),
+                                style = pdfTextStyle.copy(fontSize = baseFontSize),
                                 maxLines = 1,
                                 softWrap = false
                             ).size.width.coerceAtLeast(1)
@@ -134,7 +135,7 @@ internal fun WatermarkPreview(
                             maxLines = 1,
                             softWrap = false,
                             textAlign = TextAlign.Center,
-                            style = watermarkTextStyle.copy(fontSize = scaledFontSize)
+                            style = pdfTextStyle.copy(fontSize = scaledFontSize)
                         )
                     }
                 }
