@@ -43,7 +43,7 @@ private object DefaultPdfFontCache {
     }
 
     private fun unpack(context: Context): File {
-        val directory = File(context.cacheDir, "pdf-fonts")
+        val directory = File(context.filesDir, "pdf-fonts")
         check(directory.isDirectory || directory.mkdirs()) {
             "Failed to create PDF font cache directory"
         }
