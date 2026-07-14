@@ -96,19 +96,8 @@ internal fun ImageWithConstraints(
     drawImage: Boolean = true,
     content: @Composable ImageScope.() -> Unit = {}
 ) {
-
-    val semantics = if (contentDescription != null) {
-        Modifier.semantics {
-            this.contentDescription = contentDescription
-            this.role = Role.Image
-        }
-    } else {
-        Modifier
-    }
-
     BoxWithConstraints(
-        modifier = modifier
-            .then(semantics),
+        modifier = modifier,
         contentAlignment = alignment,
     ) {
 
@@ -149,7 +138,8 @@ internal fun ImageWithConstraints(
             colorFilter = colorFilter,
             filterQuality = filterQuality,
             drawImage = drawImage,
-            content = content
+            content = content,
+            contentDescription = contentDescription
         )
     }
 }
@@ -167,7 +157,8 @@ private fun ImageLayout(
     colorFilter: ColorFilter? = null,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     drawImage: Boolean = true,
-    content: @Composable ImageScope.() -> Unit
+    content: @Composable ImageScope.() -> Unit = {},
+    contentDescription: String? = null
 ) {
     val density = LocalDensity.current
 
@@ -203,7 +194,8 @@ private fun ImageLayout(
             width = imageWidth.toInt(),
             height = imageHeight.toInt(),
             colorFilter = colorFilter,
-            filterQuality = filterQuality
+            filterQuality = filterQuality,
+            contentDescription = contentDescription
         )
     }
 
@@ -219,11 +211,21 @@ private fun ImageImpl(
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
+    contentDescription: String? = null
 ) {
     val bitmapWidth = imageBitmap.width
     val bitmapHeight = imageBitmap.height
 
-    Canvas(modifier = modifier.clipToBounds()) {
+    val semanticsModifier = if (contentDescription != null) {
+        Modifier.semantics {
+            this.contentDescription = contentDescription
+            this.role = Role.Image
+        }
+    } else {
+        Modifier
+    }
+
+    Canvas(modifier = modifier.clipToBounds().then(semanticsModifier)) {
 
         val canvasWidth = size.width.toInt()
         val canvasHeight = size.height.toInt()
