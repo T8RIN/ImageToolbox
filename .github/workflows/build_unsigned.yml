@@ -1,0 +1,46 @@
+name: Build Unsigned Release APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'الفرع المراد بناؤه (accessibility-fixes للتعديلات)'
+        required: true
+        default: 'accessibility-fixes'
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || 'master' }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+          java-package: 'jdk'
+          cache: gradle
+
+      - name: Build FOSS Release APK (unsigned)
+        run: bash ./gradlew assembleFossRelease
+
+      - name: Upload Unsigned APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ImageToolbox-unsigned-foss-${{ github.sha }}
+          path: app/build/outputs/apk/foss/release/*.apk
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Clean up
+        run: rm -rf app/build/outputs/apk/foss
