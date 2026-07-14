@@ -268,7 +268,8 @@ fun ImageCropper(
             cropOutline = cropOutline,
             cropStyle = cropStyle,
             transparentColor = transparentColor,
-            backgroundModifier = backgroundModifier
+            backgroundModifier = backgroundModifier,
+            contentDescription = contentDescription
         )
     }
 }
@@ -290,7 +291,8 @@ private fun ImageCropper(
     cropStyle: CropStyle,
     overlayRect: Rect,
     transparentColor: Color,
-    backgroundModifier: Modifier
+    backgroundModifier: Modifier,
+    contentDescription: String? = null
 ) {
     Box(
         modifier = Modifier
@@ -316,7 +318,8 @@ private fun ImageCropper(
                 selectedHandleScale = selectedHandleScale,
                 cropStyle = cropStyle,
                 rectOverlay = overlayRect,
-                transparentColor = transparentColor
+                transparentColor = transparentColor,
+                contentDescription = contentDescription
             )
         }
     }
@@ -337,7 +340,8 @@ private fun ImageCropperImpl(
     selectedHandleScale: Float,
     cropStyle: CropStyle,
     transparentColor: Color,
-    rectOverlay: Rect
+    rectOverlay: Rect,
+    contentDescription: String? = null
 ) {
 
     Box(contentAlignment = Alignment.Center) {
@@ -347,7 +351,8 @@ private fun ImageCropperImpl(
             modifier = modifier,
             imageBitmap = imageBitmap,
             imageWidth = imageWidthPx,
-            imageHeight = imageHeightPx
+            imageHeight = imageHeightPx,
+            contentDescription = contentDescription
         )
 
         val drawOverlay = cropStyle.drawOverlay
