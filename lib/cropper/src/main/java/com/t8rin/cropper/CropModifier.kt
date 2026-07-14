@@ -41,6 +41,7 @@ import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.util.fastForEach
 import com.t8rin.cropper.model.CropData
@@ -58,7 +59,7 @@ import kotlinx.coroutines.launch
  * to move back to bounds with an animation or option to have fling gesture when user removes
  * from screen while velocity is higher than threshold to have smooth touch effect.
  *
- * @param keys are used for [Modifier.pointerInput] to restart closure when any keys assigned
+ * @param keys are used for [Modifier.pointerInput] to restart closure when any keys assign
  * change
  * empty space on sides or edges of parent.
  * @param cropState State of the zoom that contains option to set initial, min, max zoom,
@@ -123,7 +124,6 @@ fun Modifier.crop(
                         )
                     }
                     onGesture?.invoke(cropState.cropData)
-                    mainPointer.consume()
                 }
             )
         }
@@ -174,6 +174,8 @@ fun Modifier.crop(
             }
         }
 
+        // Use Final pass for touchModifier so accessibility services
+        // receive events first in the Main pass before we consume them.
         val touchModifier = Modifier.pointerInput(*keys) {
             detectMotionEventsAsList(
                 onDown = {
@@ -193,7 +195,9 @@ fun Modifier.crop(
                         cropState.onUp(it)
                         onUp?.invoke(cropState.cropData)
                     }
-                }
+                },
+                requireUnconsumed = false,
+                pass = PointerEventPass.Final
             )
         }
 
@@ -208,6 +212,7 @@ fun Modifier.crop(
                 .then(transformModifier)
                 .then(touchModifier)
                 .then(graphicsModifier)
+                .semantics(mergeDescendants = false) {}
         )
     },
     inspectorInfo = debugInspectorInfo {
