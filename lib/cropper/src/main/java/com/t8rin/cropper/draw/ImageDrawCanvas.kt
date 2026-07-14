@@ -21,10 +21,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import kotlin.math.roundToInt
@@ -37,19 +33,9 @@ internal fun ImageDrawCanvas(
     modifier: Modifier,
     imageBitmap: ImageBitmap,
     imageWidth: Int,
-    imageHeight: Int,
-    contentDescription: String? = null
+    imageHeight: Int
 ) {
-    val semanticsModifier = if (contentDescription != null) {
-        Modifier.semantics {
-            this.contentDescription = contentDescription
-            this.role = Role.Image
-        }
-    } else {
-        Modifier
-    }
-
-    Canvas(modifier = modifier.then(semanticsModifier)) {
+    Canvas(modifier = modifier) {
 
         val canvasWidth = size.width.roundToInt()
         val canvasHeight = size.height.roundToInt()

@@ -35,13 +35,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
-import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.platform.debugInspectorInfo
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.util.fastForEach
 import com.t8rin.cropper.model.CropData
@@ -174,8 +172,6 @@ fun Modifier.crop(
             }
         }
 
-        // Use Final pass for touchModifier so accessibility services
-        // receive events first in the Main pass before we consume them.
         val touchModifier = Modifier.pointerInput(*keys) {
             detectMotionEventsAsList(
                 onDown = {
@@ -196,8 +192,7 @@ fun Modifier.crop(
                         onUp?.invoke(cropState.cropData)
                     }
                 },
-                requireUnconsumed = false,
-                pass = PointerEventPass.Final
+                requireUnconsumed = false
             )
         }
 
@@ -212,7 +207,6 @@ fun Modifier.crop(
                 .then(transformModifier)
                 .then(touchModifier)
                 .then(graphicsModifier)
-                .semantics(mergeDescendants = false) {}
         )
     },
     inspectorInfo = debugInspectorInfo {
