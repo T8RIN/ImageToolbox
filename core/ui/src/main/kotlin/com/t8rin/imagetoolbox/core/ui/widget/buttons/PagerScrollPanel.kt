@@ -28,12 +28,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBackIos
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowForwardIos
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -66,7 +68,7 @@ fun PagerScrollPanel(
         ) {
             Icon(
                 imageVector = Icons.Rounded.ArrowBackIos,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.exit),
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -91,7 +93,7 @@ fun PagerScrollPanel(
         ) {
             Icon(
                 imageVector = Icons.Rounded.ArrowForwardIos,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.close),
                 modifier = Modifier.size(20.dp)
             )
         }

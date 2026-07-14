@@ -97,7 +97,7 @@ private fun RowScope.FavoriteNavigationBarItem(
             ) { selected ->
                 Icon(
                     imageVector = if (selected) Icons.Rounded.Bookmark else Icons.Outlined.Bookmark,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.favorite)
                 )
             }
         },
@@ -137,7 +137,7 @@ private fun RowScope.ToolsNavigationBarItem(
                     } else {
                         Icons.Outlined.ServiceToolbox
                     },
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.tools)
                 )
             }
         },
