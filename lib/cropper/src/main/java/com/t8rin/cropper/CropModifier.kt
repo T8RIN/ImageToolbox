@@ -58,7 +58,7 @@ import kotlinx.coroutines.launch
  * to move back to bounds with an animation or option to have fling gesture when user removes
  * from screen while velocity is higher than threshold to have smooth touch effect.
  *
- * @param keys are used for [Modifier.pointerInput] to restart closure when any keys assigned
+ * @param keys are used for [Modifier.pointerInput] to restart closure when any keys assign
  * change
  * empty space on sides or edges of parent.
  * @param cropState State of the zoom that contains option to set initial, min, max zoom,
@@ -123,7 +123,6 @@ fun Modifier.crop(
                         )
                     }
                     onGesture?.invoke(cropState.cropData)
-                    mainPointer.consume()
                 }
             )
         }
@@ -193,7 +192,8 @@ fun Modifier.crop(
                         cropState.onUp(it)
                         onUp?.invoke(cropState.cropData)
                     }
-                }
+                },
+                requireUnconsumed = false
             )
         }
 

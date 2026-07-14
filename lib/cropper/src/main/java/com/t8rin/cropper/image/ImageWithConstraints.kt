@@ -98,7 +98,7 @@ internal fun ImageWithConstraints(
 ) {
 
     val semantics = if (contentDescription != null) {
-        Modifier.semantics {
+        Modifier.semantics(mergeDescendants = true) {
             this.contentDescription = contentDescription
             this.role = Role.Image
         }
@@ -167,7 +167,7 @@ private fun ImageLayout(
     colorFilter: ColorFilter? = null,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     drawImage: Boolean = true,
-    content: @Composable ImageScope.() -> Unit
+    content: @Composable ImageScope.() -> Unit = {}
 ) {
     val density = LocalDensity.current
 
