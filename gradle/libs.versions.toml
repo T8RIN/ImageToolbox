@@ -91,6 +91,7 @@ firebaseBom = "34.16.0"
 firebaseCrashlyticsGradle = "3.0.7"
 junit = "4.13.2"
 coilResvg = "1.0.0"
+runner = "1.7.0"
 
 [libraries]
 coil-resvg = { module = "com.hashsequence:coil-resvg", version.ref = "coilResvg" }
@@ -183,10 +184,11 @@ androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 tesseract = { module = "com.github.adaptech-cz.Tesseract4Android:tesseract4android-openmp", version.ref = "tesseract" }
 
-bouncycastle-pkix = { module = "org.bouncycastle:bcpkix-jdk15to18", version.ref = "bouncycastle" }
-bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk15to18", version.ref = "bouncycastle" }
+bouncycastle-pkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
+bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 baselineprofile-gradle = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidxMacroBenchmark" }

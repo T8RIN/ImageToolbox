@@ -119,6 +119,7 @@ android {
         }
         resources {
             excludes += "META-INF/"
+            excludes += "META-INF/LICENSE.md"
             excludes += "kotlin/"
             excludes += "org/"
             excludes += ".properties"
@@ -162,6 +163,17 @@ dependencySubstitution {
         dependency = "com.caverock:androidsvg-aar:1.4",
         using = "com.github.deckerst:androidsvg:cc9d59a88f"
     )
+
+    listOf(
+        "org.bouncycastle:bcpkix",
+        "org.bouncycastle:bcprov",
+        "org.bouncycastle:bcutil"
+    ).forEach { dependency ->
+        substitute(
+            dependency = "${dependency}-jdk15to18",
+            using = "${dependency}-jdk18on:${libs.versions.bouncycastle}"
+        )
+    }
 }
 
 androidComponents {
