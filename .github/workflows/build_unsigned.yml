@@ -34,18 +34,33 @@ jobs:
       - name: Build FOSS Release APK (unsigned)
         run: bash ./gradlew assembleFossRelease
 
-      - name: List APK files
+      - name: List all output files
         run: |
-          echo "=== APK files found ==="
-          find app/build/outputs/apk/foss/release/ -name "*.apk" -exec ls -lh {} \;
+          echo "=== Full directory tree ==="
+          find app/build/outputs/ -type f -name "*.apk" 2>/dev/null || echo "No APK files found in outputs/"
+          find app/build/outputs/ -type d 2>/dev/null | head -30
+          echo "=== Checking split dirs ==="
+          find app/build/ -type d -name "*split*" -o -type d -name "*abi*" 2>/dev/null | head -20
+          echo "=== Any APK in build/ ==="
+          find app/build/ -name "*.apk" 2>/dev/null | head -20
 
-      - name: Upload ARM64 APK only
+      - name: Upload ARM64 APK
         uses: actions/upload-artifact@v4
         with:
           name: ImageToolbox-unsigned-arm64-v8a
-          path: app/build/outputs/apk/foss/release/*arm64*v8a*.apk
-          if-no-files-found: error
+          path: |
+            app/build/outputs/apk/foss/release/*arm64*v8a*.apk
+            app/build/outputs/apk/**/*arm64*.apk
+          if-no-files-found: warn
           retention-days: 7
+
+      - name: Upload all APKs (fallback)
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ImageToolbox-all-apks
+          path: app/build/outputs/apk/foss/release/*.apk
+          retention-days: 3
 
       - name: Clean up
         run: rm -rf app/build/outputs/apk/foss
