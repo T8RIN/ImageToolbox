@@ -17,51 +17,55 @@
 
 package com.t8rin.imagetoolbox.app.presentation.components.functions
 
+import com.t8rin.imagetoolbox.app.presentation.components.ImageToolboxApplication
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import kotlinx.coroutines.launch
 import org.bouncycastle.asn1.ASN1ObjectIdentifier
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.operator.DefaultAlgorithmNameFinder
 import java.security.Provider
 import java.security.Security
 
-internal fun registerSecurityProviders() {
-    initBouncyCastle()
+internal fun ImageToolboxApplication.registerSecurityProviders() {
+    appScope.launch {
+        initBouncyCastle()
 
-    HashingType.registerSecurityMessageDigests(
-        Security.getAlgorithms("MessageDigest").filterNotNull()
-    )
+        HashingType.registerSecurityMessageDigests(
+            Security.getAlgorithms("MessageDigest").filterNotNull()
+        )
 
-    val finder = DefaultAlgorithmNameFinder()
+        val finder = DefaultAlgorithmNameFinder()
 
-    CipherType.registerSecurityCiphers(
-        Security.getAlgorithms("Cipher").filterNotNull().mapNotNull { cipher ->
-            if (CipherType.BROKEN.any { cipher.contains(it, true) }) return@mapNotNull null
+        CipherType.registerSecurityCiphers(
+            Security.getAlgorithms("Cipher").filterNotNull().mapNotNull { cipher ->
+                if (CipherType.BROKEN.any { cipher.contains(it, true) }) return@mapNotNull null
 
-            val oid = cipher.removePrefix("OID.")
-            if (oid.all { it.isDigit() || it.isWhitespace() || it == '.' }) {
-                CipherType.getInstance(
-                    cipher = cipher,
-                    name = finder.getAlgorithmName(
-                        ASN1ObjectIdentifier(oid)
+                val oid = cipher.removePrefix("OID.")
+                if (oid.all { it.isDigit() || it.isWhitespace() || it == '.' }) {
+                    CipherType.getInstance(
+                        cipher = cipher,
+                        name = finder.getAlgorithmName(
+                            ASN1ObjectIdentifier(oid)
+                        )
                     )
-                )
-            } else {
-                CipherType.getInstance(
-                    cipher = cipher
-                )
-            }.also {
-                val extraExclude = it.cipher == "DES"
-                        || it.name == "DES/CBC"
-                        || it.name == "THREEFISH-512"
-                        || it.name == "THREEFISH-1024"
-                        || it.name == "CCM"
+                } else {
+                    CipherType.getInstance(
+                        cipher = cipher
+                    )
+                }.also {
+                    val extraExclude = it.cipher == "DES"
+                            || it.name == "DES/CBC"
+                            || it.name == "THREEFISH-512"
+                            || it.name == "THREEFISH-1024"
+                            || it.name == "CCM"
 
-                if (extraExclude) return@mapNotNull null
+                    if (extraExclude) return@mapNotNull null
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 private fun initBouncyCastle() {

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,10 @@
 
 package com.t8rin.imagetoolbox.app.presentation.components.functions
 
-import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.applyPadding
 import com.t8rin.opencv_tools.qr_prepare.QrPrepareHelper
 import io.github.g00fy2.quickie.extensions.QrProcessor
 
-internal fun initQrScanner() = QrProcessor.setProcessor(::prepareBitmap)
-
-private fun prepareBitmap(bitmap: Bitmap): Bitmap =
-    QrPrepareHelper.prepareQrForDecode(bitmap.applyPadding(100))
+internal fun initQrScanner() = QrProcessor.setProcessor {
+    QrPrepareHelper.prepareQrForDecode(it.applyPadding(100))
+}
