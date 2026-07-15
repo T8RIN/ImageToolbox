@@ -25,9 +25,9 @@ import java.util.zip.GZIPInputStream
 val DefaultPdfFont get() = R.raw.image_toolbox_universal_bold
 
 val Context.defaultPdfFontFile: File
-    get() = DefaultPdfFontCache.get(applicationContext)
+    get() = FontCache.get(applicationContext)
 
-private object DefaultPdfFontCache {
+private object FontCache {
 
     @Volatile
     private var cachedFile: File? = null
@@ -50,12 +50,12 @@ private object DefaultPdfFontCache {
 
         val target = File(
             directory,
-            "$DefaultPdfFontName-$DefaultPdfFontCacheKey.ttf"
+            "$NAME-$CACHE_KEY.ttf"
         )
         if (target.isValidFont()) return target
 
         target.delete()
-        val temporary = File.createTempFile(DefaultPdfFontName, ".tmp", directory)
+        val temporary = File.createTempFile(NAME, ".tmp", directory)
 
         try {
             context.resources.openRawResource(DefaultPdfFont).use { compressed ->
@@ -69,18 +69,18 @@ private object DefaultPdfFontCache {
             check(temporary.isValidFont()) {
                 "Invalid unpacked PDF font"
             }
+
             if (!temporary.renameTo(target)) {
                 temporary.copyTo(target, overwrite = true)
             }
+
             check(target.isValidFont()) {
                 "Failed to cache unpacked PDF font"
             }
 
             directory.listFiles()
                 ?.filter {
-                    it != target && it.extension == "ttf" && it.name.startsWith(
-                        DefaultPdfFontName
-                    )
+                    it != target && it.extension == "ttf" && it.name.startsWith(NAME)
                 }
                 ?.forEach(File::delete)
 
@@ -90,9 +90,10 @@ private object DefaultPdfFontCache {
         }
     }
 
-    private fun File.isValidFont(): Boolean = isFile && length() == DefaultPdfFontSize
-}
+    private fun File.isValidFont(): Boolean = isFile && length() == FILE_SIZE
 
-private const val DefaultPdfFontCacheKey = "5299e3b5fc3352dd"
-private const val DefaultPdfFontSize = 5_359_124L
-private const val DefaultPdfFontName = "image_toolbox_universal_bold"
+    private const val CACHE_KEY = "5299e3b5fc3352dd"
+    private const val FILE_SIZE = 5_359_124L
+    private const val NAME = "image_toolbox_universal_bold"
+
+}
