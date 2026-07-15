@@ -279,7 +279,7 @@ abstract class ComposeActivity : AppCompatActivity() {
     }
 
     private fun observeReview() {
-        lifecycleScope.launch {
+        activityScope.launch {
             ReviewHandler.current.apply {
                 reviewRequests.collect {
                     makeLog("collect reviewRequests")
