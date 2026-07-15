@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +17,49 @@
 
 package com.t8rin.imagetoolbox.benchmark
 
-import androidx.annotation.RequiresApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
+import androidx.test.filters.SdkSuppress
 import org.junit.Rule
 import org.junit.Test
 
-@RequiresApi(28)
+@SdkSuppress(minSdkVersion = 28)
 class BaselineProfileGenerator {
     @get:Rule
     val baselineProfileRule = BaselineProfileRule()
 
     @Test
     fun startup() = baselineProfileRule.collect(
-        packageName = "com.t8rin.imagetoolbox",
+        packageName = PACKAGE_NAME,
         includeInStartupProfile = true,
         profileBlock = {
             startActivityAndWait()
             device.pressBack()
         }
     )
+
+    @Test
+    fun mainScreenScrolling() = baselineProfileRule.collect(
+        packageName = PACKAGE_NAME,
+        includeInStartupProfile = false,
+        profileBlock = {
+            startActivityAndWait()
+
+            repeat(4) {
+                device.swipe(
+                    device.displayWidth / 2,
+                    device.displayHeight * 3 / 4,
+                    device.displayWidth / 2,
+                    device.displayHeight / 4,
+                    20
+                )
+                device.waitForIdle(500)
+            }
+
+            device.pressBack()
+        }
+    )
+
+    private companion object {
+        const val PACKAGE_NAME = "ru.tech.imageresizershrinker"
+    }
 }

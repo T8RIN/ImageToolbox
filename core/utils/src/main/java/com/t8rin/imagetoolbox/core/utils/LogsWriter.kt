@@ -103,7 +103,7 @@ internal class LogsWriter(
         if (isSyncCreate) {
             runBlocking { create() }
         } else {
-            CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 create()
             }
         }

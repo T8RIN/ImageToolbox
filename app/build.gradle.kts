@@ -20,6 +20,7 @@
 plugins {
     alias(libs.plugins.image.toolbox.application)
     alias(libs.plugins.image.toolbox.hilt)
+    id("androidx.baselineprofile")
 }
 
 android {
@@ -142,6 +143,8 @@ aboutLibraries {
 }
 
 dependencies {
+    baselineProfile(project(":benchmark"))
+
     implementation(projects.feature.root)
     implementation(projects.feature.mediaPicker)
     implementation(projects.feature.quickTiles)
@@ -156,6 +159,12 @@ dependencies {
 
     "marketImplementation"(libs.quickie.bundled)
     "fossImplementation"(libs.quickie.foss)
+}
+
+baselineProfile {
+    automaticGenerationDuringBuild = false
+    dexLayoutOptimization = true
+    mergeIntoMain = true
 }
 
 dependencySubstitution {

@@ -33,20 +33,21 @@ internal class AutoCacheCleanupUseCaseImpl @Inject constructor(
 ) : AutoCacheCleanupUseCase {
     override fun clearCacheIfNeeded(settings: SettingsState) {
         if (!settings.clearCacheOnLaunch) return
-        if (fileController.getCacheSize() <= settings.cacheAutoClearLimitBytes) return
 
-        val now = System.currentTimeMillis()
-        val intervalElapsed = settings.cacheAutoClearInterval ==
-                CacheAutoClearInterval.OnAppLaunch ||
-                settings.lastCacheAutoClearTimestampMillis <= 0L ||
-                now - settings.lastCacheAutoClearTimestampMillis >=
-                settings.cacheAutoClearInterval.duration.inWholeMilliseconds
+        appScope.launch {
+            if (fileController.getCacheSize() <= settings.cacheAutoClearLimitBytes) return@launch
 
-        if (!intervalElapsed) return
+            val now = System.currentTimeMillis()
+            val intervalElapsed = settings.cacheAutoClearInterval ==
+                    CacheAutoClearInterval.OnAppLaunch ||
+                    settings.lastCacheAutoClearTimestampMillis <= 0L ||
+                    now - settings.lastCacheAutoClearTimestampMillis >=
+                    settings.cacheAutoClearInterval.duration.inWholeMilliseconds
 
-        fileController.clearCache {
-            appScope.launch {
-                settingsManager.setLastCacheAutoClearTimestampMillis(now)
+            if (!intervalElapsed) return@launch
+
+            fileController.clearCache {
+                launch { settingsManager.setLastCacheAutoClearTimestampMillis(now) }
             }
         }
     }

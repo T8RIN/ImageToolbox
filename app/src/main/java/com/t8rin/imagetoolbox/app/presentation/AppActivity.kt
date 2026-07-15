@@ -33,7 +33,12 @@ class AppActivity : ComposeActivity() {
     lateinit var rootComponentFactory: RootComponent.Factory
 
     private val component: RootComponent by lazy {
-        retainedComponent(factory = rootComponentFactory::invoke)
+        retainedComponent { componentContext ->
+            rootComponentFactory(
+                componentContext = componentContext,
+                initialSettingsState = settingsState
+            )
+        }
     }
 
     override fun handleIntent(intent: Intent) = component.handleDeeplinks(intent)

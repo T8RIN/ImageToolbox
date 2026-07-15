@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -47,7 +46,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Webhook
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.performanceClass
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
@@ -62,7 +60,7 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 internal fun FirstLaunchSetupDialog(
     toggleAllowBetas: () -> Unit,
     toggleShowUpdateDialog: () -> Unit,
-    adjustPerformance: (PerformanceClass) -> Unit
+    adjustPerformance: () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     var updateOnFirstOpen by rememberSaveable {
@@ -71,7 +69,7 @@ internal fun FirstLaunchSetupDialog(
 
     OneTimeEffect {
         updateOnFirstOpen = settingsState.isFirstLaunch(false)
-        adjustPerformance(appContext.performanceClass)
+        adjustPerformance()
     }
 
     EnhancedAlertDialog(

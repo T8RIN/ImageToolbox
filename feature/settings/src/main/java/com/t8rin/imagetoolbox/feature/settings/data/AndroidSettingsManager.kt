@@ -743,7 +743,9 @@ internal class AndroidSettingsManager @Inject constructor(
         defaultValue = default.canEnterPresetsByTextField
     )
 
-    override suspend fun adjustPerformance(performanceClass: PerformanceClass) = edit {
+    override suspend fun adjustPerformance() = edit {
+        val performanceClass = context.performanceClass
+
         performanceClass.makeLog("adjustPerformance")
 
         val performanceVersion = it[PERFORMANCE_VERSION] ?: 0
@@ -1123,4 +1125,4 @@ internal class AndroidSettingsManager @Inject constructor(
 
 }
 
-private const val TARGET_PERFORMANCE_VERSION = 1
+private const val TARGET_PERFORMANCE_VERSION = 2

@@ -39,7 +39,6 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
-import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
@@ -81,11 +80,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class RootComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted initialSettingsState: SettingsState,
     private val settingsManager: SettingsManager,
     private val childProvider: ChildProvider,
     private val analyticsManager: AnalyticsManager,
@@ -93,7 +92,7 @@ class RootComponent @AssistedInject internal constructor(
     private val filterParamsInteractor: FilterParamsInteractor,
     private val fileController: FileController,
     private val appHistoryRepository: AppHistoryRepository,
-    private val autoCacheCleanupUseCase: AutoCacheCleanupUseCase,
+    autoCacheCleanupUseCase: AutoCacheCleanupUseCase,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
     resourceManager: ResourceManager,
@@ -124,7 +123,7 @@ class RootComponent @AssistedInject internal constructor(
         initialSearchQuery = ""
     )
 
-    private val _settingsState = mutableStateOf(SettingsState.Default)
+    private val _settingsState = mutableStateOf(initialSettingsState)
     val settingsState: SettingsState by _settingsState
 
     private val navController = StackNavigation<Screen>()
@@ -184,11 +183,8 @@ class RootComponent @AssistedInject internal constructor(
     val canSetDynamicFilterPreview by _canSetDynamicFilterPreview
 
     init {
-        runBlocking {
-            _settingsState.value = settingsManager.getSettingsState().also {
-                autoCacheCleanupUseCase.clearCacheIfNeeded(it)
-            }
-        }
+        autoCacheCleanupUseCase.clearCacheIfNeeded(initialSettingsState)
+
         settingsManager
             .settingsState
             .onEach { state ->
@@ -385,9 +381,9 @@ class RootComponent @AssistedInject internal constructor(
         _showTelegramGroupDialog.update { false }
     }
 
-    fun adjustPerformance(performanceClass: PerformanceClass) {
+    fun adjustPerformance() {
         componentScope.launch {
-            settingsManager.adjustPerformance(performanceClass)
+            settingsManager.adjustPerformance()
         }
     }
 
@@ -491,7 +487,8 @@ class RootComponent @AssistedInject internal constructor(
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            initialSettingsState: SettingsState
         ): RootComponent
     }
 

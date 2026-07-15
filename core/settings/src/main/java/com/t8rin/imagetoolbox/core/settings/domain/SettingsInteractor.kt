@@ -23,7 +23,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
-import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -193,7 +192,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleCanEnterPresetsByTextField()
 
-    suspend fun adjustPerformance(performanceClass: PerformanceClass)
+    suspend fun adjustPerformance()
 
     suspend fun registerDonateDialogOpen()
 
