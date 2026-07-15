@@ -85,7 +85,8 @@ internal class CropAgent {
             )
 
             val imageToCrop = croppedBitmap
-                .copy(Bitmap.Config.ARGB_8888, true)!!
+                .copy(Bitmap.Config.ARGB_8888, true)
+                .apply { setHasAlpha(true) }
                 .asImageBitmap()
 
             drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop)
