@@ -66,7 +66,6 @@ internal class KeepAliveForegroundService : Service() {
             Handler(Looper.getMainLooper()).postDelayed(
                 {
                     runCatching {
-                        stopForegroundSafe()
                         stopSelfResult(startId)
                     }.onFailure { it.makeLog("KeepAliveForegroundService") }
                 },
@@ -75,12 +74,12 @@ internal class KeepAliveForegroundService : Service() {
             return START_NOT_STICKY
         }
 
-        handleIntent(intent)
+        handleIntent(intent, startId)
 
         return START_NOT_STICKY
     }
 
-    private fun handleIntent(intent: Intent) {
+    private fun handleIntent(intent: Intent, startId: Int) {
         when (intent.action.makeLog("KeepAliveForegroundService")) {
             ACTION_UPDATE -> {
                 title = intent.getStringExtra(EXTRA_TITLE) ?: title
@@ -103,7 +102,7 @@ internal class KeepAliveForegroundService : Service() {
                 ).makeLog("KeepAliveForegroundService")
 
                 Handler(Looper.getMainLooper()).postDelayed(
-                    ::stopForegroundSafe,
+                    { stopSelfResult(startId) },
                     1000
                 )
             }
@@ -152,6 +151,7 @@ internal class KeepAliveForegroundService : Service() {
         "Timeout: startId = $startId, fgsType = $fgsType".makeLog("KeepAliveForegroundService")
         removeNotification = true
         stopForegroundSafe()
+        stopSelf(startId)
     }
 
     @Suppress("DEPRECATION")
@@ -166,7 +166,6 @@ internal class KeepAliveForegroundService : Service() {
         if (removeNotification) {
             notificationManager.cancel(NOTIFICATION_ID)
         }
-        stopSelf()
     }
 
     private fun buildNotification(): Notification {

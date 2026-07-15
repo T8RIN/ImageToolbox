@@ -21,6 +21,7 @@ import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.FileProvider
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,48 +53,50 @@ internal class LogsWriter(
         val create = suspend {
             if (logsFile != null) throw IllegalStateException("LogWriter must be initialized only once")
 
-            logsFile = File(context.filesDir, logsFilename).apply {
-                if (maxFileSize != null && length() > maxFileSize) {
-                    var lineCount = 0
-                    val lines = mutableListOf<String>()
-                    withContext(Dispatchers.IO) {
-                        coroutineScope {
-                            bufferedReader().use { reader ->
-                                while (reader.readLine() != null) {
-                                    lineCount++
-                                }
-                            }
-                        }
-                        coroutineScope {
-                            bufferedReader().use { reader ->
-                                var tempLineCount = 0
-                                repeat(lineCount) {
-                                    tempLineCount++
-                                    val line = reader.readLine()
-
-                                    if (tempLineCount >= lineCount - 1000 && line != null) {
-                                        lines.add(line)
+            runSuspendCatching {
+                logsFile = File(context.filesDir, logsFilename).apply {
+                    if (maxFileSize != null && length() > maxFileSize) {
+                        var lineCount = 0
+                        val lines = mutableListOf<String>()
+                        withContext(Dispatchers.IO) {
+                            coroutineScope {
+                                bufferedReader().use { reader ->
+                                    while (reader.readLine() != null) {
+                                        lineCount++
                                     }
                                 }
                             }
-                            delete()
-                            createNewFile()
-                            writeData(this@apply) { writer ->
-                                lines.forEach {
-                                    writer.write(it)
-                                    writer.newLine()
+                            coroutineScope {
+                                bufferedReader().use { reader ->
+                                    var tempLineCount = 0
+                                    repeat(lineCount) {
+                                        tempLineCount++
+                                        val line = reader.readLine()
+
+                                        if (tempLineCount >= lineCount - 1000 && line != null) {
+                                            lines.add(line)
+                                        }
+                                    }
+                                }
+                                delete()
+                                createNewFile()
+                                writeData(this@apply) { writer ->
+                                    lines.forEach {
+                                        writer.write(it)
+                                        writer.newLine()
+                                    }
                                 }
                             }
                         }
                     }
+                    if (!exists()) createNewFile()
                 }
-                if (!exists()) createNewFile()
-            }
-            writeData { writer ->
-                writer.write(
-                    logMapper.asMessage(startupLog)
-                )
-                writer.newLine()
+                writeData { writer ->
+                    writer.write(
+                        logMapper.asMessage(startupLog)
+                    )
+                    writer.newLine()
+                }
             }
         }
 

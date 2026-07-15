@@ -505,7 +505,7 @@ object ContextUtils {
         modeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION
     ): Uri = apply {
-        if (modeFlags == 0) return@apply
+        if (modeFlags == 0 || scheme != ContentResolver.SCHEME_CONTENT) return@apply
 
         runCatching {
             appContext.contentResolver.takePersistableUriPermission(
