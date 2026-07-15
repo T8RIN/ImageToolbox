@@ -17,6 +17,9 @@
 
 package com.t8rin.cropper.state
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -24,6 +27,7 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.positionChangeIgnoreConsumed
 import androidx.compose.ui.unit.IntSize
 import com.t8rin.cropper.TouchRegion
+import com.t8rin.cropper.handlesTouched
 import com.t8rin.cropper.model.AspectRatio
 import com.t8rin.cropper.settings.CropProperties
 import kotlinx.coroutines.coroutineScope
@@ -104,6 +108,9 @@ class DynamicCropState internal constructor(
     // inside overlay but with multiple pointers to zoom
     private var gestureInvoked = false
 
+    internal var pressedHandle by mutableStateOf(TouchRegion.None)
+        private set
+
     override suspend fun updateProperties(cropProperties: CropProperties, forceUpdate: Boolean) {
         handleSize = cropProperties.handleSize
         super.updateProperties(cropProperties, forceUpdate)
@@ -128,6 +135,7 @@ class DynamicCropState internal constructor(
         ).let {
             if (it == TouchRegion.Inside && !isOverlayDraggable) TouchRegion.None else it
         }
+        pressedHandle = if (handlesTouched(touchRegion)) touchRegion else TouchRegion.None
 
         // This is the difference between touch position and edge
         // This is required for not moving edge of draw rect to touch position on move
@@ -138,6 +146,7 @@ class DynamicCropState internal constructor(
     override suspend fun onMove(changes: List<PointerInputChange>) {
 
         if (changes.isEmpty()) {
+            pressedHandle = TouchRegion.None
             touchRegion = TouchRegion.None
             return
         }
@@ -181,6 +190,8 @@ class DynamicCropState internal constructor(
     }
 
     override suspend fun onUp(change: PointerInputChange) = coroutineScope {
+        pressedHandle = TouchRegion.None
+
         if (touchRegion != TouchRegion.None) {
 
             val isInContainerBounds = isRectInContainerBounds(overlayRect)

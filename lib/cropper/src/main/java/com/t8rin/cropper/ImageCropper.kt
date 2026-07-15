@@ -21,7 +21,6 @@ import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
@@ -31,7 +30,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,7 +63,6 @@ import com.t8rin.cropper.settings.CropStyle
 import com.t8rin.cropper.settings.CropType
 import com.t8rin.cropper.state.DynamicCropState
 import com.t8rin.cropper.state.rememberCropState
-import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -182,13 +179,8 @@ fun ImageCropper(
 
         onZoomChange(cropState.zoom)
 
-        val isHandleTouched by remember(cropState) {
-            derivedStateOf {
-                cropState is DynamicCropState && handlesTouched(cropState.touchRegion)
-            }
-        }
         val selectedHandle = if (cropState is DynamicCropState) {
-            cropState.touchRegion
+            cropState.pressedHandle
         } else {
             TouchRegion.None
         }
@@ -207,16 +199,6 @@ fun ImageCropper(
                 animatedHandle = TouchRegion.None
             }
         }
-
-        val pressedStateColor = remember(cropStyle.backgroundColor) {
-            cropStyle.backgroundColor
-                .copy(cropStyle.backgroundColor.alpha * .7f)
-        }
-
-        val transparentColor by animateColorAsState(
-            animationSpec = tween(300, easing = LinearEasing),
-            targetValue = if (isHandleTouched) pressedStateColor else cropStyle.backgroundColor
-        )
 
         // Crops image when user invokes crop operation
         Crop(
@@ -267,7 +249,7 @@ fun ImageCropper(
             cropType = cropType,
             cropOutline = cropOutline,
             cropStyle = cropStyle,
-            transparentColor = transparentColor,
+            transparentColor = cropStyle.backgroundColor,
             backgroundModifier = backgroundModifier
         )
     }
