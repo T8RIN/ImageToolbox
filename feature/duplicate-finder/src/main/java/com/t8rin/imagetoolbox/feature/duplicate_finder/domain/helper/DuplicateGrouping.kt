@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper
 
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateGroup
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateItem
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateKeepStrategy
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateType
 import kotlin.math.abs
 import kotlin.math.max
@@ -41,7 +42,8 @@ data object DuplicateGrouping {
 
     fun regroup(
         items: List<DuplicateItem>,
-        sensitivity: Int = DEFAULT_SENSITIVITY
+        sensitivity: Int = DEFAULT_SENSITIVITY,
+        keepStrategy: DuplicateKeepStrategy = DuplicateKeepStrategy.BestQuality
     ): List<DuplicateGroup> {
         val orderedItems = items.sortedWith(
             compareBy<DuplicateItem> { it.sourceIndex }.thenBy { it.uri }
@@ -50,19 +52,23 @@ data object DuplicateGrouping {
             .groupBy(DuplicateItem::sha256)
             .values
             .filter { it.size > 1 }
-            .map { createGroup(DuplicateType.Exact, it) }
+            .map { createGroup(DuplicateType.Exact, it, keepStrategy) }
         val exactUris = exactGroups
             .flatMapTo(mutableSetOf()) { group -> group.items.map(DuplicateItem::uri) }
         val similarGroups = groupSimilar(
             items = orderedItems.filterNot { it.uri in exactUris },
-            sensitivity = normalizeSensitivity(sensitivity)
+            sensitivity = normalizeSensitivity(sensitivity),
+            keepStrategy = keepStrategy
         )
 
         return exactGroups + similarGroups
     }
 
-    fun recommendedItem(items: List<DuplicateItem>): DuplicateItem =
-        requireNotNull(items.minWithOrNull(RecommendedItemComparator)) {
+    fun recommendedItem(
+        items: List<DuplicateItem>,
+        keepStrategy: DuplicateKeepStrategy = DuplicateKeepStrategy.BestQuality
+    ): DuplicateItem =
+        requireNotNull(items.minWithOrNull(keepStrategy.comparator())) {
             "Cannot recommend an item from an empty list"
         }
 
@@ -81,7 +87,8 @@ data object DuplicateGrouping {
 
     private fun groupSimilar(
         items: List<DuplicateItem>,
-        sensitivity: Int
+        sensitivity: Int,
+        keepStrategy: DuplicateKeepStrategy
     ): List<DuplicateGroup> {
         val clusters = mutableListOf<MutableList<DuplicateItem>>()
 
@@ -101,14 +108,15 @@ data object DuplicateGrouping {
 
         return clusters
             .filter { it.size > 1 }
-            .map { createGroup(DuplicateType.Similar, it) }
+            .map { createGroup(DuplicateType.Similar, it, keepStrategy) }
     }
 
     private fun createGroup(
         type: DuplicateType,
-        items: List<DuplicateItem>
+        items: List<DuplicateItem>,
+        keepStrategy: DuplicateKeepStrategy
     ): DuplicateGroup {
-        val recommended = recommendedItem(items)
+        val recommended = recommendedItem(items, keepStrategy)
         val itemsWithDistance = items.map { item ->
             item.copy(
                 distance = if (type == DuplicateType.Exact) {
@@ -134,5 +142,23 @@ data object DuplicateGrouping {
         if (firstRatio <= 0.0 || secondRatio <= 0.0) return true
 
         return abs(firstRatio - secondRatio) / max(firstRatio, secondRatio) <= RATIO_TOLERANCE
+    }
+
+    private fun DuplicateKeepStrategy.comparator(): Comparator<DuplicateItem> = when (this) {
+        DuplicateKeepStrategy.BestQuality -> RecommendedItemComparator
+        DuplicateKeepStrategy.SmallestFile -> compareBy<DuplicateItem> { it.sizeBytes }
+            .thenByDescending { it.pixelCount }
+            .thenBy { it.sourceIndex }
+
+        DuplicateKeepStrategy.Newest -> compareBy<DuplicateItem> { it.lastModified == null }
+            .thenByDescending { it.lastModified ?: Long.MIN_VALUE }
+            .then(RecommendedItemComparator)
+
+        DuplicateKeepStrategy.Oldest -> compareBy<DuplicateItem> { it.lastModified == null }
+            .thenBy { it.lastModified ?: Long.MAX_VALUE }
+            .then(RecommendedItemComparator)
+
+        DuplicateKeepStrategy.FirstSelected -> compareBy<DuplicateItem> { it.sourceIndex }
+            .thenBy { it.uri }
     }
 }

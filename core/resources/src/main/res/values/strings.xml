@@ -3762,4 +3762,11 @@
     <string name="duplicate_selected_summary">%1$d selected • %2$s</string>
     <string name="confirm_duplicate_deletion_text">This cannot be undone. Android may ask you to confirm deletion in a system dialog.</string>
     <string name="not_found">Not Found</string>
+    <string name="duplicate_keep_strategy">Keep strategy</string>
+    <string name="duplicate_keep_best_quality">Best quality</string>
+    <string name="duplicate_keep_smallest_file">Smallest file</string>
+    <string name="duplicate_keep_newest">Newest</string>
+    <string name="duplicate_keep_oldest">Oldest</string>
+    <string name="duplicate_keep_first_selected">First selected</string>
+    <string name="keep">Keep</string>
 </resources>

@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -71,6 +70,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.theme.PreviewFocusFix
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
@@ -414,7 +414,7 @@ private fun String.safeFileName(): String = trim()
 @Preview
 @Composable
 private fun Preview() = ImageToolboxThemeForPreview(true) {
-    Button(onClick = {}) { }
+    PreviewFocusFix()
 
     AddImagePresetBlock(
         preset = Preset.Telegram,

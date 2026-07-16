@@ -45,11 +45,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BookmarkStar
+import com.t8rin.imagetoolbox.core.resources.icons.DataThresholding
 import com.t8rin.imagetoolbox.core.resources.icons.FolderMatch
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCheckbox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -59,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGrouping
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateGroup
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateKeepStrategy
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateType
 import com.t8rin.imagetoolbox.feature.duplicate_finder.presentation.screenLogic.DuplicateFinderComponent
 import kotlin.math.roundToInt
@@ -89,6 +93,29 @@ internal fun DuplicateFinderControls(
         horizontalAlignment = Alignment.CenterHorizontally,
         flingBehavior = enhancedFlingBehavior()
     ) {
+        item(key = "keep-strategy") {
+            DataSelector(
+                value = component.keepStrategy,
+                onValueChange = component::updateKeepStrategy,
+                entries = DuplicateKeepStrategy.entries,
+                title = stringResource(R.string.duplicate_keep_strategy),
+                titleIcon = Icons.Outlined.BookmarkStar,
+                itemContentText = {
+                    stringResource(
+                        when (it) {
+                            DuplicateKeepStrategy.BestQuality -> R.string.duplicate_keep_best_quality
+                            DuplicateKeepStrategy.SmallestFile -> R.string.duplicate_keep_smallest_file
+                            DuplicateKeepStrategy.Newest -> R.string.duplicate_keep_newest
+                            DuplicateKeepStrategy.Oldest -> R.string.duplicate_keep_oldest
+                            DuplicateKeepStrategy.FirstSelected -> R.string.duplicate_keep_first_selected
+                        }
+                    )
+                },
+                spanCount = 2,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
         item(key = "sensitivity") {
             EnhancedSliderItem(
                 value = component.sensitivity,
@@ -97,6 +124,7 @@ internal fun DuplicateFinderControls(
                         DuplicateGrouping.MAX_SENSITIVITY.toFloat(),
                 steps = DuplicateGrouping.MAX_SENSITIVITY - DuplicateGrouping.MIN_SENSITIVITY - 1,
                 onValueChange = { component.updateSensitivity(it.roundToInt()) },
+                icon = Icons.Outlined.DataThresholding,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -107,7 +135,9 @@ internal fun DuplicateFinderControls(
                     exactGroupCount = exactGroups.size,
                     similarGroupCount = similarGroups.size,
                     reclaimableBytes = component.groups.sumOf(DuplicateGroup::reclaimableBytes),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateItem()
                 )
             }
 
@@ -121,7 +151,9 @@ internal fun DuplicateFinderControls(
                         startIcon = Icons.Outlined.WarningAmber,
                         containerColor = MaterialTheme.colorScheme.errorContainer,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateItem()
                     )
                 }
             }
@@ -133,7 +165,9 @@ internal fun DuplicateFinderControls(
                         subtitle = stringResource(R.string.no_duplicates_found_sub),
                         startIcon = Icons.Outlined.ImageSearch,
                         onClick = onPickImages,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateItem()
                     )
                 }
             } else {
@@ -193,7 +227,8 @@ private fun LazyListScope.duplicateGroups(
                     .padding(
                         horizontal = 10.dp,
                         vertical = 6.dp
-                    ),
+                    )
+                    .animateItem(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -230,7 +265,7 @@ private fun LazyListScope.duplicateGroups(
 
         itemsIndexed(
             items = group.sortedItems,
-            key = { _, item -> "${type.name}-$groupIndex-${item.uri}" }
+            key = { _, item -> "${type.name}-$groupIndex-${item.uri}-${group.recommendedUri}" }
         ) { index, item ->
             DuplicateItemRow(
                 item = item,
@@ -239,7 +274,9 @@ private fun LazyListScope.duplicateGroups(
                 shape = ShapeDefaults.byIndex(index, group.sortedItems.size),
                 onToggleSelection = { onToggleSelection(item.uri) },
                 onPreview = { onPreview(item.uri) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateItem()
             )
         }
     }

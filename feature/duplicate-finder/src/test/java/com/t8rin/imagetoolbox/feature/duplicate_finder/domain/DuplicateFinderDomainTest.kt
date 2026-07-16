@@ -24,6 +24,7 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DHash
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGrouping
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateItem
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateKeepStrategy
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateType
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -99,6 +100,84 @@ class DuplicateFinderDomainTest {
             "newer",
             DuplicateGrouping.recommendedItem(listOf(sameAsNewerButLater, older, newer)).uri
         )
+    }
+
+    @Test
+    fun keepStrategiesChooseExpectedItems() {
+        val first = item(
+            uri = "first",
+            sha256 = "a",
+            dHash = 0L,
+            width = 100,
+            height = 100,
+            sizeBytes = 2_000,
+            lastModified = 200,
+            sourceIndex = 0
+        )
+        val smallestNewest = item(
+            uri = "smallest-newest",
+            sha256 = "b",
+            dHash = 0L,
+            width = 200,
+            height = 200,
+            sizeBytes = 1_000,
+            lastModified = 300,
+            sourceIndex = 1
+        )
+        val bestOldest = item(
+            uri = "best-oldest",
+            sha256 = "c",
+            dHash = 0L,
+            width = 300,
+            height = 300,
+            sizeBytes = 3_000,
+            lastModified = 100,
+            sourceIndex = 2
+        )
+        val items = listOf(bestOldest, smallestNewest, first)
+
+        assertEquals(
+            "best-oldest",
+            DuplicateGrouping.recommendedItem(
+                items,
+                DuplicateKeepStrategy.BestQuality
+            ).uri
+        )
+        assertEquals(
+            "smallest-newest",
+            DuplicateGrouping.recommendedItem(
+                items,
+                DuplicateKeepStrategy.SmallestFile
+            ).uri
+        )
+        assertEquals(
+            "smallest-newest",
+            DuplicateGrouping.recommendedItem(items, DuplicateKeepStrategy.Newest).uri
+        )
+        assertEquals(
+            "best-oldest",
+            DuplicateGrouping.recommendedItem(items, DuplicateKeepStrategy.Oldest).uri
+        )
+        assertEquals(
+            "first",
+            DuplicateGrouping.recommendedItem(
+                items,
+                DuplicateKeepStrategy.FirstSelected
+            ).uri
+        )
+    }
+
+    @Test
+    fun regroupAppliesKeepStrategyToGroups() {
+        val group = DuplicateGrouping.regroup(
+            items = listOf(
+                item(uri = "large", sha256 = "same", dHash = 0L, sizeBytes = 2_000),
+                item(uri = "small", sha256 = "same", dHash = 0L, sizeBytes = 1_000)
+            ),
+            keepStrategy = DuplicateKeepStrategy.SmallestFile
+        ).single()
+
+        assertEquals("small", group.recommendedUri)
     }
 
     @Test

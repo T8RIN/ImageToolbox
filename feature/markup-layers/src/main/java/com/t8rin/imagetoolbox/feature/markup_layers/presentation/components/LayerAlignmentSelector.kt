@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -50,6 +49,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Place
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.theme.PreviewFocusFix
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -261,7 +261,7 @@ private const val ALIGNMENT_TOLERANCE = 0.0001
 @Preview
 @Composable
 private fun Preview() = ImageToolboxThemeForPreview(true) {
-    Button({}) { }
+    PreviewFocusFix()
     Box(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surface)

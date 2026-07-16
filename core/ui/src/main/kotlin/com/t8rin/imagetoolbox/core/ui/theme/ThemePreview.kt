@@ -30,6 +30,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -59,6 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocaliz
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberScreenSize
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.initAppContext
 import java.util.Locale
@@ -299,4 +302,12 @@ private val FakeRes = object : ResourceManager {
     ): String =
         appContext.getStringLocalized(resId, Locale.forLanguageTag(language))
 
+}
+
+@Composable
+fun PreviewFocusFix() {
+    EnhancedButton(
+        onClick = {},
+        modifier = Modifier.alpha(0f)
+    ) { }
 }

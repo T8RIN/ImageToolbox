@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGr
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateAnalysisProgress
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateAnalysisResult
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateGroup
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateKeepStrategy
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateType
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -67,6 +68,9 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
     private val _sensitivity = mutableIntStateOf(DuplicateGrouping.DEFAULT_SENSITIVITY)
     val sensitivity by _sensitivity
+
+    private val _keepStrategy = mutableStateOf(DuplicateKeepStrategy.BestQuality)
+    val keepStrategy by _keepStrategy
 
     private val _selectedUris: MutableState<Set<String>> = mutableStateOf(emptySet())
     val selectedUris by _selectedUris
@@ -142,8 +146,13 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
                         _progress.value = it
                     }
                 )
-                _analysisResult.value = result
-                updateGroups(result.groups)
+                val regrouped = DuplicateGrouping.regroup(
+                    items = result.items,
+                    sensitivity = sensitivity,
+                    keepStrategy = keepStrategy
+                )
+                _analysisResult.value = result.copy(groups = regrouped)
+                updateGroups(regrouped)
             } catch (cancellation: CancellationException) {
                 throw cancellation
             } catch (throwable: Throwable) {
@@ -167,7 +176,24 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
         analysisResult?.let { result ->
             val regrouped = DuplicateGrouping.regroup(
                 items = result.items,
-                sensitivity = normalized
+                sensitivity = normalized,
+                keepStrategy = keepStrategy
+            )
+            _analysisResult.value = result.copy(groups = regrouped)
+            updateGroups(regrouped)
+        }
+    }
+
+    fun updateKeepStrategy(value: DuplicateKeepStrategy) {
+        if (keepStrategy == value) return
+
+        _keepStrategy.value = value
+        _selectedUris.value = emptySet()
+        analysisResult?.let { result ->
+            val regrouped = DuplicateGrouping.regroup(
+                items = result.items,
+                sensitivity = sensitivity,
+                keepStrategy = value
             )
             _analysisResult.value = result.copy(groups = regrouped)
             updateGroups(regrouped)
@@ -229,7 +255,11 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
             }
             analysisResult?.let { current ->
                 val remainingItems = current.items.filterNot { it.uri in deletedUris }
-                val regrouped = DuplicateGrouping.regroup(remainingItems, sensitivity)
+                val regrouped = DuplicateGrouping.regroup(
+                    items = remainingItems,
+                    sensitivity = sensitivity,
+                    keepStrategy = keepStrategy
+                )
                 _analysisResult.value = current.copy(
                     items = remainingItems,
                     groups = regrouped

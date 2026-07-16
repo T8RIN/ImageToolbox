@@ -17,15 +17,17 @@
 
 package com.t8rin.imagetoolbox.feature.duplicate_finder.presentation.components
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,13 +37,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BookmarkStar
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.theme.PreviewFocusFix
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCheckbox
@@ -126,11 +133,25 @@ internal fun DuplicateItemRow(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.offset(x = 4.dp)
             ) {
-                AnimatedVisibility(visible = isRecommended) {
+                if (isRecommended) {
                     EnhancedBadge(
                         containerColor = MaterialTheme.colorScheme.tertiary
                     ) {
-                        Text(stringResource(R.string.best))
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.BookmarkStar,
+                                contentDescription = null,
+                                modifier = Modifier.size(
+                                    with(LocalDensity.current) {
+                                        LocalTextStyle.current.fontSize.toDp() + 2.dp
+                                    }
+                                )
+                            )
+                            Spacer(Modifier.width(2.dp))
+                            Text(stringResource(R.string.keep))
+                        }
                     }
                 }
                 EnhancedCheckbox(
@@ -141,5 +162,32 @@ internal fun DuplicateItemRow(
         },
         resultModifier = Modifier.padding(12.dp),
         modifier = modifier
+    )
+}
+
+@Composable
+@Preview
+private fun Preview() = ImageToolboxThemeForPreview(true) {
+    PreviewFocusFix()
+    DuplicateItemRow(
+        item = DuplicateItem(
+            uri = "",
+            name = "test",
+            width = 122,
+            height = 232,
+            sizeBytes = 121,
+            format = "",
+            lastModified = null,
+            sourceIndex = 1,
+            sha256 = "1",
+            dHash = 1,
+            distance = null,
+            isCorrectSize = true
+        ),
+        isRecommended = true,
+        isSelected = false,
+        shape = ShapeDefaults.default,
+        onToggleSelection = {},
+        onPreview = {},
     )
 }
