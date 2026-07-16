@@ -44,11 +44,12 @@ internal class KeepAliveForegroundService : Service() {
     private var description = ""
     private var progress: Float = KeepAliveService.PROGRESS_NO_PROGRESS
     private var removeNotification: Boolean = true
+    private var isForegroundStarted: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
         createChannel()
-        startForeground()
+        if (!startForeground()) stopSelf()
     }
 
     override fun onDestroy() {
@@ -61,6 +62,11 @@ internal class KeepAliveForegroundService : Service() {
         flags: Int,
         startId: Int
     ): Int {
+        if (!isForegroundStarted) {
+            stopSelfResult(startId)
+            return START_NOT_STICKY
+        }
+
         if (intent == null) {
             startForeground()
             Handler(Looper.getMainLooper()).postDelayed(
@@ -111,8 +117,8 @@ internal class KeepAliveForegroundService : Service() {
         }
     }
 
-    private fun startForeground() {
-        val action = {
+    private fun startForeground(): Boolean {
+        return runCatching {
             ServiceCompat.startForeground(
                 this,
                 NOTIFICATION_ID,
@@ -123,14 +129,13 @@ internal class KeepAliveForegroundService : Service() {
                     0
                 }
             )
-        }
-        runCatching {
-            action()
+        }.onSuccess {
+            isForegroundStarted = true
         }.onFailure {
-            action()
+            isForegroundStarted = false
             it.makeLog()
             "startForeground failed".makeLog("KeepAliveForegroundService")
-        }
+        }.isSuccess
     }
 
     private fun createChannel() {
