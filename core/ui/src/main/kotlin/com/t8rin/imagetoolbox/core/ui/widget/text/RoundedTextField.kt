@@ -45,8 +45,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -54,8 +56,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -95,7 +99,9 @@ fun RoundedTextField(
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     minLines: Int = 1,
-    maxSymbols: Int = Int.MAX_VALUE
+    maxSymbols: Int = Int.MAX_VALUE,
+    selection: TextRange? = null,
+    onSelectionChange: ((TextRange) -> Unit)? = null
 ) {
     val labelImpl = @Composable {
         Text(
@@ -138,7 +144,9 @@ fun RoundedTextField(
         maxLines = maxLines,
         interactionSource = interactionSource,
         minLines = minLines,
-        maxSymbols = maxSymbols
+        maxSymbols = maxSymbols,
+        selection = selection,
+        onSelectionChange = onSelectionChange
     )
 }
 
@@ -169,7 +177,9 @@ fun RoundedTextField(
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     minLines: Int = 1,
-    maxSymbols: Int = Int.MAX_VALUE
+    maxSymbols: Int = Int.MAX_VALUE,
+    selection: TextRange? = null,
+    onSelectionChange: ((TextRange) -> Unit)? = null
 ) {
     val focus = LocalFocusManager.current
     val focused = interactionSource.collectIsFocusedAsState().value
@@ -235,27 +245,76 @@ fun RoundedTextField(
     ) {
         val showSupportingText =
             !loading && (isError || (supportingText != null && supportingTextVisible))
-        TextField(
-            modifier = mergedModifier.clip(shape),
-            value = value,
-            onValueChange = { onValueChange(it.take(maxSymbols).formatText()) },
-            textStyle = textStyle,
-            colors = colors,
-            shape = shape,
-            singleLine = singleLine,
-            readOnly = readOnly,
-            keyboardOptions = keyboardOptions,
-            visualTransformation = visualTransformation,
-            trailingIcon = endIcon?.let { { it(focused) } },
-            leadingIcon = startIcon,
-            label = label,
-            placeholder = hint,
-            keyboardActions = keyboardActions,
-            enabled = enabled,
-            maxLines = maxLines,
-            interactionSource = interactionSource,
-            minLines = minLines,
-        )
+        if (onSelectionChange != null) {
+            var textFieldValue by remember {
+                mutableStateOf(
+                    TextFieldValue(
+                        text = value,
+                        selection = selection?.coerceIn(value.length) ?: TextRange(value.length)
+                    )
+                )
+            }
+            LaunchedEffect(value, selection) {
+                textFieldValue = TextFieldValue(
+                    text = value,
+                    selection = (selection ?: textFieldValue.selection).coerceIn(value.length)
+                )
+            }
+
+            TextField(
+                modifier = mergedModifier.clip(shape),
+                value = textFieldValue,
+                onValueChange = {
+                    val formatted = it.text.take(maxSymbols).formatText()
+                    textFieldValue = it.copy(
+                        text = formatted,
+                        selection = it.selection.coerceIn(formatted.length)
+                    )
+                    onSelectionChange(textFieldValue.selection)
+                    if (formatted != value) {
+                        onValueChange(formatted)
+                    }
+                },
+                textStyle = textStyle,
+                colors = colors,
+                shape = shape,
+                singleLine = singleLine,
+                readOnly = readOnly,
+                keyboardOptions = keyboardOptions,
+                visualTransformation = visualTransformation,
+                trailingIcon = endIcon?.let { { it(focused) } },
+                leadingIcon = startIcon,
+                label = label,
+                placeholder = hint,
+                keyboardActions = keyboardActions,
+                enabled = enabled,
+                maxLines = maxLines,
+                interactionSource = interactionSource,
+                minLines = minLines,
+            )
+        } else {
+            TextField(
+                modifier = mergedModifier.clip(shape),
+                value = value,
+                onValueChange = { onValueChange(it.take(maxSymbols).formatText()) },
+                textStyle = textStyle,
+                colors = colors,
+                shape = shape,
+                singleLine = singleLine,
+                readOnly = readOnly,
+                keyboardOptions = keyboardOptions,
+                visualTransformation = visualTransformation,
+                trailingIcon = endIcon?.let { { it(focused) } },
+                leadingIcon = startIcon,
+                label = label,
+                placeholder = hint,
+                keyboardActions = keyboardActions,
+                enabled = enabled,
+                maxLines = maxLines,
+                interactionSource = interactionSource,
+                minLines = minLines,
+            )
+        }
         val showMaxSymbols = maxSymbols != Int.MAX_VALUE && value.isNotEmpty()
 
         AnimatedVisibility(
@@ -296,6 +355,11 @@ fun RoundedTextField(
         }
     }
 }
+
+private fun TextRange.coerceIn(textLength: Int): TextRange = TextRange(
+    start = start.coerceIn(0, textLength),
+    end = end.coerceIn(0, textLength)
+)
 
 @SuppressLint("ComposableNaming")
 @Composable

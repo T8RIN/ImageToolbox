@@ -26,13 +26,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.JAVA_FORMAT_SPECIFICATION
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
@@ -78,6 +84,16 @@ fun FilenamePatternEditSheet(
     exampleFilename: (@Composable ColumnScope.() -> Unit)? = null
 ) {
     val settingsState = LocalSettingsState.current
+    var selection by remember { mutableStateOf(TextRange(value.length)) }
+
+    fun insertPattern(insertion: String) {
+        val start = minOf(selection.start, selection.end).coerceIn(0, value.length)
+        val end = maxOf(selection.start, selection.end).coerceIn(0, value.length)
+        val result = value.replaceRange(start, end, insertion)
+
+        selection = TextRange(start + insertion.length)
+        onValueChange(result)
+    }
 
     EnhancedModalBottomSheet(
         visible = visible,
@@ -130,6 +146,8 @@ fun FilenamePatternEditSheet(
                 value = value,
                 textStyle = MaterialTheme.typography.titleMedium,
                 onValueChange = onValueChange,
+                selection = selection,
+                onSelectionChange = { selection = it },
                 maxLines = Int.MAX_VALUE,
                 singleLine = false,
                 hint = { Text(stringResource(R.string.format_pattern)) },
@@ -189,14 +207,14 @@ fun FilenamePatternEditSheet(
                             }
                         } else null,
                         containerColor = takeColorFromScheme {
-                            if (pattern.value in value) {
+                            if (value.contains(pattern.value, ignoreCase = true)) {
                                 secondaryContainer
                             } else {
                                 SafeLocalContainerColor
                             }
                         },
                         contentColor = takeColorFromScheme {
-                            if (pattern.value in value) {
+                            if (value.contains(pattern.value, ignoreCase = true)) {
                                 onSecondaryContainer
                             } else {
                                 onSurface
@@ -204,17 +222,26 @@ fun FilenamePatternEditSheet(
                         },
                         endIcon = if (pattern == Date) {
                             {
-                                Icon(
-                                    imageVector = Icons.Outlined.Info,
-                                    contentDescription = null
-                                )
+                                IconButton(
+                                    onClick = {
+                                        linkHandler.openUri(JAVA_FORMAT_SPECIFICATION)
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Info,
+                                        contentDescription = null
+                                    )
+                                }
                             }
                         } else null,
-                        onClick = if (pattern == Date) {
+                        onClick = {
+                            insertPattern(pattern.value)
+                        },
+                        onLongClick = pattern.takeIf(FilenamePattern::hasUpper)?.let {
                             {
-                                linkHandler.openUri(JAVA_FORMAT_SPECIFICATION)
+                                insertPattern(pattern.upper().value)
                             }
-                        } else null,
+                        },
                         shape = ShapeDefaults.byIndex(
                             index = index,
                             size = allowedPatterns?.size ?: FilenamePattern.entries.size
