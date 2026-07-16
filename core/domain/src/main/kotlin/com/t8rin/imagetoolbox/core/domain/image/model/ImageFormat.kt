@@ -336,8 +336,8 @@ sealed class ImageFormat(
         val Default: ImageFormat by lazy { Jpg }
 
         fun fromTitle(title: String?): ImageFormat? = when (title) {
-            "AVIF Lossless" -> Avif.LosslessAv2
-            "AVIF Lossy" -> Avif.LossyAv2
+            "AVIF Lossless" -> Avif.LosslessAv1
+            "AVIF Lossy" -> Avif.LossyAv1
             else -> entries.firstOrNull { it.title == title }
         }
 
@@ -353,7 +353,7 @@ sealed class ImageFormat(
             typeString.contains("jpeg") -> Jpeg
             typeString.contains("jpg") -> Jpg
             typeString.contains("webp") -> Webp.Lossless
-            typeString.contains("avif") -> Avif.LosslessAv2
+            typeString.contains("avif") -> Avif.LosslessAv1
             typeString.contains("heif") -> Heic.HeifLossless
             typeString.contains("heic") -> Heic.Lossless
             typeString.contains("qoi") -> Qoi
