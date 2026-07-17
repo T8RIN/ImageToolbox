@@ -260,8 +260,8 @@ class TextureGenerationComponent @AssistedInject internal constructor(
             _isImageLoading.update { true }
             _previewBitmap.update { null }
             debouncedImageCalculation {
-                val previewSize = if (textureSize.width > 512 || textureSize.height > 512) {
-                    textureSize.flexibleResize(512, 512)
+                val previewSize = if (textureSize.width > 768 || textureSize.height > 768) {
+                    textureSize.flexibleResize(768, 768)
                 } else {
                     textureSize
                 }
@@ -273,8 +273,8 @@ class TextureGenerationComponent @AssistedInject internal constructor(
                 )?.let {
                     imageScaler.scaleImage(
                         image = it,
-                        width = 512,
-                        height = 512,
+                        width = 768,
+                        height = 768,
                         resizeType = ResizeType.Flexible
                     )
                 }.also { bitmap ->

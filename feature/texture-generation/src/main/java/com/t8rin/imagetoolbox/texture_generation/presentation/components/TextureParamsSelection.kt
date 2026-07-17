@@ -97,14 +97,14 @@ fun TextureParamsSelection(
                                     .data(empty)
                                     .memoryCacheKey(it.name)
                                     .diskCacheKey(it.name)
-                                    .size(128, 128)
+                                    .size(512, 512)
                                     .transformations(listOf(previewProvider(value.withDefaultsFor(it))))
                                     .build()
                             },
                             modifier = Modifier
                                 .size(28.dp)
                                 .offset(x = (-2).dp),
-                            shape = ShapeDefaults.mini
+                            shape = ShapeDefaults.extraSmall
                         )
                         Spacer(Modifier.width(4.dp))
                         Text(stringResource(it.titleRes()))
