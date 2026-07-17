@@ -376,6 +376,10 @@ class AiToolsComponent @AssistedInject internal constructor(
         _imageFormat.update { imageFormat }
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat? = imageFormat?.takeIf {
+        uris?.size == 1
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(

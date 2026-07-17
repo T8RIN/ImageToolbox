@@ -376,6 +376,14 @@ fun ApngToolsContent(
             else 20.dp
         ).value,
         buttons = { actions ->
+            val filenameSelectionData = remember(
+                component.type,
+                component.imageFormat,
+                component.imageFrames,
+                component.convertedImageUris
+            ) {
+                component.getFilenameSelectionData()
+            }
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
@@ -419,7 +427,8 @@ fun ApngToolsContent(
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = saveBitmaps
+                onSaveRequest = saveBitmaps,
+                filenameSelectionData = filenameSelectionData
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },

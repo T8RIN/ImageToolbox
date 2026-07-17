@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
@@ -233,6 +234,14 @@ fun GifToolsContent(
             else 20.dp
         ).value,
         buttons = { actions ->
+            val filenameSelectionData = remember(
+                component.type,
+                component.imageFormat,
+                component.gifFrames,
+                component.convertedImageUris
+            ) {
+                component.getFilenameSelectionData()
+            }
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 if (component.type is Screen.GifTools.Type.ImageToGif ||
                     component.type is Screen.GifTools.Type.MergeGif
@@ -285,7 +294,8 @@ fun GifToolsContent(
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = saveBitmaps
+                onSaveRequest = saveBitmaps,
+                filenameSelectionData = filenameSelectionData
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },

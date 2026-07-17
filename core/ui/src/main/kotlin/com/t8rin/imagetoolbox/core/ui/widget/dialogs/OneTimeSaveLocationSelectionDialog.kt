@@ -47,6 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenameSelectionData
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -84,13 +85,35 @@ import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.uiPath
 import kotlinx.coroutines.launch
 
+@Composable
+fun OneTimeSaveLocationSelectionDialog(
+    visible: Boolean,
+    onDismiss: () -> Unit,
+    onSaveRequest: ((String?) -> Unit)?,
+    formatForFilenameSelection: ImageFormat?,
+    hasOriginalUri: Boolean = true
+) = OneTimeSaveLocationSelectionDialog(
+    visible = visible,
+    onDismiss = onDismiss,
+    onSaveRequest = onSaveRequest,
+    filenameSelectionData = remember(formatForFilenameSelection) {
+        formatForFilenameSelection?.let {
+            FilenameSelectionData(
+                mimeType = it.mimeType,
+                extension = it.extension
+            )
+        }
+    },
+    hasOriginalUri = hasOriginalUri
+)
 
 @Composable
 fun OneTimeSaveLocationSelectionDialog(
     visible: Boolean,
     onDismiss: () -> Unit,
     onSaveRequest: ((String?) -> Unit)?,
-    formatForFilenameSelection: ImageFormat? = null
+    filenameSelectionData: FilenameSelectionData? = null,
+    hasOriginalUri: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
     val settingsInteractor = LocalSimpleSettingsInteractor.current
@@ -158,7 +181,8 @@ fun OneTimeSaveLocationSelectionDialog(
 
             val scope = rememberCoroutineScope()
             val canChooseSaveLocation =
-                settingsState.filenameBehavior !is FilenameBehavior.Overwrite &&
+                !hasOriginalUri ||
+                        settingsState.filenameBehavior !is FilenameBehavior.Overwrite &&
                         !settingsState.saveToOriginalFolder
 
             val scrollState = rememberScrollState()
@@ -320,9 +344,9 @@ fun OneTimeSaveLocationSelectionDialog(
                     containerColor = MaterialTheme.colorScheme.surfaceContainer
                 )
 
-                if (formatForFilenameSelection != null) {
+                if (filenameSelectionData != null) {
                     val createLauncher = rememberFileCreator(
-                        mimeType = formatForFilenameSelection.mimeType,
+                        mimeType = filenameSelectionData.mimeType,
                         onSuccess = { uri ->
                             onSaveRequest?.invoke(uri.toString())
                             onDismiss()
@@ -338,7 +362,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                         enabled = canChooseSaveLocation,
                         onClick = {
-                            createLauncher.make("$imageString.${formatForFilenameSelection.extension}")
+                            createLauncher.make("$imageString.${filenameSelectionData.extension}")
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -347,57 +371,59 @@ fun OneTimeSaveLocationSelectionDialog(
                     )
                 }
 
-                PreferenceRowSwitch(
-                    title = stringResource(id = R.string.overwrite_files),
-                    subtitle = stringResource(id = R.string.overwrite_files_sub_short),
-                    startIcon = Icons.Outlined.FileReplace,
-                    enabled = !settingsState.deleteOriginalsAfterSave && !settingsState.saveToOriginalFolder &&
-                            (settingsState.filenameBehavior is FilenameBehavior.Overwrite || settingsState.filenameBehavior is FilenameBehavior.None),
-                    shape = ShapeDefaults.default,
-                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
-                    checked = settingsState.filenameBehavior is FilenameBehavior.Overwrite,
-                    onClick = {
-                        scope.launch { settingsInteractor.toggleOverwriteFiles() }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 4.dp, vertical = 2.dp),
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer
-                )
+                if (hasOriginalUri) {
+                    PreferenceRowSwitch(
+                        title = stringResource(id = R.string.overwrite_files),
+                        subtitle = stringResource(id = R.string.overwrite_files_sub_short),
+                        startIcon = Icons.Outlined.FileReplace,
+                        enabled = !settingsState.deleteOriginalsAfterSave && !settingsState.saveToOriginalFolder &&
+                                (settingsState.filenameBehavior is FilenameBehavior.Overwrite || settingsState.filenameBehavior is FilenameBehavior.None),
+                        shape = ShapeDefaults.default,
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+                        checked = settingsState.filenameBehavior is FilenameBehavior.Overwrite,
+                        onClick = {
+                            scope.launch { settingsInteractor.toggleOverwriteFiles() }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
 
-                PreferenceRowSwitch(
-                    title = stringResource(id = R.string.save_to_original_folder),
-                    subtitle = stringResource(id = R.string.save_to_original_folder_sub),
-                    startIcon = Icons.Outlined.FolderOpen,
-                    enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
-                    shape = ShapeDefaults.default,
-                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
-                    checked = settingsState.saveToOriginalFolder,
-                    onClick = {
-                        scope.launch { settingsInteractor.toggleSaveToOriginalFolder() }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 4.dp, vertical = 2.dp),
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer
-                )
+                    PreferenceRowSwitch(
+                        title = stringResource(id = R.string.save_to_original_folder),
+                        subtitle = stringResource(id = R.string.save_to_original_folder_sub),
+                        startIcon = Icons.Outlined.FolderOpen,
+                        enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+                        shape = ShapeDefaults.default,
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+                        checked = settingsState.saveToOriginalFolder,
+                        onClick = {
+                            scope.launch { settingsInteractor.toggleSaveToOriginalFolder() }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
 
-                PreferenceRowSwitch(
-                    title = stringResource(id = R.string.delete_originals_after_save),
-                    subtitle = stringResource(id = R.string.delete_originals_after_save_sub),
-                    startIcon = Icons.Outlined.Delete,
-                    enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
-                    shape = ShapeDefaults.default,
-                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
-                    checked = settingsState.deleteOriginalsAfterSave,
-                    onClick = {
-                        scope.launch { settingsInteractor.toggleDeleteOriginalsAfterSave() }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 4.dp, vertical = 2.dp),
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer
-                )
+                    PreferenceRowSwitch(
+                        title = stringResource(id = R.string.delete_originals_after_save),
+                        subtitle = stringResource(id = R.string.delete_originals_after_save_sub),
+                        startIcon = Icons.Outlined.Delete,
+                        enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
+                        shape = ShapeDefaults.default,
+                        titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+                        checked = settingsState.deleteOriginalsAfterSave,
+                        onClick = {
+                            scope.launch { settingsInteractor.toggleDeleteOriginalsAfterSave() }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                }
             }
         }
     )

@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.IosShare
@@ -135,7 +135,8 @@ internal fun CompareShareSheet(
                         onSaveRequest = {
                             onSaveBitmap(imageFormat, it)
                         },
-                        formatForFilenameSelection = imageFormat
+                        formatForFilenameSelection = imageFormat,
+                        hasOriginalUri = false
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(

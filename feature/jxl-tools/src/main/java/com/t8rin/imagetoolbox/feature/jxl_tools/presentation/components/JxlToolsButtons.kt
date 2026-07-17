@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -51,6 +52,9 @@ internal fun JxlToolsButtons(
         is Screen.JxlTools.Type.JxlToImage -> listOfNotNull(type.jxlUri)
         null -> null
     } ?: emptyList()
+    val filenameSelectionData = remember(component.type) {
+        component.getFilenameSelectionData()
+    }
 
     val save: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.save(
@@ -97,7 +101,9 @@ internal fun JxlToolsButtons(
     OneTimeSaveLocationSelectionDialog(
         visible = showFolderSelectionDialog,
         onDismiss = { showFolderSelectionDialog = false },
-        onSaveRequest = save
+        onSaveRequest = save,
+        filenameSelectionData = filenameSelectionData,
+        hasOriginalUri = component.type !is Screen.JxlTools.Type.ImageToJxl
     )
     OneTimeImagePickingDialog(
         onDismiss = { showOneTimeImagePickingDialog = false },

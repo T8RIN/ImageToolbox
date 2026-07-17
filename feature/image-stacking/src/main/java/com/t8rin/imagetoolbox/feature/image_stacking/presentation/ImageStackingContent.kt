@@ -305,7 +305,8 @@ fun ImageStackingContent(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = saveBitmaps,
-                formatForFilenameSelection = component.getFormatForFilenameSelection()
+                formatForFilenameSelection = component.getFormatForFilenameSelection(),
+                hasOriginalUri = false
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },

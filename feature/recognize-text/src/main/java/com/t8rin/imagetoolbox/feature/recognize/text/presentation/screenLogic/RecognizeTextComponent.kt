@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenameSelectionData
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
@@ -472,6 +473,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             }
         }
     }
+
+    fun getFilenameSelectionData(): FilenameSelectionData? = FilenameSelectionData(
+        mimeType = MimeType.Txt,
+        extension = "txt"
+    ).takeIf { type is Screen.RecognizeText.Type.WriteToFile }
 
     private fun TxtSaveTarget(
         txtBytes: ByteArray

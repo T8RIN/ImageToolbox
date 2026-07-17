@@ -35,9 +35,11 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenameSelectionData
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
@@ -381,6 +383,26 @@ class ApngToolsComponent @AssistedInject internal constructor(
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
         registerChanges()
+    }
+
+    fun getFilenameSelectionData(): FilenameSelectionData? = when (val type = type) {
+        is Screen.ApngTools.Type.ApngToImage -> imageFormat
+            .takeIf {
+                imageFrames.getFramePositions(convertedImageUris.size).size == 1
+            }
+            ?.let {
+                FilenameSelectionData(
+                    mimeType = it.mimeType,
+                    extension = it.extension
+                )
+            }
+
+        is Screen.ApngTools.Type.ApngToJxl -> FilenameSelectionData(
+            mimeType = MimeType.Jxl,
+            extension = "jxl"
+        ).takeIf { type.apngUris?.size == 1 }
+
+        else -> null
     }
 
     fun setQuality(quality: Quality) {

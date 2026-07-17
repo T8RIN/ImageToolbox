@@ -18,13 +18,14 @@
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.CopyAll
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
@@ -46,6 +47,9 @@ internal fun RecognizeTextButtons(
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val type = component.type
+    val filenameSelectionData = remember(type) {
+        component.getFilenameSelectionData()
+    }
     val isExtraction = type is Screen.RecognizeText.Type.Extraction
 
     val isHaveText = component.editedText.orEmpty().isNotEmpty()
@@ -105,7 +109,9 @@ internal fun RecognizeTextButtons(
     OneTimeSaveLocationSelectionDialog(
         visible = showFolderSelectionDialog,
         onDismiss = { showFolderSelectionDialog = false },
-        onSaveRequest = save
+        onSaveRequest = save,
+        filenameSelectionData = filenameSelectionData,
+        hasOriginalUri = type is Screen.RecognizeText.Type.WriteToMetadata
     )
     OneTimeImagePickingDialog(
         onDismiss = { showOneTimeImagePickingDialog = false },

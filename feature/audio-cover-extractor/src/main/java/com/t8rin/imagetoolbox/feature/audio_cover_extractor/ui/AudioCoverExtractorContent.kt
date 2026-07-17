@@ -274,7 +274,8 @@ fun AudioCoverExtractorContent(
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = save
+                onSaveRequest = save,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
             )
         },
         canShowScreenData = covers.isNotEmpty()

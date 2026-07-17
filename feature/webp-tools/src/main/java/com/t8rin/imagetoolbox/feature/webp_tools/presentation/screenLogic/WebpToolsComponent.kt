@@ -329,6 +329,10 @@ class WebpToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat? = imageFormat.takeIf {
+        imageFrames.getFramePositions(convertedImageUris.size).size == 1
+    }
+
     fun setQuality(quality: Quality) {
         updateParams(params.copy(quality = quality))
     }

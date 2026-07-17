@@ -19,8 +19,6 @@ package com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.components
 
 import android.net.Uri
 import androidx.compose.foundation.layout.RowScope
-import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,8 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
+import com.t8rin.imagetoolbox.core.resources.icons.Refresh
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -91,7 +91,8 @@ internal fun WallpapersActionButtons(
         visible = showFolderSelectionDialog,
         onDismiss = { showFolderSelectionDialog = false },
         onSaveRequest = saveBitmap,
-        formatForFilenameSelection = component.getFormatForFilenameSelection()
+        formatForFilenameSelection = component.getFormatForFilenameSelection(),
+        hasOriginalUri = false
     )
 
     ProcessImagesPreferenceSheet(

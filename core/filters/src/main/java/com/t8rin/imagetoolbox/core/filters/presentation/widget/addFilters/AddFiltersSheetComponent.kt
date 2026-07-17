@@ -463,6 +463,8 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         }
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat = ImageFormat.Png.Lossless
+
     override fun resetState() {
         _previewData.update { null }
         _previewBitmap.update { null }

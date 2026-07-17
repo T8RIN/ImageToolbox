@@ -34,9 +34,11 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenameSelectionData
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
@@ -543,6 +545,31 @@ class GifToolsComponent @AssistedInject internal constructor(
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
         registerChanges()
+    }
+
+    fun getFilenameSelectionData(): FilenameSelectionData? = when (val type = type) {
+        is Screen.GifTools.Type.GifToImage -> imageFormat
+            .takeIf {
+                gifFrames.getFramePositions(convertedImageUris.size).size == 1
+            }
+            ?.let {
+                FilenameSelectionData(
+                    mimeType = it.mimeType,
+                    extension = it.extension
+                )
+            }
+
+        is Screen.GifTools.Type.GifToJxl -> FilenameSelectionData(
+            mimeType = MimeType.Jxl,
+            extension = "jxl"
+        ).takeIf { type.gifUris?.size == 1 }
+
+        is Screen.GifTools.Type.GifToWebp -> FilenameSelectionData(
+            mimeType = MimeType.Webp,
+            extension = "webp"
+        ).takeIf { type.gifUris?.size == 1 }
+
+        else -> null
     }
 
     fun setQuality(quality: Quality) {

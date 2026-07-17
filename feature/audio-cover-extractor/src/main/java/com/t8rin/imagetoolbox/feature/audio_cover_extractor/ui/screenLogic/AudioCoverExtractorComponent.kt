@@ -303,6 +303,10 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
         _imageFormat.update { imageFormat }
     }
 
+    fun getFormatForFilenameSelection(): ImageFormat? = imageFormat.takeIf {
+        covers.size == 1
+    }
+
 
     @AssistedFactory
     fun interface Factory {

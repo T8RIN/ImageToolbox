@@ -241,7 +241,9 @@ private fun LazyListScope.lutAdditionalSection(
                             onDismiss = {
                                 showFolderSelection = false
                             },
-                            onSaveRequest = saveNeutralLut
+                            onSaveRequest = saveNeutralLut,
+                            formatForFilenameSelection = component.getFormatForFilenameSelection(),
+                            hasOriginalUri = false
                         )
                     }
                 }

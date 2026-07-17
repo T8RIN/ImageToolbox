@@ -341,7 +341,8 @@ fun DrawContent(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = saveBitmap,
-                formatForFilenameSelection = component.getFormatForFilenameSelection()
+                formatForFilenameSelection = component.getFormatForFilenameSelection(),
+                hasOriginalUri = component.uri != Uri.EMPTY
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },

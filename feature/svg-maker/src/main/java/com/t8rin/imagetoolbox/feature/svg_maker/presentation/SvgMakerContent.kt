@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -146,6 +147,9 @@ fun SvgMakerContent(
             )
         },
         buttons = { actions ->
+            val filenameSelectionData = remember(component.uris) {
+                component.getFilenameSelectionData()
+            }
             val save: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.save(
                     oneTimeSaveLocationUri = it
@@ -177,7 +181,8 @@ fun SvgMakerContent(
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = save
+                onSaveRequest = save,
+                filenameSelectionData = filenameSelectionData
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },

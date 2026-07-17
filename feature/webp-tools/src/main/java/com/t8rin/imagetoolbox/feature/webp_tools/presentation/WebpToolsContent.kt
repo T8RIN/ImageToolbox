@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.SelectAll
@@ -303,6 +303,13 @@ fun WebpToolsContent(
             else 20.dp
         ).value,
         buttons = { actions ->
+            val formatForFilenameSelection = remember(
+                component.imageFormat,
+                component.imageFrames,
+                component.convertedImageUris
+            ) {
+                component.getFormatForFilenameSelection()
+            }
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
@@ -345,7 +352,8 @@ fun WebpToolsContent(
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = saveBitmaps
+                onSaveRequest = saveBitmaps,
+                formatForFilenameSelection = formatForFilenameSelection
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },

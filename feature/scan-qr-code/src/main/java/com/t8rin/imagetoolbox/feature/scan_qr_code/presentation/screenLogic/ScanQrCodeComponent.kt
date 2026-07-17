@@ -27,7 +27,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
@@ -35,6 +34,7 @@ import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenameSelectionData
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.onResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -184,6 +184,11 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         _isSaving.value = false
     }
 
+    fun getFilenameSelectionData(): FilenameSelectionData = FilenameSelectionData(
+        mimeType = params.outputFormat?.mimeType ?: MimeType.Svg,
+        extension = params.outputFormat?.extension ?: "svg"
+    )
+
     fun cacheImage(
         bitmap: Bitmap,
         onComplete: (Uri) -> Unit
@@ -233,8 +238,6 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
             }
         }
     }
-
-    fun getFormatForFilenameSelection(): ImageFormat? = params.outputFormat
 
     private fun svgBytes(): ByteArray = params.outputParams().run {
         qrParams.renderAsSvg(

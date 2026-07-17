@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenameSelectionData
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
@@ -125,6 +126,11 @@ class SvgMakerComponent @AssistedInject internal constructor(
             parseSaveResults(results.onSuccess(::registerSave))
         }
     }
+
+    fun getFilenameSelectionData(): FilenameSelectionData? = FilenameSelectionData(
+        mimeType = MimeType.Svg,
+        extension = "svg"
+    ).takeIf { uris.size == 1 }
 
     fun performSharing() {
         savingJob = trackProgress {

@@ -33,9 +33,11 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenameSelectionData
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
@@ -536,6 +538,25 @@ class JxlToolsComponent @AssistedInject internal constructor(
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
         registerChanges()
+    }
+
+    fun getFilenameSelectionData(): FilenameSelectionData? = when (val type = type) {
+        is Screen.JxlTools.Type.ImageToJxl -> FilenameSelectionData(
+            mimeType = MimeType.Jxl,
+            extension = "jxl"
+        )
+
+        is Screen.JxlTools.Type.JpegToJxl -> FilenameSelectionData(
+            mimeType = MimeType.Jxl,
+            extension = "jxl"
+        ).takeIf { type.jpegImageUris?.size == 1 }
+
+        is Screen.JxlTools.Type.JxlToJpeg -> FilenameSelectionData(
+            mimeType = MimeType.Jpeg,
+            extension = "jpg"
+        ).takeIf { type.jxlImageUris?.size == 1 }
+
+        else -> null
     }
 
     fun updateJxlFrames(imageFrames: ImageFrames) {

@@ -161,6 +161,11 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun getFormatForFilenameSelection(pagesCount: Int): ImageFormat? =
+        imageInfo.imageFormat.takeIf {
+            (params.pages?.size ?: pagesCount) == 1
+        }
+
     fun save(
         oneTimeSaveLocationUri: String?
     ) {

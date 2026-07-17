@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.load_net_image.presentation.components
 
 import android.net.Uri
 import androidx.compose.foundation.layout.RowScope
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
@@ -88,7 +88,8 @@ internal fun LoadNetImageActionButtons(
         visible = showFolderSelectionDialog,
         onDismiss = { showFolderSelectionDialog = false },
         onSaveRequest = saveBitmap,
-        formatForFilenameSelection = component.getFormatForFilenameSelection()
+        formatForFilenameSelection = component.getFormatForFilenameSelection(),
+        hasOriginalUri = false
     )
 
     ProcessImagesPreferenceSheet(

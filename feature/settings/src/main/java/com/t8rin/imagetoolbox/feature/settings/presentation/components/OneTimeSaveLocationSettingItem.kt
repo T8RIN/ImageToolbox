@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.LocationSearching
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
@@ -54,6 +54,7 @@ fun OneTimeSaveLocationSettingItem(
     OneTimeSaveLocationSelectionDialog(
         visible = showDialog,
         onDismiss = { showDialog = false },
-        onSaveRequest = null
+        onSaveRequest = null,
+        hasOriginalUri = false
     )
 }

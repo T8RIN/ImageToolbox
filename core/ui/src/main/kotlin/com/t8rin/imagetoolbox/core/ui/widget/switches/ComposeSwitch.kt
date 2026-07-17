@@ -50,7 +50,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @SuppressLint("UseOfNonLambdaOffsetOverload")
 @Composable
-@Suppress("ComposableLambdaParameterNaming", "ComposableLambdaParameterPosition")
 fun ComposeSwitch(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,

@@ -26,6 +26,7 @@ import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
@@ -136,6 +137,10 @@ class ImageSplitterComponent @AssistedInject internal constructor(
 
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
+    }
+
+    fun getFormatForFilenameSelection(): ImageFormat? = params.imageFormat.takeIf {
+        uris.size == 1
     }
 
     fun saveBitmaps(

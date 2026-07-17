@@ -194,7 +194,8 @@ fun AiToolsContent(
             OneTimeSaveLocationSelectionDialog(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = saveBitmaps
+                onSaveRequest = saveBitmaps,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },
