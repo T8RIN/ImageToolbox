@@ -95,6 +95,8 @@ fun <T : Any> DataSelector(
         start = 12.dp,
         bottom = 8.dp
     ),
+    key: ((item: T) -> Any)? = null,
+    beforeExpandAction: (@Composable RowScope.() -> Unit)? = null,
     chipHeight: Dp = 36.dp
 ) {
     val realSpanCount = spanCount.coerceAtLeast(1)
@@ -156,6 +158,8 @@ fun <T : Any> DataSelector(
                     }
                 }
 
+                beforeExpandAction?.invoke(this)
+
                 if (showExpand) {
                     val rotation by animateFloatAsState(if (expanded) 180f else 0f)
 
@@ -210,7 +214,10 @@ fun <T : Any> DataSelector(
                 contentPadding = contentPadding,
                 flingBehavior = enhancedFlingBehavior()
             ) {
-                items(entries) { item ->
+                items(
+                    items = entries,
+                    key = key
+                ) { item ->
                     ChipItem(
                         item = item,
                         value = value,
@@ -219,7 +226,8 @@ fun <T : Any> DataSelector(
                         itemContentIcon = itemContentIcon,
                         itemEqualityDelegate = itemEqualityDelegate,
                         selectedItemColor = selectedItemColor,
-                        chipHeight = chipHeight
+                        chipHeight = chipHeight,
+                        modifier = if (key != null) Modifier.animateItem() else Modifier
                     )
                 }
             }
@@ -261,7 +269,8 @@ private fun <T> ChipItem(
     itemContentIcon: ((T, Boolean) -> ImageVector?)?,
     itemEqualityDelegate: (T, T) -> Boolean,
     selectedItemColor: Color,
-    chipHeight: Dp = 36.dp
+    chipHeight: Dp = 36.dp,
+    modifier: Modifier = Modifier
 ) {
     val selected by remember(item, value) {
         derivedStateOf {
@@ -278,7 +287,7 @@ private fun <T> ChipItem(
             horizontal = 12.dp,
             vertical = 8.dp
         ),
-        modifier = Modifier.height(chipHeight),
+        modifier = modifier.height(chipHeight),
         defaultMinSize = chipHeight
     ) {
         Row(

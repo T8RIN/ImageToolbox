@@ -18,7 +18,9 @@
 package com.t8rin.imagetoolbox.texture_generation.di
 
 import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.texture_generation.data.AndroidTextureFavoritesRepository
 import com.t8rin.imagetoolbox.texture_generation.data.AndroidTextureGenerator
+import com.t8rin.imagetoolbox.texture_generation.domain.TextureFavoritesRepository
 import com.t8rin.imagetoolbox.texture_generation.domain.TextureGenerator
 import dagger.Binds
 import dagger.Module
@@ -36,4 +38,9 @@ internal interface TextureGenerationModule {
         impl: AndroidTextureGenerator
     ): TextureGenerator<Bitmap>
 
+    @Binds
+    @Singleton
+    fun provideFavoritesRepository(
+        impl: AndroidTextureFavoritesRepository
+    ): TextureFavoritesRepository
 }

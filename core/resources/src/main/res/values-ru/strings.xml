@@ -3739,4 +3739,9 @@
     <string name="not_found">Не найдено</string>
     <string name="move_to_start">Переместить в начало</string>
     <string name="move_to_end">Переместить в конец</string>
+    <string name="texture_category_nature">Природа</string>
+    <string name="texture_category_materials">Материалы</string>
+    <string name="texture_category_space">Космос</string>
+    <string name="texture_category_patterns">Узоры</string>
+    <string name="texture_category_abstract">Абстракция</string>
 </resources>

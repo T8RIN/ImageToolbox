@@ -39,6 +39,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animate
@@ -69,6 +70,7 @@ fun TextureGenerationContent(
     component: TextureGenerationComponent
 ) {
     val isPortrait by isPortraitOrientationAsState()
+    val favoriteTextureTypes by component.favoriteTextureTypes.collectAsStateWithLifecycle()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveTexture(
@@ -174,7 +176,9 @@ fun TextureGenerationContent(
                 TextureParamsSelection(
                     value = component.textureParams,
                     onValueChange = component::updateParams,
-                    previewProvider = component::getTextureTransformation
+                    previewProvider = component::getTextureTransformation,
+                    favoriteTextureTypes = favoriteTextureTypes,
+                    onToggleFavorite = component::toggleFavoriteTexture
                 )
                 Spacer(Modifier.height(4.dp))
                 ImageFormatSelector(

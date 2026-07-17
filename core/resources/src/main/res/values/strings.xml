@@ -3972,4 +3972,9 @@
     <string name="duplicate_keep_oldest">Oldest</string>
     <string name="duplicate_keep_first_selected">First selected</string>
     <string name="keep">Keep</string>
+    <string name="texture_category_nature">Nature</string>
+    <string name="texture_category_materials">Materials</string>
+    <string name="texture_category_space">Space</string>
+    <string name="texture_category_patterns">Patterns</string>
+    <string name="texture_category_abstract">Abstract</string>
 </resources>

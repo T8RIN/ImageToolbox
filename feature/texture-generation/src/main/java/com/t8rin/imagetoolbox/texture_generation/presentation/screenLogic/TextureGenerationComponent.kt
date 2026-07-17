@@ -47,13 +47,17 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.texture_generation.domain.TextureFavoritesRepository
 import com.t8rin.imagetoolbox.texture_generation.domain.TextureGenerator
+import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 import com.t8rin.imagetoolbox.texture_generation.presentation.screenLogic.TextureGenerationComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 
 class TextureGenerationComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -66,6 +70,7 @@ class TextureGenerationComponent @AssistedInject internal constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val settingsManager: SettingsManager,
+    textureFavoritesRepository: TextureFavoritesRepository,
 ) : BaseHistoryComponent<HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
@@ -88,6 +93,14 @@ class TextureGenerationComponent @AssistedInject internal constructor(
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
+
+    val favoriteTextureTypes = textureFavoritesRepository.favorites.stateIn(
+        scope = componentScope,
+        started = SharingStarted.Eagerly,
+        initialValue = emptySet()
+    )
+
+    private val favoritesRepository = textureFavoritesRepository
 
     init {
         resetHistory()
@@ -216,6 +229,12 @@ class TextureGenerationComponent @AssistedInject internal constructor(
             )
             registerChanges()
             schedulePendingHistoryCommit()
+        }
+    }
+
+    fun toggleFavoriteTexture(type: TextureFilterType) {
+        componentScope.launch {
+            favoritesRepository.toggleFavorite(type)
         }
     }
 
