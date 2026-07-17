@@ -525,7 +525,7 @@ or click one of the badges below.
     - You can create filter from any filter chain
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
-- Texture generation with more than 60 presets
+- Texture generation with more than 130 presets
 
   <details>
   <summary>Available textures</summary>
@@ -591,6 +591,77 @@ or click one of the badges below.
     - Peacock Feather
     - Nautilus Shell
     - Ringed Planet
+    * Geode / Agate
+    * Prismatic Light
+    * Stained Glass
+    * Kelp Forest
+    * Frost Fern
+    * Liquid Crystal
+    * Dragon Scales
+    * Firefly Swarm
+    * Mycelium
+    * Kintsugi
+    * Carbon Fiber
+    * Circuit Board
+    * Soap Film
+    * Moiré Guilloché
+    * Snake Skin
+    * Terrazzo
+    * Galaxy Filaments
+    * Volcanic Obsidian
+    * Motherboard Heatmap
+    * Microscopic Diatoms
+    * Reaction Diffusion
+    * Coral Growth
+    * Slime Mold
+    * Dendritic Crystal
+    * Electric Arc Field
+    * Cloud Chamber
+    * Turbulent Ink
+    * Cellular Embryo
+    * Neural Garden
+    * Magnetic Field
+    * River Delta
+    * Lichen Colony
+    * Bacterial Culture
+    * Fluid Vorticity
+    * Crystal Growth
+    * Galactic Web
+    * Veined Leaf
+    * Porous Sponge
+    * Rain on Glass
+    * Ember Field
+    * Quantum Foam
+    * Chladni Plate
+    * Cymatic Rosette
+    * Lichtenberg Figure
+    * Quasicrystal
+    * Mandelbrot
+    * Burning Ship
+    * Julia Set
+    * Kaleidoscope Crystal
+    * Spectral Prism
+    * Topological Knot
+    * X-Ray Botanical
+    * Chromatophore
+    * Biomechanical Tissue
+    * Gilded Filigree
+    * Ancient Runes
+    * Solar Granulation
+    * Lunar Ejecta
+    * Ocean Currents
+    * Ink Wash Mountains
+    * Neon City
+    * Phyllotaxis Bloom
+    * Sierpiński Triangle
+    * Apollonian Gasket
+    * Hyperbolic Tiling
+    * Möbius Weave
+    * Rorschach Inkblot
+    * Seismic Interference
+    * Rayleigh–Bénard Convection
+    * Origami Facets
+    * Fiber Optic Bundle
 
   </details>
 
