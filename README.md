@@ -665,7 +665,10 @@ or click one of the badges below.
 
   </details>
 
-- Fragment Shader creation
+- Shader Studio
+    - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
+    - Live preview with configurable shader parameters
+    - Importing, exporting, sharing and managing shader presets
 - Files encryption and decryption with 100+ different algorithms available
 - Adding Stickers and Text (Markup Layers Mode)
 - Extract Text From Images (OCR)
@@ -826,6 +829,7 @@ or click one of the badges below.
     - GIF to images
     - Images to GIF
     - GIF to WEBP
+    - Merge multiple GIFs into one animation
 - WEBP conversion
     - WEBP to images
     - Images to WEBP
@@ -888,7 +892,7 @@ or click one of the badges below.
       - SMS
       - Contact (vCard)
       - Calendar event
-    - Sharing as images
+    - Exporting and sharing as raster images or SVG
     - 13 formats available
       - QR CODE
       - AZTEC
@@ -915,6 +919,7 @@ or click one of the badges below.
     - Free rotation crop
     - Free corners crop (can be used as Perspective Correction)
     - Crop by aspect ratio
+    - Saving custom aspect ratios
     - Crop with shape mask
         
         <details>
@@ -1054,6 +1059,8 @@ or click one of the badges below.
     - Brightness
     - Camera Like RGB
 - Image source selection
+    - Embedded picker, system photo picker, gallery, file picker and camera
+    - Selecting all images from a folder
 - Additional Features
     - Base64 Decode/Encode
     - Rotating
@@ -1061,7 +1068,10 @@ or click one of the badges below.
     - Perlin Noise Generation
     - Previewing SVG, DNG, PSD, DJVU and almost all types of images
     - Saving to any specific folder
+    - Saving beside original files or deleting originals after a successful export
     - Long press on save to choose one time output folder
+    - Reusable export profiles for Single Edit and Resize & Convert
+    - Undo and redo history in editing tools
     - Randomizing output filename
     - Using image cheksum as filename
     - Checksum Tools with ability to calculate and compare hashes
@@ -1070,8 +1080,13 @@ or click one of the badges below.
     - Embedded media picker
     - Wallpapers Export
     - Ascii Art
-    - Batch rename by pattern
+    - Batch rename by pattern with live preview and configurable date, sequence and extension handling
     - Duplicate Finder
+        - Exact copy and visually similar image detection with adjustable sensitivity
+        - Keep recommendations by quality, file size, date or selection order
+    - Android Quick Settings tiles for common tools and screenshot actions
+    - Searchable in-app Help & Tips
+    - App usage statistics and logs viewer
 
 **And More!**
 
@@ -1150,6 +1165,7 @@ or click one of the badges below.
 - Ability to import any font (OTF/TTF) to further use
 - In app font scale changing
 - Changing between options list and grouped view
+- Tool search, favorites and recently used tools
 - Confetti Type selection
     - Default
     - Festive
