@@ -18,18 +18,23 @@
 package com.t8rin.imagetoolbox.texture_generation.presentation.components
 
 import android.graphics.Bitmap
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,17 +43,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.request.ImageRequest
 import coil3.request.transformations
 import coil3.transform.Transformation
@@ -58,18 +67,25 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.Close
+import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 import com.t8rin.imagetoolbox.texture_generation.domain.model.withDefaultsFor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
+import java.util.Locale
 
 @Composable
 internal fun TextureSearchSheet(
@@ -86,12 +102,30 @@ internal fun TextureSearchSheet(
     val textureNames = TextureFilterType.entries.associateWith {
         stringResource(it.titleRes())
     }
-    val filteredTypes = remember(searchQuery, textureNames) {
-        TextureFilterType.entries.filter { type ->
-            textureNames.getValue(type).contains(
-                other = searchQuery.trim(),
-                ignoreCase = true
-            )
+    var filteredTypes by remember {
+        mutableStateOf(TextureFilterType.entries.toList())
+    }
+    val resourceManager = LocalResourceManager.current
+    LaunchedEffect(searchQuery, resourceManager) {
+        delay(400L)
+        val query = searchQuery.trim()
+        filteredTypes = if (query.isEmpty()) {
+            TextureFilterType.entries
+        } else {
+            withContext(Dispatchers.Default) {
+                TextureFilterType.entries.filter { type ->
+                    resourceManager.getString(type.titleRes()).contains(
+                        other = query,
+                        ignoreCase = true
+                    ) || resourceManager.getStringLocalized(
+                        resId = type.titleRes(),
+                        language = Locale.ENGLISH.language
+                    ).contains(
+                        other = query,
+                        ignoreCase = true
+                    )
+                }
+            }
         }
     }
 
@@ -146,76 +180,115 @@ internal fun TextureSearchSheet(
             }
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            contentPadding = PaddingValues(16.dp),
-            flingBehavior = enhancedFlingBehavior()
-        ) {
-            itemsIndexed(
-                items = filteredTypes,
-                key = { _, type -> type.name }
-            ) { index, type ->
-                PreferenceItemOverload(
-                    title = textureNames.getValue(type),
-                    onClick = { onValueChange(type) },
-                    drawStartIconContainer = false,
-                    startIcon = {
-                        Picture(
-                            model = remember(empty, type) {
-                                ImageRequest.Builder(appContext)
-                                    .data(empty)
-                                    .memoryCacheKey(type.name)
-                                    .diskCacheKey(type.name)
-                                    .size(512, 512)
-                                    .transformations(
-                                        listOf(previewProvider(value.withDefaultsFor(type)))
-                                    )
-                                    .build()
+        AnimatedContent(
+            modifier = Modifier.weight(1f, false),
+            targetState = filteredTypes.isNotEmpty()
+        ) { isNotEmpty ->
+            if (isNotEmpty) {
+                LazyColumn(
+                    modifier = Modifier.animateContentSizeNoClip(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    contentPadding = PaddingValues(16.dp),
+                    flingBehavior = enhancedFlingBehavior()
+                ) {
+                    itemsIndexed(
+                        items = filteredTypes,
+                        key = { _, type -> type.name }
+                    ) { index, type ->
+                        PreferenceItemOverload(
+                            title = textureNames.getValue(type),
+                            onClick = { onValueChange(type) },
+                            drawStartIconContainer = false,
+                            startIcon = {
+                                Picture(
+                                    model = remember(empty, type) {
+                                        ImageRequest.Builder(appContext)
+                                            .data(empty)
+                                            .memoryCacheKey(type.name)
+                                            .diskCacheKey(type.name)
+                                            .size(512, 512)
+                                            .transformations(
+                                                listOf(
+                                                    previewProvider(value.withDefaultsFor(type))
+                                                )
+                                            )
+                                            .build()
+                                    },
+                                    shape = MaterialTheme.shapes.medium,
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .scale(1.2f)
+                                )
                             },
-                            shape = MaterialTheme.shapes.medium,
-                            modifier = Modifier
-                                .size(48.dp)
-                                .scale(1.2f)
-                        )
-                    },
-                    endIcon = {
-                        EnhancedIconButton(
-                            onClick = { onToggleFavorite(type) },
-                            modifier = Modifier.offset(8.dp)
-                        ) {
-                            val isFavorite = type in favoriteTextureTypes
-                            Icon(
-                                imageVector = if (isFavorite) {
-                                    Icons.Rounded.BookmarkRemove
-                                } else {
-                                    Icons.Outlined.Bookmark
-                                },
-                                contentDescription = stringResource(R.string.favorite),
-                                tint = takeColorFromScheme {
-                                    if (isFavorite) {
-                                        if (type == value.textureFilterType) onPrimaryContainer else primary
-                                    } else {
-                                        if (type == value.textureFilterType) {
-                                            onTertiaryContainer.copy(alpha = 0.65f)
+                            endIcon = {
+                                EnhancedIconButton(
+                                    onClick = { onToggleFavorite(type) },
+                                    modifier = Modifier.offset(8.dp)
+                                ) {
+                                    val isFavorite = type in favoriteTextureTypes
+                                    Icon(
+                                        imageVector = if (isFavorite) {
+                                            Icons.Rounded.BookmarkRemove
                                         } else {
-                                            onSurface.copy(alpha = 0.35f)
+                                            Icons.Outlined.Bookmark
+                                        },
+                                        contentDescription = stringResource(R.string.favorite),
+                                        tint = takeColorFromScheme {
+                                            if (isFavorite) {
+                                                if (type == value.textureFilterType) {
+                                                    onPrimaryContainer
+                                                } else {
+                                                    primary
+                                                }
+                                            } else if (type == value.textureFilterType) {
+                                                onTertiaryContainer.copy(alpha = 0.65f)
+                                            } else {
+                                                onSurface.copy(alpha = 0.35f)
+                                            }
                                         }
-                                    }
-                                },
-                            )
-                        }
-                    },
-                    shape = ShapeDefaults.byIndex(index, filteredTypes.size),
-                    containerColor = if (type == value.textureFilterType) {
-                        MaterialTheme.colorScheme.tertiaryContainer
-                    } else {
-                        Color.Unspecified
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
+                                    )
+                                }
+                            },
+                            shape = ShapeDefaults.byIndex(index, filteredTypes.size),
+                            containerColor = if (type == value.textureFilterType) {
+                                MaterialTheme.colorScheme.tertiaryContainer
+                            } else {
+                                Color.Unspecified
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.5f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.nothing_found_by_search),
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        )
+                    )
+                    Icon(
+                        imageVector = Icons.Outlined.SearchOff,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .weight(2f)
+                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                            .fillMaxSize()
+                    )
+                    Spacer(Modifier.weight(1f))
+                }
             }
         }
     }
