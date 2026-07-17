@@ -172,6 +172,77 @@ internal fun TextureFilterType.titleRes(): Int = when (this) {
     TextureFilterType.PeacockFeather -> R.string.texture_peacock_feather
     TextureFilterType.NautilusShell -> R.string.texture_nautilus_shell
     TextureFilterType.RingedPlanet -> R.string.texture_ringed_planet
+    TextureFilterType.Geode -> R.string.texture_geode
+    TextureFilterType.PrismaticLight -> R.string.texture_prismatic_light
+    TextureFilterType.StainedGlass -> R.string.texture_stained_glass
+    TextureFilterType.KelpForest -> R.string.texture_kelp_forest
+    TextureFilterType.FrostFern -> R.string.texture_frost_fern
+    TextureFilterType.LiquidCrystal -> R.string.texture_liquid_crystal
+    TextureFilterType.DragonScales -> R.string.texture_dragon_scales
+    TextureFilterType.FireflySwarm -> R.string.texture_firefly_swarm
+    TextureFilterType.Mycelium -> R.string.texture_mycelium
+    TextureFilterType.Kintsugi -> R.string.texture_kintsugi
+    TextureFilterType.CarbonFiber -> R.string.texture_carbon_fiber
+    TextureFilterType.CircuitBoard -> R.string.texture_circuit_board
+    TextureFilterType.SoapFilm -> R.string.texture_soap_film
+    TextureFilterType.MoireGuilloche -> R.string.texture_moire_guilloche
+    TextureFilterType.SnakeSkin -> R.string.texture_snake_skin
+    TextureFilterType.Terrazzo -> R.string.texture_terrazzo
+    TextureFilterType.GalaxyFilaments -> R.string.texture_galaxy_filaments
+    TextureFilterType.VolcanicObsidian -> R.string.texture_volcanic_obsidian
+    TextureFilterType.MotherboardHeatmap -> R.string.texture_motherboard_heatmap
+    TextureFilterType.MicroscopicDiatoms -> R.string.texture_microscopic_diatoms
+    TextureFilterType.ReactionDiffusion -> R.string.texture_reaction_diffusion
+    TextureFilterType.CoralGrowth -> R.string.texture_coral_growth
+    TextureFilterType.SlimeMold -> R.string.texture_slime_mold
+    TextureFilterType.DendriticCrystal -> R.string.texture_dendritic_crystal
+    TextureFilterType.ElectricArcField -> R.string.texture_electric_arc_field
+    TextureFilterType.CloudChamber -> R.string.texture_cloud_chamber
+    TextureFilterType.TurbulentInk -> R.string.texture_turbulent_ink
+    TextureFilterType.CellularEmbryo -> R.string.texture_cellular_embryo
+    TextureFilterType.NeuralGarden -> R.string.texture_neural_garden
+    TextureFilterType.MagneticField -> R.string.texture_magnetic_field
+    TextureFilterType.RiverDelta -> R.string.texture_river_delta
+    TextureFilterType.LichenColony -> R.string.texture_lichen_colony
+    TextureFilterType.BacterialCulture -> R.string.texture_bacterial_culture
+    TextureFilterType.FluidVorticity -> R.string.texture_fluid_vorticity
+    TextureFilterType.CrystalGrowth -> R.string.texture_crystal_growth
+    TextureFilterType.GalacticWeb -> R.string.texture_galactic_web
+    TextureFilterType.VeinedLeaf -> R.string.texture_veined_leaf
+    TextureFilterType.PorousSponge -> R.string.texture_porous_sponge
+    TextureFilterType.RainOnGlass -> R.string.texture_rain_on_glass
+    TextureFilterType.EmberField -> R.string.texture_ember_field
+    TextureFilterType.QuantumFoam -> R.string.texture_quantum_foam
+    TextureFilterType.ChladniPlate -> R.string.texture_chladni_plate
+    TextureFilterType.CymaticRosette -> R.string.texture_cymatic_rosette
+    TextureFilterType.LichtenbergFigure -> R.string.texture_lichtenberg_figure
+    TextureFilterType.Quasicrystal -> R.string.texture_quasicrystal
+    TextureFilterType.Mandelbrot -> R.string.texture_mandelbrot
+    TextureFilterType.BurningShip -> R.string.texture_burning_ship
+    TextureFilterType.JuliaSet -> R.string.texture_julia_set
+    TextureFilterType.KaleidoscopeCrystal -> R.string.texture_kaleidoscope_crystal
+    TextureFilterType.SpectralPrism -> R.string.texture_spectral_prism
+    TextureFilterType.TopologicalKnot -> R.string.texture_topological_knot
+    TextureFilterType.XRayBotanical -> R.string.texture_x_ray_botanical
+    TextureFilterType.Chromatophore -> R.string.texture_chromatophore
+    TextureFilterType.BiomechanicalTissue -> R.string.texture_biomechanical_tissue
+    TextureFilterType.GildedFiligree -> R.string.texture_gilded_filigree
+    TextureFilterType.AncientRunes -> R.string.texture_ancient_runes
+    TextureFilterType.SolarGranulation -> R.string.texture_solar_granulation
+    TextureFilterType.LunarEjecta -> R.string.texture_lunar_ejecta
+    TextureFilterType.OceanCurrents -> R.string.texture_ocean_currents
+    TextureFilterType.InkWashMountains -> R.string.texture_ink_wash_mountains
+    TextureFilterType.NeonCity -> R.string.texture_neon_city
+    TextureFilterType.PhyllotaxisBloom -> R.string.texture_phyllotaxis_bloom
+    TextureFilterType.SierpinskiTriangle -> R.string.texture_sierpinski_triangle
+    TextureFilterType.ApollonianGasket -> R.string.texture_apollonian_gasket
+    TextureFilterType.HyperbolicTiling -> R.string.texture_hyperbolic_tiling
+    TextureFilterType.MoebiusWeave -> R.string.texture_moebius_weave
+    TextureFilterType.RorschachInkblot -> R.string.texture_rorschach_inkblot
+    TextureFilterType.SeismicInterference -> R.string.texture_seismic_interference
+    TextureFilterType.RayleighBenard -> R.string.texture_rayleigh_benard
+    TextureFilterType.OrigamiFacets -> R.string.texture_origami_facets
+    TextureFilterType.FiberOpticBundle -> R.string.texture_fiber_optic_bundle
 }
 
 internal fun CellularGridType.titleRes(): Int = when (this) {

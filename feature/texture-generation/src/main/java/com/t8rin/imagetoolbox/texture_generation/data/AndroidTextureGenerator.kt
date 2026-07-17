@@ -1193,7 +1193,12 @@ internal class AndroidTextureGenerator @Inject constructor(
                 )
             )
 
-            else -> error("Unsupported fast-noise texture type: $type")
+            else -> generateAdditionalFastNoiseTexture(
+                width = width,
+                height = height,
+                type = type,
+                params = params
+            )
         }
     }
 }

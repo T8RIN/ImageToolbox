@@ -282,6 +282,361 @@ data class FastNoiseTextureParams(
                 -16645107, -15391923, -1733534, -7770
             )
 
+            TextureFilterType.Geode -> create(
+                0.008f, 0.68f, 0.55f, 0.72f, 0.70f, 1.35f,
+                0xFF120E20.toInt(), 0xFF7046A8.toInt(), 0xFF3ED7D1.toInt(), 0xFFF4DDA6.toInt()
+            )
+
+            TextureFilterType.PrismaticLight -> create(
+                0.008f, 0.66f, 0.72f, 0.76f, 0.78f, 1.35f,
+                0xFF07091A.toInt(), 0xFF246DD8.toInt(), 0xFFE94DA9.toInt(), 0xFFFFE47A.toInt()
+            )
+
+            TextureFilterType.StainedGlass -> create(
+                0.008f, 0.62f, 0.38f, 0.75f, 0.52f, 1.25f,
+                0xFF120F18.toInt(), 0xFF2E8BD2.toInt(), 0xFFE54472.toInt(), 0xFFFFD34E.toInt()
+            )
+
+            TextureFilterType.KelpForest -> create(
+                0.006f, 0.64f, 0.68f, 0.62f, 0.76f, 1.35f,
+                0xFF031C22.toInt(), 0xFF07594F.toInt(), 0xFF42A66E.toInt(), 0xFFD1F29B.toInt()
+            )
+
+            TextureFilterType.FrostFern -> create(
+                0.008f, 0.72f, 0.48f, 0.70f, 0.78f, 1.30f,
+                0xFF10273A.toInt(), 0xFF559AB4.toInt(), 0xFFB8E8ED.toInt(), 0xFFFFFFFF.toInt()
+            )
+
+            TextureFilterType.LiquidCrystal -> create(
+                0.008f, 0.66f, 0.62f, 0.58f, 0.72f, 1.30f,
+                0xFF090A18.toInt(), 0xFF18BFD2.toInt(), 0xFFE142A9.toInt(), 0xFFFFE96A.toInt()
+            )
+
+            TextureFilterType.DragonScales -> create(
+                0.007f, 0.58f, 0.35f, 0.72f, 0.60f, 1.35f,
+                0xFF071913.toInt(), 0xFF17664B.toInt(), 0xFF39B778.toInt(), 0xFFE0C96B.toInt()
+            )
+
+            TextureFilterType.FireflySwarm -> create(
+                0.007f, 0.66f, 0.72f, 0.82f, 0.90f, 1.45f,
+                0xFF020B12.toInt(), 0xFF0B4D49.toInt(), 0xFF80D85A.toInt(), 0xFFFFFFB0.toInt()
+            )
+
+            TextureFilterType.Mycelium -> create(
+                0.008f, 0.70f, 0.62f, 0.72f, 0.74f, 1.45f,
+                0xFF07100B.toInt(), 0xFF24452E.toInt(), 0xFFB7C985.toInt(), 0xFFF4E8C1.toInt()
+            )
+
+            TextureFilterType.Kintsugi -> create(
+                0.008f, 0.60f, 0.48f, 0.82f, 0.70f, 1.35f,
+                0xFF10131A.toInt(), 0xFF344158.toInt(), 0xFFD99B32.toInt(), 0xFFFFE7A3.toInt()
+            )
+
+            TextureFilterType.CarbonFiber -> create(
+                0.010f, 0.58f, 0.22f, 0.74f, 0.42f, 1.50f,
+                0xFF030405.toInt(), 0xFF15191C.toInt(), 0xFF343B40.toInt(), 0xFF88949B.toInt()
+            )
+
+            TextureFilterType.CircuitBoard -> create(
+                0.008f, 0.64f, 0.25f, 0.80f, 0.72f, 1.45f,
+                0xFF03170F.toInt(), 0xFF075A3B.toInt(), 0xFFC28B28.toInt(), 0xFF7BFFD1.toInt()
+            )
+
+            TextureFilterType.SoapFilm -> create(
+                0.007f, 0.68f, 0.72f, 0.55f, 0.72f, 1.25f,
+                0xFF10182B.toInt(), 0xFF20CDE2.toInt(), 0xFFF45CB4.toInt(), 0xFFFFE66D.toInt()
+            )
+
+            TextureFilterType.MoireGuilloche -> create(
+                0.008f, 0.55f, 0.30f, 0.72f, 0.48f, 1.50f,
+                0xFF070914.toInt(), 0xFF2747A5.toInt(), 0xFFBD4BC8.toInt(), 0xFFF2EAFB.toInt()
+            )
+
+            TextureFilterType.SnakeSkin -> create(
+                0.009f, 0.62f, 0.40f, 0.72f, 0.40f, 1.35f,
+                0xFF17170E.toInt(), 0xFF4E5A2D.toInt(), 0xFF9DA75A.toInt(), 0xFFD9D19A.toInt()
+            )
+
+            TextureFilterType.Terrazzo -> create(
+                0.008f, 0.58f, 0.32f, 0.68f, 0.28f, 1.25f,
+                0xFFE5DCCF.toInt(), 0xFF315C72.toInt(), 0xFFC85554.toInt(), 0xFFE5A73D.toInt()
+            )
+
+            TextureFilterType.GalaxyFilaments -> create(
+                0.007f, 0.70f, 0.62f, 0.78f, 0.84f, 1.50f,
+                0xFF02030A.toInt(), 0xFF173B78.toInt(), 0xFF8137A6.toInt(), 0xFFFFE7BE.toInt()
+            )
+
+            TextureFilterType.VolcanicObsidian -> create(
+                0.008f, 0.64f, 0.48f, 0.75f, 0.64f, 1.55f,
+                0xFF020304.toInt(), 0xFF17141D.toInt(), 0xFF3B2744.toInt(), 0xFFEF6C3D.toInt()
+            )
+
+            TextureFilterType.MotherboardHeatmap -> create(
+                0.008f, 0.62f, 0.38f, 0.76f, 0.68f, 1.45f,
+                0xFF07120E.toInt(), 0xFF08705B.toInt(), 0xFFFF7B22.toInt(), 0xFFFFF1A8.toInt()
+            )
+
+            TextureFilterType.MicroscopicDiatoms -> create(
+                0.007f, 0.62f, 0.30f, 0.74f, 0.58f, 1.35f,
+                0xFF082431.toInt(), 0xFF1E7181.toInt(), 0xFF74D8C9.toInt(), 0xFFFFE9A8.toInt()
+            )
+
+            TextureFilterType.ReactionDiffusion -> create(
+                0.009f, 0.72f, 0.68f, 0.72f, 0.68f, 1.45f,
+                0xFF090B17.toInt(), 0xFF303785.toInt(), 0xFFE64C93.toInt(), 0xFFFFD76A.toInt()
+            )
+
+            TextureFilterType.CoralGrowth -> create(
+                0.008f, 0.68f, 0.62f, 0.70f, 0.72f, 1.40f,
+                0xFF071D2A.toInt(), 0xFFEA536E.toInt(), 0xFFFFA468.toInt(), 0xFFFFE2B8.toInt()
+            )
+
+            TextureFilterType.SlimeMold -> create(
+                0.008f, 0.72f, 0.72f, 0.76f, 0.74f, 1.50f,
+                0xFF08110A.toInt(), 0xFF596F17.toInt(), 0xFFD5D928.toInt(), 0xFFFFF5A0.toInt()
+            )
+
+            TextureFilterType.DendriticCrystal -> create(
+                0.008f, 0.68f, 0.52f, 0.80f, 0.82f, 1.50f,
+                0xFF071829.toInt(), 0xFF25678C.toInt(), 0xFFA8E5F0.toInt(), 0xFFFFFFFF.toInt()
+            )
+
+            TextureFilterType.ElectricArcField -> create(
+                0.008f, 0.72f, 0.72f, 0.82f, 0.90f, 1.55f,
+                0xFF030511.toInt(), 0xFF173A91.toInt(), 0xFF32C8FF.toInt(), 0xFFFFFFFF.toInt()
+            )
+
+            TextureFilterType.CloudChamber -> create(
+                0.008f, 0.68f, 0.58f, 0.75f, 0.82f, 1.45f,
+                0xFF080913.toInt(), 0xFF2D416A.toInt(), 0xFF9BC5E7.toInt(), 0xFFFFFFFF.toInt()
+            )
+
+            TextureFilterType.TurbulentInk -> create(
+                0.006f, 0.70f, 0.78f, 0.68f, 0.62f, 1.40f,
+                0xFFF0E8D8.toInt(), 0xFF174A72.toInt(), 0xFF9E284F.toInt(), 0xFF171629.toInt()
+            )
+
+            TextureFilterType.CellularEmbryo -> create(
+                0.008f, 0.62f, 0.48f, 0.72f, 0.58f, 1.35f,
+                0xFF220E26.toInt(), 0xFF723259.toInt(), 0xFFE07B93.toInt(), 0xFFFFD0B3.toInt()
+            )
+
+            TextureFilterType.NeuralGarden -> create(
+                0.008f, 0.70f, 0.72f, 0.78f, 0.78f, 1.50f,
+                0xFF06120D.toInt(), 0xFF11684A.toInt(), 0xFF6BD87A.toInt(), 0xFFE7F58E.toInt()
+            )
+
+            TextureFilterType.MagneticField -> create(
+                0.008f, 0.68f, 0.42f, 0.74f, 0.72f, 1.40f,
+                0xFF070A17.toInt(), 0xFF2452A0.toInt(), 0xFFE23D70.toInt(), 0xFFFFE5A6.toInt()
+            )
+
+            TextureFilterType.RiverDelta -> create(
+                0.006f, 0.68f, 0.78f, 0.76f, 0.62f, 1.50f,
+                0xFF25190E.toInt(), 0xFF8B693B.toInt(), 0xFF1688A5.toInt(), 0xFF8EDDE0.toInt()
+            )
+
+            TextureFilterType.LichenColony -> create(
+                0.009f, 0.64f, 0.58f, 0.70f, 0.48f, 1.35f,
+                0xFF29291A.toInt(), 0xFF66743A.toInt(), 0xFFB1B85B.toInt(), 0xFFE0D59A.toInt()
+            )
+
+            TextureFilterType.BacterialCulture -> create(
+                0.009f, 0.68f, 0.62f, 0.68f, 0.58f, 1.35f,
+                0xFF160C20.toInt(), 0xFF663078.toInt(), 0xFFE05C9E.toInt(), 0xFFFFD37C.toInt()
+            )
+
+            TextureFilterType.FluidVorticity -> create(
+                0.007f, 0.72f, 0.78f, 0.70f, 0.72f, 1.40f,
+                0xFF071326.toInt(), 0xFF1655A2.toInt(), 0xFFE44574.toInt(), 0xFFFFD36E.toInt()
+            )
+
+            TextureFilterType.CrystalGrowth -> create(
+                0.008f, 0.64f, 0.48f, 0.80f, 0.78f, 1.50f,
+                0xFF101525.toInt(), 0xFF3F62A1.toInt(), 0xFFA9D8EE.toInt(), 0xFFFFF0C2.toInt()
+            )
+
+            TextureFilterType.GalacticWeb -> create(
+                0.007f, 0.72f, 0.68f, 0.80f, 0.86f, 1.55f,
+                0xFF010208.toInt(), 0xFF182B69.toInt(), 0xFF6B3EA0.toInt(), 0xFFFFE9CA.toInt()
+            )
+
+            TextureFilterType.VeinedLeaf -> create(
+                0.008f, 0.68f, 0.52f, 0.78f, 0.62f, 1.40f,
+                0xFF07180C.toInt(), 0xFF1E6732.toInt(), 0xFF75BC50.toInt(), 0xFFD6E782.toInt()
+            )
+
+            TextureFilterType.PorousSponge -> create(
+                0.009f, 0.64f, 0.42f, 0.72f, 0.42f, 1.35f,
+                0xFF5B3718.toInt(), 0xFFB16C27.toInt(), 0xFFE5B24E.toInt(), 0xFFFFE2A0.toInt()
+            )
+
+            TextureFilterType.RainOnGlass -> create(
+                0.008f, 0.68f, 0.58f, 0.74f, 0.78f, 1.40f,
+                0xFF071728.toInt(), 0xFF194C70.toInt(), 0xFF69BDD2.toInt(), 0xFFDFFBFF.toInt()
+            )
+
+            TextureFilterType.EmberField -> create(
+                0.008f, 0.72f, 0.62f, 0.76f, 0.88f, 1.55f,
+                0xFF100504.toInt(), 0xFF76200B.toInt(), 0xFFF05A14.toInt(), 0xFFFFE06B.toInt()
+            )
+
+            TextureFilterType.QuantumFoam -> create(
+                0.008f, 0.72f, 0.78f, 0.72f, 0.78f, 1.50f,
+                0xFF060616.toInt(), 0xFF353499.toInt(), 0xFF23C9CB.toInt(), 0xFFF66AC2.toInt()
+            )
+
+            TextureFilterType.ChladniPlate -> create(
+                0.008f, 0.62f, 0.38f, 0.82f, 0.54f, 1.55f,
+                0xFF06080B.toInt(), 0xFF2E343A.toInt(), 0xFF8E9AA3.toInt(), 0xFFF1D78A.toInt()
+            )
+
+            TextureFilterType.CymaticRosette -> create(
+                0.008f, 0.68f, 0.44f, 0.78f, 0.76f, 1.45f,
+                0xFF071426.toInt(), 0xFF176FB0.toInt(), 0xFF55D3DE.toInt(), 0xFFFFE9A5.toInt()
+            )
+
+            TextureFilterType.LichtenbergFigure -> create(
+                0.008f, 0.72f, 0.66f, 0.84f, 0.90f, 1.60f,
+                0xFF08030C.toInt(), 0xFF5E176E.toInt(), 0xFFE544A7.toInt(), 0xFFFFFFFF.toInt()
+            )
+
+            TextureFilterType.Quasicrystal -> create(
+                0.008f, 0.70f, 0.36f, 0.76f, 0.62f, 1.45f,
+                0xFF090B18.toInt(), 0xFF2854A0.toInt(), 0xFF27BEBB.toInt(), 0xFFFFD962.toInt()
+            )
+
+            TextureFilterType.Mandelbrot -> create(
+                0.004f, 0.68f, 0.42f, 0.78f, 0.72f, 1.50f,
+                0xFF02030B.toInt(), 0xFF173B72.toInt(), 0xFF7B2EA3.toInt(), 0xFFFFC85C.toInt()
+            )
+
+            TextureFilterType.BurningShip -> create(
+                0.0035f, 0.72f, 0.48f, 0.80f, 0.78f, 1.55f,
+                0xFF050207.toInt(), 0xFF5A1728.toInt(), 0xFFE54522.toInt(), 0xFFFFD56A.toInt()
+            )
+
+            TextureFilterType.JuliaSet -> create(
+                0.008f, 0.68f, 0.52f, 0.78f, 0.76f, 1.50f,
+                0xFF030713.toInt(), 0xFF214E96.toInt(), 0xFF8B46C7.toInt(), 0xFFFFE2A8.toInt()
+            )
+
+            TextureFilterType.KaleidoscopeCrystal -> create(
+                0.008f, 0.72f, 0.46f, 0.76f, 0.72f, 1.45f,
+                0xFF090B1C.toInt(), 0xFF2367B7.toInt(), 0xFFE04DA4.toInt(), 0xFFFFDF70.toInt()
+            )
+
+            TextureFilterType.SpectralPrism -> create(
+                0.008f, 0.64f, 0.58f, 0.80f, 0.80f, 1.45f,
+                0xFF080A12.toInt(), 0xFF225CD1.toInt(), 0xFFDD3DAD.toInt(), 0xFFFFE46A.toInt()
+            )
+
+            TextureFilterType.TopologicalKnot -> create(
+                0.008f, 0.62f, 0.54f, 0.82f, 0.76f, 1.55f,
+                0xFF040713.toInt(), 0xFF24579A.toInt(), 0xFFC245D6.toInt(), 0xFFFFE29A.toInt()
+            )
+
+            TextureFilterType.XRayBotanical -> create(
+                0.008f, 0.66f, 0.48f, 0.76f, 0.74f, 1.45f,
+                0xFF020A0B.toInt(), 0xFF0C4F50.toInt(), 0xFF5CC7A7.toInt(), 0xFFE8FFE0.toInt()
+            )
+
+            TextureFilterType.Chromatophore -> create(
+                0.008f, 0.68f, 0.52f, 0.72f, 0.70f, 1.40f,
+                0xFF160918.toInt(), 0xFF6A275F.toInt(), 0xFFE2576F.toInt(), 0xFFFFD45E.toInt()
+            )
+
+            TextureFilterType.BiomechanicalTissue -> create(
+                0.008f, 0.66f, 0.58f, 0.78f, 0.62f, 1.50f,
+                0xFF100C12.toInt(), 0xFF553444.toInt(), 0xFFB97472.toInt(), 0xFFF0CAB0.toInt()
+            )
+
+            TextureFilterType.GildedFiligree -> create(
+                0.008f, 0.68f, 0.46f, 0.82f, 0.74f, 1.55f,
+                0xFF0A1019.toInt(), 0xFF163B58.toInt(), 0xFFC38A2A.toInt(), 0xFFFFE49A.toInt()
+            )
+
+            TextureFilterType.AncientRunes -> create(
+                0.008f, 0.62f, 0.54f, 0.78f, 0.72f, 1.50f,
+                0xFF0B0C12.toInt(), 0xFF34364A.toInt(), 0xFFA85F35.toInt(), 0xFFFFD27A.toInt()
+            )
+
+            TextureFilterType.SolarGranulation -> create(
+                0.008f, 0.72f, 0.58f, 0.74f, 0.86f, 1.50f,
+                0xFF1C0502.toInt(), 0xFF8B2108.toInt(), 0xFFF06A12.toInt(), 0xFFFFF0A0.toInt()
+            )
+
+            TextureFilterType.LunarEjecta -> create(
+                0.008f, 0.64f, 0.48f, 0.80f, 0.50f, 1.50f,
+                0xFF0B0D11.toInt(), 0xFF353A42.toInt(), 0xFF8B9098.toInt(), 0xFFE6E1D5.toInt()
+            )
+
+            TextureFilterType.OceanCurrents -> create(
+                0.007f, 0.70f, 0.72f, 0.76f, 0.68f, 1.45f,
+                0xFF031629.toInt(), 0xFF075B8B.toInt(), 0xFF21B9C2.toInt(), 0xFFD9FFF5.toInt()
+            )
+
+            TextureFilterType.InkWashMountains -> create(
+                0.006f, 0.62f, 0.58f, 0.72f, 0.42f, 1.40f,
+                0xFFF1EBDD.toInt(), 0xFF9A9A91.toInt(), 0xFF444844.toInt(), 0xFF111716.toInt()
+            )
+
+            TextureFilterType.NeonCity -> create(
+                0.008f, 0.68f, 0.52f, 0.80f, 0.86f, 1.55f,
+                0xFF02040C.toInt(), 0xFF142D59.toInt(), 0xFFE638A1.toInt(), 0xFF57F5E9.toInt()
+            )
+
+            TextureFilterType.PhyllotaxisBloom -> create(
+                0.008f, 0.68f, 0.62f, 0.82f, 0.72f, 1.50f,
+                0xFF07100D.toInt(), 0xFF1F6F4A.toInt(), 0xFFE0A733.toInt(), 0xFFFFF0A0.toInt()
+            )
+
+            TextureFilterType.SierpinskiTriangle -> create(
+                0.008f, 0.68f, 0.50f, 0.82f, 0.66f, 1.55f,
+                0xFF050713.toInt(), 0xFF244B9A.toInt(), 0xFF46BFD0.toInt(), 0xFFFFE49A.toInt()
+            )
+
+            TextureFilterType.ApollonianGasket -> create(
+                0.008f, 0.66f, 0.52f, 0.80f, 0.72f, 1.50f,
+                0xFF080511.toInt(), 0xFF542778.toInt(), 0xFFD34EAD.toInt(), 0xFFFFE486.toInt()
+            )
+
+            TextureFilterType.HyperbolicTiling -> create(
+                0.008f, 0.62f, 0.72f, 0.80f, 0.74f, 1.50f,
+                0xFF050A14.toInt(), 0xFF2454A0.toInt(), 0xFF30B9B0.toInt(), 0xFFFFD86A.toInt()
+            )
+
+            TextureFilterType.MoebiusWeave -> create(
+                0.008f, 0.66f, 0.62f, 0.76f, 0.68f, 1.45f,
+                0xFF080A16.toInt(), 0xFF374A94.toInt(), 0xFFB34EC2.toInt(), 0xFFF5D77C.toInt()
+            )
+
+            TextureFilterType.RorschachInkblot -> create(
+                0.006f, 0.70f, 0.82f, 0.68f, 0.52f, 1.45f,
+                0xFFF1EBDD.toInt(), 0xFF8B8590.toInt(), 0xFF3D283E.toInt(), 0xFF100C14.toInt()
+            )
+
+            TextureFilterType.SeismicInterference -> create(
+                0.008f, 0.64f, 0.52f, 0.78f, 0.72f, 1.50f,
+                0xFF070A12.toInt(), 0xFF315B8D.toInt(), 0xFFE36A42.toInt(), 0xFFFFE39A.toInt()
+            )
+
+            TextureFilterType.RayleighBenard -> create(
+                0.008f, 0.70f, 0.62f, 0.72f, 0.82f, 1.50f,
+                0xFF180603.toInt(), 0xFF862208.toInt(), 0xFFE76A16.toInt(), 0xFFFFEDA0.toInt()
+            )
+
+            TextureFilterType.OrigamiFacets -> create(
+                0.008f, 0.66f, 0.52f, 0.82f, 0.62f, 1.45f,
+                0xFF10121C.toInt(), 0xFF58678B.toInt(), 0xFFB9C3D5.toInt(), 0xFFFFE4A8.toInt()
+            )
+
+            TextureFilterType.FiberOpticBundle -> create(
+                0.008f, 0.72f, 0.62f, 0.82f, 0.88f, 1.55f,
+                0xFF02040D.toInt(), 0xFF183C88.toInt(), 0xFF36D7E1.toInt(), 0xFFFFFFFF.toInt()
+            )
+
             else -> error("Unsupported fast-noise texture type: $type")
         }
 

@@ -814,8 +814,524 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
+    TextureFilterType.Geode -> normalizedConfig(
+        R.string.texture_bands,
+        R.string.distortion,
+        R.string.texture_crystal_sharpness,
+        R.string.sparkle
+    )
+
+    TextureFilterType.PrismaticLight -> normalizedConfig(
+        R.string.texture_facets,
+        R.string.dispersion,
+        R.string.texture_beam_sharpness,
+        R.string.bloom
+    )
+
+    TextureFilterType.StainedGlass -> normalizedConfig(
+        R.string.texture_cells,
+        R.string.texture_irregularity,
+        R.string.texture_lead_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.KelpForest -> normalizedConfig(
+        R.string.density,
+        R.string.current,
+        R.string.texture_depth_sharpness,
+        R.string.texture_light_rays
+    )
+
+    TextureFilterType.FrostFern -> normalizedConfig(
+        R.string.texture_branches,
+        R.string.texture_branching,
+        R.string.texture_crystal_sharpness,
+        R.string.texture_frost_glow
+    )
+
+    TextureFilterType.LiquidCrystal -> normalizedConfig(
+        R.string.texture_domains,
+        R.string.dispersion,
+        R.string.texture_boundary_sharpness,
+        R.string.shine
+    )
+
+    TextureFilterType.DragonScales -> normalizedConfig(
+        R.string.texture_scale_density,
+        R.string.texture_curvature,
+        R.string.texture_rim_sharpness,
+        R.string.texture_iridescence
+    )
+
+    TextureFilterType.FireflySwarm -> normalizedConfig(
+        R.string.density,
+        R.string.texture_drift,
+        R.string.texture_trail_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.Mycelium -> normalizedConfig(
+        R.string.texture_network_density,
+        R.string.texture_branching,
+        R.string.texture_fiber_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.Kintsugi -> normalizedConfig(
+        R.string.texture_crack_density,
+        R.string.texture_irregularity,
+        R.string.texture_gold_sharpness,
+        R.string.texture_metallic
+    )
+
+    TextureFilterType.CarbonFiber -> normalizedConfig(
+        R.string.texture_weave_density,
+        R.string.texture_twill,
+        R.string.texture_fiber_sharpness,
+        R.string.texture_sheen
+    )
+
+    TextureFilterType.CircuitBoard -> normalizedConfig(
+        R.string.texture_trace_density,
+        R.string.texture_routing,
+        R.string.texture_trace_sharpness,
+        R.string.texture_emission
+    )
+
+    TextureFilterType.SoapFilm -> normalizedConfig(
+        R.string.texture_bands,
+        R.string.texture_flow,
+        R.string.texture_film_sharpness,
+        R.string.shine
+    )
+
+    TextureFilterType.MoireGuilloche -> normalizedConfig(
+        R.string.frequency,
+        R.string.offset,
+        R.string.texture_line_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.SnakeSkin -> normalizedConfig(
+        R.string.texture_scale_density,
+        R.string.texture_irregularity,
+        R.string.texture_rim_sharpness,
+        R.string.texture_sheen
+    )
+
+    TextureFilterType.Terrazzo -> normalizedConfig(
+        R.string.texture_chip_density,
+        R.string.variation,
+        R.string.texture_chip_sharpness,
+        R.string.texture_polish
+    )
+
+    TextureFilterType.GalaxyFilaments -> normalizedConfig(
+        R.string.texture_filament_density,
+        R.string.turbulence,
+        R.string.texture_filament_sharpness,
+        R.string.texture_star_glow
+    )
+
+    TextureFilterType.VolcanicObsidian -> normalizedConfig(
+        R.string.texture_facets,
+        R.string.texture_fracturing,
+        R.string.texture_edge_sharpness,
+        R.string.texture_lava_glow
+    )
+
+    TextureFilterType.MotherboardHeatmap -> normalizedConfig(
+        R.string.texture_trace_density,
+        R.string.texture_heat_spread,
+        R.string.texture_trace_sharpness,
+        R.string.texture_heat_glow
+    )
+
+    TextureFilterType.MicroscopicDiatoms -> normalizedConfig(
+        R.string.texture_colony_density,
+        R.string.texture_shell_variation,
+        R.string.texture_pore_sharpness,
+        R.string.texture_luminescence
+    )
+
+    TextureFilterType.ReactionDiffusion -> normalizedConfig(
+        R.string.texture_pattern_scale,
+        R.string.feedback,
+        R.string.texture_edge_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.CoralGrowth -> normalizedConfig(
+        R.string.texture_branch_density,
+        R.string.texture_growth_bias,
+        R.string.texture_edge_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.SlimeMold -> normalizedConfig(
+        R.string.texture_trail_density,
+        R.string.texture_chemotaxis,
+        R.string.texture_trail_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.DendriticCrystal -> normalizedConfig(
+        R.string.texture_branch_count,
+        R.string.texture_branching,
+        R.string.texture_crystal_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.ElectricArcField -> normalizedConfig(
+        R.string.texture_arc_count,
+        R.string.turbulence,
+        R.string.texture_arc_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.CloudChamber -> normalizedConfig(
+        R.string.texture_track_density,
+        R.string.texture_deflection,
+        R.string.texture_track_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.TurbulentInk -> normalizedConfig(
+        R.string.texture_ribbon_density,
+        R.string.turbulence,
+        R.string.texture_edge_sharpness,
+        R.string.texture_bleed
+    )
+
+    TextureFilterType.CellularEmbryo -> normalizedConfig(
+        R.string.texture_embryo_density,
+        R.string.texture_morphology,
+        R.string.texture_membrane_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.NeuralGarden -> normalizedConfig(
+        R.string.texture_neuron_density,
+        R.string.texture_branching,
+        R.string.texture_fiber_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.MagneticField -> normalizedConfig(
+        R.string.texture_line_density,
+        R.string.texture_pole_distortion,
+        R.string.texture_line_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.RiverDelta -> normalizedConfig(
+        R.string.texture_channel_density,
+        R.string.texture_erosion,
+        R.string.texture_channel_sharpness,
+        R.string.texture_water_glow
+    )
+
+    TextureFilterType.LichenColony -> normalizedConfig(
+        R.string.texture_colony_density,
+        R.string.texture_spread,
+        R.string.texture_edge_sharpness,
+        R.string.texture_moisture
+    )
+
+    TextureFilterType.BacterialCulture -> normalizedConfig(
+        R.string.texture_colony_density,
+        R.string.texture_growth_variation,
+        R.string.texture_membrane_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.FluidVorticity -> normalizedConfig(
+        R.string.texture_vortex_density,
+        R.string.turbulence,
+        R.string.texture_ridge_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.CrystalGrowth -> normalizedConfig(
+        R.string.texture_crystal_density,
+        R.string.texture_anisotropy,
+        R.string.texture_facet_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.GalacticWeb -> normalizedConfig(
+        R.string.texture_node_density,
+        R.string.texture_gravity_warp,
+        R.string.texture_filament_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.VeinedLeaf -> normalizedConfig(
+        R.string.texture_vein_density,
+        R.string.texture_curvature,
+        R.string.texture_vein_sharpness,
+        R.string.texture_translucency
+    )
+
+    TextureFilterType.PorousSponge -> normalizedConfig(
+        R.string.texture_pore_density,
+        R.string.texture_irregularity,
+        R.string.texture_pore_sharpness,
+        R.string.texture_moisture
+    )
+
+    TextureFilterType.RainOnGlass -> normalizedConfig(
+        R.string.texture_drop_density,
+        R.string.texture_streaking,
+        R.string.texture_drop_sharpness,
+        R.string.texture_refraction
+    )
+
+    TextureFilterType.EmberField -> normalizedConfig(
+        R.string.texture_ember_density,
+        R.string.texture_updraft,
+        R.string.texture_ember_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.QuantumFoam -> normalizedConfig(
+        R.string.texture_bubble_density,
+        R.string.texture_uncertainty,
+        R.string.texture_boundary_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.ChladniPlate -> normalizedConfig(
+        R.string.texture_mode_count,
+        R.string.texture_asymmetry,
+        R.string.texture_line_sharpness,
+        R.string.texture_metallic
+    )
+
+    TextureFilterType.CymaticRosette -> normalizedConfig(
+        R.string.texture_petal_count,
+        R.string.texture_resonance,
+        R.string.texture_ridge_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.LichtenbergFigure -> normalizedConfig(
+        R.string.texture_branch_count,
+        R.string.texture_branching,
+        R.string.texture_arc_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.Quasicrystal -> normalizedConfig(
+        R.string.texture_symmetry,
+        R.string.texture_phase_warp,
+        R.string.texture_ridge_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.Mandelbrot -> normalizedConfig(
+        R.string.texture_iteration_detail,
+        R.string.texture_center_offset,
+        R.string.texture_boundary_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.BurningShip -> normalizedConfig(
+        R.string.texture_iteration_detail,
+        R.string.texture_center_offset,
+        R.string.texture_boundary_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.JuliaSet -> normalizedConfig(
+        R.string.iterations,
+        R.string.texture_constant_phase,
+        R.string.texture_filament_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.KaleidoscopeCrystal -> normalizedConfig(
+        R.string.texture_segments,
+        R.string.texture_fold_warp,
+        R.string.texture_facet_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.SpectralPrism -> normalizedConfig(
+        R.string.texture_facet_count,
+        R.string.texture_refraction,
+        R.string.texture_edge_sharpness,
+        R.string.bloom
+    )
+
+    TextureFilterType.TopologicalKnot -> normalizedConfig(
+        R.string.texture_turns,
+        R.string.texture_twist,
+        R.string.texture_tube_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.XRayBotanical -> normalizedConfig(
+        R.string.texture_leaf_density,
+        R.string.texture_curvature,
+        R.string.texture_vein_sharpness,
+        R.string.texture_luminescence
+    )
+
+    TextureFilterType.Chromatophore -> normalizedConfig(
+        R.string.texture_cell_density,
+        R.string.texture_pulse_phase,
+        R.string.texture_cell_sharpness,
+        R.string.texture_iridescence
+    )
+
+    TextureFilterType.BiomechanicalTissue -> normalizedConfig(
+        R.string.texture_rib_density,
+        R.string.texture_tension,
+        R.string.texture_ridge_sharpness,
+        R.string.texture_wet_sheen
+    )
+
+    TextureFilterType.GildedFiligree -> normalizedConfig(
+        R.string.texture_curl_density,
+        R.string.texture_ornament,
+        R.string.texture_line_sharpness,
+        R.string.texture_metallic
+    )
+
+    TextureFilterType.AncientRunes -> normalizedConfig(
+        R.string.texture_glyph_density,
+        R.string.texture_erosion,
+        R.string.texture_stroke_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.SolarGranulation -> normalizedConfig(
+        R.string.texture_granule_density,
+        R.string.texture_convection,
+        R.string.texture_edge_sharpness,
+        R.string.texture_heat_glow
+    )
+
+    TextureFilterType.LunarEjecta -> normalizedConfig(
+        R.string.texture_crater_density,
+        R.string.texture_ray_length,
+        R.string.texture_rim_sharpness,
+        R.string.texture_albedo
+    )
+
+    TextureFilterType.OceanCurrents -> normalizedConfig(
+        R.string.texture_current_density,
+        R.string.texture_curl,
+        R.string.texture_stream_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.InkWashMountains -> normalizedConfig(
+        R.string.texture_ridge_count,
+        R.string.texture_mist,
+        R.string.texture_ridge_sharpness,
+        R.string.texture_paper_glow
+    )
+
+    TextureFilterType.NeonCity -> normalizedConfig(
+        R.string.texture_building_density,
+        R.string.texture_perspective,
+        R.string.texture_edge_sharpness,
+        R.string.texture_neon_glow
+    )
+
+    TextureFilterType.PhyllotaxisBloom -> normalizedConfig(
+        R.string.texture_seed_density,
+        R.string.texture_spiral_angle,
+        R.string.texture_seed_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.SierpinskiTriangle -> normalizedConfig(
+        R.string.texture_depth,
+        R.string.rotation,
+        R.string.texture_edge_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.ApollonianGasket -> normalizedConfig(
+        R.string.texture_recursion,
+        R.string.texture_curvature,
+        R.string.texture_boundary_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.HyperbolicTiling -> normalizedConfig(
+        R.string.texture_polygon_sides,
+        R.string.texture_curvature,
+        R.string.texture_edge_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.MoebiusWeave -> normalizedConfig(
+        R.string.texture_band_count,
+        R.string.texture_twist,
+        R.string.texture_edge_sharpness,
+        R.string.texture_sheen
+    )
+
+    TextureFilterType.RorschachInkblot -> normalizedConfig(
+        R.string.texture_lobe_count,
+        R.string.texture_symmetry,
+        R.string.texture_edge_sharpness,
+        R.string.texture_bleed
+    )
+
+    TextureFilterType.SeismicInterference -> normalizedConfig(
+        R.string.texture_source_count,
+        R.string.phase,
+        R.string.texture_ridge_sharpness,
+        R.string.glow
+    )
+
+    TextureFilterType.RayleighBenard -> normalizedConfig(
+        R.string.texture_cell_density,
+        R.string.texture_convection,
+        R.string.texture_edge_sharpness,
+        R.string.texture_heat_glow
+    )
+
+    TextureFilterType.OrigamiFacets -> normalizedConfig(
+        R.string.texture_fold_density,
+        R.string.texture_asymmetry,
+        R.string.texture_crease_sharpness,
+        R.string.texture_sheen
+    )
+
+    TextureFilterType.FiberOpticBundle -> normalizedConfig(
+        R.string.texture_fiber_density,
+        R.string.texture_bend,
+        R.string.texture_core_sharpness,
+        R.string.glow
+    )
+
     else -> error("Unsupported fast-noise texture type: $this")
 }
+
+private fun normalizedConfig(
+    @StringRes value1: Int,
+    @StringRes value2: Int,
+    @StringRes value3: Int,
+    @StringRes value4: Int
+) = config(
+    unit(value1),
+    unit(value2),
+    unit(value3),
+    unit(value4),
+    contrast(),
+    colors = intArrayOf(
+        R.string.texture_background_color,
+        R.string.texture_primary_color,
+        R.string.texture_secondary_color,
+        R.string.texture_highlight_color
+    )
+)
 
 private fun config(
     vararg values: ParamInfo,
