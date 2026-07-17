@@ -198,7 +198,7 @@ internal class AndroidFilenameCreator @Inject constructor(
         runCatching {
             result = result.replace("""\\c\{([^}]*)\}""".toRegex()) { match ->
                 val params = match.groupValues[1].split(":")
-                val start = params.getOrNull(0)?.toIntOrNull() ?: 1
+                val start = if (params.size == 1) 1 else params[0].toIntOrNull() ?: 1
                 val step = params.getOrNull(1)?.toIntOrNull() ?: 1
                 val padding = params.getOrNull(2)?.toIntOrNull()
                     ?: if (params.size == 1) params[0].toIntOrNull() ?: 0 else 0
