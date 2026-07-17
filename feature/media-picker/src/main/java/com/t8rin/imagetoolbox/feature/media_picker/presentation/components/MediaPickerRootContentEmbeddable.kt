@@ -60,7 +60,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.appSettingsIntent
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isExternalStorageManagerUnavailable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.manageAllFilesIntent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.manageAppAllFilesIntent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestPermissions
@@ -118,7 +118,7 @@ fun MediaPickerRootContentEmbeddable(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.READ_MEDIA_IMAGES
             isManagePermissionAllowed =
-                Environment.isExternalStorageManager() || context.isInstalledFromPlayStore()
+                Environment.isExternalStorageManager() || context.isExternalStorageManagerUnavailable()
             when (context.checkPermissions(listOf(permission)).finalStatus) {
                 PermissionStatus.ALLOWED -> {
                     isPermissionAllowed = true

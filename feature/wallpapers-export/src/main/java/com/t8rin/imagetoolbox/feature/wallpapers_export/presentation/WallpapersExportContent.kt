@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isExternalStorageManagerUnavailable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -47,7 +47,7 @@ import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic
 fun WallpapersExportContent(
     component: WallpapersExportComponent
 ) {
-    if (appContext.isInstalledFromPlayStore()) {
+    if (appContext.isExternalStorageManagerUnavailable()) {
         FeatureNotAvailableContent(
             title = {
                 Text(

@@ -25,6 +25,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -170,6 +171,20 @@ object ContextUtils {
             "com.google.android.feedback"
         )
     )
+
+    fun Context.isExternalStorageManagerUnavailable(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            isInstalledFromPlayStore() || !isPermissionDeclared(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+        } else {
+            false
+        }
+
+    fun Context.isPermissionDeclared(permission: String): Boolean = runCatching {
+        packageManager.getPackageInfo(
+            packageName,
+            PackageManager.GET_PERMISSIONS
+        ).requestedPermissions?.contains(permission) == true
+    }.getOrDefault(false)
 
     private fun Context.verifyInstallerId(
         validInstallers: List<String>,
