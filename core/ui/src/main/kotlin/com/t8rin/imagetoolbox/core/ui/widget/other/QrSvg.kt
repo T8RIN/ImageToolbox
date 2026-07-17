@@ -32,8 +32,9 @@ import androidx.graphics.path.iterator
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import io.github.alexzhirkevich.qrose.generateQrCodeMatrix
 import io.github.alexzhirkevich.qrose.options.Neighbors
+import io.github.alexzhirkevich.qrose.options.QrCodeMatrix
 import io.github.alexzhirkevich.qrose.options.QrShapeModifier
 import java.nio.charset.StandardCharsets
 import kotlin.math.abs
@@ -63,26 +64,25 @@ fun QrCodeParams.renderAsSvg(
     heightRatio: Float,
     cornerRadius: Int
 ): ByteArray {
-    val hints = buildMap<EncodeHintType, Any> {
-        put(EncodeHintType.CHARACTER_SET, "utf-8")
-        put(EncodeHintType.MARGIN, 0)
-
-        if (type == BarcodeType.QR_CODE) {
-            errorCorrectionLevel.toZxing().let {
-                put(EncodeHintType.ERROR_CORRECTION, it)
-            }
-            maskPattern.toZxing()?.let {
-                put(EncodeHintType.QR_MASK_PATTERN, it)
-            }
-        }
-    }
-    val matrix = MultiFormatWriter().encode(
-        content,
-        type.zxingFormat,
-        1,
-        1,
-        hints
+    val hints = mapOf<EncodeHintType, Any>(
+        EncodeHintType.CHARACTER_SET to "utf-8",
+        EncodeHintType.MARGIN to 0
     )
+    val matrix = if (type == BarcodeType.QR_CODE) {
+        generateQrCodeMatrix(
+            data = content,
+            errorCorrectionLevel = errorCorrectionLevel.toLib(),
+            maskPattern = maskPattern.toLib()
+        ).toBitMatrix()
+    } else {
+        MultiFormatWriter().encode(
+            content,
+            type.zxingFormat,
+            1,
+            1,
+            hints
+        )
+    }
     val outputWidth = OUTPUT_SIZE
     val outputHeight = if (type.isSquare && type != BarcodeType.DATA_MATRIX) {
         outputWidth
@@ -261,6 +261,16 @@ private fun BitMatrix.neighbors(x: Int, y: Int): Neighbors {
     )
 }
 
+private fun QrCodeMatrix.toBitMatrix(): BitMatrix = BitMatrix(size).apply {
+    repeat(size) { x ->
+        repeat(size) { y ->
+            if (this@toBitMatrix[x, y] == QrCodeMatrix.PixelType.DarkPixel) {
+                set(x, y)
+            }
+        }
+    }
+}
+
 private fun finderNeighbors(index: Int): Neighbors = when (index) {
     0 -> Neighbors(bottom = true, right = true)
     1 -> Neighbors(left = true, bottomLeft = true)
@@ -336,17 +346,4 @@ private fun Float.svgNumber(): String {
     } else {
         rounded.toString()
     }
-}
-
-private fun QrCodeParams.ErrorCorrectionLevel.toZxing(): ErrorCorrectionLevel = when (this) {
-    QrCodeParams.ErrorCorrectionLevel.Auto -> ErrorCorrectionLevel.L
-    QrCodeParams.ErrorCorrectionLevel.L -> ErrorCorrectionLevel.L
-    QrCodeParams.ErrorCorrectionLevel.M -> ErrorCorrectionLevel.M
-    QrCodeParams.ErrorCorrectionLevel.Q -> ErrorCorrectionLevel.Q
-    QrCodeParams.ErrorCorrectionLevel.H -> ErrorCorrectionLevel.H
-}
-
-private fun QrCodeParams.MaskPattern.toZxing(): Int? = when (this) {
-    QrCodeParams.MaskPattern.Auto -> null
-    else -> ordinal - 1
 }

@@ -788,7 +788,7 @@ internal fun QrCodeParams.PixelShape.toLib(density: Density): QrPixelShape = whe
     is QrCodeParams.PixelShape.Shaped -> pixelShape(density) { shape }
 }
 
-private fun QrCodeParams.ErrorCorrectionLevel.toLib(): QrErrorCorrectionLevel = when (this) {
+internal fun QrCodeParams.ErrorCorrectionLevel.toLib(): QrErrorCorrectionLevel = when (this) {
     QrCodeParams.ErrorCorrectionLevel.Auto -> QrErrorCorrectionLevel.Auto
     QrCodeParams.ErrorCorrectionLevel.L -> QrErrorCorrectionLevel.Low
     QrCodeParams.ErrorCorrectionLevel.M -> QrErrorCorrectionLevel.Medium
@@ -796,7 +796,7 @@ private fun QrCodeParams.ErrorCorrectionLevel.toLib(): QrErrorCorrectionLevel = 
     QrCodeParams.ErrorCorrectionLevel.H -> QrErrorCorrectionLevel.High
 }
 
-private fun QrCodeParams.MaskPattern.toLib(): MaskPattern? = when (this) {
+internal fun QrCodeParams.MaskPattern.toLib(): MaskPattern? = when (this) {
     QrCodeParams.MaskPattern.Auto -> null
     QrCodeParams.MaskPattern.P_000 -> MaskPattern.PATTERN000
     QrCodeParams.MaskPattern.P_001 -> MaskPattern.PATTERN001
