@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import android.net.Uri
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.widget.other.BarcodeType
@@ -32,7 +33,18 @@ data class QrPreviewParams(
     val heightRatio: Float,
     val type: BarcodeType,
     val qrParams: QrCodeParams,
+    val outputFormat: ImageFormat?,
 ) {
+    fun outputParams(): QrPreviewParams = if (outputFormat == null) {
+        copy(
+            imageUri = null,
+            description = "",
+            qrParams = qrParams.copy(logo = null)
+        )
+    } else {
+        this
+    }
+
     companion object {
         val Default by lazy {
             QrPreviewParams(
@@ -43,7 +55,8 @@ data class QrPreviewParams(
                 descriptionFont = UiFontFamily.System,
                 heightRatio = 2f,
                 type = BarcodeType.QR_CODE,
-                qrParams = QrCodeParams()
+                qrParams = QrCodeParams(),
+                outputFormat = ImageFormat.Png.Lossless
             )
         }
     }

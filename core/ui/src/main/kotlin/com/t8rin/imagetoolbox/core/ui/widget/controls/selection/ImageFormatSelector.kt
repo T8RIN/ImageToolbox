@@ -93,7 +93,8 @@ fun ImageFormatSelector(
             fontWeight = FontWeight.Medium
         )
     },
-    onAutoClick: (() -> Unit)? = null
+    onAutoClick: (() -> Unit)? = null,
+    autoText: String = stringResource(R.string.auto)
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -200,7 +201,7 @@ fun ImageFormatSelector(
                                 onClick = onAutoClick,
                                 selected = value == null,
                                 label = {
-                                    Text(text = stringResource(R.string.auto))
+                                    Text(text = autoText)
                                 },
                                 selectedColor = MaterialTheme.colorScheme.tertiary,
                                 contentPadding = PaddingValues(

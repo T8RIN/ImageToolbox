@@ -750,13 +750,13 @@ private fun Shape.toBallShape(density: Density) = object : QrBallShape {
     }
 }
 
-private fun QrCodeParams.BallShape.toLib(density: Density): QrBallShape = when (this) {
+internal fun QrCodeParams.BallShape.toLib(density: Density): QrBallShape = when (this) {
     QrCodeParams.BallShape.Square -> QrBallShape.square()
     QrCodeParams.BallShape.Circle -> QrBallShape.circle()
     is Shaped -> shape.toBallShape(density)
 }
 
-private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
+internal fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
     is QrCodeParams.FrameShape.Corners -> {
         if (isCut) {
             QrFrameShape.cutCorners(
@@ -778,7 +778,7 @@ private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
     }
 }
 
-private fun QrCodeParams.PixelShape.toLib(density: Density): QrPixelShape = when (this) {
+internal fun QrCodeParams.PixelShape.toLib(density: Density): QrPixelShape = when (this) {
     QrCodeParams.PixelShape.Square -> QrPixelShape.square()
     QrCodeParams.PixelShape.RoundSquare -> QrPixelShape.roundCorners()
     QrCodeParams.PixelShape.Circle -> QrPixelShape.circle()

@@ -47,6 +47,7 @@ coil = "3.5.0"
 dotlottieAndroid = "0.15.0"
 appCompat = "1.8.0-alpha01"
 androidxCore = "1.19.0"
+androidxGraphicsPath = "1.1.0"
 desugaring = "2.1.5"
 activityCompose = "1.13.0"
 kotlinxCollectionsImmutable = "0.5.1"
@@ -170,6 +171,7 @@ jxl-coder = { module = "io.github.awxkee:jxl-coder", version.ref = "jxlCoder" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 androidxCore = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+androidx-graphics-path = { module = "androidx.graphics:graphics-path", version.ref = "androidxGraphicsPath" }
 scrollbar = { module = "com.github.nanihadesuka:LazyColumnScrollbar", version.ref = "scrollbar" }
 mlkit-segmentation-selfie = { module = "com.google.mlkit:segmentation-selfie", version.ref = "google-segmentationSelfie" }
 mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "google-subjectSegmentation" }

@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.resources.icons.Code
@@ -91,6 +91,7 @@ import kotlin.math.roundToInt
 @Composable
 internal fun QrParamsSelector(
     isQrType: Boolean,
+    showLogo: Boolean,
     value: QrCodeParams,
     onValueChange: (QrCodeParams) -> Unit
 ) {
@@ -158,149 +159,154 @@ internal fun QrParamsSelector(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                AnimatedVisibility(
+                    visible = showLogo,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    val logoParamsSize = 4
-                    Row(
-                        modifier = Modifier.height(intrinsicSize = IntrinsicSize.Max)
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        ImageSelector(
-                            value = value.logo,
-                            title = stringResource(R.string.logo),
-                            subtitle = stringResource(R.string.qr_logo_image),
-                            onValueChange = {
-                                onValueChange(
-                                    value.copy(
-                                        logo = it
+                        val logoParamsSize = 4
+                        Row(
+                            modifier = Modifier.height(intrinsicSize = IntrinsicSize.Max)
+                        ) {
+                            ImageSelector(
+                                value = value.logo,
+                                title = stringResource(R.string.logo),
+                                subtitle = stringResource(R.string.qr_logo_image),
+                                onValueChange = {
+                                    onValueChange(
+                                        value.copy(
+                                            logo = it
+                                        )
                                     )
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .weight(1f),
-                            shape = if (value.logo == null) {
-                                ShapeDefaults.default
-                            } else {
-                                ShapeDefaults.topStart
-                            },
-                            color = MaterialTheme.colorScheme.surface
-                        )
-
-                        BoxAnimatedVisibility(visible = value.logo != null) {
-                            val interactionSource = remember { MutableInteractionSource() }
-
-                            Box(
+                                },
                                 modifier = Modifier
                                     .fillMaxHeight()
-                                    .padding(start = 4.dp)
-                                    .container(
-                                        color = MaterialTheme.colorScheme.errorContainer,
-                                        resultPadding = 0.dp,
-                                        shape = shapeByInteraction(
-                                            shape = ShapeDefaults.topEnd,
-                                            pressedShape = ShapeDefaults.pressed,
-                                            interactionSource = interactionSource
-                                        )
-                                    )
-                                    .hapticsClickable(
-                                        interactionSource = interactionSource,
-                                        indication = LocalIndication.current
-                                    ) {
-                                        onValueChange(
-                                            value.copy(
-                                                logo = null
+                                    .weight(1f),
+                                shape = if (value.logo == null) {
+                                    ShapeDefaults.default
+                                } else {
+                                    ShapeDefaults.topStart
+                                },
+                                color = MaterialTheme.colorScheme.surface
+                            )
+
+                            BoxAnimatedVisibility(visible = value.logo != null) {
+                                val interactionSource = remember { MutableInteractionSource() }
+
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .padding(start = 4.dp)
+                                        .container(
+                                            color = MaterialTheme.colorScheme.errorContainer,
+                                            resultPadding = 0.dp,
+                                            shape = shapeByInteraction(
+                                                shape = ShapeDefaults.topEnd,
+                                                pressedShape = ShapeDefaults.pressed,
+                                                interactionSource = interactionSource
                                             )
                                         )
-                                    }
-                                    .padding(horizontal = 8.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Delete,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onErrorContainer
-                                )
+                                        .hapticsClickable(
+                                            interactionSource = interactionSource,
+                                            indication = LocalIndication.current
+                                        ) {
+                                            onValueChange(
+                                                value.copy(
+                                                    logo = null
+                                                )
+                                            )
+                                        }
+                                        .padding(horizontal = 8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Delete,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onErrorContainer
+                                    )
+                                }
                             }
                         }
-                    }
-                    BoxAnimatedVisibility(
-                        visible = value.logo != null,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        BoxAnimatedVisibility(
+                            visible = value.logo != null,
+                            modifier = Modifier.fillMaxWidth()
                         ) {
-                            var logoPadding by remember {
-                                mutableFloatStateOf(value.logoPadding)
-                            }
-                            EnhancedSliderItem(
-                                value = logoPadding,
-                                title = stringResource(R.string.logo_padding),
-                                valueRange = 0f..1f,
-                                internalStateTransformation = { it.roundToTwoDigits() },
-                                onValueChange = {
-                                    logoPadding = it.roundToTwoDigits()
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                var logoPadding by remember {
+                                    mutableFloatStateOf(value.logoPadding)
+                                }
+                                EnhancedSliderItem(
+                                    value = logoPadding,
+                                    title = stringResource(R.string.logo_padding),
+                                    valueRange = 0f..1f,
+                                    internalStateTransformation = { it.roundToTwoDigits() },
+                                    onValueChange = {
+                                        logoPadding = it.roundToTwoDigits()
 
-                                    onValueChange(
-                                        value.copy(
-                                            logoPadding = logoPadding
+                                        onValueChange(
+                                            value.copy(
+                                                logoPadding = logoPadding
+                                            )
                                         )
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                    icon = Icons.Outlined.Padding,
+                                    shape = ShapeDefaults.byIndex(
+                                        index = 1,
+                                        size = logoParamsSize
                                     )
-                                },
-                                containerColor = MaterialTheme.colorScheme.surface,
-                                icon = Icons.Outlined.Padding,
-                                shape = ShapeDefaults.byIndex(
-                                    index = 1,
-                                    size = logoParamsSize
                                 )
-                            )
-                            var logoSize by remember {
-                                mutableFloatStateOf(value.logoSize)
+                                var logoSize by remember {
+                                    mutableFloatStateOf(value.logoSize)
+                                }
+                                EnhancedSliderItem(
+                                    value = logoSize,
+                                    title = stringResource(R.string.logo_size),
+                                    valueRange = 0f..1f,
+                                    internalStateTransformation = { it.roundToTwoDigits() },
+                                    onValueChange = {
+                                        logoSize = it.roundToTwoDigits()
+                                        onValueChange(
+                                            value.copy(
+                                                logoSize = logoSize
+                                            )
+                                        )
+                                    },
+                                    icon = Icons.Outlined.PhotoSizeSelectLarge,
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                    shape = ShapeDefaults.byIndex(
+                                        index = 2,
+                                        size = logoParamsSize
+                                    )
+                                )
+                                var logoCorners by remember {
+                                    mutableFloatStateOf(value.logoCorners)
+                                }
+                                EnhancedSliderItem(
+                                    value = logoCorners,
+                                    title = stringResource(R.string.logo_corners),
+                                    valueRange = 0f..1f,
+                                    internalStateTransformation = { it.roundToTwoDigits() },
+                                    onValueChange = {
+                                        logoCorners = it.roundToTwoDigits()
+                                        onValueChange(
+                                            value.copy(
+                                                logoCorners = logoCorners
+                                            )
+                                        )
+                                    },
+                                    icon = Icons.Rounded.RoundedCorner,
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                    shape = ShapeDefaults.byIndex(
+                                        index = 3,
+                                        size = logoParamsSize
+                                    )
+                                )
                             }
-                            EnhancedSliderItem(
-                                value = logoSize,
-                                title = stringResource(R.string.logo_size),
-                                valueRange = 0f..1f,
-                                internalStateTransformation = { it.roundToTwoDigits() },
-                                onValueChange = {
-                                    logoSize = it.roundToTwoDigits()
-                                    onValueChange(
-                                        value.copy(
-                                            logoSize = logoSize
-                                        )
-                                    )
-                                },
-                                icon = Icons.Outlined.PhotoSizeSelectLarge,
-                                containerColor = MaterialTheme.colorScheme.surface,
-                                shape = ShapeDefaults.byIndex(
-                                    index = 2,
-                                    size = logoParamsSize
-                                )
-                            )
-                            var logoCorners by remember {
-                                mutableFloatStateOf(value.logoCorners)
-                            }
-                            EnhancedSliderItem(
-                                value = logoCorners,
-                                title = stringResource(R.string.logo_corners),
-                                valueRange = 0f..1f,
-                                internalStateTransformation = { it.roundToTwoDigits() },
-                                onValueChange = {
-                                    logoCorners = it.roundToTwoDigits()
-                                    onValueChange(
-                                        value.copy(
-                                            logoCorners = logoCorners
-                                        )
-                                    )
-                                },
-                                icon = Icons.Rounded.RoundedCorner,
-                                containerColor = MaterialTheme.colorScheme.surface,
-                                shape = ShapeDefaults.byIndex(
-                                    index = 3,
-                                    size = logoParamsSize
-                                )
-                            )
                         }
                     }
                 }

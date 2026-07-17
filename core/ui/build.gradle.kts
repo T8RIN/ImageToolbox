@@ -60,6 +60,7 @@ dependencies {
     api(libs.splashScreen)
     api(libs.appCompat)
     api(libs.androidx.documentfile)
+    api(libs.androidx.graphics.path)
 
     //Konfetti
     api(libs.konfetti.compose)

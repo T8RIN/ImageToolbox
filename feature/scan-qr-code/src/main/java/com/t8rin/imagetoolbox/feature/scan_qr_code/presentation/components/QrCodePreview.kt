@@ -132,7 +132,9 @@ internal fun QrCodePreview(
                                 type = params.type,
                                 qrParams = params.qrParams,
                                 cornerRadius = animateIntAsState(params.cornersSize).value.dp,
-                                onSuccess = AppToastHost::dismissToasts,
+                                onSuccess = {
+                                    if (previous != params) AppToastHost.dismissToasts()
+                                },
                                 onFailure = {
                                     AppToastHost.dismissToasts()
                                     if (previous != params) AppToastHost.showFailureToast(it)

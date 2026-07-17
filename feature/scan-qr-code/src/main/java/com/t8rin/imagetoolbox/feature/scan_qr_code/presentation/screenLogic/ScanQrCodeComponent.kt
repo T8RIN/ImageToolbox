@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic
 
-
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -31,8 +30,11 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
+import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.onResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -46,6 +48,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.ui.widget.other.renderAsSvg
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.scan_qr_code.domain.ImageBarcodeReader
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.QrPreviewParams
@@ -62,6 +65,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     @Assisted uriToAnalyze: Uri?,
     @Assisted val onGoBack: () -> Unit,
     private val fileController: FileController,
+    private val filenameCreator: FilenameCreator,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val filterParamsInteractor: FilterParamsInteractor,
@@ -115,25 +119,43 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     ) {
         savingJob = trackProgress {
             _isSaving.update { true }
-            parseSaveResult(
-                fileController.save(
-                    saveTarget = ImageSaveTarget(
-                        imageInfo = ImageInfo(
-                            width = bitmap.width,
-                            height = bitmap.height
+            val outputFormat = params.outputFormat
+            if (outputFormat == null) {
+                parseFileSaveResult(
+                    fileController.save(
+                        saveTarget = FileSaveTarget(
+                            originalUri = "",
+                            filename = svgFilename,
+                            data = svgBytes(),
+                            mimeType = MimeType.Svg,
+                            extension = "svg"
                         ),
-                        originalUri = "",
-                        sequenceNumber = null,
-                        data = imageCompressor.compress(
-                            image = bitmap,
-                            imageFormat = ImageFormat.Png.Lossless,
-                            quality = Quality.Base(100)
-                        )
-                    ),
-                    keepOriginalMetadata = false,
-                    oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                    )
                 )
-            )
+            } else {
+                parseSaveResult(
+                    fileController.save(
+                        saveTarget = ImageSaveTarget(
+                            imageInfo = ImageInfo(
+                                width = bitmap.width,
+                                height = bitmap.height,
+                                imageFormat = outputFormat
+                            ),
+                            originalUri = "",
+                            sequenceNumber = null,
+                            data = imageCompressor.compress(
+                                image = bitmap,
+                                imageFormat = outputFormat,
+                                quality = Quality.Base(100)
+                            )
+                        ),
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                    )
+                )
+            }
             _isSaving.update { false }
         }
     }
@@ -141,25 +163,19 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     fun shareImage(
         bitmap: Bitmap
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = trackProgress {
-            _isSaving.value = true
-            bitmap.let { image ->
-                shareProvider.shareImage(
-                    imageInfo = ImageInfo(
-                        width = image.width,
-                        height = image.height,
-                        imageFormat = ImageFormat.Png.Lossless
-                    ),
-                    image = image,
-                    onComplete = {
-                        _isSaving.value = false
-                        AppToastHost.showConfetti()
-                    }
-                )
+        val mimeType = params.outputFormat?.mimeType ?: MimeType.Svg
+        cacheImage(
+            bitmap = bitmap,
+            onComplete = {
+                componentScope.launch {
+                    shareProvider.shareUri(
+                        uri = it.toString(),
+                        type = mimeType,
+                        onComplete = AppToastHost::showConfetti
+                    )
+                }
             }
-        }
+        )
     }
 
     fun cancelSaving() {
@@ -176,18 +192,23 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         savingJob?.cancel()
         savingJob = trackProgress {
             _isSaving.value = true
-            bitmap.let { image ->
+            val outputFormat = params.outputFormat
+            if (outputFormat == null) {
+                shareProvider.cacheByteArray(
+                    byteArray = svgBytes(),
+                    filename = svgFilename
+                )
+            } else {
                 shareProvider.cacheImage(
-                    image = image,
+                    image = bitmap,
                     imageInfo = ImageInfo(
-                        width = image.width,
-                        height = image.height,
-                        imageFormat = ImageFormat.Png.Lossless
+                        width = bitmap.width,
+                        height = bitmap.height,
+                        imageFormat = outputFormat
                     )
-                )?.let { uri ->
-                    onComplete(uri.toUri())
-                }
-            }
+                )
+            }?.let { onComplete(it.toUri()) }
+
             _isSaving.value = false
         }
     }
@@ -213,7 +234,28 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         }
     }
 
-    fun getFormatForFilenameSelection(): ImageFormat = ImageFormat.Png.Lossless
+    fun getFormatForFilenameSelection(): ImageFormat? = params.outputFormat
+
+    private fun svgBytes(): ByteArray = params.outputParams().run {
+        qrParams.renderAsSvg(
+            content = content.raw,
+            type = type,
+            heightRatio = heightRatio,
+            cornerRadius = cornersSize
+        )
+    }
+
+    private val svgFilename: String
+        get() = filenameCreator.constructImageFilename(
+            saveTarget = ImageSaveTarget(
+                imageInfo = ImageInfo(),
+                originalUri = "",
+                sequenceNumber = null,
+                data = ByteArray(0),
+                extension = "svg"
+            ),
+            forceNotAddSizeInFilename = true
+        )
 
     fun updateParams(params: QrPreviewParams) {
         _params.update { params }
@@ -260,5 +302,4 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
             onGoBack: () -> Unit,
         ): ScanQrCodeComponent
     }
-
 }

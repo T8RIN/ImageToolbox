@@ -75,6 +75,7 @@ fun ScanQrCodeContent(
     component: ScanQrCodeComponent
 ) {
     val params = component.params
+    val outputParams = params.outputParams()
 
     val scanner = rememberBarcodeScanner {
         component.updateParams(
@@ -94,13 +95,13 @@ fun ScanQrCodeContent(
 
     val captureController = rememberCaptureController()
 
-    LaunchedEffect(params) {
+    LaunchedEffect(params, outputParams) {
         if (params.content.raw.isEmpty()) return@LaunchedEffect
         delay(500)
         component.syncReadBarcodeFromImage(
-            image = params.qrParams.renderAsQr(
-                content = params.content.raw,
-                type = params.type
+            image = outputParams.qrParams.renderAsQr(
+                content = outputParams.content.raw,
+                type = outputParams.type
             )
         )
     }
@@ -174,7 +175,7 @@ fun ScanQrCodeContent(
                 QrCodePreview(
                     captureController = captureController,
                     isLandscape = true,
-                    params = params,
+                    params = outputParams,
                     onStartScan = scanner::scan
                 )
             }
@@ -185,7 +186,7 @@ fun ScanQrCodeContent(
                 QrCodePreview(
                     captureController = captureController,
                     isLandscape = false,
-                    params = params,
+                    params = outputParams,
                     onStartScan = scanner::scan
                 )
                 Spacer(modifier = Modifier.height(16.dp))

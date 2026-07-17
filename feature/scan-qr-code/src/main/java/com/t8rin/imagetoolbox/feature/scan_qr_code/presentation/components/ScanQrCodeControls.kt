@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -53,9 +52,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.copy
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
@@ -66,6 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -78,6 +80,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.BarcodeType
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.other.LinkPreviewList
+import com.t8rin.imagetoolbox.core.ui.widget.other.defaultQrColors
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
@@ -85,6 +88,7 @@ import kotlin.math.roundToInt
 @Composable
 internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
     val params by rememberUpdatedState(component.params)
+    val (defaultQrBackground, defaultQrForeground) = defaultQrColors()
 
     LinkPreviewList(
         text = params.content.raw,
@@ -266,6 +270,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             Spacer(modifier = Modifier.height(8.dp))
             QrParamsSelector(
                 isQrType = params.type == BarcodeType.QR_CODE,
+                showLogo = params.outputFormat != null,
                 value = params.qrParams,
                 onValueChange = {
                     component.updateParams(
@@ -276,106 +281,114 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.height(intrinsicSize = IntrinsicSize.Max)
+            AnimatedVisibility(
+                visible = params.outputFormat != null,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                ImageSelector(
-                    value = params.imageUri,
-                    subtitle = stringResource(id = R.string.qr_code_top_image),
-                    onValueChange = {
-                        component.updateParams(
-                            params.copy(
-                                imageUri = it
-                            )
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f),
-                    shape = ShapeDefaults.extraLarge
-                )
-                BoxAnimatedVisibility(visible = params.imageUri != null) {
-                    val interactionSource = remember { MutableInteractionSource() }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(start = 8.dp)
-                            .container(
-                                color = MaterialTheme.colorScheme.errorContainer,
-                                resultPadding = 0.dp,
-                                shape = shapeByInteraction(
-                                    shape = ShapeDefaults.default,
-                                    pressedShape = ShapeDefaults.pressed,
-                                    interactionSource = interactionSource
-                                )
-                            )
-                            .hapticsClickable(
-                                interactionSource = interactionSource,
-                                indication = LocalIndication.current
-                            ) {
+                Column(
+                    modifier = Modifier.padding(bottom = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.height(intrinsicSize = IntrinsicSize.Max)
+                    ) {
+                        ImageSelector(
+                            value = params.imageUri,
+                            subtitle = stringResource(id = R.string.qr_code_top_image),
+                            onValueChange = {
                                 component.updateParams(
                                     params.copy(
-                                        imageUri = null
+                                        imageUri = it
                                     )
                                 )
+                            },
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f),
+                            shape = ShapeDefaults.extraLarge
+                        )
+                        BoxAnimatedVisibility(visible = params.imageUri != null) {
+                            val interactionSource = remember { MutableInteractionSource() }
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(start = 8.dp)
+                                    .container(
+                                        color = MaterialTheme.colorScheme.errorContainer,
+                                        resultPadding = 0.dp,
+                                        shape = shapeByInteraction(
+                                            shape = ShapeDefaults.default,
+                                            pressedShape = ShapeDefaults.pressed,
+                                            interactionSource = interactionSource
+                                        )
+                                    )
+                                    .hapticsClickable(
+                                        interactionSource = interactionSource,
+                                        indication = LocalIndication.current
+                                    ) {
+                                        component.updateParams(
+                                            params.copy(
+                                                imageUri = null
+                                            )
+                                        )
+                                    }
+                                    .padding(horizontal = 8.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Delete,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onErrorContainer
+                                )
                             }
-                            .padding(horizontal = 8.dp),
-                        contentAlignment = Alignment.Center
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    RoundedTextField(
+                        modifier = Modifier.container(
+                            shape = animateShape(
+                                if (params.description.isNotEmpty()) ShapeDefaults.top
+                                else ShapeDefaults.default
+                            ),
+                            resultPadding = 8.dp
+                        ),
+                        value = params.description,
+                        onValueChange = {
+                            component.updateParams(
+                                params.copy(
+                                    description = it
+                                )
+                            )
+                        },
+                        singleLine = false,
+                        label = {
+                            Text(stringResource(id = R.string.qr_description))
+                        }
+                    )
+                    BoxAnimatedVisibility(
+                        visible = params.description.isNotEmpty(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Delete,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onErrorContainer
+                        FontSelector(
+                            value = params.descriptionFont,
+                            onValueChange = {
+                                component.updateParams(
+                                    params.copy(
+                                        descriptionFont = it
+                                    )
+                                )
+                            },
+                            containerColor = Color.Unspecified,
+                            shape = ShapeDefaults.bottom,
+                            modifier = Modifier.padding(top = 4.dp)
                         )
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            RoundedTextField(
-                modifier = Modifier.container(
-                    shape = animateShape(
-                        if (params.description.isNotEmpty()) ShapeDefaults.top
-                        else ShapeDefaults.default
-                    ),
-                    resultPadding = 8.dp
-                ),
-                value = params.description,
-                onValueChange = {
-                    component.updateParams(
-                        params.copy(
-                            description = it
-                        )
-                    )
-                },
-                singleLine = false,
-                label = {
-                    Text(stringResource(id = R.string.qr_description))
-                }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            BoxAnimatedVisibility(
-                visible = params.description.isNotEmpty(),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                FontSelector(
-                    value = params.descriptionFont,
-                    onValueChange = {
-                        component.updateParams(
-                            params.copy(
-                                descriptionFont = it
-                            )
-                        )
-                    },
-                    containerColor = Color.Unspecified,
-                    shape = ShapeDefaults.bottom,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            }
             EnhancedSliderItem(
                 value = params.cornersSize,
                 title = stringResource(R.string.corners),
-                valueRange = 0f..36f,
+                valueRange = 0f..42f,
                 onValueChange = {
                     component.updateParams(
                         params.copy(
@@ -387,9 +400,34 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                     it.roundToInt()
                 },
                 icon = Icons.Rounded.RoundedCorner,
-                steps = 22
+                steps = 42,
+                shape = ShapeDefaults.large
             )
             Spacer(modifier = Modifier.height(8.dp))
+            ImageFormatSelector(
+                entries = ImageFormatGroup.alphaContainedEntries,
+                value = params.outputFormat,
+                onValueChange = { outputFormat ->
+                    component.updateParams(
+                        params.copy(outputFormat = outputFormat)
+                    )
+                },
+                onAutoClick = {
+                    component.updateParams(
+                        params.copy(
+                            outputFormat = null,
+                            qrParams = params.qrParams.copy(
+                                foregroundColor = params.qrParams.foregroundColor
+                                    ?: defaultQrForeground,
+                                backgroundColor = params.qrParams.backgroundColor
+                                    ?: defaultQrBackground
+                            )
+                        )
+                    )
+                },
+                autoText = "SVG",
+                forceEnabled = true
+            )
         }
     }
 }
