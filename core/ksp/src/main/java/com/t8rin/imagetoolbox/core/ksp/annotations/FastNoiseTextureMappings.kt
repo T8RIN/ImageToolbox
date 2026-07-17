@@ -15,19 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.core.ksp.annotations
 
-android.namespace = "com.t8rin.imagetoolbox.feature.texture_generation"
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.SOURCE)
+annotation class FastNoiseTextureMappings
 
-dependencies {
-    implementation(projects.core.ksp)
-    ksp(projects.core.ksp)
-
-    implementation(libs.toolbox.fastNoise)
-    implementation(libs.toolbox.jhlabs)
-}
+@Target(AnnotationTarget.FIELD)
+@Retention(AnnotationRetention.SOURCE)
+annotation class FastNoiseTextureName(
+    val value: String
+)

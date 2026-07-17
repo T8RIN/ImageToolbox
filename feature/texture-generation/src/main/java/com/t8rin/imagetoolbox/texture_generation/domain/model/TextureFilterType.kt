@@ -17,6 +17,10 @@
 
 package com.t8rin.imagetoolbox.texture_generation.domain.model
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.FastNoiseTextureMappings
+import com.t8rin.imagetoolbox.core.ksp.annotations.FastNoiseTextureName
+
+@FastNoiseTextureMappings
 enum class TextureFilterType(val isFastNoise: Boolean = false) {
     BrushedMetal,
     Brick(true),
@@ -38,7 +42,10 @@ enum class TextureFilterType(val isFastNoise: Boolean = false) {
     Terrain(true),
     Topography(true),
     WaterRipple(true),
+
+    @FastNoiseTextureName("Wood")
     AdvancedWood(true),
+
     Grass(true),
     Dirt(true),
     Leather(true),
@@ -49,13 +56,22 @@ enum class TextureFilterType(val isFastNoise: Boolean = false) {
     Aurora(true),
     OilSlick(true),
     Watercolor(true),
+
+    @FastNoiseTextureName("Flow")
     AbstractFlow(true),
+
     Opal(true),
+
+    @FastNoiseTextureName("Damascus")
     DamascusSteel(true),
+
     Lightning(true),
     Velvet(true),
     InkMarbling(true),
+
+    @FastNoiseTextureName("Holographic")
     HolographicFoil(true),
+
     Bioluminescence(true),
     CosmicVortex(true),
     LavaLamp(true),
