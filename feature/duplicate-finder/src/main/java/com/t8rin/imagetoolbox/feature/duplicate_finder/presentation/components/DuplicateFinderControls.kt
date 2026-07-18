@@ -17,7 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.duplicate_finder.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +40,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -53,6 +59,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCheckbox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -60,9 +67,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGrouping
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateGroup
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateKeepStrategy
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateScanMode
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateType
 import com.t8rin.imagetoolbox.feature.duplicate_finder.presentation.screenLogic.DuplicateFinderComponent
 import kotlin.math.roundToInt
@@ -74,6 +83,7 @@ internal fun DuplicateFinderControls(
     onPickImages: () -> Unit,
     onPreview: (String) -> Unit
 ) {
+    var showErrors by rememberSaveable { mutableStateOf(false) }
     val exactGroups = remember(component.groups) {
         component.groups.filter { it.type == DuplicateType.Exact }
     }
@@ -93,40 +103,75 @@ internal fun DuplicateFinderControls(
         horizontalAlignment = Alignment.CenterHorizontally,
         flingBehavior = enhancedFlingBehavior()
     ) {
-        item(key = "keep-strategy") {
-            DataSelector(
-                value = component.keepStrategy,
-                onValueChange = component::updateKeepStrategy,
-                entries = DuplicateKeepStrategy.entries,
-                title = stringResource(R.string.duplicate_keep_strategy),
-                titleIcon = Icons.Outlined.BookmarkStar,
-                itemContentText = {
-                    stringResource(
-                        when (it) {
-                            DuplicateKeepStrategy.BestQuality -> R.string.duplicate_keep_best_quality
-                            DuplicateKeepStrategy.SmallestFile -> R.string.duplicate_keep_smallest_file
-                            DuplicateKeepStrategy.Newest -> R.string.duplicate_keep_newest
-                            DuplicateKeepStrategy.Oldest -> R.string.duplicate_keep_oldest
-                            DuplicateKeepStrategy.FirstSelected -> R.string.duplicate_keep_first_selected
-                        }
-                    )
-                },
-                spanCount = 2,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+        item(key = "static") {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                EnhancedButtonGroup(
+                    enabled = true,
+                    items = listOf(
+                        stringResource(R.string.duplicate_scan_exact_only),
+                        stringResource(R.string.duplicate_scan_exact_and_similar)
+                    ),
+                    selectedIndex = DuplicateScanMode.entries.indexOf(component.scanMode),
+                    title = {
+                        TitleItem(
+                            text = stringResource(R.string.duplicate_scan_mode),
+                            icon = Icons.Outlined.ImageSearch,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = 12.dp,
+                                    end = 12.dp,
+                                    top = 12.dp,
+                                    bottom = 8.dp
+                                )
+                        )
+                    },
+                    onIndexChange = {
+                        component.updateScanMode(DuplicateScanMode.entries[it])
+                    },
+                    isScrollable = false,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .container(ShapeDefaults.large)
+                )
 
-        item(key = "sensitivity") {
-            EnhancedSliderItem(
-                value = component.sensitivity,
-                title = stringResource(R.string.duplicate_finder_sensitivity),
-                valueRange = DuplicateGrouping.MIN_SENSITIVITY.toFloat()..
-                        DuplicateGrouping.MAX_SENSITIVITY.toFloat(),
-                steps = DuplicateGrouping.MAX_SENSITIVITY - DuplicateGrouping.MIN_SENSITIVITY - 1,
-                onValueChange = { component.updateSensitivity(it.roundToInt()) },
-                icon = Icons.Outlined.DataThresholding,
-                modifier = Modifier.fillMaxWidth()
-            )
+                DataSelector(
+                    value = component.keepStrategy,
+                    onValueChange = component::updateKeepStrategy,
+                    entries = DuplicateKeepStrategy.entries,
+                    title = stringResource(R.string.duplicate_keep_strategy),
+                    titleIcon = Icons.Outlined.BookmarkStar,
+                    itemContentText = {
+                        stringResource(
+                            when (it) {
+                                DuplicateKeepStrategy.BestQuality -> R.string.duplicate_keep_best_quality
+                                DuplicateKeepStrategy.SmallestFile -> R.string.duplicate_keep_smallest_file
+                                DuplicateKeepStrategy.Newest -> R.string.duplicate_keep_newest
+                                DuplicateKeepStrategy.Oldest -> R.string.duplicate_keep_oldest
+                                DuplicateKeepStrategy.FirstSelected -> R.string.duplicate_keep_first_selected
+                            }
+                        )
+                    },
+                    spanCount = 2,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                AnimatedVisibility(component.scanMode == DuplicateScanMode.ExactAndSimilar) {
+                    EnhancedSliderItem(
+                        value = component.sensitivity,
+                        title = stringResource(R.string.duplicate_finder_sensitivity),
+                        valueRange = DuplicateGrouping.MIN_SENSITIVITY.toFloat()..
+                                DuplicateGrouping.MAX_SENSITIVITY.toFloat(),
+                        steps = DuplicateGrouping.MAX_SENSITIVITY -
+                                DuplicateGrouping.MIN_SENSITIVITY - 1,
+                        onValueChange = { component.updateSensitivity(it.roundToInt()) },
+                        icon = Icons.Outlined.DataThresholding,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
         }
 
         component.analysisResult?.let { result ->
@@ -151,6 +196,7 @@ internal fun DuplicateFinderControls(
                         startIcon = Icons.Outlined.WarningAmber,
                         containerColor = MaterialTheme.colorScheme.errorContainer,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                        onClick = { showErrors = true },
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItem()
@@ -162,7 +208,11 @@ internal fun DuplicateFinderControls(
                 item(key = "empty-results") {
                     PreferenceItem(
                         title = stringResource(R.string.no_duplicates_found),
-                        subtitle = stringResource(R.string.no_duplicates_found_sub),
+                        subtitle = stringResource(
+                            if (component.scanMode == DuplicateScanMode.ExactOnly) {
+                                R.string.no_exact_duplicates_found_sub
+                            } else R.string.no_duplicates_found_sub
+                        ),
                         startIcon = Icons.Outlined.ImageSearch,
                         onClick = onPickImages,
                         modifier = Modifier
@@ -190,6 +240,12 @@ internal fun DuplicateFinderControls(
             }
         }
     }
+
+    DuplicateAnalysisErrorsSheet(
+        errors = component.analysisResult?.errors.orEmpty(),
+        visible = showErrors,
+        onDismiss = { showErrors = false }
+    )
 }
 
 private fun LazyListScope.duplicateGroups(

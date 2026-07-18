@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateGroup
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateItem
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateKeepStrategy
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateScanMode
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateType
 import kotlin.math.abs
 import kotlin.math.max
@@ -43,7 +44,8 @@ data object DuplicateGrouping {
     fun regroup(
         items: List<DuplicateItem>,
         sensitivity: Int = DEFAULT_SENSITIVITY,
-        keepStrategy: DuplicateKeepStrategy = DuplicateKeepStrategy.BestQuality
+        keepStrategy: DuplicateKeepStrategy = DuplicateKeepStrategy.BestQuality,
+        scanMode: DuplicateScanMode = DuplicateScanMode.ExactAndSimilar
     ): List<DuplicateGroup> {
         val orderedItems = items.sortedWith(
             compareBy<DuplicateItem> { it.sourceIndex }.thenBy { it.uri }
@@ -55,11 +57,13 @@ data object DuplicateGrouping {
             .map { createGroup(DuplicateType.Exact, it, keepStrategy) }
         val exactUris = exactGroups
             .flatMapTo(mutableSetOf()) { group -> group.items.map(DuplicateItem::uri) }
-        val similarGroups = groupSimilar(
-            items = orderedItems.filterNot { it.uri in exactUris },
-            sensitivity = normalizeSensitivity(sensitivity),
-            keepStrategy = keepStrategy
-        )
+        val similarGroups = if (scanMode == DuplicateScanMode.ExactAndSimilar) {
+            groupSimilar(
+                items = orderedItems.filterNot { it.uri in exactUris },
+                sensitivity = normalizeSensitivity(sensitivity),
+                keepStrategy = keepStrategy
+            )
+        } else emptyList()
 
         return exactGroups + similarGroups
     }

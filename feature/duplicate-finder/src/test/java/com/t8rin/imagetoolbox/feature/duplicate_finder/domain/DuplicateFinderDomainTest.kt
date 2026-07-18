@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DHash
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGrouping
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateItem
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateKeepStrategy
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateScanMode
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateType
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -35,6 +36,34 @@ import org.junit.Test
 import java.io.ByteArrayInputStream
 
 class DuplicateFinderDomainTest {
+
+    @Test
+    fun exactOnlyModeDoesNotCreateSimilarGroups() {
+        val first = item(
+            uri = "first",
+            sha256 = "first-sha",
+            dHash = 0L
+        )
+        val second = item(
+            uri = "second",
+            sha256 = "second-sha",
+            dHash = 0L
+        )
+
+        assertTrue(
+            DuplicateGrouping.regroup(
+                items = listOf(first, second),
+                scanMode = DuplicateScanMode.ExactOnly
+            ).isEmpty()
+        )
+        assertEquals(
+            DuplicateType.Similar,
+            DuplicateGrouping.regroup(
+                items = listOf(first, second),
+                scanMode = DuplicateScanMode.ExactAndSimilar
+            ).single().type
+        )
+    }
 
     @Test
     fun identicalImagesHaveIdenticalDHash() {

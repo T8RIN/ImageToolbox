@@ -20,12 +20,14 @@ package com.t8rin.imagetoolbox.feature.duplicate_finder.domain
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGrouping
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateAnalysisProgress
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateAnalysisResult
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateScanMode
 
 
 interface DuplicateFinder {
     suspend fun findDuplicates(
         uris: List<String>,
         sensitivity: Int = DuplicateGrouping.DEFAULT_SENSITIVITY,
+        scanMode: DuplicateScanMode = DuplicateScanMode.ExactAndSimilar,
         onProgress: (DuplicateAnalysisProgress) -> Unit = {}
     ): DuplicateAnalysisResult
 }

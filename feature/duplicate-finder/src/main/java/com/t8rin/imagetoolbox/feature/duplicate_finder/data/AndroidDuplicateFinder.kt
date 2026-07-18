@@ -30,12 +30,16 @@ import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.distinctUris
 import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.lastModified
+import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.imagetoolbox.core.utils.path
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.DuplicateFinder
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DHash
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGrouping
@@ -44,6 +48,7 @@ import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateAna
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateAnalysisProgress
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateAnalysisResult
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateItem
+import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateScanMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ensureActive
@@ -54,12 +59,14 @@ import javax.inject.Inject
 internal class AndroidDuplicateFinder @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap>,
-    dispatchersHolder: DispatchersHolder
-) : DuplicateFinder, DispatchersHolder by dispatchersHolder {
+    dispatchersHolder: DispatchersHolder,
+    resourceManager: ResourceManager
+) : DuplicateFinder, DispatchersHolder by dispatchersHolder, ResourceManager by resourceManager {
 
     override suspend fun findDuplicates(
         uris: List<String>,
         sensitivity: Int,
+        scanMode: DuplicateScanMode,
         onProgress: (DuplicateAnalysisProgress) -> Unit
     ): DuplicateAnalysisResult = withContext(defaultDispatcher) {
         val targetUris = uris
@@ -86,7 +93,8 @@ internal class AndroidDuplicateFinder @Inject constructor(
             try {
                 val item = readImage(
                     uri = uri.toUri(),
-                    sourceIndex = sourceIndex
+                    sourceIndex = sourceIndex,
+                    calculatePerceptualHash = scanMode == DuplicateScanMode.ExactAndSimilar
                 )
 
                 require(item.sha256.isNotBlank()) { "SHA-256 must not be empty" }
@@ -102,9 +110,9 @@ internal class AndroidDuplicateFinder @Inject constructor(
                 ensureActive()
                 errors += DuplicateAnalysisError(
                     uri = uri,
-                    message = throwable.message
+                    message = throwable.makeLog("findDuplicates").message
                         ?: throwable::class.simpleName
-                        ?: "Failed to read URI"
+                        ?: getString(R.string.unable_to_decode_image, uri.toUri().path().orEmpty())
                 )
             }
             processed++
@@ -114,10 +122,13 @@ internal class AndroidDuplicateFinder @Inject constructor(
 
         report(DuplicateAnalysisPhase.GroupingExact)
         yield()
-        report(DuplicateAnalysisPhase.GroupingSimilar)
+        if (scanMode == DuplicateScanMode.ExactAndSimilar) {
+            report(DuplicateAnalysisPhase.GroupingSimilar)
+        }
         val groups = DuplicateGrouping.regroup(
             items = items,
-            sensitivity = sensitivity
+            sensitivity = sensitivity,
+            scanMode = scanMode
         )
         ensureActive()
         report(DuplicateAnalysisPhase.Completed)
@@ -132,37 +143,44 @@ internal class AndroidDuplicateFinder @Inject constructor(
 
     private suspend fun readImage(
         uri: Uri,
-        sourceIndex: Int
+        sourceIndex: Int,
+        calculatePerceptualHash: Boolean
     ): DuplicateItem = withContext(ioDispatcher) {
         val sha256 = HashingType.SHA_256.computeFromReadable(UriReadable(uri, context))
-
-        val thumbnail = imageGetter.getImage(
-            data = uri,
-            size = 128
-        ) ?: error("Unable to decode $uri")
         val originalSize = uri.imageSize()
-        val normalized = createBitmap(DHash.WIDTH, DHash.HEIGHT).apply {
-            Canvas(this).drawBitmap(
-                thumbnail,
-                null,
-                Rect(0, 0, DHash.WIDTH, DHash.HEIGHT),
-                Paint(Paint.FILTER_BITMAP_FLAG)
-            )
-        }
-        val pixels = IntArray(DHash.PIXEL_COUNT)
-        try {
-            normalized.getPixels(
-                pixels,
-                0,
-                DHash.WIDTH,
-                0,
-                0,
-                DHash.WIDTH,
-                DHash.HEIGHT
-            )
-        } finally {
-            normalized.recycle()
-        }
+        var decodedWidth = 0
+        var decodedHeight = 0
+        val dHash = if (calculatePerceptualHash) {
+            val thumbnail = imageGetter.getImage(
+                data = uri,
+                size = 128
+            ) ?: error(getString(R.string.unable_to_decode_image, uri.path().orEmpty()))
+            decodedWidth = thumbnail.width
+            decodedHeight = thumbnail.height
+            val normalized = createBitmap(DHash.WIDTH, DHash.HEIGHT).apply {
+                Canvas(this).drawBitmap(
+                    thumbnail,
+                    null,
+                    Rect(0, 0, DHash.WIDTH, DHash.HEIGHT),
+                    Paint(Paint.FILTER_BITMAP_FLAG)
+                )
+            }
+            val pixels = IntArray(DHash.PIXEL_COUNT)
+            try {
+                normalized.getPixels(
+                    pixels,
+                    0,
+                    DHash.WIDTH,
+                    0,
+                    0,
+                    DHash.WIDTH,
+                    DHash.HEIGHT
+                )
+                DHash.calculateFromArgb(pixels)
+            } finally {
+                normalized.recycle()
+            }
+        } else 0L
 
         DuplicateItem(
             uri = uri.toString(),
@@ -170,8 +188,8 @@ internal class AndroidDuplicateFinder @Inject constructor(
                 ?.takeIf(String::isNotBlank)
                 ?: uri.lastPathSegment?.substringAfterLast('/').orEmpty()
                     .ifBlank { "image_${sourceIndex + 1}" },
-            width = originalSize?.width ?: thumbnail.width,
-            height = originalSize?.height ?: thumbnail.height,
+            width = originalSize?.width ?: decodedWidth,
+            height = originalSize?.height ?: decodedHeight,
             sizeBytes = uri.fileSize() ?: 0L,
             format = uri.extension(context)
                 ?.uppercase()
@@ -183,7 +201,7 @@ internal class AndroidDuplicateFinder @Inject constructor(
             lastModified = uri.lastModified(),
             sourceIndex = sourceIndex,
             sha256 = sha256,
-            dHash = DHash.calculateFromArgb(pixels),
+            dHash = dHash,
             isCorrectSize = originalSize != null
         )
     }
