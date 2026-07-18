@@ -31,6 +31,7 @@ interface DownloadManager {
         destinationPath: String,
         onStart: suspend () -> Unit = {},
         onProgress: (DownloadProgress) -> Unit,
+        onFailure: (Throwable) -> Unit = {},
         downloadOnlyNewData: Boolean
     )
 }

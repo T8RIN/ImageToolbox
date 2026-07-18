@@ -23,6 +23,24 @@ import com.t8rin.neural_tools.NeuralTool
 
 internal fun ImageToolboxApplication.initNeuralTool() = NeuralTool.init(
     context = this,
-    httpClient = httpClient,
+    downloader = { url, destinationPath, onProgress ->
+        var failure: Throwable? = null
+
+        downloadManager.download(
+            url = url,
+            destinationPath = destinationPath,
+            onProgress = {
+                onProgress(
+                    com.t8rin.neural_tools.DownloadProgress(
+                        currentPercent = it.currentPercent,
+                        currentTotalSize = it.currentTotalSize
+                    )
+                )
+            },
+            onFinish = { failure = it }
+        )
+
+        failure?.let { throw it }
+    },
     baseUrl = HF_BASE_URL
 )

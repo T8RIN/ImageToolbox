@@ -3988,4 +3988,8 @@
     <string name="texture_category_space">Space</string>
     <string name="texture_category_patterns">Patterns</string>
     <string name="texture_category_abstract">Abstract</string>
+    <string name="network_host_unreachable">Couldn’t reach the server. Check your internet connection, VPN, or the address and try again</string>
+    <string name="network_timeout">The connection timed out. Check your connection and try again</string>
+    <string name="network_connection_failed">Couldn’t connect to the server. Check your connection or try again later</string>
+    <string name="network_connection_interrupted">The connection was interrupted. Check your connection and try again</string>
 </resources>

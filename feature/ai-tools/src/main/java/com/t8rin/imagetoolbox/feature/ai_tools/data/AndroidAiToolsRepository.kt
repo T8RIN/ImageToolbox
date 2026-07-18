@@ -158,9 +158,9 @@ internal class AndroidAiToolsRepository @Inject constructor(
                         )
                     )
                 }
-                .onCompletion {
-                    selectModelForced(model)
-                    close()
+                .onCompletion { error ->
+                    if (error == null) selectModelForced(model)
+                    close(error)
                 }
                 .collect {
                     trySend(

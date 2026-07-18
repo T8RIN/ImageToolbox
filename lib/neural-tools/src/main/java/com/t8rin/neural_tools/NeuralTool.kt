@@ -18,20 +18,13 @@
 package com.t8rin.neural_tools
 
 import android.app.Application
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logging
 
 abstract class NeuralTool {
     protected val context get() = application
 
     companion object {
-        private var _httpClient: HttpClient = HttpClient {
-            install(Logging) {
-                level = LogLevel.INFO
-            }
-        }
-        internal val httpClient: HttpClient get() = _httpClient
+        private var _downloader: NeuralToolDownloader? = null
+        internal val downloader: NeuralToolDownloader get() = checkNotNull(_downloader)
 
         internal var baseUrl = ""
 
@@ -42,10 +35,10 @@ abstract class NeuralTool {
 
         fun init(
             context: Application,
-            httpClient: HttpClient? = null,
+            downloader: NeuralToolDownloader,
             baseUrl: String
         ) {
-            _httpClient = httpClient ?: _httpClient
+            _downloader = downloader
             this.baseUrl = baseUrl
             _context = context
         }

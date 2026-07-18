@@ -15,16 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.neural_tools
 
-android {
-    namespace = "com.t8rin.neural_tools"
-}
+fun interface NeuralToolDownloader {
 
-dependencies {
-    api(libs.onnx.runtime)
-    implementation(libs.aire)
+    suspend fun download(
+        url: String,
+        destinationPath: String,
+        onProgress: suspend (DownloadProgress) -> Unit
+    )
+
 }

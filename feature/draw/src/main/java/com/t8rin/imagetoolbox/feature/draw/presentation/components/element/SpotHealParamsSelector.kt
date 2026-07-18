@@ -37,30 +37,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
-import com.t8rin.imagetoolbox.core.domain.saving.track
-import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
-import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.LamaLoader
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
-import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
-import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 @Composable
 internal fun SpotHealParamsSelector(
@@ -72,7 +64,6 @@ internal fun SpotHealParamsSelector(
         enter = fadeIn() + expandVertically(),
         exit = fadeOut() + shrinkVertically()
     ) {
-        val keepAliveService = LocalKeepAliveService.current
         val settingsState = LocalSettingsState.current
         val scope = retain { CoroutineScope(Dispatchers.IO) }
         val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
@@ -116,43 +107,26 @@ internal fun SpotHealParamsSelector(
                     if (useLama && !LamaLoader.isDownloaded) {
                         downloadJob?.cancel()
                         downloadJob = scope.launch {
-                            keepAliveService.track(
-                                initial = {
-                                    updateOrStart(
-                                        title = getString(R.string.downloading)
+                            LamaLoader.download()
+                                .onStart {
+                                    downloadProgress = DownloadProgress(
+                                        currentPercent = 0f,
+                                        currentTotalSize = 0
                                     )
                                 }
-                            ) {
-                                LamaLoader.download()
-                                    .onStart {
-                                        downloadProgress = DownloadProgress(
-                                            currentPercent = 0f,
-                                            currentTotalSize = 0
-                                        )
-                                    }
-                                    .onCompletion {
-                                        downloadProgress = null
-                                        downloadJob = null
-                                    }
-                                    .catch {
-                                        simpleSettingsInteractor.setSpotHealMode(0)
-                                        AppToastHost.showFailureToast(it)
-                                        useLama = false
-                                        downloadProgress = null
-                                        downloadJob = null
-                                    }
-                                    .onEach {
-                                        downloadProgress = it
-                                    }
-                                    .throttleLatest(50)
-                                    .collect {
-                                        updateProgress(
-                                            title = getString(R.string.downloading),
-                                            done = (it.currentPercent * 100).roundToInt(),
-                                            total = 100
-                                        )
-                                    }
-                            }
+                                .onCompletion {
+                                    downloadProgress = null
+                                    downloadJob = null
+                                }
+                                .catch {
+                                    simpleSettingsInteractor.setSpotHealMode(0)
+                                    useLama = false
+                                    downloadProgress = null
+                                    downloadJob = null
+                                }
+                                .collect {
+                                    downloadProgress = it
+                                }
                         }
                     }
                 }

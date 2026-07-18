@@ -136,10 +136,12 @@ internal class AndroidDownloadManager @Inject constructor(
         destinationPath: String,
         onStart: suspend () -> Unit,
         onProgress: (DownloadProgress) -> Unit,
+        onFailure: (Throwable) -> Unit,
         downloadOnlyNewData: Boolean
     ): Unit = withContext(defaultDispatcher) {
         if (!appContext.isNetworkAvailable()) {
             failureNotifier.sendNoConnection()
+            onFailure(UnknownHostException())
             return@withContext
         }
 
@@ -148,7 +150,8 @@ internal class AndroidDownloadManager @Inject constructor(
                 updateOrStart(
                     title = getString(R.string.downloading)
                 )
-            }
+            },
+            onFailure = onFailure
         ) {
             channelFlow {
                 onStart()

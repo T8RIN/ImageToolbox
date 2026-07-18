@@ -27,24 +27,18 @@ import com.awxkee.aire.ResizeFunction
 import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.NeuralTool
-import io.ktor.client.request.prepareGet
-import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.contentLength
-import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.io.readByteArray
 import java.io.File
-import java.io.FileOutputStream
 import java.nio.FloatBuffer
 
 object WatermarkRemoverProcessor : NeuralTool() {
@@ -102,7 +96,7 @@ object WatermarkRemoverProcessor : NeuralTool() {
         initialValue = modelFile.exists() && LaMaProcessor.isDownloaded.value
     )
 
-    fun startDownload(): Flow<DownloadProgress> = callbackFlow {
+    fun startDownload(): Flow<DownloadProgress> = channelFlow {
         startWatermarkModelDownload().collect { progress ->
             send(
                 progress.copy(
@@ -131,47 +125,14 @@ object WatermarkRemoverProcessor : NeuralTool() {
         )
     }.flowOn(Dispatchers.IO)
 
-    private fun startWatermarkModelDownload(): Flow<DownloadProgress> = callbackFlow {
-        httpClient.prepareGet(MODEL_DOWNLOAD_LINK).execute { response ->
-            val total = response.contentLength() ?: -1L
-
-            val tmp = File(modelFile.parentFile, modelFile.name + ".tmp")
-
-            val channel = response.bodyAsChannel()
-            var downloaded = 0L
-
-            FileOutputStream(tmp).use { fos ->
-                try {
-                    while (!channel.isClosedForRead) {
-                        val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-                        while (!packet.exhausted()) {
-                            val bytes = packet.readByteArray()
-                            downloaded += bytes.size
-                            fos.write(bytes)
-
-                            trySend(
-                                DownloadProgress(
-                                    currentPercent = if (total > 0) {
-                                        downloaded.toFloat() / total
-                                    } else {
-                                        0f
-                                    },
-                                    currentTotalSize = total
-                                )
-                            )
-                        }
-                    }
-
-                    tmp.renameTo(modelFile)
-                    _isDownloaded.update { modelFile.exists() }
-
-                    close()
-                } catch (e: Throwable) {
-                    tmp.delete()
-                    close(e)
-                }
-            }
-        }
+    private fun startWatermarkModelDownload(): Flow<DownloadProgress> = channelFlow {
+        downloader.download(
+            url = MODEL_DOWNLOAD_LINK,
+            destinationPath = modelFile.absolutePath,
+            onProgress = { send(it) }
+        )
+        _isDownloaded.update { modelFile.exists() && modelFile.length() > 0L }
+        check(_isDownloaded.value)
     }.flowOn(Dispatchers.IO)
 
     fun removeWatermark(

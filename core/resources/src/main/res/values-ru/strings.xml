@@ -3965,4 +3965,8 @@
     <string name="duplicate_keep_oldest">Самый старый</string>
     <string name="duplicate_keep_first_selected">Первый выбранный</string>
     <string name="keep">Держать</string>
+    <string name="network_host_unreachable">Не удалось связаться с сервером. Проверьте интернет, VPN или адрес и попробуйте снова</string>
+    <string name="network_timeout">Время ожидания соединения истекло. Проверьте подключение и попробуйте снова</string>
+    <string name="network_connection_failed">Не удалось подключиться к серверу. Проверьте соединение или повторите попытку позже</string>
+    <string name="network_connection_interrupted">Соединение было прервано. Проверьте подключение и попробуйте снова</string>
 </resources>

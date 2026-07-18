@@ -63,15 +63,16 @@ class MeshGradientsComponent @AssistedInject constructor(
                     name = RemoteResources.MESH_GRADIENTS,
                     forceUpdate = true,
                     onDownloadRequest = {
-                        launch {
+                        try {
                             remoteResourcesStore.downloadResources(
                                 name = RemoteResources.MESH_GRADIENTS,
                                 onProgress = { _meshGradientDownloadProgress.value = it },
                                 onFailure = {},
                                 downloadOnlyNewData = true
                             )
+                        } finally {
+                            _meshGradientDownloadProgress.value = null
                         }
-                        null
                     }
                 )
 

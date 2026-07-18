@@ -640,17 +640,21 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         onComplete: () -> Unit
     ) {
         componentScope.launch {
-            imageTextReader.downloadPaddleOCRModel(paddleOCRModel).collect { progress ->
-                onProgress(
-                    DownloadProgress(
-                        currentPercent = progress.currentPercent,
-                        currentTotalSize = progress.currentTotalSize
+            runSuspendCatching {
+                imageTextReader.downloadPaddleOCRModel(paddleOCRModel).collect { progress ->
+                    onProgress(
+                        DownloadProgress(
+                            currentPercent = progress.currentPercent,
+                            currentTotalSize = progress.currentTotalSize
+                        )
                     )
-                )
+                }
+            }.onSuccess {
+                _paddleOCRModelsUpdateKey.update { it + 1 }
+                onComplete()
+            }.also {
+                clearPaddleDownloadDialog()
             }
-            _paddleOCRModelsUpdateKey.update { it + 1 }
-            clearPaddleDownloadDialog()
-            onComplete()
         }
     }
 

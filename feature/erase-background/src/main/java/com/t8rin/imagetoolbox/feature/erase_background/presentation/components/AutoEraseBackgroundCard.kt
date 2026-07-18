@@ -49,8 +49,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.t8rin.imagetoolbox.core.domain.saving.track
-import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
@@ -61,14 +59,12 @@ import com.t8rin.imagetoolbox.core.resources.icons.DownloadForOffline
 import com.t8rin.imagetoolbox.core.resources.icons.SettingsBackupRestore
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.bgremover.BgRemover
@@ -81,7 +77,6 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 @Composable
 fun AutoEraseBackgroundCard(
@@ -122,8 +117,6 @@ fun AutoEraseBackgroundCard(
         mutableStateOf<Job?>(null)
     }
 
-    val keepAliveService = LocalKeepAliveService.current
-
     Column(
         Modifier
             .then(modifier)
@@ -152,43 +145,29 @@ fun AutoEraseBackgroundCard(
 
                         downloadJob?.cancel()
                         downloadJob = scope.launch {
-                            keepAliveService.track(
-                                initial = {
-                                    updateOrStart(
-                                        title = getString(R.string.downloading)
+                            BgRemover.downloadModel(type.toLib())
+                                .onStart {
+                                    downloadProgresses[type] = DownloadProgress(
+                                        currentPercent = 0f,
+                                        currentTotalSize = 0
                                     )
                                 }
-                            ) {
-                                BgRemover.downloadModel(type.toLib())
-                                    .onStart {
-                                        downloadProgresses[type] = DownloadProgress(
-                                            currentPercent = 0f,
-                                            currentTotalSize = 0
-                                        )
-                                    }
-                                    .onCompletion {
-                                        downloadProgresses.remove(type)
-                                        downloadJob = null
-                                        delay(100)
-                                        BgRemover.getRemover(type.toLib()).checkModel()
-                                    }
-                                    .catch {
-                                        selectedModel = BgModelType.Default
-                                        downloadProgresses.remove(type)
-                                        downloadJob = null
-                                    }
-                                    .onEach {
-                                        downloadProgresses[type] = it
-                                    }
-                                    .throttleLatest(50)
-                                    .collect {
-                                        updateProgress(
-                                            title = getString(R.string.downloading),
-                                            done = (it.currentPercent * 100).roundToInt(),
-                                            total = 100
-                                        )
-                                    }
-                            }
+                                .onCompletion {
+                                    downloadProgresses.remove(type)
+                                    downloadJob = null
+                                    delay(100)
+                                    BgRemover.getRemover(type.toLib()).checkModel()
+                                }
+                                .catch {
+                                    selectedModel = BgModelType.Default
+                                    downloadProgresses.remove(type)
+                                    downloadJob = null
+                                }
+                                .onEach {
+                                    downloadProgresses[type] = it
+                                }
+                                .throttleLatest(50)
+                                .collect {}
                         }
                     }
                 },

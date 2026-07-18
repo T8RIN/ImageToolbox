@@ -31,18 +31,13 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.NeuralTool
-import io.ktor.client.request.prepareGet
-import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.contentLength
-import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
-import kotlinx.io.readByteArray
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.FloatBuffer
@@ -153,46 +148,24 @@ object PaddleOCR : NeuralTool() {
     fun startDownload(
         model: Model = Model.CJK,
         forced: Boolean = false
-    ): Flow<DownloadProgress> = callbackFlow {
+    ): Flow<DownloadProgress> = channelFlow {
         if (!forced && checkModel(model)) {
-            trySend(DownloadProgress(currentPercent = 1f, currentTotalSize = 0L))
-            close()
-            return@callbackFlow
+            send(DownloadProgress(currentPercent = 1f, currentTotalSize = 0L))
+            return@channelFlow
         }
 
         val targetDirectory = modelDirectory(model)
         val zipFile = File(targetDirectory, "${model.fileName}.tmp")
-        httpClient.prepareGet(modelUrl(model)).execute { response ->
-            val total = response.contentLength() ?: -1L
-            val channel = response.bodyAsChannel()
-            var downloaded = 0L
-
-            FileOutputStream(zipFile).use { fos ->
-                try {
-                    while (!channel.isClosedForRead) {
-                        val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-                        while (!packet.exhausted()) {
-                            val bytes = packet.readByteArray()
-                            downloaded += bytes.size
-                            fos.write(bytes)
-                            trySend(
-                                DownloadProgress(
-                                    currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
-                                    currentTotalSize = downloaded
-                                )
-                            )
-                        }
-                    }
-
-                    unzipModels(zipFile, targetDirectory)
-                    _isDownloaded.update { checkModel(model) }
-                    close()
-                } catch (e: Throwable) {
-                    close(e)
-                } finally {
-                    zipFile.delete()
-                }
-            }
+        try {
+            downloader.download(
+                url = modelUrl(model),
+                destinationPath = zipFile.absolutePath,
+                onProgress = { send(it) }
+            )
+            unzipModels(zipFile, targetDirectory)
+            check(checkModel(model))
+        } finally {
+            zipFile.delete()
         }
     }.flowOn(Dispatchers.IO)
 

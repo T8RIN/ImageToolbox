@@ -77,36 +77,30 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
         onFailure: (Throwable) -> Unit,
         downloadOnlyNewData: Boolean
     ): RemoteResources? = withContext(defaultDispatcher) {
+        val savingDir = getSavingDir(name)
+        val availableResources = savingDir.toRemoteResources(name)
+
         runSuspendCatching {
             val url = getResourcesLink(name)
-            val savingDir = getSavingDir(name)
+            var downloadFailure: Throwable? = null
 
             downloadManager.downloadZip(
                 url = url,
                 destinationPath = savingDir.absolutePath,
                 onProgress = onProgress,
+                onFailure = { downloadFailure = it },
                 downloadOnlyNewData = downloadOnlyNewData
             )
 
+            downloadFailure?.let { throw it }
+
             name to url makeLog "downloadResources"
 
-            val savedAlready = savingDir.listFiles()?.mapNotNull {
-                it.toUri().toString()
-            }?.map { uri ->
-                RemoteResource(
-                    uri = uri,
-                    name = uri.takeLastWhile { it != '/' }.decodeEscaped()
-                )
-            } ?: emptyList()
-
-            RemoteResources(
-                name = name,
-                list = savedAlready.sortedBy { it.name }
-            )
+            savingDir.toRemoteResources(name)
         }.onFailure {
             it.makeLog()
             onFailure(it)
-        }.getOrNull()
+        }.getOrNull() ?: availableResources
     }
 
     private fun getResourcesLink(
@@ -120,4 +114,22 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
     private val rootDir = File(context.filesDir, "remoteResources").apply(File::mkdirs)
 
+}
+
+private fun File.toRemoteResources(name: String): RemoteResources? {
+    val resources = listFiles()
+        ?.filter { it.isFile && it.length() > 0L }
+        ?.map { it.toUri().toString() }
+        ?.map { uri ->
+            RemoteResource(
+                uri = uri,
+                name = uri.takeLastWhile { it != '/' }.decodeEscaped()
+            )
+        }
+        ?.sortedBy { it.name }
+        .orEmpty()
+
+    return resources.takeIf { it.isNotEmpty() }?.let {
+        RemoteResources(name = name, list = it)
+    }
 }
