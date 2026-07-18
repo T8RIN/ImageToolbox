@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -3703,7 +3701,6 @@
     <string name="cache_auto_clear_after_week">1週</string>
     <string name="cache_auto_clear_after_month">1個月</string>
     <string name="auto_cache_clearing_sub">根據選擇的限制和間隔自動清除應用程式緩存</string>
-    <string name="crop_overlay_draggable" />
     <string name="crop_overlay_draggable_sub">允許透過在裁剪區域內拖曳來移動整個裁剪區域</string>
     <string name="gif_type_merge">合併 GIF</string>
     <string name="gif_type_merge_sub">將多個 GIF 剪輯合併為一個動畫</string>
