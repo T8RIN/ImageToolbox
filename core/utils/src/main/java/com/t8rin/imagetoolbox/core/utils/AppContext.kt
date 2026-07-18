@@ -17,9 +17,13 @@
 
 package com.t8rin.imagetoolbox.core.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.ContextWrapper
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.annotation.StringRes
+import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.resources.R
 
 class AppContext private constructor(
@@ -64,4 +68,16 @@ fun Throwable.extractMessage(): String = if (this is OutOfMemoryError) {
                 this::class.java.simpleName
             }
     )
+}
+
+@SuppressLint("MissingPermission")
+fun Context.isNetworkAvailable(): Boolean {
+    return getSystemService<ConnectivityManager>()?.run {
+        val capabilities = getNetworkCapabilities(
+            activeNetwork ?: return false
+        ) ?: return false
+
+        capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+    } ?: false
 }

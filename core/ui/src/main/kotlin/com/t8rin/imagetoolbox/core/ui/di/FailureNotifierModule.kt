@@ -23,6 +23,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.net.UnknownHostException
 import javax.inject.Singleton
 
 @Module
@@ -31,6 +32,13 @@ object FailureNotifierModule {
 
     @Provides
     @Singleton
-    fun notifier(): FailureNotifier = FailureNotifier(AppToastHost::showFailureToast)
+    fun notifier(): FailureNotifier = object : FailureNotifier {
+        override fun send(error: Throwable) = when (error) {
+            is UnknownHostException -> sendNoConnection()
+            else -> AppToastHost.showFailureToast(error)
+        }
+
+        override fun sendNoConnection() = AppToastHost.showNoConnection()
+    }
 
 }

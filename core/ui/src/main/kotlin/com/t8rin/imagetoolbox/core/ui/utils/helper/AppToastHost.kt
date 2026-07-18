@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOff
+import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState
@@ -120,6 +121,14 @@ data object AppToastHost {
             is ActivityNotFoundException -> showActivateFilesToast()
             else -> showFailureToast(throwable)
         }
+    }
+
+    fun showNoConnection(message: String = appContext.getString(R.string.no_connection)) {
+        showToast(
+            message = message,
+            icon = Icons.Rounded.WifiTetheringError,
+            duration = ToastDuration.Long
+        )
     }
 
     const val PERMISSION = "REQUEST_PERMISSION"

@@ -24,12 +24,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
-import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
-import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionType
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 
@@ -64,11 +60,7 @@ internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) 
             dataRemaining = dataRemaining,
             onNoConnection = {
                 component.clearPaddleDownloadDialog()
-                AppToastHost.showToast(
-                    message = getString(R.string.no_connection),
-                    icon = Icons.Rounded.WifiTetheringError,
-                    duration = ToastDuration.Long
-                )
+                AppToastHost.showNoConnection()
             },
             onDismiss = component::clearPaddleDownloadDialog
         )
@@ -103,11 +95,7 @@ internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) 
             dataRemaining = dataRemaining,
             onNoConnection = {
                 component.clearDownloadDialogData()
-                AppToastHost.showToast(
-                    message = getString(R.string.no_connection),
-                    icon = Icons.Rounded.WifiTetheringError,
-                    duration = ToastDuration.Long
-                )
+                AppToastHost.showNoConnection()
             },
             onDismiss = component::clearDownloadDialogData
         )

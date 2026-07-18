@@ -55,16 +55,13 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
-import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isNetworkAvailable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.core.utils.isNetworkAvailable
 
 @Composable
 internal fun FilterSelectionItem(
@@ -182,11 +179,7 @@ internal fun FilterSelectionItem(
                 )
                 showDownloadDialog = false
             } else {
-                AppToastHost.showToast(
-                    message = getString(R.string.no_connection),
-                    icon = Icons.Rounded.WifiTetheringError,
-                    duration = ToastDuration.Long
-                )
+                AppToastHost.showNoConnection()
             }
         },
         downloadOnlyNewData = downloadOnlyNewData,

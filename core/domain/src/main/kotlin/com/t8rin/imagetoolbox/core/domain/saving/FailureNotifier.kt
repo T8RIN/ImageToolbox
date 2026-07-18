@@ -17,6 +17,10 @@
 
 package com.t8rin.imagetoolbox.core.domain.saving
 
-fun interface FailureNotifier {
+interface FailureNotifier {
+
     fun send(error: Throwable)
+
+    fun sendNoConnection()
+
 }

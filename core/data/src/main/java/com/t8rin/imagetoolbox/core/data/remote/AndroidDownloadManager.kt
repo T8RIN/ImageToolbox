@@ -17,20 +17,22 @@
 
 package com.t8rin.imagetoolbox.core.data.remote
 
-import android.content.Context
+import android.system.Os
 import com.t8rin.imagetoolbox.core.data.utils.getWithProgress
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.decodeEscaped
+import com.t8rin.imagetoolbox.core.utils.isNetworkAvailable
 import com.t8rin.imagetoolbox.core.utils.makeLog
-import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.utils.io.jvm.javaio.copyTo
 import io.ktor.utils.io.jvm.javaio.toInputStream
@@ -38,17 +40,17 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
-import java.util.zip.ZipEntry
+import java.net.UnknownHostException
 import java.util.zip.ZipInputStream
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 internal class AndroidDownloadManager @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val keepAliveService: KeepAliveService,
     private val client: HttpClient,
+    private val failureNotifier: FailureNotifier,
     resourceManager: ResourceManager,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
 ) : DownloadManager,
     ResourceManager by resourceManager,
     DispatchersHolder by dispatchersHolder {
@@ -60,11 +62,22 @@ internal class AndroidDownloadManager @Inject constructor(
         onProgress: suspend (DownloadProgress) -> Unit,
         onFinish: suspend (Throwable?) -> Unit
     ): Unit = withContext(defaultDispatcher) {
+        var temporaryFile: File? = null
+
+        if (!appContext.isNetworkAvailable()) {
+            failureNotifier.sendNoConnection()
+            onFinish(UnknownHostException())
+            return@withContext
+        }
+
         keepAliveService.track(
             initial = {
                 updateOrStart(
                     title = getString(R.string.downloading)
                 )
+            },
+            onCancel = {
+                temporaryFile?.delete()
             },
             onFailure = onFinish
         ) {
@@ -72,37 +85,41 @@ internal class AndroidDownloadManager @Inject constructor(
                 onStart()
                 url.makeLog("Start Download")
 
-                val tmp = File(
-                    File(context.cacheDir, "downloadCache").apply(File::mkdirs),
-                    "${url.substringAfterLast('/').substringBefore('?')}.tmp"
-                )
+                val destination = File(destinationPath)
+                val tmp = destination.createTemporarySibling().also {
+                    temporaryFile = it
+                }
 
-                client.getWithProgress(
-                    url = url,
-                    onFailure = onFinish,
-                    onProgress = { bytesSentTotal, contentLength ->
-                        val progress = contentLength?.let {
-                            bytesSentTotal.toFloat() / contentLength.toFloat()
-                        } ?: 0f
+                try {
+                    client.getWithProgress(
+                        url = url,
+                        onProgress = { bytesSentTotal, contentLength ->
+                            val progress = contentLength
+                                ?.takeIf { it > 0L }
+                                ?.let { bytesSentTotal.toFloat() / it.toFloat() }
+                                ?.coerceIn(0f, 1f)
+                                ?: 0f
 
-                        onProgress(
-                            DownloadProgress(
-                                currentPercent = progress,
-                                currentTotalSize = contentLength ?: -1
-                            ).also(::trySend)
-                        )
-                    },
-                    onOpen = { response ->
-                        tmp.outputStream().use { fos ->
-                            response.copyTo(fos)
-                            tmp.renameTo(File(destinationPath))
-                            tmp.delete()
-                            onFinish(null)
+                            onProgress(
+                                DownloadProgress(
+                                    currentPercent = progress,
+                                    currentTotalSize = contentLength ?: -1
+                                ).also(::trySend)
+                            )
+                        },
+                        onOpen = { response ->
+                            tmp.outputStream().use { output ->
+                                response.copyTo(output)
+                            }
                         }
-                    }
-                )
+                    )
 
-                tmp.delete()
+                    tmp.replaceAtomically(destination)
+                    onFinish(null)
+                } finally {
+                    tmp.delete()
+                    temporaryFile = null
+                }
                 close()
             }.throttleLatest(50).collect {
                 updateProgress(
@@ -121,6 +138,11 @@ internal class AndroidDownloadManager @Inject constructor(
         onProgress: (DownloadProgress) -> Unit,
         downloadOnlyNewData: Boolean
     ): Unit = withContext(defaultDispatcher) {
+        if (!appContext.isNetworkAvailable()) {
+            failureNotifier.sendNoConnection()
+            return@withContext
+        }
+
         keepAliveService.track(
             initial = {
                 updateOrStart(
@@ -129,12 +151,16 @@ internal class AndroidDownloadManager @Inject constructor(
             }
         ) {
             channelFlow {
+                onStart()
+
                 client.getWithProgress(
                     url = url,
                     onProgress = { bytesSentTotal, contentLength ->
-                        val progress = contentLength?.let {
-                            bytesSentTotal.toFloat() / contentLength.toFloat()
-                        } ?: 0f
+                        val progress = contentLength
+                            ?.takeIf { it > 0L }
+                            ?.let { bytesSentTotal.toFloat() / it.toFloat() }
+                            ?.coerceIn(0f, 1f)
+                            ?: 0f
 
                         onProgress(
                             DownloadProgress(
@@ -144,34 +170,37 @@ internal class AndroidDownloadManager @Inject constructor(
                         )
                     },
                     onOpen = { response ->
+                        val destination = File(destinationPath).apply {
+                            check(mkdirs() || isDirectory)
+                        }.canonicalFile
+
                         ZipInputStream(response.toInputStream()).use { zipIn ->
-                            var entry: ZipEntry?
-                            while (zipIn.nextEntry.also { entry = it } != null) {
-                                entry?.let { zipEntry ->
-                                    val filename = zipEntry.name
+                            while (true) {
+                                val entry = zipIn.nextEntry ?: break
 
-                                    if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
-
-                                    val outFile = File(
-                                        destinationPath,
-                                        filename.decodeEscaped()
-                                    ).apply {
-                                        delete()
-                                        parentFile?.mkdirs()
-                                        createNewFile()
+                                try {
+                                    val filename = entry.name?.decodeEscaped()
+                                    if (filename.isNullOrBlank() || filename.startsWith("__")) {
+                                        continue
                                     }
 
-                                    if (downloadOnlyNewData) {
-                                        val file = File(destinationPath).listFiles()?.find {
-                                            it.name == filename && it.length() > 0L
+                                    val output = destination.resolveZipEntry(filename)
+                                    if (entry.isDirectory) {
+                                        check(output.mkdirs() || output.isDirectory)
+                                        continue
+                                    }
+                                    if (downloadOnlyNewData && output.length() > 0L) continue
+
+                                    val tmp = output.createTemporarySibling()
+                                    try {
+                                        FileOutputStream(tmp).use { stream ->
+                                            zipIn.copyTo(stream)
                                         }
-
-                                        if (file != null) return@let
+                                        tmp.replaceAtomically(output)
+                                    } finally {
+                                        tmp.delete()
                                     }
-
-                                    FileOutputStream(outFile).use { fos ->
-                                        zipIn.copyTo(fos)
-                                    }
+                                } finally {
                                     zipIn.closeEntry()
                                 }
                             }
@@ -190,4 +219,24 @@ internal class AndroidDownloadManager @Inject constructor(
         }
     }
 
+}
+
+private fun File.createTemporarySibling(): File {
+    val directory = requireNotNull(parentFile)
+    check(directory.mkdirs() || directory.isDirectory)
+
+    return File.createTempFile(".download-$name.", ".tmp", directory)
+}
+
+private fun File.replaceAtomically(destination: File) {
+    Os.rename(absolutePath, destination.absolutePath)
+}
+
+private fun File.resolveZipEntry(filename: String): File {
+    val output = File(this, filename).canonicalFile
+    val destinationPrefix = canonicalPath + File.separator
+
+    require(output.path.startsWith(destinationPrefix))
+
+    return output
 }

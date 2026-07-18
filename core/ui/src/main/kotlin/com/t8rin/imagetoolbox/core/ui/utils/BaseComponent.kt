@@ -164,17 +164,7 @@ abstract class BaseComponent(
     }
 
     companion object {
-        internal var keepAliveService: KeepAliveService = object : KeepAliveService {
-            override fun updateOrStart(
-                title: String,
-                description: String,
-                progress: Float
-            ) = Unit
-
-            override fun stop(removeNotification: Boolean) = Unit
-
-            override fun send(error: Throwable) = Unit
-        }
+        internal var keepAliveService: KeepAliveService = KeepAliveService.EMPTY
 
         fun inject(keepAliveService: KeepAliveService) {
             this.keepAliveService = keepAliveService

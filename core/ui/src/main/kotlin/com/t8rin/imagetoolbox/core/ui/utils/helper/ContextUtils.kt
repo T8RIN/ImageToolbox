@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ClipboardManager
 import android.content.ContentResolver
@@ -27,8 +26,6 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -46,7 +43,6 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.Density
 import androidx.core.app.ActivityCompat
 import androidx.core.app.PendingIntentCompat
-import androidx.core.content.getSystemService
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -390,24 +386,6 @@ object ContextUtils {
     fun Context.canPinShortcuts(): Boolean = runCatching {
         ShortcutManagerCompat.isRequestPinShortcutSupported(this)
     }.getOrNull() == true
-
-    @SuppressLint("MissingPermission")
-    fun Context.isNetworkAvailable(): Boolean {
-        return getSystemService<ConnectivityManager>()?.run {
-            val capabilities = getNetworkCapabilities(
-                activeNetwork ?: return false
-            ) ?: return false
-
-            possibleCapabilities.any(capabilities::hasTransport)
-        } ?: false
-    }
-
-    private val possibleCapabilities = listOf(
-        NetworkCapabilities.TRANSPORT_WIFI,
-        NetworkCapabilities.TRANSPORT_CELLULAR,
-        NetworkCapabilities.TRANSPORT_ETHERNET,
-        NetworkCapabilities.TRANSPORT_BLUETOOTH
-    )
 
     fun Context.shareText(value: String) {
         val sendIntent = Intent().apply {

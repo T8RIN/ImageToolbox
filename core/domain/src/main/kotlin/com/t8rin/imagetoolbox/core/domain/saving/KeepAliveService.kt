@@ -32,6 +32,20 @@ interface KeepAliveService : FailureNotifier {
     companion object {
         const val PROGRESS_NO_PROGRESS = -2f
         const val PROGRESS_INDETERMINATE = -1f
+
+        val EMPTY = object : KeepAliveService {
+            override fun updateOrStart(
+                title: String,
+                description: String,
+                progress: Float
+            ) = Unit
+
+            override fun stop(removeNotification: Boolean) = Unit
+
+            override fun send(error: Throwable) = Unit
+
+            override fun sendNoConnection() = Unit
+        }
     }
 }
 
