@@ -22,7 +22,6 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -33,9 +32,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.resources.icons.WandStars
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -46,6 +47,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -66,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifRemovalPreset
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 
 @Composable
@@ -179,11 +182,32 @@ fun DeleteExifContent(
         },
         controls = {
             val selectedTags = component.selectedTags
-            val subtitle by remember(selectedTags) {
+            val removalPreset = component.removalPreset
+            val removalPresetName = stringResource(
+                when (removalPreset) {
+                    ExifRemovalPreset.AllMetadata -> R.string.exif_preset_all_metadata
+                    ExifRemovalPreset.Privacy -> R.string.exif_preset_privacy
+                    ExifRemovalPreset.LocationOnly -> R.string.exif_preset_location_only
+                    ExifRemovalPreset.KeepDateAndCopyright -> {
+                        R.string.exif_preset_keep_date_copyright
+                    }
+
+                    ExifRemovalPreset.Custom -> R.string.custom
+                }
+            )
+            val subtitle by remember(selectedTags, removalPreset, removalPresetName) {
                 derivedStateOf {
-                    if (selectedTags.isEmpty()) getString(R.string.all)
-                    else selectedTags.joinToString(", ") {
-                        it.localizedName(appContext)
+                    when {
+                        removalPreset == ExifRemovalPreset.AllMetadata -> getString(R.string.all)
+                        removalPreset != ExifRemovalPreset.Custom -> getString(
+                            R.string.exif_tags_selected,
+                            removalPresetName,
+                            selectedTags.size
+                        )
+
+                        else -> selectedTags.joinToString(", ") {
+                            it.localizedName(appContext)
+                        }
                     }
                 }
             }
@@ -192,6 +216,32 @@ fun DeleteExifContent(
                 onRepick = {
                     showPickImageFromUrisSheet = true
                 }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            DataSelector(
+                value = component.removalPreset,
+                onValueChange = component::setRemovalPreset,
+                entries = remember {
+                    ExifRemovalPreset.entries.filterNot {
+                        it == ExifRemovalPreset.Custom
+                    }
+                },
+                title = stringResource(R.string.exif_removal_preset),
+                titleIcon = Icons.Rounded.WandStars,
+                itemContentText = {
+                    stringResource(
+                        when (it) {
+                            ExifRemovalPreset.AllMetadata -> R.string.exif_preset_all_metadata
+                            ExifRemovalPreset.Privacy -> R.string.exif_preset_privacy
+                            ExifRemovalPreset.LocationOnly -> R.string.exif_preset_location_only
+                            ExifRemovalPreset.KeepDateAndCopyright -> R.string.exif_preset_keep_date_copyright
+                            ExifRemovalPreset.Custom -> R.string.custom
+                        }
+                    )
+                },
+                spanCount = 1,
+                modifier = Modifier.fillMaxWidth(),
+                shape = ShapeDefaults.extraLarge,
             )
             Spacer(modifier = Modifier.height(8.dp))
             PreferenceItem(

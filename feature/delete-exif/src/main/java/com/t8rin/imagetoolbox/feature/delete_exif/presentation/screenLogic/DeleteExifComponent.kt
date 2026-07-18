@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifRemovalPreset
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -90,6 +91,9 @@ class DeleteExifComponent @AssistedInject internal constructor(
 
     private val _selectedTags: MutableState<List<MetadataTag>> = mutableStateOf(emptyList())
     val selectedTags by _selectedTags
+
+    private val _removalPreset = mutableStateOf(ExifRemovalPreset.AllMetadata)
+    val removalPreset by _removalPreset
 
     fun updateUris(
         uris: List<Uri>?
@@ -228,11 +232,19 @@ class DeleteExifComponent @AssistedInject internal constructor(
     }
 
     fun addTag(tag: MetadataTag) {
+        _removalPreset.value = ExifRemovalPreset.Custom
         if (tag in selectedTags) {
             _selectedTags.update { it - tag }
         } else {
             _selectedTags.update { it + tag }
         }
+    }
+
+    fun setRemovalPreset(preset: ExifRemovalPreset) {
+        if (preset == ExifRemovalPreset.Custom) return
+
+        _removalPreset.value = preset
+        _selectedTags.value = preset.tags
     }
 
     fun cacheImages(
