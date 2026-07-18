@@ -3954,4 +3954,15 @@
     <string name="texture_category_space">מֶרחָב</string>
     <string name="texture_category_patterns">דפוסים</string>
     <string name="texture_category_abstract">תַקצִיר</string>
+    <string name="exif_removal_preset">הסרה מוגדרת מראש</string>
+    <string name="exif_preset_all_metadata">כל המטא נתונים</string>
+    <string name="exif_preset_privacy">פְּרָטִיוּת</string>
+    <string name="exif_preset_location_only">מיקום בלבד</string>
+    <string name="exif_preset_keep_date_copyright">שמור על תאריכים וזכויות יוצרים</string>
+    <string name="exif_tags_selected">%1$s • %2$d תגים</string>
+    <string name="duplicate_scan_mode">מצב סריקה</string>
+    <string name="duplicate_scan_exact_only">עותקים מדויקים בלבד</string>
+    <string name="duplicate_scan_exact_and_similar">מדוייק ודומה</string>
+    <string name="no_exact_duplicates_found_sub">נסה להוסיף עוד תמונות או לכלול תמונות דומות מבחינה ויזואלית</string>
+    <string name="unable_to_decode_image">לא ניתן לפענח את %1$s</string>
 </resources>

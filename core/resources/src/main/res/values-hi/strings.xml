@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">अंतरिक्ष</string>
     <string name="texture_category_patterns">पैटर्न्स</string>
     <string name="texture_category_abstract">अमूर्त</string>
+    <string name="exif_removal_preset">निष्कासन पूर्व निर्धारित</string>
+    <string name="exif_preset_all_metadata">सभी मेटाडेटा</string>
+    <string name="exif_preset_privacy">गोपनीयता</string>
+    <string name="exif_preset_location_only">केवल स्थान</string>
+    <string name="exif_preset_keep_date_copyright">दिनांक और कॉपीराइट रखें</string>
+    <string name="exif_tags_selected">%1$s • %2$d टैग</string>
+    <string name="duplicate_scan_mode">स्कैन मोड</string>
+    <string name="duplicate_scan_exact_only">केवल सटीक प्रतिलिपियाँ</string>
+    <string name="duplicate_scan_exact_and_similar">सटीक और समान</string>
+    <string name="no_exact_duplicates_found_sub">अधिक छवियाँ जोड़ने का प्रयास करें या दिखने में समान छवियाँ शामिल करें</string>
+    <string name="unable_to_decode_image">%1$s को डिकोड करने में असमर्थ</string>
 </resources>

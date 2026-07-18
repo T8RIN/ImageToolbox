@@ -3953,4 +3953,15 @@
     <string name="texture_category_space">Спаце</string>
     <string name="texture_category_patterns">Паттернс</string>
     <string name="texture_category_abstract">Абстрацт</string>
+    <string name="exif_removal_preset">Пресет за уклањање</string>
+    <string name="exif_preset_all_metadata">Сви метаподаци</string>
+    <string name="exif_preset_privacy">Приватност</string>
+    <string name="exif_preset_location_only">Само локација</string>
+    <string name="exif_preset_keep_date_copyright">Чувајте датуме и ауторска права</string>
+    <string name="exif_tags_selected">__ПХ_0__ • __ПХ_1__ ознаке</string>
+    <string name="duplicate_scan_mode">Режим скенирања</string>
+    <string name="duplicate_scan_exact_only">Само тачне копије</string>
+    <string name="duplicate_scan_exact_and_similar">Тачно и слично</string>
+    <string name="no_exact_duplicates_found_sub">Покушајте да додате више слика или укључите визуелно сличне слике</string>
+    <string name="unable_to_decode_image">Није могуће декодирати __ПХ_0__</string>
 </resources>

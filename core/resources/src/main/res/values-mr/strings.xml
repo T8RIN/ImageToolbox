@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">जागा</string>
     <string name="texture_category_patterns">नमुने</string>
     <string name="texture_category_abstract">गोषवारा</string>
+    <string name="exif_removal_preset">काढणे प्रीसेट</string>
+    <string name="exif_preset_all_metadata">सर्व मेटाडेटा</string>
+    <string name="exif_preset_privacy">गोपनीयता</string>
+    <string name="exif_preset_location_only">फक्त स्थान</string>
+    <string name="exif_preset_keep_date_copyright">तारखा आणि कॉपीराइट ठेवा</string>
+    <string name="exif_tags_selected">%1$s • %2$d टॅग</string>
+    <string name="duplicate_scan_mode">स्कॅन मोड</string>
+    <string name="duplicate_scan_exact_only">फक्त अचूक प्रती</string>
+    <string name="duplicate_scan_exact_and_similar">अचूक आणि समान</string>
+    <string name="no_exact_duplicates_found_sub">अधिक प्रतिमा जोडण्याचा प्रयत्न करा किंवा दृष्यदृष्ट्या समान प्रतिमा समाविष्ट करा</string>
+    <string name="unable_to_decode_image">%1$s डीकोड करण्यात अक्षम</string>
 </resources>

@@ -3953,4 +3953,15 @@
     <string name="texture_category_space">Erdvė</string>
     <string name="texture_category_patterns">Raštai</string>
     <string name="texture_category_abstract">Abstraktus</string>
+    <string name="exif_removal_preset">Iš anksto nustatytas pašalinimas</string>
+    <string name="exif_preset_all_metadata">Visi metaduomenys</string>
+    <string name="exif_preset_privacy">Privatumas</string>
+    <string name="exif_preset_location_only">Tik vieta</string>
+    <string name="exif_preset_keep_date_copyright">Išsaugokite datas ir autorių teises</string>
+    <string name="exif_tags_selected">%1$s • %2$d žymos</string>
+    <string name="duplicate_scan_mode">Nuskaitymo režimas</string>
+    <string name="duplicate_scan_exact_only">Tik tikslios kopijos</string>
+    <string name="duplicate_scan_exact_and_similar">Tikslūs ir panašūs</string>
+    <string name="no_exact_duplicates_found_sub">Pabandykite pridėti daugiau vaizdų arba įtraukite vizualiai panašių vaizdų</string>
+    <string name="unable_to_decode_image">Nepavyko iššifruoti %1$s</string>
 </resources>

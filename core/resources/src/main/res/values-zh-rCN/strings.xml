@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">空间</string>
     <string name="texture_category_patterns">图案</string>
     <string name="texture_category_abstract">抽象的</string>
+    <string name="exif_removal_preset">去除预设</string>
+    <string name="exif_preset_all_metadata">所有元数据</string>
+    <string name="exif_preset_privacy">隐私</string>
+    <string name="exif_preset_location_only">仅位置</string>
+    <string name="exif_preset_keep_date_copyright">保留日期和版权</string>
+    <string name="exif_tags_selected">%1$s • %2$d 标签</string>
+    <string name="duplicate_scan_mode">扫描方式</string>
+    <string name="duplicate_scan_exact_only">仅限精确副本</string>
+    <string name="duplicate_scan_exact_and_similar">完全相同且相似</string>
+    <string name="no_exact_duplicates_found_sub">尝试添加更多图像或包含视觉上相似的图像</string>
+    <string name="unable_to_decode_image">无法解码 %1$s</string>
 </resources>

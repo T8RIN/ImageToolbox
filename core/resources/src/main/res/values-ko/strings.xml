@@ -3950,4 +3950,15 @@
     <string name="texture_category_space">공간</string>
     <string name="texture_category_patterns">패턴</string>
     <string name="texture_category_abstract">추상적인</string>
+    <string name="exif_removal_preset">제거 사전 설정</string>
+    <string name="exif_preset_all_metadata">모든 메타데이터</string>
+    <string name="exif_preset_privacy">은둔</string>
+    <string name="exif_preset_location_only">위치만</string>
+    <string name="exif_preset_keep_date_copyright">날짜와 저작권을 유지하세요</string>
+    <string name="exif_tags_selected">%1$s • %2$d 태그</string>
+    <string name="duplicate_scan_mode">스캔 모드</string>
+    <string name="duplicate_scan_exact_only">정확한 사본만</string>
+    <string name="duplicate_scan_exact_and_similar">정확하고 유사함</string>
+    <string name="no_exact_duplicates_found_sub">더 많은 이미지를 추가하거나 시각적으로 유사한 이미지를 포함해 보세요.</string>
+    <string name="unable_to_decode_image">%1$s을(를) 디코딩할 수 없습니다.</string>
 </resources>

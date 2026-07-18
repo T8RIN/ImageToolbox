@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">Avaruus</string>
     <string name="texture_category_patterns">kuvioita</string>
     <string name="texture_category_abstract">Abstrakti</string>
+    <string name="exif_removal_preset">Poiston esiasetus</string>
+    <string name="exif_preset_all_metadata">Kaikki metatiedot</string>
+    <string name="exif_preset_privacy">Yksityisyys</string>
+    <string name="exif_preset_location_only">Vain sijainti</string>
+    <string name="exif_preset_keep_date_copyright">Pidä päivämäärät ja tekijänoikeudet</string>
+    <string name="exif_tags_selected">%1$s • %2$d -tunnisteet</string>
+    <string name="duplicate_scan_mode">Skannaustila</string>
+    <string name="duplicate_scan_exact_only">Vain tarkat kopiot</string>
+    <string name="duplicate_scan_exact_and_similar">Tarkkaa ja vastaavaa</string>
+    <string name="no_exact_duplicates_found_sub">Yritä lisätä kuvia tai sisällyttää visuaalisesti samankaltaisia ​​kuvia</string>
+    <string name="unable_to_decode_image">Ei voida purkaa %1$s</string>
 </resources>

@@ -3952,4 +3952,15 @@
     <string name="texture_category_space">Tér</string>
     <string name="texture_category_patterns">Minták</string>
     <string name="texture_category_abstract">Absztrakt</string>
+    <string name="exif_removal_preset">Eltávolítási előbeállítás</string>
+    <string name="exif_preset_all_metadata">Minden metaadat</string>
+    <string name="exif_preset_privacy">Magánélet</string>
+    <string name="exif_preset_location_only">Csak hely</string>
+    <string name="exif_preset_keep_date_copyright">Tartsa meg a dátumokat és a szerzői jogokat</string>
+    <string name="exif_tags_selected">%1$s • %2$d címkék</string>
+    <string name="duplicate_scan_mode">Szkennelési mód</string>
+    <string name="duplicate_scan_exact_only">Csak pontos másolatok</string>
+    <string name="duplicate_scan_exact_and_similar">Pontos és hasonló</string>
+    <string name="no_exact_duplicates_found_sub">Próbáljon meg több képet hozzáadni, vagy vizuálisan hasonló képeket adjon hozzá</string>
+    <string name="unable_to_decode_image">Nem sikerült dekódolni %1$s</string>
 </resources>

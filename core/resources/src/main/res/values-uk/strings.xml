@@ -3953,4 +3953,15 @@
     <string name="texture_category_space">космос</string>
     <string name="texture_category_patterns">Візерунки</string>
     <string name="texture_category_abstract">Анотація</string>
+    <string name="exif_removal_preset">Попереднє налаштування видалення</string>
+    <string name="exif_preset_all_metadata">Усі метадані</string>
+    <string name="exif_preset_privacy">Конфіденційність</string>
+    <string name="exif_preset_location_only">Лише розташування</string>
+    <string name="exif_preset_keep_date_copyright">Зберігайте дати та авторські права</string>
+    <string name="exif_tags_selected">%1$s • %2$d тегів</string>
+    <string name="duplicate_scan_mode">Режим сканування</string>
+    <string name="duplicate_scan_exact_only">Тільки точні копії</string>
+    <string name="duplicate_scan_exact_and_similar">Точно і схоже</string>
+    <string name="no_exact_duplicates_found_sub">Спробуйте додати більше зображень або додайте візуально схожі зображення</string>
+    <string name="unable_to_decode_image">Неможливо декодувати %1$s</string>
 </resources>

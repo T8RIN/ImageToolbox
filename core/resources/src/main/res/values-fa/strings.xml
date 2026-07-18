@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">فضا</string>
     <string name="texture_category_patterns">الگوها</string>
     <string name="texture_category_abstract">چکیده</string>
+    <string name="exif_removal_preset">از پیش تعیین شده حذف</string>
+    <string name="exif_preset_all_metadata">همه ابرداده ها</string>
+    <string name="exif_preset_privacy">حریم خصوصی</string>
+    <string name="exif_preset_location_only">فقط مکان</string>
+    <string name="exif_preset_keep_date_copyright">تاریخ ها و حق چاپ را حفظ کنید</string>
+    <string name="exif_tags_selected">%1$s • برچسب های %2$d</string>
+    <string name="duplicate_scan_mode">حالت اسکن</string>
+    <string name="duplicate_scan_exact_only">فقط کپی های دقیق</string>
+    <string name="duplicate_scan_exact_and_similar">دقیق و مشابه</string>
+    <string name="no_exact_duplicates_found_sub">سعی کنید تصاویر بیشتری اضافه کنید یا تصاویر مشابه بصری را اضافه کنید</string>
+    <string name="unable_to_decode_image">رمزگشایی %1$s ممکن نیست</string>
 </resources>

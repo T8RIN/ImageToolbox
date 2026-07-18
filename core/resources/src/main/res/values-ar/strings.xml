@@ -3956,4 +3956,15 @@
     <string name="texture_category_space">فضاء</string>
     <string name="texture_category_patterns">أنماط</string>
     <string name="texture_category_abstract">خلاصة</string>
+    <string name="exif_removal_preset">إزالة مسبقا</string>
+    <string name="exif_preset_all_metadata">جميع البيانات الوصفية</string>
+    <string name="exif_preset_privacy">خصوصية</string>
+    <string name="exif_preset_location_only">الموقع فقط</string>
+    <string name="exif_preset_keep_date_copyright">الحفاظ على التواريخ وحقوق النشر</string>
+    <string name="exif_tags_selected">%1$s • %2$d العلامات</string>
+    <string name="duplicate_scan_mode">وضع المسح</string>
+    <string name="duplicate_scan_exact_only">النسخ الدقيقة فقط</string>
+    <string name="duplicate_scan_exact_and_similar">بالضبط وما شابه</string>
+    <string name="no_exact_duplicates_found_sub">حاول إضافة المزيد من الصور أو تضمين صور مشابهة من الناحية المرئية</string>
+    <string name="unable_to_decode_image">غير قادر على فك تشفير %1$s</string>
 </resources>

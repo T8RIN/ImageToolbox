@@ -3952,4 +3952,15 @@
     <string name="texture_category_space">Uzay</string>
     <string name="texture_category_patterns">Desenler</string>
     <string name="texture_category_abstract">Soyut</string>
+    <string name="exif_removal_preset">Kaldırma ön ayarı</string>
+    <string name="exif_preset_all_metadata">Tüm meta veriler</string>
+    <string name="exif_preset_privacy">Mahremiyet</string>
+    <string name="exif_preset_location_only">Yalnızca konum</string>
+    <string name="exif_preset_keep_date_copyright">Tarihleri ​​ve telif haklarını koruyun</string>
+    <string name="exif_tags_selected">%1$s • %2$d etiketleri</string>
+    <string name="duplicate_scan_mode">Tarama modu</string>
+    <string name="duplicate_scan_exact_only">Yalnızca tam kopyalar</string>
+    <string name="duplicate_scan_exact_and_similar">Tam ve benzer</string>
+    <string name="no_exact_duplicates_found_sub">Daha fazla görsel eklemeyi veya görsel olarak benzer görseller eklemeyi deneyin</string>
+    <string name="unable_to_decode_image">%1$s kodu çözülemiyor</string>
 </resources>

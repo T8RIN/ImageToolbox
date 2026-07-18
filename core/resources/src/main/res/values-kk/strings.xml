@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">Ғарыш</string>
     <string name="texture_category_patterns">Үлгілер</string>
     <string name="texture_category_abstract">Аннотация</string>
+    <string name="exif_removal_preset">Алдын ала орнату</string>
+    <string name="exif_preset_all_metadata">Барлық метадеректер</string>
+    <string name="exif_preset_privacy">Құпиялық</string>
+    <string name="exif_preset_location_only">Тек орналасқан жері</string>
+    <string name="exif_preset_keep_date_copyright">Күндерді және авторлық құқықты сақтаңыз</string>
+    <string name="exif_tags_selected">%1$s • %2$d тегтері</string>
+    <string name="duplicate_scan_mode">Сканерлеу режимі</string>
+    <string name="duplicate_scan_exact_only">Тек нақты көшірмелер</string>
+    <string name="duplicate_scan_exact_and_similar">Дәл және ұқсас</string>
+    <string name="no_exact_duplicates_found_sub">Қосымша кескіндерді қосып көріңіз немесе көрнекі түрде ұқсас кескіндерді қосыңыз</string>
+    <string name="unable_to_decode_image">%1$s кодты шешу мүмкін емес</string>
 </resources>

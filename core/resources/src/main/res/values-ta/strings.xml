@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">விண்வெளி</string>
     <string name="texture_category_patterns">வடிவங்கள்</string>
     <string name="texture_category_abstract">சுருக்கம்</string>
+    <string name="exif_removal_preset">அகற்றுதல் முன்னமைவு</string>
+    <string name="exif_preset_all_metadata">அனைத்து மெட்டாடேட்டா</string>
+    <string name="exif_preset_privacy">தனியுரிமை</string>
+    <string name="exif_preset_location_only">இடம் மட்டும்</string>
+    <string name="exif_preset_keep_date_copyright">தேதிகள் மற்றும் பதிப்புரிமை வைத்திருங்கள்</string>
+    <string name="exif_tags_selected">%1$s • %2$d குறிச்சொற்கள்</string>
+    <string name="duplicate_scan_mode">ஸ்கேன் பயன்முறை</string>
+    <string name="duplicate_scan_exact_only">சரியான பிரதிகள் மட்டுமே</string>
+    <string name="duplicate_scan_exact_and_similar">துல்லியமான மற்றும் ஒத்த</string>
+    <string name="no_exact_duplicates_found_sub">மேலும் படங்களைச் சேர்க்க முயற்சிக்கவும் அல்லது பார்வைக்கு ஒத்த படங்களைச் சேர்க்கவும்</string>
+    <string name="unable_to_decode_image">%1$s டிகோட் செய்ய முடியவில்லை</string>
 </resources>

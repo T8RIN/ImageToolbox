@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">Espazioa</string>
     <string name="texture_category_patterns">Ereduak</string>
     <string name="texture_category_abstract">Abstraktua</string>
+    <string name="exif_removal_preset">Aurrez kentzea</string>
+    <string name="exif_preset_all_metadata">Metadatu guztiak</string>
+    <string name="exif_preset_privacy">Pribatutasuna</string>
+    <string name="exif_preset_location_only">Kokapena soilik</string>
+    <string name="exif_preset_keep_date_copyright">Mantendu datak eta copyrighta</string>
+    <string name="exif_tags_selected">%1$s • %2$d etiketak</string>
+    <string name="duplicate_scan_mode">Eskaneatzeko modua</string>
+    <string name="duplicate_scan_exact_only">Kopia zehatzak soilik</string>
+    <string name="duplicate_scan_exact_and_similar">Zehatza eta antzekoa</string>
+    <string name="no_exact_duplicates_found_sub">Saiatu irudi gehiago gehitzen edo ikusmen antzeko irudiak sartu</string>
+    <string name="unable_to_decode_image">Ezin da deskodetu %1$s</string>
 </resources>

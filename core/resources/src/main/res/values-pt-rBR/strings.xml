@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">Espaço</string>
     <string name="texture_category_patterns">Padrões</string>
     <string name="texture_category_abstract">Resumo</string>
+    <string name="exif_removal_preset">Predefinição de remoção</string>
+    <string name="exif_preset_all_metadata">Todos os metadados</string>
+    <string name="exif_preset_privacy">Privacidade</string>
+    <string name="exif_preset_location_only">Apenas localização</string>
+    <string name="exif_preset_keep_date_copyright">Mantenha datas e direitos autorais</string>
+    <string name="exif_tags_selected">%1$s • Etiquetas %2$d</string>
+    <string name="duplicate_scan_mode">Modo de digitalização</string>
+    <string name="duplicate_scan_exact_only">Somente cópias exatas</string>
+    <string name="duplicate_scan_exact_and_similar">Exato e semelhante</string>
+    <string name="no_exact_duplicates_found_sub">Tente adicionar mais imagens ou incluir imagens visualmente semelhantes</string>
+    <string name="unable_to_decode_image">Não foi possível decodificar %1$s</string>
 </resources>

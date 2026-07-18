@@ -3952,4 +3952,15 @@
     <string name="texture_category_space">kalawakan</string>
     <string name="texture_category_patterns">Mga pattern</string>
     <string name="texture_category_abstract">Abstract</string>
+    <string name="exif_removal_preset">Preset ng pag-alis</string>
+    <string name="exif_preset_all_metadata">Lahat ng metadata</string>
+    <string name="exif_preset_privacy">Pagkapribado</string>
+    <string name="exif_preset_location_only">Lokasyon lang</string>
+    <string name="exif_preset_keep_date_copyright">Panatilihin ang mga petsa at copyright</string>
+    <string name="exif_tags_selected">%1$s • %2$d tag</string>
+    <string name="duplicate_scan_mode">Scan mode</string>
+    <string name="duplicate_scan_exact_only">Mga eksaktong kopya lamang</string>
+    <string name="duplicate_scan_exact_and_similar">Eksaktong at katulad</string>
+    <string name="no_exact_duplicates_found_sub">Subukang magdagdag ng higit pang mga larawan o magsama ng mga visual na katulad na larawan</string>
+    <string name="unable_to_decode_image">Hindi ma-decode ang %1$s</string>
 </resources>

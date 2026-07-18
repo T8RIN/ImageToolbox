@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">අවකාශය</string>
     <string name="texture_category_patterns">රටා</string>
     <string name="texture_category_abstract">වියුක්ත</string>
+    <string name="exif_removal_preset">ඉවත් කිරීමේ පෙරසිටුව</string>
+    <string name="exif_preset_all_metadata">සියලුම පාරදත්ත</string>
+    <string name="exif_preset_privacy">පෞද්ගලිකත්වය</string>
+    <string name="exif_preset_location_only">ස්ථානය පමණි</string>
+    <string name="exif_preset_keep_date_copyright">දිනයන් සහ ප්‍රකාශන හිමිකම තබා ගන්න</string>
+    <string name="exif_tags_selected">%1$s • %2$d ටැග්</string>
+    <string name="duplicate_scan_mode">ස්කෑන් මාදිලිය</string>
+    <string name="duplicate_scan_exact_only">නිශ්චිත පිටපත් පමණි</string>
+    <string name="duplicate_scan_exact_and_similar">හරියටම හා සමානයි</string>
+    <string name="no_exact_duplicates_found_sub">තවත් පින්තූර එක් කිරීමට හෝ දෘශ්‍යමය වශයෙන් සමාන රූප ඇතුළත් කිරීමට උත්සාහ කරන්න</string>
+    <string name="unable_to_decode_image">%1$s විකේතනය කළ නොහැක</string>
 </resources>

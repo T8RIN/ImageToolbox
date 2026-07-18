@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">Utrymme</string>
     <string name="texture_category_patterns">Mönster</string>
     <string name="texture_category_abstract">Abstrakt</string>
+    <string name="exif_removal_preset">Förinställning för borttagning</string>
+    <string name="exif_preset_all_metadata">Alla metadata</string>
+    <string name="exif_preset_privacy">Privatliv</string>
+    <string name="exif_preset_location_only">Endast plats</string>
+    <string name="exif_preset_keep_date_copyright">Håll datum och upphovsrätt</string>
+    <string name="exif_tags_selected">%1$s • %2$d taggar</string>
+    <string name="duplicate_scan_mode">Skanningsläge</string>
+    <string name="duplicate_scan_exact_only">Endast exakta kopior</string>
+    <string name="duplicate_scan_exact_and_similar">Exakt och liknande</string>
+    <string name="no_exact_duplicates_found_sub">Prova att lägga till fler bilder eller inkludera visuellt liknande bilder</string>
+    <string name="unable_to_decode_image">Det gick inte att avkoda %1$s</string>
 </resources>

@@ -3953,4 +3953,15 @@
     <string name="texture_category_space">Spaţiu</string>
     <string name="texture_category_patterns">Modele</string>
     <string name="texture_category_abstract">Abstract</string>
+    <string name="exif_removal_preset">Demontare prestabilită</string>
+    <string name="exif_preset_all_metadata">Toate metadatele</string>
+    <string name="exif_preset_privacy">Confidențialitate</string>
+    <string name="exif_preset_location_only">Doar locație</string>
+    <string name="exif_preset_keep_date_copyright">Păstrați datele și drepturile de autor</string>
+    <string name="exif_tags_selected">%1$s • %2$d etichete</string>
+    <string name="duplicate_scan_mode">Modul de scanare</string>
+    <string name="duplicate_scan_exact_only">Numai copii exacte</string>
+    <string name="duplicate_scan_exact_and_similar">Exact și asemănător</string>
+    <string name="no_exact_duplicates_found_sub">Încercați să adăugați mai multe imagini sau să includeți imagini similare vizual</string>
+    <string name="unable_to_decode_image">Nu se poate decoda %1$s</string>
 </resources>

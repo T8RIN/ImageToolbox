@@ -3952,4 +3952,15 @@
     <string name="texture_category_space">స్పేస్</string>
     <string name="texture_category_patterns">నమూనాలు</string>
     <string name="texture_category_abstract">వియుక్త</string>
+    <string name="exif_removal_preset">తొలగింపు ప్రీసెట్</string>
+    <string name="exif_preset_all_metadata">మొత్తం మెటాడేటా</string>
+    <string name="exif_preset_privacy">గోప్యత</string>
+    <string name="exif_preset_location_only">స్థానం మాత్రమే</string>
+    <string name="exif_preset_keep_date_copyright">తేదీలు మరియు కాపీరైట్ ఉంచండి</string>
+    <string name="exif_tags_selected">%1$s • %2$d ట్యాగ్‌లు</string>
+    <string name="duplicate_scan_mode">స్కాన్ మోడ్</string>
+    <string name="duplicate_scan_exact_only">ఖచ్చితమైన కాపీలు మాత్రమే</string>
+    <string name="duplicate_scan_exact_and_similar">ఖచ్చితమైన మరియు సారూప్యమైనది</string>
+    <string name="no_exact_duplicates_found_sub">మరిన్ని చిత్రాలను జోడించడానికి ప్రయత్నించండి లేదా దృశ్యమానంగా సారూప్య చిత్రాలను చేర్చండి</string>
+    <string name="unable_to_decode_image">%1$s డీకోడ్ చేయడం సాధ్యపడలేదు</string>
 </resources>

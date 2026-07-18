@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">স্থান</string>
     <string name="texture_category_patterns">নিদর্শন</string>
     <string name="texture_category_abstract">বিমূর্ত</string>
+    <string name="exif_removal_preset">অপসারণ প্রিসেট</string>
+    <string name="exif_preset_all_metadata">সমস্ত মেটাডেটা</string>
+    <string name="exif_preset_privacy">গোপনীয়তা</string>
+    <string name="exif_preset_location_only">শুধুমাত্র অবস্থান</string>
+    <string name="exif_preset_keep_date_copyright">তারিখ এবং কপিরাইট রাখুন</string>
+    <string name="exif_tags_selected">%1$s • %2$d ট্যাগ</string>
+    <string name="duplicate_scan_mode">স্ক্যান মোড</string>
+    <string name="duplicate_scan_exact_only">শুধুমাত্র সঠিক কপি</string>
+    <string name="duplicate_scan_exact_and_similar">সঠিক এবং অনুরূপ</string>
+    <string name="no_exact_duplicates_found_sub">আরও ছবি যোগ করার চেষ্টা করুন বা দৃশ্যত অনুরূপ ছবি অন্তর্ভুক্ত করুন</string>
+    <string name="unable_to_decode_image">ডিকোড করতে অক্ষম %1$s</string>
 </resources>

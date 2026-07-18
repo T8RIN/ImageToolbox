@@ -3950,4 +3950,15 @@
     <string name="texture_category_space">ช่องว่าง</string>
     <string name="texture_category_patterns">รูปแบบ</string>
     <string name="texture_category_abstract">เชิงนามธรรม</string>
+    <string name="exif_removal_preset">การลบที่ตั้งไว้ล่วงหน้า</string>
+    <string name="exif_preset_all_metadata">ข้อมูลเมตาทั้งหมด</string>
+    <string name="exif_preset_privacy">ความเป็นส่วนตัว</string>
+    <string name="exif_preset_location_only">สถานที่ตั้งเท่านั้น</string>
+    <string name="exif_preset_keep_date_copyright">เก็บวันที่และลิขสิทธิ์ไว้</string>
+    <string name="exif_tags_selected">%1$s • %2$d แท็ก</string>
+    <string name="duplicate_scan_mode">โหมดสแกน</string>
+    <string name="duplicate_scan_exact_only">สำเนาถูกต้องเท่านั้น</string>
+    <string name="duplicate_scan_exact_and_similar">ตรงและคล้ายกัน</string>
+    <string name="no_exact_duplicates_found_sub">ลองเพิ่มรูปภาพเพิ่มเติมหรือรวมรูปภาพที่คล้ายกัน</string>
+    <string name="unable_to_decode_image">ไม่สามารถถอดรหัส %1$s</string>
 </resources>

@@ -3953,4 +3953,15 @@
     <string name="texture_category_space">Priestor</string>
     <string name="texture_category_patterns">Vzory</string>
     <string name="texture_category_abstract">Abstraktné</string>
+    <string name="exif_removal_preset">Prednastavené odstránenie</string>
+    <string name="exif_preset_all_metadata">Všetky metadáta</string>
+    <string name="exif_preset_privacy">Ochrana osobných údajov</string>
+    <string name="exif_preset_location_only">Iba miesto</string>
+    <string name="exif_preset_keep_date_copyright">Dodržujte dátumy a autorské práva</string>
+    <string name="exif_tags_selected">%1$s • %2$d značiek</string>
+    <string name="duplicate_scan_mode">Režim skenovania</string>
+    <string name="duplicate_scan_exact_only">Iba presné kópie</string>
+    <string name="duplicate_scan_exact_and_similar">Presné a podobné</string>
+    <string name="no_exact_duplicates_found_sub">Skúste pridať viac obrázkov alebo zahrňte vizuálne podobné obrázky</string>
+    <string name="unable_to_decode_image">Nedá sa dekódovať %1$s</string>
 </resources>

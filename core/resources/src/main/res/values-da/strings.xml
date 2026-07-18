@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">Plads</string>
     <string name="texture_category_patterns">Mønstre</string>
     <string name="texture_category_abstract">Abstrakt</string>
+    <string name="exif_removal_preset">Forudindstillet fjernelse</string>
+    <string name="exif_preset_all_metadata">Alle metadata</string>
+    <string name="exif_preset_privacy">Privatliv</string>
+    <string name="exif_preset_location_only">Kun beliggenhed</string>
+    <string name="exif_preset_keep_date_copyright">Hold datoer og copyright</string>
+    <string name="exif_tags_selected">%1$s • %2$d tags</string>
+    <string name="duplicate_scan_mode">Scanningstilstand</string>
+    <string name="duplicate_scan_exact_only">Kun nøjagtige kopier</string>
+    <string name="duplicate_scan_exact_and_similar">Præcis og lignende</string>
+    <string name="no_exact_duplicates_found_sub">Prøv at tilføje flere billeder eller medtag visuelt lignende billeder</string>
+    <string name="unable_to_decode_image">Kan ikke afkode %1$s</string>
 </resources>

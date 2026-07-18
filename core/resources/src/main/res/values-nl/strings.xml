@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">Ruimte</string>
     <string name="texture_category_patterns">Patronen</string>
     <string name="texture_category_abstract">Abstract</string>
+    <string name="exif_removal_preset">Voorinstelling voor verwijderen</string>
+    <string name="exif_preset_all_metadata">Alle metagegevens</string>
+    <string name="exif_preset_privacy">Privacy</string>
+    <string name="exif_preset_location_only">Alleen locatie</string>
+    <string name="exif_preset_keep_date_copyright">Houd data en copyright bij</string>
+    <string name="exif_tags_selected">%1$s • %2$d tags</string>
+    <string name="duplicate_scan_mode">Scanmodus</string>
+    <string name="duplicate_scan_exact_only">Alleen exacte kopieën</string>
+    <string name="duplicate_scan_exact_and_similar">Exact en vergelijkbaar</string>
+    <string name="no_exact_duplicates_found_sub">Probeer meer afbeeldingen toe te voegen of voeg visueel vergelijkbare afbeeldingen toe</string>
+    <string name="unable_to_decode_image">Kan %1$s niet decoderen</string>
 </resources>

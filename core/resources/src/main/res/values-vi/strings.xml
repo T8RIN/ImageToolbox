@@ -3950,4 +3950,15 @@
     <string name="texture_category_space">Không gian</string>
     <string name="texture_category_patterns">mẫu</string>
     <string name="texture_category_abstract">Tóm tắt</string>
+    <string name="exif_removal_preset">Cài đặt trước loại bỏ</string>
+    <string name="exif_preset_all_metadata">Tất cả siêu dữ liệu</string>
+    <string name="exif_preset_privacy">Sự riêng tư</string>
+    <string name="exif_preset_location_only">Chỉ vị trí</string>
+    <string name="exif_preset_keep_date_copyright">Giữ ngày tháng và bản quyền</string>
+    <string name="exif_tags_selected">%1$s • %2$d thẻ</string>
+    <string name="duplicate_scan_mode">Chế độ quét</string>
+    <string name="duplicate_scan_exact_only">Chỉ bản sao chính xác</string>
+    <string name="duplicate_scan_exact_and_similar">Chính xác và tương tự</string>
+    <string name="no_exact_duplicates_found_sub">Hãy thử thêm nhiều hình ảnh hơn hoặc bao gồm các hình ảnh tương tự về mặt hình ảnh</string>
+    <string name="unable_to_decode_image">Không thể giải mã %1$s</string>
 </resources>

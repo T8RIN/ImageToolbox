@@ -3953,4 +3953,15 @@
     <string name="texture_category_space">Plocha</string>
     <string name="texture_category_patterns">Vzory</string>
     <string name="texture_category_abstract">Abstraktní</string>
+    <string name="exif_removal_preset">Předvolba odstranění</string>
+    <string name="exif_preset_all_metadata">Všechna metadata</string>
+    <string name="exif_preset_privacy">Soukromí</string>
+    <string name="exif_preset_location_only">Pouze umístění</string>
+    <string name="exif_preset_keep_date_copyright">Dodržujte data a autorská práva</string>
+    <string name="exif_tags_selected">%1$s • %2$d tagů</string>
+    <string name="duplicate_scan_mode">Režim skenování</string>
+    <string name="duplicate_scan_exact_only">Pouze přesné kopie</string>
+    <string name="duplicate_scan_exact_and_similar">Přesné a podobné</string>
+    <string name="no_exact_duplicates_found_sub">Zkuste přidat více obrázků nebo zahrňte vizuálně podobné obrázky</string>
+    <string name="unable_to_decode_image">Nelze dekódovat %1$s</string>
 </resources>

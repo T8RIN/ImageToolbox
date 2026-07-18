@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">بوشلۇق</string>
     <string name="texture_category_patterns">ئەندىزە</string>
     <string name="texture_category_abstract">قىسقىچە مەزمۇنى</string>
+    <string name="exif_removal_preset">چىقىرىۋېتىش ئالدىن بېكىتىلگەن</string>
+    <string name="exif_preset_all_metadata">بارلىق مېتا سانلىق مەلۇمات</string>
+    <string name="exif_preset_privacy">مەخپىيەتلىك</string>
+    <string name="exif_preset_location_only">ئورنى پەقەت</string>
+    <string name="exif_preset_keep_date_copyright">چېسلا ۋە نەشر ھوقۇقىنى ساقلاڭ</string>
+    <string name="exif_tags_selected">%1$s • %2$d خەتكۈچلىرى</string>
+    <string name="duplicate_scan_mode">سىكانىرلاش ھالىتى</string>
+    <string name="duplicate_scan_exact_only">پەقەت كۆپەيتىلگەن نۇسخىسى</string>
+    <string name="duplicate_scan_exact_and_similar">ئېنىق ۋە ئوخشىشىپ كېتىدۇ</string>
+    <string name="no_exact_duplicates_found_sub">تېخىمۇ كۆپ رەسىم قوشۇشنى سىناپ بېقىڭ ياكى كۆرۈنۈشتە ئوخشىشىپ كېتىدىغان رەسىملەرنى ئۆز ئىچىگە ئالىدۇ</string>
+    <string name="unable_to_decode_image">%1$s يېشىشكە ئامالسىز</string>
 </resources>

@@ -3950,4 +3950,15 @@
     <string name="texture_category_space">Ruang angkasa</string>
     <string name="texture_category_patterns">Pola</string>
     <string name="texture_category_abstract">Abstrak</string>
+    <string name="exif_removal_preset">Prasetel penghapusan</string>
+    <string name="exif_preset_all_metadata">Semua metadata</string>
+    <string name="exif_preset_privacy">Pribadi</string>
+    <string name="exif_preset_location_only">Hanya lokasi</string>
+    <string name="exif_preset_keep_date_copyright">Catat tanggal dan hak cipta</string>
+    <string name="exif_tags_selected">%1$s • %2$d tag</string>
+    <string name="duplicate_scan_mode">Modus pemindaian</string>
+    <string name="duplicate_scan_exact_only">Hanya salinan persisnya</string>
+    <string name="duplicate_scan_exact_and_similar">Tepat dan serupa</string>
+    <string name="no_exact_duplicates_found_sub">Coba tambahkan lebih banyak gambar atau sertakan gambar yang serupa secara visual</string>
+    <string name="unable_to_decode_image">Tidak dapat memecahkan kode %1$s</string>
 </resources>

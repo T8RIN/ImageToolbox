@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">ਸਪੇਸ</string>
     <string name="texture_category_patterns">ਪੈਟਰਨ</string>
     <string name="texture_category_abstract">ਐਬਸਟਰੈਕਟ</string>
+    <string name="exif_removal_preset">ਹਟਾਉਣਾ ਪ੍ਰੀਸੈਟ</string>
+    <string name="exif_preset_all_metadata">ਸਾਰਾ ਮੈਟਾਡੇਟਾ</string>
+    <string name="exif_preset_privacy">ਗੋਪਨੀਯਤਾ</string>
+    <string name="exif_preset_location_only">ਸਿਰਫ਼ ਟਿਕਾਣਾ</string>
+    <string name="exif_preset_keep_date_copyright">ਤਾਰੀਖਾਂ ਅਤੇ ਕਾਪੀਰਾਈਟ ਰੱਖੋ</string>
+    <string name="exif_tags_selected">%1$s • %2$d ਟੈਗਸ</string>
+    <string name="duplicate_scan_mode">ਸਕੈਨ ਮੋਡ</string>
+    <string name="duplicate_scan_exact_only">ਸਿਰਫ਼ ਸਹੀ ਕਾਪੀਆਂ</string>
+    <string name="duplicate_scan_exact_and_similar">ਸਟੀਕ ਅਤੇ ਸਮਾਨ</string>
+    <string name="no_exact_duplicates_found_sub">ਹੋਰ ਚਿੱਤਰ ਸ਼ਾਮਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਦ੍ਰਿਸ਼ਟੀਗਤ ਤੌਰ \'ਤੇ ਮਿਲਦੇ-ਜੁਲਦੇ ਚਿੱਤਰ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="unable_to_decode_image">ਡੀਕੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ %1$s</string>
 </resources>

@@ -3953,4 +3953,15 @@
     <string name="texture_category_space">космас</string>
     <string name="texture_category_patterns">Выкрайкі</string>
     <string name="texture_category_abstract">Анатацыя</string>
+    <string name="exif_removal_preset">Прадусталяванне выдалення</string>
+    <string name="exif_preset_all_metadata">Усе метададзеныя</string>
+    <string name="exif_preset_privacy">Прыватнасць</string>
+    <string name="exif_preset_location_only">Толькі месцазнаходжанне</string>
+    <string name="exif_preset_keep_date_copyright">Захоўвайце даты і аўтарскія правы</string>
+    <string name="exif_tags_selected">%1$s • %2$d тэгаў</string>
+    <string name="duplicate_scan_mode">Рэжым сканавання</string>
+    <string name="duplicate_scan_exact_only">Толькі дакладныя копіі</string>
+    <string name="duplicate_scan_exact_and_similar">Дакладныя і падобныя</string>
+    <string name="no_exact_duplicates_found_sub">Паспрабуйце дадаць больш малюнкаў або ўключыце візуальна падобныя выявы</string>
+    <string name="unable_to_decode_image">Немагчыма дэкадаваць %1$s</string>
 </resources>

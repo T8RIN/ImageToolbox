@@ -3953,4 +3953,15 @@
     <string name="texture_category_space">Przestrzeń</string>
     <string name="texture_category_patterns">Wzory</string>
     <string name="texture_category_abstract">Abstrakcyjny</string>
+    <string name="exif_removal_preset">Wstępne ustawienie usuwania</string>
+    <string name="exif_preset_all_metadata">Wszystkie metadane</string>
+    <string name="exif_preset_privacy">Prywatność</string>
+    <string name="exif_preset_location_only">Tylko lokalizacja</string>
+    <string name="exif_preset_keep_date_copyright">Zachowaj daty i prawa autorskie</string>
+    <string name="exif_tags_selected">%1$s • %2$d tagi</string>
+    <string name="duplicate_scan_mode">Tryb skanowania</string>
+    <string name="duplicate_scan_exact_only">Tylko dokładne kopie</string>
+    <string name="duplicate_scan_exact_and_similar">Dokładne i podobne</string>
+    <string name="no_exact_duplicates_found_sub">Spróbuj dodać więcej obrazów lub dołącz obrazy podobne wizualnie</string>
+    <string name="unable_to_decode_image">Nie można rozszyfrować %1$s</string>
 </resources>

@@ -3951,4 +3951,15 @@
     <string name="texture_category_space">Kosmos</string>
     <string name="texture_category_patterns">Mustrid</string>
     <string name="texture_category_abstract">Abstraktne</string>
+    <string name="exif_removal_preset">Eemaldamise eelseade</string>
+    <string name="exif_preset_all_metadata">Kõik metaandmed</string>
+    <string name="exif_preset_privacy">Privaatsus</string>
+    <string name="exif_preset_location_only">Ainult asukoht</string>
+    <string name="exif_preset_keep_date_copyright">Hoidke kuupäevi ja autoriõigusi</string>
+    <string name="exif_tags_selected">%1$s • %2$d silte</string>
+    <string name="duplicate_scan_mode">Skannimisrežiim</string>
+    <string name="duplicate_scan_exact_only">Ainult täpsed koopiad</string>
+    <string name="duplicate_scan_exact_and_similar">Täpne ja sarnane</string>
+    <string name="no_exact_duplicates_found_sub">Proovige lisada rohkem pilte või lisada visuaalselt sarnaseid pilte</string>
+    <string name="unable_to_decode_image">Ei saa dekodeerida %1$s</string>
 </resources>

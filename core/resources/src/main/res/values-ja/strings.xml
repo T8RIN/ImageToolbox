@@ -3950,4 +3950,15 @@
     <string name="texture_category_space">空間</string>
     <string name="texture_category_patterns">パターン</string>
     <string name="texture_category_abstract">抽象的な</string>
+    <string name="exif_removal_preset">削除プリセット</string>
+    <string name="exif_preset_all_metadata">すべてのメタデータ</string>
+    <string name="exif_preset_privacy">プライバシー</string>
+    <string name="exif_preset_location_only">場所のみ</string>
+    <string name="exif_preset_keep_date_copyright">日付と著作権を保持する</string>
+    <string name="exif_tags_selected">%1$s • %2$d タグ</string>
+    <string name="duplicate_scan_mode">スキャンモード</string>
+    <string name="duplicate_scan_exact_only">正確なコピーのみ</string>
+    <string name="duplicate_scan_exact_and_similar">全く同じもの</string>
+    <string name="no_exact_duplicates_found_sub">さらに画像を追加するか、視覚的に類似した画像を含めてみてください</string>
+    <string name="unable_to_decode_image">%1$s をデコードできません</string>
 </resources>
