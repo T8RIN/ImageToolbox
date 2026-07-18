@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -3959,4 +3961,5 @@
     <string name="duplicate_scan_exact_and_similar">完全相同且相似</string>
     <string name="no_exact_duplicates_found_sub">嘗試添加更多圖像或包含視覺上相似的圖像</string>
     <string name="unable_to_decode_image">無法解碼 %1$s</string>
+    <string name="crop_overlay_draggable">可移動作物區域</string>
 </resources>

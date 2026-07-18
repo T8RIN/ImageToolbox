@@ -3959,4 +3959,5 @@
     <string name="duplicate_scan_exact_and_similar">完全相同且相似</string>
     <string name="no_exact_duplicates_found_sub">尝试添加更多图像或包含视觉上相似的图像</string>
     <string name="unable_to_decode_image">无法解码 %1$s</string>
+    <string name="crop_overlay_draggable">可移动作物区域</string>
 </resources>
