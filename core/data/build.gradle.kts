@@ -53,7 +53,8 @@ dependencies {
 
     implementation(libs.toolbox.gifConverter)
     implementation(libs.toolbox.exif)
-    implementation(libs.tiffdecoder)
+    implementation(libs.toolbox.rawCoder)
+    implementation(libs.toolbox.tiffCoder)
     implementation(libs.toolbox.qoiCoder)
     implementation(libs.toolbox.jp2decoder)
     implementation(libs.toolbox.awebp)

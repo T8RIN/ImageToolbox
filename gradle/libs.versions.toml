@@ -9,7 +9,7 @@ versionCode = "258"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "7.4.2"
+imageToolboxLibs = "7.5.0"
 trickle = "1.9.0"
 evaluator = "1.0.0"
 quickie = "1.19.0"
@@ -83,7 +83,6 @@ pdfbox = "2.0.27.0"
 onnx = "1.27.0"
 opencv = "5.0.0.1"
 
-tiffdecoder = "1.0.5"
 materialKolor = "5.0.0"
 paletteKtx = "1.0.0"
 kotlinxSerializationJson = "1.11.0"
@@ -138,8 +137,9 @@ toolbox-histogram = { module = "com.github.T8RIN.ImageToolboxLibs:histogram", ve
 toolbox-advancedCrop = { module = "com.github.T8RIN.ImageToolboxLibs:advanced-crop", version.ref = "imageToolboxLibs" }
 toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref = "imageToolboxLibs" }
 toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.ref = "imageToolboxLibs" }
+toolbox-rawCoder = { module = "com.github.T8RIN.ImageToolboxLibs:raw-coder", version.ref = "imageToolboxLibs" }
+toolbox-tiffCoder = { module = "com.github.T8RIN.ImageToolboxLibs:tiff-coder", version.ref = "imageToolboxLibs" }
 
-tiffdecoder = { module = "com.github.T8RIN:TiffDecoder", version.ref = "tiffdecoder" }
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
