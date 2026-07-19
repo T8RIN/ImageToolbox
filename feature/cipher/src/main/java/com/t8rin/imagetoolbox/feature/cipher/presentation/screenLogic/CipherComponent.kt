@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.isEncrypted
 import com.t8rin.imagetoolbox.feature.cipher.domain.CryptographyManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -82,6 +83,9 @@ class CipherComponent @AssistedInject internal constructor(
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
 
+    private val _isEncryptedFile = mutableStateOf<Boolean?>(null)
+    val isEncryptedFile by _isEncryptedFile
+
     private val _isEncrypt = mutableStateOf(true)
     val isEncrypt by _isEncrypt
 
@@ -93,7 +97,14 @@ class CipherComponent @AssistedInject internal constructor(
 
     fun setUri(newUri: Uri) {
         _uri.value = newUri
+        _isEncryptedFile.value = null
         resetCalculatedData()
+        componentScope.launch {
+            val isEncrypted = newUri.isEncrypted()
+            if (_uri.value == newUri) {
+                _isEncryptedFile.value = isEncrypted
+            }
+        }
     }
 
     private var savingJob: Job? by smartJob {

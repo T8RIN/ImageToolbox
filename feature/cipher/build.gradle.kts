@@ -25,6 +25,7 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.feature.cipher"
 
 dependencies {
+    implementation(projects.core.utils)
     androidTestImplementation(libs.bouncycastle.provider)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.runner)

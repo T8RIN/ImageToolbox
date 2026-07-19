@@ -24,6 +24,9 @@ import com.t8rin.imagetoolbox.core.data.utils.computeBytesFromReadable
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.IMAGE_TOOLBOX_ENCRYPTED_FILE_MAGIC
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.cipher.domain.CryptographyManager
 import com.t8rin.imagetoolbox.feature.cipher.domain.WrongKeyException
 import kotlinx.coroutines.withContext
@@ -115,7 +118,7 @@ internal class AndroidCryptographyManager @Inject constructor(
     private fun decryptVersioned(
         data: ByteArray,
         password: String
-    ): ByteArray {
+    ): ByteArray = runCatching {
         val (header, headerSize) = EncryptedFileHeader.decode(data)
         val type = CipherType.fromString(header.cipher)
             ?: CipherType.getInstance(header.cipher)
@@ -127,7 +130,12 @@ internal class AndroidCryptographyManager @Inject constructor(
 
         if (type.isAuthenticated()) cipher.updateAAD(data, 0, headerSize)
 
-        return cipher.doOrThrow(data.copyOfRange(headerSize, data.size))
+        cipher.doOrThrow(data.copyOfRange(headerSize, data.size))
+    }.getOrElse {
+        throw Throwable(
+            message = getString(R.string.decrypt_failed),
+            cause = it
+        )
     }
 
     private fun decryptLegacy(
@@ -383,7 +391,7 @@ internal class AndroidCryptographyManager @Inject constructor(
         }
 
         companion object {
-            private val magicBytes = "ITBXCRYP".encodeToByteArray()
+            private val magicBytes = IMAGE_TOOLBOX_ENCRYPTED_FILE_MAGIC.encodeToByteArray()
             private const val VERSION: Byte = 1
             private const val KDF_PBKDF2_SHA256: Byte = 1
             private const val FIXED_HEADER_SIZE = 20

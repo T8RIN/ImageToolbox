@@ -1072,6 +1072,11 @@
 \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">Please note that compatibility to other file encryption software or services is not guaranteed. A slightly different key treatment or cipher configuration may cause incompatibility.</string>
     <string name="invalid_password_or_not_encrypted">Invalid password or chosen file is not encrypted</string>
+    <string name="encrypted_file_detected">Encrypted file detected</string>
+    <string name="encrypted_file_detected_sub">The encryption algorithm and parameters will be read from the file automatically</string>
+    <string name="file_already_encrypted">This file is already encrypted</string>
+    <string name="file_already_encrypted_sub">Encrypting it again will create an additional encryption layer</string>
+    <string name="decrypt_failed">Failed to decrypt file: invalid password or corrupted encrypted data</string>
     <string name="image_size_warning">Trying to save the image with the given width and height may cause an out of memory error. Do this at your own risk.</string>
     <string name="cache">Cache</string>
     <string name="cache_size">Cache size</string>

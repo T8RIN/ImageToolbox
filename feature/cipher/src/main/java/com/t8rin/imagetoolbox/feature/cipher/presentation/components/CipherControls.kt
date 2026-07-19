@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.cipher.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -58,8 +59,10 @@ import com.t8rin.imagetoolbox.core.resources.icons.Download
 import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Help
+import com.t8rin.imagetoolbox.core.resources.icons.Lock
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
+import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.Green
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -145,8 +148,24 @@ internal fun CipherControls(component: CipherComponent) {
                     rememberHumanFileSize(it)
                 )
             },
-            startIcon = Icons.Rounded.File
+            startIcon = Icons.Rounded.File,
+            shape = ShapeDefaults.large
         )
+        AnimatedVisibility(
+            visible = component.isEncrypt && component.isEncryptedFile == true,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PreferenceItem(
+                title = stringResource(R.string.file_already_encrypted),
+                subtitle = stringResource(R.string.file_already_encrypted_sub),
+                startIcon = Icons.Rounded.WarningAmber,
+                shape = ShapeDefaults.large,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth()
+            )
+        }
         Spacer(Modifier.height(16.dp))
         RoundedTextField(
             modifier = Modifier
@@ -325,20 +344,39 @@ internal fun CipherControls(component: CipherComponent) {
             }
         }
         Spacer(Modifier.height(24.dp))
-        DataSelector(
-            modifier = Modifier,
-            value = component.cipherType,
-            containerColor = Color.Unspecified,
-            spanCount = 5,
-            selectedItemColor = MaterialTheme.colorScheme.secondary,
-            onValueChange = component::updateCipherType,
-            entries = CipherType.entries,
-            title = stringResource(R.string.algorithms),
-            titleIcon = Icons.Rounded.HashTag,
-            itemContentText = {
-                it.name
+        AnimatedContent(
+            targetState = component.isEncrypt to component.isEncryptedFile,
+            contentKey = { (isEncrypt, isEncryptedFile) ->
+                if (isEncryptedFile == true) isEncrypt to isEncryptedFile
+                else isEncryptedFile
             },
-            initialExpanded = true
-        )
+            modifier = Modifier.fillMaxWidth()
+        ) { (isEncrypt, isEncryptedFile) ->
+            when {
+                isEncrypt || isEncryptedFile == false -> DataSelector(
+                    modifier = Modifier,
+                    value = component.cipherType,
+                    containerColor = Color.Unspecified,
+                    spanCount = 5,
+                    selectedItemColor = MaterialTheme.colorScheme.secondary,
+                    onValueChange = component::updateCipherType,
+                    entries = CipherType.entries,
+                    title = stringResource(R.string.algorithms),
+                    titleIcon = Icons.Rounded.HashTag,
+                    itemContentText = {
+                        it.name
+                    },
+                    initialExpanded = true
+                )
+
+                isEncryptedFile == true -> PreferenceItem(
+                    title = stringResource(R.string.encrypted_file_detected),
+                    subtitle = stringResource(R.string.encrypted_file_detected_sub),
+                    shape = ShapeDefaults.large,
+                    startIcon = Icons.Rounded.Lock,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
     }
 }

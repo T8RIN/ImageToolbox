@@ -17,20 +17,27 @@
 
 package com.t8rin.imagetoolbox.feature.cipher.data
 
+import android.net.Uri
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
-import com.t8rin.imagetoolbox.feature.cipher.domain.WrongKeyException
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.core.utils.initAppContext
+import com.t8rin.imagetoolbox.core.utils.isEncrypted
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 import java.security.MessageDigest
 import java.security.Provider
 import java.security.Security
@@ -41,6 +48,23 @@ import kotlin.coroutines.CoroutineContext
 
 @RunWith(AndroidJUnit4::class)
 class AndroidCryptographyManagerTest {
+
+    @Test
+    fun encryptedFileCanBeDetectedFromUri() = runBlocking {
+        val manager = AndroidCryptographyManager(TestDispatchersHolder)
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val file = File.createTempFile("encrypted-file", null, context.cacheDir)
+
+        try {
+            file.writeBytes(manager.encrypt(TEST_DATA, TEST_PASSWORD, CipherType.AES_NO_PADDING))
+            assertTrue(Uri.fromFile(file).isEncrypted(context))
+
+            file.writeBytes(TEST_DATA)
+            assertFalse(Uri.fromFile(file).isEncrypted(context))
+        } finally {
+            file.delete()
+        }
+    }
 
     @Test
     fun repeatedEncryptionUsesUniqueSaltAndNonce() = runBlocking {
@@ -75,11 +99,13 @@ class AndroidCryptographyManagerTest {
             manager.encrypt(TEST_DATA, TEST_PASSWORD, CipherType.AES_NO_PADDING)
         }
 
-        assertThrows(WrongKeyException::class.java) {
+        val error = assertThrows(Throwable::class.java) {
             runBlocking {
                 manager.decrypt(encrypted, "incorrect", CipherType.AES_NO_PADDING)
             }
         }
+
+        assertEquals(getString(R.string.decrypt_failed), error.localizedMessage)
     }
 
     @Test
@@ -94,11 +120,13 @@ class AndroidCryptographyManagerTest {
         }
 
         listOf(corruptedHeader, corruptedCiphertext).forEach { corrupted ->
-            assertThrows(WrongKeyException::class.java) {
+            val error = assertThrows(Throwable::class.java) {
                 runBlocking {
                     manager.decrypt(corrupted, TEST_PASSWORD, CipherType.AES_NO_PADDING)
                 }
             }
+
+            assertEquals(getString(R.string.decrypt_failed), error.localizedMessage)
         }
     }
 
@@ -155,6 +183,7 @@ class AndroidCryptographyManagerTest {
         @JvmStatic
         @BeforeClass
         fun registerBouncyCastleProvider() {
+            InstrumentationRegistry.getInstrumentation().targetContext.initAppContext()
             Security.addProvider(BouncyCastleWorkaroundProvider())
             CipherType.registerSecurityCiphers(
                 Security.getAlgorithms("Cipher")
