@@ -665,10 +665,6 @@ or click one of the badges below.
 
   </details>
 
-- Shader Studio
-    - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
-    - Live preview with configurable shader parameters
-    - Importing, exporting, sharing and managing shader presets
 - Files encryption and decryption with 100+ different algorithms available
 - Adding Stickers and Text (Markup Layers Mode)
 - Extract Text From Images (OCR)
@@ -1061,6 +1057,10 @@ or click one of the badges below.
 - Image source selection
     - Embedded picker, system photo picker, gallery, file picker and camera
     - Selecting all images from a folder
+- Shader Studio
+    - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
+    - Live preview with configurable shader parameters
+    - Importing, exporting, sharing and managing shader presets
 - Additional Features
     - Base64 Decode/Encode
     - Rotating
