@@ -55,6 +55,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -132,7 +133,7 @@ fun ToastHost(
     val currentToastData = hostState.currentToastData
     val accessibilityManager = LocalAccessibilityManager.current
     val activity = LocalActivity.current
-    LaunchedEffect(currentToastData) {
+    LaunchedEffect(currentToastData, hostState.timeoutRestartKey) {
         if (currentToastData != null) {
             if (currentToastData.visuals.message == AppToastHost.PERMISSION) {
                 activity?.requestStoragePermission()
@@ -345,19 +346,35 @@ open class ToastHostState {
     var currentToastData by mutableStateOf<ToastData?>(null)
         private set
 
+    internal var timeoutRestartKey by mutableLongStateOf(0L)
+        private set
+
     suspend fun showToast(
         message: String,
         icon: ImageVector? = null,
         duration: ToastDuration = ToastDuration.Short
     ) = showToast(ToastVisualsImpl(message, icon, duration))
 
-    suspend fun showToast(visuals: ToastVisuals) = mutex.withLock {
-        try {
-            suspendCancellableCoroutine { continuation ->
-                currentToastData = ToastDataImpl(visuals, continuation)
+    suspend fun showToast(visuals: ToastVisuals) {
+        if (restartTimeoutIfDuplicate(visuals)) return
+
+        mutex.withLock {
+            try {
+                suspendCancellableCoroutine { continuation ->
+                    currentToastData = ToastDataImpl(visuals, continuation)
+                }
+            } finally {
+                currentToastData = null
             }
-        } finally {
-            currentToastData = null
+        }
+    }
+
+    private fun restartTimeoutIfDuplicate(visuals: ToastVisuals): Boolean {
+        return if (currentToastData?.visuals?.hasSameContentAs(visuals) == true) {
+            timeoutRestartKey++
+            true
+        } else {
+            false
         }
     }
 
@@ -412,6 +429,10 @@ open class ToastHostState {
         }
     }
 }
+
+private fun ToastVisuals.hasSameContentAs(
+    other: ToastVisuals
+): Boolean = message == other.message && icon == other.icon
 
 @Stable
 @Immutable
