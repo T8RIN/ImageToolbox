@@ -244,6 +244,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                                 imageScaleMode = imageScaleMode
                             )
                         }
+                    }.onFailure {
+                        results.add(SaveResult.Error.Exception(it))
                     }.getOrNull()?.let { (data, imageInfo) ->
 
                         results.add(

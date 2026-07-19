@@ -176,7 +176,8 @@ class DocumentScannerComponent @AssistedInject internal constructor(
                 imageUris = uris.map { it.toString() },
                 params = PdfCreationParams()
             )
-        }.getOrNull()?.toUri()
+        }.onFailure(AppToastHost::showFailureToast)
+            .getOrNull()?.toUri()
     }
 
     fun generatePdfFilename(): String {

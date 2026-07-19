@@ -4000,4 +4000,11 @@
     <string name="network_timeout">The connection timed out. Check your connection and try again</string>
     <string name="network_connection_failed">Couldn’t connect to the server. Check your connection or try again later</string>
     <string name="network_connection_interrupted">The connection was interrupted. Check your connection and try again</string>
+    <string name="network_secure_connection_failed">Couldn’t establish a secure connection. Check the date and time, VPN, or network settings and try again</string>
+    <string name="file_not_found">The file could not be found. It may have been moved, deleted, or is no longer available</string>
+    <string name="storage_is_full">There isn’t enough free storage to complete this action. Free up some space and try again</string>
+    <string name="network_request_rejected">The server rejected the request. Check your access or sign-in details and try again</string>
+    <string name="network_resource_not_found">The requested resource was not found on the server</string>
+    <string name="network_too_many_requests">Too many requests were sent. Wait a moment and try again</string>
+    <string name="network_server_error">The server encountered an error. Try again later</string>
 </resources>

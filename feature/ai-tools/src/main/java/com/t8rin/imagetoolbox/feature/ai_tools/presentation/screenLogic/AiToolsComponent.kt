@@ -328,14 +328,15 @@ class AiToolsComponent @AssistedInject internal constructor(
                             imageFormat = imageFormat ?: imageInfo.imageFormat
                         )
                     }
-                }.getOrNull()?.let { (image, imageInfo) ->
-                    shareProvider.cacheImage(
-                        image = image,
-                        imageInfo = imageInfo
-                    )?.let { uri ->
-                        list.add(uri.toUri())
+                }.onFailure(AppToastHost::showFailureToast)
+                    .getOrNull()?.let { (image, imageInfo) ->
+                        shareProvider.cacheImage(
+                            image = image,
+                            imageInfo = imageInfo
+                        )?.let { uri ->
+                            list.add(uri.toUri())
+                        }
                     }
-                }
 
                 _saveProgress.updateNotNull {
                     it.copy(

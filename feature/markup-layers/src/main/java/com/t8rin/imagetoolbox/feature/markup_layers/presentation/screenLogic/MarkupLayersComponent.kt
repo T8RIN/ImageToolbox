@@ -48,7 +48,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.filename
-import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.MarkupProjectExtension
 import com.t8rin.imagetoolbox.feature.markup_layers.data.project.isMarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
@@ -679,7 +678,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 fontScale = fontScale
             )
         }.onFailure {
-            it.makeLog()
+            AppToastHost.showFailureToast(it)
         }.getOrNull()
     }
 

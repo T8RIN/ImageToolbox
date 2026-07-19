@@ -197,6 +197,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             list[index] = list[index].copy(value)
             _previewData.update { list }
         }.onFailure {
+            AppToastHost.showFailureToast(it)
             list[index] = list[index].newInstance()
             _previewData.update { list }
         }

@@ -24,6 +24,7 @@ import com.arkivanov.decompose.value.updateAndGet
 import com.arkivanov.essenty.lifecycle.Lifecycle
 import com.arkivanov.essenty.lifecycle.LifecycleOwner
 import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -51,6 +52,7 @@ fun LifecycleOwner.coroutineScope(
             t.makeLog(
                 "Component CRITICAL ISSUE"
             )
+            AppToastHost.showFailureToast(t)
         }
     },
 ): CoroutineScope =
