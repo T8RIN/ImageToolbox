@@ -59,7 +59,8 @@ fun SavableCombiningParams.toParams() = CombiningParams(
                 is StitchMode.Grid.Horizontal -> mode.copy(rows = cells)
                 is StitchMode.Grid.Vertical -> mode.copy(columns = cells)
                 is StitchMode.Auto -> StitchMode.Auto(it.drop(2).map { s -> s.toIntOrNull() ?: 0 })
-
+                is StitchMode.Panorama -> StitchMode.Panorama(
+                    it.drop(2).map { s -> s.toIntOrNull() ?: 0 })
                 else -> mode
             }
         }

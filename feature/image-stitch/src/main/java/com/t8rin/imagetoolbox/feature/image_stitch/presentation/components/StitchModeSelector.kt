@@ -26,14 +26,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.utils.safeCast
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BorderBottom
 import com.t8rin.imagetoolbox.core.resources.icons.BorderLeft
@@ -134,7 +133,7 @@ fun StitchModeSelector(
             )
         }
         AnimatedVisibility(
-            visible = value is StitchMode.Auto,
+            visible = value.isAuto(),
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -142,7 +141,7 @@ fun StitchModeSelector(
                 Spacer(Modifier.height(8.dp))
                 EnhancedSliderItem(
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    value = value.safeCast<StitchMode.Auto>()?.topDrop ?: 0,
+                    value = value.topDrop,
                     title = stringResource(R.string.top_drop),
                     sliderModifier = Modifier
                         .padding(
@@ -158,9 +157,9 @@ fun StitchModeSelector(
                     },
                     onValueChangeFinished = {
                         onValueChange(
-                            value.safeCast<StitchMode.Auto>()?.copy(
+                            value.copyWithDrops(
                                 topDrop = it.roundToInt()
-                            ) ?: value
+                            )
                         )
                     },
                     onValueChange = {},
@@ -170,7 +169,7 @@ fun StitchModeSelector(
                 Spacer(Modifier.height(4.dp))
                 EnhancedSliderItem(
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    value = value.safeCast<StitchMode.Auto>()?.bottomDrop ?: 0,
+                    value = value.bottomDrop,
                     title = stringResource(R.string.bottom_drop),
                     sliderModifier = Modifier
                         .padding(
@@ -186,9 +185,9 @@ fun StitchModeSelector(
                     },
                     onValueChangeFinished = {
                         onValueChange(
-                            value.safeCast<StitchMode.Auto>()?.copy(
+                            value.copyWithDrops(
                                 bottomDrop = it.roundToInt()
-                            ) ?: value
+                            )
                         )
                     },
                     onValueChange = {},
@@ -198,7 +197,7 @@ fun StitchModeSelector(
                 Spacer(Modifier.height(4.dp))
                 EnhancedSliderItem(
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    value = value.safeCast<StitchMode.Auto>()?.startDrop ?: 0,
+                    value = value.startDrop,
                     title = stringResource(R.string.start_drop),
                     sliderModifier = Modifier
                         .padding(
@@ -214,9 +213,9 @@ fun StitchModeSelector(
                     },
                     onValueChangeFinished = {
                         onValueChange(
-                            value.safeCast<StitchMode.Auto>()?.copy(
+                            value.copyWithDrops(
                                 startDrop = it.roundToInt()
-                            ) ?: value
+                            )
                         )
                     },
                     onValueChange = {},
@@ -226,7 +225,7 @@ fun StitchModeSelector(
                 Spacer(Modifier.height(4.dp))
                 EnhancedSliderItem(
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    value = value.safeCast<StitchMode.Auto>()?.endDrop ?: 0,
+                    value = value.endDrop,
                     title = stringResource(R.string.end_drop),
                     sliderModifier = Modifier
                         .padding(
@@ -242,9 +241,9 @@ fun StitchModeSelector(
                     },
                     onValueChangeFinished = {
                         onValueChange(
-                            value.safeCast<StitchMode.Auto>()?.copy(
+                            value.copyWithDrops(
                                 endDrop = it.roundToInt()
-                            ) ?: value
+                            )
                         )
                     },
                     onValueChange = {},
@@ -260,6 +259,7 @@ fun StitchModeSelector(
 @Composable
 private fun StitchMode.title(): String = when (this) {
     is StitchMode.Auto -> stringResource(R.string.auto)
+    is StitchMode.Panorama -> stringResource(R.string.panorama)
     is StitchMode.Grid.Horizontal -> stringResource(R.string.horizontal_grid)
     is StitchMode.Grid.Vertical -> stringResource(R.string.vertical_grid)
     StitchMode.Horizontal -> stringResource(R.string.horizontal)

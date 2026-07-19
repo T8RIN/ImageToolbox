@@ -233,7 +233,7 @@ fun ImageStitchingContent(
                     onValueChange = component::setStitchMode
                 )
                 AnimatedVisibility(
-                    visible = stitchMode !is StitchMode.Auto,
+                    visible = !stitchMode.isAuto(),
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
@@ -252,7 +252,7 @@ fun ImageStitchingContent(
                     }
                 }
                 AnimatedVisibility(
-                    visible = hasNegativeSpacing && stitchMode !is StitchMode.Auto,
+                    visible = hasNegativeSpacing && !stitchMode.isAuto(),
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
@@ -264,7 +264,7 @@ fun ImageStitchingContent(
                 AnimatedVisibility(
                     visible = hasNegativeSpacing &&
                             combiningParams.fadingEdgesMode != StitchFadeSide.None &&
-                            stitchMode !is StitchMode.Auto,
+                            !stitchMode.isAuto(),
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
@@ -274,7 +274,7 @@ fun ImageStitchingContent(
                     )
                 }
                 AnimatedVisibility(
-                    visible = stitchMode !is StitchMode.Auto,
+                    visible = !stitchMode.isAuto(),
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
@@ -284,7 +284,7 @@ fun ImageStitchingContent(
                     )
                 }
                 AnimatedVisibility(
-                    visible = hasNegativeSpacing && stitchMode !is StitchMode.Auto,
+                    visible = hasNegativeSpacing && !stitchMode.isAuto(),
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
@@ -295,7 +295,7 @@ fun ImageStitchingContent(
                     )
                 }
                 AnimatedVisibility(
-                    visible = !combiningParams.scaleSmallImagesToLarge && stitchMode !is StitchMode.Auto,
+                    visible = !combiningParams.scaleSmallImagesToLarge && !stitchMode.isAuto(),
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {

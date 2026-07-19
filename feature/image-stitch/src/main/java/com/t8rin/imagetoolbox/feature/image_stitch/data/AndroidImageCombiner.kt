@@ -78,7 +78,7 @@ internal class AndroidImageCombiner @Inject constructor(
         combiningParams: CombiningParams,
         onProgress: (Int) -> Unit
     ): Pair<Bitmap, ImageInfo> = withContext(defaultDispatcher) {
-        if (combiningParams.stitchMode is StitchMode.Auto) {
+        if (combiningParams.stitchMode.isAuto()) {
             return@withContext cvStitchHelper.cvCombine(
                 imageUris = imageUris,
                 combiningParams = combiningParams
@@ -439,19 +439,24 @@ internal class AndroidImageCombiner @Inject constructor(
         quality: Quality,
         onGetByteCount: (Long) -> Unit
     ): ImageWithSize<Bitmap?> = withContext(defaultDispatcher) {
-        val imageSize = calculateCombinedImageDimensions(
-            imageUris = imageUris,
-            combiningParams = combiningParams
-        ).let {
-            it.copy(
-                width = (it.width / combiningParams.outputScale).roundToInt(),
-                height = (it.height / combiningParams.outputScale).roundToInt()
-            )
+        suspend fun calculateImageSize(): IntegerSize {
+            return calculateCombinedImageDimensions(
+                imageUris = imageUris,
+                combiningParams = combiningParams
+            ).let {
+                it.copy(
+                    width = (it.width / combiningParams.outputScale).roundToInt(),
+                    height = (it.height / combiningParams.outputScale).roundToInt()
+                )
+            }
         }
 
-        if (!settingsState.generatePreviews) return@withContext null withSize imageSize
+        if (!settingsState.generatePreviews) {
+            return@withContext null withSize calculateImageSize()
+        }
 
-        val scale = 0.2f
+        val isAutoStitch = combiningParams.stitchMode.isAuto()
+        val scale = if (isAutoStitch) 0.5f else 0.2f
 
         combineImages(
             imageUris = imageUris,
@@ -460,6 +465,13 @@ internal class AndroidImageCombiner @Inject constructor(
             ),
             onProgress = {}
         ).let { (image, imageInfo) ->
+            val imageSize = if (isAutoStitch) {
+                IntegerSize(
+                    width = (imageInfo.width / scale).roundToInt(),
+                    height = (imageInfo.height / scale).roundToInt()
+                )
+            } else calculateImageSize()
+
             return@let imagePreviewCreator.createPreview(
                 image = image,
                 imageInfo = imageInfo.copy(

@@ -1308,6 +1308,7 @@
     <string name="free">Free</string>
     <string name="horizontal_grid">Horizontal Grid</string>
     <string name="vertical_grid">Vertical Grid</string>
+    <string name="panorama">Panorama</string>
     <string name="stitch_mode">Stitch Mode</string>
     <string name="rows_count">Rows Count</string>
     <string name="columns_count">Columns Count</string>

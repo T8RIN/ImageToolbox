@@ -17,19 +17,61 @@
 
 package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
-import com.t8rin.imagetoolbox.core.domain.utils.safeCast
-
 sealed class StitchMode(val ordinal: Int) {
-    fun drops(): List<Int> = safeCast<Auto>()?.drops ?: emptyList()
+    open val topDrop: Int = 0
+    open val bottomDrop: Int = 0
+    open val startDrop: Int = 0
+    open val endDrop: Int = 0
+
+    fun drops(): List<Int> = if (isAuto()) {
+        listOf(topDrop, bottomDrop, startDrop, endDrop)
+    } else emptyList()
+
+    fun isAuto(): Boolean = this is Auto || this is Panorama
+
+    fun copyWithDrops(
+        topDrop: Int = this.topDrop,
+        bottomDrop: Int = this.bottomDrop,
+        startDrop: Int = this.startDrop,
+        endDrop: Int = this.endDrop
+    ): StitchMode = when (this) {
+        is Auto -> copy(
+            topDrop = topDrop,
+            bottomDrop = bottomDrop,
+            startDrop = startDrop,
+            endDrop = endDrop
+        )
+
+        is Panorama -> copy(
+            topDrop = topDrop,
+            bottomDrop = bottomDrop,
+            startDrop = startDrop,
+            endDrop = endDrop
+        )
+
+        else -> this
+    }
 
     data class Auto(
-        val topDrop: Int = 0,
-        val bottomDrop: Int = 0,
-        val startDrop: Int = 0,
-        val endDrop: Int = 0
+        override val topDrop: Int = 0,
+        override val bottomDrop: Int = 0,
+        override val startDrop: Int = 0,
+        override val endDrop: Int = 0
     ) : StitchMode(-1) {
-        val drops = listOf(topDrop, bottomDrop, startDrop, endDrop)
+        constructor(drops: List<Int>) : this(
+            topDrop = drops.getOrNull(0) ?: 0,
+            bottomDrop = drops.getOrNull(1) ?: 0,
+            startDrop = drops.getOrNull(2) ?: 0,
+            endDrop = drops.getOrNull(3) ?: 0
+        )
+    }
 
+    data class Panorama(
+        override val topDrop: Int = 0,
+        override val bottomDrop: Int = 0,
+        override val startDrop: Int = 0,
+        override val endDrop: Int = 0
+    ) : StitchMode(4) {
         constructor(drops: List<Int>) : this(
             topDrop = drops.getOrNull(0) ?: 0,
             bottomDrop = drops.getOrNull(1) ?: 0,
@@ -64,6 +106,7 @@ sealed class StitchMode(val ordinal: Int) {
             1 -> Vertical
             2 -> Grid.Horizontal()
             3 -> Grid.Vertical()
+            4 -> Panorama()
             else -> Horizontal
         }
 
@@ -73,7 +116,8 @@ sealed class StitchMode(val ordinal: Int) {
                 Vertical,
                 Grid.Horizontal(),
                 Grid.Vertical(),
-                Auto()
+                Auto(),
+                Panorama()
             )
         }
     }

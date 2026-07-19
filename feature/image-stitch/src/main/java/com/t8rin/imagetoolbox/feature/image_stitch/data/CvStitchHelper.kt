@@ -45,6 +45,8 @@ import org.opencv.features.SIFT
 import org.opencv.geometry.Geometry
 import org.opencv.imgproc.Imgproc
 import javax.inject.Inject
+import kotlin.math.ceil
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -73,48 +75,11 @@ internal class CvStitchHelper @Inject constructor(
     }
 
     private fun stitchHomography(mat0: Mat, mat1: Mat, diff: Boolean): Mat? {
-        val mat0Proc = if (diff) {
-            val tmp = Mat()
-            Imgproc.filter2D(mat0, tmp, CvType.CV_8U, kernel)
-            tmp
-        } else mat0
-        val mat1Proc = if (diff) {
-            val tmp = Mat()
-            Imgproc.filter2D(mat1, tmp, CvType.CV_8U, kernel)
-            tmp
-        } else mat1
-
-        val sift = SIFT.create()
-        val kp0 = MatOfKeyPoint()
-        val kp1 = MatOfKeyPoint()
-        val desc0 = Mat()
-        val desc1 = Mat()
-        sift.detectAndCompute(mat0Proc, Mat(), kp0, desc0)
-        sift.detectAndCompute(mat1Proc, Mat(), kp1, desc1)
-        if (kp0.empty() || kp1.empty()) return null
-
-        val matcher = FlannBasedMatcher.create()
-        val knnMatches = mutableListOf<MatOfDMatch>()
-        matcher.knnMatch(desc0, desc1, knnMatches, 2)
-
-        val queryPoints = mutableListOf<Point>()
-        val trainPoints = mutableListOf<Point>()
-        val kp0a = kp0.toArray()
-        val kp1a = kp1.toArray()
-        for (m in knnMatches) {
-            val matches = m.toArray()
-            if (matches.size < 2) continue
-            if (matches[0].distance > 0.7 * matches[1].distance) continue
-            queryPoints.add(kp0a[matches[0].queryIdx].pt)
-            trainPoints.add(kp1a[matches[0].trainIdx].pt)
-        }
-        if (queryPoints.size < 10) return null
-
-        val homoMat = Geometry.findHomography(
-            MatOfPoint2f(*trainPoints.toTypedArray()),
-            MatOfPoint2f(*queryPoints.toTypedArray()),
-            Geometry.RANSAC
-        )
+        val homoMat = findHomography(
+            source = mat1,
+            target = mat0,
+            diff = diff
+        ) ?: return null
 
         val corners = arrayOf(
             Point(0.0, 0.0),
@@ -147,6 +112,77 @@ internal class CvStitchHelper @Inject constructor(
         val roi0 = Rect((-minX).toInt(), (-minY).toInt(), mat0.cols(), mat0.rows())
         mat0.copyTo(canvas.submat(roi0))
         return canvas
+    }
+
+    private fun findHomography(
+        source: Mat,
+        target: Mat,
+        diff: Boolean
+    ): Mat? {
+        val sourceProc = if (diff) {
+            val tmp = Mat()
+            Imgproc.filter2D(source, tmp, CvType.CV_8U, kernel)
+            tmp
+        } else source
+        val targetProc = if (diff) {
+            val tmp = Mat()
+            Imgproc.filter2D(target, tmp, CvType.CV_8U, kernel)
+            tmp
+        } else target
+
+        val sift = SIFT.create()
+        val sourceKeyPoints = MatOfKeyPoint()
+        val targetKeyPoints = MatOfKeyPoint()
+        val sourceDescriptors = Mat()
+        val targetDescriptors = Mat()
+        val matcher = FlannBasedMatcher.create()
+        val knnMatches = mutableListOf<MatOfDMatch>()
+        val detectionMask = Mat()
+        try {
+            sift.detectAndCompute(sourceProc, detectionMask, sourceKeyPoints, sourceDescriptors)
+            sift.detectAndCompute(targetProc, detectionMask, targetKeyPoints, targetDescriptors)
+            if (sourceKeyPoints.empty() || targetKeyPoints.empty()) return null
+
+            matcher.knnMatch(targetDescriptors, sourceDescriptors, knnMatches, 2)
+
+            val sourcePoints = mutableListOf<Point>()
+            val targetPoints = mutableListOf<Point>()
+            val sourceKeyPointsArray = sourceKeyPoints.toArray()
+            val targetKeyPointsArray = targetKeyPoints.toArray()
+            for (m in knnMatches) {
+                val matches = m.toArray()
+                if (matches.size < 2) continue
+                if (matches[0].distance > 0.7 * matches[1].distance) continue
+                sourcePoints.add(sourceKeyPointsArray[matches[0].trainIdx].pt)
+                targetPoints.add(targetKeyPointsArray[matches[0].queryIdx].pt)
+            }
+            if (sourcePoints.size < 10) return null
+
+            val sourcePointsMat = MatOfPoint2f(*sourcePoints.toTypedArray())
+            val targetPointsMat = MatOfPoint2f(*targetPoints.toTypedArray())
+            val homography = Geometry.findHomography(
+                sourcePointsMat,
+                targetPointsMat,
+                Geometry.RANSAC
+            )
+            sourcePointsMat.release()
+            targetPointsMat.release()
+            return if (homography.empty()) {
+                homography.release()
+                null
+            } else homography
+        } finally {
+            if (diff) {
+                sourceProc.release()
+                targetProc.release()
+            }
+            sourceKeyPoints.release()
+            targetKeyPoints.release()
+            sourceDescriptors.release()
+            targetDescriptors.release()
+            detectionMask.release()
+            knnMatches.forEach(MatOfDMatch::release)
+        }
     }
 
     private fun stitchPhaseCorrelate(mat0: Mat, mat1: Mat, diff: Boolean): Mat? {
@@ -199,11 +235,19 @@ internal class CvStitchHelper @Inject constructor(
         imageUris: List<String>,
         combiningParams: CombiningParams,
     ): Pair<Bitmap, ImageInfo> {
-        val result = cvStitch(
-            uris = imageUris,
-            imageScale = combiningParams.outputScale,
-            stitchMode = combiningParams.stitchMode as StitchMode.Auto
-        ) ?: imageUris.first().toBitmap(
+        val result = when (combiningParams.stitchMode) {
+            is StitchMode.Panorama -> cvPanorama(
+                uris = imageUris,
+                imageScale = combiningParams.outputScale,
+                stitchMode = combiningParams.stitchMode
+            )
+
+            else -> cvStitch(
+                uris = imageUris,
+                imageScale = combiningParams.outputScale,
+                stitchMode = combiningParams.stitchMode
+            )
+        } ?: imageUris.first().toBitmap(
             imageScale = combiningParams.outputScale,
             stitchMode = combiningParams.stitchMode
         ) ?: createBitmap(1, 1)
@@ -221,7 +265,7 @@ internal class CvStitchHelper @Inject constructor(
     private suspend fun cvStitch(
         uris: List<String>,
         imageScale: Float,
-        stitchMode: StitchMode.Auto
+        stitchMode: StitchMode
     ): Bitmap? {
         if (uris.size < 2) return null
 
@@ -250,9 +294,126 @@ internal class CvStitchHelper @Inject constructor(
         return current.toBitmap().also { current.release() }
     }
 
+    private suspend fun cvPanorama(
+        uris: List<String>,
+        imageScale: Float,
+        stitchMode: StitchMode.Panorama
+    ): Bitmap? {
+        if (uris.size < 2) return null
+
+        val images = uris.mapNotNull {
+            it.toBitmap(
+                imageScale = imageScale,
+                stitchMode = stitchMode
+            )?.toMat()
+        }
+        if (images.size != uris.size) {
+            images.forEach(Mat::release)
+            return null
+        }
+
+        val centerIndex = images.size / 2
+        val transforms = arrayOfNulls<Mat>(images.size)
+        transforms[centerIndex] = Mat.eye(3, 3, CvType.CV_64F)
+
+        for (index in centerIndex - 1 downTo 0) {
+            val homography = findHomography(
+                source = images[index],
+                target = images[index + 1],
+                diff = true
+            ) ?: return releaseAndReturnNull(images, transforms)
+            transforms[index] = transforms[index + 1]!! * homography
+            homography.release()
+        }
+        for (index in centerIndex + 1 until images.size) {
+            val homography = findHomography(
+                source = images[index],
+                target = images[index - 1],
+                diff = true
+            ) ?: return releaseAndReturnNull(images, transforms)
+            transforms[index] = transforms[index - 1]!! * homography
+            homography.release()
+        }
+
+        val transformedCorners = images.flatMapIndexed { index, image ->
+            val corners = MatOfPoint2f(
+                Point(0.0, 0.0),
+                Point(image.cols().toDouble(), 0.0),
+                Point(image.cols().toDouble(), image.rows().toDouble()),
+                Point(0.0, image.rows().toDouble())
+            )
+            val result = MatOfPoint2f()
+            Core.perspectiveTransform(corners, result, transforms[index]!!)
+            result.toArray().asList().also {
+                corners.release()
+                result.release()
+            }
+        }
+        if (transformedCorners.any { !it.x.isFinite() || !it.y.isFinite() }) {
+            return releaseAndReturnNull(images, transforms)
+        }
+
+        val minX = floor(transformedCorners.minOf { it.x })
+        val minY = floor(transformedCorners.minOf { it.y })
+        val maxX = ceil(transformedCorners.maxOf { it.x })
+        val maxY = ceil(transformedCorners.maxOf { it.y })
+        val width = maxX - minX
+        val height = maxY - minY
+        val inputPixels = images.sumOf { it.cols().toLong() * it.rows() }
+        if (
+            width < 1.0 || height < 1.0 ||
+            width > Int.MAX_VALUE || height > Int.MAX_VALUE ||
+            width.toLong() * height.toLong() > inputPixels * 8
+        ) {
+            return releaseAndReturnNull(images, transforms)
+        }
+
+        val canvasSize = Size(width, height)
+        val canvas = Mat(canvasSize, images.first().type(), Scalar.all(0.0))
+        val offset = Mat.eye(3, 3, CvType.CV_64F).apply {
+            put(0, 2, -minX)
+            put(1, 2, -minY)
+        }
+        images.indices
+            .sortedByDescending { kotlin.math.abs(it - centerIndex) }
+            .forEach { index ->
+                val adjustedTransform = offset * transforms[index]!!
+                val warped = Mat(canvasSize, images[index].type(), Scalar.all(0.0))
+                val sourceMask = Mat(
+                    images[index].size(),
+                    CvType.CV_8UC1,
+                    Scalar.all(255.0)
+                )
+                val warpedMask = Mat(canvasSize, CvType.CV_8UC1, Scalar.all(0.0))
+                Imgproc.warpPerspective(images[index], warped, adjustedTransform, canvasSize)
+                Imgproc.warpPerspective(sourceMask, warpedMask, adjustedTransform, canvasSize)
+                warped.copyTo(canvas, warpedMask)
+                adjustedTransform.release()
+                warped.release()
+                sourceMask.release()
+                warpedMask.release()
+            }
+
+        val result = canvas.toBitmap()
+        canvas.release()
+        offset.release()
+        images.forEach(Mat::release)
+        transforms.filterNotNull().forEach(Mat::release)
+        return result
+    }
+
+    private fun releaseAndReturnNull(
+        images: List<Mat>,
+        transforms: Array<Mat?>
+    ): Nothing? {
+        images.forEach(Mat::release)
+        transforms.filterNotNull().forEach(Mat::release)
+        return null
+    }
+
     private suspend fun String.toBitmap(
         imageScale: Float,
-        stitchMode: StitchMode.Auto
+        stitchMode: StitchMode
     ): Bitmap? = imageGetter.getImage(
         data = this,
         originalSize = true
