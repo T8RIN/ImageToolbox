@@ -441,6 +441,7 @@ interface ToastVisuals {
 @Immutable
 open class ToastDuration(val time: kotlin.Long) {
     object Short : ToastDuration(3500L)
+    object Medium : ToastDuration(5000L)
     object Long : ToastDuration(6500L)
 }
 
@@ -508,5 +509,5 @@ suspend fun ToastHostState.showFailureToast(
 ) = showToast(
     message = message,
     icon = icon ?: Icons.Rounded.Error,
-    duration = ToastDuration.Long
+    duration = ToastDuration.Medium
 )

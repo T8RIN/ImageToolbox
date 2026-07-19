@@ -127,7 +127,7 @@ data object AppToastHost {
         showToast(
             message = message,
             icon = Icons.Rounded.WifiTetheringError,
-            duration = ToastDuration.Long
+            duration = ToastDuration.Medium
         )
     }
 
@@ -137,7 +137,7 @@ data object AppToastHost {
         showToast(
             message = appContext.getString(R.string.activate_files),
             icon = Icons.Outlined.FolderOff,
-            duration = ToastDuration.Long
+            duration = ToastDuration.Medium
         )
     }
 
