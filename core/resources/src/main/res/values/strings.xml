@@ -1310,6 +1310,7 @@
     <string name="vertical_grid">Vertical Grid</string>
     <string name="panorama">Panorama</string>
     <string name="crop_stitched_image_sub">Crop the result to the largest area without empty regions</string>
+    <string name="seam_blending">Seam Blending</string>
     <string name="stitch_mode">Stitch Mode</string>
     <string name="rows_count">Rows Count</string>
     <string name="columns_count">Columns Count</string>

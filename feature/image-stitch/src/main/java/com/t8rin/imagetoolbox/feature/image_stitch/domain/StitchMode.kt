@@ -23,6 +23,7 @@ sealed class StitchMode(val ordinal: Int) {
     open val startDrop: Int = 0
     open val endDrop: Int = 0
     open val cropToContent: Boolean = false
+    open val blendRadius: Int = 0
 
     fun drops(): List<Int> = if (isAuto()) {
         listOf(
@@ -30,7 +31,8 @@ sealed class StitchMode(val ordinal: Int) {
             bottomDrop,
             startDrop,
             endDrop,
-            if (cropToContent) 1 else 0
+            if (cropToContent) 1 else 0,
+            blendRadius
         )
     } else emptyList()
 
@@ -41,14 +43,16 @@ sealed class StitchMode(val ordinal: Int) {
         bottomDrop: Int = this.bottomDrop,
         startDrop: Int = this.startDrop,
         endDrop: Int = this.endDrop,
-        cropToContent: Boolean = this.cropToContent
+        cropToContent: Boolean = this.cropToContent,
+        blendRadius: Int = this.blendRadius
     ): StitchMode = when (this) {
         is Auto -> copy(
             topDrop = topDrop,
             bottomDrop = bottomDrop,
             startDrop = startDrop,
             endDrop = endDrop,
-            cropToContent = cropToContent
+            cropToContent = cropToContent,
+            blendRadius = blendRadius
         )
 
         is Panorama -> copy(
@@ -56,7 +60,8 @@ sealed class StitchMode(val ordinal: Int) {
             bottomDrop = bottomDrop,
             startDrop = startDrop,
             endDrop = endDrop,
-            cropToContent = cropToContent
+            cropToContent = cropToContent,
+            blendRadius = blendRadius
         )
 
         else -> this
@@ -67,14 +72,16 @@ sealed class StitchMode(val ordinal: Int) {
         override val bottomDrop: Int = 0,
         override val startDrop: Int = 0,
         override val endDrop: Int = 0,
-        override val cropToContent: Boolean = false
+        override val cropToContent: Boolean = false,
+        override val blendRadius: Int = 0
     ) : StitchMode(-1) {
         constructor(drops: List<Int>) : this(
             topDrop = drops.getOrNull(0) ?: 0,
             bottomDrop = drops.getOrNull(1) ?: 0,
             startDrop = drops.getOrNull(2) ?: 0,
             endDrop = drops.getOrNull(3) ?: 0,
-            cropToContent = drops.getOrNull(4) == 1
+            cropToContent = drops.getOrNull(4) == 1,
+            blendRadius = drops.getOrNull(5) ?: 0
         )
     }
 
@@ -83,14 +90,16 @@ sealed class StitchMode(val ordinal: Int) {
         override val bottomDrop: Int = 0,
         override val startDrop: Int = 0,
         override val endDrop: Int = 0,
-        override val cropToContent: Boolean = false
+        override val cropToContent: Boolean = false,
+        override val blendRadius: Int = 0
     ) : StitchMode(4) {
         constructor(drops: List<Int>) : this(
             topDrop = drops.getOrNull(0) ?: 0,
             bottomDrop = drops.getOrNull(1) ?: 0,
             startDrop = drops.getOrNull(2) ?: 0,
             endDrop = drops.getOrNull(3) ?: 0,
-            cropToContent = drops.getOrNull(4) == 1
+            cropToContent = drops.getOrNull(4) == 1,
+            blendRadius = drops.getOrNull(5) ?: 0
         )
     }
 

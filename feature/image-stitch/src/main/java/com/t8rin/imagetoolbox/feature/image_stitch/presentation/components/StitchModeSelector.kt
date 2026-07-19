@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Blender
 import com.t8rin.imagetoolbox.core.resources.icons.BorderBottom
 import com.t8rin.imagetoolbox.core.resources.icons.BorderLeft
 import com.t8rin.imagetoolbox.core.resources.icons.BorderRight
@@ -245,6 +246,34 @@ fun StitchModeSelector(
                         onValueChange(
                             value.copyWithDrops(
                                 endDrop = it.roundToInt()
+                            )
+                        )
+                    },
+                    onValueChange = {},
+                    shape = ShapeDefaults.center,
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+                Spacer(Modifier.height(4.dp))
+                EnhancedSliderItem(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    value = value.blendRadius,
+                    title = stringResource(R.string.seam_blending),
+                    sliderModifier = Modifier
+                        .padding(
+                            top = 14.dp,
+                            start = 12.dp,
+                            end = 12.dp,
+                            bottom = 10.dp
+                        ),
+                    icon = Icons.Rounded.Blender,
+                    valueRange = 0f..128f,
+                    internalStateTransformation = {
+                        it.roundToInt()
+                    },
+                    onValueChangeFinished = {
+                        onValueChange(
+                            value.copyWithDrops(
+                                blendRadius = it.roundToInt()
                             )
                         )
                     },

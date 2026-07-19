@@ -65,16 +65,22 @@ internal class CvStitchHelper @Inject constructor(
         mat0: Mat,
         mat1: Mat,
         homo: Boolean = true,
-        diff: Boolean = true
+        diff: Boolean = true,
+        blendRadius: Int = 0
     ): Mat? {
         return if (homo) {
-            stitchHomography(mat0, mat1, diff)
+            stitchHomography(mat0, mat1, diff, blendRadius)
         } else {
             stitchPhaseCorrelate(mat0, mat1, diff)
         }
     }
 
-    private fun stitchHomography(mat0: Mat, mat1: Mat, diff: Boolean): Mat? {
+    private fun stitchHomography(
+        mat0: Mat,
+        mat1: Mat,
+        diff: Boolean,
+        blendRadius: Int
+    ): Mat? {
         val homoMat = findHomography(
             source = mat1,
             target = mat0,
@@ -132,7 +138,8 @@ internal class CvStitchHelper @Inject constructor(
             source = warpedMat1,
             sourceMask = warpedMat1Mask,
             destination = canvas,
-            occupiedMask = occupiedMask
+            occupiedMask = occupiedMask,
+            blendRadius = blendRadius
         )
         val roi0 = Rect((-minX).toInt(), (-minY).toInt(), mat0.cols(), mat0.rows())
         val canvasRoi = canvas.submat(roi0)
@@ -142,7 +149,8 @@ internal class CvStitchHelper @Inject constructor(
             source = mat0,
             sourceMask = mat0Mask,
             destination = canvasRoi,
-            occupiedMask = occupiedRoi
+            occupiedMask = occupiedRoi,
+            blendRadius = blendRadius
         )
         canvasRoi.release()
         occupiedRoi.release()
@@ -325,7 +333,8 @@ internal class CvStitchHelper @Inject constructor(
 
             val stitched = stitchBitmaps(
                 mat0 = current,
-                mat1 = next
+                mat1 = next,
+                blendRadius = stitchMode.blendRadius
             )
             current.release()
             next.release()
@@ -443,7 +452,8 @@ internal class CvStitchHelper @Inject constructor(
                     source = warped,
                     sourceMask = warpedMask,
                     destination = canvas,
-                    occupiedMask = occupiedMask
+                    occupiedMask = occupiedMask,
+                    blendRadius = stitchMode.blendRadius
                 )
                 adjustedTransform.release()
                 warped.release()
@@ -468,9 +478,13 @@ internal class CvStitchHelper @Inject constructor(
         source: Mat,
         sourceMask: Mat,
         destination: Mat,
-        occupiedMask: Mat
+        occupiedMask: Mat,
+        blendRadius: Int
     ) {
         val erodedMask = Mat()
+        val invertedOccupiedMask = Mat()
+        val newAreaMask = Mat()
+        val overlapMask = Mat()
         val erosionKernel = Mat.ones(3, 3, CvType.CV_8UC1)
 
         Imgproc.erode(
@@ -482,11 +496,113 @@ internal class CvStitchHelper @Inject constructor(
             Core.BORDER_CONSTANT,
             Scalar.all(0.0)
         )
-        source.copyTo(destination, erodedMask)
+        Core.bitwise_not(occupiedMask, invertedOccupiedMask)
+        Core.bitwise_and(erodedMask, invertedOccupiedMask, newAreaMask)
+        Core.bitwise_and(erodedMask, occupiedMask, overlapMask)
+        source.copyTo(destination, newAreaMask)
+        if (blendRadius > 0) {
+            featherBlend(
+                source = source,
+                destination = destination,
+                sourceMask = erodedMask,
+                overlapMask = overlapMask,
+                blendRadius = blendRadius
+            )
+        } else {
+            source.copyTo(destination, overlapMask)
+        }
         Core.bitwise_or(occupiedMask, erodedMask, occupiedMask)
 
         erosionKernel.release()
         erodedMask.release()
+        invertedOccupiedMask.release()
+        newAreaMask.release()
+        overlapMask.release()
+    }
+
+    private fun featherBlend(
+        source: Mat,
+        destination: Mat,
+        sourceMask: Mat,
+        overlapMask: Mat,
+        blendRadius: Int
+    ) {
+        val overlapBounds = nonZeroBounds(overlapMask) ?: return
+        val distance = Mat()
+        Imgproc.distanceTransform(
+            sourceMask,
+            distance,
+            Geometry.DIST_L2,
+            Imgproc.DIST_MASK_3
+        )
+
+        val sourceRoi = source.submat(overlapBounds)
+        val destinationRoi = destination.submat(overlapBounds)
+        val overlapRoi = overlapMask.submat(overlapBounds)
+        val distanceRoi = distance.submat(overlapBounds)
+        val alpha = Mat.zeros(overlapBounds.size(), CvType.CV_32FC1)
+        distanceRoi.copyTo(alpha, overlapRoi)
+        Core.multiply(alpha, Scalar.all(1.0 / blendRadius), alpha)
+        Core.min(alpha, Scalar.all(1.0), alpha)
+        val inverseAlpha = Mat()
+        Core.multiply(alpha, Scalar.all(-1.0), inverseAlpha)
+        Core.add(inverseAlpha, Scalar.all(1.0), inverseAlpha)
+
+        repeat(source.channels()) { channel ->
+            val sourceChannel = Mat()
+            val destinationChannel = Mat()
+            val sourceFloat = Mat()
+            val destinationFloat = Mat()
+            val blendedFloat = Mat()
+            val blendedChannel = Mat()
+
+            Core.extractChannel(sourceRoi, sourceChannel, channel)
+            Core.extractChannel(destinationRoi, destinationChannel, channel)
+            sourceChannel.convertTo(sourceFloat, CvType.CV_32FC1)
+            destinationChannel.convertTo(destinationFloat, CvType.CV_32FC1)
+            Core.multiply(sourceFloat, alpha, sourceFloat)
+            Core.multiply(destinationFloat, inverseAlpha, destinationFloat)
+            Core.add(sourceFloat, destinationFloat, blendedFloat)
+            blendedFloat.convertTo(blendedChannel, CvType.CV_8UC1)
+            Core.insertChannel(blendedChannel, destinationRoi, channel)
+
+            sourceChannel.release()
+            destinationChannel.release()
+            sourceFloat.release()
+            destinationFloat.release()
+            blendedFloat.release()
+            blendedChannel.release()
+        }
+
+        sourceRoi.release()
+        destinationRoi.release()
+        overlapRoi.release()
+        distanceRoi.release()
+        alpha.release()
+        inverseAlpha.release()
+        distance.release()
+    }
+
+    private fun nonZeroBounds(mask: Mat): Rect? {
+        val rowData = ByteArray(mask.cols())
+        var minX = mask.cols()
+        var minY = mask.rows()
+        var maxX = -1
+        var maxY = -1
+
+        repeat(mask.rows()) { row ->
+            mask.get(row, 0, rowData)
+            repeat(mask.cols()) { column ->
+                if (rowData[column].toInt() != 0) {
+                    minX = minOf(minX, column)
+                    minY = minOf(minY, row)
+                    maxX = maxOf(maxX, column)
+                    maxY = maxOf(maxY, row)
+                }
+            }
+        }
+        return if (maxX < minX || maxY < minY) null
+        else Rect(minX, minY, maxX - minX + 1, maxY - minY + 1)
     }
 
     private fun cropToFilledArea(image: Mat, mask: Mat): Mat {
@@ -613,4 +729,5 @@ internal class CvStitchHelper @Inject constructor(
         width = width,
         height = height
     )
+
 }
