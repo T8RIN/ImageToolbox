@@ -485,7 +485,7 @@ internal class CvStitchHelper @Inject constructor(
         val invertedOccupiedMask = Mat()
         val newAreaMask = Mat()
         val overlapMask = Mat()
-        val erosionKernel = Mat.ones(3, 3, CvType.CV_8UC1)
+        val erosionKernel = Mat.ones(5, 5, CvType.CV_8UC1)
 
         Imgproc.erode(
             sourceMask,
@@ -499,20 +499,31 @@ internal class CvStitchHelper @Inject constructor(
         Core.bitwise_not(occupiedMask, invertedOccupiedMask)
         Core.bitwise_and(erodedMask, invertedOccupiedMask, newAreaMask)
         Core.bitwise_and(erodedMask, occupiedMask, overlapMask)
-        source.copyTo(destination, newAreaMask)
-        if (blendRadius > 0) {
-            featherBlend(
+        val compensatedSource = if (blendRadius > 0) {
+            compensateExposure(
                 source = source,
                 destination = destination,
+                overlapMask = overlapMask,
+                blendRadius = blendRadius
+            )
+        } else null
+        val sourceToBlend = compensatedSource ?: source
+        sourceToBlend.copyTo(destination, newAreaMask)
+        if (blendRadius > 0) {
+            featherBlend(
+                source = sourceToBlend,
+                destination = destination,
                 sourceMask = erodedMask,
+                destinationMask = occupiedMask,
                 overlapMask = overlapMask,
                 blendRadius = blendRadius
             )
         } else {
-            source.copyTo(destination, overlapMask)
+            sourceToBlend.copyTo(destination, overlapMask)
         }
         Core.bitwise_or(occupiedMask, erodedMask, occupiedMask)
 
+        compensatedSource?.release()
         erosionKernel.release()
         erodedMask.release()
         invertedOccupiedMask.release()
@@ -520,18 +531,57 @@ internal class CvStitchHelper @Inject constructor(
         overlapMask.release()
     }
 
+    private fun compensateExposure(
+        source: Mat,
+        destination: Mat,
+        overlapMask: Mat,
+        blendRadius: Int
+    ): Mat? {
+        if (Core.countNonZero(overlapMask) == 0) return null
+
+        val sourceMean = Core.mean(source, overlapMask)
+        val destinationMean = Core.mean(destination, overlapMask)
+        val strength = (blendRadius / EXPOSURE_BLEND_RADIUS).coerceIn(0.0, 1.0)
+        val gains = DoubleArray(4) { 1.0 }
+
+        repeat(minOf(source.channels(), 3)) { channel ->
+            val sourceValue = sourceMean.`val`[channel]
+            if (sourceValue > 1.0) {
+                val targetGain = (destinationMean.`val`[channel] / sourceValue)
+                    .coerceIn(MIN_EXPOSURE_GAIN, MAX_EXPOSURE_GAIN)
+                gains[channel] = 1.0 + (targetGain - 1.0) * strength
+            }
+        }
+
+        return Mat().also {
+            Core.multiply(
+                source,
+                Scalar(gains[0], gains[1], gains[2], gains[3]),
+                it
+            )
+        }
+    }
+
     private fun featherBlend(
         source: Mat,
         destination: Mat,
         sourceMask: Mat,
+        destinationMask: Mat,
         overlapMask: Mat,
         blendRadius: Int
     ) {
         val overlapBounds = nonZeroBounds(overlapMask) ?: return
-        val distance = Mat()
+        val sourceDistance = Mat()
+        val destinationDistance = Mat()
         Imgproc.distanceTransform(
             sourceMask,
-            distance,
+            sourceDistance,
+            Geometry.DIST_L2,
+            Imgproc.DIST_MASK_3
+        )
+        Imgproc.distanceTransform(
+            destinationMask,
+            destinationDistance,
             Geometry.DIST_L2,
             Imgproc.DIST_MASK_3
         )
@@ -539,11 +589,27 @@ internal class CvStitchHelper @Inject constructor(
         val sourceRoi = source.submat(overlapBounds)
         val destinationRoi = destination.submat(overlapBounds)
         val overlapRoi = overlapMask.submat(overlapBounds)
-        val distanceRoi = distance.submat(overlapBounds)
+        val sourceDistanceRoi = sourceDistance.submat(overlapBounds)
+        val destinationDistanceRoi = destinationDistance.submat(overlapBounds)
+        val sourceWeight = Mat()
+        val destinationWeight = Mat()
+        val totalWeight = Mat()
+        val featherPower = (FEATHER_REFERENCE_RADIUS / blendRadius)
+            .coerceIn(MIN_FEATHER_POWER, MAX_FEATHER_POWER)
+        Core.pow(sourceDistanceRoi, featherPower, sourceWeight)
+        Core.pow(destinationDistanceRoi, featherPower, destinationWeight)
+        Core.add(sourceWeight, destinationWeight, totalWeight)
+        Core.add(totalWeight, Scalar.all(0.001), totalWeight)
+        val normalizedAlpha = Mat()
+        Core.divide(sourceWeight, totalWeight, normalizedAlpha)
         val alpha = Mat.zeros(overlapBounds.size(), CvType.CV_32FC1)
-        distanceRoi.copyTo(alpha, overlapRoi)
-        Core.multiply(alpha, Scalar.all(1.0 / blendRadius), alpha)
-        Core.min(alpha, Scalar.all(1.0), alpha)
+        normalizedAlpha.copyTo(alpha, overlapRoi)
+        val alphaSquared = Mat()
+        val smoothFactor = Mat()
+        Core.multiply(alpha, alpha, alphaSquared)
+        Core.multiply(alpha, Scalar.all(-2.0), smoothFactor)
+        Core.add(smoothFactor, Scalar.all(3.0), smoothFactor)
+        Core.multiply(alphaSquared, smoothFactor, alpha)
         val inverseAlpha = Mat()
         Core.multiply(alpha, Scalar.all(-1.0), inverseAlpha)
         Core.add(inverseAlpha, Scalar.all(1.0), inverseAlpha)
@@ -577,10 +643,18 @@ internal class CvStitchHelper @Inject constructor(
         sourceRoi.release()
         destinationRoi.release()
         overlapRoi.release()
-        distanceRoi.release()
+        sourceDistanceRoi.release()
+        destinationDistanceRoi.release()
+        sourceWeight.release()
+        destinationWeight.release()
+        totalWeight.release()
+        normalizedAlpha.release()
         alpha.release()
+        alphaSquared.release()
+        smoothFactor.release()
         inverseAlpha.release()
-        distance.release()
+        sourceDistance.release()
+        destinationDistance.release()
     }
 
     private fun nonZeroBounds(mask: Mat): Rect? {
@@ -729,5 +803,14 @@ internal class CvStitchHelper @Inject constructor(
         width = width,
         height = height
     )
+
+    private companion object {
+        const val EXPOSURE_BLEND_RADIUS = 32.0
+        const val FEATHER_REFERENCE_RADIUS = 32.0
+        const val MIN_FEATHER_POWER = 0.25
+        const val MAX_FEATHER_POWER = 32.0
+        const val MIN_EXPOSURE_GAIN = 0.75
+        const val MAX_EXPOSURE_GAIN = 1.33
+    }
 
 }
