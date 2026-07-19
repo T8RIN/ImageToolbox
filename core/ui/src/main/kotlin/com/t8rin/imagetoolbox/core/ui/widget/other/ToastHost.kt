@@ -80,7 +80,10 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.resources.icons.Folder
+import com.t8rin.imagetoolbox.core.resources.icons.LinkOff
 import com.t8rin.imagetoolbox.core.resources.icons.Memory
+import com.t8rin.imagetoolbox.core.resources.icons.TimerOff
+import com.t8rin.imagetoolbox.core.resources.icons.WifiOff
 import com.t8rin.imagetoolbox.core.resources.icons.WifiTetheringError
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
@@ -98,6 +101,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
 import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.modalsheet.FullscreenPopup
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.plugins.HttpRequestTimeoutException
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -478,43 +483,52 @@ private fun ToastDuration.toMillis(
 suspend fun ToastHostState.showFailureToast(
     throwable: Throwable
 ) {
-    val networkFailureMessage = throwable.networkFailureMessage()
+    val networkFailure = throwable.networkFailure()
 
     showFailureToast(
-        message = networkFailureMessage ?: throwable.extractMessage(),
+        message = networkFailure?.message ?: throwable.extractMessage(),
         icon = when {
-            networkFailureMessage != null -> Icons.Rounded.WifiTetheringError
+            networkFailure != null -> networkFailure.icon
             throwable is OutOfMemoryError -> Icons.Outlined.Memory
             else -> null
         }
     )
 }
 
-private fun Throwable.networkFailureMessage(): String? = causes().firstNotNullOfOrNull {
-    when {
-        it is UnknownHostException -> getString(R.string.network_host_unreachable)
-        it is SocketTimeoutException || it.hasExceptionName(
-            "ConnectTimeoutException",
-            "HttpRequestTimeoutException",
-            "SocketTimeoutException"
-        ) -> getString(R.string.network_timeout)
+private fun Throwable.networkFailure(): NetworkFailure? = generateSequence(this) { current ->
+    current.cause?.takeUnless { it === current }
+}.firstNotNullOfOrNull {
+    when (it) {
+        is UnknownHostException -> NetworkFailure(
+            message = getString(R.string.network_host_unreachable),
+            icon = Icons.Rounded.WifiTetheringError
+        )
 
-        it is ConnectException -> getString(R.string.network_connection_failed)
-        it is SocketException || it.hasExceptionName(
-            "SoftwareCausedConnectionAbort",
-            "ConnectionResetException"
-        ) -> getString(R.string.network_connection_interrupted)
+        is SocketTimeoutException,
+        is ConnectTimeoutException,
+        is HttpRequestTimeoutException -> NetworkFailure(
+            message = getString(R.string.network_timeout),
+            icon = Icons.Rounded.TimerOff
+        )
+
+        is ConnectException -> NetworkFailure(
+            message = getString(R.string.network_connection_failed),
+            icon = Icons.Rounded.WifiOff
+        )
+
+        is SocketException -> NetworkFailure(
+            message = getString(R.string.network_connection_interrupted),
+            icon = Icons.Rounded.LinkOff
+        )
 
         else -> null
     }
 }
 
-private fun Throwable.causes(): Sequence<Throwable> = generateSequence(this) { current ->
-    current.cause?.takeUnless { it === current }
-}
-
-private fun Throwable.hasExceptionName(vararg names: String): Boolean =
-    names.any { javaClass.simpleName == it }
+private data class NetworkFailure(
+    val message: String,
+    val icon: ImageVector
+)
 
 suspend fun ToastHostState.showFailureToast(
     message: String,
