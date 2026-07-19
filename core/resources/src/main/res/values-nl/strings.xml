@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -333,7 +332,6 @@
     <string name="implementation">Implementatie</string>
     <string name="compatibility">Compatibiliteit</string>
     <string name="features_sub">Wachtwoordgebaseerde versleuteling van bestanden. Vervolgbestanden kunnen in de geselecteerde map worden opgeslagen of gedeeld. Gedecodeerde bestanden kunnen ook direct worden geopend.</string>
-    <string name="implementation_sub">AES-256, GCM-modus, geen opvulling, 12 bytes willekeurige IV\'s. Sleutels worden gebruikt als (256 bits) SHA-3-hashes. (Standaard, maar het is mogelijk om het benodigde algoritme selecteren).</string>
     <string name="file_size">Bestandsgrootte</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">Houd er rekening mee dat compatibiliteit met andere bestandsversleutelingssoftware of -services niet kan worden gegarandeerd. Een iets andere versleutelings- of coderingsconfiguratie kan incompatibiliteit veroorzaken.</string>

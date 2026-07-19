@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -295,7 +294,6 @@
     <string name="pick_file_to_start">เลือกไฟล์เพื่อเริ่มต้น</string>
     <string name="store_file_desc">จัดเก็บไฟล์นี้บนอุปกรณ์ของคุณหรือใช้การดำเนินการแชร์เพื่อวางไว้ทุกที่ที่คุณต้องการ</string>
     <string name="implementation">การดำเนินการ</string>
-    <string name="implementation_sub">AES-256, โหมด GCM, ไม่มีการเติม, IV แบบสุ่ม 12 ไบต์ คีย์ใช้เป็นแฮช SHA-3 (256 บิต)</string>
     <string name="file_size">ขนาดไฟล์</string>
     <string name="compatibility_sub">โปรดทราบว่าไม่รับประกันความเข้ากันได้กับซอฟต์แวร์หรือบริการเข้ารหัสไฟล์อื่นๆ การรักษาคีย์ที่แตกต่างกันเล็กน้อยหรือการกำหนดค่ารหัสอาจเป็นสาเหตุของความเข้ากันไม่ได้</string>
     <string name="features_sub">การเข้ารหัสไฟล์โดยใช้รหัสผ่าน ไฟล์ที่ดำเนินการแล้วสามารถเก็บไว้ในไดเร็กทอรีที่เลือกหรือใช้ร่วมกัน สามารถเปิดไฟล์ที่ถอดรหัสได้โดยตรง</string>

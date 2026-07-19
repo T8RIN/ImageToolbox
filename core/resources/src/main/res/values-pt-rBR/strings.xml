@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -285,7 +284,6 @@
     <string name="implementation">Implementação</string>
     <string name="compatibility">Compatibilidade</string>
     <string name="features_sub">Criptografia de arquivos baseada em senha. Os arquivos processados podem ser armazenados no diretório selecionado ou compartilhados. Os arquivos descriptografados também podem ser abertos diretamente.</string>
-    <string name="implementation_sub">AES-256, modo GCM, sem preenchimento, IVs aleatórios de 12 bytes por padrão. Você pode selecionar o algoritmo necessário. As chaves são usadas como hashes SHA-3 de 256 bits</string>
     <string name="file_size">Tamanho do arquivo</string>
     <string name="file_size_sub">O tamanho máximo do arquivo é restrito pelo sistema operacional Android e pela memória disponível, que depende do dispositivo. \nObserve: memória não é armazenamento.</string>
     <string name="compatibility_sub">Observe que a compatibilidade com outros softwares ou serviços de criptografia de arquivos não é garantida. Um tratamento de chave ou configuração de criptografia ligeiramente diferente pode causar incompatibilidade.</string>

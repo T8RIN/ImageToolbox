@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -340,7 +339,6 @@
     <string name="implementation">Genomförande</string>
     <string name="compatibility">Kompatibilitet</string>
     <string name="features_sub">Lösenordsbaserad kryptering av filer. Fortsatta filer kan lagras i den valda katalogen eller delas. Dekrypterade filer kan också öppnas direkt.</string>
-    <string name="implementation_sub">AES-256, GCM-läge, ingen utfyllnad, 12 bytes slumpmässiga IVs som standard. Du kan välja den algoritm som behövs. Nycklar används som 256-bitars SHA-3-hashar</string>
     <string name="file_size">Fil-storlek</string>
     <string name="file_size_sub">Den maximala filstorleken begränsas av Android OS och tillgängligt minne, vilket är enhetsberoende. \nObservera: minnet är inte lagringsutrymme.</string>
     <string name="compatibility_sub">Observera att kompatibilitet med annan filkrypteringsmjukvara eller tjänster inte garanteras. En något annorlunda nyckelbehandling eller chifferkonfiguration kan orsaka inkompatibilitet.</string>

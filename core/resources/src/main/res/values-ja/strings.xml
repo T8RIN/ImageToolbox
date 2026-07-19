@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -274,7 +273,6 @@
     <string name="pick_file_to_start">開始するにはファイルを選択してください</string>
     <string name="decryption">復号化</string>
     <string name="compatibility">互換性</string>
-    <string name="implementation_sub">AES-256をGCMモードで動作させ、パディングは行いません。デフォルトでは12バイトのランダムIVを使用します。必要に応じてアルゴリズムを選択でき、鍵には256ビット長のSHA-3ハッシュを用います。</string>
     <string name="file_size">ファイルサイズ</string>
     <string name="file_proceed">ファイル処理完了</string>
     <string name="file_size_sub">最大ファイルサイズはAndroid OSと利用可能なメモリによって制限されており、これはデバイスに依存します。 \n注意：メモリはストレージではありません。</string>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -300,7 +299,6 @@
     <string name="found_s">Encontrado %1$s</string>
     <string name="draw_on_background_sub">Elija el color de fondo y dibuje encima</string>
     <string name="features_sub">Cifrado de archivos basado en contraseña. Los archivos procedidos pueden almacenarse en el directorio seleccionado o compartirse. Los archivos descifrados también se pueden abrir directamente.</string>
-    <string name="implementation_sub">"AES-256, modo GCM, sin relleno, vector de Inicialización (IV) aleatorio de 12 bytes por defecto. Se puede seleccionar el algoritmo necesario. Las claves se utilizan como hashes SHA-3  de 256 bits."</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">No se puede cambiar el arreglo mientras la agrupación de opciones está habilitada</string>
     <string name="skip">Saltar</string>
     <string name="paint_alpha">Pintura alfa</string>

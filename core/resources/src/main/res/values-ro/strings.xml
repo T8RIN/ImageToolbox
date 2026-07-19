@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -261,7 +259,6 @@
     <string name="compatibility">Compatibilitate</string>
     <string name="cache">Cache</string>
     <string name="features_sub">Criptarea fișierelor pe bază de parolă. Fișierele procesate pot fi stocate în directorul selectat sau partajate. De asemenea, fișierele decriptate pot fi deschise direct.</string>
-    <string name="implementation_sub">AES-256, modul GCM, fără umplutură, IV-uri aleatoare de 12 octeți. Cheile sunt folosite ca hash-uri SHA-3 (256 de biți).</string>
     <string name="file_size_sub">Dimensiunea maximă a fișierului este restricționată de sistemul de operare Android și de memoria disponibilă, care depinde în mod evident de dispozitivul dvs. \nVă rugăm să rețineți: memoria nu este stocare.</string>
     <string name="image_size_warning">Încercarea de a salva imaginea cu lățimea și înălțimea date poate cauza o eroare OOM. Faceți acest lucru pe propriul risc și să nu spuneți că nu v-am avertizat!</string>
     <string name="found_s">S-a găsit %1$s</string>

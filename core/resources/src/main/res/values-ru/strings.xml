@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -284,7 +282,6 @@
     <string name="features">Функции</string>
     <string name="implementation">Реализация</string>
     <string name="features_sub">Шифрование файлов на основе пароля. Полученные файлы могут храниться в выбранном каталоге. Расшифрованные файлы также могут быть открыты напрямую</string>
-    <string name="implementation_sub">AES-256, режим GCM, без заполнения, 12 байт случайных IV. (По умолчанию, но вы можете выбрать необходимый алгоритм) Ключи используются в виде хэшей SHA-3 (256 бит)</string>
     <string name="file_size">Размер файла</string>
     <string name="file_size_sub">Максимальный размер файла ограничен ОС Android и доступной памятью, которая зависит от устройства. \nОбратите внимание: память - не внутреннее хранилище</string>
     <string name="compatibility_sub">Обратите внимание, что совместимость с другим программным обеспечением или службами для шифрования файлов не гарантируется. Немного другая обработка ключа или конфигурация шифра могут быть причинами несовместимости</string>
