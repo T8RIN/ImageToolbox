@@ -33,10 +33,12 @@ import coil3.ImageLoader
 import com.t8rin.exif.ExifInterface
 import com.t8rin.imagetoolbox.core.data.coil.remove
 import com.t8rin.imagetoolbox.core.data.image.toMetadata
+import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriWriteable
 import com.t8rin.imagetoolbox.core.data.utils.cacheSize
 import com.t8rin.imagetoolbox.core.data.utils.clearCache
+import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.data.utils.isExternalStorageWritable
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
@@ -390,6 +392,329 @@ internal class AndroidFileController @Inject constructor(
                     } else null,
                     savingPath = actualSavingPath,
                     savedBytes = data.size.toLong()
+                )
+            }
+        }.onFailure {
+            return@withContext SaveResult.Error.Exception(it)
+        }
+
+        SaveResult.Error.Exception(
+            SaveException(
+                message = getString(R.string.something_went_wrong)
+            )
+        )
+    }
+
+    override suspend fun move(
+        sourceUri: String,
+        saveTarget: SaveTarget,
+        keepOriginalMetadata: Boolean,
+        oneTimeSaveLocationUri: String?,
+    ): SaveResult {
+        val result = moveImpl(
+            sourceUri = sourceUri,
+            saveTarget = saveTarget,
+            keepOriginalMetadata = keepOriginalMetadata,
+            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+        )
+
+        Triple(
+            first = result,
+            second = keepOriginalMetadata,
+            third = oneTimeSaveLocationUri
+        ).makeLog("File Controller move")
+
+        if (result is SaveResult.Success) {
+            appHistoryRepository.registerSuccessfulSave(
+                savedBytes = result.savedBytes,
+                savedFormat = if (saveTarget is ImageSaveTarget) {
+                    saveTarget.imageFormat.title
+                } else {
+                    saveTarget.extension
+                }
+            )
+
+            runCatching {
+                context.contentResolver.delete(
+                    UriReplacements.resolve(sourceUri.toUri()),
+                    null,
+                    null
+                )
+            }.onFailure {
+                it.makeLog("File Controller move source cleanup")
+            }
+        }
+
+        return result
+    }
+
+    private suspend fun moveImpl(
+        sourceUri: String,
+        saveTarget: SaveTarget,
+        keepOriginalMetadata: Boolean,
+        oneTimeSaveLocationUri: String?,
+    ): SaveResult = withContext(ioDispatcher) {
+        if (!context.isExternalStorageWritable()) {
+            return@withContext SaveResult.Error.MissingPermissions
+        }
+
+        val shouldKeepMetadata = keepOriginalMetadata && !settingsState.isAlwaysClearExif
+        val resolvedSourceUri = UriReplacements.resolve(sourceUri.toUri())
+        val sourceSize = resolvedSourceUri.fileSize() ?: 0L
+        val savingPath = oneTimeSaveLocationUri?.getPath(context) ?: defaultSavingPath
+
+        fun copySourceTo(writeable: Writeable) {
+            UriReadable(
+                uri = resolvedSourceUri,
+                context = context
+            ).use {
+                it.copyTo(writeable)
+            }
+        }
+
+        runSuspendCatching {
+            if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
+                val clipboardManager = context.getSystemService<ClipboardManager>()
+
+                shareProvider.cacheData(
+                    filename = filenameCreator.constructRandomFilename(saveTarget.extension),
+                    writeData = ::copySourceTo
+                )?.toUri()?.let { uri ->
+                    clipboardManager?.setPrimaryClip(
+                        ClipData.newUri(
+                            context.contentResolver,
+                            "IMAGE",
+                            uri
+                        )
+                    )
+                }
+            }
+
+            if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
+                return@withContext SaveResult.Success(
+                    message = getString(R.string.copied),
+                    savingPath = savingPath,
+                    savedBytes = sourceSize
+                )
+            }
+
+            val originalUri = UriReplacements.resolve(saveTarget.originalUri.toUri())
+
+            if (saveTarget is ImageSaveTarget && saveTarget.canSkipIfLarger && settingsState.allowSkipIfLarger) {
+                val originalSize = originalUri.fileSize()
+
+                if (originalSize != null && sourceSize > originalSize) {
+                    return@withContext SaveResult.Skipped(saveTarget.originalUri)
+                }
+            }
+
+            if (settingsState.filenameBehavior is FilenameBehavior.Overwrite) {
+                if (resolvedSourceUri == originalUri) {
+                    throw IllegalArgumentException("Source and destination URI must be different")
+                }
+
+                val providedMetadata = (saveTarget as? ImageSaveTarget)
+                    ?.metadata
+                    ?.takeUnless { settingsState.isAlwaysClearExif }
+                val targetMetadata = if (shouldKeepMetadata) {
+                    readMetadata(originalUri.toString()) ?: providedMetadata
+                } else {
+                    providedMetadata
+                }
+
+                val parcel = runCatching {
+                    if (originalUri == Uri.EMPTY) throw IllegalStateException()
+
+                    context.openFileDescriptor(
+                        uri = originalUri,
+                        mode = FileMode.WriteTruncate
+                    )
+                }.getOrNull()
+
+                if (parcel == null) {
+                    settingsManager.setImagePickerMode(FILE_EXPLORER_PICKER_MODE)
+                    return@withContext SaveResult.Error.Exception(
+                        Throwable(getString(R.string.overwrite_file_requirements))
+                    )
+                }
+
+                parcel.use {
+                    FileOutputStream(parcel.fileDescriptor).use { out ->
+                        copySourceTo(StreamWriteable(out))
+
+                        copyMetadata(
+                            initialExif = targetMetadata,
+                            fileUri = originalUri,
+                            keepOriginalMetadata = shouldKeepMetadata,
+                            originalUri = originalUri
+                        )
+                    }
+
+                    imageLoader.apply {
+                        memoryCache?.remove(originalUri.toString())
+                        diskCache?.remove(originalUri.toString())
+                    }
+
+                    return@withContext SaveResult.Success(
+                        message = getString(
+                            R.string.saved_to_original,
+                            originalUri.filename(context).toString()
+                        ),
+                        isOverwritten = true,
+                        savingPath = savingPath,
+                        savedBytes = originalUri.fileSize() ?: sourceSize
+                    )
+                }
+            } else {
+                val documentFile: DocumentFile?
+                val treeUri = (oneTimeSaveLocationUri ?: settingsState.saveFolderUri).takeIf {
+                    !it.isNullOrEmpty()
+                }
+
+                if (treeUri != null) {
+                    documentFile = runCatching {
+                        treeUri.toUri().let {
+                            if (DocumentFile.isDocumentUri(context, it)) {
+                                DocumentFile.fromSingleUri(context, it)
+                            } else DocumentFile.fromTreeUri(context, it)
+                        }
+                    }.getOrNull()
+
+                    if (documentFile == null || !documentFile.exists()) {
+                        if (oneTimeSaveLocationUri == null) {
+                            settingsManager.setSaveFolderUri(null)
+                        } else {
+                            settingsManager.setOneTimeSaveLocations(
+                                settingsState.oneTimeSaveLocations.let { locations ->
+                                    (locations - locations.find { it.uri == oneTimeSaveLocationUri }).filterNotNull()
+                                }
+                            )
+                        }
+                        return@withContext SaveResult.Error.Exception(
+                            Throwable(
+                                getString(
+                                    R.string.no_such_directory,
+                                    treeUri.toUri().uiPath(treeUri, context)
+                                )
+                            )
+                        )
+                    }
+                } else {
+                    documentFile = null
+                }
+
+                var initialExif: Metadata? = null
+
+                val newSaveTarget = if (saveTarget is ImageSaveTarget) {
+                    initialExif = saveTarget.metadata.takeUnless { settingsState.isAlwaysClearExif }
+
+                    saveTarget.copy(
+                        filename = when (val behavior = settingsState.filenameBehavior) {
+                            is FilenameBehavior.Checksum -> UriReadable(
+                                uri = resolvedSourceUri,
+                                context = context
+                            ).use {
+                                "${behavior.hashingType.computeFromReadable(it)}.${saveTarget.extension}"
+                            }
+
+                            else -> filenameCreator.constructImageFilename(
+                                saveTarget = saveTarget,
+                                forceNotAddSizeInFilename = saveTarget.imageInfo.height <= 0 || saveTarget.imageInfo.width <= 0
+                            )
+                        }
+                    )
+                } else saveTarget
+
+                val filename = newSaveTarget.filename
+                    ?: throw IllegalArgumentException(getString(R.string.filename_is_not_set))
+
+                val savingFolder = SavingFolder.getInstance(
+                    context = context,
+                    treeUri = treeUri?.toUri(),
+                    saveTarget = newSaveTarget,
+                    saveToOriginalFolder = settingsState.saveToOriginalFolder
+                ) ?: throw IllegalArgumentException(getString(R.string.error_while_saving))
+
+                savingFolder.use {
+                    copySourceTo(it)
+                }
+
+                copyMetadata(
+                    initialExif = initialExif,
+                    fileUri = savingFolder.fileUri,
+                    keepOriginalMetadata = shouldKeepMetadata,
+                    originalUri = saveTarget.originalUri.toUri()
+                )
+
+                if (settingsState.deleteOriginalsAfterSave && settingsState.filenameBehavior !is FilenameBehavior.Overwrite) {
+                    originalFileDeletionHelper.deleteAfterSuccessfulSave(
+                        originalUri = saveTarget.originalUri,
+                        outputUri = savingFolder.fileUri
+                    )
+                }
+
+                savingFolder.fileUri.path?.takeIf {
+                    savingFolder.fileUri.scheme == "file"
+                }?.let { path ->
+                    MediaScannerConnection.scanFile(
+                        context,
+                        arrayOf(path),
+                        arrayOf(newSaveTarget.mimeType.entry),
+                        null
+                    )
+                }
+
+                val actualSavingPath = savingFolder.normalizedSavingPath ?: savingPath
+
+                oneTimeSaveLocationUri?.let {
+                    if (documentFile?.isDirectory == true) {
+                        val currentLocation =
+                            settingsState.oneTimeSaveLocations.find { it.uri == oneTimeSaveLocationUri }
+
+                        settingsManager.setOneTimeSaveLocations(
+                            currentLocation?.let {
+                                settingsState.oneTimeSaveLocations.toMutableList().apply {
+                                    remove(currentLocation)
+                                    add(
+                                        currentLocation.copy(
+                                            uri = oneTimeSaveLocationUri,
+                                            date = System.currentTimeMillis(),
+                                            count = currentLocation.count + 1
+                                        )
+                                    )
+                                }
+                            } ?: settingsState.oneTimeSaveLocations.plus(
+                                OneTimeSaveLocation(
+                                    uri = oneTimeSaveLocationUri,
+                                    date = System.currentTimeMillis(),
+                                    count = 1
+                                )
+                            )
+                        )
+                    }
+                }
+
+                return@withContext SaveResult.Success(
+                    message = if (actualSavingPath.isNotEmpty()) {
+                        val isFile =
+                            (documentFile?.isDirectory != true && oneTimeSaveLocationUri != null)
+                        if (isFile) {
+                            getString(R.string.saved_to_custom)
+                        } else if (filename.isNotEmpty()) {
+                            getString(
+                                R.string.saved_to,
+                                actualSavingPath,
+                                filename
+                            )
+                        } else {
+                            getString(
+                                R.string.saved_to_without_filename,
+                                actualSavingPath
+                            )
+                        }
+                    } else null,
+                    savingPath = actualSavingPath,
+                    savedBytes = savingFolder.fileUri.fileSize() ?: sourceSize
                 )
             }
         }.onFailure {

@@ -506,8 +506,12 @@ suspend fun ToastHostState.showFailureToast(
 suspend fun ToastHostState.showFailureToast(
     message: String,
     icon: ImageVector? = null
-) = showToast(
-    message = message,
-    icon = icon ?: Icons.Rounded.Error,
-    duration = ToastDuration.Medium
-)
+) {
+    if (message.contains("cancel", true)) return
+
+    showToast(
+        message = message,
+        icon = icon ?: Icons.Rounded.Error,
+        duration = ToastDuration.Medium
+    )
+}

@@ -4014,4 +4014,5 @@
     <string name="storage_is_read_only">This storage location is read-only. Choose another location and try again</string>
     <string name="file_is_too_large">The file is too large for this storage location or operation</string>
     <string name="file_io_error">The file could not be read or written. Reconnect the storage and try again</string>
+    <string name="results_preview">Results Preview</string>
 </resources>

@@ -15,16 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
-android.namespace = "com.t8rin.imagetoolbox.feature.ai_tools"
+import android.net.Uri
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 
-dependencies {
-    implementation(projects.feature.compare)
-    implementation(projects.lib.neuralTools)
-}
+data class AiToolsPreviewResult(
+    val originalUri: Uri,
+    val cachedUri: Uri,
+    val imageInfo: ImageInfo
+)

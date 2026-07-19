@@ -33,6 +33,13 @@ interface FileController : ObjectSaver, MetadataProvider {
         oneTimeSaveLocationUri: String? = null,
     ): SaveResult
 
+    suspend fun move(
+        sourceUri: String,
+        saveTarget: SaveTarget,
+        keepOriginalMetadata: Boolean,
+        oneTimeSaveLocationUri: String? = null,
+    ): SaveResult
+
     fun getSize(uri: String): Long?
 
     fun clearCache(onComplete: (Long) -> Unit = {})

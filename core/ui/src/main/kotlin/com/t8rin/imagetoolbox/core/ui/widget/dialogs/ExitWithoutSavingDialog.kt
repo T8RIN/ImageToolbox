@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
 import androidx.activity.compose.BackHandler
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -39,13 +39,14 @@ fun ExitWithoutSavingDialog(
     onDismiss: () -> Unit,
     visible: Boolean,
     placeAboveAll: Boolean = false,
+    respectSettings: Boolean = true,
     text: String = stringResource(R.string.image_not_saved_sub),
     title: String = stringResource(R.string.image_not_saved),
     icon: ImageVector = Icons.Outlined.Save
 ) {
     val settingsState = LocalSettingsState.current
 
-    if (!settingsState.enableToolExitConfirmation) {
+    if (respectSettings && !settingsState.enableToolExitConfirmation) {
         LaunchedEffect(visible) {
             if (visible) onExit()
         }

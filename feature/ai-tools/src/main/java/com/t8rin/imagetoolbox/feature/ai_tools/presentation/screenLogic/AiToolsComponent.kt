@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -54,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsPreviewResult
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.NeuralSaveProgress
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -124,6 +126,9 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     private val _imageFormat: MutableState<ImageFormat?> = mutableStateOf(null)
     val imageFormat by _imageFormat
+
+    private val _previewResults = mutableStateOf<List<AiToolsPreviewResult>>(emptyList())
+    val previewResults by _previewResults
 
     private val aiProgressListener = object : AiProgressListener {
         override fun onError(error: String) {
@@ -298,19 +303,49 @@ class AiToolsComponent @AssistedInject internal constructor(
         onComplete: (List<Uri>) -> Unit
     ) {
         savingJob = trackProgress {
-            if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
-                setImageFormat(ImageFormat.Png.Lossless)
+            val list = mutableListOf<Uri>()
+            processImagesToCache { _, cachedUri, _ ->
+                list.add(cachedUri)
             }
-            delay(400)
-            _saveProgress.update {
-                NeuralSaveProgress(
-                    doneImages = 0,
-                    totalImages = uris.orEmpty().size,
-                    doneChunks = 0,
-                    totalChunks = 0
+            onComplete(list)
+            _saveProgress.update { null }
+        }
+    }
+
+    fun processToPreview() {
+        savingJob = trackProgress {
+            val results = mutableListOf<AiToolsPreviewResult>()
+            processImagesToCache { originalUri, cachedUri, imageInfo ->
+                results.add(
+                    AiToolsPreviewResult(
+                        originalUri = originalUri,
+                        cachedUri = cachedUri,
+                        imageInfo = imageInfo
+                    )
                 )
             }
-            val list = mutableListOf<Uri>()
+            _previewResults.value = results
+            _saveProgress.update { null }
+        }
+    }
+
+    private suspend fun processImagesToCache(
+        onCached: (originalUri: Uri, cachedUri: Uri, imageInfo: ImageInfo) -> Unit
+    ) {
+        if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
+            setImageFormat(ImageFormat.Png.Lossless)
+        }
+        delay(400)
+        _saveProgress.update {
+            NeuralSaveProgress(
+                doneImages = 0,
+                totalImages = uris.orEmpty().size,
+                doneChunks = 0,
+                totalChunks = 0
+            )
+        }
+
+        try {
             uris?.forEach { uri ->
                 runSuspendCatching {
                     val (image, imageInfo) = imageGetter.getImage(uri.toString())
@@ -333,21 +368,68 @@ class AiToolsComponent @AssistedInject internal constructor(
                         shareProvider.cacheImage(
                             image = image,
                             imageInfo = imageInfo
-                        )?.let { uri ->
-                            list.add(uri.toUri())
+                        )?.let { cachedUri ->
+                            onCached(uri, cachedUri.toUri(), imageInfo)
                         }
                     }
 
                 _saveProgress.updateNotNull {
-                    it.copy(
-                        doneImages = it.doneImages + 1
-                    )
+                    it.copy(doneImages = it.doneImages + 1)
                 }
             }
-            onComplete(list)
-            _saveProgress.update { null }
-
+        } finally {
             aiToolsRepository.cleanup()
+        }
+    }
+
+    fun savePreviewResults(oneTimeSaveLocationUri: String?) {
+        savingJob = trackProgress {
+            val previews = previewResults
+            _saveProgress.update {
+                NeuralSaveProgress(
+                    doneImages = 0,
+                    totalImages = previews.size,
+                    doneChunks = 0,
+                    totalChunks = 0
+                )
+            }
+
+            val results = previews.mapIndexed { index, preview ->
+                val result = runSuspendCatching {
+                    fileController.move(
+                        sourceUri = preview.cachedUri.toString(),
+                        saveTarget = ImageSaveTarget(
+                            imageInfo = preview.imageInfo,
+                            originalUri = preview.originalUri.toString(),
+                            sequenceNumber = index + 1,
+                            data = ByteArray(0)
+                        ),
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                    )
+                }.getOrElse { SaveResult.Error.Exception(it) }
+
+                _saveProgress.updateNotNull {
+                    it.copy(doneImages = it.doneImages + 1)
+                }
+                result
+            }
+
+            parseSaveResults(results.onSuccess(::registerSave))
+            _previewResults.value = previews.zip(results)
+                .filterNot { (_, result) -> result is SaveResult.Success }
+                .map { (preview, _) -> preview }
+            _saveProgress.update { null }
+        }
+    }
+
+    fun clearPreviewResults() {
+        _previewResults.value = emptyList()
+    }
+
+    fun removePreviewResult(uri: Uri) {
+        _previewResults.update { results ->
+            results.filterNot { it.cachedUri == uri }
         }
     }
 
@@ -357,6 +439,13 @@ class AiToolsComponent @AssistedInject internal constructor(
                 shareProvider.shareUris(uris.map { it.toString() })
                 AppToastHost.showConfetti()
             }
+        }
+    }
+
+    fun sharePreviewResults() {
+        componentScope.launch {
+            shareProvider.shareUris(previewResults.map { it.cachedUri.toString() })
+            AppToastHost.showConfetti()
         }
     }
 

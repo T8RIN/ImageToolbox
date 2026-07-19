@@ -18,8 +18,11 @@
 package com.t8rin.imagetoolbox.feature.ai_tools.presentation
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,11 +36,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Preview
+import com.t8rin.imagetoolbox.core.ui.utils.animation.fancySlideTransition
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -46,6 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
@@ -56,6 +64,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsControls
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsResultCompareSheet
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsResultsPreview
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.NeuralSaveProgressDialog
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 
@@ -77,11 +87,8 @@ fun AiToolsContent(
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
-
-    val onBack = {
-        if (component.haveChanges) showExitDialog = true
-        else component.onGoBack()
-    }
+    var showPreviewExitDialog by rememberSaveable { mutableStateOf(false) }
+    var compareUris by remember { mutableStateOf<Pair<Uri, Uri>?>(null) }
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveBitmaps(
@@ -98,118 +105,193 @@ fun AiToolsContent(
     }
 
     val selectedModel by component.selectedModel.collectAsStateWithLifecycle()
+    val isPreviewMode = component.previewResults.isNotEmpty()
+    val screenWidthPx = LocalScreenSize.current.widthPx
 
-    AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !component.haveChanges,
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.marquee()
-            ) {
-                Text(
-                    text = stringResource(R.string.ai_tools)
-                )
-                EnhancedBadge(
-                    content = {
-                        Text(
-                            text = NeuralModel.entries.size.toString()
+    val onBack = {
+        when {
+            isPreviewMode -> showPreviewExitDialog = true
+            component.haveChanges -> showExitDialog = true
+            else -> component.onGoBack()
+        }
+    }
+
+    AnimatedContent(
+        targetState = isPreviewMode,
+        transitionSpec = {
+            fancySlideTransition(
+                isForward = targetState,
+                screenWidthPx = screenWidthPx,
+                duration = 400
+            )
+        },
+        modifier = Modifier.fillMaxSize()
+    ) { previewMode ->
+        AdaptiveLayoutScreen(
+            shouldDisableBackHandler = !component.haveChanges && !previewMode,
+            title = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.marquee()
+                ) {
+                    Text(
+                        text = stringResource(
+                            if (previewMode) R.string.results_preview
+                            else R.string.ai_tools
                         )
+                    )
+                    EnhancedBadge(
+                        content = {
+                            Text(
+                                if (isPreviewMode) {
+                                    component.previewResults.size.toString()
+                                } else {
+                                    NeuralModel.entries.size.toString()
+                                }
+                            )
+                        },
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        contentColor = MaterialTheme.colorScheme.onTertiary,
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp)
+                            .padding(bottom = 12.dp)
+                            .scaleOnTap {
+                                AppToastHost.showConfetti()
+                            }
+                    )
+                }
+            },
+            onGoBack = onBack,
+            actions = {
+                var editSheetData by remember {
+                    mutableStateOf(listOf<Uri>())
+                }
+                ShareButton(
+                    onShare = {
+                        if (previewMode) component.sharePreviewResults()
+                        else component.shareBitmaps()
                     },
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary,
-                    modifier = Modifier
-                        .padding(horizontal = 2.dp)
-                        .padding(bottom = 12.dp)
-                        .scaleOnTap {
-                            AppToastHost.showConfetti()
+                    onEdit = {
+                        if (previewMode) {
+                            editSheetData = component.previewResults.map { it.cachedUri }
+                        } else {
+                            component.cacheImages {
+                                editSheetData = it
+                            }
                         }
-                )
-            }
-        },
-        onGoBack = onBack,
-        actions = {
-            var editSheetData by remember {
-                mutableStateOf(listOf<Uri>())
-            }
-            ShareButton(
-                onShare = component::shareBitmaps,
-                onEdit = {
-                    component.cacheImages {
-                        editSheetData = it
                     }
+                )
+                ProcessImagesPreferenceSheet(
+                    uris = editSheetData,
+                    visible = editSheetData.isNotEmpty(),
+                    onDismiss = {
+                        editSheetData = emptyList()
+                    },
+                    onNavigate = component.onNavigate
+                )
+            },
+            showImagePreviewAsStickyHeader = false,
+            imagePreview = {
+                UrisPreview(
+                    modifier = Modifier.urisPreview(isPortrait = isPortrait),
+                    uris = component.uris.orEmpty(),
+                    isPortrait = true,
+                    onRemoveUri = component::removeUri,
+                    onAddUris = addImagesImagePicker::pickImage,
+                    onNavigate = component.onNavigate
+                )
+            },
+            placeImagePreview = !isPreviewMode,
+            controls = {
+                if (previewMode) {
+                    AiToolsResultsPreview(
+                        results = component.previewResults,
+                        onCompare = {
+                            compareUris = it.originalUri to it.cachedUri
+                        },
+                        onRemove = component::removePreviewResult,
+                        modifier = if (isPortrait) {
+                            Modifier.padding(top = 20.dp)
+                        } else Modifier
+                    )
+                } else {
+                    AiToolsControls(component = component)
                 }
-            )
-            ProcessImagesPreferenceSheet(
-                uris = editSheetData,
-                visible = editSheetData.isNotEmpty(),
-                onDismiss = {
-                    editSheetData = emptyList()
-                },
-                onNavigate = component.onNavigate
-            )
-        },
-        showImagePreviewAsStickyHeader = false,
-        imagePreview = {
-            UrisPreview(
-                modifier = Modifier.urisPreview(isPortrait = isPortrait),
-                uris = component.uris.orEmpty(),
-                isPortrait = true,
-                onRemoveUri = component::removeUri,
-                onAddUris = addImagesImagePicker::pickImage,
-                onNavigate = component.onNavigate
-            )
-        },
-        controls = {
-            AiToolsControls(
-                component = component
-            )
-        },
-        noDataControls = {
-            ImageNotPickedWidget(onPickImage = pickImage)
-        },
-        buttons = { actions ->
-            var showFolderSelectionDialog by rememberSaveable {
-                mutableStateOf(false)
-            }
-            var showOneTimeImagePickingDialog by rememberSaveable {
-                mutableStateOf(false)
-            }
-            BottomButtonsBlock(
-                isNoData = component.uris.isNullOrEmpty(),
-                isPrimaryButtonVisible = selectedModel != null,
-                onSecondaryButtonClick = pickImage,
-                onPrimaryButtonClick = {
-                    saveBitmaps(null)
-                },
-                onPrimaryButtonLongClick = {
-                    showFolderSelectionDialog = true
-                },
-                actions = {
-                    if (isPortrait) actions()
-                },
-                onSecondaryButtonLongClick = {
-                    showOneTimeImagePickingDialog = true
+            },
+            noDataControls = {
+                ImageNotPickedWidget(onPickImage = pickImage)
+            },
+            buttons = { actions ->
+                var showFolderSelectionDialog by rememberSaveable {
+                    mutableStateOf(false)
                 }
-            )
-            OneTimeSaveLocationSelectionDialog(
-                visible = showFolderSelectionDialog,
-                onDismiss = { showFolderSelectionDialog = false },
-                onSaveRequest = saveBitmaps,
-                formatForFilenameSelection = component.getFormatForFilenameSelection()
-            )
-            OneTimeImagePickingDialog(
-                onDismiss = { showOneTimeImagePickingDialog = false },
-                picker = Picker.Multiple,
-                imagePicker = imagePicker,
-                visible = showOneTimeImagePickingDialog
-            )
-        },
-        topAppBarPersistentActions = {
-            if (component.uris.isNullOrEmpty()) {
-                TopAppBarEmoji()
-            }
-        },
-        canShowScreenData = !component.uris.isNullOrEmpty()
+                var showOneTimeImagePickingDialog by rememberSaveable {
+                    mutableStateOf(false)
+                }
+                val save: (String?) -> Unit = if (previewMode) {
+                    component::savePreviewResults
+                } else {
+                    saveBitmaps
+                }
+                BottomButtonsBlock(
+                    isNoData = component.uris.isNullOrEmpty() && !previewMode,
+                    isPrimaryButtonVisible = selectedModel != null || previewMode,
+                    isSecondaryButtonVisible = !previewMode,
+                    onSecondaryButtonClick = pickImage,
+                    onPrimaryButtonClick = {
+                        save(null)
+                    },
+                    onPrimaryButtonLongClick = {
+                        showFolderSelectionDialog = true
+                    },
+                    middleFab = if (!component.uris.isNullOrEmpty() && selectedModel != null && !previewMode) {
+                        {
+                            EnhancedFloatingActionButton(
+                                onClick = component::processToPreview,
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Preview,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    } else null,
+                    showMiddleFabInRow = true,
+                    actions = {
+                        if (isPortrait) actions()
+                    },
+                    onSecondaryButtonLongClick = if (previewMode) {
+                        null
+                    } else {
+                        { showOneTimeImagePickingDialog = true }
+                    }
+                )
+                OneTimeSaveLocationSelectionDialog(
+                    visible = showFolderSelectionDialog,
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = save,
+                    formatForFilenameSelection = component.getFormatForFilenameSelection()
+                )
+                OneTimeImagePickingDialog(
+                    onDismiss = { showOneTimeImagePickingDialog = false },
+                    picker = Picker.Multiple,
+                    imagePicker = imagePicker,
+                    visible = showOneTimeImagePickingDialog
+                )
+            },
+            topAppBarPersistentActions = {
+                if (component.uris.isNullOrEmpty() || isPreviewMode) {
+                    TopAppBarEmoji()
+                }
+            },
+            canShowScreenData = !component.uris.isNullOrEmpty() || previewMode
+        )
+    }
+
+    AiToolsResultCompareSheet(
+        uris = compareUris,
+        onDismiss = { compareUris = null }
     )
 
     NeuralSaveProgressDialog(
@@ -225,5 +307,12 @@ fun AiToolsContent(
         onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
+    )
+
+    ExitWithoutSavingDialog(
+        onExit = component::clearPreviewResults,
+        onDismiss = { showPreviewExitDialog = false },
+        visible = showPreviewExitDialog,
+        respectSettings = false
     )
 }
