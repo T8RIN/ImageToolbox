@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -293,7 +291,6 @@
     <string name="features">లక్షణాలు</string>
     <string name="implementation">అమలు</string>
     <string name="compatibility">అనుకూలత</string>
-    <string name="implementation_sub">AES-256, GCM మోడ్, పాడింగ్ లేదు, 12 బైట్‌లు యాదృచ్ఛిక IVలు. కీలు SHA-3 హాష్‌లుగా ఉపయోగించబడతాయి (256 బిట్‌లు).</string>
     <string name="file_size">ఫైల్ పరిమాణం</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">ఇతర ఫైల్ ఎన్‌క్రిప్షన్ సాఫ్ట్‌వేర్ లేదా సేవలకు అనుకూలత హామీ ఇవ్వబడదని దయచేసి గమనించండి. కొద్దిగా భిన్నమైన కీ చికిత్స లేదా సాంకేతికలిపి కాన్ఫిగరేషన్ అననుకూలతకు కారణం కావచ్చు.</string>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -302,7 +301,6 @@
     <string name="implementation">پیاده‌سازی</string>
     <string name="compatibility">سازگاری</string>
     <string name="features_sub">رمزگذاری فایل ها بر اساس رمز عبور فایل های ادامه یافته را می توان در فهرست انتخابی ذخیره کرد یا به اشتراک گذاشت. فایل های رمزگشایی شده نیز می توانند مستقیما باز شوند.</string>
-    <string name="implementation_sub">AES-256 با حالت GCM، بدون padding، IV تصادفی ۱۲ بایتی (به صورت پیش‌فرض، اما می‌توانید الگوریتم مورد نظر را انتخاب کنید). کلیدها به صورت هش SHA-3 با طول ۲۵۶ بیت استفاده می‌شوند.</string>
     <string name="file_size">اندازه پرونده</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">لطفاً توجه داشته باشید که سازگاری با سایر نرم افزارها یا خدمات رمزگذاری فایل تضمین نمی شود. یک درمان کلیدی یا پیکربندی رمز کمی متفاوت ممکن است باعث ناسازگاری شود.</string>

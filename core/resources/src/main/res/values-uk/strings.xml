@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -282,7 +281,6 @@
     <string name="store_file_desc">Збережіть цей файл на своєму пристрої або скористайтеся \"Поділитися\", щоб розмістити його де завгодно</string>
     <string name="implementation">Реалізація</string>
     <string name="features_sub">Шифрування файлів на основі пароля. Отримані файли можна зберігати у вибраному каталозі або надавати спільний доступ. Розшифровані файли також можна безпосередньо відкрити.</string>
-    <string name="implementation_sub">AES-256, режим GCM, без доповнення, 12 байт випадкових IV за замовчуванням. Ви можете вибрати потрібний алгоритм. Ключі використовуються як 256-бітні SHA-3 хеші.</string>
     <string name="encrypt">Шифрувати</string>
     <string name="file_proceed">Файл оброблено</string>
     <string name="file_size">Розмір файлу</string>

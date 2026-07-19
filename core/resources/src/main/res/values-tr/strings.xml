@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -286,7 +284,6 @@
     <string name="implementation">Uygulama</string>
     <string name="compatibility">Uyumluluk</string>
     <string name="features_sub">Dosyaların parola tabanlı şifrelenmesi. İşlenen dosyalar seçilen dizinde saklanabilir veya paylaşılabilir. Şifresi çözülen dosyalar da doğrudan açılabilir.</string>
-    <string name="implementation_sub">AES-256, GCM modu, dolgusuz, varsayılan olarak 12 bayt rastgele IV. İhtiyaç duyulan algoritmayı seçebilirsiniz. Anahtarlar 256-bit SHA-3 hash olarak kullanılır</string>
     <string name="file_size">Dosya boyutu</string>
     <string name="file_size_sub">Maksimum dosya boyutu Android işletim sistemi ve mevcut bellek tarafından kısıtlanmıştır ve cihaza bağlıdır. \nLütfen unutmayın: bellek, depolama alanı değildir.</string>
     <string name="compatibility_sub">Lütfen diğer dosya şifreleme yazılımları veya hizmetleriyle uyumluluğun garanti edilmediğini unutmayın. Biraz farklı bir anahtar işlemi veya şifre yapılandırması uyumsuzluğa neden olabilir.</string>

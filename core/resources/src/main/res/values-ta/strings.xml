@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -309,7 +308,6 @@
     <string name="implementation">செயல்படுத்தல்</string>
     <string name="compatibility">இணக்கத்தன்மை</string>
     <string name="features_sub">கோப்புகளின் கடவுச்சொல் அடிப்படையிலான குறியாக்கம். தொடரப்பட்ட கோப்புகளை தேர்ந்தெடுக்கப்பட்ட கோப்பகத்தில் சேமிக்கலாம் அல்லது பகிரலாம். மறைகுறியாக்கப்பட்ட கோப்புகளையும் நேரடியாக திறக்க முடியும்.</string>
-    <string name="implementation_sub">AES-256, GCM பயன்முறை, திணிப்பு இல்லை, 12 பைட்டுகள் சீரற்ற IV கள் இயல்பாகவே. தேவையான வழிமுறையை நீங்கள் தேர்ந்தெடுக்கலாம். விசைகள் 256-பிட் சா -3 ஆச்களாக பயன்படுத்தப்படுகின்றன</string>
     <string name="file_size">கோப்பின் அளவு</string>
     <string name="file_size_sub">அதிகபட்ச கோப்பு அளவு ஆண்ட்ராய்டு OS மற்றும் கிடைக்கக்கூடிய நினைவகத்தால் கட்டுப்படுத்தப்படுகிறது, இது சாதனம் சார்ந்தது.\n தயவுசெய்து கவனிக்கவும்: நினைவகம் சேமிப்பு அல்ல.</string>
     <string name="overwrite_files">கோப்புகளை மேலெழுதவும்</string>

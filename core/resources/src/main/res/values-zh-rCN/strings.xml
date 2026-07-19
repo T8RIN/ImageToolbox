@@ -278,7 +278,6 @@
     <string name="features">功能</string>
     <string name="implementation">执行</string>
     <string name="compatibility">兼容性</string>
-    <string name="implementation_sub">AES-256，GCM模式，无填充，默认使用12字节随机IV。您可以选择所需的算法。密钥以256位SHA-3哈希形式使用</string>
     <string name="file_size">文件大小</string>
     <string name="compatibility_sub">请注意，我们不保证与其他文件加密软件或服务的兼容性，密钥处理或密码配置稍有不同可能会不兼容。</string>
     <string name="cipher">加密</string>

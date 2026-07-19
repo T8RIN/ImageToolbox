@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -300,7 +299,6 @@
     <string name="decryption">Dešifrovanie</string>
     <string name="implementation">Implementácia</string>
     <string name="compatibility">Kompatibilita</string>
-    <string name="implementation_sub">AES-256, režim GCM, bez vypĺňania (paddingu), predvolene 12-bajtové náhodné IV. Môžete si vybrať požadovaný algoritmus. Kľúče sa používajú ako 256-bitové SHA-3 hashe</string>
     <string name="file_proceed">Súbor spracovaný</string>
     <string name="tools">Nástroje</string>
     <string name="group_options_by_type">Zoskupte možnosti podľa typu</string>

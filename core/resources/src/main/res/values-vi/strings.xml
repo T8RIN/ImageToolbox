@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -285,7 +284,6 @@
     <string name="implementation">Triển khai</string>
     <string name="compatibility">Khả năng tương thích</string>
     <string name="features_sub">Mã hóa tập tin dựa trên mật khẩu. Các tập tin đã xử lý có thể được lưu trữ trong thư mục đã chọn hoặc được chia sẻ. Các tập tin được giải mã cũng có thể được mở trực tiếp.</string>
-    <string name="implementation_sub">AES-256, chế độ GCM, không có phần đệm, IV ngẫu nhiên 12 byte. Các khóa được sử dụng làm hàm băm SHA-3 (256 bit).</string>
     <string name="file_size">Kích thước tệp</string>
     <string name="file_size_sub">Kích thước tệp tối đa bị giới hạn bởi hệ điều hành Android và bộ nhớ khả dụng, tùy thuộc vào thiết bị. \nXin lưu ý: bộ nhớ không phải là nơi lưu trữ.</string>
     <string name="compatibility_sub">Xin lưu ý rằng khả năng tương thích với các phần mềm hoặc dịch vụ mã hóa tệp khác không được đảm bảo. Cách xử lý khóa hoặc cấu hình mật mã hơi khác một chút có thể gây ra sự không tương thích.</string>

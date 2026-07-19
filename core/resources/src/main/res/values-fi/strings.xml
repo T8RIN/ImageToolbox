@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -285,7 +284,6 @@
     <string name="implementation">Toteutus</string>
     <string name="compatibility">Yhteensopivuus</string>
     <string name="features_sub">Salasana pohjainen tiedostojen salaus. Valitut kansiot voidaan säilyttää valitussa hakemistossa tai jaettuna. Salaamattomat tiedostot voidaan avata suoraan</string>
-    <string name="implementation_sub">AE-256, GCM tila, ei täytettä, 12 bittinen satunnainen IVs oletuksena. Voit valita vaaditun algoritmin. Avaimia käytetään 256-bit SHA-3 hasheina</string>
     <string name="file_size">Tiedosto koko</string>
     <string name="file_size_sub">Suurin tiedosto koko on rajoitettu Android OS:än ja saatavilla olevan muistin mukaan, minkä laite on päättänyt\nHuomioi: Muisti ei ole tallennustila</string>
     <string name="compatibility_sub">Huomioi, että yhteensopivuus muiden tiedoston salaus sovellusten tai palvelujen kanssa ei ole taattu. Hieman erilainen avaimen käsittely tai salaus voi johtaa yhteensopimattomuuteen</string>
