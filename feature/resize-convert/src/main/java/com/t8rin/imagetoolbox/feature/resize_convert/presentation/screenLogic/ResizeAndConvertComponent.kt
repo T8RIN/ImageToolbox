@@ -465,11 +465,16 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                             currentInfo = it
                         )
                     }.let { imageInfo ->
+                        val shouldKeepExif = !isAlwaysClearExif && (
+                                uris!!.size == 1 || keepExif
+                                )
                         results.add(
                             fileController.save(
                                 saveTarget = ImageSaveTarget(
                                     imageInfo = imageInfo,
-                                    metadata = if (uris!!.size == 1) exif else null,
+                                    metadata = exif.takeIf {
+                                        uris!!.size == 1 && shouldKeepExif
+                                    },
                                     originalUri = uri.toString(),
                                     sequenceNumber = done + 1,
                                     data = imageCompressor.compressAndTransform(
@@ -479,7 +484,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                                     presetInfo = presetSelected,
                                     canSkipIfLarger = true
                                 ),
-                                keepOriginalMetadata = if (uris!!.size == 1) true else keepExif,
+                                keepOriginalMetadata = shouldKeepExif,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
