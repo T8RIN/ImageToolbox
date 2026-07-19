@@ -38,12 +38,14 @@ import com.t8rin.imagetoolbox.core.resources.icons.BorderBottom
 import com.t8rin.imagetoolbox.core.resources.icons.BorderLeft
 import com.t8rin.imagetoolbox.core.resources.icons.BorderRight
 import com.t8rin.imagetoolbox.core.resources.icons.BorderTop
+import com.t8rin.imagetoolbox.core.resources.icons.ScissorsSmall
 import com.t8rin.imagetoolbox.core.resources.icons.TableRows
 import com.t8rin.imagetoolbox.core.resources.icons.ViewColumn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
 import kotlin.math.roundToInt
 
@@ -247,8 +249,21 @@ fun StitchModeSelector(
                         )
                     },
                     onValueChange = {},
-                    shape = ShapeDefaults.bottom,
+                    shape = ShapeDefaults.center,
                     containerColor = MaterialTheme.colorScheme.surface
+                )
+                Spacer(Modifier.height(4.dp))
+                PreferenceRowSwitch(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    title = stringResource(R.string.crop_to_content),
+                    subtitle = stringResource(R.string.crop_stitched_image_sub),
+                    checked = value.cropToContent,
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    shape = ShapeDefaults.bottom,
+                    onClick = {
+                        onValueChange(value.copyWithDrops(cropToContent = it))
+                    },
+                    startIcon = Icons.Outlined.ScissorsSmall
                 )
                 Spacer(Modifier.height(8.dp))
             }

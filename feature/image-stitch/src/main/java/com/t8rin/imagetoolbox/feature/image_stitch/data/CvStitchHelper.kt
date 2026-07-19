@@ -90,15 +90,18 @@ internal class CvStitchHelper @Inject constructor(
         val transformedCorners = MatOfPoint2f(*corners).let { src ->
             val dst = MatOfPoint2f()
             Core.perspectiveTransform(src, dst, homoMat)
-            dst.toArray()
+            dst.toArray().also {
+                src.release()
+                dst.release()
+            }
         }
 
         val allX = transformedCorners.map { it.x } + listOf(0.0, mat0.cols().toDouble())
         val allY = transformedCorners.map { it.y } + listOf(0.0, mat0.rows().toDouble())
-        val minX = allX.minOrNull() ?: 0.0
-        val minY = allY.minOrNull() ?: 0.0
-        val maxX = allX.maxOrNull() ?: mat0.cols().toDouble()
-        val maxY = allY.maxOrNull() ?: mat0.rows().toDouble()
+        val minX = floor(allX.minOrNull() ?: 0.0)
+        val minY = floor(allY.minOrNull() ?: 0.0)
+        val maxX = ceil(allX.maxOrNull() ?: mat0.cols().toDouble())
+        val maxY = ceil(allY.maxOrNull() ?: mat0.rows().toDouble())
         val width = (maxX - minX).toInt()
         val height = (maxY - minY).toInt()
 
@@ -107,10 +110,50 @@ internal class CvStitchHelper @Inject constructor(
         offset.put(1, 2, -minY)
         val adjustedHomo = offset * homoMat
 
-        val canvas = Mat(Size(width.toDouble(), height.toDouble()), mat0.type())
-        Imgproc.warpPerspective(mat1, canvas, adjustedHomo, canvas.size())
+        val canvas = Mat(
+            Size(width.toDouble(), height.toDouble()),
+            mat0.type(),
+            Scalar.all(0.0)
+        )
+        val warpedMat1 = Mat(canvas.size(), mat1.type(), Scalar.all(0.0))
+        Imgproc.warpPerspective(mat1, warpedMat1, adjustedHomo, canvas.size())
+
+        val occupiedMask = Mat(canvas.size(), CvType.CV_8UC1, Scalar.all(0.0))
+        val mat1Mask = createContentMask(mat1)
+        val warpedMat1Mask = Mat(canvas.size(), CvType.CV_8UC1, Scalar.all(0.0))
+        Imgproc.warpPerspective(
+            mat1Mask,
+            warpedMat1Mask,
+            adjustedHomo,
+            canvas.size(),
+            Imgproc.INTER_NEAREST
+        )
+        copyWithoutBorderSeam(
+            source = warpedMat1,
+            sourceMask = warpedMat1Mask,
+            destination = canvas,
+            occupiedMask = occupiedMask
+        )
         val roi0 = Rect((-minX).toInt(), (-minY).toInt(), mat0.cols(), mat0.rows())
-        mat0.copyTo(canvas.submat(roi0))
+        val canvasRoi = canvas.submat(roi0)
+        val occupiedRoi = occupiedMask.submat(roi0)
+        val mat0Mask = createContentMask(mat0)
+        copyWithoutBorderSeam(
+            source = mat0,
+            sourceMask = mat0Mask,
+            destination = canvasRoi,
+            occupiedMask = occupiedRoi
+        )
+        canvasRoi.release()
+        occupiedRoi.release()
+        mat0Mask.release()
+        mat1Mask.release()
+        warpedMat1.release()
+        warpedMat1Mask.release()
+        occupiedMask.release()
+        adjustedHomo.release()
+        offset.release()
+        homoMat.release()
         return canvas
     }
 
@@ -291,7 +334,13 @@ internal class CvStitchHelper @Inject constructor(
             current = stitched
         }
 
-        return current.toBitmap().also { current.release() }
+        val output = if (stitchMode.cropToContent) {
+            cropToOpaqueArea(current)
+        } else current
+        return output.toBitmap().also {
+            if (output !== current) output.release()
+            current.release()
+        }
     }
 
     private suspend fun cvPanorama(
@@ -370,6 +419,7 @@ internal class CvStitchHelper @Inject constructor(
 
         val canvasSize = Size(width, height)
         val canvas = Mat(canvasSize, images.first().type(), Scalar.all(0.0))
+        val occupiedMask = Mat(canvasSize, CvType.CV_8UC1, Scalar.all(0.0))
         val offset = Mat.eye(3, 3, CvType.CV_64F).apply {
             put(0, 2, -minX)
             put(1, 2, -minY)
@@ -379,27 +429,144 @@ internal class CvStitchHelper @Inject constructor(
             .forEach { index ->
                 val adjustedTransform = offset * transforms[index]!!
                 val warped = Mat(canvasSize, images[index].type(), Scalar.all(0.0))
-                val sourceMask = Mat(
-                    images[index].size(),
-                    CvType.CV_8UC1,
-                    Scalar.all(255.0)
-                )
+                val sourceMask = createContentMask(images[index])
                 val warpedMask = Mat(canvasSize, CvType.CV_8UC1, Scalar.all(0.0))
                 Imgproc.warpPerspective(images[index], warped, adjustedTransform, canvasSize)
-                Imgproc.warpPerspective(sourceMask, warpedMask, adjustedTransform, canvasSize)
-                warped.copyTo(canvas, warpedMask)
+                Imgproc.warpPerspective(
+                    sourceMask,
+                    warpedMask,
+                    adjustedTransform,
+                    canvasSize,
+                    Imgproc.INTER_NEAREST
+                )
+                copyWithoutBorderSeam(
+                    source = warped,
+                    sourceMask = warpedMask,
+                    destination = canvas,
+                    occupiedMask = occupiedMask
+                )
                 adjustedTransform.release()
                 warped.release()
                 sourceMask.release()
                 warpedMask.release()
             }
 
-        val result = canvas.toBitmap()
+        val output = if (stitchMode.cropToContent) {
+            cropToFilledArea(canvas, occupiedMask)
+        } else canvas
+        val result = output.toBitmap()
+        if (output !== canvas) output.release()
         canvas.release()
+        occupiedMask.release()
         offset.release()
         images.forEach(Mat::release)
         transforms.filterNotNull().forEach(Mat::release)
         return result
+    }
+
+    private fun copyWithoutBorderSeam(
+        source: Mat,
+        sourceMask: Mat,
+        destination: Mat,
+        occupiedMask: Mat
+    ) {
+        val erodedMask = Mat()
+        val erosionKernel = Mat.ones(3, 3, CvType.CV_8UC1)
+
+        Imgproc.erode(
+            sourceMask,
+            erodedMask,
+            erosionKernel,
+            Point(-1.0, -1.0),
+            1,
+            Core.BORDER_CONSTANT,
+            Scalar.all(0.0)
+        )
+        source.copyTo(destination, erodedMask)
+        Core.bitwise_or(occupiedMask, erodedMask, occupiedMask)
+
+        erosionKernel.release()
+        erodedMask.release()
+    }
+
+    private fun cropToFilledArea(image: Mat, mask: Mat): Mat {
+        val cropRect = largestFilledRectangle(mask) ?: return image
+        if (
+            cropRect.x == 0 && cropRect.y == 0 &&
+            cropRect.width == image.cols() && cropRect.height == image.rows()
+        ) {
+            return image
+        }
+        val croppedView = image.submat(cropRect)
+        return croppedView.clone().also { croppedView.release() }
+    }
+
+    private fun cropToOpaqueArea(image: Mat): Mat {
+        if (image.channels() < 4) return image
+
+        val alpha = Mat()
+        val mask = Mat()
+        Core.extractChannel(image, alpha, 3)
+        Imgproc.threshold(alpha, mask, 254.0, 255.0, Imgproc.THRESH_BINARY)
+        val result = cropToFilledArea(image, mask)
+        alpha.release()
+        mask.release()
+        return result
+    }
+
+    private fun createContentMask(image: Mat): Mat {
+        if (image.channels() < 4) {
+            return Mat(image.size(), CvType.CV_8UC1, Scalar.all(255.0))
+        }
+
+        val alpha = Mat()
+        val mask = Mat()
+        Core.extractChannel(image, alpha, 3)
+        Imgproc.threshold(alpha, mask, 0.0, 255.0, Imgproc.THRESH_BINARY)
+        alpha.release()
+        return mask
+    }
+
+    private fun largestFilledRectangle(mask: Mat): Rect? {
+        val columns = mask.cols()
+        val heights = IntArray(columns)
+        val stack = IntArray(columns + 1)
+        val rowData = ByteArray(columns)
+        var bestArea = 0L
+        var bestRect: Rect? = null
+
+        repeat(mask.rows()) { row ->
+            mask.get(row, 0, rowData)
+            repeat(columns) { column ->
+                heights[column] = if (rowData[column].toInt() != 0) {
+                    heights[column] + 1
+                } else 0
+            }
+
+            var stackSize = 0
+            for (column in 0..columns) {
+                val currentHeight = if (column < columns) heights[column] else 0
+                while (
+                    stackSize > 0 &&
+                    heights[stack[stackSize - 1]] > currentHeight
+                ) {
+                    val height = heights[stack[--stackSize]]
+                    val start = if (stackSize == 0) 0 else stack[stackSize - 1] + 1
+                    val area = height.toLong() * (column - start)
+                    if (area > bestArea) {
+                        bestArea = area
+                        bestRect = Rect(
+                            start,
+                            row - height + 1,
+                            column - start,
+                            height
+                        )
+                    }
+                }
+                stack[stackSize++] = column
+            }
+        }
+        return bestRect
     }
 
     private fun releaseAndReturnNull(
