@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -3962,4 +3964,17 @@
     <string name="duplicate_scan_exact_and_similar">Dokładne i podobne</string>
     <string name="no_exact_duplicates_found_sub">Spróbuj dodać więcej obrazów lub dołącz obrazy podobne wizualnie</string>
     <string name="unable_to_decode_image">Nie można rozszyfrować %1$s</string>
+    <string name="implementation_sub_v2">Domyślnie używany jest algorytm AES-256-GCM z losową 12-bajtową wartością jednorazową. Każdy zaszyfrowany plik ma wersjonowany nagłówek, unikalną losową sól i klucz wyprowadzony z hasła przy użyciu PBKDF2-HMAC-SHA256 z 210 000 iteracji. Możesz także wybrać inny dostępny algorytm.</string>
+    <string name="encrypted_file_detected">Wykryto zaszyfrowany plik</string>
+    <string name="encrypted_file_detected_sub">Algorytm szyfrowania i parametry zostaną odczytane z pliku automatycznie</string>
+    <string name="file_already_encrypted">Ten plik jest już zaszyfrowany</string>
+    <string name="file_already_encrypted_sub">Ponowne zaszyfrowanie spowoduje utworzenie dodatkowej warstwy szyfrowania</string>
+    <string name="decrypt_failed">Nie udało się odszyfrować pliku: nieprawidłowe hasło lub uszkodzone zaszyfrowane dane</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Przytnij wynik do największego obszaru bez pustych regionów</string>
+    <string name="seam_blending">Mieszanie szwów</string>
+    <string name="network_host_unreachable">Nie udało się połączyć z serwerem. Sprawdź swoje połączenie internetowe, VPN lub adres i spróbuj ponownie</string>
+    <string name="network_timeout">Upłynął limit czasu połączenia. Sprawdź połączenie i spróbuj ponownie</string>
+    <string name="network_connection_failed">Nie można połączyć się z serwerem. Sprawdź połączenie lub spróbuj ponownie później</string>
+    <string name="network_connection_interrupted">Połączenie zostało przerwane. Sprawdź połączenie i spróbuj ponownie</string>
 </resources>

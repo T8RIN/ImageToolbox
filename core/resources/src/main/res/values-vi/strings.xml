@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -3959,4 +3961,17 @@
     <string name="duplicate_scan_exact_and_similar">Chính xác và tương tự</string>
     <string name="no_exact_duplicates_found_sub">Hãy thử thêm nhiều hình ảnh hơn hoặc bao gồm các hình ảnh tương tự về mặt hình ảnh</string>
     <string name="unable_to_decode_image">Không thể giải mã %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM với nonce 12 byte ngẫu nhiên được sử dụng theo mặc định. Mỗi tệp được mã hóa đều có tiêu đề được phiên bản, một loại muối ngẫu nhiên duy nhất và khóa lấy từ mật khẩu sử dụng PBKDF2-HMAC-SHA256 với 210.000 lần lặp. Bạn cũng có thể chọn một thuật toán có sẵn khác.</string>
+    <string name="encrypted_file_detected">Đã phát hiện tệp mã hóa</string>
+    <string name="encrypted_file_detected_sub">Thuật toán và tham số mã hóa sẽ được đọc tự động từ tệp</string>
+    <string name="file_already_encrypted">Tệp này đã được mã hóa</string>
+    <string name="file_already_encrypted_sub">Mã hóa lại sẽ tạo thêm một lớp mã hóa</string>
+    <string name="decrypt_failed">Không giải mã được tập tin: mật khẩu không hợp lệ hoặc dữ liệu mã hóa bị hỏng</string>
+    <string name="panorama">Toàn cảnh</string>
+    <string name="crop_stitched_image_sub">Cắt kết quả thành vùng lớn nhất không có vùng trống</string>
+    <string name="seam_blending">Trộn đường may</string>
+    <string name="network_host_unreachable">Không thể kết nối với máy chủ. Hãy kiểm tra kết nối Internet, VPN hoặc địa chỉ của bạn rồi thử lại</string>
+    <string name="network_timeout">Kết nối đã hết thời gian chờ. Kiểm tra kết nối của bạn và thử lại</string>
+    <string name="network_connection_failed">Không thể kết nối với máy chủ. Hãy kiểm tra kết nối của bạn hoặc thử lại sau</string>
+    <string name="network_connection_interrupted">Kết nối bị gián đoạn. Kiểm tra kết nối của bạn và thử lại</string>
 </resources>

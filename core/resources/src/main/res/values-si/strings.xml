@@ -3962,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">හරියටම හා සමානයි</string>
     <string name="no_exact_duplicates_found_sub">තවත් පින්තූර එක් කිරීමට හෝ දෘශ්‍යමය වශයෙන් සමාන රූප ඇතුළත් කිරීමට උත්සාහ කරන්න</string>
     <string name="unable_to_decode_image">%1$s විකේතනය කළ නොහැක</string>
+    <string name="implementation_sub_v2">AES-256-GCM සසම්භාවී 12-byte nonce සමඟ පෙරනිමියෙන් භාවිතා වේ. සෑම සංකේතාත්මක ගොනුවකම අනුවාදිත ශීර්ෂයක්, අද්විතීය අහඹු ලුණු සහ PBKDF2-HMAC-SHA256 භාවිතා කරමින් 210,000 පුනරාවර්තන සමඟ මුරපදයෙන් ලබාගත් යතුරක් ඇත. ඔබට පවතින වෙනත් ඇල්ගොරිතමයක් ද තෝරාගත හැක.</string>
+    <string name="encrypted_file_detected">සංකේතනය කළ ගොනුව අනාවරණය විය</string>
+    <string name="encrypted_file_detected_sub">සංකේතාංකන ඇල්ගොරිතම සහ පරාමිති ස්වයංක්‍රීයව ගොනුවෙන් කියවනු ලැබේ</string>
+    <string name="file_already_encrypted">මෙම ගොනුව දැනටමත් සංකේතනය කර ඇත</string>
+    <string name="file_already_encrypted_sub">එය නැවත සංකේතනය කිරීමෙන් අතිරේක සංකේතන ස්ථරයක් සාදනු ඇත</string>
+    <string name="decrypt_failed">ගොනුව විකේතනය කිරීමට අසමත් විය: වලංගු නොවන මුරපදයක් හෝ දූෂිත සංකේතාත්මක දත්ත</string>
+    <string name="panorama">පරිදර්ශනය</string>
+    <string name="crop_stitched_image_sub">ප්‍රතිඵලය හිස් ප්‍රදේශ නොමැතිව විශාලතම ප්‍රදේශයට කපන්න</string>
+    <string name="seam_blending">මැහුම් මිශ්ර කිරීම</string>
+    <string name="network_host_unreachable">සේවාදායකය වෙත ළඟා විය නොහැකි විය. ඔබගේ අන්තර්ජාල සම්බන්ධතාවය, VPN, හෝ ලිපිනය පරීක්ෂා කර නැවත උත්සාහ කරන්න</string>
+    <string name="network_timeout">සම්බන්ධතාවය කල් ඉකුත් විය. ඔබගේ සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න</string>
+    <string name="network_connection_failed">සේවාදායකයට සම්බන්ධ වීමට නොහැකි විය. ඔබගේ සම්බන්ධතාවය පරීක්ෂා කරන්න හෝ පසුව නැවත උත්සාහ කරන්න</string>
+    <string name="network_connection_interrupted">සම්බන්ධතාවය බාධා විය. ඔබගේ සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න</string>
 </resources>

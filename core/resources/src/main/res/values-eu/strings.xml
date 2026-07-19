@@ -3962,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Zehatza eta antzekoa</string>
     <string name="no_exact_duplicates_found_sub">Saiatu irudi gehiago gehitzen edo ikusmen antzeko irudiak sartu</string>
     <string name="unable_to_decode_image">Ezin da deskodetu %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM ausazko 12 byteko nonce batekin erabiltzen da lehenespenez. Enkriptatutako fitxategi bakoitzak bertsiodun goiburu bat, ausazko gatz bakarra eta PBKDF2-HMAC-SHA256 erabiliz pasahitzetik eratorritako gako bat ditu 210.000 iteraziorekin. Eskuragarri dagoen beste algoritmo bat ere hauta dezakezu.</string>
+    <string name="encrypted_file_detected">Enkriptatutako fitxategia hauteman da</string>
+    <string name="encrypted_file_detected_sub">Zifratze-algoritmoa eta parametroak fitxategitik irakurriko dira automatikoki</string>
+    <string name="file_already_encrypted">Fitxategi hau dagoeneko zifratuta dago</string>
+    <string name="file_already_encrypted_sub">Berriro enkriptatuz gero, enkriptazio-geruza gehigarri bat sortuko da</string>
+    <string name="decrypt_failed">Ezin izan da deszifratu fitxategia: pasahitz baliogabea edo enkriptatutako datu hondatuak</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Moztu emaitza eremurik hutsik gabeko eremurik handienera</string>
+    <string name="seam_blending">Jostura nahastea</string>
+    <string name="network_host_unreachable">Ezin izan da zerbitzarira iritsi. Egiaztatu Interneteko konexioa, VPNa edo helbidea eta saiatu berriro</string>
+    <string name="network_timeout">Konexioa denbora-muga gainditu da. Egiaztatu konexioa eta saiatu berriro</string>
+    <string name="network_connection_failed">Ezin izan da zerbitzariarekin konektatu. Egiaztatu konexioa edo saiatu berriro geroago</string>
+    <string name="network_connection_interrupted">Konexioa eten egin zen. Egiaztatu konexioa eta saiatu berriro</string>
 </resources>

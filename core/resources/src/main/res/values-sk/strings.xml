@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -3962,4 +3964,17 @@
     <string name="duplicate_scan_exact_and_similar">Presné a podobné</string>
     <string name="no_exact_duplicates_found_sub">Skúste pridať viac obrázkov alebo zahrňte vizuálne podobné obrázky</string>
     <string name="unable_to_decode_image">Nedá sa dekódovať %1$s</string>
+    <string name="implementation_sub_v2">Štandardne sa používa AES-256-GCM s náhodným 12-bajtovým nonce. Každý zašifrovaný súbor má hlavičku verzie, jedinečnú náhodnú soľ a kľúč odvodený od hesla pomocou PBKDF2-HMAC-SHA256 s 210 000 iteráciami. Môžete tiež vybrať iný dostupný algoritmus.</string>
+    <string name="encrypted_file_detected">Zistil sa šifrovaný súbor</string>
+    <string name="encrypted_file_detected_sub">Šifrovací algoritmus a parametre sa načítajú zo súboru automaticky</string>
+    <string name="file_already_encrypted">Tento súbor je už zašifrovaný</string>
+    <string name="file_already_encrypted_sub">Opätovným zašifrovaním sa vytvorí ďalšia vrstva šifrovania</string>
+    <string name="decrypt_failed">Súbor sa nepodarilo dešifrovať: neplatné heslo alebo poškodené zašifrované údaje</string>
+    <string name="panorama">Panoráma</string>
+    <string name="crop_stitched_image_sub">Orezajte výsledok na najväčšiu oblasť bez prázdnych oblastí</string>
+    <string name="seam_blending">Miešanie švov</string>
+    <string name="network_host_unreachable">Nepodarilo sa spojiť so serverom. Skontrolujte svoje internetové pripojenie, sieť VPN alebo adresu a skúste to znova</string>
+    <string name="network_timeout">Časový limit spojenia vypršal. Skontrolujte pripojenie a skúste to znova</string>
+    <string name="network_connection_failed">Nepodarilo sa pripojiť k serveru. Skontrolujte pripojenie alebo to skúste znova neskôr</string>
+    <string name="network_connection_interrupted">Spojenie bolo prerušené. Skontrolujte pripojenie a skúste to znova</string>
 </resources>

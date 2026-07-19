@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -3962,4 +3964,17 @@
     <string name="duplicate_scan_exact_and_similar">Дакладныя і падобныя</string>
     <string name="no_exact_duplicates_found_sub">Паспрабуйце дадаць больш малюнкаў або ўключыце візуальна падобныя выявы</string>
     <string name="unable_to_decode_image">Немагчыма дэкадаваць %1$s</string>
+    <string name="implementation_sub_v2">Па змаўчанні выкарыстоўваецца AES-256-GCM са выпадковым 12-байтавым нумарам. Кожны зашыфраваны файл мае загаловак з версіяй, унікальную выпадковую соль і ключ, атрыманы з пароля з дапамогай PBKDF2-HMAC-SHA256 з 210 000 ітэрацый. Вы таксама можаце выбраць іншы даступны алгарытм.</string>
+    <string name="encrypted_file_detected">Выяўлены зашыфраваны файл</string>
+    <string name="encrypted_file_detected_sub">Алгарытм шыфравання і параметры будуць счытвацца з файла аўтаматычна</string>
+    <string name="file_already_encrypted">Гэты файл ужо зашыфраваны</string>
+    <string name="file_already_encrypted_sub">Паўторнае шыфраванне створыць дадатковы ўзровень шыфравання</string>
+    <string name="decrypt_failed">Не ўдалося расшыфраваць файл: няправільны пароль або пашкоджаныя зашыфраваныя даныя</string>
+    <string name="panorama">Панарама</string>
+    <string name="crop_stitched_image_sub">Абрэжце вынік да самай вялікай вобласці без пустых абласцей</string>
+    <string name="seam_blending">Змешванне швоў</string>
+    <string name="network_host_unreachable">Не атрымалася падключыцца да сервера. Праверце інтэрнэт-злучэнне, VPN або адрас і паўтарыце спробу</string>
+    <string name="network_timeout">Час чакання злучэння скончыўся. Праверце падключэнне і паўтарыце спробу</string>
+    <string name="network_connection_failed">Немагчыма падключыцца да сервера. Праверце падключэнне або паўтарыце спробу пазней</string>
+    <string name="network_connection_interrupted">Сувязь перарвалася. Праверце падключэнне і паўтарыце спробу</string>
 </resources>

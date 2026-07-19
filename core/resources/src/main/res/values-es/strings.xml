@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Exactos y similares</string>
     <string name="no_exact_duplicates_found_sub">Intente agregar más imágenes o incluya imágenes visualmente similares</string>
     <string name="unable_to_decode_image">No se puede decodificar %1$s</string>
+    <string name="implementation_sub_v2">De forma predeterminada se utiliza AES-256-GCM con un nonce aleatorio de 12 bytes. Cada archivo cifrado tiene un encabezado versionado, un salt aleatorio único y una clave derivada de la contraseña utilizando PBKDF2-HMAC-SHA256 con 210.000 iteraciones. También puede seleccionar otro algoritmo disponible.</string>
+    <string name="encrypted_file_detected">Archivo cifrado detectado</string>
+    <string name="encrypted_file_detected_sub">El algoritmo de cifrado y los parámetros se leerán del archivo automáticamente.</string>
+    <string name="file_already_encrypted">Este archivo ya está cifrado</string>
+    <string name="file_already_encrypted_sub">Cifrarlo nuevamente creará una capa de cifrado adicional</string>
+    <string name="decrypt_failed">No se pudo descifrar el archivo: contraseña no válida o datos cifrados corruptos</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Recorta el resultado al área más grande sin regiones vacías</string>
+    <string name="seam_blending">Mezcla de costuras</string>
+    <string name="network_host_unreachable">No se pudo comunicar con el servidor. Verifique su conexión a Internet, VPN o la dirección e intente nuevamente</string>
+    <string name="network_timeout">La conexión expiró. Comprueba tu conexión y vuelve a intentarlo.</string>
+    <string name="network_connection_failed">No se pudo conectar al servidor. Comprueba tu conexión o vuelve a intentarlo más tarde</string>
+    <string name="network_connection_interrupted">La conexión fue interrumpida. Comprueba tu conexión y vuelve a intentarlo.</string>
 </resources>

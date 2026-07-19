@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -3962,4 +3964,17 @@
     <string name="duplicate_scan_exact_and_similar">מדוייק ודומה</string>
     <string name="no_exact_duplicates_found_sub">נסה להוסיף עוד תמונות או לכלול תמונות דומות מבחינה ויזואלית</string>
     <string name="unable_to_decode_image">לא ניתן לפענח את %1$s</string>
+    <string name="implementation_sub_v2">כברירת מחדל, נעשה שימוש ב-AES-256-GCM עם nonce אקראי של 12 בתים. לכל קובץ מוצפן יש כותרת מנוסחת, מלח אקראי ייחודי ומפתח הנגזר מהסיסמה באמצעות PBKDF2-HMAC-SHA256 עם 210,000 איטרציות. אתה יכול גם לבחור אלגוריתם זמין אחר.</string>
+    <string name="encrypted_file_detected">זוהה קובץ מוצפן</string>
+    <string name="encrypted_file_detected_sub">אלגוריתם ההצפנה והפרמטרים ייקראו מהקובץ באופן אוטומטי</string>
+    <string name="file_already_encrypted">הקובץ הזה כבר מוצפן</string>
+    <string name="file_already_encrypted_sub">הצפנה שוב תיצור שכבת הצפנה נוספת</string>
+    <string name="decrypt_failed">פענוח הקובץ נכשל: סיסמה לא חוקית או נתונים מוצפנים פגומים</string>
+    <string name="panorama">פָּנוֹרָמָה</string>
+    <string name="crop_stitched_image_sub">חתוך את התוצאה לאזור הגדול ביותר ללא אזורים ריקים</string>
+    <string name="seam_blending">מיזוג תפרים</string>
+    <string name="network_host_unreachable">לא ניתן היה להגיע לשרת. בדוק את חיבור האינטרנט, ה-VPN או הכתובת ונסה שוב</string>
+    <string name="network_timeout">תם הזמן הקצוב לחיבור. בדוק את החיבור שלך ונסה שוב</string>
+    <string name="network_connection_failed">לא ניתן להתחבר לשרת. בדוק את החיבור שלך או נסה שוב מאוחר יותר</string>
+    <string name="network_connection_interrupted">החיבור נקטע. בדוק את החיבור שלך ונסה שוב</string>
 </resources>

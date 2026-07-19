@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -3962,4 +3964,17 @@
     <string name="duplicate_scan_exact_and_similar">Přesné a podobné</string>
     <string name="no_exact_duplicates_found_sub">Zkuste přidat více obrázků nebo zahrňte vizuálně podobné obrázky</string>
     <string name="unable_to_decode_image">Nelze dekódovat %1$s</string>
+    <string name="implementation_sub_v2">Standardně se používá AES-256-GCM s náhodným 12bajtovým nonce. Každý zašifrovaný soubor má hlavičku verze, unikátní náhodnou sůl a klíč odvozený z hesla pomocí PBKDF2-HMAC-SHA256 s 210 000 iteracemi. Můžete také vybrat jiný dostupný algoritmus.</string>
+    <string name="encrypted_file_detected">Byl zjištěn šifrovaný soubor</string>
+    <string name="encrypted_file_detected_sub">Šifrovací algoritmus a parametry budou načteny ze souboru automaticky</string>
+    <string name="file_already_encrypted">Tento soubor je již zašifrován</string>
+    <string name="file_already_encrypted_sub">Opětovné zašifrování vytvoří další vrstvu šifrování</string>
+    <string name="decrypt_failed">Soubor se nepodařilo dešifrovat: neplatné heslo nebo poškozená zašifrovaná data</string>
+    <string name="panorama">Panoráma</string>
+    <string name="crop_stitched_image_sub">Ořízněte výsledek na největší plochu bez prázdných oblastí</string>
+    <string name="seam_blending">Prolnutí švů</string>
+    <string name="network_host_unreachable">Nelze se spojit se serverem. Zkontrolujte připojení k internetu, VPN nebo adresu a zkuste to znovu</string>
+    <string name="network_timeout">Časový limit připojení vypršel. Zkontrolujte připojení a zkuste to znovu</string>
+    <string name="network_connection_failed">Nelze se připojit k serveru. Zkontrolujte připojení nebo to zkuste znovu později</string>
+    <string name="network_connection_interrupted">Spojení bylo přerušeno. Zkontrolujte připojení a zkuste to znovu</string>
 </resources>

@@ -3964,4 +3964,17 @@
     <string name="duplicate_scan_exact_and_similar">Tikslūs ir panašūs</string>
     <string name="no_exact_duplicates_found_sub">Pabandykite pridėti daugiau vaizdų arba įtraukite vizualiai panašių vaizdų</string>
     <string name="unable_to_decode_image">Nepavyko iššifruoti %1$s</string>
+    <string name="implementation_sub_v2">Pagal numatytuosius nustatymus naudojamas AES-256-GCM su atsitiktiniu 12 baitų nonce. Kiekvienas užšifruotas failas turi versijų antraštę, unikalią atsitiktinę druską ir raktą, gautą iš slaptažodžio naudojant PBKDF2-HMAC-SHA256 su 210 000 iteracijų. Taip pat galite pasirinkti kitą galimą algoritmą.</string>
+    <string name="encrypted_file_detected">Aptiktas šifruotas failas</string>
+    <string name="encrypted_file_detected_sub">Šifravimo algoritmas ir parametrai bus nuskaityti iš failo automatiškai</string>
+    <string name="file_already_encrypted">Šis failas jau užšifruotas</string>
+    <string name="file_already_encrypted_sub">Dar kartą užšifravus bus sukurtas papildomas šifravimo sluoksnis</string>
+    <string name="decrypt_failed">Nepavyko iššifruoti failo: neteisingas slaptažodis arba sugadinti užšifruoti duomenys</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Apkarpykite rezultatą iki didžiausio ploto be tuščių sričių</string>
+    <string name="seam_blending">Siūlių maišymas</string>
+    <string name="network_host_unreachable">Nepavyko pasiekti serverio. Patikrinkite interneto ryšį, VPN arba adresą ir bandykite dar kartą</string>
+    <string name="network_timeout">Baigėsi ryšio laikas. Patikrinkite ryšį ir bandykite dar kartą</string>
+    <string name="network_connection_failed">Nepavyko prisijungti prie serverio. Patikrinkite ryšį arba bandykite dar kartą vėliau</string>
+    <string name="network_connection_interrupted">Ryšys nutrūko. Patikrinkite ryšį ir bandykite dar kartą</string>
 </resources>

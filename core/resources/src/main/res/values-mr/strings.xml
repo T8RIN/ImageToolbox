@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">अचूक आणि समान</string>
     <string name="no_exact_duplicates_found_sub">अधिक प्रतिमा जोडण्याचा प्रयत्न करा किंवा दृष्यदृष्ट्या समान प्रतिमा समाविष्ट करा</string>
     <string name="unable_to_decode_image">%1$s डीकोड करण्यात अक्षम</string>
+    <string name="implementation_sub_v2">यादृच्छिक 12-बाइट नॉन्ससह AES-256-GCM डीफॉल्टनुसार वापरले जाते. प्रत्येक कूटबद्ध फाइलमध्ये आवृत्तीत शीर्षलेख, एक अद्वितीय यादृच्छिक मीठ आणि PBKDF2-HMAC-SHA256 वापरून 210,000 पुनरावृत्त्यांसह पासवर्डमधून प्राप्त केलेली की असते. तुम्ही दुसरा उपलब्ध अल्गोरिदम देखील निवडू शकता.</string>
+    <string name="encrypted_file_detected">एनक्रिप्टेड फाइल आढळली</string>
+    <string name="encrypted_file_detected_sub">एन्क्रिप्शन अल्गोरिदम आणि पॅरामीटर्स फाइलमधून आपोआप वाचले जातील</string>
+    <string name="file_already_encrypted">ही फाइल आधीच कूटबद्ध केलेली आहे</string>
+    <string name="file_already_encrypted_sub">ते पुन्हा कूटबद्ध केल्याने अतिरिक्त एन्क्रिप्शन स्तर तयार होईल</string>
+    <string name="decrypt_failed">फाइल डिक्रिप्ट करण्यात अयशस्वी: अवैध पासवर्ड किंवा दूषित एनक्रिप्टेड डेटा</string>
+    <string name="panorama">पॅनोरामा</string>
+    <string name="crop_stitched_image_sub">रिकाम्या प्रदेशांशिवाय सर्वात मोठ्या क्षेत्रावर परिणाम क्रॉप करा</string>
+    <string name="seam_blending">शिवण मिश्रण</string>
+    <string name="network_host_unreachable">सर्व्हरपर्यंत पोहोचू शकलो नाही. तुमचे इंटरनेट कनेक्शन, VPN किंवा पत्ता तपासा आणि पुन्हा प्रयत्न करा</string>
+    <string name="network_timeout">कनेक्शन कालबाह्य झाले. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा</string>
+    <string name="network_connection_failed">सर्व्हरशी कनेक्ट करू शकलो नाही. तुमचे कनेक्शन तपासा किंवा नंतर पुन्हा प्रयत्न करा</string>
+    <string name="network_connection_interrupted">कनेक्शनमध्ये व्यत्यय आला. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा</string>
 </resources>

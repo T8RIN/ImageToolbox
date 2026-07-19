@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Tarkkaa ja vastaavaa</string>
     <string name="no_exact_duplicates_found_sub">Yritä lisätä kuvia tai sisällyttää visuaalisesti samankaltaisia ​​kuvia</string>
     <string name="unable_to_decode_image">Ei voida purkaa %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM, jossa on satunnainen 12-tavuinen nonce, käytetään oletuksena. Jokaisella salatulla tiedostolla on versioitu otsikko, ainutlaatuinen satunnainen suola ja avain, joka on johdettu salasanasta käyttämällä PBKDF2-HMAC-SHA256:ta ja 210 000 iteraatiota. Voit myös valita toisen käytettävissä olevan algoritmin.</string>
+    <string name="encrypted_file_detected">Salattu tiedosto havaittu</string>
+    <string name="encrypted_file_detected_sub">Salausalgoritmi ja parametrit luetaan tiedostosta automaattisesti</string>
+    <string name="file_already_encrypted">Tämä tiedosto on jo salattu</string>
+    <string name="file_already_encrypted_sub">Sen salaaminen uudelleen luo ylimääräisen salauskerroksen</string>
+    <string name="decrypt_failed">Tiedoston salauksen purkaminen epäonnistui: virheellinen salasana tai vioittuneet salatut tiedot</string>
+    <string name="panorama">Panoraama</string>
+    <string name="crop_stitched_image_sub">Rajaa tulos suurimmalle alueelle ilman tyhjiä alueita</string>
+    <string name="seam_blending">Sauman sekoitus</string>
+    <string name="network_host_unreachable">Palvelimeen ei saada yhteyttä. Tarkista Internet-yhteytesi, VPN tai osoite ja yritä uudelleen</string>
+    <string name="network_timeout">Yhteys aikakatkaistiin. Tarkista yhteys ja yritä uudelleen</string>
+    <string name="network_connection_failed">Yhteyttä palvelimeen ei voitu muodostaa. Tarkista yhteys tai yritä myöhemmin uudelleen</string>
+    <string name="network_connection_interrupted">Yhteys katkesi. Tarkista yhteys ja yritä uudelleen</string>
 </resources>

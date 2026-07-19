@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Exakt och liknande</string>
     <string name="no_exact_duplicates_found_sub">Prova att lägga till fler bilder eller inkludera visuellt liknande bilder</string>
     <string name="unable_to_decode_image">Det gick inte att avkoda %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM med en slumpmässig 12-byte nonce används som standard. Varje krypterad fil har en versionerad header, ett unikt slumpmässigt salt och en nyckel härledd från lösenordet med PBKDF2-HMAC-SHA256 med 210 000 iterationer. Du kan också välja en annan tillgänglig algoritm.</string>
+    <string name="encrypted_file_detected">Krypterad fil upptäckt</string>
+    <string name="encrypted_file_detected_sub">Krypteringsalgoritmen och parametrarna läses automatiskt från filen</string>
+    <string name="file_already_encrypted">Den här filen är redan krypterad</string>
+    <string name="file_already_encrypted_sub">Om du krypterar det igen skapas ett extra krypteringslager</string>
+    <string name="decrypt_failed">Det gick inte att dekryptera filen: ogiltigt lösenord eller korrupt krypterad data</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Beskär resultatet till det största området utan tomma områden</string>
+    <string name="seam_blending">Sömblandning</string>
+    <string name="network_host_unreachable">Kunde inte nå servern. Kontrollera din internetanslutning, VPN eller adressen och försök igen</string>
+    <string name="network_timeout">Anslutningen tog timeout. Kontrollera din anslutning och försök igen</string>
+    <string name="network_connection_failed">Det gick inte att ansluta till servern. Kontrollera din anslutning eller försök igen senare</string>
+    <string name="network_connection_interrupted">Anslutningen avbröts. Kontrollera din anslutning och försök igen</string>
 </resources>

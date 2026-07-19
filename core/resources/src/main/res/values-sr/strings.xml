@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -3961,4 +3963,17 @@
     <string name="duplicate_scan_exact_and_similar">Тачно и слично</string>
     <string name="no_exact_duplicates_found_sub">Покушајте да додате више слика или укључите визуелно сличне слике</string>
     <string name="unable_to_decode_image">Није могуће декодирати __ПХ_0__</string>
+    <string name="implementation_sub_v2">АЕС-256-ГЦМ са насумичним 12-бајтним нонце се користи подразумевано. Свака шифрована датотека има верзионисано заглавље, јединствену насумичне соли и кључ изведен из лозинке помоћу ПБКДФ2-ХМАЦ-СХА256 са 210.000 итерација. Такође можете изабрати други доступни алгоритам.</string>
+    <string name="encrypted_file_detected">Откривена је шифрована датотека</string>
+    <string name="encrypted_file_detected_sub">Алгоритам шифровања и параметри ће се аутоматски прочитати из датотеке</string>
+    <string name="file_already_encrypted">Ова датотека је већ шифрована</string>
+    <string name="file_already_encrypted_sub">Поново шифровање створиће додатни слој шифровања</string>
+    <string name="decrypt_failed">Дешифровање датотеке није успело: неважећа лозинка или оштећени шифровани подаци</string>
+    <string name="panorama">Панорама</string>
+    <string name="crop_stitched_image_sub">Изрежите резултат на највећу област без празних региона</string>
+    <string name="seam_blending">Спајање шавова</string>
+    <string name="network_host_unreachable">Није могуће приступити серверу. Проверите интернет везу, ВПН или адресу и покушајте поново</string>
+    <string name="network_timeout">Веза је истекла. Проверите своју везу и покушајте поново</string>
+    <string name="network_connection_failed">Повезивање са сервером није успело. Проверите везу или покушајте поново касније</string>
+    <string name="network_connection_interrupted">Веза је прекинута. Проверите своју везу и покушајте поново</string>
 </resources>

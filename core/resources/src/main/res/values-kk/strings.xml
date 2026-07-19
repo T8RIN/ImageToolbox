@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
     <string name="image_not_saved_sub">Қазір шықсаңыз, барлық сақталмаған өңдеме жоғалады</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Дәл және ұқсас</string>
     <string name="no_exact_duplicates_found_sub">Қосымша кескіндерді қосып көріңіз немесе көрнекі түрде ұқсас кескіндерді қосыңыз</string>
     <string name="unable_to_decode_image">%1$s кодты шешу мүмкін емес</string>
+    <string name="implementation_sub_v2">Кездейсоқ 12 байт нонспен AES-256-GCM әдепкі бойынша пайдаланылады. Әрбір шифрланған файлда нұсқаланған тақырып, бірегей кездейсоқ тұз және 210 000 итерациясы бар PBKDF2-HMAC-SHA256 көмегімен құпия сөзден алынған кілт болады. Сондай-ақ, басқа қол жетімді алгоритмді таңдауға болады.</string>
+    <string name="encrypted_file_detected">Шифрланған файл анықталды</string>
+    <string name="encrypted_file_detected_sub">Шифрлау алгоритмі мен параметрлері файлдан автоматты түрде оқылады</string>
+    <string name="file_already_encrypted">Бұл файл әлдеқашан шифрланған</string>
+    <string name="file_already_encrypted_sub">Оны қайтадан шифрлау қосымша шифрлау қабатын жасайды</string>
+    <string name="decrypt_failed">Файл шифрын ашу орындалмады: жарамсыз құпия сөз немесе бүлінген шифрланған деректер</string>
+    <string name="panorama">Панорама</string>
+    <string name="crop_stitched_image_sub">Нәтижені бос аймақтарсыз ең үлкен аумаққа кесіңіз</string>
+    <string name="seam_blending">Тігістерді араластыру</string>
+    <string name="network_host_unreachable">Серверге қол жеткізу мүмкін болмады. Интернет байланысын, VPN немесе мекенжайды тексеріп, әрекетті қайталаңыз</string>
+    <string name="network_timeout">Байланыс уақыты аяқталды. Байланысты тексеріп, әрекетті қайталаңыз</string>
+    <string name="network_connection_failed">Серверге қосылу мүмкін болмады. Байланысты тексеріңіз немесе әрекетті кейінірек қайталаңыз</string>
+    <string name="network_connection_interrupted">Байланыс үзілді. Байланысты тексеріп, әрекетті қайталаңыз</string>
 </resources>

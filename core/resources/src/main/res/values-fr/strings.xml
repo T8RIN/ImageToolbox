@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Exact et similaire</string>
     <string name="no_exact_duplicates_found_sub">Essayez d\'ajouter plus d\'images ou d\'inclure des images visuellement similaires</string>
     <string name="unable_to_decode_image">Impossible de décoder %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM avec un nom occasionnel aléatoire de 12 octets est utilisé par défaut. Chaque fichier crypté possède un en-tête versionné, un sel aléatoire unique et une clé dérivée du mot de passe utilisant PBKDF2-HMAC-SHA256 avec 210 000 itérations. Vous pouvez également sélectionner un autre algorithme disponible.</string>
+    <string name="encrypted_file_detected">Fichier crypté détecté</string>
+    <string name="encrypted_file_detected_sub">L\'algorithme de cryptage et les paramètres seront automatiquement lus à partir du fichier</string>
+    <string name="file_already_encrypted">Ce fichier est déjà crypté</string>
+    <string name="file_already_encrypted_sub">Le chiffrer à nouveau créera une couche de chiffrement supplémentaire</string>
+    <string name="decrypt_failed">Échec du décryptage du fichier : mot de passe invalide ou données cryptées corrompues</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Recadrez le résultat sur la plus grande zone sans régions vides</string>
+    <string name="seam_blending">Mélange de coutures</string>
+    <string name="network_host_unreachable">Impossible d\'atteindre le serveur. Vérifiez votre connexion Internet, votre VPN ou l\'adresse et réessayez</string>
+    <string name="network_timeout">La connexion a expiré. Vérifiez votre connexion et réessayez</string>
+    <string name="network_connection_failed">Impossible de se connecter au serveur. Vérifiez votre connexion ou réessayez plus tard</string>
+    <string name="network_connection_interrupted">La connexion a été interrompue. Vérifiez votre connexion et réessayez</string>
 </resources>

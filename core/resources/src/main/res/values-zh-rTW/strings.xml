@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -3959,4 +3961,17 @@
     <string name="no_exact_duplicates_found_sub">嘗試添加更多圖像或包含視覺上相似的圖像</string>
     <string name="unable_to_decode_image">無法解碼 %1$s</string>
     <string name="crop_overlay_draggable">可移動作物區域</string>
+    <string name="implementation_sub_v2">預設使用具有隨機 12 位元組隨機數的 AES-256-GCM。每個加密檔案都有一個版本控制標頭、一個唯一的隨機鹽，以及使用 PBKDF2-HMAC-SHA256 進行 210,000 次迭代從密碼派生的金鑰。您也可以選擇其他可用的演算法。</string>
+    <string name="encrypted_file_detected">偵測到加密文件</string>
+    <string name="encrypted_file_detected_sub">自動從文件中讀取加密演算法和參數</string>
+    <string name="file_already_encrypted">該文件已加密</string>
+    <string name="file_already_encrypted_sub">再次加密將創建一個額外的加密層</string>
+    <string name="decrypt_failed">解密檔案失敗：密碼無效或加密資料損壞</string>
+    <string name="panorama">全景</string>
+    <string name="crop_stitched_image_sub">將結果裁切到沒有空白區域的最大區域</string>
+    <string name="seam_blending">接縫混合</string>
+    <string name="network_host_unreachable">無法到達伺服器。檢查您的網路連線、VPN 或位址，然後重試</string>
+    <string name="network_timeout">連接逾時。檢查您的連線並重試</string>
+    <string name="network_connection_failed">無法連接到伺服器。檢查您的連線或稍後重試</string>
+    <string name="network_connection_interrupted">連線中斷。檢查您的連線並重試</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -3959,4 +3961,17 @@
     <string name="duplicate_scan_exact_and_similar">ตรงและคล้ายกัน</string>
     <string name="no_exact_duplicates_found_sub">ลองเพิ่มรูปภาพเพิ่มเติมหรือรวมรูปภาพที่คล้ายกัน</string>
     <string name="unable_to_decode_image">ไม่สามารถถอดรหัส %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM พร้อม nonce ขนาด 12 ไบต์แบบสุ่มจะถูกใช้เป็นค่าเริ่มต้น ไฟล์ที่เข้ารหัสทุกไฟล์จะมีส่วนหัวตามเวอร์ชัน เกลือแบบสุ่มที่ไม่ซ้ำกัน และคีย์ที่ได้มาจากรหัสผ่านโดยใช้ PBKDF2-HMAC-SHA256 พร้อมการวนซ้ำ 210,000 ครั้ง คุณยังสามารถเลือกอัลกอริธึมอื่นที่ใช้ได้</string>
+    <string name="encrypted_file_detected">ตรวจพบไฟล์ที่เข้ารหัส</string>
+    <string name="encrypted_file_detected_sub">อัลกอริธึมการเข้ารหัสและพารามิเตอร์จะถูกอ่านจากไฟล์โดยอัตโนมัติ</string>
+    <string name="file_already_encrypted">ไฟล์นี้ได้รับการเข้ารหัสแล้ว</string>
+    <string name="file_already_encrypted_sub">การเข้ารหัสอีกครั้งจะสร้างชั้นการเข้ารหัสเพิ่มเติม</string>
+    <string name="decrypt_failed">ไม่สามารถถอดรหัสไฟล์: รหัสผ่านไม่ถูกต้องหรือข้อมูลที่เข้ารหัสเสียหาย</string>
+    <string name="panorama">พาโนรามา</string>
+    <string name="crop_stitched_image_sub">ครอบตัดผลลัพธ์ให้เป็นพื้นที่ที่ใหญ่ที่สุดโดยไม่มีพื้นที่ว่าง</string>
+    <string name="seam_blending">การผสมตะเข็บ</string>
+    <string name="network_host_unreachable">ไม่สามารถเข้าถึงเซิร์ฟเวอร์ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต VPN หรือที่อยู่แล้วลองอีกครั้ง</string>
+    <string name="network_timeout">การเชื่อมต่อหมดเวลา ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง</string>
+    <string name="network_connection_failed">ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ ตรวจสอบการเชื่อมต่อของคุณหรือลองอีกครั้งในภายหลัง</string>
+    <string name="network_connection_interrupted">การเชื่อมต่อถูกขัดจังหวะ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง</string>
 </resources>

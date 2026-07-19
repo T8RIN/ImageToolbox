@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -3964,4 +3966,17 @@
     <string name="duplicate_scan_exact_and_similar">بالضبط وما شابه</string>
     <string name="no_exact_duplicates_found_sub">حاول إضافة المزيد من الصور أو تضمين صور مشابهة من الناحية المرئية</string>
     <string name="unable_to_decode_image">غير قادر على فك تشفير %1$s</string>
+    <string name="implementation_sub_v2">يتم استخدام AES-256-GCM مع رقم عشوائي 12 بايت بشكل افتراضي. يحتوي كل ملف مشفر على رأس مُصدر، وملح عشوائي فريد، ومفتاح مشتق من كلمة المرور باستخدام PBKDF2-HMAC-SHA256 مع 210.000 تكرار. يمكنك أيضًا تحديد خوارزمية أخرى متاحة.</string>
+    <string name="encrypted_file_detected">تم اكتشاف ملف مشفر</string>
+    <string name="encrypted_file_detected_sub">سيتم قراءة خوارزمية التشفير والمعلمات من الملف تلقائيًا</string>
+    <string name="file_already_encrypted">هذا الملف مشفر بالفعل</string>
+    <string name="file_already_encrypted_sub">سيؤدي تشفيرها مرة أخرى إلى إنشاء طبقة تشفير إضافية</string>
+    <string name="decrypt_failed">فشل فك تشفير الملف: كلمة مرور غير صالحة أو بيانات مشفرة تالفة</string>
+    <string name="panorama">بانوراما</string>
+    <string name="crop_stitched_image_sub">قم بقص النتيجة إلى أكبر مساحة دون مناطق فارغة</string>
+    <string name="seam_blending">مزج التماس</string>
+    <string name="network_host_unreachable">لا يمكن الوصول إلى الخادم. تحقق من اتصالك بالإنترنت أو VPN أو العنوان وحاول مرة أخرى</string>
+    <string name="network_timeout">انتهت مهلة الاتصال. تحقق من اتصالك وحاول مرة أخرى</string>
+    <string name="network_connection_failed">تعذر الاتصال بالخادم. تحقق من اتصالك أو حاول مرة أخرى لاحقًا</string>
+    <string name="network_connection_interrupted">انقطع الاتصال. تحقق من اتصالك وحاول مرة أخرى</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Exact en vergelijkbaar</string>
     <string name="no_exact_duplicates_found_sub">Probeer meer afbeeldingen toe te voegen of voeg visueel vergelijkbare afbeeldingen toe</string>
     <string name="unable_to_decode_image">Kan %1$s niet decoderen</string>
+    <string name="implementation_sub_v2">Standaard wordt AES-256-GCM met een willekeurige nonce van 12 bytes gebruikt. Elk gecodeerd bestand heeft een header met versiebeheer, een unieke willekeurige salt en een sleutel die is afgeleid van het wachtwoord met behulp van PBKDF2-HMAC-SHA256 met 210.000 iteraties. U kunt ook een ander beschikbaar algoritme selecteren.</string>
+    <string name="encrypted_file_detected">Gecodeerd bestand gedetecteerd</string>
+    <string name="encrypted_file_detected_sub">Het versleutelingsalgoritme en de parameters worden automatisch uit het bestand gelezen</string>
+    <string name="file_already_encrypted">Dit bestand is al gecodeerd</string>
+    <string name="file_already_encrypted_sub">Als u het opnieuw versleutelt, wordt er een extra versleutelingslaag gecreëerd</string>
+    <string name="decrypt_failed">Kan het bestand niet decoderen: ongeldig wachtwoord of beschadigde gecodeerde gegevens</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Snijd het resultaat bij tot het grootste gebied zonder lege gebieden</string>
+    <string name="seam_blending">Naadmenging</string>
+    <string name="network_host_unreachable">Kan de server niet bereiken. Controleer uw internetverbinding, VPN of het adres en probeer het opnieuw</string>
+    <string name="network_timeout">Er is een time-out opgetreden bij de verbinding. Controleer uw verbinding en probeer het opnieuw</string>
+    <string name="network_connection_failed">Kan geen verbinding maken met de server. Controleer uw verbinding of probeer het later opnieuw</string>
+    <string name="network_connection_interrupted">De verbinding werd onderbroken. Controleer uw verbinding en probeer het opnieuw</string>
 </resources>

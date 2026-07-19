@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -3966,4 +3968,13 @@
     <string name="network_timeout">Время ожидания соединения истекло. Проверьте подключение и попробуйте снова</string>
     <string name="network_connection_failed">Не удалось подключиться к серверу. Проверьте соединение или повторите попытку позже</string>
     <string name="network_connection_interrupted">Соединение было прервано. Проверьте подключение и попробуйте снова</string>
+    <string name="implementation_sub_v2">По умолчанию используется AES-256-GCM со случайным 12-байтовым одноразовым номером. Каждый зашифрованный файл имеет версионный заголовок, уникальную случайную соль и ключ, полученный из пароля с использованием PBKDF2-HMAC-SHA256 с 210 000 итераций. Вы также можете выбрать другой доступный алгоритм.</string>
+    <string name="encrypted_file_detected">Обнаружен зашифрованный файл</string>
+    <string name="encrypted_file_detected_sub">Алгоритм шифрования и параметры будут прочитаны из файла автоматически.</string>
+    <string name="file_already_encrypted">Этот файл уже зашифрован</string>
+    <string name="file_already_encrypted_sub">Повторное шифрование создаст дополнительный уровень шифрования.</string>
+    <string name="decrypt_failed">Не удалось расшифровать файл: неверный пароль или поврежденные зашифрованные данные.</string>
+    <string name="panorama">Панорама</string>
+    <string name="crop_stitched_image_sub">Обрезать результат до наибольшей площади без пустых областей</string>
+    <string name="seam_blending">Сглаживание швов</string>
 </resources>

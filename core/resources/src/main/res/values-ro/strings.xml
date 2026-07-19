@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -3961,4 +3963,17 @@
     <string name="duplicate_scan_exact_and_similar">Exact și asemănător</string>
     <string name="no_exact_duplicates_found_sub">Încercați să adăugați mai multe imagini sau să includeți imagini similare vizual</string>
     <string name="unable_to_decode_image">Nu se poate decoda %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM cu un nonce aleatoriu de 12 octeți este utilizat în mod implicit. Fiecare fișier criptat are un antet versionat, o sare aleatorie unică și o cheie derivată din parolă folosind PBKDF2-HMAC-SHA256 cu 210.000 de iterații. De asemenea, puteți selecta un alt algoritm disponibil.</string>
+    <string name="encrypted_file_detected">Fișier criptat detectat</string>
+    <string name="encrypted_file_detected_sub">Algoritmul și parametrii de criptare vor fi citite automat din fișier</string>
+    <string name="file_already_encrypted">Acest fișier este deja criptat</string>
+    <string name="file_already_encrypted_sub">Criptarea acestuia din nou va crea un strat de criptare suplimentar</string>
+    <string name="decrypt_failed">Fișierul nu a fost decriptat: parolă nevalidă sau date criptate corupte</string>
+    <string name="panorama">Panoramă</string>
+    <string name="crop_stitched_image_sub">Decupați rezultatul la cea mai mare zonă fără regiuni goale</string>
+    <string name="seam_blending">Amestecarea cusăturilor</string>
+    <string name="network_host_unreachable">Nu s-a putut ajunge la server. Verificați conexiunea la internet, VPN-ul sau adresa și încercați din nou</string>
+    <string name="network_timeout">Conexiunea a expirat. Verificați conexiunea și încercați din nou</string>
+    <string name="network_connection_failed">Nu s-a putut conecta la server. Verificați conexiunea sau încercați din nou mai târziu</string>
+    <string name="network_connection_interrupted">Conexiunea a fost întreruptă. Verificați conexiunea și încercați din nou</string>
 </resources>

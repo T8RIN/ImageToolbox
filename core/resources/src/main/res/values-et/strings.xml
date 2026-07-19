@@ -3962,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Täpne ja sarnane</string>
     <string name="no_exact_duplicates_found_sub">Proovige lisada rohkem pilte või lisada visuaalselt sarnaseid pilte</string>
     <string name="unable_to_decode_image">Ei saa dekodeerida %1$s</string>
+    <string name="implementation_sub_v2">Vaikimisi kasutatakse AES-256-GCM-i juhusliku 12-baidise nonce\'iga. Igal krüptitud failil on versioonidega päis, kordumatu juhuslik sool ja võti, mis on tuletatud paroolist, kasutades PBKDF2-HMAC-SHA256 210 000 iteratsiooniga. Samuti saate valida mõne muu saadaoleva algoritmi.</string>
+    <string name="encrypted_file_detected">Tuvastati krüptitud fail</string>
+    <string name="encrypted_file_detected_sub">Krüpteerimisalgoritm ja parameetrid loetakse failist automaatselt</string>
+    <string name="file_already_encrypted">See fail on juba krüptitud</string>
+    <string name="file_already_encrypted_sub">Selle uuesti krüpteerimine loob täiendava krüpteerimiskihi</string>
+    <string name="decrypt_failed">Faili dekrüpteerimine ebaõnnestus: vale parool või rikutud krüptitud andmed</string>
+    <string name="panorama">Panoraam</string>
+    <string name="crop_stitched_image_sub">Kärbi tulemust suurimale alale ilma tühjade piirkondadeta</string>
+    <string name="seam_blending">Õmbluste segamine</string>
+    <string name="network_host_unreachable">Serveriga ei õnnestunud ühendust saada. Kontrollige oma Interneti-ühendust, VPN-i või aadressi ja proovige uuesti</string>
+    <string name="network_timeout">Ühendus aegus. Kontrollige ühendust ja proovige uuesti</string>
+    <string name="network_connection_failed">Serveriga ei saanud ühendust luua. Kontrollige ühendust või proovige hiljem uuesti</string>
+    <string name="network_connection_interrupted">Ühendus katkes. Kontrollige ühendust ja proovige uuesti</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">ఖచ్చితమైన మరియు సారూప్యమైనది</string>
     <string name="no_exact_duplicates_found_sub">మరిన్ని చిత్రాలను జోడించడానికి ప్రయత్నించండి లేదా దృశ్యమానంగా సారూప్య చిత్రాలను చేర్చండి</string>
     <string name="unable_to_decode_image">%1$s డీకోడ్ చేయడం సాధ్యపడలేదు</string>
+    <string name="implementation_sub_v2">యాదృచ్ఛిక 12-బైట్ నాన్స్‌తో AES-256-GCM డిఫాల్ట్‌గా ఉపయోగించబడుతుంది. ప్రతి ఎన్‌క్రిప్టెడ్ ఫైల్‌లో 210,000 పునరావృతాలతో PBKDF2-HMAC-SHA256ని ఉపయోగించి పాస్‌వర్డ్ నుండి పొందబడిన సంస్కరణ హెడర్, ప్రత్యేకమైన యాదృచ్ఛిక ఉప్పు మరియు కీ ఉంటుంది. మీరు అందుబాటులో ఉన్న మరొక అల్గారిథమ్‌ను కూడా ఎంచుకోవచ్చు.</string>
+    <string name="encrypted_file_detected">గుప్తీకరించిన ఫైల్ కనుగొనబడింది</string>
+    <string name="encrypted_file_detected_sub">ఎన్‌క్రిప్షన్ అల్గోరిథం మరియు పారామీటర్‌లు ఫైల్ నుండి స్వయంచాలకంగా చదవబడతాయి</string>
+    <string name="file_already_encrypted">ఈ ఫైల్ ఇప్పటికే ఎన్‌క్రిప్ట్ చేయబడింది</string>
+    <string name="file_already_encrypted_sub">దాన్ని మళ్లీ ఎన్‌క్రిప్ట్ చేయడం వల్ల అదనపు ఎన్‌క్రిప్షన్ లేయర్‌ను క్రియేట్ చేస్తుంది</string>
+    <string name="decrypt_failed">ఫైల్‌ని డీక్రిప్ట్ చేయడంలో విఫలమైంది: చెల్లని పాస్‌వర్డ్ లేదా పాడైన ఎన్‌క్రిప్టెడ్ డేటా</string>
+    <string name="panorama">పనోరమా</string>
+    <string name="crop_stitched_image_sub">ఫలితాన్ని ఖాళీ ప్రాంతాలు లేకుండా అతిపెద్ద ప్రాంతానికి కత్తిరించండి</string>
+    <string name="seam_blending">సీమ్ బ్లెండింగ్</string>
+    <string name="network_host_unreachable">సర్వర్‌ని చేరుకోవడం సాధ్యపడలేదు. మీ ఇంటర్నెట్ కనెక్షన్, VPN లేదా చిరునామాను తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి</string>
+    <string name="network_timeout">కనెక్షన్ సమయం ముగిసింది. మీ కనెక్షన్‌ని తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి</string>
+    <string name="network_connection_failed">సర్వర్‌కి కనెక్ట్ చేయడం సాధ్యపడలేదు. మీ కనెక్షన్‌ని తనిఖీ చేయండి లేదా తర్వాత మళ్లీ ప్రయత్నించండి</string>
+    <string name="network_connection_interrupted">కనెక్షన్ అంతరాయం కలిగింది. మీ కనెక్షన్‌ని తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి</string>
 </resources>

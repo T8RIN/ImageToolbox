@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">دقیق و مشابه</string>
     <string name="no_exact_duplicates_found_sub">سعی کنید تصاویر بیشتری اضافه کنید یا تصاویر مشابه بصری را اضافه کنید</string>
     <string name="unable_to_decode_image">رمزگشایی %1$s ممکن نیست</string>
+    <string name="implementation_sub_v2">AES-256-GCM با nonce تصادفی 12 بایتی به طور پیش فرض استفاده می شود. هر فایل رمزگذاری شده دارای یک هدر نسخه شده، یک نمک تصادفی منحصر به فرد و یک کلید است که از رمز عبور با استفاده از PBKDF2-HMAC-SHA256 با 210000 تکرار مشتق شده است. همچنین می توانید الگوریتم موجود دیگری را انتخاب کنید.</string>
+    <string name="encrypted_file_detected">فایل رمزگذاری شده شناسایی شد</string>
+    <string name="encrypted_file_detected_sub">الگوریتم رمزگذاری و پارامترها به طور خودکار از فایل خوانده می شود</string>
+    <string name="file_already_encrypted">این فایل قبلاً رمزگذاری شده است</string>
+    <string name="file_already_encrypted_sub">رمزگذاری مجدد آن یک لایه رمزگذاری اضافی ایجاد می کند</string>
+    <string name="decrypt_failed">رمزگشایی فایل انجام نشد: رمز عبور نامعتبر یا داده های رمزگذاری شده خراب</string>
+    <string name="panorama">پانوراما</string>
+    <string name="crop_stitched_image_sub">نتیجه را به بزرگترین منطقه بدون مناطق خالی برش دهید</string>
+    <string name="seam_blending">ترکیب درز</string>
+    <string name="network_host_unreachable">دسترسی به سرور امکان پذیر نیست. اتصال اینترنت، VPN یا آدرس خود را بررسی کنید و دوباره امتحان کنید</string>
+    <string name="network_timeout">زمان اتصال تمام شد. اتصال خود را بررسی کنید و دوباره امتحان کنید</string>
+    <string name="network_connection_failed">نمی توان به سرور متصل شد. اتصال خود را بررسی کنید یا بعداً دوباره امتحان کنید</string>
+    <string name="network_connection_interrupted">ارتباط قطع شد. اتصال خود را بررسی کنید و دوباره امتحان کنید</string>
 </resources>

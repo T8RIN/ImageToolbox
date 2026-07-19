@@ -3963,4 +3963,17 @@
     <string name="duplicate_scan_exact_and_similar">Exactes i semblants</string>
     <string name="no_exact_duplicates_found_sub">Proveu d\'afegir més imatges o incloure imatges visualment semblants</string>
     <string name="unable_to_decode_image">No es pot descodificar %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM amb un nonce aleatori de 12 bytes s\'utilitza per defecte. Cada fitxer xifrat té una capçalera versionada, una sal aleatòria única i una clau derivada de la contrasenya mitjançant PBKDF2-HMAC-SHA256 amb 210.000 iteracions. També podeu seleccionar un altre algorisme disponible.</string>
+    <string name="encrypted_file_detected">S\'ha detectat un fitxer xifrat</string>
+    <string name="encrypted_file_detected_sub">L\'algorisme i els paràmetres de xifratge es llegiran del fitxer automàticament</string>
+    <string name="file_already_encrypted">Aquest fitxer ja està encriptat</string>
+    <string name="file_already_encrypted_sub">Si torneu a xifrar-lo, es crearà una capa de xifratge addicional</string>
+    <string name="decrypt_failed">No s\'ha pogut desxifrar el fitxer: contrasenya no vàlida o dades xifrades danyades</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Retalla el resultat a l\'àrea més gran sense regions buides</string>
+    <string name="seam_blending">Barreja de costures</string>
+    <string name="network_host_unreachable">No s\'ha pogut arribar al servidor. Comproveu la vostra connexió a Internet, la VPN o l\'adreça i torneu-ho a provar</string>
+    <string name="network_timeout">S\'ha esgotat el temps de connexió. Comprova la teva connexió i torna-ho a provar</string>
+    <string name="network_connection_failed">No s\'ha pogut connectar al servidor. Comprova la teva connexió o torna-ho a provar més tard</string>
+    <string name="network_connection_interrupted">La connexió s\'ha interromput. Comprova la teva connexió i torna-ho a provar</string>
 </resources>

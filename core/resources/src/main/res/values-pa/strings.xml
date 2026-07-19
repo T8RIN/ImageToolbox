@@ -3962,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">ਸਟੀਕ ਅਤੇ ਸਮਾਨ</string>
     <string name="no_exact_duplicates_found_sub">ਹੋਰ ਚਿੱਤਰ ਸ਼ਾਮਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਦ੍ਰਿਸ਼ਟੀਗਤ ਤੌਰ \'ਤੇ ਮਿਲਦੇ-ਜੁਲਦੇ ਚਿੱਤਰ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="unable_to_decode_image">ਡੀਕੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM ਇੱਕ ਬੇਤਰਤੀਬ 12-ਬਾਈਟ ਨੋਨਸ ਦੇ ਨਾਲ ਮੂਲ ਰੂਪ ਵਿੱਚ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ। ਹਰੇਕ ਇਨਕ੍ਰਿਪਟਡ ਫਾਈਲ ਵਿੱਚ ਇੱਕ ਵਰਜਨ ਸਿਰਲੇਖ, ਇੱਕ ਵਿਲੱਖਣ ਬੇਤਰਤੀਬ ਲੂਣ, ਅਤੇ 210,000 ਦੁਹਰਾਓ ਦੇ ਨਾਲ PBKDF2-HMAC-SHA256 ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋਏ ਪਾਸਵਰਡ ਤੋਂ ਲਿਆ ਗਿਆ ਇੱਕ ਕੁੰਜੀ ਹੈ। ਤੁਸੀਂ ਇੱਕ ਹੋਰ ਉਪਲਬਧ ਐਲਗੋਰਿਦਮ ਵੀ ਚੁਣ ਸਕਦੇ ਹੋ।</string>
+    <string name="encrypted_file_detected">ਐਨਕ੍ਰਿਪਟਡ ਫ਼ਾਈਲ ਦਾ ਪਤਾ ਲੱਗਾ</string>
+    <string name="encrypted_file_detected_sub">ਏਨਕ੍ਰਿਪਸ਼ਨ ਐਲਗੋਰਿਦਮ ਅਤੇ ਪੈਰਾਮੀਟਰਾਂ ਨੂੰ ਫਾਈਲ ਤੋਂ ਆਪਣੇ ਆਪ ਪੜ੍ਹਿਆ ਜਾਵੇਗਾ</string>
+    <string name="file_already_encrypted">ਇਹ ਫ਼ਾਈਲ ਪਹਿਲਾਂ ਹੀ ਇਨਕ੍ਰਿਪਟਡ ਹੈ</string>
+    <string name="file_already_encrypted_sub">ਇਸਨੂੰ ਦੁਬਾਰਾ ਐਨਕ੍ਰਿਪਟ ਕਰਨ ਨਾਲ ਇੱਕ ਵਾਧੂ ਇਨਕ੍ਰਿਪਸ਼ਨ ਪਰਤ ਬਣੇਗੀ</string>
+    <string name="decrypt_failed">ਫਾਈਲ ਨੂੰ ਡੀਕ੍ਰਿਪਟ ਕਰਨ ਵਿੱਚ ਅਸਫਲ: ਅਵੈਧ ਪਾਸਵਰਡ ਜਾਂ ਨਿਕਾਰਾ ਐਨਕ੍ਰਿਪਟਡ ਡੇਟਾ</string>
+    <string name="panorama">ਪੈਨੋਰਾਮਾ</string>
+    <string name="crop_stitched_image_sub">ਨਤੀਜੇ ਨੂੰ ਖਾਲੀ ਖੇਤਰਾਂ ਤੋਂ ਬਿਨਾਂ ਸਭ ਤੋਂ ਵੱਡੇ ਖੇਤਰ ਵਿੱਚ ਕੱਟੋ</string>
+    <string name="seam_blending">ਸੀਮ ਮਿਸ਼ਰਣ</string>
+    <string name="network_host_unreachable">ਸਰਵਰ ਤੱਕ ਨਹੀਂ ਪਹੁੰਚ ਸਕਿਆ। ਆਪਣੇ ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ, VPN, ਜਾਂ ਪਤੇ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="network_timeout">ਕਨੈਕਸ਼ਨ ਦਾ ਸਮਾਂ ਸਮਾਪਤ ਹੋਇਆ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="network_connection_failed">ਸਰਵਰ ਨਾਲ ਕਨੈਕਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਜਾਂ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="network_connection_interrupted">ਕੁਨੈਕਸ਼ਨ ਵਿੱਚ ਵਿਘਨ ਪਿਆ ਸੀ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
 </resources>

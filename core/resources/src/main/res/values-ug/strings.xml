@@ -3962,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">ئېنىق ۋە ئوخشىشىپ كېتىدۇ</string>
     <string name="no_exact_duplicates_found_sub">تېخىمۇ كۆپ رەسىم قوشۇشنى سىناپ بېقىڭ ياكى كۆرۈنۈشتە ئوخشىشىپ كېتىدىغان رەسىملەرنى ئۆز ئىچىگە ئالىدۇ</string>
     <string name="unable_to_decode_image">%1$s يېشىشكە ئامالسىز</string>
+    <string name="implementation_sub_v2">AES-256-GCM تاسادىپىي 12 بايىتلىق بولمىغان سۈكۈتتىكى ھالەتتە ئىشلىتىلىدۇ. ھەر بىر شىفىرلانغان ھۆججەتنىڭ نەشىردىكى ماۋزۇ ، ئۆزگىچە ئىختىيارى تۇز ۋە 210،000 تەكرارلاش ئارقىلىق PBKDF2-HMAC-SHA256 نى ئىشلىتىپ پارولدىن كەلگەن ئاچقۇچ بار. باشقا ئالگورىزىمنى تاللىسىڭىزمۇ بولىدۇ.</string>
+    <string name="encrypted_file_detected">شىفىرلانغان ھۆججەت بايقالدى</string>
+    <string name="encrypted_file_detected_sub">مەخپىيلەشتۈرۈش ھېسابلاش ئۇسۇلى ۋە پارامېتىرلىرى ھۆججەتتىن ئاپتوماتىك ئوقۇلىدۇ</string>
+    <string name="file_already_encrypted">بۇ ھۆججەت شىفىرلانغان</string>
+    <string name="file_already_encrypted_sub">ئۇنى قايتا شىفىرلاش قوشۇمچە مەخپىيلەشتۈرۈش قەۋىتى ھاسىل قىلىدۇ</string>
+    <string name="decrypt_failed">ھۆججەتنى شىفىرلاش مەغلۇب بولدى: ئىناۋەتلىك مەخپىي نومۇر ياكى شىفىرلانغان سانلىق مەلۇمات</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">نەتىجىنى قۇرۇق رايون بولمىغان ئەڭ چوڭ رايونغا توغرىلاڭ</string>
+    <string name="seam_blending">Seam Blending</string>
+    <string name="network_host_unreachable">مۇلازىمېتىرغا يېتەلمىدى. تور ئۇلىنىشىڭىزنى ، VPN ياكى ئادرېسىڭىزنى تەكشۈرۈپ قايتا سىناڭ</string>
+    <string name="network_timeout">ئۇلىنىش ۋاقتى توشتى. ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ</string>
+    <string name="network_connection_failed">مۇلازىمېتىرغا ئۇلىنالمىدى. ئۇلىنىشىڭىزنى تەكشۈرۈڭ ياكى كېيىن قايتا سىناڭ</string>
+    <string name="network_connection_interrupted">ئۇلىنىش ئۈزۈلۈپ قالدى. ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ</string>
 </resources>

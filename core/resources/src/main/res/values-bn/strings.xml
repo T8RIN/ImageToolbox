@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">সঠিক এবং অনুরূপ</string>
     <string name="no_exact_duplicates_found_sub">আরও ছবি যোগ করার চেষ্টা করুন বা দৃশ্যত অনুরূপ ছবি অন্তর্ভুক্ত করুন</string>
     <string name="unable_to_decode_image">ডিকোড করতে অক্ষম %1$s</string>
+    <string name="implementation_sub_v2">একটি এলোমেলো 12-বাইট নন্স সহ AES-256-GCM ডিফল্টরূপে ব্যবহৃত হয়। প্রতিটি এনক্রিপ্ট করা ফাইলের একটি সংস্করণযুক্ত শিরোনাম, একটি অনন্য র্যান্ডম লবণ, এবং 210,000 পুনরাবৃত্তি সহ PBKDF2-HMAC-SHA256 ব্যবহার করে পাসওয়ার্ড থেকে প্রাপ্ত একটি কী রয়েছে। আপনি অন্য উপলব্ধ অ্যালগরিদম নির্বাচন করতে পারেন।</string>
+    <string name="encrypted_file_detected">এনক্রিপ্ট করা ফাইল শনাক্ত করা হয়েছে</string>
+    <string name="encrypted_file_detected_sub">এনক্রিপশন অ্যালগরিদম এবং পরামিতি ফাইল থেকে স্বয়ংক্রিয়ভাবে পড়া হবে</string>
+    <string name="file_already_encrypted">এই ফাইলটি ইতিমধ্যেই এনক্রিপ্ট করা হয়েছে৷</string>
+    <string name="file_already_encrypted_sub">এটি আবার এনক্রিপ্ট করা একটি অতিরিক্ত এনক্রিপশন স্তর তৈরি করবে</string>
+    <string name="decrypt_failed">ফাইল ডিক্রিপ্ট করতে ব্যর্থ হয়েছে: অবৈধ পাসওয়ার্ড বা দূষিত এনক্রিপ্ট করা ডেটা</string>
+    <string name="panorama">প্যানোরামা</string>
+    <string name="crop_stitched_image_sub">ফলাফলটি খালি অঞ্চল ছাড়াই বৃহত্তম অঞ্চলে কাটুন</string>
+    <string name="seam_blending">সীম ব্লেন্ডিং</string>
+    <string name="network_host_unreachable">সার্ভারে পৌঁছানো যায়নি। আপনার ইন্টারনেট সংযোগ, VPN বা ঠিকানা চেক করুন এবং আবার চেষ্টা করুন</string>
+    <string name="network_timeout">সংযোগের সময় শেষ হয়েছে৷ আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন</string>
+    <string name="network_connection_failed">সার্ভারের সাথে সংযোগ করা যায়নি। আপনার সংযোগ পরীক্ষা করুন বা পরে আবার চেষ্টা করুন</string>
+    <string name="network_connection_interrupted">সংযোগ বিঘ্নিত হয়। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন</string>
 </resources>

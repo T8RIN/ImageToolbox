@@ -3962,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Præcis og lignende</string>
     <string name="no_exact_duplicates_found_sub">Prøv at tilføje flere billeder eller medtag visuelt lignende billeder</string>
     <string name="unable_to_decode_image">Kan ikke afkode %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM med en tilfældig 12-byte nonce bruges som standard. Hver krypteret fil har en versioneret header, et unikt tilfældigt salt og en nøgle afledt af adgangskoden ved hjælp af PBKDF2-HMAC-SHA256 med 210.000 iterationer. Du kan også vælge en anden tilgængelig algoritme.</string>
+    <string name="encrypted_file_detected">Krypteret fil fundet</string>
+    <string name="encrypted_file_detected_sub">Krypteringsalgoritmen og parametrene vil automatisk blive læst fra filen</string>
+    <string name="file_already_encrypted">Denne fil er allerede krypteret</string>
+    <string name="file_already_encrypted_sub">Kryptering af det igen vil skabe et ekstra krypteringslag</string>
+    <string name="decrypt_failed">Kunne ikke dekryptere filen: ugyldig adgangskode eller korrupte krypterede data</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Beskær resultatet til det største område uden tomme områder</string>
+    <string name="seam_blending">Sømblanding</string>
+    <string name="network_host_unreachable">Kunne ikke nå serveren. Tjek din internetforbindelse, VPN eller adressen, og prøv igen</string>
+    <string name="network_timeout">Forbindelsen fik timeout. Tjek din forbindelse, og prøv igen</string>
+    <string name="network_connection_failed">Kunne ikke oprette forbindelse til serveren. Tjek din forbindelse, eller prøv igen senere</string>
+    <string name="network_connection_interrupted">Forbindelsen blev afbrudt. Tjek din forbindelse, og prøv igen</string>
 </resources>

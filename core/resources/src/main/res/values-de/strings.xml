@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Genau und ähnlich</string>
     <string name="no_exact_duplicates_found_sub">Fügen Sie weitere Bilder hinzu oder fügen Sie optisch ähnliche Bilder hinzu</string>
     <string name="unable_to_decode_image">%1$s kann nicht dekodiert werden</string>
+    <string name="implementation_sub_v2">Standardmäßig wird AES-256-GCM mit einer zufälligen 12-Byte-Nonce verwendet. Jede verschlüsselte Datei verfügt über einen versionierten Header, einen eindeutigen Zufallssalzwert und einen vom Kennwort mithilfe von PBKDF2-HMAC-SHA256 mit 210.000 Iterationen abgeleiteten Schlüssel. Sie können auch einen anderen verfügbaren Algorithmus auswählen.</string>
+    <string name="encrypted_file_detected">Verschlüsselte Datei erkannt</string>
+    <string name="encrypted_file_detected_sub">Der Verschlüsselungsalgorithmus und die Parameter werden automatisch aus der Datei gelesen</string>
+    <string name="file_already_encrypted">Diese Datei ist bereits verschlüsselt</string>
+    <string name="file_already_encrypted_sub">Durch erneute Verschlüsselung wird eine zusätzliche Verschlüsselungsebene erstellt</string>
+    <string name="decrypt_failed">Datei konnte nicht entschlüsselt werden: ungültiges Passwort oder beschädigte verschlüsselte Daten</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Beschneiden Sie das Ergebnis auf den größten Bereich ohne leere Bereiche</string>
+    <string name="seam_blending">Nahtmischung</string>
+    <string name="network_host_unreachable">Der Server konnte nicht erreicht werden. Überprüfen Sie Ihre Internetverbindung, Ihr VPN oder die Adresse und versuchen Sie es erneut</string>
+    <string name="network_timeout">Die Verbindung ist abgelaufen. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut</string>
+    <string name="network_connection_failed">Es konnte keine Verbindung zum Server hergestellt werden. Überprüfen Sie Ihre Verbindung oder versuchen Sie es später noch einmal</string>
+    <string name="network_connection_interrupted">Die Verbindung wurde unterbrochen. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut</string>
 </resources>

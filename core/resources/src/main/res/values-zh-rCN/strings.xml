@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3959,4 +3961,17 @@
     <string name="no_exact_duplicates_found_sub">尝试添加更多图像或包含视觉上相似的图像</string>
     <string name="unable_to_decode_image">无法解码 %1$s</string>
     <string name="crop_overlay_draggable">可移动作物区域</string>
+    <string name="implementation_sub_v2">默认情况下使用具有随机 12 字节随机数的 AES-256-GCM。每个加密文件都有一个版本控制标头、一个唯一的随机盐，以及使用 PBKDF2-HMAC-SHA256 进行 210,000 次迭代从密码派生的密钥。您还可以选择其他可用的算法。</string>
+    <string name="encrypted_file_detected">检测到加密文件</string>
+    <string name="encrypted_file_detected_sub">自动从文件中读取加密算法和参数</string>
+    <string name="file_already_encrypted">该文件已经加密</string>
+    <string name="file_already_encrypted_sub">再次加密将创建一个额外的加密层</string>
+    <string name="decrypt_failed">解密文件失败：密码无效或加密数据损坏</string>
+    <string name="panorama">全景</string>
+    <string name="crop_stitched_image_sub">将结果裁剪到没有空白区域的最大区域</string>
+    <string name="seam_blending">接缝混合</string>
+    <string name="network_host_unreachable">无法到达服务器。检查您的互联网连接、VPN 或地址，然后重试</string>
+    <string name="network_timeout">连接超时。检查您的连接并重试</string>
+    <string name="network_connection_failed">无法连接到服务器。检查您的连接或稍后重试</string>
+    <string name="network_connection_interrupted">连接中断。检查您的连接并重试</string>
 </resources>

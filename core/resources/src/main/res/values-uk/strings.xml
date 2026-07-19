@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -3962,4 +3964,17 @@
     <string name="duplicate_scan_exact_and_similar">Точно і схоже</string>
     <string name="no_exact_duplicates_found_sub">Спробуйте додати більше зображень або додайте візуально схожі зображення</string>
     <string name="unable_to_decode_image">Неможливо декодувати %1$s</string>
+    <string name="implementation_sub_v2">За замовчуванням використовується AES-256-GCM із випадковим 12-байтовим nonce. Кожен зашифрований файл має версії заголовка, унікальну випадкову сіль і ключ, отриманий з пароля за допомогою PBKDF2-HMAC-SHA256 з 210 000 ітерацій. Ви також можете вибрати інший доступний алгоритм.</string>
+    <string name="encrypted_file_detected">Виявлено зашифрований файл</string>
+    <string name="encrypted_file_detected_sub">Алгоритм шифрування та параметри будуть зчитані з файлу автоматично</string>
+    <string name="file_already_encrypted">Цей файл уже зашифровано</string>
+    <string name="file_already_encrypted_sub">Повторне шифрування створить додатковий рівень шифрування</string>
+    <string name="decrypt_failed">Не вдалося розшифрувати файл: недійсний пароль або пошкоджені зашифровані дані</string>
+    <string name="panorama">Панорама</string>
+    <string name="crop_stitched_image_sub">Обріжте результат до найбільшої області без порожніх областей</string>
+    <string name="seam_blending">Змішування швів</string>
+    <string name="network_host_unreachable">Не вдалося підключитися до сервера. Перевірте підключення до Інтернету, VPN або адресу та повторіть спробу</string>
+    <string name="network_timeout">Час очікування підключення минув. Перевірте підключення та повторіть спробу</string>
+    <string name="network_connection_failed">Не вдалося підключитися до сервера. Перевірте підключення або повторіть спробу пізніше</string>
+    <string name="network_connection_interrupted">З\'єднання було перервано. Перевірте підключення та повторіть спробу</string>
 </resources>

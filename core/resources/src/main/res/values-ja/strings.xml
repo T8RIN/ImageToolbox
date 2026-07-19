@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -3959,4 +3961,17 @@
     <string name="duplicate_scan_exact_and_similar">全く同じもの</string>
     <string name="no_exact_duplicates_found_sub">さらに画像を追加するか、視覚的に類似した画像を含めてみてください</string>
     <string name="unable_to_decode_image">%1$s をデコードできません</string>
+    <string name="implementation_sub_v2">デフォルトでは、ランダムな 12 バイトのノンスを含む AES-256-GCM が使用されます。すべての暗号化ファイルには、バージョン管理されたヘッダー、一意のランダム ソルト、および PBKDF2-HMAC-SHA256 を 210,000 回反復して使用してパスワードから導出されたキーが含まれています。利用可能な別のアルゴリズムを選択することもできます。</string>
+    <string name="encrypted_file_detected">暗号化されたファイルが検出されました</string>
+    <string name="encrypted_file_detected_sub">暗号化アルゴリズムとパラメータはファイルから自動的に読み取られます</string>
+    <string name="file_already_encrypted">このファイルはすでに暗号化されています</string>
+    <string name="file_already_encrypted_sub">再度暗号化すると、追加の暗号化層が作成されます</string>
+    <string name="decrypt_failed">ファイルの復号化に失敗しました: パスワードが無効か、暗号化データが破損しています</string>
+    <string name="panorama">パノラマ</string>
+    <string name="crop_stitched_image_sub">結果を空の領域を含まない最大の領域にトリミングします。</string>
+    <string name="seam_blending">シームブレンディング</string>
+    <string name="network_host_unreachable">サーバーに到達できませんでした。インターネット接続、VPN、またはアドレスを確認して、もう一度試してください</string>
+    <string name="network_timeout">接続がタイムアウトしました。接続を確認して再試行してください</string>
+    <string name="network_connection_failed">サーバーに接続できませんでした。接続を確認するか、後でもう一度試してください</string>
+    <string name="network_connection_interrupted">接続が中断されました。接続を確認して再試行してください</string>
 </resources>

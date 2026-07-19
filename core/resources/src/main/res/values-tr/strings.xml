@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Tam ve benzer</string>
     <string name="no_exact_duplicates_found_sub">Daha fazla görsel eklemeyi veya görsel olarak benzer görseller eklemeyi deneyin</string>
     <string name="unable_to_decode_image">%1$s kodu çözülemiyor</string>
+    <string name="implementation_sub_v2">Varsayılan olarak rastgele 12 baytlık tek seferlik AES-256-GCM kullanılır. Her şifrelenmiş dosyanın sürümlendirilmiş bir başlığı, benzersiz bir rastgele tuzu ve 210.000 yinelemeyle PBKDF2-HMAC-SHA256 kullanılarak şifreden türetilen bir anahtarı vardır. Ayrıca mevcut başka bir algoritmayı da seçebilirsiniz.</string>
+    <string name="encrypted_file_detected">Şifrelenmiş dosya algılandı</string>
+    <string name="encrypted_file_detected_sub">Şifreleme algoritması ve parametreler dosyadan otomatik olarak okunacaktır.</string>
+    <string name="file_already_encrypted">Bu dosya zaten şifrelenmiş</string>
+    <string name="file_already_encrypted_sub">Tekrar şifrelemek ek bir şifreleme katmanı oluşturacaktır</string>
+    <string name="decrypt_failed">Dosyanın şifresi çözülemedi: geçersiz şifre veya bozuk şifrelenmiş veri</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Sonucu boş bölgeler olmadan en büyük alana kırpın</string>
+    <string name="seam_blending">Dikiş Karıştırma</string>
+    <string name="network_host_unreachable">Sunucuya ulaşılamadı. İnternet bağlantınızı, VPN\'inizi veya adresinizi kontrol edip tekrar deneyin</string>
+    <string name="network_timeout">Bağlantı zaman aşımına uğradı. Bağlantınızı kontrol edip tekrar deneyin</string>
+    <string name="network_connection_failed">Sunucuya bağlanılamadı. Bağlantınızı kontrol edin veya daha sonra tekrar deneyin</string>
+    <string name="network_connection_interrupted">Bağlantı kesildi. Bağlantınızı kontrol edip tekrar deneyin</string>
 </resources>

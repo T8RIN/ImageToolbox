@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Eksaktong at katulad</string>
     <string name="no_exact_duplicates_found_sub">Subukang magdagdag ng higit pang mga larawan o magsama ng mga visual na katulad na larawan</string>
     <string name="unable_to_decode_image">Hindi ma-decode ang %1$s</string>
+    <string name="implementation_sub_v2">Ang AES-256-GCM na may random na 12-byte nonce ay ginagamit bilang default. Ang bawat naka-encrypt na file ay may bersyon na header, isang natatanging random na asin, at isang susi na hinango mula sa password gamit ang PBKDF2-HMAC-SHA256 na may 210,000 pag-ulit. Maaari ka ring pumili ng isa pang magagamit na algorithm.</string>
+    <string name="encrypted_file_detected">Nakita ang naka-encrypt na file</string>
+    <string name="encrypted_file_detected_sub">Ang algorithm ng pag-encrypt at mga parameter ay awtomatikong mababasa mula sa file</string>
+    <string name="file_already_encrypted">Ang file na ito ay naka-encrypt na</string>
+    <string name="file_already_encrypted_sub">Ang muling pag-encrypt nito ay lilikha ng karagdagang layer ng pag-encrypt</string>
+    <string name="decrypt_failed">Nabigong i-decrypt ang file: di-wastong password o sirang naka-encrypt na data</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">I-crop ang resulta sa pinakamalaking lugar na walang walang laman na mga rehiyon</string>
+    <string name="seam_blending">Pinagsasamang Pinagtahian</string>
+    <string name="network_host_unreachable">Hindi maabot ang server. Suriin ang iyong koneksyon sa internet, VPN, o ang address at subukang muli</string>
+    <string name="network_timeout">Nag-time out ang koneksyon. Suriin ang iyong koneksyon at subukang muli</string>
+    <string name="network_connection_failed">Hindi makakonekta sa server. Suriin ang iyong koneksyon o subukang muli sa ibang pagkakataon</string>
+    <string name="network_connection_interrupted">Naputol ang koneksyon. Suriin ang iyong koneksyon at subukang muli</string>
 </resources>

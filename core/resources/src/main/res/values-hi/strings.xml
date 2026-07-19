@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">सटीक और समान</string>
     <string name="no_exact_duplicates_found_sub">अधिक छवियाँ जोड़ने का प्रयास करें या दिखने में समान छवियाँ शामिल करें</string>
     <string name="unable_to_decode_image">%1$s को डिकोड करने में असमर्थ</string>
+    <string name="implementation_sub_v2">AES-256-GCM यादृच्छिक 12-बाइट नॉन के साथ डिफ़ॉल्ट रूप से उपयोग किया जाता है। प्रत्येक एन्क्रिप्टेड फ़ाइल में एक संस्करण हेडर, एक अद्वितीय यादृच्छिक नमक और 210,000 पुनरावृत्तियों के साथ PBKDF2-HMAC-SHA256 का उपयोग करके पासवर्ड से प्राप्त एक कुंजी होती है। आप कोई अन्य उपलब्ध एल्गोरिथम भी चुन सकते हैं.</string>
+    <string name="encrypted_file_detected">एन्क्रिप्टेड फ़ाइल का पता चला</string>
+    <string name="encrypted_file_detected_sub">एन्क्रिप्शन एल्गोरिदम और पैरामीटर फ़ाइल से स्वचालित रूप से पढ़े जाएंगे</string>
+    <string name="file_already_encrypted">यह फ़ाइल पहले से ही एन्क्रिप्टेड है</string>
+    <string name="file_already_encrypted_sub">इसे दोबारा एन्क्रिप्ट करने से एक अतिरिक्त एन्क्रिप्शन परत बन जाएगी</string>
+    <string name="decrypt_failed">फ़ाइल को डिक्रिप्ट करने में विफल: अमान्य पासवर्ड या दूषित एन्क्रिप्टेड डेटा</string>
+    <string name="panorama">चित्रमाला</string>
+    <string name="crop_stitched_image_sub">खाली क्षेत्रों के बिना परिणाम को सबसे बड़े क्षेत्र में काटें</string>
+    <string name="seam_blending">सीवन सम्मिश्रण</string>
+    <string name="network_host_unreachable">सर्वर तक नहीं पहुंच सका. अपना इंटरनेट कनेक्शन, वीपीएन या पता जांचें और पुनः प्रयास करें</string>
+    <string name="network_timeout">कनेक्शन का समय समाप्त हो गया. अपना कनेक्शन जांचें और पुनः प्रयास करें</string>
+    <string name="network_connection_failed">सर्वर से कनेक्ट नहीं हो सका. अपना कनेक्शन जाँचें या बाद में पुनः प्रयास करें</string>
+    <string name="network_connection_interrupted">कनेक्शन को बाधित किया गया था। अपना कनेक्शन जांचें और पुनः प्रयास करें</string>
 </resources>

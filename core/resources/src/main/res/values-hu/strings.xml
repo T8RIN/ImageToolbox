@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -3960,4 +3962,17 @@
     <string name="duplicate_scan_exact_and_similar">Pontos és hasonló</string>
     <string name="no_exact_duplicates_found_sub">Próbáljon meg több képet hozzáadni, vagy vizuálisan hasonló képeket adjon hozzá</string>
     <string name="unable_to_decode_image">Nem sikerült dekódolni %1$s</string>
+    <string name="implementation_sub_v2">Alapértelmezés szerint az AES-256-GCM véletlenszerű 12 bájtos nonce-t használ. Minden titkosított fájl rendelkezik egy verziószámmal ellátott fejléccel, egy egyedi véletlenszerű sóval és egy, a PBKDF2-HMAC-SHA256 használatával, 210 000 iterációval rendelkező jelszóból származó kulcstal. Kiválaszthat egy másik elérhető algoritmust is.</string>
+    <string name="encrypted_file_detected">Titkosított fájl észlelve</string>
+    <string name="encrypted_file_detected_sub">A titkosítási algoritmus és a paraméterek automatikusan beolvasásra kerülnek a fájlból</string>
+    <string name="file_already_encrypted">Ez a fájl már titkosítva van</string>
+    <string name="file_already_encrypted_sub">Az újbóli titkosítás egy további titkosítási réteget hoz létre</string>
+    <string name="decrypt_failed">A fájl visszafejtése nem sikerült: érvénytelen jelszó vagy sérült titkosított adatok</string>
+    <string name="panorama">Panoráma</string>
+    <string name="crop_stitched_image_sub">Vágja le az eredményt a legnagyobb területre, üres régiók nélkül</string>
+    <string name="seam_blending">Varratkeverés</string>
+    <string name="network_host_unreachable">Nem sikerült elérni a szervert. Ellenőrizze az internetkapcsolatot, a VPN-t vagy a címet, és próbálja újra</string>
+    <string name="network_timeout">A kapcsolat időtúllépése lejárt. Ellenőrizze a kapcsolatot, és próbálja újra</string>
+    <string name="network_connection_failed">Nem sikerült csatlakozni a szerverhez. Ellenőrizze a kapcsolatot, vagy próbálja újra később</string>
+    <string name="network_connection_interrupted">A kapcsolat megszakadt. Ellenőrizze a kapcsolatot, és próbálja újra</string>
 </resources>

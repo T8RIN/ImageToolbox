@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -3959,4 +3961,17 @@
     <string name="duplicate_scan_exact_and_similar">Tepat dan serupa</string>
     <string name="no_exact_duplicates_found_sub">Coba tambahkan lebih banyak gambar atau sertakan gambar yang serupa secara visual</string>
     <string name="unable_to_decode_image">Tidak dapat memecahkan kode %1$s</string>
+    <string name="implementation_sub_v2">AES-256-GCM dengan nonce acak 12 byte digunakan secara default. Setiap file terenkripsi memiliki header berversi, garam acak unik, dan kunci yang berasal dari kata sandi menggunakan PBKDF2-HMAC-SHA256 dengan 210.000 iterasi. Anda juga dapat memilih algoritma lain yang tersedia.</string>
+    <string name="encrypted_file_detected">File terenkripsi terdeteksi</string>
+    <string name="encrypted_file_detected_sub">Algoritma dan parameter enkripsi akan dibaca dari file secara otomatis</string>
+    <string name="file_already_encrypted">File ini sudah dienkripsi</string>
+    <string name="file_already_encrypted_sub">Mengenkripsinya lagi akan membuat lapisan enkripsi tambahan</string>
+    <string name="decrypt_failed">Gagal mendekripsi file: kata sandi tidak valid atau data terenkripsi rusak</string>
+    <string name="panorama">Panorama</string>
+    <string name="crop_stitched_image_sub">Pangkas hasilnya ke area terluas tanpa area kosong</string>
+    <string name="seam_blending">Pencampuran Jahitan</string>
+    <string name="network_host_unreachable">Tidak dapat menjangkau server. Periksa koneksi internet, VPN, atau alamat Anda dan coba lagi</string>
+    <string name="network_timeout">Waktu koneksi habis. Periksa koneksi Anda dan coba lagi</string>
+    <string name="network_connection_failed">Tidak dapat terhubung ke server. Periksa koneksi Anda atau coba lagi nanti</string>
+    <string name="network_connection_interrupted">Koneksi terputus. Periksa koneksi Anda dan coba lagi</string>
 </resources>
