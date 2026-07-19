@@ -270,7 +270,6 @@
     <string name="pick_file">Vælg fil</string>
     <string name="encrypt">Krypter</string>
     <string name="decryption">Dekryptering</string>
-    <string name="implementation_sub">AES-256, GCM-tilstand, ingen polstring, 12 bytes tilfældige IV\'er. Nøgler bruges som SHA-3 hashes (256 bit).</string>
     <string name="image_size_warning">Hvis du forsøger at gemme billedet med de aktuelle højde/bredde-parametre, risikerer du at appen crasher og du taber dit arbejder. Du fortsætter derfor på EGEN RISIKO!</string>
     <string name="tools">Værktøjer</string>
     <string name="group_options_by_type">Gruppér muligheder efter type</string>
@@ -3975,4 +3974,19 @@
     <string name="network_timeout">Forbindelsen fik timeout. Tjek din forbindelse, og prøv igen</string>
     <string name="network_connection_failed">Kunne ikke oprette forbindelse til serveren. Tjek din forbindelse, eller prøv igen senere</string>
     <string name="network_connection_interrupted">Forbindelsen blev afbrudt. Tjek din forbindelse, og prøv igen</string>
+    <string name="network_secure_connection_failed">Kunne ikke etablere en sikker forbindelse. Tjek dato og klokkeslæt, VPN eller netværksindstillinger, og prøv igen</string>
+    <string name="file_not_found">Filen kunne ikke findes. Det kan være blevet flyttet, slettet eller ikke længere tilgængeligt</string>
+    <string name="storage_is_full">Der er ikke nok ledig lagerplads til at fuldføre denne handling. Frigør noget plads, og prøv igen</string>
+    <string name="network_request_rejected">Serveren afviste anmodningen. Tjek dine adgangs- eller loginoplysninger, og prøv igen</string>
+    <string name="network_resource_not_found">Den anmodede ressource blev ikke fundet på serveren</string>
+    <string name="network_too_many_requests">Der blev sendt for mange anmodninger. Vent et øjeblik og prøv igen</string>
+    <string name="network_server_error">Serveren stødte på en fejl. Prøv igen senere</string>
+    <string name="network_invalid_response">Serveren returnerede et ugyldigt svar. Prøv igen senere</string>
+    <string name="archive_is_corrupted">Arkivet er beskadiget eller ufuldstændigt og kunne ikke åbnes</string>
+    <string name="file_is_corrupted_or_unsupported">Filen er beskadiget, ufuldstændig, eller dens format er ikke understøttet</string>
+    <string name="data_is_too_large">Dataene er for store til at fuldføre denne handling</string>
+    <string name="storage_is_read_only">Denne lagerplacering er skrivebeskyttet. Vælg en anden placering, og prøv igen</string>
+    <string name="file_is_too_large">Filen er for stor til denne lagerplacering eller handling</string>
+    <string name="file_io_error">Filen kunne ikke læses eller skrives. Tilslut lageret igen, og prøv igen</string>
+    <string name="results_preview">Forhåndsvisning af resultater</string>
 </resources>

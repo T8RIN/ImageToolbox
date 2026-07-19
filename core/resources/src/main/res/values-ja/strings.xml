@@ -3974,4 +3974,19 @@
     <string name="network_timeout">接続がタイムアウトしました。接続を確認して再試行してください</string>
     <string name="network_connection_failed">サーバーに接続できませんでした。接続を確認するか、後でもう一度試してください</string>
     <string name="network_connection_interrupted">接続が中断されました。接続を確認して再試行してください</string>
+    <string name="network_secure_connection_failed">安全な接続を確立できませんでした。日付と時刻、VPN、またはネットワーク設定を確認して、再試行してください</string>
+    <string name="file_not_found">ファイルが見つかりませんでした。移動、削除されたか、利用できなくなった可能性があります</string>
+    <string name="storage_is_full">この操作を完了するには空きストレージが不足しています。スペースを解放して再試行してください</string>
+    <string name="network_request_rejected">サーバーはリクエストを拒否しました。アクセスまたはサインインの詳細を確認して、再試行してください</string>
+    <string name="network_resource_not_found">要求されたリソースがサーバー上に見つかりませんでした</string>
+    <string name="network_too_many_requests">送信されたリクエストが多すぎます。しばらく待ってからもう一度試してください</string>
+    <string name="network_server_error">サーバーでエラーが発生しました。後でもう一度試してください</string>
+    <string name="network_invalid_response">サーバーが無効な応答を返しました。後でもう一度試してください</string>
+    <string name="archive_is_corrupted">アーカイブが破損しているか不完全であるため、開くことができませんでした</string>
+    <string name="file_is_corrupted_or_unsupported">ファイルが破損しているか、不完全であるか、その形式がサポートされていません</string>
+    <string name="data_is_too_large">データが大きすぎるため、この操作を完了できません</string>
+    <string name="storage_is_read_only">この保存場所は読み取り専用です。別の場所を選択してもう一度お試しください</string>
+    <string name="file_is_too_large">ファイルはこの保存場所または操作には大きすぎます</string>
+    <string name="file_io_error">ファイルの読み取りまたは書き込みができませんでした。ストレージを再接続して再試行してください</string>
+    <string name="results_preview">結果のプレビュー</string>
 </resources>

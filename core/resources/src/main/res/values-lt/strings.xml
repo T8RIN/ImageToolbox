@@ -313,7 +313,6 @@
     <string name="implementation">Įgyvendinimas</string>
     <string name="compatibility">Suderinamumas</string>
     <string name="features_sub">Failų šifravimas slaptažodžiu. Tęsti failai gali būti saugomi pasirinktame kataloge arba bendrinami. Iššifruotus failus taip pat galima atidaryti tiesiogiai.</string>
-    <string name="implementation_sub">AES-256, GCM režimas, be užpildymo, 12 baitų atsitiktiniai IV pagal numatytuosius nustatymus. Galite pasirinkti reikiamą algoritmą. Raktai naudojami kaip 256 bitų SHA-3 maišos</string>
     <string name="file_size">Failo dydis</string>
     <string name="file_size_sub">Didžiausią failo dydį riboja „Android“ OS ir turima atmintis, kuri priklauso nuo įrenginio. \nAtkreipkite dėmesį: atmintis nėra saugykla.</string>
     <string name="compatibility_sub">Atminkite, kad suderinamumas su kita failų šifravimo programine įranga ar paslaugomis negarantuojamas. Šiek tiek kitoks raktų apdorojimas arba šifro konfigūracija gali sukelti nesuderinamumą.</string>
@@ -3977,4 +3976,19 @@
     <string name="network_timeout">Baigėsi ryšio laikas. Patikrinkite ryšį ir bandykite dar kartą</string>
     <string name="network_connection_failed">Nepavyko prisijungti prie serverio. Patikrinkite ryšį arba bandykite dar kartą vėliau</string>
     <string name="network_connection_interrupted">Ryšys nutrūko. Patikrinkite ryšį ir bandykite dar kartą</string>
+    <string name="network_secure_connection_failed">Nepavyko užmegzti saugaus ryšio. Patikrinkite datą ir laiką, VPN arba tinklo nustatymus ir bandykite dar kartą</string>
+    <string name="file_not_found">Failo rasti nepavyko. Jis gali būti perkeltas, ištrintas arba nebepasiekiamas</string>
+    <string name="storage_is_full">Nepakanka laisvos vietos šiam veiksmui atlikti. Atlaisvinkite vietos ir bandykite dar kartą</string>
+    <string name="network_request_rejected">Serveris atmetė užklausą. Patikrinkite prieigą arba prisijungimo informaciją ir bandykite dar kartą</string>
+    <string name="network_resource_not_found">Prašomas šaltinis nerastas serveryje</string>
+    <string name="network_too_many_requests">Išsiųsta per daug užklausų. Šiek tiek palaukite ir bandykite dar kartą</string>
+    <string name="network_server_error">Serveryje įvyko klaida. Vėliau bandykite dar kartą</string>
+    <string name="network_invalid_response">Serveris pateikė neteisingą atsakymą. Vėliau bandykite dar kartą</string>
+    <string name="archive_is_corrupted">Archyvas sugadintas arba neišsamus, todėl jo atidaryti nepavyko</string>
+    <string name="file_is_corrupted_or_unsupported">Failas pažeistas, neužbaigtas arba jo formatas nepalaikomas</string>
+    <string name="data_is_too_large">Duomenų per daug, kad būtų galima atlikti šį veiksmą</string>
+    <string name="storage_is_read_only">Ši saugojimo vieta yra tik skaitoma. Pasirinkite kitą vietą ir bandykite dar kartą</string>
+    <string name="file_is_too_large">Failas per didelis šiai saugojimo vietai arba operacijai</string>
+    <string name="file_io_error">Failo nepavyko nuskaityti ar įrašyti. Iš naujo prijunkite saugyklą ir bandykite dar kartą</string>
+    <string name="results_preview">Rezultatų peržiūra</string>
 </resources>

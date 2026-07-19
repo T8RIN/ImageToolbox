@@ -3975,4 +3975,19 @@
     <string name="network_timeout">இணைப்பு நேரம் முடிந்தது. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்</string>
     <string name="network_connection_failed">சேவையகத்துடன் இணைக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்க்கவும் அல்லது பிறகு முயற்சிக்கவும்</string>
     <string name="network_connection_interrupted">இணைப்பு துண்டிக்கப்பட்டது. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்</string>
+    <string name="network_secure_connection_failed">பாதுகாப்பான இணைப்பை நிறுவ முடியவில்லை. தேதி மற்றும் நேரம், VPN அல்லது நெட்வொர்க் அமைப்புகளைச் சரிபார்த்து, மீண்டும் முயற்சிக்கவும்</string>
+    <string name="file_not_found">கோப்பை கண்டுபிடிக்க முடியவில்லை. இது நகர்த்தப்பட்டிருக்கலாம், நீக்கப்பட்டிருக்கலாம் அல்லது இனி கிடைக்காது</string>
+    <string name="storage_is_full">இந்த செயலை முடிக்க போதுமான இலவச சேமிப்பிடம் இல்லை. சிறிது இடத்தைக் காலி செய்து மீண்டும் முயலவும்</string>
+    <string name="network_request_rejected">சேவையகம் கோரிக்கையை நிராகரித்தது. உங்கள் அணுகல் அல்லது உள்நுழைவு விவரங்களைச் சரிபார்த்து, மீண்டும் முயற்சிக்கவும்</string>
+    <string name="network_resource_not_found">கோரப்பட்ட ஆதாரம் சர்வரில் இல்லை</string>
+    <string name="network_too_many_requests">பல கோரிக்கைகள் அனுப்பப்பட்டன. சிறிது நேரம் காத்திருந்து மீண்டும் முயற்சிக்கவும்</string>
+    <string name="network_server_error">சேவையகம் ஒரு பிழையை எதிர்கொண்டது. பிறகு முயற்சிக்கவும்</string>
+    <string name="network_invalid_response">சேவையகம் தவறான பதிலை வழங்கியது. பிறகு முயற்சிக்கவும்</string>
+    <string name="archive_is_corrupted">காப்பகம் சேதமடைந்துள்ளது அல்லது முழுமையடையாததால் திறக்க முடியவில்லை</string>
+    <string name="file_is_corrupted_or_unsupported">கோப்பு சேதமடைந்துள்ளது, முழுமையடையவில்லை அல்லது அதன் வடிவம் ஆதரிக்கப்படவில்லை</string>
+    <string name="data_is_too_large">இந்த செயலை முடிக்க தரவு மிகவும் பெரியதாக உள்ளது</string>
+    <string name="storage_is_read_only">இந்த சேமிப்பக இருப்பிடம் படிக்க மட்டுமே. வேறொரு இடத்தைத் தேர்ந்தெடுத்து மீண்டும் முயற்சிக்கவும்</string>
+    <string name="file_is_too_large">இந்த சேமிப்பக இருப்பிடம் அல்லது செயல்பாட்டிற்கு கோப்பு மிகவும் பெரியதாக உள்ளது</string>
+    <string name="file_io_error">கோப்பை படிக்கவோ எழுதவோ முடியவில்லை. சேமிப்பகத்தை மீண்டும் இணைத்து மீண்டும் முயற்சிக்கவும்</string>
+    <string name="results_preview">முடிவுகள் முன்னோட்டம்</string>
 </resources>

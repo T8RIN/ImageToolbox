@@ -3977,4 +3977,19 @@
     <string name="network_timeout">תם הזמן הקצוב לחיבור. בדוק את החיבור שלך ונסה שוב</string>
     <string name="network_connection_failed">לא ניתן להתחבר לשרת. בדוק את החיבור שלך או נסה שוב מאוחר יותר</string>
     <string name="network_connection_interrupted">החיבור נקטע. בדוק את החיבור שלך ונסה שוב</string>
+    <string name="network_secure_connection_failed">לא ניתן ליצור חיבור מאובטח. בדוק את התאריך והשעה, הגדרות ה-VPN או הרשת ונסה שוב</string>
+    <string name="file_not_found">הקובץ לא נמצא. ייתכן שהוא הועבר, נמחק או שאינו זמין יותר</string>
+    <string name="storage_is_full">אין מספיק שטח אחסון בחינם כדי להשלים את הפעולה הזו. פנה קצת מקום ונסה שוב</string>
+    <string name="network_request_rejected">השרת דחה את הבקשה. בדוק את פרטי הגישה או הכניסה שלך ונסה שוב</string>
+    <string name="network_resource_not_found">המשאב המבוקש לא נמצא בשרת</string>
+    <string name="network_too_many_requests">נשלחו יותר מדי בקשות. המתן רגע ונסה שוב</string>
+    <string name="network_server_error">השרת נתקל בשגיאה. נסה שוב מאוחר יותר</string>
+    <string name="network_invalid_response">השרת החזיר תגובה לא חוקית. נסה שוב מאוחר יותר</string>
+    <string name="archive_is_corrupted">הארכיון פגום או לא שלם ולא ניתן היה לפתוח אותו</string>
+    <string name="file_is_corrupted_or_unsupported">הקובץ פגום, לא שלם או שהפורמט שלו אינו נתמך</string>
+    <string name="data_is_too_large">הנתונים גדולים מכדי להשלים פעולה זו</string>
+    <string name="storage_is_read_only">מיקום אחסון זה הוא לקריאה בלבד. בחר מיקום אחר ונסה שוב</string>
+    <string name="file_is_too_large">הקובץ גדול מדי עבור מיקום האחסון או הפעולה הזו</string>
+    <string name="file_io_error">לא ניתן היה לקרוא או לכתוב את הקובץ. חבר מחדש את האחסון ונסה שוב</string>
+    <string name="results_preview">תצוגה מקדימה של תוצאות</string>
 </resources>

@@ -3974,4 +3974,19 @@
     <string name="network_timeout">การเชื่อมต่อหมดเวลา ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง</string>
     <string name="network_connection_failed">ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ ตรวจสอบการเชื่อมต่อของคุณหรือลองอีกครั้งในภายหลัง</string>
     <string name="network_connection_interrupted">การเชื่อมต่อถูกขัดจังหวะ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง</string>
+    <string name="network_secure_connection_failed">ไม่สามารถสร้างการเชื่อมต่อที่ปลอดภัยได้ ตรวจสอบวันที่และเวลา VPN หรือการตั้งค่าเครือข่ายแล้วลองอีกครั้ง</string>
+    <string name="file_not_found">ไม่พบไฟล์ อาจถูกย้าย ลบ หรือไม่สามารถใช้ได้อีกต่อไป</string>
+    <string name="storage_is_full">มีพื้นที่เก็บข้อมูลฟรีไม่เพียงพอที่จะดำเนินการนี้ให้เสร็จสิ้น เพิ่มพื้นที่ว่างแล้วลองอีกครั้ง</string>
+    <string name="network_request_rejected">เซิร์ฟเวอร์ปฏิเสธคำขอ ตรวจสอบรายละเอียดการเข้าถึงหรือการลงชื่อเข้าใช้ของคุณแล้วลองอีกครั้ง</string>
+    <string name="network_resource_not_found">ไม่พบทรัพยากรที่ร้องขอบนเซิร์ฟเวอร์</string>
+    <string name="network_too_many_requests">มีการส่งคำขอมากเกินไป รอสักครู่แล้วลองอีกครั้ง</string>
+    <string name="network_server_error">เซิร์ฟเวอร์พบข้อผิดพลาด ลองอีกครั้งในภายหลัง</string>
+    <string name="network_invalid_response">เซิร์ฟเวอร์ส่งคืนการตอบกลับที่ไม่ถูกต้อง ลองอีกครั้งในภายหลัง</string>
+    <string name="archive_is_corrupted">ไฟล์เก็บถาวรเสียหายหรือไม่สมบูรณ์และไม่สามารถเปิดได้</string>
+    <string name="file_is_corrupted_or_unsupported">ไฟล์เสียหาย ไม่สมบูรณ์ หรือไม่รองรับรูปแบบ</string>
+    <string name="data_is_too_large">ข้อมูลมีขนาดใหญ่เกินกว่าจะดำเนินการนี้ได้</string>
+    <string name="storage_is_read_only">ตำแหน่งที่เก็บข้อมูลนี้เป็นแบบอ่านอย่างเดียว เลือกสถานที่อื่นแล้วลองอีกครั้ง</string>
+    <string name="file_is_too_large">ไฟล์มีขนาดใหญ่เกินไปสำหรับตำแหน่งที่เก็บข้อมูลหรือการดำเนินการนี้</string>
+    <string name="file_io_error">ไม่สามารถอ่านหรือเขียนไฟล์ได้ เชื่อมต่อที่เก็บข้อมูลอีกครั้งแล้วลองอีกครั้ง</string>
+    <string name="results_preview">ดูตัวอย่างผลลัพธ์</string>
 </resources>

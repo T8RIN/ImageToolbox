@@ -3974,4 +3974,19 @@
     <string name="network_timeout">Kết nối đã hết thời gian chờ. Kiểm tra kết nối của bạn và thử lại</string>
     <string name="network_connection_failed">Không thể kết nối với máy chủ. Hãy kiểm tra kết nối của bạn hoặc thử lại sau</string>
     <string name="network_connection_interrupted">Kết nối bị gián đoạn. Kiểm tra kết nối của bạn và thử lại</string>
+    <string name="network_secure_connection_failed">Không thể thiết lập kết nối an toàn. Hãy kiểm tra ngày giờ, VPN hoặc cài đặt mạng rồi thử lại</string>
+    <string name="file_not_found">Không thể tìm thấy tập tin. Nó có thể đã bị di chuyển, bị xóa hoặc không còn tồn tại</string>
+    <string name="storage_is_full">Không có đủ dung lượng trống để hoàn thành hành động này. Hãy giải phóng một số dung lượng và thử lại</string>
+    <string name="network_request_rejected">Máy chủ đã từ chối yêu cầu. Hãy kiểm tra thông tin truy cập hoặc thông tin đăng nhập của bạn rồi thử lại</string>
+    <string name="network_resource_not_found">Không tìm thấy tài nguyên được yêu cầu trên máy chủ</string>
+    <string name="network_too_many_requests">Quá nhiều yêu cầu đã được gửi đi. Đợi một lát và thử lại</string>
+    <string name="network_server_error">Máy chủ gặp lỗi. Hãy thử lại sau</string>
+    <string name="network_invalid_response">Máy chủ trả về phản hồi không hợp lệ. Hãy thử lại sau</string>
+    <string name="archive_is_corrupted">Kho lưu trữ bị hỏng hoặc không đầy đủ và không thể mở được</string>
+    <string name="file_is_corrupted_or_unsupported">Tệp bị hỏng, không đầy đủ hoặc định dạng của nó không được hỗ trợ</string>
+    <string name="data_is_too_large">Dữ liệu quá lớn để hoàn thành hành động này</string>
+    <string name="storage_is_read_only">Vị trí lưu trữ này ở chế độ chỉ đọc. Hãy chọn một vị trí khác và thử lại</string>
+    <string name="file_is_too_large">Tệp quá lớn đối với vị trí hoặc thao tác lưu trữ này</string>
+    <string name="file_io_error">Không thể đọc hoặc ghi tập tin. Hãy kết nối lại bộ nhớ và thử lại</string>
+    <string name="results_preview">Xem trước kết quả</string>
 </resources>

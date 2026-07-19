@@ -3975,4 +3975,19 @@
     <string name="network_timeout">A kapcsolat időtúllépése lejárt. Ellenőrizze a kapcsolatot, és próbálja újra</string>
     <string name="network_connection_failed">Nem sikerült csatlakozni a szerverhez. Ellenőrizze a kapcsolatot, vagy próbálja újra később</string>
     <string name="network_connection_interrupted">A kapcsolat megszakadt. Ellenőrizze a kapcsolatot, és próbálja újra</string>
+    <string name="network_secure_connection_failed">Nem sikerült biztonságos kapcsolatot létrehozni. Ellenőrizze a dátumot és az időt, a VPN vagy a hálózati beállításokat, és próbálja újra</string>
+    <string name="file_not_found">A fájl nem található. Lehet, hogy áthelyezték, törölték, vagy már nem elérhető</string>
+    <string name="storage_is_full">Nincs elég ingyenes tárhely a művelet végrehajtásához. Szabadítson fel helyet, és próbálja újra</string>
+    <string name="network_request_rejected">A szerver elutasította a kérést. Ellenőrizze hozzáférési vagy bejelentkezési adatait, és próbálja újra</string>
+    <string name="network_resource_not_found">A kért erőforrás nem található a szerveren</string>
+    <string name="network_too_many_requests">Túl sok kérést küldtek el. Várjon egy pillanatot, és próbálja újra</string>
+    <string name="network_server_error">A szerver hibát észlelt. Próbálja újra később</string>
+    <string name="network_invalid_response">A szerver érvénytelen választ adott vissza. Próbálja újra később</string>
+    <string name="archive_is_corrupted">Az archívum sérült vagy hiányos, ezért nem lehetett megnyitni</string>
+    <string name="file_is_corrupted_or_unsupported">A fájl sérült, hiányos, vagy a formátuma nem támogatott</string>
+    <string name="data_is_too_large">Az adatok túl nagyok a művelet végrehajtásához</string>
+    <string name="storage_is_read_only">Ez a tárolóhely csak olvasható. Válasszon másik helyet, és próbálja újra</string>
+    <string name="file_is_too_large">A fájl túl nagy ehhez a tárolási helyhez vagy művelethez</string>
+    <string name="file_io_error">A fájlt nem lehetett olvasni vagy írni. Csatlakoztassa újra a tárhelyet, és próbálja újra</string>
+    <string name="results_preview">Eredmények előnézete</string>
 </resources>

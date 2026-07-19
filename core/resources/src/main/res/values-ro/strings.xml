@@ -3976,4 +3976,19 @@
     <string name="network_timeout">Conexiunea a expirat. Verificați conexiunea și încercați din nou</string>
     <string name="network_connection_failed">Nu s-a putut conecta la server. Verificați conexiunea sau încercați din nou mai târziu</string>
     <string name="network_connection_interrupted">Conexiunea a fost întreruptă. Verificați conexiunea și încercați din nou</string>
+    <string name="network_secure_connection_failed">Nu s-a putut stabili o conexiune sigură. Verificați data și ora, VPN sau setările de rețea și încercați din nou</string>
+    <string name="file_not_found">Fișierul nu a putut fi găsit. Este posibil să fi fost mutat, șters sau să nu mai fie disponibil</string>
+    <string name="storage_is_full">Nu există suficient spațiu de stocare gratuit pentru a finaliza această acțiune. Eliberați spațiu și încercați din nou</string>
+    <string name="network_request_rejected">Serverul a respins cererea. Verificați detaliile de acces sau de conectare și încercați din nou</string>
+    <string name="network_resource_not_found">Resursa solicitată nu a fost găsită pe server</string>
+    <string name="network_too_many_requests">Au fost trimise prea multe cereri. Așteptați un moment și încercați din nou</string>
+    <string name="network_server_error">Serverul a întâmpinat o eroare. Încercați din nou mai târziu</string>
+    <string name="network_invalid_response">Serverul a returnat un răspuns nevalid. Încercați din nou mai târziu</string>
+    <string name="archive_is_corrupted">Arhiva este deteriorată sau incompletă și nu a putut fi deschisă</string>
+    <string name="file_is_corrupted_or_unsupported">Fișierul este deteriorat, incomplet sau formatul său nu este acceptat</string>
+    <string name="data_is_too_large">Datele sunt prea mari pentru a finaliza această acțiune</string>
+    <string name="storage_is_read_only">Această locație de stocare este doar pentru citire. Alegeți o altă locație și încercați din nou</string>
+    <string name="file_is_too_large">Fișierul este prea mare pentru această locație de stocare sau operație</string>
+    <string name="file_io_error">Fișierul nu a putut fi citit sau scris. Reconectați spațiul de stocare și încercați din nou</string>
+    <string name="results_preview">Previzualizarea rezultatelor</string>
 </resources>

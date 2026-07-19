@@ -3977,4 +3977,19 @@
     <string name="network_timeout">Časový limit spojenia vypršal. Skontrolujte pripojenie a skúste to znova</string>
     <string name="network_connection_failed">Nepodarilo sa pripojiť k serveru. Skontrolujte pripojenie alebo to skúste znova neskôr</string>
     <string name="network_connection_interrupted">Spojenie bolo prerušené. Skontrolujte pripojenie a skúste to znova</string>
+    <string name="network_secure_connection_failed">Nepodarilo sa vytvoriť zabezpečené pripojenie. Skontrolujte dátum a čas, sieť VPN alebo nastavenia siete a skúste to znova</string>
+    <string name="file_not_found">Súbor sa nepodarilo nájsť. Možno bol presunutý, odstránený alebo už nie je dostupný</string>
+    <string name="storage_is_full">Na dokončenie tejto akcie nie je dostatok voľného miesta. Uvoľnite miesto a skúste to znova</string>
+    <string name="network_request_rejected">Server požiadavku odmietol. Skontrolujte svoje prístupové alebo prihlasovacie údaje a skúste to znova</string>
+    <string name="network_resource_not_found">Požadovaný zdroj sa na serveri nenašiel</string>
+    <string name="network_too_many_requests">Bolo odoslaných príliš veľa žiadostí. Chvíľu počkajte a skúste to znova</string>
+    <string name="network_server_error">Na serveri sa vyskytla chyba. Skúste to znova neskôr</string>
+    <string name="network_invalid_response">Server vrátil neplatnú odpoveď. Skúste to znova neskôr</string>
+    <string name="archive_is_corrupted">Archív je poškodený alebo neúplný a nebolo možné ho otvoriť</string>
+    <string name="file_is_corrupted_or_unsupported">Súbor je poškodený, neúplný alebo jeho formát nie je podporovaný</string>
+    <string name="data_is_too_large">Údaje sú príliš veľké na dokončenie tejto akcie</string>
+    <string name="storage_is_read_only">Toto úložisko je len na čítanie. Vyberte iné miesto a skúste to znova</string>
+    <string name="file_is_too_large">Súbor je príliš veľký pre toto miesto uloženia alebo operáciu</string>
+    <string name="file_io_error">Súbor sa nedal čítať ani zapisovať. Znova pripojte úložisko a skúste to znova</string>
+    <string name="results_preview">Ukážka výsledkov</string>
 </resources>

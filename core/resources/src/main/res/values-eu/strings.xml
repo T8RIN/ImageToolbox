@@ -267,7 +267,6 @@
     <string name="draw_on_image_sub">Aukeratu irudi bat eta marraztu zerbait gainean</string>
     <string name="draw_on_background">Marraztu atzeko planoan</string>
     <string name="key">Gakoa</string>
-    <string name="implementation_sub">AES-256, GCM modua, betegarririk gabe, 12 byte ausazko IV. Gakoak SHA-3 hash gisa erabiltzen dira (256 bit).</string>
     <string name="file_proceed">Fitxategiak aurrera egin du</string>
     <string name="invalid_password_or_not_encrypted">Pasahitz baliogabea edo aukeratutako fitxategia ez dago enkriptatuta</string>
     <string name="image_size_warning">Emandako zabalera eta altuera duen irudia gordetzen saiatzeak OOM errore bat sor dezake, egin hau zure ardurapean, eta ez esan abisatu ez dudala!</string>
@@ -3975,4 +3974,19 @@
     <string name="network_timeout">Konexioa denbora-muga gainditu da. Egiaztatu konexioa eta saiatu berriro</string>
     <string name="network_connection_failed">Ezin izan da zerbitzariarekin konektatu. Egiaztatu konexioa edo saiatu berriro geroago</string>
     <string name="network_connection_interrupted">Konexioa eten egin zen. Egiaztatu konexioa eta saiatu berriro</string>
+    <string name="network_secure_connection_failed">Ezin izan da konexio segururik ezarri. Egiaztatu data eta ordua, VPN edo sarearen ezarpenak eta saiatu berriro</string>
+    <string name="file_not_found">Ezin izan da fitxategia aurkitu. Baliteke mugitu, ezabatu edo jada erabilgarri ez egotea</string>
+    <string name="storage_is_full">Ez dago doako biltegiratze nahikoa ekintza hau burutzeko. Askatu leku pixka bat eta saiatu berriro</string>
+    <string name="network_request_rejected">Zerbitzariak eskaera baztertu du. Egiaztatu sarbidea edo saioa hasteko xehetasunak eta saiatu berriro</string>
+    <string name="network_resource_not_found">Eskatutako baliabidea ez da zerbitzarian aurkitu</string>
+    <string name="network_too_many_requests">Eskaera gehiegi bidali ziren. Itxaron pixka bat eta saiatu berriro</string>
+    <string name="network_server_error">Zerbitzariak errore bat aurkitu du. Saiatu berriro geroago</string>
+    <string name="network_invalid_response">Zerbitzariak erantzun baliogabea itzuli du. Saiatu berriro geroago</string>
+    <string name="archive_is_corrupted">Artxiboa hondatuta edo osatu gabe dago eta ezin izan da ireki</string>
+    <string name="file_is_corrupted_or_unsupported">Fitxategia hondatuta dago, osatu gabe dago edo bere formatua ez da onartzen</string>
+    <string name="data_is_too_large">Datuak handiegiak dira ekintza hau burutzeko</string>
+    <string name="storage_is_read_only">Biltegiratze-kokapen hau irakurtzeko soilik da. Aukeratu beste kokapen bat eta saiatu berriro</string>
+    <string name="file_is_too_large">Fitxategia handiegia da biltegiratze-kokapen edo eragiketa honetarako</string>
+    <string name="file_io_error">Ezin izan da fitxategia irakurri edo idatzi. Konektatu berriro biltegia eta saiatu berriro</string>
+    <string name="results_preview">Emaitzen aurrebista</string>
 </resources>

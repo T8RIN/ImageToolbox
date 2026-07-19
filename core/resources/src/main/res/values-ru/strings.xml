@@ -3991,4 +3991,5 @@
     <string name="panorama">Панорама</string>
     <string name="crop_stitched_image_sub">Обрезать результат до наибольшей площади без пустых областей</string>
     <string name="seam_blending">Сглаживание швов</string>
+    <string name="results_preview">Предварительный просмотр результатов</string>
 </resources>

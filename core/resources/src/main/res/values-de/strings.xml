@@ -3975,4 +3975,19 @@
     <string name="network_timeout">Die Verbindung ist abgelaufen. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut</string>
     <string name="network_connection_failed">Es konnte keine Verbindung zum Server hergestellt werden. Überprüfen Sie Ihre Verbindung oder versuchen Sie es später noch einmal</string>
     <string name="network_connection_interrupted">Die Verbindung wurde unterbrochen. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut</string>
+    <string name="network_secure_connection_failed">Es konnte keine sichere Verbindung hergestellt werden. Überprüfen Sie Datum und Uhrzeit, VPN oder Netzwerkeinstellungen und versuchen Sie es erneut</string>
+    <string name="file_not_found">Die Datei konnte nicht gefunden werden. Möglicherweise wurde es verschoben, gelöscht oder ist nicht mehr verfügbar</string>
+    <string name="storage_is_full">Es ist nicht genügend freier Speicherplatz vorhanden, um diese Aktion abzuschließen. Geben Sie etwas Speicherplatz frei und versuchen Sie es erneut</string>
+    <string name="network_request_rejected">Der Server hat die Anfrage abgelehnt. Überprüfen Sie Ihre Zugangs- oder Anmeldedaten und versuchen Sie es erneut</string>
+    <string name="network_resource_not_found">Die angeforderte Ressource wurde auf dem Server nicht gefunden</string>
+    <string name="network_too_many_requests">Es wurden zu viele Anfragen gesendet. Warten Sie einen Moment und versuchen Sie es erneut</string>
+    <string name="network_server_error">Der Server hat einen Fehler festgestellt. Versuchen Sie es später noch einmal</string>
+    <string name="network_invalid_response">Der Server hat eine ungültige Antwort zurückgegeben. Versuchen Sie es später noch einmal</string>
+    <string name="archive_is_corrupted">Das Archiv ist beschädigt oder unvollständig und konnte nicht geöffnet werden</string>
+    <string name="file_is_corrupted_or_unsupported">Die Datei ist beschädigt, unvollständig oder ihr Format wird nicht unterstützt</string>
+    <string name="data_is_too_large">Die Daten sind zu groß, um diese Aktion abzuschließen</string>
+    <string name="storage_is_read_only">Dieser Speicherort ist schreibgeschützt. Wählen Sie einen anderen Standort und versuchen Sie es erneut</string>
+    <string name="file_is_too_large">Die Datei ist zu groß für diesen Speicherort oder Vorgang</string>
+    <string name="file_io_error">Die Datei konnte nicht gelesen oder geschrieben werden. Schließen Sie den Speicher erneut an und versuchen Sie es erneut</string>
+    <string name="results_preview">Ergebnisvorschau</string>
 </resources>

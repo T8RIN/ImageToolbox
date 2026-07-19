@@ -3976,4 +3976,19 @@
     <string name="network_timeout">Веза је истекла. Проверите своју везу и покушајте поново</string>
     <string name="network_connection_failed">Повезивање са сервером није успело. Проверите везу или покушајте поново касније</string>
     <string name="network_connection_interrupted">Веза је прекинута. Проверите своју везу и покушајте поново</string>
+    <string name="network_secure_connection_failed">Није могуће успоставити безбедну везу. Проверите датум и време, ВПН или мрежна подешавања и покушајте поново</string>
+    <string name="file_not_found">Датотека није пронађена. Можда је премештено, избрисано или више није доступно</string>
+    <string name="storage_is_full">Нема довољно бесплатног меморијског простора да бисте довршили ову радњу. Ослободите мало простора и покушајте поново</string>
+    <string name="network_request_rejected">Сервер је одбио захтев. Проверите детаље за приступ или пријављивање и покушајте поново</string>
+    <string name="network_resource_not_found">Тражени ресурс није пронађен на серверу</string>
+    <string name="network_too_many_requests">Послато је превише захтева. Сачекајте тренутак и покушајте поново</string>
+    <string name="network_server_error">Сервер је наишао на грешку. Покушајте поново касније</string>
+    <string name="network_invalid_response">Сервер је вратио неважећи одговор. Покушајте поново касније</string>
+    <string name="archive_is_corrupted">Архива је оштећена или некомплетна и није се могла отворити</string>
+    <string name="file_is_corrupted_or_unsupported">Датотека је оштећена, некомплетна или њен формат није подржан</string>
+    <string name="data_is_too_large">Подаци су превелики да би се довршила ова радња</string>
+    <string name="storage_is_read_only">Ова локација за складиштење је само за читање. Изаберите другу локацију и покушајте поново</string>
+    <string name="file_is_too_large">Датотека је превелика за ову локацију или операцију</string>
+    <string name="file_io_error">Датотека се није могла прочитати или написати. Поново повежите складиште и покушајте поново</string>
+    <string name="results_preview">Преглед резултата</string>
 </resources>

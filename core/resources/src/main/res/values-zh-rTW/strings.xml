@@ -3974,4 +3974,19 @@
     <string name="network_timeout">連接逾時。檢查您的連線並重試</string>
     <string name="network_connection_failed">無法連接到伺服器。檢查您的連線或稍後重試</string>
     <string name="network_connection_interrupted">連線中斷。檢查您的連線並重試</string>
+    <string name="network_secure_connection_failed">無法建立安全連線。檢查日期和時間、VPN 或網路設置，然後重試</string>
+    <string name="file_not_found">找不到該文件。它可能已被移動、刪除或不再可用</string>
+    <string name="storage_is_full">沒有足夠的可用儲存空間來完成此操作。釋放一些空間並重試</string>
+    <string name="network_request_rejected">伺服器拒絕了該請求。檢查您的訪問或登入詳細信息，然後重試</string>
+    <string name="network_resource_not_found">在伺服器上找不到請求的資源</string>
+    <string name="network_too_many_requests">發送的請求過多。稍等片刻，然後重試</string>
+    <string name="network_server_error">伺服器遇到錯誤。稍後再試</string>
+    <string name="network_invalid_response">伺服器傳回無效響應。稍後再試</string>
+    <string name="archive_is_corrupted">存檔已損壞或不完整，無法開啟</string>
+    <string name="file_is_corrupted_or_unsupported">文件已損壞、不完整或格式不受支援</string>
+    <string name="data_is_too_large">數據太大，無法完成此操作</string>
+    <string name="storage_is_read_only">此儲存位置是唯讀的。選擇其他位置並重試</string>
+    <string name="file_is_too_large">文件對於此存儲位置或操作來說太大</string>
+    <string name="file_io_error">無法讀取或寫入該檔案。重新連接儲存空間並重試</string>
+    <string name="results_preview">結果預覽</string>
 </resources>

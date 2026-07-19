@@ -285,7 +285,6 @@
     <string name="implementation">Rakendamine</string>
     <string name="compatibility">Ühilduvus</string>
     <string name="features_sub">Paroolipõhine failide krüptimine. Jätkatud faile saab salvestada valitud kataloogi või jagada. Dekrüpteeritud faile saab avada ka otse.</string>
-    <string name="implementation_sub">AES-256, GCM-režiim, polsterduseta, vaikimisi 12-baidised juhuslikud IV-d. Saate valida vajaliku algoritmi. Võtmeid kasutatakse 256-bitiste SHA-3 räsidena</string>
     <string name="file_size">Faili suurus</string>
     <string name="file_size_sub">Maksimaalset failisuurust piiravad Android OS ja saadaolev mälu, mis sõltub seadmest. \nPange tähele: mälu ei ole salvestusruum.</string>
     <string name="compatibility_sub">Pange tähele, et ühilduvus muude failide krüpteerimistarkvara või -teenustega ei ole garanteeritud. Veidi erinev võtmetöötlus või šifri konfiguratsioon võib põhjustada ühildumatust.</string>
@@ -3975,4 +3974,19 @@
     <string name="network_timeout">Ühendus aegus. Kontrollige ühendust ja proovige uuesti</string>
     <string name="network_connection_failed">Serveriga ei saanud ühendust luua. Kontrollige ühendust või proovige hiljem uuesti</string>
     <string name="network_connection_interrupted">Ühendus katkes. Kontrollige ühendust ja proovige uuesti</string>
+    <string name="network_secure_connection_failed">Turvalist ühendust ei saanud luua. Kontrollige kuupäeva ja kellaaega, VPN-i või võrguseadeid ning proovige uuesti</string>
+    <string name="file_not_found">Faili ei leitud. See võib olla teisaldatud, kustutatud või pole enam saadaval</string>
+    <string name="storage_is_full">Selle toimingu tegemiseks pole piisavalt vaba salvestusruumi. Vabastage ruumi ja proovige uuesti</string>
+    <string name="network_request_rejected">Server lükkas taotluse tagasi. Kontrollige oma juurdepääsu- või sisselogimisandmeid ja proovige uuesti</string>
+    <string name="network_resource_not_found">Nõutud ressurssi serverist ei leitud</string>
+    <string name="network_too_many_requests">Saadeti liiga palju taotlusi. Oodake hetk ja proovige uuesti</string>
+    <string name="network_server_error">Serveris ilmnes viga. Proovige hiljem uuesti</string>
+    <string name="network_invalid_response">Server andis vale vastuse. Proovige hiljem uuesti</string>
+    <string name="archive_is_corrupted">Arhiiv on kahjustatud või mittetäielik ja seda ei saa avada</string>
+    <string name="file_is_corrupted_or_unsupported">Fail on kahjustatud, mittetäielik või selle vormingut ei toetata</string>
+    <string name="data_is_too_large">Andmed on selle toimingu lõpuleviimiseks liiga suured</string>
+    <string name="storage_is_read_only">See salvestuskoht on kirjutuskaitstud. Valige teine ​​asukoht ja proovige uuesti</string>
+    <string name="file_is_too_large">Fail on selle salvestuskoha või toimingu jaoks liiga suur</string>
+    <string name="file_io_error">Faili ei saanud lugeda ega kirjutada. Ühendage salvestusruum uuesti ja proovige uuesti</string>
+    <string name="results_preview">Tulemuste eelvaade</string>
 </resources>

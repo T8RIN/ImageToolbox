@@ -3975,4 +3975,19 @@
     <string name="network_timeout">La conexión expiró. Comprueba tu conexión y vuelve a intentarlo.</string>
     <string name="network_connection_failed">No se pudo conectar al servidor. Comprueba tu conexión o vuelve a intentarlo más tarde</string>
     <string name="network_connection_interrupted">La conexión fue interrumpida. Comprueba tu conexión y vuelve a intentarlo.</string>
+    <string name="network_secure_connection_failed">No se pudo establecer una conexión segura. Verifique la fecha y hora, la VPN o la configuración de red e inténtelo nuevamente</string>
+    <string name="file_not_found">No se pudo encontrar el archivo. Es posible que se haya movido, eliminado o que ya no esté disponible.</string>
+    <string name="storage_is_full">No hay suficiente almacenamiento gratuito para completar esta acción. Libera espacio y vuelve a intentarlo.</string>
+    <string name="network_request_rejected">El servidor rechazó la solicitud. Verifique sus datos de acceso o inicio de sesión e inténtelo nuevamente</string>
+    <string name="network_resource_not_found">El recurso solicitado no se encontró en el servidor.</string>
+    <string name="network_too_many_requests">Se enviaron demasiadas solicitudes. Espera un momento y vuelve a intentarlo.</string>
+    <string name="network_server_error">El servidor encontró un error. Vuelve a intentarlo más tarde</string>
+    <string name="network_invalid_response">El servidor devolvió una respuesta no válida. Vuelve a intentarlo más tarde</string>
+    <string name="archive_is_corrupted">El archivo está dañado o incompleto y no se pudo abrir.</string>
+    <string name="file_is_corrupted_or_unsupported">El archivo está dañado, incompleto o su formato no es compatible</string>
+    <string name="data_is_too_large">Los datos son demasiado grandes para completar esta acción.</string>
+    <string name="storage_is_read_only">Esta ubicación de almacenamiento es de sólo lectura. Elige otra ubicación e inténtalo de nuevo.</string>
+    <string name="file_is_too_large">El archivo es demasiado grande para esta ubicación de almacenamiento u operación</string>
+    <string name="file_io_error">El archivo no se pudo leer ni escribir. Vuelve a conectar el almacenamiento e inténtalo de nuevo.</string>
+    <string name="results_preview">Vista previa de resultados</string>
 </resources>

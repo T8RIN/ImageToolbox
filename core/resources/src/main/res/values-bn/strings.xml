@@ -3975,4 +3975,19 @@
     <string name="network_timeout">সংযোগের সময় শেষ হয়েছে৷ আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন</string>
     <string name="network_connection_failed">সার্ভারের সাথে সংযোগ করা যায়নি। আপনার সংযোগ পরীক্ষা করুন বা পরে আবার চেষ্টা করুন</string>
     <string name="network_connection_interrupted">সংযোগ বিঘ্নিত হয়। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন</string>
+    <string name="network_secure_connection_failed">নিরাপদ সংযোগ স্থাপন করা যায়নি। তারিখ এবং সময়, VPN বা নেটওয়ার্ক সেটিংস চেক করুন এবং আবার চেষ্টা করুন</string>
+    <string name="file_not_found">ফাইল খুঁজে পাওয়া যায়নি. এটি সরানো হয়েছে, মুছে ফেলা হয়েছে বা আর উপলব্ধ নেই৷</string>
+    <string name="storage_is_full">এই ক্রিয়াটি সম্পূর্ণ করার জন্য পর্যাপ্ত বিনামূল্যের সঞ্চয়স্থান নেই৷ কিছু জায়গা খালি করুন এবং আবার চেষ্টা করুন</string>
+    <string name="network_request_rejected">সার্ভার অনুরোধ প্রত্যাখ্যান. আপনার অ্যাক্সেস বা সাইন-ইন বিশদ পরীক্ষা করুন এবং আবার চেষ্টা করুন</string>
+    <string name="network_resource_not_found">অনুরোধ করা সম্পদ সার্ভারে পাওয়া যায়নি</string>
+    <string name="network_too_many_requests">অনেক অনুরোধ পাঠানো হয়েছে. কিছুক্ষণ অপেক্ষা করুন এবং আবার চেষ্টা করুন</string>
+    <string name="network_server_error">সার্ভার একটি ত্রুটির সম্মুখীন হয়েছে৷ পরে আবার চেষ্টা করুন</string>
+    <string name="network_invalid_response">সার্ভার একটি অবৈধ প্রতিক্রিয়া ফিরিয়ে দিয়েছে৷ পরে আবার চেষ্টা করুন</string>
+    <string name="archive_is_corrupted">সংরক্ষণাগার ক্ষতিগ্রস্ত বা অসম্পূর্ণ এবং খোলা যাবে না</string>
+    <string name="file_is_corrupted_or_unsupported">ফাইলটি ক্ষতিগ্রস্ত, অসম্পূর্ণ বা এর বিন্যাস সমর্থিত নয়</string>
+    <string name="data_is_too_large">এই ক্রিয়াটি সম্পূর্ণ করার জন্য ডেটা খুব বড়৷</string>
+    <string name="storage_is_read_only">এই স্টোরেজ অবস্থান শুধুমাত্র পঠনযোগ্য. অন্য অবস্থান চয়ন করুন এবং আবার চেষ্টা করুন</string>
+    <string name="file_is_too_large">এই স্টোরেজ অবস্থান বা অপারেশনের জন্য ফাইলটি খুব বড়</string>
+    <string name="file_io_error">ফাইল পড়া বা লেখা যাবে না. স্টোরেজ পুনরায় সংযোগ করুন এবং আবার চেষ্টা করুন</string>
+    <string name="results_preview">ফলাফল পূর্বরূপ</string>
 </resources>

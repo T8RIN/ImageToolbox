@@ -3975,4 +3975,19 @@
     <string name="network_timeout">Байланыс уақыты аяқталды. Байланысты тексеріп, әрекетті қайталаңыз</string>
     <string name="network_connection_failed">Серверге қосылу мүмкін болмады. Байланысты тексеріңіз немесе әрекетті кейінірек қайталаңыз</string>
     <string name="network_connection_interrupted">Байланыс үзілді. Байланысты тексеріп, әрекетті қайталаңыз</string>
+    <string name="network_secure_connection_failed">Қауіпсіз байланыс орнатылмады. Күн мен уақытты, VPN немесе желі параметрлерін тексеріп, әрекетті қайталаңыз</string>
+    <string name="file_not_found">Файл табылмады. Ол жылжытылған, жойылған немесе енді қолжетімсіз болуы мүмкін</string>
+    <string name="storage_is_full">Бұл әрекетті орындау үшін бос жад жеткіліксіз. Біраз орын босатып, әрекетті қайталаңыз</string>
+    <string name="network_request_rejected">Сервер сұрауды қабылдамады. Кіру немесе кіру мәліметтерін тексеріп, әрекетті қайталаңыз</string>
+    <string name="network_resource_not_found">Сұралған ресурс серверде табылмады</string>
+    <string name="network_too_many_requests">Тым көп сұрау жіберілді. Сәл күтіп, әрекетті қайталаңыз</string>
+    <string name="network_server_error">Сервер қатеге тап болды. Әрекетті кейінірек қайталаңыз</string>
+    <string name="network_invalid_response">Сервер жарамсыз жауапты қайтарды. Әрекетті кейінірек қайталаңыз</string>
+    <string name="archive_is_corrupted">Мұрағат зақымдалған немесе толық емес және оны ашу мүмкін емес</string>
+    <string name="file_is_corrupted_or_unsupported">Файл зақымдалған, толық емес немесе оның пішіміне қолдау көрсетілмейді</string>
+    <string name="data_is_too_large">Бұл әрекетті аяқтау үшін деректер тым үлкен</string>
+    <string name="storage_is_read_only">Бұл сақтау орны тек оқуға арналған. Басқа орынды таңдап, әрекетті қайталаңыз</string>
+    <string name="file_is_too_large">Бұл сақтау орны немесе операция үшін файл тым үлкен</string>
+    <string name="file_io_error">Файлды оқу немесе жазу мүмкін болмады. Жадты қайта қосып, әрекетті қайталаңыз</string>
+    <string name="results_preview">Нәтижелерді алдын ала қарау</string>
 </resources>

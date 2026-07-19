@@ -3975,4 +3975,19 @@
     <string name="network_timeout">Yhteys aikakatkaistiin. Tarkista yhteys ja yritä uudelleen</string>
     <string name="network_connection_failed">Yhteyttä palvelimeen ei voitu muodostaa. Tarkista yhteys tai yritä myöhemmin uudelleen</string>
     <string name="network_connection_interrupted">Yhteys katkesi. Tarkista yhteys ja yritä uudelleen</string>
+    <string name="network_secure_connection_failed">Suojattua yhteyttä ei voitu muodostaa. Tarkista päivämäärä ja aika, VPN- tai verkkoasetukset ja yritä uudelleen</string>
+    <string name="file_not_found">Tiedostoa ei löytynyt. Se on ehkä siirretty, poistettu tai se ei ole enää saatavilla</string>
+    <string name="storage_is_full">Ilmaista tallennustilaa ei ole tarpeeksi tämän toiminnon suorittamiseen. Vapauta tilaa ja yritä uudelleen</string>
+    <string name="network_request_rejected">Palvelin hylkäsi pyynnön. Tarkista käyttöoikeus- tai kirjautumistietosi ja yritä uudelleen</string>
+    <string name="network_resource_not_found">Pyydettyä resurssia ei löytynyt palvelimelta</string>
+    <string name="network_too_many_requests">Liian monta pyyntöä lähetettiin. Odota hetki ja yritä uudelleen</string>
+    <string name="network_server_error">Palvelimessa tapahtui virhe. Yritä myöhemmin uudelleen</string>
+    <string name="network_invalid_response">Palvelin palautti virheellisen vastauksen. Yritä myöhemmin uudelleen</string>
+    <string name="archive_is_corrupted">Arkisto on vaurioitunut tai epätäydellinen, eikä sitä voitu avata</string>
+    <string name="file_is_corrupted_or_unsupported">Tiedosto on vaurioitunut, epätäydellinen tai sen muotoa ei tueta</string>
+    <string name="data_is_too_large">Tiedot ovat liian suuria tämän toiminnon suorittamiseen</string>
+    <string name="storage_is_read_only">Tämä tallennuspaikka on vain luku -tilassa. Valitse toinen sijainti ja yritä uudelleen</string>
+    <string name="file_is_too_large">Tiedosto on liian suuri tähän tallennuspaikkaan tai toimintoon</string>
+    <string name="file_io_error">Tiedostoa ei voitu lukea tai kirjoittaa. Yhdistä tallennustila uudelleen ja yritä uudelleen</string>
+    <string name="results_preview">Tulosten esikatselu</string>
 </resources>

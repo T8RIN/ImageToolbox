@@ -3975,4 +3975,19 @@
     <string name="network_timeout">A conexão expirou. Verifique sua conexão e tente novamente</string>
     <string name="network_connection_failed">Não foi possível conectar-se ao servidor. Verifique sua conexão ou tente novamente mais tarde</string>
     <string name="network_connection_interrupted">A conexão foi interrompida. Verifique sua conexão e tente novamente</string>
+    <string name="network_secure_connection_failed">Não foi possível estabelecer uma conexão segura. Verifique a data e a hora, a VPN ou as configurações de rede e tente novamente</string>
+    <string name="file_not_found">O arquivo não foi encontrado. Pode ter sido movido, excluído ou não estar mais disponível</string>
+    <string name="storage_is_full">Não há armazenamento gratuito suficiente para concluir esta ação. Libere espaço e tente novamente</string>
+    <string name="network_request_rejected">O servidor rejeitou a solicitação. Verifique seus detalhes de acesso ou login e tente novamente</string>
+    <string name="network_resource_not_found">O recurso solicitado não foi encontrado no servidor</string>
+    <string name="network_too_many_requests">Muitas solicitações foram enviadas. Espere um momento e tente novamente</string>
+    <string name="network_server_error">O servidor encontrou um erro. Tente novamente mais tarde</string>
+    <string name="network_invalid_response">O servidor retornou uma resposta inválida. Tente novamente mais tarde</string>
+    <string name="archive_is_corrupted">O arquivo está danificado ou incompleto e não pôde ser aberto</string>
+    <string name="file_is_corrupted_or_unsupported">O arquivo está danificado, incompleto ou seu formato não é compatível</string>
+    <string name="data_is_too_large">Os dados são muito grandes para concluir esta ação</string>
+    <string name="storage_is_read_only">Este local de armazenamento é somente leitura. Escolha outro local e tente novamente</string>
+    <string name="file_is_too_large">O arquivo é muito grande para este local de armazenamento ou operação</string>
+    <string name="file_io_error">O arquivo não pôde ser lido ou gravado. Reconecte o armazenamento e tente novamente</string>
+    <string name="results_preview">Visualização dos resultados</string>
 </resources>

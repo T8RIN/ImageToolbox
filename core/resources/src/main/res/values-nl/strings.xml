@@ -3975,4 +3975,19 @@
     <string name="network_timeout">Er is een time-out opgetreden bij de verbinding. Controleer uw verbinding en probeer het opnieuw</string>
     <string name="network_connection_failed">Kan geen verbinding maken met de server. Controleer uw verbinding of probeer het later opnieuw</string>
     <string name="network_connection_interrupted">De verbinding werd onderbroken. Controleer uw verbinding en probeer het opnieuw</string>
+    <string name="network_secure_connection_failed">Kan geen beveiligde verbinding tot stand brengen. Controleer de datum en tijd, de VPN- of netwerkinstellingen en probeer het opnieuw</string>
+    <string name="file_not_found">Het bestand kon niet worden gevonden. Mogelijk is het verplaatst, verwijderd of is het niet langer beschikbaar</string>
+    <string name="storage_is_full">Er is onvoldoende vrije opslagruimte om deze actie te voltooien. Maak wat ruimte vrij en probeer het opnieuw</string>
+    <string name="network_request_rejected">De server heeft het verzoek afgewezen. Controleer uw toegangs- of inloggegevens en probeer het opnieuw</string>
+    <string name="network_resource_not_found">De gevraagde bron is niet gevonden op de server</string>
+    <string name="network_too_many_requests">Er zijn te veel verzoeken verzonden. Wacht even en probeer het opnieuw</string>
+    <string name="network_server_error">Er is een fout opgetreden op de server. Probeer het later opnieuw</string>
+    <string name="network_invalid_response">De server heeft een ongeldig antwoord geretourneerd. Probeer het later opnieuw</string>
+    <string name="archive_is_corrupted">Het archief is beschadigd of onvolledig en kon niet worden geopend</string>
+    <string name="file_is_corrupted_or_unsupported">Het bestand is beschadigd, onvolledig of het formaat ervan wordt niet ondersteund</string>
+    <string name="data_is_too_large">De gegevens zijn te groot om deze actie te voltooien</string>
+    <string name="storage_is_read_only">Deze opslaglocatie is alleen-lezen. Kies een andere locatie en probeer het opnieuw</string>
+    <string name="file_is_too_large">Het bestand is te groot voor deze opslaglocatie of bewerking</string>
+    <string name="file_io_error">Het bestand kon niet worden gelezen of geschreven. Sluit de opslag opnieuw aan en probeer het opnieuw</string>
+    <string name="results_preview">Resultatenvoorbeeld</string>
 </resources>

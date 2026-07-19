@@ -3975,4 +3975,19 @@
     <string name="network_timeout">कनेक्शन कालबाह्य झाले. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा</string>
     <string name="network_connection_failed">सर्व्हरशी कनेक्ट करू शकलो नाही. तुमचे कनेक्शन तपासा किंवा नंतर पुन्हा प्रयत्न करा</string>
     <string name="network_connection_interrupted">कनेक्शनमध्ये व्यत्यय आला. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा</string>
+    <string name="network_secure_connection_failed">सुरक्षित कनेक्शन स्थापित करू शकलो नाही. तारीख आणि वेळ, VPN किंवा नेटवर्क सेटिंग्ज तपासा आणि पुन्हा प्रयत्न करा</string>
+    <string name="file_not_found">फाइल सापडली नाही. ते कदाचित हलवले गेले असेल, हटवले गेले असेल किंवा आता उपलब्ध नसेल</string>
+    <string name="storage_is_full">ही क्रिया पूर्ण करण्यासाठी पुरेसे विनामूल्य संचयन नाही. काही जागा मोकळी करा आणि पुन्हा प्रयत्न करा</string>
+    <string name="network_request_rejected">सर्व्हरने विनंती नाकारली. तुमचा प्रवेश किंवा साइन-इन तपशील तपासा आणि पुन्हा प्रयत्न करा</string>
+    <string name="network_resource_not_found">विनंती केलेला स्त्रोत सर्व्हरवर आढळला नाही</string>
+    <string name="network_too_many_requests">बऱ्याच विनंत्या पाठवल्या गेल्या. एक क्षण थांबा आणि पुन्हा प्रयत्न करा</string>
+    <string name="network_server_error">सर्व्हरमध्ये त्रुटी आली. नंतर पुन्हा प्रयत्न करा</string>
+    <string name="network_invalid_response">सर्व्हरने अवैध प्रतिसाद परत केला. नंतर पुन्हा प्रयत्न करा</string>
+    <string name="archive_is_corrupted">संग्रहण खराब झाले आहे किंवा अपूर्ण आहे आणि ते उघडणे शक्य नाही</string>
+    <string name="file_is_corrupted_or_unsupported">फाइल खराब झाली आहे, अपूर्ण आहे किंवा तिचे स्वरूप समर्थित नाही</string>
+    <string name="data_is_too_large">ही क्रिया पूर्ण करण्यासाठी डेटा खूप मोठा आहे</string>
+    <string name="storage_is_read_only">हे स्टोरेज स्थान केवळ वाचनीय आहे. दुसरे स्थान निवडा आणि पुन्हा प्रयत्न करा</string>
+    <string name="file_is_too_large">या स्टोरेज स्थानासाठी किंवा ऑपरेशनसाठी फाइल खूप मोठी आहे</string>
+    <string name="file_io_error">फाइल वाचता किंवा लिहिता येत नाही. स्टोरेज पुन्हा कनेक्ट करा आणि पुन्हा प्रयत्न करा</string>
+    <string name="results_preview">परिणाम पूर्वावलोकन</string>
 </resources>

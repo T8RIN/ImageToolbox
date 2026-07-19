@@ -3975,4 +3975,19 @@
     <string name="network_timeout">Anslutningen tog timeout. Kontrollera din anslutning och försök igen</string>
     <string name="network_connection_failed">Det gick inte att ansluta till servern. Kontrollera din anslutning eller försök igen senare</string>
     <string name="network_connection_interrupted">Anslutningen avbröts. Kontrollera din anslutning och försök igen</string>
+    <string name="network_secure_connection_failed">Det gick inte att upprätta en säker anslutning. Kontrollera datum och tid, VPN eller nätverksinställningar och försök igen</string>
+    <string name="file_not_found">Filen kunde inte hittas. Den kan ha flyttats, raderats eller är inte längre tillgänglig</string>
+    <string name="storage_is_full">Det finns inte tillräckligt med gratis lagringsutrymme för att slutföra den här åtgärden. Frigör lite utrymme och försök igen</string>
+    <string name="network_request_rejected">Servern avvisade begäran. Kontrollera dina åtkomst- eller inloggningsuppgifter och försök igen</string>
+    <string name="network_resource_not_found">Den begärda resursen hittades inte på servern</string>
+    <string name="network_too_many_requests">För många förfrågningar skickades. Vänta ett ögonblick och försök igen</string>
+    <string name="network_server_error">Servern stötte på ett fel. Försök igen senare</string>
+    <string name="network_invalid_response">Servern returnerade ett ogiltigt svar. Försök igen senare</string>
+    <string name="archive_is_corrupted">Arkivet är skadat eller ofullständigt och kunde inte öppnas</string>
+    <string name="file_is_corrupted_or_unsupported">Filen är skadad, ofullständig eller dess format stöds inte</string>
+    <string name="data_is_too_large">Datan är för stor för att slutföra den här åtgärden</string>
+    <string name="storage_is_read_only">Denna lagringsplats är skrivskyddad. Välj en annan plats och försök igen</string>
+    <string name="file_is_too_large">Filen är för stor för den här lagringsplatsen eller åtgärden</string>
+    <string name="file_io_error">Filen kunde inte läsas eller skrivas. Återanslut lagringen och försök igen</string>
+    <string name="results_preview">Förhandsgranskning av resultat</string>
 </resources>

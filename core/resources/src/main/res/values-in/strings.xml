@@ -3974,4 +3974,19 @@
     <string name="network_timeout">Waktu koneksi habis. Periksa koneksi Anda dan coba lagi</string>
     <string name="network_connection_failed">Tidak dapat terhubung ke server. Periksa koneksi Anda atau coba lagi nanti</string>
     <string name="network_connection_interrupted">Koneksi terputus. Periksa koneksi Anda dan coba lagi</string>
+    <string name="network_secure_connection_failed">Tidak dapat membuat sambungan aman. Periksa tanggal dan waktu, VPN, atau pengaturan jaringan dan coba lagi</string>
+    <string name="file_not_found">Berkas tidak dapat ditemukan. Mungkin telah dipindahkan, dihapus, atau tidak lagi tersedia</string>
+    <string name="storage_is_full">Penyimpanan gratis tidak cukup untuk menyelesaikan tindakan ini. Kosongkan sebagian ruang dan coba lagi</string>
+    <string name="network_request_rejected">Server menolak permintaan tersebut. Periksa detail akses atau login Anda dan coba lagi</string>
+    <string name="network_resource_not_found">Sumber daya yang diminta tidak ditemukan di server</string>
+    <string name="network_too_many_requests">Terlalu banyak permintaan yang dikirim. Tunggu sebentar dan coba lagi</string>
+    <string name="network_server_error">Server mengalami kesalahan. Coba lagi nanti</string>
+    <string name="network_invalid_response">Server mengembalikan respons yang tidak valid. Coba lagi nanti</string>
+    <string name="archive_is_corrupted">Arsip rusak atau tidak lengkap dan tidak dapat dibuka</string>
+    <string name="file_is_corrupted_or_unsupported">File rusak, tidak lengkap, atau formatnya tidak didukung</string>
+    <string name="data_is_too_large">Datanya terlalu besar untuk menyelesaikan tindakan ini</string>
+    <string name="storage_is_read_only">Lokasi penyimpanan ini bersifat hanya baca. Pilih lokasi lain dan coba lagi</string>
+    <string name="file_is_too_large">File terlalu besar untuk lokasi penyimpanan atau operasi ini</string>
+    <string name="file_io_error">File tidak dapat dibaca atau ditulis. Hubungkan kembali penyimpanan dan coba lagi</string>
+    <string name="results_preview">Pratinjau Hasil</string>
 </resources>

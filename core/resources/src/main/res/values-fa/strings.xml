@@ -3975,4 +3975,19 @@
     <string name="network_timeout">زمان اتصال تمام شد. اتصال خود را بررسی کنید و دوباره امتحان کنید</string>
     <string name="network_connection_failed">نمی توان به سرور متصل شد. اتصال خود را بررسی کنید یا بعداً دوباره امتحان کنید</string>
     <string name="network_connection_interrupted">ارتباط قطع شد. اتصال خود را بررسی کنید و دوباره امتحان کنید</string>
+    <string name="network_secure_connection_failed">اتصال ایمن برقرار نشد. تاریخ و زمان، VPN یا تنظیمات شبکه را بررسی کنید و دوباره امتحان کنید</string>
+    <string name="file_not_found">فایل پیدا نشد. ممکن است منتقل شده باشد، حذف شده باشد یا دیگر در دسترس نباشد</string>
+    <string name="storage_is_full">فضای خالی کافی برای تکمیل این اقدام وجود ندارد. مقداری فضا آزاد کنید و دوباره امتحان کنید</string>
+    <string name="network_request_rejected">سرور درخواست را رد کرد. جزئیات دسترسی یا ورود به سیستم خود را بررسی کنید و دوباره امتحان کنید</string>
+    <string name="network_resource_not_found">منبع درخواستی در سرور یافت نشد</string>
+    <string name="network_too_many_requests">درخواست های زیادی ارسال شد. یک لحظه صبر کنید و دوباره امتحان کنید</string>
+    <string name="network_server_error">سرور با خطا مواجه شد. بعداً دوباره امتحان کنید</string>
+    <string name="network_invalid_response">سرور یک پاسخ نامعتبر برگرداند. بعداً دوباره امتحان کنید</string>
+    <string name="archive_is_corrupted">آرشیو آسیب دیده یا ناقص است و باز نمی شود</string>
+    <string name="file_is_corrupted_or_unsupported">فایل آسیب دیده، ناقص است یا قالب آن پشتیبانی نمی شود</string>
+    <string name="data_is_too_large">داده ها برای تکمیل این عمل بسیار بزرگ است</string>
+    <string name="storage_is_read_only">این مکان ذخیره فقط خواندنی است. مکان دیگری را انتخاب کنید و دوباره امتحان کنید</string>
+    <string name="file_is_too_large">فایل برای این مکان ذخیره سازی یا عملیات بسیار بزرگ است</string>
+    <string name="file_io_error">فایل قابل خواندن یا نوشتن نیست. فضای ذخیره‌سازی را دوباره وصل کنید و دوباره امتحان کنید</string>
+    <string name="results_preview">پیش نمایش نتایج</string>
 </resources>

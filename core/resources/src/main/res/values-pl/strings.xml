@@ -3977,4 +3977,19 @@
     <string name="network_timeout">Upłynął limit czasu połączenia. Sprawdź połączenie i spróbuj ponownie</string>
     <string name="network_connection_failed">Nie można połączyć się z serwerem. Sprawdź połączenie lub spróbuj ponownie później</string>
     <string name="network_connection_interrupted">Połączenie zostało przerwane. Sprawdź połączenie i spróbuj ponownie</string>
+    <string name="network_secure_connection_failed">Nie można nawiązać bezpiecznego połączenia. Sprawdź datę i godzinę, ustawienia VPN lub sieci i spróbuj ponownie</string>
+    <string name="file_not_found">Nie można znaleźć pliku. Być może został przeniesiony, usunięty lub nie jest już dostępny</string>
+    <string name="storage_is_full">Za mało wolnego miejsca, aby ukończyć tę czynność. Zwolnij trochę miejsca i spróbuj ponownie</string>
+    <string name="network_request_rejected">Serwer odrzucił żądanie. Sprawdź swoje dane dostępu lub logowania i spróbuj ponownie</string>
+    <string name="network_resource_not_found">Żądany zasób nie został znaleziony na serwerze</string>
+    <string name="network_too_many_requests">Wysłano zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie</string>
+    <string name="network_server_error">Serwer napotkał błąd. Spróbuj ponownie później</string>
+    <string name="network_invalid_response">Serwer zwrócił nieprawidłową odpowiedź. Spróbuj ponownie później</string>
+    <string name="archive_is_corrupted">Archiwum jest uszkodzone lub niekompletne i nie można go otworzyć</string>
+    <string name="file_is_corrupted_or_unsupported">Plik jest uszkodzony, niekompletny lub jego format nie jest obsługiwany</string>
+    <string name="data_is_too_large">Dane są zbyt duże, aby ukończyć tę czynność</string>
+    <string name="storage_is_read_only">Ta lokalizacja przechowywania jest tylko do odczytu. Wybierz inną lokalizację i spróbuj ponownie</string>
+    <string name="file_is_too_large">Plik jest za duży dla tej lokalizacji przechowywania lub operacji</string>
+    <string name="file_io_error">Nie można odczytać ani zapisać pliku. Podłącz ponownie pamięć i spróbuj ponownie</string>
+    <string name="results_preview">Podgląd wyników</string>
 </resources>

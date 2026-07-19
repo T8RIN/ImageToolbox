@@ -3975,4 +3975,19 @@
     <string name="network_timeout">కనెక్షన్ సమయం ముగిసింది. మీ కనెక్షన్‌ని తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి</string>
     <string name="network_connection_failed">సర్వర్‌కి కనెక్ట్ చేయడం సాధ్యపడలేదు. మీ కనెక్షన్‌ని తనిఖీ చేయండి లేదా తర్వాత మళ్లీ ప్రయత్నించండి</string>
     <string name="network_connection_interrupted">కనెక్షన్ అంతరాయం కలిగింది. మీ కనెక్షన్‌ని తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి</string>
+    <string name="network_secure_connection_failed">సురక్షిత కనెక్షన్‌ని ఏర్పాటు చేయడం సాధ్యపడలేదు. తేదీ మరియు సమయం, VPN లేదా నెట్‌వర్క్ సెట్టింగ్‌లను తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి</string>
+    <string name="file_not_found">ఫైల్ కనుగొనబడలేదు. ఇది తరలించబడి ఉండవచ్చు, తొలగించబడి ఉండవచ్చు లేదా ఇకపై అందుబాటులో ఉండకపోవచ్చు</string>
+    <string name="storage_is_full">ఈ చర్యను పూర్తి చేయడానికి తగినంత ఉచిత నిల్వ లేదు. కొంత స్థలాన్ని ఖాళీ చేసి, మళ్లీ ప్రయత్నించండి</string>
+    <string name="network_request_rejected">సర్వర్ అభ్యర్థనను తిరస్కరించింది. మీ యాక్సెస్ లేదా సైన్-ఇన్ వివరాలను తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి</string>
+    <string name="network_resource_not_found">అభ్యర్థించిన వనరు సర్వర్‌లో కనుగొనబడలేదు</string>
+    <string name="network_too_many_requests">చాలా ఎక్కువ అభ్యర్థనలు పంపబడ్డాయి. ఒక క్షణం వేచి ఉండి, మళ్లీ ప్రయత్నించండి</string>
+    <string name="network_server_error">సర్వర్ లోపాన్ని ఎదుర్కొంది. తర్వాత మళ్లీ ప్రయత్నించండి</string>
+    <string name="network_invalid_response">సర్వర్ చెల్లని ప్రతిస్పందనను అందించింది. తర్వాత మళ్లీ ప్రయత్నించండి</string>
+    <string name="archive_is_corrupted">ఆర్కైవ్ దెబ్బతింది లేదా అసంపూర్ణంగా ఉంది మరియు తెరవడం సాధ్యం కాదు</string>
+    <string name="file_is_corrupted_or_unsupported">ఫైల్ దెబ్బతిన్నది, అసంపూర్తిగా ఉంది లేదా దాని ఆకృతికి మద్దతు లేదు</string>
+    <string name="data_is_too_large">ఈ చర్యను పూర్తి చేయడానికి డేటా చాలా పెద్దది</string>
+    <string name="storage_is_read_only">ఈ నిల్వ స్థానం చదవడానికి మాత్రమే. మరొక స్థానాన్ని ఎంచుకుని, మళ్లీ ప్రయత్నించండి</string>
+    <string name="file_is_too_large">ఈ నిల్వ స్థానం లేదా ఆపరేషన్ కోసం ఫైల్ చాలా పెద్దదిగా ఉంది</string>
+    <string name="file_io_error">ఫైల్ చదవడం లేదా వ్రాయడం సాధ్యం కాదు. నిల్వను మళ్లీ కనెక్ట్ చేసి, మళ్లీ ప్రయత్నించండి</string>
+    <string name="results_preview">ఫలితాల ప్రివ్యూ</string>
 </resources>

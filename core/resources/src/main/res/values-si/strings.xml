@@ -285,7 +285,6 @@
     <string name="implementation">ක්රියාත්මක කිරීම</string>
     <string name="compatibility">ගැළපුම</string>
     <string name="features_sub">මුරපදය මත පදනම් වූ ගොනු සංකේතනය කිරීම. ලබාගත් ගොනු තෝරාගත් නාමාවලියෙහි ගබඩා කර හෝ බෙදාගත හැක. විකේතනය කරන ලද ගොනු ද කෙලින්ම විවෘත කළ හැකිය.</string>
-    <string name="implementation_sub">AES-256, GCM මාදිලිය, පිරවුමක් නැත, පෙරනිමියෙන් බයිට් 12 අහඹු IVs. ඔබට අවශ්ය ඇල්ගොරිතම තෝරාගත හැක. යතුරු 256-bit SHA-3 හැෂ් ලෙස භාවිතා කරයි</string>
     <string name="file_size">ගොනු විශාලත්වය</string>
     <string name="file_size_sub">උපරිම ගොනු ප්‍රමාණය Android OS සහ පවතින මතකය මගින් සීමා කර ඇත, එය උපාංගය මත රඳා පවතී. \nකරුණාකර සලකන්න: මතකය ගබඩා කිරීම නොවේ.</string>
     <string name="compatibility_sub">වෙනත් ගොනු සංකේතාංකන මෘදුකාංග හෝ සේවාවන් සඳහා ගැළපුම සහතික නොවන බව කරුණාවෙන් සලකන්න. තරමක් වෙනස් යතුරු ප්‍රතිකාරයක් හෝ කේතාංක වින්‍යාසයක් නොගැලපීම ඇති කළ හැකිය.</string>
@@ -3975,4 +3974,19 @@
     <string name="network_timeout">සම්බන්ධතාවය කල් ඉකුත් විය. ඔබගේ සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න</string>
     <string name="network_connection_failed">සේවාදායකයට සම්බන්ධ වීමට නොහැකි විය. ඔබගේ සම්බන්ධතාවය පරීක්ෂා කරන්න හෝ පසුව නැවත උත්සාහ කරන්න</string>
     <string name="network_connection_interrupted">සම්බන්ධතාවය බාධා විය. ඔබගේ සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න</string>
+    <string name="network_secure_connection_failed">ආරක්ෂිත සම්බන්ධතාවයක් ස්ථාපිත කිරීමට නොහැකි විය. දිනය සහ වේලාව, VPN, හෝ ජාල සැකසීම් පරීක්ෂා කර නැවත උත්සාහ කරන්න</string>
+    <string name="file_not_found">ගොනුව සොයාගත නොහැකි විය. එය ගෙන ගොස් තිබිය හැක, මකා ඇත, හෝ තවදුරටත් ලබා ගත නොහැක</string>
+    <string name="storage_is_full">මෙම ක්‍රියාව සම්පූර්ණ කිරීමට ප්‍රමාණවත් තරම් නොමිලේ ගබඩාවක් නොමැත. යම් ඉඩක් නිදහස් කර නැවත උත්සාහ කරන්න</string>
+    <string name="network_request_rejected">සේවාදායකය ඉල්ලීම ප්‍රතික්ෂේප කළේය. ඔබගේ ප්‍රවේශය හෝ පුරනය වීමේ විස්තර පරීක්ෂා කර නැවත උත්සාහ කරන්න</string>
+    <string name="network_resource_not_found">ඉල්ලුම් කළ සම්පත සේවාදායකයේ හමු නොවීය</string>
+    <string name="network_too_many_requests">ඉල්ලීම් වැඩි ප්‍රමාණයක් යවා ඇත. මොහොතක් රැඳී සිට නැවත උත්සාහ කරන්න</string>
+    <string name="network_server_error">සේවාදායකයේ දෝෂයක් ඇති විය. පසුව නැවත උත්සාහ කරන්න</string>
+    <string name="network_invalid_response">සේවාදායකය අවලංගු ප්‍රතිචාරයක් ලබා දුන්නේය. පසුව නැවත උත්සාහ කරන්න</string>
+    <string name="archive_is_corrupted">සංරක්ෂිතය හානි වී හෝ අසම්පූර්ණ බැවින් විවෘත කළ නොහැක</string>
+    <string name="file_is_corrupted_or_unsupported">ගොනුව හානි වී ඇත, අසම්පූර්ණයි, නැතහොත් එහි ආකෘතියට සහය නොදක්වයි</string>
+    <string name="data_is_too_large">මෙම ක්‍රියාව සම්පූර්ණ කිරීමට දත්ත විශාල වැඩිය</string>
+    <string name="storage_is_read_only">මෙම ගබඩා ස්ථානය කියවීමට පමණි. වෙනත් ස්ථානයක් තෝරා නැවත උත්සාහ කරන්න</string>
+    <string name="file_is_too_large">මෙම ගබඩා ස්ථානය හෝ මෙහෙයුම සඳහා ගොනුව විශාල වැඩිය</string>
+    <string name="file_io_error">ගොනුව කියවීමට හෝ ලිවීමට නොහැකි විය. ගබඩාව නැවත සම්බන්ධ කර නැවත උත්සාහ කරන්න</string>
+    <string name="results_preview">ප්‍රතිඵල පෙරදසුන</string>
 </resources>

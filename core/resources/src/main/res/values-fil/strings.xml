@@ -3975,4 +3975,19 @@
     <string name="network_timeout">Nag-time out ang koneksyon. Suriin ang iyong koneksyon at subukang muli</string>
     <string name="network_connection_failed">Hindi makakonekta sa server. Suriin ang iyong koneksyon o subukang muli sa ibang pagkakataon</string>
     <string name="network_connection_interrupted">Naputol ang koneksyon. Suriin ang iyong koneksyon at subukang muli</string>
+    <string name="network_secure_connection_failed">Hindi makapagtatag ng secure na koneksyon. Tingnan ang petsa at oras, VPN, o mga setting ng network at subukang muli</string>
+    <string name="file_not_found">Hindi mahanap ang file. Maaaring ito ay inilipat, tinanggal, o hindi na magagamit</string>
+    <string name="storage_is_full">Walang sapat na libreng storage para makumpleto ang pagkilos na ito. Magbakante ng kaunting espasyo at subukang muli</string>
+    <string name="network_request_rejected">Tinanggihan ng server ang kahilingan. Tingnan ang iyong mga detalye sa pag-access o pag-sign in at subukang muli</string>
+    <string name="network_resource_not_found">Ang hiniling na mapagkukunan ay hindi nakita sa server</string>
+    <string name="network_too_many_requests">Masyadong maraming kahilingan ang ipinadala. Maghintay ng ilang sandali at subukang muli</string>
+    <string name="network_server_error">Nagkaroon ng error ang server. Subukan ulit mamaya</string>
+    <string name="network_invalid_response">Nagbalik ang server ng di-wastong tugon. Subukan ulit mamaya</string>
+    <string name="archive_is_corrupted">Ang archive ay nasira o hindi kumpleto at hindi mabuksan</string>
+    <string name="file_is_corrupted_or_unsupported">Ang file ay nasira, hindi kumpleto, o ang format nito ay hindi suportado</string>
+    <string name="data_is_too_large">Masyadong malaki ang data upang makumpleto ang pagkilos na ito</string>
+    <string name="storage_is_read_only">Read-only ang lokasyon ng storage na ito. Pumili ng ibang lokasyon at subukang muli</string>
+    <string name="file_is_too_large">Masyadong malaki ang file para sa lokasyon o pagpapatakbo ng storage na ito</string>
+    <string name="file_io_error">Hindi mabasa o maisulat ang file. Ikonekta muli ang storage at subukang muli</string>
+    <string name="results_preview">Preview ng mga Resulta</string>
 </resources>

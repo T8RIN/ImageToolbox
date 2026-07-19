@@ -143,7 +143,6 @@
     <string name="file_proceed">Fitxer processat</string>
     <string name="store_file_desc">Emmagatzema aquest fitxer al dispositiu o utilitza l\'acció de compartició per posar-lo allà on vulgueu</string>
     <string name="compatibility">Compatibilitat</string>
-    <string name="implementation_sub">AES-256, mode GCM, sense farciment, 12 bytes IVs aleatoris. Les claus s\'utilitzen com a sumes de verificació SHA-3 (256 bits).</string>
     <string name="file_size">Mida del fitxer</string>
     <string name="fill">Omple</string>
     <string name="fit">Ajusta</string>
@@ -3976,4 +3975,19 @@
     <string name="network_timeout">S\'ha esgotat el temps de connexió. Comprova la teva connexió i torna-ho a provar</string>
     <string name="network_connection_failed">No s\'ha pogut connectar al servidor. Comprova la teva connexió o torna-ho a provar més tard</string>
     <string name="network_connection_interrupted">La connexió s\'ha interromput. Comprova la teva connexió i torna-ho a provar</string>
+    <string name="network_secure_connection_failed">No s\'ha pogut establir una connexió segura. Comproveu la data i l\'hora, la VPN o la configuració de xarxa i torneu-ho a provar</string>
+    <string name="file_not_found">No s\'ha pogut trobar el fitxer. És possible que s\'hagi mogut, suprimit o ja no estigui disponible</string>
+    <string name="storage_is_full">No hi ha prou emmagatzematge gratuït per completar aquesta acció. Allibera una mica d\'espai i torna-ho a provar</string>
+    <string name="network_request_rejected">El servidor ha rebutjat la sol·licitud. Comproveu els vostres detalls d\'accés o d\'inici de sessió i torneu-ho a provar</string>
+    <string name="network_resource_not_found">El recurs sol·licitat no s\'ha trobat al servidor</string>
+    <string name="network_too_many_requests">S\'han enviat massa peticions. Espereu un moment i torneu-ho a provar</string>
+    <string name="network_server_error">El servidor ha trobat un error. Torna-ho a provar més tard</string>
+    <string name="network_invalid_response">El servidor ha retornat una resposta no vàlida. Torna-ho a provar més tard</string>
+    <string name="archive_is_corrupted">L\'arxiu està malmès o incomplet i no s\'ha pogut obrir</string>
+    <string name="file_is_corrupted_or_unsupported">El fitxer està malmès, està incomplet o el seu format no és compatible</string>
+    <string name="data_is_too_large">Les dades són massa grans per completar aquesta acció</string>
+    <string name="storage_is_read_only">Aquesta ubicació d\'emmagatzematge és només de lectura. Tria una altra ubicació i torna-ho a provar</string>
+    <string name="file_is_too_large">El fitxer és massa gran per a aquesta ubicació o operació d\'emmagatzematge</string>
+    <string name="file_io_error">El fitxer no s\'ha pogut llegir ni escriure. Torneu a connectar l\'emmagatzematge i torneu-ho a provar</string>
+    <string name="results_preview">Previsualització de resultats</string>
 </resources>

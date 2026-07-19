@@ -285,7 +285,6 @@
     <string name="implementation">ਲਾਗੂ ਕਰਨ</string>
     <string name="compatibility">ਅਨੁਕੂਲਤਾ</string>
     <string name="features_sub">ਫਾਈਲਾਂ ਦੀ ਪਾਸਵਰਡ-ਅਧਾਰਿਤ ਏਨਕ੍ਰਿਪਸ਼ਨ। ਅੱਗੇ ਵਧੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਚੁਣੀ ਗਈ ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਸਟੋਰ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ ਜਾਂ ਸਾਂਝਾ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ। ਡੀਕ੍ਰਿਪਟਡ ਫਾਈਲਾਂ ਨੂੰ ਸਿੱਧੇ ਵੀ ਖੋਲ੍ਹਿਆ ਜਾ ਸਕਦਾ ਹੈ.</string>
-    <string name="implementation_sub">AES-256, GCM ਮੋਡ, ਕੋਈ ਪੈਡਿੰਗ ਨਹੀਂ, 12 ਬਾਈਟ ਬੇਤਰਤੀਬੇ IVs। ਕੁੰਜੀਆਂ SHA-3 ਹੈਸ਼ਾਂ (256 ਬਿੱਟ) ਵਜੋਂ ਵਰਤੀਆਂ ਜਾਂਦੀਆਂ ਹਨ।</string>
     <string name="file_size">ਫ਼ਾਈਲ ਦਾ ਆਕਾਰ</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">ਕਿਰਪਾ ਕਰਕੇ ਨੋਟ ਕਰੋ ਕਿ ਹੋਰ ਫਾਈਲ ਐਨਕ੍ਰਿਪਸ਼ਨ ਸੌਫਟਵੇਅਰ ਜਾਂ ਸੇਵਾਵਾਂ ਲਈ ਅਨੁਕੂਲਤਾ ਦੀ ਗਰੰਟੀ ਨਹੀਂ ਹੈ। ਇੱਕ ਥੋੜ੍ਹਾ ਵੱਖਰਾ ਕੁੰਜੀ ਇਲਾਜ ਜਾਂ ਸਿਫਰ ਕੌਂਫਿਗਰੇਸ਼ਨ ਅਸੰਗਤਤਾ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ।</string>
@@ -3975,4 +3974,19 @@
     <string name="network_timeout">ਕਨੈਕਸ਼ਨ ਦਾ ਸਮਾਂ ਸਮਾਪਤ ਹੋਇਆ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
     <string name="network_connection_failed">ਸਰਵਰ ਨਾਲ ਕਨੈਕਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਜਾਂ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
     <string name="network_connection_interrupted">ਕੁਨੈਕਸ਼ਨ ਵਿੱਚ ਵਿਘਨ ਪਿਆ ਸੀ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="network_secure_connection_failed">ਇੱਕ ਸੁਰੱਖਿਅਤ ਕਨੈਕਸ਼ਨ ਸਥਾਪਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਮਿਤੀ ਅਤੇ ਸਮਾਂ, VPN, ਜਾਂ ਨੈੱਟਵਰਕ ਸੈਟਿੰਗਾਂ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="file_not_found">ਫ਼ਾਈਲ ਲੱਭੀ ਨਹੀਂ ਜਾ ਸਕੀ। ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਇਹ ਤਬਦੀਲ ਕੀਤਾ ਗਿਆ ਹੋਵੇ, ਮਿਟਾ ਦਿੱਤਾ ਗਿਆ ਹੋਵੇ, ਜਾਂ ਹੁਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
+    <string name="storage_is_full">ਇਸ ਕਾਰਵਾਈ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਲੋੜੀਂਦੀ ਮੁਫ਼ਤ ਸਟੋਰੇਜ ਨਹੀਂ ਹੈ। ਕੁਝ ਥਾਂ ਖਾਲੀ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="network_request_rejected">ਸਰਵਰ ਨੇ ਬੇਨਤੀ ਨੂੰ ਰੱਦ ਕਰ ਦਿੱਤਾ। ਆਪਣੀ ਪਹੁੰਚ ਜਾਂ ਸਾਈਨ-ਇਨ ਵੇਰਵਿਆਂ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="network_resource_not_found">ਬੇਨਤੀ ਕੀਤਾ ਸਰੋਤ ਸਰਵਰ \'ਤੇ ਨਹੀਂ ਮਿਲਿਆ ਸੀ</string>
+    <string name="network_too_many_requests">ਬਹੁਤ ਸਾਰੀਆਂ ਬੇਨਤੀਆਂ ਭੇਜੀਆਂ ਗਈਆਂ ਸਨ। ਇੱਕ ਪਲ ਉਡੀਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="network_server_error">ਸਰਵਰ ਵਿੱਚ ਇੱਕ ਤਰੁੱਟੀ ਆਈ ਹੈ। ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="network_invalid_response">ਸਰਵਰ ਨੇ ਇੱਕ ਅਵੈਧ ਜਵਾਬ ਵਾਪਸ ਕੀਤਾ। ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="archive_is_corrupted">ਆਰਕਾਈਵ ਖਰਾਬ ਜਾਂ ਅਧੂਰਾ ਹੈ ਅਤੇ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ</string>
+    <string name="file_is_corrupted_or_unsupported">ਫਾਈਲ ਖਰਾਬ ਹੈ, ਅਧੂਰੀ ਹੈ, ਜਾਂ ਇਸਦਾ ਫਾਰਮੈਟ ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ</string>
+    <string name="data_is_too_large">ਇਸ ਕਾਰਵਾਈ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਡੇਟਾ ਬਹੁਤ ਵੱਡਾ ਹੈ</string>
+    <string name="storage_is_read_only">ਇਹ ਸਟੋਰੇਜ ਟਿਕਾਣਾ ਸਿਰਫ਼ ਪੜ੍ਹਨ ਲਈ ਹੈ। ਕੋਈ ਹੋਰ ਟਿਕਾਣਾ ਚੁਣੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="file_is_too_large">ਇਸ ਸਟੋਰੇਜ ਟਿਕਾਣੇ ਜਾਂ ਕਾਰਵਾਈ ਲਈ ਫ਼ਾਈਲ ਬਹੁਤ ਵੱਡੀ ਹੈ</string>
+    <string name="file_io_error">ਫਾਈਲ ਨੂੰ ਪੜ੍ਹਿਆ ਜਾਂ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ। ਸਟੋਰੇਜ ਨੂੰ ਦੁਬਾਰਾ ਕਨੈਕਟ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="results_preview">ਨਤੀਜਿਆਂ ਦੀ ਝਲਕ</string>
 </resources>

@@ -268,7 +268,6 @@
     <string name="implementation">ئەمەلىيلەشتۈرۈش</string>
     <string name="compatibility">ماسلىشىشچانلىقى</string>
     <string name="features_sub">ھۆججەتلەرنى مەخپىي شىفىرلاش. ئىشلەنگەن ھۆججەتلەرنى تاللانغان مۇندەرىجىدە ساقلىغىلى ياكى ئورتاقلىشقىلى بولىدۇ. شىفىرلانغان ھۆججەتلەرنىمۇ بىۋاسىتە ئاچقىلى بولىدۇ.</string>
-    <string name="implementation_sub">AES-256 ، GCM ھالىتى ، تاختا يوق ، 12 بايىت ئىختىيارى IV. ئاچقۇچ SHA-3 hashes (256 bit) سۈپىتىدە ئىشلىتىلىدۇ.</string>
     <string name="file_size">ھۆججەت چوڭلۇقى</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">شۇنىڭغا دىققەت قىلىڭكى ، باشقا ھۆججەت مەخپىيلەشتۈرۈش يۇمشاق دېتالى ياكى مۇلازىمىتىگە ماسلىشىشچانلىقى كاپالەتكە ئىگە ئەمەس. سەل ئوخشىمايدىغان ئاچقۇچلۇق داۋالاش ياكى سىفىرلىق سەپلىمە ماسلاشماسلىقنى كەلتۈرۈپ چىقىرىشى مۇمكىن.</string>
@@ -3975,4 +3974,19 @@
     <string name="network_timeout">ئۇلىنىش ۋاقتى توشتى. ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ</string>
     <string name="network_connection_failed">مۇلازىمېتىرغا ئۇلىنالمىدى. ئۇلىنىشىڭىزنى تەكشۈرۈڭ ياكى كېيىن قايتا سىناڭ</string>
     <string name="network_connection_interrupted">ئۇلىنىش ئۈزۈلۈپ قالدى. ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ</string>
+    <string name="network_secure_connection_failed">بىخەتەر ئۇلىنىش قۇرالمىدى. چېسلا ۋە ۋاقىت ، VPN ياكى تور تەڭشىكىنى تەكشۈرۈپ قايتا سىناڭ</string>
+    <string name="file_not_found">ھۆججەت تېپىلمىدى. ئۇ يۆتكىۋېتىلگەن ، ئۆچۈرۈلگەن ياكى ئەمدى ئىشلىتىلمىگەن بولۇشى مۇمكىن</string>
+    <string name="storage_is_full">بۇ ھەرىكەتنى تاماملاشقا يېتەرلىك ھەقسىز ساقلاش بوشلۇقى يوق. بىر ئاز بوشلۇقنى قويۇپ قايتا سىناڭ</string>
+    <string name="network_request_rejected">مۇلازىمېتىر بۇ تەلەپنى رەت قىلدى. كىرىش ياكى كىرىش تەپسىلاتلىرىڭىزنى تەكشۈرۈپ قايتا سىناڭ</string>
+    <string name="network_resource_not_found">تەلەپ قىلىنغان مەنبە مۇلازىمېتىردا تېپىلمىدى</string>
+    <string name="network_too_many_requests">بەك كۆپ تەلەپلەر ئەۋەتىلدى. بىر ئاز ساقلاپ قايتا سىناڭ</string>
+    <string name="network_server_error">مۇلازىمېتىردا خاتالىق كۆرۈلدى. كېيىن قايتا سىناڭ</string>
+    <string name="network_invalid_response">مۇلازىمېتىر ئىناۋەتسىز جاۋاب قايتۇردى. كېيىن قايتا سىناڭ</string>
+    <string name="archive_is_corrupted">ئارخىپ بۇزۇلغان ياكى تولۇق ئەمەس ، ئۇنى ئاچقىلى بولمايدۇ</string>
+    <string name="file_is_corrupted_or_unsupported">ھۆججەت بۇزۇلغان ، تولۇق ئەمەس ياكى ئۇنىڭ فورماتى قوللىمايدۇ</string>
+    <string name="data_is_too_large">بۇ ھەرىكەتنى تاماملاش ئۈچۈن سانلىق مەلۇمات بەك چوڭ</string>
+    <string name="storage_is_read_only">بۇ ساقلاش ئورنى پەقەت ئوقۇشقىلا بولىدۇ. باشقا ئورۇننى تاللاڭ ۋە قايتا سىناڭ</string>
+    <string name="file_is_too_large">بۇ ساقلاش ئورنى ياكى مەشغۇلاتى ئۈچۈن ھۆججەت بەك چوڭ</string>
+    <string name="file_io_error">ھۆججەتنى ئوقۇشقا ياكى يېزىشقا بولمايدۇ. ساقلاشنى قايتا ئۇلاپ قايتا سىناڭ</string>
+    <string name="results_preview">نەتىجە ئالدىن كۆرۈش</string>
 </resources>

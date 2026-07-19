@@ -3977,4 +3977,19 @@
     <string name="network_timeout">Час очікування підключення минув. Перевірте підключення та повторіть спробу</string>
     <string name="network_connection_failed">Не вдалося підключитися до сервера. Перевірте підключення або повторіть спробу пізніше</string>
     <string name="network_connection_interrupted">З\'єднання було перервано. Перевірте підключення та повторіть спробу</string>
+    <string name="network_secure_connection_failed">Не вдалося встановити безпечне з’єднання. Перевірте дату й час, VPN або налаштування мережі та повторіть спробу</string>
+    <string name="file_not_found">Файл не знайдено. Можливо, його було переміщено, видалено або більше не доступно</string>
+    <string name="storage_is_full">Недостатньо вільного місця для завершення цієї дії. Звільніть місце та повторіть спробу</string>
+    <string name="network_request_rejected">Сервер відхилив запит. Перевірте свій доступ або дані для входу та повторіть спробу</string>
+    <string name="network_resource_not_found">Запитаний ресурс не знайдено на сервері</string>
+    <string name="network_too_many_requests">Надіслано забагато запитів. Зачекайте хвилинку та повторіть спробу</string>
+    <string name="network_server_error">На сервері сталася помилка. Повторіть спробу пізніше</string>
+    <string name="network_invalid_response">Сервер повернув недійсну відповідь. Повторіть спробу пізніше</string>
+    <string name="archive_is_corrupted">Архів пошкоджений або неповний, і його неможливо відкрити</string>
+    <string name="file_is_corrupted_or_unsupported">Файл пошкоджений, неповний або його формат не підтримується</string>
+    <string name="data_is_too_large">Дані завеликі для виконання цієї дії</string>
+    <string name="storage_is_read_only">Це місце зберігання доступне лише для читання. Виберіть інше місце та повторіть спробу</string>
+    <string name="file_is_too_large">Файл завеликий для цього місця зберігання чи операції</string>
+    <string name="file_io_error">Не вдалося прочитати або записати файл. Повторно підключіть сховище та повторіть спробу</string>
+    <string name="results_preview">Попередній перегляд результатів</string>
 </resources>

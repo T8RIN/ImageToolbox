@@ -3975,4 +3975,19 @@
     <string name="network_timeout">La connexion a expiré. Vérifiez votre connexion et réessayez</string>
     <string name="network_connection_failed">Impossible de se connecter au serveur. Vérifiez votre connexion ou réessayez plus tard</string>
     <string name="network_connection_interrupted">La connexion a été interrompue. Vérifiez votre connexion et réessayez</string>
+    <string name="network_secure_connection_failed">Impossible d\'établir une connexion sécurisée. Vérifiez la date et l\'heure, les paramètres VPN ou réseau et réessayez</string>
+    <string name="file_not_found">Le fichier est introuvable. Il a peut-être été déplacé, supprimé ou n\'est plus disponible</string>
+    <string name="storage_is_full">Il n’y a pas assez d’espace de stockage gratuit pour effectuer cette action. Libérez de l\'espace et réessayez</string>
+    <string name="network_request_rejected">Le serveur a rejeté la demande. Vérifiez vos informations d\'accès ou de connexion et réessayez</string>
+    <string name="network_resource_not_found">La ressource demandée n\'a pas été trouvée sur le serveur</string>
+    <string name="network_too_many_requests">Trop de demandes ont été envoyées. Attendez un moment et réessayez</string>
+    <string name="network_server_error">Le serveur a rencontré une erreur. Réessayez plus tard</string>
+    <string name="network_invalid_response">Le serveur a renvoyé une réponse invalide. Réessayez plus tard</string>
+    <string name="archive_is_corrupted">L\'archive est endommagée ou incomplète et n\'a pas pu être ouverte</string>
+    <string name="file_is_corrupted_or_unsupported">Le fichier est endommagé, incomplet ou son format n\'est pas pris en charge</string>
+    <string name="data_is_too_large">Les données sont trop volumineuses pour effectuer cette action</string>
+    <string name="storage_is_read_only">Cet emplacement de stockage est en lecture seule. Choisissez un autre emplacement et réessayez</string>
+    <string name="file_is_too_large">Le fichier est trop volumineux pour cet emplacement de stockage ou cette opération</string>
+    <string name="file_io_error">Le fichier n\'a pas pu être lu ou écrit. Reconnectez le stockage et réessayez</string>
+    <string name="results_preview">Aperçu des résultats</string>
 </resources>

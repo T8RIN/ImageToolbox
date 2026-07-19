@@ -3975,4 +3975,19 @@
     <string name="network_timeout">La connessione è scaduta. Controlla la connessione e riprova</string>
     <string name="network_connection_failed">Impossibile connettersi al server. Controlla la connessione o riprova più tardi</string>
     <string name="network_connection_interrupted">La connessione è stata interrotta. Controlla la connessione e riprova</string>
+    <string name="network_secure_connection_failed">Impossibile stabilire una connessione sicura. Controlla la data e l\'ora, la VPN o le impostazioni di rete e riprova</string>
+    <string name="file_not_found">Impossibile trovare il file. Potrebbe essere stato spostato, eliminato o non essere più disponibile</string>
+    <string name="storage_is_full">Spazio di archiviazione libero insufficiente per completare questa azione. Libera un po\' di spazio e riprova</string>
+    <string name="network_request_rejected">Il server ha rifiutato la richiesta. Controlla i tuoi dati di accesso o di accesso e riprova</string>
+    <string name="network_resource_not_found">La risorsa richiesta non è stata trovata sul server</string>
+    <string name="network_too_many_requests">Sono state inviate troppe richieste. Aspetta un attimo e riprova</string>
+    <string name="network_server_error">Il server ha riscontrato un errore. Riprova più tardi</string>
+    <string name="network_invalid_response">Il server ha restituito una risposta non valida. Riprova più tardi</string>
+    <string name="archive_is_corrupted">L\'archivio è danneggiato o incompleto e non è possibile aprirlo</string>
+    <string name="file_is_corrupted_or_unsupported">Il file è danneggiato, incompleto o il suo formato non è supportato</string>
+    <string name="data_is_too_large">I dati sono troppo grandi per completare questa azione</string>
+    <string name="storage_is_read_only">Questa posizione di archiviazione è di sola lettura. Scegli un\'altra posizione e riprova</string>
+    <string name="file_is_too_large">Il file è troppo grande per questa posizione di archiviazione o operazione</string>
+    <string name="file_io_error">Impossibile leggere o scrivere il file. Ricollegare lo spazio di archiviazione e riprovare</string>
+    <string name="results_preview">Anteprima dei risultati</string>
 </resources>

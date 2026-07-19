@@ -3979,4 +3979,19 @@
     <string name="network_timeout">انتهت مهلة الاتصال. تحقق من اتصالك وحاول مرة أخرى</string>
     <string name="network_connection_failed">تعذر الاتصال بالخادم. تحقق من اتصالك أو حاول مرة أخرى لاحقًا</string>
     <string name="network_connection_interrupted">انقطع الاتصال. تحقق من اتصالك وحاول مرة أخرى</string>
+    <string name="network_secure_connection_failed">تعذر إنشاء اتصال آمن. تحقق من التاريخ والوقت أو VPN أو إعدادات الشبكة وحاول مرة أخرى</string>
+    <string name="file_not_found">لا يمكن العثور على الملف. ربما تم نقله أو حذفه أو لم يعد متاحًا</string>
+    <string name="storage_is_full">لا توجد مساحة تخزين مجانية كافية لإكمال هذا الإجراء. قم بتحرير بعض المساحة وحاول مرة أخرى</string>
+    <string name="network_request_rejected">رفض الخادم الطلب. تحقق من تفاصيل الوصول أو تسجيل الدخول وحاول مرة أخرى</string>
+    <string name="network_resource_not_found">لم يتم العثور على المورد المطلوب على الخادم</string>
+    <string name="network_too_many_requests">تم إرسال عدد كبير جدًا من الطلبات. انتظر لحظة وحاول مرة أخرى</string>
+    <string name="network_server_error">واجه الخادم خطأ. حاول مرة أخرى لاحقًا</string>
+    <string name="network_invalid_response">أرجع الخادم استجابة غير صالحة. حاول مرة أخرى لاحقًا</string>
+    <string name="archive_is_corrupted">الأرشيف تالف أو غير مكتمل ولا يمكن فتحه</string>
+    <string name="file_is_corrupted_or_unsupported">الملف تالف أو غير كامل أو تنسيقه غير مدعوم</string>
+    <string name="data_is_too_large">البيانات كبيرة جدًا بحيث لا يمكن إكمال هذا الإجراء</string>
+    <string name="storage_is_read_only">موقع التخزين هذا للقراءة فقط. اختر موقعًا آخر وحاول مرة أخرى</string>
+    <string name="file_is_too_large">الملف كبير جدًا بالنسبة لموقع التخزين أو العملية</string>
+    <string name="file_io_error">لا يمكن قراءة الملف أو كتابته. أعد توصيل وحدة التخزين وحاول مرة أخرى</string>
+    <string name="results_preview">معاينة النتائج</string>
 </resources>

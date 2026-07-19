@@ -3975,4 +3975,19 @@
     <string name="network_timeout">कनेक्शन का समय समाप्त हो गया. अपना कनेक्शन जांचें और पुनः प्रयास करें</string>
     <string name="network_connection_failed">सर्वर से कनेक्ट नहीं हो सका. अपना कनेक्शन जाँचें या बाद में पुनः प्रयास करें</string>
     <string name="network_connection_interrupted">कनेक्शन को बाधित किया गया था। अपना कनेक्शन जांचें और पुनः प्रयास करें</string>
+    <string name="network_secure_connection_failed">सुरक्षित कनेक्शन स्थापित नहीं किया जा सका. दिनांक और समय, वीपीएन, या नेटवर्क सेटिंग्स जांचें और पुनः प्रयास करें</string>
+    <string name="file_not_found">फ़ाइल नहीं मिल सकी. हो सकता है कि इसे स्थानांतरित कर दिया गया हो, हटा दिया गया हो, या अब उपलब्ध नहीं है</string>
+    <string name="storage_is_full">इस कार्रवाई को पूरा करने के लिए पर्याप्त निःशुल्क संग्रहण नहीं है. कुछ स्थान खाली करें और पुनः प्रयास करें</string>
+    <string name="network_request_rejected">सर्वर ने अनुरोध अस्वीकार कर दिया. अपनी पहुंच या साइन-इन विवरण जांचें और पुनः प्रयास करें</string>
+    <string name="network_resource_not_found">अनुरोधित संसाधन सर्वर पर नहीं मिला</string>
+    <string name="network_too_many_requests">बहुत सारे अनुरोध भेजे गए थे. एक क्षण रुकें और पुनः प्रयास करें</string>
+    <string name="network_server_error">सर्वर में एक त्रुटि आई। बाद में पुन: प्रयास</string>
+    <string name="network_invalid_response">सर्वर ने एक अमान्य प्रतिक्रिया दी. बाद में पुन: प्रयास</string>
+    <string name="archive_is_corrupted">संग्रह क्षतिग्रस्त या अधूरा है और खोला नहीं जा सका</string>
+    <string name="file_is_corrupted_or_unsupported">फ़ाइल क्षतिग्रस्त है, अधूरी है, या उसका प्रारूप समर्थित नहीं है</string>
+    <string name="data_is_too_large">इस कार्रवाई को पूरा करने के लिए डेटा बहुत बड़ा है</string>
+    <string name="storage_is_read_only">यह भंडारण स्थान केवल पढ़ने के लिए है। कोई अन्य स्थान चुनें और पुनः प्रयास करें</string>
+    <string name="file_is_too_large">इस संग्रहण स्थान या संचालन के लिए फ़ाइल बहुत बड़ी है</string>
+    <string name="file_io_error">फ़ाइल को पढ़ा या लिखा नहीं जा सका. स्टोरेज को पुनः कनेक्ट करें और पुनः प्रयास करें</string>
+    <string name="results_preview">परिणाम पूर्वावलोकन</string>
 </resources>

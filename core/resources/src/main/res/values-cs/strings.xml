@@ -3977,4 +3977,19 @@
     <string name="network_timeout">Časový limit připojení vypršel. Zkontrolujte připojení a zkuste to znovu</string>
     <string name="network_connection_failed">Nelze se připojit k serveru. Zkontrolujte připojení nebo to zkuste znovu později</string>
     <string name="network_connection_interrupted">Spojení bylo přerušeno. Zkontrolujte připojení a zkuste to znovu</string>
+    <string name="network_secure_connection_failed">Nepodařilo se navázat zabezpečené připojení. Zkontrolujte datum a čas, VPN nebo nastavení sítě a zkuste to znovu</string>
+    <string name="file_not_found">Soubor nebyl nalezen. Možná byla přesunuta, smazána nebo již není dostupná</string>
+    <string name="storage_is_full">K dokončení této akce není dostatek volného místa. Uvolněte místo a zkuste to znovu</string>
+    <string name="network_request_rejected">Server požadavek odmítl. Zkontrolujte své přístupové nebo přihlašovací údaje a zkuste to znovu</string>
+    <string name="network_resource_not_found">Požadovaný prostředek nebyl na serveru nalezen</string>
+    <string name="network_too_many_requests">Bylo odesláno příliš mnoho žádostí. Chvíli počkejte a zkuste to znovu</string>
+    <string name="network_server_error">Na serveru došlo k chybě. Zkuste to znovu později</string>
+    <string name="network_invalid_response">Server vrátil neplatnou odpověď. Zkuste to znovu později</string>
+    <string name="archive_is_corrupted">Archiv je poškozený nebo neúplný a nelze jej otevřít</string>
+    <string name="file_is_corrupted_or_unsupported">Soubor je poškozený, neúplný nebo jeho formát není podporován</string>
+    <string name="data_is_too_large">Data jsou příliš velká na dokončení této akce</string>
+    <string name="storage_is_read_only">Toto úložiště je pouze pro čtení. Vyberte jiné umístění a zkuste to znovu</string>
+    <string name="file_is_too_large">Soubor je pro toto úložiště nebo operaci příliš velký</string>
+    <string name="file_io_error">Soubor nelze číst ani zapisovat. Znovu připojte úložiště a zkuste to znovu</string>
+    <string name="results_preview">Náhled výsledků</string>
 </resources>

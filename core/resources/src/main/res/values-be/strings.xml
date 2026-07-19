@@ -3977,4 +3977,19 @@
     <string name="network_timeout">Час чакання злучэння скончыўся. Праверце падключэнне і паўтарыце спробу</string>
     <string name="network_connection_failed">Немагчыма падключыцца да сервера. Праверце падключэнне або паўтарыце спробу пазней</string>
     <string name="network_connection_interrupted">Сувязь перарвалася. Праверце падключэнне і паўтарыце спробу</string>
+    <string name="network_secure_connection_failed">Не ўдалося ўсталяваць бяспечнае злучэнне. Праверце дату і час, VPN або налады сеткі і паўтарыце спробу</string>
+    <string name="file_not_found">Файл не знойдзены. Магчыма, ён быў перамешчаны, выдалены або больш недаступны</string>
+    <string name="storage_is_full">Недастаткова вольнага сховішча для завяршэння гэтага дзеяння. Вызваліце ​​месца і паўтарыце спробу</string>
+    <string name="network_request_rejected">Сервер адхіліў запыт. Праверце дадзеныя доступу або ўваходу і паўтарыце спробу</string>
+    <string name="network_resource_not_found">Запытаны рэсурс не знойдзены на серверы</string>
+    <string name="network_too_many_requests">Адпраўлена занадта шмат запытаў. Пачакайце крыху і паўтарыце спробу</string>
+    <string name="network_server_error">На серверы адбылася памылка. Паўтарыце спробу пазней</string>
+    <string name="network_invalid_response">Сервер вярнуў няправільны адказ. Паўтарыце спробу пазней</string>
+    <string name="archive_is_corrupted">Архіў пашкоджаны або няпоўны і не можа быць адкрыты</string>
+    <string name="file_is_corrupted_or_unsupported">Файл пашкоджаны, няпоўны або яго фармат не падтрымліваецца</string>
+    <string name="data_is_too_large">Дадзеныя занадта вялікія для выканання гэтага дзеяння</string>
+    <string name="storage_is_read_only">Гэта месца захоўвання даступна толькі для чытання. Выберыце іншае месца і паўтарыце спробу</string>
+    <string name="file_is_too_large">Файл занадта вялікі для гэтага месца захавання або аперацыі</string>
+    <string name="file_io_error">Файл не можа быць прачытаны або запісаны. Зноў падключыце сховішча і паўтарыце спробу</string>
+    <string name="results_preview">Папярэдні прагляд вынікаў</string>
 </resources>

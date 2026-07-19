@@ -3975,4 +3975,19 @@
     <string name="network_timeout">Bağlantı zaman aşımına uğradı. Bağlantınızı kontrol edip tekrar deneyin</string>
     <string name="network_connection_failed">Sunucuya bağlanılamadı. Bağlantınızı kontrol edin veya daha sonra tekrar deneyin</string>
     <string name="network_connection_interrupted">Bağlantı kesildi. Bağlantınızı kontrol edip tekrar deneyin</string>
+    <string name="network_secure_connection_failed">Güvenli bir bağlantı kurulamadı. Tarih ve saati, VPN\'yi veya ağ ayarlarını kontrol edip tekrar deneyin</string>
+    <string name="file_not_found">Dosya bulunamadı. Taşınmış, silinmiş veya artık kullanılamıyor olabilir</string>
+    <string name="storage_is_full">Bu işlemi tamamlamak için yeterli ücretsiz depolama alanı yok. Biraz yer açın ve tekrar deneyin</string>
+    <string name="network_request_rejected">Sunucu isteği reddetti. Erişim veya oturum açma ayrıntılarınızı kontrol edip tekrar deneyin</string>
+    <string name="network_resource_not_found">İstenilen kaynak sunucuda bulunamadı</string>
+    <string name="network_too_many_requests">Çok fazla istek gönderildi. Bir süre bekleyip tekrar deneyin</string>
+    <string name="network_server_error">Sunucu bir hatayla karşılaştı. Daha sonra tekrar deneyin</string>
+    <string name="network_invalid_response">Sunucu geçersiz bir yanıt döndürdü. Daha sonra tekrar deneyin</string>
+    <string name="archive_is_corrupted">Arşiv hasarlı veya eksik olduğundan açılamadı</string>
+    <string name="file_is_corrupted_or_unsupported">Dosya hasarlı, eksik veya biçimi desteklenmiyor</string>
+    <string name="data_is_too_large">Veriler bu işlemi tamamlamak için çok büyük</string>
+    <string name="storage_is_read_only">Bu depolama konumu salt okunurdur. Başka bir konum seçip tekrar deneyin</string>
+    <string name="file_is_too_large">Dosya bu depolama konumu veya işlem için çok büyük</string>
+    <string name="file_io_error">Dosya okunamadı veya yazılamadı. Depolamayı yeniden bağlayın ve tekrar deneyin</string>
+    <string name="results_preview">Sonuçların Önizlemesi</string>
 </resources>
