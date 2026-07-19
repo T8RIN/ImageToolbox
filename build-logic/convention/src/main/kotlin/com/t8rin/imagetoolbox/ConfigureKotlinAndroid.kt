@@ -71,8 +71,12 @@ internal fun Project.configureKotlinAndroid(
         }
 
         packaging.apply {
+            jniLibs {
+                pickFirsts.add("**/libc++_shared.so")
+            }
             resources {
                 excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+                excludes.add("META-INF/LICENSE.md")
             }
         }
 

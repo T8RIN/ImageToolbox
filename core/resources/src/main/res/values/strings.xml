@@ -1066,7 +1066,7 @@
     <string name="implementation">Implementation</string>
     <string name="compatibility">Compatibility</string>
     <string name="features_sub">Password-based encryption of files. Proceeded files can be stored in the selected directory or shared. Decrypted files can also be opened directly.</string>
-    <string name="implementation_sub">AES-256, GCM mode, no padding, 12 bytes random IVs by default. You can select the needed algorithm. Keys are used as 256-bit SHA-3 hashes</string>
+    <string name="implementation_sub_v2">AES-256-GCM with a random 12-byte nonce is used by default. Every encrypted file has a versioned header, a unique random salt, and a key derived from the password using PBKDF2-HMAC-SHA256 with 210,000 iterations. You can also select another available algorithm.</string>
     <string name="file_size">File size</string>
     <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
 \nPlease note: memory is not storage.</string>

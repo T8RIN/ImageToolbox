@@ -114,7 +114,6 @@ android {
         jniLibs {
             keepDebugSymbols.add("**/*.so")
             pickFirsts.add("lib/*/libcoder.so")
-            pickFirsts.add("**/libc++_shared.so")
             pickFirsts.add("**/libdatstore_shared_counter.so")
             useLegacyPackaging = true
         }
@@ -167,24 +166,6 @@ baselineProfile {
     mergeIntoMain = true
 }
 
-dependencySubstitution {
-    substitute(
-        dependency = "com.caverock:androidsvg-aar:1.4",
-        using = "com.github.deckerst:androidsvg:cc9d59a88f"
-    )
-
-    listOf(
-        "org.bouncycastle:bcpkix",
-        "org.bouncycastle:bcprov",
-        "org.bouncycastle:bcutil"
-    ).forEach { dependency ->
-        substitute(
-            dependency = "${dependency}-jdk15to18",
-            using = "${dependency}-jdk18on:${libs.versions.bouncycastle}"
-        )
-    }
-}
-
 androidComponents {
     beforeVariants(selector().all()) { variantBuilder ->
         val flavorName = variantBuilder.productFlavors.firstOrNull()?.second.orEmpty()
@@ -205,19 +186,4 @@ androidComponents {
             }
         }
     }
-}
-
-fun Project.dependencySubstitution(action: DependencySubstitutions.() -> Unit) {
-    allprojects {
-        configurations.all {
-            resolutionStrategy.dependencySubstitution(action)
-        }
-    }
-}
-
-fun DependencySubstitutions.substitute(
-    dependency: String,
-    using: String
-) {
-    substitute(module(dependency)).using(module(using))
 }

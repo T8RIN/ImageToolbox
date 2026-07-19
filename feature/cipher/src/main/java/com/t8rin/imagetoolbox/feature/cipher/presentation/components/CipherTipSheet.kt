@@ -91,7 +91,7 @@ fun CipherTipSheet(
                             icon = Icons.Filled.Interface
                         )
                         Text(
-                            text = stringResource(id = R.string.implementation_sub),
+                            text = stringResource(id = R.string.implementation_sub_v2),
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                             fontSize = 14.sp,
                             lineHeight = 18.sp
