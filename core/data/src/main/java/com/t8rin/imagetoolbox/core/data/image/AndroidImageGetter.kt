@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
 import coil3.ImageLoader
+import coil3.request.ErrorResult
 import coil3.request.ImageRequest
 import coil3.request.transformations
 import coil3.size.Precision
@@ -226,7 +227,7 @@ internal class AndroidImageGetter @Inject constructor(
         size: IntegerSize?,
         precision: Precision = Precision.EXACT,
         transformations: List<Transformation<Bitmap>> = emptyList(),
-        onFailure: (Throwable) -> Unit = {},
+        onFailure: (Throwable) -> Unit = failureNotifier::send,
         addSizeToRequest: Boolean = true
     ): Bitmap? = withContext(defaultDispatcher) {
         if ((size == null || !addSizeToRequest) && data is Bitmap) return@withContext data
@@ -253,7 +254,10 @@ internal class AndroidImageGetter @Inject constructor(
         ensureActive()
 
         runSuspendCatching {
-            imageLoader.execute(request).image?.toBitmap()
+            imageLoader.execute(request).let { result ->
+                if (result is ErrorResult) throw result.throwable
+                result.image?.toBitmap()
+            }
         }.onFailure {
             it.makeLog("ImageGetter")
             onFailure(it)

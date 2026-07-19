@@ -91,10 +91,7 @@ fun CompareContent(
             AppToastHost.showFailureToast(R.string.pick_two_images)
         } else {
             component.updateUris(
-                uris = uris[0] to uris[1],
-                onFailure = {
-                    AppToastHost.showFailureToast(R.string.something_went_wrong)
-                }
+                uris = uris[0] to uris[1]
             )
         }
     }

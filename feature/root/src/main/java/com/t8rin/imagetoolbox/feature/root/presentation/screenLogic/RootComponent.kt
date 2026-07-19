@@ -48,7 +48,6 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadOff
-import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.settings.domain.AutoCacheCleanupUseCase
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -57,7 +56,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.handleDeeplinks
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
-import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.utils.isNeedUpdate
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.parseChangelog
@@ -255,6 +253,7 @@ class RootComponent @AssistedInject internal constructor(
                 updatesJob = componentScope.launch {
                     checkForUpdates(
                         showDialog = showDialog,
+                        reportFailure = isNewRequest,
                         onNoUpdates = onNoUpdates ?: {}
                     )
                 }
@@ -264,6 +263,7 @@ class RootComponent @AssistedInject internal constructor(
 
     private suspend fun checkForUpdates(
         showDialog: Boolean,
+        reportFailure: Boolean,
         onNoUpdates: () -> Unit
     ) = withContext(defaultDispatcher) {
         "start updates check".makeLog("checkForUpdates")
@@ -288,7 +288,7 @@ class RootComponent @AssistedInject internal constructor(
             }
         }.onFailure {
             it.makeLog("checkForUpdates")
-            onNoUpdates()
+            if (reportFailure) AppToastHost.showFailureToast(it)
         }
     }
 
@@ -316,14 +316,7 @@ class RootComponent @AssistedInject internal constructor(
                         _backupRestoredEvents.trySend(true)
                     },
                     onFailure = { throwable ->
-                        AppToastHost.showToast(
-                            message = getString(
-                                R.string.smth_went_wrong,
-                                throwable.localizedMessage ?: ""
-                            ),
-                            icon = Icons.Outlined.Error,
-                            duration = ToastDuration.Long
-                        )
+                        AppToastHost.showFailureToast(throwable)
                         _backupRestoredEvents.trySend(false)
                     }
                 )
@@ -348,7 +341,9 @@ class RootComponent @AssistedInject internal constructor(
                                 icon = Icons.Outlined.AutoFixHigh
                             )
                         },
-                        onFailure = {}
+                        onFailure = {
+                            AppToastHost.showFailureToast(getString(R.string.scanned_qr_code_isnt_filter_template))
+                        }
                     )
                 }
             }

@@ -233,7 +233,9 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
                             icon = Icons.Outlined.AutoFixHigh
                         )
                     },
-                    onFailure = {}
+                    onFailure = {
+                        AppToastHost.showFailureToast(getString(R.string.scanned_qr_code_isnt_filter_template))
+                    }
                 )
             }
         }

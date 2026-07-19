@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.model.toMimeType
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.saving.io.use
@@ -58,6 +59,7 @@ internal class AndroidShareProvider @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val filenameCreator: Lazy<FilenameCreator>,
     private val appHistoryRepository: AppHistoryRepository,
+    private val failureNotifier: FailureNotifier,
     resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder,
@@ -103,7 +105,7 @@ internal class AndroidShareProvider @Inject constructor(
                 byteArray = byteArray,
                 filename = realFilename
             )
-        }.getOrNull()
+        }.onFailure(failureNotifier::send).getOrNull()
     }
 
     override suspend fun shareImage(
@@ -235,7 +237,10 @@ internal class AndroidShareProvider @Inject constructor(
                 filename = filename,
                 writeData = writeData
             )
-        }.onFailure { it.makeLog("cacheData") }.getOrNull()
+        }.onFailure {
+            it.makeLog("cacheData")
+            failureNotifier.send(it)
+        }.getOrNull()
     }
 
     override suspend fun cacheDataOrThrow(

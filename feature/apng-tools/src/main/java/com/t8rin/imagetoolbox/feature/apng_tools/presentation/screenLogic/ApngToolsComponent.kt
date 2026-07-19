@@ -463,7 +463,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
                                     total = left
                                 )
                             },
-                            onFailure = {}
+                            onFailure = AppToastHost::showFailureToast
                         )?.also { uri ->
                             onComplete(listOf(uri.toUri()))
                         }

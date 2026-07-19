@@ -832,7 +832,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         var targetWidth = width
         var targetHeight = height
 
-        while (targetWidth * targetHeight * 4L >= PreviewMaxBytes) {
+        while (targetWidth * targetHeight * 4L >= PREVIEW_MAX_BYTES) {
             targetWidth = (targetWidth * 0.85f).roundToInt().coerceAtLeast(1)
             targetHeight = (targetHeight * 0.85f).roundToInt().coerceAtLeast(1)
         }
@@ -1075,7 +1075,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     )
 
     private companion object {
-        const val PreviewMaxBytes = 3096L * 3096L * 3L
+        const val PREVIEW_MAX_BYTES = 3096L * 3096L * 3L
     }
 
     @AssistedFactory

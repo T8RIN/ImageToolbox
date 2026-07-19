@@ -507,6 +507,6 @@ suspend fun ToastHostState.showFailureToast(
     icon: ImageVector? = null
 ) = showToast(
     message = message,
-    icon = icon ?: Icons.Outlined.Error,
+    icon = icon ?: Icons.Rounded.Error,
     duration = ToastDuration.Long
 )

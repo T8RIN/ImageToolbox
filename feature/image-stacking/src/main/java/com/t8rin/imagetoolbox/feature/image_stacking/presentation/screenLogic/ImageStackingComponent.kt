@@ -288,7 +288,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
                         total = stackImages.size
                     )
                 },
-                onFailure = {}
+                onFailure = AppToastHost::showFailureToast
             )?.let { image ->
                 val imageInfo = ImageInfo(
                     height = image.height,

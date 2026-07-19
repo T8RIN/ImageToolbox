@@ -384,7 +384,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
                                     total = left
                                 )
                             },
-                            onFailure = {}
+                            onFailure = AppToastHost::showFailureToast
                         )?.also { byteArray ->
                             shareProvider.cacheByteArray(
                                 byteArray = byteArray,

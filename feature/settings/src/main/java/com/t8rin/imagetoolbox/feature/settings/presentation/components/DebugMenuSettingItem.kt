@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import android.content.ActivityNotFoundException
+import android.os.TransactionTooLargeException
 import android.system.ErrnoException
 import android.system.OsConstants
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.WrongKeyException
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BugReport
@@ -58,11 +60,15 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.util.date.GMTDate
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.InternalAPI
+import java.io.EOFException
 import java.io.FileNotFoundException
 import java.net.ConnectException
+import java.net.ProtocolException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.concurrent.TimeoutException
+import java.util.zip.ZipException
 import javax.net.ssl.SSLException
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -163,6 +169,9 @@ fun DebugMenuSettingItem(
 @Composable
 private fun FailureToastDebugButtons() {
     val cases = listOf(
+        FailureToastDebugCase("WrongKeyException") {
+            AppToastHost.showFailureToast(WrongKeyException())
+        },
         FailureToastDebugCase("Out of memory") {
             AppToastHost.showFailureToast(OutOfMemoryError("TEST"))
         },
@@ -193,6 +202,30 @@ private fun FailureToastDebugButtons() {
         FailureToastDebugCase("Storage is full") {
             AppToastHost.showFailureToast(ErrnoException("TEST", OsConstants.ENOSPC))
         },
+        FailureToastDebugCase("Storage is read-only") {
+            AppToastHost.showFailureToast(ErrnoException("TEST", OsConstants.EROFS))
+        },
+        FailureToastDebugCase("File is too large") {
+            AppToastHost.showFailureToast(ErrnoException("TEST", OsConstants.EFBIG))
+        },
+        FailureToastDebugCase("File I/O error") {
+            AppToastHost.showFailureToast(ErrnoException("TEST", OsConstants.EIO))
+        },
+        FailureToastDebugCase("Corrupted archive") {
+            AppToastHost.showFailureToast(ZipException("TEST"))
+        },
+        FailureToastDebugCase("Corrupted or incomplete file") {
+            AppToastHost.showFailureToast(EOFException("TEST"))
+        },
+        FailureToastDebugCase("Operation timeout") {
+            AppToastHost.showFailureToast(TimeoutException("TEST"))
+        },
+        FailureToastDebugCase("Invalid server response") {
+            AppToastHost.showFailureToast(ProtocolException("TEST"))
+        },
+        FailureToastDebugCase("Data is too large") {
+            AppToastHost.showFailureToast(TransactionTooLargeException("TEST"))
+        },
         FailureToastDebugCase("HTTP 401 / 403") {
             AppToastHost.showFailureToast(httpResponseException(401))
         },
@@ -201,6 +234,12 @@ private fun FailureToastDebugButtons() {
         },
         FailureToastDebugCase("HTTP 429") {
             AppToastHost.showFailureToast(httpResponseException(429))
+        },
+        FailureToastDebugCase("HTTP 413") {
+            AppToastHost.showFailureToast(httpResponseException(413))
+        },
+        FailureToastDebugCase("HTTP 415") {
+            AppToastHost.showFailureToast(httpResponseException(415))
         },
         FailureToastDebugCase("HTTP 5xx") {
             AppToastHost.showFailureToast(httpResponseException(500))
@@ -218,6 +257,7 @@ private fun FailureToastDebugButtons() {
     cases.forEach { case ->
         EnhancedButton(
             onClick = case.onClick,
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(case.title)

@@ -54,7 +54,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.feature.cipher.domain.WrongKeyException
 import com.t8rin.imagetoolbox.feature.cipher.presentation.components.CipherControls
 import com.t8rin.imagetoolbox.feature.cipher.presentation.components.CipherTipSheet
 import com.t8rin.imagetoolbox.feature.cipher.presentation.screenLogic.CipherComponent
@@ -138,13 +137,7 @@ fun CipherContent(
                 secondaryButtonText = stringResource(R.string.pick_file),
                 onPrimaryButtonClick = {
                     component.startCryptography {
-                        if (it is WrongKeyException) {
-                            AppToastHost.showFailureToast(R.string.invalid_password_or_not_encrypted)
-                        } else if (it != null) {
-                            AppToastHost.showFailureToast(
-                                throwable = it
-                            )
-                        }
+                        if (it != null) AppToastHost.showFailureToast(it)
                     }
                 },
                 primaryButtonIcon = if (component.isEncrypt) {

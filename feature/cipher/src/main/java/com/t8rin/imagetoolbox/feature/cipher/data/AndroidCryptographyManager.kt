@@ -24,11 +24,11 @@ import com.t8rin.imagetoolbox.core.data.utils.computeBytesFromReadable
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
+import com.t8rin.imagetoolbox.core.domain.model.WrongKeyException
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.IMAGE_TOOLBOX_ENCRYPTED_FILE_MAGIC
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.cipher.domain.CryptographyManager
-import com.t8rin.imagetoolbox.feature.cipher.domain.WrongKeyException
 import kotlinx.coroutines.withContext
 import java.nio.ByteBuffer
 import java.security.Key

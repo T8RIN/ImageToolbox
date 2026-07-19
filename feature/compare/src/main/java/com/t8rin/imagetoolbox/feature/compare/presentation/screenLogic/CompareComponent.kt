@@ -42,12 +42,14 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareType
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.PixelByPixelCompareState
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.CompareData
@@ -76,12 +78,7 @@ class CompareComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialComparableUris?.let {
-                updateUris(
-                    uris = it,
-                    onFailure = {},
-                )
-            }
+            initialComparableUris?.let(::updateUris)
         }
     }
 
@@ -155,14 +152,14 @@ class CompareComponent @AssistedInject internal constructor(
     }
 
     fun updateUris(
-        uris: Pair<Uri, Uri>,
-        onFailure: () -> Unit,
+        uris: Pair<Uri, Uri>
     ) {
         componentScope.launch {
             _isImageLoading.value = true
             val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
-            if (data.first == null || data.second == null) onFailure()
-            else {
+            if (data.first == null || data.second == null) {
+                AppToastHost.showFailureToast(getString(R.string.something_went_wrong))
+            } else {
                 _bitmapData.value = CompareData(
                     first = CompareEntry(
                         uri = uris.first,

@@ -4007,4 +4007,11 @@
     <string name="network_resource_not_found">The requested resource was not found on the server</string>
     <string name="network_too_many_requests">Too many requests were sent. Wait a moment and try again</string>
     <string name="network_server_error">The server encountered an error. Try again later</string>
+    <string name="network_invalid_response">The server returned an invalid response. Try again later</string>
+    <string name="archive_is_corrupted">The archive is damaged or incomplete and could not be opened</string>
+    <string name="file_is_corrupted_or_unsupported">The file is damaged, incomplete, or its format is not supported</string>
+    <string name="data_is_too_large">The data is too large to complete this action</string>
+    <string name="storage_is_read_only">This storage location is read-only. Choose another location and try again</string>
+    <string name="file_is_too_large">The file is too large for this storage location or operation</string>
+    <string name="file_io_error">The file could not be read or written. Reconnect the storage and try again</string>
 </resources>

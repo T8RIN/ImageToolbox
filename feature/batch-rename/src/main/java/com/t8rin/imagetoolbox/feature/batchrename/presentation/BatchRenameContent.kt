@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.FileRename
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -83,6 +84,7 @@ fun BatchRenameContent(component: BatchRenameComponent) {
             runCatching {
                 permissionLauncher.launch(IntentSenderRequest.Builder(sender).build())
             }.onFailure {
+                AppToastHost.showFailureToast(it)
                 component.onPermissionResult(false)
             }
         }
