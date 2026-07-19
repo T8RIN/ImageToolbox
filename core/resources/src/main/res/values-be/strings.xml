@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -275,7 +274,6 @@
     <string name="decrypt">Расшыфраваць</string>
     <string name="store_file_desc">Захавайце гэты файл на сваёй прыладзе або выкарыстоўвайце дзеянне абагульвання, каб змясціць яго куды заўгодна</string>
     <string name="features_sub">Шыфраванне файлаў на аснове пароля. Атрыманыя файлы можна захоўваць у абраным каталогу або абагульваць. Расшыфраваныя файлы таксама можна адкрыць непасрэдна.</string>
-    <string name="implementation_sub">AES-256, рэжым GCM, без запаўнення, 12 байтаў у выпадковым парадку IV. Ключы выкарыстоўваюцца як хэшы SHA-3 (256 біт).</string>
     <string name="saved_to">Захавана ў папку %1$s з назвай %2$s</string>
     <string name="image_crop_mask_sub">Выкарыстоўвайце гэты тып маскі для стварэння маскі з дадзенай выявы, заўважце, што яна ПАВІННА мець альфа-канал</string>
     <string name="settings_restored">Налады паспяхова адноўлены</string>

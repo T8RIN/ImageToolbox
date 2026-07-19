@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -301,7 +299,6 @@
     <string name="pick_file_to_start">Pumili ng file upang magsimula</string>
     <string name="decryption">Pag-decryption</string>
     <string name="encryption">Pag-encrypt</string>
-    <string name="implementation_sub">AES-256, GCM mode, walang padding, 12 bytes na random na IVs. Ang mga susi ay ginagamit bilang SHA-3 hash (256 bits).</string>
     <string name="file_size">Laki ng file</string>
     <string name="features_sub">Nakabatay sa password ang pag-encrypt ng mga file. Ang mga naituloy na file ay maaaring iimbak sa napiling direktoryo o ibinahagi. Ang mga decrypted na file ay maaari ding direktang mabuksan.</string>
     <string name="image_size_warning">Ang pagsisikap na i-save ang imahe na may ibinigay na lapad at taas ay maaaring magdulot ng isang error sa OOM, gawin ito sa iyong sariling peligro, at huwag sabihing hindi kita binalaan!</string>

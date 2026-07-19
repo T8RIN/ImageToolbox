@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -304,7 +303,6 @@
     <string name="decryption">Decrittazione</string>
     <string name="encryption">Crittografia</string>
     <string name="key">Chiave</string>
-    <string name="implementation_sub">AES-256, modalità GCM, nessuna spaziatura interna, IV casuali a 12 byte. (Per impostazione predefinita, ma è possibile selezionare l\'algoritmo desiderato) Le chiavi vengono utilizzate come hash SHA-3 (256 bit).</string>
     <string name="file_size">Dimensione del file</string>
     <string name="presets_sub" formatted="false">Se hai selezionato il preset 125, l\'immagine verrà salvata con il 125% della dimensione originale. Se hai scelto il preset 50, allora l\'immagine verrà salvata con il 50% della dimensione.</string>
     <string name="reset_settings_sub">In questo modo verranno ripristinate le impostazioni ai valori predefiniti. Si noti che questa operazione non può essere annullata senza un file di backup menzionato sopra.</string>

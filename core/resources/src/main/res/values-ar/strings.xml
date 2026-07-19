@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -286,7 +284,6 @@
     <string name="implementation">تطبيق</string>
     <string name="compatibility">التوافق</string>
     <string name="features_sub">تشفير الملفات على أساس كلمة المرور. يمكن تخزين الملفات التي تمت متابعتها في دليل Crypto أو مشاركتها. يمكن أيضًا فتح الملفات التي تم فك تشفيرها مباشرة.</string>
-    <string name="implementation_sub">AES-256، وضع GCM، بدون حشو، 12 بايت من المتجهات الأولية العشوائية افتراضيًا. يمكنك اختيار الخوارزمية المطلوبة. تُستخدم المفاتيح كقيم تجزئة SHA-3 بطول 256 بت.</string>
     <string name="file_size">حجم الملف</string>
     <string name="file_size_sub">الحد الأقصى لحجم الملف مقيد بنظام التشغيل أندرويد والذاكرة المتاحة، والتي تعتمد بشكل واضح على جهازك. \nيُرجى ملاحظة: الذاكرة ليست تخزين.</string>
     <string name="group_options_by_type_sub">خيارات المجموعات على الشاشة الرئيسية من نوعها بدلاً من ترتيب القائمة المخصص</string>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -295,7 +294,6 @@
     <string name="compatibility">Zgodność</string>
     <string name="compatibility_sub">Należy pamiętać, że zgodność z innym oprogramowaniem lub usługami do szyfrowania plików nie jest gwarantowana. Przyczyną niezgodności może być nieco inna obróbka klucza lub konfiguracja szyfru.</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Nie można zmienić układu, gdy włączone jest grupowanie opcji</string>
-    <string name="implementation_sub">AES-256, tryb GCM, brak wypełnienia, domyślnie 12 bajtów losowych IV. Można wybrać odpowiedni algorytm. Klucze są używane jako 256-bitowe skróty SHA-3</string>
     <string name="cipher">Szyfr</string>
     <string name="cipher_sub">Szyfrowanie i deszyfrowanie dowolnego pliku (nie tylko obrazu) w oparciu o różne dostępne algorytmy kryptograficzne.</string>
     <string name="pick_file">Wybierz plik</string>

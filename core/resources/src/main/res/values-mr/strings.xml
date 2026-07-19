@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -293,7 +292,6 @@
     <string name="implementation">अंमलबजावणी</string>
     <string name="compatibility">सुसंगतता</string>
     <string name="features_sub">फाइल्सचे पासवर्ड-आधारित एनक्रिप्शन. पुढे केलेल्या फायली निवडलेल्या निर्देशिकेत संग्रहित केल्या जाऊ शकतात किंवा सामायिक केल्या जाऊ शकतात. डिक्रिप्ट केलेल्या फायली थेट उघडल्या जाऊ शकतात.</string>
-    <string name="implementation_sub">AES-256, GCM मोड, कोणतेही पॅडिंग नाही, 12 बाइट यादृच्छिक IV डीफॉल्टनुसार. आपण आवश्यक अल्गोरिदम निवडू शकता. की 256-बिट SHA-3 हॅश म्हणून वापरल्या जातात</string>
     <string name="file_size">फाइल आकार</string>
     <string name="file_size_sub">जास्तीत जास्त फाइल आकार Android OS आणि उपलब्ध मेमरीद्वारे प्रतिबंधित आहे, जी डिव्हाइसवर अवलंबून आहे. \nकृपया लक्षात ठेवा: मेमरी ही स्टोरेज नाही.</string>
     <string name="compatibility_sub">कृपया लक्षात घ्या की इतर फाइल एन्क्रिप्शन सॉफ्टवेअर किंवा सेवांच्या सुसंगततेची हमी दिलेली नाही. किंचित भिन्न की उपचार किंवा सायफर कॉन्फिगरेशनमुळे विसंगतता येऊ शकते.</string>

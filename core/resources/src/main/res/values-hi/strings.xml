@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -272,7 +271,6 @@
     <string name="store_file_desc">इस फाइल को अपने डिवाइस पर संग्रहीत करें या जहाँ चाहें इसे रखने के लिए साझा क्रिया का उपयोग करें</string>
     <string name="features">विशेषताएं</string>
     <string name="file_proceed">फाइल संसाधित</string>
-    <string name="implementation_sub">AES-256, GCM मोड, कोई पैडिंग नहीं, 12 bytes यादृच्छिक IVs। कुंजियां SHA-3 हैश (256 bits) के रूप में उपयोग की जाती हैं।</string>
     <string name="file_size_sub">अधिकतम फाइल आकार Android OS और उपलब्ध मेमोरी द्वारा प्रतिबंधित है, जो स्पष्ट रूप से आपके डिवाइस पर निर्भर करता है। \nकृपया ध्यान दें: मेमोरी स्टोरेज नहीं है।</string>
     <string name="compatibility_sub">कृपया ध्यान दें कि अन्य फाइल कूटलेखन सॉफ़्टवेयर या सेवाओं के साथ अनुकूलता की गारंटी नहीं है। थोड़ा अलग कुंजी उपचार या सिफर विन्यास असंगतता का कारण हो सकता है।</string>
     <string name="features_sub">फाइलों का पासवर्ड-आधारित कूटलेखन। आगे बढ़ी गई फाइलें चयनित निर्देशिका में संग्रहीत या साझा की जा सकती हैं। विकोडित फाइलें सीधे भी खोली जा सकती हैं।</string>

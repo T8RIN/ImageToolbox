@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -275,7 +274,6 @@
     <string name="background_color">Warna latar belakang</string>
     <string name="encrypt">Enkripsi</string>
     <string name="decrypt">Dekripsi</string>
-    <string name="implementation_sub">AES-256, mode GCM, tanpa padding, infus acak 12 byte. Kunci digunakan sebagai hash SHA-3 (256 bit).</string>
     <string name="compatibility">Kesesuaian</string>
     <string name="found_s">Ditemukan %1$s</string>
     <string name="tools">Peralatan</string>

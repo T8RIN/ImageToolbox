@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -279,7 +277,6 @@
     <string name="encryption">Titkosítás</string>
     <string name="key">Kulcs</string>
     <string name="implementation">Végrehajtás</string>
-    <string name="implementation_sub">AES-256, GCM mód, párnázás nélkül, alapértelmezettként 12 bájtos véletlenszerű IV-k. Igényelt algoritmus kiválasztható. A kulcsok 256 bites SHA-3 hash-ként vannak használva.</string>
     <string name="compatibility">Kompatibilitás</string>
     <string name="features_sub">Fájlok jelszó alapú titkosítása. A továbbhaladott fájlok a kiválasztott könyvtárban tárolhatók vagy megoszthatók. A visszafejtett fájlok közvetlenül is megnyithatók.</string>
     <string name="file_size">Fájl méret</string>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -304,7 +302,6 @@
     <string name="decryption">פענוח</string>
     <string name="encryption">הצפנה</string>
     <string name="key">מפתח</string>
-    <string name="implementation_sub">AES-256, מצב GCM, ללא ריפוד, IVs אקראיים של 12 בתים. (כברירת מחדל, אך ניתן לבחור את האלגוריתם הרצוי) מפתחות משמשים כ-hashes של SHA-3 (256 סיביות).</string>
     <string name="compatibility_sub">שים לב שתאימות לתוכנות או שירותים אחרים להצפנת קבצים אינה מובטחת. טיפול מפתח או תצורת צופן שונה במקצת עשויות להיות סיבות לאי התאמה.</string>
     <string name="create">צור</string>
     <string name="updates">עדכונים</string>

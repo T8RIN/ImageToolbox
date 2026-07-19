@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -305,7 +303,6 @@
     <string name="decrypt">Дешифрујте</string>
     <string name="store_file_desc">Сачувајте ову датотеку на свом уређају или користите акцију дељења да бисте је ставили где год желите</string>
     <string name="features">Карактеристике</string>
-    <string name="implementation_sub">АЕС-256, ГЦМ режим, без допуна, 12 бајтова насумичних ИВ. Кључеви се користе као СХА-3 хеш (256 бита).</string>
     <string name="create">Креирај</string>
     <string name="enhanced_pixelation">Енханцед Пикелатион</string>
     <string name="stroke_pixelation">Строке Пикелатион</string>

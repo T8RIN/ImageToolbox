@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -269,7 +267,6 @@
     <string name="draw_on_image_sub">選取一個圖片並在上面畫一些東西</string>
     <string name="draw_on_background">在背景上繪畫</string>
     <string name="encryption">加密</string>
-    <string name="implementation_sub">AES-256，GCM 模式，無填充，12 位元組隨機 IV。密鑰將用作 SHA-3 雜湊值（256 位元）。</string>
     <string name="file_proceed">檔案已處裡</string>
     <string name="image_size_warning">嘗試以指定的寬度和高度儲存圖片可能會導致記憶體溢出錯誤，此風險將由您自行承擔。</string>
     <string name="cache">快取</string>
